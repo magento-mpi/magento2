@@ -127,7 +127,7 @@ class Files
                 );
             }
             if ($templates) {
-                $files = array_merge($files, $this->getPhtmlFiles());
+                $files = array_merge($files, $this->getPhtmlFiles(false, false));
             }
             self::$_cache[$key] = $files;
         }
@@ -691,33 +691,36 @@ class Files
      * Returns list of Phtml files in Magento app directory.
      *
      * @param bool $withMetaInfo
+     * @param bool $asDataSet
      * @return array
      */
-    public function getPhtmlFiles($withMetaInfo = false)
+    public function getPhtmlFiles($withMetaInfo = false, $asDataSet = true)
     {
         $key = __METHOD__ . $this->_path . '|' . (int)$withMetaInfo;
-        if (isset(self::$_cache[$key])) {
-            return self::$_cache[$key];
+        if (!isset(self::$_cache[$key])) {
+            $namespace = '*';
+            $module = '*';
+            $area = '*';
+            $themePath = '*/*';
+            $result = array();
+            $this->_accumulateFilesByPatterns(
+                array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/templates"),
+                '*.phtml',
+                $result,
+                $withMetaInfo ? '_parseModuleTemplate' : false
+            );
+            $this->_accumulateFilesByPatterns(
+                array("{$this->_path}/app/design/{$area}/{$themePath}/{$namespace}_{$module}/templates"),
+                '*.phtml',
+                $result,
+                $withMetaInfo ? '_parseThemeTemplate' : false
+            );
+            self::$_cache[$key] = $result;
         }
-        $namespace = '*';
-        $module = '*';
-        $area = '*';
-        $themePath = '*/*';
-        $result = array();
-        $this->_accumulateFilesByPatterns(
-            array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/templates"),
-            '*.phtml',
-            $result,
-            $withMetaInfo ? '_parseModuleTemplate' : false
-        );
-        $this->_accumulateFilesByPatterns(
-            array("{$this->_path}/app/design/{$area}/{$themePath}/{$namespace}_{$module}/templates"),
-            '*.phtml',
-            $result,
-            $withMetaInfo ? '_parseThemeTemplate' : false
-        );
-        self::$_cache[$key] = $result;
-        return $result;
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$key]);
+        }
+        return self::$_cache[$key];
     }
 
     /**

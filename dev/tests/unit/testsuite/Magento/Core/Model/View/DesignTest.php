@@ -13,7 +13,7 @@ namespace Magento\Core\Model\View;
 class DesignTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Locale\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Locale\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $locale;
 
@@ -30,7 +30,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         );
         $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface');
         $themeFactory = $this->getMock('\Magento\Core\Model\ThemeFactory');
-        $this->locale = $this->getMockForAbstractClass('\Magento\Locale\ResolverInterface');
+        $this->locale = $this->getMockForAbstractClass('\Magento\Framework\Locale\ResolverInterface');
         $state = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $themes = array();
         $this->model = new \Magento\Core\Model\View\Design(

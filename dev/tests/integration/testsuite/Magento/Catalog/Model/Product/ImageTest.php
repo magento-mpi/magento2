@@ -66,7 +66,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product\Image', ['viewFileSystem' => $viewFileSystem]);
         $processor = $this->getMock(
-            'Magento\Image',
+            'Magento\Framework\Image',
             ['save', 'keepAspectRatio', 'keepFrame', 'keepTransparency', 'constrainOnly', 'backgroundColor', 'quality',
                 'setWatermarkPosition', 'setWatermarkImageOpacity', 'setWatermarkWidth', 'setWatermarkHeight',
                 'watermark'],

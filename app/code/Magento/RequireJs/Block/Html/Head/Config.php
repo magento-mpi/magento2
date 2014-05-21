@@ -16,7 +16,7 @@ use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 class Config extends \Magento\Framework\View\Element\AbstractBlock implements AssetBlockInterface
 {
     /**
-     * @var \Magento\RequireJs\Config
+     * @var \Magento\Framework\RequireJs\Config
      */
     private $config;
 
@@ -32,13 +32,13 @@ class Config extends \Magento\Framework\View\Element\AbstractBlock implements As
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
-     * @param \Magento\RequireJs\Config $config
+     * @param \Magento\Framework\RequireJs\Config $config
      * @param \Magento\RequireJs\Model\FileManager $fileManager
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
-        \Magento\RequireJs\Config $config,
+        \Magento\Framework\RequireJs\Config $config,
         \Magento\RequireJs\Model\FileManager $fileManager,
         array $data = array()
     ) {

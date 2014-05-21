@@ -297,14 +297,14 @@ class Translate implements \Magento\Framework\TranslateInterface
                 /**
                  * Checking previous value
                  */
-                $scopeKey = $this->_dataScope[$key] . \Magento\Framework\View\Service::SCOPE_SEPARATOR . $key;
+                $scopeKey = $this->_dataScope[$key] . '::' . $key;
                 if (!isset($this->_data[$scopeKey])) {
                     if (isset($this->_data[$key])) {
                         $this->_data[$scopeKey] = $this->_data[$key];
                         unset($this->_data[$key]);
                     }
                 }
-                $scopeKey = $scope . \Magento\Framework\View\Service::SCOPE_SEPARATOR . $key;
+                $scopeKey = $scope . '::' . $key;
                 $this->_data[$scopeKey] = $value;
             } else {
                 $this->_data[$key] = $value;
@@ -329,7 +329,9 @@ class Translate implements \Magento\Framework\TranslateInterface
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
             $file = $this->_getThemeTranslationFile($locale);
-            $this->_addData($this->_getFileData($file), 'theme' . $this->_config['theme'], $forceReload);
+            if ($file) {
+                $this->_addData($this->_getFileData($file), 'theme' . $this->_config['theme'], $forceReload);
+            }
         }
         return $this;
     }
@@ -372,7 +374,7 @@ class Translate implements \Magento\Framework\TranslateInterface
      */
     protected function _getThemeTranslationFile($locale)
     {
-        return $this->_viewFileSystem->getFilename(
+        return $this->_viewFileSystem->getLocaleFileName(
             \Magento\Framework\App\Filesystem::LOCALE_DIR . '/' . $locale . '.csv',
             ['area' => $this->getConfig('area')]
         );

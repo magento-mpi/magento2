@@ -129,7 +129,7 @@ class Observer
                         $identifier,
                         $dirPath,
                         \Magento\Framework\App\Filesystem::MEDIA_DIR,
-                        \Magento\UrlInterface::URL_TYPE_MEDIA
+                        \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
                     );
                     $this->_pageAssets->add($identifier, $asset);
                 }

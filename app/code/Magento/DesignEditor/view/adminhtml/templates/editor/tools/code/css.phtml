@@ -2,45 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<?php
-/** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css */
-/** @var $asset \Magento\Framework\View\Asset\LocalInterface */
-?>
+<?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css */ ?>
 <div class="files-wrapper">
-    <div class="files-list">
-        <div class="files-list-header">
-            <h5 class="title" title="<?php echo __('CSS Assets') ?>"><?php echo __('CSS Assets') ?></h5>
-            <?php if ($this->hasAddButton()): ?>
-                <a href="#vde-tab-custom" class="action-add" data-toggle="tab" title="<?php echo __('Add Custom'); ?>">
-                    <span><?php echo __('Add Custom'); ?></span>
-                </a>
-            <?php endif ?>
-        </div>
-        <div class="files-list-content">
-            <ul class="items">
-                <?php foreach ($this->getAssets() as $fileId => $asset): ?>
-                    <li class="item">
-                        <span class="filename" title="<?php echo $asset->getPath() ?>"><?php echo $fileId ?></span>
-                        <?php if ($this->hasDownloadButton()): ?>
-                            <a href="<?php echo $this->getDownloadUrl($fileId, $this->getThemeId()) ?>" class="action-download" title="<?php echo __('Download file'); ?>">
-                                <span><?php echo __('Download file'); ?></span>
-                            </a>
-                        <?php endif ?>
-                        <!--
-                    placeholder for "Edit button"
-                    <a href="#vde-tab-custom" class="action-edit" title="<?php echo __('Edit Custom CSS'); ?>">
-                        <span><?php echo __('Edit Custom CSS'); ?></span>
-                    </a>
-                    -->
-                    </li>
-                <?php endforeach ?>
-            </ul>
-        </div>
-    </div>
+    <?php echo join('', $this->getFileGroups()) ?>
 </div>

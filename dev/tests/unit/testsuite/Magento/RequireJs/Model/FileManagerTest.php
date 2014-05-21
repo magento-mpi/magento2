@@ -11,7 +11,7 @@ namespace Magento\RequireJs\Model;
 class FileManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\RequireJs\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\RequireJs\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     private $config;
 
@@ -42,7 +42,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->config = $this->getMock('\Magento\RequireJs\Config', array(), array(), '', false);
+        $this->config = $this->getMock('\Magento\Framework\RequireJs\Config', array(), array(), '', false);
         $this->fileSystem = $this->getMock('\Magento\Framework\App\FileSystem', array(), array(), '', false);
         $this->appState = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);

@@ -14,7 +14,7 @@ namespace Magento\RequireJs\Model;
 class FileManager
 {
     /**
-     * @var \Magento\RequireJs\Config
+     * @var \Magento\Framework\RequireJs\Config
      */
     private $config;
 
@@ -34,13 +34,13 @@ class FileManager
     private $assetRepo;
 
     /**
-     * @param \Magento\RequireJs\Config $config
+     * @param \Magento\Framework\RequireJs\Config $config
      * @param \Magento\Framework\App\Filesystem $appFilesystem
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
-        \Magento\RequireJs\Config $config,
+        \Magento\Framework\RequireJs\Config $config,
         \Magento\Framework\App\Filesystem $appFilesystem,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\View\Asset\Repository $assetRepo

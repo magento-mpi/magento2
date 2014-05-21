@@ -87,7 +87,7 @@ return array(
     array('_getPriceFilter', 'Magento\LayeredNavigation\Block\Navigation'),
     array('_getProcessor', 'Magento\Framework\App\Cache'),
     array('_getProductQtyForCheck', 'Magento\CatalogInventory\Model\Observer'),
-    array('getPublicFileUrl', 'Magento\Framework\View\Url', 'Magento\Url::getBaseUrl'),
+    array('getPublicFileUrl', 'Magento\Framework\View\Url', 'Magento\Framework\Url::getBaseUrl'),
     array('_getRangeByType', 'Magento\Log\Model\Resource\Visitor\Collection'),
     array('_getRecentProductsCollection'),
     array('_getRequestModel', 'Magento\Authorizenet\Model\Directpost'),
@@ -1442,7 +1442,7 @@ return array(
         'Magento\Catalog\Model\Resource\Attribute',
         'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
     ),
-    ['_detectMimeType', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::getMimeType()'],
+    ['_detectMimeType', 'Magento\Framework\File\Transfer\Adapter\Http', '\Magento\Framework\File\Mime::getMimeType()'],
     ['getPublishedFilePath', 'Magento\Framework\View\Publisher'],
     ['getViewFilePublicPath', 'Magento\Framework\View\FileResolver', 'Magento\Framework\View\AssetInterface'],
     ['getPublicFilePath', 'Magento\Framework\View\PublicFilesManagerInterface', 'Magento\Framework\View\AssetInterface'],

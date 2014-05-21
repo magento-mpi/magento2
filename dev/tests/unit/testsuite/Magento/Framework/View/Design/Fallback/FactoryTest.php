@@ -205,10 +205,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'file, non-modular' => [
                 \Magento\Framework\View\Design\Fallback\RulePool::TYPE_FILE,
                 ['namespace' => null, 'module' => null],
-                [
-                    '/area/current_theme_path',
-                    '/area/parent_theme_path',
-                ],
+                ['/area/current_theme_path', '/area/parent_theme_path',],
             ],
 
             'template, modular' => [

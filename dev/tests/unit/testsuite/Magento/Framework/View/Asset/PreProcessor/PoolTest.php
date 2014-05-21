@@ -22,7 +22,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMock('Magento\ObjectManager');
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->factory = new Pool($this->objectManager);
     }
 
@@ -57,15 +57,15 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             'less => css' => array(
                 'less', 'css',
                 array(
-                    'Magento\Css\PreProcessor\Less',
+                    'Magento\Framework\Css\PreProcessor\Less',
                     'Magento\Framework\View\Asset\PreProcessor\ModuleNotation',
                 ),
             ),
             'less => less' => array(
                 'less', 'less',
                 array(
-                    'Magento\Less\PreProcessor\Instruction\MagentoImport',
-                    'Magento\Less\PreProcessor\Instruction\Import',
+                    'Magento\Framework\Less\PreProcessor\Instruction\MagentoImport',
+                    'Magento\Framework\Less\PreProcessor\Instruction\Import',
                 ),
             ),
             'txt => log (unsupported)' => array(

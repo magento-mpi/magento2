@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Less\File\FileList;
 
-use Magento\Framework\View\Layout\File\FileList\CollateInterface;
+use Magento\Framework\View\File\FileList\CollateInterface;
 
 /**
  * Less file list collator
@@ -17,9 +17,9 @@ class Collator implements CollateInterface
     /**
      * Collate less files
      *
-     * @param \Magento\Framework\View\Layout\File[] $files
-     * @param \Magento\Framework\View\Layout\File[] $filesOrigin
-     * @return \Magento\Framework\View\Layout\File[]
+     * @param \Magento\Framework\View\File[] $files
+     * @param \Magento\Framework\View\File[] $filesOrigin
+     * @return \Magento\Framework\View\File[]
      */
     public function collate($files, $filesOrigin)
     {

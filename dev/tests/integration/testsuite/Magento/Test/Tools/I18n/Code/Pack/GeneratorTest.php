@@ -62,7 +62,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->_generator = ServiceLocator::getPackGenerator();
 
-        \Magento\System\Dirs::rm($this->_packPath);
+        \Magento\Framework\System\Dirs::rm($this->_packPath);
     }
 
     protected function tearDown()

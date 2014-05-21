@@ -67,10 +67,10 @@ class Base implements CollectorInterface
     {
         $result = [];
         $namespace = $module = '*';
-        $sharedFiles = $this->modulesDirectory->search("{$namespace}/{$module}/view/base/layout/{$filePath}.xml");
+        $sharedFiles = $this->modulesDirectory->search("{$namespace}/{$module}/view/base/{$this->subDir}{$filePath}");
 
         $filePathPtn = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
-        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/base/layout/" . $filePathPtn . "\.xml$#i";
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/base/{$this->subDir}" . $filePathPtn . "$#i";
         foreach ($sharedFiles as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
@@ -80,8 +80,8 @@ class Base implements CollectorInterface
             $result[] = $this->fileFactory->create($filename, $moduleFull, null, true);
         }
         $area = $theme->getArea();
-        $themeFiles = $this->modulesDirectory->search("{$namespace}/{$module}/view/{$area}/{$this->subDir}{$filePath}.xml");
-        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/{$this->subDir}" . $filePathPtn . "\.xml$#i";
+        $themeFiles = $this->modulesDirectory->search("{$namespace}/{$module}/view/{$area}/{$this->subDir}{$filePath}");
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/{$this->subDir}" . $filePathPtn . "$#i";
         foreach ($themeFiles as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {

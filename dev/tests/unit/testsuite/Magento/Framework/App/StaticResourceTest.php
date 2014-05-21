@@ -35,12 +35,12 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $assetRepo;
 
     /**
-     * @var \Magento\Module\ModuleList|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\ModuleList|\PHPUnit_Framework_MockObject_MockObject
      */
     private $moduleList;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
 
@@ -61,8 +61,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->publisher = $this->getMock('Magento\Framework\App\View\Asset\Publisher', array(), array(), '', false);
         $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false);
-        $this->moduleList = $this->getMock('Magento\Module\ModuleList', array(), array(), '', false);
-        $this->objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
+        $this->moduleList = $this->getMock('Magento\Framework\Module\ModuleList', array(), array(), '', false);
+        $this->objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
         $this->configLoader = $this->getMock(
             'Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false
         );

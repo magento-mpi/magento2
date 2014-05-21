@@ -237,7 +237,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Object\Copy\Config\Reader">
+    <type name="Magento\Framework\Object\Copy\Config\Reader">
         <arguments>
             <argument name="fileName" xsi:type="string">fieldset.xml</argument>
             <argument name="schemaLocator" xsi:type="object">Magento\Framework\Object\Copy\Config\SchemaLocator</argument>
@@ -394,7 +394,7 @@
             <argument name="subject" xsi:type="object">lessFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
-    <virtualType name="lessFileSourceTheme" type="Magento\Framework\View\File\Collector\ThemeModular">
+    <virtualType name="lessFileOverriddenBase" type="Magento\Framework\View\File\Collector\Override\Base">
         <arguments>
             <argument name="subDir" xsi:type="string">web</argument>
         </arguments>
@@ -413,7 +413,7 @@
         <arguments>
             <argument name="libraryFiles" xsi:type="object">Magento\Framework\Less\File\Collector\Library</argument>
             <argument name="baseFiles" xsi:type="object">lessFileSourceBaseSorted</argument>
-            <argument name="themeFiles" xsi:type="object">lessFileSourceThemeSorted</argument>
+            <argument name="overriddenBaseFiles" xsi:type="object">lessFileOverriddenBase</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Config\Initial\Converter">

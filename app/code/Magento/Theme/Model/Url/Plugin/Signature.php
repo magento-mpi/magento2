@@ -48,23 +48,23 @@ class Signature
     /**
      * Append signature to rendered base URL for static view files
      *
-     * @param \Magento\Url\ScopeInterface $subject
+     * @param \Magento\Framework\Url\ScopeInterface $subject
      * @param callable $proceed
      * @param string $type
      * @param null $secure
      * @return string
-     * @see \Magento\Url\ScopeInterface::getBaseUrl()
+     * @see \Magento\Framework\Url\ScopeInterface::getBaseUrl()
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundGetBaseUrl(
-        \Magento\Url\ScopeInterface $subject,
+        \Magento\Framework\Url\ScopeInterface $subject,
         \Closure $proceed,
-        $type = \Magento\UrlInterface::URL_TYPE_LINK,
+        $type = \Magento\Framework\UrlInterface::URL_TYPE_LINK,
         $secure = null
     ) {
         $baseUrl = $proceed($type, $secure);
-        if ($type == \Magento\UrlInterface::URL_TYPE_STATIC && $this->isUrlSignatureEnabled()) {
+        if ($type == \Magento\Framework\UrlInterface::URL_TYPE_STATIC && $this->isUrlSignatureEnabled()) {
             $baseUrl .= $this->renderUrlSignature() . '/';
         }
         return $baseUrl;

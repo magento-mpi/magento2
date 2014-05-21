@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\View\Asset\PreProcessor;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * A registry of asset preprocessors (not to confuse with the "Registry" pattern)
@@ -16,7 +16,7 @@ use Magento\ObjectManager;
 class Pool
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     private $objectManager;
 
@@ -44,14 +44,14 @@ class Pool
         $result = array();
         if ($sourceContentType == 'less') {
             if ($targetContentType == 'css') {
-                $result[] = $this->objectManager->get('Magento\Css\PreProcessor\Less');
+                $result[] = $this->objectManager->get('Magento\Framework\Css\PreProcessor\Less');
             } else if ($targetContentType == 'less') {
                 /**
-                 * @bug This logic is duplicated at \Magento\Less\FileGenerator::generateLessFileTree()
+                 * @bug This logic is duplicated at \Magento\Framework\Less\FileGenerator::generateLessFileTree()
                  * If you need to extend or modify behavior of LESS preprocessing, you must account for both places
                  */
-                $result[] = $this->objectManager->get('Magento\Less\PreProcessor\Instruction\MagentoImport');
-                $result[] = $this->objectManager->get('Magento\Less\PreProcessor\Instruction\Import');
+                $result[] = $this->objectManager->get('Magento\Framework\Less\PreProcessor\Instruction\MagentoImport');
+                $result[] = $this->objectManager->get('Magento\Framework\Less\PreProcessor\Instruction\Import');
             }
         }
         if ($targetContentType == 'css') {

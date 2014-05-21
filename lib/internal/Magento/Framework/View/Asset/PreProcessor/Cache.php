@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\View\Asset\PreProcessor;
 
-class Cache extends \Magento\Cache\Frontend\Decorator\TagScope
+class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

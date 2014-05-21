@@ -22,7 +22,7 @@ class MinifyService
     /**
      * ObjectManager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -34,7 +34,7 @@ class MinifyService
     protected $enabled = array();
 
     /**
-     * @var \Magento\Code\Minifier\AdapterInterface[]
+     * @var \Magento\Framework\Code\Minifier\AdapterInterface[]
      */
     protected $adapters = array();
 
@@ -47,12 +47,12 @@ class MinifyService
      * Constructor
      *
      * @param ConfigInterface $config
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $appMode
      */
     public function __construct(
         ConfigInterface $config,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $appMode = \Magento\Framework\App\State::MODE_DEFAULT
     ) {
         $this->config = $config;
@@ -110,23 +110,23 @@ class MinifyService
      * Get minification adapter by specified content type
      *
      * @param string $contentType
-     * @return \Magento\Code\Minifier\AdapterInterface
-     * @throws \Magento\Exception
+     * @return \Magento\Framework\Code\Minifier\AdapterInterface
+     * @throws \Magento\Framework\Exception
      */
     protected function getAdapter($contentType)
     {
         if (!isset($this->adapters[$contentType])) {
             $adapterClass = $this->config->getAssetMinificationAdapter($contentType);
             if (!$adapterClass) {
-                throw new \Magento\Exception(
+                throw new \Magento\Framework\Exception(
                     "Minification adapter is not specified for '$contentType' content type"
                 );
             }
             $adapter = $this->objectManager->get($adapterClass);
-            if (!($adapter instanceof \Magento\Code\Minifier\AdapterInterface)) {
+            if (!($adapter instanceof \Magento\Framework\Code\Minifier\AdapterInterface)) {
                 $type = get_class($adapter);
-                throw new \Magento\Exception(
-                    "Invalid adapter: '{$type}'. Expected: \\Magento\\Code\\Minifier\\AdapterInterface"
+                throw new \Magento\Framework\Exception(
+                    "Invalid adapter: '{$type}'. Expected: \\Magento\\Framework\\Code\\Minifier\\AdapterInterface"
                 );
             }
             $this->adapters[$contentType] = $adapter;

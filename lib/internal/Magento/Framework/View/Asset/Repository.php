@@ -9,7 +9,7 @@
 namespace Magento\Framework\View\Asset;
 
 use Magento\Framework\View\Asset\File;
-use \Magento\UrlInterface;
+use \Magento\Framework\UrlInterface;
 use \Magento\Framework\App\Filesystem;
 
 /**
@@ -24,7 +24,7 @@ class Repository
     const FILE_ID_SEPARATOR = '::';
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     private $baseUrl;
 
@@ -54,13 +54,13 @@ class Repository
     private $fileContext;
 
     /**
-     * @param \Magento\UrlInterface $baseUrl
+     * @param \Magento\Framework\UrlInterface $baseUrl
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
      * @param \Magento\Framework\View\Asset\Source $assetSource
      */
     public function __construct(
-        \Magento\UrlInterface $baseUrl,
+        \Magento\Framework\UrlInterface $baseUrl,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\View\Design\Theme\Provider $themeProvider,
         \Magento\Framework\View\Asset\Source $assetSource
@@ -329,7 +329,7 @@ class Repository
      *
      * @param string $fileId
      * @return array
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public static function extractModule($fileId)
     {
@@ -338,7 +338,7 @@ class Repository
         }
         $result = explode(self::FILE_ID_SEPARATOR, $fileId, 2);
         if (empty($result[0])) {
-            throw new \Magento\Exception('Scope separator "::" cannot be used without scope identifier.');
+            throw new \Magento\Framework\Exception('Scope separator "::" cannot be used without scope identifier.');
         }
         return array($result[0], $result[1]);
     }

@@ -63,14 +63,14 @@ class Minified implements LocalInterface
     protected $url;
 
     /**
-     * @var \Magento\Code\Minifier\AdapterInterface
+     * @var \Magento\Framework\Code\Minifier\AdapterInterface
      */
     protected $adapter;
 
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -91,7 +91,7 @@ class Minified implements LocalInterface
     /**
      * Url configuration
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $baseUrl;
 
@@ -99,18 +99,18 @@ class Minified implements LocalInterface
      * Constructor
      *
      * @param LocalInterface $asset
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\UrlInterface $baseUrl
-     * @param \Magento\Code\Minifier\AdapterInterface $adapter
+     * @param \Magento\Framework\UrlInterface $baseUrl
+     * @param \Magento\Framework\Code\Minifier\AdapterInterface $adapter
      * @param string $strategy
      */
     public function __construct(
         LocalInterface $asset,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\UrlInterface $baseUrl,
-        \Magento\Code\Minifier\AdapterInterface $adapter,
+        \Magento\Framework\UrlInterface $baseUrl,
+        \Magento\Framework\Code\Minifier\AdapterInterface $adapter,
         $strategy = self::FILE_EXISTS
     ) {
         $this->originalAsset = $asset;
@@ -220,7 +220,11 @@ class Minified implements LocalInterface
                 $this->fillPropertiesByMinifyingAsset();
             } catch (\Exception $e) {
                 $this->logger->logException(
-                    new \Magento\Exception('Could not minify file: ' . $this->originalAsset->getSourceFile(), 0, $e)
+                    new \Magento\Framework\Exception(
+                        'Could not minify file: ' . $this->originalAsset->getSourceFile(),
+                        0,
+                        $e
+                    )
                 );
                 $this->fillPropertiesByOriginalAsset();
             }
@@ -298,7 +302,7 @@ class Minified implements LocalInterface
     {
         $path = $this->originalAsset->getPath();
         $this->context = new \Magento\Framework\View\Asset\File\Context(
-            $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC)),
+            $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_STATIC)),
             \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR,
             \Magento\Framework\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified'
         );

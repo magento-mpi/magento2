@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <virtualType name="requirejsConfigFileSourceBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">Magento\Framework\View\File\Collector\Base</argument>
@@ -28,7 +28,7 @@
             <argument name="subject" xsi:type="object">requirejsFileSourceThemeFiltered</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\RequireJs\Config\File\Collector\Aggregated">
+    <type name="Magento\Framework\RequireJs\Config\File\Collector\Aggregated">
         <arguments>
             <argument name="baseFiles" xsi:type="object">requirejsConfigFileSourceBaseSorted</argument>
             <argument name="themeModularFiles" xsi:type="object">requirejsFileSourceThemeSorted</argument>

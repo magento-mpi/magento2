@@ -19,7 +19,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     private $context;
 
     /**
-     * @var \Magento\RequireJs\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\RequireJs\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     private $config;
 
@@ -31,7 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->context = $this->getMock('\Magento\Framework\View\Element\Context', array(), array(), '', false);
-        $this->config = $this->getMock('\Magento\RequireJs\Config', array(), array(), '', false);
+        $this->config = $this->getMock('\Magento\Framework\RequireJs\Config', array(), array(), '', false);
         $this->fileManager = $this->getMock('\Magento\RequireJs\Model\FileManager', array(), array(), '', false);
     }
 
@@ -48,7 +48,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->context->expects($this->once())
             ->method('getEventManager')
-            ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Event\ManagerInterface')))
+            ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Framework\Event\ManagerInterface')))
         ;
         $this->context->expects($this->once())
             ->method('getScopeConfig')

@@ -11,7 +11,7 @@ namespace Magento\Framework\View\Asset;
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $baseUrl;
 
@@ -48,7 +48,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->source = $this->getMock(
             'Magento\Framework\View\Asset\Source', array('getFile', 'getContent'), array(), '', false
         );
-        $this->baseUrl = $this->getMockForAbstractClass('Magento\UrlInterface');
+        $this->baseUrl = $this->getMockForAbstractClass('Magento\Framework\UrlInterface');
         $this->design = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
         $this->theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $this->object = new Repository($this->baseUrl, $this->design, $this->themeProvider, $this->source);
@@ -292,7 +292,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Scope separator "::" cannot be used without scope identifier.
      */
     public function testExtractModuleException()
