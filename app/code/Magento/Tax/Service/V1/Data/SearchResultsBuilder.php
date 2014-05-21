@@ -1,0 +1,53 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Tax\Service\V1\Data;
+
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+
+/**
+ * Builder for the SearchResults Service Data Object
+ *
+ * @method SearchResults create()
+ */
+class SearchResultsBuilder extends AbstractObjectBuilder
+{
+    /**
+     * Set search criteria
+     *
+     * @param SearchCriteria $searchCriteria
+     * @return $this
+     */
+    public function setSearchCriteria(SearchCriteria $searchCriteria)
+    {
+        return $this->_set('search_criteria', $searchCriteria);
+    }
+
+    /**
+     * Set total count
+     *
+     * @param int $totalCount
+     * @return $this
+     */
+    public function setTotalCount($totalCount)
+    {
+        return $this->_set('total_count', $totalCount);
+    }
+
+    /**
+     * Set items
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxRule[] $items
+     * @return $this
+     */
+    public function setItems($items)
+    {
+        return $this->_set('items', $items);
+    }
+}
