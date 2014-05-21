@@ -27,7 +27,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * 6. Verify created product.
  *
  * @group Virtual_Product_(CS)
- * @ZephyrId MTA-16
+ * @ZephyrId MAGETWO-23417
  */
 class CreateVirtualProductEntityTest extends Injectable
 {
