@@ -4,6 +4,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-test( "hello test", function() {
+TestCase( "hello test", function() {
     ok( 1 == "1", "Passed!" );
 });
