@@ -35,10 +35,10 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      * @magentoDataFixture Magento/Customer/_files/customer_group.php
      * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      */
     public function testCollect()
     {
-        Bootstrap::getInstance()->reinitialize();
         /** Preconditions */
         $objectManager = Bootstrap::getObjectManager();
         /** @var \Magento\Tax\Model\ClassModel $customerTaxClass */
@@ -242,13 +242,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @param array $quoteData
      * @param array $expectedResults
      * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @dataProvider taxDataProvider
      * @return void
      */
     public function testTaxCalculation($configData, $quoteData, $expectedResults)
     {
-        //To remove cached data. e.g., store tax rate in Calculation
-        Bootstrap::getInstance()->reinitialize();
         /** @var  \Magento\Framework\ObjectManager $objectManager */
         $objectManager = Bootstrap::getObjectManager();
 
