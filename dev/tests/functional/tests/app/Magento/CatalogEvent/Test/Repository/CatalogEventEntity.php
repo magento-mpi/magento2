@@ -11,6 +11,9 @@ namespace Magento\CatalogEvent\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
+ * Class CatalogEventEntity
+ * Data for creation Event
+ *
  * @constructor
  * @param array $defaultConfig
  * @param array $defaultData

@@ -58,7 +58,7 @@ class DeleteCatalogEventEntityTest extends Injectable
         $this->catalogEventNew = $catalogEventNew;
         $this->catalogEventIndex = $catalogEventIndex;
 
-        /** @var CatalogProductSimple $catalogProductSimple */
+        /** @var CatalogProductSimple $product */
         $product = $fixtureFactory->createByCode(
         'catalogProductSimple',
             ['dataSet' => 'product_with_category']
