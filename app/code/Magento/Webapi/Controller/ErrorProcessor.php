@@ -13,6 +13,7 @@ use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Framework\Oauth\Exception as OauthException;
 use Magento\Webapi\Exception as WebapiException;
 
 /**
@@ -129,6 +130,16 @@ class ErrorProcessor
 
         } else if ($exception instanceof WebapiException) {
             $maskedException = $exception;
+        } else if ($exception instanceof OauthException) {
+            $maskedException = new WebapiException(
+                $exception->getMessage(),
+                $exception->getCode(),
+                WebapiException::HTTP_UNAUTHORIZED,
+                [],
+                '',
+                null,
+                $stackTrace
+            );
         } else {
             $maskedException = new WebapiException(
                 $exception->getMessage(),
