@@ -7,7 +7,6 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
-
 use Magento\CatalogInventory\Model\Stock;
 use Magento\CatalogInventory\Model\Stock\Status;
 
