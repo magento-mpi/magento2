@@ -13,13 +13,14 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class CatalogEventEntity
  * Data for creation Event
- *
- * @constructor
- * @param array $defaultConfig
- * @param array $defaultData
  */
 class CatalogEventEntity extends AbstractRepository
 {
+    /**
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default_event'] = [
