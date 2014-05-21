@@ -305,6 +305,19 @@
                     '<li class="action all">' +
                         '<a href="${ categoryURL }"><span>All ${ category }</span></a>' +
                     '</li>' +
+                '</script>',
+            navigationSectionsWrapperTemplate:
+                '<script type="text/x-jquery-tmpl">' +
+                    '<dl class="TODO" data-sections="tabs">' +
+                    '</dl>' +
+                '</script>',
+            navigationItemWrapperTemplate:
+                '<script type="text/x-jquery-tmpl">' +
+                    '<dt class="item title {{if active}}active{{/if}}" data-section="title">' +
+                        '<a class="switch" data-toggle="switch" href="#TODO">${ title }</a>' +
+                    '</dt>' +
+                    '<dd class="item content {{if active}}active{{/if}}" data-section="content">' +
+                    '</dd>' +
                 '</script>'
         },
 
@@ -418,6 +431,7 @@
             this.mainContainer.prepend(this.mobileNav);
             this.mobileNav.find('> ul').addClass('nav');
             this._insertExtraItems();
+            this._wrapItemsInSections();
             this.mobileNav.scroll($.proxy(
                 function() {
                     this._fixedBackLink();
@@ -480,7 +494,41 @@
                     .addClass('account');
 
                 this.mobileNav.prepend(account);
+            }
+        },
 
+        _wrapItemsInSections: function() {
+            var account = $('> .account', this.mobileNav),
+                settings = $('> .settings', this.mobileNav),
+                nav = $('> .nav', this.mobileNav),
+                navigationSectionsWrapper = $(this.options.navigationSectionsWrapperTemplate).tmpl(),
+                navigationItemWrapper;
+
+            this.mobileNav.append(navigationSectionsWrapper);
+
+            if (nav.length) {
+                navigationItemWrapper = $(this.options.navigationItemWrapperTemplate).tmpl({
+                    title: 'Menu',
+                    active: true
+                });
+                navigationSectionsWrapper.append(navigationItemWrapper);
+                navigationItemWrapper.eq(1).append(nav);
+            }
+
+            if (account.length) {
+                navigationItemWrapper = $(this.options.navigationItemWrapperTemplate).tmpl({
+                    title: 'Account'
+                });
+                navigationSectionsWrapper.append(navigationItemWrapper);
+                navigationItemWrapper.eq(1).append(account);
+            }
+
+            if (settings.length) {
+                navigationItemWrapper = $(this.options.navigationItemWrapperTemplate).tmpl({
+                    title: 'Settings'
+                });
+                navigationSectionsWrapper.append(navigationItemWrapper);
+                navigationItemWrapper.eq(1).append(settings);
             }
         },
 
