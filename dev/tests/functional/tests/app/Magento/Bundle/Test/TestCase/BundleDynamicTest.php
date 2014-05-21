@@ -12,10 +12,16 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
+/**
+ * Class BundleDynamicTest
+ * Bundle product dynamic test
+ */
 class BundleDynamicTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -26,6 +32,7 @@ class BundleDynamicTest extends Functional
      * Creating bundle (dynamic) product and assigning it to the category
      *
      * @ZephyrId MAGETWO-12702
+     * @return void
      */
     public function testCreate()
     {
@@ -35,12 +42,12 @@ class BundleDynamicTest extends Functional
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
-        $productBlockForm->fill($bundle);
-        $productBlockForm->save($bundle);
+        $productForm->fillProduct($bundle);
+        $createProductPage->getFormAction()->save();
         //Verification
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
@@ -57,6 +64,7 @@ class BundleDynamicTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnGrid($product)
     {
@@ -67,7 +75,10 @@ class BundleDynamicTest extends Functional
     }
 
     /**
+     * Checking the product on the category page
+     *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnCategory($product)
     {
@@ -88,8 +99,8 @@ class BundleDynamicTest extends Functional
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getOptionsBlock();
-        $actualOptions = $productOptionsBlock->getBundleOptions();
+        $productOptionsBlock = $productPage->getCustomOptionsBlock();
+        $actualOptions = $productOptionsBlock->getOptions();
         $expectedOptions = $product->getBundleOptions();
         foreach ($actualOptions as $optionType => $actualOption) {
             $this->assertContains($expectedOptions[$optionType], $actualOption);
