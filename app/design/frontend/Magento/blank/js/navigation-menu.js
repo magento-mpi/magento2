@@ -308,7 +308,7 @@
                 '</script>',
             navigationSectionsWrapperTemplate:
                 '<script type="text/x-jquery-tmpl">' +
-                    '<dl class="TODO" data-sections="tabs">' +
+                    '<dl class="navigation-tabs" data-sections="tabs">' +
                     '</dl>' +
                 '</script>',
             navigationItemWrapperTemplate:
@@ -508,8 +508,7 @@
 
             if (nav.length) {
                 navigationItemWrapper = $(this.options.navigationItemWrapperTemplate).tmpl({
-                    title: 'Menu',
-                    active: true
+                    title: 'Menu'
                 });
                 navigationSectionsWrapper.append(navigationItemWrapper);
                 navigationItemWrapper.eq(1).append(nav);
@@ -530,6 +529,8 @@
                 navigationSectionsWrapper.append(navigationItemWrapper);
                 navigationItemWrapper.eq(1).append(settings);
             }
+
+            $('[data-sections]', this.mobileNav).terms();
         },
 
         _fixedBackLink: function() {
