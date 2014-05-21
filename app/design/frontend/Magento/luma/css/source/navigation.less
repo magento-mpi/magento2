@@ -68,9 +68,9 @@ body {
     .settings.panel {
         > .title {
             cursor: pointer;
-            .font-size(@font-size-l);
+            .font-size(16);
             font-weight: @font-weight-semibold;
-            padding: 10px 20px;
+            padding: 8px 20px;
             position: relative;
             &:extend(.navigation-icon all);
         }
@@ -82,23 +82,28 @@ body {
         > .content {
             display: none;
             margin: 0;
-            padding: 10px 20px;
         }
         .switcher {
             display: block;
             margin: 0;
             padding: 0;
+            border-top: @navigation-level0-item-border;
             &:first-child {
                 padding-bottom: 0;
             }
             .label {
-                display: block;
                 font-weight: @font-weight-base;
-                .font-size(16);
-                padding: 8px 0;
+                .font-size(14);
+                padding: 8px 0 8px 20px;
+                float: left;
+                color: #6b6b6b;
+                line-height: 1.7;
             }
             strong {
                 font-weight: @font-weight-base;
+                .font-size(16);
+                color: #333;
+                padding-left: 8px;
             }
             .options {
                 display: block;
@@ -108,6 +113,9 @@ body {
                     position: relative;
                     padding: 8px 20px;
                     &:extend(.navigation-icon all);
+                    &.active {
+                        border-bottom: @navigation-level0-item-border;
+                    }
                     &.active:after {
                         content: @icon-prev;
                     }
@@ -115,11 +123,14 @@ body {
                 ul.dropdown {
                     display: none;
                     li {
+                        margin: 0;
                         a {
                             display: block;
                             color: @navigation-level0-item-color;
                             padding: 8px 20px;
                             text-decoration: none;
+                            outline: none;
+                            .font-size(16);
                         }
                     }
                 }
@@ -145,6 +156,7 @@ body {
     }
     .nav {
         border-bottom: @navigation-level0-item-border;
+        clear: left;
         .parent {
             > a {
                 position: relative;
@@ -165,6 +177,25 @@ body {
         .action.all,
         .submenu .active > a{
             font-weight: @font-weight-bold;
+        }
+    }
+    .greet.welcome {
+        display: none;
+    }
+    .header.links {
+        padding: 0;
+        .css(border-bottom, @navigation-level0-item-border);
+        li {
+            .font-size(@navigation-level0-font-size);
+            .css(border-top, @navigation-level0-item-border);
+            a {
+                .css(background, @navigation-level0-item-background);
+                .css(font-weight, @navigation-level0-font-weight);
+                .css(line-height, @line-height-base);
+                .css(padding, @navigation-level0-item-padding);
+                .css(text-transform, @navigation-level0-text-transform);
+                display: block;
+            }
         }
     }
 }

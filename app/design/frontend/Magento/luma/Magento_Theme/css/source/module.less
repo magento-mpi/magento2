@@ -21,6 +21,8 @@
 @message-global-caution-border-color: none;
 
 @header-bg-color: false;
+@header-panel-bg-color: #7e807e;
+@header-panel-text-color: #fff;
 
 body {
     .css(background-color, @page-bg-color);
@@ -33,6 +35,34 @@ body {
     .css(background-color, @header-bg-color);
     border-bottom: 1px solid @border-color-base;
     margin-bottom: 20px;
+    .panel.wrapper {
+        .css(background-color, @header-panel-bg-color);
+        .css(color, @header-panel-text-color);
+    }
+}
+
+.header.panel {
+    > .header.links {
+        float: right;
+        .list-inline();
+        > li {
+            margin: 0 0 0 15px;
+            > a {
+                .link(
+                    @_link-color: @header-panel-text-color,
+                    @_link-text-decoration: none,
+                    @_link-color-visited: @header-panel-text-color,
+                    @_link-text-decoration-visited: none,
+                    @_link-color-hover: @header-panel-text-color,
+                    @_link-text-decoration-hover: none,
+                    @_link-color-active: @header-panel-text-color,
+                    @_link-text-decoration-active: none
+                );
+            }
+        }
+        margin-left: auto;
+        margin-right: 20px;
+    }
 }
 
 .header {
@@ -187,7 +217,10 @@ body {
 .page.header,
 .page.footer {
     .switcher {
-        margin-right: 10px;
+        float: right;
+        margin-left: 15px;
+        margin-right: -6px;
+        order: 1;
         .options {
             .dropdown(
                 @_dropdown-actions-padding: 0,
@@ -201,23 +234,26 @@ body {
             );
             ul.dropdown {
                 a {
+                    .link(
+                         @_link-color: #333,
+                         @_link-text-decoration: none,
+                         @_link-color-visited: #333,
+                         @_link-text-decoration-visited: none,
+                         @_link-color-hover: #333,
+                         @_link-text-decoration-hover: none,
+                         @_link-color-active: #333,
+                         @_link-text-decoration-active: none
+                    );
                     display: block;
                     padding: 8px;
-                    &:hover {
-                        text-decoration: none;
-                    }
                 }
             }
         }
-        li {
-            margin: 0;
-            font-size: @font-size-s;
+        strong {
+            font-weight: @font-weight-base;
         }
         .label {
             .visually-hidden();
-        }
-        strong {
-            font-weight: @font-weight-base;
         }
     }
 }
