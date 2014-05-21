@@ -99,7 +99,9 @@ class Index extends \Magento\Framework\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->getBlock('contactForm')->setFormAction($this->_url->getUrl('*/*/post', ['_secure' => true]));
+        $this->_view->getLayout()
+            ->getBlock('contactForm')
+            ->setFormAction($this->_url->getUrl('*/*/post', ['_secure' => true]));
         $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
@@ -112,11 +114,12 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function postAction()
     {
-        if (!$this->getRequest()->getPost()) {
+        $post = $this->getRequest()->getPost();
+        if (!$post) {
             $this->_redirect('*/*/');
             return;
         }
-        $post = $this->getRequest()->getPost();
+
         $this->inlineTranslation->suspend();
         try {
             $postObject = new \Magento\Framework\Object();
