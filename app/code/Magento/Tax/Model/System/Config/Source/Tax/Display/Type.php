@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@
  */
 namespace Magento\Tax\Model\System\Config\Source\Tax\Display;
 
-class Type implements \Magento\Option\ArrayInterface
+class Type implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

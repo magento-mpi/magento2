@@ -66,7 +66,7 @@ class Collection extends \Magento\Framework\Data\Collection
                 if (isset($affectedItem['item']['qty'])) {
                     $affectedItem['item']['qty'] = empty($affectedItem['item']['qty']) ? '' : (double)$affectedItem['item']['qty'];
                 }
-                $item = new \Magento\Object();
+                $item = new \Magento\Framework\Object();
                 $item->setCode($affectedItem['code']);
                 if (isset($affectedItem['error'])) {
                     $item->setError($affectedItem['error']);

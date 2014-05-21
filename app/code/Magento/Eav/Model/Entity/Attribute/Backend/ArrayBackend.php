@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Eav\Model\Entity\Attribute\Backend;
 /**
  * Backend model for attribute with multiple values
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class ArrayBackend extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
@@ -21,7 +17,7 @@ class ArrayBackend extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractB
     /**
      * Prepare data for save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function beforeSave($object)

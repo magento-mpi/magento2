@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog product abstract price backend attribute model with customer group specific
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice;
@@ -108,10 +104,10 @@ abstract class AbstractGroupprice extends \Magento\Framework\Model\Resource\Db\A
     /**
      * Save tier price object
      *
-     * @param \Magento\Object $priceObject
+     * @param \Magento\Framework\Object $priceObject
      * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice
      */
-    public function savePriceData(\Magento\Object $priceObject)
+    public function savePriceData(\Magento\Framework\Object $priceObject)
     {
         $adapter = $this->_getWriteAdapter();
         $data = $this->_prepareDataForTable($priceObject, $this->getMainTable());

@@ -37,6 +37,13 @@ class File
     protected $theme;
 
     /**
+     * Base flag
+     *
+     * @var string
+     */
+    protected $isBase;
+
+    /**
      * Identifier
      *
      * @var string
@@ -49,12 +56,14 @@ class File
      * @param string $filename
      * @param string $module
      * @param ThemeInterface $theme
+     * @param bool $isBase
      */
-    public function __construct($filename, $module, ThemeInterface $theme = null)
+    public function __construct($filename, $module, ThemeInterface $theme = null, $isBase = false)
     {
         $this->filename = $filename;
         $this->module = $module;
         $this->theme = $theme;
+        $this->isBase = $isBase;
     }
 
     /**
@@ -115,8 +124,9 @@ class File
     public function getFileIdentifier()
     {
         if (null === $this->identifier) {
-            $theme = ($this->getTheme() ? 'theme:' . $this->theme->getFullPath() : 'base');
-            $this->identifier = $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
+            $theme = $this->getTheme() ? ('|theme:' . $this->theme->getFullPath()) : '';
+            $this->identifier = ($this->isBase ? 'base' : '')
+                . $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
         }
         return $this->identifier;
     }

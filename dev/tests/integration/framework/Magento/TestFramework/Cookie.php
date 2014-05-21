@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,7 @@
  */
 namespace Magento\TestFramework;
 
-class Cookie extends \Magento\Stdlib\Cookie
+class Cookie extends \Magento\Framework\Stdlib\Cookie
 {
     /**
      * Dummy function, which sets value directly to $_COOKIE super-global array instead of calling setcookie()

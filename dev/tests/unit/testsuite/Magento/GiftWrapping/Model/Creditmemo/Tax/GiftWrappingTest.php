@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,13 +23,13 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             array('getAllItems', 'getOrder', '__wakeup', 'setGwItemsBaseTaxAmount', 'setGwItemsTaxAmount')
         )->getMock();
 
-        $item = new \Magento\Object();
-        $orderItem = new \Magento\Object(
+        $item = new \Magento\Framework\Object();
+        $orderItem = new \Magento\Framework\Object(
             array('gw_id' => 1, 'gw_base_tax_amount_invoiced' => 5, 'gw_tax_amount_invoiced' => 10)
         );
 
         $item->setQty(2)->setOrderItem($orderItem);
-        $order = new \Magento\Object();
+        $order = new \Magento\Framework\Object();
 
         $creditmemo->expects($this->any())->method('getAllItems')->will($this->returnValue(array($item)));
         $creditmemo->expects($this->any())->method('getOrder')->will($this->returnValue($order));

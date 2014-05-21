@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -204,7 +201,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         )->setCity(
             $city
         )->setStreet(
-            $street
+            [$street]
         )->create();
         $this->_address->setQuote($this->_quote);
         $this->_address->importCustomerAddressData($addressData);

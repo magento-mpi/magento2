@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registryMock;
 
@@ -54,7 +51,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_registryMock = $this->getMock('Magento\Registry', array(), array(), '', false, false);
+        $this->_registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false, false);
         $menuConfigMock = $this->getMock('Magento\Backend\Model\Menu\Config', array(), array(), '', false, false);

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,7 +39,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForm()
     {
         // Test form was configured correctly
-        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object(array('id' => 3))));
         $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
         $this->assertNotEmpty($form->getAction());
         $this->assertEquals('edit_form', $form->getId());
@@ -86,7 +83,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             $sessionValues
         );
         // Re-init form to use newly set session data
-        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object()));
 
         // Check that all fields values are restored from session
         foreach ($sessionValues as $field => $value) {
@@ -102,7 +99,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testStoreElementSingleStore()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object(array('id' => 3))));
         /** @var $storeElement \Magento\Framework\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
         $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Hidden', $storeElement);
@@ -124,7 +121,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testStoreElementMultiStores()
     {
-        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object(array('id' => 3))));
+        $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Framework\Object(array('id' => 3))));
         /** @var $storeElement \Magento\Framework\Data\Form\Element\AbstractElement */
         $storeElement = $form->getElement('store_id');
 
@@ -166,7 +163,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                new \Magento\Object(),
+                new \Magento\Framework\Object(),
                 array(
                     'is_system' => true,
                     'id_path' => false,
@@ -177,7 +174,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                new \Magento\Object(array('id' => 3)),
+                new \Magento\Framework\Object(array('id' => 3)),
                 array(
                     'is_system' => true,
                     'id_path' => false,

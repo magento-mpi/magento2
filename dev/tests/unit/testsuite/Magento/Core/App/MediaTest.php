@@ -75,7 +75,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_closure = function () {
             return true;
         };
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync = $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,15 +22,15 @@ class Product extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -324,7 +322,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function jsonProductInfoAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $id = $this->getRequest()->getParam('id');
         if (intval($id) > 0) {
             $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($id);

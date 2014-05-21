@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddDateFilter()
     {
         $dateModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Stdlib\DateTime\DateTime'
+            'Magento\Framework\Stdlib\DateTime\DateTime'
         );
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Reminder\Model\Resource\Rule\Collection'

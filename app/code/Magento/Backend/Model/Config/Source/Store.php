@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Store implements \Magento\Option\ArrayInterface
+class Store implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

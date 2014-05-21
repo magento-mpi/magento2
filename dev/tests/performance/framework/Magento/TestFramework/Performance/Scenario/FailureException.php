@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\TestFramework\Performance\Scenario;
 
-class FailureException extends \Magento\Exception
+class FailureException extends \Magento\Framework\Exception
 {
     /**
      * @var \Magento\TestFramework\Performance\Scenario

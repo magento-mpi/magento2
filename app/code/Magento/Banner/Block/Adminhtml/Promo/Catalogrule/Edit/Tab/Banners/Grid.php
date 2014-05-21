@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +21,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
@@ -32,7 +30,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param array $data
      */
@@ -41,7 +39,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         array $data = array()
     ) {
@@ -135,7 +133,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Define row click callback
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

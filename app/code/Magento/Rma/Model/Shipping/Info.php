@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Rma\Model\Shipping;
 /**
  * RMA Shipping Info Model
  */
-class Info extends \Magento\Object
+class Info extends \Magento\Framework\Object
 {
     /**
      * Tracking info

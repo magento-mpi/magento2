@@ -27,7 +27,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     protected $_orderMock;
 
     /**
-     * Mock for \Magento\Message
+     * Mock for \Magento\Framework\Message
      *
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -54,7 +54,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_messageMock = $this->getMockBuilder(
-            '\Magento\Message'
+            '\Magento\Framework\Message'
         )->disableOriginalConstructor()->setMethods(
             array('addError')
         )->getMock();
@@ -63,16 +63,32 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Framework\App\Action\Title', array('__wakeup', 'add'), array(), '', false);
         $viewMock = $this->getMockForAbstractClass('\Magento\Framework\App\ViewInterface');
 
+        /**
+         * @TODO:
+         *  - Methods of object under test MUST NOT be mocked
+         *  - Protected properties MUST NOT be set from outside, inject via context passed to constructor instead
+         */
         $this->_controllerMock = $this->getMockBuilder(
-            '\Magento\Sales\Controller\Adminhtml\Stub\Order'
+            '\Magento\Sales\Controller\Adminhtml\Order'
         )->disableOriginalConstructor()->setMethods(
             array('__wakeup', '_initOrder', '_initAction', '__', 'renderLayout', '_redirect')
         )->getMock();
         $this->_controllerMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_controllerMock->_title = $titleMock;
-        $this->_controllerMock->_view = $viewMock;
-        $this->_controllerMock->messageManager = $this->_messageMock;
+        $reflectionProperty = new \ReflectionProperty('\Magento\Sales\Controller\Adminhtml\Order', '_title');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($this->_controllerMock, $titleMock);
+        $reflectionProperty->setAccessible(false);
+
+        $reflectionProperty = new \ReflectionProperty('\Magento\Sales\Controller\Adminhtml\Order', '_view');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($this->_controllerMock, $viewMock);
+        $reflectionProperty->setAccessible(false);
+
+        $reflectionProperty = new \ReflectionProperty('\Magento\Sales\Controller\Adminhtml\Order', 'messageManager');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($this->_controllerMock, $this->_messageMock);
+        $reflectionProperty->setAccessible(false);
     }
 
     /**

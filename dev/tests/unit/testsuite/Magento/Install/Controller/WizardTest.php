@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Magento\Install\Controller;
 /**
  * Class WizardTest
  *
- * @package Magento\Install\Controller
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WizardTest extends \PHPUnit_Framework_TestCase
@@ -68,7 +64,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
     protected $_wizardMock;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_sessionMock;
 
@@ -217,7 +213,13 @@ class WizardTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(false)
         );
 
-        $this->_sessionMock = $this->getMock('\Magento\Session\Generic', array('getLocale'), array(), '', false);
+        $this->_sessionMock = $this->getMock(
+            '\Magento\Framework\Session\Generic',
+            array('getLocale'),
+            array(),
+            '',
+            false
+        );
         $this->_sessionMock->expects($this->any())->method('getLocale')->will($this->returnValue(self::LOCALE));
 
         $this->_block = $this->_objectManager->getObject(
@@ -249,7 +251,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
                 'installer' => $this->_getClearMock('Magento\Install\Model\Installer'),
                 'wizard' => $this->_wizardMock,
                 'session' => $this->_sessionMock,
-                'dbUpdater' => $this->_getClearMock('Magento\Module\UpdaterInterface'),
+                'dbUpdater' => $this->_getClearMock('Magento\Framework\Module\UpdaterInterface'),
                 'storeManager' => $this->_getClearMock('Magento\Store\Model\StoreManagerInterface'),
                 'appState' => $this->_getClearMock('Magento\Framework\App\State')
             )

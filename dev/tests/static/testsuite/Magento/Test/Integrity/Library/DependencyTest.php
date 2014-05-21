@@ -16,7 +16,6 @@ use Zend\Code\Reflection\FileReflection;
 /**
  * Test check if Magento library components contain incorrect dependencies to application layer
  *
- * @package Magento\Test
  */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
@@ -112,7 +111,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function libraryDataProvider()
     {
         // @TODO: remove this code when class Magento\Framework\Data\Collection will fixed
-        include_once BP . '/lib/internal/Magento/Option/ArrayInterface.php';
+        include_once BP . '/lib/internal/Magento/Framework/Option/ArrayInterface.php';
         $blackList = file(__DIR__ . '/_files/blacklist.txt', FILE_IGNORE_NEW_LINES);
         $dataProvider = Files::init()->getClassFiles(false, false, false, false, false, true, true);
 

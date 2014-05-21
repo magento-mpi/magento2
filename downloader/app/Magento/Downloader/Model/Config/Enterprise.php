@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Downloader\Model\Config;
 /**
  * Class config
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig implements
@@ -43,7 +39,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
     /**
      * Set data for Settings View
      *
-     * @param \Magento\Connect\Config $config
+     * @param \Magento\Framework\Connect\Config $config
      * @param \Magento\Downloader\View $view
      * @return void
      */
@@ -103,7 +99,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
     /**
      * Set config data from POST
      *
-     * @param \Magento\Connect\Config $config Config object
+     * @param \Magento\Framework\Connect\Config $config Config object
      * @param array $post post data
      * @return void
      */

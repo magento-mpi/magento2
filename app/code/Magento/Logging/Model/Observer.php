@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -63,7 +61,7 @@ class Observer
     protected $eventFactory;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
@@ -76,7 +74,7 @@ class Observer
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Resource\EventFactory $eventFactory,
@@ -87,7 +85,7 @@ class Observer
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Logging\Model\FlagFactory $flagFactory,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->eventFactory = $eventFactory;
         $this->_config = $config;
@@ -103,7 +101,7 @@ class Observer
     /**
      * Model after save observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelSaveAfter($observer)
@@ -114,7 +112,7 @@ class Observer
     /**
      * Model after delete observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelDeleteAfter($observer)
@@ -125,7 +123,7 @@ class Observer
     /**
      * Model after load observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelLoadAfter($observer)
@@ -136,7 +134,7 @@ class Observer
     /**
      * Log marked actions
      *
-     * @param \Magento\Event\Observer $observer $observer
+     * @param \Magento\Framework\Event\Observer $observer $observer
      * @return void
      */
     public function controllerPostdispatch($observer)
@@ -149,7 +147,7 @@ class Observer
     /**
      * Log successful admin sign in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminSessionLoginSuccess($observer)
@@ -160,7 +158,7 @@ class Observer
     /**
      * Log failure of sign in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminSessionLoginFailed($observer)

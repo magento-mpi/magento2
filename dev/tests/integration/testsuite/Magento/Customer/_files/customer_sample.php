@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,7 @@ $customerData = array(
     'website_id' => 1,
     'firstname' => 'test firstname',
     'lastname' => 'test lastname',
-    'email' => 'example@domain.com',
+    'email' => 'customer@example.com',
     'default_billing' => 1,
     'password' => '123123q',
     'attribute_set_id' => 1

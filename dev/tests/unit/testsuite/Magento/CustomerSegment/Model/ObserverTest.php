@@ -28,7 +28,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_model = new \Magento\CustomerSegment\Model\Observer(
             $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false),
@@ -78,8 +78,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
         $form = new \Magento\Framework\Data\Form($factoryElement, $collectionFactory, $formKey);
-        $model = new \Magento\Object();
-        $block = new \Magento\Object(array('layout' => $layout));
+        $model = new \Magento\Framework\Object();
+        $block = new \Magento\Framework\Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects(
             $this->once()
@@ -92,8 +92,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model->addFieldsToTargetRuleForm(
-            new \Magento\Event\Observer(
-                array('event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'block' => $block)))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(
+                            array('form' => $form, 'model' => $model, 'block' => $block)
+                        )
+                )
             )
         );
     }
@@ -115,14 +119,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
         $form = new \Magento\Framework\Data\Form($factoryElement, $collectionFactory, $formKey);
-        $model = new \Magento\Object();
-        $block = new \Magento\Object(array('layout' => $layout));
+        $model = new \Magento\Framework\Object();
+        $block = new \Magento\Framework\Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
         $this->_model->addFieldsToTargetRuleForm(
-            new \Magento\Event\Observer(
-                array('event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'block' => $block)))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(
+                            array('form' => $form, 'model' => $model, 'block' => $block)
+                        )
+                )
             )
         );
     }

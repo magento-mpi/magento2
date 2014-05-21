@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,7 +42,7 @@ class DirectorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_builderMock = $this->getMock('Magento\Backend\Model\Menu\Builder', array(), array(), '', false);
         $this->_logger = $this->getMock(
-            'Magento\Logger',
+            'Magento\Framework\Logger',
             array('addStoreLog', 'log', 'logException'),
             array(),
             '',

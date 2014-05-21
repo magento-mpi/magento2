@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Cms\Model\Config\Source;
 
-class Page implements \Magento\Option\ArrayInterface
+class Page implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

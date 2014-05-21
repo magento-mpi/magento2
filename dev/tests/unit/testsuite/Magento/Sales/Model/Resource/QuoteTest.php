@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -59,7 +56,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Sales\Model\Resource\Quote(
             $this->_resourceMock,
-            new \Magento\Stdlib\DateTime(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $this->_configMock
         );
     }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -38,7 +35,25 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Isolation level has been raised in order to flush themes configuration in-memory cache
+     *
+     * @magentoAppArea frontend
+     */
+    public function testBlockDirective()
+    {
+        $class = 'Magento\\\\Theme\\\\Block\\\\Html\\\\Footer';
+        $data = array("{{block class='$class' name='test.block' template='Magento_Theme::html/footer.phtml'}}",
+                'block',
+                " class='$class' name='test.block' template='Magento_Theme::html/footer.phtml'"
+
+            );
+        $html = $this->_model->blockDirective($data);
+        $this->assertContains('<div class="footer-container">', $html);
+    }
+
+    /**
      * @magentoConfigFixture current_store web/unsecure/base_link_url http://example.com/
+     * @magentoConfigFixture admin_store web/unsecure/base_link_url http://example.com/
      */
     public function testStoreDirective()
     {
@@ -51,6 +66,12 @@ class FilterTest extends \PHPUnit_Framework_TestCase
             array('{{store url="translation/ajax/index"}}', 'store', ' url="translation/ajax/index"')
         );
         $this->assertStringMatchesFormat('http://example.com/%stranslation/ajax/index/', $url);
+
+        $this->_model->setStoreId(0);
+        $url = $this->_model->storeDirective(
+            array('{{store url="translation/ajax/index"}}', 'store', ' url="translation/ajax/index"')
+        );
+        $this->assertStringMatchesFormat('http://example.com/index.php/backend/translation/ajax/index/%A', $url);
     }
 
     public function testEscapehtmlDirective()

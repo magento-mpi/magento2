@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,7 +26,7 @@ class TermTest extends \PHPUnit_Framework_TestCase
     public function testGetSearchUrl()
     {
         $query = uniqid();
-        $obj = new \Magento\Object(array('name' => $query));
+        $obj = new \Magento\Framework\Object(array('name' => $query));
         $this->assertStringEndsWith("/catalogsearch/result/?q={$query}", $this->_block->getSearchUrl($obj));
     }
 }

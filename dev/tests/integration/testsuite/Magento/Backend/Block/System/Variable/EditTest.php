@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +28,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $variable = $objectManager->create('Magento\Core\Model\Variable')->setData($data)->save();
 
-        $objectManager->get('Magento\Registry')->register('current_variable', $variable);
+        $objectManager->get('Magento\Framework\Registry')->register('current_variable', $variable);
         $objectManager->get('Magento\Framework\App\RequestInterface')->setParam('variable_id', $variable->getId());
         $block = $objectManager->get(
             'Magento\Framework\View\LayoutInterface'

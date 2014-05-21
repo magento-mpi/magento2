@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +21,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dbResource;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -43,13 +41,13 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Install\Model\Installer\Db\Factory $dbFactory
      * @param array $dbConfig
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Install\Model\Installer\Db\Factory $dbFactory,
         array $dbConfig
     ) {

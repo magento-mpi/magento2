@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -91,7 +89,7 @@ jQuery(function ($) {
         )
     )?>);
     //adding data to templates
-    <?php /** @var $_value \Magento\Object */ ?>
+    <?php /** @var $_value \Magento\Framework\Object */ ?>
     <?php foreach ($this->getOptionValues() as $_value): ?>
         fieldSet.customOptions('addOption', <?php echo $_value->toJson() ?>);
     <?php endforeach; ?>

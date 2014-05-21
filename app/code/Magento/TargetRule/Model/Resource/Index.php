@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,7 +31,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -96,7 +94,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
@@ -110,7 +108,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Customer\Model\Session $session,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_indexPool = $indexPool;
         $this->_rule = $rule;

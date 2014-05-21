@@ -59,7 +59,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_layoutProcessor)
         );
         $this->_actionFlagMock = $this->getMock('Magento\Framework\App\ActionFlag', array(), array(), '', false);
-        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface');
+        $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->_view = $helper->getObject(
             'Magento\Framework\App\View',
             array(

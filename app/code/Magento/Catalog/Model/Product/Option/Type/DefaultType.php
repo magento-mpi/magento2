@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,11 +12,9 @@ use Magento\Framework\Model\Exception;
 /**
  * Catalog product option default type
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class DefaultType extends \Magento\Object
+class DefaultType extends \Magento\Framework\Object
 {
     /**
      * Option Instance
@@ -173,12 +169,12 @@ class DefaultType extends \Magento\Object
     /**
      * Getter for Buy Request
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     public function getRequest()
     {
-        if ($this->_getData('request') instanceof \Magento\Object) {
+        if ($this->_getData('request') instanceof \Magento\Framework\Object) {
             return $this->_getData('request');
         }
         throw new Exception(__('The BuyRequest instance in options group is incorrect.'));

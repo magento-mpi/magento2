@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Captcha image model
  *
- * @category   Magento
- * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Captcha\Model\Config;
 
-class Mode implements \Magento\Option\ArrayInterface
+class Mode implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get options for captcha mode selection field

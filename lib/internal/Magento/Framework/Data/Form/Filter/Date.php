@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Form Input/Output Strip HTML tags Filter
  *
- * @category    Magento
- * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\Data\Form\Filter;
@@ -37,13 +33,13 @@ class Date implements \Magento\Framework\Data\Form\Filter\FilterInterface
     /**
      * Initialize filter
      *
-     * @param string $format    \Magento\Stdlib\DateTime\Date input/output format
+     * @param string $format    \Magento\Framework\Stdlib\DateTime\Date input/output format
      * @param \Zend_Locale $locale
      */
     public function __construct($format = null, $locale = null)
     {
         if (is_null($format)) {
-            $format = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+            $format = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
         }
         $this->_dateFormat = $format;
         $this->_locale = $locale;
@@ -61,7 +57,7 @@ class Date implements \Magento\Framework\Data\Form\Filter\FilterInterface
             array('date_format' => $this->_dateFormat, 'locale' => $this->_locale)
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale)
+            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale)
         );
 
         $value = $filterInput->filter($value);
@@ -78,7 +74,7 @@ class Date implements \Magento\Framework\Data\Form\Filter\FilterInterface
     public function outputFilter($value)
     {
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
-            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale)
+            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale)
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
             array('date_format' => $this->_dateFormat, 'locale' => $this->_locale)

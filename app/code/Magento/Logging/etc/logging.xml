@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -870,7 +868,7 @@
         <group name="sales_agreement">
             <label translate="true">Checkout Terms and Conditions</label>
             <expected_models>
-                <expected_model class="Magento\Checkout\Model\Agreement" />
+                <expected_model class="Magento\CheckoutAgreements\Model\Agreement" />
             </expected_models>
             <events>
                 <event controller_action="checkout_agreement_edit"

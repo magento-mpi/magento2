@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,7 +29,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Filesystem'
         )->getPath(
             \Magento\Framework\App\Filesystem::LIB_INTERNAL
-        ) . '/Magento/Mview/etc/mview.xsd';
+        ) . '/Magento/Framework/Mview/etc/mview.xsd';
     }
 
     /**

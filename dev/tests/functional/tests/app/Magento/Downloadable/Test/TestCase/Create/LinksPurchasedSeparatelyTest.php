@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Downloadable\Test\TestCase\Create;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
+/**
+ * Class LinksPurchasedSeparatelyTest
+ */
 class LinksPurchasedSeparatelyTest extends Functional
 {
     /**
@@ -33,16 +37,17 @@ class LinksPurchasedSeparatelyTest extends Functional
      * Creating Downloadable product with required fields only and assign it to the category
      *
      * @ZephyrId MAGETWO-13595
+     * @return void
      */
     public function test()
     {
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($this->product);
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
 
         $createProductPage->open();
-        $productBlockForm->fill($this->product);
-        $productBlockForm->save($this->product);
+        $productForm->fill($this->product);
+        $createProductPage->getFormAction()->save();
 
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
 
@@ -57,6 +62,8 @@ class LinksPurchasedSeparatelyTest extends Functional
 
     /**
      * Assert existing product on admin product grid
+     *
+     * @return void
      */
     protected function assertOnBackend()
     {
@@ -68,6 +75,8 @@ class LinksPurchasedSeparatelyTest extends Functional
 
     /**
      * Assert product data on category and product pages
+     *
+     * @return void
      */
     protected function assertOnFrontend()
     {
@@ -85,13 +94,16 @@ class LinksPurchasedSeparatelyTest extends Functional
 
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $price = $productViewBlock->getProductPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
 
         $productPage->getDownloadableLinksBlock()
             ->check([['title' => $product->getData('fields/downloadable/link/0/title/value')]]);
+
+        $price = $productViewBlock->getProductPrice();
         $this->assertEquals(
-            (int)$product->getProductPrice() + $product->getData('fields/downloadable/link/0/price/value'),
-            $productViewBlock->getProductPrice()
+            number_format($product->getProductPrice() + $product->getData('fields/downloadable/link/0/price/value'), 2),
+            $price['price_regular_price']
         );
     }
 }

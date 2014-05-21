@@ -10,8 +10,8 @@ namespace Magento\Sales\Model\Resource\Sale;
 use Magento\Core\Model\EntityFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
-use Magento\Event\ManagerInterface;
-use Magento\Logger;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Logger;
 use Magento\Sales\Model\Resource\Order;
 
 /**
@@ -198,7 +198,7 @@ class Collection extends \Magento\Framework\Data\Collection\Db
         $stores = $this->_storeCollectionFactory->create()->setWithoutDefaultFilter()->load()->toOptionHash();
         $this->_items = array();
         foreach ($data as $v) {
-            $storeObject = new \Magento\Object($v);
+            $storeObject = new \Magento\Framework\Object($v);
             $storeId = $v['store_id'];
             $storeName = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName(
@@ -224,12 +224,12 @@ class Collection extends \Magento\Framework\Data\Collection\Db
     }
 
     /**
-     * Retrieve totals data converted into \Magento\Object
+     * Retrieve totals data converted into \Magento\Framework\Object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {
-        return new \Magento\Object($this->_totals);
+        return new \Magento\Framework\Object($this->_totals);
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 namespace Magento\PageCache\Model\Cache;
 
 /** System / Cache Management / Cache type "Full Page Cache" */
-class Type extends \Magento\Cache\Frontend\Decorator\TagScope
+class Type extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

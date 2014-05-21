@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -64,7 +61,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setRequest($request);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Session\SessionManagerInterface'
+            'Magento\Framework\Session\SessionManagerInterface'
         )->setData(
             '_form_key',
             'salt'
@@ -79,8 +76,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $encryptor \Magento\Encryption\EncryptorInterface */
-        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+        /** @var $encryptor \Magento\Framework\Encryption\EncryptorInterface */
+        $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
 
         return array(
             array(
@@ -136,8 +133,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $encryptor \Magento\Encryption\EncryptorInterface */
-        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+        /** @var $encryptor \Magento\Framework\Encryption\EncryptorInterface */
+        $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
 
         /** @var $request \Magento\Framework\App\Request\Http */
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -146,7 +143,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Session\SessionManagerInterface'
+            'Magento\Framework\Session\SessionManagerInterface'
         )->setData(
             '_form_key',
             'salt'

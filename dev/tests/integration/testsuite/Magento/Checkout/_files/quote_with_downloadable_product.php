@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,7 +26,7 @@ $linkCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
 /** @var $link \Magento\Downloadable\Model\Link */
 $link = $linkCollection->getFirstItem();
 
-$requestInfo = new \Magento\Object(array('qty' => 1, 'links' => array($link->getId())));
+$requestInfo = new \Magento\Framework\Object(array('qty' => 1, 'links' => array($link->getId())));
 
 /** @var $cart \Magento\Checkout\Model\Cart */
 $cart = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Checkout\Model\Cart');

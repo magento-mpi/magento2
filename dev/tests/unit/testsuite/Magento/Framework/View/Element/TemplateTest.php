@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -122,7 +119,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(true)
         );
 
-        $context = new \Magento\Object();
+        $context = new \Magento\Framework\Object();
         $this->_templateEngine->expects($this->once())->method('render')->with($context);
         $this->_block->setTemplateContext($context);
         $this->_block->fetchView('themedir/template.phtml');

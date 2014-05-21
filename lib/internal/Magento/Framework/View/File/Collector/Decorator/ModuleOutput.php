@@ -10,7 +10,7 @@ namespace Magento\Framework\View\File\Collector\Decorator;
 
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File;
-use Magento\Module\Manager;
+use Magento\Framework\Module\Manager;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**
@@ -28,7 +28,7 @@ class ModuleOutput implements CollectorInterface
     /**
      * Module manager
      *
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     private $moduleManager;
 

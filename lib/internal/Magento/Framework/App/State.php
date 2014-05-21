@@ -163,12 +163,12 @@ class State
      *
      * @param string $code
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function setAreaCode($code)
     {
         if (isset($this->_areaCode)) {
-            throw new \Magento\Exception('Area code is already set');
+            throw new \Magento\Framework\Exception('Area code is already set');
         }
         $this->_configScope->setCurrentScope($code);
         $this->_areaCode = $code;
@@ -178,12 +178,12 @@ class State
      * Get area code
      *
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getAreaCode()
     {
         if (!isset($this->_areaCode)) {
-            throw new \Magento\Exception('Area code is not set');
+            throw new \Magento\Framework\Exception('Area code is not set');
         }
         return $this->_areaCode;
     }

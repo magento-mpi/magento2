@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ namespace Magento\ImportExport\Model\Import\Entity;
 
 /**
  * Class ProductTest
- * @package Magento\ImportExport\Model\Import\Entity
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -532,7 +528,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->create('Magento\Core\Helper\File\Storage\Database'),
                 $objectManager->create('Magento\Core\Helper\File\Storage'),
-                $objectManager->create('Magento\Image\AdapterFactory'),
+                $objectManager->create('Magento\Framework\Image\AdapterFactory'),
                 $objectManager->create('Magento\Core\Model\File\Validator\NotProtectedExtension')
             )
         );
@@ -557,7 +553,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);
-        $this->assertInstanceOf('Magento\Object', $item);
+        $this->assertInstanceOf('Magento\Framework\Object', $item);
         $this->assertEquals('magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }

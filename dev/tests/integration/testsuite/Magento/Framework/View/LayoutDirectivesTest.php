@@ -47,7 +47,7 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testGetBlockUnscheduledException()
     {
@@ -177,7 +177,7 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testMoveBroken()
     {
@@ -185,7 +185,7 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testMoveAliasBroken()
     {
@@ -193,7 +193,7 @@ class LayoutDirectivesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testRemoveBroken()
     {

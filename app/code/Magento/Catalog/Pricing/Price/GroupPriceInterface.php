@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,11 +13,6 @@ namespace Magento\Catalog\Pricing\Price;
  */
 interface GroupPriceInterface
 {
-    /**
-     * Price type group
-     */
-    const PRICE_TYPE_GROUP = 'group_price';
-
     /**
      * @return array
      */

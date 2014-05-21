@@ -13,7 +13,7 @@ use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\View\File\Factory;
-use Magento\Exception;
+use Magento\Framework\Exception;
 
 /**
  * Source of view files that explicitly override modular files of ancestor themes
@@ -62,7 +62,7 @@ class ThemeModular implements CollectorInterface
      * @param ThemeInterface $theme
      * @param string $filePath
      * @return array|\Magento\Framework\View\File[]
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getFiles(ThemeInterface $theme, $filePath)
     {

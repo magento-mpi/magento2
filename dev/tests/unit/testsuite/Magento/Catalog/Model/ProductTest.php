@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -43,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $productTypeMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_priceInfoMock;
 
@@ -65,7 +62,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->_priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $this->productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $this->productPriceProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',
@@ -80,7 +77,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('getAreaCode')
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
-        $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction', 
             [], 
@@ -149,17 +146,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities($expected, $origData, $data, $isDeleted = false)
     {
         $this->model->setIdFieldName('id');
-        $typeMock = $this->getMock('Magento\Catalog\Model\Product\Type\AbstractType', array(), array(), '', false);
-
-        $this->productTypeMock
-            ->expects($this->once())
-            ->method('factory')
-            ->with($this->model)
-            ->will($this->returnValue($typeMock));
-
-        $typeMock->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue(array('type_1')));
         if (is_array($origData)) {
             foreach ($origData as $key => $value) {
                 $this->model->setOrigData($key, $value);
@@ -177,26 +163,21 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('catalog_product_1', 'type_1', 'catalog_category_product_1'),
+                array('catalog_product_1'),
                 array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
                 array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
             ),
             array(
-                array('catalog_product_1', 'type_1', 'catalog_category_1'),
+                array('catalog_product_1', 'catalog_category_product_1'),
                 null,
-                array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
-            ),
-            array(
-                array('catalog_product_1', 'type_1', 'catalog_category_1'),
-                array('id' => 1, 'name' => '', 'category_ids' => array(1)),
-                array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
-            ),
-            array(
-                array('catalog_product_1', 'type_1', 'catalog_category_1'),
-                array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
-                array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
-                true
-            ),
+                array(
+                    'id' => 1,
+                    'name' => 'value',
+                    'category_ids' => array(1),
+                    'affected_category_ids' => array(1),
+                    'is_changed_categories' => true
+                )
+            )
         );
     }
 
@@ -236,5 +217,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_priceInfoMock));
         $this->assertEquals($this->_priceInfoMock, $this->model->getPriceInfo());
         $this->assertEquals($this->_priceInfoMock, $this->model->reloadPriceInfo());
+    }
+
+    /**
+     * Test for get qty
+     */
+    public function testGetQty()
+    {
+        $this->model->setQty(1);
+        $this->assertEquals(1, $this->model->getQty());
     }
 }

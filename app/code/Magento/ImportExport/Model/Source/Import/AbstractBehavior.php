@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\ImportExport\Model\Source\Import;
 /**
  * Source import behavior model
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractBehavior implements \Magento\Option\ArrayInterface
+abstract class AbstractBehavior implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get array of possible values

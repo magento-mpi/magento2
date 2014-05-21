@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -52,7 +49,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStore'
         )->will(
-            $this->returnValue(new \Magento\Object(array('id' => 1)))
+            $this->returnValue(new \Magento\Framework\Object(array('id' => 1)))
         );
         $order->expects($this->any())->method('getBillingAddress')->will($this->returnValue($address));
         $order->expects($this->once())->method('getShippingAddress')->will($this->returnValue($address));
@@ -189,6 +186,6 @@ class ObjectConstraint extends \PHPUnit_Framework_Constraint
      */
     protected function failureDescription($other)
     {
-        return 'Magento\Object ' . $this->toString();
+        return 'Magento\Framework\Object ' . $this->toString();
     }
 }

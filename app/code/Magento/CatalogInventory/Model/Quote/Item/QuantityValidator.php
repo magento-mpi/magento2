@@ -36,12 +36,12 @@ class QuantityValidator
     /**
      * Check product inventory data when quote item quantity declaring
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      *
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */
-    public function validate(\Magento\Event\Observer $observer)
+    public function validate(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getItem();

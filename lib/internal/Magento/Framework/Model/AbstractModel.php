@@ -13,7 +13,7 @@ namespace Magento\Framework\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractModel extends \Magento\Object
+abstract class AbstractModel extends \Magento\Framework\Object
 {
     /**
      * Prefix of model events names
@@ -94,7 +94,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Application Event Dispatcher
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -106,12 +106,12 @@ abstract class AbstractModel extends \Magento\Object
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -127,14 +127,14 @@ abstract class AbstractModel extends \Magento\Object
 
     /**
      * @param Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -148,7 +148,7 @@ abstract class AbstractModel extends \Magento\Object
         $this->_logger = $context->getLogger();
         $this->_actionValidator = $context->getActionValidator();
 
-        if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Object) {
+        if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Framework\Object) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
         }
 
@@ -195,9 +195,9 @@ abstract class AbstractModel extends \Magento\Object
     public function __wakeup()
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
+        $this->_eventManager = $objectManager->get('Magento\Framework\Event\ManagerInterface');
         $this->_cacheManager = $objectManager->get('Magento\Framework\App\CacheInterface');
-        $this->_registry = $objectManager->get('Magento\Registry');
+        $this->_registry = $objectManager->get('Magento\Framework\Registry');
         $context = $objectManager->get('Magento\Framework\Model\Context');
         if ($context instanceof \Magento\Framework\Model\Context) {
             $this->_appState = $context->getAppState();
@@ -217,7 +217,7 @@ abstract class AbstractModel extends \Magento\Object
     {
         $this->_resourceName = $resourceName;
         if (is_null($collectionName)) {
-            $collectionName = $resourceName . \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
+            $collectionName = $resourceName . \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
         }
         $this->_collectionName = $collectionName;
     }
@@ -454,7 +454,7 @@ abstract class AbstractModel extends \Magento\Object
             $errors = $validator->getMessages();
             $exception = new \Magento\Framework\Model\Exception(implode(PHP_EOL, $errors));
             foreach ($errors as $errorMessage) {
-                $exception->addMessage(new \Magento\Message\Error($errorMessage));
+                $exception->addMessage(new \Magento\Framework\Message\Error($errorMessage));
             }
             throw $exception;
         }

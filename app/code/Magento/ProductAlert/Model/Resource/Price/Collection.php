@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ProductAlert\Model\Resource\Price;
 /**
  * Product alert for changed price collection
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
@@ -26,25 +22,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _construct()
     {
         $this->_init('Magento\ProductAlert\Model\Price', 'Magento\ProductAlert\Model\Resource\Price');
-    }
-
-    /**
-     * Add customer filter
-     *
-     * @param mixed $customer
-     * @return $this
-     */
-    public function addCustomerFilter($customer)
-    {
-        if (is_array($customer)) {
-            $condition = $this->getConnection()->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof \Magento\Customer\Model\Customer) {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer->getId());
-        } else {
-            $condition = $this->getConnection()->quoteInto('customer_id=?', $customer);
-        }
-        $this->addFilter('customer_id', $condition, 'string');
-        return $this;
     }
 
     /**

@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\View\Element;
 
+use Magento\Framework\Message\MessageInterface;
+
 /**
  * Class Messages
  */
@@ -15,7 +17,7 @@ class Messages extends Template
     /**
      * Messages collection
      *
-     * @var \Magento\Message\Collection
+     * @var \Magento\Framework\Message\Collection
      */
     protected $messages;
 
@@ -53,30 +55,30 @@ class Messages extends Template
      * @var string[]
      */
     protected $messageTypes = array(
-        \Magento\Message\MessageInterface::TYPE_ERROR,
-        \Magento\Message\MessageInterface::TYPE_WARNING,
-        \Magento\Message\MessageInterface::TYPE_NOTICE,
-        \Magento\Message\MessageInterface::TYPE_SUCCESS
+        MessageInterface::TYPE_ERROR,
+        MessageInterface::TYPE_WARNING,
+        MessageInterface::TYPE_NOTICE,
+        MessageInterface::TYPE_SUCCESS
     );
 
     /**
      * Message singleton
      *
-     * @var \Magento\Message\Factory
+     * @var \Magento\Framework\Message\Factory
      */
     protected $messageFactory;
 
     /**
      * Message model factory
      *
-     * @var \Magento\Message\CollectionFactory
+     * @var \Magento\Framework\Message\CollectionFactory
      */
     protected $collectionFactory;
 
     /**
      * Message manager
      *
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -84,16 +86,16 @@ class Messages extends Template
      * Constructor
      *
      * @param Template\Context $context
-     * @param \Magento\Message\Factory $messageFactory
-     * @param \Magento\Message\CollectionFactory $collectionFactory
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\Factory $messageFactory
+     * @param \Magento\Framework\Message\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Message\Factory $messageFactory,
-        \Magento\Message\CollectionFactory $collectionFactory,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\Factory $messageFactory,
+        \Magento\Framework\Message\CollectionFactory $collectionFactory,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->messageFactory = $messageFactory;
@@ -119,10 +121,10 @@ class Messages extends Template
     /**
      * Set messages collection
      *
-     * @param   \Magento\Message\Collection $messages
+     * @param   \Magento\Framework\Message\Collection $messages
      * @return  $this
      */
-    public function setMessages(\Magento\Message\Collection $messages)
+    public function setMessages(\Magento\Framework\Message\Collection $messages)
     {
         $this->messages = $messages;
         return $this;
@@ -131,10 +133,10 @@ class Messages extends Template
     /**
      * Add messages to display
      *
-     * @param \Magento\Message\Collection $messages
+     * @param \Magento\Framework\Message\Collection $messages
      * @return $this
      */
-    public function addMessages(\Magento\Message\Collection $messages)
+    public function addMessages(\Magento\Framework\Message\Collection $messages)
     {
         foreach ($messages->getItems() as $message) {
             $this->getMessageCollection()->addMessage($message);
@@ -145,11 +147,11 @@ class Messages extends Template
     /**
      * Retrieve messages collection
      *
-     * @return \Magento\Message\Collection
+     * @return \Magento\Framework\Message\Collection
      */
     public function getMessageCollection()
     {
-        if (!$this->messages instanceof \Magento\Message\Collection) {
+        if (!$this->messages instanceof \Magento\Framework\Message\Collection) {
             $this->messages = $this->collectionFactory->create();
         }
         return $this->messages;
@@ -158,10 +160,10 @@ class Messages extends Template
     /**
      * Adding new message to message collection
      *
-     * @param \Magento\Message\MessageInterface $message
+     * @param MessageInterface $message
      * @return $this
      */
-    public function addMessage(\Magento\Message\AbstractMessage $message)
+    public function addMessage(\Magento\Framework\Message\AbstractMessage $message)
     {
         $this->getMessageCollection()->addMessage($message);
         return $this;
@@ -175,7 +177,7 @@ class Messages extends Template
      */
     public function addError($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $message));
         return $this;
     }
 
@@ -187,7 +189,7 @@ class Messages extends Template
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_WARNING, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_WARNING, $message));
         return $this;
     }
 
@@ -199,7 +201,7 @@ class Messages extends Template
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_NOTICE, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_NOTICE, $message));
         return $this;
     }
 
@@ -211,7 +213,7 @@ class Messages extends Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message));
+        $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message));
         return $this;
     }
 
@@ -251,12 +253,12 @@ class Messages extends Template
     /**
      * Dispatch render after event
      *
-     * @param null|string|array|\Magento\Object &$html
+     * @param null|string|array|\Magento\Framework\Object &$html
      * @return void
      */
     protected function _dispatchRenderGroupedAfterEvent(&$html)
     {
-        $transport = new \Magento\Object(array('output' => $html));
+        $transport = new \Magento\Framework\Object(array('output' => $html));
         $params = array(
             'element_name' => $this->getNameInLayout(),
             'layout' => $this->getLayout(),

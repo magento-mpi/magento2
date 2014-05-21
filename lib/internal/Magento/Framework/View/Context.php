@@ -9,17 +9,17 @@ namespace Magento\Framework\View;
 
 use Magento\Framework\App\Request\Http as Request;
 use Magento\Framework\App\FrontControllerInterface;
-use Magento\TranslateInterface;
+use Magento\Framework\TranslateInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\ConfigInterface as ViewConfig;
-use Magento\Logger;
+use Magento\Framework\Logger;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Session\SessionManager;
+use Magento\Framework\Session\SessionManager;
 use Magento\Framework\App\CacheInterface as Cache;
 use Magento\Framework\App\Cache\StateInterface as CacheState;
-use Magento\UrlInterface;
-use Magento\Event\ManagerInterface;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\Event\ManagerInterface;
 
 /**
  * Application Runtime Context
@@ -48,14 +48,14 @@ class Context
 
     /**
      * URL builder
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $urlBuilder;
 
     /**
      * Translator
      *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $translator;
 
@@ -76,7 +76,7 @@ class Context
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $session;
 
@@ -118,7 +118,7 @@ class Context
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -246,7 +246,7 @@ class Context
     /**
      * Retrieve session
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {
@@ -266,7 +266,7 @@ class Context
     /**
      * Retrieve translator
      *
-     * @return \Magento\TranslateInterface
+     * @return \Magento\Framework\TranslateInterface
      */
     public function getTranslator()
     {
@@ -276,7 +276,7 @@ class Context
     /**
      * Retrieve URL builder
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlBuilder()
     {
@@ -306,7 +306,7 @@ class Context
     /**
      * Retrieve logger
      *
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      */
     public function getLogger()
     {

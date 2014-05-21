@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Controller\Adminhtml\Product;
 /**
  * Catalog product gallery controller
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Gallery extends \Magento\Backend\App\Action
@@ -26,8 +22,8 @@ class Gallery extends \Magento\Backend\App\Action
         try {
             $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
-            /** @var \Magento\Image\Adapter\AdapterInterface $imageAdapter */
-            $imageAdapter = $this->_objectManager->get('Magento\Image\AdapterFactory')->create();
+            /** @var \Magento\Framework\Image\Adapter\AdapterInterface $imageAdapter */
+            $imageAdapter = $this->_objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);

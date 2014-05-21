@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-class NestedDataObjectBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class NestedDataObjectBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDataObject $details

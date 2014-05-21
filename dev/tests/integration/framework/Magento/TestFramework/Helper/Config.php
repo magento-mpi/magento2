@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  * 
- * @category    Magento
- * @package     Magento_Test
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,7 @@ class Config
     {
         $result = array();
         $moduleList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Module\ModuleListInterface'
+            'Magento\Framework\Module\ModuleListInterface'
         );
         foreach ($moduleList->getModules() as $module) {
             $result[] = $module['name'];

@@ -81,7 +81,7 @@ class Reader
      *
      * @return array
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function read()
     {
@@ -108,7 +108,7 @@ class Reader
                     $domDocument->merge($file);
                 }
             } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
-                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+                throw new \Magento\Framework\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
             }
         }
 

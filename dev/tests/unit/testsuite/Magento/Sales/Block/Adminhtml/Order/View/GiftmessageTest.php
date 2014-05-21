@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,7 @@ class GiftmessageTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSaveButtonHtml()
     {
-        $item = new \Magento\Object();
+        $item = new \Magento\Framework\Object();
         $expectedHtml = 'some_value';
 
         /** @var $block \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage */
@@ -25,7 +22,7 @@ class GiftmessageTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $block->setEntity(new \Magento\Object());
+        $block->setEntity(new \Magento\Framework\Object());
         $block->expects($this->once())->method('getChildBlock')->with('save_button')->will($this->returnValue($item));
         $block->expects(
             $this->once()

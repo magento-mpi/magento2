@@ -147,7 +147,8 @@ class Header extends \Magento\Framework\View\Element\Template
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $path = $folderName . '/' . $storeLogoPath;
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_MEDIA)) . $path;
+        $logoUrl = $this->_urlBuilder
+                ->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA)) . $path;
 
         if (!is_null($storeLogoPath) && $this->_isFile($path)) {
             $url = $logoUrl;

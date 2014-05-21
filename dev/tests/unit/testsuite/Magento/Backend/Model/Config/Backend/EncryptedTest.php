@@ -25,7 +25,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $eventDispatcherMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
+        $eventDispatcherMock = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
         $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
         $contextMock->expects(
             $this->any()
@@ -52,7 +52,13 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
         );
         $this->_configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_encryptorMock = $this->getMock('Magento\Encryption\EncryptorInterface', array(), array(), '', false);
+        $this->_encryptorMock = $this->getMock(
+            'Magento\Framework\Encryption\EncryptorInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = $helper->getObject(
             'Magento\Backend\Model\Config\Backend\Encrypted',
             array(

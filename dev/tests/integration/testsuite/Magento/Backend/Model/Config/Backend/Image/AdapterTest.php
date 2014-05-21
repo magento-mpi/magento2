@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,6 +39,6 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectSave()
     {
-        $this->_model->setValue(\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2)->save();
+        $this->_model->setValue(\Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_GD2)->save();
     }
 }

@@ -96,7 +96,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'getItemBackorders',
             '__wakeup'
         );
-        $this->resultMock = $this->getMock('Magento\Object', $resultMethods, array(), '', false);
+        $this->resultMock = $this->getMock('Magento\Framework\Object', $resultMethods, array(), '', false);
         $this->validator = new \Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option(
             $this->qtyItemListMock
         );

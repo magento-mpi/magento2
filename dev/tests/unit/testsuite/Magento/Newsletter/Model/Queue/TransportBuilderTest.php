@@ -7,7 +7,7 @@
  */
 namespace Magento\Newsletter\Model\Queue;
 
-class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
+class TransportBuilderTest extends \Magento\Framework\Mail\Template\TransportBuilderTest
 {
     /**
      * @var string
@@ -28,7 +28,7 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
      */
     public function testGetTransport(
         $templateType = \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML,
-        $messageType = \Magento\Mail\Message::TYPE_HTML,
+        $messageType = \Magento\Framework\Mail\Message::TYPE_HTML,
         $bodyText = '<h1>Html message</h1>'
     ) {
         $data = array(
@@ -92,24 +92,24 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
             $this->returnSelf()
         );
 
-        $transport = $this->getMock('\Magento\Mail\TransportInterface');
+        $transport = $this->getMock('\Magento\Framework\Mail\TransportInterface');
 
         $this->_mailTransportFactoryMock->expects(
             $this->at(0)
         )->method(
-                'create'
-            )->with(
-                $this->equalTo(array('message' => $this->messageMock))
-            )->will(
-                $this->returnValue($transport)
-            );
+            'create'
+        )->with(
+            $this->equalTo(array('message' => $this->messageMock))
+        )->will(
+            $this->returnValue($transport)
+        );
 
         $this->objectManagerMock->expects(
             $this->at(0)
         )->method(
             'create'
         )->with(
-            $this->equalTo('Magento\Mail\Message')
+            $this->equalTo('Magento\Framework\Mail\Message')
         )->will(
             $this->returnValue($transport)
         );
@@ -126,6 +126,6 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
 
         $result = $this->builder->getTransport();
 
-        $this->assertInstanceOf('Magento\Mail\TransportInterface', $result);
+        $this->assertInstanceOf('Magento\Framework\Mail\TransportInterface', $result);
     }
 }

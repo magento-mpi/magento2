@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Catalog\Test\Fixture\Category;
  * Class CreateTest
  * Create category test
  *
- * @package Magento\Catalog\Test\TestCase\Category
  */
 class CreateTest extends Functional
 {
@@ -40,7 +36,7 @@ class CreateTest extends Functional
         $treeBlockEdit = $catalogCategoryEditPage->getTreeBlock();
         $formBlock = $catalogCategoryEditPage->getFormBlock();
         $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
-        $messageBlock = $catalogCategoryEditPage->getMessageBlock();
+        $messagesBlock = $catalogCategoryEditPage->getMessagesBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
@@ -49,7 +45,7 @@ class CreateTest extends Functional
         $formBlock->fill($category);
         $actionsBlock->save();
         //Verifying
-        $messageBlock->assertSuccessMessage();
+        $messagesBlock->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

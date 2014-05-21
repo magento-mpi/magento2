@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Model\Config\Source\Cart;
 
-class Summary implements \Magento\Option\ArrayInterface
+class Summary implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

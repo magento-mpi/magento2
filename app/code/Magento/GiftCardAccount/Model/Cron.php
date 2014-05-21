@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,17 +15,17 @@ class Cron
     protected $_giftCAFactory = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate = null;
 
     /**
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      */
     public function __construct(
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Stdlib\DateTime\DateTime $coreDate
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_coreDate = $coreDate;

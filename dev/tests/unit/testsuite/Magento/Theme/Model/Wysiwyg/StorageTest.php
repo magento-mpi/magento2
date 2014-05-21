@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +29,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_helperStorage;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -41,7 +39,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_storageModel;
 
     /**
-     * @var \Magento\Image\AdapterFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Image\AdapterFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageFactory;
 
@@ -54,8 +52,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $this->_imageFactory = $this->getMock('Magento\Image\AdapterFactory', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
+        $this->_imageFactory = $this->getMock('Magento\Framework\Image\AdapterFactory', array(), array(), '', false);
         $this->directoryWrite = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
             array(),
@@ -117,7 +115,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         /** Prepare image */
 
-        $image = $this->getMock('Magento\Image\Adapter\Gd2', array(), array(), '', false);
+        $image = $this->getMock('Magento\Framework\Image\Adapter\Gd2', array(), array(), '', false);
 
         $image->expects($this->once())->method('open')->will($this->returnValue(true));
 

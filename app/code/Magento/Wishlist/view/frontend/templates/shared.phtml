@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,19 +36,26 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                                     <?php echo $this->escapeHtml($product->getName()) ?>
                                 </a>
                             </strong>
-                            <?php echo $this->getPriceHtml($product) ?>
+                            <?php
+                                echo $this->getProductPriceHtml(
+                                    $product,
+                                    \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
+                                    \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
+                                    ['item' => $item]
+                                );
+                            ?>
                             <?php echo $this->getDetailsHtml($item) ?>
                         </td>
                         <td class="col comment"><?php echo $this->getEscapedDescription($item) ?></td>
                         <td class="col actions" data-role="add-to-links">
                             <?php if ($product->isSaleable()): ?>
                                 <?php if ($isVisibleProduct): ?>
-                                    <button type="button" title="<?php echo __('Add to Cart') ?>" onclick="setLocation('<?php echo $this->getSharedItemAddToCartUrl($item) ?>')" class="action tocart">
+                                    <button type="button" title="<?php echo __('Add to Cart') ?>" onclick="location.assign('<?php echo $this->getSharedItemAddToCartUrl($item) ?>')" class="action tocart">
                                         <span><?php echo __('Add to Cart') ?></span>
                                     </button>
                                 <?php endif ?>
                             <?php endif; ?>
-                            <a href="#" data-post='<?php echo $this->getAddToWishlistParams($item); ?>'  onclick="setLocation(this.href); return false;" class="action towishlist" data-action="add-to-wishlist">
+                            <a href="#" data-post='<?php echo $this->getAddToWishlistParams($item); ?>'  onclick="location.assign(this.href); return false;" class="action towishlist" data-action="add-to-wishlist">
                                 <span><?php echo __('Add to Wishlist') ?></span>
                             </a>
                         </td>
@@ -62,7 +68,10 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
         <div class="actions toolbar">
             <?php if($this->isSaleable()):?>
                 <div class="primary">
-                    <button type="button" title="<?php echo __('Add All to Cart') ?>" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="action tocart">
+                    <button type="button" 
+                            title="<?php echo __('Add All to Cart') ?>" 
+                            onclick="location.assign('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')"
+                            class="action tocart primary">
                         <span><?php echo __('Add All to Cart') ?></span>
                     </button>
                 </div>

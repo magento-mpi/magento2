@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -59,8 +58,6 @@
 </div>
 <?php if ($_giftMessage): ?>
     <script type="text/javascript">
-        head.js("<?php echo $this->getViewFileUrl('Magento_Sales::gift-message.js')?>", function() {
-            jQuery('a.action.show').add('a.action.close').giftMessage();
-        });
+        jQuery('a.action.show').add('a.action.close').mage('giftMessage', {});
     </script>
 <?php endif; ?>

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Data
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,7 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
     {
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $testHelper->getObject('Magento\Framework\Data\Form\Element\Editablemultiselect');
-        $this->_model->setForm(new \Magento\Object());
+        $this->_model->setForm(new \Magento\Framework\Object());
     }
 
     /**

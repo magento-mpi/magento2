@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,13 +20,13 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filter;
 
     protected function setUp()
     {
-        $this->filter = $this->getMock('Magento\Filter\FilterManager', ['translitUrl'], [], '', false);
+        $this->filter = $this->getMock('Magento\Framework\Filter\FilterManager', ['translitUrl'], [], '', false);
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $this->objectManager->getObject('Magento\Catalog\Model\Category', ['filter' => $this->filter]);
     }
@@ -44,9 +41,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities($expected, $origData, $data, $isDeleted = false)
     {
         if (is_array($origData)) {
-            foreach ($origData as $key => $value) {
-                $this->model->setOrigData($key, $value);
-            }
+            $this->model->setData($origData);
+            $this->model->setOrigData();
         }
         $this->model->setData($data);
         $this->model->isDeleted($isDeleted);
@@ -60,7 +56,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('catalog_category_1'),
+                array('catalog_category_1', 'catalog_category_product_1'),
                 array('id' => 1, 'name' => 'value'),
                 array('id' => 1, 'name' => 'value')
             ),

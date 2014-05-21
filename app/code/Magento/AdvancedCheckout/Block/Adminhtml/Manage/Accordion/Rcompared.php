@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 /**
  * Accordion grid for Recently compared products
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Rcompared extends AbstractAccordion
@@ -54,7 +50,7 @@ class Rcompared extends AbstractAccordion
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
@@ -68,7 +64,7 @@ class Rcompared extends AbstractAccordion
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Reports\Model\Resource\Event $reportsEventResource,
         \Magento\Sales\Helper\Admin $adminhtmlSales,

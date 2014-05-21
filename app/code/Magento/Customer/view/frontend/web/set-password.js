@@ -1,14 +1,15 @@
 /**
  * {license_notice}
  *
- * @category    mage customer view
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
 (function ($) {
     $.widget('mage.setPassword', {
+        options: {
+        },
+
         _create: function() {
             this.element.on('change', $.proxy(function(event) {
                 $(event.target).is(':checked') ? this._showPassword() : this._hidePassword();

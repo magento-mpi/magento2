@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -34,7 +32,7 @@ class Factory
     );
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -54,13 +52,13 @@ class Factory
     protected $filesystem;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\Config\FileIteratorFactory $fileIteratorFactory,
         \Magento\Framework\App\Filesystem $filesystem
@@ -77,12 +75,12 @@ class Factory
      * @param string $type
      * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _getFilePathByType($type, $theme)
     {
         if (!isset($this->_fileNames[$type])) {
-            throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
+            throw new \Magento\Framework\Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->assetRepo->createAsset(
             $this->_fileNames[$type],
@@ -99,7 +97,7 @@ class Factory
      * @param \Magento\Framework\View\Design\ThemeInterface $parentTheme
      * @param string[] $files
      * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function create(
         $type,
@@ -116,7 +114,7 @@ class Factory
                 $class = 'Magento\DesignEditor\Model\Config\Control\ImageSizing';
                 break;
             default:
-                throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
+                throw new \Magento\Framework\Exception("Unknown control configuration type: \"{$type}\"");
         }
         $rootDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $paths = array();

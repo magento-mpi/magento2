@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml account controller
  *
- * @category    Magento
- * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config\System;
@@ -75,7 +71,7 @@ class Storage extends \Magento\Backend\App\Action
         try {
             $this->_getSyncSingleton()->synchronize($storage);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $flag->passError($e);
         }
 
@@ -137,9 +133,9 @@ class Storage extends \Magento\Backend\App\Action
                         ) && $flagData['timeout_reached'])
                         ) {
                             $this->_objectManager->get(
-                                'Magento\Logger'
+                                'Magento\Framework\Logger'
                             )->logException(
-                                new \Magento\Exception(
+                                new \Magento\Framework\Exception(
                                     __('The timeout limit for response from synchronize process was reached.')
                                 )
                             );

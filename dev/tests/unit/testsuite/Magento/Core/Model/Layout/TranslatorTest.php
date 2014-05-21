@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,7 +45,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
 </layout>
 XML;
 
-        $this->_xmlDocument = simplexml_load_string($string, 'Magento\Simplexml\Element');
+        $this->_xmlDocument = simplexml_load_string($string, 'Magento\Framework\Simplexml\Element');
 
         $this->_object = new \Magento\Core\Model\Layout\Translator();
     }

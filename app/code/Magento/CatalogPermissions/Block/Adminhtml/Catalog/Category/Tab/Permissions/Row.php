@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,12 @@
 /**
  * Adminhtml permissions row block
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\Store\Model\Resource\Website\Collection as WebsiteCollection;
 use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;

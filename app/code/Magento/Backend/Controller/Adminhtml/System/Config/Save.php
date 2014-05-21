@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Backend\Controller\Adminhtml\System\AbstractConfig;
 /**
  * System Configuration Save Controller
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -29,12 +25,12 @@ class Save extends AbstractConfig
     protected $_configFactory;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -42,15 +38,15 @@ class Save extends AbstractConfig
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Backend\Model\Config\Factory $configFactory
-     * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Model\Config\Factory $configFactory,
-        \Magento\Cache\FrontendInterface $cache,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Cache\FrontendInterface $cache,
+        \Magento\Framework\Stdlib\String $string
     ) {
         parent::__construct($context, $configStructure);
         $this->_configFactory = $configFactory;

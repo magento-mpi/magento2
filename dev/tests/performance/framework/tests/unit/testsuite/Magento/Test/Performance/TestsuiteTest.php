@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Test\Performance;
 /**
  * Class TestsuiteTest
  *
- * @package Magento\Test\Performance
  */
 class TestsuiteTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,7 +56,7 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
         $this->_fixtureDir = __DIR__ . '/_files';
         $fixtureConfigData = include $this->_fixtureDir . '/config_data.php';
 
-        $shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
         $this->_config = new \Magento\TestFramework\Performance\Config(
             $fixtureConfigData,
             $this->_fixtureDir,

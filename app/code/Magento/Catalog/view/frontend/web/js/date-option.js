@@ -1,14 +1,15 @@
 /**
  * {license_notice}
  *
- * @category    mage date option
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
 (function($) {
     $.widget('mage.dateOption', {
+        options: {
+        },
+
         _create: function() {
             $(this.options.datepickerFieldSelector)
                 .on('change', $.proxy(function() {this.element.trigger('reloadPrice');}, this));

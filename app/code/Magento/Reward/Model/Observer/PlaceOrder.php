@@ -7,7 +7,7 @@
  */
 namespace Magento\Reward\Model\Observer;
 
-use Magento\Event\Observer;
+use Magento\Framework\Event\Observer;
 
 class PlaceOrder
 {

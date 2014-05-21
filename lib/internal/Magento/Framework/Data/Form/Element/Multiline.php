@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +13,7 @@
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 class Multiline extends AbstractElement
 {

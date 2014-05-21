@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -103,7 +100,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         );
 
         // \Magento\Customer\Model\Session
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->_objectManager->expects(
             $this->any()
         )->method(
@@ -248,7 +245,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $sessionArgs = $helper->getConstructArguments(
             'Magento\Customer\Model\Session',
-            array('storage' => new \Magento\Session\Storage())
+            array('storage' => new \Magento\Framework\Session\Storage())
         );
         $session = $this->getMock(
             'Magento\Customer\Model\Session',

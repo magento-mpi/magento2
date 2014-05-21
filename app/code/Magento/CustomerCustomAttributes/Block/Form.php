@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerCustomAttributes\Block;
 /**
  * Customer Dynamic attributes Form Block
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\CustomAttributeManagement\Block\Form
@@ -94,5 +90,22 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
     public function getChangePassword()
     {
         return $this->_customerSession->getChangePassword();
+    }
+
+    /**
+     * Return Entity object
+     *
+     * @return \Magento\Framework\Model\AbstractModel
+     */
+    public function getEntity()
+    {
+        if (is_null($this->_entity) && $this->_entityModelClass) {
+            $this->_entity = $this->_modelFactory->create($this->_entityModelClass);
+            $entityId = $this->_customerSession->getCustomerId();
+            if ($entityId) {
+                $this->_entity->load($entityId);
+            }
+        }
+        return $this->_entity;
     }
 }

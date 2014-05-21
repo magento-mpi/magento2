@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Downloader\Model;
 
 
-include_once "Magento/Connect.php";
+include_once "Magento/Framework/Connect.php";
 /**
  * Class for initialize Magento_Connect lib
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Connect extends \Magento\Downloader\Model
@@ -380,7 +376,7 @@ class Connect extends \Magento\Downloader\Model
 
             $confFile = $configObj->downloader_path . '/' . $configTestFile;
             try {
-                $ftpObj = new \Magento\Connect\Ftp();
+                $ftpObj = new \Magento\Framework\Connect\Ftp();
                 $ftpObj->connect($p['ftp']);
                 $tempFile = tempnam(sys_get_temp_dir(), 'config');
                 $serial = md5('config test file');

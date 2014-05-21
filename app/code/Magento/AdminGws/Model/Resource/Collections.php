@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Collections limiter resource model
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdminGws\Model\Resource;

@@ -17,7 +17,7 @@ class Factory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -35,9 +35,9 @@ class Factory
     /**
      * Constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -47,12 +47,14 @@ class Factory
      *
      * @param ThemeInterface $theme
      * @return mixed
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function create(ThemeInterface $theme)
     {
         if (!isset($this->_types[$theme->getType()])) {
-            throw new \Magento\Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
+            throw new \Magento\Framework\Exception(
+                sprintf('Invalid type of theme domain model "%s"', $theme->getType())
+            );
         }
         $class = $this->_types[$theme->getType()];
         return $this->_objectManager->create($class, array('theme' => $theme));

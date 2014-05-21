@@ -36,11 +36,11 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return void
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         $captureTxnId = $this->_getParentTransactionId($payment);
         if ($captureTxnId) {
@@ -63,10 +63,10 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Get payflow transaction id from parent transaction
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(\Magento\Object $payment)
+    protected function _getParentTransactionId(\Magento\Framework\Object $payment)
     {
         if ($payment->getParentTransactionId()) {
             return $payment->getTransaction(

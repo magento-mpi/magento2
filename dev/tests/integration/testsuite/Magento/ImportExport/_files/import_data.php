@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -118,5 +115,5 @@ foreach ($bunches as $bunch) {
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Registry')->unregister('_fixture/Magento_ImportExport_Import_Data');
-$objectManager->get('Magento\Registry')->register('_fixture/Magento_ImportExport_Import_Data', $bunches);
+$objectManager->get('Magento\Framework\Registry')->unregister('_fixture/Magento_ImportExport_Import_Data');
+$objectManager->get('Magento\Framework\Registry')->register('_fixture/Magento_ImportExport_Import_Data', $bunches);

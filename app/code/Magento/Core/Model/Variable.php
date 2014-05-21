@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ namespace Magento\Core\Model;
  * @method string getName()
  * @method \Magento\Core\Model\Variable setName(string $value)
  *
- * @category    Magento
- * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Variable extends \Magento\Framework\Model\AbstractModel
@@ -35,22 +31,22 @@ class Variable extends \Magento\Framework\Model\AbstractModel
     protected $_storeId = 0;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper = null;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Core\Model\Resource\Variable $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Core\Model\Resource\Variable $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

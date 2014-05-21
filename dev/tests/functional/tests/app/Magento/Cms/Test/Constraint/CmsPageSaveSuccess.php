@@ -16,7 +16,6 @@ use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
 /**
  * Class CmsPageSaveSuccess
  *
- * @package Magento\Backend\Test\Constraint
  */
 class CmsPageSaveSuccess extends AbstractConstraint
 {
@@ -35,7 +34,7 @@ class CmsPageSaveSuccess extends AbstractConstraint
      */
     public function processAssert(CmsPageGrid $cmsPageGrid, CmsPage $cmsPage, CmsPageFixture $cmsPageFixture)
     {
-        $message = $cmsPageGrid->getMessageBlock();
+        $message = $cmsPageGrid->getMessagesBlock();
         $result = $message->assertSuccessMessage();
         if ($result) {
             // Find Page in grid

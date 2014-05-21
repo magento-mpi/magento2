@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Backend\App\Action;
 /**
  * Adminhtml account controller
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Account extends Action
@@ -57,16 +53,12 @@ class Account extends Action
         )->setEmail(
             strtolower($this->getRequest()->getParam('email', false))
         );
-
         if ($password !== '') {
             $user->setPassword($password);
-        }
-        if ($passwordConfirmation !== '') {
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        if ($this->_objectManager->get('Magento\Locale\Validator')->isValid($interfaceLocale)) {
-
+        if ($this->_objectManager->get('Magento\Framework\Locale\Validator')->isValid($interfaceLocale)) {
             $user->setInterfaceLocale($interfaceLocale);
             $this->_objectManager->get(
                 'Magento\Backend\Model\Locale\Manager'

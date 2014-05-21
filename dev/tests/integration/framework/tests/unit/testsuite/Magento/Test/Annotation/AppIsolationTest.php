@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -52,7 +49,7 @@ class AppIsolationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation invalid
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testEndTestIsolationInvalid()
     {
@@ -62,7 +59,7 @@ class AppIsolationTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoAppIsolation disabled
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testEndTestIsolationAmbiguous()
     {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -114,14 +112,14 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Totals
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_varTotals;
 
     /**
      * RSS list
      *
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected $_rssLists = array();
 
@@ -697,7 +695,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve rss lists types
      *
-     * @return \Magento\Object[]|false
+     * @return \Magento\Framework\Object[]|false
      */
     public function getRssLists()
     {
@@ -713,7 +711,7 @@ class Grid extends \Magento\Backend\Block\Widget
      */
     public function addRssList($url, $label)
     {
-        $this->_rssLists[] = new \Magento\Object(
+        $this->_rssLists[] = new \Magento\Framework\Object(
             array('url' => $this->getUrl($url, array('_nosecret' => true)), 'label' => $label)
         );
         return $this;
@@ -835,10 +833,10 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Set totals
      *
-     * @param \Magento\Object $totals
+     * @param \Magento\Framework\Object $totals
      * @return void
      */
-    public function setTotals(\Magento\Object $totals)
+    public function setTotals(\Magento\Framework\Object $totals)
     {
         $this->_varTotals = $totals;
     }
@@ -846,7 +844,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve totals
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {

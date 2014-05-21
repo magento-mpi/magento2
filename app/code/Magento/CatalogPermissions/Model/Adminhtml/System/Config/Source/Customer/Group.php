@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,12 @@
 /**
  * Configuration source for customer group multiselect
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Customer;
 
 use Magento\Customer\Model\Resource\Group\CollectionFactory;
 
-class Group implements \Magento\Option\ArrayInterface
+class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

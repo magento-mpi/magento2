@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Bundle\Model\Resource;
 /**
  * Bundle Option Resource Model
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -46,7 +42,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
 
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setOptionId($object->getId())->setStoreId($object->getStoreId())->setTitle($object->getTitle());
 
         $write->insert($this->getTable('catalog_product_bundle_option_value'), $data->getData());

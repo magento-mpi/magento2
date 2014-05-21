@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Tax\Model\System\Config\Source;
 
-class PriceType implements \Magento\Option\ArrayInterface
+class PriceType implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

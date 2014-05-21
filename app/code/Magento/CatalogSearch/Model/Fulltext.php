@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\CatalogSearch\Model;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\Framework\Model\Context;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Data\Collection\Db;
 
@@ -28,8 +26,6 @@ use Magento\Framework\Data\Collection\Db;
  * @method string getDataIndex()
  * @method \Magento\CatalogSearch\Model\Fulltext setDataIndex(string $value)
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Fulltext extends \Magento\Framework\Model\AbstractModel

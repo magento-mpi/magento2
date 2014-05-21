@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,7 @@ class Profiler
     /**
      * Profiler driver instance
      *
-     * @var \Magento\Profiler\Driver\Standard
+     * @var \Magento\Framework\Profiler\Driver\Standard
      */
     protected $_driver;
 
@@ -33,9 +30,9 @@ class Profiler
     /**
      * Constructor
      *
-     * @param \Magento\Profiler\Driver\Standard $driver
+     * @param \Magento\Framework\Profiler\Driver\Standard $driver
      */
-    public function __construct(\Magento\Profiler\Driver\Standard $driver)
+    public function __construct(\Magento\Framework\Profiler\Driver\Standard $driver)
     {
         $this->_driver = $driver;
     }
@@ -47,7 +44,7 @@ class Profiler
     {
         if (!$this->_isDriverRegistered) {
             $this->_isDriverRegistered = true;
-            \Magento\Profiler::add($this->_driver);
+            \Magento\Framework\Profiler::add($this->_driver);
         }
     }
 
@@ -60,7 +57,7 @@ class Profiler
     {
         $this->_registerDriver();
         $this->_driver->registerOutput(
-            new \Magento\Profiler\Driver\Standard\Output\Csvfile(array('filePath' => $profilerOutputFile))
+            new \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile(array('filePath' => $profilerOutputFile))
         );
     }
 

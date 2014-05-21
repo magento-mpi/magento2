@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +36,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
-        $this->logger = $this->getMockBuilder('Magento\Logger')
+        $this->logger = $this->getMockBuilder('Magento\Framework\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -125,7 +122,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
     public function testFormat()
     {
         $amount = 5.6;
-        $precision = \Magento\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION;
+        $precision = \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION;
         $includeContainer = false;
         $store = null;
         $formattedAmount = '5.6 grn';
@@ -148,7 +145,7 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
     public function testConvertAndFormat()
     {
         $amount = 5.6;
-        $precision = \Magento\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION;
+        $precision = \Magento\Framework\Pricing\PriceCurrencyInterface::DEFAULT_PRECISION;
         $includeContainer = false;
         $store = null;
         $convertedAmount = 9.3;

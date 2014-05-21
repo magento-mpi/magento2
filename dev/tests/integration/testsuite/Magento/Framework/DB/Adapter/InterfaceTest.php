@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +36,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Module\Setup',
+            'Magento\Framework\Module\Setup',
             array(
                 'resourceName' => 'core_setup',
                 'moduleName' => 'Magento_Core'

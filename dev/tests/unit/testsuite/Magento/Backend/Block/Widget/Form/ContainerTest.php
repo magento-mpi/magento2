@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +11,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetDataObject()
     {
-        $form = new \Magento\Object();
-        $dataObject = new \Magento\Object();
+        $form = new \Magento\Framework\Object();
+        $dataObject = new \Magento\Framework\Object();
 
         // _prepateLayout() is blocked, because it is used by block to instantly add 'form' child
         $block = $this->getMock(

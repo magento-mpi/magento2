@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Catalog\Model\Config\Source;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category implements \Magento\Option\ArrayInterface
+class Category implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Category collection factory

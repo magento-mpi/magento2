@@ -25,7 +25,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Block\Template\Context */
     private $_context;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     private $_objectManager;
 
     public function setUp()

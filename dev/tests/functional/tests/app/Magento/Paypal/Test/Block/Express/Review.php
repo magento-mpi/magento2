@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,16 +11,15 @@ namespace Magento\Paypal\Test\Block\Express;
 use Mtf\Block\Form;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\DataFixture;
 use Magento\Paypal\Test\Block\Express;
 use Magento\Checkout\Test\Fixture\Checkout;
 use Magento\Shipping\Test\Fixture\Method;
-use Magento\Customer\Test\Fixture\Address;
 
 /**
  * Class Review
  * Paypal Express Onepage checkout block
  *
- * @package Magento\Paypal\Test\Block\Express
  */
 class Review extends Form
 {
@@ -94,8 +90,8 @@ class Review extends Form
      */
     public function verifyOrderInformation(Checkout $fixture)
     {
-        $this->getBillingBlock()->verify($fixture->getBillingAddress());
-        $this->getShippingBlock()->verify($fixture->getShippingAddress());
+        return $this->verifyForm($fixture->getBillingAddress(), $this->getBillingBlock())
+            && $this->verifyForm($fixture->getShippingAddress(), $this->getShippingBlock());
     }
 
     /**
@@ -136,5 +132,23 @@ class Review extends Form
     {
         $this->waitForElementNotVisible($this->placeOrder . ':disabled');
         $this->_rootElement->find($this->placeOrder, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Verify that fixture is equals data on form
+     *
+     * @param DataFixture $fixture
+     * @param Form $form
+     * @return bool
+     */
+    protected function verifyForm(DataFixture $fixture, Form $form)
+    {
+        $fixtureData = [];
+        foreach ($fixture->getData()['fields'] as $key => $field) {
+            $fixtureData[$key] = $field['value'];
+        }
+        $dataDiff = array_diff($fixtureData, $form->getData($fixture));
+
+        return empty($dataDiff);
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,16 +16,16 @@ class TotalFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Quote address factory constructor
      *
-     * @param \Magento\ObjectManager $objManager
+     * @param \Magento\Framework\ObjectManager $objManager
      */
-    public function __construct(\Magento\ObjectManager $objManager)
+    public function __construct(\Magento\Framework\ObjectManager $objManager)
     {
         $this->_objectManager = $objManager;
     }

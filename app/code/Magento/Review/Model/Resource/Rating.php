@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Review\Model\Resource;
 /**
  * Rating resource model
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rating extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -35,20 +31,20 @@ class Rating extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_ratingData = null;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Review\Helper\Data $ratingData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Review\Helper\Data $ratingData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Resource\Review\Summary $reviewSummary

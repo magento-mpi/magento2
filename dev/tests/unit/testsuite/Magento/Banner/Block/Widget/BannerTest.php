@@ -60,8 +60,8 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $filterProviderMock = $this->getMock('Magento\Cms\Model\Template\FilterProvider', array(), array(), '', false);
         $filterProviderMock->expects($this->any())->method('getPageFilter')->will($this->returnValue($pageFilterMock));
 
-        $currentStore = new \Magento\Object(array('id' => 42));
-        $currentWebsite = new \Magento\Object(array('id' => 57));
+        $currentStore = new \Magento\Framework\Object(array('id' => 42));
+        $currentWebsite = new \Magento\Framework\Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
             'Magento\Store\Model\StoreManagerInterface',
             array(),
@@ -166,7 +166,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             array('display_mode' => \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_DISPLAY_SALESRULE)
         );
 
-        $quote = new \Magento\Object(array('applied_rule_ids' => '15,11,12'));
+        $quote = new \Magento\Framework\Object(array('applied_rule_ids' => '15,11,12'));
         $this->_checkoutSession->expects($this->once())->method('getQuoteId')->will($this->returnValue(8000));
         $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
 

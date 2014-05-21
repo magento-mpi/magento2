@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +25,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionMock;
 
@@ -43,7 +40,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerFactoryMock;
 
     /**
-     * @var \Magento\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
 
@@ -63,7 +60,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $moduleManagerMock;
 
@@ -79,8 +76,9 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
         $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
-        $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
-        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
+        $this->customerSessionMock = $this->getMock(
+            'Magento\Customer\Model\Session',
             array('getCustomerSegmentIds', 'setCustomerSegmentIds'),
             array(),
             '',

@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\View\File;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**
@@ -39,17 +39,14 @@ class Factory
      * @param string $filename
      * @param string $module
      * @param ThemeInterface|null $theme
+     * @param bool $isBase
      * @return \Magento\Framework\View\File
      */
-    public function create($filename, $module = '', ThemeInterface $theme = null)
+    public function create($filename, $module = '', ThemeInterface $theme = null, $isBase = false)
     {
         return $this->objectManager->create(
             'Magento\Framework\View\File',
-            array(
-                'filename' => $filename,
-                'module' => $module,
-                'theme' => $theme,
-            )
+            array('filename' => $filename, 'module' => $module, 'theme' => $theme, 'isBase' => $isBase)
         );
     }
 }

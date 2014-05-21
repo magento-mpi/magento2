@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,12 +17,12 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Backup\Factory
+     * @var \Magento\Framework\Backup\Factory
      */
     protected $_backupFactory;
 
@@ -39,23 +37,31 @@ class Index extends \Magento\Backend\App\Action
     protected $_backupModelFactory;
 
     /**
+     * @var \Magento\Framework\App\State\MaintenanceMode
+     */
+    protected $maintenanceMode;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Backup\Factory $backupFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Backup\Factory $backupFactory
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Backup\Model\BackupFactory $backupModelFactory
+     * @param \Magento\Framework\App\State\MaintenanceMode $maintenanceMode
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Backup\Factory $backupFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Backup\Factory $backupFactory,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Backup\Model\BackupFactory $backupModelFactory
+        \Magento\Backup\Model\BackupFactory $backupModelFactory,
+        \Magento\Framework\App\State\MaintenanceMode $maintenanceMode
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_backupFactory = $backupFactory;
         $this->_fileFactory = $fileFactory;
         $this->_backupModelFactory = $backupModelFactory;
+        $this->maintenanceMode = $maintenanceMode;
         parent::__construct($context);
     }
 
@@ -104,7 +110,7 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('*/*/index');
         }
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
 
         /**
          * @var \Magento\Backup\Helper\Data $helper
@@ -114,11 +120,11 @@ class Index extends \Magento\Backend\App\Action
         try {
             $type = $this->getRequest()->getParam('type');
 
-            if ($type == \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT && $this->getRequest()->getParam(
+            if ($type == \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT && $this->getRequest()->getParam(
                 'exclude_media'
             )
             ) {
-                $type = \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA;
+                $type = \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 
             $backupManager = $this->_backupFactory->create(
@@ -136,9 +142,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
-                $turnedOn = $helper->turnOnMaintenanceMode();
-
-                if (!$turnedOn) {
+                if (!$this->maintenanceMode->turnOn()) {
                     $response->setError(
                         __(
                             'You need more permissions to activate maintenance mode right now.'
@@ -157,7 +161,7 @@ class Index extends \Magento\Backend\App\Action
                 }
             }
 
-            if ($type != \Magento\Backup\Factory::TYPE_DB) {
+            if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(
                     $this->_objectManager->get('Magento\Framework\App\Filesystem')->getPath()
                 )->addIgnorePaths(
@@ -172,13 +176,13 @@ class Index extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess($successMessage);
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
-        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
-        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughPermissions $e) {
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMessage = __('You need more permissions to create a backup.');
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMessage = __('Something went wrong creating the backup.');
         }
 
@@ -188,7 +192,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         if ($this->getRequest()->getParam('maintenance_mode')) {
-            $helper->turnOffMaintenanceMode();
+            $this->maintenanceMode->turnOff();
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -243,7 +247,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
 
         try {
             /* @var $backup \Magento\Backup\Model\Backup */
@@ -257,7 +261,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             if (!$backup->getTime()) {
-                throw new \Magento\Backup\Exception\CantLoadSnapshot();
+                throw new \Magento\Framework\Backup\Exception\CantLoadSnapshot();
             }
 
             $type = $backup->getType();
@@ -292,9 +296,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
-                $turnedOn = $helper->turnOnMaintenanceMode();
-
-                if (!$turnedOn) {
+                if (!$this->maintenanceMode->turnOn()) {
                     $response->setError(
                         __(
                             'You need more permissions to activate maintenance mode right now.'
@@ -313,7 +315,7 @@ class Index extends \Magento\Backend\App\Action
                 }
             }
 
-            if ($type != \Magento\Backup\Factory::TYPE_DB) {
+            if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
 
                 $backupManager->setRootDir(
                     $this->_objectManager->get('Magento\Framework\App\Filesystem')->getPath()
@@ -339,17 +341,17 @@ class Index extends \Magento\Backend\App\Action
             $adminSession->destroy();
 
             $response->setRedirectUrl($this->getUrl('*'));
-        } catch (\Magento\Backup\Exception\CantLoadSnapshot $e) {
+        } catch (\Magento\Framework\Backup\Exception\CantLoadSnapshot $e) {
             $errorMsg = __('The backup file was not found.');
-        } catch (\Magento\Backup\Exception\FtpConnectionFailed $e) {
+        } catch (\Magento\Framework\Backup\Exception\FtpConnectionFailed $e) {
             $errorMsg = __('We couldn\'t connect to the FTP.');
-        } catch (\Magento\Backup\Exception\FtpValidationFailed $e) {
+        } catch (\Magento\Framework\Backup\Exception\FtpValidationFailed $e) {
             $errorMsg = __('Failed to validate FTP');
-        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughPermissions $e) {
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMsg = __('Not enough permissions to perform rollback.');
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
+            $this->_objectManager->get('Magento\Framework\Logger')->log($e->getMessage());
             $errorMsg = __('Failed to rollback');
         }
 
@@ -359,7 +361,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         if ($this->getRequest()->getParam('maintenance_mode')) {
-            $helper->turnOffMaintenanceMode();
+            $this->maintenanceMode->turnOff();
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -378,7 +380,7 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('backup/*/index');
         }
 
-        $resultData = new \Magento\Object();
+        $resultData = new \Magento\Framework\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
         $this->_coreRegistry->register('backup_manager', $resultData);

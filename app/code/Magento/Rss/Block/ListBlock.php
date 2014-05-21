@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rss
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -91,7 +89,7 @@ class ListBlock extends \Magento\Framework\View\Element\Template
         if ($customerGroup) {
             $param = array_merge($param, array('cid' => $this->getCurrentCustomerGroupId()));
         }
-        $this->_rssFeeds[] = new \Magento\Object(
+        $this->_rssFeeds[] = new \Magento\Framework\Object(
             array('url' => $this->_urlBuilder->getUrl($url, $param), 'label' => $label)
         );
         return $this;

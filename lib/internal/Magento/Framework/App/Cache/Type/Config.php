@@ -11,7 +11,10 @@
  */
 namespace Magento\Framework\App\Cache\Type;
 
-class Config extends \Magento\Cache\Frontend\Decorator\TagScope implements \Magento\Framework\Config\CacheInterface
+use Magento\Framework\Cache\Frontend\Decorator\TagScope;
+use Magento\Framework\Config\CacheInterface;
+
+class Config extends TagScope implements CacheInterface
 {
     /**
      * Cache type code unique among all cache types

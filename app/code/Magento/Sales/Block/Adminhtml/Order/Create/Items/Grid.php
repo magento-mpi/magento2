@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Items;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Sales\Model\Quote\Item;
-use Magento\Session\SessionManagerInterface;
+use Magento\Framework\Session\SessionManagerInterface;
 
 /**
  * Adminhtml sales order create items grid block
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -320,13 +316,15 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getQtyTitle($item)
     {
-        $prices = $item->getProduct()->getTierPrice();
+        $prices = $item->getProduct()
+            ->getPriceInfo()
+            ->getPrice(\Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE)
+            ->getTierPriceList();
         if ($prices) {
             $info = array();
             foreach ($prices as $data) {
-                $qty = $data['price_qty'] * 1;
                 $price = $this->convertPrice($data['price']);
-                $info[] = __('Buy %1 for price %2', $qty, $price);
+                $info[] = __('Buy %1 for price %2', $data['price_qty'], $price);
             }
             return implode(', ', $info);
         } else {

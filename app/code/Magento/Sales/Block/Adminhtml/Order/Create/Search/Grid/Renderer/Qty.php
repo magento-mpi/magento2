@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer;
 /**
  * Renderer for Qty field in sales create new order search grid
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
@@ -42,7 +38,7 @@ class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
     /**
      * Returns whether this qty field must be inactive
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return bool
      */
     protected function _isInactive($row)
@@ -53,10 +49,10 @@ class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
     /**
      * Render product qty field
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         // Prepare values
         $disabled = '';

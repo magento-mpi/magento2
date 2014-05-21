@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Shipping\Model\Source;
 
-class HandlingType implements \Magento\Option\ArrayInterface
+class HandlingType implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

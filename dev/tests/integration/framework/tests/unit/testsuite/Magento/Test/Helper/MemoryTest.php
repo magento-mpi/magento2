@@ -16,7 +16,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
     }
 
     public function testGetRealMemoryUsageUnix()
@@ -29,7 +29,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringStartsWith('tasklist.exe ')
         )->will(
-            $this->throwException(new \Magento\Exception('command not found'))
+            $this->throwException(new \Magento\Framework\Exception('command not found'))
         );
         $this->_shell->expects(
             $this->at(1)

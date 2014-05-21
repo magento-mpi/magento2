@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Source for email send method
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Source\Email;
 
-class Method implements \Magento\Option\ArrayInterface
+class Method implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

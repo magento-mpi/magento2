@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -100,7 +98,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Get tax rate information: calculation process data and tax rate
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return array
      */
     public function getRateInfo($request)
@@ -115,7 +113,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Get tax rate for specific tax rate request
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return int
      */
     public function getRate($request)
@@ -126,7 +124,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Retrieve Calculation Process
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @param array|null $rates
      * @return array
      */
@@ -236,7 +234,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Returns tax rates for request - either pereforms SELECT from DB, or returns already cached result
      * Notice that productClassId due to optimization can be array of ids
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return array
      */
     protected function _getRates($request)
@@ -414,7 +412,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Retrieve rate ids
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return array
      */
     public function getRateIds($request)
@@ -474,7 +472,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $result = array();
         foreach ($CSP as $one) {
-            $request = new \Magento\Object();
+            $request = new \Magento\Framework\Object();
             $request->setCountryId(
                 $one['country']
             )->setRegionId(

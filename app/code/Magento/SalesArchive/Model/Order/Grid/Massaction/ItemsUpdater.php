@@ -15,19 +15,19 @@ class ItemsUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInt
     protected $_salesArchiveConfig;
 
     /**
-     * @var \Magento\AuthorizationInterface $_authModel
+     * @var \Magento\Framework\AuthorizationInterface $_authModel
      */
     protected $_authorizationModel;
 
     /**
      * @param \Magento\SalesArchive\Model\Config $config
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         \Magento\SalesArchive\Model\Config $config,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         $data = array()
     ) {
         $this->_salesArchiveConfig = $config;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,12 +9,10 @@
 /**
  * Invitation status option source
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class Options implements \Magento\Option\ArrayInterface
+class Options implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Invitation Status

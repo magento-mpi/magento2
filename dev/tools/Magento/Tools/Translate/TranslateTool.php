@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -21,9 +19,9 @@ class TranslateTool
     private static $opts;
 
     /**
-     * Object of \Magento\File\Csv\multy
+     * Object of \Magento\Framework\File\Csv\multy
      *
-     * @var \Magento\File\CsvMulty
+     * @var \Magento\Framework\File\CsvMulty
      */
     private static $csv;
 
@@ -63,7 +61,7 @@ class TranslateTool
     {
         self::$CONFIG = $config;
         \Magento\Tools\Translate\ModuleTranslations::setConfig($config);
-        self::$csv = new \Magento\File\CsvMulty();
+        self::$csv = new \Magento\Framework\File\CsvMulty();
         try {
             self::$opts = new \Magento\Tools\Translate\MultyGetopt(
                 array(
@@ -574,13 +572,13 @@ class TranslateTool
      */
     public static function parseXml($file, &$data_arr, $mod_name = null)
     {
-        $xml = new \Magento\Simplexml\Config();
+        $xml = new \Magento\Framework\Simplexml\Config();
         $xml->loadFile($file, 'SimpleXMLElement');
         $arr = $xml->getXpath("//*[@translate]");
         unset($xml);
         if (is_array($arr)) {
             foreach ($arr as $val) {
-                if (is_a($val, "Magento\\Simplexml\\Element")) {
+                if (is_a($val, "Magento\\Framework\\Simplexml\\Element")) {
                     $attr = $val->attributes();
                     $transl = $attr['translate'];
                     $transl = explode(' ', (string)$transl);

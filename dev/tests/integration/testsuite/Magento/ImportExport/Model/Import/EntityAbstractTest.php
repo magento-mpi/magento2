@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Framework\App\Filesystem');
         $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
-            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv',
+            __DIR__ . '/Entity/_files/customers_for_validation_test.csv',
             $directory
         );
         $source->rewind();
@@ -37,7 +34,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Import\AbstractEntity',
             array(
                 $objectManager->get('Magento\Core\Helper\Data'),
-                $objectManager->get('Magento\Stdlib\String'),
+                $objectManager->get('Magento\Framework\Stdlib\String'),
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
                 $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),

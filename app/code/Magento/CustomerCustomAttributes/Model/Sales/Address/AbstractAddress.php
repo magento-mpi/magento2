@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +16,7 @@ abstract class AbstractAddress extends \Magento\CustomerCustomAttributes\Model\S
     /**
      * Attach data to models
      *
-     * @param \Magento\Object[] $entities
+     * @param \Magento\Framework\Object[] $entities
      * @return $this
      */
     public function attachDataToEntities(array $entities)

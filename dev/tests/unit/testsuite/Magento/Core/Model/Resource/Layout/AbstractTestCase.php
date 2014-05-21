@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -107,7 +104,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $datetime = new \DateTime();
         $storeInterval = new \DateInterval('P' . self::TEST_DAYS_BEFORE . 'D');
         $datetime->sub($storeInterval);
-        $dateTimeLib = new \Magento\Stdlib\DateTime();
+        $dateTimeLib = new \Magento\Framework\Stdlib\DateTime();
         $expectedDate = $dateTimeLib->formatDate($datetime->getTimestamp());
         $this->_expectedConditions['data'][1][1]['lt'] = $expectedDate;
 

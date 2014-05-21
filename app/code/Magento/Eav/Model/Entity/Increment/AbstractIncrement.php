@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +18,7 @@
  */
 namespace Magento\Eav\Model\Entity\Increment;
 
-abstract class AbstractIncrement extends \Magento\Object implements
+abstract class AbstractIncrement extends \Magento\Framework\Object implements
     \Magento\Eav\Model\Entity\Increment\IncrementInterface
 {
     /**

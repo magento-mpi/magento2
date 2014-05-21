@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,7 +46,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_Rma',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
         $this->productTypeConfig = $productTypeConfig;

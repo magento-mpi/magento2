@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,7 +39,7 @@ class EditorTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertSessionMessages(
             $this->equalTo(array('We can\'t find theme "' . $wrongThemeId . '".')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
         $this->assertRedirect($this->stringStartsWith($expected));

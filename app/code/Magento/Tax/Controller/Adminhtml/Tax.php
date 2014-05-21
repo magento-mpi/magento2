@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml common tax class controller
  *
- * @category    Magento
- * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Controller\Adminhtml;
@@ -127,7 +123,7 @@ class Tax extends \Magento\Backend\App\Action
      */
     protected function _processClassName($className)
     {
-        $className = trim($this->_objectManager->get('Magento\Escaper')->escapeHtml($className));
+        $className = trim($this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($className));
         if ($className == '') {
             throw new \Magento\Framework\Model\Exception(__('Invalid name of tax class specified.'));
         }

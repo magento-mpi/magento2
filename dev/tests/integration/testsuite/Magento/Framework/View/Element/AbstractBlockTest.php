@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -411,7 +408,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testInsertWithoutCreateBlock()
     {
@@ -504,7 +501,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testFormatDate()
     {
         $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         );
         $this->assertEquals($locale->formatDate(), $this->_block->formatDate());
     }
@@ -512,7 +509,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testFormatTime()
     {
         $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         );
         $this->assertEquals($locale->formatTime(), $this->_block->formatTime());
     }

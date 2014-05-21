@@ -25,7 +25,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $aclFilter = $this->getMock('Magento\Backend\Model\Layout\Filter\Acl', array(), array(), '', false);
         $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $layoutProcessor = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
-        $node = new \Magento\Simplexml\Element('<node/>');
+        $node = new \Magento\Framework\Simplexml\Element('<node/>');
         $this->_layoutMock->expects($this->once())->method('getNode')->will($this->returnValue($node));
         $this->_layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutProcessor));
         $this->_view = $helper->getObject(

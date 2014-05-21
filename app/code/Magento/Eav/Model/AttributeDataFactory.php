@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Eav\Model;
 /**
  * EAV Entity Attribute Data Factory
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AttributeDataFactory
@@ -40,20 +36,20 @@ class AttributeDataFactory
     protected $_dataModels = array();
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Stdlib\String $string
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Stdlib\String $string)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Stdlib\String $string)
     {
         $this->_objectManager = $objectManager;
         $this->string = $string;

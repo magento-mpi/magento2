@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -49,7 +46,7 @@ class DocBlockTest extends \PHPUnit_Framework_TestCase
         try {
             new $listenerClass();
             $this->fail("Inability to instantiate the event listener '{$listenerClass}' is expected.");
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->assertEquals($expectedExceptionMsg, $e->getMessage());
         }
     }

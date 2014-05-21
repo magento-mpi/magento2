@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Payment\Model\Source;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Invoice implements \Magento\Option\ArrayInterface
+class Invoice implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

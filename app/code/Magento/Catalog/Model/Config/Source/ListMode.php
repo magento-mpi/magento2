@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-class ListMode implements \Magento\Option\ArrayInterface
+class ListMode implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

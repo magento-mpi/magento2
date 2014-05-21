@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +11,9 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSchemaFile()
     {
-        /** @var $moduleReader \Magento\Module\Dir\Reader|PHPUnit_Framework_MockObject_MockObject */
+        /** @var $moduleReader \Magento\Framework\Module\Dir\Reader|PHPUnit_Framework_MockObject_MockObject */
         $moduleReader = $this->getMockBuilder(
-            'Magento\Module\Dir\Reader'
+            'Magento\Framework\Module\Dir\Reader'
         )->setMethods(
             array('getModuleDir')
         )->disableOriginalConstructor()->getMock();

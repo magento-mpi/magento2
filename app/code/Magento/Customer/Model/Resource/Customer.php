@@ -25,7 +25,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -33,24 +33,24 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $data = array()
     ) {
         parent::__construct(
@@ -90,12 +90,12 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param \Magento\Object $customer
+     * @param \Magento\Framework\Object $customer
      * @return $this
      * @throws \Magento\Customer\Exception
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave(\Magento\Object $customer)
+    protected function _beforeSave(\Magento\Framework\Object $customer)
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         parent::_beforeSave($customer);
@@ -151,14 +151,14 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @return void
-     * @throws \Magento\Validator\ValidatorException When validation failed
+     * @throws \Magento\Framework\Validator\ValidatorException When validation failed
      */
     protected function _validate($customer)
     {
         $validator = $this->_validatorFactory->createValidator('customer', 'save');
 
         if (!$validator->isValid($customer)) {
-            throw new \Magento\Validator\ValidatorException($validator->getMessages());
+            throw new \Magento\Framework\Validator\ValidatorException($validator->getMessages());
         }
     }
 
@@ -168,7 +168,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Customer\Model\Customer $customer
      * @return $this
      */
-    protected function _afterSave(\Magento\Object $customer)
+    protected function _afterSave(\Magento\Framework\Object $customer)
     {
         $this->_saveAddresses($customer);
         return parent::_afterSave($customer);
@@ -230,7 +230,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string|int $rowId
      * @return \Magento\Framework\DB\Select
      */
@@ -371,10 +371,10 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Custom setter of increment ID if its needed
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    public function setNewIncrementId(\Magento\Object $object)
+    public function setNewIncrementId(\Magento\Framework\Object $object)
     {
         if ($this->_scopeConfig->getValue(
             \Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID,

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Magento\Backend\Test\Block\FormPageActions;
 /**
  * Class SalesRuleNew
  *
- * @package Magento\SalesRule\Test\Page
  */
 class SalesRuleNew extends Page
 {
@@ -57,7 +53,7 @@ class SalesRuleNew extends Page
      *
      * @var string
      */
-    protected $messageBlockSelector = '#messages .messages';
+    protected $messagesBlockSelector = '#messages .messages';
 
     /**
      * Promo Quote Form Selector
@@ -98,9 +94,9 @@ class SalesRuleNew extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messageBlockSelector));
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messagesBlockSelector));
     }
 
     /**

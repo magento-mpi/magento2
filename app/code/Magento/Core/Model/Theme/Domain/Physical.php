@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -89,7 +87,7 @@ class Physical implements \Magento\Framework\View\Design\Theme\Domain\PhysicalIn
     protected function _getVirtualThemeTitle($theme)
     {
         $themeCopyCount = $this->_themeCollection->addAreaFilter(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->addTypeFilter(
             \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
         )->addFilter(

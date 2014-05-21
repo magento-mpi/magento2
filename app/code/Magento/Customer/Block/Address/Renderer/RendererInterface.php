@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Directory\Model\Country\Format;
 /**
  * Address renderer interface
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface RendererInterface
@@ -23,15 +19,15 @@ interface RendererInterface
     /**
      * Set format type object
      *
-     * @param \Magento\Object $type
+     * @param \Magento\Framework\Object $type
      * @return void
      */
-    public function setType(\Magento\Object $type);
+    public function setType(\Magento\Framework\Object $type);
 
     /**
      * Retrieve format type object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getType();
 

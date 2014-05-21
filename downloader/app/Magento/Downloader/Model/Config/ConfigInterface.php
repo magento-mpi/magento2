@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Class config
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Downloader\Model\Config;
@@ -22,7 +18,7 @@ interface ConfigInterface
     /**
      * Set data for Settings View
      *
-     * @param \Magento\Connect\Config $config
+     * @param \Magento\Framework\Connect\Config $config
      * @param \Magento\Downloader\View $view
      * @return null
      */
@@ -49,7 +45,7 @@ interface ConfigInterface
     /**
      * Set config data from POST
      *
-     * @param \Magento\Connect\Config $config Config object
+     * @param \Magento\Framework\Connect\Config $config Config object
      * @param array $post post data
      * @return boolean
      */

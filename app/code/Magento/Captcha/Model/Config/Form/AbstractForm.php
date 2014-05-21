@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Data source to fill "Forms" field
  *
- * @category   Magento
- * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Captcha\Model\Config\Form;
 
-abstract class AbstractForm extends \Magento\Framework\App\Config\Value implements \Magento\Option\ArrayInterface
+abstract class AbstractForm extends \Magento\Framework\App\Config\Value implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var string

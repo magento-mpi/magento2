@@ -15,7 +15,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registryMock;
 
@@ -47,7 +47,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->postDataHelperMock = $this->getMock(
             'Magento\Core\Helper\PostData',
@@ -97,7 +97,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities()
     {
         $productTag = 'catalog_product_1';
-        $categoryTag = 'catalog_category_1';
+        $categoryTag = 'catalog_category_product_1';
 
         $this->productMock->expects($this->once())
             ->method('getIdentities')
@@ -109,15 +109,15 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
 
         $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $currentCategory->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue(array($categoryTag)));
+            ->method('getId')
+            ->will($this->returnValue('1'));
 
         $this->layerMock->expects($this->once())
             ->method('getCurrentCategory')
             ->will($this->returnValue($currentCategory));
 
         $this->assertEquals(
-            array($categoryTag, $productTag),
+            array($productTag, $categoryTag ),
             $this->block->getIdentities()
         );
     }

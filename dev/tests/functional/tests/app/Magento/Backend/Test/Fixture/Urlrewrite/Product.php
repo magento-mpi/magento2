@@ -8,16 +8,15 @@
 
 namespace Magento\Backend\Test\Fixture\Urlrewrite;
 
-use Mtf\System\Config,
-    Mtf\Factory\Factory,
-    Mtf\Fixture\DataFixture,
-    Magento\Catalog\Test\Fixture\Product as ProductFixture;
+use Mtf\System\Config;
+use Mtf\Factory\Factory;
+use Mtf\Fixture\DataFixture;
+use Magento\Catalog\Test\Fixture\Product as ProductFixture;
 
 /**
  * Class Product
  * URL rewrite product fixture
  *
- * @package Magento\Backend\Test\Fixture\Urlrewrite
  */
 class Product extends DataFixture
 {

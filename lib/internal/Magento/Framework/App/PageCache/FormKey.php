@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,6 @@ namespace Magento\Framework\App\PageCache;
 /**
  * Class Version
  *
- * @package Magento\Framework\App\PageCache
  */
 class FormKey
 {
@@ -24,15 +21,15 @@ class FormKey
     /**
      * Cookie
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $cookie;
 
     /**
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      */
     public function __construct(
-        \Magento\Stdlib\Cookie $cookie
+        \Magento\Framework\Stdlib\Cookie $cookie
     ) {
         $this->cookie = $cookie;
     }

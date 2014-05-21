@@ -28,7 +28,6 @@
                     <argument name="template" xsi:type="string"/>
                 </action>
             </block>
-            <block class="Magento\Checkout\Block\Agreements" name="checkout.multishipping.agreements" as="agreements" template="agreements.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Totals" name="totals"/>
             <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
         </block>

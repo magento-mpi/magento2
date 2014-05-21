@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -181,7 +179,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      * Get storage type
      *
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getStorageType()
     {
@@ -191,7 +189,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
         );
         $type = (string)$this->_getRequest()->getParam(self::PARAM_CONTENT_TYPE);
         if (!in_array($type, $allowedTypes)) {
-            throw new \Magento\Exception('Invalid type');
+            throw new \Magento\Framework\Exception('Invalid type');
         }
         return $type;
     }
@@ -284,7 +282,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      * Get allowed extensions by type
      *
      * @return string[]
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getAllowedExtensionsByType()
     {
@@ -296,7 +294,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
                 $extensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
                 break;
             default:
-                throw new \Magento\Exception('Invalid type');
+                throw new \Magento\Framework\Exception('Invalid type');
         }
         return $extensions;
     }
@@ -305,7 +303,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      * Get storage type name for display.
      *
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getStorageTypeName()
     {
@@ -317,7 +315,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
                 $name = self::IMAGES;
                 break;
             default:
-                throw new \Magento\Exception('Invalid type');
+                throw new \Magento\Framework\Exception('Invalid type');
         }
 
         return $name;

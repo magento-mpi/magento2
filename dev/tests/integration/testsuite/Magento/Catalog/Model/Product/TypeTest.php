@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +28,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFactory($typeId, $expectedClass)
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         if ($typeId) {
             $product->setTypeId($typeId);
         }
@@ -62,7 +59,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFactoryReturnsSingleton($typeId)
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         if ($typeId) {
             $product->setTypeId($typeId);
         }

@@ -15,7 +15,7 @@ class RowsFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -29,11 +29,11 @@ class RowsFactory
     /**
      * Factory constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\Catalog\Model\Indexer\Category\Product\Action\Rows'
     ) {
         $this->objectManager = $objectManager;

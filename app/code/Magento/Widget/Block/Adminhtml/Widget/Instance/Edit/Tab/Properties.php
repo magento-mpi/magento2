@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Widget Instance Properties tab block
  *
- * @category    Magento
- * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
@@ -89,7 +85,7 @@ class Properties extends \Magento\Widget\Block\Adminhtml\Widget\Options implemen
     /**
      * Add field to Options form based on option configuration
      *
-     * @param \Magento\Object $parameter
+     * @param \Magento\Framework\Object $parameter
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)

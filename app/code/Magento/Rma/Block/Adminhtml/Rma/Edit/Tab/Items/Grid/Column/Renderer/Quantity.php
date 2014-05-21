@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Grid column widget for rendering text grid cells
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
@@ -22,10 +18,10 @@ class Quantity extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Renders quantity as integer
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return int|string
      */
-    public function _getValue(\Magento\Object $row)
+    public function _getValue(\Magento\Framework\Object $row)
     {
         if ($row->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return '';

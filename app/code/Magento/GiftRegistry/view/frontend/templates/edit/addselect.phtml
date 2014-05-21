@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,12 @@
     <?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
 </h2>
 
-<form action="<?php echo $this->getAddActionUrl(); ?>" method="post" id="form-validate" class="form validation" data-hasrequired="<?php echo __('* Required Fields') ?>">
+<form action="<?php echo $this->getAddActionUrl(); ?>"
+      method="post"
+      id="form-validate"
+      class="form validation"
+      data-hasrequired="<?php echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
         <legend class="legend"><span><?php echo __('General Information') ?></span></legend>
@@ -44,13 +47,3 @@
         </div>
     </div>
 </form>
-<script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#form-validate').validation();
-            });
-    })(jQuery);
-</script>

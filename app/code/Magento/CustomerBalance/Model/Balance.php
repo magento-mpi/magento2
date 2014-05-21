@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +24,6 @@ use Magento\Framework\Model\Exception;
  * @method \Magento\CustomerBalance\Model\Balance setComment() setComment(string $value)
  * @method \Magento\CustomerBalance\Model\Balance setCustomer() setCustomer(\Magento\Customer\Model\Customer $customer)
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Balance extends \Magento\Framework\Model\AbstractModel
@@ -64,7 +60,7 @@ class Balance extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -74,7 +70,7 @@ class Balance extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

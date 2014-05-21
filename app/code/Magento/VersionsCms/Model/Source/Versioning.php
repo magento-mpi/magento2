@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +10,8 @@ namespace Magento\VersionsCms\Model\Source;
 /**
  * Versioning configuration source model
  *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
-class Versioning implements \Magento\Option\ArrayInterface
+class Versioning implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

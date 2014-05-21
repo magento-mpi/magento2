@@ -10,7 +10,7 @@ namespace Magento\Framework\View\File\Collector\Decorator;
 
 use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File;
-use Magento\Module\ModuleListInterface;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**

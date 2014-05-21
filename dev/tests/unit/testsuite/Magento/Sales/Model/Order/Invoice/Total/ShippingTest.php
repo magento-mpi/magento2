@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -34,7 +31,13 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
                 '',
                 false
             ),
-            'calculatorFactory' => $this->getMock('Magento\Math\CalculatorFactory', array(), array(), '', false),
+            'calculatorFactory' => $this->getMock(
+                    'Magento\Framework\Math\CalculatorFactory',
+                    array(),
+                    array(),
+                    '',
+                    false
+                ),
             'invoiceItemCollectionFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory',
                 array(),

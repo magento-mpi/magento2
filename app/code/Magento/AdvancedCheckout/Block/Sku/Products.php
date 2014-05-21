@@ -151,7 +151,7 @@ class Products extends \Magento\Checkout\Block\Cart
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new \Magento\Object($products[$product->getId()]);
+                    $object = new \Magento\Framework\Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }

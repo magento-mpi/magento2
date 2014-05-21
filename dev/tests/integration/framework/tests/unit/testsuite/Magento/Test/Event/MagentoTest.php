@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -50,7 +47,7 @@ class MagentoTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider constructorExceptionDataProvider
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @param mixed $eventManager
      */
     public function testConstructorException($eventManager)

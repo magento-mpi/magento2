@@ -39,7 +39,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_payment->expects($this->once())->method('setStore')->will($this->returnValue($this->_payment));
 
         $registry = $this->getMockBuilder(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->disableOriginalConstructor()->setMethods(
             array('registry')
         )->getMock();

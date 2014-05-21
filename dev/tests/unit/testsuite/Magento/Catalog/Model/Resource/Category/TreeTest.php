@@ -55,7 +55,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnArgument(0)
         );
-        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $this->_attributeConfig = $this->getMock(
             'Magento\Catalog\Model\Attribute\Config',
             array(),

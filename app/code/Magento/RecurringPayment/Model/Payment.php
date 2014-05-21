@@ -100,7 +100,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     protected $_orderItemFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -111,19 +111,19 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringPayment\Block\Fields $fields
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param ManagerInterfaceFactory $managerFactory
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\LocaleInterface $locale
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param States $states
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -132,19 +132,19 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringPayment\Model\PeriodUnits $periodUnits,
         \Magento\RecurringPayment\Block\Fields $fields,
         ManagerInterfaceFactory $managerFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\LocaleInterface $locale,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\LocaleInterface $locale,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         States $states,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -278,7 +278,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      */
     public function fetchUpdate()
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $this->getManager()->getDetails($this->getReferenceId(), $result);
 
         if ($result->getIsPaymentActive()) {
@@ -305,7 +305,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     /**
      * Initialize new order based on payment data
      *
-     * Takes arbitrary number of \Magento\Object instances to be treated as items for new order
+     * Takes arbitrary number of \Magento\Framework\Object instances to be treated as items for new order
      *
      * @return \Magento\Sales\Model\Order
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -550,7 +550,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
                 return $info[$infoValueKey];
             }
         } else {
-            if ($info instanceof \Magento\Object) {
+            if ($info instanceof \Magento\Framework\Object) {
                 return $info->getDataUsingMethod($infoValueKey);
             } elseif (isset($info->{$infoValueKey})) {
                 return $info->{$infoValueKey};
@@ -653,7 +653,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     /**
      * Create and return new order item based on payment item data and $itemInfo
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      * @throws \Exception
      */
@@ -680,7 +680,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Create and return new order item based on payment item data and $itemInfo
      * for regular payment
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getRegularItem($itemInfo)
@@ -717,7 +717,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Create and return new order item based on payment item data and $itemInfo
      * for trial payment
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getTrialItem($itemInfo)
@@ -737,7 +737,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Create and return new order item based on payment item data and $itemInfo
      * for initial payment
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getInitialItem($itemInfo)

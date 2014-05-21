@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -77,7 +74,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $userName = 'TestAdmin';
-        $user = new \Magento\Object(array('username' => $userName));
+        $user = new \Magento\Framework\Object(array('username' => $userName));
         /** @var $session \Magento\Backend\Model\Auth\Session */
         $session = $objectManager->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
@@ -182,7 +179,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedRewards = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards'
         );
@@ -195,7 +192,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $expectedBalances = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances'
         );

@@ -2,21 +2,17 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
 namespace Magento\Framework\Data\Form\Element;
 
 use Magento\Framework\Data\Form;
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 /**
  * Form fieldset
  *
- * @category   Magento
- * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Fieldset extends AbstractElement

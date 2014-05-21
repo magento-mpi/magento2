@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetClearUrl()
     {
-        $childBlock = new \Magento\Object();
+        $childBlock = new \Magento\Framework\Object();
 
         $block = $this->getMock(
             'Magento\LayeredNavigation\Block\Navigation', array('getChildBlock'), array(), '', false

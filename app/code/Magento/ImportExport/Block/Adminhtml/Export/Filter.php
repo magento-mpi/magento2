@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Eav\Model\Entity\Attribute;
 /**
  * Export filter block
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -84,7 +80,7 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
             'id' => $this->getFilterElementId($attribute->getAttributeCode()),
             'class' => 'input-text input-text-range-date',
             'date_format' => $this->_localeDate->getDateFormat(
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
             ),
             'image' => $this->getViewFileUrl('images/grid-cal.gif')
         );
@@ -323,11 +319,11 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
      *
      * @param mixed $value
      * @param Attribute $row
-     * @param \Magento\Object $column
+     * @param \Magento\Framework\Object $column
      * @param boolean $isExport
      * @return string
      */
-    public function decorateFilter($value, Attribute $row, \Magento\Object $column, $isExport)
+    public function decorateFilter($value, Attribute $row, \Magento\Framework\Object $column, $isExport)
     {
         $value = null;
         $values = $column->getValues();

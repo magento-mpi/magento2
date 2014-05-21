@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +23,8 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidate(array $data, $result, array $messages)
     {
-        /** @var $themeMock \Magento\Object */
-        $themeMock = new \Magento\Object();
+        /** @var $themeMock \Magento\Framework\Object */
+        $themeMock = new \Magento\Framework\Object();
         $themeMock->setData($data);
 
         $validator = new \Magento\Framework\View\Design\Theme\Validator();

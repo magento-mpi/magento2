@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\GoogleShopping\Model;
 /**
  * Google shopping synchronization operations flag
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Flag extends \Magento\Flag
+class Flag extends \Magento\Framework\Flag
 {
     /**
      * Flag time to live in seconds

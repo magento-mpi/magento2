@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Core\Model\Layout;
 
-use Magento\Simplexml\Element;
+use Magento\Framework\Simplexml\Element;
 
 class Translator
 {

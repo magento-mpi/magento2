@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Block\Adminhtml\Types\Renderer;
 /**
  * Adminhtml Google Content Item Type Country Renderer
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
@@ -42,10 +38,10 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
     /**
      * Renders Google Content Item Id
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $iso = $row->getData($this->getColumn()->getIndex());
         return $this->_config->getCountryInfo($iso, 'name');

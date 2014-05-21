@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order\Attribute\Backend;
 /**
  * Order shipping address backend
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Shipping extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
@@ -21,7 +17,7 @@ class Shipping extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     /**
      * Perform operation before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      */
     public function beforeSave($object)
@@ -35,7 +31,7 @@ class Shipping extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     /**
      * Perform operation after save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      */
     public function afterSave($object)

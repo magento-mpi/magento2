@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,7 +23,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         $block->setArea('adminhtml')->unsetChild('setForm');
 
         $childBlock = $layout->addBlock('Magento\Framework\View\Element\Template', 'setForm', 'block');
-        $form = new \Magento\Object();
+        $form = new \Magento\Framework\Object();
         $childBlock->setForm($form);
 
         $expectedId = '12121212';

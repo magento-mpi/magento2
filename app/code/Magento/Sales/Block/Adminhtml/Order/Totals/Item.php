@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,7 +35,7 @@ class Item extends \Magento\Sales\Block\Adminhtml\Order\Totals
      */
     public function initTotals()
     {
-        $total = new \Magento\Object(
+        $total = new \Magento\Framework\Object(
             array(
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),

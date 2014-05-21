@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,9 +35,9 @@
 <script type="text/javascript">
 //<![CDATA[
 (function($) {
-    head.js("<?php echo $this->getViewFileUrl('Magento_Install::js/install.js') ?>", function() {
+    head.js("<?php echo $this->getViewFileUrl('Magento_Install::js/install.js') ?>", head.ready(function () {
         $.mage.install.begin('#agree', '#submitButton');
-    });
+    }));
 })(jQuery);
 //]]>
 </script>

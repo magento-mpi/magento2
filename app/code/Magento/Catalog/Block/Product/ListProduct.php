@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,6 +9,9 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Block\Product\AbstractProduct;
 use Magento\Framework\View\Block\IdentityInterface;
 
 /**
@@ -57,23 +58,20 @@ class ListProduct extends AbstractProduct implements IdentityInterface
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogLayer = $catalogLayer;
         $this->_postDataHelper = $postDataHelper;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -313,7 +311,11 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         foreach ($this->_getProductCollection() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }
-        return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
+        $category = $this->getLayer()->getCurrentCategory();
+        if ($category) {
+            $identities[] = Product::CACHE_PRODUCT_CATEGORY_TAG . '_' . $category->getId();
+        }
+        return $identities;
     }
 
     /**
@@ -343,12 +345,12 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
                 $product,
                 [
                     'include_container' => true,
                     'display_minimal_price' => true,
-                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }
@@ -357,7 +359,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * @return \Magento\Pricing\Render
+     * @return \Magento\Framework\Pricing\Render
      */
     protected function getPriceRender()
     {

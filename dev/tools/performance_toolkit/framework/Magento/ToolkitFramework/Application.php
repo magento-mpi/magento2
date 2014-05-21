@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     toolkit_framework
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,12 +26,12 @@ class Application
     protected $_application;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -51,9 +49,9 @@ class Application
 
     /**
      * @param string $applicationBaseDir
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      */
-    public function __construct($applicationBaseDir, \Magento\Shell $shell)
+    public function __construct($applicationBaseDir, \Magento\Framework\Shell $shell)
     {
         $this->_applicationBaseDir = $applicationBaseDir;
         $this->_shell = $shell;
@@ -154,7 +152,7 @@ class Application
     /**
      * Get object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function getObjectManager()
     {
@@ -169,7 +167,7 @@ class Application
     /**
      * Reset object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function resetObjectManager()
     {

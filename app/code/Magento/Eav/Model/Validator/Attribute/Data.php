@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,13 @@
 /**
  * EAV attribute data validator
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Eav\Model\Validator\Attribute;
 
 use Magento\Eav\Model\Attribute;
 
-class Data extends \Magento\Validator\AbstractValidator
+class Data extends \Magento\Framework\Validator\AbstractValidator
 {
     /**
      * @var array
@@ -120,7 +116,7 @@ class Data extends \Magento\Validator\AbstractValidator
         $data = array();
         if ($this->_data) {
             $data = $this->_data;
-        } elseif ($entity instanceof \Magento\Object) {
+        } elseif ($entity instanceof \Magento\Framework\Object) {
             $data = $entity->getData();
         }
 

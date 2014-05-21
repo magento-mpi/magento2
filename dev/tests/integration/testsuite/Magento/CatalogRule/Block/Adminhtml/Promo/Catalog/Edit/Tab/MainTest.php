@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,7 +27,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
         $rule = $objectManager->create('Magento\CatalogRule\Model\Rule');
-        $objectManager->get('Magento\Registry')->register('current_promo_catalog_rule', $rule);
+        $objectManager->get('Magento\Framework\Registry')->register('current_promo_catalog_rule', $rule);
 
         $block = $objectManager->create('Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab\Main');
         $block->setLayout($objectManager->create('Magento\Framework\View\Layout'));

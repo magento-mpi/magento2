@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class ApplyConfig
  * Apply system configuration to application under test
  *
- * @package Magento\Catalog\Test\Handler\Direct
  */
 class ApplyConfig extends Direct
 {
@@ -44,8 +40,8 @@ class ApplyConfig extends Direct
         $objectManager->configure(
             array(
                 'preferences' => array(
-                    'Magento\Authorization\Policy' => 'Magento\Authorization\Policy\DefaultPolicy',
-                    'Magento\Authorization\RoleLocator' => 'Magento\Authorization\RoleLocator\DefaultRoleLocator'
+                    'Magento\Framework\Authorization\Policy' => 'Magento\Framework\Authorization\Policy\DefaultPolicy',
+                    'Magento\Framework\Authorization\RoleLocator' => 'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
                 )));
 
         $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');

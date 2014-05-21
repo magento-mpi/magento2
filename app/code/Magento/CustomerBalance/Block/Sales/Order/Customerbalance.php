@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -53,7 +51,7 @@ class Customerbalance extends \Magento\Framework\View\Element\Template
         if ((double)$this->getSource()->getCustomerBalanceAmount() == 0) {
             return $this;
         }
-        $total = new \Magento\Object(
+        $total = new \Magento\Framework\Object(
             array(
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),

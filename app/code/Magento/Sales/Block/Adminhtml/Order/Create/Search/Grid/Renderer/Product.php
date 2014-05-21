@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer;
 /**
  * Adminhtml sales create order product search grid product name column renderer
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Product extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
@@ -21,10 +17,10 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
     /**
      * Render product name to add Configure link
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $rendered = parent::render($row);
         $isConfigurable = $row->canConfigure();

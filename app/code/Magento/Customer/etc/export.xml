@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ImportExport/etc/export.xsd">
+    <entity name="customer" label="Customers Main File" model="Magento\Customer\Model\ImportExport\Export\Customer" />
+    <entity name="customer_address" label="Customer Addresses" model="Magento\Customer\Model\ImportExport\Export\Address" />
+</config>

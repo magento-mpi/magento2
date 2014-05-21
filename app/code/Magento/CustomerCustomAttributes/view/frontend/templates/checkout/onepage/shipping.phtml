@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -110,7 +109,7 @@
         <label class="label" for="shipping:same_as_billing"><span><?php echo __('Use Billing Address') ?></span></label>
     </div>
     <div class="actions toolbar buttons-set form-buttons" id="shipping-buttons-container">
-        <div class="primary"><button type="button" class="button action continue"><span><?php echo __('Continue') ?></span></button></div>
+        <div class="primary"><button type="button" class="button action continue primary"><span><?php echo __('Continue') ?></span></button></div>
         <div class="secondary"><a href="#" class="action back"><span><?php echo __('Back') ?></span></a></div>
         <span id="shipping-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Loading next step...') ?>">
             <span><?php echo __('Loading next step...') ?></span>
@@ -119,18 +118,14 @@
 </form>
 <script type="text/javascript">
     (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
-            function() {
-                $('#shipping\\:country_id').regionUpdater({
-                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
-                    regionListId: '#shipping\\:region_id',
-                    regionInputId: '#shipping\\:region',
-                    postcodeId: '#shipping\\:postcode',
-                    regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
-                    defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
-                });
-            });
+        $('#shipping\\:country_id').mage('regionUpdater', {
+            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+            regionListId: '#shipping\\\:region_id',
+            regionInputId: '#shipping\\\:region',
+            postcodeId: '#shipping\\\:postcode',
+            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+            defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
+            countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+        });
     })(jQuery);
 </script>

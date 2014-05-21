@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Reports\Model;
 /**
  * Report Flag Model
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Flag extends \Magento\Flag
+class Flag extends \Magento\Framework\Flag
 {
     const REPORT_ORDER_FLAG_CODE = 'report_order_aggregated';
 

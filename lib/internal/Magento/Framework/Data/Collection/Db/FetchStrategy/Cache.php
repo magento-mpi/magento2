@@ -14,7 +14,7 @@ namespace Magento\Framework\Data\Collection\Db\FetchStrategy;
 class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterface
 {
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     private $_cache;
 
@@ -41,14 +41,14 @@ class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterf
     /**
      * Constructor
      *
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param string $cacheIdPrefix
      * @param array $cacheTags
      * @param int|bool|null $cacheLifetime
      */
     public function __construct(
-        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         $cacheIdPrefix = '',
         array $cacheTags = array(),

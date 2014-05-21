@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Items;
 /**
  * Abstract block for display sales (quote/order/invoice etc.) items
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AbstractItems extends \Magento\Framework\View\Element\Template
@@ -62,10 +58,10 @@ class AbstractItems extends \Magento\Framework\View\Element\Template
     /**
      * Return product type for quote/order item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      */
-    protected function _getItemType(\Magento\Object $item)
+    protected function _getItemType(\Magento\Framework\Object $item)
     {
         if ($item->getOrderItem()) {
             $type = $item->getOrderItem()->getProductType();
@@ -80,10 +76,10 @@ class AbstractItems extends \Magento\Framework\View\Element\Template
     /**
      * Get item row html
      *
-     * @param   \Magento\Object $item
+     * @param   \Magento\Framework\Object $item
      * @return  string
      */
-    public function getItemHtml(\Magento\Object $item)
+    public function getItemHtml(\Magento\Framework\Object $item)
     {
         $type = $this->_getItemType($item);
 

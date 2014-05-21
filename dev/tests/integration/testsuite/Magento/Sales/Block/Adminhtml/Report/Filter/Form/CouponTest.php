@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,7 +37,7 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $block \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon */
         $block = $this->_layout->createBlock('Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon');
-        $block->setFilterData(new \Magento\Object());
+        $block->setFilterData(new \Magento\Framework\Object());
         $html = $block->toHtml();
 
         $expectedStrings = array(

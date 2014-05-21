@@ -2,45 +2,50 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Invitation group id options source
- *
- * @category   Magento
- * @package    Magento_Invitation
- */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class GroupId implements \Magento\Option\ArrayInterface
+/**
+ * Invitation group id options source
+ */
+class GroupId implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Customer\Model\Group
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_model;
+    protected $_customerGroupService;
 
     /**
-     * @param \Magento\Customer\Model\Group $invitationModel
+     * @var \Magento\Framework\Convert\Object
      */
-    public function __construct(\Magento\Customer\Model\Group $invitationModel)
-    {
-        $this->_model = $invitationModel;
+    protected $_objectConverter;
+
+    /**
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Framework\Convert\Object $objectConverter
+     */
+    public function __construct(
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Framework\Convert\Object $objectConverter
+    ) {
+        $this->_customerGroupService = $customerGroupService;
+        $this->_objectConverter = $objectConverter;
     }
 
     /**
-     * Return list of invitation statuses as options
+     * Return list of groups.
      *
      * @return array
      */
     public function toOptionArray()
     {
-        return $this->_model->getCollection()->addFieldToFilter(
-            'customer_group_id',
-            array('gt' => 0)
-        )->load()->toOptionHash();
+        return $this->_objectConverter->toOptionHash(
+            $this->_customerGroupService->getGroups(false),
+            'id',
+            'code'
+        );
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +11,9 @@ namespace Magento\Backend\Model;
  * Backend config model
  * Used to save configuration
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Config extends \Magento\Object
+class Config extends \Magento\Framework\Object
 {
     /**
      * Config data for sections
@@ -29,7 +25,7 @@ class Config extends \Magento\Object
     /**
      * Event dispatcher
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -82,7 +78,7 @@ class Config extends \Magento\Object
 
     /**
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
@@ -92,7 +88,7 @@ class Config extends \Magento\Object
      */
     public function __construct(
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,
@@ -434,7 +430,7 @@ class Config extends \Magento\Object
      * @param string $path
      * @param null|bool &$inherit
      * @param null|array $configData
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Framework\Simplexml\Element
      */
     public function getConfigDataValue($path, &$inherit = null, $configData = null)
     {

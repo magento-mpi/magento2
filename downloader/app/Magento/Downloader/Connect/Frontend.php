@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Downloader\Connect;
 /**
  * Class frontend
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Frontend extends \Magento\Connect\Frontend
+class Frontend extends \Magento\Framework\Connect\Frontend
 {
     /**
      * Log stream or not

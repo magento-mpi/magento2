@@ -49,8 +49,8 @@ class StoreTest extends \Magento\Backend\Utility\Controller
         //Check that errors was generated and set to session
         $this->assertSessionMessages(
             $this->contains("Website with the same code already exists."),
-            \Magento\Message\MessageInterface::TYPE_ERROR,
-            'Magento\Message\ManagerInterface'
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR,
+            'Magento\Framework\Message\ManagerInterface'
         );
     }
 }

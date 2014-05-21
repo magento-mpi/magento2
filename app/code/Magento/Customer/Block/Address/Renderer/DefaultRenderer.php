@@ -19,7 +19,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Format type object
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_type;
 
@@ -74,7 +74,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Retrieve format type object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getType()
     {
@@ -84,10 +84,10 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Retrieve format type object
      *
-     * @param  \Magento\Object $type
+     * @param  \Magento\Framework\Object $type
      * @return $this
      */
-    public function setType(\Magento\Object $type)
+    public function setType(\Magento\Framework\Object $type)
     {
         $this->_type = $type;
         return $this;

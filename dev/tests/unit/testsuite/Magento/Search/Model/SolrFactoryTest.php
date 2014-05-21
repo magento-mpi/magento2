@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,7 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Search\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject*/
     protected $_factoryObject;
 
-    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
     /** @var \Magento\Search\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -36,7 +33,7 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $this->_objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')->getMock();
         $this->_solrFactoryMock = $this->getMock(
             'Magento\Search\Model\SolrFactory',
             array(),

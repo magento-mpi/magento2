@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Banner content per store view edit page
  *
- * @category   Magento
- * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
@@ -30,20 +26,20 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * WYSIWYG config data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_wysiwygConfig;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         array $data = array()
@@ -145,7 +141,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Get Wysiwyg Config
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getWysiwygConfig()
     {

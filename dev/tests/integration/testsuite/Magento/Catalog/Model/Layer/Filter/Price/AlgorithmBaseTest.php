@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,7 +43,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Layer\Category');
         $this->_filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $this->_layer));
-        $this->_filter->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
+        $this->_filter->setAttributeModel(new \Magento\Framework\Object(array('attribute_code' => 'price')));
     }
 
     /**

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -44,7 +42,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Grid export types
      *
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected $_exportTypes = array();
 
@@ -147,7 +145,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * SubTotals
      *
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected $_subtotals = array();
 
@@ -256,7 +254,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      */
     public function addExportType($url, $label)
     {
-        $this->_exportTypes[] = new \Magento\Object(
+        $this->_exportTypes[] = new \Magento\Framework\Object(
             array('url' => $this->getUrl($url, array('_current' => true)), 'label' => $label)
         );
         return $this;
@@ -266,7 +264,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      * Add column to grid
      *
      * @param   string $columnId
-     * @param   array|\Magento\Object $column
+     * @param   array|\Magento\Framework\Object $column
      * @return  $this
      * @throws  \Exception
      */
@@ -315,7 +313,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      * Add column to grid after specified column.
      *
      * @param   string $columnId
-     * @param   array|\Magento\Object $column
+     * @param   array|\Magento\Framework\Object $column
      * @param   string $after
      * @return  $this
      */
@@ -603,7 +601,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Check whether should render cell
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return boolean
      */
@@ -643,7 +641,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $item
+     * @param \Magento\Catalog\Model\Product|\Magento\Framework\Object $item
      * @return string
      */
     public function getRowUrl($item)
@@ -655,7 +653,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Get children of specified item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return array
      */
     public function getMultipleRows($item)
@@ -679,7 +677,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Check whether subtotal should be rendered
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return boolean
      */
     public function shouldRenderSubTotal($item)
@@ -690,7 +688,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Retrieve rowspan number
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return int|false
      */
@@ -724,7 +722,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Check whether should render empty cell
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return boolean
      */
@@ -746,8 +744,8 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Retrieve subtotal item
      *
-     * @param \Magento\Object $item
-     * @return \Magento\Object|string
+     * @param \Magento\Framework\Object $item
+     * @return \Magento\Framework\Object|string
      */
     public function getSubTotalItem($item)
     {
@@ -962,11 +960,11 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Write item data to csv export file
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param \Magento\Framework\Filesystem\File\WriteInterface $stream
      * @return void
      */
-    protected function _exportCsvItem(\Magento\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
+    protected function _exportCsvItem(\Magento\Framework\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
     {
         $row = array();
         foreach ($this->getColumns() as $column) {
@@ -1101,10 +1099,10 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      *  Get a row data of the particular columns
      *
-     * @param \Magento\Object $data
+     * @param \Magento\Framework\Object $data
      * @return string[]
      */
-    public function getRowRecord(\Magento\Object $data)
+    public function getRowRecord(\Magento\Framework\Object $data)
     {
         $row = array();
         foreach ($this->getColumns() as $column) {
@@ -1128,7 +1126,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         $this->_isExport = true;
         $this->_prepareGrid();
 
-        $convert = new \Magento\Convert\Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Framework\Convert\Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.xml';
@@ -1195,14 +1193,14 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
             $data[] = $row;
         }
 
-        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
+        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 
     /**
      * Retrieve grid export types
      *
-     * @return \Magento\Object[]|false
+     * @return \Magento\Framework\Object[]|false
      */
     public function getExportTypes()
     {
@@ -1255,7 +1253,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Set subtotal items
      *
-     * @param \Magento\Object[] $items
+     * @param \Magento\Framework\Object[] $items
      * @return $this
      */
     public function setSubTotals(array $items)
@@ -1267,7 +1265,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Retrieve subtotal items
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getSubTotals()
     {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -67,7 +64,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $root = $this->_model->getStoreRootCategory(1);
         $this->assertNotEmpty($root);
-        $this->assertInstanceOf('Magento\Object', $root);
+        $this->assertInstanceOf('Magento\Framework\Object', $root);
         $this->assertEquals(2, $root->getId());
         $this->assertEquals(1, $root->getParentId());
     }
@@ -157,10 +154,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductRequestPath()
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         $product->setName('test product')->setId(uniqid());
 
-        $category = new \Magento\Object();
+        $category = new \Magento\Framework\Object();
         $category->setName('test category')->setId(uniqid())->setLevel(2)->setUrlPath('test/category');
 
         $this->assertEquals(
@@ -179,10 +176,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function generatePathDataProvider()
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         $product->setName('test product')->setId(111);
 
-        $category = new \Magento\Object();
+        $category = new \Magento\Framework\Object();
         $category->setName('test category')->setId(999)->setLevel(2)->setUrlPath('test/category')->setParentId(3);
 
         return array(

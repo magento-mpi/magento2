@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -209,7 +207,7 @@ class Tax extends AbstractTotal
      * Tax caclulation for shipping price
      *
      * @param   Address $address
-     * @param   \Magento\Object $taxRateRequest
+     * @param   \Magento\Framework\Object $taxRateRequest
      * @return  $this
      */
     protected function _calculateShippingTax(Address $address, $taxRateRequest)
@@ -276,7 +274,7 @@ class Tax extends AbstractTotal
      * Calculate address tax amount based on one unit price and tax amount
      *
      * @param Address $address
-     * @param \Magento\Object $taxRateRequest
+     * @param \Magento\Framework\Object $taxRateRequest
      * @return $this
      */
     protected function _unitBaseCalculation(Address $address, $taxRateRequest)
@@ -409,7 +407,7 @@ class Tax extends AbstractTotal
      * Calculate address total tax based on row total
      *
      * @param   Address $address
-     * @param   \Magento\Object $taxRateRequest
+     * @param   \Magento\Framework\Object $taxRateRequest
      * @return  $this
      */
     protected function _rowBaseCalculation(Address $address, $taxRateRequest)
@@ -531,7 +529,7 @@ class Tax extends AbstractTotal
      * Calculate address total tax based on address subtotal
      *
      * @param   Address $address
-     * @param   \Magento\Object $taxRateRequest
+     * @param   \Magento\Framework\Object $taxRateRequest
      * @return  $this
      */
     protected function _totalBaseCalculation(Address $address, $taxRateRequest)

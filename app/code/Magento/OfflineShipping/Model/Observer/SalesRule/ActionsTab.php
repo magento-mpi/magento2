@@ -12,14 +12,12 @@ use Magento\OfflineShipping\Model\SalesRule\Rule;
 /**
  * Checkout cart shipping block plugin
  *
- * @category  Magento
- * @package   Magento_OfflineShipping
  * @author    Magento Core Team <core@magentocommerce.com>
  */
 class ActionsTab
 {
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function prepareForm($observer)

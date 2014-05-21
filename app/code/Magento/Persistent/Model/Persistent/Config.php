@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Persistent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +25,7 @@ class Config
     protected $_domFactory;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_moduleReader;
 
@@ -66,7 +64,7 @@ class Config
 
     /**
      * @param \Magento\Framework\Config\DomFactory $domFactory
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Persistent\Model\Factory $persistentFactory
@@ -74,7 +72,7 @@ class Config
      */
     public function __construct(
         \Magento\Framework\Config\DomFactory $domFactory,
-        \Magento\Module\Dir\Reader $moduleReader,
+        \Magento\Framework\Module\Dir\Reader $moduleReader,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\State $appState,
         \Magento\Persistent\Model\Factory $persistentFactory,

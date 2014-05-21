@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +13,7 @@ use Magento\Framework\Data\Collection;
  * Filesystem items collection
  *
  * Can scan a folder for files and/or folders recursively.
- * Creates \Magento\Object instance for each item, with its filename and base name
+ * Creates \Magento\Framework\Object instance for each item, with its filename and base name
  *
  * Supports regexp masks that are applied to files and folders base names.
  * These masks apply before adding items to collection, during filesystem scanning

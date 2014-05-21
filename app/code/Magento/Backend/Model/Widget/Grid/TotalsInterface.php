@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@ interface TotalsInterface
      *
      * @abstract
      * @param \Magento\Framework\Data\Collection $collection
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function countTotals($collection);
 }

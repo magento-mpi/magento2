@@ -30,7 +30,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_rootDir;
 
     /**
-     * @var \Magento\Url|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseUrl;
 
@@ -40,7 +40,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \Magento\Code\Minifier\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Code\Minifier\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapter;
 
@@ -69,7 +69,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryWrite')
             ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)
             ->will($this->returnValue($this->_staticViewDir));
-        $this->_adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface');
+        $this->_adapter = $this->getMockForAbstractClass('Magento\Framework\Code\Minifier\AdapterInterface');
         $this->_model = new Minified(
             $this->_asset,
             $this->_logger,

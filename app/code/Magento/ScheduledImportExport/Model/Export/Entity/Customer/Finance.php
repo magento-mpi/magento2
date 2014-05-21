@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
 /**
  * Export customer finance entity model
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  *
@@ -76,7 +72,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     /**
      * Customers whose financial data is exported
      *
-     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
+     * @var \Magento\Customer\Model\ImportExport\Export\Customer
      */
     protected $_customerEntity;
 
@@ -93,7 +89,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     protected $_customerCollectionFactory;
 
     /**
-     * @var \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory
+     * @var \Magento\Customer\Model\ImportExport\Export\CustomerFactory
      */
     protected $_eavCustomerFactory;
 
@@ -103,7 +99,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
-     * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
+     * @param \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param array $data
      */
@@ -113,7 +109,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
-        \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
+        \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
@@ -221,7 +217,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * Set parameters (push filters from post into export customer model)
      *
      * @param string[] $parameters
-     * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
+     * @return \Magento\Customer\Model\ImportExport\Export\Address
      */
     public function setParameters(array $parameters)
     {

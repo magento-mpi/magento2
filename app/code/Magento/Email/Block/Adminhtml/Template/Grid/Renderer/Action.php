@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
 /**
  * Email templates grid block action item renderer
  *
- * @category   Magento
- * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
@@ -21,10 +17,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
     /**
      * Render grid column
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $actions = array();
 
@@ -59,7 +55,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
     protected function _actionsToHtml(array $actions)
     {
         $html = array();
-        $attributesObject = new \Magento\Object();
+        $attributesObject = new \Magento\Framework\Object();
         foreach ($actions as $action) {
             $attributesObject->setData($action['@']);
             $html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';

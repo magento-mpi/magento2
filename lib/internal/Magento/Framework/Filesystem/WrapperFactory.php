@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,6 @@ namespace Magento\Framework\Filesystem;
 /**
  * Class WrapperFactory
  *
- * @package Magento\Framework\Filesystem
  */
 class WrapperFactory
 {

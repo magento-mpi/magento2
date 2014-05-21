@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Checkout observer model
  *
- * @category   Magento
- * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Checkout\Model;
@@ -25,15 +21,15 @@ class Observer
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
      * @param Session $checkoutSession
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
-    public function __construct(Session $checkoutSession, \Magento\Message\ManagerInterface $messageManager)
+    public function __construct(Session $checkoutSession, \Magento\Framework\Message\ManagerInterface $messageManager)
     {
         $this->_checkoutSession = $checkoutSession;
         $this->messageManager = $messageManager;
@@ -62,7 +58,7 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function salesQuoteSaveAfter($observer)

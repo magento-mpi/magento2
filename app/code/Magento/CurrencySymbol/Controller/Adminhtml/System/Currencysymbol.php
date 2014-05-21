@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CurrencySymbol
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml Currency Symbols Controller
  *
- * @category    Magento
- * @package     currencysymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
@@ -52,8 +48,8 @@ class Currencysymbol extends \Magento\Backend\App\Action
         $symbolsDataArray = $this->getRequest()->getParam('custom_currency_symbol', null);
         if (is_array($symbolsDataArray)) {
             foreach ($symbolsDataArray as &$symbolsData) {
-                /** @var $filterManager \Magento\Filter\FilterManager */
-                $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+                /** @var $filterManager \Magento\Framework\Filter\FilterManager */
+                $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
                 $symbolsData = $filterManager->stripTags($symbolsData);
             }
         }

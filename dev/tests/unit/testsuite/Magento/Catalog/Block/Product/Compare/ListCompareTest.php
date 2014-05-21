@@ -9,7 +9,6 @@ namespace Magento\Catalog\Block\Product\Compare;
 
 /**
  * Class ListCompareTest
- * @package Magento\Catalog\Block\Product\Compare
  */
 class ListCompareTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,7 +56,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($productId));
 
-        $blockMock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $blockMock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false);
         $blockMock->expects($this->once())
             ->method('render')
             ->with(
@@ -66,7 +65,7 @@ class ListCompareTest extends \PHPUnit_Framework_TestCase
                 [
                     'price_id' => 'product-price-' . $productId . '-compare-list-top',
                     'display_minimal_price' => true,
-                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
                 ]
             )
             ->will($this->returnValue($expectedResult));

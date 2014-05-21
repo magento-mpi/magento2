@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 /**
  * Adminhtml order create gift message block
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -56,11 +52,11 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
     /**
      * Generate form for editing of gift message for entity
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @param string $entityType
      * @return string
      */
-    public function getFormHtml(\Magento\Object $entity, $entityType = 'quote')
+    public function getFormHtml(\Magento\Framework\Object $entity, $entityType = 'quote')
     {
         return $this->getLayout()->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form'

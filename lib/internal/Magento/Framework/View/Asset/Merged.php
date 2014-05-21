@@ -13,7 +13,7 @@ namespace Magento\Framework\View\Asset;
 class Merged implements \Iterator
 {
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -43,14 +43,14 @@ class Merged implements \Iterator
     protected $isInitialized = false;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param MergeStrategyInterface $mergeStrategy
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param array $assets
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         MergeStrategyInterface $mergeStrategy,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         array $assets

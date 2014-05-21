@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -183,7 +182,7 @@
     <input type="hidden" name="billing[use_for_shipping]" value="1" />
 <?php endif; ?>
 <div class="actions" id="billing-buttons-container">
-    <div class="primary"><button type="button" class="button action continue"><span><?php echo __('Continue') ?></span></button></div>
+    <div class="primary"><button type="button" class="button action continue primary"><span><?php echo __('Continue') ?></span></button></div>
     <span id="billing-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Loading next step...') ?>">
         <span><?php echo __('Loading next step...') ?></span>
     </span>
@@ -191,18 +190,14 @@
 </form>
 <script type="text/javascript">
     (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
-            function() {
-                $('#billing\\:country_id').regionUpdater({
-                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
-                    regionListId: '#billing\\:region_id',
-                    regionInputId: '#billing\\:region',
-                    postcodeId: '#billing\\:postcode',
-                    regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
-                    defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
-                });
-            });
+        $('#billing\\:country_id').mage('regionUpdater', {
+            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+            regionListId: '#billing\\\:region_id',
+            regionInputId: '#billing\\\:region',
+            postcodeId: '#billing\\\:postcode',
+            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+            defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
+            countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+        });
     })(jQuery);
 </script>

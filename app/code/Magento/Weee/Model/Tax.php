@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -86,7 +84,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
@@ -100,7 +98,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\CalculationFactory $calculationFactory,
@@ -134,8 +132,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param Product $product
-     * @param null|false|\Magento\Object $shipping
-     * @param null|false|\Magento\Object $billing
+     * @param null|false|\Magento\Framework\Object $shipping
+     * @param null|false|\Magento\Framework\Object $billing
      * @param Website $website
      * @param bool $calculateTax
      * @param bool $ignoreDiscount
@@ -198,7 +196,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      * @param Website $website
      * @param bool $calculateTax
      * @param bool $ignoreDiscount
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributes(
         $product,
@@ -290,7 +288,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                         }
                     }
 
-                    $one = new \Magento\Object();
+                    $one = new \Magento\Framework\Object();
                     $one->setName(__($attribute->getFrontend()->getLabel()))
                         ->setAmount($amount)
                         ->setTaxAmount($taxAmount)

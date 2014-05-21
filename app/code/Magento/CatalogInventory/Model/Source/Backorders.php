@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogInventory\Model\Source;
 
-class Backorders implements \Magento\Option\ArrayInterface
+class Backorders implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

@@ -28,16 +28,14 @@ class ReadFactory
      * Create a readable file
      *
      * @param string $path
-     * @param string|null $protocol
-     * @param DriverInterface $directoryDriver [optional]
+     * @param string|null $protocol [optional]
+     * @param DriverInterface $driver [optional]
      * @return \Magento\Framework\Filesystem\File\ReadInterface
      */
-    public function create($path, $protocol, DriverInterface $directoryDriver = null)
+    public function create($path, $protocol = null, DriverInterface $driver = null)
     {
-        $fileDriver = $directoryDriver;
-        if ($protocol) {
-            $fileDriver = $this->driverFactory->get($protocol, $directoryDriver);
-        }
-        return new \Magento\Framework\Filesystem\File\Read($path, $fileDriver);
+        $driverClassName = is_null($driver) ? null : get_class($driver);
+        $driver = $protocol ? $this->driverFactory->get($protocol, $driverClassName) : $driver;
+        return new \Magento\Framework\Filesystem\File\Read($path, $driver);
     }
 }

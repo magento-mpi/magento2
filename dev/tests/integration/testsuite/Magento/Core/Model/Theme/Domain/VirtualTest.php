@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +20,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             'theme_path' => 'test/test',
             'theme_version' => '1.0.0.0',
             'theme_title' => 'Test physical theme',
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
             'type' => ThemeInterface::TYPE_PHYSICAL
         ),
         'virtual' => array(
@@ -31,7 +28,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             'theme_path' => '',
             'theme_version' => '1.0.0.0',
             'theme_title' => 'Test virtual theme',
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
             'type' => ThemeInterface::TYPE_VIRTUAL
         ),
         'staging' => array(
@@ -39,7 +36,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
             'theme_path' => '',
             'theme_version' => '1.0.0.0',
             'theme_title' => 'Test staging theme',
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
             'type' => ThemeInterface::TYPE_STAGING
         )
     );

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Data
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class CollectionFactory
 {

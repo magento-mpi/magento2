@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +24,6 @@ use Magento\Catalog\Model\Product;
  * @method int getStatusId()
  * @method \Magento\Review\Model\Review setStatusId(int $value)
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Review extends \Magento\Framework\Model\AbstractModel
@@ -99,34 +95,34 @@ class Review extends \Magento\Framework\Model\AbstractModel
     /**
      * Url interface
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlModel;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory
      * @param \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory
      * @param \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory
      * @param \Magento\Review\Model\Review\SummaryFactory $summaryModFactory
      * @param \Magento\Review\Model\Review\Summary $reviewSummary
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $urlModel
+     * @param \Magento\Framework\UrlInterface $urlModel
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory,
         \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory,
         \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory,
         \Magento\Review\Model\Review\SummaryFactory $summaryModFactory,
         \Magento\Review\Model\Review\Summary $reviewSummary,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $urlModel,
+        \Magento\Framework\UrlInterface $urlModel,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -205,7 +201,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
     public function getEntitySummary($product, $storeId = 0)
     {
         $summaryData = $this->_summaryModFactory->create()->setStoreId($storeId)->load($product->getId());
-        $summary = new \Magento\Object();
+        $summary = new \Magento\Framework\Object();
         $summary->setData($summaryData->getData());
         $product->setRatingSummary($summary);
     }

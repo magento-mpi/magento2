@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,8 +21,6 @@ namespace Magento\GiftMessage\Model;
  * @method string getMessage()
  * @method \Magento\GiftMessage\Model\Message setMessage(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Message extends \Magento\Framework\Model\AbstractModel
@@ -36,7 +32,7 @@ class Message extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftMessage\Model\Resource\Message $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\GiftMessage\Model\TypeFactory $typeFactory
@@ -44,7 +40,7 @@ class Message extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftMessage\Model\Resource\Message $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\GiftMessage\Model\TypeFactory $typeFactory,

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Wishlist rss feed block
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block;
@@ -40,7 +36,6 @@ class Rss extends \Magento\Rss\Block\Wishlist
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -52,8 +47,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
         \Magento\Catalog\Helper\Output $outputHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_customerViewHelper = $customerViewHelper;
         $this->_customerAccountService = $customerAccountService;
@@ -66,8 +60,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
             $wishlistFactory,
             $rssFactory,
             $outputHelper,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

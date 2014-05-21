@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftCardAccount\Model\Source;
 
-class Format extends \Magento\Framework\Model\AbstractModel implements \Magento\Option\ArrayInterface
+class Format extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return list of gift card account code formats

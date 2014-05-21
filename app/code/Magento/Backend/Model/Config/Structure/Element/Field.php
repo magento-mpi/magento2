@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -425,7 +423,7 @@ class Field extends \Magento\Backend\Model\Config\Structure\AbstractElement
         }
 
         $sourceModel = $this->_sourceFactory->create($sourceModel);
-        if ($sourceModel instanceof \Magento\Object) {
+        if ($sourceModel instanceof \Magento\Framework\Object) {
             $sourceModel->setPath($this->getPath());
         }
         if ($method) {

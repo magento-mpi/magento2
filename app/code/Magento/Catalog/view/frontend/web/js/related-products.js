@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend related products
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -74,6 +72,9 @@
         _showRelatedProducts: function(elements, limit, shuffle) {
             if (shuffle) {
                 this._shuffle(elements);
+            }
+            if (limit === 0) {
+                limit = elements.length;
             }
             for (var index = 0; index < limit; index++) {
                 $(elements[index]).show();

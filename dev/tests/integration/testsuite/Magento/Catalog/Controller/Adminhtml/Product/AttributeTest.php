@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -88,8 +85,8 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         )->setDesignTheme(
             1
         );
-        /** @var \Magento\TranslateInterface $translate */
-        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        /** @var \Magento\Framework\TranslateInterface $translate */
+        $translate = $this->_objectManager->get('Magento\Framework\TranslateInterface');
         $translate->loadData(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, true);
         return __($string);
     }

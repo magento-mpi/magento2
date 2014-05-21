@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Reward\Model\Source;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Website implements \Magento\Option\ArrayInterface
+class Website implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Core system store model

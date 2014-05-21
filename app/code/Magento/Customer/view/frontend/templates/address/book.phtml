@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -80,17 +79,19 @@
 </div>
 
 <div class="actions toolbar">
+    <div class="primary">
+        <button type="button" role="add-address" title="<?php echo __('Add New Address') ?>" class="action primary add"><span><?php echo __('Add New Address') ?></span></button>
+    </div>
     <div class="secondary">
         <a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><span><?php echo __('Back') ?></span></a>
     </div>
 </div>
+
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_Customer::address.js'); ?>", function() {
-        jQuery('.page.main').address({
-            deleteAddress: "li.item a[role='delete-address']",
-            deleteUrlPrefix: '<?php echo $this->getDeleteUrl() ?>id/',
-            addAddress: "button[role='add-address']",
-            addAddressLocation: '<?php echo $this->getAddAddressUrl() ?>'
-        });
+    jQuery('.page.main').mage('address', {
+        deleteAddress: "li.item a[role='delete-address']",
+        deleteUrlPrefix: '<?php echo $this->getDeleteUrl() ?>id/',
+        addAddress: "button[role='add-address']",
+        addAddressLocation: '<?php echo $this->getAddAddressUrl() ?>'
     });
 </script>

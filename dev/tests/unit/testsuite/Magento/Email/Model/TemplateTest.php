@@ -31,7 +31,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array(
                 $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\View\Design', array(), array(), '', false),
-                $this->getMock('Magento\Registry', array(), array(), '', false),
+                $this->getMock('Magento\Framework\Registry', array(), array(), '', false),
                 $this->getMock('Magento\Core\Model\App\Emulation', array(), array(), '', false),
                 $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false),
                 $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),

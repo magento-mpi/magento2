@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Model\Actions\Condition\Product;
 /**
  * TargetRule Action Product Attributes Condition Model
  *
- * @category Magento
- * @package  Magento_TargetRule
  * @author   Magento Core Team <core@magentocommerce.com>
  */
 class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attributes
@@ -45,7 +41,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Rule\Block\Editable $editable
      * @param \Magento\Catalog\Model\Product\Type $type
      * @param array $data
@@ -57,7 +53,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Rule\Block\Editable $editable,
         \Magento\Catalog\Model\Product\Type $type,
         array $data = array()
@@ -352,9 +348,8 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
                 $select->where('category_id IN(?)', $subSelect);
             } else {
                 //self::VALUE_TYPE_CONSTANT
-                $operator = $operator == '==' ? '' : 'NOT';
                 $value = $resource->bindArrayOfIds($this->getValue());
-                $where = "category_id {$operator} IN(" . implode(',', $value) . ")";
+                $where = $resource->getOperatorCondition('category_id', $operator, $value);
                 $select->where($where);
             }
 

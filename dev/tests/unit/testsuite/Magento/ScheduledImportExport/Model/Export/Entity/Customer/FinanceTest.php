@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -66,7 +63,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $eavCustomerFactory = $this->getMock(
-            'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory',
+            'Magento\Customer\Model\ImportExport\Export\CustomerFactory',
             array(),
             array(),
             '',
@@ -170,7 +167,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
-            $websites[$id] = new \Magento\Object($websiteData);
+            $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
         return $websites;

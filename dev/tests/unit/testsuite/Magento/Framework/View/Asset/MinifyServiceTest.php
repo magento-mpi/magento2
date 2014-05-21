@@ -15,7 +15,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -27,7 +27,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_config = $this->getMock('Magento\Framework\View\Asset\ConfigInterface', array(), array(), '', false);
-        $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager');
+        $this->_objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
         $this->_model = new MinifyService($this->_config, $this->_objectManager);
     }
 
@@ -126,7 +126,7 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Minification adapter is not specified for 'js' content type
      */
     public function testGetAssetsNoAdapterDefined()

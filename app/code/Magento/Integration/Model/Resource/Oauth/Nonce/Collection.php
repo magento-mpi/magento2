@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,10 +9,6 @@ namespace Magento\Integration\Model\Resource\Oauth\Nonce;
 
 /**
  * OAuth nonce resource collection model
- *
- * @category    Magento
- * @package     Magento_Oauth
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {

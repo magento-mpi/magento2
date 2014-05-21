@@ -45,7 +45,7 @@ class ThemeProvider implements \Magento\Framework\View\Design\Theme\ThemeProvide
      * {@inheritdoc}
      */
     public function getThemeCustomizations(
-        $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
+        $area = \Magento\Framework\App\Area::AREA_FRONTEND,
         $type = \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
     ) {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */

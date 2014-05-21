@@ -48,7 +48,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $this->request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->request->expects($this->any())->method('getParams')->will($this->returnValue(array()));
 
-        $this->eventChanges = new \Magento\Object();
+        $this->eventChanges = new \Magento\Framework\Object();
         $this->eventChangesFactory = $this->getMock(
             '\Magento\Logging\Model\Event\ChangesFactory',
             array('create'),
@@ -133,7 +133,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('info' => 'general'),
-            $this->object->postDispatchConfigSave(array(), new \Magento\Object(), $this->processor)->getData()
+            $this->object->postDispatchConfigSave(array(), new \Magento\Framework\Object(), $this->processor)->getData()
         );
     }
 }

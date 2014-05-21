@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,6 +33,9 @@
             ],
             redirectUrl: [
                 '<?php echo $this->getViewFileUrl('mage/redirect-url.js') ?>'
+            ],
+            cookieBlock: [
+                '<?php echo $this->getViewFileUrl('Magento_Theme::js/notices.js') ?>'
             ]
         });
     })(jQuery);

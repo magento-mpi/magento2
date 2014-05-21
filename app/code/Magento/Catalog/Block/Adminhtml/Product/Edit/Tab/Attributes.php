@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Product attributes tab
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
@@ -33,7 +29,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -41,7 +37,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -205,7 +201,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg'
         );
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 

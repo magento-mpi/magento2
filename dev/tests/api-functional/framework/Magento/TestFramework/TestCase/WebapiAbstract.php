@@ -331,9 +331,9 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $objectManager->get('Magento\Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Framework\Registry')->unregister('isSecureArea');
         if ($flag) {
-            $objectManager->get('Magento\Registry')->register('isSecureArea', $flag);
+            $objectManager->get('Magento\Framework\Registry')->register('isSecureArea', $flag);
         }
     }
 

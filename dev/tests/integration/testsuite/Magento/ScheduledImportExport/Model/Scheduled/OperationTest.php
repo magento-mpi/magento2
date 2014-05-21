@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,7 +43,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     public function testGetInstance($operationType)
     {
         $this->_model->setOperationType($operationType);
-        $string = new \Magento\Stdlib\String();
+        $string = new \Magento\Framework\Stdlib\String();
         $this->assertInstanceOf(
             'Magento\ScheduledImportExport\Model\\' . $string->upperCaseWords($operationType),
             $this->_model->getInstance()

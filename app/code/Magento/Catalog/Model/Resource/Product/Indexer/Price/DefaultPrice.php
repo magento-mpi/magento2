@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
  * Default Product Type Price Indexer Resource model
  * For correctly work need define product type id
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer implements PriceInterface
@@ -43,20 +39,20 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData
     ) {
         $this->_eventManager = $eventManager;
@@ -133,9 +129,7 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $this->useIdxTable(true);
         $this->beginTransaction();
         try {
-            $this->_prepareFinalPriceData();
-            $this->_applyCustomOption();
-            $this->_movePriceDataToIndexTable();
+            $this->reindex();
             $this->commit();
         } catch (\Exception $e) {
             $this->rollBack();
@@ -148,13 +142,25 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return $this
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
      */
     public function reindexEntity($entityIds)
     {
-        $this->_prepareFinalPriceData($entityIds);
-        $this->_applyCustomOption();
-        $this->_movePriceDataToIndexTable();
+        $this->reindex($entityIds);
+        return $this;
+    }
+
+    /**
+     * @param null|int|array $entityIds
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
+     */
+    protected function reindex($entityIds = null)
+    {
+        if ($this->hasEntity() || !empty($entityIds)) {
+            $this->_prepareFinalPriceData($entityIds);
+            $this->_applyCustomOption();
+            $this->_movePriceDataToIndexTable();
+        }
         return $this;
     }
 
@@ -654,5 +660,23 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
             return $this->getTable('catalog_product_index_price_idx');
         }
         return $this->getTable('catalog_product_index_price_tmp');
+    }
+
+    /**
+     * @return bool
+     */
+    protected function hasEntity()
+    {
+        $reader = $this->_getReadAdapter();
+
+        $select = $reader->select()->from(
+            array($this->getTable('catalog_product_entity')),
+            array('count(entity_id)')
+        )->where(
+            'type_id=?',
+            $this->getTypeId()
+        );
+
+        return (int)$reader->fetchOne($select) > 0;
     }
 }

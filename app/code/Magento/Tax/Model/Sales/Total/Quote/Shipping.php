@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -38,7 +36,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Request which can be used for tax rate calculation
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_storeTaxRequest = null;
 

@@ -26,9 +26,9 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     private $_schemaFile;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      */
-    public function __construct(\Magento\Module\Dir\Reader $moduleReader)
+    public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
     {
         $dir = $moduleReader->getModuleDir('etc', 'Magento_Sales');
         $this->_schema = $dir . '/pdf.xsd';

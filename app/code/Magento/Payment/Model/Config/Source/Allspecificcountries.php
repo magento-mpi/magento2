@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Payment\Model\Config\Source;
 
-class Allspecificcountries implements \Magento\Option\ArrayInterface
+class Allspecificcountries implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Logging\Model\Resource\Grid;
 
-class Actions implements \Magento\Option\ArrayInterface
+class Actions implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Logging\Helper\Data

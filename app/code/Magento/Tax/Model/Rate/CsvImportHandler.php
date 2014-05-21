@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -96,7 +94,7 @@ class CsvImportHandler
         if (!isset($file['tmp_name'])) {
             throw new \Magento\Framework\Model\Exception('Invalid file upload attempt.');
         }
-        $csvProcessor = new \Magento\File\Csv();
+        $csvProcessor = new \Magento\Framework\File\Csv();
         $ratesRawData = $csvProcessor->getData($file['tmp_name']);
         // first row of file represents headers
         $fileFields = $ratesRawData[0];
@@ -238,7 +236,7 @@ class CsvImportHandler
         if (!empty($regionsCache[$countryCode][$regionCode])) {
             $regionId = $regionsCache[$countryCode][$regionCode] == '*' ? 0 : $regionsCache[$countryCode][$regionCode];
             // data with index 3 must represent postcode
-            $postCode = empty($rateData[3]) || $rateData[3] == '*' ? null : $rateData[3];
+            $postCode = empty($rateData[3]) ? null : $rateData[3];
             $modelData = array(
                 'code' => $rateData[0],
                 'tax_country_id' => $rateData[1],

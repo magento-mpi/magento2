@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Resource\Product;
 /**
  * Catalog Product Mass processing resource model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Action extends \Magento\Catalog\Model\Resource\AbstractResource
@@ -45,7 +41,7 @@ class Action extends \Magento\Catalog\Model\Resource\AbstractResource
      */
     public function updateAttributes($entityIds, $attrData, $storeId)
     {
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $object->setIdFieldName('entity_id')->setStoreId($storeId);
 
         $this->_getWriteAdapter()->beginTransaction();

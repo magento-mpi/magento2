@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  */
 namespace Magento\Checkout\Model\Type;
 
@@ -546,7 +544,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Smith',
             'email' => 'John.Smith@example.com',
-            'street' => array(0 => '6131 Monterey Rd, Apt 1', 1 => ''),
+            'street' => ['6131 Monterey Rd, Apt 1', ''],
             'city' => 'Los Angeles',
             'postcode' => '90042',
             'country_id' => 'US',

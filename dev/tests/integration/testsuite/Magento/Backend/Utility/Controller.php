@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -71,7 +68,7 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
     public function assertSessionMessages(
         \PHPUnit_Framework_Constraint $constraint,
         $messageType = null,
-        $messageManagerClass = 'Magento\Message\Manager'
+        $messageManagerClass = 'Magento\Framework\Message\Manager'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $messageManagerClass);
     }

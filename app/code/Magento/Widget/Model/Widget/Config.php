@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -59,7 +57,7 @@ class Config
     /**
      * Return config settings for widgets insertion plugin based on editor element config
      *
-     * @param \Magento\Object $config
+     * @param \Magento\Framework\Object $config
      * @return array
      */
     public function getPluginSettings($config)
@@ -79,7 +77,7 @@ class Config
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param \Magento\Object $config Editor element config
+     * @param \Magento\Framework\Object $config Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)

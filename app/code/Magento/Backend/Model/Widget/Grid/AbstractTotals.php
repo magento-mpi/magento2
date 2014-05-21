@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,7 +30,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
     /**
      * Factory model
      *
-     * @var \Magento\Object\Factory
+     * @var \Magento\Framework\Object\Factory
      */
     protected $_factory;
 
@@ -44,10 +42,10 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
     protected $_parser;
 
     /**
-     * @param \Magento\Object\Factory $factory
+     * @param \Magento\Framework\Object\Factory $factory
      * @param \Magento\Backend\Model\Widget\Grid\Parser $parser
      */
-    public function __construct(\Magento\Object\Factory $factory, \Magento\Backend\Model\Widget\Grid\Parser $parser)
+    public function __construct(\Magento\Framework\Object\Factory $factory, \Magento\Backend\Model\Widget\Grid\Parser $parser)
     {
         $this->_factory = $factory;
         $this->_parser = $parser;
@@ -224,7 +222,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
      * Count totals for all columns set
      *
      * @param \Magento\Framework\Data\Collection $collection
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function countTotals($collection)
     {
@@ -238,7 +236,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
     /**
      * Get totals as object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {

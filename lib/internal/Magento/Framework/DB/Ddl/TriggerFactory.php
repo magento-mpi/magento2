@@ -10,7 +10,7 @@ namespace Magento\Framework\DB\Ddl;
 class TriggerFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -20,9 +20,9 @@ class TriggerFactory
     const INSTANCE_NAME = 'Magento\Framework\DB\Ddl\Trigger';
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

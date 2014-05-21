@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,10 +17,10 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     /**
      * Renders grid column
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $data = $row->getData($this->getColumn()->getIndex());
         $currency_code = $this->_getCurrencyCode($row);

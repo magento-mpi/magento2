@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Sales\Model\Order\Pdf\Total;
  *
  * @method \Magento\Sales\Model\Order getOrder()
  */
-class DefaultTotal extends \Magento\Object
+class DefaultTotal extends \Magento\Framework\Object
 {
     /**
      * @var \Magento\Tax\Helper\Data

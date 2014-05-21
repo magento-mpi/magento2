@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@ namespace Magento\Eav\Model\Entity\Attribute\Source;
 /**
  * Entity/Attribute/Model - attribute selection source abstract
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractSource implements
     \Magento\Eav\Model\Entity\Attribute\Source\SourceInterface,
-    \Magento\Option\ArrayInterface
+    \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Reference to the attribute instance

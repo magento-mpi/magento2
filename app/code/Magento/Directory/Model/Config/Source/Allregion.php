@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Directory\Model\Config\Source;
 
-class Allregion implements \Magento\Option\ArrayInterface
+class Allregion implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

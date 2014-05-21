@@ -21,7 +21,7 @@ class RemoveActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAllowed($modelToCheck, $protectedModel, $secureArea, $expectedResult)
     {
-        $registryMock = $this->getMock('\Magento\Registry', array(), array(), '', false);
+        $registryMock = $this->getMock('\Magento\Framework\Registry', array(), array(), '', false);
         $registryMock->expects($this->once())
             ->method('registry')->with('isSecureArea')->will($this->returnValue($secureArea));
 

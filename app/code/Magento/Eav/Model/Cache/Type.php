@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Eav\Model\Cache;
  *
  * @todo utilize the class for all manipulations with the cache type
  */
-class Type extends \Magento\Cache\Frontend\Decorator\TagScope
+class Type extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
 {
     /**
      * Cache type code unique among all cache types

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -169,7 +167,7 @@ class Compare extends \Magento\Framework\App\Action\Action
 
             if ($product->getId()) {
                 $this->_catalogProductCompareList->addProduct($product);
-                $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
+                $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                 $this->messageManager->addSuccess(__('You added product %1 to the comparison list.', $productName));
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product' => $product));
             }
@@ -208,7 +206,7 @@ class Compare extends \Magento\Framework\App\Action\Action
                 $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare');
                 if ($item->getId()) {
                     $item->delete();
-                    $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
+                    $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                     $this->messageManager->addSuccess(
                         __('You removed product %1 from the comparison list.', $productName)
                     );

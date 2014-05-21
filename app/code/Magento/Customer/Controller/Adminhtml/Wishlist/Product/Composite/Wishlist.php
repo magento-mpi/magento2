@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -69,7 +67,7 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     public function configureAction()
     {
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
@@ -99,11 +97,11 @@ class Wishlist extends \Magento\Backend\App\Action
     public function updateAction()
     {
         // Update wishlist item
-        $updateResult = new \Magento\Object();
+        $updateResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
-            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
 
             $this->_wishlist->updateItem($this->_wishlistItem->getId(), $buyRequest)->save();
 

@@ -19,11 +19,17 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock(
+            'Magento\Framework\ObjectManager\ObjectManager',
+            array(),
+            array(),
+            '',
+            false
+        );
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage WrongClass doesn't extend \Magento\Framework\Data\Form
      */
     public function testWrongTypeException()

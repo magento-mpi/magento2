@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,14 +15,14 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filter;
 
     protected function setUp()
     {
         $this->filter = $this->getMockBuilder(
-            'Magento\Filter\FilterManager'
+            'Magento\Framework\Filter\FilterManager'
         )->disableOriginalConstructor()->setMethods(
             array('translitUrl')
         )->getMock();

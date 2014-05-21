@@ -21,7 +21,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registryMock;
 
@@ -48,16 +48,20 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->actionValidatorMock = $this->getMock(
-            '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Framework\Model\ActionValidator\RemoveAction',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->contextMock = new \Magento\Framework\Model\Context(
-            $this->getMock('Magento\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\State', array(), array(), '', false),
             $this->actionValidatorMock
         );
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
             array(

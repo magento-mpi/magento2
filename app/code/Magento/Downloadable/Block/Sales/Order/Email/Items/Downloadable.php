@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Downloadable\Model\Link\Purchased;
 /**
  * Downlaodable Sales Order Email items renderer
  *
- * @category   Magento
- * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
@@ -37,7 +33,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
     protected $_itemsFactory;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $urlGenerator;
 

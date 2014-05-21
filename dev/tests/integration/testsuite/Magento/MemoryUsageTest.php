@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,7 @@ class MemoryUsageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\Memory(
-            new \Magento\Shell(new \Magento\Shell\CommandRenderer())
+            new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer())
         );
     }
 

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +13,7 @@ use Magento\Framework\Data\Form\Element\CollectionFactory as ElementCollectionFa
 use Magento\Framework\Data\Form\Element\Factory;
 use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 use Magento\Framework\Data\Form\FormKey;
-use Magento\Profiler;
+use Magento\Framework\Profiler;
 
 class Form extends \Magento\Framework\Data\Form\AbstractForm
 {

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
-class Visibility implements \Magento\Option\ArrayInterface
+class Visibility implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

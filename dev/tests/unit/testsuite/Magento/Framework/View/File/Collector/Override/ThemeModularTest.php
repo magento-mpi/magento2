@@ -68,8 +68,8 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
             ->expects($this->exactly(2))
             ->method('create')
             ->will($this->returnValueMap(array(
-                array($filePathOne, 'Module_One', $parentTheme, $fileOne),
-                array($filePathTwo, 'Module_Two', $grandparentTheme, $fileTwo),
+                array($filePathOne, 'Module_One', $parentTheme, false, $fileOne),
+                array($filePathTwo, 'Module_Two', $grandparentTheme, false, $fileTwo),
             )))
         ;
 
@@ -111,7 +111,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
     {
         $filePath = 'design/area/theme_path/Module_One/override/theme/parent_theme/1.xml';
         $this->setExpectedException(
-            'Magento\Exception',
+            'Magento\Framework\Exception',
             "Trying to override modular view file '$filePath' for theme 'parent_theme'"
                 . ", which is not ancestor of theme 'theme_path'"
         );

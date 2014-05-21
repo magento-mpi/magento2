@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $itemId = 3;
         $urlPath = 'mng/item/edit';
 
-        $itemMock = $this->getMock('Magento\Object', array('getItemId'), array(), '', false);
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getItemId'), array(), '', false);
         $itemMock->expects($this->once())->method('getItemId')->will($this->returnValue($itemId));
 
         $urlModelMock = $this->getMock(

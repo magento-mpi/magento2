@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -81,8 +79,8 @@
                     },
                     {
                         action: 'resize',
-                        maxWidth: <?php echo \Magento\File\Uploader::MAX_IMAGE_WIDTH ?>,
-                        maxHeight: <?php echo \Magento\File\Uploader::MAX_IMAGE_HEIGHT ?>
+                        maxWidth: <?php echo \Magento\Framework\File\Uploader::MAX_IMAGE_WIDTH ?>,
+                        maxHeight: <?php echo \Magento\Framework\File\Uploader::MAX_IMAGE_HEIGHT ?>
                     },
                     {
                         action: 'save'

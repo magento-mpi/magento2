@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -58,7 +56,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
-                array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter((double)$qty);
@@ -82,11 +80,6 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
      */
     public function allcartAction()
     {
-        if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            $this->_forward('noroute');
-            return;
-        }
-
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
             $this->_forward('noroute');
@@ -135,7 +128,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
                     $cart->getQuote()->deleteItem($cartItem);
                 }
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $messages[] = __('We cannot add this item to your shopping cart.');
             }
         }
@@ -144,7 +137,7 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
             $indexUrl = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->getListUrl($wishlist->getId());
         } else {
             $indexUrl = $this->_objectManager->create(
-                'Magento\UrlInterface'
+                'Magento\Framework\UrlInterface'
             )->getUrl(
                 'wishlist/shared',
                 array('code' => $wishlist->getSharingCode())

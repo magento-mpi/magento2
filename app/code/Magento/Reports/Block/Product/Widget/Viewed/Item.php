@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,19 +20,4 @@ class Item extends \Magento\Catalog\Block\Product\AbstractProduct implements \Ma
      * @var string
      */
     protected $_indexType = \Magento\Reports\Model\Product\Index\Factory::TYPE_VIEWED;
-
-    /**
-     * Internal constructor
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'catalog/product/price.phtml'
-        );
-    }
 }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMode()
     {
-        $childBlock = new \Magento\Object();
+        $childBlock = new \Magento\Framework\Object();
 
         $block = $this->getMock(
             'Magento\Catalog\Block\Product\ListProduct',

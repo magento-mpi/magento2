@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_CheckoutOnePage
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +9,6 @@
 /**
  * Tests for payment methods. Frontend - OnePageCheckout
  *
- * @package     selenium
- * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotalTest extends Mage_Selenium_TestCase

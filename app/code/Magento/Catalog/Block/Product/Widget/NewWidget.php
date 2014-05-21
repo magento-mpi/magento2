@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,21 +43,6 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
      * @var \Magento\Catalog\Block\Product\Widget\Html\Pager
      */
     protected $_pager;
-
-    /**
-     * Initialize block's cache and template settings
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'bundle/catalog/product/price.phtml'
-        );
-    }
 
     /**
      * Product collection initialize process
@@ -208,7 +191,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     public function getProductPriceHtml(
         \Magento\Catalog\Model\Product $product,
         $priceType = null,
-        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
+        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
         array $arguments = []
     ) {
         if (!isset($arguments['zone'])) {
@@ -227,13 +210,13 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
             ? $arguments['display_minimal_price']
             : true;
 
-            /** @var \Magento\Pricing\Render $priceRender */
+            /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
 
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
                 $product,
                 $arguments
             );

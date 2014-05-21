@@ -4,13 +4,10 @@
  *
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento
  * @copyright  {copyright}
  * @license    {license_link}
  */
 use Magento\Store\Model\StoreManager;
-
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 umask(0);

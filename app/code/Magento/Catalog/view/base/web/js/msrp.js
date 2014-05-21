@@ -1,0 +1,73 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/*jshint browser:true jquery:true*/
+(function($) {
+    $.widget('mage.addToCart', {
+        options: {
+            showAddToCart: true,
+            cartForm: '.form.map.checkout'
+        },
+
+        _create: function() {
+            $(this.options.cartButtonId).on('click', $.proxy(function() {
+                this._addToCartSubmit();
+            }, this));
+
+            $(this.options.popupId).on('click', $.proxy(function(e) {
+                if (this.options.submitUrl) {
+                    location.href = this.options.submitUrl;
+                } else {
+                    $(this.options.popupCartButtonId).off('click');
+                    $(this.options.popupCartButtonId).on('click', $.proxy(function() {
+                        this._addToCartSubmit();
+                    }, this));
+                    $('#map-popup-heading').text(this.options.productName);
+                    $('#map-popup-price').html($(this.options.realPrice));
+                    $('#map-popup-msrp').html(this.options.msrpPrice);
+                    this.element.trigger('reloadPrice');
+                    var width = $('#map-popup').width();
+                    var offsetX = e.pageX - (width / 2) + "px";
+                    $('#map-popup').addClass('active').css({left: offsetX, top: e.pageY}).show();
+                    if (!this.options.showAddToCart) {
+                        $('#map-popup-content > .map-popup-checkout').hide();
+                    }
+                    $('#map-popup-content').show();
+                    $('#map-popup-text').show();
+                    $('#map-popup-text-what-this').hide();
+                    return false;
+                }
+            }, this));
+
+            $(this.options.helpLinkId).on('click', $.proxy(function(e) {
+                $('#map-popup-heading').text(this.options.productName);
+                var width = $('#map-popup').width();
+                var offsetX = e.pageX - (width / 2) + "px";
+                $('#map-popup').addClass('active').css({left: offsetX, top: e.pageY}).show();
+                $('#map-popup-content').hide();
+                $('#map-popup-text').hide();
+                $('#map-popup-text-what-this').show();
+                return false;
+            }, this));
+
+            $(this.options.closeButtonId).on('click', $.proxy(function() {
+                $('#map-popup').removeClass('active').hide();
+                return false;
+            }, this));
+
+        },
+
+        _addToCartSubmit: function() {
+            this.element.trigger('addToCart', this.element);
+            if (this.options.addToCartUrl) {
+                $(this.options.cartForm).attr('action', this.options.addToCartUrl);
+            }
+            $(this.options.cartForm).submit();
+        }
+    });
+})(jQuery);
+

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,7 +34,7 @@ class CheckoutTest extends \Magento\TestFramework\TestCase\AbstractController
         )->setQuoteId(
             $quote->getId()
         );
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         /** @var $session \Magento\Customer\Model\Session */
         $session = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Session', array($logger));
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

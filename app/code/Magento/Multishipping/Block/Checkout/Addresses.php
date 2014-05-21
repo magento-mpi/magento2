@@ -15,7 +15,7 @@ use Magento\Customer\Model\Address\Config as AddressConfig;
 class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
-     * @var \Magento\Filter\Object\GridFactory
+     * @var \Magento\Framework\Filter\Object\GridFactory
      */
     protected $_filterGridFactory;
 
@@ -36,7 +36,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Filter\Object\GridFactory $filterGridFactory
+     * @param \Magento\Framework\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $customerAddressService
      * @param AddressConfig $addressConfig
@@ -44,7 +44,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Filter\Object\GridFactory $filterGridFactory,
+        \Magento\Framework\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $customerAddressService,
         AddressConfig $addressConfig,
@@ -86,9 +86,9 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
-        /** @var \Magento\Filter\Object\Grid $itemsFilter */
+        /** @var \Magento\Framework\Filter\Object\Grid $itemsFilter */
         $itemsFilter = $this->_filterGridFactory->create();
-        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
+        $itemsFilter->addFilter(new \Magento\Framework\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 
@@ -124,7 +124,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 
             try {
                 $addresses = $this->_customerAddressService->getAddresses($this->getCustomerId());
-            } catch (\Magento\Exception\NoSuchEntityException $e) {
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 /** Customer does not exist */
             }
             /** @var \Magento\Customer\Service\V1\Data\Address $address */

@@ -3,9 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -194,7 +191,7 @@ while ($testCasesLeft > 0) {
                 );
 
                 $testCaseOutputDir = $outputDir . '/' . $testCaseId . '/';
-                \Magento\Io\File::rmdirRecursive($testCaseOutputDir);
+                \Magento\Framework\Io\File::rmdirRecursive($testCaseOutputDir);
                 mkdir($testCaseOutputDir);
 
                 $testCaseLogsDir = str_replace('/', '/', $worker['dir'] . '/var/logs');

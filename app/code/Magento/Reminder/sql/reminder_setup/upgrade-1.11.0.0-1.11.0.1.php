@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Module\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $ruleTable = $installer->getTable('magento_reminder_rule');

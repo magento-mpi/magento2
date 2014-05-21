@@ -8,7 +8,7 @@
 namespace Magento\Customer\Controller;
 
 use Magento\Framework\App\RequestInterface;
-use Magento\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Customer address controller
@@ -181,9 +181,9 @@ class Address extends \Magento\Framework\App\Action\Action
             $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
         } catch (InputException $e) {
+            $this->messageManager->addError($e->getMessage());
             foreach ($e->getErrors() as $error) {
-                $message = InputException::translateError($error);
-                $this->messageManager->addError($message);
+                $this->messageManager->addError($error->getMessage());
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save address.'));
@@ -258,8 +258,8 @@ class Address extends \Magento\Framework\App\Action\Action
      */
     protected function _buildUrl($route = '', $params = array())
     {
-        /** @var \Magento\UrlInterface $urlBuilder */
-        $urlBuilder = $this->_objectManager->create('Magento\UrlInterface');
+        /** @var \Magento\Framework\UrlInterface $urlBuilder */
+        $urlBuilder = $this->_objectManager->create('Magento\Framework\UrlInterface');
         return $urlBuilder->getUrl($route, $params);
     }
 }

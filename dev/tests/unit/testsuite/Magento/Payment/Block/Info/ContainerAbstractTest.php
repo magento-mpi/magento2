@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +24,13 @@ class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
         );
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $paymentInfo = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
-        $adapterFactoryMock = $this->getMock('Magento\Logger\AdapterFactory', array('create'), array(), '', false);
+        $adapterFactoryMock = $this->getMock(
+            'Magento\Framework\Logger\AdapterFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $methodInstance = $objectManagerHelper->getObject(
             'Magento\OfflinePayments\Model\Checkmo',
             array('logAdapterFactory' => $adapterFactoryMock)

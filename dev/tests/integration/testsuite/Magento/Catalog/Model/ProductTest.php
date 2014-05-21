@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -384,9 +381,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessBuyRequest()
     {
-        $request = new \Magento\Object();
+        $request = new \Magento\Framework\Object();
         $result = $this->_model->processBuyRequest($request);
-        $this->assertInstanceOf('Magento\Object', $result);
+        $this->assertInstanceOf('Magento\Framework\Object', $result);
         $this->assertArrayHasKey('errors', $result->getData());
     }
 

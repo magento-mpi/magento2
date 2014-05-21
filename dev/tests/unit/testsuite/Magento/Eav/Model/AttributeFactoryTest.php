@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,8 +26,8 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $objectManagerMock \Magento\ObjectManager */
-        $objectManagerMock = $this->getMock('Magento\ObjectManager');
+        /** @var $objectManagerMock \Magento\Framework\ObjectManager */
+        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $objectManagerMock->expects(
             $this->any()
         )->method(

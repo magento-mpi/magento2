@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +22,7 @@ class Create extends \Magento\Rma\Block\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -50,7 +48,7 @@ class Create extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -61,7 +59,7 @@ class Create extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -89,13 +87,13 @@ class Create extends \Magento\Rma\Block\Form
 
         $formData = $this->_session->getRmaFormData(true);
         if (!empty($formData)) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
         $errorKeys = $this->_session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $data->addData($errorKeys);
             $this->setErrorKeys($data);
         }

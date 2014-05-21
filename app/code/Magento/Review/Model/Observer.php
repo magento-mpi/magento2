@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Review\Model;
 /**
  * Review Observer Model
  *
- * @category   Magento
- * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Observer
@@ -55,10 +51,10 @@ class Observer
     /**
      * Add review summary info for tagged product collection
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function tagProductCollectionLoadAfter(\Magento\Event\Observer $observer)
+    public function tagProductCollectionLoadAfter(\Magento\Framework\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
         $this->_reviewFactory->create()->appendSummary($collection);
@@ -69,10 +65,10 @@ class Observer
     /**
      * Cleanup product reviews after product delete
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
+    public function processProductAfterDeleteEvent(\Magento\Framework\Event\Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
@@ -86,10 +82,10 @@ class Observer
     /**
      * Append review summary before rendering html
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function catalogBlockProductCollectionBeforeToHtml(\Magento\Event\Observer $observer)
+    public function catalogBlockProductCollectionBeforeToHtml(\Magento\Framework\Event\Observer $observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection instanceof \Magento\Framework\Data\Collection) {

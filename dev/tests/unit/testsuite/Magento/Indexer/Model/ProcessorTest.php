@@ -30,7 +30,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     protected $indexersFactoryMock;
 
     /**
-     * @var \Magento\Mview\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Mview\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $viewProcessorMock;
 
@@ -60,7 +60,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->viewProcessorMock = $this->getMockForAbstractClass(
-            'Magento\Mview\ProcessorInterface',
+            'Magento\Framework\Mview\ProcessorInterface',
             array(),
             '',
             false

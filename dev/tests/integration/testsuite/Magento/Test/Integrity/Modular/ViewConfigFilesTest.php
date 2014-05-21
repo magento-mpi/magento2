@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,7 +38,7 @@ class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
     {
         $result = array();
         $files = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Module\Dir\Reader'
+            'Magento\Framework\Module\Dir\Reader'
         )->getConfigurationFiles(
             'view.xml'
         );

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Indexer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
@@ -12,7 +10,7 @@ namespace Magento\Indexer\Model;
 /**
  * Class Context
  */
-class CacheContext implements \Magento\Object\IdentityInterface
+class CacheContext implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * @var array

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Enterpise_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Catalog Event statuses option array
  *
- * @category   Magento
- * @package    Enterpise_CatalogEvent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class Statuses implements \Magento\Option\ArrayInterface
+class Statuses implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return statuses option array

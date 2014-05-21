@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Send to a Friend Limit sending by Source
  *
- * @category    Magento
- * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Checktype implements \Magento\Option\ArrayInterface
+class Checktype implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Retrieve Check Type Option array

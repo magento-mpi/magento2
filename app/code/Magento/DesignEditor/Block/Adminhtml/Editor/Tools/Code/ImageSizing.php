@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,7 +34,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $controlFactory
@@ -45,7 +43,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $controlFactory,
@@ -93,7 +91,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
                 \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_IMAGE_SIZING,
                 $this->_themeContext->getStagingTheme()
             );
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $isFilePresent = false;
         }
 

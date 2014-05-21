@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder;
 
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Reminder rule edit form block

@@ -52,7 +52,7 @@ class TabTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
@@ -79,7 +79,7 @@ class TabTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($block)
         );
 
-        $event = $this->getMock('Magento\Event', array('getTabs'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getTabs'), array(), '', false);
         $event->expects($this->once())->method('getTabs')->will($this->returnValue($this->_tabsMock));
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 

@@ -94,7 +94,7 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
             $this->_resource,
             $this->getMock('Magento\CustomerSegment\Model\Resource\Helper', array(), array(), '', false),
             $this->_configShare,
-            $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true)
+            $this->getMock('Magento\Framework\Stdlib\DateTime', null, array(), '', true)
         );
     }
 

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_toolkit
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,12 +11,11 @@ namespace Magento\ToolkitFramework;
 /**
  * Class ApplicationTest
  *
- * @package Magento\Test
  */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Shell|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Shell|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -41,7 +37,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_applicationBaseDir = __DIR__ . '/../../../../../bootstrap.php';
-        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
 
         $this->_object = new \Magento\ToolkitFramework\Application($this->_applicationBaseDir, $this->_shell);
 

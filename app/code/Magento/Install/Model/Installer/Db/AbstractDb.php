@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Abstract resource data model
  *
- * @category    Magento
- * @package     Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Install\Model\Installer\Db;

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftCard\Model\Source;
 
-class Status extends \Magento\Framework\Model\AbstractModel implements \Magento\Option\ArrayInterface
+class Status extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

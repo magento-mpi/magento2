@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -41,7 +39,7 @@ define('ACTION_SPLIT', 3);
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/template/');
 
-include BASE_PATH . '/lib/internal/Magento/File/Csv.php';
+include BASE_PATH . '/lib/internal/Magento/Framework/File/Csv.php';
 class GenerateEmailTemplates
 {
     /**
@@ -291,12 +289,12 @@ class GenerateEmailTemplates
         $files = $this->_getFilesToProcess($localePath);
         $csv = null;
         if (!$outputSeparate) {
-            $csv = new \Magento\File\Csv();
+            $csv = new \Magento\Framework\File\Csv();
         }
 
         foreach ($files as $alias => $file) {
             if ($outputSeparate) {
-                $csv = new \Magento\File\Csv();
+                $csv = new \Magento\Framework\File\Csv();
                 $resultData = array();
             }
 
@@ -389,7 +387,7 @@ class GenerateEmailTemplates
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
             $strings = $this->separateTranslations($strings);
@@ -425,7 +423,7 @@ class GenerateEmailTemplates
                 $this->_arguments = array(
                    'inputName' => $inputName,
                 );*/
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
         $inputData = $csv->getData($this->_arguments['inputName']);
         $output = array();
         foreach ($inputData as $row) {
@@ -462,7 +460,7 @@ class GenerateEmailTemplates
                    'outputName' => $outputName,
                 );*/
 
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
         $strings1 = $this->separateTranslations($csv->getData($this->_arguments['inputName1']));
         $strings2 = $this->separateTranslations($csv->getData($this->_arguments['inputName2']));
         $resultArray = array();

@@ -4,15 +4,13 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Grant;
 
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\Option\ArrayInterface;
+use Magento\Framework\Option\ArrayInterface;
 
 class Landing implements ArrayInterface
 {

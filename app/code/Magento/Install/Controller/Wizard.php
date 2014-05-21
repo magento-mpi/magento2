@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,14 +39,14 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * Install Session
      *
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
     /**
      * DB Updater
      *
-     * @var \Magento\Module\UpdaterInterface
+     * @var \Magento\Framework\Module\UpdaterInterface
      */
     protected $_dbUpdater;
 
@@ -57,8 +55,8 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Framework\Config\Scope $configScope
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\Module\UpdaterInterface $dbUpdater
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      */
@@ -67,8 +65,8 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Framework\Config\Scope $configScope,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
-        \Magento\Session\Generic $session,
-        \Magento\Module\UpdaterInterface $dbUpdater,
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Module\UpdaterInterface $dbUpdater,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState
     ) {
@@ -318,7 +316,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function installAction()
     {
-        $pear = \Magento\Pear::getInstance();
+        $pear = \Magento\Framework\Pear::getInstance();
         $params = array('comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $state = $this->getRequest()->getParam('state', 'beta');

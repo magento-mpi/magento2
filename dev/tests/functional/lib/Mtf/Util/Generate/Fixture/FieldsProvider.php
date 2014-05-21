@@ -9,12 +9,11 @@
 namespace Mtf\Util\Generate\Fixture;
 
 use Magento\Framework\App\Resource;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class FieldsProvider
  *
- * @package Mtf\Util\Generate\Fixture
  */
 class FieldsProvider implements FieldsProviderInterface
 {
@@ -30,7 +29,7 @@ class FieldsProvider implements FieldsProviderInterface
 
     /**
      * @constructor
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {

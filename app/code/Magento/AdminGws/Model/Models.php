@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -354,10 +352,10 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Catalog product validate after
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function catalogProductValidateAfter(\Magento\Event\Observer $observer)
+    public function catalogProductValidateAfter(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_role->getIsAll()) {
             return;
@@ -847,7 +845,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Update role store group ids in helper and role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function coreStoreGroupSaveAfter($observer)
@@ -866,7 +864,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Update role store ids in helper and role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function coreStoreSaveAfter($observer)

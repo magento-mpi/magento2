@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -241,7 +239,7 @@ $table = $installer->getConnection()->newTable(
     'string',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false, 'default' => \Magento\TranslateInterface::DEFAULT_STRING),
+    array('nullable' => false, 'default' => \Magento\Framework\TranslateInterface::DEFAULT_STRING),
     'Translation String'
 )->addColumn(
     'store_id',

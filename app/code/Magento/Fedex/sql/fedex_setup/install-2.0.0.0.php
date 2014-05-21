@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var \Magento\Module\Setup $this */
+/** @var \Magento\Framework\Module\Setup $this */
 $codes = array(
     'method' => array(
         'EUROPEFIRSTINTERNATIONALPRIORITY' => 'EUROPE_FIRST_INTERNATIONAL_PRIORITY',
@@ -49,7 +48,7 @@ $codes = array(
     )
 );
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 $configDataTable = $installer->getTable('core_config_data');
 $conn = $installer->getConnection();

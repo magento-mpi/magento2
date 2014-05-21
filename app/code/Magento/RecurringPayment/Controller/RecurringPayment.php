@@ -20,12 +20,12 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
      *
      * @var \Magento\Customer\Model\Session
      */
-    protected $_session;
+    protected $_customerSession;
 
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -38,20 +38,20 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
      * Initialize dependencies
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Action\Title $title
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Action\Title $title,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_title = $title;
-        $this->_session = $customerSession;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -65,10 +65,10 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
         if (!$request->isDispatched()) {
             return parent::dispatch($request);
         }
-        if (!$this->_session->authenticate($this)) {
+        if (!$this->_customerSession->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
         }
-        $customer = $this->_session->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return parent::dispatch($request);
@@ -136,7 +136,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($payment) {
             $this->_redirect('*/*/view', array('payment' => $payment->getId()));
@@ -166,7 +166,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($payment) {
             $this->_redirect('*/*/view', array('payment' => $payment->getId()));
@@ -193,7 +193,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -211,7 +211,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
         )->load(
             $this->getRequest()->getParam('payment')
         );
-        if (!$payment->getId()) {
+        if (!$payment->getId() || $payment->getCustomerId() != $this->_customerSession->getId()) {
             throw new \Magento\Framework\Model\Exception(__('We can\'t find the payment you specified.'));
         }
         $this->_coreRegistry->register('current_recurring_payment', $payment);

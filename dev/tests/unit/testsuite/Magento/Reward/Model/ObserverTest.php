@@ -10,24 +10,36 @@ namespace Magento\Reward\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Observer */
-    protected $_model;
+    protected $model;
 
     /**
-     * @var \Magento\Event\Observer
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_observer;
+    protected $observerMock;
 
     /**
-     * @var \Magento\Object
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_event;
+    protected $eventMock;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\Reward\Model\Observer');
-        $this->_event = new \Magento\Object();
-        $this->_observer = new \Magento\Event\Observer(array('event' => $this->_event));
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $this->_objectManagerHelper->getObject('Magento\Reward\Model\Observer');
+        $this->eventMock = $this->getMock(
+            '\Magento\Framework\Event',
+            array('getCart', 'getInvoice'),
+            array(),
+            '',
+            false
+        );
+        $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->eventMock));
     }
 
     /**
@@ -53,12 +65,25 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         } else {
             $cart->expects($this->never())->method('addDiscount');
         }
-        $this->_event->setCart($cart);
-        $this->_model->addPaymentRewardItem($this->_observer);
+        $this->eventMock->expects($this->once())->method('getCart')->will($this->returnValue($cart));
+        $this->model->addPaymentRewardItem($this->observerMock);
     }
 
     public function addPaymentRewardItemDataProvider()
     {
         return array(array(0.0), array(0.1), array(-0.1));
+    }
+
+    public function testApplyRewardSalesrulePoints()
+    {
+        $invoiceMock = $this->getMock('\Magento\Sales\Model\Order\Invoice', array(), array(), '', false);
+        $orderMock = $this->getMock('\Magento\Sales\Model\Order', array(), array(), '', false);
+
+        $this->eventMock->expects($this->once())->method('getInvoice')->will($this->returnValue($invoiceMock));
+        $invoiceMock->expects($this->once())->method('getOrder')->will($this->returnValue($orderMock));
+        $invoiceMock->expects($this->once())->method('hasDataChanges')->will($this->returnValue(true));
+        $orderMock->expects($this->never())->method('getCustomerId');
+
+        $this->model->applyRewardSalesrulePoints($this->observerMock);
     }
 }

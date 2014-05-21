@@ -22,7 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $_customerSession;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $objectManager;
 
@@ -64,7 +64,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerMissingCustomer()
     {
-        $moduleManager = $this->objectManager->get('Magento\Module\Manager');
+        $moduleManager = $this->objectManager->get('Magento\Framework\Module\Manager');
         if ($moduleManager->isEnabled('Magento_PageCache')) {
             $customerDataBuilder = $this->objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
             $customerData = $customerDataBuilder->setGroupId($this->_customerSession->getCustomerGroupId())->create();

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Layer extends \Magento\Object
+class Layer extends \Magento\Framework\Object
 {
     /**
      * Product collections array
@@ -33,7 +31,7 @@ class Layer extends \Magento\Object
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry = null;
 
@@ -94,7 +92,7 @@ class Layer extends \Magento\Object
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -104,7 +102,7 @@ class Layer extends \Magento\Object
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_layerStateFactory = $layerStateFactory;
@@ -252,10 +250,10 @@ class Layer extends \Magento\Object
     {
         $state = $this->getData('state');
         if (is_null($state)) {
-            \Magento\Profiler::start(__METHOD__);
+            \Magento\Framework\Profiler::start(__METHOD__);
             $state = $this->_layerStateFactory->create();
             $this->setData('state', $state);
-            \Magento\Profiler::stop(__METHOD__);
+            \Magento\Framework\Profiler::stop(__METHOD__);
         }
 
         return $state;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Gift wrapping order items view block
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
@@ -22,7 +18,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractVie
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemsInfo()
     {
@@ -45,7 +41,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractVie
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

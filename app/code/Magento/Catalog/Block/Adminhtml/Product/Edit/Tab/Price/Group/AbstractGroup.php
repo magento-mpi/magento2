@@ -47,7 +47,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -66,7 +66,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      * @param CustomerGroupServiceInterface $groupService
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -74,7 +74,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         CustomerGroupServiceInterface $groupService,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_groupService = $groupService;

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $tableName = 'magento_banner_customersegment';

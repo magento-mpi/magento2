@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<form action="" method="post" id="form-validate" class="form send confirmation">
+<form action="" method="post" id="form-validate" class="form send confirmation" data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset" data-hasrequired="<?php echo __('* Required Fields') ?>">
         <p class="field note"><?php echo __('Please enter your email below and we will send you the confirmation link for it.') ?></p>
         <div class="field email required">
@@ -19,22 +18,10 @@
     </fieldset>
     <div class="actions toolbar">
         <div class="primary">
-            <button type="submit" class="action send"><span><?php echo __('Send confirmation link') ?></span></button>
+            <button type="submit" class="action send primary"><span><?php echo __('Send confirmation link') ?></span></button>
         </div>
         <div class="secondary">
             <a href="<?php echo $this->helper('Magento\Customer\Helper\Data')->getLoginUrl() ?>" class="action back"><span><?php echo __('Back to Login') ?></span></a>
         </div>
     </div>
 </form>
-<script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            function() {
-                $('#form-validate').validation();
-            });
-    })(jQuery);
-</script>

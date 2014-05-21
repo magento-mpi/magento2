@@ -39,7 +39,7 @@ class CheckoutManagerObserver
     /**
      * Submit recurring payments
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */

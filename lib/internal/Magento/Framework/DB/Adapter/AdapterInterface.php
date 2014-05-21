@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\DB\Ddl\Table;
 /**
  * Magento Database Adapter Interface
  *
- * @category    Magento
- * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface AdapterInterface
@@ -672,7 +668,7 @@ interface AdapterInterface
     /**
      * Format Date to internal database date format
      *
-     * @param int|string|\Magento\Stdlib\DateTime\DateInterface $date
+     * @param int|string|\Magento\Framework\Stdlib\DateTime\DateInterface $date
      * @param boolean $includeTime
      * @return \Zend_Db_Expr
      */
@@ -695,10 +691,10 @@ interface AdapterInterface
     /**
      * Set cache adapter
      *
-     * @param \Magento\Cache\FrontendInterface $adapter
+     * @param \Magento\Framework\Cache\FrontendInterface $adapter
      * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
-    public function setCacheAdapter(\Magento\Cache\FrontendInterface $adapter);
+    public function setCacheAdapter(\Magento\Framework\Cache\FrontendInterface $adapter);
 
     /**
      * Allow DDL caching

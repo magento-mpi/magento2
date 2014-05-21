@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -119,7 +117,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      * Don't use orders in collection
      *
      * @param \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection $collection
-     * @param \Magento\Object $filterData
+     * @param \Magento\Framework\Object $filterData
      * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

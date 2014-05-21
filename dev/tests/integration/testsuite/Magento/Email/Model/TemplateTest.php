@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -38,7 +35,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Framework\Model\Context'),
                 $objectManager->get('Magento\Framework\View\DesignInterface'),
-                $objectManager->get('Magento\Registry'),
+                $objectManager->get('Magento\Framework\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->create('Magento\Framework\App\Filesystem'),
@@ -101,7 +98,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->_setNotDefaultThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
@@ -149,7 +146,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsWith(
@@ -167,7 +164,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->_setNotDefaultThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
@@ -194,7 +191,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->assertStringEndsWith(
             'static/frontend/Magento/blank/en_US/Magento_Email/logo_email.gif',

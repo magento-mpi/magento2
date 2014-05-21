@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,7 +26,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrice()
     {
-        $this->assertEquals('test', $this->_model->getPrice(new \Magento\Object(array('price' => 'test'))));
+        $this->assertEquals('test', $this->_model->getPrice(new \Magento\Framework\Object(array('price' => 'test'))));
     }
 
     public function testGetFinalPrice()

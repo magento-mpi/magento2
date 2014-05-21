@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Catalog Product List Sortable allowed sortable attributes source
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-class ListSort implements \Magento\Option\ArrayInterface
+class ListSort implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Catalog config

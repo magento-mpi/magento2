@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Newsletter\Model\Resource;
 /**
  * Newsletter subscriber resource model
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Subscriber extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -49,12 +45,12 @@ class Subscriber extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Date
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -62,13 +58,13 @@ class Subscriber extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Math\Random $mathRandom
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Math\Random $mathRandom
     ) {
         $this->_date = $date;
         $this->mathRandom = $mathRandom;

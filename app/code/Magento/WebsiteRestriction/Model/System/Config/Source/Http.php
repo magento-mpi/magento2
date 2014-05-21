@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_WebsiteRestriction
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@ namespace Magento\WebsiteRestriction\Model\System\Config\Source;
  * Sys config source model for stub page statuses
  *
  */
-class Http extends \Magento\Object implements \Magento\Option\ArrayInterface
+class Http extends \Magento\Framework\Object implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get options for select

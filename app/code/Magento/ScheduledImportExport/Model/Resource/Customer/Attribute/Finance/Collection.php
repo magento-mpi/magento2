@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Financ
 /**
  * Export customer finance entity model
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Data\Collection
@@ -116,11 +112,11 @@ class Collection extends \Magento\Framework\Data\Collection
     /**
      * Compare two collection items
      *
-     * @param \Magento\Object $a
-     * @param \Magento\Object $b
+     * @param \Magento\Framework\Object $a
+     * @param \Magento\Framework\Object $b
      * @return int
      */
-    public function compareAttributes(\Magento\Object $a, \Magento\Object $b)
+    public function compareAttributes(\Magento\Framework\Object $a, \Magento\Framework\Object $b)
     {
         return strnatcmp($a->getData($this->_orderField), $b->getData($this->_orderField));
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Downloadable\Model\Resource\Indexer;
 /**
  * Downloadable products Price indexer resource model
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
@@ -21,6 +17,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
     /**
      * Reindex temporary (price result data) for all products
      *
+     * @throws \Exception
      * @return $this
      */
     public function reindexAll()
@@ -28,10 +25,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
         $this->useIdxTable(true);
         $this->beginTransaction();
         try {
-            $this->_prepareFinalPriceData();
-            $this->_applyCustomOption();
-            $this->_applyDownloadableLink();
-            $this->_movePriceDataToIndexTable();
+            $this->reindex();
             $this->commit();
         } catch (\Exception $e) {
             $this->rollBack();
@@ -48,10 +42,21 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      */
     public function reindexEntity($entityIds)
     {
-        $this->_prepareFinalPriceData($entityIds);
-        $this->_applyCustomOption();
-        $this->_applyDownloadableLink();
-        $this->_movePriceDataToIndexTable();
+        return $this->reindex($entityIds);
+    }
+
+    /**
+     * @param null|int|array $entityIds
+     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
+     */
+    protected function reindex($entityIds = null)
+    {
+        if ($this->hasEntity() || !empty($entityIds)) {
+            $this->_prepareFinalPriceData($entityIds);
+            $this->_applyCustomOption();
+            $this->_applyDownloadableLink();
+            $this->_movePriceDataToIndexTable();
+        }
 
         return $this;
     }

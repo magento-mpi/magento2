@@ -36,7 +36,7 @@ class Uploader
     /**
      * Uploader factory
      *
-     * @var \Magento\File\UploaderFactory
+     * @var \Magento\Framework\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
@@ -44,13 +44,13 @@ class Uploader
      * Constructor
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\HTTP\Adapter\FileTransferFactory $adapterFactory
-     * @param \Magento\File\UploaderFactory $uploaderFactory
+     * @param \Magento\Framework\HTTP\Adapter\FileTransferFactory $adapterFactory
+     * @param \Magento\Framework\File\UploaderFactory $uploaderFactory
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\HTTP\Adapter\FileTransferFactory $adapterFactory,
-        \Magento\File\UploaderFactory $uploaderFactory
+        \Magento\Framework\HTTP\Adapter\FileTransferFactory $adapterFactory,
+        \Magento\Framework\File\UploaderFactory $uploaderFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_transferAdapter = $adapterFactory->create();
@@ -63,7 +63,7 @@ class Uploader
      * @param string $scope the request key for file
      * @param string $destinationPath path to upload directory
      * @return bool
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function uploadPreviewImage($scope, $destinationPath)
     {
@@ -71,7 +71,7 @@ class Uploader
             return false;
         }
         if (!$this->_transferAdapter->isValid($scope)) {
-            throw new \Magento\Exception(__('Uploaded image is not valid'));
+            throw new \Magento\Framework\Exception(__('Uploaded image is not valid'));
         }
         $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
         $upload->setAllowCreateFolders(true);
@@ -80,10 +80,10 @@ class Uploader
         $upload->setFilesDispersion(false);
 
         if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
-            throw new \Magento\Exception(__('Invalid image file type.'));
+            throw new \Magento\Framework\Exception(__('Invalid image file type.'));
         }
         if (!$upload->save($destinationPath)) {
-            throw new \Magento\Exception(__('Image can not be saved.'));
+            throw new \Magento\Framework\Exception(__('Image can not be saved.'));
         }
         return $destinationPath . '/' . $upload->getUploadedFileName();
     }

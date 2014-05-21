@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 /**
  * TargetRule Adminhtml Edit Tab Conditions Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  */
 class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
     \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -30,7 +26,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
      * @param \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions
@@ -38,7 +34,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,

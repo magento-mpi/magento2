@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -114,8 +111,8 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
             $user
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\AuthorizationInterface',
-            array('data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy()))
+            'Magento\Framework\AuthorizationInterface',
+            array('data' => array('policy' => new \Magento\Framework\Authorization\Policy\DefaultPolicy()))
         );
     }
 }

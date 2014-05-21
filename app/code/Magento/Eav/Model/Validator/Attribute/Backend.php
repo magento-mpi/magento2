@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Eav\Model\Validator\Attribute;
 /**
  * Validation EAV entity via EAV attributes' backend models
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Backend extends \Magento\Validator\AbstractValidator
+class Backend extends \Magento\Framework\Validator\AbstractValidator
 {
     /**
      * Returns true if and only if $value meets the validation requirements.

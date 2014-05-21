@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +14,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',
             array($logger)
@@ -88,7 +87,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/address/index'));
         $this->assertSessionMessages(
             $this->equalTo(array('The address has been saved.')),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         /** @var \Magento\Customer\Service\V1\CustomerAddressService $addressService */
         $addressService = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\CustomerAddressService');
@@ -132,8 +131,14 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect($this->stringContains('customer/address/edit'));
         $this->assertSessionMessages(
-            $this->equalTo(array('street is a required field.', 'city is a required field.')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            $this->equalTo(
+                array(
+                    'One or more input exceptions have occurred.',
+                    'street is a required field.',
+                    'city is a required field.'
+                )
+            ),
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }
 
@@ -150,7 +155,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/address/index'));
         $this->assertSessionMessages(
             $this->equalTo(array('The address has been deleted.')),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
@@ -167,7 +172,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/address/index'));
         $this->assertSessionMessages(
             $this->equalTo(array('An error occurred while deleting the address.')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@ namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\Product as ModelProduct;
-use Magento\Filter\Template;
+use Magento\Framework\Filter\Template;
 
 class Output extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -44,7 +42,7 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -52,13 +50,13 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Data $catalogData
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         Data $catalogData,
-        \Magento\Escaper $escaper
+        \Magento\Framework\Escaper $escaper
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_catalogData = $catalogData;

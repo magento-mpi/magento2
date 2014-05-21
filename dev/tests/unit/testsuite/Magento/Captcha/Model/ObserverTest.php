@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -100,14 +97,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_getResourceModelStub())
         );
 
-        $this->_session = $this->getMock('Magento\Session\SessionManager', array(), array(), '', false);
+        $this->_session = $this->getMock('Magento\Framework\Session\SessionManager', array(), array(), '', false);
         $this->_typeOnepage = $this->getMock('Magento\Checkout\Model\Type\Onepage', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_customerData = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
-        $this->_urlManager = $this->getMock('Magento\Url', array(), array(), '', false);
+        $this->_urlManager = $this->getMock('Magento\Framework\Url', array(), array(), '', false);
         $this->_actionFlag = $this->getMock('Magento\Framework\App\ActionFlag', array(), array(), '', false);
-        $this->_messageManager = $this->getMock('\Magento\Message\ManagerInterface', array(), array(), '', false);
+        $this->_messageManager = $this->getMock(
+            '\Magento\Framework\Message\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->redirect = $this->getMock(
             '\Magento\Framework\App\Response\RedirectInterface',
             array(),
@@ -173,7 +176,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_session->expects($this->never())->method('addError');
 
-        $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     public function testCheckContactUsFormRedirectsCustomerWithWarningMessageWhenCaptchaIsRequiredAndInvalid()
@@ -242,7 +247,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkContactUsForm(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     public function testCheckContactUsFormDoesNotCheckCaptchaWhenItIsNotRequired()
@@ -259,7 +266,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_captcha->expects($this->any())->method('isRequired')->will($this->returnValue(false));
         $this->_captcha->expects($this->never())->method('isCorrect');
 
-        $this->_observer->checkContactUsForm(new \Magento\Event\Observer());
+        $this->_observer->checkContactUsForm(new \Magento\Framework\Event\Observer());
     }
 
     public function testCheckForgotpasswordRedirects()
@@ -328,7 +335,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkForgotpassword(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkForgotpassword(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     public function testCheckUserCreateRedirectsError()
@@ -408,7 +417,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_observer->checkUserCreate(new \Magento\Event\Observer(array('controller_action' => $controller)));
+        $this->_observer->checkUserCreate(
+            new \Magento\Framework\Event\Observer(array('controller_action' => $controller))
+        );
     }
 
     /**

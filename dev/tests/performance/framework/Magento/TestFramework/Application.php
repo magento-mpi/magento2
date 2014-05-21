@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,12 +33,12 @@ class Application
     protected $_installerScript;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -62,14 +60,14 @@ class Application
      * Constructor
      *
      * @param \Magento\TestFramework\Performance\Config $config
-     * @param \Magento\Shell $shell
-     * @throws \Magento\Exception
+     * @param \Magento\Framework\Shell $shell
+     * @throws \Magento\Framework\Exception
      */
-    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Shell $shell)
+    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Framework\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new \Magento\Exception("File '{$installerScript}' is not found.");
+            throw new \Magento\Framework\Exception("File '{$installerScript}' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -137,13 +135,13 @@ class Application
      * Install application according to installation options
      *
      * @return \Magento\TestFramework\Application
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _install()
     {
         $installOptions = $this->_config->getInstallOptions();
         if (!$installOptions) {
-            throw new \Magento\Exception('Trying to install Magento, but installation options are not set');
+            throw new \Magento\Framework\Exception('Trying to install Magento, but installation options are not set');
         }
 
         // Populate install options with global options
@@ -258,7 +256,7 @@ class Application
     /**
      * Get object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function getObjectManager()
     {
@@ -273,7 +271,7 @@ class Application
     /**
      * Reset object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function resetObjectManager()
     {

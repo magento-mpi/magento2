@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml product grid in custom options popup
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Popup;
@@ -24,7 +20,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     /**
      * Return empty row url for disabling JS click events
      *
-     * @param Product|\Magento\Object $row
+     * @param Product|\Magento\Framework\Object $row
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

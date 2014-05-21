@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Factory\Factory;
 /**
  * AutomaticTaxApplying checkout fixture
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class AutomaticTaxApplying extends Checkout
 {
@@ -83,8 +79,8 @@ class AutomaticTaxApplying extends Checkout
 
         // Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('uk_full_tax_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('\Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'uk_full_tax_rule']);
         $taxRule->persist();
 
         // Simple Products

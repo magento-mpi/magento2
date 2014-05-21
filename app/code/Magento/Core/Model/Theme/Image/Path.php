@@ -67,7 +67,7 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
                 $theme->getPreviewImage(),
                 ['area' => $theme->getData('area'), 'themeModel' => $theme]
             )
-            : $this->storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA)
+            : $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
                 . self::PREVIEW_DIRECTORY_PATH . '/' . $theme->getPreviewImage();
     }
 

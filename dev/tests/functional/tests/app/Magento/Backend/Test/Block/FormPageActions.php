@@ -8,11 +8,12 @@
 
 namespace Magento\Backend\Test\Block;
 
+use Mtf\Client\Element\Locator;
+
 /**
  * Class FormPageActions
  * Form page actions block
  *
- * @package Magento\Backend\Test\Block
  */
 class FormPageActions extends PageActions
 {
@@ -45,6 +46,27 @@ class FormPageActions extends PageActions
     protected $saveButton = '#save';
 
     /**
+     * "Delete" button
+     *
+     * @var string
+     */
+    protected $deleteButton = '#delete';
+
+    /**
+     * Magento loader
+     *
+     * @var string
+     */
+    protected $loader = '//ancestor::body/div[@data-role="loader"]';
+
+    /**
+     * Magento varienLoader.js loader
+     *
+     * @var string
+     */
+    protected $loaderOld = '//ancestor::body/div[@id="loading-mask"]';
+
+    /**
      * Click on "Back" button
      */
     public function back()
@@ -66,6 +88,8 @@ class FormPageActions extends PageActions
     public function saveAndContinue()
     {
         $this->_rootElement->find($this->saveAndContinueButton)->click();
+        $this->waitForElementNotVisible('.popup popup-loading');
+        $this->waitForElementNotVisible('.loader');
     }
 
     /**
@@ -74,7 +98,16 @@ class FormPageActions extends PageActions
     public function save()
     {
         $this->_rootElement->find($this->saveButton)->click();
-        $this->waitForElementNotVisible('.popup popup-loading');
-        $this->waitForElementNotVisible('.loader');
+        $this->waitForElementNotVisible($this->loader,Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->loaderOld,Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Click on "Delete" button
+     */
+    public function delete()
+    {
+        $this->_rootElement->find($this->deleteButton)->click();
+        $this->_rootElement->acceptAlert();
     }
 }

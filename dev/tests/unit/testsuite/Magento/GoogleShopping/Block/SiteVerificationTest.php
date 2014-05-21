@@ -20,7 +20,7 @@ class SiteVerificationTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $escaper = $this->getMockBuilder(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         )->disableOriginalConstructor()->setMethods(
             array('escapeHtml')
         )->getMock();

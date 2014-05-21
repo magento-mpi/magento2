@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
 /**
  * Quote rule action abstract
  */
-abstract class AbstractAction extends \Magento\Object implements ActionInterface
+abstract class AbstractAction extends \Magento\Framework\Object implements ActionInterface
 {
     /**
      * @var \Magento\Framework\View\Asset\Repository

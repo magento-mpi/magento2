@@ -2,26 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 
 /**
  * MSRP price interface
  */
 interface MsrpPriceInterface
 {
-    /**
-     * Price type MSRP
-     */
-    const PRICE_TYPE_MSRP = 'msrp_price';
-
     /**
      * Check is product need gesture to show price
      *
@@ -46,8 +39,8 @@ interface MsrpPriceInterface
     /**
      * Check if can apply Minimum Advertise price to product in specific visibility
      *
-     * @param SaleableInterface $product
+     * @param Product $saleableItem
      * @return bool
      */
-    public function canApplyMsrp(SaleableInterface $product);
+    public function canApplyMsrp(Product $saleableItem);
 }

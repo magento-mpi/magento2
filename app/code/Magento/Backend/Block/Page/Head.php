@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml header block
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Page;
@@ -32,11 +28,11 @@ class Head extends \Magento\Theme\Block\Html\Head
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\View\Asset\GroupedCollection $assets
      * @param \Magento\Framework\View\Asset\MergeService $assetMergeService
      * @param \Magento\Framework\View\Asset\MinifyService $assetMinifyService
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Translation\Block\Js $jsTranslation
      * @param \Magento\Framework\App\Action\Title $titles
      * @param \Magento\Framework\Data\Form\FormKey $formKey
@@ -45,11 +41,11 @@ class Head extends \Magento\Theme\Block\Html\Head
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\View\Asset\GroupedCollection $assets,
         \Magento\Framework\View\Asset\MergeService $assetMergeService,
         \Magento\Framework\View\Asset\MinifyService $assetMinifyService,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Translation\Block\Js $jsTranslation,
         \Magento\Framework\App\Action\Title $titles,
         \Magento\Framework\Data\Form\FormKey $formKey,

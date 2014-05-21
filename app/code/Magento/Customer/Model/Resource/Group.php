@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Model\Resource;
 /**
  * Customer group resource model
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -95,7 +91,8 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $group->getId()
         )->load();
         foreach ($customerCollection as $customer) {
-            $customer->load();
+            /** @var $customer \Magento\Customer\Model\Customer */
+            $customer->load($customer->getId());
             $defaultGroupId = $this->_customerData->getDefaultCustomerGroupId($customer->getStoreId());
             $customer->setGroupId($defaultGroupId);
             $customer->save();

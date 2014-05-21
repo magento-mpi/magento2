@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -120,7 +118,7 @@ class Iframe extends \Magento\Payment\Block\Form
             $this->_block = $this->getLayout()->createBlock(
                 'Magento\\Paypal\\Block\\' . str_replace(
                     ' ',
-                    \Magento\Autoload\IncludePath::NS_SEPARATOR,
+                    \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR,
                     ucwords(str_replace('_', ' ', $this->_paymentMethodCode))
                 ) . '\\Iframe'
             );

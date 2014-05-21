@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -248,7 +245,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ),
             $catalogDataMock,
             $scopeConfig,
-            new \Magento\Stdlib\DateTime(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
@@ -385,7 +382,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Data\Collection\Db\FetchStrategyInterface',
             array('fetchAll')
         );
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
         $optionCollection = $this->getMock(

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,18 +13,18 @@ use Magento\Framework\View\Element\AbstractBlock;
 class Editable extends AbstractBlock implements RendererInterface
 {
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $inlineTranslate;
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
-     * @param \Magento\Translate\InlineInterface $inlineTranslate
+     * @param \Magento\Framework\Translate\InlineInterface $inlineTranslate
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
-        \Magento\Translate\InlineInterface $inlineTranslate,
+        \Magento\Framework\Translate\InlineInterface $inlineTranslate,
         array $data = array()
     ) {
         $this->inlineTranslate = $inlineTranslate;

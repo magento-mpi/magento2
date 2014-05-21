@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\Core\Model\Layout\Update;
  *
  * Validator checked XML validation and protected expressions
  *
- * @category   Magento
- * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Validator extends \Zend_Validate_Abstract
@@ -35,7 +31,7 @@ class Validator extends \Zend_Validate_Abstract
     /**
      * The Magento SimpleXml object
      *
-     * @var \Magento\Simplexml\Element
+     * @var \Magento\Framework\Simplexml\Element
      */
     protected $_value;
 
@@ -57,7 +53,7 @@ class Validator extends \Zend_Validate_Abstract
     protected $_xsdSchemas;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -67,11 +63,11 @@ class Validator extends \Zend_Validate_Abstract
     protected $_domConfigFactory;
 
     /**
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\Config\DomFactory $domConfigFactory
      */
     public function __construct(
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
@@ -126,7 +122,7 @@ class Validator extends \Zend_Validate_Abstract
             $this->_domConfigFactory->createDom(array('xml' => $value, 'schemaFile' => $this->_xsdSchemas[$schema]));
 
             if ($isSecurityCheck) {
-                $value = new \Magento\Simplexml\Element($value);
+                $value = new \Magento\Framework\Simplexml\Element($value);
                 $value->registerXPathNamespace('xsi', self::XML_NAMESPACE_XSI);
                 foreach ($this->_protectedExpressions as $key => $xpr) {
                     if ($value->xpath($xpr)) {

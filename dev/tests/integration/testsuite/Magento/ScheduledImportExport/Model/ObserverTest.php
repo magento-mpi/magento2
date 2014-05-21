@@ -20,7 +20,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\ScheduledImportExport\Model\Scheduled\OperationFactory'
         );
         $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Mail\Template\TransportBuilder'
+            'Magento\Framework\Mail\Template\TransportBuilder'
         );
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManager'

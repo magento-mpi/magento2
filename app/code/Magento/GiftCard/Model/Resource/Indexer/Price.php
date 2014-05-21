@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftCard\Model\Resource\Indexer;
 /**
  * GiftCard product price indexer resource model
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
@@ -50,7 +46,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
                     break;
 
                 case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
-                    /* @var $actionObject \Magento\Object */
+                    /* @var $actionObject \Magento\Framework\Object */
                     $actionObject = $event->getDataObject();
                     $reindexPrice = false;
 

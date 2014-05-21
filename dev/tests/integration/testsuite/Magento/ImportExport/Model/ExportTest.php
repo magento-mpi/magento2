@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -58,11 +55,11 @@ class ExportTest extends \PHPUnit_Framework_TestCase
             ),
             'customer main data' => array(
                 '$entity' => 'customer',
-                '$expectedEntityType' => 'Magento\ImportExport\Model\Export\Entity\Eav\Customer'
+                '$expectedEntityType' => 'Magento\Customer\Model\ImportExport\Export\Customer'
             ),
             'customer address' => array(
                 '$entity' => 'customer_address',
-                '$expectedEntityType' => 'Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address'
+                '$expectedEntityType' => 'Magento\Customer\Model\ImportExport\Export\Address'
             )
         );
     }

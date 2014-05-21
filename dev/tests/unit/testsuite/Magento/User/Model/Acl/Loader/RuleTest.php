@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,14 +20,14 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
-     * @var \Magento\Acl\RootResource
+     * @var \Magento\Framework\Acl\RootResource
      */
     protected $_rootResourceMock;
 
     protected function setUp()
     {
         $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false);
-        $this->_rootResourceMock = new \Magento\Acl\RootResource('Magento_Adminhtml::all');
+        $this->_rootResourceMock = new \Magento\Framework\Acl\RootResource('Magento_Adminhtml::all');
         $this->_model = new \Magento\User\Model\Acl\Loader\Rule($this->_rootResourceMock, $this->_resourceMock);
     }
 
@@ -59,7 +56,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceMock->expects($this->once())->method('getConnection')->will($this->returnValue($adapterMock));
 
-        $aclMock = $this->getMock('Magento\Acl');
+        $aclMock = $this->getMock('Magento\Framework\Acl');
         $aclMock->expects($this->any())->method('has')->will($this->returnValue(true));
         $aclMock->expects($this->at(1))->method('allow')->with('1', null, null);
         $aclMock->expects($this->at(2))->method('allow')->with('1', 'Magento_Adminhtml::all', null);

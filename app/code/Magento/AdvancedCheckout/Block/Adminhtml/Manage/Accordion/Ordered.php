@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 /**
  * Accordion grid for recently ordered products
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Ordered extends AbstractAccordion
@@ -69,7 +65,7 @@ class Ordered extends AbstractAccordion
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
@@ -83,7 +79,7 @@ class Ordered extends AbstractAccordion
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,

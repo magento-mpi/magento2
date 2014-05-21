@@ -32,6 +32,8 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
 
     /** @var DownloadableFile|\PHPUnit_Framework_MockObject_MockObject */
     protected $_downloadableFileMock;
+    /** @var  \Magento\Framework\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $sessionManager;
 
     /** @var bool Result of function_exists() */
     public static $functionExists;
@@ -70,14 +72,15 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_downloadableFileMock = $this->getMock('Magento\Downloadable\Helper\File', array(), array(), '', false);
-
+        $this->sessionManager = $this->getMockForAbstractClass('Magento\Framework\Session\SessionManagerInterface');
         $this->_helper = new DownloadHelper(
             $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->_downloadableFileMock,
             $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
-            $this->_filesystemMock
+            $this->_filesystemMock,
+            $this->sessionManager
         );
     }
 
@@ -245,5 +248,13 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_helper->setResource($url, DownloadHelper::LINK_TYPE_URL);
+    }
+
+    public function testOutput()
+    {
+        $this->sessionManager
+            ->expects($this->once())->method('writeClose');
+        $this->_setupUrlMocks(self::FILE_SIZE, self::URL, array('disposition' => "inline; filename=test.txt"));
+        $this->_helper->output();
     }
 }

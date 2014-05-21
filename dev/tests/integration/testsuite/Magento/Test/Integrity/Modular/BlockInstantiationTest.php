@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,8 +33,8 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
                 $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
                 $context->setValue(
                     \Magento\Customer\Helper\Data::CONTEXT_GROUP,
-                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
-                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
                 );
                 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($area);
 
@@ -130,7 +127,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
         )->getArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->load(
-            \Magento\Core\Model\App\Area::PART_CONFIG
+            \Magento\Framework\App\Area::PART_CONFIG
         );
         $templateBlocks[$module . ', ' . $blockClass . ', ' . $area] = array($module, $blockClass, $area);
         return $templateBlocks;

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +24,7 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            'Magento\Module\Dir\Reader',
+            'Magento\Framework\Module\Dir\Reader',
             array('getConfigurationFiles', 'getModuleDir'),
             array(),
             '',
@@ -49,7 +46,7 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
                 'Magento\Backend\Model\Config\Structure\Reader',
                 array('moduleReader' => $configMock, 'runtimeValidation' => true)
             );
-        } catch (\Magento\Exception $exp) {
+        } catch (\Magento\Framework\Exception $exp) {
             $this->fail($exp->getMessage());
         }
     }

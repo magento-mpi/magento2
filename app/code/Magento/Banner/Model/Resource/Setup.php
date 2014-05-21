@@ -25,7 +25,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -37,7 +37,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -49,9 +49,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         $moduleName = 'Magento_Banner',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;

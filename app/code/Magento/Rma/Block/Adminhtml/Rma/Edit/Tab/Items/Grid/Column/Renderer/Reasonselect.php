@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,10 +38,10 @@ class Reasonselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\
     /**
      * Renders column as select when it is editable
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getEditableView(\Magento\Object $row)
+    protected function _getEditableView(\Magento\Framework\Object $row)
     {
         /** @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
@@ -88,10 +86,10 @@ class Reasonselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\
     /**
      * Renders column as select when it is not editable
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getNonEditableView(\Magento\Object $row)
+    protected function _getNonEditableView(\Magento\Framework\Object $row)
     {
         /** @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();

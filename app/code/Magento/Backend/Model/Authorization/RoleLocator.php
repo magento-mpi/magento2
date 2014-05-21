@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Authorization;
 
-class RoleLocator implements \Magento\Authorization\RoleLocator
+class RoleLocator implements \Magento\Framework\Authorization\RoleLocator
 {
     /**
      * Authentication service

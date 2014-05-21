@@ -10,7 +10,6 @@ namespace Magento\Downloadable\Pricing\Price;
 
 /**
  * Class LinkPriceTest
- * @package Magento\Downloadable\Pricing\Price
  */
 class LinkPriceTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,17 +19,17 @@ class LinkPriceTest extends \PHPUnit_Framework_TestCase
     protected $linkPrice;
 
     /**
-     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $amountMock;
 
     /**
      * @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $salableItemMock;
+    protected $saleableItemMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculatorMock;
 
@@ -44,9 +43,9 @@ class LinkPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
-        $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
+        $this->saleableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->amountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
+        $this->calculatorMock = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
         $this->linkMock = $this->getMock(
             'Magento\Downloadable\Model\Link',
             ['getPrice', 'getProduct', '__wakeup'],
@@ -55,7 +54,7 @@ class LinkPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->linkPrice = new LinkPrice($this->salableItemMock, 1, $this->calculatorMock);
+        $this->linkPrice = new LinkPrice($this->saleableItemMock, 1, $this->calculatorMock);
     }
 
     public function testGetLinkAmount()
@@ -67,10 +66,10 @@ class LinkPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($amount));
         $this->linkMock->expects($this->once())
             ->method('getProduct')
-            ->will($this->returnValue($this->salableItemMock));
+            ->will($this->returnValue($this->saleableItemMock));
         $this->calculatorMock->expects($this->once())
             ->method('getAmount')
-            ->with($amount, $this->equalTo($this->salableItemMock))
+            ->with($amount, $this->equalTo($this->saleableItemMock))
             ->will($this->returnValue($amount));
 
         $result = $this->linkPrice->getLinkAmount($this->linkMock);

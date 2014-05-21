@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -666,10 +664,10 @@ class Files
             return self::$_cache[$key];
         }
         $namespace = $module =  '*';
-        $theme_path = '*/*';
+        $themePath = '*/*';
         $paths = array(
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
-            "{$this->_path}/app/design/{$area}/{$theme_path}",
+            "{$this->_path}/app/design/{$area}/{$themePath}",
             "{$this->_path}/lib/web/varien"
         );
         $files = self::getFiles($paths, '*.js');

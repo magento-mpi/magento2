@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +26,7 @@ class Dialogs extends \Magento\Backend\Block\Template
     /**
      * Include backup.js file in page before rendering
      *
-     * @return AbstractBlock|void
+     * @return void
      * @see AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()

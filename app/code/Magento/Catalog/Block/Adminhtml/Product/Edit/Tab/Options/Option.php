@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +22,7 @@ class Option extends Widget
     protected $_productInstance;
 
     /**
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected $_values;
 
@@ -41,7 +39,7 @@ class Option extends Widget
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -70,7 +68,7 @@ class Option extends Widget
      * @param \Magento\Backend\Model\Config\Source\Yesno $configYesNo
      * @param \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType
      * @param Product $product
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param array $data
      */
@@ -79,7 +77,7 @@ class Option extends Widget
         \Magento\Backend\Model\Config\Source\Yesno $configYesNo,
         \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType,
         Product $product,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         array $data = array()
     ) {
@@ -272,7 +270,7 @@ class Option extends Widget
     }
 
     /**
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getOptionValues()
     {
@@ -375,7 +373,7 @@ class Option extends Widget
                         $value['scopePriceDisabled'] = is_null($option->getStorePrice()) ? 'disabled' : null;
                     }
                 }
-                $values[] = new \Magento\Object($value);
+                $values[] = new \Magento\Framework\Object($value);
             }
             $this->_values = $values;
         }

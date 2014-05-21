@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Product attributes tab
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product;
@@ -69,7 +65,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             'boolean' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean'
         );
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 

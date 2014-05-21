@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Centinel
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +15,7 @@ include_once 'CardinalCommerce/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-class Api extends \Magento\Object
+class Api extends \Magento\Framework\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -221,15 +219,15 @@ class Api extends \Magento\Object
     /**
      * Log adapter factory
      *
-     * @var \Magento\Logger\AdapterFactory
+     * @var \Magento\Framework\Logger\AdapterFactory
      */
     protected $_logFactory;
 
     /**
-     * @param \Magento\Logger\AdapterFactory $logFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logFactory
      * @param array $data
      */
-    public function __construct(\Magento\Logger\AdapterFactory $logFactory, array $data = array())
+    public function __construct(\Magento\Framework\Logger\AdapterFactory $logFactory, array $data = array())
     {
         $this->_logFactory = $logFactory;
         parent::__construct($data);
@@ -351,12 +349,12 @@ class Api extends \Magento\Object
     /**
      * Call centinel api lookup method
      *
-     * @param \Magento\Object $data
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $data
+     * @return \Magento\Framework\Object
      */
     public function callLookup($data)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
 
         $month = strlen($data->getCardExpMonth()) == 1 ? '0' . $data->getCardExpMonth() : $data->getCardExpMonth();
         $currencyCode = $data->getCurrencyCode();
@@ -393,12 +391,12 @@ class Api extends \Magento\Object
     /**
      * Call centinel api authentication method
      *
-     * @param \Magento\Object $data
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $data
+     * @return \Magento\Framework\Object
      */
     public function callAuthentication($data)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
 
         $clientResponse = $this->_call(
             'cmpi_authenticate',

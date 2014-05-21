@@ -111,30 +111,10 @@ interface StoreManagerInterface
     public function clearWebsiteCache($websiteId = null);
 
     /**
-     * Get either default or any store view
-     *
-     * @return \Magento\Store\Model\Store|null
-     */
-    public function getAnyStoreView();
-
-    /**
      * Set current default store
      *
      * @param string $store
      * @return void
      */
     public function setCurrentStore($store);
-
-    /**
-     * Get current store code
-     *
-     * @return string
-     */
-    public function getCurrentStore();
-
-    /**
-     * @return void
-     * @throws \Magento\Store\Model\Exception
-     */
-    public function throwStoreException();
 }

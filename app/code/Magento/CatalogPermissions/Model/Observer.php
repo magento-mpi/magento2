@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Permission model
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Model;
 
@@ -26,7 +22,7 @@ use Magento\CatalogPermissions\Model\Permission\Index;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Data\Tree\Node;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\Quote\Item;
 

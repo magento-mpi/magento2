@@ -2,14 +2,12 @@
 /**
  * An associative data structure, that features "nested set" parent-child relations
  *
- * @category    Magento
- * @package     Magento_Data
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Framework\Data;
 
-use Magento\Exception;
+use Magento\Framework\Exception;
 
 class Structure
 {

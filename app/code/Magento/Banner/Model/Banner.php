@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,13 +17,11 @@
  * @method \Magento\Banner\Model\Banner setIsEnabled(int $value)
  * @method \Magento\Banner\Model\Banner setTypes(string $value)
  *
- * @category    Magento
- * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Model;
 
-class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Representation value of enabled banner

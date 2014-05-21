@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -32,7 +30,7 @@ class Merge
     /**
      * Magento File CSV
      *
-     * @var \Magento\File\Csv
+     * @var \Magento\Framework\File\Csv
      */
     protected $_csv;
 
@@ -60,8 +58,8 @@ OPTIONAL PARAMETRS:
 ';
 
         $this->_checkArgs();
-        require_once BASE_PATH . '/lib/internal/Magento/File/Csv.php';
-        $this->_csv = new \Magento\File\Csv();
+        require_once BASE_PATH . '/lib/internal/Magento/Framework/File/Csv.php';
+        $this->_csv = new \Magento\Framework\File\Csv();
     }
 
     /**

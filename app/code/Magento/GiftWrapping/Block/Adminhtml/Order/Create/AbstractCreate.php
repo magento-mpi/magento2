@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 /**
  * Gift wrapping order create abstract block
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -84,7 +80,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
     /**
      * Return gift wrapping designs info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignsInfo()
     {
@@ -104,13 +100,13 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
             $temp['design'] = $item->getDesign();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Prepare and return printed card info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCardInfo()
     {
@@ -118,23 +114,23 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
         if ($this->getAllowPrintedCard()) {
             $price = $this->_giftWrappingData->getPrintedCardPrice($this->getStoreId());
             if ($this->getDisplayCardBothPrices()) {
-                $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
-                $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
+                $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price, true);
+                $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price);
             } else {
                 $data['price'] = $this->calculatePrice(
-                    new \Magento\Object(),
+                    new \Magento\Framework\Object(),
                     $price,
                     $this->getDisplayCardPriceInclTax()
                 );
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Calculate price
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $basePrice
      * @param bool $includeTax
      * @return string

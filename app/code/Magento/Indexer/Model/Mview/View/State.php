@@ -10,7 +10,7 @@ namespace Magento\Indexer\Model\Mview\View;
 /**
  * @method \Magento\Indexer\Model\Mview\View\State setViewId(string $value)
  */
-class State extends \Magento\Framework\Model\AbstractModel implements \Magento\Mview\View\StateInterface
+class State extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Mview\View\StateInterface
 {
     /**
      * Prefix of model events names
@@ -28,14 +28,14 @@ class State extends \Magento\Framework\Model\AbstractModel implements \Magento\M
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Indexer\Model\Resource\Mview\View\State $resource
      * @param \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Indexer\Model\Resource\Mview\View\State $resource,
         \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection,
         array $data = array()
@@ -142,7 +142,7 @@ class State extends \Magento\Framework\Model\AbstractModel implements \Magento\M
     /**
      * Set state updated time
      *
-     * @param string|int|\Magento\Stdlib\DateTime\DateInterface $updated
+     * @param string|int|\Magento\Framework\Stdlib\DateTime\DateInterface $updated
      * @return $this
      */
     public function setUpdated($updated)

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -61,7 +59,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -72,7 +70,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -213,11 +211,11 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     /**
      * Subtract ordered qty for product
      *
-     * @param  \Magento\Object $item
+     * @param  \Magento\Framework\Object $item
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function registerItemSale(\Magento\Object $item)
+    public function registerItemSale(\Magento\Framework\Object $item)
     {
         $productId = $item->getProductId();
         if ($productId) {

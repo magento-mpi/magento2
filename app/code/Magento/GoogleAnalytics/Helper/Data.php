@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Store\Model\Store;
 /**
  * GoogleAnalytics data helper
  *
- * @category   Magento
- * @package    Magento_GoogleAnalytics
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {

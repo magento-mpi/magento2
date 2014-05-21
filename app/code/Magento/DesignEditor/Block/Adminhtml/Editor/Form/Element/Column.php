@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -131,7 +129,7 @@ class Column extends \Magento\Framework\Data\Form\Element\Fieldset implements
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
         } else {
-            $className = 'Magento\\Data\\Form\\Element\\' . ucfirst(strtolower($type));
+            $className = 'Magento\\Framework\\Data\\Form\\Element\\' . ucfirst(strtolower($type));
         }
         $element = $this->getElementsFactory()->create($className, $config);
         $element->setId($elementId);

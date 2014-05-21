@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -139,7 +136,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetCustomerGroupId()
     {
-        $this->assertEquals(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
+        $this->assertEquals(
+            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            $this->_model->getCustomerGroupId()
+        );
 
         $customerGroupId = 123;
         $this->_model->setCustomerGroupId($customerGroupId);

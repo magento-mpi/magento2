@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,9 +14,8 @@ namespace Magento\PageCache\Model\System\Config\Source;
 /**
  * Class Application
  *
- * @package Magento\PageCache\Model\System\Config\Source
  */
-class Application implements \Magento\Option\ArrayInterface
+class Application implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Options getter

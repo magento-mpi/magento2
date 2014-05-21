@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Quote
  *
- * @package Magento\SalesRule\Test\Block\Adminhtml\Promo
  */
 class Quote extends Grid
 {

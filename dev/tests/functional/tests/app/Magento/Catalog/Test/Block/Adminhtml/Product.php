@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class Product
  * Catalog manage products block
  *
- * @package Magento\Catalog\Test\Block\Adminhtml
  */
 class Product extends Block
 {
@@ -44,7 +40,9 @@ class Product extends Block
     public function addProduct($productType = 'simple')
     {
         $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->find(str_replace('%productType%', $productType, $this->productItem),
-            Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(
+            str_replace('%productType%', $productType, $this->productItem),
+            Locator::SELECTOR_CSS
+        )->click();
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,12 +15,12 @@ namespace Magento\Backend\Block;
 class Template extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -37,7 +35,7 @@ class Template extends \Magento\Framework\View\Element\Template
     protected $formKey;
 
     /**
-     * @var \Magento\Code\NameBuilder
+     * @var \Magento\Framework\Code\NameBuilder
      */
     protected $nameBuilder;
 
@@ -90,7 +88,7 @@ class Template extends \Magento\Framework\View\Element\Template
     /**
      * Make this public so that templates can use it properly with template engine
      *
-     * @return \Magento\AuthorizationInterface
+     * @return \Magento\Framework\AuthorizationInterface
      */
     public function getAuthorization()
     {

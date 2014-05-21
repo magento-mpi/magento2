@@ -13,7 +13,6 @@ use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 /**
  * Class CollectionProvider
  *
- * @package Mtf\Util\Generate\Repository
  */
 class TableCollection extends AbstractCollection
 {
@@ -25,23 +24,23 @@ class TableCollection extends AbstractCollection
     /**
      * @constructor
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param null $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      * @param array $fixture
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null,
         array $fixture = []
     ) {
-        $this->setModel('Magento\Object');
+        $this->setModel('Magento\Framework\Object');
         $this->setResourceModel('Mtf\Util\Generate\Repository\Resource');
 
         $resource = $this->getResource();

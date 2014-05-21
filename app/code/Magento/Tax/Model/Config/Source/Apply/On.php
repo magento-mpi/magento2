@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Tax\Model\Config\Source\Apply;
 
-class On implements \Magento\Option\ArrayInterface
+class On implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

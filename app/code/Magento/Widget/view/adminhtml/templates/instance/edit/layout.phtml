@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -467,6 +465,11 @@ Ext.onReady(function(){
     });
     Event.observe(document, 'node:changed', function(event){
         WidgetInstance.checkCategory(event);
+    });
+    Event.observe(document, 'category:beforeLoad', function(event) {
+        container = event.target.up('div.chooser_container');
+        value = container.down('input[type="text"].entities').value.strip();
+        event.memo.treeLoader.baseParams.selected = value;
     });
 });
 //]]>

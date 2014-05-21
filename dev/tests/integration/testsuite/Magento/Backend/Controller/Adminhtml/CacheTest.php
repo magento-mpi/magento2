@@ -28,7 +28,7 @@ class CacheTest extends \Magento\Backend\Utility\Controller
         $cachePool = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Cache\Frontend\Pool'
         );
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($cachePool as $cacheFrontend) {
             $this->assertFalse($cacheFrontend->getBackend()->load('NON_APPLICATION_FIXTURE'));
         }
@@ -50,7 +50,7 @@ class CacheTest extends \Magento\Backend\Utility\Controller
         $cachePool = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Cache\Frontend\Pool'
         );
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($cachePool as $cacheFrontend) {
             $this->assertSame(
                 'non-application cache data',
@@ -161,7 +161,7 @@ class CacheTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/cache/' . $action);
         $this->assertSessionMessages(
             $this->contains("Specified cache type(s) don't exist: invalid_type_1, invalid_type_2"),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }
 

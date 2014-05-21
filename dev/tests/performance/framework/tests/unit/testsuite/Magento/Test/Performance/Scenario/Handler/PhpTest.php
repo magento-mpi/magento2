@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,7 @@ namespace Magento\Test\Performance\Scenario\Handler;
 class PhpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Shell|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -54,7 +51,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_reportFile = realpath(__DIR__ . '/../../_files/scenario.jtl');
-        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
         $this->_object = new \Magento\TestFramework\Performance\Scenario\Handler\Php($this->_shell, false);
     }
 
@@ -122,7 +119,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunException()
     {
-        $failure = new \Magento\Exception(
+        $failure = new \Magento\Framework\Exception(
             'Command returned non-zero exit code.',
             0,
             new \Exception('command failure message', 1)

@@ -17,7 +17,7 @@ use Magento\User\Model\User as ModelUser;
 class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Acl\CacheInterface
+     * @var \Magento\Framework\Acl\CacheInterface
      */
     protected $_aclCache;
 
@@ -29,7 +29,7 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_roleFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -37,15 +37,15 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Acl\CacheInterface $aclCache
+     * @param \Magento\Framework\Acl\CacheInterface $aclCache
      * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Acl\CacheInterface $aclCache,
+        \Magento\Framework\Acl\CacheInterface $aclCache,
         \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_aclCache = $aclCache;
@@ -200,12 +200,12 @@ class User extends \Magento\Framework\Model\Resource\Db\AbstractDb
             /** @var \Magento\User\Model\Role $parentRole */
             $parentRole = $this->_roleFactory->create()->load($parentId);
         } else {
-            $role = new \Magento\Object();
+            $role = new \Magento\Framework\Object();
             $role->setTreeLevel(0);
         }
 
         if ($parentRole->getId()) {
-            $data = new \Magento\Object(
+            $data = new \Magento\Framework\Object(
                 array(
                     'parent_id' => $parentRole->getId(),
                     'tree_level' => $parentRole->getTreeLevel() + 1,

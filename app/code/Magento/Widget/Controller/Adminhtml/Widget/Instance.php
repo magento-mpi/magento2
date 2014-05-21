@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +16,7 @@ class Instance extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -28,35 +26,35 @@ class Instance extends \Magento\Backend\App\Action
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
-        \Magento\Logger $logger,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Translate\InlineInterface $translateInline
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\Translate\InlineInterface $translateInline
     ) {
         $this->_translateInline = $translateInline;
         $this->_coreRegistry = $coreRegistry;
@@ -179,7 +177,7 @@ class Instance extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setError(false);
         $widgetInstance = $this->_initWidgetInstance();
         $result = $widgetInstance->validate();
@@ -187,7 +185,7 @@ class Instance extends \Magento\Backend\App\Action
             $this->messageManager->addError($result);
             $this->_view->getLayout()->initMessages();
             $response->setError(true);
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->setBody($response->toJson());
     }

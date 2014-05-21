@@ -30,7 +30,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _construct()
     {
-        $this->_init('Magento\Object', 'Magento\SalesRule\Model\Resource\Rule');
+        $this->_init('Magento\Framework\Object', 'Magento\SalesRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_salesrule');
     }
 

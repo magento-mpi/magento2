@@ -48,7 +48,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('SELECT * FROM fixture_table')
         );
 
-        $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_cache = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
         $this->_fetchStrategy = $this->getMockForAbstractClass(
             'Magento\Framework\Data\Collection\Db\FetchStrategyInterface'
         );

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\TargetRule\Model\Source;
 
-class Rotation implements \Magento\Option\ArrayInterface
+class Rotation implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get data for Rotation mode selector

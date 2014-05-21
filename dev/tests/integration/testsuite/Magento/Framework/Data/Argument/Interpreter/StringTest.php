@@ -21,7 +21,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_booleanUtils = $this->getMock('\Magento\Stdlib\BooleanUtils');
+        $this->_booleanUtils = $this->getMock('\Magento\Framework\Stdlib\BooleanUtils');
         $this->_booleanUtils->expects(
             $this->any()
         )->method(
@@ -30,7 +30,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap(array(array('true', true), array('false', false)))
         );
         $this->_model = new String($this->_booleanUtils);
-        $translateRenderer = $this->getMockForAbstractClass('Magento\Phrase\RendererInterface');
+        $translateRenderer = $this->getMockForAbstractClass('Magento\Framework\Phrase\RendererInterface');
         $translateRenderer->expects($this->any())->method('render')->will(
             $this->returnCallback(
                 function ($input) {
@@ -38,7 +38,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
                 }
             )
         );
-        \Magento\Phrase::setRenderer($translateRenderer);
+        \Magento\Framework\Phrase::setRenderer($translateRenderer);
     }
 
     /**

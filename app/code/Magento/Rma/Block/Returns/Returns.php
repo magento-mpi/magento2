@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +19,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,7 +47,7 @@ class Returns extends \Magento\Framework\View\Element\Template
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
@@ -58,7 +56,7 @@ class Returns extends \Magento\Framework\View\Element\Template
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
@@ -132,7 +130,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Get rma returns view url
      *
-     * @param \Magento\Object $return
+     * @param \Magento\Framework\Object $return
      * @return string
      */
     public function getViewUrl($return)
@@ -153,7 +151,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Get sales order reorder url
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function getReorderUrl($order)
@@ -164,7 +162,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Get sales guest print url
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function getPrintUrl($order)

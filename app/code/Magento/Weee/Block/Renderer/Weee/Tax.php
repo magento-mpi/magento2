@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +37,7 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -57,14 +55,14 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Directory\Model\Config\Source\Country $sourceCountry
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Model\Config\Source\Country $sourceCountry,
         \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_sourceCountry = $sourceCountry;
@@ -74,7 +72,7 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getProduct()
     {

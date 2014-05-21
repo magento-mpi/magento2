@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,6 @@ namespace Magento\Customer\Model\Layout;
  * Class DepersonalizePluginTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @package Magento\Customer\Model\Layout
  */
 class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +25,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\Session\Generic|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\Generic|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionMock;
 
@@ -54,7 +50,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerMock;
 
     /**
-     * @var \Magento\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $moduleManagerMock;
 
@@ -74,7 +70,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->sessionMock = $this->getMock(
-            'Magento\Session\Generic',
+            'Magento\Framework\Session\Generic',
             array('clearStorage', 'setData', 'getData'),
             array(),
             '',
@@ -102,7 +98,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->visitorMock = $this->getMock('Magento\Log\Model\Visitor', array(), array(), '', false);
         $this->customerFactoryMock->expects($this->once())
             ->method('create')

@@ -11,7 +11,7 @@ namespace Magento\Core\App;
 
 use Magento\Framework\App\State;
 use Magento\Framework\AppInterface;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Core\Model\File\Storage\Request;
 use Magento\Core\Model\File\Storage\Response;
 
@@ -23,7 +23,7 @@ class Media implements AppInterface
     protected $_applicationState;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

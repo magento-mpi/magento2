@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,10 +13,8 @@ namespace Magento\Framework\DB\Statement;
  * Used to transmit specific information about parameter value binding to be bound the right
  * way to the query.
  * Most used properties and methods are defined in interface. Specific things for concrete DB adapter can be
- * transmitted using 'addtional' property (\Magento\Object) as a container.
+ * transmitted using 'addtional' property (\Magento\Framework\Object) as a container.
  *
- * @category    Magento
- * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Parameter
@@ -60,7 +56,7 @@ class Parameter
 
     /*
      * Additional information to be used by DB adapter internally
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_additional = null;
 
@@ -72,7 +68,7 @@ class Parameter
     public function __construct($value)
     {
         $this->_value = $value;
-        $this->_additional = new \Magento\Object();
+        $this->_additional = new \Magento\Framework\Object();
         return $this;
     }
 
@@ -197,7 +193,7 @@ class Parameter
      * Sets additional information for concrete DB adapter.
      * Set there any data you want to pass along with query parameter.
      *
-     * @param \Magento\Object $additional
+     * @param \Magento\Framework\Object $additional
      * @return $this
      */
     public function setAdditional($additional)
@@ -209,7 +205,7 @@ class Parameter
     /**
      * Gets additional information for concrete DB adapter.
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getAdditional()
     {

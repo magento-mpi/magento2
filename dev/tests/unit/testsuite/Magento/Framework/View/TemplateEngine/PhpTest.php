@@ -24,7 +24,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_helperFactoryMock = $this->getMock('Magento\ObjectManager');
+        $this->_helperFactoryMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_phpEngine = new \Magento\Framework\View\TemplateEngine\Php($this->_helperFactoryMock);
     }
 
@@ -81,7 +81,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testHelperWithInvalidClass()
     {
-        $class = 'Magento\Object';
+        $class = 'Magento\Framework\Object';
         $object = $this->getMock($class, array(), array(), '', false);
         $this->_helperFactoryMock->expects(
             $this->once()

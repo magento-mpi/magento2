@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,15 +13,12 @@ use Magento\Framework\App\Filesystem;
  * Model is responsible for replacing default vcl template
  * file configuration with user-defined from configuration
  *
- * @category   Magento
- * @package    Magento_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 /**
  * Class Config
  *
- * @package Magento\PageCache\Model
  */
 class Config
 {

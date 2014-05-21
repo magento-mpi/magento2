@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -98,7 +96,7 @@ class History extends \Magento\Framework\View\Element\Template
     /**
      * Get rma view url
      *
-     * @param \Magento\Object $return
+     * @param \Magento\Framework\Object $return
      * @return string
      */
     public function getViewUrl($return)

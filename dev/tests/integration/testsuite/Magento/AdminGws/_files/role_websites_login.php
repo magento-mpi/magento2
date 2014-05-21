@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,7 @@
 )->getArea(
     \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
 )->load(
-    \Magento\Core\Model\App\Area::PART_CONFIG
+    \Magento\Framework\App\Area::PART_CONFIG
 );
 if (!isset($scope)) {
     $scope = 'websites';

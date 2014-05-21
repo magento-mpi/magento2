@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,7 +46,7 @@ class Totals extends \Magento\Framework\View\Element\Template
         $source = $parent->getSource();
         $totals = $this->_giftWrappingData->getTotals($source);
         foreach ($totals as $total) {
-            $this->getParentBlock()->addTotalBefore(new \Magento\Object($total), 'tax');
+            $this->getParentBlock()->addTotalBefore(new \Magento\Framework\Object($total), 'tax');
         }
         return $this;
     }

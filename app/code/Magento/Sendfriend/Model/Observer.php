@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Sendfriend Observer
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sendfriend\Model;
@@ -36,10 +32,10 @@ class Observer
     /**
      * Register Sendfriend Model in global registry
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function register(\Magento\Event\Observer $observer)
+    public function register(\Magento\Framework\Event\Observer $observer)
     {
         $this->_sendfriendFactory->create()->register();
         return $this;

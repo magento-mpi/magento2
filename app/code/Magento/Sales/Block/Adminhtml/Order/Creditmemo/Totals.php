@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Order\Creditmemo;
 /**
  * Adminhtml order creditmemo totals block
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Totals extends \Magento\Sales\Block\Adminhtml\Totals
@@ -65,7 +61,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals
     {
         parent::_initTotals();
         $this->addTotal(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'code' => 'adjustment_positive',
                     'value' => $this->getSource()->getAdjustmentPositive(),
@@ -75,7 +71,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals
             )
         );
         $this->addTotal(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'code' => 'adjustment_negative',
                     'value' => $this->getSource()->getAdjustmentNegative(),

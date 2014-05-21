@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Block\Form;
  * Class Billing
  * Paypal Express Onepage checkout block for Shipping Address
  *
- * @package Magento\Paypal\Test\Block\Express\Review
  */
 class Shipping extends Form
 {

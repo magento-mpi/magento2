@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -92,7 +89,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_eventManagerMock = $this->getMock(
-            'Magento\Event\ManagerInterface',
+            'Magento\Framework\Event\ManagerInterface',
             array(),
             array(),
             '',
@@ -101,7 +98,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_logger = $this->getMock(
-            'Magento\Logger',
+            'Magento\Framework\Logger',
             array('addStoreLog', 'log', 'logException'),
             array(),
             '',

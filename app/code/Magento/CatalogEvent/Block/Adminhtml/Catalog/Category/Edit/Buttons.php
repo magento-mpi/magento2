@@ -19,7 +19,7 @@ use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Catalog\Model\CategoryFactory;
 
 class Buttons extends AbstractCategory

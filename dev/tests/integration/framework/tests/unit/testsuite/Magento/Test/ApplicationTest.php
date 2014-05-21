@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,7 +37,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $object = new \Magento\TestFramework\Application(
             $dbInstance,
             $installDir,
-            new \Magento\Simplexml\Element('<data/>'),
+            new \Magento\Framework\Simplexml\Element('<data/>'),
             '',
             array(),
             $appMode,

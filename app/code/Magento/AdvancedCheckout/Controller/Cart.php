@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Enterprise checkout cart controller
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdvancedCheckout\Controller;
@@ -170,11 +166,11 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
 
-            $buyRequest = new \Magento\Object(array('product' => $id, 'qty' => $qty));
+            $buyRequest = new \Magento\Framework\Object(array('product' => $id, 'qty' => $qty));
 
             $params->setBuyRequest($buyRequest);
 
@@ -188,7 +184,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('You cannot configure a product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -203,7 +199,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
     {
         $hasError = false;
         $id = (int)$this->getRequest()->getParam('id');
-        $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+        $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
         try {
             $cart = $this->_getCart();
 
@@ -221,7 +217,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()) {
-                    $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
+                    $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->messageManager->addSuccess($message);
                 }
@@ -231,7 +227,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $hasError = true;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('You cannot add a product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $hasError = true;
         }
 

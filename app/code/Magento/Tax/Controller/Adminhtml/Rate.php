@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml tax rate controller
  *
- * @category   Magento
- * @package    Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Controller\Adminhtml;
@@ -411,7 +407,7 @@ class Rate extends \Magento\Backend\App\Action
     public function exportPostAction()
     {
         /** start csv content and set template */
-        $headers = new \Magento\Object(
+        $headers = new \Magento\Framework\Object(
             array(
                 'code' => __('Code'),
                 'country_name' => __('Country'),

@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model;
 
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Object\IdentityInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Framework\Object\IdentityInterface;
 
 /**
  * Catalog product model
@@ -39,12 +37,15 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     const CACHE_TAG = 'catalog_product';
 
-    const CACHE_CATEGORY_TAG = 'catalog_category_product';
+    /**
+     * Category product relation cache tag
+     */
+    const CACHE_PRODUCT_CATEGORY_TAG = 'catalog_category_product';
 
     /**
      * @var string
      */
-    protected $_cacheTag = 'catalog_product';
+    protected $_cacheTag = self::CACHE_TAG;
 
     /**
      * @var string
@@ -242,13 +243,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_productPriceIndexerProcessor;
 
     /**
-     * @var \Magento\Pricing\PriceInfo\Base
+     * @var \Magento\Framework\Pricing\PriceInfo\Base
      */
     protected $_priceInfo;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -277,7 +278,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
@@ -742,6 +743,16 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     }
 
     /**
+     * Get quantity for product
+     *
+     * @return float
+     */
+    public function getQty()
+    {
+        return $this->getData('qty');
+    }
+
+    /**
      * Callback for entity reindex
      *
      * @return void
@@ -837,7 +848,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get product Price Info object
      *
-     * @return \Magento\Pricing\PriceInfo\Base
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
      */
     public function getPriceInfo()
     {
@@ -1212,7 +1223,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
                 $image['id'] = isset($image['value_id']) ? $image['value_id'] : null;
                 $image['path'] = $directory->getAbsolutePath($this->getMediaConfig()->getMediaPath($image['file']));
-                $images->addItem(new \Magento\Object($image));
+                $images->addItem(new \Magento\Framework\Object($image));
             }
             $this->setData('media_gallery_images', $images);
         }
@@ -1335,7 +1346,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
 
         $salable = $this->isAvailable();
 
-        $object = new \Magento\Object(array('product' => $this, 'is_salable' => $salable));
+        $object = new \Magento\Framework\Object(array('product' => $this, 'is_salable' => $salable));
         $this->_eventManager->dispatch(
             'catalog_product_is_salable_after',
             array('product' => $this, 'salable' => $object)
@@ -1837,12 +1848,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Parse buyRequest into options values used by product
      *
-     * @param  \Magento\Object $buyRequest
-     * @return \Magento\Object
+     * @param  \Magento\Framework\Object $buyRequest
+     * @return \Magento\Framework\Object
      */
-    public function processBuyRequest(\Magento\Object $buyRequest)
+    public function processBuyRequest(\Magento\Framework\Object $buyRequest)
     {
-        $options = new \Magento\Object();
+        $options = new \Magento\Framework\Object();
 
         /* add product custom options data */
         $customOptions = $buyRequest->getOptions();
@@ -1870,13 +1881,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get preconfigured values from product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getPreconfiguredValues()
     {
         $preConfiguredValues = $this->getData('preconfigured_values');
         if (!$preConfiguredValues) {
-            $preConfiguredValues = new \Magento\Object();
+            $preConfiguredValues = new \Magento\Framework\Object();
         }
 
         return $preConfiguredValues;
@@ -1993,58 +2004,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function getIdentities()
     {
         $identities = array(self::CACHE_TAG . '_' . $this->getId());
-        $identities = array_merge($identities, $this->getTypeInstance()->getIdentities($this));
-
-        if ($this->_isDataChanged()) {
-            $identities = $this->_getCategoryIdentities($identities);
-        } else {
-            $identities = $this->_getCategoryProductIdentities($identities);
-        }
-        return $identities;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isDataChanged()
-    {
-        $isDataChanged = ($this->getOrigData() == null && $this->getData()) || $this->isDeleted();
-        if (!$isDataChanged) {
-            foreach ($this->getOrigData() as $key => $value) {
-                if ($this->getData($key) != $value) {
-                    $isDataChanged = true;
-                    break;
-                }
+        if ($this->getIsChangedCategories()) {
+            foreach ($this->getAffectedCategoryIds() as $categoryId) {
+                $identities[] = self::CACHE_PRODUCT_CATEGORY_TAG . '_' . $categoryId;
             }
-        }
-        return $isDataChanged;
-    }
-
-    /**
-     * @param array $identities
-     * @return array
-     */
-    protected function _getCategoryIdentities($identities)
-    {
-        $categoryIds = $this->getAffectedCategoryIds();
-        if (!$categoryIds) {
-            $categoryIds = $this->getCategoryIds();
-        }
-        foreach ($categoryIds as $categoryId) {
-            $identities[] = Category::CACHE_TAG . '_' . $categoryId;
-        }
-        return $identities;
-    }
-
-    /**
-     * @param array $identities
-     * @return array
-     */
-    protected function _getCategoryProductIdentities($identities)
-    {
-        $categoryIds = $this->getCategoryIds();
-        foreach ($categoryIds as $categoryId) {
-            $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
         }
         return $identities;
     }
@@ -2052,7 +2015,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Reload PriceInfo object
      *
-     * @return \Magento\Pricing\PriceInfo\Base
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
      */
     public function reloadPriceInfo()
     {

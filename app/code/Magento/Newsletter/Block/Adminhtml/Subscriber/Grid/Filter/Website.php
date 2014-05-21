@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +25,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -46,7 +44,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Store\Model\Resource\Website\CollectionFactory $websitesFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -54,7 +52,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Store\Model\Resource\Website\CollectionFactory $websitesFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

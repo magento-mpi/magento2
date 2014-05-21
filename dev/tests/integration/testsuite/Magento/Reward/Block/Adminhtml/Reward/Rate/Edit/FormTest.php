@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,11 +21,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\View\Layout');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        if (!$objectManager->get('Magento\Registry')->registry('current_reward_rate')) {
+        if (!$objectManager->get('Magento\Framework\Registry')->registry('current_reward_rate')) {
             $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Reward\Model\Reward\Rate'
             );
-            $objectManager->get('Magento\Registry')->register('current_reward_rate', $rate);
+            $objectManager->get('Magento\Framework\Registry')->register('current_reward_rate', $rate);
         }
 
         $this->_block = $layout->createBlock('Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form');

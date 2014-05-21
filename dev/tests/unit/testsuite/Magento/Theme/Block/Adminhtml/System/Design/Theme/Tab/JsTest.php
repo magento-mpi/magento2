@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +28,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
                 'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
-                'objectManager' => $this->getMock('Magento\ObjectManager', array(), array(), '', false),
+                'objectManager' => $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false),
                 'urlBuilder' => $this->_urlBuilder
             )
         );

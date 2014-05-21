@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,12 +16,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new \Magento\Event(array('order' => $order));
-        $observer = new \Magento\Event\Observer(array('event' => $event));
+        $event = new \Magento\Framework\Event(array('order' => $order));
+        $observer = new \Magento\Framework\Event\Observer(array('event' => $event));
 
         /** @var $model \Magento\GiftCard\Model\Observer */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

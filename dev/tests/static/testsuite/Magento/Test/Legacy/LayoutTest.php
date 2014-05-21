@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -247,7 +244,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             'addDatabaseBlock',
             'addInputTypeTemplate',
             'addNotice',
-            'addPriceBlockType',
             'addReportTypeOption',
             'addTab',
             'addTabAfter',

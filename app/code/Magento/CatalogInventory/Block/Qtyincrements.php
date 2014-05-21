@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,14 @@
 /**
  * Product qty increments block
  *
- * @category   Magento
- * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Block;
 
-class Qtyincrements extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Block\IdentityInterface;
+
+class Qtyincrements extends Template implements IdentityInterface
 {
     /**
      * Qty Increments cache
@@ -30,18 +29,18 @@ class Qtyincrements extends \Magento\Framework\View\Element\Template implements 
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

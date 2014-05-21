@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml permission tab on category page
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
 
@@ -24,11 +20,11 @@ use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions 
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Model\Resource\Permission\Collection as PermissionCollection;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Catalog\Model\CategoryFactory ;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\Store\Model\Website;
-use Magento\Json\EncoderInterface;
+use Magento\Framework\Json\EncoderInterface;
 
 class Permissions extends AbstractCategory implements TabInterface
 {

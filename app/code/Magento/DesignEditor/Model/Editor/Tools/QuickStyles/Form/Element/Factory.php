@@ -2,19 +2,17 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

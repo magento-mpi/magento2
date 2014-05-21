@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftRegistry\Block\Search;
 /**
  * Gift registry search results
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Results extends \Magento\Framework\View\Element\Template
 {
@@ -59,7 +55,7 @@ class Results extends \Magento\Framework\View\Element\Template
         if ($item->getEventDate()) {
             return $this->formatDate(
                 $item->getEventDate(),
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
             );
         }
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Synchronize process status flag class
  *
- * @category    Magento
- * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Core\Model\File\Storage;
 
-class Flag extends \Magento\Flag
+class Flag extends \Magento\Framework\Flag
 {
     /**
      * There was no synchronization

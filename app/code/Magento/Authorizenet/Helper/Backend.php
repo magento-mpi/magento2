@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -87,7 +85,7 @@ class Backend extends Data
     public function getRelyUrl($storeId = null)
     {
         return $this->_storeManager->getDefaultStoreView()->getBaseUrl(
-            \Magento\UrlInterface::URL_TYPE_LINK
+            \Magento\Framework\UrlInterface::URL_TYPE_LINK
         ) . 'authorizenet/directpost_payment/backendResponse';
     }
 }

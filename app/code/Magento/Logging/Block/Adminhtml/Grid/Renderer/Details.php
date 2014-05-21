@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,10 +17,10 @@ class Details extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
     /**
      * Render the grid cell value
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $html = '-';
         $columnData = $row->getData($this->getColumn()->getIndex());

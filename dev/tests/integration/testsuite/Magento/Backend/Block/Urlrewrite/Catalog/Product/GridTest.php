@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +36,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->assertStringStartsWith('http://localhost/index.php', $gridBlock->getGridUrl(), 'Grid URL is invalid');
 
-        $row = new \Magento\Object(array('id' => 1));
+        $row = new \Magento\Framework\Object(array('id' => 1));
         $this->assertStringStartsWith(
             'http://localhost/index.php/backend/admin/index/edit/product/1',
             $gridBlock->getRowUrl($row),

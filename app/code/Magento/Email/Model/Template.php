@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Email\Model;
 
 use Magento\Email\Model\Template\Filter;
-use Magento\Filter\Template as FilterTemplate;
+use Magento\Framework\Filter\Template as FilterTemplate;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
@@ -57,7 +55,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento\Mail\TemplateInterface
+class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento\Framework\Mail\TemplateInterface
 {
     /**
      * Configuration path for default email templates
@@ -159,7 +157,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
@@ -175,7 +173,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem $filesystem,
@@ -224,7 +222,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
             $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
                 return $this->_storeManager->getStore()->getBaseUrl(
-                    \Magento\UrlInterface::URL_TYPE_MEDIA
+                    \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
                 ) . $uploadDir . '/' . $fileName;
             }
         }
@@ -240,7 +238,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     {
         return $this->_assetRepo->getUrlWithParams(
             'Magento_Email::logo_email.gif',
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND)
         );
     }
 
@@ -402,7 +400,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      *
      * @param array $variables
      * @return string
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function getProcessedTemplate(array $variables = array())
     {
@@ -432,7 +430,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
             $processedResult = $processor->setStoreId($storeId)->filter($this->getPreparedTemplateText());
         } catch (\Exception $e) {
             $this->_cancelDesignConfig();
-            throw new \Magento\Mail\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Mail\Exception($e->getMessage(), $e->getCode(), $e);
         }
         return $processedResult;
     }
@@ -484,7 +482,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      *
      * @param array $variables
      * @return string
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function getProcessedTemplateSubject(array $variables)
     {
@@ -502,7 +500,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
             $processedResult = $processor->setStoreId($storeId)->filter($this->getTemplateSubject());
         } catch (\Exception $e) {
             $this->_cancelDesignConfig();
-            throw new \Magento\Mail\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Mail\Exception($e->getMessage(), $e->getCode(), $e);
         }
         $this->_cancelDesignConfig();
         return $processedResult;
@@ -584,17 +582,17 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     /**
      * Validate email template code
      *
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      * @return $this
      */
     protected function _beforeSave()
     {
         $code = $this->getTemplateCode();
         if (empty($code)) {
-            throw new \Magento\Mail\Exception(__('The template Name must not be empty.'));
+            throw new \Magento\Framework\Mail\Exception(__('The template Name must not be empty.'));
         }
         if ($this->_getResource()->checkCodeUsage($this)) {
-            throw new \Magento\Mail\Exception(__('Duplicate Of Template Name'));
+            throw new \Magento\Framework\Mail\Exception(__('Duplicate Of Template Name'));
         }
         return parent::_beforeSave();
     }
@@ -603,7 +601,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * Get processed template
      *
      * @return string
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function processTemplate()
     {
@@ -615,7 +613,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         }
 
         if (!$this->getId()) {
-            throw new \Magento\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
+            throw new \Magento\Framework\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
         }
 
         $this->setUseAbsoluteLinks(true);

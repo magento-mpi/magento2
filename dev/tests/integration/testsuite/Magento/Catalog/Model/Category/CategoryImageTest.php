@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -81,7 +78,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that there is no exception '$_FILES array is empty' in \Magento\File\Uploader::_setUploadFileId()
+     * Test that there is no exception '$_FILES array is empty' in \Magento\Framework\File\Uploader::_setUploadFileId()
      * if category image was not set
      *
      */
@@ -93,7 +90,8 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = $objectManager->get('Magento\Registry')->registry('_fixture/Magento\Catalog\Model\Category');
+        $category = $objectManager->get('Magento\Framework\Registry')
+            ->registry('_fixture/Magento\Catalog\Model\Category');
         $this->assertNotEmpty($category->getId());
 
         foreach (StubZendLogWriterStreamTest::$exceptions as $exception) {

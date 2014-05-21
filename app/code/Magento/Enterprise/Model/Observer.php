@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,7 +30,7 @@ class Observer
     /**
      * Set hide survey question to session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function setHideSurveyQuestion($observer)

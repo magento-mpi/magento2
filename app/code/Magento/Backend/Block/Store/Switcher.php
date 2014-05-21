@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Store switcher block
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Store;
@@ -75,14 +71,14 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Website factory
      *
-     * @var \Magento\Store\Model\Website\Factory
+     * @var \Magento\Store\Model\WebsiteFactory
      */
     protected $_websiteFactory;
 
     /**
      * Store Group Factory
      *
-     * @var \Magento\Store\Model\Group\Factory
+     * @var \Magento\Store\Model\GroupFactory
      */
     protected $_storeGroupFactory;
 
@@ -95,15 +91,15 @@ class Switcher extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Store\Model\Website\Factory $websiteFactory
-     * @param \Magento\Store\Model\Group\Factory $storeGroupFactory
+     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Store\Model\GroupFactory $storeGroupFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Store\Model\Website\Factory $websiteFactory,
-        \Magento\Store\Model\Group\Factory $storeGroupFactory,
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         array $data = array()
     ) {

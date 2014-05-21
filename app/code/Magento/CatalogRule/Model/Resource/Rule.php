@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog rules resource model
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogRule\Model\Resource;
@@ -31,7 +27,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     const SECONDS_IN_DAY = 86400;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -63,7 +59,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -73,7 +69,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -88,7 +84,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -96,23 +92,23 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
-     * @param \Magento\Logger $logger
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
-        \Magento\Logger $logger,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;
@@ -212,9 +208,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             return $this;
         }
 
-        \Magento\Profiler::start('__MATCH_PRODUCTS__');
+        \Magento\Framework\Profiler::start('__MATCH_PRODUCTS__');
         $productIds = $rule->getMatchingProductIds();
-        \Magento\Profiler::stop('__MATCH_PRODUCTS__');
+        \Magento\Framework\Profiler::stop('__MATCH_PRODUCTS__');
 
         $customerGroupIds = $rule->getCustomerGroupIds();
         $fromTime = strtotime($rule->getFromDate());

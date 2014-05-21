@@ -12,7 +12,7 @@ namespace Magento\Framework\App\Resource;
 class ConnectionFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -22,11 +22,13 @@ class ConnectionFactory
     protected $_localConfig;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\Arguments $localConfig
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Framework\App\Arguments $localConfig)
-    {
+    public function __construct(
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\App\Arguments $localConfig
+    ) {
         $this->_objectManager = $objectManager;
         $this->_localConfig = $localConfig;
     }

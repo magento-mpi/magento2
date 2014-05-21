@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Entity/Attribute/Model - attribute frontend abstract
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Eav\Model\Entity\Attribute\Frontend;
@@ -90,10 +86,10 @@ abstract class AbstractFrontend implements \Magento\Eav\Model\Entity\Attribute\F
     /**
      * Retrieve attribute value
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return mixed
      */
-    public function getValue(\Magento\Object $object)
+    public function getValue(\Magento\Framework\Object $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
         if (in_array($this->getConfigField('input'), array('select', 'boolean'))) {

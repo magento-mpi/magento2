@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Reward action to add points to inviter when his referral becomes customer
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Model\Action;
@@ -91,7 +87,7 @@ class InvitationCustomer extends \Magento\Reward\Model\Action\AbstractAction
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)

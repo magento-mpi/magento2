@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,11 +12,11 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
     public function testGetPostData()
     {
         $url = '/controller/sample/action/url/';
-        $product = ['product' => new \Magento\Object(['id' => 1])];
+        $product = ['product' => new \Magento\Framework\Object(['id' => 1])];
         $expected = json_encode([
             'action' => $url,
             'data' => [
-                'product' => new \Magento\Object(['id' => 1]),
+                'product' => new \Magento\Framework\Object(['id' => 1]),
                 \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED =>
                     strtr(base64_encode($url . 'for_uenc'), '+/=', '-_,')
             ]
@@ -33,7 +30,7 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
             false
         );
         $urlBuilderMock = $this->getMockForAbstractClass(
-            'Magento\UrlInterface',
+            'Magento\Framework\UrlInterface',
             array(),
             '',
             true,

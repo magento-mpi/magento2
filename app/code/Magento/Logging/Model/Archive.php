@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Logging\Model;
 
-class Archive extends \Magento\Object
+class Archive extends \Magento\Framework\Object
 {
     /**
      * Full system name to current file, if set

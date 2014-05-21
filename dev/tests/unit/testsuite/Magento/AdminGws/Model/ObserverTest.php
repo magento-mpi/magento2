@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,12 +30,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_observer;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_store;
 
@@ -127,10 +124,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_store = new \Magento\Object();
+        $this->_store = new \Magento\Framework\Object();
 
         $this->_observer = $this->getMockBuilder(
-            'Magento\Event\Observer'
+            'Magento\Framework\Event\Observer'
         )->setMethods(
             array('getStore')
         )->disableOriginalConstructor()->getMock();
@@ -166,9 +163,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $role = $this->getMock('Magento\User\Model\Role', array('__wakeup'), array(), '', false);
         $role->setData($fixtureRoleData);
 
-        $event = $this->getMock('Magento\Event', array('getObject'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($role));
-        $observer = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $observer = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
         $observer->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $this->_backendAuthSession->expects($this->never())->method('getUser');

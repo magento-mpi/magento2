@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +21,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Adminhtml\Items\AbstractItems */
         $block = $layout->createBlock('Magento\Sales\Block\Adminhtml\Items\AbstractItems', 'block');
 
-        $item = new \Magento\Object();
+        $item = new \Magento\Framework\Object();
 
         $this->assertEmpty($block->getItemExtraInfoHtml($item));
 

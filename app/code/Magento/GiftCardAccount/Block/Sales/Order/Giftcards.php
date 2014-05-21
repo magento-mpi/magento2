@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -65,7 +63,7 @@ class Giftcards extends \Magento\Framework\View\Element\Template
         }
         $cards = $this->_giftCardAccountData->getCards($this->getOrder());
         foreach ($cards as $card) {
-            $obj = new \Magento\Object();
+            $obj = new \Magento\Framework\Object();
             $obj->setBaseAmount($card['ba'])->setAmount($card['a'])->setCode($card['c']);
 
             $result[] = $obj;
@@ -80,7 +78,7 @@ class Giftcards extends \Magento\Framework\View\Element\Template
      */
     public function initTotals()
     {
-        $total = new \Magento\Object(
+        $total = new \Magento\Framework\Object(
             array(
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),

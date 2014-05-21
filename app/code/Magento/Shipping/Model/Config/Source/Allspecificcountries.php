@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Shipping\Model\Config\Source;
 
-class Allspecificcountries implements \Magento\Option\ArrayInterface
+class Allspecificcountries implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

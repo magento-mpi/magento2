@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -90,12 +87,12 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
 
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnValue(10));
         $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
-        $quote = new \Magento\Object(array('isMultishipping' => false, 'store' => $storeMock));
+        $quote = new \Magento\Framework\Object(array('isMultishipping' => false, 'store' => $storeMock));
 
         $this->_wrappingMock->expects($this->any())->method('load')->will($this->returnSelf());
         $this->_wrappingMock->expects($this->any())->method('getBasePrice')->will($this->returnValue(6));
 
-        $item = new \Magento\Object();
+        $item = new \Magento\Framework\Object();
         if ($withProduct) {
             $product->setGiftWrappingPrice(10);
         } else {

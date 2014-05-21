@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Data
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +24,7 @@ class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
             array('value' => 3, 'label' => 'Value3')
         );
         $value = array(1, 3);
-        $this->_model->setForm(new \Magento\Object());
+        $this->_model->setForm(new \Magento\Framework\Object());
         $this->_model->setData(array('values' => $values, 'value' => $value));
     }
 

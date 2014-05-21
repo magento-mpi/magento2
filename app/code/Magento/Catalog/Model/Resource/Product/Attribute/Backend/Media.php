@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 /**
  * Catalog product media gallery attribute backend resource
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -109,7 +105,7 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function insertGallery($data)
     {
         $adapter = $this->_getWriteAdapter();
-        $data = $this->_prepareDataForTable(new \Magento\Object($data), $this->getMainTable());
+        $data = $this->_prepareDataForTable(new \Magento\Framework\Object($data), $this->getMainTable());
         $adapter->insert($this->getMainTable(), $data);
 
         return $adapter->lastInsertId($this->getMainTable());
@@ -143,7 +139,7 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function insertGalleryValueInStore($data)
     {
-        $data = $this->_prepareDataForTable(new \Magento\Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
+        $data = $this->_prepareDataForTable(new \Magento\Framework\Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
         $this->_getWriteAdapter()->insert($this->getTable(self::GALLERY_VALUE_TABLE), $data);
 
         return $this;

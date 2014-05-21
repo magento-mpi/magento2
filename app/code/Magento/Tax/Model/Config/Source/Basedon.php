@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Tax\Model\Config\Source;
 
-class Basedon implements \Magento\Option\ArrayInterface
+class Basedon implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

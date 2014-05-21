@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftWrapping\Helper;
 /**
  * Gift wrapping default helper
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
@@ -361,7 +357,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Return totals of data object
      *
-     * @param  \Magento\Object $dataObject
+     * @param  \Magento\Framework\Object $dataObject
      * @return array
      */
     public function getTotals($dataObject)
@@ -503,7 +499,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Get gift wrapping items price with tax processing
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $price
      * @param bool $includeTax
      * @param null|\Magento\Customer\Model\Address $shippingAddress

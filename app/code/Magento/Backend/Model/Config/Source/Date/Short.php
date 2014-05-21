@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Config\Source\Date;
 
-class Short implements \Magento\Option\ArrayInterface
+class Short implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

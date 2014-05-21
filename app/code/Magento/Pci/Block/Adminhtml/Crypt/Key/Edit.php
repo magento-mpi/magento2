@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,7 +34,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected function _construct()
     {
-        \Magento\Object::__construct();
+        \Magento\Framework\Object::__construct();
         $this->_addButton(
             'save',
             array(

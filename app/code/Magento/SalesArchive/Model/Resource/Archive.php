@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesArchive\Model\Resource;
 /**
  * Archive resource model
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -57,7 +53,7 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_archivalList;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -65,13 +61,13 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
      * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\SalesArchive\Model\Config $salesArchiveConfig,
         \Magento\SalesArchive\Model\ArchivalList $archivalList,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         $this->_salesArchiveConfig = $salesArchiveConfig;
         $this->_archivalList = $archivalList;

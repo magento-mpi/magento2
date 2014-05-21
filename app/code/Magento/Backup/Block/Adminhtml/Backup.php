@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,7 +35,7 @@ class Backup extends \Magento\Backend\Block\Template
             'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('System Backup'),
-                'onclick' => "return backup.backup('" . \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT . "')",
+                'onclick' => "return backup.backup('" . \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT . "')",
                 'class' => 'primary system-backup'
             )
         );
@@ -46,7 +44,7 @@ class Backup extends \Magento\Backend\Block\Template
             'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Database and Media Backup'),
-                'onclick' => "return backup.backup('" . \Magento\Backup\Factory::TYPE_MEDIA . "')",
+                'onclick' => "return backup.backup('" . \Magento\Framework\Backup\Factory::TYPE_MEDIA . "')",
                 'class' => 'primary database-media-backup'
             )
         );
@@ -55,7 +53,7 @@ class Backup extends \Magento\Backend\Block\Template
             'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Database Backup'),
-                'onclick' => "return backup.backup('" . \Magento\Backup\Factory::TYPE_DB . "')",
+                'onclick' => "return backup.backup('" . \Magento\Framework\Backup\Factory::TYPE_DB . "')",
                 'class' => 'task primary database-backup'
             )
         );

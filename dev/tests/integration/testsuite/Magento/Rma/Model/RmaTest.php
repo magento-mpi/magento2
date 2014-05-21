@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +32,7 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $rmaData = array(
             'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Stdlib\DateTime\DateTime'
+                'Magento\Framework\Stdlib\DateTime\DateTime'
             )->gmtDate(),
             'order_id' => $order->getId(),
             'order_increment_id' => $order->getIncrementId(),

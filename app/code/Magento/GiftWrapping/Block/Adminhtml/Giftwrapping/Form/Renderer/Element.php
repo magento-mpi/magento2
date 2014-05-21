@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Gift wrapping form fieldset element renderer
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer;
 
@@ -26,7 +22,7 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
     /**
      * Retrieve data object related with form
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDataObject()
     {

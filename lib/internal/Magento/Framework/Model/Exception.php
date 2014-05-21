@@ -20,10 +20,10 @@ class Exception extends \Exception
     protected $messages = array();
 
     /**
-     * @param \Magento\Message\AbstractMessage $message
+     * @param \Magento\Framework\Message\AbstractMessage $message
      * @return $this
      */
-    public function addMessage(\Magento\Message\AbstractMessage $message)
+    public function addMessage(\Magento\Framework\Message\AbstractMessage $message)
     {
         if (!isset($this->messages[$message->getType()])) {
             $this->messages[$message->getType()] = array();

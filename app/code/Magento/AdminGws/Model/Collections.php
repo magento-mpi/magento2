@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -295,7 +293,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Filter checkout agreements collection by allowed stores
      *
-     * @param \Magento\Checkout\Model\Resource\Agreement\Collection $collection
+     * @param \Magento\CheckoutAgreements\Model\Resource\Agreement\Collection $collection
      * @return void
      */
     public function limitCheckoutAgreements($collection)
@@ -339,7 +337,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Filter sales collection by allowed stores
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addSalesSaleCollectionStoreFilter($observer)
@@ -352,7 +350,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Apply store filter on collection used in new order's rss
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function rssOrderNewCollectionSelect($observer)
@@ -380,7 +378,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Apply websites filter on collection used in notify stock rss
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function rssCatalogNotifyStockCollectionSelect($observer)
@@ -393,7 +391,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Apply websites filter on collection used in review rss
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function rssCatalogReviewCollectionSelect($observer)

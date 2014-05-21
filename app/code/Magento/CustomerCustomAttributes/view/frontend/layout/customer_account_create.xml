@@ -8,6 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="customercustomattributes_account_create_head_components" template="Magento_CustomerCustomAttributes::js/components.phtml"/>
+    </referenceBlock>
     <referenceBlock name="customer_form_register">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::/customer/form/register.phtml</argument>

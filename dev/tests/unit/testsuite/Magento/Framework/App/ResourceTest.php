@@ -84,10 +84,10 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_connection)
         );
         $this->_connection->expects($this->once())->method('setCacheAdapter')->with(
-            $this->isInstanceOf('Magento\Cache\FrontendInterface')
+            $this->isInstanceOf('Magento\Framework\Cache\FrontendInterface')
         );
         $frontendInterface = $this->getMockBuilder(
-            'Magento\Cache\FrontendInterface'
+            'Magento\Framework\Cache\FrontendInterface'
         )->disableOriginalConstructor()->setMethods([])->getMock();
         $this->_cache->expects($this->once())->method('getFrontend')->will($this->returnValue($frontendInterface));
 

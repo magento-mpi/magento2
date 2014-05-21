@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_messageManager;
 
@@ -65,7 +62,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_directoryMock)
         );
 
-        $this->_messageManager = $this->getMock('\Magento\Message\ManagerInterface', array(), array(), '', false);
+        $this->_messageManager = $this->getMock(
+            '\Magento\Framework\Message\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Install\Model\Installer\Config(
             $this->getMock('Magento\Install\Model\Installer', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false),

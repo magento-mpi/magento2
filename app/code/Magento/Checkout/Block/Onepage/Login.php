@@ -10,7 +10,7 @@ namespace Magento\Checkout\Block\Onepage;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
-use Magento\Message\Collection;
+use Magento\Framework\Message\Collection;
 
 /**
  * One page checkout status
@@ -25,7 +25,7 @@ class Login extends AbstractOnepage
     protected $_checkoutData = null;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -42,7 +42,7 @@ class Login extends AbstractOnepage
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Checkout\Helper\Data $checkoutData
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -58,7 +58,7 @@ class Login extends AbstractOnepage
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
 

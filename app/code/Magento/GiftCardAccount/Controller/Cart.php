@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,15 +12,15 @@ class Cart extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -58,7 +56,7 @@ class Cart extends \Magento\Framework\App\Action\Action
                     $code
                 )->addToCart();
                 $this->messageManager->addSuccess(
-                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -83,7 +81,7 @@ class Cart extends \Magento\Framework\App\Action\Action
                     $code
                 )->removeFromCart();
                 $this->messageManager->addSuccess(
-                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

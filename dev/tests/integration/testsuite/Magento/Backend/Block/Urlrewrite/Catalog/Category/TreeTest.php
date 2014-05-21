@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -74,7 +71,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLoadTreeUrl()
     {
-        $row = new \Magento\Object(array('id' => 1));
+        $row = new \Magento\Framework\Object(array('id' => 1));
         $this->assertStringStartsWith(
             'http://localhost/index.php',
             $this->_treeBlock->getLoadTreeUrl($row),

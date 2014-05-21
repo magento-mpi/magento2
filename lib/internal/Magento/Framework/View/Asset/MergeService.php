@@ -15,7 +15,7 @@ class MergeService
     /**
      * Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -43,13 +43,13 @@ class MergeService
     /**
      * Constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param ConfigInterface $config
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\App\State $state
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         ConfigInterface $config,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\State $state

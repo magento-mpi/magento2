@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
 
-        $urlBuilder = $this->getMock('Magento\UrlInterface', array(), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Framework\UrlInterface', array(), array(), '', false);
         $urlBuilder->expects(
             $this->once()
         )->method(

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Weee\Model\Config\Source;
 
-class Display implements \Magento\Option\ArrayInterface
+class Display implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Retrieve list of available options to display FPT

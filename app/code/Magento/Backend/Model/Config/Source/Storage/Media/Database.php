@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@ namespace Magento\Backend\Model\Config\Source\Storage\Media;
 
 use Magento\Framework\App\Arguments;
 
-class Database implements \Magento\Option\ArrayInterface
+class Database implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var Arguments

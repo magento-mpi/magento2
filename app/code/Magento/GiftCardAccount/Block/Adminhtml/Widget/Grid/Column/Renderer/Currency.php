@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +15,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     protected static $_websiteBaseCurrencyCodes = array();
 
     /**
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -30,7 +28,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     }
 
     /**
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return float|int
      */
     protected function _getRate($row)

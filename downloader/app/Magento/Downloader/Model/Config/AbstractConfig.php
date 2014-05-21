@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Class config
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Downloader\Model\Config;
@@ -78,7 +74,7 @@ class AbstractConfig extends \Magento\Downloader\Model
             if (isset($this->_data['ftp']) && !empty($this->_data['ftp']) && strlen($this->get('downloader_path')) > 0
             ) {
                 $confFile = $this->get('downloader_path') . '/' . basename($this->getFilename());
-                $ftpObj = new \Magento\Connect\Ftp();
+                $ftpObj = new \Magento\Framework\Connect\Ftp();
                 $ftpObj->connect($this->_data['ftp']);
                 $tempFile = tempnam(sys_get_temp_dir(), 'configini');
                 $fp = fopen($tempFile, 'w');

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +32,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $resourceModel->expects($this->once())->method('addCommitCallback')->will($this->returnSelf());
-        $dateTime = $this->getMock('\Magento\Stdlib\DateTime', array(), array());
+        $dateTime = $this->getMock('\Magento\Framework\Stdlib\DateTime', array(), array());
         $dateTime->expects(
             $this->once()
         )->method(

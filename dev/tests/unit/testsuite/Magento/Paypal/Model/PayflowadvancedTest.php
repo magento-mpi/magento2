@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,7 @@ class PayflowadvancedTest extends \PHPUnit_Framework_TestCase
     /**
      * Paypal sent request
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     public static $request;
 
@@ -247,7 +244,7 @@ class PayflowadvancedTest extends \PHPUnit_Framework_TestCase
         $checkRequest = create_function('$request', 'Magento\Paypal\Model\PayflowadvancedTest::$request = $request;');
         $model->expects($this->any())->method('_postRequest')->will($this->returnCallback($checkRequest));
         \Magento\Paypal\Model\PayflowlinkTest::$request = null;
-        $model->initialize(\Magento\Paypal\Model\Config::PAYMENT_ACTION_AUTH, new \Magento\Object());
+        $model->initialize(\Magento\Paypal\Model\Config::PAYMENT_ACTION_AUTH, new \Magento\Framework\Object());
     }
 
     /**

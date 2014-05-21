@@ -8,11 +8,11 @@
 namespace Magento\Customer\Model\Resource;
 
 use Magento\Core\Model\EntityFactory;
-use Magento\Service\V1\Data\Filter;
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Service\V1\Data\SearchCriteria;
-use Magento\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Exception;
+use Magento\Framework\Service\V1\Data\Filter;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Exception;
 
 /**
  * Base for customer service collections

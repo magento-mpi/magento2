@@ -37,15 +37,14 @@ lib/internal/Magento/Framework/Data/Collection.php
 lib/internal/Magento/Framework/Data/Form.php
 lib/internal/Magento/Framework/Data/Form/FormKey.php
 
-lib/internal/Magento/Exception/AuthenticationException.php
-lib/internal/Magento/Exception/AuthorizationException.php
-lib/internal/Magento/Exception/Exception.php
-lib/internal/Magento/Exception/InputException.php
-lib/internal/Magento/Exception/NoSuchEntityException.php
-lib/internal/Magento/Exception/StateException.php
+lib/internal/Magento/Framework/Exception/AuthenticationException.php
+lib/internal/Magento/Framework/Exception/AuthorizationException.php
+lib/internal/Magento/Framework/Exception/Exception.php
+lib/internal/Magento/Framework/Exception/InputException.php
+lib/internal/Magento/Framework/Exception/NoSuchEntityException.php
 
-lib/internal/Magento/Filter/Object/Grid.php
-lib/internal/Magento/Filter/Object.php
+lib/internal/Magento/Framework/Filter/Object/Grid.php
+lib/internal/Magento/Framework/Filter/Object.php
 
 lib/internal/Magento/Framework/View/Context.php
 lib/internal/Magento/Framework/View/Element/Js/Cookie.php
@@ -59,16 +58,16 @@ lib/internal/Magento/Framework/View/Element/Template/Context.php
 lib/internal/Magento/Framework/View/Element/Redirect.php
 
 lib/internal/Magento/Framework/App/Module/ResourceResolver.php
-lib/internal/Magento/Event/Invoker/InvokerDefault.php
-lib/internal/Magento/Phrase/Renderer/Translate.php
-lib/internal/Magento/Backup/Snapshot.php
-lib/internal/Magento/Oauth/Exception.php
+lib/internal/Magento/Framework/Event/Invoker/InvokerDefault.php
+lib/internal/Magento/Framework/Phrase/Renderer/Translate.php
+lib/internal/Magento/Framework/Backup/Snapshot.php
+lib/internal/Magento/Framework/Oauth/Exception.php
 
 lib/internal/Magento/Framework/App/Helper/AbstractHelper.php
 lib/internal/Magento/Framework/App/Helper/Context.php
 
 lib/internal/Magento/Framework/View/DesignLoader.php
-lib/internal/Magento/Session/SidResolverInterface.php
+lib/internal/Magento/Framework/Session/SidResolverInterface.php
 
 lib/internal/Magento/Framework/App/Filesystem/DirectoryList/Configuration.php
 lib/internal/Magento/Framework/Filesystem/Driver/Http.php

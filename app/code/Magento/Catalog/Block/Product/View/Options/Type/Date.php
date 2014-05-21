@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -109,7 +107,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         )->setImage(
             $this->getViewFileUrl('Magento_Core::calendar.gif')
         )->setDateFormat(
-            $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+            $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
         )->setValue(
             $value
         )->setYearsRange(

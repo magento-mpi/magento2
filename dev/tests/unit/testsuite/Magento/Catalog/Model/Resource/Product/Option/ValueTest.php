@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -47,7 +44,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     {
         $object = new Stub(
             $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false),
-            $this->getMock('Magento\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Registry', array(), array(), '', false),
             null,
             null,
             self::$valueTitleData

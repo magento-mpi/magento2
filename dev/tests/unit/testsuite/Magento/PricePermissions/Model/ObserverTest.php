@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PricePermissions
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_varienObserver;
 
@@ -71,7 +68,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_varienObserver = $this->getMock('Magento\Event\Observer', array('getBlock'));
+        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock'));
         $this->_varienObserver->expects($this->once())->method('getBlock')->will($this->returnValue($this->_block));
     }
 

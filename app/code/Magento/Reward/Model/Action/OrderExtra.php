@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -62,7 +60,7 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return $this
      */
     public function setEntity($entity)

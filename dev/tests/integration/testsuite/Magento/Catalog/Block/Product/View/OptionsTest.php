@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,8 +32,8 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $this->_product->load(1);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('current_product');
-        $objectManager->get('Magento\Registry')->register('current_product', $this->_product);
+        $objectManager->get('Magento\Framework\Registry')->unregister('current_product');
+        $objectManager->get('Magento\Framework\Registry')->register('current_product', $this->_product);
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(

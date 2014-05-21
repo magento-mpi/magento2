@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -103,7 +101,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
                 $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
                 $pdf->pages = array_merge($pdf->pages, $pages->pages);
             }
-            $date = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
+            $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
             return $this->_fileFactory->create(
                 'packingslip' . $date . '.pdf',
                 $pdf->render(),
@@ -128,7 +126,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
                 )->getPdf(
                     array($shipment)
                 );
-                $date = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
+                $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
                 return $this->_fileFactory->create(
                     'packingslip' . $date . '.pdf',
                     $pdf->render(),

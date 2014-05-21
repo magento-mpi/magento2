@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 /**
  * Form editor element
  *
- * @category   Magento
- * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Editor extends Textarea
@@ -405,8 +401,8 @@ class Editor extends Textarea
      */
     public function getConfig($key = null)
     {
-        if (!$this->_getData('config') instanceof \Magento\Object) {
-            $config = new \Magento\Object();
+        if (!$this->_getData('config') instanceof \Magento\Framework\Object) {
+            $config = new \Magento\Framework\Object();
             $this->setConfig($config);
         }
         if ($key !== null) {

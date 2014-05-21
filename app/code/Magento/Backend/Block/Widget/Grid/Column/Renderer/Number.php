@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 /**
  * Backend grid item renderer number
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Number extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
@@ -26,10 +22,10 @@ class Number extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * Returns value of the row
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return mixed|string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $data = parent::_getValue($row);
         if (!is_null($data)) {

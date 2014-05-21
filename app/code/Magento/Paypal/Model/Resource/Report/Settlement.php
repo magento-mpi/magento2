@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,15 +20,15 @@ class Settlement extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_rowsTable;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime\DateTime $coreDate)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Stdlib\DateTime\DateTime $coreDate)
     {
         $this->_coreDate = $coreDate;
         parent::__construct($resource);
@@ -69,12 +67,12 @@ class Settlement extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     /**
                      * Converting dates
                      */
-                    $completionDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_completion_date']);
+                    $completionDate = new \Magento\Framework\Stdlib\DateTime\Date($rows[$key]['transaction_completion_date']);
                     $rows[$key]['transaction_completion_date'] = $this->_coreDate->date(
                         null,
                         $completionDate->getTimestamp()
                     );
-                    $initiationDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_initiation_date']);
+                    $initiationDate = new \Magento\Framework\Stdlib\DateTime\Date($rows[$key]['transaction_initiation_date']);
                     $rows[$key]['transaction_initiation_date'] = $this->_coreDate->date(
                         null,
                         $initiationDate->getTimestamp()

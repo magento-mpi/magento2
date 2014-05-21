@@ -29,7 +29,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->_pageAssets = $this->getMock(
             'Magento\Framework\View\Asset\GroupedCollection',
             array(),

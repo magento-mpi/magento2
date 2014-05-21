@@ -17,14 +17,14 @@ abstract class AbstractEntity
     /**
      * Configuration object
      *
-     * @var \Magento\Simplexml\Config
+     * @var \Magento\Framework\Simplexml\Config
      */
     protected $_config = array();
 
     /**
      * Set config
      *
-     * @param \Magento\Simplexml\Config $config
+     * @param \Magento\Framework\Simplexml\Config $config
      */
     public function __construct($config)
     {
@@ -35,7 +35,7 @@ abstract class AbstractEntity
      * Get config by key
      *
      * @param string $key
-     * @return \Magento\Simplexml\Config|string|false
+     * @return \Magento\Framework\Simplexml\Config|string|false
      */
     public function getConfig($key = '')
     {

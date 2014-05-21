@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,13 +17,13 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleableItem;
 
     public function setUp()
     {
-        $this->saleableItem = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+        $this->saleableItem = $this->getMock('Magento\Framework\Pricing\Object\SaleableInterface');
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Render\FinalPriceBox', [
@@ -39,7 +36,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowRangePrice($value, $maxValue, $result)
     {
-        $priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface');
+        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface');
         $optionPrice = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleOptionPrice')
             ->disableOriginalConstructor()
             ->getMock();
@@ -50,7 +47,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $priceInfo->expects($this->atLeastOnce())
             ->method('getPrice')
-            ->with(Price\BundleOptionPriceInterface::PRICE_TYPE_BUNDLE_OPTION)
+            ->with(Price\BundleOptionPrice::PRICE_CODE)
             ->will($this->returnValue($optionPrice));
 
         $optionPrice->expects($this->once())

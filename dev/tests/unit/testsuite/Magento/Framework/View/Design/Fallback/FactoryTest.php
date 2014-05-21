@@ -199,6 +199,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     '/area/current_theme_path/namespace_module',
                     '/area/parent_theme_path/namespace_module',
                     '/namespace/module/view/area',
+                    '/namespace/module/view/base',
                 ],
             ],
             'file, non-modular' => [

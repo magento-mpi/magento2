@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PricePermissions
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -75,7 +72,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _runAdminhtmlBlockHtmlBefore(\Magento\Framework\View\Element\AbstractBlock $block)
     {
-        $event = new \Magento\Event\Observer();
+        $event = new \Magento\Framework\Event\Observer();
         $event->setBlock($block);
         $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\PricePermissions\Model\Observer'

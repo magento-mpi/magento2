@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog Inventory Manage Stock Config Backend Model
  *
- * @category   Magento
- * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Model\Config\Backend;
@@ -27,7 +23,7 @@ class Managestock extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -36,7 +32,7 @@ class Managestock extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

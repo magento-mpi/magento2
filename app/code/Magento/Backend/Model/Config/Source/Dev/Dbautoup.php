@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Config\Source\Dev;
 
-class Dbautoup implements \Magento\Option\ArrayInterface
+class Dbautoup implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

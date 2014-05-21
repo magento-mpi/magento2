@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Backend\Model\Search;
 /**
  * Search Order Model
  *
- * @category    Magento
- * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Order extends \Magento\Object
+class Order extends \Magento\Framework\Object
 {
     /**
      * Adminhtml data

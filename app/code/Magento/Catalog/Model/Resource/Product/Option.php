@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Resource\Product;
 /**
  * Catalog product custom option resource model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
@@ -124,7 +120,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 if ($optionId) {
                     if ($object->getStoreId() == '0') {
                         $data = $this->_prepareDataForTable(
-                            new \Magento\Object(
+                            new \Magento\Framework\Object(
                                 array('price' => $object->getPrice(), 'price_type' => $object->getPriceType())
                             ),
                             $priceTable
@@ -141,7 +137,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     }
                 } else {
                     $data = $this->_prepareDataForTable(
-                        new \Magento\Object(
+                        new \Magento\Framework\Object(
                             array(
                                 'option_id' => $object->getId(),
                                 'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
@@ -193,7 +189,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
                         if ($readAdapter->fetchOne($statement)) {
                             $data = $this->_prepareDataForTable(
-                                new \Magento\Object(
+                                new \Magento\Framework\Object(
                                     array('price' => $newPrice, 'price_type' => $object->getPriceType())
                                 ),
                                 $priceTable
@@ -206,7 +202,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                             );
                         } else {
                             $data = $this->_prepareDataForTable(
-                                new \Magento\Object(
+                                new \Magento\Framework\Object(
                                     array(
                                         'option_id' => $object->getId(),
                                         'store_id' => $storeId,
@@ -259,7 +255,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if ($readAdapter->fetchOne($statement)) {
                 if ($object->getStoreId() == '0') {
                     $data = $this->_prepareDataForTable(
-                        new \Magento\Object(array('title' => $object->getTitle())),
+                        new \Magento\Framework\Object(array('title' => $object->getTitle())),
                         $titleTable
                     );
 
@@ -274,7 +270,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 }
             } else {
                 $data = $this->_prepareDataForTable(
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(
                         array(
                             'option_id' => $object->getId(),
                             'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
@@ -301,7 +297,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             if ($readAdapter->fetchOne($statement)) {
                 $data = $this->_prepareDataForTable(
-                    new \Magento\Object(array('title' => $object->getTitle())),
+                    new \Magento\Framework\Object(array('title' => $object->getTitle())),
                     $titleTable
                 );
 
@@ -312,7 +308,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 );
             } else {
                 $data = $this->_prepareDataForTable(
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(
                         array(
                             'option_id' => $object->getId(),
                             'store_id' => $object->getStoreId(),

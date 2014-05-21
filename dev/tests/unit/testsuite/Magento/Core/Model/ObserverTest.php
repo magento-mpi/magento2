@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
 
         $this->_frontendPoolMock = $this->getMock(
             'Magento\Framework\App\Cache\Frontend\Pool',
@@ -155,7 +155,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_themeCustomization->expects($this->once())->method('getFiles')->will($this->returnValue(array($file)));
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
-        $observer = new \Magento\Event\Observer();
+        $observer = new \Magento\Framework\Event\Observer();
         $this->_model->applyThemeCustomization($observer);
     }
 }

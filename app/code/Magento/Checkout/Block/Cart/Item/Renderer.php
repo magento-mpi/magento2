@@ -2,20 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
 use Magento\Sales\Model\Quote\Item;
+use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 
 /**
  * Shopping cart item render block
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setProductName(string)
@@ -65,7 +62,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     protected $_urlHelper;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -80,7 +77,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -89,7 +86,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -320,12 +317,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         if ($this->hasDeleteUrl()) {
             return $this->getData('delete_url');
         }
-
-        $encodedUrl = $this->_urlHelper->getEncodedUrl();
-        return $this->getUrl(
-            'checkout/cart/delete',
-            array('id' => $this->getItem()->getId(), \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
-        );
+        $params = ['id' => $this->getItem()->getId()];
+        if (!$this->_request->isAjax()) {
+            $encodedUrl = $this->_urlHelper->getEncodedUrl();
+            $params[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $encodedUrl;
+        }
+        return $this->getUrl('checkout/cart/delete', $params);
     }
 
     /**
@@ -373,12 +370,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
             }
         }
 
-        /* @var $collection \Magento\Message\Collection */
+        /* @var $collection \Magento\Framework\Message\Collection */
         $collection = $this->messageManager->getMessages('quote_item' . $quoteItem->getId());
         if ($collection) {
             $additionalMessages = $collection->getItems();
             foreach ($additionalMessages as $message) {
-                /* @var $message \Magento\Message\MessageInterface */
+                /* @var $message \Magento\Framework\Message\MessageInterface */
                 $messages[] = array('text' => $message->getText(), 'type' => $message->getType());
             }
         }
@@ -439,23 +436,6 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     }
 
     /**
-     * Get html for MAP product enabled
-     *
-     * @param Item $item
-     * @return string
-     */
-    public function getMsrpHtml($item)
-    {
-        return $this->getLayout()->createBlock(
-            'Magento\Catalog\Block\Product\Price'
-        )->setTemplate(
-            'product/price_msrp_item.phtml'
-        )->setProduct(
-            $item->getProduct()
-        )->toHtml();
-    }
-
-    /**
      * Set qty mode to be strict or not
      *
      * @param bool $strict
@@ -486,9 +466,45 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getIdentities()
     {
+        $identities = array();
         if ($this->getItem()) {
-            return $this->getProduct()->getIdentities();
+            $identities = $this->getProduct()->getIdentities();
         }
-        return array();
+        return $identities;
+    }
+
+    /**
+     * Get product price formatted with html (final price, special price, mrp price)
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product)
+    {
+        $priceRender = $this->getPriceRender();
+        $priceRender->setItem($this->getItem());
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
+                $product,
+                [
+                    'include_container' => true,
+                    'display_minimal_price' => true,
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
+        }
+
+        return $price;
+    }
+
+    /**
+     * @return \Magento\Framework\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
     }
 }

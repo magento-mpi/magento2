@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Directory\Model\Config\Source;
 
-class Country implements \Magento\Option\ArrayInterface
+class Country implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Countries

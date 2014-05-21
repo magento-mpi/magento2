@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Reports\Model;
 /**
  *  Totals Class
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Totals
@@ -24,7 +20,7 @@ class Totals
      * @param \Magento\Backend\Block\Widget\Grid $grid
      * @param string $from
      * @param string $to
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function countTotals($grid, $from, $to)
     {
@@ -72,7 +68,7 @@ class Totals
             }
         }
 
-        $totals = new \Magento\Object();
+        $totals = new \Magento\Framework\Object();
         $totals->setData($data);
 
         return $totals;

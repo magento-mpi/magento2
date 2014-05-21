@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,10 +17,10 @@ class Reason extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * Render "Expired / not expired" reward "Reason" field
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $expired = '';
         if ($row->getData('is_duplicate_of') !== null) {

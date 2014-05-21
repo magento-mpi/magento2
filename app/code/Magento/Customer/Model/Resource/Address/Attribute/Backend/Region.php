@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Model\Resource\Address\Attribute\Backend;
 /**
  * Address region attribute backend
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Region extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
@@ -24,10 +20,10 @@ class Region extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_regionFactory;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
-    public function __construct(\Magento\Logger $logger, \Magento\Directory\Model\RegionFactory $regionFactory)
+    public function __construct(\Magento\Framework\Logger $logger, \Magento\Directory\Model\RegionFactory $regionFactory)
     {
         $this->_regionFactory = $regionFactory;
         parent::__construct($logger);
@@ -36,7 +32,7 @@ class Region extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Prepare object for save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)

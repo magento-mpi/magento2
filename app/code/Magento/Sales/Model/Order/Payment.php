@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -192,9 +190,9 @@ class Payment extends \Magento\Payment\Model\Info
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
@@ -205,9 +203,9 @@ class Payment extends \Magento\Payment\Model\Info
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
@@ -323,7 +321,7 @@ class Payment extends \Magento\Payment\Model\Info
         $methodInstance->setStore($order->getStoreId());
 
         $orderState = \Magento\Sales\Model\Order::STATE_NEW;
-        $stateObject = new \Magento\Object();
+        $stateObject = new \Magento\Framework\Object();
 
         /**
          * Do order payment validation on payment method level
@@ -638,10 +636,10 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Check order payment void availability
      *
-     * @param \Magento\Object $document
+     * @param \Magento\Framework\Object $document
      * @return bool
      */
-    public function canVoid(\Magento\Object $document)
+    public function canVoid(\Magento\Framework\Object $document)
     {
         if (null === $this->_canVoidLookup) {
             $this->_canVoidLookup = (bool)$this->getMethodInstance()->canVoid($document);
@@ -656,11 +654,11 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Void payment online
      *
-     * @param \Magento\Object $document
+     * @param \Magento\Framework\Object $document
      * @return $this
      * @see self::_void()
      */
-    public function void(\Magento\Object $document)
+    public function void(\Magento\Framework\Object $document)
     {
         $this->_void(true);
         $this->_eventManager->dispatch('sales_order_payment_void', array('payment' => $this, 'invoice' => $document));

@@ -39,7 +39,7 @@ class View extends \Magento\Framework\View\Element\Template
     protected $_relatedOrders = null;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -52,12 +52,12 @@ class View extends \Magento\Framework\View\Element\Template
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -77,10 +77,10 @@ class View extends \Magento\Framework\View\Element\Template
     /**
      * Get rendered row value
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function renderRowValue(\Magento\Object $row)
+    public function renderRowValue(\Magento\Framework\Object $row)
     {
         $value = $row->getValue();
         if (is_array($value)) {
@@ -101,7 +101,7 @@ class View extends \Magento\Framework\View\Element\Template
      */
     protected function _addInfo(array $data, $key = null)
     {
-        $object = new \Magento\Object($data);
+        $object = new \Magento\Framework\Object($data);
         if ($key) {
             $this->_info[$key] = $object;
         } else {

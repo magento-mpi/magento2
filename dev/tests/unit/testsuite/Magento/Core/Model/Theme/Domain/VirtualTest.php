@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -74,7 +71,7 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
         $appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('fixture_area'));
         $appStateProperty = new \ReflectionProperty('Magento\Core\Model\Theme', '_appState');
         $appStateProperty->setAccessible(true);
-        /** @var $theme \Magento\Object */
+        /** @var $theme \Magento\Framework\Object */
         $theme->setData(
             array(
                 'id' => 'fixture_theme_id',

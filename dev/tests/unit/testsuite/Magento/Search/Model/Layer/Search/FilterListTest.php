@@ -37,9 +37,13 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManagerMock = $this->getMock('\Magento\ObjectManager');
+        $this->objectManagerMock = $this->getMock('\Magento\Framework\ObjectManager');
         $this->attributeListMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Search\FilterableAttributeList', array(), array(), '', false
+            '\Magento\Search\Model\Layer\Search\FilterableAttributeList',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->searchHelperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
         $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
@@ -70,7 +74,11 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     public function testGetFiltersThirdPartSearchEngineIsAvailable()
     {
         $filterMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Category\Filter\Category', array(), array(), '', false
+            '\Magento\Search\Model\Layer\Category\Filter\Category',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $filterMock->expects($this->once())

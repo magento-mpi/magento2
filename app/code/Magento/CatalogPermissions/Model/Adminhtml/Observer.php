@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,16 +9,14 @@
 /**
  * Adminhtml observer
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml;
 
-use Magento\AuthorizationInterface;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Catalog\Block\Adminhtml\Category\Tabs;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {

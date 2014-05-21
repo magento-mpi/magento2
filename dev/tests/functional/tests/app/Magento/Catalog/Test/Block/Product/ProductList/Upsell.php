@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +9,25 @@
 namespace Magento\Catalog\Test\Block\Product\ProductList;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
+/**
+ * Class Upsell
+ * Upsell product block on the page
+ */
 class Upsell extends Block
 {
+    /**
+     * Upsell product locator on the page
+     *
+     * @var string
+     */
     protected $upsellProduct = "//div[normalize-space(div//a)='%s']";
 
     /**
+     * Checking upsell product visibility
+     *
      * @param string $productName
      * @return bool
      */
@@ -29,6 +37,8 @@ class Upsell extends Block
     }
 
     /**
+     * Open upsell product
+     *
      * @param string $productName
      */
     public function openUpsellProduct($productName)
@@ -37,8 +47,10 @@ class Upsell extends Block
     }
 
     /**
+     * Get a the product
+     *
      * @param string $productName
-     * @return mixed|\Mtf\Client\Element
+     * @return Element
      */
     private function getProductElement($productName)
     {

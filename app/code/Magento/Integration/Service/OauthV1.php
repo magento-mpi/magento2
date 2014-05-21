@@ -7,12 +7,12 @@
  */
 namespace Magento\Integration\Service;
 
-use Magento\Oauth\OauthInterface;
+use Magento\Framework\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
 use Magento\Integration\Model\Oauth\Token;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
 use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
-use Magento\Oauth\Helper\Oauth as OauthHelper;
+use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
 use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
 
@@ -45,12 +45,12 @@ class OauthV1 implements OauthV1Interface
     protected $_dataHelper;
 
     /**
-     * @var  \Magento\HTTP\ZendClient
+     * @var  \Magento\Framework\HTTP\ZendClient
      */
     protected $_httpClient;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -71,8 +71,8 @@ class OauthV1 implements OauthV1Interface
      * @param ConsumerFactory $consumerFactory
      * @param TokenFactory $tokenFactory
      * @param IntegrationOauthHelper $dataHelper
-     * @param \Magento\HTTP\ZendClient $httpClient
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\HTTP\ZendClient $httpClient
+     * @param \Magento\Framework\Logger $logger
      * @param OauthHelper $oauthHelper
      * @param TokenProvider $tokenProvider
      */
@@ -81,8 +81,8 @@ class OauthV1 implements OauthV1Interface
         ConsumerFactory $consumerFactory,
         TokenFactory $tokenFactory,
         IntegrationOauthHelper $dataHelper,
-        \Magento\HTTP\ZendClient $httpClient,
-        \Magento\Logger $logger,
+        \Magento\Framework\HTTP\ZendClient $httpClient,
+        \Magento\Framework\Logger $logger,
         OauthHelper $oauthHelper,
         TokenProvider $tokenProvider
     ) {
@@ -110,7 +110,9 @@ class OauthV1 implements OauthV1Interface
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to create oAuth consumer account.'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unexpected error. Unable to create oAuth consumer account.')
+            );
         }
     }
 
@@ -165,7 +167,9 @@ class OauthV1 implements OauthV1Interface
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to load oAuth consumer account.'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unexpected error. Unable to load oAuth consumer account.')
+            );
         }
     }
 
@@ -179,7 +183,9 @@ class OauthV1 implements OauthV1Interface
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to load oAuth consumer account.'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unexpected error. Unable to load oAuth consumer account.')
+            );
         }
     }
 
@@ -191,7 +197,7 @@ class OauthV1 implements OauthV1Interface
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             if (!$consumer->getId()) {
-                throw new \Magento\Oauth\Exception(
+                throw new \Magento\Framework\Oauth\Exception(
                     __('A consumer with ID %1 does not exist', $consumerId),
                     OauthInterface::ERR_PARAMETER_REJECTED
                 );
@@ -211,15 +217,17 @@ class OauthV1 implements OauthV1Interface
             $maxredirects = $this->_dataHelper->getConsumerPostMaxRedirects();
             $timeout = $this->_dataHelper->getConsumerPostTimeout();
             $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
-            $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
+            $this->_httpClient->request(\Magento\Framework\HTTP\ZendClient::POST);
             return $verifier->getVerifier();
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
-        } catch (\Magento\Oauth\Exception $exception) {
+        } catch (\Magento\Framework\Oauth\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
             $this->_logger->logException($exception);
-            throw new \Magento\Oauth\Exception(__('Unable to post data to consumer due to an unexpected error'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unable to post data to consumer due to an unexpected error')
+            );
         }
     }
 

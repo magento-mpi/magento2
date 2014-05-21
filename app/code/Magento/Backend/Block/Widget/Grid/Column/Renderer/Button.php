@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,10 +12,10 @@ class Button extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * Render grid row
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $buttonType = $this->getColumn()->getButtonType();
         $buttonClass = $this->getColumn()->getButtonClass();

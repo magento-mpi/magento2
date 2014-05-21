@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,7 +26,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $product = $objectManager->create('Magento\Catalog\Model\Product');
         $product->load(1);
         // fixture
-        $objectManager->get('Magento\Registry')->register('product', $product);
+        $objectManager->get('Magento\Framework\Registry')->register('product', $product);
 
         $objectManager->get('Magento\Framework\App\State')->setAreaCode('nonexisting');
         /** @var $layout \Magento\Framework\View\Layout */

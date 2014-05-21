@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Model\Category;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 class Widget extends Action
 {
@@ -108,12 +106,13 @@ class Widget extends Action
             if (!($category = $this->_initCategory())) {
                 return;
             }
+            $block = $this->_view->getLayout()->createBlock(
+                'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree'
+            )->setCategoryIds(
+                array($categoryId)
+            );
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock(
-                    'Magento\Catalog\Block\Adminhtml\Category\Tree'
-                )->getTreeJson(
-                    $category
-                )
+                $block->getTreeJson($category)
             );
         }
     }

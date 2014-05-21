@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -34,7 +31,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $widgetInstance->setType($type)->setCode($code)->setThemeId($theme->getId())->save();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_widget_instance', $widgetInstance);
+        $objectManager->get('Magento\Framework\Registry')->register('current_widget_instance', $widgetInstance);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\RequestInterface'

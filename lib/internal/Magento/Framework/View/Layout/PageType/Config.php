@@ -46,7 +46,7 @@ class Config
             $this->_pageTypes = array();
             foreach ($this->_dataStorage->get(null) as $pageTypeId => $pageTypeConfig) {
                 $pageTypeConfig['label'] = __($pageTypeConfig['label']);
-                $this->_pageTypes[$pageTypeId] = new \Magento\Object($pageTypeConfig);
+                $this->_pageTypes[$pageTypeId] = new \Magento\Framework\Object($pageTypeConfig);
             }
         }
         return $this;
@@ -55,7 +55,7 @@ class Config
     /**
      * Retrieve available page types
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getPageTypes()
     {

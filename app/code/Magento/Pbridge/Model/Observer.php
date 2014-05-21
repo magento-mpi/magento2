@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -67,10 +65,10 @@ class Observer
     /**
      * Check payment methods availability
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function isPaymentMethodAvailable(\Magento\Event\Observer $observer)
+    public function isPaymentMethodAvailable(\Magento\Framework\Event\Observer $observer)
     {
         $method = $observer->getEvent()->getData('method_instance');
         /* @var $quote \Magento\Sales\Model\Quote */
@@ -91,10 +89,10 @@ class Observer
 
     /**
      * Update Payment Profiles functionality switcher
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
+    public function updatePaymentProfileStatus(\Magento\Framework\Event\Observer $observer)
     {
         $website = $this->_storeManager->getWebsite($observer->getEvent()->getData('website'));
         $braintreeEnabled = $website->getConfig(

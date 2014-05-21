@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -95,10 +93,10 @@ ini_set('include_path', ini_get('include_path') . '/' . BASE_PATH . '/lib/intern
 
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
-require_once BASE_PATH . '/lib/internal/internal/Magento/File/CsvMulty.php';
+require_once BASE_PATH . '/lib/internal/Magento/Framework/File/CsvMulty.php';
 require_once __DIR__ . '/DirectoryFilter.php';
 
-require_once BASE_PATH . '/lib/internal/internal/Magento/Simplexml/Config.php';
-require_once BASE_PATH . '/lib/internal/internal/Magento/Simplexml/Element.php';
+require_once BASE_PATH . '/lib/internal/Magento/Framework/Simplexml/Config.php';
+require_once BASE_PATH . '/lib/internal/Magento/Framework/Simplexml/Element.php';
 
 \Magento\Tools\Translate\TranslateTool::run($CONFIG);

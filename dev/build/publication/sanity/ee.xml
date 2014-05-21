@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category   build
- * @package    sanity
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -66,7 +64,7 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <word>enterprise</word>
-            <path>dev/tests/unit/testsuite/Magento/Cache/Backend/_files/MongoBinData.txt</path>
+            <path>dev/tests/unit/testsuite/Magento/Framework/Cache/Backend/_files/MongoBinData.txt</path>
         </item>
         <item>
             <word>enterprise</word>
@@ -77,7 +75,7 @@
         </item>
         <item>
             <word>CHANGELOG</word>
-            <path>lib/internal/Magento/Pear/Package.php</path>
+            <path>lib/internal/Magento/Framework/Pear/Package.php</path>
         </item>
         <item>
             <path>lib/internal/Symfony</path>
@@ -113,15 +111,15 @@
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>dev/tests/integration/testsuite/Magento/Mview</path>
+            <path>dev/tests/integration/testsuite/Magento/Framework/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>dev/tests/unit/testsuite/Magento/Mview</path>
+            <path>dev/tests/unit/testsuite/Magento/Framework/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>lib/internal/Magento/Mview</path>
+            <path>lib/internal/Magento/Framework/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>

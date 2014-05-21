@@ -118,13 +118,13 @@ abstract class AbstractResource
     /**
      * Serialize specified field in an object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string $field
      * @param mixed $defaultValue
      * @param bool $unsetEmpty
      * @return $this
      */
-    protected function _serializeField(\Magento\Object $object, $field, $defaultValue = null, $unsetEmpty = false)
+    protected function _serializeField(\Magento\Framework\Object $object, $field, $defaultValue = null, $unsetEmpty = false)
     {
         $value = $object->getData($field);
         if (empty($value)) {
@@ -144,14 +144,14 @@ abstract class AbstractResource
     }
 
     /**
-     * Unserialize \Magento\Object field in an object
+     * Unserialize \Magento\Framework\Object field in an object
      *
      * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $field
      * @param mixed $defaultValue
      * @return void
      */
-    protected function _unserializeField(\Magento\Object $object, $field, $defaultValue = null)
+    protected function _unserializeField(\Magento\Framework\Object $object, $field, $defaultValue = null)
     {
         $value = $object->getData($field);
         if (empty($value)) {
@@ -164,11 +164,11 @@ abstract class AbstractResource
     /**
      * Prepare data for passed table
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string $table
      * @return array
      */
-    protected function _prepareDataForTable(\Magento\Object $object, $table)
+    protected function _prepareDataForTable(\Magento\Framework\Object $object, $table)
     {
         $data = array();
         $fields = $this->_getWriteAdapter()->describeTable($table);
@@ -202,7 +202,7 @@ abstract class AbstractResource
         $type = strtolower($type);
         if ($type == 'decimal' || $type == 'numeric' || $type == 'float') {
             $value = \Magento\Framework\App\ObjectManager::getInstance()->get(
-                'Magento\Locale\FormatInterface'
+                'Magento\Framework\Locale\FormatInterface'
             )->getNumber(
                 $value
             );

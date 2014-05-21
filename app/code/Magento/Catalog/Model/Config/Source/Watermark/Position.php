@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Watermark position config source model
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Config\Source\Watermark;
 
-class Position implements \Magento\Option\ArrayInterface
+class Position implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get available options

@@ -15,7 +15,7 @@ namespace Magento\GoogleAdwords\Model\Config\Backend;
 abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
 {
     /**
-     * @var \Magento\Validator\Object
+     * @var \Magento\Framework\Validator\Object
      */
     protected $_validatorComposite;
 
@@ -26,9 +26,9 @@ abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Validator\ObjectFactory $validatorCompositeFactory
+     * @param \Magento\Framework\Validator\ObjectFactory $validatorCompositeFactory
      * @param \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -36,9 +36,9 @@ abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Validator\ObjectFactory $validatorCompositeFactory,
+        \Magento\Framework\Validator\ObjectFactory $validatorCompositeFactory,
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

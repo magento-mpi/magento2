@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -91,7 +88,7 @@ class Settings
      *
      * @param string $settingName
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getAsConfigFile($settingName)
     {
@@ -104,7 +101,7 @@ class Settings
                 return $result;
             }
         }
-        throw new \Magento\Exception("Setting '{$settingName}' specifies the non-existing file '{$result}'.");
+        throw new \Magento\Framework\Exception("Setting '{$settingName}' specifies the non-existing file '{$result}'.");
     }
 
     /**

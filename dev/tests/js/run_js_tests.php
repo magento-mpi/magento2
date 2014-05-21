@@ -4,15 +4,13 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 define('RELATIVE_APP_ROOT', '../../..');
 require __DIR__ . '/../../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib/internal'));
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib/internal'));
 
 $userConfig = normalize('jsTestDriver.php');
 $defaultConfig = normalize('jsTestDriver.php.dist');

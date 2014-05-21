@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Email\Controller\Adminhtml\Email;
 /**
  * System Template admin controller
  *
- * @category   Magento
- * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Template extends \Magento\Backend\App\Action
@@ -21,15 +17,15 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -134,7 +130,7 @@ class Template extends \Magento\Backend\App\Action
             )->setTemplateStyles(
                 $request->getParam('template_styles')
             )->setModifiedAt(
-                $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
             )->setOrigTemplateCode(
                 $request->getParam('orig_template_code')
             )->setOrigTemplateVariables(
@@ -176,11 +172,20 @@ class Template extends \Magento\Backend\App\Action
         $template = $this->_initTemplate('id');
         if ($template->getId()) {
             try {
-                $template->delete();
-                // display success message
-                $this->messageManager->addSuccess(__('The email template has been deleted.'));
-                // go to grid
-                $this->_redirect('adminhtml/*/');
+                // check if the template is currently used
+                if (count($template->getSystemConfigPathsWhereUsedCurrently()) == 0) {
+                    $template->delete();
+                    // display success message
+                    $this->messageManager->addSuccess(__('The email template has been deleted.'));
+                    $this->_objectManager->get('Magento\Framework\App\ReinitableConfig')->reinit();
+                    // go to grid
+                    $this->_redirect('adminhtml/*/');
+                    return;
+                }
+                // display error  message
+                $this->messageManager->addError(__('The email template is currently being used.'));
+                // redirect to edit form
+                $this->_redirect('adminhtml/*/edit', array('id' => $template->getId()));
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -188,7 +193,7 @@ class Template extends \Magento\Backend\App\Action
                 $this->messageManager->addError(
                     __('An error occurred while deleting email template data. Please review log and try again.')
                 );
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 // save data in session
                 $this->_objectManager->get(
                     'Magento\Backend\Model\Session'
@@ -213,8 +218,13 @@ class Template extends \Magento\Backend\App\Action
      */
     public function previewAction()
     {
-        $this->_view->loadLayout('systemPreview');
-        $this->_view->renderLayout();
+        try {
+            $this->_view->loadLayout('systemPreview');
+            $this->_view->renderLayout();
+        } catch (\Exception $e) {
+            $this->messageManager->addError(__('An error occurred. The email template can not be opened for preview.'));
+            $this->_redirect('adminhtml/*/');
+        }
     }
 
     /**
@@ -224,6 +234,7 @@ class Template extends \Magento\Backend\App\Action
      */
     public function defaultTemplateAction()
     {
+        $this->_view->loadLayout();
         $template = $this->_initTemplate('id');
         $templateCode = $this->getRequest()->getParam('code');
         try {
@@ -238,7 +249,7 @@ class Template extends \Magento\Backend\App\Action
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($template->getData())
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 

@@ -10,14 +10,13 @@ namespace Magento\TestFramework\Helper;
 /**
  * Class Categories Helper
  *
- * @package Magento\TestFramework\Helper
  */
 class Categories
 {
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager\ObjectManager
+     * @var \Magento\Framework\ObjectManager\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -83,7 +82,7 @@ class Categories
     /**
      * Get object manager
      *
-     * @return \Magento\ObjectManager\ObjectManager|null
+     * @return \Magento\Framework\ObjectManager\ObjectManager|null
      */
     protected function getObjectManager()
     {

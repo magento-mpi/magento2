@@ -83,6 +83,7 @@ class RulePool
                 array(
                     new Theme(new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>/templates")),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>/templates"),
+                    new Simple("$modulesDir/<namespace>/<module>/view/base/templates"),
                 )
             )
         );
@@ -103,6 +104,7 @@ class RulePool
                 array(
                     new Theme(new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>")),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>"),
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/base"),
                 )
             )
         );
@@ -150,6 +152,7 @@ class RulePool
                         array('locale')
                     ),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>/web"),
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/base/web"),
                 )
             )
         );

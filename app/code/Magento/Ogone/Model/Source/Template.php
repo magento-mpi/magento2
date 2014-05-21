@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Ogone
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Ogone\Model\Source;
 
-class Template implements \Magento\Option\ArrayInterface
+class Template implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Prepare ogone template mode list as option array

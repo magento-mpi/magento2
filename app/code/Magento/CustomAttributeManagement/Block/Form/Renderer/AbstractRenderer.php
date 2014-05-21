@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 /**
  * EAV entity Attribute Form Renderer Abstract Block
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
@@ -99,10 +95,10 @@ abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
     {
         $filterCode = $this->getAttributeObject()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Magento\\Data\\Form\\Filter\\' . ucfirst($filterCode);
+            $filterClass = 'Magento\\Framework\\Data\\Form\\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $format = $this->_localeDate->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 );
                 $filter = new $filterClass($format);
             } else {

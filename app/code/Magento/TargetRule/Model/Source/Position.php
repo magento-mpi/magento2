@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\TargetRule\Model\Source;
 
-class Position implements \Magento\Option\ArrayInterface
+class Position implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get data for Position behavior selector

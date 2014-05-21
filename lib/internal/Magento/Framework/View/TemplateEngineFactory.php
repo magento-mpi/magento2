@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Factory class for Template Engine

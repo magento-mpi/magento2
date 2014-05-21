@@ -17,7 +17,7 @@ class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
     /**
      * Registry instance
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
@@ -34,7 +34,7 @@ class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Registry $registryManager
      * @param array $data
      */
     public function __construct(
@@ -43,7 +43,7 @@ class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
-        \Magento\Registry $registryManager,
+        \Magento\Framework\Registry $registryManager,
         array $data = array()
     ) {
         parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Data
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,7 +26,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,7 +39,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface');
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Section(
             $this->_storeManagerMock,

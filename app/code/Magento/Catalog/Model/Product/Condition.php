@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
-class Condition extends \Magento\Object implements \Magento\Catalog\Model\Product\Condition\ConditionInterface
+class Condition extends \Magento\Framework\Object implements \Magento\Catalog\Model\Product\Condition\ConditionInterface
 {
     /**
      * @param AbstractCollection $collection

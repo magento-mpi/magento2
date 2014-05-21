@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Config\Source\Price;
 
-class Scope implements \Magento\Option\ArrayInterface
+class Scope implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

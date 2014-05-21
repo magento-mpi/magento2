@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        /**
+         * Declaration of resources needed for defined components
+         */
+        $.mage.component({
+            addToWishlist: [
+                '<?php echo $this->getViewFileUrl('Magento_Wishlist::js/add-to-wishlist.js') ?>'
+            ],
+            wishlistSearch: [
+                '<?php echo $this->getViewFileUrl('Magento_Wishlist::js/search.js') ?>'
+            ]
+        });
+    })(jQuery);
+</script>
+<?php echo $this->getChildHtml() ?>

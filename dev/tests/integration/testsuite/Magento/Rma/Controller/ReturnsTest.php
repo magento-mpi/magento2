@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category Magento
- * @package Magento_Rma
- * @subpackage integration_tests
  * @copyright {copyright}
  * @license {license_link}
  */
@@ -20,7 +17,7 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',
             array($logger)

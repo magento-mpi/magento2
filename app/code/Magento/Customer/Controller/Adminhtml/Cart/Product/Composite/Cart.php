@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Model\Exception;
 /**
  * Catalog composite product configuration controller
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Cart extends \Magento\Backend\App\Action
@@ -80,7 +76,7 @@ class Cart extends \Magento\Backend\App\Action
      */
     public function configureAction()
     {
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
@@ -117,11 +113,11 @@ class Cart extends \Magento\Backend\App\Action
      */
     public function updateAction()
     {
-        $updateResult = new \Magento\Object();
+        $updateResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
-            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
             $this->_quote->updateItem($this->_quoteItem->getId(), $buyRequest);
             $this->_quote->collectTotals()->save();
 

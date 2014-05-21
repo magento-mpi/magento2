@@ -2,12 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Widget;
+
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class Dob extends AbstractWidget
 {
@@ -94,7 +94,7 @@ class Dob extends AbstractWidget
      */
     public function getDateFormat()
     {
-        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

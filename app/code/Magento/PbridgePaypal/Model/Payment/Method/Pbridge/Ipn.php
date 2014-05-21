@@ -79,7 +79,7 @@ class Ipn
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -102,13 +102,13 @@ class Ipn
      *
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      */
     public function __construct(
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData
     ) {
         $this->_paypalInfo = $paypalInfo;
@@ -179,7 +179,7 @@ class Ipn
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $http->write(\Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
             $response = $http->read();
         } catch (\Exception $e) {

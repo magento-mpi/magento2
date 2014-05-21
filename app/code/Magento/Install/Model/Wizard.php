@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Install\Model;
 
-use Magento\UrlInterface;
+use Magento\Framework\UrlInterface;
 
 class Wizard
 {
@@ -82,7 +80,7 @@ class Wizard
      * Get wizard step by request
      *
      * @param   \Magento\Framework\App\RequestInterface $request
-     * @return  \Magento\Object|bool
+     * @return  \Magento\Framework\Object|bool
      */
     public function getStepByRequest(\Magento\Framework\App\RequestInterface $request)
     {
@@ -100,7 +98,7 @@ class Wizard
      * Get wizard step by name
      *
      * @param   string $name
-     * @return  \Magento\Object|bool
+     * @return  \Magento\Framework\Object|bool
      */
     public function getStepByName($name)
     {

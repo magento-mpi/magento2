@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PromotionPermissions
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,9 +25,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->markTestSkipped();
-        $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Module\ModuleList');
+        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Framework\Module\ModuleList');
         $objectManager->get(
             'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
@@ -65,7 +62,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $event = new \Magento\Event\Observer();
+        $event = new \Magento\Framework\Event\Observer();
         $event->setBlock($block);
         $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\PromotionPermissions\Model\Observer'

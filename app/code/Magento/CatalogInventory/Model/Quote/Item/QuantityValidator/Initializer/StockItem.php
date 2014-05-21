@@ -40,7 +40,7 @@ class StockItem
      * @param \Magento\Sales\Model\Quote\Item $quoteItem
      * @param int $qty
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     public function initialize(

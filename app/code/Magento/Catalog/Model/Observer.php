@@ -116,10 +116,10 @@ class Observer
     /**
      * Checking whether the using static urls in WYSIWYG allowed event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Event\Observer $observer)
+    public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Framework\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getData('store_id');
         $result = $observer->getEvent()->getData('result');
@@ -129,10 +129,10 @@ class Observer
     /**
      * Adds catalog categories to top menu
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addCatalogToTopmenuItems(\Magento\Event\Observer $observer)
+    public function addCatalogToTopmenuItems(\Magento\Framework\Event\Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
         $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG);

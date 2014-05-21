@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -53,7 +51,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Rma\Model\ShippingFactory $shippingFactory
@@ -61,7 +59,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
@@ -265,7 +263,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         $carrierCode = $this->getShipment()->getCarrierCode();
         $carrier = $this->_rmaData->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
-            $params = new \Magento\Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $containerType;
@@ -319,7 +317,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
             $storeId
         );
         if ($carrier) {
-            $params = new \Magento\Object(
+            $params = new \Magento\Framework\Object(
                 array(
                     'method' => $carrier->getMethod(),
                     'country_shipper' => $countryShipper,

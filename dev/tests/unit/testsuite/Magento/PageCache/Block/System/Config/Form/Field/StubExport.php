@@ -3,9 +3,6 @@
  * {license_notice}
  * Page cache data helper
  *
- * @category    Magento
- * @package     Magento_PageCache
- * @subpackage  unit_tests
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
@@ -21,7 +18,7 @@ class StubExport extends \Magento\PageCache\Block\System\Config\Form\Field\Expor
     {
     }
 
-    public function setUrlBuilder(\Magento\UrlInterface $urlBuilder)
+    public function setUrlBuilder(\Magento\Framework\UrlInterface $urlBuilder)
     {
         $this->_urlBuilder = $urlBuilder;
     }

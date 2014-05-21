@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Block\Adminhtml\Form\Element;
 /**
  * Customer Widget Form File Element Block
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class File extends \Magento\Framework\Data\Form\Element\AbstractElement
@@ -33,7 +29,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param array $data
@@ -41,7 +37,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         $data = array()

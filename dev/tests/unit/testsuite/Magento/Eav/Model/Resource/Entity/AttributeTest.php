@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -244,7 +241,10 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->with(
             true
         )->will(
-            $this->returnValue(array(new \Magento\Object(array('id' => 0)), new \Magento\Object(array('id' => 1))))
+            $this->returnValue(array(
+                new \Magento\Framework\Object(array('id' => 0)),
+                new \Magento\Framework\Object(array('id' => 1)))
+            )
         );
 
         /** @var $resource \Magento\Framework\App\Resource */

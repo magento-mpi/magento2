@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Render;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Framework\View\RenderInterface;
 
 /**
@@ -41,7 +41,7 @@ class RenderFactory
      */
     public function get($type)
     {
-        $className = 'Magento\\View\\Render\\' . ucfirst($type);
+        $className = 'Magento\\Framework\\View\\Render\\' . ucfirst($type);
         $model = $this->objectManager->get($className);
 
         if ($model instanceof RenderInterface === false) {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,7 +33,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveFilePlaceholder($model)
     {
-        $processor = $this->getMock('Magento\Image', array('save'), array(), '', false);
+        $processor = $this->getMock('Magento\Framework\Image', array('save'), array(), '', false);
         $processor->expects($this->exactly(0))->method('save');
         $model->setImageProcessor($processor)->saveFile();
     }

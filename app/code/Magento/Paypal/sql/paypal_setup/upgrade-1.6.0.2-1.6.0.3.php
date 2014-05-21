@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Module\Setup */
+/** @var $this \Magento\Framework\Module\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 $installer->startSetup();

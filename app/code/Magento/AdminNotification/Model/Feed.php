@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdminNotification\Model;
 /**
  * AdminNotification Feed model
  *
- * @category   Magento
- * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Feed extends \Magento\Framework\Model\AbstractModel
@@ -45,7 +41,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -54,7 +50,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -173,7 +169,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
      */
     public function getFeedData()
     {
-        $curl = new \Magento\HTTP\Adapter\Curl();
+        $curl = new \Magento\Framework\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout' => 2));
         $curl->write(\Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
         $data = $curl->read();

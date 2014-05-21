@@ -12,19 +12,19 @@ namespace Magento\Sales\Block\Order;
  */
 class Link extends \Magento\Framework\View\Element\Html\Link\Current
 {
-    /** @var \Magento\Registry  */
+    /** @var \Magento\Framework\Registry  */
     protected $_registry;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $defaultPath, $data);

@@ -35,7 +35,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $_connectionMock;
 
     /**
-     * @var \Magento\Mview\View\Changelog|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Mview\View\Changelog|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_changelogMock;
 
@@ -85,10 +85,13 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_changelogMock = $this->getMock('Magento\Mview\View\Changelog', array('getName'), array(), '', false);
-
-
-
+        $this->_changelogMock = $this->getMock(
+            'Magento\Framework\Mview\View\Changelog',
+            array('getName'),
+            array(),
+            '',
+            false
+        );
 
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $this->_objectManager->getObject(

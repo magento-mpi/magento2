@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -66,11 +64,11 @@ class Page extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Prepare page object
      *
      * @param array $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _prepareObject(array $data)
     {
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $object->setId($data[$this->getIdFieldName()]);
         $object->setUrl($data['url']);
         $object->setUpdatedAt($data['updated_at']);

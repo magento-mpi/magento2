@@ -10,7 +10,7 @@ namespace Magento\Framework\View\Layout;
 /**
  * Class Element
  */
-class Element extends \Magento\Simplexml\Element
+class Element extends \Magento\Framework\Simplexml\Element
 {
     /**#@+
      * Supported layout directives
