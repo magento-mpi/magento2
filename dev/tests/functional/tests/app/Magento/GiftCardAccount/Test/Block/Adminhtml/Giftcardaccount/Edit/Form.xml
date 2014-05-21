@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <account_information>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#giftcardaccount_info_tabs</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <balance/>
+            <date_expires/>
+            <status>
+                <input>select</input>
+            </status>
+            <is_redeemable>
+                <input>select</input>
+            </is_redeemable>
+            <website_id>
+                <input>select</input>
+            </website_id>
+        </fields>
+    </account_information>
+</tabs>

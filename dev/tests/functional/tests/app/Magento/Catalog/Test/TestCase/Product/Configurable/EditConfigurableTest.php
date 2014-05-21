@@ -8,13 +8,12 @@
 
 namespace Magento\Catalog\Test\TestCase\Product\Configurable;
 
-use Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest;
 use Mtf\Factory\Factory;
+use Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest;
 
 /**
  * Class EditConfigurableTest
  * Edit Configurable product
- *
  */
 class EditConfigurableTest extends CreateConfigurableTest
 {
@@ -22,6 +21,7 @@ class EditConfigurableTest extends CreateConfigurableTest
      * Edit configurable product and add new options to attribute
      *
      * @ZephyrId MAGETWO-12840
+     * @return void
      */
     public function testCreateConfigurableProduct()
     {
@@ -35,7 +35,7 @@ class EditConfigurableTest extends CreateConfigurableTest
         $editProduct = $configurable->getEditData();
         //Steps
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
         //Login
         Factory::getApp()->magentoBackendLoginUser();
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
@@ -43,8 +43,8 @@ class EditConfigurableTest extends CreateConfigurableTest
         //Search and open original configurable product
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $productSku));
         //Editing product options
-        $productBlockForm->fill($editProduct);
-        $productBlockForm->save($editProduct);
+        $productForm->fill($editProduct);
+        $createProductPage->getFormAction()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache

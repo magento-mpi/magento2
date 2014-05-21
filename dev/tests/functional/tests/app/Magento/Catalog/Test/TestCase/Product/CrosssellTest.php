@@ -13,10 +13,16 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
+/**
+ * Class CrosssellTest
+ * Test cross sell product
+ */
 class CrosssellTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -27,6 +33,7 @@ class CrosssellTest extends Functional
      * Product Cross-selling. Assign cross-selling to products and see them related on the front-end.
      *
      * @ZephyrId MAGETWO-12390
+     * @return void
      */
     public function testCreateCrosssell()
     {
@@ -56,7 +63,7 @@ class CrosssellTest extends Functional
         $productPage->getViewBlock()->addToCart($simple1);
 
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 
         $cartBlock = $checkoutCartPage->getCartBlock();
         $this->assertTrue($cartBlock->isProductInShoppingCart($simple1));
@@ -110,8 +117,9 @@ class CrosssellTest extends Functional
      *
      * @param Product $product
      * @param array $crosssellProducts
+     * @return void
      */
-    private function addCrosssellProducts($product, $crosssellProducts)
+    private function addCrosssellProducts(Product $product, array $crosssellProducts)
     {
         $crosssellFixture = Factory::getFixtureFactory()->getMagentoCatalogCrosssellProducts();
         $crosssellFixture->setProducts($crosssellProducts);
@@ -122,8 +130,9 @@ class CrosssellTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $product->getProductSku()));
-        $editProductPage->getProductBlockForm()->fill($crosssellFixture);
-        $editProductPage->getProductBlockForm()->save($crosssellFixture);
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($crosssellFixture);
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
     }
 }
