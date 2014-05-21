@@ -63,6 +63,14 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     /**
      * @return int|null
      */
+    public function getStatus()
+    {
+        return $this->_get(self::STATUS);
+    }
+
+    /**
+     * @return int|null
+     */
     public function getVisibility()
     {
         return $this->_get(self::VISIBILITY);

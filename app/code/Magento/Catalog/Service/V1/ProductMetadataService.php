@@ -42,16 +42,16 @@ class ProductMetadataService implements ProductMetadataServiceInterface
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\Framework\Service\Data\Eav\OptionBuilder $optionBuilder,
-        \Magento\Framework\Service\Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
-        \Magento\Framework\Service\Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver
+//        \Magento\Framework\Service\Data\Eav\OptionBuilder $optionBuilder,
+//        \Magento\Framework\Service\Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
+        //\Magento\Framework\Service\Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->eavConfig = $eavConfig;
         $this->scopeResolver = $scopeResolver;
-        $this->optionBuilder = $optionBuilder;
-        $this->validationRuleBuilder = $validationRuleBuilder;
-        $this->attributeMetadataBuilder = $attributeMetadataBuilder;
+//        $this->optionBuilder = $optionBuilder;
+//        $this->validationRuleBuilder = $validationRuleBuilder;
+//        $this->attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
     /**
@@ -61,10 +61,7 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     {
         $customAttributes = [];
         foreach ($this->getAllProductAttributeMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()
-                /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
-                || $attributeMetadata->getAttributeCode() == 'disable_auto_group_change'
-            ) {
+            if (!$attributeMetadata->isSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
         }
