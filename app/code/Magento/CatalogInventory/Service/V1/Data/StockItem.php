@@ -92,7 +92,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getQty()
     {
@@ -100,7 +100,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getMinQty()
     {
@@ -124,7 +124,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return bool
      */
     public function getBackorders()
     {
@@ -140,7 +140,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getMinSaleQty()
     {
@@ -156,7 +156,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getMaxSaleQty()
     {
@@ -188,7 +188,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return bool
+     * @return float
      */
     public function getNotifyStockQty()
     {
@@ -236,7 +236,7 @@ class StockItem extends AbstractObject
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getQtyIncrements()
     {

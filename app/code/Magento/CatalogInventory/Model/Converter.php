@@ -31,7 +31,7 @@ class Converter
     }
 
     /**
-     * Convert a customer model to a customer entity
+     * Converts a StockItem Model to a Data Object
      *
      * @param StockItemModel $stockItem
      * @return StockItem
