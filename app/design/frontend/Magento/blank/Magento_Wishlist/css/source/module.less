@@ -19,7 +19,14 @@
     }
 }
 
-.data.table.wishlist {
+.account .table.wrapper .data.table.wishlist {
+    .table-bordered(@_type: horizontal);
+    thead > tr > th {
+        border-bottom: 0;
+    }
+    tbody > tr:last-child > td {
+        border-bottom: 1px solid @table-border-color;
+    }
     .product.name {
         display: inline-block;
         margin-bottom: @indent-s-base;
@@ -30,6 +37,29 @@
             vertical-align: middle;
             &:extend(.input-qty all);
         }
+    }
+    .col {
+        &.item {
+            width: 50%;
+        }
+        &.photo {
+            max-width: 150px;
+        }
+        &.selector {
+            max-width: 15px;
+        }
+    }
+    textarea {
+        margin: 10px 0;
+    }
+    .input-text.qty {
+        margin-bottom: 10px;
+    }
+    .action.primary {
+        vertical-align: top;
+    }
+    .price {
+        font-weight: @font-weight-bold;
     }
 }
 
@@ -72,7 +102,7 @@
         margin-right: 8px;
     }
     .counter.qty {
-        color: #999999;
+        color: #999;
         font-size: 12px;
         white-space: nowrap;
     }
