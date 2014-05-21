@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Customer\Test\Fixture\CustomerGroup">
+    <module>Magento_Customer</module>
+    <type>flat</type>
+    <entity_type>customer_group</entity_type>
+    <collection>Magento\Customer\Model\Resource\Group\Collection</collection>
+    <fields>
+        <customer_group_code>
+            <attribute_code>code</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value>customer_code_%isolation%</default_value>
+            <input>text</input>
+        </customer_group_code>
+        <tax_class_id>
+            <attribute_code>tax_class</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value>Retail Customer</default_value>
+            <input>select</input>
+        </tax_class_id>
+    </fields>
+</fixture>

@@ -15,7 +15,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Class FilterProductListTest
  * Filtering product in the Frontend via layered navigation
- *
  */
 class FilterProductListTest extends Functional
 {
@@ -23,6 +22,7 @@ class FilterProductListTest extends Functional
      * Using layered navigation to filter product list
      *
      * @ZephyrId MAGETWO-12419
+     * @return void
      */
     public function testFilterProduct()
     {

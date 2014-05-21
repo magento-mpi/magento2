@@ -27,10 +27,13 @@ class AssertConfigurableInCategory extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert configurable product, corresponds to the category page
+     *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param CatalogProductConfigurable $configurable
      * @param Category $category
+     * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
@@ -51,6 +54,7 @@ class AssertConfigurableInCategory extends AbstractConstraint
      *
      * @param CatalogProductConfigurable $configurable
      * @param CatalogCategoryView $catalogCategoryView
+     * @return void
      */
     protected function assertPrice(
         CatalogProductConfigurable $configurable,
@@ -84,8 +88,8 @@ class AssertConfigurableInCategory extends AbstractConstraint
             $price = $catalogCategoryView->getListProductBlock()
                 ->getProductPriceBlock($configurable->getName())
                 ->getPrice();
-            \PHPUnit_Framework_Assert::assertContains(
-                (string)$price,
+            \PHPUnit_Framework_Assert::assertEquals(
+                '$' . $price['price_regular_price'],
                 $pricePresetData['category_price'],
                 'Product price on category page is not correct.'
             );
