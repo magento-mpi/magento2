@@ -10,11 +10,12 @@ namespace Magento\Catalog\Test\Block\Product\Grouped;
 
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class AssociatedProducts
- *
+ * Associated products tab
  */
 class AssociatedProducts extends Tab
 {
@@ -26,11 +27,11 @@ class AssociatedProducts extends Tab
     protected $addNewOption = '#grouped-product-container>button';
 
     /**
-     * Associated products grid
+     * Associated products grid locator
      *
      * @var string
      */
-    protected $productSearchGrid = '[role=dialog][style*="display: block;"]';
+    protected $productSearchGrid = "./ancestor::body//div[div[contains(@data-role,'add-product-dialog')]]";
 
     /**
      * Associated products list block
@@ -42,15 +43,12 @@ class AssociatedProducts extends Tab
     /**
      * Get search grid
      *
-     * @param Element $context
      * @return AssociatedProducts\Search\Grid
      */
-    protected function getSearchGridBlock(Element $context = null)
+    protected function getSearchGridBlock()
     {
-        $element = $context ? : $this->_rootElement;
-
         return Factory::getBlockFactory()->getMagentoCatalogProductGroupedAssociatedProductsSearchGrid(
-            $element->find($this->productSearchGrid)
+            $this->_rootElement->find($this->productSearchGrid, Locator::SELECTOR_XPATH)
         );
     }
 
@@ -73,15 +71,15 @@ class AssociatedProducts extends Tab
      * Fill data to fields on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (isset($fields['grouped_products'])) {
             foreach ($fields['grouped_products']['value'] as $groupedProduct) {
                 $element->find($this->addNewOption)->click();
-                $searchBlock = $this->getSearchGridBlock($element);
+                $searchBlock = $this->getSearchGridBlock();
                 $searchBlock->searchAndSelect($groupedProduct['search_data']);
                 $searchBlock->addProducts();
                 $this->getListAssociatedProductsBlock()->fillProductOptions($groupedProduct['data']);
