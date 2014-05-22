@@ -2,10 +2,9 @@
 
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Catalog\Controller\Adminhtml\Product;
 
-class ProductService
+class ProductService implements ProductServiceInterface
 {
     /**
      * @var Product\Initialization\Helper
@@ -39,13 +38,7 @@ class ProductService
     }
 
     /**
-     * Save product process
-     *
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
-     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
-     * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
-     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int ID
+     * {@inheritdoc}
      */
     public function save(\Magento\Catalog\Service\V1\Data\Product $product)
     {
@@ -58,4 +51,24 @@ class ProductService
         }
         return $product->getId();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($id)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($id)
+    {}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAll(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    {}
 }

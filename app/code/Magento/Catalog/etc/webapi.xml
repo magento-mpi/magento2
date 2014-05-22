@@ -10,7 +10,13 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/product/save" method="POST">
-        <service class="Magento\Catalog\Service\V1\ProductService" method="save"/>
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="save"/>
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
+    <route url="/V1/product/delete/:id" method="DELETE">
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="delete"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>

@@ -10,20 +10,22 @@ interface ProductServiceInterface
     /**
      * Get product info
      *
+     * @param int $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @return \Magento\Catalog\Service\V1\Data\Product $product
      */
-    public function get(int $id);
+    public function get($id);
 
     /**
      * Delete product
      *
+     * @param int $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @throws \Magento\Framework\Exception\StateException Thrown if cannot delete
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      */
-    public function delete(int $id);
+    public function delete($id);
 
     /**
      * Save product process

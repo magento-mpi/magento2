@@ -72,4 +72,29 @@ class ProductServiceTest extends WebapiAbstract
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
+    public function testDelete()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH  . '/delete/1' ,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'delete'
+            ]
+        ];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $response = $this->_webApiCall($serviceInfo, ['id' => 1]);
+        } else {
+            $response = $this->_webApiCall($serviceInfo);
+        }
+        $this->assertTrue($response);
+    }
 }
