@@ -68,6 +68,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'region_id' => '8',
             'zip' => '78729',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
         ];
 
         return [
@@ -103,6 +104,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'region_id' => '8',
             'zip' => '78729',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
         ];
 
         $data2 = [
@@ -110,6 +112,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'zip' => '78727',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
         ];
 
@@ -119,6 +122,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'region_id' => 8,
             'zip' => '78727',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
         ];
 
@@ -137,6 +141,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'region_id' => '8',
             'zip' => '78729',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
         ];
 
         $data2 = [
@@ -144,6 +149,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'zip' => '78727',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
         ];
 
@@ -153,6 +159,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'region_id' => 8,
             'zip' => '78727',
             'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
         ];
 
@@ -183,6 +190,9 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
         }
         if (array_key_exists(TaxRate::KEY_PERCENTAGE_RATE, $dataArray)) {
             $this->builder->setPercentageRate($dataArray[TaxRate::KEY_PERCENTAGE_RATE]);
+        }
+        if (array_key_exists(TaxRate::KEY_CODE, $dataArray)) {
+            $this->builder->setCode($dataArray[TaxRate::KEY_CODE]);
         }
         if (array_key_exists(TaxRate::KEY_ZIP_RANGE, $dataArray)) {
             $this->builder->setZipRange(

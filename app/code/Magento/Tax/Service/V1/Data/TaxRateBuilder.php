@@ -105,6 +105,17 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
         return $this;
     }
 
+    /**
+     * Set tax rate code
+     *
+     * @param string $code
+     * @return $this
+     */
+    public function setCode($code)
+    {
+        $this->_set(TaxRate::KEY_CODE, $code);
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
