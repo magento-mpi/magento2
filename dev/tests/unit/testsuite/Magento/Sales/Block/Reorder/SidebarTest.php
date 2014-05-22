@@ -166,7 +166,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             $this->orderConfig,
             $this->customerSession,
             $this->httpContext,
-            $data = []
+            []
         );
         $this->block->setOrders([$order]);
         $this->assertEquals($productTags, $this->block->getIdentities());
@@ -221,7 +221,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             $this->orderConfig,
             $this->customerSession,
             $this->httpContext,
-            $data = []
+            []
         );
         $this->assertEquals($this->orderCollection, $this->block->getOrders());
     }

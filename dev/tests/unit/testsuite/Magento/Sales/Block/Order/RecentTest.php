@@ -72,7 +72,6 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layout));
-
         $customer = $this->getMock('Magento\Customer\Model\Customer', ['__wakeUp', 'getId'], [], '', false, false);
         $customer->expects($this->once())
             ->method('getId')

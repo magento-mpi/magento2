@@ -40,14 +40,12 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
     protected function _canViewOrder($order)
     {
         $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
-        $availableStatuses = $this->_objectManager
-            ->get('Magento\Sales\Model\Order\Config')
+        $availableStatuses = $this->_objectManager->get('Magento\Sales\Model\Order\Config')
             ->getVisibleOnFrontStatuses();
-        if ($order->getId() && $order->getCustomerId() && $order->getCustomerId() == $customerId && in_array(
-                $order->getStatus(),
-                $availableStatuses,
-                true
-            )
+        if ($order->getId()
+            && $order->getCustomerId()
+            && $order->getCustomerId() == $customerId
+            && in_array($order->getStatus(), $availableStatuses, true)
         ) {
             return true;
         }
