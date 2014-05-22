@@ -23,6 +23,27 @@ use Mtf\System\Config;
 class Curl extends AbstractCurl implements GiftCardAccountInterface
 {
     /**
+     * Data mapping
+     *
+     * @var array
+     */
+    protected $dataMapping = ['website_id ' => ['Main Website' => 1]];
+
+    /**
+     * Active tab info link
+     *
+     * @var string
+     */
+    protected $activeTabInfo = 'admin/giftcardaccount/save/active_tab/info/';
+
+    /**
+     * Gift card account generate link
+     *
+     * @var string
+     */
+    protected $generate = 'admin/giftcardaccount/generate/';
+
+    /**
      * Create gift card account
      *
      * @param FixtureInterface $fixture
@@ -30,34 +51,38 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $fixture->getData();
-        foreach ($data as &$value) {
-            switch ($value) {
-                case 'Yes':
-                    $value = 1;
-                    break;
-                case 'No':
-                    $value = 0;
-                    break;
-                case 'Main Website':
-                    $value = 1;
-                    break;
-                case '%date%':
-                    $value = "01/01/2054";
-                default:
-                    break;
-            }
-        }
-        $url = $_ENV['app_backend_url'] . 'admin/giftcardaccount/save/active_tab/info/';
-        $generateCode = $_ENV['app_backend_url'] . 'admin/giftcardaccount/generate/';
+        $data = $this->prepareData($fixture->getData());
+
+        $url = $_ENV['app_backend_url'] . $this->activeTabInfo;
+        $generateCode = $_ENV['app_backend_url'] . $this->generate;
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $generateCode);
         $curl->read();
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-        $text = $curl->read();
-        preg_match('`<td data-column=\"code\".*?>(.*?)<`mis', $text, $res);
+        $content = $curl->read();
+        preg_match('`<td data-column=\"code\".*?>(.*?)<`mis', $content, $res);
         $curl->close();
         return ['code' => trim($res[1])];
+    }
+
+    /**
+     * Prepare data
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareData(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (isset($this->dataMapping[$key])) {
+                $data[$key] = $this->dataMapping[$key][$value];
+            } elseif ($value === 'Yes') {
+                $data[$key] = 1;
+            } elseif ($value === 'No') {
+                $data[$key] = 0;
+            }
+        }
+        return $data;
     }
 }
