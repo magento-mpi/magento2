@@ -2495,5 +2495,9 @@ return array(
     [
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
-    ]
+    ],
+    [
+        'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Button',
+        'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid'
+    ],
 );
