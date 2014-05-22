@@ -52,6 +52,8 @@
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
   * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
   * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
+  * Fixed: File permissions change after system backup (MAGETWO-20995)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
 * Functional tests:
   * Tax Rule Creation
   * Admin User Roe Creation
