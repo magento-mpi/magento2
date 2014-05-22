@@ -17,6 +17,8 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
 
     const STATUS = 'status';
 
+    const ATTRIBUTE_SET_ID = 'attribute_set_id';
+
     const VISIBILITY = 'visibility';
 
     const TYPE_ID = 'type_id';
@@ -53,6 +55,14 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
+     * @return int|null
+     */
+    public function getAttributeSetId()
+    {
+        return $this->_get(self::ATTRIBUTE_SET_ID);
+    }
+
+    /**
      * @return float|null
      */
     public function getPrice()
@@ -77,7 +87,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
     public function getTypeId()
     {

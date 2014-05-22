@@ -84,6 +84,14 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     /**
      * @param int $value
      */
+    public function setAttributeSetId($value)
+    {
+        return $this->_set(Product::ATTRIBUTE_SET_ID, $value);
+    }
+
+    /**
+     * @param string $value
+     */
     public function setTypeId($value)
     {
         return $this->_set(Product::TYPE_ID, $value);

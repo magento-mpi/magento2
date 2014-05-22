@@ -36,7 +36,7 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return int ID
      */
-    public function save(\Magento\Catalog\Service\V1\Data\Product $product);
+    public function create(\Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * get product list product

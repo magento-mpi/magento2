@@ -40,7 +40,7 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Service\V1\Data\Product $product)
+    public function create(\Magento\Catalog\Service\V1\Data\Product $product)
     {
         $product = $this->productBuilder->build($product);
         $this->initializationHelper->initialize($product);

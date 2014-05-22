@@ -50,8 +50,9 @@ class ProductServiceTest extends WebapiAbstract
         return [
 //            Product::ID => null,
             Product::SKU => uniqid('sku-', true),
+            Product::ATTRIBUTE_SET_ID => 4,
             Product::VISIBILITY => 4,
-            Product::TYPE_ID => 4,
+            Product::TYPE_ID => 'simple',
             Product::STATUS => 1,
         ];
 
@@ -63,14 +64,14 @@ class ProductServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH  . '/save' ,
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ]
         ];
 
         $requestData = ['product' => $product];
         $response = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($response);
+        $this->assertGreaterThan(0, $response);
     }
 
     /**
