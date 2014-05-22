@@ -6,19 +6,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin;
+namespace Magento\GroupedProduct\Model\Product\Initialization\Helper\ProductLinks\Plugin;
+
+use Magento\GroupedProduct\Model\Product\Initialization\Helper\ProductLinks\Plugin\Grouped;
 
 class GroupedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin\Grouped
+     * @var \Magento\GroupedProduct\Model\Product\Initialization\Helper\ProductLinks\Plugin\Grouped
      */
     protected $model;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $requestMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -32,7 +29,6 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
             array('getGroupedReadonly', 'setGroupedLinkData', '__wakeup'),
@@ -41,71 +37,42 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->subjectMock = $this->getMock(
-            'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks',
+            'Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks',
             array(),
             array(),
             '',
             false
         );
-        $this->model = new Grouped($this->requestMock);
+        $this->model = new Grouped();
     }
 
     public function testAfterInitializeLinksRequestDoesNotHaveGrouped()
     {
-        $this->requestMock->expects(
-            $this->once()
-        )->method(
-            'getPost'
-        )->with(
-            'links'
-        )->will(
-            $this->returnValue(array())
-        );
         $this->productMock->expects($this->never())->method('getGroupedReadonly');
         $this->productMock->expects($this->never())->method('setGroupedLinkData');
         $this->assertEquals(
             $this->productMock,
-            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock)
+            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock, array())
         );
     }
 
     public function testAfterInitializeLinksRequestHasGrouped()
     {
-        $this->requestMock->expects(
-            $this->once()
-        )->method(
-            'getPost'
-        )->with(
-            'links'
-        )->will(
-            $this->returnValue(array('grouped' => 'value'))
-        );
-
         $this->productMock->expects($this->once())->method('getGroupedReadonly')->will($this->returnValue(false));
         $this->productMock->expects($this->once())->method('setGroupedLinkData')->with(array('value'));
         $this->assertEquals(
             $this->productMock,
-            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock)
+            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock, array('grouped' => 'value'))
         );
     }
 
     public function testAfterInitializeLinksProductIsReadonly()
     {
-        $this->requestMock->expects(
-            $this->once()
-        )->method(
-            'getPost'
-        )->with(
-            'links'
-        )->will(
-            $this->returnValue(array('grouped' => 'value'))
-        );
-
         $this->productMock->expects($this->once())->method('getGroupedReadonly')->will($this->returnValue(true));
         $this->productMock->expects($this->never())->method('setGroupedLinkData');
         $this->assertEquals(
             $this->productMock,
-            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock)
+            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock, array('grouped' => 'value'))
         );
     }
 }

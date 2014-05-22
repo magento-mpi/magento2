@@ -85,4 +85,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks">
+        <plugin name="GroupedProduct" type="Magento\GroupedProduct\Model\Product\Initialization\Helper\ProductLinks\Plugin\Grouped" />
+    </type>
 </config>
