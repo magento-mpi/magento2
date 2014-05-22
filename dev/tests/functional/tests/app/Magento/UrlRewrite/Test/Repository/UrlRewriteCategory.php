@@ -11,7 +11,7 @@ namespace Magento\UrlRewrite\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class Category
+ * Class UrlRewriteCategory
  * URL Rewrite Category Repository
  *
  */

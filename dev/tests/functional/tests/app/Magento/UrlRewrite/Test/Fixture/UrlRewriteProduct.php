@@ -14,7 +14,7 @@ use Mtf\Fixture\DataFixture;
 use Magento\Catalog\Test\Fixture\Product as ProductFixture;
 
 /**
- * Class Product
+ * Class UrlRewriteProduct
  * URL rewrite product fixture
  */
 class UrlRewriteProduct extends DataFixture
