@@ -62,13 +62,13 @@ class LogGrid extends Grid
      *
      * @var string
      */
-    protected $viewLink = '#loggingLogGrid_table > tbody > tr:first-child > td.col-view.last:last-child > a';
+    protected $lastViewLink = '#loggingLogGrid_table > tbody > tr:first-child > td.col-view.last:last-child > a';
 
     /**
      * Click first View link in grid
      */
     public function clickViewLink()
     {
-        $this->_rootElement->find($this->viewLink, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->lastViewLink, Locator::SELECTOR_CSS)->click();
     }
 }

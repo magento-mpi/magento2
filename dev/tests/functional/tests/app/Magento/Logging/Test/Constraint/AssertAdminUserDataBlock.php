@@ -9,7 +9,7 @@
 namespace Magento\Logging\Test\Constraint; 
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Logging\Test\Page\Adminhtml\LogEntry;
+use Magento\Logging\Test\Page\Adminhtml\Details;
 use Magento\User\Test\Fixture\AdminUserInjectable;
 
 /**
@@ -25,16 +25,16 @@ class AssertAdminUserDataBlock extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * @param LogEntry $pageLogEntry
+     * @param Details $details
      * @param AdminUserInjectable $adminUser
      */
-    public function processAssert(LogEntry $pageLogEntry, AdminUserInjectable $adminUser)
+    public function processAssert(Details $details, AdminUserInjectable $adminUser)
     {
         $fixtureData = $adminUser->getData();
         $fixtureData['aggregated_information'] = 'general';
-        $formData = $pageLogEntry->getDetails()->getData();
+        $formData = $details->getDetailsBlock()->getData();
         $diff = $this->verifyData($formData, $fixtureData);
-        if (!$pageLogEntry->getDetails()->isLoggingDetailsGridVisible()) {
+        if (!$details->getDetailsBlock()->isLoggingDetailsGridVisible()) {
             $diff[] = "Logging Details Grid is not present on page.";
         }
         \PHPUnit_Framework_Assert::assertTrue(empty($diff), implode(' ', $diff));

@@ -11,15 +11,15 @@ namespace Magento\Logging\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage; 
 
 /**
- * Class LogEntry
+ * Class Details
  */
-class LogEntry extends BackendPage
+class Details extends BackendPage
 {
-    const MCA = '';
+    const MCA = 'admin/logging/details';
 
     protected $_blocks = [
-        'details' => [
-            'name' => 'details',
+        'detailsBlock' => [
+            'name' => 'detailsBlock',
             'class' => 'Magento\Logging\Test\Block\Adminhtml\Details',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
@@ -29,8 +29,8 @@ class LogEntry extends BackendPage
     /**
      * @return \Magento\Logging\Test\Block\Adminhtml\Details
      */
-    public function getDetails()
+    public function getDetailsBlock()
     {
-        return $this->getBlockInstance('details');
+        return $this->getBlockInstance('detailsBlock');
     }
 }

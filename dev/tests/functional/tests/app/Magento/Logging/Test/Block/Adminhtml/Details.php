@@ -16,8 +16,6 @@ use Mtf\Block\Block;
  */
 class Details extends Block
 {
-    protected $data = [];
-
     /**
      * Get Admin User Data from grid
      *

@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<page>
+<page mca="admin/logging" >
     <block>
-        <name>details</name>
-        <class>Magento\Logging\Test\Block\Adminhtml\Details</class>
-        <locator>#page:main-container</locator>
+        <name>logGrid</name>
+        <class>Magento\Logging\Test\Block\LogGrid</class>
+        <locator>#loggingLogGrid</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

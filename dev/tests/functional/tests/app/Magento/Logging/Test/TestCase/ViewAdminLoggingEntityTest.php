@@ -10,8 +10,8 @@ namespace Magento\Logging\Test\TestCase;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Magento\Logging\Test\Page\Adminhtml\SystemConfig;
-use Magento\Logging\Test\Page\Adminhtml\Report;
+use Magento\Backend\Test\Page\Adminhtml\SystemConfig;
+use Magento\Logging\Test\Page\Adminhtml\Logging;
 use Magento\User\Test\Fixture\AdminUserInjectable;
 
 /**
@@ -37,18 +37,18 @@ class ViewAdminLoggingEntityTest extends Injectable
     protected $systemConfig;
 
     /**
-     * @var Report
+     * @var Logging
      */
-    protected $report;
+    protected $logging;
 
     /**
      * @param SystemConfig $systemConfig
-     * @param Report $report
+     * @param Logging $logging
      */
-    public function __inject(SystemConfig $systemConfig, Report $report)
+    public function __inject(SystemConfig $systemConfig, Logging $logging)
     {
         $this->systemConfig = $systemConfig;
-        $this->report = $report;
+        $this->logging = $logging;
     }
 
     /**
@@ -74,8 +74,8 @@ class ViewAdminLoggingEntityTest extends Injectable
         //Steps
         $this->systemConfig->open();
         $this->systemConfig->getPageActions()->save();
-        $this->report->open();
-        $this->report->getPageActions()->search($filter);
-        $this->report->getPageActions()->clickViewLink();
+        $this->logging->open();
+        $this->logging->getLogGrid()->search($filter);
+        $this->logging->getLogGrid()->clickViewLink();
     }
 }

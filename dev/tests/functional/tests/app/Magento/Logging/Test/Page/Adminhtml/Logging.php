@@ -11,15 +11,15 @@ namespace Magento\Logging\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage; 
 
 /**
- * Class Report
+ * Class Logging
  */
-class Report extends BackendPage
+class Logging extends BackendPage
 {
     const MCA = 'admin/logging';
 
     protected $_blocks = [
-        'pageActions' => [
-            'name' => 'pageActions',
+        'logGrid' => [
+            'name' => 'logGrid',
             'class' => 'Magento\Logging\Test\Block\LogGrid',
             'locator' => '#loggingLogGrid',
             'strategy' => 'css selector',
@@ -29,8 +29,8 @@ class Report extends BackendPage
     /**
      * @return \Magento\Logging\Test\Block\LogGrid
      */
-    public function getPageActions()
+    public function getLogGrid()
     {
-        return $this->getBlockInstance('pageActions');
+        return $this->getBlockInstance('logGrid');
     }
 }
