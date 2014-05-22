@@ -200,8 +200,8 @@ body {
                 );
             }
         }
-        .switcher.store {
-            margin: 0 0 30px 0;
+        .switcher {
+            display: none;
         }
     }
 }
@@ -217,10 +217,6 @@ body {
 .page.header,
 .page.footer {
     .switcher {
-        float: right;
-        margin-left: 15px;
-        margin-right: -6px;
-        order: 1;
         .options {
             .dropdown(
                 @_dropdown-actions-padding: 0,
@@ -274,7 +270,10 @@ body {
             &:extend(.add-clearfix-desktop all);
         }
         .switcher {
-            display: inline-block;
+            float: right;
+            margin-left: 15px;
+            margin-right: -6px;
+            order: 1;
         }
     }
 
@@ -314,9 +313,6 @@ body {
                 &:extend(.panel.header .switcher all);
             }
         }
-        .header.links & ~ li {
-            display: none;
-        }
     }
 
     .header {
@@ -329,11 +325,14 @@ body {
                     &.welcome,
                     a {
                         line-height: 1.4;
+                        display: inline-block;
                     }
                 }
                 margin-left: auto;
-                a {
-                    .link();
+                .authorization-link:after {
+                    content: "or";
+                    display: inline-block;
+                    margin: 0 -5px 0 5px;
                 }
             }
         }
@@ -374,13 +373,14 @@ body {
             ul {
                 padding-right: 50px;
             }
-            .links,
             .switcher.store {
+                display: block;
+                margin: 0;
+            }
+            .links {
                 display: inline-block;
                 vertical-align: top;
                 margin-bottom: 20px;
-            }
-            .links {
                 li {
                     border: none;
                     background: transparent;

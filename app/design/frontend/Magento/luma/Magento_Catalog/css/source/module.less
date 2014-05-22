@@ -778,7 +778,7 @@ body.catalog-product-compare-index {
         margin-right: 8px;
     }
     .counter.qty {
-        color: #999999;
+        color: @color-primary-lighter;
         font-size: 12px;
         white-space: nowrap;
     }
@@ -803,15 +803,24 @@ body.catalog-product-compare-index {
         .action.compare {
             line-height: @form-element-input-height;
             .link(
-                @_link-color: #333,
+                @_link-color: @color-primary,
                 @_link-text-decoration: none,
-                @_link-color-visited: #333,
+                @_link-color-visited: @color-primary,
                 @_link-text-decoration-visited: none,
-                @_link-color-hover: #333,
+                @_link-color-hover: @color-primary,
                 @_link-text-decoration-hover: underline,
-                @_link-color-active: #333,
+                @_link-color-active: @color-primary,
                 @_link-text-decoration-active: underline
             )
+        }
+        .counter.qty {
+            color: @color-primary-lighter;
+            &:before {
+                content: "(";
+            }
+            &:after {
+                content: ")";
+            }
         }
     }
 }

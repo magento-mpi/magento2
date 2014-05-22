@@ -467,6 +467,15 @@
                 this.mobileNav.prepend(settings);
             }
 
+            if ($('.footer .switcher').length) {
+                var footerSettings = $('.footer .switcher')
+                    .clone()
+                    .addClass('settings');
+
+                this.mobileNav.prepend(footerSettings);
+            }
+
+
             if ($('.header.panel .header.links li').length) {
                 var account = $('.header.panel > .header.links')
                     .clone()
