@@ -76,7 +76,7 @@ class DeleteCatalogEventEntityTest extends Injectable
         $catalogEventEntity->persist();
 
         return [
-            'catalogProductSimple' => $product,
+            'product' => $product,
             'catalogEventEntity' => $catalogEventEntity,
         ];
     }

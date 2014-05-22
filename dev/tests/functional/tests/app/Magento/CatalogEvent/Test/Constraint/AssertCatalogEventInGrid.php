@@ -51,7 +51,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      * Assert that catalog event is presented in the "Events" grid
      *
      * @param CatalogEventEntity $catalogEvent
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogProductSimple $product
      * @param CatalogEventIndex $catalogEventIndex
      * @param CatalogEventEntity $catalogEventOriginal
      *
@@ -59,13 +59,11 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      */
     public function processAssert(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple,
+        CatalogProductSimple $product,
         CatalogEventIndex $catalogEventIndex,
         CatalogEventEntity $catalogEventOriginal = null
     ) {
-        $this->catalogEvent = $catalogEvent;
-        $this->catalogEventOriginal = $catalogEventOriginal;
-        $categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
+        $categoryName = $product->getCategoryIds()[0]['name'];
         $dateStart = strtotime($catalogEvent->getDateStart());
         $dateEnd = strtotime($catalogEvent->getDateEnd());
         $currentDay = strtotime('now');
@@ -78,11 +76,12 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             $status = 'Open';
         }
 
-        $sortOrder = $catalogEvent->getSortOrder();
-        if ($sortOrder !== null) {
-            $sortOrder = ($sortOrder < 0) ? 0 : $sortOrder;
-        } elseif ($catalogEventOriginal !== null) {
-            $sortOrder = $catalogEventOriginal->getSortOrder();
+        $this->catalogEvent = ($catalogEventOriginal !== null)
+            ? array_merge($catalogEventOriginal->getData(), $catalogEvent->getData())
+            : $catalogEvent->getData();
+
+        if (!empty($this->catalogEvent['sort_order'])) {
+            $sortOrder = ($this->catalogEvent['sort_order'] < 0) ? 0 : $this->catalogEvent['sort_order'];
         } else {
             $sortOrder = "";
         }
@@ -115,19 +114,12 @@ class AssertCatalogEventInGrid extends AbstractConstraint
     protected function prepareDisplayStateForFilter()
     {
         $event = 'Lister Block';
-
-        if ($this->catalogEventOriginal !== null) {
-            $catalogEventData = array_merge($this->catalogEventOriginal->getData(), $this->catalogEvent->getData());
-        } else {
-            $catalogEventData = $this->catalogEvent->getData();
-        }
-
         $displayStates = [
             'category_page' => 'Category Page',
             'product_page' => 'Product Page',
         ];
 
-        $pageEvents = $catalogEventData['display_state'];
+        $pageEvents = $this->catalogEvent['display_state'];
         foreach ($pageEvents as $key => $pageEvent) {
             if ($pageEvent === 'Yes') {
                 $event .= ', ' . $displayStates[$key];

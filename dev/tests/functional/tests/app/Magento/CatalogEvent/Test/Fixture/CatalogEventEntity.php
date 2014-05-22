@@ -76,7 +76,6 @@ class CatalogEventEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => 'checkbox',
-        'source' => 'Magento\CatalogEvent\Test\Fixture\CatalogEventEntity\DisplayState',
     ];
 
     protected $sort_order = [

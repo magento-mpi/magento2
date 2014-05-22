@@ -64,7 +64,7 @@ class DatepickerElement extends Element
      * Set the date from datePicker
      *
      * @param string $value
-     * @return void.
+     * @return void
      */
     public function setValue($value)
     {

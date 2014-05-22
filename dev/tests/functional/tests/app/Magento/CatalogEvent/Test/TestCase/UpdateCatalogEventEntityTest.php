@@ -74,10 +74,7 @@ class UpdateCatalogEventEntityTest extends Injectable
         $this->catalogEventIndex = $catalogEventIndex;
 
         /** @var CatalogProductSimple $product */
-        $product = $fixtureFactory->createByCode(
-            'catalogProductSimple',
-            ['dataSet' => 'product_with_category']
-        );
+        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
         $product->persist();
         $this->product = $product;
 
@@ -92,7 +89,7 @@ class UpdateCatalogEventEntityTest extends Injectable
         $catalogEvent->persist();
 
         return [
-            'catalogProductSimple' => $product,
+            'product' => $product,
             'catalogEventOriginal' => $catalogEvent,
         ];
     }
@@ -101,13 +98,10 @@ class UpdateCatalogEventEntityTest extends Injectable
      * Update Catalog Event Entity
      *
      * @param CatalogEventEntity $catalogEvent
-     * @param  CatalogProductSimple $product
      * @return void
      */
-    public function testUpdateCatalogEvent(
-        CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $product
-    ) {
+    public function testUpdateCatalogEvent(CatalogEventEntity $catalogEvent)
+    {
         $filter = [
             'category_name' => $this->product->getCategoryIds()[0]['name'],
         ];
