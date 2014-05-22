@@ -62,6 +62,8 @@
   * Update Backend Customer
   * Newsletter Creation
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
+* GitHub requests:
+  * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
 
 2.0.0.0-dev78
 =============
