@@ -31,4 +31,4 @@ class RoleGrid extends Grid
             'selector' => '#roleGrid_filter_role_name'
         ]
     ];
-} 
+}

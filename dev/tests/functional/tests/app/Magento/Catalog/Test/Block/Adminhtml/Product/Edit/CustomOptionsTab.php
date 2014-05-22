@@ -51,7 +51,7 @@ class CustomOptionsTab extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $fields = reset($fields );
+        $fields = reset($fields);
         if (empty($fields['value'])) {
             return $this;
         }

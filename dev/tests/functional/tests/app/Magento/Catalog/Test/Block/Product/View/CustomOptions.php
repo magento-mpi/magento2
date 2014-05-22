@@ -105,11 +105,12 @@ class CustomOptions extends Block
         $options = [];
         $index = 1;
 
-        while (($fieldElement = $this->_rootElement->find(
-                $this->fieldsetLocator . sprintf($this->fieldLocator, '', $index),
-                Locator::SELECTOR_XPATH))
-            && $fieldElement->isVisible()
-        ) {
+        $fieldElement = $this->_rootElement->find(
+            $this->fieldsetLocator . sprintf($this->fieldLocator, '', $index),
+            Locator::SELECTOR_XPATH
+        );
+
+        while ($fieldElement && $fieldElement->isVisible()) {
             $option = ['price' => []];
             $option['is_require'] = $this->_rootElement->find(
                 $this->fieldsetLocator . sprintf($this->fieldLocator, $this->requiredLocator, $index),
@@ -127,9 +128,10 @@ class CustomOptions extends Block
                     $option['price'][] = $matches[1];
                 }
             } elseif (($prices = $fieldElement->find(
-                    $this->selectLocator,
-                    Locator::SELECTOR_XPATH))
-                && $prices->isVisible()
+                $this->selectLocator,
+                Locator::SELECTOR_XPATH
+            )
+                ) && $prices->isVisible()
             ) {
                 $priceIndex = 0;
                 while (($price = $prices->find(sprintf($this->optionLocator, ++$priceIndex), Locator::SELECTOR_XPATH))
