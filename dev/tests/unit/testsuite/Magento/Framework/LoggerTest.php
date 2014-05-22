@@ -36,10 +36,15 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logDir = TESTS_TEMP_DIR . '/var/log';
         $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
-        $this->_filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->with(\Magento\Framework\App\Filesystem::LOG_DIR)
-            ->will($this->returnValue($this->_directory));
+        $this->_filesystemMock->expects(
+            $this->any()
+        )->method(
+                'getDirectoryWrite'
+            )->with(
+                \Magento\Framework\App\Filesystem::LOG_DIR
+            )->will(
+                $this->returnValue($this->_directory)
+            );
         $this->_directory->expects($this->any())->method('create')->will($this->returnValue(true));
         $this->_directory->expects($this->any())->method('getAbsolutePath')->will(
             $this->returnCallback(
@@ -127,14 +132,6 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->_model->addStreamLog(\Magento\Framework\Logger::LOGGER_SYSTEM, 'php://output');
         $this->_model->log(array(1));
         $this->_model->log(new \StdClass());
-        $this->_model->log('key');
-    }
-
-    public function testLogNoKey()
-    {
-        $key = 'key';
-        $this->_model->log($key);
-        $this->assertFalse($this->_model->hasLog($key));
     }
 
     public function testLogDebug()
@@ -145,9 +142,11 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->at(0))
             ->method('log')
             ->with($message, \Zend_Log::DEBUG, \Magento\Framework\Logger::LOGGER_SYSTEM);
-        $model->expects($this->at(1))
-            ->method('log')
-            ->with(
+        $model->expects(
+            $this->at(1)
+        )->method(
+                'log'
+            )->with(
                 $message,
                 \Zend_Log::DEBUG,
                 \Magento\Framework\Logger::LOGGER_EXCEPTION
@@ -162,23 +161,15 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $expected = "\n{$exception}";
         /** @var $model \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMock('Magento\Framework\Logger', array('log'), array(), '', false);
-        $model->expects($this->at(0))
-            ->method('log')
-            ->with(
+        $model->expects(
+            $this->at(0)
+        )->method(
+                'log'
+            )->with(
                 $expected,
                 \Zend_Log::ERR,
                 \Magento\Framework\Logger::LOGGER_EXCEPTION
             );
         $model->logException($exception);
-    }
-
-    public function testUnsetLoggers()
-    {
-        $key = 'test';
-        $fileOrWrapper = 'custom_file.log';
-        $this->_model->addStreamLog($key, $fileOrWrapper);
-        $this->assertTrue($this->_model->hasLog($key));
-        $this->_model->unsetLoggers();
-        $this->assertFalse($this->_model->hasLog($key));
     }
 }
