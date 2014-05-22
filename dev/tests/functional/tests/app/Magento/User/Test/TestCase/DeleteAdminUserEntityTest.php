@@ -28,28 +28,29 @@ use Mtf\Fixture\FixtureFactory;
  * 3. Open admin user from precondition
  * 4. Click "Delete User" button
  * 5. Perform all assertions
+ *
  * @group ACL_(MX)
  * @ZephyrId MAGETWO-23416
  */
 class DeleteAdminUserEntityTest extends Injectable
 {
     /**
-     * @var UserIndex $userIndex
+     * @var UserIndex
      */
     protected $userIndex;
 
     /**
-     * @var UserEdit $userEdit
+     * @var UserEdit
      */
     protected $userEdit;
 
     /**
-     * @var Dashboard $dashboard
+     * @var Dashboard
      */
     protected $dashboard;
 
     /**
-     * @var AdminAuthLogin AdminAuthLogin
+     * @var AdminAuthLogin
      */
     protected $adminAuthLogin;
 
@@ -79,6 +80,8 @@ class DeleteAdminUserEntityTest extends Injectable
     }
 
     /**
+     * Preparing pages for each test iteration.
+     *
      * @param UserIndex $userIndex
      * @param UserEdit $userEdit
      * @param Dashboard $dashboard
