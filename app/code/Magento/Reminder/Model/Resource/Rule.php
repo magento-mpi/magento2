@@ -244,7 +244,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold = null)
     {
-        $rule->setConditions(null);
         $rule->afterLoad();
         /** @var $select \Zend_Db_Select */
         $select = $rule->getConditions()->getConditionsSql(null, $websiteId);
@@ -349,7 +348,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             'log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND ' . $this->_resourceHelper->getDateDiff(
                 'log_sent_at_max',
                 $adapter->formatDate($currentDate)
-            ) . ' = 0)'
+            ) . ' <> 0)'
         );
 
         if ($limit) {
