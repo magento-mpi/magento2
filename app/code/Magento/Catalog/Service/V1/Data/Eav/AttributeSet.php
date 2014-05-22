@@ -12,12 +12,12 @@ class AttributeSet extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * table field for id
      */
-    const ID = 'attribute_set_id';
+    const ID = 'id';
 
     /**
      * table field for name
      */
-    const NAME = 'attribute_set_name';
+    const NAME = 'name';
 
     /**
      * table field for sort order index
@@ -49,7 +49,7 @@ class AttributeSet extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return int
      */
-    public function getOrder()
+    public function getSortOrder()
     {
         return $this->_get(self::ORDER);
     }

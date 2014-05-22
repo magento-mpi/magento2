@@ -7,7 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\TestFramework\TestCase\WebapiAbstract,
+    Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeSetReadServiceTest extends WebapiAbstract
 {
@@ -29,8 +30,32 @@ class ProductAttributeSetReadServiceTest extends WebapiAbstract
         // check default attribute set to be present and be first
         $defaultSet = reset($attributeSets);
         $this->assertNotEmpty($defaultSet);
-        $this->assertEquals(4, $defaultSet['attribute_set_id']);
-        $this->assertEquals('Default', $defaultSet['attribute_set_name']);
+        $this->assertEquals(4, $defaultSet['id']);
+        $this->assertEquals('Default', $defaultSet['name']);
     }
 
+    public function testGetInfo()
+    {
+        $expectedAttributeSet = array(
+            'id' => 1,
+            'name' => 'Default',
+            'sort_order' => 2,
+        );
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => "/V1/products/attribute-sets/{$expectedAttributeSet['id']}",
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ),
+            'soap' => array(
+                'service' => 'catalogProductAttributeSetReadServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetReadServiceV1GetInfo',
+            ),
+        );
+        $requestData = ['attributeSetId' => $expectedAttributeSet['id']];
+        $attributeSetData = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals($expectedAttributeSet, $attributeSetData);
+    }
 }

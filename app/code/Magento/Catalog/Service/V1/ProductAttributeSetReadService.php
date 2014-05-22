@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class ProductAttributeSetReadService implements ProductAttributeSetReadServiceInterface
 {
     /**
@@ -67,5 +69,22 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
         }
 
         return $sets;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInfo($attributeSetId)
+    {
+        $attributeSet = $this->setFactory->create()->load($attributeSetId);
+        if (!$attributeSet->getId()) {
+            // Attribute set does not exist
+            throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
+        }
+        $attrSetDataObject = $this->attributeSetBuilder->setId($attributeSet->getId())
+            ->setName($attributeSet->getAttributeSetName())
+            ->setSortOrder($attributeSet->getSortOrder())
+            ->create();
+        return $attrSetDataObject;
     }
 }
