@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\Entity;
+namespace Magento\Catalog\Service\V1\Data\LinkedProductEntity;
 
 interface CollectionProviderInterface
 {

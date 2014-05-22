@@ -81,4 +81,29 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
         ];
         $this->assertEquals($expected, $haystack);
     }
+
+    public function testGetLinkAttributes()
+    {
+        $linkType = Link::LINK_TYPE_GROUPED;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . 'links/' . $linkType . '/attributes',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetLinkAttributes'
+            ]
+        ];
+
+        $haystack = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
+
+        $expected = [
+            ['code' => 'position', 'type' => 'int'],
+            ['code' => 'qty', 'type' => 'decimal'],
+        ];
+        $this->assertEquals($expected, $haystack);
+    }
 } 

@@ -21,4 +21,10 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/links/:type/attributes" method="GET">
+        <service class="Magento\Catalog\Service\V1\CatalogProductLinkServiceInterface" method="getLinkAttributes"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
 </routes>

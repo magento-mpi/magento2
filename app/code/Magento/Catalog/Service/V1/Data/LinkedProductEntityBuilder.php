@@ -9,11 +9,11 @@
 namespace Magento\Catalog\Service\V1\Data;
 
 /**
- * Builder for the CatalogProductLinkEntity Service Data Object
+ * Builder for the LinkedProductEntity Service Data Object
  *
- * @method CatalogProductLinkEntity create()
+ * @method LinkedProductEntity create()
  */
-class CatalogProductLinkEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set product id
@@ -23,7 +23,7 @@ class CatalogProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Ab
      */
     public function setProductId($productId)
     {
-        return $this->_set(CatalogProductLinkEntity::ID, $productId);
+        return $this->_set(LinkedProductEntity::ID, $productId);
     }
 
     /**
@@ -34,7 +34,7 @@ class CatalogProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Ab
      */
     public function setType($type)
     {
-        return $this->_set(CatalogProductLinkEntity::TYPE, $type);
+        return $this->_set(LinkedProductEntity::TYPE, $type);
     }
 
     /**
@@ -45,7 +45,7 @@ class CatalogProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Ab
      */
     public function setAttributeSetId($attributeSet)
     {
-        return $this->_set(CatalogProductLinkEntity::ATTRIBUTE_SET_ID, $attributeSet);
+        return $this->_set(LinkedProductEntity::ATTRIBUTE_SET_ID, $attributeSet);
     }
 
     /**
@@ -56,7 +56,7 @@ class CatalogProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Ab
      */
     public function setSku($sku)
     {
-        return $this->_set(CatalogProductLinkEntity::SKU, $sku);
+        return $this->_set(LinkedProductEntity::SKU, $sku);
     }
 
     /**
@@ -67,6 +67,6 @@ class CatalogProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Ab
      */
     public function setPosition($position)
     {
-        return $this->_set(CatalogProductLinkEntity::POSITION, $position);
+        return $this->_set(LinkedProductEntity::POSITION, $position);
     }
 }

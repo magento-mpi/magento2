@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\Entity\CollectionProvider;
+namespace Magento\Catalog\Service\V1\Data\LinkedProductEntity\CollectionProvider;
 
-class Upsell implements \Magento\Catalog\Service\V1\Data\Entity\CollectionProviderInterface
+class Crosssell implements \Magento\Catalog\Service\V1\Data\LinkedProductEntity\CollectionProviderInterface
 {
     /**
      * Get linked products
@@ -18,6 +18,6 @@ class Upsell implements \Magento\Catalog\Service\V1\Data\Entity\CollectionProvid
      */
     public function getLinkedProducts(\Magento\Catalog\Model\Product $product)
     {
-        return $product->getUpSellProducts();
+        return $product->getCrossSellProducts();
     }
 }

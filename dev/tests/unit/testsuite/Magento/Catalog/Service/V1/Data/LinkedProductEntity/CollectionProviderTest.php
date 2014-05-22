@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\Entity;
+namespace Magento\Catalog\Service\V1\Data\LinkedProductEntity;
 
 class CollectionProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,14 +36,14 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
 
         $resultA = ['resultA'];
-        $providerA = $this->getMock('\Magento\Catalog\Service\V1\Data\Entity\CollectionProviderInterface');
+        $providerA = $this->getMock('\Magento\Catalog\Service\V1\Data\LinkedProductEntity\CollectionProviderInterface');
         $providerA->expects($this->once())
             ->method('getLinkedProducts')
             ->with($product)
             ->will($this->returnValue($resultA));
 
         $resultB = ['resultB'];
-        $providerB = $this->getMock('\Magento\Catalog\Service\V1\Data\Entity\CollectionProviderInterface');
+        $providerB = $this->getMock('\Magento\Catalog\Service\V1\Data\LinkedProductEntity\CollectionProviderInterface');
         $providerB->expects($this->once())
             ->method('getLinkedProducts')
             ->with($product)

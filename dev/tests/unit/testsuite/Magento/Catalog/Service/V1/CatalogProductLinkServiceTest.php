@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\CatalogProductLink;
+use Magento\Catalog\Service\V1\Data\LinkTypeEntity;
 
 class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->providerMock = $this->getMock('Magento\Catalog\Model\Product\LinkTypeProvider', [], [], '', false);
         $this->builderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Data\CatalogProductLinkBuilder',
+            'Magento\Catalog\Service\V1\Data\LinkTypeEntityBuilder',
             [],
             [],
             '',
@@ -58,8 +58,8 @@ class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
             ->method('populateWithArray')
             ->with(
                 $this->logicalOr(
-                    $this->equalTo([CatalogProductLink::TYPE => 'typeOne', CatalogProductLink::CODE => 'codeOne']),
-                    $this->equalTo([CatalogProductLink::TYPE => 'typeTwo', CatalogProductLink::CODE => 'codeTwo'])
+                    $this->equalTo([LinkTypeEntity::TYPE => 'typeOne', LinkTypeEntity::CODE => 'codeOne']),
+                    $this->equalTo([LinkTypeEntity::TYPE => 'typeTwo', LinkTypeEntity::CODE => 'codeTwo'])
                 )
             )->will($this->returnSelf());
 

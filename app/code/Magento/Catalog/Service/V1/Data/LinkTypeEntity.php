@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Service\V1\Data;
 
 /**
- * CatalogProductLink Service Data Object
+ * LinkTypeEntity Service Data Object
  */
-class CatalogProductLink extends \Magento\Framework\Service\Data\AbstractObject
+class LinkTypeEntity extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants for Data Object keys

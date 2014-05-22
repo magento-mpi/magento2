@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\Entity\CollectionProvider;
+namespace Magento\Catalog\Service\V1\Data\LinkedProductEntity\CollectionProvider;
 
 class RelatedTest  extends \PHPUnit_Framework_TestCase
 {

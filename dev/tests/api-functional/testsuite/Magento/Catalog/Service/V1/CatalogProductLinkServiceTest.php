@@ -105,4 +105,37 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
         ];
         $this->assertEquals($expected, $haystack);
     }
-} 
+
+    /**
+     * @param int $linkType
+     * @dataProvider linkAttributesTypeDataProvider
+     */
+    public function testGetLinkAttributes($linkType)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . 'links/' . $linkType . '/attributes',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetLinkAttributes'
+            ]
+        ];
+
+        $haystack = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
+
+        $expected = ['code' => 'position', 'type' => 'int'];
+        $this->assertContains($expected, $haystack);
+    }
+
+    public function linkAttributesTypeDataProvider()
+    {
+        return [
+            'cross' => [Link::LINK_TYPE_CROSSSELL],
+            'upsell' => [Link::LINK_TYPE_UPSELL],
+            'related' => [Link::LINK_TYPE_RELATED],
+        ];
+    }
+}

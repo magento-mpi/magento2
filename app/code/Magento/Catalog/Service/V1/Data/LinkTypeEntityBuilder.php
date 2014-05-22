@@ -9,11 +9,11 @@
 namespace Magento\Catalog\Service\V1\Data;
 
 /**
- * Builder for the CatalogProductLink Service Data Object
+ * Builder for the LinkTypeEntity Service Data Object
  *
- * @method CatalogProductLink create()
+ * @method LinkTypeEntity create()
  */
-class CatalogProductLinkBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LinkTypeEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set type
@@ -23,7 +23,7 @@ class CatalogProductLinkBuilder extends \Magento\Framework\Service\Data\Abstract
      */
     public function setType($type)
     {
-        return $this->_set(CatalogProductLink::TYPE, $type);
+        return $this->_set(LinkTypeEntity::TYPE, $type);
     }
 
     /**
@@ -34,6 +34,6 @@ class CatalogProductLinkBuilder extends \Magento\Framework\Service\Data\Abstract
      */
     public function setCode($code)
     {
-        return $this->_set(CatalogProductLink::CODE, $code);
+        return $this->_set(LinkTypeEntity::CODE, $code);
     }
 }
