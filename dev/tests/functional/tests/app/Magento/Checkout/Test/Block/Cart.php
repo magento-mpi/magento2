@@ -8,6 +8,7 @@
 namespace Magento\Checkout\Test\Block;
 
 use Exception;
+use Magento\Checkout\Test\Block\Onepage\Link;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;

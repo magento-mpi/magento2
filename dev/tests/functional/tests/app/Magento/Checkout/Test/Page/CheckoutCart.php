@@ -8,6 +8,11 @@
 
 namespace Magento\Checkout\Test\Page;
 
+use Magento\Catalog\Test\Block\Product\ProductList\Crosssell;
+use Magento\Checkout\Test\Block\Cart\Shipping;
+use Magento\Checkout\Test\Block\Cart\Totals;
+use Magento\Checkout\Test\Block\Cart;
+use Magento\Core\Test\Block\Messages;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
