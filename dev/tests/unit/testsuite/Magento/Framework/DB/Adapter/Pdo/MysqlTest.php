@@ -512,7 +512,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                     'ddl_cache' => 'cached_ddl',
                     'table' => 'table_name',
                     'schema' => 'schema_name',
-                    'sql' => 'SHOW CREATE TABLE schema_name.table_name',
+                    'sql' => 'SHOW CREATE TABLE `schema_name`.`table_name`',
                     'rawFetchRow_return' => 'ddl'
                 ),
                 array(
@@ -524,7 +524,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                     'ddl_cache' => false,
                     'table' => 'table_name',
                     'schema' => 'schema_name',
-                    'sql' => 'SHOW CREATE TABLE schema_name.table_name',
+                    'sql' => 'SHOW CREATE TABLE `schema_name`.`table_name`',
                     'rawFetchRow_return' => 'ddl'
                 ),
                 array(
@@ -536,7 +536,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                     'ddl_cache' => false,
                     'table' => 'table_name',
                     'schema' => null,
-                    'sql' => 'SHOW CREATE TABLE table_name',
+                    'sql' => 'SHOW CREATE TABLE `table_name`',
                     'rawFetchRow_return' => 'ddl'
                 ),
                 array(
@@ -548,7 +548,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                     'ddl_cache' => false,
                     'table' => 'table_name',
                     'schema' => '',
-                    'sql' => 'SHOW CREATE TABLE table_name',
+                    'sql' => 'SHOW CREATE TABLE `table_name`',
                     'rawFetchRow_return' => 'ddl'
                 ),
                 array(
