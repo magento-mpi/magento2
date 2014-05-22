@@ -1,4 +1,11 @@
+* Framework improvements:
+  * Covered Magento lib form elements with unit tests:
+     * 'lib/Magento/Framework/Event/*'
+     * 'lib/Magento/Framework/Exception/*'
+* Integration tests:
+  * Fixed Integration tests on Windows OS (MAGETWO-21821)
 * Fixed bugs:
+  * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
   * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
   * Fixed: Images upload in config looks broken (MAGETWO-15764)
