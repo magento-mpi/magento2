@@ -53,9 +53,33 @@ class ProductAttributeSetReadServiceTest extends WebapiAbstract
                 'operation' => 'catalogProductAttributeSetReadServiceV1GetInfo',
             ),
         );
-        $requestData = ['attributeSetId' => $expectedAttributeSet['id']];
+        $requestData = array('attributeSetId' => $expectedAttributeSet['id']);
         $attributeSetData = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($expectedAttributeSet, $attributeSetData);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testGetInfoThrowsExceptionWhenAttributeSetIdIsNotValid()
+    {
+        // Attribute set with following attribute set ID does not exist
+        $attributeSetId = 9999;
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => "/V1/products/attribute-sets/{$attributeSetId}",
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ),
+            'soap' => array(
+                'service' => 'catalogProductAttributeSetReadServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetReadServiceV1GetInfo',
+            ),
+        );
+
+        $requestData = array('attributeSetId' => $attributeSetId);
+        $this->_webApiCall($serviceInfo, $requestData);
     }
 }

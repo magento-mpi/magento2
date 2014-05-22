@@ -39,7 +39,7 @@ class ProductAttributeSetReadServiceTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->setFactoryMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\SetFactory',
-            array(), array(), '', false);
+            array('create'), array(), '', false);
         $this->collectionFactoryMock = $this->getMock(
             '\Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory',
             array('create'), array(), '', false
@@ -115,5 +115,81 @@ class ProductAttributeSetReadServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new \ArrayIterator($attributeSets)));
 
         $this->assertEquals($resultSets, $this->service->getList());
+    }
+
+    public function testGetInfoReturnsAttributeSetIfIdIsValid()
+    {
+        $attributeSetData = array(
+            'id' => 1,
+            'name' => 'Default',
+            'sort_order' => 2,
+        );
+        $attributeSetMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('load', 'getId', 'getAttributeSetName', 'getSortOrder', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->once())->method('create')
+            ->will($this->returnValue($attributeSetMock));
+        $attributeSetMock->expects($this->any())->method('getId')
+            ->will($this->returnValue($attributeSetData['id']));
+        $attributeSetMock->expects($this->any())->method('getAttributeSetName')
+            ->will($this->returnValue($attributeSetData['name']));
+        $attributeSetMock->expects($this->any())->method('getSortOrder')
+            ->will($this->returnValue($attributeSetData['sort_order']));
+        $attributeSetMock->expects($this->once())
+            ->method('load')
+            ->with($attributeSetData['id'])
+            ->will($this->returnSelf());
+        $this->builderMock->expects($this->once())
+            ->method('setId')
+            ->with($attributeSetData['id'])
+            ->will($this->returnSelf());
+        $this->builderMock->expects($this->once())
+            ->method('setName')
+            ->with($attributeSetData['name'])
+            ->will($this->returnSelf());
+        $this->builderMock->expects($this->once())
+            ->method('setSortOrder')
+            ->with($attributeSetData['sort_order'])
+            ->will($this->returnSelf());
+        $dataObjectMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeSet',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->builderMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($dataObjectMock));
+        $this->assertEquals($dataObjectMock, $this->service->getInfo($attributeSetData['id']));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with attributeSetId = 1
+     */
+    public function testGetInfoThrowsExceptionIfIdIsNotValid()
+    {
+        $attributeSetData = array(
+            'id' => 1,
+        );
+        $attributeSetMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('load', 'getId', 'getName', 'getSortOrder', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($attributeSetMock));
+        $attributeSetMock->expects($this->once())
+            ->method('load')
+            ->with($attributeSetData['id'])
+            ->will($this->returnSelf());
+        $this->builderMock->expects($this->never())->method('create');
+        $this->service->getInfo($attributeSetData['id']);
     }
 }
