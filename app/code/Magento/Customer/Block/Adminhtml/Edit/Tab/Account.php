@@ -179,8 +179,9 @@ class Account extends GenericMetadata
     /**
      * Check if type of Prefix and Suffix elements should be changed from text to select and change it if need.
      *
-     * @param $elementName
-     * @param $fieldset
+     * @param string $elementName
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
+     * @return null
      */
     protected function _checkElementType($elementName, $fieldset)
     {
@@ -192,11 +193,11 @@ class Account extends GenericMetadata
         if ($element) {
             if ($elementName == 'prefix') {
                 $options = $this->_customerHelper->getNamePrefixOptions($this->_getCustomerDataObject()->getStoreId());
-                $prevSibling = $fieldset->getForm()->getElement('group_id')->getId();;
+                $prevSibling = $fieldset->getForm()->getElement('group_id')->getId();
             }
             if ($elementName == 'suffix') {
                 $options = $this->_customerHelper->getNameSuffixOptions($this->_getCustomerDataObject()->getStoreId());
-                $prevSibling = $fieldset->getForm()->getElement('lastname')->getId();;
+                $prevSibling = $fieldset->getForm()->getElement('lastname')->getId();
             }
 
             if (!empty($options)) {
