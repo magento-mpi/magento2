@@ -8,26 +8,26 @@
 
 namespace Magento\Tax\Service\V1;
 
-use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 
 interface TaxRateServiceInterface
 {
     /**
-     * @param TaxRate $taxRate
-     * @return TaxRate
+     * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
+     * @return \Magento\Tax\Service\V1\Data\TaxRate
      */
-    public function createTaxRate(TaxRate $taxRate);
+    public function createTaxRate(TaxRateDataObject $taxRate);
 
     /**
-     * @return TaxRate[]
+     * @return \Magento\Tax\Service\V1\Data\TaxRate[]
      */
     public function getTaxRates();
 
     /**
-     * @param TaxRate $taxRate
-     * @return TaxRate
+     * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
+     * @return \Magento\Tax\Service\V1\Data\TaxRate
      */
-    public function updateTaxRate(TaxRate $taxRate);
+    public function updateTaxRate(TaxRateDataObject $taxRate);
 
     /**
      * @param int $rateId

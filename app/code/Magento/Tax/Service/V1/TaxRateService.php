@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Service\V1;
 
-use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 
 class TaxRateService implements TaxRateServiceInterface
 {
@@ -21,7 +21,7 @@ class TaxRateService implements TaxRateServiceInterface
     /**
      * @inheritdoc
      */
-    public function createTaxRate(TaxRate $taxRate)
+    public function createTaxRate(TaxRateDataObject $taxRate)
     {
         // TODO: Implement createTaxRate() method.
     }
@@ -37,7 +37,7 @@ class TaxRateService implements TaxRateServiceInterface
     /**
      * @inheritdoc
      */
-    public function updateTaxRate(TaxRate $taxRate)
+    public function updateTaxRate(TaxRateDataObject $taxRate)
     {
         // TODO: Implement updateTaxRate() method.
     }
