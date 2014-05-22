@@ -65,24 +65,6 @@ body {
 }
 
 .navigation {
-    .settings.panel {
-        > .title {
-            cursor: pointer;
-            .font-size(16);
-            font-weight: @font-weight-semibold;
-            padding: 8px 20px;
-            position: relative;
-            &:extend(.navigation-icon all);
-        }
-        &.active {
-            > .title:after {
-                content: @icon-prev;
-            }
-        }
-        > .content {
-            display: none;
-            margin: 0;
-        }
         .switcher {
             display: block;
             margin: 0;
@@ -153,7 +135,6 @@ body {
                 display: block;
             }
         }
-    }
     .nav {
         border-bottom: @navigation-level0-item-border;
         clear: left;
@@ -209,7 +190,9 @@ body {
         @_tab-control-color-active: #333,
         @_tab-control-height: 45px,
         @_tab-control-line-height: 45px,
-        @_tab-content-margin-top: 55px,
+        @_tab-control-padding-right: 0,
+        @_tab-control-padding-left: 0,
+        @_tab-content-margin-top: 47px,
         @_tab-control-bg: #e5e5e5,
         @_tab-content-border: none,
         @_tab-control-bg-active: #f0f0f0,
@@ -220,6 +203,15 @@ body {
         @_tab-content-bg: transparent,
         @_tab-content-border-top-status: true
     );
+    > .item.title {
+        text-align: center;
+    }
+    &.navigation-tabs-3 > .item.title {
+        width: 33.33%;
+    }
+    &.navigation-tabs-2 > .item.title {
+        width: 50%;
+    }
 }
 
 .main-navigation();
