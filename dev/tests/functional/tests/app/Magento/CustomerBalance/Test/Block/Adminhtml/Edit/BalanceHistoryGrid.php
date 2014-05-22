@@ -27,9 +27,9 @@ class BalanceHistoryGrid extends Grid
     /**
      * Search in balance history grid
      *
-     * @param $balance
-     * @param $notified
-     * @param $moreInformation
+     * @param string $balance
+     * @param string $notified
+     * @param string $moreInformation
      * @return bool
      */
     public function isInCustomerBalanceGrid($balance, $notified, $moreInformation)

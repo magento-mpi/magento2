@@ -16,6 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerBalanceHistory
+ * Assert that customer balance history is changed
  */
 class AssertCustomerBalanceHistory extends AbstractConstraint
 {
