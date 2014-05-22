@@ -184,9 +184,11 @@ class Status extends \Magento\Backend\App\Action
         if ($data) {
             $state = $this->getRequest()->getParam('state');
             $isDefault = $this->getRequest()->getParam('is_default');
+            $visibleOnFront = $this->getRequest()->getParam('visible_on_front');
             $status = $this->_initStatus();
             if ($status && $status->getStatus()) {
                 try {
+                    $status->assignState($state, $isDefault, $visibleOnFront);
                     $status->assignState($state, $isDefault);
                     $this->messageManager->addSuccess(__('You have assigned the order status.'));
                     $this->_redirect('sales/*/');
