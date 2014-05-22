@@ -296,7 +296,7 @@ class Rma extends \Magento\Backend\App\Action
         /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
         $systemComment = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
         $systemComment->setRma($rma);
-        if ($saveRequest['rma_confirmation']) {
+        if (isset($saveRequest['rma_confirmation']) && $saveRequest['rma_confirmation']) {
             $systemComment->sendNewRmaEmail();
         }
         $systemComment->saveSystemComment();
