@@ -170,7 +170,7 @@ class Observer
     }
 
     /**
-     * Add information about producs stock status to collection
+     * Add information about product stock status to collection
      * Used in for product collection after load
      *
      * @param EventObserver $observer

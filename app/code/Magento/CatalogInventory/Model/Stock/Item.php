@@ -1038,7 +1038,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
             }
             $this->setStockQty($stockQty);
         }
-        return $this->getData('stock_qty');
+        return (float) $this->getData('stock_qty');
     }
 
     /**

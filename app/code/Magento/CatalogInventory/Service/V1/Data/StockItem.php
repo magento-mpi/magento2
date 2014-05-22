@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\AbstractObject;
 class StockItem extends AbstractObject
 {
     /**#@+
-     * Constants for Data Object keys
+     * Stock item object data keys
      */
     const ITEM_ID = 'item_id';
 
@@ -66,6 +66,7 @@ class StockItem extends AbstractObject
     const ENABLE_QTY_INCREMENTS = 'enable_qty_increments';
 
     const IS_DECIMAL_DIVIDED = 'is_decimal_divided';
+    /**#@-*/
 
     /**
      * @return int
