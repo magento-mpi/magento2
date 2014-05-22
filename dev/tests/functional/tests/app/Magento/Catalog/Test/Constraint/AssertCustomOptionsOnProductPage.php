@@ -99,11 +99,10 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     protected function prepareOptionArray(array $options)
     {
         $result = [];
-        $productPrice = $this->product->getPrice();
-        if ($productGroupPrice = $this->product->getGroupPrice()) {
-            $productGroupPrice = reset($productGroupPrice);
-            $productPrice = $productGroupPrice['price'];
-        }
+        $productPrice = $this->product->hasData('group_price')
+            ? $this->product->getPrice()
+            : $this->product->getGroupPrice()[0]['price'];
+
         $placeholder = ['Yes' => true, 'No' => false];
         foreach ($options as $option) {
             $result[$option['title']]['is_require'] = $placeholder[$option['is_require']];
