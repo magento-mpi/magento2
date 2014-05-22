@@ -1,13 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: bimathew
- * Date: 5/21/14
- * Time: 11:53 AM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Tax\Service\V1;
-
 
 use Magento\Tax\Service\V1\Data\TaxRate;
 
@@ -22,7 +21,7 @@ class TaxRateService implements TaxRateServiceInterface
     /**
      * @inheritdoc
      */
-    public function createTaxRate(TaxRate $rate)
+    public function createTaxRate(TaxRate $taxRate)
     {
         // TODO: Implement createTaxRate() method.
     }
@@ -38,7 +37,7 @@ class TaxRateService implements TaxRateServiceInterface
     /**
      * @inheritdoc
      */
-    public function updateTaxRate(TaxRate $rate)
+    public function updateTaxRate(TaxRate $taxRate)
     {
         // TODO: Implement updateTaxRate() method.
     }
