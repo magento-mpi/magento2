@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Link;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use \Magento\Catalog\Model\Product\Link;
 
-class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     const SERVICE_NAME = 'catalogCatalogProductLinkServiceV1';
     const SERVICE_VERSION = 'V1';

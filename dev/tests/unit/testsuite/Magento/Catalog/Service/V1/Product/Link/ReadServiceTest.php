@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Link;
 
-use Magento\Catalog\Service\V1\Data\LinkTypeEntity;
+use Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
 
-class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
+class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var CatalogProductLinkService
+     * @var ReadService
      */
     protected $service;
 
@@ -33,7 +33,7 @@ class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->providerMock = $this->getMock('Magento\Catalog\Model\Product\LinkTypeProvider', [], [], '', false);
         $this->builderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Data\LinkTypeEntityBuilder',
+            'Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntityBuilder',
             [],
             [],
             '',

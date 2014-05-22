@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\LinkTypeProvider;
-use \Magento\Catalog\Service\V1\Data\LinkTypeEntityBuilder as Builder;
-use \Magento\Catalog\Service\V1\Data\LinkTypeEntity;
-use \Magento\Catalog\Service\V1\Data\LinkedProductEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntityBuilder as Builder;
+use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Logger;
 
-class CatalogProductLinkService implements CatalogProductLinkServiceInterface
+class ReadService implements ReadServiceInterface
 {
     /**
      * @var LinkTypeProvider

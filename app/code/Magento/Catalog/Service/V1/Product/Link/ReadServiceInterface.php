@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Link;
 
-interface CatalogProductLinkServiceInterface
+interface ReadServiceInterface
 {
     /**
      * Provide the list of product link types
      *
-     * @return \Magento\Catalog\Service\V1\Data\LinkTypeEntity[]
+     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity[]
      */
     public function getProductLinkTypes();
 
@@ -23,7 +23,7 @@ interface CatalogProductLinkServiceInterface
      * @param int $productId
      * @param int $type
      * @throws \Magento\Framework\Exception\InputException If link type is not registered
-     * @return \Magento\Catalog\Service\V1\Data\LinkedProductEntity[]
+     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity[]
      */
     public function getLinkedProducts($productId, $type);
 
@@ -31,7 +31,7 @@ interface CatalogProductLinkServiceInterface
      * Provide a list of the product link type attributes
      *
      * @param int $type
-     * @return \Magento\Catalog\Service\V1\Data\LinkAttributeEntity[]
+     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkAttributeEntity[]
      */
     public function getLinkAttributes($type);
 }

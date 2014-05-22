@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\LinkedProductEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
 
 class CollectionProvider
 {
