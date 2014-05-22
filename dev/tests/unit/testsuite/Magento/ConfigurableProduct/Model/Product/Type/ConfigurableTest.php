@@ -98,4 +98,31 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->_model->hasWeight(), 'This product has not weight, but it should');
     }
+
+    public function testGetRelationInfo()
+    {
+        $info = $this->_model->getRelationInfo();
+        $this->assertInstanceOf('Magento\Framework\Object', $info);
+        $this->assertEquals($info->getData('table'), 'catalog_product_super_link');
+        $this->assertEquals($info->getData('parent_field_name'), 'parent_id');
+        $this->assertEquals($info->getData('child_field_name'), 'product_id');
+    }
+
+    public function testCanUseAttribute()
+    {
+        $attribute = $this->getMock(
+            'Magento\Catalog\Model\Resource\Eav\Attribute',
+            array('getIsGlobal', 'getIsVisible', 'getIsConfigurable', 'usesSource', 'getIsUserDefined',
+                '__wakeup', '__sleep'),
+            array(), '', false
+        );
+        $attribute->expects($this->any())->method('getIsGlobal')->will($this->returnValue(1));
+        $attribute->expects($this->any())->method('getIsVisible')->will($this->returnValue(1));
+        $attribute->expects($this->any())->method('getIsConfigurable')->will($this->returnValue(1));
+        $attribute->expects($this->any())->method('usesSource')->will($this->returnValue(1));
+        $attribute->expects($this->any())->method('getIsUserDefined')->will($this->returnValue(1));
+
+        $this->assertTrue($this->_model->canUseAttribute($attribute));
+    }
+
 }
