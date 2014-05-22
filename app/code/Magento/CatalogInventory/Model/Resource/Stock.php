@@ -63,7 +63,7 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_stock;
 
     /**
-     * @var \Magento\CatalogInventory\Service\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
      */
     protected $stockItemService;
 
@@ -88,14 +88,14 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\CatalogInventory\Service\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\CatalogInventory\Service\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CatalogInventory\Model\StockFactory $stockFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime

@@ -30,7 +30,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     const DEFAULT_STOCK_ID = 1;
 
     /**
-     * @var \Magento\CatalogInventory\Service\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
      */
     protected $stockItemService;
 
@@ -57,7 +57,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param Resource\Stock\Item\CollectionFactory $collectionFactory
-     * @param \Magento\CatalogInventory\Service\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Stock\ItemFactory $stockItemFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -68,7 +68,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory,
-        \Magento\CatalogInventory\Service\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogInventory\Service;
+namespace Magento\CatalogInventory\Service\V1;
 
 /**
  * Stock item service

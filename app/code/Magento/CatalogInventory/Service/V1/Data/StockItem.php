@@ -110,7 +110,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function canUseConfigMinQty()
+    public function isUseConfigMinQty()
     {
         return $this->_get(self::USE_CONFIG_MIN_QTY);
     }
@@ -118,7 +118,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function isQtyDecimal()
+    public function getIsQtyDecimal()
     {
         return $this->_get(self::IS_QTY_DECIMAL);
     }
@@ -126,7 +126,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function getBackorders()
+    public function isBackorders()
     {
         return $this->_get(self::BACKORDERS);
     }
@@ -134,7 +134,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function getUseConfigBackorders()
+    public function isUseConfigBackorders()
     {
         return $this->_get(self::USE_CONFIG_BACKORDERS);
     }
@@ -150,7 +150,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function canUseConfigMinSaleQty()
+    public function isUseConfigMinSaleQty()
     {
         return $this->_get(self::USE_CONFIG_MIN_SALE_QTY);
     }
@@ -166,7 +166,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function canUseConfigMaxSaleQty()
+    public function isUseConfigMaxSaleQty()
     {
         return $this->_get(self::USE_CONFIG_MAX_SALE_QTY);
     }
@@ -174,7 +174,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function isInStock()
+    public function getIsInStock()
     {
         return $this->_get(self::IS_IN_STOCK);
     }
@@ -198,7 +198,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function getUseConfigNotifyStockQty()
+    public function isUseConfigNotifyStockQty()
     {
         return $this->_get(self::USE_CONFIG_NOTIFY_STOCK_QTY);
     }
@@ -206,7 +206,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function getManageStock()
+    public function isManageStock()
     {
         return $this->_get(self::MANAGE_STOCK);
     }
@@ -214,7 +214,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function canUseConfigManageStock()
+    public function isUseConfigManageStock()
     {
         return $this->_get(self::USE_CONFIG_MANAGE_STOCK);
     }
@@ -222,7 +222,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function getStockStatusChangedAuto()
+    public function isStockStatusChangedAuto()
     {
         return $this->_get(self::STOCK_STATUS_CHANGED_AUTO);
     }
@@ -230,7 +230,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function canUseConfigQtyIncrements()
+    public function isUseConfigQtyIncrements()
     {
         return $this->_get(self::USE_CONFIG_QTY_INCREMENTS);
     }
@@ -246,7 +246,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function canUseConfigEnableQtyInc()
+    public function isUseConfigEnableQtyInc()
     {
         return $this->_get(self::USE_CONFIG_ENABLE_QTY_INC);
     }
@@ -254,7 +254,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function getEnableQtyIncrements()
+    public function isEnableQtyIncrements()
     {
         return $this->_get(self::ENABLE_QTY_INCREMENTS);
     }
@@ -262,7 +262,7 @@ class StockItem extends AbstractObject
     /**
      * @return bool
      */
-    public function isDecimalDivided()
+    public function getIsDecimalDivided()
     {
         return $this->_get(self::IS_DECIMAL_DIVIDED);
     }

@@ -163,7 +163,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_catalogInventoryMinsaleqty;
 
     /**
-     * @var \Magento\CatalogInventory\Service\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
      */
     protected $stockItemService;
 
@@ -222,7 +222,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Status $stockStatus
-     * @param \Magento\CatalogInventory\Service\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -240,7 +240,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Index\Model\Indexer $indexer,
         Status $stockStatus,
-        \Magento\CatalogInventory\Service\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
