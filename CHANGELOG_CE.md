@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
   * Fixed: Images upload in config looks broken (MAGETWO-15764)
   * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
