@@ -9,6 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+    <referenceContainer name="header.panel">
+        <block class="Magento\Framework\View\Element\Html\Links" name="header.links">
+            <arguments>
+                <argument name="css_class" xsi:type="string">header links</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
     <remove name="report.bugs"/>
     <move element="copyright" destination="before_body_end"/>
 </layout>

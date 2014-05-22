@@ -468,7 +468,7 @@
             }
 
             if ($('.header.panel .header.links li').length) {
-                var account = $('.header.panel .header.links')
+                var account = $('.header.panel > .header.links')
                     .clone()
                     .addClass('account');
 

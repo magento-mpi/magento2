@@ -60,6 +60,9 @@ body {
         }
         &.welcome {
             line-height: 35px;
+            &.greet {
+                display: none;
+            }
         }
     }
 }
@@ -160,10 +163,8 @@ body {
             font-weight: @font-weight-bold;
         }
     }
-    .greet.welcome {
-        display: none;
-    }
     .header.links {
+        display: block;
         padding: 0;
         .css(border-bottom, @navigation-level0-item-border);
         li {
@@ -177,6 +178,14 @@ body {
                 .css(text-transform, @navigation-level0-text-transform);
                 display: block;
             }
+        }
+    }
+    .customer.name {
+        display: block;
+        padding: 8px 20px;
+        line-height: @line-height-base;
+        .action.switch {
+            display: none;
         }
     }
 }
