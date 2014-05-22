@@ -64,8 +64,11 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests exception path of no files
+     *
      * @expectedException \LogicException
      * @expectedExceptionMessage magento_import returns empty result by path
+     *
      * @return void
      */
     public function testGetFilesEmpty()
@@ -118,7 +121,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $this->themeMock->expects($this->any())->method('getInheritedThemes')
             ->will($this->returnValue([$inheritedThemeMock]));
 
-        $aggregated->getFiles($this->themeMock);
+        $this->assertEquals(['returnedFile'], $aggregated->getFiles($this->themeMock));
     }
 
     /**
