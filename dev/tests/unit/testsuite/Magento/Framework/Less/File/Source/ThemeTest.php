@@ -8,9 +8,9 @@
 namespace Magento\Framework\Less\File\Source;
 
 /**
- * Tests Base
+ * Tests Theme
  */
-class BaseTest extends \PHPUnit_Framework_TestCase
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -26,7 +26,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $modulesDirectoryMock;
+    protected $themesDirectoryMock;
 
     /**
      * @var \Magento\Framework\View\Design\ThemeInterface|PHPUnit_Framework_MockObject_MockObject
@@ -38,10 +38,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
             ->disableOriginalConstructor()->getMock();
 
-        $this->modulesDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\ReadInterface')
+        $this->themesDirectoryMock = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\ReadInterface')
             ->getMock();
         $this->filesystemMock->expects($this->any())->method('getDirectoryRead')
-            ->will($this->returnValue($this->modulesDirectoryMock));
+            ->will($this->returnValue($this->themesDirectoryMock));
 
         $this->fileFactoryMock = $this->getMockBuilder('Magento\Framework\View\Layout\File\Factory')
             ->disableOriginalConstructor()->getMock();
@@ -51,27 +51,25 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFilesEmpty()
     {
-        $this->modulesDirectoryMock->expects($this->any())->method('search')->will($this->returnValue([]));
-        $base = new Base(
+        $this->themesDirectoryMock->expects($this->any())->method('search')->will($this->returnValue([]));
+        $theme = new Theme(
             $this->filesystemMock,
             $this->fileFactoryMock
         );
 
-        $base->getFiles($this->themeMock);
+        $theme->getFiles($this->themeMock);
     }
 
     public function testGetFilesSingle()
     {
-        $filePath = 'Magento/Customer/view/frontend/something.less';
-        $this->modulesDirectoryMock->expects($this->once())
+        $filePath = '/Magento_Customer/css/something.less';
+        $this->themesDirectoryMock->expects($this->once())
             ->method('search')
             ->will($this->returnValue(['file']));
-        $this->modulesDirectoryMock->expects($this->once())
+        $this->themesDirectoryMock->expects($this->once())
             ->method('getAbsolutePath')
             ->with('file')
             ->will($this->returnValue($filePath));
-
-        $this->themeMock->expects($this->any())->method('getArea')->will($this->returnValue('frontend'));
 
         $fileMock = $this->getMockBuilder('Magento\Framework\View\Layout\File')
             ->setConstructorArgs(['file1', 'Magento_Customer'])
@@ -83,21 +81,20 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($filePath), $this->equalTo('Magento_Customer'))
             ->will($this->returnValue($fileMock));
 
-        $base = new Base(
+        $theme = new Theme(
             $this->filesystemMock,
             $this->fileFactoryMock
         );
-        $this->assertEquals([$fileMock], $base->getFiles($this->themeMock));
+        $this->assertEquals([$fileMock], $theme->getFiles($this->themeMock, 'css/*.less'));
     }
 
     public function testGetFilesMultiple()
     {
-
-        $dirPath = 'Magento/Customer/view/frontend/';
-        $this->modulesDirectoryMock->expects($this->once())
+        $dirPath = '/Magento_Customer/css/';
+        $this->themesDirectoryMock->expects($this->once())
             ->method('search')
             ->will($this->returnValue(['fileA.test', 'fileB.tst', 'fileC.test']));
-        $this->modulesDirectoryMock->expects($this->any())
+        $this->themesDirectoryMock->expects($this->any())
             ->method('getAbsolutePath')
             ->will(
                 $this->returnValueMap(
@@ -109,8 +106,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $this->themeMock->expects($this->any())->method('getArea')->will($this->returnValue('frontend'));
-
         $fileMock = $this->getMockBuilder('Magento\Framework\View\Layout\File')
             ->setConstructorArgs(['file1', 'Magento_Customer'])
             ->getMock();
@@ -121,12 +116,11 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->with($this->isType('string'), $this->equalTo('Magento_Customer'))
             ->will($this->returnValue($fileMock));
 
-        $base = new Base(
+        $theme = new Theme(
             $this->filesystemMock,
             $this->fileFactoryMock
         );
         // Only two files should be in array, because fileB.tst won't match *.test
-        $this->assertEquals([$fileMock, $fileMock], $base->getFiles($this->themeMock, '*.test'));
+        $this->assertEquals([$fileMock, $fileMock], $theme->getFiles($this->themeMock, 'css/*.test'));
     }
-
 }
