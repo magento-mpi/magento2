@@ -73,11 +73,11 @@ class AssertTaxRuleIsApplied extends AbstractConstraint
         // Preparing data to compare
         $taxRate = $taxRule->getDataFieldConfig('tax_rate')['source']->getFixture()[0]->getRate();
         $expectedGrandTotal = $productSimple->getPrice() + $taxRate + $shipping['price'];
-        $expectedGrandTotal = '$' . number_format($expectedGrandTotal, 2);
+        $expectedGrandTotal = number_format($expectedGrandTotal, 2);
         $actualGrandTotal = $checkoutCart->getTotalsBlock()->getGrandTotal();
 
         if ($checkoutCart->getTotalsBlock()->isTaxVisible()) {
-            $expectedTax = '$' . number_format($taxRate, 2);
+            $expectedTax = number_format($taxRate, 2);
             $actualTax = $checkoutCart->getTotalsBlock()->getTax();
             if ($expectedTax !== $actualTax) {
                 $errorMessages[] = 'Tax is not correct.'

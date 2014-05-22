@@ -79,7 +79,7 @@ class AssertTaxRuleIsNotApplied extends AbstractConstraint
         $checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
         // Preparing data to compare
         $expectedGrandTotal = $productSimple->getPrice() + $shipping['price'];
-        $expectedGrandTotal = '$' . number_format($expectedGrandTotal, 2);
+        $expectedGrandTotal = number_format($expectedGrandTotal, 2);
         $actualGrandTotal = $checkoutCart->getTotalsBlock()->getGrandTotal();
 
         if ($checkoutCart->getTotalsBlock()->isTaxVisible()) {

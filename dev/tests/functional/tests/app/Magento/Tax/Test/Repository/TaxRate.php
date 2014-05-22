@@ -77,7 +77,7 @@ class TaxRate extends AbstractRepository
 
         $this->_data['uk_full_tax_rate'] = [
             'code' => 'Tax Rate %isolation%',
-            'rate' => '10',
+            'rate' => '20',
             'tax_country_id' => 'United Kingdom',
             'tax_postcode' => '*',
         ];
