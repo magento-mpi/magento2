@@ -1746,5 +1746,72 @@
                 <group id="express_checkout_other" extends="payment_all_paypal/express_checkout"/>
             </group>
         </section>
+        <section id="payment_ca" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="20"/>
+                <group id="express_checkout_other" sortOrder="50"/>
+                <group id="wpp_ca" extends="payment_all_paypal/wpp" sortOrder="10"/>
+                <group id="paypal_payflowpro_ca" extends="payment_all_paypal/paypal_payflowpro" sortOrder="30"/>
+                <group id="payflow_link_ca" extends="payment_all_paypal/payflow_link" sortOrder="40"/>
+            </group>
+        </section>
+        <section id="payment_au" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="10"/>
+                <group id="express_checkout_other" sortOrder="40"/>
+                <group id="paypal_payflowpro_au" extends="payment_all_paypal/paypal_payflowpro" sortOrder="20"/>
+                <group id="payments_pro_hosted_solution_au" extends="payment_all_paypal/payments_pro_hosted_solution" sortOrder="30"/>
+            </group>
+        </section>
+        <section id="payment_jp" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="12"/>
+                <group id="express_checkout_other" sortOrder="30"/>
+                <group id="payments_pro_hosted_solution_jp" extends="payment_all_paypal/payments_pro_hosted_solution" sortOrder="10">
+                    <label>Website Payments Plus</label>
+                </group>
+            </group>
+        </section>
+        <section id="payment_fr" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="12"/>
+                <group id="express_checkout_other" sortOrder="30"/>
+                <group id="payments_pro_hosted_solution_fr" extends="payment_all_paypal/payments_pro_hosted_solution" sortOrder="10">
+                    <label>Integral Evolution</label>
+                </group>
+            </group>
+        </section>
+        <section id="payment_it" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="12"/>
+                <group id="express_checkout_other" sortOrder="30"/>
+                <group id="payments_pro_hosted_solution_it" extends="payment_all_paypal/payments_pro_hosted_solution" sortOrder="10">
+                    <label>Pro</label>
+                </group>
+            </group>
+        </section>
+        <section id="payment_es" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="12"/>
+                <group id="express_checkout_other" sortOrder="30"/>
+                <group id="payments_pro_hosted_solution_es" extends="payment_all_paypal/payments_pro_hosted_solution" sortOrder="10">
+                    <label>Pasarela integral</label>
+                </group>
+            </group>
+        </section>
+        <section id="payment_hk" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="12"/>
+                <group id="express_checkout_other" sortOrder="30"/>
+                <group id="payments_pro_hosted_solution_hk" extends="payment_all_paypal/payments_pro_hosted_solution" sortOrder="10"/>
+            </group>
+        </section>
+        <section id="payment_nz" extends="payment_other">
+            <group id="paypal_payment_solutions">
+                <group id="wps_other" sortOrder="12"/>
+                <group id="express_checkout_other" sortOrder="30"/>
+                <group id="paypal_payflowpro_nz" extends="payment_all_paypal/paypal_payflowpro" sortOrder="10"/>
+            </group>
+        </section>
     </system>
 </config>
