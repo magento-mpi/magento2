@@ -56,7 +56,7 @@ class Converter
      * @param Rate $rateModel
      * @return TaxRateDataObject
      */
-    public function createTaxRateFromModel(Rate $rateModel)
+    public function createTaxRateDataObjectFromModel(Rate $rateModel)
     {
         $this->taxRateDataObjectBuilder->populateWithArray([]);
         if ($rateModel->getId()) {
