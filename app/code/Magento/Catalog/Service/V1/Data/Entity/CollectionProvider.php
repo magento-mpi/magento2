@@ -33,10 +33,10 @@ class CollectionProvider
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function getCollection($product, $type)
+    public function getCollection(\Magento\Catalog\Model\Product $product, $type)
     {
         if (!isset($this->providers[$type])) {
-            throw new \InvalidArgumentException('Collection provider for  type ' . $type . ' is not registered');
+            throw new \InvalidArgumentException('Collection provider for type ' . $type . ' is not registered');
         }
         return $this->providers[$type]->getLinkedProducts($product);
     }

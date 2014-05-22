@@ -12,6 +12,10 @@ class CrosssellTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetLinkedProducts()
     {
-        $this->markTestIncomplete('need to be implemented');
+        $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $expected = [$product];
+        $product->expects($this->once())->method('getCrossSellProducts')->will($this->returnValue($expected));
+        $model = new Crosssell();
+        $this->assertEquals($expected, $model->getLinkedProducts($product));
     }
-} 
+}
