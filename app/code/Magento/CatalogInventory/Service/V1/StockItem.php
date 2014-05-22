@@ -30,15 +30,23 @@ class StockItem implements StockItemInterface
     protected $isQtyTypeIds;
 
     /**
+     * @var Data\StockItemBuilder
+     */
+    protected $stockItemBuilder;
+
+    /**
      * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+     * @param Data\StockItemBuilder $stockItemBuilder
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
-        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
+        Data\StockItemBuilder $stockItemBuilder
     ) {
         $this->stockItemRegistry = $stockItemRegistry;
         $this->config = $config;
+        $this->stockItemBuilder = $stockItemBuilder;
     }
 
     /**
@@ -47,18 +55,23 @@ class StockItem implements StockItemInterface
      */
     public function getStockItem($productId)
     {
-        // $stockItem = $this->stockItemRegistry->retrieve($productId);
-        // return convertStockItemToDO //
+        $stockItem = $this->stockItemRegistry->retrieve($productId);
+        $this->stockItemBuilder->populateWithArray($stockItem->getData());
+        return $this->stockItemBuilder->create();
     }
 
     /**
-     * @param \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItem
+     * @param \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo
      * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
      */
-    public function saveStockItem($stockItem)
+    public function saveStockItem($stockItemDo)
     {
-        // $stockItem = $this->stockItemRegistry->retrieve($productId);
-        // return convertDOin StockItem  //
+        $stockItem = $this->stockItemRegistry->retrieve($stockItemDo->getProductId());
+        $stockItem->setData($stockItemDo->__toArray());
+        $stockItem->save();
+
+        /** @todo should we return updated DO or not? */
+        return $this->getStockItem($stockItemDo->getProductId());
     }
 
     /**
