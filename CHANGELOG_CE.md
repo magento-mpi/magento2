@@ -59,6 +59,7 @@
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * JavaScript improvements:
   * Added standard validation to front-end address fields
   * Implemented wishlist widget
