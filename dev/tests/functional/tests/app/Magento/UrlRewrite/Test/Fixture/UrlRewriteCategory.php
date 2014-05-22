@@ -17,7 +17,7 @@ use Magento\Catalog\Test\Fixture\Category as CategoryFixture;
  * Class Category
  * URL rewrite category fixture
  */
-class Category extends DataFixture
+class UrlRewriteCategory extends DataFixture
 {
     /**
      * Category for which URL rewrite is created
@@ -35,7 +35,7 @@ class Category extends DataFixture
         parent::__construct($configuration, $placeholders);
         $this->_placeholders['rewritten_category_request_path'] = array($this, 'getRewrittenRequestPath');
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoUrlRewriteCategory($this->_dataConfig, $this->_data);
+            ->getMagentoUrlRewriteUrlRewriteCategory($this->_dataConfig, $this->_data);
 
         $this->category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
         $this->category->persist();

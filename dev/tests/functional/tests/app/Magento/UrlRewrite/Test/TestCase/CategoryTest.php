@@ -9,8 +9,7 @@
 namespace Magento\UrlRewrite\Test\TestCase;
 
 use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
-use Magento\UrlRewrite\Test\Fixture\Category;
+use Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -28,9 +27,9 @@ class CategoryTest extends Injectable
      * Adding permanent redirect for category
      *
      * @ZephyrId MAGETWO-12407
-     * @param Category $urlRewriteCategory
+     * @param UrlRewriteCategory $urlRewriteCategory
      */
-    public function test(\Magento\UrlRewrite\Test\Fixture\Category $urlRewriteCategory)
+    public function test(\Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory $urlRewriteCategory)
     {
         $urlRewriteCategory->switchData('category_with_permanent_redirect');
 

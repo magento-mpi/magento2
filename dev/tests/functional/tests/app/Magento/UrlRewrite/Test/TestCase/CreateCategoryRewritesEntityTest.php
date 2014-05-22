@@ -19,7 +19,7 @@ use Mtf\TestCase\Injectable;
  * Test Creation for Create Category Rewrites Entity
  *
  * Precondition:
- * Create Sub-category
+ * 1. Create Sub-category
  *
  * Test Flow:
  * 1. Login to backend as Admin

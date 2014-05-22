@@ -15,7 +15,7 @@
         <id_path/>
         <store_id>
             <selector>[name='store_id']</selector>
-            <input>Selectstore</input>
+            <input>selectstore</input>
         </store_id>
         <options>
             <selector>[name='options']</selector>

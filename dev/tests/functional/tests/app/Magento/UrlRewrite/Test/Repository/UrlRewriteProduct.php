@@ -11,11 +11,11 @@ namespace Magento\UrlRewrite\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class Category
- * URL Rewrite Category Repository
+ * Class Product
+ * URL Rewrite Product Repository
  *
  */
-class Category extends AbstractRepository
+class UrlRewriteProduct extends AbstractRepository
 {
     /**
      * @param array $defaultConfig
@@ -26,19 +26,20 @@ class Category extends AbstractRepository
         $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => array(
+                'url_rewrite_type' => 'For product',
                 'fields' => array(
                     'request_path' => array(
-                        'value' => '%rewritten_category_request_path%',
+                        'value' => '%rewritten_product_request_path%',
                     ),
                     'store' => array(
-                        'value' => 'Default Store View',
+                        'value' => 'Default Store View'
                     ),
                 ),
             ),
         );
-        $this->_data['category_with_permanent_redirect'] = $this->_data['default'];
-        $this->_data['category_with_permanent_redirect']['data']['fields']['options'] = array(
-            'value' => 'Permanent (301)',
+        $this->_data['product_with_temporary_redirect'] = $this->_data['default'];
+        $this->_data['product_with_temporary_redirect']['data']['fields']['options'] = array(
+            'value' => 'Temporary (302)',
         );
     }
 }

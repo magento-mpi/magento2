@@ -43,9 +43,9 @@ class SelectstoreElement extends SelectElement
             $this->_getWrappedElement()->byXPath(sprintf($this->website, $selectedLabel))->attribute('label')
         );
         $value .= '/' . trim(
-                $this->_getWrappedElement()->byXPath(sprintf($this->storeGroup, $selectedLabel))->attribute('label'),
-                chr(0xC2) . chr(0xA0)
-            );
+            $this->_getWrappedElement()->byXPath(sprintf($this->storeGroup, $selectedLabel))->attribute('label'),
+            chr(0xC2) . chr(0xA0)
+        );
         $value .= '/' . $selectedLabel;
         return $value;
     }

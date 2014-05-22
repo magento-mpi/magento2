@@ -17,7 +17,7 @@ use Magento\Catalog\Test\Fixture\Product as ProductFixture;
  * Class Product
  * URL rewrite product fixture
  */
-class Product extends DataFixture
+class UrlRewriteProduct extends DataFixture
 {
     /**
      * Product for which URL rewrite is created
@@ -36,7 +36,7 @@ class Product extends DataFixture
 
         $this->_placeholders['rewritten_product_request_path'] = array($this, 'getRewrittenRequestPath');
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoUrlRewriteProduct($this->_dataConfig, $this->_data);
+            ->getMagentoUrlRewriteUrlRewriteProduct($this->_dataConfig, $this->_data);
 
         $this->product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->product->switchData('simple');

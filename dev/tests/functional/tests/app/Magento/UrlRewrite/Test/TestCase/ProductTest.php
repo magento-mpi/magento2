@@ -10,7 +10,7 @@ namespace Magento\UrlRewrite\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\UrlRewrite\Test\Fixture\Product;
+use Magento\UrlRewrite\Test\Fixture\UrlRewriteProduct;
 
 /**
  * Class UrlrewriteTest
@@ -25,8 +25,8 @@ class ProductTest extends Functional
      */
     public function testUrlRewriteCreation()
     {
-        /** @var Product $urlRewriteProduct */
-        $urlRewriteProduct = Factory::getFixtureFactory()->getMagentoUrlRewriteProduct();
+        /** @var UrlRewriteProduct $urlRewriteProduct */
+        $urlRewriteProduct = Factory::getFixtureFactory()->getMagentoUrlRewriteUrlRewriteProduct();
         $urlRewriteProduct->switchData('product_with_temporary_redirect');
 
         //Pages & Blocks
