@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="page_two_columns_left"/>
-    <referenceContainer name="left">
+    <referenceContainer name="sidebar.main">
         <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
             <block class="Magento\Checkout\Block\Onepage\Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
         </container>

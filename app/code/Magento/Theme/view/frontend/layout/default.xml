@@ -63,8 +63,8 @@
             <container name="content.aside" label="Main Content Aside"/>
             <container name="content.bottom" label="Main Content Bottom"/>
         </container>
-        <container name="left" as="left" label="Left Column"/>
-        <container name="right" as="right" label="Right Column"/>
+        <container name="sidebar.main" as="sidebar_main" label="Sidebar Main"/>
+        <container name="sidebar.additional" as="sidebar_additional" label="Sidebar Additional"/>
         <container name="page.bottom.container" as="page_bottom" label="Before Page Footer Container" htmlTag="div" htmlClass="page bottom">
             <container name="page.bottom" label="Before Page Footer" htmlTag="div" htmlClass="content"/>
         </container>

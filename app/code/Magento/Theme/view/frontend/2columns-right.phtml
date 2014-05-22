@@ -36,7 +36,8 @@ $bodyCss = $this->getBodyClass() ? $this->getBodyClass() : '';
                     echo $this->getChildHtml('main');
                     // Inside of <php> to avoid spaces between tags
                     echo '<div class="column right sidebar">';
-                    echo $this->getChildHtml('right');
+                    echo $this->getChildHtml('sidebar_main');
+                    echo $this->getChildHtml('sidebar_additional');
                     echo '</div>';
                 ?>
             </div>
