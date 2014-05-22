@@ -23,6 +23,8 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     const KEY_ZIP_RANGE = 'zip_range';
 
     const KEY_PERCENTAGE_RATE = 'percentage_rate';
+
+    const KEY_CODE = 'code';
     /**#@-*/
 
     /**
@@ -83,5 +85,15 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     public function getPercentageRate()
     {
         return $this->_get(self::KEY_PERCENTAGE_RATE);
+    }
+
+    /**
+     * Get tax rate code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->_get(self::KEY_CODE);
     }
 }
