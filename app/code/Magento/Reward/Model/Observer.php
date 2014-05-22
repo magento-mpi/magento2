@@ -898,7 +898,7 @@ class Observer
 
                         if ($reward->getRewardPointsUpdated()) {
                             $order->addStatusHistoryComment(__(
-                                '%s was deducted because of refund.',
+                                '%1 was deducted because of refund.',
                                 $this->_rewardData->formatReward($rewardPointsAmountToVoid)
                             ));
                         }
