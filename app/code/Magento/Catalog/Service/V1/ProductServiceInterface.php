@@ -21,7 +21,6 @@ interface ProductServiceInterface
      *
      * @param int $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
-     * @throws \Magento\Framework\Exception\StateException Thrown if cannot delete
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      */
