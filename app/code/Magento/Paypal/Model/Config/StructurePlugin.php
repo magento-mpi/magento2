@@ -30,7 +30,7 @@ class StructurePlugin
      */
     public function __construct(
         \Magento\Backend\Model\Config\ScopeDefiner $scopeDefiner,
-        \Magento\Paypal\Helper\Data $helper
+        \Magento\Paypal\Helper\Backend $helper
     ) {
         $this->_scopeDefiner = $scopeDefiner;
         $this->_helper = $helper;
@@ -50,8 +50,8 @@ class StructurePlugin
         \Closure $proceed,
         array $pathParts
     ) {
-        $isSectionChanged = false;
-        if ($pathParts[0] == 'payment') {
+        $isSectionChanged = $pathParts[0] == 'payment';
+        if ($isSectionChanged) {
             $requestedCountrySection = 'payment_' . strtolower($this->_helper->getConfigurationCountryCode());
             if (in_array(
                 $requestedCountrySection,
@@ -73,7 +73,6 @@ class StructurePlugin
             } else {
                 $pathParts[0] = 'payment_other';
             }
-            $isSectionChanged = true;
         }
         /** @var \Magento\Backend\Model\Config\Structure\ElementInterface $result */
         $result = $proceed($pathParts);

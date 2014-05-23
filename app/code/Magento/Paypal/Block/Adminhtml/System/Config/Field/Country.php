@@ -21,6 +21,11 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
     const FIELD_CONFIG_PATH = 'paypal/general/merchant_country';
 
     /**
+     * Request parameter name for default country
+     */
+    const REQUEST_PARAM_DEFAULT_COUNTRY = 'paypal_default_country';
+
+    /**
      * Country of default scope
      *
      * @var string
@@ -98,7 +103,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
             }
             if ($country) {
                 $shouldInherit = $country == $this->_defaultCountry
-                    && $this->getRequest()->getParam(StructurePlugin::REQUEST_PARAM_COUNTRY);
+                    && $this->getRequest()->getParam(self::REQUEST_PARAM_DEFAULT_COUNTRY);
                 $element->setInherit($shouldInherit);
             }
             if ($element->getInherit()) {
@@ -131,7 +136,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
         ';
 
         if ($this->_defaultCountry) {
-            $urlParams[StructurePlugin::REQUEST_PARAM_COUNTRY] = '__default__';
+            $urlParams[self::REQUEST_PARAM_DEFAULT_COUNTRY] = '__default__';
             $urlString = $this->_escaper->escapeJsQuote($this->_url->getUrl('*/*/*', $urlParams));
             $jsParentCountry = $this->_escaper->escapeJsQuote($this->_defaultCountry);
             $jsString .= '
