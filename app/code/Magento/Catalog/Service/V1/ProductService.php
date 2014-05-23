@@ -12,9 +12,9 @@ class ProductService implements ProductServiceInterface
     protected $initializationHelper;
 
     /**
-     * @var Product\Builder
+     * @var \Magento\Catalog\Service\V1\Data\ProductMapper
      */
-    protected $productBuilder;
+    protected $productMapper;
 
     /**
      * @var \Magento\Catalog\Model\Product\TypeTransitionManager
@@ -23,17 +23,16 @@ class ProductService implements ProductServiceInterface
 
     /**
      * @param Product\Initialization\Helper $initializationHelper
-     * @param Product\Builder $productBuilder
+     * @param Data\ProductMapper $productMapper
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
      */
     public function __construct(
         Product\Initialization\Helper $initializationHelper,
-        Product\Builder $productBuilder,
+        \Magento\Catalog\Service\V1\Data\ProductMapper $productMapper,
         \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
-    )
-    {
+    ) {
         $this->initializationHelper = $initializationHelper;
-        $this->productBuilder = $productBuilder;
+        $this->productMapper = $productMapper;
         $this->productTypeManager = $productTypeManager;
     }
 
@@ -42,14 +41,31 @@ class ProductService implements ProductServiceInterface
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product)
     {
-        $product = $this->productBuilder->build($product);
-        $this->initializationHelper->initialize($product);
-        $this->productTypeManager->processProduct($product);
-        $product->save();
-        if (!$product->getId()) {
+        $productModel = $this->productMapper->toModel($product);
+        $this->initializationHelper->initialize($productModel);
+        $this->productTypeManager->processProduct($productModel);
+        $productModel->save();
+        if (!$productModel->getId()) {
             throw new \Magento\Framework\Model\Exception(__('Unable to save product'));
         }
-        return $product->getId();
+        return $productModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(\Magento\Catalog\Service\V1\Data\Product $product)
+    {
+        $productModel = $this->productMapper->toModel($product);
+        $productModel->setId(null)->load($product->getId());
+        if (!$productModel->getId()) {
+            throw new \Magento\Framework\Model\Exception(__('Product is not exists'));
+        }
+
+        $this->initializationHelper->initialize($productModel);
+        $this->productTypeManager->processProduct($productModel);
+        $productModel->save();
+        return $productModel->getId();
     }
 
     /**

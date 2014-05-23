@@ -58,7 +58,7 @@ class ProductServiceTest extends WebapiAbstract
 
     }
 
-    public function testSave()
+    public function testCreate()
     {
         $product = $this->_createProduct();
 
