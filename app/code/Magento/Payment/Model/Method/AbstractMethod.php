@@ -14,6 +14,7 @@ use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
 
 /**
  * Payment method abstract model
+ * @method mixed setStore()
  */
 abstract class AbstractMethod extends \Magento\Framework\Object implements MethodInterface, PaymentMethodChecksInterface
 {
