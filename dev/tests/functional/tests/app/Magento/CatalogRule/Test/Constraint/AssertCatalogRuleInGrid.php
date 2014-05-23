@@ -14,7 +14,6 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 
 /**
  * Class AssertCatalogRuleInGrid
- *
  */
 class AssertCatalogRuleInGrid extends AbstractConstraint
 {
@@ -32,17 +31,24 @@ class AssertCatalogRuleInGrid extends AbstractConstraint
      * @param CatalogRuleIndex $catalogRuleGrid
      * @return void
      */
-    public function processAssert(CatalogRule $catalogRule, CatalogRuleIndex $catalogRuleGrid)
-    {
+    public function processAssert(
+        CatalogRule $catalogRule,
+        CatalogRuleIndex $catalogRuleGrid
+    ) {
+        $filter = [
+            'name' => $catalogRule->getName(),
+        ];
         $catalogRuleGrid->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogRuleGrid->getCatalogRuleGrid()->isRuleVisible($catalogRule->getName()),
+            $catalogRuleGrid->getCatalogRuleGrid()->isRowVisible($filter),
             'Product with sku \'' . $catalogRule->getName() . '\' is absent in Products grid.'
         );
     }
 
     /**
-     * @inheritdoc
+     * Success text that Catalog rule is preset in catalog rule grid
+     *
+     * @return string
      */
     public function toString()
     {

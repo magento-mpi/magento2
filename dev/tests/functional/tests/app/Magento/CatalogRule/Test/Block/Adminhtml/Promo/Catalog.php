@@ -110,17 +110,6 @@ class Catalog extends Grid
     }
 
     /**
-     * Check if row exists in grid with given name
-     *
-     * @param string $ruleName
-     * @return bool
-     */
-    public function isRuleVisible($ruleName)
-    {
-        return parent::isRowVisible(array('name' => $ruleName));
-    }
-
-    /**
      * Check if specific row exists in grid
      *
      * @param array $filter
