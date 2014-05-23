@@ -91,7 +91,7 @@ class EventList
     /**
      * Get array with category-event association
      *
-     * @return \Magento\Catalog\Model\Category|null[]
+     * @return array
      */
     public function getEventToCategoriesList()
     {
