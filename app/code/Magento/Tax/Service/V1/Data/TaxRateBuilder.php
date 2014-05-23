@@ -77,7 +77,7 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
      */
     public function setZip($zip)
     {
-        $this->_set(TaxRate::KEY_ZIP, $zip);
+        $this->_set(TaxRate::KEY_POSTCODE, $zip);
         return $this;
     }
 

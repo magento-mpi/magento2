@@ -185,8 +185,8 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
         if (array_key_exists(TaxRate::KEY_REGION_ID, $dataArray)) {
             $this->builder->setRegionId($dataArray[TaxRate::KEY_REGION_ID]);
         }
-        if (array_key_exists(TaxRate::KEY_ZIP, $dataArray)) {
-            $this->builder->setZip($dataArray[TaxRate::KEY_ZIP]);
+        if (array_key_exists(TaxRate::KEY_POSTCODE, $dataArray)) {
+            $this->builder->setZip($dataArray[TaxRate::KEY_POSTCODE]);
         }
         if (array_key_exists(TaxRate::KEY_PERCENTAGE_RATE, $dataArray)) {
             $this->builder->setPercentageRate($dataArray[TaxRate::KEY_PERCENTAGE_RATE]);
