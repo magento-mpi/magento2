@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductVirtual;
@@ -27,7 +26,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * 6. Verify created product.
  *
  * @group Virtual_Product_(CS)
- * @ZephyrId MTA-16
+ * @ZephyrId MAGETWO-23417
  */
 class CreateVirtualProductEntityTest extends Injectable
 {
@@ -73,7 +72,8 @@ class CreateVirtualProductEntityTest extends Injectable
      * @param CatalogProductNew $newProductPage
      * @return void
      */
-    public function __inject(CatalogProductIndex $productGrid, CatalogProductNew $newProductPage) {
+    public function __inject(CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
+    {
         $this->productGrid = $productGrid;
         $this->newProductPage = $newProductPage;
     }

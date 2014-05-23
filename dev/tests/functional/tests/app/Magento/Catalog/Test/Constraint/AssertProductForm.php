@@ -19,6 +19,29 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class AssertProductForm extends AbstractConstraint
 {
     /**
+     * Formatting options for numeric values
+     *
+     * @var array
+     */
+    protected $formattingOptions = [
+        'price' => [
+            'decimals' => 2,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'qty' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'weight' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ]
+    ];
+
+    /**
      * Constraint severeness
      *
      * @var string
@@ -62,42 +85,21 @@ class AssertProductForm extends AbstractConstraint
         $compareData = $product->getData();
         $compareData = array_filter($compareData);
 
-        if (isset($compareData['price'])) {
-            $compareData['price'] = $this->priceFormat($compareData['price']);
-        }
-
-        if (isset($compareData['qty'])) {
-            $compareData['qty'] = number_format($compareData['qty'], 4, '.', '');
-        }
-
-        if (isset($compareData['weight'])) {
-            $compareData['weight'] = number_format($compareData['weight'], 4, '.', '');
-        }
-        unset($compareData['url_key']);
-
-        if (!empty($compareData['tier_price'])) {
-            foreach ($compareData['tier_price'] as &$value) {
-                $value['price'] = $this->priceFormat($value['price']);
-            }
-            unset($value);
-        }
-        if (!empty($compareData['group_price'])) {
-            foreach ($compareData['group_price'] as &$value) {
-                $value['price'] = $this->priceFormat($value['price']);
-            }
-            unset($value);
-        }
-        if (!empty($compareData['custom_options'])) {
-            $placeholder = ['Yes' => true, 'No' => false];
-            foreach ($compareData['custom_options'] as &$option) {
-                $option['is_require'] = $placeholder[$option['is_require']];
-                foreach ($option['options'] as &$value) {
-                    $value['price'] = $this->priceFormat($value['price']);
+        array_walk_recursive(
+            $compareData,
+            function (&$item, $key, $formattingOptions) {
+                if (isset($formattingOptions[$key])) {
+                    $item = number_format(
+                        $item,
+                        $formattingOptions[$key]['decimals'],
+                        $formattingOptions[$key]['dec_point'],
+                        $formattingOptions[$key]['thousands_sep']
+                    );
                 }
-                unset($value);
-            }
-            unset($option);
-        }
+            },
+            $this->formattingOptions
+        );
+        unset($compareData['url_key']);
 
         return $compareData;
     }
@@ -114,7 +116,7 @@ class AssertProductForm extends AbstractConstraint
         $errors = [];
         $keysDiff = array_diff(array_keys($fixtureData), array_keys($formData));
         if (!empty($keysDiff)) {
-            return ['arrays do not correspond to each other in composition'];
+            return ['fixture data do not correspond to form data in composition'];
         }
 
         foreach ($fixtureData as $key => $value) {
@@ -132,17 +134,6 @@ class AssertProductForm extends AbstractConstraint
         }
 
         return $errors;
-    }
-
-    /**
-     * Formatting prices
-     *
-     * @param $price
-     * @return string
-     */
-    protected function priceFormat($price)
-    {
-        return number_format($price, 2, '.', '');
     }
 
     /**
