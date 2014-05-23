@@ -58,7 +58,7 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get zip
+     * Get postcode
      *
      * @return string|null
      */
