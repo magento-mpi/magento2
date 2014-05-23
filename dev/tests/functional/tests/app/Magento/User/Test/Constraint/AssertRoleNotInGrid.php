@@ -13,9 +13,9 @@ use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Magento\User\Test\Fixture\AdminUserRole;
 
 /**
- * Class AssertRoleInGrid
+ * Class AssertRoleNotInGrid
  */
-class AssertRoleInGrid extends AbstractConstraint
+class AssertRoleNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -25,7 +25,7 @@ class AssertRoleInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that saved role is present in Role Grid.
+     * Asserts that role is not present in Role Grid.
      *
      * @param UserRoleIndex $rolePage
      * @param AdminUserRole $role
@@ -37,9 +37,9 @@ class AssertRoleInGrid extends AbstractConstraint
     ) {
         $filter = ['role_name' => $role->getRoleName()];
         $rolePage->open();
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $rolePage->getRoleGrid()->isRowVisible($filter),
-            'Role with name \'' . $role->getRoleName() . '\' is absent in Roles grid.'
+            'Role with name \'' . $role->getRoleName() . '\' is present in Roles grid.'
         );
     }
 
@@ -50,6 +50,6 @@ class AssertRoleInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Role is present in Roles grid.';
+        return 'Role is absent in Roles grid.';
     }
 }

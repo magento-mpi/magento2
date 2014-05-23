@@ -12,12 +12,11 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 
 /**
- * Class AssertRoleSuccessSaveMessage
+ * Class AssertRoleSuccessDeleteMessage
  */
-class AssertRoleSuccessSaveMessage extends AbstractConstraint
+class AssertRoleSuccessDeleteMessage extends AbstractConstraint
 {
-
-    const SUCCESS_MESSAGE = 'You saved the role.';
+    const SUCCESS_MESSAGE = 'You deleted the role.';
 
     /**
      * Constraint severeness
@@ -27,7 +26,7 @@ class AssertRoleSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that success message equals to expected message.
+     * Asserts that success delete message equals to expected message.
      *
      * @param UserRoleIndex $rolePage
      * @return void
@@ -45,12 +44,12 @@ class AssertRoleSuccessSaveMessage extends AbstractConstraint
     }
 
     /**
-     * Returns success message if equals to expected message.
+     * Returns success delete message if equals to expected message.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Success message on roles page is correct.';
+        return 'Success delete message on roles page is correct.';
     }
 }
