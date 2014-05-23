@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TaxRateNew
- *
- * @package Magento\Tax\Test\Page\Adminhtml
  */
 class TaxRateNew extends BackendPage
 {
