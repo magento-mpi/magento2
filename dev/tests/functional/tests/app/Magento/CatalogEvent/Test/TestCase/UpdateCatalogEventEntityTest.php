@@ -11,23 +11,30 @@ namespace Magento\CatalogEvent\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 
 /**
- * Test Creation for Delete CatalogEventEntity
+ * Test Creation for Update CatalogEventEntity
+ *
+ * Preconditions:
+ * 1. Subcategory is created.
+ * 2. Product is created and assigned to subcategory.
+ * 3. Catalog event is created and applied for existing category.
  *
  * Test Flow:
  * 1. Log in to backend as admin user.
  * 2. Navigate to MARKETING>Private Sales>Events.
- * 3. Choose catalog event from precondition.
- * 4. Click "Delete" button.
- * 5. Perform all assertions.
+ * 3. Open existing catalog event
+ * 4. Fill in all data according to data set
+ * 5. Save Event.
+ * 6. Perform all assertions.
  *
  * @group Catalog_Events_(MX)
- * @ZephyrId MAGETWO-23418
+ * @ZephyrId  MAGETWO-24576
  */
-class DeleteCatalogEventEntityTest extends Injectable
+class UpdateCatalogEventEntityTest extends Injectable
 {
     /**
      * Catalog Event Page
@@ -37,6 +44,13 @@ class DeleteCatalogEventEntityTest extends Injectable
     protected $catalogEventNew;
 
     /**
+     * Catalog Product fixture
+     *
+     * @var CatalogProductSimple
+     */
+    protected $product;
+
+    /**
      * Event Page
      *
      * @var CatalogEventIndex
@@ -44,10 +58,11 @@ class DeleteCatalogEventEntityTest extends Injectable
     protected $catalogEventIndex;
 
     /**
+     * Inject data
+     *
      * @param CatalogEventNew $catalogEventNew
      * @param CatalogEventIndex $catalogEventIndex
      * @param FixtureFactory $fixtureFactory
-     *
      * @return array
      */
     public function __inject(
@@ -59,44 +74,42 @@ class DeleteCatalogEventEntityTest extends Injectable
         $this->catalogEventIndex = $catalogEventIndex;
 
         /** @var CatalogProductSimple $product */
-        $product = $fixtureFactory->createByCode(
-        'catalogProductSimple',
-            ['dataSet' => 'product_with_category']
-        );
+        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
         $product->persist();
+        $this->product = $product;
 
         $categoryId = $product->getCategoryIds()[0]['id'];
-        $catalogEventEntity = $fixtureFactory->createByCode(
+        $catalogEvent = $fixtureFactory->createByCode(
             'catalogEventEntity',
             [
                 'dataSet' => 'default_event',
                 'data' => ['category_id' => $categoryId],
             ]
         );
-        $catalogEventEntity->persist();
+        $catalogEvent->persist();
 
         return [
             'product' => $product,
-            'catalogEventEntity' => $catalogEventEntity,
+            'catalogEventOriginal' => $catalogEvent,
         ];
     }
 
     /**
-     * Delete Catalog Event Entity
+     * Update Catalog Event Entity
      *
-     * @param CatalogProductSimple $product
+     * @param CatalogEventEntity $catalogEvent
      * @return void
      */
-    public function testDeleteCatalogEvent(
-        CatalogProductSimple $product
-    ) {
+    public function testUpdateCatalogEvent(CatalogEventEntity $catalogEvent)
+    {
         $filter = [
-            'category_name' => $product->getCategoryIds()[0]['name'],
+            'category_name' => $this->product->getCategoryIds()[0]['name'],
         ];
 
         //Steps
         $this->catalogEventIndex->open();
         $this->catalogEventIndex->getBlockEventGrid()->searchAndOpen($filter);
-        $this->catalogEventNew->getPageActions()->delete();
+        $this->catalogEventNew->getEventForm()->fill($catalogEvent);
+        $this->catalogEventNew->getPageActions()->save();
     }
 }
