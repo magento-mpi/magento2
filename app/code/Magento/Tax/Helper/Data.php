@@ -16,12 +16,12 @@ use Magento\Tax\Model\Config;
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    /*
+    /**
      * Price conversion constant for positive
      */
     const PRICE_CONVERSION_PLUS = 1;
 
-    /*
+    /**
      * Price conversion constant for negative
      */
     const PRICE_CONVERSION_MINUS = 2;
