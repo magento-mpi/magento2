@@ -20,11 +20,11 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
      * @param ProductMetadataServiceInterface $metadataService
      */
     public function __construct(
-        AttributeValueBuilder $valueBuilde
-        //ProductMetadataServiceInterface $metadataService
+        AttributeValueBuilder $valueBuilde,
+        ProductMetadataServiceInterface $metadataService
     ) {
         parent::__construct($valueBuilde);
-        //$this->metadataService = $metadataService;
+        $this->metadataService = $metadataService;
     }
 
     /**
@@ -55,6 +55,14 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     public function setSku($value)
     {
         return $this->_set(Product::SKU, $value);
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setName($value)
+    {
+        return $this->_set(Product::NAME, $value);
     }
 
     /**

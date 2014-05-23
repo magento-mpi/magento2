@@ -28,12 +28,15 @@ class ProductServiceTest extends WebapiAbstract
     protected function _createProduct()
     {
         return [
-//            Product::ID => null,
             Product::SKU => uniqid('sku-', true),
+            Product::NAME => uniqid('name-', true),
             Product::ATTRIBUTE_SET_ID => 4,
             Product::VISIBILITY => 4,
             Product::TYPE_ID => 'simple',
             Product::STATUS => 1,
+            'custom_attributes' => [
+                'description' => 'desc'
+            ]
         ];
 
     }

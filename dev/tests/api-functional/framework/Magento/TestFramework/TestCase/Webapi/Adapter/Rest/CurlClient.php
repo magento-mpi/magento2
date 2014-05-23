@@ -221,7 +221,7 @@ class CurlClient
     protected function _jsonEncode($data)
     {
         $ret = json_encode($data);
-        $this->_checkJsonError();
+        $this->_checkJsonError($data);
 
         // return the json String
         return $ret;
@@ -238,7 +238,7 @@ class CurlClient
     protected function _jsonDecode($data, $asArray = true)
     {
         $ret = json_decode($data, $asArray);
-        $this->_checkJsonError();
+        $this->_checkJsonError($data);
 
         // return the array
         return $ret;
@@ -258,7 +258,10 @@ class CurlClient
                 $message = $this->_jsonErrorMessages[$jsonError];
             }
 
-            throw new \Exception('JSON Encoding / Decoding error: ' . $message, $jsonError);
+            throw new \Exception(
+                'JSON Encoding / Decoding error: ' . $message . var_export(func_get_arg(0), true),
+                $jsonError
+            );
         }
     }
 }

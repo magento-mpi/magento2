@@ -11,6 +11,8 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
 
     const SKU = 'sku';
 
+    const NAME = 'name';
+
     const PRICE = 'price';
 
     const WEIGHT = 'weight';
@@ -44,6 +46,14 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     public function getSku()
     {
         return $this->_get(self::SKU);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->_get(self::NAME);
     }
 
     /**

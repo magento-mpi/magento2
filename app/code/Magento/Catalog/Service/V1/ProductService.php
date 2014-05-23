@@ -66,12 +66,11 @@ class ProductService implements ProductServiceInterface
      */
     public function update(\Magento\Catalog\Service\V1\Data\Product $product)
     {
-        $productModel = $this->productMapper->toModel($product);
-        $productModel->setId(null)->load($product->getId());
+        $productModel = $this->productFactory->create();
         if (!$productModel->getId()) {
-            throw new \Magento\Framework\Model\Exception(__('Product is not exists'));
+            throw NoSuchEntityException::singleField('id', $product->getId());
         }
-
+        $this->productMapper->toModel($product, $productModel);
         $this->initializationHelper->initialize($productModel);
         $this->productTypeManager->processProduct($productModel);
         $productModel->save();
@@ -97,7 +96,14 @@ class ProductService implements ProductServiceInterface
      * {@inheritdoc}
      */
     public function get($id)
-    {}
+    {
+        $product = $this->productFactory->create();
+        $product->load($id);
+        if (!$product->getId()) {
+            // product does not exist
+            throw NoSuchEntityException::singleField('id', $id);
+        }
+    }
 
     /**
      * {@inheritdoc}

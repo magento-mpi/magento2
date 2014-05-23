@@ -12,6 +12,9 @@ class ProductMapper
     /** @var  \Magento\Catalog\Model\ProductFactory */
     protected $productFactory;
 
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     */
     public function __construct(\Magento\Catalog\Model\ProductFactory $productFactory)
     {
         $this->productFactory = $productFactory;
@@ -21,10 +24,12 @@ class ProductMapper
      * @param Product $product
      * @return \Magento\Catalog\Model\Product
      */
-    public function toModel(Product $product)
-    {
+    public function toModel(
+        Product $product,
+        $productModel = null
+    ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
-        $productModel = $this->productFactory->create();
+        $productModel = $productModel ?: $this->productFactory->create();
         $productModel->setData($product->__toArray());
         return $productModel;
     }
