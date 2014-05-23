@@ -10,11 +10,12 @@
 //    Typography
 //--------------------------------------
 
-//Base
+//  Base
 @font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 @font-family-serif: Georgia, 'Times New Roman', Times, serif;
 @font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
 @font-path: "../../fonts/";
+@font-family-base: 'Open Sans', @font-family-sans-serif;
 
 @color-primary: #333;
 @color-primary-dark: darken(@color-primary, 35%);
@@ -66,7 +67,6 @@
 
 @border-color-base: #ccc;
 @border-width-base: 1px;
-
 
 //Links
 
@@ -501,7 +501,7 @@
 //--------------------------------------
 
 // Button font style
-@button-font-family: '';
+@button-font-family: @font-family-base;
 @button-font-size: @font-size-base;
 @button-font-weight: @font-weight-bold;
 @button-height: 30px;
@@ -516,55 +516,54 @@
 @button-disabled-opacity: 0.5;
 
 // Default = secondary button
-@button-color: #333;
-@button-background: #f2f2f2;
-@button-border: 1px solid #cdcdcd;
-@button-gradient-start-color: '';
-@button-gradient-end-color: '';
+@button-color: #1d1c1c;
+@button-background: #e7e7e7;
+@button-border: 1px solid #ccc;
+@button-gradient-start-color: false;
+@button-gradient-end-color: false;
 
-@button-color-hover: #555;
-@button-background-hover: #e2e2e2;
-@button-border-hover: 1px solid #cdcdcd;
-@button-gradient-start-color-hover: '';
-@button-gradient-end-color-hover: '';
+@button-color-hover: @button-color;
+@button-background-hover: darken(@button-background, 5%);
+@button-border-hover: @button-border;
+@button-gradient-start-color-hover: false;
+@button-gradient-end-color-hover: false;
 
 @button-background-active: #e2e2e2;
-@button-color-active: #333;
-@button-border-active: 1px solid #cdcdcd;
-@button-gradient-start-color-active: '';
-@button-gradient-end-color-active: '';
+@button-color-active: @button-color;
+@button-border-active: @button-border;
+@button-gradient-start-color-active: false;
+@button-gradient-end-color-active: false;
 
 // Primary button
 @button-primary-height: 30px;
-@button-primary-width: '';
-@button-primary-margin: '';
+@button-primary-width: false;
+@button-primary-margin: false;
 @button-primary-padding: @button-padding;
 @button-primary-gradient: false;
-@button-primary-gradient-direction: '';
+@button-primary-gradient-direction: false;
 
 @button-primary-background: #1979c3;
 @button-primary-border: 1px solid #1979c3;
 @button-primary-color: #fff;
-@button-primary-gradient-start-color: '';
-@button-primary-gradient-end-color: '';
+@button-primary-gradient-start-color: false;
+@button-primary-gradient-end-color: false;
 
 @button-primary-background-hover: #006bb4;
 @button-primary-border-hover: 1px solid #006bb4;
 @button-primary-color-hover: #fff;
-@button-primary-gradient-start-color-hover: '';
-@button-primary-gradient-end-color-hover: '';
+@button-primary-gradient-start-color-hover: false;
+@button-primary-gradient-end-color-hover: false;
 
 @button-primary-background-active: #006bb4;
 @button-primary-border-active: 1px solid #006bb4;
 @button-primary-color-active: #fff;
-@button-primary-gradient-start-color-active: '';
-@button-primary-gradient-end-color-active: '';
-
+@button-primary-gradient-start-color-active: false;
+@button-primary-gradient-end-color-active: false;
 
 // Gradient button
 // Does button have gradient background:
 @button-gradient: false;
-@button-gradient-direction: '';
+@button-gradient-direction: false;
 
 // Button with icon
 @button-icon-use: false;
@@ -969,24 +968,24 @@
 
 // Fieldset
 @form-fieldset-border: 0;
-@form-fieldset-margin: 0 0 40px; //30px 10px 30px 30px
+@form-fieldset-margin: 0 0 40px;
 @form-fieldset-padding: 0;
 @form-fieldset-legend-color: false;
-@form-fieldset-legend-font-size: 20px;
+@form-fieldset-legend-font-size: 18px;
 @form-fieldset-legend-font-family: false;
 @form-fieldset-legend-font-weight: false;
 @form-fieldset-legend-font-style: false;
 @form-fieldset-legend-line-height: 1.2;
 @form-fieldset-legend-margin: 0 0 25px 0; //0 0 25px @form-field-type-inline-label-width
-@form-fieldset-legend-padding: 0;
+@form-fieldset-legend-padding: 0 0 13px;
 @form-fieldset-legend-width: false; //@form-field-type-inline-control-width
 
 // Field
 @form-field-type: block; //inline
-@form-field-type-revert: inline; // block, false
+@form-field-type-revert: false; // block, false
 @form-field-border: none;
 @form-field-column: false;
-@form-field-column-padding: 0 20px 0 0;
+@form-field-column-padding: 0 10px 0 0;
 @form-field-column-width: 50%;
 @form-field-type-inline-vertical-margin: 29px;
 @form-field-type-block-margin: 0 0 @form-field-type-inline-vertical-margin;
@@ -995,14 +994,14 @@
 @form-field-label-color: false;
 @form-field-label-font-size: false;
 @form-field-label-font-family: false;
-@form-field-label-font-weight: @font-weight-bold;
+@form-field-label-font-weight: @font-weight-semibold;
 @form-field-label-font-style: false;
 @form-field-label-line-height: false;
 @form-field-type-block-label-margin: 0 0 5px;
 @form-field-type-inline-label-padding: 6px 15px 0 0;
-@form-field-type-inline-label-width: 25.8%;
+@form-field-type-inline-label-width: false;
 // form field control
-@form-field-type-inline-control-width: 74.2%;
+@form-field-type-inline-control-width: false;
 // form field label asterisk
 @form-field-label-asterisk-color: #e02b27; // also used in: @form-hasrequired-color
 @form-field-label-asterisk-font-size: @font-size-s;

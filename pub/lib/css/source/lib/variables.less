@@ -9,7 +9,7 @@
 //    Typography
 //--------------------------------------
 
-//Base
+//  Base
 @font-family-sans-serif: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 @font-family-serif: Georgia, 'Times New Roman', Times, serif;
 @font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -500,7 +500,7 @@
 //--------------------------------------
 
 // Button font style
-@button-font-family: '';
+@button-font-family: @font-family-base;
 @button-font-size: @font-size-base;
 @button-font-weight: @font-weight-bold;
 @button-height: 30px;
@@ -518,52 +518,51 @@
 @button-color: #333;
 @button-background: #f2f2f2;
 @button-border: 1px solid #cdcdcd;
-@button-gradient-start-color: '';
-@button-gradient-end-color: '';
+@button-gradient-start-color: false;
+@button-gradient-end-color: false;
 
 @button-color-hover: #555;
 @button-background-hover: #e2e2e2;
-@button-border-hover: 1px solid #cdcdcd;
-@button-gradient-start-color-hover: '';
-@button-gradient-end-color-hover: '';
+@button-border-hover: @button-border;
+@button-gradient-start-color-hover: false;
+@button-gradient-end-color-hover: false;
 
 @button-background-active: #e2e2e2;
 @button-color-active: #333;
 @button-border-active: 1px solid #cdcdcd;
-@button-gradient-start-color-active: '';
-@button-gradient-end-color-active: '';
+@button-gradient-start-color-active: false;
+@button-gradient-end-color-active: false;
 
 // Primary button
 @button-primary-height: 30px;
-@button-primary-width: '';
-@button-primary-margin: '';
+@button-primary-width: false;
+@button-primary-margin: false;
 @button-primary-padding: @button-padding;
 @button-primary-gradient: false;
-@button-primary-gradient-direction: '';
+@button-primary-gradient-direction: false;
 
 @button-primary-background: #1979c3;
 @button-primary-border: 1px solid #1979c3;
 @button-primary-color: #fff;
-@button-primary-gradient-start-color: '';
-@button-primary-gradient-end-color: '';
+@button-primary-gradient-start-color: false;
+@button-primary-gradient-end-color: false;
 
 @button-primary-background-hover: #006bb4;
 @button-primary-border-hover: 1px solid #006bb4;
 @button-primary-color-hover: #fff;
-@button-primary-gradient-start-color-hover: '';
-@button-primary-gradient-end-color-hover: '';
+@button-primary-gradient-start-color-hover: false;
+@button-primary-gradient-end-color-hover: false;
 
 @button-primary-background-active: #006bb4;
 @button-primary-border-active: 1px solid #006bb4;
 @button-primary-color-active: #fff;
-@button-primary-gradient-start-color-active: '';
-@button-primary-gradient-end-color-active: '';
-
+@button-primary-gradient-start-color-active: false;
+@button-primary-gradient-end-color-active: false;
 
 // Gradient button
 // Does button have gradient background:
 @button-gradient: false;
-@button-gradient-direction: '';
+@button-gradient-direction: false;
 
 // Button with icon
 @button-icon-use: false;
