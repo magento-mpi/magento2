@@ -20,7 +20,7 @@ use Mtf\Fixture\FixtureFactory;
 class Conditions implements FixtureInterface
 {
     /**
-     * @var array $data
+     * @var array
      */
     protected $data = [];
 
@@ -30,7 +30,7 @@ class Conditions implements FixtureInterface
     protected $fixtureFactory;
 
     /**
-     * @var
+     * @var array
      */
     protected $params;
 
@@ -70,7 +70,7 @@ class Conditions implements FixtureInterface
     }
 
     /**
-     * Persist custom selections products
+     * Persist custom selections conditions
      *
      * @return void
      */

@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Catalog
  * Backend catalog price rule grid
- *
  */
 class Catalog extends Grid
 {
@@ -71,6 +69,8 @@ class Catalog extends Grid
 
     /**
      * Add new catalog rule
+     *
+     * @return void
      */
     public function addNewCatalogRule()
     {
@@ -79,6 +79,8 @@ class Catalog extends Grid
 
     /**
      * Click "Apply Rule" button
+     *
+     * @return void
      */
     public function applyRules()
     {

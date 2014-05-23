@@ -32,6 +32,7 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
      * @param CatalogRuleIndex $pageCatalogRuleIndex
      * @param CatalogRuleNew $pageCatalogRuleNew
      * @param CatalogRule $catalogPriceRuleOriginal
+     * @return void
      */
     public function processAssert(
         CatalogRule $catalogPriceRule,
@@ -39,19 +40,10 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
         CatalogRuleNew $pageCatalogRuleNew,
         CatalogRule $catalogPriceRuleOriginal = null
     ) {
-        $data = $catalogPriceRule->getData();
-        if ($catalogPriceRuleOriginal !== null) {
-            $data['rule_id'] = (!isset($data['rule_id'])) ? $catalogPriceRuleOriginal->getId() : $data['rule_id'];
-            $data['name'] = (!isset($data['name'])) ? $catalogPriceRuleOriginal->getName() : $data['name'];
-            $filter = [
-                'rule_id' => $data['rule_id'],
-                'name' => $data['name'],
-            ];
-        } else {
-            $filter = [
-                'name' => $data['name'],
-            ];
-        }
+        $data = ($catalogPriceRuleOriginal === null)
+            ? $catalogPriceRule->getData()
+            : array_merge($catalogPriceRuleOriginal->getData(), $catalogPriceRule->getData());
+        $filter['name'] = $data['name'];
 
         $pageCatalogRuleIndex->open();
         $pageCatalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);

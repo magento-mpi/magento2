@@ -33,16 +33,22 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 class UpdateCatalogPriceRuleEntityTest extends Injectable
 {
     /**
+     * Page CatalogRuleIndex
+     *
      * @var CatalogRuleIndex
      */
     protected $catalogRuleIndex;
 
     /**
+     * Page CatalogRuleNew
+     *
      * @var CatalogRuleNew
      */
     protected $catalogRuleNew;
 
     /**
+     * Injection data
+     *
      * @param CatalogRuleIndex $catalogRuleIndex
      * @param CatalogRuleNew $catalogRuleNew
      */
@@ -55,6 +61,8 @@ class UpdateCatalogPriceRuleEntityTest extends Injectable
     }
 
     /**
+     * Update Catalog Price Rule test
+     *
      * @param CatalogRule $catalogPriceRule
      * @param CatalogRule $catalogPriceRuleOriginal
      */

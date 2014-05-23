@@ -18,6 +18,7 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
+ * Curl that creates catalog price rule
  */
 class Curl extends AbstractCurl implements CatalogRuleInterface
 {

@@ -12,7 +12,6 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogRule
- *
  */
 class CatalogRule extends AbstractRepository
 {

@@ -30,29 +30,20 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
      * @param CatalogRule $catalogPriceRule
      * @param CatalogRuleIndex $pageCatalogRuleIndex
      * @param CatalogRule $catalogPriceRuleOriginal
+     * @return void
      */
     public function processAssert(
         CatalogRule $catalogPriceRule,
         CatalogRuleIndex $pageCatalogRuleIndex,
         CatalogRule $catalogPriceRuleOriginal = null
     ) {
-        $data = $catalogPriceRule->getData();
-        if ($catalogPriceRuleOriginal !== null) {
-            $data['rule_id'] = (!isset($data['rule_id'])) ? $catalogPriceRuleOriginal->getId() : $data['rule_id'];
-            $data['name'] = (!isset($data['name'])) ? $catalogPriceRuleOriginal->getName() : $data['name'];
-            $data['is_active'] = (!isset($data['is_active'])) ?
-                $catalogPriceRuleOriginal->getIsActive() : $data['is_active'];
-            $filter = [
-                'rule_id' => $data['rule_id'],
-                'name' => $data['name'],
-                'is_active' => $data['is_active'],
-            ];
-        } else {
-            $filter = [
-                'name' => $data['name'],
-                'is_active' => $data['is_active'],
-            ];
-        }
+        $data = ($catalogPriceRuleOriginal === null)
+            ? $catalogPriceRule->getData()
+            : array_merge($catalogPriceRuleOriginal->getData(), $catalogPriceRule->getData());
+        $filter = [
+            'name' => $data['name'],
+            'is_active' => $data['is_active'],
+        ];
         //add rule_website to filter if there is one
         if ($catalogPriceRule->getWebsiteIds() != null) {
             $rule_website = $catalogPriceRule->getWebsiteIds();
