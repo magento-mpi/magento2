@@ -66,7 +66,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'country_id' => 'US',
             'region_id' => '8',
-            'zip' => '78729',
+            'postcode' => '78729',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
         ];
@@ -102,7 +102,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'country_id' => 'US',
             'region_id' => '8',
-            'zip' => '78729',
+            'postcode' => '78729',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
         ];
@@ -110,7 +110,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
         $data2 = [
             'id' => 1,
             'country_id' => 'US',
-            'zip' => '78727',
+            'postcode' => '78727',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
@@ -120,7 +120,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'country_id' => 'US',
             'region_id' => 8,
-            'zip' => '78727',
+            'postcode' => '78727',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
@@ -139,7 +139,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'country_id' => 'US',
             'region_id' => '8',
-            'zip' => '78729',
+            'postcode' => '78729',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
         ];
@@ -147,7 +147,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
         $data2 = [
             'id' => 1,
             'country_id' => 'US',
-            'zip' => '78727',
+            'postcode' => '78727',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
@@ -157,7 +157,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'country_id' => 'US',
             'region_id' => 8,
-            'zip' => '78727',
+            'postcode' => '78727',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate 1',
             'zip_range' => ['from' => 78701, 'to' => 78780]
@@ -186,7 +186,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
             $this->builder->setRegionId($dataArray[TaxRate::KEY_REGION_ID]);
         }
         if (array_key_exists(TaxRate::KEY_POSTCODE, $dataArray)) {
-            $this->builder->setZip($dataArray[TaxRate::KEY_POSTCODE]);
+            $this->builder->setPostcode($dataArray[TaxRate::KEY_POSTCODE]);
         }
         if (array_key_exists(TaxRate::KEY_PERCENTAGE_RATE, $dataArray)) {
             $this->builder->setPercentageRate($dataArray[TaxRate::KEY_PERCENTAGE_RATE]);

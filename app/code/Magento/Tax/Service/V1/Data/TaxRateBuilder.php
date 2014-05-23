@@ -70,14 +70,14 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     }
 
     /**
-     * Set zip
+     * Set postcode
      *
-     * @param $zip
+     * @param $postcode
      * @return $this
      */
-    public function setZip($zip)
+    public function setPostcode($postcode)
     {
-        $this->_set(TaxRate::KEY_POSTCODE, $zip);
+        $this->_set(TaxRate::KEY_POSTCODE, $postcode);
         return $this;
     }
 
