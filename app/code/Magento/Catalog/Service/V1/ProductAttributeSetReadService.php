@@ -17,9 +17,9 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
     protected $setFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Eav\Model\Config
      */
-    protected $productFactory;
+    protected $eavConfig;
 
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
@@ -32,21 +32,37 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
     protected $attributeSetBuilder;
 
     /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     */
+    protected $attributeCollection;
+
+    /**
+     * @var \Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder
+     */
+    protected $attributeBuilder;
+
+    /**
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param Data\Eav\AttributeSetBuilder $attributeSetBuilder
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection
+     * @param Data\Eav\AttributeBuilder $attributeBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Service\V1\Data\Eav\AttributeSetBuilder $attributeSetBuilder
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Service\V1\Data\Eav\AttributeSetBuilder $attributeSetBuilder,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
+        \Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder $attributeBuilder
     ) {
         $this->setFactory = $setFactory;
         $this->setCollectionFactory = $setCollectionFactory;
-        $this->productFactory = $productFactory;
+        $this->eavConfig = $eavConfig;
         $this->attributeSetBuilder = $attributeSetBuilder;
+        $this->attributeCollection = $attributeCollection;
+        $this->attributeBuilder = $attributeBuilder;
     }
 
     /**
@@ -57,7 +73,7 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
         $sets = array();
 
         $attributeSetsCollection = $this->setCollectionFactory->create()
-            ->setEntityTypeFilter($this->productFactory->create()->getResource()->getTypeId())
+            ->setEntityTypeFilter($this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId())
             ->load();
 
         /** @var $attributeSet \Magento\Eav\Model\Resource\Entity\Attribute\Set */
@@ -77,7 +93,8 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
     public function getInfo($attributeSetId)
     {
         $attributeSet = $this->setFactory->create()->load($attributeSetId);
-        if (!$attributeSet->getId()) {
+        $requiredEntityTypeId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+        if (!$attributeSet->getId() || $attributeSet->getEntityTypeId() != $requiredEntityTypeId) {
             // Attribute set does not exist
             throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
         }
@@ -86,5 +103,34 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
             ->setSortOrder($attributeSet->getSortOrder())
             ->create();
         return $attrSetDataObject;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAttributeList($attributeSetId)
+    {
+        /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
+        $attributeSet = $this->setFactory->create()->load($attributeSetId);
+        $requiredEntityTypeId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+        if (!$attributeSet->getId() || $attributeSet->getEntityTypeId() != $requiredEntityTypeId) {
+            // Attribute set does not exist
+            throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
+        }
+        $attributeCollection = $this->attributeCollection->setAttributeSetFilter($attributeSet->getId())->load();
+
+        $attributes = array();
+        /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
+        foreach ($attributeCollection as $attribute) {
+            $attributes[] = $this->attributeBuilder->setId($attribute->getAttributeId())
+                ->setCode($attribute->getAttributeCode())
+                ->setFrontendLabel($attribute->getData('frontend_label'))
+                ->setDefaultValue($attribute->getDefaultValue())
+                ->setIsRequired((boolean)$attribute->getData('is_required'))
+                ->setIsUserDefined((boolean)$attribute->getData('is_user_defined'))
+                ->create();
+        }
+        return $attributes;
+
     }
 }
