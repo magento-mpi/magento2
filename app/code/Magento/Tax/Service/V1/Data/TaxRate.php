@@ -18,7 +18,7 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_REGION_ID = 'region_id';
 
-    const KEY_ZIP = 'zip';
+    const KEY_POSTCODE = 'postcode';
 
     const KEY_ZIP_RANGE = 'zip_range';
 
@@ -62,9 +62,9 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string|null
      */
-    public function getZip()
+    public function getPostCode()
     {
-        return $this->_get(self::KEY_ZIP);
+        return $this->_get(self::KEY_POSTCODE);
     }
 
     /**
