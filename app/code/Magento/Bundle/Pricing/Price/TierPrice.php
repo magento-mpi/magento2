@@ -48,7 +48,7 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice implements Disc
         $tierPrice = $this->getDiscountPercent();
         if ($tierPrice) {
             $regularPrice = $this->getRegularPrice();
-            $this->value = $regularPrice - $regularPrice * ($tierPrice / 100);
+            $this->value = $regularPrice * ($tierPrice / 100);
         } else {
             $this->value = false;
         }

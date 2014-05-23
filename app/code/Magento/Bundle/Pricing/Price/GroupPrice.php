@@ -43,7 +43,7 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice implements Di
         $groupPrice = $this->getDiscountPercent();
         if ($groupPrice) {
             $regularPrice = $this->getRegularPrice();
-            $this->value = $regularPrice - $regularPrice * ($groupPrice / 100);
+            $this->value = $regularPrice * ($groupPrice / 100);
         } else {
             $this->value = false;
         }

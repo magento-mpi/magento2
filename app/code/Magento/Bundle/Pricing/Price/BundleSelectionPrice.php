@@ -45,7 +45,7 @@ class BundleSelectionPrice extends AbstractPrice
     /**
      * @var float
      */
-    protected $discount = 0;
+    protected $discount;
 
     /**
      * @param Product $saleableItem
@@ -105,15 +105,24 @@ class BundleSelectionPrice extends AbstractPrice
         return $this->value;
     }
 
+    /**
+     * Apply percentage discount
+     *
+     * @param $value
+     * @return float
+     */
     protected function applyDiscountPercent($value)
     {
-        if ($this->discount === null) {
-            foreach ($this->priceInfo->getPrices() as $price) {
-                if ($price instanceof DiscountProviderInterface && $price->getDiscount()) {
-                    $this->discount = max($price->getDiscount(), $this->discount ?: $price->getDiscount());
+        if (!$this->discount) {
+            foreach ($this->bundleProduct->getPriceInfo()->getPrices() as $price) {
+                if ($price instanceof DiscountProviderInterface && $price->getDiscountPercent()) {
+                    $discount = min($price->getDiscountPercent(), $this->discount ?: $price->getDiscountPercent());
+                    if ($discount) {
+                        $this->discount = $discount;
+                    }
                 }
             }
         }
-        return $value - ($this->discount * $value);
+        return (null !== $this->discount) ?  $discount * $value/100 : $value;
     }
 }

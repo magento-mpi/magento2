@@ -13,7 +13,7 @@ use Magento\Catalog\Pricing\Price\RegularPrice;
 /**
  * Special price model
  */
-class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
+class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice implements DiscountProviderInterface
 {
     /**
      * @var float|false
@@ -43,7 +43,7 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
         $specialPrice = $this->getDiscountPercent();
         if ($specialPrice) {
             $regularPrice = $this->getRegularPrice();
-            $this->value = $regularPrice - $regularPrice * ($specialPrice / 100);
+            $this->value = $regularPrice * ($specialPrice / 100);
         } else {
             $this->value = false;
         }

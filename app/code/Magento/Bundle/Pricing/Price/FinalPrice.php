@@ -8,7 +8,9 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Pricing\Price\BasePrice;
 
 /**
  * Final price model
@@ -16,11 +18,26 @@ use Magento\Catalog\Model\Product;
 class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
 {
     /**
+     * @param Product $saleableItem
+     * @param float $quantity
+     * @param CalculatorInterface $calculator
+     */
+    public function __construct(
+        Product $saleableItem,
+        $quantity,
+        CalculatorInterface $calculator
+    ) {
+        parent::__construct($saleableItem, $quantity, $calculator);
+        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
+    }
+
+    /**
      * @return float
      */
     public function getValue()
     {
-        return parent::getValue() + $this->basePrice->calculateBaseValue($this->getBundleOptionPrice()->getValue());
+        return parent::getValue() +
+            $this->getBundleOptionPrice()->getValue();
     }
 
     /**
@@ -28,7 +45,10 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getMaxAmount($this->basePrice->getValue(), $this->product);
+        return
+            $this->calculator->getMaxAmount(
+            $this->basePrice->getValue(),
+            $this->product);
     }
 
     /**
