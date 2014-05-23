@@ -47,7 +47,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'region_id' => '8',
             'percentage_rate' => '8.25',
-            'code' => 'US-CA-*-Rate' . rand(),
+            'code' => 'US-CA-*-Rate'.rand(),
             'zip_range' => ['from' => 78765, 'to' => 78780]
         ];
         $taxRate = $this->taxRateBuilder->populateWithArray($taxData)->create();
@@ -77,6 +77,26 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate' . rand(),
             'zip_range' => ['from' => '', 'to' => 78780]
+        ];
+        $taxRate = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
+        $this->taxRateService->createTaxRate($taxRate);
+    }
+
+    /**
+     * Test create tax rate existing code
+     *
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Code already exists.
+     */
+    public function testCreateTaxRateWithModelException()
+    {
+        $taxRates = $this->taxRateService->getTaxRates();
+        $invalidTaxData = [
+            'country_id' => 'US',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => $taxRates[0]->getCode(),
+            'zip_range' => ['from' => 78765, 'to' => 78780]
         ];
         $taxRate = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
         $this->taxRateService->createTaxRate($taxRate);

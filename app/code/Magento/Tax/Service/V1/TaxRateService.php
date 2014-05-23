@@ -8,6 +8,7 @@
 
 namespace Magento\Tax\Service\V1;
 
+
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
@@ -17,9 +18,8 @@ use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\TaxRegistry;
 
 /**
- * Class TaxRateService
+ * Handles tax rate CRUD operations
  *
- * @package Magento\Tax\Service\V1
  */
 class TaxRateService implements TaxRateServiceInterface
 {
@@ -60,8 +60,7 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function createTaxRate(TaxRateDataObject $taxRate)
     {
-        $taxRateId = $this->saveTaxRate($taxRate);
-        $rateModel = $this->taxRegistry->retrieveTaxRate($taxRateId);
+        $rateModel = $this->saveTaxRate($taxRate);
         return $this->converter->createTaxRateDataObjectFromModel($rateModel);
     }
 
@@ -97,25 +96,19 @@ class TaxRateService implements TaxRateServiceInterface
 
     /*
      * Save Tax Rate
+     *
      * @param TaxRateDataObject
      * @throws InputException
-     * @return String
+     * @throws \Magento\Framework\Model\Exception
+     * @return RateModel
      */
     protected function saveTaxRate(TaxRateDataObject $taxRate)
     {
+        /** @var $taxRateModel RateModel */
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
         $this->validate($taxRateModel);
-        try {
-            /** @var $taxRateModel RateModel */
-            $taxRateModel->save();
-        } catch (\Magento\Framework\Model\Exception $e) {
-            if (trim($e->getMessage()) == 'Code already exists.') {
-                $exception = new InputException();
-                $exception->addError('Code already exists.');
-                throw $exception;
-            }
-        }
-        return $taxRateModel->getId();
+        $taxRateModel->save();
+        return $taxRateModel;
     }
 
     /**
@@ -123,13 +116,13 @@ class TaxRateService implements TaxRateServiceInterface
      *
      * @param RateModel $taxRateModel
      * @throws InputException
-     * @return void
+     * @return boolean
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
 
-    private function validate(RateModel $taxRateModel)
+    public function validate(RateModel $taxRateModel)
     {
         $exception = new InputException();
         if (!\Zend_Validate::is(trim($taxRateModel->getTaxCountryId()), 'NotEmpty')) {
@@ -165,5 +158,6 @@ class TaxRateService implements TaxRateServiceInterface
         if ($exception->wasErrorAdded()) {
             throw $exception;
         }
+        return true;
     }
 }
