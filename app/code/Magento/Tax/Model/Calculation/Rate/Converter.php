@@ -87,4 +87,34 @@ class Converter
         }
         return $this->taxRateDataObjectBuilder->create();
     }
+
+    /**
+     * Convert a  TaxRate data object to rate model
+     *
+     * @param TaxRateDataObject $taxRate
+     * @return TaxRateModel
+     */
+    public function createTaxRateModel(TaxRateDataObject $taxRate)
+    {
+        /** @var TaxRateModel */
+        $rateModel = $this->taxRateModelFactory->create();
+        $rateId = $taxRate->getId();
+        if ($rateId) {
+            $rateModel->setId($rateId);
+        }
+        $rateModel->setTaxCountryId($taxRate->getCountryId());
+        $rateModel->setTaxRegionId($taxRate->getRegionId());
+        $rateModel->setRate($taxRate->getPercentageRate());
+        $rateModel->setCode($taxRate->getCode());
+        $rateModel->setPostalCode($taxRate->getPostCode());
+        $zipRange = $taxRate->getZipRange();
+        $zipFrom = $zipRange->getFrom();
+        $zipTo = $zipRange->getTo();
+        if (!empty($zipFrom) && !empty($zipTo)) {
+            $rateModel->setZipIsRange(1);
+        }
+        $rateModel->setZipFrom($zipFrom);
+        $rateModel->setZipTo($zipTo);
+        return $rateModel;
+    }
 }

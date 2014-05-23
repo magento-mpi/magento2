@@ -14,6 +14,7 @@ interface TaxRateServiceInterface
 {
     /**
      * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
+     * @throws \Magento\Framework\Exception\InputException
      * @return \Magento\Tax\Service\V1\Data\TaxRate
      */
     public function createTaxRate(TaxRateDataObject $taxRate);
