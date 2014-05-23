@@ -31,7 +31,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Framework\Config\DataInterface $dataStorage
-     * @param \Magento\Framework\Stdlib\DateTime\Date $date
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
@@ -40,7 +40,7 @@ class Config extends \Magento\Payment\Model\Config
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Config\DataInterface $dataStorage,
-        \Magento\Framework\Stdlib\DateTime\Date $date,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
