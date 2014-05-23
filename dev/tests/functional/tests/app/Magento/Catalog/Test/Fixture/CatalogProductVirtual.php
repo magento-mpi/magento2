@@ -15,20 +15,19 @@ use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
 
 /**
- * Class CatalogProductSimple
- * Product Simple fixture
+ * Class CatalogProductVirtual
  */
-class CatalogProductSimple extends InjectableFixture
+class CatalogProductVirtual extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogProductSimple';
+    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogProductVirtual';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogProductSimple\CatalogProductSimpleInterface';
+    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogProductVirtual\CatalogProductVirtualInterface';
 
     /**
      * Constructor
@@ -67,7 +66,7 @@ class CatalogProductSimple extends InjectableFixture
 
     protected $dataConfig = [
         'create_url_params' => [
-            'type' => 'simple',
+            'type' => 'virtual',
             'set' => '4',
         ],
         'input_prefix' => 'product',

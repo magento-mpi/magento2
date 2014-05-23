@@ -9,26 +9,26 @@
 namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogProductVirtual;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Test Creation for CreateSimpleProductEntity
+ * Test Creation for CreateVirtualProductEntity 
  *
  * Test Flow:
- * 1. Login to the backend.
- * 2. Navigate to Products > Catalog.
- * 3. Start to create simple product.
- * 4. Fill in data according to data set.
- * 5. Save Product.
- * 6. Perform appropriate assertions.
+ * 1. Login as admin.
+ * 2. Navigate to the Products > Inventory > Catalog.
+ * 3. Click on "+" dropdown and select Virtual Product type.
+ * 4. Fill in all data according to data set.
+ * 5. Save product.
+ * 6. Verify created product.
  *
- * @group Products_(CS)
- * @ZephyrId MAGETWO-23414
+ * @group Virtual_Product_(CS)
+ * @ZephyrId MAGETWO-23417
  */
-class CreateSimpleProductEntityTest extends Injectable
+class CreateVirtualProductEntityTest extends Injectable
 {
     /**
      * Category fixture
@@ -60,7 +60,6 @@ class CreateSimpleProductEntityTest extends Injectable
     public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
-
         return [
             'category' => $category
         ];
@@ -69,30 +68,28 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Injection data
      *
-     * @param CatalogCategoryEntity $category
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductNew $newProductPage
      * @return void
      */
-    public function __inject(CatalogCategoryEntity $category, CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
+    public function __inject(CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
     {
-        $this->category = $category;
         $this->productGrid = $productGrid;
         $this->newProductPage = $newProductPage;
     }
 
     /**
-     * Run create product simple entity test
+     * Run create product virtual entity test
      *
-     * @param CatalogProductSimple $product
+     * @param CatalogProductVirtual $product
      * @param CatalogCategoryEntity $category
      * @return void
      */
-    public function testCreate(CatalogProductSimple $product, CatalogCategoryEntity $category)
+    public function testCreate(CatalogProductVirtual $product, CatalogCategoryEntity $category)
     {
         // Steps
         $this->productGrid->open();
-        $this->productGrid->getProductBlock()->addProduct('simple');
+        $this->productGrid->getProductBlock()->addProduct('virtual');
         $productBlockForm = $this->newProductPage->getForm();
         $productBlockForm->fillProduct($product, $category);
         $this->newProductPage->getFormAction()->save();
