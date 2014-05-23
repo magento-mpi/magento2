@@ -69,7 +69,7 @@ class Data
             self::XML_PATH_CLEANUP_PROBABILITY,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
+        return $configValue > 0 ? 1 == \Magento\Framework\Math\Random::getRandomNumber(1, $configValue) : false;
     }
 
     /**

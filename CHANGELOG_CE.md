@@ -50,6 +50,8 @@
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
+  * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
+  * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
 * Functional tests:
   * Tax Rule Creation
   * Admin User Roe Creation
@@ -57,6 +59,7 @@
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 
 2.0.0.0-dev78
 =============
