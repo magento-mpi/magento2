@@ -27,7 +27,6 @@
                 </field>
                 <field id="transferkey" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Data Transfer Key</label>
-                    <backend_model>Magento\Pbridge\Model\System\Config\Backend\Data\Transfer\Key</backend_model>
                 </field>
                 <field id="uniquekey" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Magento Unique Identifier</label>
@@ -50,7 +49,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Cybersource\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
@@ -80,7 +79,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -138,7 +137,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Authorizenet\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -189,7 +188,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Ogone\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -212,7 +211,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Braintree\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
@@ -243,11 +242,19 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Braintree\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="payment_profiles_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Vault</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -265,7 +272,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Firstdata\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -291,7 +298,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Payone\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\Payone\PaymentAction</source_model>
                 </field>
                 <field id="currency" translate="label" type="select" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Accepted Currency</label>
@@ -321,7 +328,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -336,7 +343,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -369,7 +376,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>

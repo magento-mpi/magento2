@@ -10,13 +10,6 @@ namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
     /**
-     * Payment code
-     *
-     * @var string
-     */
-    protected $_code;
-
-    /**
      * Adminhtml template for payment form block
      *
      * @var string
@@ -103,6 +96,19 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
             $checkoutSession,
             $data
         );
+    }
+
+    /**
+     * Return 3D validation flag
+     *
+     * @return bool
+     */
+    public function is3dSecureEnabled()
+    {
+        if ($this->hasMethod() && $this->getMethod()->is3dSecureEnabled()) {
+            return true;
+        }
+        return parent::is3dSecureEnabled();
     }
 
     /**

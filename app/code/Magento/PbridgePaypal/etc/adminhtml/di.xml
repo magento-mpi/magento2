@@ -15,12 +15,12 @@
     </type>
     <type name="Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect">
         <arguments>
-            <argument name="formBlock" xsi:type="string">Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PayflowDirect</argument>
+            <argument name="formBlock" xsi:type="string">Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PaypalDirect</argument>
         </arguments>
     </type>
     <type name="Magento\PbridgePaypal\Model\Payment\Method\Payflowpro">
         <arguments>
-            <argument name="formBlock" xsi:type="string">Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\Payflowpro</argument>
+            <argument name="formBlock" xsi:type="string">Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PaypalDirect</argument>
         </arguments>
     </type>
 </config>

@@ -11,11 +11,6 @@ use Magento\Framework\Model\Exception;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Sales\Model\Order\Payment;
 
-/**
- * Pbridge payment method model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Pbridge extends AbstractMethod
 {
     /**
@@ -311,8 +306,8 @@ class Pbridge extends AbstractMethod
     /**
      * Validate response
      *
-     * @return $this
      * @throws \Magento\Framework\Model\Exception
+     * @return $this
      */
     public function validate()
     {
@@ -372,6 +367,7 @@ class Pbridge extends AbstractMethod
                 'customer_id',
                 $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
             );
+            $request->setData('numeric_customer_id', $id);
         }
 
         if (!$order->getIsVirtual()) {
@@ -389,6 +385,7 @@ class Pbridge extends AbstractMethod
         $this->_importResultToPayment($payment, $apiResponse);
 
         if (isset($apiResponse['fraud']) && (bool)$apiResponse['fraud']) {
+            $payment->setIsTransactionPending(true);
             $message = __('Merchant review is required for further processing.');
             $payment->getOrder()->setState(
                 \Magento\Sales\Model\Order::STATE_PROCESSING,
@@ -490,18 +487,21 @@ class Pbridge extends AbstractMethod
             )->setData(
                 'cc_number',
                 $payment->getCcLast4()
+            )->setData(
+                'order_id',
+                $payment->getOrder()->getIncrementId()
             );
 
             $canRefundMore = $order->canCreditmemo();
-            $allRefunds = (double)$amount +
-                (double)$order->getBaseTotalOnlineRefunded() +
-                (double)$order->getBaseTotalOfflineRefunded();
-            $isFullRefund = !$canRefundMore && 0.0001 > (double)$order->getBaseGrandTotal() - $allRefunds;
+            $allRefunds = (float)$amount
+                + (float)$order->getBaseTotalOnlineRefunded()
+                + (float)$order->getBaseTotalOfflineRefunded();
+            $isFullRefund = !$canRefundMore && (0.0001 > (float)$order->getBaseGrandTotal() - $allRefunds);
             $request->setData('is_full_refund', (int)$isFullRefund);
 
             // whether to close capture transaction
             $invoiceCanRefundMore = $payment->getCreditmemo()->getInvoice()->canRefund();
-            $payment->setShouldCloseParentTransaction($invoiceCanRefundMore ? 0 : 1);
+            $payment->setShouldCloseParentTransaction((int)$invoiceCanRefundMore);
             $payment->setIsTransactionClosed(1);
 
             $api = $this->_getApi()->doRefund($request);
@@ -528,13 +528,95 @@ class Pbridge extends AbstractMethod
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = $this->_getApiRequest();
-            $request->setData('transaction_id', $authTransactionId);
+            $request->addData(
+                array(
+                    'transaction_id' => $authTransactionId,
+                    'amount' => $payment->getOrder()->getBaseTotalDue()
+                )
+            );
 
             $this->_getApi()->doVoid($request);
         } else {
             throw new Exception(__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
+    }
+
+    /**
+     * Accept payment
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @return array
+     */
+    public function acceptPayment(\Magento\Payment\Model\Info $payment)
+    {
+        $transactionId = $payment->getLastTransId();
+
+        if (!$transactionId) {
+            return false;
+        }
+
+        $request = $this->_getApiRequest();
+        $request
+            ->setData('transaction_id', $transactionId)
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
+
+        $api = $this->_getApi()->doAccept($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
+        $apiResponse = $api->getResponse();
+
+        return $apiResponse;
+    }
+
+    /**
+     * Deny payment
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @return array
+     */
+    public function denyPayment(\Magento\Payment\Model\Info $payment)
+    {
+        $transactionId = $payment->getLastTransId();
+
+        if (!$transactionId) {
+            return false;
+        }
+
+        $request = $this->_getApiRequest();
+        $request
+            ->setData('transaction_id', $transactionId)
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
+
+        $api = $this->_getApi()->doDeny($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
+        $apiResponse = $api->getResponse();
+
+        return $apiResponse;
+    }
+
+    /**
+     * Retrieve transaction info details
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @param int $transactionId
+     * @return bool|array
+     */
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
+    {
+        if (!$transactionId) {
+            return false;
+        }
+
+        $request = $this->_getApiRequest();
+        $request
+            ->setData('transaction_id', $transactionId)
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
+
+        $api = $this->_getApi()->doFetchTransactionInfo($request);
+        $this->_importResultToPayment($payment, $api->getResponse());
+        $apiResponse = $api->getResponse();
+
+        return $apiResponse;
     }
 
     /**

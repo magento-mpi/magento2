@@ -17,18 +17,18 @@ namespace Magento\Pbridge\Block\Iframe;
 abstract class AbstractIframe extends \Magento\Payment\Block\Form
 {
     /**
-     * Default iframe width
-     *
-     * @var string
-     */
-    protected $_iframeWidth = '100%';
-
-    /**
      * Default iframe height
      *
      * @var string
      */
-    protected $_iframeHeight = '350';
+    protected $_iframeHeight = '360';
+
+    /**
+     * Default iframe height for 3D Secure authorization
+     *
+     * @var string
+     */
+    protected $_iframeHeight3dSecure = '425';
 
     /**
      * Default iframe block type
@@ -43,20 +43,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      * @var string
      */
     protected $_iframeTemplate = 'Magento_Pbridge::iframe.phtml';
-
-    /**
-     * Whether scrolling enabled for iframe element, auto or not
-     *
-     * @var string
-     */
-    protected $_iframeScrolling = 'auto';
-
-    /**
-     * Whether to allow iframe body reloading
-     *
-     * @var bool
-     */
-    protected $_allowReload = true;
 
     /**
      * Pbridge data
@@ -87,6 +73,11 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
@@ -94,6 +85,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
@@ -103,6 +95,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
@@ -111,6 +104,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_customerSession = $customerSession;
+        $this->_checkoutSession = $checkoutSession;
         $this->_pbridgeSession = $pbridgeSession;
         $this->_regionFactory = $regionFactory;
         parent::__construct($context, $data);
@@ -126,6 +120,26 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     public function getRedirectUrl()
     {
         return $this->getUrl('magento_pbridge/pbridge/result', array('_current' => true, '_secure' => true));
+    }
+
+    /**
+     * Getter
+     *
+     * @return \Magento\Sales\Model\Quote
+     */
+    public function getQuote()
+    {
+        return $this->_checkoutSession->getQuote();
+    }
+
+    /**
+     * Getter for $_iframeHeight
+     *
+     * @return string
+     */
+    public function getIframeHeight()
+    {
+        return $this->_iframeHeight;
     }
 
     /**
@@ -189,19 +203,10 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     public function getIframeBlock()
     {
-        $iframeBlock = $this->getLayout()->createBlock(
-            $this->_iframeBlockType
-        )->setTemplate(
-            $this->_iframeTemplate
-        )->setScrolling(
-            $this->_iframeScrolling
-        )->setIframeWidth(
-            $this->_iframeWidth
-        )->setIframeHeight(
-            $this->_iframeHeight
-        )->setSourceUrl(
-            $this->getSourceUrl()
-        );
+        $iframeBlock = $this->getLayout()->createBlock($this->_iframeBlockType)
+            ->setTemplate($this->_iframeTemplate)
+            ->setIframeHeight($this->getIframeHeight())
+            ->setSourceUrl($this->getSourceUrl());
         return $iframeBlock;
     }
 
@@ -344,8 +349,11 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     public function getCustomerEmail()
     {
         $customer = $this->_getCurrentCustomer();
+        $quote = $this->getQuote();
         if ($customer && $customer->getEmail()) {
             return $customer->getEmail();
+        } elseif ($quote && $quote->getCustomerEmail()) {
+            return $quote->getCustomerEmail();
         }
         return null;
     }

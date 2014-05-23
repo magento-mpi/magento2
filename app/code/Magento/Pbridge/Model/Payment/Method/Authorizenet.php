@@ -7,11 +7,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-/**
- * Authoreze.Net dummy payment method model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
@@ -28,56 +23,29 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      */
     protected $_allowCurrencyCode = array('USD');
 
-    /**
+    /**#@+
      * Availability options
-     * @var bool
-     */
-    protected $_isGateway = true;
-
-    /**
-     * @var bool
      */
     protected $_canAuthorize = true;
-
-    /**
-     * @var bool
-     */
     protected $_canCapture = true;
-
-    /**
-     * @var bool
-     */
     protected $_canCapturePartial = false;
-
-    /**
-     * @var bool
-     */
     protected $_canRefund = true;
-
-    /**
-     * @var bool
-     */
     protected $_canRefundInvoicePartial = true;
-
-    /**
-     * @var bool
-     */
     protected $_canVoid = true;
-
-    /**
-     * @var bool
-     */
     protected $_canUseInternal = true;
-
-    /**
-     * @var bool
-     */
     protected $_canUseCheckout = true;
-
-    /**
-     * @var bool
-     */
     protected $_canSaveCc = false;
+    protected $_canFetchTransactionInfo = true;
+    /**#@-*/
+
+    /**#@+
+     * Authorize.net transaction status
+     */
+    const TRANSACTION_STATUS_AUTHORIZED_PENDING_PAYMENT = 'authorizedPendingCapture';
+    const TRANSACTION_STATUS_CAPTURED_PENDING_SETTLEMENT = 'capturedPendingSettlement';
+    const TRANSACTION_STATUS_VOIDED = 'voided';
+    const TRANSACTION_STATUS_DECLINED = 'declined';
+    /**#@-*/
 
     /**
      * Retrieve dummy payment method code
@@ -90,78 +58,16 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
     }
 
     /**
-     * Authorization method being executed via Payment Bridge
+     * Return 3D validation flag
      *
-     * @param \Magento\Framework\Object $payment
-     * @param float $amount
-     * @return $this
+     * @return bool
      */
-    public function authorize(\Magento\Framework\Object $payment, $amount)
+    public function is3dSecureEnabled()
     {
-        $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
-        $payment->addData((array)$response);
-        return $this;
-    }
-
-    /**
-     * Capturing method being executed via Payment Bridge
-     *
-     * @param \Magento\Framework\Object $payment
-     * @param float $amount
-     * @return $this
-     */
-    public function capture(\Magento\Framework\Object $payment, $amount)
-    {
-        $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
-        if (!$response) {
-            $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
-        }
-        $payment->addData((array)$response);
-        return $this;
-    }
-
-    /**
-     * Refunding method being executed via Payment Bridge
-     *
-     * @param \Magento\Framework\Object $payment
-     * @param float $amount
-     * @return $this
-     */
-    public function refund(\Magento\Framework\Object $payment, $amount)
-    {
-        $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
-        $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(1);
-        $payment->setShouldCloseParentTransaction($response['is_transaction_closed']);
-        return $this;
-    }
-
-    /**
-     * Voiding method being executed via Payment Bridge
-     *
-     * @param \Magento\Framework\Object $payment
-     * @return $this
-     */
-    public function void(\Magento\Framework\Object $payment)
-    {
-        $response = $this->getPbridgeMethodInstance()->void($payment);
-        $payment->addData((array)$response);
-        return $this;
-    }
-
-    /**
-     * Cancel payment
-     *
-     * @param \Magento\Framework\Object $payment
-     * @return $this
-     */
-    public function cancel(\Magento\Framework\Object $payment)
-    {
-        if (!$payment->getOrder()->getInvoiceCollection()->count()) {
-            $response = $this->getPbridgeMethodInstance()->void($payment);
-            $payment->addData((array)$response);
-        }
-        return $this;
+//        if($this->_isAdmin3dSecureSeparate && Mage::app()->getStore()->isAdmin()) {
+//            return $this->getConfigData('centinel') && $this->getConfigData('centinel_backend');
+//        }
+        return (bool)$this->getConfigData('centinel');
     }
 
     /**
@@ -170,5 +76,51 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
     public function getIsCentinelValidationEnabled()
     {
         return true;
+    }
+
+    /**
+     * Fetch transaction info
+     *
+     * @param \Magento\Payment\Model\Info $payment
+     * @param string $transactionId
+     * @return array
+     */
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
+    {
+        $result = $this->getPbridgeMethodInstance()->fetchTransactionInfo($payment, $transactionId);
+        $result = new \Magento\Framework\Object($result);
+        $this->importPaymentInfo($result, $payment);
+        $data = $result->getRawSuccessResponseData();
+        return ($data) ? $data : array();
+    }
+
+    /**
+     * Get transaction status from gateway response array and change payment status to appropriate
+     *
+     * @param \Magento\Framework\Object $from
+     * @param \Magento\Payment\Model\Info $to
+     * @return $this
+     */
+    public function importPaymentInfo(\Magento\Framework\Object $from, \Magento\Payment\Model\Info $to)
+    {
+        $approvedTransactionStatuses = array(
+            self::TRANSACTION_STATUS_AUTHORIZED_PENDING_PAYMENT,
+            self::TRANSACTION_STATUS_CAPTURED_PENDING_SETTLEMENT
+        );
+
+        $canceledTransactionStatuses = array(
+            self::TRANSACTION_STATUS_VOIDED,
+            self::TRANSACTION_STATUS_DECLINED
+        );
+
+        $transactionStatus = $from->getTransactionStatus();
+
+        if (in_array($transactionStatus, $approvedTransactionStatuses)) {
+            $to->setIsTransactionApproved(true);
+        } elseif (in_array($transactionStatus, $canceledTransactionStatuses)) {
+            $to->setIsTransactionDenied(true);
+        }
+
+        return $this;
     }
 }

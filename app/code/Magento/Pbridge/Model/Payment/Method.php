@@ -17,6 +17,13 @@ namespace Magento\Pbridge\Model\Payment;
 class Method extends \Magento\Payment\Model\Method\Cc
 {
     /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
+    protected $_isGateway = true;
+
+    /**
      * Pbridge data
      *
      * @var \Magento\Pbridge\Helper\Data
@@ -164,6 +171,26 @@ class Method extends \Magento\Payment\Model\Method\Cc
     }
 
     /**
+     * Return 3D validation flag
+     *
+     * @return bool
+     */
+    public function is3dSecureEnabled()
+    {
+        return (bool)$this->getConfigData('enable3ds');
+    }
+
+    /**
+     * Return true if 3D Secure checks performed on the last checkout step (Order review page)
+     *
+     * @return bool
+     */
+    public function getIsDeferred3dCheck()
+    {
+        return false;
+    }
+
+    /**
      * Assign data to info model instance
      *
      * @param  mixed $data
@@ -204,6 +231,85 @@ class Method extends \Magento\Payment\Model\Method\Cc
     public function validate()
     {
         $this->getPbridgeMethodInstance()->validate();
+        return $this;
+    }
+
+
+    /**
+     * Authorization method being executed via Payment Bridge
+     *
+     * @param \Magento\Framework\Object $payment
+     * @param float $amount
+     * @return $this
+     */
+    public function authorize(\Magento\Framework\Object $payment, $amount)
+    {
+        $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
+        $payment->addData((array)$response);
+        return $this;
+    }
+
+    /**
+     * Capturing method being executed via Payment Bridge
+     *
+     * @param \Magento\Framework\Object $payment
+     * @param float $amount
+     * @return $this
+     */
+    public function capture(\Magento\Framework\Object $payment, $amount)
+    {
+        $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
+        if (!$response) {
+            $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
+        }
+        $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(!$this->canRefund());
+        return $this;
+    }
+
+    /**
+     * Refunding method being executed via Payment Bridge
+     *
+     * @param \Magento\Framework\Object $payment
+     * @param float $amount
+     * @return $this
+     */
+    public function refund(\Magento\Framework\Object $payment, $amount)
+    {
+        $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
+        $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(1);
+        if (isset($response['is_transaction_closed'])) {
+            $payment->setShouldCloseParentTransaction($response['is_transaction_closed']);
+        }
+        return $this;
+    }
+
+    /**
+     * Voiding method being executed via Payment Bridge
+     *
+     * @param \Magento\Framework\Object $payment
+     * @return $this
+     */
+    public function void(\Magento\Framework\Object $payment)
+    {
+        $response = $this->getPbridgeMethodInstance()->void($payment);
+        $payment->addData((array)$response);
+        $payment->setIsTransactionClosed(1);
+        return $this;
+    }
+
+    /**
+     * Cancel payment
+     *
+     * @param \Magento\Framework\Object $payment
+     * @return $this
+     */
+    public function cancel(\Magento\Framework\Object $payment)
+    {
+        if (!$payment->getOrder()->getInvoiceCollection()->count()) {
+            $this->void($payment);
+        }
         return $this;
     }
 

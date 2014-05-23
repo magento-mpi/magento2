@@ -17,6 +17,39 @@ namespace Magento\Pbridge\Controller;
 class Pbridge extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Framework\Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Framework\Logger $logger
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Framework\Logger $logger
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        $this->_orderFactory = $orderFactory;
+        $this->_logger = $logger;
+        parent::__construct($context);
+    }
+
+    /**
      * Load only action layout handles
      *
      * @return $this
@@ -108,6 +141,48 @@ class Pbridge extends \Magento\Framework\App\Action\Action
      */
     public function successAction()
     {
+        $this->_initActionLayout();
+        $this->_view->renderLayout();
+    }
+
+    /**
+     * Redirect to Onepage checkout success page
+     */
+    public function onepagesuccessAction()
+    {
+        $this->_initActionLayout();
+        $this->_view->renderLayout();
+    }
+
+    /**
+     * Review success action
+     */
+    public function cancelAction()
+    {
+        try {
+            // if there is an order - cancel it
+            $orderId = $this->_checkoutSession->getLastOrderId();
+            /** @var \Magento\Sales\Model\Order $order */
+            $order = $orderId ? $this->_orderFactory->create()->load($orderId) : false;
+            if ($order && $order->getId() && $order->getQuoteId() == $this->_checkoutSession->getQuoteId()) {
+                $order->cancel()->save();
+                $this->_checkoutSession
+                    ->unsLastQuoteId()
+                    ->unsLastSuccessQuoteId()
+                    ->unsLastOrderId()
+                    ->unsLastRealOrderId()
+                    ->addSuccess(__('Order has been canceled.'))
+                ;
+            } else {
+                $this->_checkoutSession->addSuccess(__('Order has been canceled.'));
+            }
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $this->_checkoutSession->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $this->_checkoutSession->addError(__('Unable to cancel order.'));
+            $this->_logger->logException($e);
+        }
+
         $this->_initActionLayout();
         $this->_view->renderLayout();
     }
