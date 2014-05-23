@@ -123,6 +123,6 @@ class BundleSelectionPrice extends AbstractPrice
                 }
             }
         }
-        return (null !== $this->discount) ?  $discount * $value/100 : $value;
+        return (null !== $this->discount) ?  $this->discount/100 * $value : $value;
     }
 }

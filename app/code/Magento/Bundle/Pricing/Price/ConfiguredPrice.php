@@ -120,7 +120,9 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
     {
         if ($this->item) {
             $configuredOptionsAmount = $this->getConfiguredAmount()->getBaseAmount();
-            return parent::getValue() + $this->basePrice->calculateBaseValue($configuredOptionsAmount);
+            return parent::getValue() +
+                $this->priceInfo->getPrice(BundleSelectionPrice::PRICE_CODE)
+                    ->applyDiscountPercent($configuredOptionsAmount);
         } else {
             return parent::getValue();
         }
