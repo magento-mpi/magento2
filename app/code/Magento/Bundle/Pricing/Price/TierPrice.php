@@ -31,7 +31,8 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice implements Disc
     public function getDiscountPercent()
     {
         if ($this->percent === null) {
-            $this->percent = parent::getValue();
+            $percent = parent::getValue();
+            $this->percent = ($percent) ? max(0, min(100, 100 - $percent)) : null;
         }
         return $this->percent;
     }
