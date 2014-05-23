@@ -69,4 +69,19 @@
             <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex"/>
         </require>
     </assertCatalogEventSuccessDeleteMessage>
+    <assertCatalogEventSuccessDeleteMessage module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+            <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex" />
+        </require>
+    </assertCatalogEventSuccessDeleteMessage>
+    <assertCatalogEventBlockAbsent module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
+            <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+        </require>
+    </assertCatalogEventBlockAbsent>
 </constraint>

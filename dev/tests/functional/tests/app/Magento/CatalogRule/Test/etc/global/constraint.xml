@@ -48,4 +48,31 @@
             <catalogRuleInGrid class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex" />
         </require>
     </assertCatalogRuleSaveMessage>
+    <assertCatalogPriceRuleSuccessSaveMessage module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
+        </require>
+    </assertCatalogPriceRuleSuccessSaveMessage>
+    <assertCatalogPriceRuleForm module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
+            <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
+            <pageCatalogRuleNew class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew"/>
+        </require>
+    </assertCatalogPriceRuleForm>
+    <assertCatalogPriceRuleInGrid module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
+            <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
+        </require>
+    </assertCatalogPriceRuleInGrid>
+    <assertCatalogPriceRuleNoticeMessage module="Magento_CatalogRule">
+        <severeness>low</severeness>
+        <require>
+            <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
+        </require>
+    </assertCatalogPriceRuleNoticeMessage>
 </constraint>
