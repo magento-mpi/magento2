@@ -179,6 +179,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $customerSession;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
@@ -194,6 +199,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -213,6 +219,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         $itemFailedStatus = Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -232,6 +239,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->productTypeConfig = $productTypeConfig;
         $this->productConfiguration = $productConfiguration;
         $this->customerSession = $customerSession;
+        $this->stockItemService = $stockItemService;
         parent::__construct($data);
     }
 
@@ -446,7 +454,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
             if (!$product->getId()) {
-                throw new \Magento\Framework\Model\Exception(__('Failed to add a product to cart by id "%1".', $productId));
+                throw new \Magento\Framework\Model\Exception(
+                    __('Failed to add a product to cart by id "%1".', $productId)
+                );
             }
         }
 
@@ -537,7 +547,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     public function addProducts(array $products)
     {
         foreach ($products as $productId => $config) {
-            $config['qty'] = isset($config['qty']) ? (double)$config['qty'] : 1;
+            $config['qty'] = isset($config['qty']) ? (float) $config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
             } catch (\Magento\Framework\Model\Exception $e) {
@@ -792,42 +802,39 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      *  'qty_max_allowed' => int (optional, if 'status'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
      * ]
      *
-     * @param \Magento\CatalogInventory\Model\Stock\Item $stockItem
-     * @param Product             $product
-     * @param float                                  $requestedQty
+     * @param Product $product
+     * @param float $requestedQty
      * @return array|true
      */
     public function getQtyStatus(
-        \Magento\CatalogInventory\Model\Stock\Item $stockItem,
         Product $product,
         $requestedQty
     ) {
-        $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
+        $result = $this->stockItemService->checkQuoteItemQty($product->getId(), $requestedQty, $requestedQty);
         if ($result->getHasError()) {
             $return = array();
 
             switch ($result->getErrorCode()) {
                 case 'qty_increments':
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS;
-                    $return['qty_increments'] = $stockItem->getQtyIncrements();
+                    $return['qty_increments'] = $this->stockItemService->getQtyIncrements($product->getId());
                     break;
                 case 'qty_min':
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-                    $return['qty_min_allowed'] = $stockItem->getMinSaleQty();
+                    $return['qty_min_allowed'] = $this->stockItemService->getMinSaleQty($product->getId());
                     break;
                 case 'qty_max':
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-                    $return['qty_max_allowed'] = $stockItem->getMaxSaleQty();
+                    $return['qty_max_allowed'] = $this->stockItemService->getMaxSaleQty($product->getId());
                     break;
                 default:
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
-                    $return['qty_max_allowed'] = $stockItem->getStockQty();
+                    $return['qty_max_allowed'] = $this->stockItemService->getStockQty($product->getId());
                     break;
             }
 
             $return['status'] = $status;
             $return['error'] = $result->getMessage();
-
             return $return;
         }
         return true;
@@ -1095,7 +1102,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             }
 
             if ($this->_isFrontend() && !$item['is_qty_disabled']) {
-                $qtyStatus = $this->getQtyStatus($product->getStockItem(), $product, $item['qty']);
+                $qtyStatus = $this->getQtyStatus($product, $item['qty']);
                 if ($qtyStatus === true) {
                     return $this->_updateItem($item, Data::ADD_ITEM_STATUS_SUCCESS);
                 } else {
@@ -1171,14 +1178,14 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected function _isProductOutOfStock($product)
     {
         if ($product->isComposite()) {
-            if (!$product->getStockItem()->getIsInStock()) {
+            if (!$this->stockItemService->getIsInStock($product->getId())) {
                 return true;
             }
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
                     if ($childProduct->hasStockItem()
-                        && $childProduct->getStockItem()->getIsInStock()
+                        && $this->stockItemService->getIsInStock($childProduct->getId())
                         && !$childProduct->isDisabled()
                     ) {
                         return false;
@@ -1626,7 +1633,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function getCurrentStore()
     {
-        if (is_null($this->_currentStore)) {
+        if (null === $this->_currentStore) {
             return $this->_storeManager->getStore();
         }
         return $this->_currentStore;
@@ -1640,7 +1647,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function setCurrentStore($store)
     {
-        if (!is_null($store)) {
+        if (null !== $store) {
             $this->_currentStore = $this->_storeManager->getStore($store);
         }
         return $this;
