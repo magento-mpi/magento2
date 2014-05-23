@@ -10,7 +10,7 @@ namespace Magento\Framework\View\Design\Fallback;
 /**
  * Factory Test
  */
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class RulePoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var RulePool
@@ -184,6 +184,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 
+    /**
+     * @return array
+     */
     public function getPatternDirsDataProvider()
     {
         return [
@@ -215,6 +218,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     '/area/current_theme_path/namespace_module/templates',
                     '/area/parent_theme_path/namespace_module/templates',
                     '/namespace/module/view/area/templates',
+                    '/namespace/module/view/base/templates',
                 ],
             ],
             'template, non-modular' => [
@@ -232,6 +236,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     '/area/current_theme_path/Magento_Core/templates',
                     '/area/parent_theme_path/Magento_Core/templates',
                     '/Magento/Core/view/area/templates',
+                    '/Magento/Core/view/base/templates',
                 ],
             ],
 
@@ -244,7 +249,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     '/area/parent_theme_path/namespace_module/web/i18n/en_US',
                     '/area/parent_theme_path/namespace_module/web',
                     '/namespace/module/view/area/web/i18n/en_US',
+                    '/namespace/module/view/base/web/i18n/en_US',
                     '/namespace/module/view/area/web',
+                    '/namespace/module/view/base/web',
                 ],
             ],
             'view, modular non-localized' => [
@@ -254,6 +261,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                     '/area/current_theme_path/namespace_module/web',
                     '/area/parent_theme_path/namespace_module/web',
                     '/namespace/module/view/area/web',
+                    '/namespace/module/view/base/web',
                 ],
             ],
             'view, non-modular localized' => [

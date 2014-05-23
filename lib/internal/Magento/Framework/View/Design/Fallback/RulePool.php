@@ -151,6 +151,10 @@ class RulePool
                         "$modulesDir/<namespace>/<module>/view/<area>/web/i18n/<locale>",
                         array('locale')
                     ),
+                    new Simple(
+                        "$modulesDir/<namespace>/<module>/view/base/web/i18n/<locale>",
+                        array('locale')
+                    ),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>/web"),
                     new Simple("{$modulesDir}/<namespace>/<module>/view/base/web"),
                 )

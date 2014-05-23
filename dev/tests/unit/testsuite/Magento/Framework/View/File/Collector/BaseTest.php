@@ -8,114 +8,62 @@
 
 namespace Magento\Framework\View\File\Collector;
 
-use Magento\Framework\Filesystem\Directory\Read,
-    Magento\Framework\View\File\Factory;
-
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Base
-     */
-    private $model;
-
-    /**
-     * @var Read | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $directory;
-
-    /**
-     * @var Factory | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $fileFactory;
-
-    protected function setUp()
+    public function testGetFiles()
     {
-        $this->directory = $this->getMock(
-            'Magento\Framework\Filesystem\Directory\Read',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $filesystem = $this->getMock(
-            'Magento\Framework\App\Filesystem',
-            array('getDirectoryRead', '__wakeup'),
-            array(),
-            '',
-            false
-        );
+        $directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', ['getDirectoryRead'], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\Framework\App\Filesystem::MODULES_DIR)
-            ->will($this->returnValue($this->directory));
-
-        $this->fileFactory = $this->getMock('Magento\Framework\View\File\Factory', array(), array(), '', false);
-        $this->model = new Base($filesystem, $this->fileFactory, 'subdir');
-    }
-
-    /**
-     * @param array $files
-     * @param string $filePath
-     *
-     * @dataProvider dataProvider
-     */
-    public function testGetFiles($files, $filePath)
-    {
-        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
-        $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
-
-        $handlePath = 'code/Module/%s/view/area/subdir/%s';
-        $returnKeys = array();
-        foreach ($files as $file) {
-            $returnKeys[] = sprintf($handlePath, $file['module'], $file['handle']);
-        }
-
-        $this->directory->expects($this->once())
+            ->will($this->returnValue($directory));
+        $globalFiles = [
+            'Namespace/One/view/base/layout/one.xml',
+            'Namespace/Two/view/base/layout/two.xml',
+        ];
+        $areaFiles = [
+            'Namespace/Two/view/frontend/layout/four.txt',
+            'Namespace/Two/view/frontend/layout/three.xml',
+        ];
+        $directory->expects($this->at(0))
             ->method('search')
-            ->will($this->returnValue($returnKeys));
-        $this->directory->expects($this->any())
-            ->method('getAbsolutePath')
-            ->will($this->returnArgument(0));
+            ->with('*/*/view/base/layout/*.xml')
+            ->will($this->returnValue($globalFiles));
+        $directory->expects($this->at(3))
+            ->method('search')
+            ->with('*/*/view/frontend/layout/*.xml')
+            ->will($this->returnValue($areaFiles));
+        $directory->expects($this->atLeastOnce())->method('getAbsolutePath')->will($this->returnArgument(0));
+        $objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
+        $objectManager->expects($this->atLeastOnce())
+            ->method('create')
+            ->with('Magento\Framework\View\File', $this->anything())
+            ->will($this->returnCallback(array($this, 'createFileCallback')));
+        $fileFactory = new \Magento\Framework\View\File\Factory($objectManager);
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
+        $theme->expects($this->once())->method('getArea')->will($this->returnValue('frontend'));
+        $model = new Base($filesystem, $fileFactory, 'layout');
+        $result = $model->getFiles($theme, '*.xml');
 
-        $checkResult = array();
-        foreach ($files as $key => $file) {
-            $moduleName = 'Module_' . $file['module'];
-            $checkResult[$key] = new \Magento\Framework\View\File(
-                $file['handle'],
-                $moduleName,
-                $theme
-            );
-
-            $this->fileFactory
-                ->expects($this->at($key))
-                ->method('create')
-                ->with(sprintf($handlePath, $file['module'], $file['handle']), $moduleName)
-                ->will($this->returnValue($checkResult[$key]));
+        for ($i = 0; $i <= 2; $i++) {
+            $this->assertArrayHasKey($i, $result);
+            $this->assertInstanceOf('\Magento\Framework\View\File', $result[$i]);
         }
-
-        $this->assertSame($checkResult, $this->model->getFiles($theme, $filePath));
+        $this->assertEquals($globalFiles[0], $result[0]->getFilename());
+        $this->assertEquals($globalFiles[1], $result[1]->getFilename());
+        $this->assertEquals($areaFiles[1], $result[2]->getFilename());
     }
 
     /**
-     * @return array
+     * A callback subroutine for testing creation of value objects
+     *
+     * @param string $class
+     * @param array $args
+     * @return object
      */
-    public function dataProvider()
+    public function createFileCallback($class, $args)
     {
-        return array(
-            array(
-                array(
-                    array('handle' => '1.xml', 'module' => 'One'),
-                    array('handle' => '2.xml', 'module' => 'One'),
-                    array('handle' => '3.xml', 'module' => 'Two'),
-                ),
-                '*.xml',
-            ),
-            array(
-                array(
-                    array('handle' => 'preset/4', 'module' => 'Four'),
-                ),
-                'preset/4',
-            ),
-        );
+        return new $class($args['filename'], $args['module'], $args['theme'], $args['isBase']);
     }
 }
