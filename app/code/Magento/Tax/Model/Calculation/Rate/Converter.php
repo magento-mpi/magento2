@@ -106,7 +106,7 @@ class Converter
         $rateModel->setTaxRegionId($taxRate->getRegionId());
         $rateModel->setRate($taxRate->getPercentageRate());
         $rateModel->setCode($taxRate->getCode());
-        $rateModel->setPostalCode($taxRate->getPostCode());
+        $rateModel->setTaxPostcode($taxRate->getPostCode());
         $zipRange = $taxRate->getZipRange();
         $zipFrom = $zipRange->getFrom();
         $zipTo = $zipRange->getTo();

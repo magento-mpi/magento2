@@ -103,13 +103,11 @@ class TaxRateService implements TaxRateServiceInterface
      */
     protected function saveTaxRate(TaxRateDataObject $taxRate)
     {
+        $taxRateModel = $this->converter->createTaxRateModel($taxRate);
+        $this->validate($taxRateModel);
         try {
             /** @var $taxRateModel RateModel */
-            $taxRateModel = $this->converter->createTaxRateModel($taxRate);
-            $this->validate($taxRateModel);
             $taxRateModel->save();
-            return $taxRateModel->getId();
-
         } catch (\Magento\Framework\Model\Exception $e) {
             if (trim($e->getMessage()) == 'Code already exists.') {
                 $exception = new InputException();
@@ -117,6 +115,7 @@ class TaxRateService implements TaxRateServiceInterface
                 throw $exception;
             }
         }
+        return $taxRateModel->getId();
     }
 
     /**
