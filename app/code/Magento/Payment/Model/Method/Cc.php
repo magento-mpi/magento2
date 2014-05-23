@@ -134,6 +134,8 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function validate()
     {

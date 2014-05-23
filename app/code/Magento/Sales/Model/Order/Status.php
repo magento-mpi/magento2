@@ -74,8 +74,8 @@ class Status extends \Magento\Framework\Model\AbstractModel
     {
         $this->_getResource()->beginTransaction();
         try {
-            //$this->_getResource()->unassignState($this->getStatus(), $state);
-            //$this->_getResource()->commit();
+            $this->_getResource()->unassignState($this->getStatus(), $state);
+            $this->_getResource()->commit();
             $params = array('status' => $this->getStatus(), 'state' => $state);
             $this->_eventManager->dispatch('sales_order_status_unassign', $params);
         } catch (\Exception $e) {
