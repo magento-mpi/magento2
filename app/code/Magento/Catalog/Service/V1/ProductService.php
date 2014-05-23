@@ -3,6 +3,7 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductService implements ProductServiceInterface
 {
@@ -22,18 +23,27 @@ class ProductService implements ProductServiceInterface
     protected $productTypeManager;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
+
+    /**
      * @param Product\Initialization\Helper $initializationHelper
      * @param Data\ProductMapper $productMapper
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
     public function __construct(
         Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Service\V1\Data\ProductMapper $productMapper,
-        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
+        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         $this->initializationHelper = $initializationHelper;
         $this->productMapper = $productMapper;
         $this->productTypeManager = $productTypeManager;
+        $this->productFactory = $productFactory;
     }
 
     /**
@@ -73,6 +83,13 @@ class ProductService implements ProductServiceInterface
      */
     public function delete($id)
     {
+        $product = $this->productFactory->create();
+        $product->load($id);
+        if (!$product->getId()) {
+            // product does not exist
+            throw NoSuchEntityException::singleField('id', $id);
+        }
+        $product->delete();
         return true;
     }
 

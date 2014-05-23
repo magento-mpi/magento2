@@ -35,7 +35,7 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     public function getCustomAttributesCodes()
     {
         $attributeCodes = array();
-        foreach ($this->metadataService->getCustomAttributeMetadata() as $attribute) {
+        foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
             $attributeCodes[] = $attribute->getAttributeCode();
         }
         return $attributeCodes;

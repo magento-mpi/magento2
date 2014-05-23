@@ -7,13 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
 
 use \Magento\Catalog\Service\V1\Data\Product;
 
@@ -24,23 +20,7 @@ class ProductServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = 'catalogProductServiceV1';
     const SERVICE_VERSION = 'V1';
-    const RESOURCE_PATH = '/V1/product';
-
-
-    /** @var ProductServiceInterface */
-    private $productService;
-
-
-    /** @var \Magento\Webapi\Helper\Data */
-    private $helper;
-
-    /**
-     * Execute per test initialization.
-     */
-    public function setUp()
-    {
-        $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
-    }
+    const RESOURCE_PATH = '/V1/products';
 
     /**
      * @todo: extract in class
@@ -81,7 +61,7 @@ class ProductServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH  . '/delete/1' ,
+                'resourcePath' => self::RESOURCE_PATH  . '/1' ,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -97,5 +77,68 @@ class ProductServiceTest extends WebapiAbstract
             $response = $this->_webApiCall($serviceInfo);
         }
         $this->assertTrue($response);
+    }
+
+    public function testDeleteNoSuchEntityException()
+    {
+        $invalidId = -1;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH  . '/' . $invalidId,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'delete'
+            ]
+        ];
+
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
+
+        try {
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall($serviceInfo, ['id' => $invalidId]);
+            } else {
+                $this->_webApiCall($serviceInfo);
+            }
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals(['fieldName' => 'id', 'fieldValue' => $invalidId], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+        }
+    }
+
+    /**
+     * @param \Exception $e
+     * @return array
+     * <pre> ex.
+     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
+     * 'parameters' => [
+     *      "fieldName1" => "email",
+     *      "value1" => "dummy@example.com",
+     *      "fieldName2" => "websiteId",
+     *      "value2" => 0
+     * ]
+     *
+     * </pre>
+     */
+    protected function _processRestExceptionResult(\Exception $e)
+    {
+        $error = json_decode($e->getMessage(), true);
+        //Remove line breaks and replace with space
+        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
+        // remove trace and type, will only be present if server is in dev mode
+        unset($error['trace']);
+        unset($error['type']);
+        return $error;
     }
 }

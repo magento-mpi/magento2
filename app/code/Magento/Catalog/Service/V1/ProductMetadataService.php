@@ -1,11 +1,19 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-
+/**
+ * Class ProductMetadataService
+ * @package Magento\Catalog\Service\V1
+ */
 class ProductMetadataService implements ProductMetadataServiceInterface
 {
     /**
@@ -19,48 +27,48 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     private $scopeResolver;
 
     /**
-     * @var \Magento\Framework\Service\Data\Eav\OptionBuilder
+     * @var Data\Eav\OptionBuilder
      */
     private $optionBuilder;
 
     /**
-     * @var \Magento\Framework\Service\Data\Eav\ValidationRuleBuilder
+     * @var Data\Eav\ValidationRuleBuilder
      */
     private $validationRuleBuilder;
 
     /**
-     * @var \Magento\Framework\Service\Data\Eav\AttributeMetadataBuilder
+     * @var Data\Eav\AttributeMetadataBuilder
      */
     private $attributeMetadataBuilder;
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\Framework\Service\Data\Eav\OptionBuilder $optionBuilder
-     * @param \Magento\Framework\Service\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
-     * @param \Magento\Framework\Service\Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param Data\Eav\OptionBuilder $optionBuilder
+     * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
+     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-//        \Magento\Framework\Service\Data\Eav\OptionBuilder $optionBuilder,
-//        \Magento\Framework\Service\Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
-        //\Magento\Framework\Service\Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
+        Data\Eav\OptionBuilder $optionBuilder,
+        Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
+        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->eavConfig = $eavConfig;
         $this->scopeResolver = $scopeResolver;
-//        $this->optionBuilder = $optionBuilder;
-//        $this->validationRuleBuilder = $validationRuleBuilder;
-//        $this->attributeMetadataBuilder = $attributeMetadataBuilder;
+        $this->optionBuilder = $optionBuilder;
+        $this->validationRuleBuilder = $validationRuleBuilder;
+        $this->attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getCustomAttributeMetadata()
+    public function getCustomAttributesMetadata()
     {
         $customAttributes = [];
-        foreach ($this->getAllProductAttributeMetadata() as $attributeMetadata) {
+        foreach ($this->getProductAttributesMetadata() as $attributeMetadata) {
             if (!$attributeMetadata->isSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
@@ -69,14 +77,11 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     }
 
     /**
-     * Get list of all attributes
-     *
-     * @param $attributeSetId
-     * @return array
+     * {@inheritdoc}
      */
-    public function getAllAttributeMetadata($attributeSetId)
+    public function getProductAttributesMetadata()
     {
-        return $this->getAllAttributeSetMetadata('catalog_product', $attributeSetId);
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_PRODUCT, self::ATTRIBUTE_SET_ID_PRODUCT);
     }
 
     /**
@@ -87,7 +92,7 @@ class ProductMetadataService implements ProductMetadataServiceInterface
         if (null === $scopeCode) {
             $scopeCode = $this->scopeResolver->getScope()->getCode();
         }
-        $object = new \Magento\Object(
+        $object = new \Magento\Framework\Object(
             [
                 'store_id' => $scopeCode,
                 'attribute_set_id' => $attributeSetId,
@@ -124,7 +129,7 @@ class ProductMetadataService implements ProductMetadataServiceInterface
 
     /**
      * @param  AbstractAttribute
-     * @return \Magento\Framework\Service\Data\Eav\AttributeMetadata
+     * @return Data\Eav\AttributeMetadata
      */
     private function createMetadataAttribute($attribute)
     {
