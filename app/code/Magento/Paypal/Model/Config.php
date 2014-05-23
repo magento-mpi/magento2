@@ -716,7 +716,7 @@ class Config
 
         switch ($methodCode) {
             case self::METHOD_WPS:
-                if (!$this->businessAccount) {
+                if (!$this->getConfigValue('businessAccount')) {
                     $result = false;
                     break;
                 }
@@ -773,7 +773,7 @@ class Config
      * @param string $key
      * @return string|null
      */
-    public function __get($key)
+    public function getConfigValue($key)
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
@@ -1012,7 +1012,7 @@ class Config
     {
         return sprintf(
             'https://www.%spaypal.com/cgi-bin/webscr%s',
-            $this->sandboxFlag ? 'sandbox.' : '',
+            $this->getConfigValue('sandboxFlag') ? 'sandbox.' : '',
             $params ? '?' . http_build_query($params) : ''
         );
     }
@@ -1024,7 +1024,7 @@ class Config
      */
     public function areButtonsDynamic()
     {
-        return $this->buttonFlavor === self::EC_FLAVOR_DYNAMIC;
+        return $this->getConfigValue('buttonFlavor') === self::EC_FLAVOR_DYNAMIC;
     }
 
     /**
@@ -1042,7 +1042,7 @@ class Config
         if ($this->areButtonsDynamic()) {
             return $this->_getDynamicImageUrl(self::EC_BUTTON_TYPE_SHORTCUT, $localeCode, $orderTotal, $pal);
         }
-        if ($this->buttonType === self::EC_BUTTON_TYPE_MARK) {
+        if ($this->getConfigValue('buttonType') === self::EC_BUTTON_TYPE_MARK) {
             return $this->getPaymentMarkImageUrl($localeCode);
         }
         return sprintf(
@@ -1069,7 +1069,7 @@ class Config
         }
 
         if (null === $staticSize) {
-            $staticSize = $this->paymentMarkSize;
+            $staticSize = $this->getConfigValue('paymentMarkSize');
         }
         switch ($staticSize) {
             case self::PAYMENT_MARK_37X23:
@@ -1301,7 +1301,7 @@ class Config
      */
     public function getPaymentAction()
     {
-        switch ($this->paymentAction) {
+        switch ($this->getConfigValue('paymentAction')) {
             case self::PAYMENT_ACTION_AUTH:
                 return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE;
             case self::PAYMENT_ACTION_SALE:
@@ -1356,7 +1356,8 @@ class Config
      */
     public function shouldAskToCreateBillingAgreement()
     {
-        return $this->allow_ba_signup === self::EC_BA_SIGNUP_ASK && !$this->shouldUseUnilateralPayments();
+        return $this->getConfigValue('allow_ba_signup') === self::EC_BA_SIGNUP_ASK
+            && !$this->shouldUseUnilateralPayments();
     }
 
     /**
@@ -1366,7 +1367,7 @@ class Config
      */
     public function shouldUseUnilateralPayments()
     {
-        return $this->business_account && !$this->isWppApiAvailabe();
+        return $this->getConfigValue('business_account') && !$this->isWppApiAvailabe();
     }
 
     /**
@@ -1376,7 +1377,10 @@ class Config
      */
     public function isWppApiAvailabe()
     {
-        return $this->api_username && $this->api_password && ($this->api_signature || $this->api_cert);
+        return $this->getConfigValue('api_username')
+            && $this->getConfigValue('api_password')
+            && ($this->getConfigValue('api_signature')
+            || $this->getConfigValue('api_cert'));
     }
 
     /**
@@ -1506,7 +1510,7 @@ class Config
         }
         return sprintf(
             'https://fpdbs%s.paypal.com/dynamicimageweb?%s',
-            $this->sandboxFlag ? '.sandbox' : '',
+            $this->getConfigValue('sandboxFlag') ? '.sandbox' : '',
             http_build_query($params)
         );
     }

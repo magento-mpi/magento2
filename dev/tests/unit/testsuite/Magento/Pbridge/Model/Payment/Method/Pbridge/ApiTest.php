@@ -9,16 +9,13 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
 
+use Magento\Framework;
+
 class ApiTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
         \Magento\Framework\Profiler::reset();
-    }
-
-    protected function setUp()
-    {
-        $this->markTestSkipped('Api tests were skipped');
     }
 
     /**
