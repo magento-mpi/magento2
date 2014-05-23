@@ -10,6 +10,9 @@
 <constraint>
     <assertSuggestSearchingResult module="Magento_Search">
         <severeness>high</severeness>
-        <require></require>
+        <require>
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogSearch class="Magento\Search\Test\Fixture\CatalogSearchQuery" />
+        </require>
     </assertSuggestSearchingResult>
 </constraint>
