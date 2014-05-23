@@ -62,7 +62,7 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string|null
      */
-    public function getPostCode()
+    public function getPostcode()
     {
         return $this->_get(self::KEY_POSTCODE);
     }
