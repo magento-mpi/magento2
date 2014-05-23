@@ -19,6 +19,7 @@
     <preference for="Magento\Framework\Pricing\Adjustment\CalculatorInterface" type="Magento\Framework\Pricing\Adjustment\Calculator" />
     <preference for="Magento\Catalog\Service\V1\ProductTypeServiceInterface" type="Magento\Catalog\Service\V1\ProductTypeService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeSetReadServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetReadService" />
+    <preference for="Magento\Catalog\Service\V1\ProductAttributeSetAttributeServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetAttributeService" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
