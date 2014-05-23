@@ -7,11 +7,12 @@
  */
 namespace Magento\Tax\Model\Calculation\Rate;
 
-use Magento\Tax\Model\Resource\Calculation\Rate;
+use Magento\Tax\Model\Calculation\Rate as TaxRateModel;
+use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder as TaxRateDataObjectBuilder;
 use Magento\Tax\Service\V1\Data\ZipRangeBuilder as ZipRangeDataObjectBuilder;
-use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
+
 
 /**
  * Tax Rate Model converter.
@@ -53,10 +54,10 @@ class Converter
     /**
      * Convert a rate model to a TaxRate data object
      *
-     * @param Rate $rateModel
+     * @param TaxRateModel $rateModel
      * @return TaxRateDataObject
      */
-    public function createTaxRateDataObjectFromModel(Rate $rateModel)
+    public function createTaxRateDataObjectFromModel(TaxRateModel $rateModel)
     {
         $this->taxRateDataObjectBuilder->populateWithArray([]);
         if ($rateModel->getId()) {
