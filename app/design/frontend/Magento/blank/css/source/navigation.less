@@ -55,25 +55,6 @@ body {
 }
 
 .navigation {
-    .settings.panel {
-        > .title {
-            cursor: pointer;
-            .font-size(@font-size-l);
-            font-weight: @font-weight-semibold;
-            padding: 10px 20px;
-            position: relative;
-            &:extend(.navigation-icon all);
-        }
-        &.active {
-            > .title:after {
-                content: @icon-prev;
-            }
-        }
-        > .content {
-            display: none;
-            margin: 0;
-            padding: 10px 20px;
-        }
         .switcher {
             display: block;
             margin: 0;
@@ -85,10 +66,7 @@ body {
                 display: block;
                 font-weight: @font-weight-base;
                 .font-size(16);
-                padding: 8px 0;
-            }
-            strong {
-                font-weight: @font-weight-base;
+                padding: 8px 20px;
             }
             .options {
                 display: block;
@@ -132,7 +110,7 @@ body {
                 display: block;
             }
         }
-    }
+
     .nav {
         .parent {
             > a {
@@ -142,6 +120,47 @@ body {
                     content: @icon-prev;
                 }
             }
+        }
+    }
+}
+
+.navigation-tabs {
+    .data-accordion(
+        @_accordion-control-color: #333,
+        @_accordion-control-color-visited: #333,
+        @_accordion-control-color-hover: #333,
+        @_accordion-control-color-active: #333,
+        @_accordion-control-padding-left: 10px,
+        @_accordion-control-padding-right: 20px,
+        @_accordion-control-height: 45px,
+        @_accordion-control-line-height: 45px,
+        @_accordion-control-bg: #fff,
+        @_accordion-content-border: none,
+        @_accordion-control-border-top: none,
+        @_accordion-control-bg-active: #fff,
+        @_accordion-content-padding: 0,
+        @_accordion-content-bg: transparent,
+        @_accordion-control-margin-bottom: 0,
+        @_accordion-content-margin: 0
+    );
+    .item.title {
+        > .switch {
+            .icon-font(
+                 @_icon-font-content: @icon-down,
+                 @_icon-font-size: 36px
+             );
+            display: block;
+        }
+        &.active {
+            > .switch:before {
+                content: @icon-up
+            }
+        }
+    }
+    .item.content {
+        .css(border-bottom, @tab-content-border);
+        .nav > .level0:first-child {
+            border-top: none;
         }
     }
 }

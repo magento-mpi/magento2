@@ -30,6 +30,7 @@ body {
         overflow: hidden;
         .navigation {
             left: 0;
+            z-index: 1;
             -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             .transition(left .3s ease-out 0);
@@ -185,10 +186,16 @@ body {
     }
     .customer.name {
         display: block;
-        padding: 8px 20px;
+        padding: 15px 20px 10px 20px;
         line-height: @line-height-base;
         .action.switch {
             display: none;
+        }
+        span {
+            .icon-font(
+                 @_icon-font-content: @icon-account,
+                 @_icon-font-size: 28px
+             );
         }
     }
 }
