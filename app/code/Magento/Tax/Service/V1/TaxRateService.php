@@ -8,14 +8,31 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
+use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
+use Magento\Tax\Model\Calculation\Rate as RateModel;
 
 class TaxRateService implements TaxRateServiceInterface
 {
+    /** @var  TaxRateModelFactory */
+    protected $rateModelFactory;
 
-    public function __construct()
-    {
+    /** @var  Converter */
+    protected $converter;
 
+    /**
+     * Constructor
+     *
+     * @param TaxRateModelFactory $rateModelFactory
+     * @param Converter $converter
+     */
+    public function __construct(
+        TaxRateModelFactory $rateModelFactory,
+        Converter $converter
+    ) {
+        $this->rateModelFactory = $rateModelFactory;
+        $this->converter = $converter;
     }
 
     /**
@@ -31,7 +48,13 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function getTaxRates()
     {
-        // TODO: Implement getTaxRates() method.
+        $collection = $this->rateModelFactory->create()->getResourceCollection();
+        $taxRates = [];
+        /** @var RateModel $rateModel */
+        foreach ($collection as $rateModel) {
+            $taxRates[] = $this->converter->createTaxRateDataObjectFromModel($rateModel);
+        }
+        return $taxRates;
     }
 
     /**
