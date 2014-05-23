@@ -16,7 +16,7 @@ use Magento\Framework\Service\Data\AbstractObject;
 class TaxRule extends AbstractObject
 {
     /**#@+
-     * Constants for Data Object keys
+     * Constants defined for keys of array, makes typos less likely
      */
     const ID = 'id';
 
@@ -31,6 +31,7 @@ class TaxRule extends AbstractObject
     const PRIORITY = 'priority';
 
     const SORT_ORDER = 'sort_order';
+    /**#@-*/
 
     /**
      * Get id
@@ -43,7 +44,7 @@ class TaxRule extends AbstractObject
     }
 
     /**
-     * Get code
+     * Get tax rule code
      *
      * @return string
      */
