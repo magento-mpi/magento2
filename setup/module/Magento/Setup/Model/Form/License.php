@@ -14,7 +14,9 @@ class License extends Form
             'name' => 'agree',
             'attributes' => [
                 'type'     => 'Zend\Form\Element\Checkbox',
+                'useHiddenElement' => true,
                 'required' => '1',
+                'class'    => 'form-control',
             ],
             'options' => [
                 'label' => 'I agree',
@@ -24,7 +26,8 @@ class License extends Form
             'name' => 'submit',
             'attributes' => [
                 'type'     => 'button',
-                'value' => 'Continue',
+                'value'    => 'Continue',
+                'class'    => 'form-control',
             ],
         ]);
     }
