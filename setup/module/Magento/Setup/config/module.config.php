@@ -3,33 +3,23 @@
 return [
     'controllers' => [
         'invokables' => [
-            'Magento\Setup\Controller\Index' => 'Magento\Setup\Controller\IndexController',
+            'index'   => 'Magento\Setup\Controller\IndexController',
+            'license' => 'Magento\Setup\Controller\LicenseController',
         ]
     ],
     'router' => [
         'routes' => [
             'home' => [
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => [
-                    'route'    => '/',
-                    'defaults' => [
-                        'controller' => 'Magento\Setup\Controller\Index',
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
-            'setup' => [
-                'type'    => 'segment',
-                'options' => [
-                    'route'    => '/setup/[:controller[/:action]]',
-                    'constraints' => array(
+                    'route'    => '/[:controller]',
+                    'constraints' => [
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ),
-                    'defaults' => [
-                        'controller' => 'Magento\Setup\Controller\Index',
-                        'action'     => 'index',
                     ],
+                    'defaults' => [
+                        'controller' => 'index',
+                        'action'     => 'invoke',
+                    ]
                 ],
             ],
         ],
@@ -42,7 +32,8 @@ return [
         'exception_template'       => 'error/index',
         'template_map' => [
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'magento/index/index'     => __DIR__ . '/../view/magento/setup/index/index.phtml',
+            'magento/index/invoke'    => __DIR__ . '/../view/magento/setup/index/index.phtml',
+            'magento/license/invoke'  => __DIR__ . '/../view/magento/setup/license/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ],
