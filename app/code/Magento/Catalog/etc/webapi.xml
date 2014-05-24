@@ -21,4 +21,16 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
+    <route url="/V1/products" method="GET">
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="getAll"/>
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
+    <route url="/V1/products/:id" method="GET">
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="get"/>
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
 </routes>
