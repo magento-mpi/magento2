@@ -43,5 +43,5 @@ interface ProductServiceInterface
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product[]
      */
-    public function getAll();
+    public function getAll(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }

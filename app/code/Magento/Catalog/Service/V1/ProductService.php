@@ -5,6 +5,10 @@ namespace Magento\Catalog\Service\V1;
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Model\Converter;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Catalog\Service\V1\Data\Product as ProductData;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Catalog\Model\Resource\Product\Collection;
 
 class ProductService implements ProductServiceInterface
 {
@@ -107,9 +111,25 @@ class ProductService implements ProductServiceInterface
 
     /**
      * {@inheritdoc}
+     * Example of request:
+     * {
+     *     "searchCriteria": {
+     *         "filterGroups": [
+     *             {
+     *                 "filters": [
+     *                     {"value": "16.000", "conditionType" : "eq", "field" : "price"}
+     *                 ]
+     *             }
+     *         ]
+     *     },
+     *     "sort_orders" : {"id": "1"},
+     *     "page_size" : "30",
+     *     "current_page" : "10"
+     * }
      */
-    public function getAll()
+    public function getAll(SearchCriteria $searchCriteria)
     {
+        $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
         $collection = $this->productFactory->create()->getCollection();
         // This is needed to make sure all the attributes are properly loaded
@@ -120,6 +140,21 @@ class ProductService implements ProductServiceInterface
         $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');
         $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
 
+        //Add filters from root filter group to the collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
+        $sortOrders = $searchCriteria->getSortOrders();
+        if ($sortOrders) {
+            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
+                $field = $this->translateField($field);
+                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            }
+        }
+        $collection->setCurPage($searchCriteria->getCurrentPage());
+        $collection->setPageSize($searchCriteria->getPageSize());
+        $this->searchResultsBuilder->setTotalCount($collection->getSize());
+
         $products = array();
         /** @var \Magento\Catalog\Model\Product $productModel */
         foreach ($collection as $productModel) {
@@ -128,5 +163,42 @@ class ProductService implements ProductServiceInterface
 
         $this->searchResultsBuilder->setItems($products);
         return $this->searchResultsBuilder->create();
+    }
+
+    /**
+     * Helper function that adds a FilterGroup to the collection.
+     *
+     * @param FilterGroup $filterGroup
+     * @param Collection $collection
+     * @return void
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
+    {
+        $fields = [];
+        foreach ($filterGroup->getFilters() as $filter) {
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $field = $this->translateField($filter->getField());
+            $fields[] = array('attribute' => $field, $condition => $filter->getValue());
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields);
+        }
+    }
+
+    /**
+     * Translates a field name to a DB column name for use in collection queries.
+     *
+     * @param string $field a field name that should be translated to a DB column name.
+     * @return string
+     */
+    protected function translateField($field)
+    {
+        switch ($field) {
+            case ProductData::ID:
+                return 'entity_id';
+            default:
+                return $field;
+        }
     }
 }
