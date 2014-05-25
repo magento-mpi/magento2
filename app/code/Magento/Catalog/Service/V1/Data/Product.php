@@ -99,4 +99,12 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     {
         return $this->_get(self::UPDATED_AT);
     }
+
+    /**
+     * @return float|null
+     */
+    public function getWeight()
+    {
+        return $this->_get(self::WEIGHT);
+    }
 }
