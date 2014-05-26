@@ -50,13 +50,21 @@ class ProductService implements ProductServiceInterface
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product)
     {
-        $productModel = $this->productMapper->toModel($product);
-        $this->initializationHelper->initialize($productModel);
-        $this->productTypeManager->processProduct($productModel);
-        $productModel->validate();
-        $productModel->save();
+        try {
+            $productModel = $this->productMapper->toModel($product);
+            $this->initializationHelper->initialize($productModel);
+            $this->productTypeManager->processProduct($productModel);
+            $productModel->validate();
+            $productModel->save();
+        } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
+            throw \Magento\Framework\Exception\InputException::invalidFieldValue(
+                $exception->getAttributeCode(),
+                $productModel->getData($exception->getAttributeCode()),
+                $exception
+            );
+        }
         if (!$productModel->getId()) {
-            throw new \Magento\Framework\Model\Exception(__('Unable to save product'));
+            throw new \Magento\Framework\Exception\StateException('Unable to save product');
         }
         return $productModel->getId();
     }

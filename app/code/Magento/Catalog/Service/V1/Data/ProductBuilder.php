@@ -106,28 +106,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     }
 
     /**
-     * @param \DataTime $value
-     */
-    public function setCreatedAt($value)
-    {
-        return $this->_set(Product::CREATED_AT, $value);
-    }
-
-    /**
-     * @param \DataTime $value
-     */
-    public function setUpdatedAt($value)
-    {
-        return $this->_set(Product::UPDATED_AT, $value);
-    }
-
-    /**
      * @param int $value
      */
     public function setStatus($value)
     {
         return $this->_set(Product::STATUS, $value);
     }
-    
-    
 }
