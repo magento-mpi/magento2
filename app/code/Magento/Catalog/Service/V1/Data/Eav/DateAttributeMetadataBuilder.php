@@ -19,10 +19,10 @@ class DateAttributeMetadataBuilder extends AttributeMetadataBuilder
      * Set whether it is used for sorting in product listing
      *
      * @param  bool $usedForSortBy
-     * @return bool
+     * @return $this
      */
     public function setUsedForSortBy($usedForSortBy)
     {
-        return (bool)$this->_set(DateAttributeMetadata::USED_FOR_SORT_BY, (bool)$usedForSortBy);
+        return $this->_set(DateAttributeMetadata::USED_FOR_SORT_BY, (bool)$usedForSortBy);
     }
 }

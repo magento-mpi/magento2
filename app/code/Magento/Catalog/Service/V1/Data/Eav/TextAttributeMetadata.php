@@ -13,24 +13,14 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  */
 class TextAttributeMetadata extends AttributeMetadata
 {
-    /**#@+
-     * Constants used as keys into $_data
-     */
-    const FRONTEND_CLASS = 'frontend_class';
-
-    const IS_HTML_ALLOWED_ON_FRONT = 'is_html_allowed_on_front';
-
-    const USED_FOR_SORT_BY = 'used_for_sort_by';
-    /**#@-*/
-
     /**
      * Retrieve frontend class of attribute
      *
-     * @return bool
+     * @return string
      */
     public function getFrontendClass()
     {
-        return (bool)$this->_get(self::FRONTEND_CLASS);
+        return $this->_get(AttributeMetadata::FRONTEND_CLASS);
     }
 
     /**
@@ -40,7 +30,7 @@ class TextAttributeMetadata extends AttributeMetadata
      */
     public function isHtmlAllowedOnFront()
     {
-        return (bool)$this->_get(self::IS_HTML_ALLOWED_ON_FRONT);
+        return (bool)$this->_get(AttributeMetadata::IS_HTML_ALLOWED_ON_FRONT);
     }
 
     /**
@@ -50,6 +40,6 @@ class TextAttributeMetadata extends AttributeMetadata
      */
     public function isUsedForSortBy()
     {
-        return (bool)$this->_get(self::USED_FOR_SORT_BY);
+        return (bool)$this->_get(AttributeMetadata::USED_FOR_SORT_BY);
     }
 }

@@ -13,16 +13,6 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  */
 class MultiselectAttributeMetadata extends AttributeMetadata
 {
-    /**#@+
-     * Constants used as keys into $_data
-     */
-    const IS_FILTERABLE = 'is_filterable';
-
-    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
-
-    const POSITION = 'position';
-    /**#@-*/
-
     /**
      * Whether it used in layered navigation
      *
@@ -30,7 +20,7 @@ class MultiselectAttributeMetadata extends AttributeMetadata
      */
     public function getIsFilterable()
     {
-        return (bool)$this->_get(self::IS_FILTERABLE);
+        return (bool)$this->_get(AttributeMetadata::IS_FILTERABLE);
     }
 
     /**
@@ -40,16 +30,16 @@ class MultiselectAttributeMetadata extends AttributeMetadata
      */
     public function getIsFilterableInSearch()
     {
-        return (bool)$this->_get(self::IS_FILTERABLE_IN_SEARCH);
+        return (bool)$this->_get(AttributeMetadata::IS_FILTERABLE_IN_SEARCH);
     }
 
     /**
      * Get position
      *
-     * @return bool
+     * @return int
      */
     public function getPosition()
     {
-        return (bool)$this->_get(self::POSITION);
+        return (int)$this->_get(AttributeMetadata::POSITION);
     }
 }

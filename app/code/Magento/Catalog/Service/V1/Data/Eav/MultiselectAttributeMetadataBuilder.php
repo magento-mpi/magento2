@@ -19,32 +19,32 @@ class MultiselectAttributeMetadataBuilder extends AttributeMetadataBuilder
      * Set whether it used in layered navigation
      *
      * @param  bool $isFilterable
-     * @return $this|bool
+     * @return $this
      */
     public function setIsFilterable($isFilterable)
     {
-        return (bool)$this->_set(MultiselectAttributeMetadata::IS_FILTERABLE, (bool)$isFilterable);
+        return $this->_set(MultiselectAttributeMetadata::IS_FILTERABLE, (bool)$isFilterable);
     }
 
     /**
      * Set whether it is used in search results layered navigation
      *
      * @param  bool $isFilterableInSearch
-     * @return bool
+     * @return $this
      */
     public function setIsFilterableInSearch($isFilterableInSearch)
     {
-        return (bool)$this->_set(MultiselectAttributeMetadata::IS_FILTERABLE_IN_SEARCH, (bool)$isFilterableInSearch);
+        return $this->_set(MultiselectAttributeMetadata::IS_FILTERABLE_IN_SEARCH, (bool)$isFilterableInSearch);
     }
 
     /**
      * Set position
      *
      * @param  int $position
-     * @return $this|bool
+     * @return $this
      */
     public function setPosition($position)
     {
-        return (bool)$this->_set(MultiselectAttributeMetadata::POSITION, (int)$position);
+        return $this->_set(MultiselectAttributeMetadata::POSITION, (int)$position);
     }
 }

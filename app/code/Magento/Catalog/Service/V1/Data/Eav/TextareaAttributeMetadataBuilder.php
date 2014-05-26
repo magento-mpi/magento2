@@ -23,7 +23,7 @@ class TextareaAttributeMetadataBuilder extends AttributeMetadataBuilder
      */
     public function setIsWysiwygEnabled($isWysiwygEnabled)
     {
-        return (bool)$this->_set(TextareaAttributeMetadata::IS_WYSIWYG_ENABLED, $isWysiwygEnabled);
+        return $this->_set(TextareaAttributeMetadata::IS_WYSIWYG_ENABLED, (bool)$isWysiwygEnabled);
     }
 
     /**
@@ -34,6 +34,6 @@ class TextareaAttributeMetadataBuilder extends AttributeMetadataBuilder
      */
     public function setIsHtmlAllowedOnFront($isHtmlAllowedOnFront)
     {
-        return (bool)$this->_set(TextareaAttributeMetadata::IS_HTML_ALLOWED_ON_FRONT, $isHtmlAllowedOnFront);
+        return $this->_set(TextareaAttributeMetadata::IS_HTML_ALLOWED_ON_FRONT, (bool)$isHtmlAllowedOnFront);
     }
 }

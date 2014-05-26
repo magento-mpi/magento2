@@ -19,43 +19,43 @@ class PriceAttributeMetadataBuilder extends AttributeMetadataBuilder
      * Set whether it used in layered navigation
      *
      * @param  bool $isFilterable
-     * @return $this|bool
+     * @return $this
      */
     public function setIsFilterable($isFilterable)
     {
-        return (bool)$this->_set(PriceAttributeMetadata::IS_FILTERABLE, $isFilterable);
+        return $this->_set(PriceAttributeMetadata::IS_FILTERABLE, (bool)$isFilterable);
     }
 
     /**
      * Set whether it is used in search results layered navigation
      *
      * @param  bool $isFilterableInSearch
-     * @return bool
+     * @return $this
      */
     public function setIsFilterableInSearch($isFilterableInSearch)
     {
-        return (bool)$this->_set(PriceAttributeMetadata::IS_FILTERABLE_IN_SEARCH, $isFilterableInSearch);
+        return $this->_set(PriceAttributeMetadata::IS_FILTERABLE_IN_SEARCH, (bool)$isFilterableInSearch);
     }
 
     /**
      * Set position
      *
      * @param  int $position
-     * @return $this|bool
+     * @return $this
      */
     public function setPosition($position)
     {
-        return (bool)$this->_set(PriceAttributeMetadata::POSITION, (int)$position);
+        return $this->_set(PriceAttributeMetadata::POSITION, (int)$position);
     }
 
     /**
      * Set whether it is used for sorting in product listing
      *
      * @param  bool $usedForSortBy
-     * @return bool
+     * @return $this
      */
     public function setUsedForSortBy($usedForSortBy)
     {
-        return (bool)$this->_set(PriceAttributeMetadata::USED_FOR_SORT_BY, (bool)$usedForSortBy);
+        return $this->_set(PriceAttributeMetadata::USED_FOR_SORT_BY, (bool)$usedForSortBy);
     }
 }

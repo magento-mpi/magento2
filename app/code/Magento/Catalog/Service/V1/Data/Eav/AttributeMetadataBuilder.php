@@ -233,12 +233,16 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      *  - 'downloadable',
      *  - 'giftcard'
      *
-     * @param  array|null $applyTo
+     * @param  array|string|null $applyTo
      * @return $this
      */
     public function setApplyTo($applyTo)
     {
-        return $this->_set(AttributeMetadata::APPLY_TO, $applyTo);
+        $value = array();
+        if (is_string($applyTo)) {
+            $value = explode(',', $applyTo);
+        }
+        return $this->_set(AttributeMetadata::APPLY_TO, $value);
     }
 
     /**
@@ -350,6 +354,11 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
 
             $data[AttributeMetadata::OPTIONS] = $options;
             $data[AttributeMetadata::VALIDATION_RULES] = $validationRules;
+        }
+
+        $data[AttributeMetadata::APPLY_TO] = array();
+        if (array_key_exists(AttributeMetadata::APPLY_TO, $data) && is_string($data[AttributeMetadata::APPLY_TO])) {
+            $data[AttributeMetadata::APPLY_TO] = explode(',', $data[AttributeMetadata::APPLY_TO]);
         }
 
         return parent::_setDataValues($data);

@@ -19,11 +19,11 @@ class TextAttributeMetadataBuilder extends AttributeMetadataBuilder
      * Set frontend class for attribute
      *
      * @param  string $frontendClass
-     * @return $this|bool
+     * @return $this
      */
     public function setFrontendClass($frontendClass)
     {
-        return (bool)$this->_set(TextAttributeMetadata::FRONTEND_CLASS, $frontendClass);
+        return $this->_set(TextAttributeMetadata::FRONTEND_CLASS, $frontendClass);
     }
 
     /**
@@ -34,7 +34,7 @@ class TextAttributeMetadataBuilder extends AttributeMetadataBuilder
      */
     public function setIsHtmlAllowedOnFront($isHtmlAllowedOnFront)
     {
-        return (bool)$this->_set(TextAttributeMetadata::IS_HTML_ALLOWED_ON_FRONT, $isHtmlAllowedOnFront);
+        return $this->_set(TextAttributeMetadata::IS_HTML_ALLOWED_ON_FRONT, (bool)$isHtmlAllowedOnFront);
     }
 
     /**
@@ -45,6 +45,6 @@ class TextAttributeMetadataBuilder extends AttributeMetadataBuilder
      */
     public function setUsedForSortBy($usedForSortBy)
     {
-        return (bool)$this->_set(TextAttributeMetadata::USED_FOR_SORT_BY, $usedForSortBy);
+        return $this->_set(TextAttributeMetadata::USED_FOR_SORT_BY, (bool)$usedForSortBy);
     }
 }

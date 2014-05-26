@@ -53,8 +53,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const IS_SEARCHABLE = 'is_searchable';
 
-    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
-
     const IS_VISIBLE_IN_ADVANCED_SEARCH = 'is_visible_in_advanced_search';
 
     const IS_COMPARABLE = 'is_comparable';
@@ -66,6 +64,22 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     const USED_IN_PRODUCT_LISTING = 'used_in_product_listing';
 
     const SCOPE = 'scope';
+
+    // additional fields
+
+    const FRONTEND_CLASS = 'frontend_class';
+
+    const IS_FILTERABLE = 'is_filterable';
+
+    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
+
+    const POSITION = 'position';
+
+    const USED_FOR_SORT_BY = 'used_for_sort_by';
+
+    const IS_WYSIWYG_ENABLED = 'is_wysiwyg_enabled';
+
+    const IS_HTML_ALLOWED_ON_FRONT = 'is_html_allowed_on_front';
     /**#@-*/
 
     /**
