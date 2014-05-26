@@ -13,8 +13,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 
 /**
  * Class AssertProductAttributeSaveMessage
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeSaveMessage extends AbstractConstraint
 {

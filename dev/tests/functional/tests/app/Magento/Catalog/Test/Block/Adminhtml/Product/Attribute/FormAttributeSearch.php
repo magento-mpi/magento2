@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: oonoshko
- * Date: 26.05.14
- * Time: 12:42
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute;

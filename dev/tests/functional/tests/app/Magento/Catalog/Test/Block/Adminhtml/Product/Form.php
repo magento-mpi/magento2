@@ -286,7 +286,7 @@ class Form extends FormTabs
      *
      * @return void
      */
-    public function clickAddAttribute()
+    public function AddAttribute()
     {
         $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
     }

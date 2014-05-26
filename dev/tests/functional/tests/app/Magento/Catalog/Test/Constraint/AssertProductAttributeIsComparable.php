@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsComparable
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsComparable extends AbstractConstraint
 {

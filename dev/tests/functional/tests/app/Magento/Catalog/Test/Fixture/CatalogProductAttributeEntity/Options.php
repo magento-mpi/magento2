@@ -17,6 +17,7 @@ use Mtf\Fixture\FixtureInterface;
 class Options implements FixtureInterface
 {
     /**
+     * @constructor
      * @param array $params
      * @param array $data
      */
@@ -52,7 +53,7 @@ class Options implements FixtureInterface
     /**
      * Return data set configuration settings
      *
-     * @return string
+     * @return array
      */
     public function getDataConfig()
     {
@@ -60,6 +61,8 @@ class Options implements FixtureInterface
     }
 
     /**
+     * Preset for Attribute manage options
+     *
      * @param string $name
      * @return array|null
      */

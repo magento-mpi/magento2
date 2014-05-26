@@ -16,8 +16,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsConfigurable
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsConfigurable extends AbstractConstraint
 {
@@ -53,7 +51,7 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
 
         $productGrid->open();
         $productGrid->getProductBlock()->addProduct('configurable');
-        $newProductPage->getForm()->clickAddAttribute();
+        $newProductPage->getForm()->AddAttribute();
         $searchForm = $newProductPage->getSearchAttributeForm();
         $searchForm->fillSearch($this->attributeFrontendLabel);
 

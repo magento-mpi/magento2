@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAttributeOptionsOnProductForm
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertAttributeOptionsOnProductForm extends AbstractConstraint
 {

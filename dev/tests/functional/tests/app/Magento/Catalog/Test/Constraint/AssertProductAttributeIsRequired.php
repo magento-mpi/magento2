@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsRequired
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsRequired extends AbstractConstraint
 {

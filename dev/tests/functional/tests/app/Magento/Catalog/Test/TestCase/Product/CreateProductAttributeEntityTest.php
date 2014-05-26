@@ -25,14 +25,17 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
  * 6. Perform appropriate assertions.
  *
  * @group Product_Attributes_(CS)
- * @ZephyrId MAGETWO-24638
+ * @ZephyrId MAGETWO-24767
  */
 class CreateProductAttributeEntityTest extends Injectable
 {
     /**
+     *  Run CreateProductAttributeEntity test
+     *
      * @param CatalogAttributeEntity $productAttribute
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
+     * @return void
      */
     public function testCreateProductAttribute(
         CatalogAttributeEntity $productAttribute,
@@ -40,7 +43,7 @@ class CreateProductAttributeEntityTest extends Injectable
         CatalogProductAttributeNew $attributeNew
     ) {
         $attributeIndex->open();
-        $attributeIndex->getBlockPageActionsAttribute()->addProductAttribute();
+        $attributeIndex->getPageActionsBlock()->addProductAttribute();
         $attributeNew->getAttributeForm()->fill($productAttribute);
         $attributeNew->getPageActions()->save();
     }

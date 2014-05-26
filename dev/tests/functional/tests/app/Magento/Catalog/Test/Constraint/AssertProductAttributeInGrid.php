@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeInGrid
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeInGrid extends AbstractConstraint
 {

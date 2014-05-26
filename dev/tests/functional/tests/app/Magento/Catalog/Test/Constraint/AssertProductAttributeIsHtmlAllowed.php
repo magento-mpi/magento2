@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsHtmlAllowed
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
 {

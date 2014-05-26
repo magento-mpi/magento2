@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeNew
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductAttributeNew extends BackendPage
 {
@@ -22,7 +20,7 @@ class CatalogProductAttributeNew extends BackendPage
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -35,7 +33,7 @@ class CatalogProductAttributeNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions
      */
     public function getPageActions()
     {
