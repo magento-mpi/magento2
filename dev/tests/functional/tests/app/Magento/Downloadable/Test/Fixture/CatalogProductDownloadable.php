@@ -85,16 +85,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'quantity_and_stock_status_qty' => '1',
         'quantity_and_stock_status' => 'In Stock',
         'is_virtual' => 'Yes',
-        'manage_stock' => '-',
-        'stock_data_qty' => '-',
-        'stock_data_use_config_min_qty' => '-',
-        'stock_data_min_qty' => '-',
-        'downloadable_sample' => '-',
-        'downloadable_links' => 'default',
-        'custom_options' => '-',
-        'special_price' => '-',
-        'group_price' => '-',
-        'tier_price' => '-'
+        'downloadable_links' => ['preset' => 'default'],
     ];
 
     protected $category_ids = [

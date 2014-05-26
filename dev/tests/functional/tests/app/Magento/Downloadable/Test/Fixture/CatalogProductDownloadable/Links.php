@@ -44,7 +44,7 @@ class Links implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string $key [optional]
      * @return mixed
      */
     public function getData($key = null)
@@ -77,7 +77,7 @@ class Links implements FixtureInterface
                 'downloadable' => [
                     'link' => [
                         [
-                            'title' => 'row1%isolation%',
+                            'title' => 'link1%isolation%',
                             'price' => 2.43,
                             'number_of_downloads' => 2,
                             'sample' => [
@@ -90,7 +90,7 @@ class Links implements FixtureInterface
                             'sort_order' => 1
                         ],
                         [
-                            'title' => 'row2%isolation%',
+                            'title' => 'link2%isolation%',
                             'price' => 3,
                             'number_of_downloads' => 3,
                             'sample' => [
@@ -111,7 +111,7 @@ class Links implements FixtureInterface
                 'downloadable' => [
                     'link' => [
                         [
-                            'title' => 'row1%isolation%',
+                            'title' => 'link1%isolation%',
                             'price' => 2.43,
                             'number_of_downloads' => 2,
                             'sample' => [
@@ -124,7 +124,7 @@ class Links implements FixtureInterface
                             'sort_order' => 0
                         ],
                         [
-                            'title' => 'row2%isolation%',
+                            'title' => 'link2%isolation%',
                             'price' => 3,
                             'number_of_downloads' => 3,
                             'sample' => [
@@ -137,7 +137,7 @@ class Links implements FixtureInterface
                             'sort_order' => 1
                         ],
                         [
-                            'title' => 'row3%isolation%',
+                            'title' => 'link3%isolation%',
                             'price' => 5.43,
                             'number_of_downloads' => 5,
                             'sample' => [

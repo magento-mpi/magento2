@@ -56,7 +56,7 @@ class Links extends Block
     /**
      * Change format downloadable links list
      *
-     * @param $index
+     * @param int $index
      * @return string
      */
     protected function formatIndex($index)
@@ -77,29 +77,25 @@ class Links extends Block
     /**
      * Get title for item link on data list
      *
-     * @param $index
+     * @param int $index
      * @return string
      */
     public function getItemTitle($index)
     {
-        return $this->_rootElement->find(
-            $this->formatIndex($index) . $this->titleForList,
-            Locator::SELECTOR_XPATH
-        )->getText();
+        return $this->_rootElement->find($this->formatIndex($index) . $this->titleForList,Locator::SELECTOR_XPATH)
+            ->getText();
     }
 
     /**
      * Visible checkbox for item link on data list
      *
-     * @param $index
+     * @param int $index
      * @return bool
      */
     public function isVisibleItemCheckbox($index)
     {
-        return $this->_rootElement->find(
-            $this->formatIndex($index) . $this->separatelyForList,
-            Locator::SELECTOR_XPATH
-        )->isVisible();
+        return $this->_rootElement->find($this->formatIndex($index) . $this->separatelyForList, Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 
     /**
@@ -110,9 +106,7 @@ class Links extends Block
      */
     public function getItemPrice($index)
     {
-        return $this->_rootElement->find(
-            $this->formatIndex($index) . $this->priceForList,
-            Locator::SELECTOR_XPATH
-        )->getText();
+        return $this->_rootElement->find($this->formatIndex($index) . $this->priceForList, Locator::SELECTOR_XPATH)
+            ->getText();
     }
 }

@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertCustomOptionsOnProductPage
  *
- * @package Magento\Catalog\Test\Constraint
+ * Assert that displayed product custom options data on product page equals passed from fixture
  */
 class AssertCustomOptionsOnProductPage extends AbstractConstraint
 {
@@ -51,43 +51,12 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
         $compareOptions = $this->product->getCustomOptions();
 
         $compareOptions = $this->prepareOptionArray($compareOptions);
-        ksort($compareOptions);
-        ksort($customOptions);
-        $noError = array_keys($compareOptions) === array_keys($customOptions);
 
-        if ($noError) {
-            $noError = $this->compareOptions($customOptions, $compareOptions);
-        }
-
-        \PHPUnit_Framework_Assert::assertTrue(
-            $noError,
+        \PHPUnit_Framework_Assert::assertEquals(
+            $compareOptions,
+            $customOptions,
             'Incorrect display of custom product options on the product page.'
         );
-    }
-
-    /**
-     * Comparison of options
-     *
-     * @param array $options
-     * @param array $compareOptions
-     * @return bool
-     */
-    protected function compareOptions(array $options, array $compareOptions)
-    {
-        foreach ($options as $key => $option) {
-            sort($option['price']);
-            if (!isset($compareOptions[$key]['price'])) {
-                return false;
-            }
-            sort($compareOptions[$key]['price']);
-            if ($option['is_require'] !== $compareOptions[$key]['is_require']
-                || $option['price'] !== $compareOptions[$key]['price']
-            ) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
@@ -103,12 +72,16 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
         $placeholder = ['Yes' => true, 'No' => false];
         foreach ($options as $option) {
             $result[$option['title']]['is_require'] = $placeholder[$option['is_require']];
+            $result[$option['title']]['title'] = $option['title'];
             $result[$option['title']]['price'] = [];
             foreach ($option['options'] as $optionValue) {
                 if ($optionValue['price_type'] === 'Percent') {
                     $optionValue['price'] = $productPrice / 100 * $optionValue['price'];
                 }
                 $result[$option['title']]['price'][] = number_format($optionValue['price'], 2);
+                foreach ($option['options'] as $itemOption) {
+                    $result[$option['title']]['value'][] = $itemOption['title'] . ' +$' . number_format($optionValue['price'], 2);
+                }
             }
         }
 

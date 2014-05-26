@@ -51,7 +51,7 @@ class Links extends Form
      *
      * @param int $index
      * @param Element $element
-     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinkRow
+     * @return LinkRow
      */
     public function getRowBlock($index, Element $element = null)
     {

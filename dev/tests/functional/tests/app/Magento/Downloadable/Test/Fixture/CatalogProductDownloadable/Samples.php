@@ -44,7 +44,7 @@ class Samples implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string $key [optional]
      * @return mixed
      */
     public function getData($key = null)
@@ -76,13 +76,13 @@ class Samples implements FixtureInterface
                 'downloadable' => [
                     'sample' => [
                         [
-                            'title' => 'row1%isolation%',
+                            'title' => 'sample1%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example.com',
                             'sort_order' => 0
                         ],
                         [
-                            'title' => 'row2%isolation%',
+                            'title' => 'sample2%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
@@ -95,19 +95,19 @@ class Samples implements FixtureInterface
                 'downloadable' => [
                     'sample' => [
                         [
-                            'title' => 'row1%isolation%',
+                            'title' => 'sample1%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example.com',
                             'sort_order' => 0
                         ],
                         [
-                            'title' => 'row2%isolation%',
+                            'title' => 'sample2%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
                         ],
                         [
-                            'title' => 'row3%isolation%',
+                            'title' => 'sample3%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example3.com',
                             'sort_order' => 2

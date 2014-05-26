@@ -51,7 +51,7 @@ class Samples extends Form
      *
      * @param int $index
      * @param Element $element
-     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\SampleRow
+     * @return SampleRow
      */
     public function getRowBlock($index, Element $element = null)
     {

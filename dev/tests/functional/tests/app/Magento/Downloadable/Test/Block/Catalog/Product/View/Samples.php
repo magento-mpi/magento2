@@ -39,10 +39,7 @@ class Samples extends Block
      */
     public function getTitleForSampleBlock()
     {
-        return $this->_rootElement->find(
-            $this->titleForSampleBlock,
-            Locator::SELECTOR_XPATH
-        )->getText();
+        return $this->_rootElement->find($this->titleForSampleBlock, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
