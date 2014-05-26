@@ -235,7 +235,7 @@ class StockItem implements StockItemInterface
      * @param int $qty
      * @param int $summaryQty
      * @param int $origQty
-     * @return int
+     * @return \Magento\Framework\Object
      */
     public function checkQuoteItemQty($productId, $qty, $summaryQty, $origQty = 0)
     {
