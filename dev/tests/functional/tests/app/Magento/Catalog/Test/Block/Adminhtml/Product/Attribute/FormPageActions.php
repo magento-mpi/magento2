@@ -24,6 +24,13 @@ class FormPageActions extends AbstractFormPageActions
     protected $addNewAttribute = '.add';
 
     /**
+     * 'Delete Attribute' button
+     *
+     * @var string
+     */
+    protected $delete = '#delete';
+
+    /**
      * Click on "Add New Attribute" button
      *
      * @return void
@@ -31,5 +38,15 @@ class FormPageActions extends AbstractFormPageActions
     public function addProductAttribute()
     {
         $this->_rootElement->find($this->addNewAttribute)->click();
+    }
+
+    /**
+     * Check 'Delete Attribute' button availability
+     *
+     * @return bool
+     */
+    public function checkDeleteAttributeButton()
+    {
+        return $this->_rootElement->find($this->delete)->isVisible();
     }
 }

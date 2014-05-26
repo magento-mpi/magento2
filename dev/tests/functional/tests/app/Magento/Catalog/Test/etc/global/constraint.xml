@@ -239,4 +239,10 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertProductAttributeIsConfigurable>
+    <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
+        </require>
+    </assertAbsenceDeleteAttributeButton>
 </constraint>
