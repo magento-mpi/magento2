@@ -726,12 +726,8 @@ class Config
                 break;
             case self::METHOD_WPP_PE_EXPRESS:
                 // check for direct payments dependence
-                if ($this->isMethodActive(
-                    self::METHOD_PAYFLOWLINK
-                ) || $this->isMethodActive(
-                    self::METHOD_PAYFLOWADVANCED
-                )
-                ) {
+                if ($this->isMethodActive(self::METHOD_PAYFLOWLINK)
+                    || $this->isMethodActive(self::METHOD_PAYFLOWADVANCED)) {
                     $result = true;
                 } elseif (!$this->isMethodActive(self::METHOD_PAYFLOWPRO)) {
                     $result = false;
@@ -1693,9 +1689,7 @@ class Config
         )
         ) {
             $pathPrefix = 'payment/payflow_advanced';
-        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS && !$this->isMethodAvailable(
-        )
-        ) {
+        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS) {
             $pathPrefix = 'payment/payflowpro';
         } elseif ($this->_methodCode == self::METHOD_PAYFLOWADVANCED || $this->_methodCode == self::METHOD_PAYFLOWLINK
         ) {
