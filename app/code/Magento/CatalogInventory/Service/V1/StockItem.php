@@ -62,16 +62,14 @@ class StockItem implements StockItemInterface
 
     /**
      * @param \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo
-     * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
+     * @return $this
      */
     public function saveStockItem($stockItemDo)
     {
         $stockItem = $this->stockItemRegistry->retrieve($stockItemDo->getProductId());
         $stockItem->setData($stockItemDo->__toArray());
         $stockItem->save();
-
-        /** @todo should we return updated DO or not? */
-        return $this->getStockItem($stockItemDo->getProductId());
+        return $this;
     }
 
     /**
@@ -140,7 +138,7 @@ class StockItem implements StockItemInterface
 
     /**
      * @param int $productId
-     * @return int
+     * @return float
      */
     public function getNotifyStockQty($productId)
     {
@@ -172,16 +170,6 @@ class StockItem implements StockItemInterface
      * @param int $productId
      * @return int
      */
-    public function getDefaultQtyIncrements($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getDefaultQtyIncrements();
-    }
-
-    /**
-     * @param int $productId
-     * @return int
-     */
     public function getBackorders($productId)
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
@@ -190,7 +178,7 @@ class StockItem implements StockItemInterface
 
     /**
      * @param int $productId
-     * @return int mixed
+     * @return int
      */
     public function getManageStock($productId)
     {
@@ -240,7 +228,7 @@ class StockItem implements StockItemInterface
     public function checkQuoteItemQty($productId, $qty, $summaryQty, $origQty = 0)
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->checkQuoteItemQty($qty, $summaryQty, $origQty = 0);
+        return $stockItem->checkQuoteItemQty($qty, $summaryQty, $origQty);
     }
 
     /**
@@ -288,7 +276,7 @@ class StockItem implements StockItemInterface
     /**
      * @param int $productId
      * @param int $qty
-     * @return $this|bool
+     * @return \Magento\Framework\Object
      */
     public function checkQtyIncrements($productId, $qty)
     {

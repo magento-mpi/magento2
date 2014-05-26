@@ -84,12 +84,6 @@ interface StockItemInterface
      * @param int $productId
      * @return int
      */
-    public function getDefaultQtyIncrements($productId);
-
-    /**
-     * @param int $productId
-     * @return int
-     */
     public function getBackorders($productId);
 
     /**
