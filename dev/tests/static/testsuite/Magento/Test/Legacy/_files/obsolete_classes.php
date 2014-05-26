@@ -2495,5 +2495,9 @@ return array(
     [
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
-    ]
+    ],
+    ['Magento\Paypal\Model\PayflowDirect'],
+    ['Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PayflowDirect'],
+    ['Magento\PbridgePaypal\Block\Checkout\Payment\PayflowDirect'],
+    ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect']
 );

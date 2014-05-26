@@ -48,7 +48,7 @@ class Store extends \Magento\Backend\Block\Template implements \Magento\Framewor
      *
      * @return array
      */
-    protected function getPaypalDisabledMethods()
+    public function getPaypalDisabledMethods()
     {
         // Assoc array that contains info about paypal methods (their IDs and corresponding Config Paths)
         $methods = array(
