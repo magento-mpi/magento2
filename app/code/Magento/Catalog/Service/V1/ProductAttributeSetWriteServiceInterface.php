@@ -12,7 +12,7 @@ interface ProductAttributeSetWriteServiceInterface
     /**
      * Create attribute set from data
      *
-     * @param Data\Eav\AttributeSet $attributeSet
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet $attributeSet
      * @return int
      * @throws \Exception
      */

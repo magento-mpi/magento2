@@ -43,7 +43,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
     /**
      * Create attribute set from data
      *
-     * @param Data\Eav\AttributeSet $setData
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet $setData
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \InvalidArgumentException
@@ -56,16 +56,17 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
         }
 
         $constructorData = array(
-            'data' => array(
-                'attribute_set_id' => $setData->getId(),
-                'attribute_set_name' => $setData->getName(),
-                'sort_order' => $setData->getSortOrder(),
-            ),
+            'attribute_set_name' => $setData->getName(),
+            'sort_order' => $setData->getSortOrder(),
+            'entity_type_id' => 4,
         );
 
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $set */
-        $set = $this->setFactory->create($constructorData);
-        if (!$setData->validate()) {
+        $set = $this->setFactory->create();
+        foreach($constructorData as $key => $value) {
+            $set->setData($key, $value);
+        }
+        if (!$set->validate()) {
             throw new \InvalidArgumentException('Invalid attribute set');
         }
         $set->save();
