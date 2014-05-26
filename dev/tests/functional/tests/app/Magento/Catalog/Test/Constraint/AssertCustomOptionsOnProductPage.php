@@ -14,7 +14,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertCustomOptionsOnProductPage
- *
  * Assert that displayed product custom options data on product page equals passed from fixture
  */
 class AssertCustomOptionsOnProductPage extends AbstractConstraint
@@ -48,9 +47,7 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
         $catalogProductView->init($this->product);
         $catalogProductView->open();
         $customOptions = $catalogProductView->getCustomOptionsBlock()->getOptions();
-        $compareOptions = $this->product->getCustomOptions();
-
-        $compareOptions = $this->prepareOptionArray($compareOptions);
+        $compareOptions = $this->prepareOptionArray($this->product->getCustomOptions());
 
         \PHPUnit_Framework_Assert::assertEquals(
             $compareOptions,
@@ -80,7 +77,8 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
                 }
                 $result[$option['title']]['price'][] = number_format($optionValue['price'], 2);
                 foreach ($option['options'] as $itemOption) {
-                    $result[$option['title']]['value'][] = $itemOption['title'] . ' +$' . number_format($optionValue['price'], 2);
+                    $result[$option['title']]['value'][] = $itemOption['title']
+                        . ' +$' . number_format($optionValue['price'], 2);
                 }
             }
         }
