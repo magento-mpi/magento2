@@ -7,7 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException,
+    Magento\Framework\Exception\NoSuchEntityException,
+    Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
 class ProductAttributeSetWriteService implements ProductAttributeSetWriteServiceInterface
 {
@@ -60,5 +62,26 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
         $set->save();
 
         return $set->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(AttributeSet $attributeSetData)
+    {
+        if (!$attributeSetData->getId()) {
+            throw InputException::requiredField('id');
+        }
+
+        $attributeSetModel = $this->setFactory->create()->load($attributeSetData->getId());
+        $requiredEntityTypeId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+        if (!$attributeSetModel->getId() || $attributeSetModel->getEntityTypeId() != $requiredEntityTypeId) {
+            throw NoSuchEntityException::singleField('id', $attributeSetData->getId());
+        }
+
+        $attributeSetModel->setAttributeSetName($attributeSetData->getName());
+        $attributeSetModel->setSortOrder($attributeSetData->getSortOrder());
+        $attributeSetModel->save();
+        return $attributeSetModel->getId();
     }
 }

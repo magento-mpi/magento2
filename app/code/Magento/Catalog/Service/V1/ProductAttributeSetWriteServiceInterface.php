@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1;
 
+use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
+
 interface ProductAttributeSetWriteServiceInterface
 {
     /**
@@ -17,4 +19,13 @@ interface ProductAttributeSetWriteServiceInterface
      * @throws \Exception
      */
     public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSet $attributeSet);
+
+    /**
+     * Update attribute set data
+     *
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet $attributeSetData
+     * @return int attribute set ID
+     * @throws \Magento\Framework\Model\Exception If attribute set is not found
+     */
+    public function update(AttributeSet $attributeSetData);
 }
