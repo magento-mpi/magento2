@@ -35,55 +35,100 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $pathParts
-     * @param string $countryCode
-     * @param array $expectedPathParts
      * @param bool $returnResult
-     * @dataProvider aroundGetElementByPathPartsDataProvider
+     * @dataProvider aroundGetElementByPathPartsNonPaymentDataProvider
      */
-    public function testAroundGetElementByPathParts(
-        $pathParts,
-        $countryCode,
-        $expectedPathParts,
-        $returnResult
-    ) {
-        $sectionChanged = $pathParts[0] != $expectedPathParts[0];
-        if ($sectionChanged) {
-            $this->_helper->expects($this->once())
-                ->method('getConfigurationCountryCode')
-                ->will($this->returnValue($countryCode));
-        } else {
-            $this->_helper->expects($this->never())
-                ->method('getConfigurationCountryCode');
-        }
+    public function testAroundGetElementByPathPartsNonPayment($pathParts, $returnResult) {
         $result = $returnResult
             ? $this->getMockForAbstractClass('Magento\Backend\Model\Config\Structure\ElementInterface')
             : null;
-        $self = $this;
-        $getElementByPathParts = function ($pathParts) use (
-            $self,
-            $expectedPathParts,
+        $this->_aroundGetElementByPathPartsAssertResult(
             $result,
-            $sectionChanged
-        ) {
+            $this->_getElementByPathPartsCallback($pathParts, $result),
+            $pathParts
+        );
+    }
+
+    public function aroundGetElementByPathPartsNonPaymentDataProvider()
+    {
+        return [
+            [['non-payment', 'group1', 'group2', 'field'], true],
+            [['non-payment'], true],
+            [['non-payment', 'group1', 'group2', 'field'], false],
+            [['non-payment'], false],
+        ];
+    }
+
+    /**
+     * @param array $pathParts
+     * @param string $countryCode
+     * @param array $expectedPathParts
+     * @dataProvider aroundGetElementByPathPartsDataProvider
+     */
+    public function testAroundGetElementByPathPartsNoResult($pathParts, $countryCode, $expectedPathParts) {
+        $this->_getElementByPathPartsPrepareHelper($countryCode);
+        $this->_aroundGetElementByPathPartsAssertResult(
+            null,
+            $this->_getElementByPathPartsCallback($expectedPathParts, null),
+            $pathParts
+        );
+    }
+
+    /**
+     * @param array $pathParts
+     * @param string $countryCode
+     * @param array $expectedPathParts
+     * @dataProvider aroundGetElementByPathPartsDataProvider
+     */
+    public function testAroundGetElementByPathParts($pathParts, $countryCode, $expectedPathParts) {
+        $this->_getElementByPathPartsPrepareHelper($countryCode);
+        $result = $this->getMockForAbstractClass('Magento\Backend\Model\Config\Structure\ElementInterface');
+        $self = $this;
+        $getElementByPathParts = function ($pathParts) use ($self, $expectedPathParts, $result) {
             $self->assertEquals($expectedPathParts, $pathParts);
             $scope = 'any scope';
-            if ($sectionChanged && isset($result)) {
-                $self->_scopeDefiner->expects($self->once())
-                    ->method('getScope')
-                    ->will($self->returnValue($scope));
-                $result->expects($self->once())
-                    ->method('getData')
-                    ->will($self->returnValue([]));
-                $result->expects($self->once())
-                    ->method('setData')
-                    ->with(['showInDefault' => true, 'showInWebsite' => true, 'showInStore' => true], $scope)
-                    ->will($self->returnSelf());
-            } else {
-                $self->_scopeDefiner->expects($self->never())
-                    ->method('getScope');
-            }
+            $self->_scopeDefiner->expects($self->once())
+                ->method('getScope')
+                ->will($self->returnValue($scope));
+            $result->expects($self->once())
+                ->method('getData')
+                ->will($self->returnValue([]));
+            $result->expects($self->once())
+                ->method('setData')
+                ->with(['showInDefault' => true, 'showInWebsite' => true, 'showInStore' => true], $scope)
+                ->will($self->returnSelf());
             return $result;
         };
+        $this->_aroundGetElementByPathPartsAssertResult($result, $getElementByPathParts, $pathParts);
+    }
+
+    public function aroundGetElementByPathPartsDataProvider()
+    {
+        return [
+            [
+                ['payment', 'group1', 'group2', 'field'],
+                'any',
+                ['payment_other', 'group1', 'group2', 'field']
+            ],
+            [
+                ['payment', 'group1', 'group2', 'field'],
+                'DE',
+                ['payment_de', 'group1', 'group2', 'field']
+            ],
+            [['payment'], 'GB', ['payment_gb']],
+            [['payment'], 'any', ['payment_other']],
+        ];
+    }
+
+    /**
+     * Assert result of aroundGetElementByPathParts method
+     *
+     * @param \PHPUnit_Framework_MockObject_MockObject|null $result
+     * @param \Closure $getElementByPathParts
+     * @param array $pathParts
+     */
+    private function _aroundGetElementByPathPartsAssertResult($result, $getElementByPathParts, $pathParts)
+    {
         $this->assertEquals($result, $this->_model->aroundGetElementByPathParts(
             $this->getMock('Magento\Backend\Model\Config\Structure', [], [], '', false),
             $getElementByPathParts,
@@ -91,36 +136,31 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
-    public function aroundGetElementByPathPartsDataProvider()
+    /**
+     * Get callback for aroundGetElementByPathParts method
+     *
+     * @param array $expectedPathParts
+     * @param \PHPUnit_Framework_MockObject_MockObject|null $result
+     * @return \Closure
+     */
+    private function _getElementByPathPartsCallback($expectedPathParts, $result)
     {
-        $data = [];
-        foreach ([true, false] as $returnResult) {
-            $data = array_merge(
-                $data,
-                [
-                    [
-                        ['payment', 'group1', 'group2', 'field'],
-                        'any',
-                        ['payment_other', 'group1', 'group2', 'field'],
-                        $returnResult
-                    ],
-                    [
-                        ['payment', 'group1', 'group2', 'field'],
-                        'DE',
-                        ['payment_de', 'group1', 'group2', 'field'],
-                        $returnResult
-                    ],
-                    [['payment'], 'GB', ['payment_gb'], $returnResult],
-                    [
-                        ['non-payment', 'group1', 'group2', 'field'],
-                        'any',
-                        ['non-payment', 'group1', 'group2', 'field'],
-                        $returnResult
-                    ],
-                    [['non-payment'], 'any', ['non-payment'], $returnResult],
-                ]
-            );
-        }
-        return $data;
+        $self = $this;
+        return function ($pathParts) use ($self, $expectedPathParts, $result) {
+            $self->assertEquals($expectedPathParts, $pathParts);
+            return $result;
+        };
+    }
+
+    /**
+     * Prepare helper for test
+     *
+     * @param string $countryCode
+     */
+    private function _getElementByPathPartsPrepareHelper($countryCode)
+    {
+        $this->_helper->expects($this->once())
+            ->method('getConfigurationCountryCode')
+            ->will($this->returnValue($countryCode));
     }
 }

@@ -46,48 +46,89 @@ class BackendTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetConfigurationCountryCodeFromRequest()
+    {
+        $this->_configurationCountryCodePrepareRequest('US');
+        $this->_configurationCountryCodeAssertResult('US');
+    }
+
     /**
-     * @param string $expected
+     * @param string|null $request
+     * @dataProvider getConfigurationCountryCodeFromConfigDataProvider
+     */
+    public function testGetConfigurationCountryCodeFromConfig($request)
+    {
+        $this->_configurationCountryCodePrepareRequest($request);
+        $this->_configurationCountryCodePrepareConfig('GB');
+        $this->_configurationCountryCodeAssertResult('GB');
+    }
+
+    public function getConfigurationCountryCodeFromConfigDataProvider()
+    {
+        return [
+            [null],
+            ['not country code'],
+        ];
+    }
+
+    /**
      * @param string|null $request
      * @param string|null|false $config
      * @param string|null $default
-     * @dataProvider getConfigurationCountryCodeDataProvider
+     * @dataProvider getConfigurationCountryCodeFromDefaultDataProvider
      */
-    public function testGetConfigurationCountryCode($expected, $request, $config, $default)
+    public function testGetConfigurationCountryCodeFromDefault($request, $config, $default)
+    {
+        $this->_configurationCountryCodePrepareRequest($request);
+        $this->_configurationCountryCodePrepareConfig($config);
+        $this->_coreHelper->expects($this->once())
+            ->method('getDefaultCountry')
+            ->will($this->returnValue($default));
+        $this->_configurationCountryCodeAssertResult($default);
+    }
+
+    public function getConfigurationCountryCodeFromDefaultDataProvider()
+    {
+        return [
+            [null, false, 'DE'],
+            ['not country code', false, 'DE'],
+            ['not country code', '', 'any final result']
+        ];
+    }
+
+    /**
+     * Prepare request for test
+     *
+     * @param string|null $request
+     */
+    private function _configurationCountryCodePrepareRequest($request)
     {
         $this->_request->expects($this->once())
             ->method('getParam')
             ->with(\Magento\Paypal\Model\Config\StructurePlugin::REQUEST_PARAM_COUNTRY)
             ->will($this->returnValue($request));
-        if (isset($config)) {
-            $this->_backendConfig->expects($this->once())
-                ->method('getConfigDataValue')
-                ->with(\Magento\Paypal\Block\Adminhtml\System\Config\Field\Country::FIELD_CONFIG_PATH)
-                ->will($this->returnValue($config));
-        } else {
-            $this->_backendConfig->expects($this->never())
-                ->method('getConfigDataValue');
-        }
-        if (isset($default)) {
-            $this->_coreHelper->expects($this->once())
-                ->method('getDefaultCountry')
-                ->will($this->returnValue($default));
-        } else {
-            $this->_coreHelper->expects($this->never())
-                ->method('getDefaultCountry');
-        }
-        $this->assertEquals($expected, $this->_helper->getConfigurationCountryCode());
     }
 
-    public function getConfigurationCountryCodeDataProvider()
+    /**
+     * Prepare backend config for test
+     *
+     * @param string|null|false $config
+     */
+    private function _configurationCountryCodePrepareConfig($config)
     {
-        return [
-            ['US', 'US', null, null],
-            ['GB', null, 'GB', null],
-            ['GB', 'not country code', 'GB', null],
-            ['DE', null, false, 'DE'],
-            ['DE', 'not country code', false, 'DE'],
-            ['any final result', 'not country code', '', 'any final result']
-        ];
+        $this->_backendConfig->expects($this->once())
+            ->method('getConfigDataValue')
+            ->with(\Magento\Paypal\Block\Adminhtml\System\Config\Field\Country::FIELD_CONFIG_PATH)
+            ->will($this->returnValue($config));
+    }
+
+    /**
+     * Assert result of getConfigurationCountryCode method
+     *
+     * @param string $expected
+     */
+    private function _configurationCountryCodeAssertResult($expected)
+    {
+        $this->assertEquals($expected, $this->_helper->getConfigurationCountryCode());
     }
 }

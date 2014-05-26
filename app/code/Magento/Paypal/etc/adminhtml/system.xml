@@ -315,7 +315,7 @@
                             <config_path>payment/paypal_standard/line_items_summary</config_path>
                             <comment>Uses store frontend name by default.</comment>
                             <depends>
-                                <field id="line_items_enabled">1</field>
+                                <field id="line_items_enabled">0</field>
                             </depends>
                             <attribute type="shared">1</attribute>
                         </field>
@@ -611,12 +611,14 @@
                         <frontend_class>paypal-enabler paypal-ec-pe paypal-payflowlink</frontend_class>
                         <attribute type="shared">1</attribute>
                     </field>
-                    <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
+                    <field id="enable_express_checkout_basic" translate="label" type="select" sortOrder="40">
                         <label>Enable Express Checkout</label>
                         <config_path>payment/payflow_express/active</config_path>
                         <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                         <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                         <attribute type="shared">1</attribute>
+                    </field>
+                    <field id="enable_express_checkout" extends="payment_all_paypal/payflow_link/payflow_link_required/enable_express_checkout_basic" showInDefault="1" showInWebsite="1">
                         <requires>
                             <field id="enable_payflow_link"/>
                         </requires>
@@ -795,7 +797,7 @@
                                 <field id="api_authentication">1</field>
                             </depends>
                         </field>
-                        <field id="api_wizard" translate="button_label attribute" sortOrder="70" showInDefault="1" showInWebsite="1">
+                        <field id="api_wizard" translate="button_label attribute sandbox_button_label" sortOrder="70" showInDefault="1" showInWebsite="1">
                             <button_label>Get Credentials from PayPal</button_label>
                             <button_url>
                                 <![CDATA[https://www.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]>
@@ -1220,29 +1222,29 @@
                         <label>Title</label>
                         <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                         <config_path>payment/hosted_pro/title</config_path>
-                        <frontend_class>validate-number</frontend_class>
                     </field>
                     <field id="sort_order" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" translate="label">
                         <label>Sort Order</label>
                         <config_path>payment/hosted_pro/sort_order</config_path>
+                        <frontend_class>validate-number</frontend_class>
                     </field>
-                    <field id="payment_action" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" translate="label">
+                    <field id="payment_action" type="select" showInDefault="1" showInWebsite="1" sortOrder="30" translate="label">
                         <label>Payment Action</label>
                         <config_path>payment/hosted_pro/payment_action</config_path>
                     </field>
-                    <field id="display_ec" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40" translate="label">
+                    <field id="display_ec" type="select" showInDefault="1" showInWebsite="1" sortOrder="40" translate="label">
                         <label>Display Express Checkout in the Payment Information step</label>
                         <config_path>payment/hosted_pro/display_ec</config_path>
                     </field>
                     <group id="pphs_settings_advanced" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
                         <label>Advanced Settings</label>
                         <fieldset_css>config-advanced</fieldset_css>
-                        <field id="allowspecific" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10" translate="label">
+                        <field id="allowspecific" type="select" showInDefault="1" showInWebsite="1" sortOrder="10" translate="label">
                             <label>Payment Applicable From</label>
                             <config_path>payment/hosted_pro/allowspecific</config_path>
                             <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
                         </field>
-                        <field id="specificcountry" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20" translate="label">
+                        <field id="specificcountry" type="multiselect" showInDefault="1" showInWebsite="1" sortOrder="20" translate="label">
                             <label>Countries Payment Applicable From</label>
                             <config_path>payment/hosted_pro/specificcountry</config_path>
                             <source_model>Magento\Paypal\Model\System\Config\Source\BuyerCountry</source_model>
@@ -1250,12 +1252,12 @@
                                 <field id="allowspecific">1</field>
                             </depends>
                         </field>
-                        <field id="debug" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" translate="label">
+                        <field id="debug" type="select" showInDefault="1" showInWebsite="1" sortOrder="30" translate="label">
                             <label>Debug Mode</label>
                             <config_path>payment/hosted_pro/debug</config_path>
                             <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                         </field>
-                        <field id="verify_peer" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="35" translate="label">
+                        <field id="verify_peer" type="select" showInDefault="1" showInWebsite="1" sortOrder="35" translate="label">
                             <label>Enable SSL verification</label>
                             <config_path>payment/hosted_pro/verify_peer</config_path>
                             <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
@@ -1384,12 +1386,8 @@
                             <frontend_class>paypal-enabler paypal-ec-pe paypal-payflow-advanced</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
-                        <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
-                            <config_path>payment/payflow_express/active</config_path>
+                        <field id="enable_express_checkout" extends="payment_all_paypal/payflow_link/payflow_link_required/enable_express_checkout_basic" showInDefault="1" showInWebsite="1">
                             <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Field\Hidden</frontend_model>
-                            <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                            <frontend_class>paypal-ec-payflow-enabler</frontend_class>
-                            <attribute type="shared">1</attribute>
                             <requires>
                                 <field id="enable_payflow_advanced"/>
                             </requires>
@@ -1550,6 +1548,12 @@
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>
+                        <field id="enable_express_checkout" extends="payment_all_paypal/payflow_link/payflow_link_required/enable_express_checkout_basic" showInDefault="1" showInWebsite="1">
+                            <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Field\Hidden</frontend_model>
+                            <requires>
+                                <field id="enable_paypal_payflow"/>
+                            </requires>
+                        </field>
                     </group>
                     <group id="settings_paypal_payflow" translate="label">
                         <group id="settings_paypal_payflow_advanced" translate="label">
@@ -1636,6 +1640,11 @@
                             </field>
                         </group>
                     </group>
+                </group>
+            </group>
+            <group id="paypal_alternative_payment_methods">
+                <group id="express_checkout_us">
+                    <attribute type="activity_path">payment/payflow_express/active</attribute>
                 </group>
             </group>
         </section>
@@ -1749,7 +1758,9 @@
         <section id="payment_ca" extends="payment_other">
             <group id="paypal_payment_solutions">
                 <group id="wps_other" sortOrder="20"/>
-                <group id="express_checkout_other" sortOrder="50"/>
+                <group id="express_checkout_other" sortOrder="50">
+                    <attribute type="activity_path">payment/payflow_express/active</attribute>
+                </group>
                 <group id="wpp_ca" extends="payment_all_paypal/wpp" sortOrder="10"/>
                 <group id="paypal_payflowpro_ca" extends="payment_all_paypal/paypal_payflowpro" sortOrder="30"/>
                 <group id="payflow_link_ca" extends="payment_all_paypal/payflow_link" sortOrder="40"/>
