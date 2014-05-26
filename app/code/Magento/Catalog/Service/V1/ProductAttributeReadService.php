@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1;
 
+use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
+
 /**
  * Class ProductAttributeReadService
  * @package Magento\Catalog\Service\V1
@@ -18,26 +20,38 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
      */
     private $metadataService;
 
+    private $inputTypeFactory;
+
     /**
      * @param ProductMetadataServiceInterface $metadataService
+     * @param InputtypeFactory $inputTypeFactory
      */
-    public function __construct(ProductMetadataServiceInterface $metadataService)
+    public function __construct(
+        ProductMetadataServiceInterface $metadataService,
+        InputtypeFactory $inputTypeFactory
+    )
     {
         $this->metadataService = $metadataService;
+        $this->inputTypeFactory = $inputTypeFactory;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTypes()
+    public function types()
     {
-        $types = array();
-        foreach ($this->metadataService->getProductAttributesMetadata() as $attributeMetadata) {
-            $types[] = [
-                'value' => $attributeMetadata->getFrontendInput(),
-                'label' => $attributeMetadata->getFrontendLabel()
-            ];
-        }
-        return $types;
+        $inputType = $this->inputTypeFactory->create();
+        return $inputType->toOptionArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function info($identifier)
+    {
+        return $this->metadataService->getAttributeMetadata(
+            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            $identifier
+        );
     }
 }

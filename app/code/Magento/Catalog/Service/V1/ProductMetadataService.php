@@ -9,6 +9,7 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
 /**
  * Class ProductMetadataService
@@ -37,29 +38,29 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     private $validationRuleBuilder;
 
     /**
-     * @var Data\Eav\AttributeMetadataBuilder
+     * @var Data\Eav\AttributeMetadataBuilderFactory
      */
-    private $attributeMetadataBuilder;
+    private $attributeMetadataBuilderFactory;
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Data\Eav\OptionBuilder $optionBuilder
      * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
-     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param Data\Eav\AttributeMetadataBuilderFactory $attributeMetadataBuilderFactory
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         Data\Eav\OptionBuilder $optionBuilder,
         Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
-        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        Data\Eav\AttributeMetadataBuilderFactory $attributeMetadataBuilderFactory
     ) {
         $this->eavConfig = $eavConfig;
         $this->scopeResolver = $scopeResolver;
         $this->optionBuilder = $optionBuilder;
         $this->validationRuleBuilder = $validationRuleBuilder;
-        $this->attributeMetadataBuilder = $attributeMetadataBuilder;
+        $this->attributeMetadataBuilderFactory = $attributeMetadataBuilderFactory;
     }
 
     /**
@@ -128,45 +129,38 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     }
 
     /**
-     * @param  AbstractAttribute
+     * @param  AbstractAttribute $attribute
      * @return Data\Eav\AttributeMetadata
      */
     private function createMetadataAttribute($attribute)
     {
-        $options = [];
-        if ($attribute->usesSource()) {
-            foreach ($attribute->getSource()->getAllOptions() as $option) {
-                $options[] = $this->optionBuilder->setLabel($option['label'])
-                    ->setValue($option['value'])
-                    ->create();
-            }
-        }
-        $validationRules = [];
-        if ($attribute->getValidateRules()) {
-            foreach ($attribute->getValidateRules() as $name => $value) {
-                $validationRules[$name] = $this->validationRuleBuilder->setName($name)
-                    ->setValue($value)
-                    ->create();
-            }
+        $data = $attribute->getData();
+
+        // fill options and validate rules
+        $data[AttributeMetadata::OPTIONS] = $attribute->usesSource()
+            ? $attribute->getSource()->getAllOptions() : array();
+        $data[AttributeMetadata::VALIDATION_RULES] = $attribute->getValidateRules();
+
+        // fill scope
+        $data[AttributeMetadata::SCOPE] = $attribute->isScopeGlobal()
+            ? 'global' : ($attribute->isScopeWebsite() ? 'website' : 'store');
+
+        // fill frontend labels
+        $data[AttributeMetadata::FRONTEND_LABEL] = array(
+            array(
+                'store_id' => 0,
+                'label' => $attribute->getFrontendLabel()
+            )
+        );
+        foreach ($attribute->getStoreLabels() as $store_id => $label) {
+            $data[AttributeMetadata::FRONTEND_LABEL][] = array(
+                'store_id' => $store_id,
+                'label' => $label
+            );
         }
 
-        $this->attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
-            ->setFrontendInput($attribute->getFrontendInput())
-            ->setInputFilter($attribute->getInputFilter())
-            ->setStoreLabel($attribute->getStoreLabel())
-            ->setValidationRules($validationRules)
-            ->setVisible($attribute->getIsVisible())
-            ->setRequired($attribute->getIsRequired())
-            ->setMultilineCount($attribute->getMultilineCount())
-            ->setDataModel($attribute->getDataModel())
-            ->setOptions($options)
-            ->setFrontendClass($attribute->getFrontend()->getClass())
-            ->setFrontendLabel($attribute->getFrontendLabel())
-            ->setNote($attribute->getNote())
-            ->setIsSystem($attribute->getIsSystem())
-            ->setIsUserDefined($attribute->getIsUserDefined())
-            ->setSortOrder($attribute->getSortOrder());
-
-        return $this->attributeMetadataBuilder->create();
+        $attributeBuilder = $this->attributeMetadataBuilderFactory->create($attribute->getFrontendInput());
+        $attributeBuilder->populateWithArray($data);
+        return $attributeBuilder->create();
     }
 }

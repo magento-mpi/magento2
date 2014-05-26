@@ -1,11 +1,20 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Service\V1\Data;
 
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 use Magento\Catalog\Service\V1\Data\Product;
 
+/**
+ * Class ProductBuilder
+ * @package Magento\Catalog\Service\V1\Data
+ */
 class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectBuilder
 {
     /**

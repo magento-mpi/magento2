@@ -1,11 +1,20 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
 
+/**
+ * Class ProductService
+ * @package Magento\Catalog\Service\V1
+ */
 class ProductService implements ProductServiceInterface
 {
     /**

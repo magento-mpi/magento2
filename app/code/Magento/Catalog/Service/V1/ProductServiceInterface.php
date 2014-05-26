@@ -1,9 +1,15 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Service\V1;
 
 /**
- * Interface ProductServiceInterface
+ * Class ProductServiceInterface
+ * @package Magento\Catalog\Service\V1
  */
 interface ProductServiceInterface
 {
