@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Data;
+namespace Magento\Catalog\Service\V1\Data\Eav;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
