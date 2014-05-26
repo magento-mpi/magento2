@@ -14,8 +14,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertCustomOptionsOnProductPage
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertCustomOptionsOnProductPage extends AbstractConstraint
 {
@@ -119,7 +117,7 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

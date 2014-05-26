@@ -89,7 +89,7 @@ class CatalogProductView extends FrontendPage
         'titleBlock' => [
             'name' => 'titleBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Title',
-            'locator' => '.page.title h1.title',
+            'locator' => '.page.title',
             'strategy' => 'css selector',
         ]
     ];

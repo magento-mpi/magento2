@@ -35,7 +35,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * @group Products_(CS)
  * @ZephyrId MAGETWO-23544
  */
-class UpdateProductSimpleEntityTest extends Injectable
+class UpdateSimpleProductEntityTest extends Injectable
 {
     /**
      * Simple product fixture
@@ -59,32 +59,27 @@ class UpdateProductSimpleEntityTest extends Injectable
     protected $editProductPage;
 
     /**
-     * Category fixture
-     *
-     * @var CatalogCategoryEntity
-     */
-    protected $category;
-
-    /**
      * Injection data
      *
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductEdit $editProductPage
+     * @param CatalogCategoryEntity $category
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
     public function __inject(
         CatalogProductIndex $productGrid,
         CatalogProductEdit $editProductPage,
+        CatalogCategoryEntity $category,
         FixtureFactory $fixtureFactory
     ) {
         $this->product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             [
-                'dataSet' => 'product_without_category',
+                'dataSet' => 'default',
                 'data' => [
                     'category_ids' => [
-                        'category' => $this->category
+                        'category' => $category
                     ]
                 ]
             ]
@@ -104,7 +99,6 @@ class UpdateProductSimpleEntityTest extends Injectable
     public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
-        $this->category = $category;
         return [
             'category' => $category
         ];

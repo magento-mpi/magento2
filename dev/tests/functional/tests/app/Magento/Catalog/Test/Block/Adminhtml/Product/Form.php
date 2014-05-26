@@ -75,11 +75,18 @@ class Form extends FormTabs
     protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
 
     /**
-     * Locator status of products
+     * Locator status of products - status On
      *
      * @var string
      */
-    protected $onlineSwitcher = '#product-online-switcher + [for="product-online-switcher"]';
+    protected $onlineSwitcherOn = '#product-online-switcher:checked + [for="product-online-switcher"]';
+
+    /**
+     * Locator status of products - status Off
+     *
+     * @var string
+     */
+    protected $onlineSwitcherOff = '#product-online-switcher:not(:checked) + [for="product-online-switcher"]';
 
     /**
      * Category fixture
@@ -96,13 +103,27 @@ class Form extends FormTabs
      * @param Element $element
      * @return $this
      */
-    public function fillProduct(FixtureInterface $fixture, CatalogCategoryEntity $category = null, Element $element = null)
-    {
+    public function fillProduct(
+        FixtureInterface $fixture,
+        CatalogCategoryEntity $category = null,
+        Element $element = null
+    ) {
         $this->category = $category;
         $this->fillCategory($fixture);
-        if ($fixture instanceof InjectableFixture && $fixture->getStatus() === 'Product offline') {
-            $this->_rootElement->find($this->onlineSwitcher)->click();
+
+        if ($fixture instanceof InjectableFixture) {
+            $status = $fixture->getStatus();
+            if ($status === 'Product offline'
+                && $this->_rootElement->find($this->onlineSwitcherOn)->isVisible()
+            ) {
+                $this->_rootElement->find($this->onlineSwitcherOn)->click();
+            } elseif ($status === 'Product online'
+                && $this->_rootElement->find($this->onlineSwitcherOff)->isVisible()
+            ) {
+                $this->_rootElement->find($this->onlineSwitcherOff)->click();
+            }
         }
+
         return parent::fill($fixture, $element);
     }
 
@@ -136,7 +157,7 @@ class Form extends FormTabs
             $categoryName = $this->category->getName();
         }
         if (empty($categoryName) && !($fixture instanceof InjectableFixture)) {
-                $categoryName = $fixture->getCategoryName();
+            $categoryName = $fixture->getCategoryName();
         }
         if (empty($categoryName)) {
             return;
