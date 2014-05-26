@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Test\Block\Catalog\Layer;
+namespace Magento\LayeredNavigation\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
  * Catalog layered navigation view block
- *
  */
-class View extends Block
+class Navigation extends Block
 {
     /**
      * 'Clear All' link

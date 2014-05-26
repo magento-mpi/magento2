@@ -33,7 +33,7 @@ class CatalogCategoryView extends AbstractCatalogCategoryView
         ],
         'layeredNavigationBlock' => [
             'name' => 'layeredNavigationBlock',
-            'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
+            'class' => 'Magento\LayeredNavigation\Test\Block\Navigation',
             'locator' => '.block.filter',
             'strategy' => 'css selector',
         ],
@@ -62,7 +62,7 @@ class CatalogCategoryView extends AbstractCatalogCategoryView
     }
 
     /**
-     * @return \Magento\Search\Test\Block\Catalog\Layer\View
+     * @return \Magento\LayeredNavigation\Test\Block\Navigation
      */
     public function getLayeredNavigationBlock()
     {

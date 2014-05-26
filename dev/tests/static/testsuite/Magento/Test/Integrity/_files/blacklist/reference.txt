@@ -33,3 +33,4 @@ DbTest
 Model1
 Model3
 \Magento\Framework\Error\Processor
+\Magento\GiftCardAccount\Test\Page\CustomerAccountIndex
