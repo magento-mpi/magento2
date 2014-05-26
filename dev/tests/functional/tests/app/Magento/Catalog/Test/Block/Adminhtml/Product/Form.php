@@ -282,11 +282,11 @@ class Form extends FormTabs
     }
 
     /**
-     * Click 'Add AttributeButton' on the Product page
+     * Click 'Add Attribute' Button on the Product page
      *
      * @return void
      */
-    public function AddAttribute()
+    public function addAttribute()
     {
         $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
     }

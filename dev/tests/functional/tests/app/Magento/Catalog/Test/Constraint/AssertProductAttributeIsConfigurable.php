@@ -51,7 +51,7 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
 
         $productGrid->open();
         $productGrid->getProductBlock()->addProduct('configurable');
-        $newProductPage->getForm()->AddAttribute();
+        $newProductPage->getForm()->addAttribute();
         $searchForm = $newProductPage->getSearchAttributeForm();
         $searchForm->fillSearch($this->attributeFrontendLabel);
 
