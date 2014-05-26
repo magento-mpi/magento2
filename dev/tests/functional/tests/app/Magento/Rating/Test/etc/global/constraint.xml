@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertProductRatingSuccessSaveMessage module="Magento_Rating">
+        <severeness>middle</severeness>
+        <require>
+        </require>
+    </assertProductRatingSuccessSaveMessage>
+    <assertProductRatingInGrid module="Magento_Rating">
+        <severeness>middle</severeness>
+        <require>
+        </require>
+    </assertProductRatingInGrid>
+    <assertProductRatingInProductPage module="Magento_Rating">
+        <severeness>middle</severeness>
+        <require>
+        </require>
+    </assertProductRatingInProductPage>
+    <assertProductRatingNotInProductPage module="Magento_Rating">
+        <severeness>middle</severeness>
+        <require>
+        </require>
+    </assertProductRatingNotInProductPage>
+</constraint>

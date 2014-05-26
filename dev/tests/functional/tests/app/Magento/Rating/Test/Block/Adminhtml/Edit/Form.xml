@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <rating_information>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#rating_tabs_form_section</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <stores>
+                <selector>[name="stores[]"]</selector>
+                <input>selectgrouplist</input>
+            </stores>
+            <is_active>
+                <input>checkbox</input>
+            </is_active>
+        </fields>
+    </rating_information>
+</tabs>

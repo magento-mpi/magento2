@@ -33,6 +33,13 @@ class Form extends BlockForm
     protected $submitButton = '.action.submit';
 
     /**
+     * Single product rating selector
+     *
+     * @var string
+     */
+    protected $rating = './/*[@id="%s_rating_label"]/..[contains(@class,"rating")]';
+
+    /**
      * Submit review form
      */
     public function submit()
@@ -48,5 +55,15 @@ class Form extends BlockForm
     public function getLegend()
     {
         return $this->_rootElement->find($this->legendSelector);
+    }
+
+    /**
+     * Get single product rating
+     *
+     * @param $code
+     * @return Element
+     */
+    public function getRating($code) {
+        return $this->_rootElement->find(sprintf($this->rating, $code), Locator::SELECTOR_XPATH);
     }
 }
