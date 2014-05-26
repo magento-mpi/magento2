@@ -6,47 +6,45 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Test\Page;
+namespace Magento\CatalogSearch\Test\Page; 
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
+use Mtf\Page\FrontendPage; 
 
 /**
- * Advanced search page
- *
+ * Class Advanced
  */
-class Advanced extends Page
+class Advanced extends FrontendPage
 {
-    /**
-     * URL for search advanced page
-     */
     const MCA = 'catalogsearch/advanced';
 
-    /**
-     * Advanced search form
-     *
-     * @var string
-     */
-    protected $searchForm = '.form.search.advanced';
+    protected $_blocks = [
+        'searchForm' => [
+            'name' => 'searchForm',
+            'class' => 'Magento\CatalogSearch\Test\Block\Form\Advanced',
+            'locator' => '.form.search.advanced',
+            'strategy' => 'css selector',
+        ],
+        'form' => [
+            'name' => 'form',
+            'class' => 'Magento\CatalogSearch\Test\Block\Advanced\Form',
+            'locator' => '.form.search.advanced',
+            'strategy' => 'css selector',
+        ],
+    ];
 
     /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-    }
-
-    /**
-     * Get search block form
-     *
      * @return \Magento\CatalogSearch\Test\Block\Form\Advanced
      */
     public function getSearchForm()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogSearchFormAdvanced(
-            $this->_browser->find($this->searchForm, Locator::SELECTOR_CSS)
-        );
+        return $this->getBlockInstance('searchForm');
+    }
+
+    /**
+     * @return \Magento\CatalogSearch\Test\Block\Advanced\Form
+     */
+    public function getForm()
+    {
+        return $this->getBlockInstance('form');
     }
 }

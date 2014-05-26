@@ -23,10 +23,23 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 {
     /**
+     * Placeholder for data sent Curl
+     *
+     * @var array
+     */
+    protected $placeholderData = [
+        'Yes' => 1,
+        'In Stock' => 1,
+        'Catalog, Search' => 4,
+        'Taxable Goods' => 2,
+        'Main Website' => 1
+    ];
+
+    /**
      * Post request for creating simple product
      *
      * @param FixtureInterface $fixture [optional]
-     * @return mixed|string
+     * @return array
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
@@ -41,6 +54,14 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             } else {
                 $data = $fields;
             }
+            // Apply a placeholder for data
+            array_walk_recursive(
+                $data,
+                function(&$item, $key, $placeholder) {
+                    $item = isset($placeholder[$item]) ? $placeholder[$item] : $item;
+                },
+                $this->placeholderData
+            );
         } else {
             $data = $this->_prepareData($fixture->getData('fields'), $prefix);
         }

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertAdvancedSearchProductsResult module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+        <require></require>
+    </assertAdvancedSearchProductsResult>
+    <assertAdvancedSearchSuccessSummaryResult module="Magento_CatalogSearch">
+        <severeness>high</severeness>
+        <require></require>
+    </assertAdvancedSearchSuccessSummaryResult>
+    <assertAdvancedSearchNothingFoundSummaryResult module="Magento_CatalogSearch">
+        <severeness>low</severeness>
+        <require></require>
+    </assertAdvancedSearchNothingFoundSummaryResult>
+</constraint>

@@ -6,18 +6,33 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Test\Page\Advanced;
+namespace Magento\CatalogSearch\Test\Page\Advanced; 
 
 use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
 
 /**
- * Advanced search result page
- *
+ * Class Result
  */
 class Result extends CatalogsearchResult
 {
-    /**
-     * URL for search advanced result page
-     */
     const MCA = 'catalogsearch/advanced/result';
+
+    protected function _init()
+    {
+        $this->_blocks['searchResultBlock'] = [
+            'name' => 'searchResultBlock',
+            'class' => 'Magento\CatalogSearch\Test\Block\Advanced\Result',
+            'locator' => '.column.main',
+            'strategy' => 'css selector',
+        ];
+        parent::_init();
+    }
+
+    /**
+     * @return \Magento\CatalogSearch\Test\Block\Advanced\Result
+     */
+    public function getSearchResultBlock()
+    {
+        return $this->getBlockInstance('searchResultBlock');
+    }
 }

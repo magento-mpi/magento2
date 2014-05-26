@@ -85,7 +85,6 @@ class ListProduct extends Block
      * Check if product with specified name is visible
      *
      * @param string $productName
-     *
      * @return bool
      */
     public function isProductVisible($productName)
@@ -107,6 +106,7 @@ class ListProduct extends Block
      * Open product view page by clicking on product name
      *
      * @param string $productName
+     * @return void
      */
     public function openProductViewPage($productName)
     {
@@ -117,7 +117,6 @@ class ListProduct extends Block
      * This method returns the element representing the product details for the named product.
      *
      * @param string $productName String containing the name of the product
-     *
      * @return Element
      */
     protected function getProductDetailsElement($productName)
@@ -132,25 +131,18 @@ class ListProduct extends Block
      * This method returns the element on the page associated with the product name.
      *
      * @param string $productName String containing the name of the product
-     *
      * @return Element
      */
     protected function getProductNameElement($productName)
     {
-        return $this->_rootElement->find(
-            $this->productTitle,
-            Locator::SELECTOR_CSS
-        )->find(
-                '//*[@title="' . $productName . '"]',
-                Locator::SELECTOR_XPATH
-            );
+        return $this->_rootElement->find($this->productTitle, Locator::SELECTOR_CSS)
+            ->find('//*[@title="' . $productName . '"]', Locator::SELECTOR_XPATH);
     }
 
     /**
      * Open MAP block on category page
      *
-     * @param $productName
-     *
+     * @param string $productName
      * @return void
      */
     public function openMapBlockOnCategoryPage($productName)
@@ -172,7 +164,6 @@ class ListProduct extends Block
      * Retrieve product price by specified Id
      *
      * @param int $productId
-     *
      * @return string
      */
     public function getPrice($productId)

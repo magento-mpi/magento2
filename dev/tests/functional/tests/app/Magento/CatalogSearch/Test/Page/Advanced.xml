@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalogsearch/advanced" >
+    <block>
+        <name>searchForm</name>
+        <class>Magento\CatalogSearch\Test\Block\Form\Advanced</class>
+        <locator>.form.search.advanced</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>form</name>
+        <class>Magento\CatalogSearch\Test\Block\Advanced\Form</class>
+        <locator>.form.search.advanced</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
