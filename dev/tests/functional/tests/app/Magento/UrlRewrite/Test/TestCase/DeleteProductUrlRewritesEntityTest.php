@@ -71,18 +71,18 @@ class DeleteProductUrlRewritesEntityTest extends Injectable
             'urlRewrite',
             [
                 'dataSet' => 'default',
-                'data' => ['rewrite_path' => 'product/' . $product->getId()]
+                'data' => ['id_path' => 'product/' . $product->getId()]
             ]
         );
         $productRedirect->persist();
 
         $this->urlRewriteIndex = $urlRewriteIndex;
         $this->urlRewriteEdit = $urlRewriteEdit;
-        return ['productRedirect' => $productRedirect, 'product' => $product];
+        return ['productRedirect' => $productRedirect];
     }
 
     /**
-     * Test creation for delete product url rewrites entity
+     * Delete product url rewrites entity
      *
      * @param UrlRewrite $productRedirect
      * @return void

@@ -14,10 +14,10 @@ use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertNotFoundPage
+ * Class AssertPageByUrlRewriteIsNotFound
  * Checking the server response 404 page on frontend
  */
-class AssertNotFoundPage extends AbstractConstraint
+class AssertPageByUrlRewriteIsNotFound extends AbstractConstraint
 {
     /**
      * Message on the product page 404
