@@ -75,4 +75,10 @@
     <assertCustomerGroupNotInGrid module="Magento_Customer">
         <severeness>low</severeness>
     </assertCustomerGroupNotInGrid>
+    <assertCustomerFailRegisterMessage module="Magento_Customer">
+        <severeness>low</severeness>
+        <require>
+            <registerPage class="Magento\Customer\Test\Page\CustomerAccountCreate" />
+        </require>
+    </assertCustomerFailRegisterMessage>
 </constraint>
