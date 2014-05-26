@@ -31,9 +31,9 @@ class AssertCustomerSuccessDeleteMessage extends AbstractConstraint
      * @param CustomerIndex $pageCustomerIndex
      * @return void
      */
-    public function processAssert(CustomerIndex $pageCustomerIndex)
+    public function processAssert(CustomerIndex $customerIndexPage)
     {
-        $actualMessage = $pageCustomerIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $customerIndexPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::DELETE_MESSAGE,
             $actualMessage,

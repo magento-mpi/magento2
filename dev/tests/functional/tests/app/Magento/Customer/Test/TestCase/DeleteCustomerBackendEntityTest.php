@@ -18,7 +18,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  *
  * Test Flow:
  * Preconditions:
- * 1.Create customer on the backend
+ * 1. Create customer on the backend
  *
  * Steps:
  * 1. Open backend
@@ -63,14 +63,13 @@ class DeleteCustomerBackendEntityTest extends Injectable
      * @param CustomerInjectable $initialCustomer
      * @return void
      */
-    public function testDeleteCustomerBackendEntity(
-        CustomerInjectable $initialCustomer
-    ) {
+    public function testDeleteCustomerBackendEntity(CustomerInjectable $customer)
+    {
         // Preconditions:
-        $initialCustomer->persist();
+        $customer->persist();
 
         // Steps:
-        $filter = ['email' => $initialCustomer->getEmail()];
+        $filter = ['email' => $customer->getEmail()];
         $this->customerIndexPage->open();
         $this->customerIndexPage->getCustomerGridBlock()->searchAndOpen($filter);
         $this->customerIndexEditPage->getPageActionsBlock()->delete();

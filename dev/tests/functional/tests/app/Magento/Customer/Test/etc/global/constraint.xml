@@ -36,8 +36,8 @@
     <assertCustomerNotInGrid module="Magento_Customer">
         <severeness>middle</severeness>
         <require>
-            <initialCustomer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
-            <pageCustomerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <customerIndexPage class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
         </require>
     </assertCustomerNotInGrid>
     <assertCustomerForm module="Magento_Customer">

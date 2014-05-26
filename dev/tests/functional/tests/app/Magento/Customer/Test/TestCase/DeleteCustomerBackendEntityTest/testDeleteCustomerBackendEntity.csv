@@ -1,2 +1,2 @@
-"customers/dataSet";"constraint"
+"customer/dataSet";"constraint"
 "default";"assertCustomerSuccessDeleteMessage, assertCustomerNotInGrid"
