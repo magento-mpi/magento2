@@ -103,6 +103,31 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($setId, $this->service->create($setDataMock));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testRemoveAbsentId()
+    {
+        $this->service->remove('absent id');
+    }
+
+    public function testRemovePositive()
+    {
+        $id = 456;
+        $setMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
+        $setMock->expects($this->once())->method('load')->with($id)->will($this->returnSelf());
+        $setMock->expects($this->once())->method('delete');
+
+        $this->service->remove($id);
+    }
+
     public function testUpdate()
     {
         $data = array(
