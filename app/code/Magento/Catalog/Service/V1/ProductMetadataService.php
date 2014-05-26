@@ -9,6 +9,7 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
 /**
  * Class ProductMetadataService
@@ -133,53 +134,33 @@ class ProductMetadataService implements ProductMetadataServiceInterface
      */
     private function createMetadataAttribute($attribute)
     {
-        $options = [];
-        if ($attribute->usesSource()) {
-            foreach ($attribute->getSource()->getAllOptions() as $option) {
-                $options[] = $this->optionBuilder->setLabel($option['label'])
-                    ->setValue($option['value'])
-                    ->create();
-            }
-        }
-        $validationRules = [];
-        if ($attribute->getValidateRules()) {
-            foreach ($attribute->getValidateRules() as $name => $value) {
-                $validationRules[$name] = $this->validationRuleBuilder->setName($name)
-                    ->setValue($value)
-                    ->create();
-            }
-        }
+        $data = $attribute->getData();
 
-        if ($attribute->isScopeGlobal()) {
-            $scope = 'global';
-        } elseif ($attribute->isScopeWebsite()) {
-            $scope = 'website';
-        } else {
-            $scope = 'store';
-        }
+        // fill options and validate rules
+        $data[AttributeMetadata::OPTIONS] = $attribute->usesSource()
+            ? $attribute->getSource()->getAllOptions() : array();
+        $data[AttributeMetadata::VALIDATION_RULES] = $attribute->getValidateRules();
 
-        $frontendLabels = array(
+        // fill scope
+        $data[AttributeMetadata::SCOPE] = $attribute->isScopeGlobal()
+            ? 'global' : ($attribute->isScopeWebsite() ? 'website' : 'store');
+
+        // fill frontend labels
+        $data[AttributeMetadata::FRONTEND_LABEL] = array(
             array(
                 'store_id' => 0,
                 'label' => $attribute->getFrontendLabel()
             )
         );
         foreach ($attribute->getStoreLabels() as $store_id => $label) {
-            $frontendLabels[] = array(
+            $data[AttributeMetadata::FRONTEND_LABEL][] = array(
                 'store_id' => $store_id,
                 'label' => $label
             );
         }
 
-
         $attributeBuilder = $this->attributeMetadataBuilderFactory->create($attribute->getFrontendInput());
-        $attributeBuilder->populateWithArray($attribute->getData());
-
-        $attributeBuilder->setFrontendLabel($frontendLabels);
-        $attributeBuilder->setScope($scope);
-        $attributeBuilder->setOptions($options);
-        $attributeBuilder->setValidationRules($validationRules);
-
+        $attributeBuilder->populateWithArray($data);
         return $attributeBuilder->create();
     }
 }
