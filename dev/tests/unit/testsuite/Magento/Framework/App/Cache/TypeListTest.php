@@ -6,47 +6,89 @@
  * @license     {license_link}
  */
 
+namespace Magento\Framework\App\Cache;
+
 /**
  * Test class for \Magento\Framework\App\Cache\TypeList
  */
-namespace Magento\Framework\App\Cache;
-
 class TypeListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\App\Cache\TypeList
      */
     protected $_typeList;
+
+    /**
+     * @var \Magento\Framework\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_cache;
+
+    /**
+     * @var array
+     */
     protected $_typesArray;
+
+    /**
+     * @var \Magento\Framework\Cache\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_config;
+
+    /**
+     * Type key for type list
+     */
+    const TYPE_KEY = 'type';
+
+    /**
+     * Expectation for type cache
+     */
+    const IS_CACHE_ENABLED = true;
+
+    /**
+     * Expected cache type
+     */
+    const CACHE_TYPE = 'Magento\Framework\Cache\FrontendInterface';
 
     protected function setUp()
     {
         $this->_typesArray = [
-            'config' => ['label' => 'Configuration', 'description' => 'System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).'],
-            'layout' => ['label' => 'Layouts', 'description' => 'Layout building instructions.'],
-            'block_html' => ['label' => 'Blocks HTML output', 'description' => 'Page blocks HTML'],
-            'collections' => ['label' => 'Collections Data', 'description' => 'Collection data files.'],
-            'eav' => ['label' => 'EAV types and attributes', 'description' => 'Entity types declaration cache.'],
-            'config_integration' => ['label' => 'Integrations Configuration', 'description' => 'Integration configuration file.'],
-            'full_page' => ['label' => 'Page Cache', 'description' => 'Full page caching.'],
-            'translate' => ['label' => 'Translations', 'description' => 'Translation files.'],
-            'config_webservice' => ['label' => 'Web Services Configuration', 'description' => 'REST and SOAP configurations, generated WSDL file.'],
-            'config_integration_api' => ['label' => 'Integrations API Configuration', 'description' => 'Integrations API configuration file.']
+            self::TYPE_KEY => [
+                'label' => 'Type Label',
+                'description' => 'Type Description'
+            ]
         ];
-        $this->_config = $this->getMock('Magento\Framework\Cache\ConfigInterface', ['getTypes', 'getType'], [], '', false);
+        $this->_config = $this->getMock(
+            'Magento\Framework\Cache\ConfigInterface',
+            ['getTypes', 'getType'],
+            [],
+            '',
+            false
+        );
         $this->_config->expects($this->any())->method('getTypes')->will($this->returnValue($this->_typesArray));
 
-        $cacheState = $this->getMock('Magento\Framework\App\Cache\StateInterface', ['isEnabled', 'setEnabled', 'persist'], [], '', false);
-        $cacheState->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
-        $cacheBlockMock = $this->getMock('Magento\Framework\App\Cache\Type\Block', [], [], '', false);
+        $cacheState = $this->getMock(
+            'Magento\Framework\App\Cache\StateInterface',
+            ['isEnabled', 'setEnabled', 'persist'],
+            [],
+            '',
+            false
+        );
+        $cacheState->expects($this->any())->method('isEnabled')->will($this->returnValue(self::IS_CACHE_ENABLED));
+        $cacheBlockMock = $this->getMock(self::CACHE_TYPE, [], [], '', false);
         $factory = $this->getMock('Magento\Framework\App\Cache\InstanceFactory', ['get'], [], '', false);
-        $factory->expects($this->any())->method('get')->with('Magento\Framework\App\Cache\Type\Block')->will($this->returnValue($cacheBlockMock));
-        $this->_cache = $this->getMock('Magento\Framework\App\CacheInterface', ['load', 'getFrontend', 'save', 'remove', 'clean'], [], '', false);
+        $factory->expects($this->any())->method('get')->with(self::CACHE_TYPE)->will(
+            $this->returnValue($cacheBlockMock)
+        );
+        $this->_cache = $this->getMock(
+            'Magento\Framework\App\CacheInterface',
+            ['load', 'getFrontend', 'save', 'remove', 'clean'],
+            [],
+            '',
+            false
+        );
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_typeList = $objectHelper->getObject('Magento\Framework\App\Cache\TypeList',
+        $this->_typeList = $objectHelper->getObject(
+            'Magento\Framework\App\Cache\TypeList',
             [
                 'config' => $this->_config,
                 'cacheState' => $cacheState,
@@ -58,40 +100,83 @@ class TypeListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTypes()
     {
-        $this->assertArrayHasKey('eav', $this->_typeList->getTypes());
-        $this->assertArrayHasKey('translate', $this->_typeList->getTypes());
-        $this->assertArrayHasKey('config_integration_api', $this->_typeList->getTypes());
+        $expectation = [
+            self::TYPE_KEY => $this->_getPreparedType()
+        ];
+        $this->assertEquals($expectation, $this->_typeList->getTypes());
     }
 
     public function testGetInvalidated()
     {
-        $this->_cache->expects($this->any())->method('load')->with('core_cache_invalidate')->will($this->returnValue(serialize($this->_typesArray)));
-        $this->assertArrayHasKey('config', $this->_typeList->getInvalidated());
-        $this->assertArrayHasKey('collections', $this->_typeList->getInvalidated());
-        $this->assertArrayHasKey('full_page', $this->_typeList->getInvalidated());
+        $expectation = [self::TYPE_KEY => $this->_getPreparedType()];
+        $this->_cache->expects($this->once())->method('load')->with(TypeList::INVALIDATED_TYPES)->will(
+            $this->returnValue(serialize($this->_typesArray))
+        );
+        $this->assertEquals($expectation, $this->_typeList->getInvalidated());
     }
 
     public function testInvalidate()
     {
-        $this->_cache->expects($this->any())->method('load')->with('core_cache_invalidate')->will($this->returnValue(serialize($this->_typesArray)));
-        $this->_typesArray['config_integration'] = 1;
-        $this->_cache->expects($this->once())->method('save')->with(serialize($this->_typesArray), 'core_cache_invalidate');
-        $this->_typeList->invalidate('config_integration');
+        // there are no invalidated types
+        $this->_cache->expects($this->once())->method('load')->with(TypeList::INVALIDATED_TYPES)->will(
+            $this->returnValue([])
+        );
+        $expectedInvalidated = [
+            self::TYPE_KEY => 1
+        ];
+        $this->_cache->expects($this->once())->method('save')->with(
+            serialize($expectedInvalidated),
+            TypeList::INVALIDATED_TYPES
+        );
+        $this->_typeList->invalidate(self::TYPE_KEY);
     }
 
-    public function testNotInvalidate()
+    public function testInvalidateList()
     {
-        $this->_cache->expects($this->any())->method('load')->with('core_cache_invalidate')->will($this->returnValue([]));
-        $this->_cache->expects($this->once())->method('save')->with(serialize(['config_integration' => 1]), 'core_cache_invalidate');
-        $this->_typeList->invalidate('config_integration');
+        $this->_cache->expects($this->once())->method('load')->with(TypeList::INVALIDATED_TYPES)->will(
+            $this->returnValue([])
+        );
+        $expectedInvalidated = [
+            self::TYPE_KEY => 1
+        ];
+        $this->_cache->expects($this->once())->method('save')->with(
+            serialize($expectedInvalidated),
+            TypeList::INVALIDATED_TYPES
+        );
+        $this->_typeList->invalidate([self::TYPE_KEY]);
     }
 
     public function testCleanType()
     {
-        $this->_cache->expects($this->any())->method('load')->with('core_cache_invalidate')->will($this->returnValue(serialize($this->_typesArray)));
-        $this->_config->expects($this->any())->method('getType')->with('block_html')->will($this->returnValue(['instance' => 'Magento\Framework\App\Cache\Type\Block']));
-        unset($this->_typesArray['block_html']);
-        $this->_cache->expects($this->once())->method('save')->with(serialize($this->_typesArray), 'core_cache_invalidate');
-        $this->_typeList->cleanType('block_html');
+        $this->_cache->expects($this->once())->method('load')->with(TypeList::INVALIDATED_TYPES)->will(
+            $this->returnValue(serialize($this->_typesArray))
+        );
+        $this->_config->expects($this->once())->method('getType')->with(self::TYPE_KEY)->will(
+            $this->returnValue(['instance' => self::CACHE_TYPE])
+        );
+        unset($this->_typesArray[self::TYPE_KEY]);
+        $this->_cache->expects($this->once())->method('save')->with(
+            serialize($this->_typesArray),
+            TypeList::INVALIDATED_TYPES
+        );
+        $this->_typeList->cleanType(self::TYPE_KEY);
+    }
+
+    /**
+     * Returns prepared type
+     *
+     * @return \Magento\Framework\Object
+     */
+    private function _getPreparedType()
+    {
+        return new \Magento\Framework\Object(
+            [
+                'id' => self::TYPE_KEY,
+                'cache_type' => $this->_typesArray[self::TYPE_KEY]['label'],
+                'description' => $this->_typesArray[self::TYPE_KEY]['description'],
+                'tags' => '',
+                'status' => self::IS_CACHE_ENABLED
+            ]
+        );
     }
 }

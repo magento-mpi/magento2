@@ -1674,4 +1674,6 @@ return array(
     ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
     ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
+    ['getAllMethods', 'Magento\Payment\Model\Config'],
+    ['_getMethod', 'Magento\Payment\Model\Config']
 );

@@ -2495,5 +2495,6 @@ return array(
     [
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
-    ]
+    ],
+    ['Magento\Payment\Model\Config\Source\Allowedmethods']
 );

@@ -9,18 +9,16 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
 
-use Magento\Framework;
-
 class ApiTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
-        \Magento\Framework\Profiler::reset();
+        Profiler::reset();
     }
 
     /**
      * @param array $data
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Pbridge\Model\Payment\Method\Pbridge\Api
+     * @return \PHPUnit_Framework_MockObject_MockObject|Api
      */
     protected function _getApiMock(array $data)
     {
