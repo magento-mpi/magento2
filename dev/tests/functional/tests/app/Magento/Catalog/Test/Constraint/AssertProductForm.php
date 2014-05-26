@@ -121,9 +121,7 @@ class AssertProductForm extends AbstractConstraint
                 $errors = array_merge(
                     $errors,
                     [
-                        "error key -> '{$key}' :
-                        error value ->  '{$fixtureValue}' does not equal ->
-                        '{$formValue}'"
+                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
                     ]
                 );
             }

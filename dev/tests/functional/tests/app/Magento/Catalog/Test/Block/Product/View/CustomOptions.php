@@ -147,6 +147,10 @@ class CustomOptions extends Block
             }
             $options[$option['title']] = $option;
             ++$index;
+            $fieldElement = $this->_rootElement->find(
+                $this->fieldsetLocator . sprintf($this->fieldLocator, '', $index),
+                Locator::SELECTOR_XPATH
+            );
         }
 
         return $options;
