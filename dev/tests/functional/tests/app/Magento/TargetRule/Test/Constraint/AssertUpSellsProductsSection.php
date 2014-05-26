@@ -34,6 +34,7 @@ class AssertUpSellsProductsSection extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
+     * @return void
      */
     public function processAssert(
         CatalogProductSimple $product1,
@@ -62,6 +63,6 @@ class AssertUpSellsProductsSection extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Assert that product is displayed in up-sell section.';
+        return 'Product is displayed in up-sell section.';
     }
 }

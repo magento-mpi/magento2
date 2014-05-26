@@ -43,6 +43,7 @@ class AssertTargetRuleForm extends AbstractConstraint
      * @param TargetRuleEdit $targetRuleEdit
      * @param TargetRule $targetRule
      * @param CustomerSegment $customerSegment
+     * @return void
      */
     public function processAssert(
         TargetRuleIndex $targetRuleIndex,
@@ -148,6 +149,7 @@ class AssertTargetRuleForm extends AbstractConstraint
 
     /**
      * Text success verify Target Rule form
+     *
      * @return string
      */
     public function toString()

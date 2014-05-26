@@ -53,7 +53,7 @@ class ConditionsElement extends AbstractElement
     protected $addNew = './/*[contains(@class,"rule-param-new-child")]/a';
 
     /**
-     * Button remote condition
+     * Button remove condition
      *
      * @var string
      */
@@ -64,7 +64,7 @@ class ConditionsElement extends AbstractElement
      *
      * @var string
      */
-    protected $new = './ul/li/span[contains(@class,"rule-param-new-child")]/..';
+    protected $newCondition = './ul/li/span[contains(@class,"rule-param-new-child")]/..';
 
     /**
      * Type of new condition
@@ -132,7 +132,7 @@ class ConditionsElement extends AbstractElement
         $conditions = $this->decodeValue($value);
         $context = $this->find($this->mainCondition, Locator::SELECTOR_XPATH);
         $this->clear();
-        $this->addConditions($conditions, $context);
+        $this->addMultipleCondition($conditions, $context);
     }
 
     /**
@@ -145,7 +145,7 @@ class ConditionsElement extends AbstractElement
     protected function addConditionsCombination($condition, Element $context)
     {
         $condition = $this->parseCondition($condition);
-        $newCondition = $context->find($this->new, Locator::SELECTOR_XPATH);
+        $newCondition = $context->find($this->newCondition, Locator::SELECTOR_XPATH);
         $newCondition->find($this->addNew, Locator::SELECTOR_XPATH)->click();
         $typeNewCondition = $newCondition->find($this->typeNew, Locator::SELECTOR_XPATH, 'select');
         $typeNewCondition->setValue($condition['type']);
@@ -165,14 +165,14 @@ class ConditionsElement extends AbstractElement
      * @param Element $context
      * @return void
      */
-    protected function addConditions(array $conditions, Element $context)
+    protected function addMultipleCondition(array $conditions, Element $context)
     {
         foreach ($conditions as $key => $condition) {
             $elementContext = is_numeric($key) ? $context : $this->addConditionsCombination($key, $context);
             if (is_string($condition)) {
-                $this->addCondition($condition, $elementContext);
+                $this->addSingleCondition($condition, $elementContext);
             } else {
-                $this->addConditions($condition, $elementContext);
+                $this->addMultipleCondition($condition, $elementContext);
             }
         }
     }
@@ -183,13 +183,12 @@ class ConditionsElement extends AbstractElement
      * @param string $condition
      * @param Element $context
      * @return void
-     * @throws \Exception
      */
-    protected function addCondition($condition, Element $context)
+    protected function addSingleCondition($condition, Element $context)
     {
         $condition = $this->parseCondition($condition);
 
-        $newCondition = $context->find($this->new, Locator::SELECTOR_XPATH);
+        $newCondition = $context->find($this->newCondition, Locator::SELECTOR_XPATH);
         $newCondition->find($this->addNew, Locator::SELECTOR_XPATH)->click();
         $newCondition->find($this->typeNew, Locator::SELECTOR_XPATH, 'select')->setValue($condition['type']);
         $this->waitLoader();

@@ -173,10 +173,9 @@ class FormTabs extends Form
         } else {
             $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
             $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
-            foreach ($this->tabs as $tabName => $tab) {
+            foreach ($tabsFields as $tabName => $fields) {
                 $this->openTab($tabName);
-                $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : [];
-                $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab($fields, $this->_rootElement);
                 $data = array_merge($data, $tabData);
             }
         }

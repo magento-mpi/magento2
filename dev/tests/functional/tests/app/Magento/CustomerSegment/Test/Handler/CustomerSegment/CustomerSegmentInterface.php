@@ -12,8 +12,6 @@ use Mtf\Handler\HandlerInterface;
 
 /**
  * Interface CustomerSegmentInterface
- *
- * @package Magento\CustomerSegment\Test\Handler\CustomerSegment
  */
 interface CustomerSegmentInterface extends HandlerInterface
 {

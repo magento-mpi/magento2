@@ -19,6 +19,12 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
  * Test Creation for CreateTargetRuleEntity
  *
  * Test Flow:
+ *
+ * Preconditions:
+ * 1. Test Category are created.
+ * 2. Products are created (1 product per each category).
+ *
+ * Steps:
  * 1. Log in as default admin user.
  * 2. Go to Marketing > Related Products Rules
  * 3. Click 'Add Rule' button.
@@ -27,7 +33,7 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
  * 6. Perform all assertions.
  *
  * @group Target_Rules_(MX)
- * @ZephyrId MTA-79
+ * @ZephyrId MAGETWO-24686
  */
 class CreateTargetRuleEntityTest extends Injectable
 {
@@ -42,6 +48,8 @@ class CreateTargetRuleEntityTest extends Injectable
     protected $targetRuleNew;
 
     /**
+     * Injection data
+     *
      * @param TargetRuleIndex $targetRuleIndex
      * @param TargetRuleNew $targetRuleNew
      */
@@ -54,10 +62,13 @@ class CreateTargetRuleEntityTest extends Injectable
     }
 
     /**
+     * Run create TargetRule entity test
+     *
      * @param CatalogProductSimple $product1
      * @param CatalogProductSimple $product2
      * @param TargetRule $targetRule
-     * @param CustomerSegment $customerSegment [optional]
+     * @param CustomerSegment|null $customerSegment
+     * @return void
      */
     public function testCreateTargetRuleEntity(
         CatalogProductSimple $product1,

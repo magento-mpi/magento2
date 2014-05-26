@@ -20,7 +20,7 @@ class Form extends FormTabs
      * @param FixtureInterface $fixture
      * @param Element|null $element
      * @param array|null $replace
-     * @return FormTabs|void
+     * @return Form
      */
     public function fill(FixtureInterface $fixture, Element $element = null, array $replace = null)
     {

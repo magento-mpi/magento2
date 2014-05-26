@@ -69,6 +69,6 @@ class AssertCrossSellsProductsSection extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Assert that product is displayed in cross-sell section.';
+        return 'Product is displayed in cross-sell section.';
     }
 }
