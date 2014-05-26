@@ -80,18 +80,13 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getValueDataProvider
      */
-    public function testGetValue($baseAmount, $discountValue, $result)
+    public function testGetValue($baseAmount, $optionsValue, $result)
     {
         $this->baseAmount = $baseAmount;
-        $optionsValue = rand(1, 10);
         $this->prepareMock();
         $this->bundleOptionMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($optionsValue));
-
-        $this->basePriceMock->expects($this->once())->method('calculateBaseValue')
-            ->with($this->equalTo($optionsValue))
-            ->will($this->returnValue($discountValue));
 
         $this->assertSame($result, $this->finalPrice->getValue());
     }
