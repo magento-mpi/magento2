@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Log;
+namespace Magento\Framework;
 
 use Magento\Framework\Filesystem\Directory\Write;
 
@@ -39,12 +39,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->_filesystemMock->expects(
             $this->any()
         )->method(
-            'getDirectoryWrite'
-        )->with(
-            \Magento\Framework\App\Filesystem::LOG_DIR
-        )->will(
-            $this->returnValue($this->_directory)
-        );
+                'getDirectoryWrite'
+            )->with(
+                \Magento\Framework\App\Filesystem::LOG_DIR
+            )->will(
+                $this->returnValue($this->_directory)
+            );
         $this->_directory->expects($this->any())->method('create')->will($this->returnValue(true));
         $this->_directory->expects($this->any())->method('getAbsolutePath')->will(
             $this->returnCallback(
@@ -145,12 +145,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $model->expects(
             $this->at(1)
         )->method(
-            'log'
-        )->with(
-            $message,
-            \Zend_Log::DEBUG,
-            \Magento\Framework\Logger::LOGGER_EXCEPTION
-        );
+                'log'
+            )->with(
+                $message,
+                \Zend_Log::DEBUG,
+                \Magento\Framework\Logger::LOGGER_EXCEPTION
+            );
         $model->logDebug($message);
         $model->logDebug($message, \Magento\Framework\Logger::LOGGER_EXCEPTION);
     }
@@ -164,12 +164,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $model->expects(
             $this->at(0)
         )->method(
-            'log'
-        )->with(
-            $expected,
-            \Zend_Log::ERR,
-            \Magento\Framework\Logger::LOGGER_EXCEPTION
-        );
+                'log'
+            )->with(
+                $expected,
+                \Zend_Log::ERR,
+                \Magento\Framework\Logger::LOGGER_EXCEPTION
+            );
         $model->logException($exception);
     }
 }
