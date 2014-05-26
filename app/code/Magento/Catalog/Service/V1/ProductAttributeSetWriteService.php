@@ -17,27 +17,15 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
     protected $setFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $productFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
-     */
-    protected $setCollectionFactory;
-
-    /**
-     * @var Data\Eav\AttributeSetBuilder
-     */
-    protected $attributeSetBuilder;
-
-    /**
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
-        \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
+        \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->setFactory = $setFactory;
+        $this->eavConfig = $eavConfig;
     }
 
     /**
@@ -55,15 +43,15 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
             throw InputException::invalidFieldValue('id', $setData->getId());
         }
 
-        $constructorData = array(
+        $updateData = array(
             'attribute_set_name' => $setData->getName(),
             'sort_order' => $setData->getSortOrder(),
-            'entity_type_id' => 4,
+            'entity_type_id' => $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId(),
         );
 
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $set */
         $set = $this->setFactory->create();
-        foreach($constructorData as $key => $value) {
+        foreach($updateData as $key => $value) {
             $set->setData($key, $value);
         }
         if (!$set->validate()) {
@@ -73,7 +61,4 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
 
         return $set->getId();
     }
-
-
-
 }
