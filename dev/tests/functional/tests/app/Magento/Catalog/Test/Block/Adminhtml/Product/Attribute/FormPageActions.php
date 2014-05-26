@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomAttributeManagement\Test\Block\Adminhtml\Product\Attribute;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute;
 
 use Magento\Backend\Test\Block\FormPageActions as AbstractFormPageActions;
 
 /**
  * Class FormPageActions
- * Page Actions for Custom Attribute Management
+ * Page Actions for Product Attribute
  */
 class FormPageActions extends AbstractFormPageActions
 {

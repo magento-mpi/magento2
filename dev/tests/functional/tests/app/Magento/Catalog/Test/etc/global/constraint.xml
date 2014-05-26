@@ -144,4 +144,99 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertGroupedPriceOnProductPage>
+    <assertProductAttributeSaveMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <attributeIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex" />
+        </require>
+    </assertProductAttributeSaveMessage>
+    <assertProductAttributeInGrid module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeInGrid>
+    <assertAttributeOnAttributeForm module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAttributeOnAttributeForm>
+    <assertProductAttributeOnProductForm module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeOnProductForm>
+    <assertProductAttributeIsRequired module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsRequired>
+    <assertAttributeSearchableByLabel module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAttributeSearchableByLabel>
+    <assertProductAttributeIsUnique module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsUnique>
+    <assertProductAttributeDisplayingOnSearchForm module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeDisplayingOnSearchForm>
+    <assertProductAttributeIsComparable module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsComparable>
+    <assertProductAttributeDisplayingOnFrontend module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeDisplayingOnFrontend>
+    <assertProductAttributeIsHtmlAllowed module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsHtmlAllowed>
+    <assertProductAttributeIsFilterable module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsFilterable>
+    <assertProductAttributeIsFilterableInSearch module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsFilterableInSearch>
+    <assertAttributeOptionsOnProductForm module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAttributeOptionsOnProductForm>
+    <assertProductAttributeIsUsedPromoRules module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsUsedPromoRules>
+    <assertProductAttributeUsedSortOnFrontend module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeUsedSortOnFrontend>
+    <assertProductAttributeIsGlobal module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertProductAttributeIsGlobal>
+    <assertProductAttributeIsConfigurable module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <productAttribute class="Magento\Catalog\Test\Fixture\CatalogAttributeEntity" />
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+            <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
+            <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
+        </require>
+    </assertProductAttributeIsConfigurable>
 </constraint>

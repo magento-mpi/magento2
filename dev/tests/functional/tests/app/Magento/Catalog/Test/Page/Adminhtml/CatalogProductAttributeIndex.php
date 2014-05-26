@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomAttributeManagement\Test\Page\Adminhtml;
+namespace Magento\Catalog\Test\Page\Adminhtml;
 
 use Mtf\Page\BackendPage;
 
@@ -20,16 +20,30 @@ class CatalogProductAttributeIndex extends BackendPage
     const MCA = 'catalog/product_attribute/index';
 
     protected $_blocks = [
+        'messagesBlock' => [
+            'name' => 'messageBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
+            'strategy' => 'css selector',
+        ],
         'blockPageActionsAttribute' => [
             'name' => 'blockPageActionsAttribute',
-            'class' => 'Magento\CustomAttributeManagement\Test\Block\Adminhtml\Product\Attribute\FormPageActions',
-            'locator' => '#page-main-actions',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions',
+            'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\CustomAttributeManagement\Test\Block\Adminhtml\Product\Attribute\FormPageActions
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessageBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions
      */
     public function getBlockPageActionsAttribute()
     {
