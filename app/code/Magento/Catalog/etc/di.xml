@@ -17,6 +17,8 @@
     <preference for="Magento\Framework\Pricing\PriceInfoInterface" type="Magento\Framework\Pricing\PriceInfo\Base" />
     <preference for="Magento\Framework\Pricing\PriceCurrencyInterface" type="Magento\Directory\Model\PriceCurrency" />
     <preference for="Magento\Framework\Pricing\Adjustment\CalculatorInterface" type="Magento\Framework\Pricing\Adjustment\Calculator" />
+    <preference for="Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\AttributeGroup\ReadService" />
+    <preference for="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteService" />
     <preference for="Magento\Catalog\Service\V1\ProductTypeServiceInterface" type="Magento\Catalog\Service\V1\ProductTypeService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeSetReadServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetReadService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeSetAttributeServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetAttributeService" />
@@ -24,6 +26,7 @@
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
     <type name="Magento\Indexer\Model\Indexer\State">
+
         <plugin name="setStatusForIndexer" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState" />
     </type>
     <type name="Magento\Framework\Mview\View\StateInterface">
