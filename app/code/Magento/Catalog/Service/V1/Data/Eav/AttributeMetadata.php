@@ -53,8 +53,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const IS_SEARCHABLE = 'is_searchable';
 
-    const IS_FILTERABLE = 'is_filterable';
-
     const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
 
     const IS_VISIBLE_IN_ADVANCED_SEARCH = 'is_visible_in_advanced_search';
@@ -268,16 +266,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getIsSearchable()
     {
         return $this->_get(self::IS_SEARCHABLE);
-    }
-
-    /**
-     * Whether the attribute uses for filtering
-     *
-     * @return string
-     */
-    public function getIsFilterable()
-    {
-        return $this->_get(self::IS_FILTERABLE);
     }
 
     /**
