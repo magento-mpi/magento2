@@ -21,6 +21,12 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
+    <route url="/V1/products/attribute-sets" method="POST">
+        <service class="Magento\Catalog\Service\V1\ProductAttributeSetWriteServiceInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
     <route url="/V1/products/attribute-sets/:attributeSetId" method="GET">
         <service class="Magento\Catalog\Service\V1\ProductAttributeSetReadServiceInterface" method="getInfo"/>
         <resources>

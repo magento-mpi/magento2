@@ -21,6 +21,7 @@
     <preference for="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteService" />
     <preference for="Magento\Catalog\Service\V1\ProductTypeServiceInterface" type="Magento\Catalog\Service\V1\ProductTypeService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeSetReadServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetReadService" />
+    <preference for="Magento\Catalog\Service\V1\ProductAttributeSetWriteServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetWriteService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeSetAttributeServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeSetAttributeService" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
