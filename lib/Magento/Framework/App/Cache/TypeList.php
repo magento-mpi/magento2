@@ -82,7 +82,7 @@ class TypeList implements TypeListInterface
     }
 
     /**
-     * Save invalidated cache type
+     * Save invalidated cache types
      *
      * @param array $types
      * @return void
