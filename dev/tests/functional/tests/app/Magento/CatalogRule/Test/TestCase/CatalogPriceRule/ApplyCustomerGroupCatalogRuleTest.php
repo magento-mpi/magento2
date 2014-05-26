@@ -15,7 +15,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class ApplyCustomerGroupCatalogRule
- *
  */
 class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
@@ -69,12 +68,12 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Add Customer Group Catalog Price Rule
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
         $catalogRulePage->open();
-        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid = $catalogRulePage->getCatalogRuleGrid();
         $catalogRuleGrid->addNewCatalogRule();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
-        $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
+        $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
             array('category_id' => $categoryIds[0],
                 'group_value' => $groupName,
@@ -84,7 +83,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // convert the discount amount to a decimal form
         $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
         $newCatalogRuleForm->fill($catalogRuleFixture);
-        $newCatalogRuleForm->save();
+        $catalogRuleCreatePage->getFormPageActions()->save();
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
@@ -95,7 +94,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         // Apply Catalog Price Rule
         $catalogRulePage->open();
-        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid = $catalogRulePage->getGridPageActions();
         $catalogRuleGrid->applyRules();
 
         // Verify Success Message
