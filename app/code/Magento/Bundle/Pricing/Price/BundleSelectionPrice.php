@@ -31,11 +31,6 @@ class BundleSelectionPrice extends AbstractPrice
     protected $bundleProduct;
 
     /**
-     * @var BasePrice
-     */
-    protected $bundleBasePrice;
-
-    /**
      * Event manager
      *
      * @var \Magento\Framework\Event\ManagerInterface
@@ -43,9 +38,9 @@ class BundleSelectionPrice extends AbstractPrice
     protected $eventManager;
 
     /**
-     * @var float
+     * @var DiscountCalculator
      */
-    protected $discount;
+    protected $discountCalculator;
 
     /**
      * @param Product $saleableItem
@@ -53,19 +48,20 @@ class BundleSelectionPrice extends AbstractPrice
      * @param CalculatorInterface $calculator
      * @param SaleableInterface $bundleProduct
      * @param ManagerInterface $eventManager
+     * @param DiscountCalculator $discountCalculator
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
         SaleableInterface $bundleProduct,
-        ManagerInterface $eventManager
+        ManagerInterface $eventManager,
+        DiscountCalculator $discountCalculator
     ) {
         parent::__construct($saleableItem, $quantity, $calculator);
         $this->bundleProduct = $bundleProduct;
-        $this->bundleBasePrice = $this->bundleProduct->getPriceInfo()
-            ->getPrice(CatalogPrice\BasePrice::PRICE_CODE, $this->quantity);
         $this->eventManager = $eventManager;
+        $this->discountCalculator = $discountCalculator;
     }
 
     /**
@@ -81,14 +77,14 @@ class BundleSelectionPrice extends AbstractPrice
 
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $value = $this->priceInfo
-                ->getPrice(FinalPrice::PRICE_CODE, $this->quantity)
+                ->getPrice(FinalPrice::PRICE_CODE)
                 ->getValue();
         } else {
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
                 $product = clone $this->bundleProduct;
                 $price = $product->getPriceInfo()
-                    ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE, $this->quantity)
+                    ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE)
                     ->getValue();
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
@@ -101,28 +97,7 @@ class BundleSelectionPrice extends AbstractPrice
                 $value = $this->product->getSelectionPriceValue() * $this->quantity;
             }
         }
-        $this->value = $this->applyDiscountPercent($value);
+        $this->value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
         return $this->value;
-    }
-
-    /**
-     * Apply percentage discount
-     *
-     * @param $value
-     * @return float
-     */
-    protected function applyDiscountPercent($value)
-    {
-        if (!$this->discount) {
-            foreach ($this->bundleProduct->getPriceInfo()->getPrices() as $price) {
-                if ($price instanceof DiscountProviderInterface && $price->getDiscountPercent()) {
-                    $discount = min($price->getDiscountPercent(), $this->discount ?: $price->getDiscountPercent());
-                    if ($discount) {
-                        $this->discount = $discount;
-                    }
-                }
-            }
-        }
-        return (null !== $this->discount) ?  $this->discount/100 * $value : $value;
     }
 }
