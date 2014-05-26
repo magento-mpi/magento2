@@ -396,7 +396,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
         $api = $this->_pro->getApi()->setReferenceId(
             $billingAgreement->getReferenceId()
         )->setPaymentAction(
-            $proConfig->paymentAction
+            $proConfig->getConfigValue('paymentAction')
         )->setAmount(
             $amount
         )->setCurrencyCode(
@@ -406,7 +406,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
         )->setPaypalCart(
             $cart
         )->setIsLineItemsEnabled(
-            $proConfig->lineItemsEnabled
+            $proConfig->getConfigValue('lineItemsEnabled')
         )->setInvNum(
             $order->getIncrementId()
         );

@@ -526,7 +526,7 @@ abstract class AbstractApi extends \Magento\Framework\Object
         if ($this->hasData($key)) {
             return $this->getData($key);
         }
-        return $this->_config->{$key} ? $this->_config->{$key} : $default;
+        return $this->_config->getConfigValue($key) ? $this->_config->getConfigValue($key) : $default;
     }
 
     /**
