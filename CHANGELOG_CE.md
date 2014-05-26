@@ -1,4 +1,26 @@
 * Framework improvements:
+  * Covered Magento application components with unit tests:
+    * `SalesRule/Model/Observer`
+    * `SalesRule/Helper/*`
+    * `SalesRule/Model/Plugin/*`
+    * `SalesRule/Model/System/Config*`
+    * `Sales/Model/Config.php`
+    * `Sales/Model/Download.php`
+    * `Sales/Model/Quote.php`
+    * `SalesArchive/Model/Archive.php`
+    * `SalesArchive/Model/Config.php`
+  * Covered Magento lib form elements with unit tests:
+    * `lib/Magento/Framework/Flag.php`
+    * `lib/Magento/Framework/Escaper`
+    * `lib/Magento/Framework/Event`
+    * `lib/Magento/Framework/Logger`
+    * `lib/Magento/Framework/Util`
+    * `lib/Magento/Framework/Registry.php`
+    * `lib/Magento/Framework/Backup/Media`
+    * `lib/Magento/Framework/Backup/NoMedia`
+    * `lib/Magento/Framework/Archive`
+    * `lib/Magento/Framework/Translate.php`
+* Framework improvements:
   * Completely revisited subsystem of static view files preprocessing (MAGETWO-18001):
     * Transforming LESS into CSS is now just a particular case of a more general interface of preprocessors, so a custom preprocessor can be registered
     * Refactored implementation of view files "fallback" and "collecting" (layout XML files, LESS files for `@magento_import`) mechanisms for better abstraction
@@ -35,10 +57,63 @@
   * Fixed: Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
   * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
   * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
+  * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
+  * Fixed: Images upload in config looks broken (MAGETWO-15764)
+  * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
+  * Fixed: Page not found on attempt to open link from invitation email (MAGETWO-18652)
+  * Fixed: Adding CMS block Catalog Events Lister causes error (MAGETWO-22314)
+  * Fixed: Price is displayed twice on "Product" frontend page (MAGETWO-23914)
+  * Fixed: Store admin cannot open search result (MAGETWO-24344)
+  * Fixed: Rule based product relation functionality is generating incorrect SQL when product category attribute set through "is one of" or "contains" operator by constant value (MAGETWO-3185)
+  * Fixed: Cannot add to compare list from category with page layout 3 columns (MAGETWO-24327)
+  * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
+  * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
+  * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
+  * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
+  * Fixed: Variables are not visible in Newsletter Templates (MAGETWO-23975)
+  * 'No files found' displayed in Theme Java Script fieldset (MAGETWO-10592)
+  * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
+  * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
+  * Fixed: Backup is not created by cron (MAGETWO-21355)
+  * Fixed functional tests failing PSR2 test (MAGETWO-24351)
+  * Fixed: "Please specify at least one search term." error message is missed in regular search (MAGETWO-23716)
+  * Fixed: [GC] Layout is broken during updating status for review (MAGETWO-24071)
+  * Fixed: Admin Look&Feel bugs: different (MAGETWO-18200)
+  * Fixed: Create New Order page: order notices and error msgs for products are not in red color (MAGETWO-17308)
+  * Fixed: [GITHUB] "Insert Image" window is overlapped on menu (MAGETWO-21407)
+  * Fixed: UI issue on Create custom attribute (MAGETWO-18734)
+  * Fixed: No popup appears after clicking 'What's this?' of enabled 'Remember Me' option PSC (MAGETWO-22593)
+  * Fixed: Backend action split dropdown values can be displayed outside browser page (MAGETWO-23345)
+  * Fixed: Default Theme preview image sample link is absent (MAGETWO-23361)
+  * Fixed: [Safari] [IE9] backend menu is not displayed for user with custom admin role (MAGETWO-23977)
+  * Fixed: Bundle Product Price isn't displayed as calculated in floating block (MAGETWO-23919)
+  * Fixed: It's impossible to disable debug mode (MAGETWO-22991)
+  * Fixed: Page layout minor errors (MAGETWO-24038)
+  * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
+  * Fixed: Incorrect value in the "Grand Total (Base)" column in the Orders grid if Catalog Price Scope" = "Website" (MAGETWO-19335)
+  * Fixed: Entity Generator Tool Doesn't Accept "class" Parameter (MAGETWO-19618)
+  * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
+  * Fixed: Cron job 'magento_logging_rotate_logs' is not processed(processing with error) (MAGETWO-21714)
+  * Fixed: Shipping price for flat rate set to 0 in the side block during checkout product with configured recurring profile (MAGETWO-3596)
+  * Fixed ability to create more Shipping Labels than products in the shipment (in case with invalid data) (MAGETWO-17266)
+  * Fixed missed data about "SHA-IN Pass Phrase" after change "Payment Action" in the Ogone Configuration (MAGETWO-18940)
+  * Fixed: [Refactored Indexers] Low Performance on attempt to reindex Price Indexer (MAGETWO-24074)
+  * Fixed: CLONE - When importing tax rates with postal code = *, the column in the DB is set to NULL, leading to issues (MAGETWO-20916)
+  * Fixed: Incorrect link on Reset password email sent by admin if use secure url on frontend (MAGETWO-24308)
+  * Fixed: Links section is absent while editing downloadable product from wishlist (MAGETWO-11470)
+  * Fixed: Specified details for composite product are lost after adding to wishlist (Gift Card, Downloadable) (MAGETWO-19632)
+  * Fixed: Date widget in Create New Customer->DOB has incorrect dates (MAGETWO-7723)
+  * Fixed: Customer redirected to Dashboard ("Redirect user to dashboard after login"="No") (MAGETWO-17437)
+  * Fixed: Customer cannot register during Checkout if Guest Checkout is disallowed. (MAGETWO-24301)
+  * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
   * Fixed: Free shipping applied even if Free Shipping with Minimum Order Amount disabled (MAGETWO-18340)
   * Fixed: Downloadable product that is set for "Links can be purchased separately" does not display as a grouped product (MAGETWO-21044)
   * Fixed: Error at generation variation twice (MAGETWO-24155)
   * Fixed: Category pager works incorrectly (MAGETWO-24235)
+  * Retest and fix benchmarking script (MAGETWO-23662)
+  * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
+  * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
+  * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
   * Fixed: File permissions change after system backup (MAGETWO-20995)
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
