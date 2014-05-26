@@ -12,6 +12,8 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteEdit
+ *
+ * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteEdit extends BackendPage
 {
@@ -24,9 +26,9 @@ class PromoQuoteEdit extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'salesRuleEditForm' => [
-            'name' => 'salesRuleEditForm',
-            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Edit\Form',
+        'salesRuleForm' => [
+            'name' => 'salesRuleForm',
+            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -41,10 +43,10 @@ class PromoQuoteEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\SalesRule\Test\Block\Adminhtml\Edit\Form
+     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form
      */
-    public function getSalesRuleEditForm()
+    public function getSalesRuleForm()
     {
-        return $this->getBlockInstance('salesRuleEditForm');
+        return $this->getBlockInstance('salesRuleForm');
     }
 }

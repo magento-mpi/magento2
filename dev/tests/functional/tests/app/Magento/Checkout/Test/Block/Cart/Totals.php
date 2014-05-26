@@ -97,7 +97,8 @@ class Totals extends Block
      *
      * @return bool
      */
-    public function isVisibleShippingPriceBlock(){
+    public function isVisibleShippingPriceBlock()
+    {
         return  $this->_rootElement->find($this->shippingPriceBlockSelector, Locator::SELECTOR_CSS)->isVisible();
     }
 }

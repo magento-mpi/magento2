@@ -55,13 +55,13 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         ];
         $promoQuoteIndex->open();
         $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
-        $dataForm = $promoQuoteEdit->getSalesRuleEditForm()->getData($salesRule);
+        $dataForm = $promoQuoteEdit->getSalesRuleForm()->getData($salesRule);
         $dataFixture = $salesRule->getData();
         $dataDiff = $this->verify($dataFixture, $dataForm);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
             'Sales rule data on edit page(backend) not equals to passed from fixture.'
-            . "\nFailed values: " . implode(', ', $dataDiff)
+                . "\nFailed values: " . implode(', ', $dataDiff)
         );
     }
 
@@ -78,8 +78,8 @@ class AssertCartPriceRuleForm extends AbstractConstraint
 
         $diff = $this->arrayDiffRecursive($dataFixture, $dataForm);
         foreach ($diff as $name => $value) {
-            if (!in_array($name, $this->skippedFields)){
-                $result[] = $name.' : '. $value;
+            if (!in_array($name, $this->skippedFields)) {
+                $result[] = $name . ' : ' . $value;
             }
         }
 
@@ -95,24 +95,24 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      */
     protected function arrayDiffRecursive($array1, $array2)
     {
-        $aReturn = [];
-        foreach ($array1 as $mKey => $mValue) {
-            if (array_key_exists($mKey, $array2)) {
-                if (is_array($mValue)) {
-                    $aRecursiveDiff = $this->arrayDiffRecursive($mValue, $array2[$mKey]);
-                    if (count($aRecursiveDiff)) {
-                        $aReturn[$mKey] = $aRecursiveDiff;
+        $diff = [];
+        foreach ($array1 as $array1Key => $array1Value) {
+            if (array_key_exists($array1Key, $array2)) {
+                if (is_array($array1Value)) {
+                    $recursiveDiff = $this->arrayDiffRecursive($array1Value, $array2[$array1Key]);
+                    if (count($recursiveDiff)) {
+                        $diff[$array1Key] = $recursiveDiff;
                     }
                 } else {
-                    if ($mValue != $array2[$mKey]) {
-                        $aReturn[$mKey] = $mValue;
+                    if ($array1Value != $array2[$array1Key]) {
+                        $diff[$array1Key] = $array1Value;
                     }
                 }
             } else {
-                $aReturn[$mKey] = $mValue;
+                $diff[$array1Key] = $array1Value;
             }
         }
-        return $aReturn;
+        return $diff;
     }
 
     /**

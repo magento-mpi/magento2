@@ -11,13 +11,16 @@
     <assertCartPriceRuleForm module="Magento_SalesRule">
         <severeness>low</severeness>
     </assertCartPriceRuleForm>
-    <assertCartPriceRuleConditionIsAplied module="Magento_SalesRule">
+    <assertCartPriceRuleConditionIsApplied module="Magento_SalesRule">
         <severeness>low</severeness>
-    </assertCartPriceRuleConditionIsAplied>
-    <assertCartPriceRuleConditionIsNotAplied module="Magento_SalesRule">
+    </assertCartPriceRuleConditionIsApplied>
+    <assertCartPriceRuleConditionIsNotApplied module="Magento_SalesRule">
         <severeness>low</severeness>
-    </assertCartPriceRuleConditionIsNotAplied>
+    </assertCartPriceRuleConditionIsNotApplied>
     <assertCartPriceRuleFreeShippingIsApplied module="Magento_SalesRule">
         <severeness>low</severeness>
     </assertCartPriceRuleFreeShippingIsApplied>
+    <assertCartPriceRuleSuccessSaveMessage module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleSuccessSaveMessage>
 </constraint>

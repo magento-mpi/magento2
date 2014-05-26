@@ -26,10 +26,13 @@ class SalesRuleInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\SalesRule\Test\Handler\SalesRule\SalesRuleInterface';
 
     protected $defaultDataSet = [
-        'stop_rules_processing' => null,
-        'is_advanced' => null,
-        'discount_amount' => null,
-        'coupon_type' => null,
+        'name' => 'Default price rule %isolation%',
+        'is_active' => 'Active',
+        'website_ids' => 'Main Website',
+        'customer_group_ids' => 'NOT LOGGED IN',
+        'coupon_type' => 'No Coupon',
+        'simple_action' => 'Percent of product price discount',
+        'discount_amount' => '50',
     ];
 
     protected $rule_id = [

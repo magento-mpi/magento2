@@ -49,13 +49,14 @@ class DiscountCodes extends Form
     /**
      * Enter discount code and click apply button
      *
-     * @param $code
+     * @param string $code
+     * @return void
      */
-    public function enterCodeAndClickApply($code)
+    public function applyCouponCode($code)
     {
         if (!$this->_rootElement->find($this->formWrapper)->isVisible()) {
             $this->_rootElement->find($this->openForm, Locator::SELECTOR_CSS)->click();
-            $this->_rootElement->find($this->couponCode, Locator::SELECTOR_CSS, 'input')->setValue($code);
+            $this->_rootElement->find($this->couponCode, Locator::SELECTOR_CSS)->setValue($code);
             $this->_rootElement->find($this->applyButton, Locator::SELECTOR_CSS)->click();
         }
     }

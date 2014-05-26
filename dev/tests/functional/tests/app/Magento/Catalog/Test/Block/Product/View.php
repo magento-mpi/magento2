@@ -185,12 +185,13 @@ class View extends Block
     /**
      * Set quantity and click add to cart
      *
-     * @param $qty
+     * @param int $qty
+     * @return void
      */
     public function setQtyAndClickAddToCart($qty)
     {
-        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS, 'input')->setValue($qty);
-        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->setValue($qty);
+        $this->clickAddToCart();
     }
 
     /**

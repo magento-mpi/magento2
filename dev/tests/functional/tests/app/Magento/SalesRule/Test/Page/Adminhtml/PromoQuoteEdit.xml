@@ -15,8 +15,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>salesRuleEditForm</name>
-        <class>Magento\SalesRule\Test\Block\Adminhtml\Edit\Form</class>
+        <name>salesRuleForm</name>
+        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

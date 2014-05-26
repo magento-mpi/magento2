@@ -12,6 +12,8 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteNew
+ *
+ * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteNew extends BackendPage
 {
@@ -20,7 +22,7 @@ class PromoQuoteNew extends BackendPage
     protected $_blocks = [
         'salesRuleForm' => [
             'name' => 'salesRuleForm',
-            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\SalesRuleForm',
+            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -33,7 +35,7 @@ class PromoQuoteNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\SalesRule\Test\Block\Adminhtml\SalesRuleForm
+     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form
      */
     public function getSalesRuleForm()
     {

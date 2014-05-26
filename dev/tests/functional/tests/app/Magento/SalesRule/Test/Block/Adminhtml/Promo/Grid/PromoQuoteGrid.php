@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesRule\Test\Block\Adminhtml;
+namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
@@ -28,7 +28,7 @@ class PromoQuoteGrid extends Grid
     ];
 
     /**
-     * Locator value for link in sitemap name column
+     * Locator value for link in sales rule name column
      *
      * @var string
      */
