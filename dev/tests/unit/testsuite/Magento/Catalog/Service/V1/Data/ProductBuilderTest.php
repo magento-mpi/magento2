@@ -73,7 +73,7 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
             ['setCreatedAt', '2014-05-23', 'getCreatedAt'],
             ['setUpdatedAt', '2014-05-25', 'getUpdatedAt'],
             ['setStatus', 2, 'getStatus'],
-            ['setWeight', 72.5, 'getWeight'],
+            ['setWeight', 72.5, 'getWeight']
         );
     }
 

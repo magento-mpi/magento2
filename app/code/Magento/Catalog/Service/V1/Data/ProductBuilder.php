@@ -5,7 +5,7 @@ namespace Magento\Catalog\Service\V1\Data;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
-class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectBuilder
+class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
      * @var ProductMetadataServiceInterface
