@@ -17,6 +17,11 @@ class Result extends CatalogsearchResult
 {
     const MCA = 'catalogsearch/advanced/result';
 
+    /**
+     * Custom constructor
+     *
+     * @return void
+     */
     protected function _init()
     {
         $this->_blocks['searchResultBlock'] = [
