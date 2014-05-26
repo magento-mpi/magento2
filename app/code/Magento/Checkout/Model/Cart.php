@@ -435,16 +435,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                 continue;
             }
 
-            /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-            $stockItem = $product->getStockItem();
-            if (!$stockItem) {
-                continue;
-            }
-
             $data[$itemId]['before_suggest_qty'] = $qty;
-            $data[$itemId]['qty'] = $stockItem->suggestQty($qty);
+            $data[$itemId]['qty'] = $this->stockItemService->suggestQty($product->getId(), $qty);
         }
-
         return $data;
     }
 
