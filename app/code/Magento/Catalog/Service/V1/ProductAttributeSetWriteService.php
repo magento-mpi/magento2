@@ -84,4 +84,18 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
         $attributeSetModel->save();
         return $attributeSetModel->getId();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function remove($attributeSetId)
+    {
+        $id = intval($attributeSetId);
+        if (0 == $id) {
+            throw new \InvalidArgumentException('Incorrect attribute set id to remove');
+        }
+
+        $this->setFactory->create()->load($id)->delete();
+
+    }
 }

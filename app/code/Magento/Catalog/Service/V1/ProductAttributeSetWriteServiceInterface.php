@@ -28,4 +28,12 @@ interface ProductAttributeSetWriteServiceInterface
      * @throws \Magento\Framework\Model\Exception If attribute set is not found
      */
     public function update(AttributeSet $attributeSetData);
+
+    /**
+     * Remove attribute set by id
+     *
+     * @param int $id
+     * @throws \InvalidArgumentException
+     */
+    public function remove($id);
 }

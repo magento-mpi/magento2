@@ -35,6 +35,32 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
         $attributeSetId = $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
 
         $this->assertGreaterThan(0, $attributeSetId);
+        return $attributeSetId;
+    }
+
+    /**
+     * @depends testCreate
+     * @param $id
+     */
+    public function testDelete($id)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/attribute-sets/' . $id,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeSetWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetWriteServiceV1Remove'
+            ]
+        ];
+        $requestData = [
+            'id' => $id,
+            // attributeSetId ???
+        ];
+
+        $this->_webApiCall($serviceInfo, $requestData);
     }
 
     public function testUpdate()
