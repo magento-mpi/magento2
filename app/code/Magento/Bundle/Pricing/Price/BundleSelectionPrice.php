@@ -82,10 +82,10 @@ class BundleSelectionPrice extends AbstractPrice
         } else {
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
-                $product = clone $this->bundleProduct;
-                $price = $product->getPriceInfo()
+                $price = $this->bundleProduct->getPriceInfo()
                     ->getPrice(CatalogPrice\RegularPrice::PRICE_CODE)
                     ->getValue();
+                $product = clone $this->bundleProduct;
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
                     'catalog_product_get_final_price',
