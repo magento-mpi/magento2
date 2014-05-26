@@ -46,6 +46,63 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testCreateWithExistingId()
+    {
+        $setDataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeSet', array(), array(), '', false);
+        $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(100));
+
+        $this->service->create($setDataMock);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCreateWithEmptyName()
+    {
+        $setDataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeSet', array(), array(), '', false);
+        $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(null));
+        $setDataMock->expects($this->any())->method('getName')->will($this->returnValue(null));
+        $setDataMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(20));
+
+        $setMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('setData', 'validate', 'save', 'getId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
+        $setMock->expects($this->once())->method('validate')->will($this->returnValue(false));
+
+        $this->service->create($setDataMock);
+    }
+
+    public function testCreatePositive()
+    {
+        $setId = 123321;
+        $setDataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeSet', array(), array(), '', false);
+        $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(null));
+        $setDataMock->expects($this->any())->method('getName')->will($this->returnValue('cool attribute set'));
+        $setDataMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(20));
+
+        $setMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('setData', 'validate', 'save', 'getId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
+        $setMock->expects($this->once())->method('validate')->will($this->returnValue(true));
+        $setMock->expects($this->once())->method('save');
+        $setMock->expects($this->once())->method('getId')->will($this->returnValue($setId));
+
+        $this->assertEquals($setId, $this->service->create($setDataMock));
+    }
+
     public function testUpdate()
     {
         $data = array(
