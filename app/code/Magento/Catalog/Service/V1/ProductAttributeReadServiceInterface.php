@@ -18,5 +18,13 @@ interface ProductAttributeReadServiceInterface
      *
      * @return array
      */
-    public function getTypes();
+    public function types();
+
+    /**
+     * Get full information about a required attribute with the list of options
+     *
+     * @param  string|int $identifier
+     * @return mixed
+     */
+    public function info($identifier);
 }

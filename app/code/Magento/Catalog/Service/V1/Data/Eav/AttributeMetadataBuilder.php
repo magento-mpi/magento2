@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 /**
  * Class AttributeMetadataBuilder
@@ -57,6 +58,17 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set attribute id
+     *
+     * @param  int $attributeId
+     * @return $this
+     */
+    public function setAttributeId($attributeId)
+    {
+        return $this->_set(AttributeMetadata::ATTRIBUTE_ID, $attributeId);
+    }
+
+    /**
      * Set front end input
      *
      * @param  string $frontendInput
@@ -65,17 +77,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     public function setFrontendInput($frontendInput)
     {
         return $this->_set(AttributeMetadata::FRONTEND_INPUT, $frontendInput);
-    }
-
-    /**
-     * Set input filter
-     *
-     * @param  string $inputFilter
-     * @return $this
-     */
-    public function setInputFilter($inputFilter)
-    {
-        return $this->_set(AttributeMetadata::INPUT_FILTER, $inputFilter);
     }
 
     /**
@@ -128,42 +129,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $required
      * @return $this
      */
-    public function setRequired($required)
+    public function setIsRequired($required)
     {
-        return $this->_set(AttributeMetadata::REQUIRED, $required);
-    }
-
-    /**
-     * Set multiline count
-     *
-     * @param  int $count
-     * @return $this
-     */
-    public function setMultilineCount($count)
-    {
-        return $this->_set(AttributeMetadata::MULTILINE_COUNT, $count);
-    }
-
-    /**
-     * Set data model
-     *
-     * @param  string $dataModel
-     * @return $this
-     */
-    public function setDataModel($dataModel)
-    {
-        return $this->_set(AttributeMetadata::DATA_MODEL, $dataModel);
-    }
-
-    /**
-     * Set frontend class
-     *
-     * @param  string $frontendClass
-     * @return $this
-     */
-    public function setFrontendClass($frontendClass)
-    {
-        return $this->_set(AttributeMetadata::FRONTEND_CLASS, $frontendClass);
+        return $this->_set(AttributeMetadata::IS_REQUIRED, $required);
     }
 
     /**
@@ -228,6 +196,137 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     public function setBackendType($backendType)
     {
         return $this->_set(AttributeMetadata::BACKEND_TYPE, $backendType);
+    }
+
+    /**
+     * Set default value for the element
+     *
+     * @param  mixed $value
+     * @return $this
+     */
+    public function setDefaultValue($value)
+    {
+        return $this->_set(AttributeMetadata::DEFAULT_VALUE, $value);
+    }
+
+    /**
+     * Set whether this is a unique attribute
+     *
+     * @param  bool $isUnique
+     * @return $this
+     */
+    public function setIsUnique($isUnique)
+    {
+        return $this->_set(AttributeMetadata::IS_UNIQUE, $isUnique);
+    }
+
+    /**
+     * Set apply to value for the element
+     *
+     * Apply to. Empty for "Apply to all"
+     * or array of the following possible values:
+     *  - 'simple',
+     *  - 'grouped',
+     *  - 'configurable',
+     *  - 'virtual',
+     *  - 'bundle',
+     *  - 'downloadable',
+     *  - 'giftcard'
+     *
+     * @param  array|null $applyTo
+     * @return $this
+     */
+    public function setApplyTo($applyTo)
+    {
+        return $this->_set(AttributeMetadata::APPLY_TO, $applyTo);
+    }
+
+    /**
+     * Set whether the attribute can be used for configurable products
+     *
+     * @param  bool $isConfigurable
+     * @return $this
+     */
+    public function setIsConfigurable($isConfigurable)
+    {
+        return $this->_set(AttributeMetadata::IS_CONFIGURABLE, $isConfigurable);
+    }
+
+    /**
+     * Set whether the attribute can be used in Quick Search
+     *
+     * @param  bool $isSearchable
+     * @return $this
+     */
+    public function setIsSearchable($isSearchable)
+    {
+        return $this->_set(AttributeMetadata::IS_SEARCHABLE, $isSearchable);
+    }
+
+    /**
+     * Set whether the attribute can be used in Advanced Search
+     *
+     * @param  bool $isVisibleInAdvancedSearch
+     * @return $this
+     */
+    public function setIsVisibleInAdvancedSearch($isVisibleInAdvancedSearch)
+    {
+        return $this->_set(AttributeMetadata::IS_VISIBLE_IN_ADVANCED_SEARCH, $isVisibleInAdvancedSearch);
+    }
+
+    /**
+     * Set whether the attribute can be compared on the frontend
+     *
+     * @param  bool $isComparable
+     * @return $this
+     */
+    public function setIsComparable($isComparable)
+    {
+        return $this->_set(AttributeMetadata::IS_COMPARABLE, $isComparable);
+    }
+
+    /**
+     * Set whether the attribute can be used for promo rules
+     *
+     * @param  bool $isUsedForPromoRules
+     * @return $this
+     */
+    public function setIsUsedForPromoRules($isUsedForPromoRules)
+    {
+        return $this->_set(AttributeMetadata::IS_USED_FOR_PROMO_RULES, $isUsedForPromoRules);
+    }
+
+    /**
+     * Set whether the attribute is visible on the frontend
+     *
+     * @param  bool $isVisibleOnFront
+     * @return $this
+     */
+    public function setIsVisibleOnFront($isVisibleOnFront)
+    {
+        return $this->_set(AttributeMetadata::IS_VISIBLE_ON_FRONT, $isVisibleOnFront);
+    }
+
+    /**
+     * Set whether the attribute can be used in product listing
+     *
+     * @param  bool $usedInProductListing
+     * @return $this
+     */
+    public function setUsedInProductListing($usedInProductListing)
+    {
+        return $this->_set(AttributeMetadata::USED_IN_PRODUCT_LISTING, $usedInProductListing);
+    }
+
+    /**
+     * Set attribute scope value
+     *
+     * @param  string $scope
+     * @return $this
+     */
+    public function setScope($scope)
+    {
+        return $this->_set(AttributeMetadata::SCOPE, $scope);
     }
 
     /**

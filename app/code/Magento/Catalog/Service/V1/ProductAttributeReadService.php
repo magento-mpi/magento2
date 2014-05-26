@@ -38,9 +38,20 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
     /**
      * {@inheritdoc}
      */
-    public function getTypes()
+    public function types()
     {
         $inputType = $this->inputTypeFactory->create();
         return $inputType->toOptionArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function info($identifier)
+    {
+        return $this->metadataService->getAttributeMetadata(
+            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            $identifier
+        );
     }
 }
