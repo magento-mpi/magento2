@@ -126,6 +126,9 @@ class ProductService implements ProductServiceInterface
      *     "page_size" : "30",
      *     "current_page" : "10"
      * }
+     *
+     * products?searchCriteria[filterGroups][0][filters][0][field]=price&
+     * searchCriteria[filterGroups][0][filters][0][value]=16.000&page_size=30&current_page=1&sort_orders[id]=1
      */
     public function getAll(SearchCriteria $searchCriteria)
     {
