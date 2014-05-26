@@ -23,33 +23,46 @@ class ProductServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products';
 
     /**
-     * @todo: extract in class
+     * @return array
      */
-    protected function _createProduct()
+    public static function productCreationProvider()
     {
         return [
-            Product::SKU => uniqid('sku-', true),
-            Product::NAME => uniqid('name-', true),
-            Product::ATTRIBUTE_SET_ID => 4,
-            Product::VISIBILITY => 4,
-            Product::TYPE_ID => 'simple',
-            Product::STATUS => 1,
-            'custom_attributes' => [
-                'description' => 'desc'
-            ]
+            [[
+                Product::SKU => uniqid('sku-', true),
+                Product::NAME => uniqid('name-', true),
+                Product::VISIBILITY => 4,
+                Product::PRICE => 3.62,
+                Product::STATUS => 1,
+                'custom_attributes' => [
+                    [
+                        'attribute_code' => 'description',
+                        'value' => 'test description'
+                    ],
+                    [
+                        'attribute_code' => 'meta_title',
+                        'value' => 'meta_title'
+                    ],
+                ]
+            ]]
         ];
-
     }
 
-    public function testCreate()
+    /**
+     * @dataProvider productCreationProvider
+     */
+    public function testCreate($product)
     {
-        $product = $this->_createProduct();
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
-            ]
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'create'
+            ],
         ];
 
         $requestData = ['product' => $product];

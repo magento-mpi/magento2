@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
+use \Magento\Framework\Service\EavDataObjectConverter;
+
 class ProductMapper
 {
     /** @var  \Magento\Catalog\Model\ProductFactory */
@@ -30,7 +32,13 @@ class ProductMapper
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
         $productModel = $productModel ?: $this->productFactory->create();
-        $productModel->setData($product->__toArray());
+        $productModel->addData(EavDataObjectConverter::toFlatArray($product));
+        if (!$productModel->hasAttributeSetId()) {
+            $productModel->setAttributeSetId($productModel->getDefaultAttributeSetId());
+        }
+        if (!$productModel->hasTypeId()) {
+            $productModel->setTypeId('simple');
+        }
         return $productModel;
     }
 }

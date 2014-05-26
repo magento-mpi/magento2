@@ -4,6 +4,7 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
 
 class ProductService implements ProductServiceInterface
 {
@@ -27,12 +28,10 @@ class ProductService implements ProductServiceInterface
      */
     protected $productFactory;
 
-
     /**
      * @param Product\Initialization\Helper $initializationHelper
      * @param Data\ProductMapper $productMapper
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
     public function __construct(
         Product\Initialization\Helper $initializationHelper,
@@ -54,6 +53,7 @@ class ProductService implements ProductServiceInterface
         $productModel = $this->productMapper->toModel($product);
         $this->initializationHelper->initialize($productModel);
         $this->productTypeManager->processProduct($productModel);
+        $productModel->validate();
         $productModel->save();
         if (!$productModel->getId()) {
             throw new \Magento\Framework\Model\Exception(__('Unable to save product'));
@@ -73,6 +73,7 @@ class ProductService implements ProductServiceInterface
         $this->productMapper->toModel($product, $productModel);
         $this->initializationHelper->initialize($productModel);
         $this->productTypeManager->processProduct($productModel);
+        $productModel->validate();
         $productModel->save();
         return $productModel->getId();
     }
