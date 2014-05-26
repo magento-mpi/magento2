@@ -14,8 +14,6 @@
         rma.setLoadOrderId('<?php echo $this->getLoadOrderId() ?>');
         $$('a[class="product_to_add"]').each(function(obj) {
             obj.observe('click', rma.showBundleItems.bind(rma));
-            var ch = obj.up(1).down(1);
-            ch.observe('click', rma.showBundleItems.bind(rma));
         });
 
         $('edit_form').insert({

@@ -1,3 +1,9 @@
+* Framework improvements:
+  * Covered Magento lib form elements with unit tests:
+     * 'lib/Magento/Framework/Event/*'
+     * 'lib/Magento/Framework/Exception/*'
+* Integration tests:
+  * Fixed Integration tests on Windows OS (MAGETWO-21821)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -7,6 +13,8 @@
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
 * Fixed bugs:
+  * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
+  * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
   * Fixed: Images upload in config looks broken (MAGETWO-15764)
   * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
