@@ -75,16 +75,16 @@ class Info
      * @var array
      */
     protected $_paymentMap = array(
-        self::PAYER_ID => 'paypal_payer_id',
-        self::PAYER_EMAIL => 'paypal_payer_email',
-        self::PAYER_STATUS => 'paypal_payer_status',
-        self::ADDRESS_ID => 'paypal_address_id',
-        self::ADDRESS_STATUS => 'paypal_address_status',
-        self::PROTECTION_EL => 'paypal_protection_eligibility',
-        self::FRAUD_FILTERS => 'paypal_fraud_filters',
-        self::CORRELATION_ID => 'paypal_correlation_id',
-        self::AVS_CODE => 'paypal_avs_code',
-        self::CVV2_MATCH => 'paypal_cvv2_match',
+        self::PAYER_ID => self::PAYPAL_PAYER_ID,
+        self::PAYER_EMAIL => self::PAYPAL_PAYER_EMAIL,
+        self::PAYER_STATUS => self::PAYPAL_PAYER_STATUS,
+        self::ADDRESS_ID => self::PAYPAL_ADDRESS_ID,
+        self::ADDRESS_STATUS => self::PAYPAL_ADDRESS_STATUS,
+        self::PROTECTION_EL => self::PAYPAL_PROTECTION_ELIGIBILITY,
+        self::FRAUD_FILTERS => self::PAYPAL_FRAUD_FILTERS,
+        self::CORRELATION_ID => self::PAYPAL_CORRELATION_ID,
+        self::AVS_CODE => self::PAYPAL_AVS_CODE,
+        self::CVV2_MATCH => self::PAYPAL_CVV2_MATCH,
         self::CENTINEL_VPAS => self::CENTINEL_VPAS,
         self::CENTINEL_ECI => self::CENTINEL_ECI,
         self::BUYER_TAX_ID => self::BUYER_TAX_ID,
@@ -178,10 +178,59 @@ class Info
      */
     protected $_labelCodesCache = [];
 
+    /**
+     * Paypal payer id code key
+     */
+    const PAYPAL_PAYER_ID = 'paypal_payer_id';
+
+    /**
+     * Paypal payer email code key
+     */
+    const PAYPAL_PAYER_EMAIL = 'paypal_payer_email';
+
+    /**
+     * Paypal payer status code key
+     */
+    const PAYPAL_PAYER_STATUS = 'paypal_payer_status';
+
+    /**
+     * Paypal address id code key
+     */
+    const PAYPAL_ADDRESS_ID = 'paypal_address_id';
+
+    /**
+     * Paypal address status code key
+     */
+    const PAYPAL_ADDRESS_STATUS = 'paypal_address_status';
+
+    /**
+     * Paypal protection eligibility code key
+     */
+    const PAYPAL_PROTECTION_ELIGIBILITY = 'paypal_protection_eligibility';
+
+    /**
+     * Paypal fraud filters code key
+     */
+    const PAYPAL_FRAUD_FILTERS = 'paypal_fraud_filters';
+
+    /**
+     * Paypal correlation id code key
+     */
+    const PAYPAL_CORRELATION_ID = 'paypal_correlation_id';
+
+    /**
+     * Paypal avs code key
+     */
     const PAYPAL_AVS_CODE = 'paypal_avs_code';
 
+    /**
+     * Paypal cvv2 code key
+     */
     const PAYPAL_CVV2_MATCH = 'paypal_cvv2_match';
 
+    /**
+     * Item labels key for label codes cache
+     */
     const ITEM_LABELS = 'item labels';
 
     /**
@@ -510,14 +559,14 @@ class Info
     {
         if (!isset($this->_labelCodesCache[self::ITEM_LABELS])) {
             $this->_labelCodesCache[self::ITEM_LABELS] = [
-                'paypal_payer_id' => __('Payer ID'),
-                'paypal_payer_email' => __('Payer Email'),
-                'paypal_payer_status' => __('Payer Status'),
-                'paypal_address_id' => __('Payer Address ID'),
-                'paypal_address_status' => __('Payer Address Status'),
-                'paypal_protection_eligibility' => __('Merchant Protection Eligibility'),
-                'paypal_fraud_filters' => __('Triggered Fraud Filters'),
-                'paypal_correlation_id' => __('Last Correlation ID'),
+                self::PAYPAL_PAYER_ID => __('Payer ID'),
+                self::PAYPAL_PAYER_EMAIL=> __('Payer Email'),
+                self::PAYPAL_PAYER_STATUS => __('Payer Status'),
+                self::PAYPAL_ADDRESS_ID => __('Payer Address ID'),
+                self::PAYPAL_ADDRESS_STATUS => __('Payer Address Status'),
+                self::PAYPAL_PROTECTION_ELIGIBILITY=> __('Merchant Protection Eligibility'),
+                self::PAYPAL_FRAUD_FILTERS => __('Triggered Fraud Filters'),
+                self::PAYPAL_CORRELATION_ID => __('Last Correlation ID'),
                 self::PAYPAL_AVS_CODE => __('Address Verification System Response'),
                 self::PAYPAL_CVV2_MATCH => __('CVV2 Check Result by PayPal'),
                 self::BUYER_TAX_ID => __('Buyer\'s Tax ID'),

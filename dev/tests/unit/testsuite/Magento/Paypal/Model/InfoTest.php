@@ -162,14 +162,14 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'paypal_payer_id' => 'paypal_payer_id',
-                    'paypal_payer_email' => 'paypal_payer_email',
-                    'paypal_payer_status' => 'paypal_payer_status',
-                    'paypal_address_id' => 'paypal_address_id',
-                    'paypal_address_status' => 'paypal_address_status',
-                    'paypal_protection_eligibility' => 'paypal_protection_eligibility',
-                    'paypal_fraud_filters' => 'paypal_fraud_filters',
-                    'paypal_correlation_id' => 'paypal_correlation_id',
+                    Info::PAYPAL_PAYER_ID => Info::PAYPAL_PAYER_ID,
+                    Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
+                    Info::PAYPAL_PAYER_STATUS => Info::PAYPAL_PAYER_STATUS,
+                    Info::PAYPAL_ADDRESS_ID => Info::PAYPAL_ADDRESS_ID,
+                    Info::PAYPAL_ADDRESS_STATUS => Info::PAYPAL_ADDRESS_STATUS,
+                    Info::PAYPAL_PROTECTION_ELIGIBILITY => Info::PAYPAL_PROTECTION_ELIGIBILITY,
+                    Info::PAYPAL_FRAUD_FILTERS => Info::PAYPAL_FRAUD_FILTERS,
+                    Info::PAYPAL_CORRELATION_ID => Info::PAYPAL_CORRELATION_ID,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
                     Info::PAYPAL_AVS_CODE => 'A',
                     Info::PAYPAL_CVV2_MATCH => 'M',
@@ -178,59 +178,59 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                     Info::CENTINEL_ECI => '01'
                 ],
                 [
-                    'paypal_payer_id' => [
+                    Info::PAYPAL_PAYER_ID => [
                         'label' => 'Payer ID',
-                        'value' => 'paypal_payer_id',
+                        'value' => Info::PAYPAL_PAYER_ID,
                     ],
-                    'paypal_payer_email' => [
+                    Info::PAYPAL_PAYER_EMAIL => [
                         'label' => 'Payer Email',
-                        'value' => 'paypal_payer_email',
+                        'value' => Info::PAYPAL_PAYER_EMAIL,
                      ],
-                    'paypal_payer_status' => [
+                    Info::PAYPAL_PAYER_STATUS => [
                         'label' => 'Payer Status',
-                        'value' => 'paypal_payer_status',
+                        'value' => Info::PAYPAL_PAYER_STATUS,
                     ],
-                    'paypal_address_id' => [
+                    Info::PAYPAL_ADDRESS_ID => [
                         'label' => 'Payer Address ID',
-                        'value' => 'paypal_address_id',
+                        'value' => Info::PAYPAL_ADDRESS_ID,
                     ],
-                    'paypal_address_status' => [
+                    Info::PAYPAL_ADDRESS_STATUS => [
                         'label' => 'Payer Address Status',
-                        'value' => 'paypal_address_status',
+                        'value' => Info::PAYPAL_ADDRESS_STATUS,
                     ],
-                    'paypal_protection_eligibility' => [
+                    Info::PAYPAL_PROTECTION_ELIGIBILITY => [
                         'label' => 'Merchant Protection Eligibility',
-                        'value' => 'paypal_protection_eligibility',
+                        'value' => Info::PAYPAL_PROTECTION_ELIGIBILITY,
                     ],
-                    'paypal_fraud_filters' => [
+                    Info::PAYPAL_FRAUD_FILTERS => [
                         'label' => 'Triggered Fraud Filters',
-                        'value' => 'paypal_fraud_filters',
+                        'value' => Info::PAYPAL_FRAUD_FILTERS,
                     ],
-                    'paypal_correlation_id' => [
+                    Info::PAYPAL_CORRELATION_ID => [
                         'label' => 'Last Correlation ID',
-                        'value' => 'paypal_correlation_id',
+                        'value' => Info::PAYPAL_CORRELATION_ID,
                     ],
-                    'paypal_avs_code' => [
+                    Info::PAYPAL_AVS_CODE => [
                         'label' => 'Address Verification System Response',
                         'value' => '#A: Matched Address only (no ZIP)',
                     ],
-                    'paypal_cvv2_match' => [
+                    Info::PAYPAL_CVV2_MATCH => [
                         'label' => 'CVV2 Check Result by PayPal',
                         'value' => '#M: Matched (CVV2CSC)',
                     ],
-                    'centinel_vpas_result' => [
+                    Info::CENTINEL_VPAS => [
                         'label' => 'PayPal/Centinel Visa Payer Authentication Service Result',
                         'value' => '#2: Authenticated, Good Result',
                     ],
-                    'centinel_eci_result' => [
+                    Info::CENTINEL_ECI => [
                         'label' => 'PayPal/Centinel Electronic Commerce Indicator',
                         'value' => '#01: Merchant Liability',
                     ],
-                    'buyer_tax_id' => [
+                    Info::BUYER_TAX_ID => [
                         'label' => 'Buyer\'s Tax ID',
-                        'value' => 'buyer_tax_id',
+                        'value' => Info::BUYER_TAX_ID,
                     ],
-                    'buyer_tax_id_type' => [
+                    Info::BUYER_TAX_ID_TYPE => [
                         'label' => 'Buyer\'s Tax ID Type',
                         'value' => 'CNPJ',
                     ],
@@ -242,14 +242,14 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'paypal_payer_id' => 'paypal_payer_id',
-                    'paypal_payer_email' => 'paypal_payer_email',
-                    'paypal_payer_status' => 'paypal_payer_status',
-                    'paypal_address_id' => 'paypal_address_id',
-                    'paypal_address_status' => 'paypal_address_status',
-                    'paypal_protection_eligibility' => 'paypal_protection_eligibility',
-                    'paypal_fraud_filters' => 'paypal_fraud_filters',
-                    'paypal_correlation_id' => 'paypal_correlation_id',
+                    Info::PAYPAL_PAYER_ID => Info::PAYPAL_PAYER_ID,
+                    Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
+                    Info::PAYPAL_PAYER_STATUS => Info::PAYPAL_PAYER_STATUS,
+                    Info::PAYPAL_ADDRESS_ID => Info::PAYPAL_ADDRESS_ID,
+                    Info::PAYPAL_ADDRESS_STATUS => Info::PAYPAL_ADDRESS_STATUS,
+                    Info::PAYPAL_PROTECTION_ELIGIBILITY => Info::PAYPAL_PROTECTION_ELIGIBILITY,
+                    Info::PAYPAL_FRAUD_FILTERS => Info::PAYPAL_FRAUD_FILTERS,
+                    Info::PAYPAL_CORRELATION_ID => Info::PAYPAL_CORRELATION_ID,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
                     Info::PAYPAL_AVS_CODE => Info::PAYPAL_AVS_CODE,
                     Info::PAYPAL_CVV2_MATCH => Info::PAYPAL_CVV2_MATCH,
@@ -258,57 +258,57 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                     Info::CENTINEL_ECI => Info::CENTINEL_ECI
                 ],
                 [
-                    'paypal_payer_id' => [
+                    Info::PAYPAL_PAYER_ID => [
                         'label' => 'Payer ID',
-                        'value' => 'paypal_payer_id',
+                        'value' => Info::PAYPAL_PAYER_ID,
                     ],
-                    'paypal_payer_email' => [
+                    Info::PAYPAL_PAYER_EMAIL => [
                         'label' => 'Payer Email',
-                        'value' => 'paypal_payer_email',
+                        'value' => Info::PAYPAL_PAYER_EMAIL,
                     ],
-                    'paypal_payer_status' => [
+                    Info::PAYPAL_PAYER_STATUS => [
                         'label' => 'Payer Status',
-                        'value' => 'paypal_payer_status',
+                        'value' => Info::PAYPAL_PAYER_STATUS,
                     ],
-                    'paypal_address_id' => [
+                    Info::PAYPAL_ADDRESS_ID => [
                         'label' => 'Payer Address ID',
-                        'value' => 'paypal_address_id',
+                        'value' => Info::PAYPAL_ADDRESS_ID,
                     ],
-                    'paypal_address_status' => [
+                    Info::PAYPAL_ADDRESS_STATUS => [
                         'label' => 'Payer Address Status',
-                        'value' => 'paypal_address_status',
+                        'value' => Info::PAYPAL_ADDRESS_STATUS,
                     ],
-                    'paypal_protection_eligibility' => [
+                    Info::PAYPAL_PROTECTION_ELIGIBILITY => [
                         'label' => 'Merchant Protection Eligibility',
-                        'value' => 'paypal_protection_eligibility',
+                        'value' => Info::PAYPAL_PROTECTION_ELIGIBILITY,
                     ],
-                    'paypal_fraud_filters' => [
+                    Info::PAYPAL_FRAUD_FILTERS => [
                         'label' => 'Triggered Fraud Filters',
-                        'value' => 'paypal_fraud_filters',
+                        'value' => Info::PAYPAL_FRAUD_FILTERS,
                     ],
-                    'paypal_correlation_id' => [
+                    Info::PAYPAL_CORRELATION_ID => [
                         'label' => 'Last Correlation ID',
-                        'value' => 'paypal_correlation_id',
+                        'value' => Info::PAYPAL_CORRELATION_ID,
                     ],
-                    'paypal_avs_code' => [
+                    Info::PAYPAL_AVS_CODE => [
                         'label' => 'Address Verification System Response',
                         'value' => '#paypal_avs_code',
                     ],
-                    'paypal_cvv2_match' => [
+                    Info::PAYPAL_CVV2_MATCH => [
                         'label' => 'CVV2 Check Result by PayPal',
                         'value' => '#paypal_cvv2_match',
                     ],
-                    'centinel_vpas_result' => [
+                    Info::CENTINEL_VPAS => [
                         'label' => 'PayPal/Centinel Visa Payer Authentication Service Result',
                         'value' => '#centinel_vpas_result',
                     ],
-                    'centinel_eci_result' => [
+                    Info::CENTINEL_ECI => [
                         'label' => 'PayPal/Centinel Electronic Commerce Indicator',
                         'value' => '#centinel_eci_result',
                     ],
-                    'buyer_tax_id' => [
+                    Info::BUYER_TAX_ID => [
                         'label' => 'Buyer\'s Tax ID',
-                        'value' => 'buyer_tax_id',
+                        'value' => Info::BUYER_TAX_ID,
                     ],
                     'last_trans_id' => [
                         'label' => 'Last Transaction ID',
@@ -329,20 +329,20 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'paypal_payer_email' => 'paypal_payer_email',
+                    Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
                     Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE_CNPJ
                 ],
                 [
-                    'paypal_payer_email' => [
+                    Info::PAYPAL_PAYER_EMAIL => [
                         'label' => 'Payer Email',
-                        'value' => 'paypal_payer_email',
+                        'value' => Info::PAYPAL_PAYER_EMAIL,
                     ],
-                    'buyer_tax_id' => [
+                    Info::BUYER_TAX_ID => [
                         'label' => 'Buyer\'s Tax ID',
-                        'value' => 'buyer_tax_id',
+                        'value' => Info::BUYER_TAX_ID,
                     ],
-                    'buyer_tax_id_type' => [
+                    Info::BUYER_TAX_ID_TYPE => [
                         'label' => 'Buyer\'s Tax ID Type',
                         'value' => 'CNPJ',
                     ]
@@ -350,18 +350,18 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'paypal_payer_email' => 'paypal_payer_email',
+                    Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
                     Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE
                 ],
                 [
-                    'paypal_payer_email' => [
+                    Info::PAYPAL_PAYER_EMAIL => [
                         'label' => 'Payer Email',
-                        'value' => 'paypal_payer_email',
+                        'value' => Info::PAYPAL_PAYER_EMAIL,
                     ],
-                    'buyer_tax_id' => [
+                    Info::BUYER_TAX_ID => [
                         'label' => 'Buyer\'s Tax ID',
-                        'value' => 'buyer_tax_id',
+                        'value' => Info::BUYER_TAX_ID,
                     ]
                 ]
             ]
@@ -378,16 +378,16 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    Info::PAYER_ID => 'paypal_payer_id',
-                    Info::PAYER_EMAIL => 'paypal_payer_email',
-                    Info::PAYER_STATUS => 'paypal_payer_status',
-                    Info::ADDRESS_ID => 'paypal_address_id',
-                    Info::ADDRESS_STATUS => 'paypal_address_status',
-                    Info::PROTECTION_EL => 'paypal_protection_eligibility',
-                    Info::FRAUD_FILTERS => 'paypal_fraud_filters',
-                    Info::CORRELATION_ID => 'paypal_correlation_id',
-                    Info::AVS_CODE => 'paypal_avs_code',
-                    Info::CVV2_MATCH => 'paypal_cvv2_match',
+                    Info::PAYER_ID => Info::PAYPAL_PAYER_ID,
+                    Info::PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
+                    Info::PAYER_STATUS => Info::PAYPAL_PAYER_STATUS,
+                    Info::ADDRESS_ID => Info::PAYPAL_ADDRESS_ID,
+                    Info::ADDRESS_STATUS => Info::PAYPAL_ADDRESS_STATUS,
+                    Info::PROTECTION_EL => Info::PAYPAL_PROTECTION_ELIGIBILITY,
+                    Info::FRAUD_FILTERS => Info::PAYPAL_FRAUD_FILTERS,
+                    Info::CORRELATION_ID => Info::PAYPAL_CORRELATION_ID,
+                    Info::AVS_CODE => Info::PAYPAL_AVS_CODE,
+                    Info::CVV2_MATCH => Info::PAYPAL_CVV2_MATCH,
                     Info::CENTINEL_VPAS => Info::CENTINEL_VPAS,
                     Info::CENTINEL_ECI => Info::CENTINEL_ECI,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,
@@ -397,16 +397,16 @@ class InfoTest extends \PHPUnit_Framework_TestCase
                     Info::IS_FRAUD => Info::IS_FRAUD_GLOBAL
                 ],
                 [
-                    'paypal_payer_id' => 'paypal_payer_id',
-                    'paypal_payer_email' => 'paypal_payer_email',
-                    'paypal_payer_status' => 'paypal_payer_status',
-                    'paypal_address_id' => 'paypal_address_id',
-                    'paypal_address_status' => 'paypal_address_status',
-                    'paypal_protection_eligibility' => 'paypal_protection_eligibility',
-                    'paypal_fraud_filters' => 'paypal_fraud_filters',
-                    'paypal_correlation_id' => 'paypal_correlation_id',
-                    'paypal_avs_code' => 'paypal_avs_code',
-                    'paypal_cvv2_match' => 'paypal_cvv2_match',
+                    Info::PAYPAL_PAYER_ID => Info::PAYPAL_PAYER_ID,
+                    Info::PAYPAL_PAYER_EMAIL => Info::PAYPAL_PAYER_EMAIL,
+                    Info::PAYPAL_PAYER_STATUS => Info::PAYPAL_PAYER_STATUS,
+                    Info::PAYPAL_ADDRESS_ID => Info::PAYPAL_ADDRESS_ID,
+                    Info::PAYPAL_ADDRESS_STATUS => Info::PAYPAL_ADDRESS_STATUS,
+                    Info::PAYPAL_PROTECTION_ELIGIBILITY => Info::PAYPAL_PROTECTION_ELIGIBILITY,
+                    Info::PAYPAL_FRAUD_FILTERS => Info::PAYPAL_FRAUD_FILTERS,
+                    Info::PAYPAL_CORRELATION_ID => Info::PAYPAL_CORRELATION_ID,
+                    Info::PAYPAL_AVS_CODE => Info::PAYPAL_AVS_CODE,
+                    Info::PAYPAL_CVV2_MATCH => Info::PAYPAL_CVV2_MATCH,
                     Info::CENTINEL_VPAS => Info::CENTINEL_VPAS,
                     Info::CENTINEL_ECI => Info::CENTINEL_ECI,
                     Info::BUYER_TAX_ID => Info::BUYER_TAX_ID,

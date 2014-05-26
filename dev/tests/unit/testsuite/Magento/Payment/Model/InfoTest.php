@@ -209,7 +209,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         );
 
         // unset all
-        $this->assertNull($this->info->unsAdditionalInformation()->getAdditionalInformation());
+        $this->assertEmpty($this->info->unsAdditionalInformation()->getAdditionalInformation());
     }
 
     public function testHasAdditionalInformation()
