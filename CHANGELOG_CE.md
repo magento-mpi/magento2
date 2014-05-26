@@ -1,4 +1,11 @@
 * Fixed bugs:
+  * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
+  * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
+  * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
+  * Fixed: Wrong message about backordered items in cart on backend (MAGETWO-1275)
+  * Fixed: Validate Each Address Separately in Multi-address Checkout affects ability to proceed to multi-address checkout(MAGETWO-3113)
+  * Fixed: The Minimum Order Amount does not apply to the order(MAGETWO-5814)
+  * Fixed: CLONE - Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
   * Fixed: Images upload in config looks broken (MAGETWO-15764)
   * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
