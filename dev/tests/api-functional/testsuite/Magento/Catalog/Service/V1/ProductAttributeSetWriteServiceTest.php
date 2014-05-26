@@ -57,7 +57,6 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
         ];
         $requestData = [
             'id' => $id,
-            // attributeSetId ???
         ];
 
         $this->_webApiCall($serviceInfo, $requestData);
