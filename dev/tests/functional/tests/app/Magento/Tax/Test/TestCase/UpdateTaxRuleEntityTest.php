@@ -90,14 +90,14 @@ class UpdateTaxRuleEntityTest extends Injectable
      * @param TaxRule $initialTaxRule
      * @param TaxRule $taxRule
      * @param AddressInjectable $address
-     * @param $shipping
+     * @param array $shipping
      * @return void
      */
     public function testUpdateTaxRule(
         TaxRule $initialTaxRule,
         TaxRule $taxRule,
         AddressInjectable $address,
-        $shipping
+        array $shipping
     ) {
         // Precondition
         $initialTaxRule->persist();

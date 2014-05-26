@@ -51,14 +51,7 @@ class Shipping extends Form
      *
      * @var string
      */
-    protected $shippingCarrierMethodSelector = '//span[text()="%s"]';
-
-    /**
-     * Selector to access the shipping price
-     *
-     * @var string
-     */
-    protected $shippingPriceSelector = '/following::*/div[@class="field choice item"]//*[contains(text(), "%s")]';
+    protected $shippingMethodSelector = '//span[text()="%s"]/following::*[contains(text(), "%s")]';
 
     /**
      * From with shipping available shipping methods
@@ -97,9 +90,8 @@ class Shipping extends Form
      */
     public function selectShippingMethod($shipping)
     {
-        $shippingSelector = $this->shippingCarrierMethodSelector . $this->shippingPriceSelector;
         $shippingMethod = $this->_rootElement->find(
-            sprintf($shippingSelector, $shipping['carrier'], $shipping['method']),
+            sprintf($this->shippingMethodSelector, $shipping['carrier'], $shipping['method']),
             Locator::SELECTOR_XPATH
         );
         if ($shippingMethod->isVisible()) {
@@ -123,9 +115,8 @@ class Shipping extends Form
                 return $shippingMethodForm->isVisible() ? true : null;
             }
         );
-        $shippingSelector = $this->shippingCarrierMethodSelector . $this->shippingPriceSelector;
         return $this->_rootElement->find(
-            sprintf($shippingSelector, $carrier, $method),
+            sprintf($this->shippingMethodSelector, $carrier, $method),
             Locator::SELECTOR_XPATH
         )->isVisible();
     }
