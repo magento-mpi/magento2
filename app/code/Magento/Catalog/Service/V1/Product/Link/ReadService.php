@@ -105,13 +105,23 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getLinkedProducts($productId, $type)
+    public function getLinkedProducts($productSku, $type)
     {
         $output = [];
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productFactory->create();
+        $productId = $product->getIdBySku($productSku);
+
+        if (!$productId) {
+            throw new InputException('There is no product with provided SKU');
+        }
         $product->load($productId);
+
         try {
-            $collection = $this->entityCollectionProvider->getCollection($product, $type);
+            $typeId = $this->getTypeId($type);
+            $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
+        } catch (\OutOfRangeException $exception) {
+            throw new InputException($exception->getMessage());
         } catch (\InvalidArgumentException $exception) {
             $this->logger->logException($exception);
             throw new InputException('Link type is not registered');
@@ -138,9 +148,14 @@ class ReadService implements ReadServiceInterface
      */
     public function getLinkAttributes($type)
     {
+        try {
+            $typeId = $this->getTypeId($type);
+        } catch (\OutOfRangeException $exception) {
+            throw new InputException($exception->getMessage());
+        }
         $output = [];
         /** @var \Magento\Catalog\Model\Product\Link $link */
-        $link = $this->linkFactory->create(['data' => ['link_type_id' => $type]]);
+        $link = $this->linkFactory->create(['data' => ['link_type_id' => $typeId]]);
         $attributes = $link->getAttributes();
         foreach ($attributes as $item) {
             $data = [
@@ -152,5 +167,21 @@ class ReadService implements ReadServiceInterface
                 ->create();
         }
         return $output;
+    }
+
+    /**
+     * Get link type id by code
+     *
+     * @param string $code
+     * @throws \OutOfRangeException
+     * @return int
+     */
+    protected function getTypeId($code)
+    {
+        $types = $this->linkTypeProvider->getLinkTypes();
+        if (isset($types[$code])) {
+            return $types[$code];
+        }
+        throw new \OutOfRangeException('Unknown link type code is provided');
     }
 }

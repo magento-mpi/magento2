@@ -40,7 +40,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->service = $helper->getObject(
-            'Magento\Catalog\Service\V1\CatalogProductLinkService',
+            'Magento\Catalog\Service\V1\Product\Link\ReadService',
             [
                 'linkTypeProvider' => $this->providerMock,
                 'builder' => $this->builderMock,

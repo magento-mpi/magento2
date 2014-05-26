@@ -36,14 +36,18 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
 
         $resultA = ['resultA'];
-        $providerA = $this->getMock('\Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface');
+        $providerA = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface'
+        );
         $providerA->expects($this->once())
             ->method('getLinkedProducts')
             ->with($product)
             ->will($this->returnValue($resultA));
 
         $resultB = ['resultB'];
-        $providerB = $this->getMock('\Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface');
+        $providerB = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface'
+        );
         $providerB->expects($this->once())
             ->method('getLinkedProducts')
             ->with($product)

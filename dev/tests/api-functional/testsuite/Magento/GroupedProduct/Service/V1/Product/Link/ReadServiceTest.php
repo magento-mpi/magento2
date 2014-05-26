@@ -13,7 +13,7 @@ use Magento\GroupedProduct\Model\Resource\Product\Link;
 
 class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogCatalogProductLinkServiceV1';
+    const SERVICE_NAME = 'catalogProductLinkReadServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/';
 
@@ -46,12 +46,12 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
      */
     public function testGetLinkedProductsGroped()
     {
-        $productId = 9;
-        $linkType = Link::LINK_TYPE_GROUPED;
+        $productSku = 'grouped-product';
+        $linkType = 'associated';
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . $productId . '/links/' . $linkType,
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -61,7 +61,7 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo, ['productId' => $productId, 'type' => $linkType]);
+        $haystack = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
 
         $expected = [
             [
@@ -84,7 +84,7 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
 
     public function testGetLinkAttributes()
     {
-        $linkType = Link::LINK_TYPE_GROUPED;
+        $linkType = 'associated';
 
         $serviceInfo = [
             'rest' => [

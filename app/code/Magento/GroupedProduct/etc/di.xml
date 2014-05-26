@@ -80,7 +80,7 @@
             <argument name="providers" xsi:type="array">
                 <item name="grouped" xsi:type="array">
                     <item name="code" xsi:type="const">Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED</item>
-                    <item name="provider" xsi:type="object">Magento\GroupedProduct\Service\V1\Data\LinkedProductEntity\CollectionProvider\Grouped</item>
+                    <item name="provider" xsi:type="object">Magento\GroupedProduct\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider\Grouped</item>
                 </item>
             </argument>
         </arguments>

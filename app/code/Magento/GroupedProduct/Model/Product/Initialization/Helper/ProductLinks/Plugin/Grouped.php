@@ -19,15 +19,13 @@ class Grouped
      * @return \Magento\Catalog\Model\Product
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterInitializeLinks(
+    public function beforeInitializeLinks(
         \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $subject,
         \Magento\Catalog\Model\Product $product,
         array $links
     ) {
-        if (isset($links['grouped']) && !$product->getGroupedReadonly()) {
-            $product->setGroupedLinkData((array)$links['grouped']);
+        if (isset($links['associated']) && !$product->getGroupedReadonly()) {
+            $product->setGroupedLinkData((array)$links['associated']);
         }
-
-        return $product;
     }
 }

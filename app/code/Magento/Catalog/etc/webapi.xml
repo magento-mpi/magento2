@@ -15,7 +15,7 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productId/links/:type" method="GET">
+    <route url="/V1/products/:productSku/links/:type" method="GET">
         <service class="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" method="getLinkedProducts"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
@@ -23,6 +23,12 @@
     </route>
     <route url="/V1/products/links/:type/attributes" method="GET">
         <service class="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" method="getLinkAttributes"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/links/:type" method="POST">
+        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="assign"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

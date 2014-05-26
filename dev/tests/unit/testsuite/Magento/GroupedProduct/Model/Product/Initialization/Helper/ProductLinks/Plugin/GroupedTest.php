@@ -46,33 +46,24 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->model = new Grouped();
     }
 
-    public function testAfterInitializeLinksRequestDoesNotHaveGrouped()
+    public function testBeforeInitializeLinksRequestDoesNotHaveGrouped()
     {
         $this->productMock->expects($this->never())->method('getGroupedReadonly');
         $this->productMock->expects($this->never())->method('setGroupedLinkData');
-        $this->assertEquals(
-            $this->productMock,
-            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock, array())
-        );
+        $this->model->beforeInitializeLinks($this->subjectMock, $this->productMock, array());
     }
 
-    public function testAfterInitializeLinksRequestHasGrouped()
+    public function testBeforeInitializeLinksRequestHasGrouped()
     {
         $this->productMock->expects($this->once())->method('getGroupedReadonly')->will($this->returnValue(false));
         $this->productMock->expects($this->once())->method('setGroupedLinkData')->with(array('value'));
-        $this->assertEquals(
-            $this->productMock,
-            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock, array('grouped' => 'value'))
-        );
+        $this->model->beforeInitializeLinks($this->subjectMock, $this->productMock, array('associated' => 'value'));
     }
 
-    public function testAfterInitializeLinksProductIsReadonly()
+    public function testBeforeInitializeLinksProductIsReadonly()
     {
         $this->productMock->expects($this->once())->method('getGroupedReadonly')->will($this->returnValue(true));
         $this->productMock->expects($this->never())->method('setGroupedLinkData');
-        $this->assertEquals(
-            $this->productMock,
-            $this->model->afterInitializeLinks($this->subjectMock, $this->productMock, array('grouped' => 'value'))
-        );
+        $this->model->beforeInitializeLinks($this->subjectMock, $this->productMock, array('associated' => 'value'));
     }
 }

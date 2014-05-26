@@ -13,7 +13,7 @@ use \Magento\Catalog\Model\Product\Link;
 
 class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogCatalogProductLinkServiceV1';
+    const SERVICE_NAME = 'catalogProductLinkReadServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/';
 
@@ -37,9 +37,9 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
          * Validate that product type links provided by Magento_Catalog module are present
          */
         $expectedItems = [
-            ['type' => 'links_related', 'code' => Link::LINK_TYPE_RELATED],
-            ['type' => 'links_crosssell', 'code' => Link::LINK_TYPE_CROSSSELL],
-            ['type' => 'links_upsell', 'code' => Link::LINK_TYPE_UPSELL],
+            ['type' => 'related', 'code' => Link::LINK_TYPE_RELATED],
+            ['type' => 'crosssell', 'code' => Link::LINK_TYPE_CROSSSELL],
+            ['type' => 'upsell', 'code' => Link::LINK_TYPE_UPSELL],
         ];
 
         foreach ($expectedItems as $item) {
@@ -52,10 +52,10 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testGetLinkedProductsCrossSell()
     {
-        $productId = 2;
-        $linkType = Link::LINK_TYPE_CROSSSELL;
+        $productSku = 'simple_with_cross';
+        $linkType = 'crosssell';
 
-        $this->assertLinkedProducts($productId, $linkType);
+        $this->assertLinkedProducts($productSku, $linkType);
     }
 
     /**
@@ -63,10 +63,10 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testGetLinkedProductsRelated()
     {
-        $productId = 2;
-        $linkType = Link::LINK_TYPE_RELATED;
+        $productSku = 'simple_with_cross';
+        $linkType = 'related';
 
-        $this->assertLinkedProducts($productId, $linkType);
+        $this->assertLinkedProducts($productSku, $linkType);
     }
 
     /**
@@ -74,21 +74,21 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testGetLinkedProductsUpSell()
     {
-        $productId = 2;
-        $linkType = Link::LINK_TYPE_UPSELL;
+        $productSku = 'simple_with_upsell';
+        $linkType = 'upsell';
 
-        $this->assertLinkedProducts($productId, $linkType);
+        $this->assertLinkedProducts($productSku, $linkType);
     }
 
     /**
-     * @param int $productId
+     * @param string $productSku
      * @param int $linkType
      */
-    protected function assertLinkedProducts($productId, $linkType)
+    protected function assertLinkedProducts($productSku, $linkType)
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . $productId . '/links/' . $linkType,
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -98,7 +98,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo, ['productId' => $productId, 'type' => $linkType]);
+        $haystack = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
 
         $expected = [
             ['product_id' => 1, 'type' => 'simple', 'attribute_set_id' => 4, 'sku' => 'simple', 'position' => 1]
@@ -133,9 +133,9 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function linkAttributesTypeDataProvider()
     {
         return [
-            'cross' => [Link::LINK_TYPE_CROSSSELL],
-            'upsell' => [Link::LINK_TYPE_UPSELL],
-            'related' => [Link::LINK_TYPE_RELATED],
+            ['crosssell'],
+            ['upsell'],
+            ['related']
         ];
     }
 }
