@@ -30,11 +30,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $productTypeManager = $this
-            ->getMockBuilder('Magento\Catalog\Model\Product\TypeTransitionManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $productFactory = $this
             ->getMockBuilder('Magento\Catalog\Model\ProductFactory')
             ->disableOriginalConstructor()
@@ -46,7 +41,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'initializationHelper' => $initializationHelper,
                 'productMapper' => $productMapper,
-                'productTypeManager' => $productTypeManager,
                 'productFactory' => $productFactory,
             ]
         );
@@ -63,7 +57,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($productModel));
 
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
-        $productTypeManager->expects($this->once())->method('processProduct')->with($productModel);
 
         $productModel->expects($this->once())->method('validate');
         $productModel->expects($this->once())->method('save');
