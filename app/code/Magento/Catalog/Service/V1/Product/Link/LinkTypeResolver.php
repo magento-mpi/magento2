@@ -9,9 +9,15 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\LinkTypeProvider;
+use \Magento\Framework\Exception\NoSuchEntityException;
 
 class LinkTypeResolver
 {
+    /**
+     * @var LinkTypeProvider
+     */
+    protected $linkTypeProvider;
+
     /**
      * @param LinkTypeProvider $linkTypeProvider
      */
@@ -21,16 +27,11 @@ class LinkTypeResolver
     }
 
     /**
-     * @var LinkTypeProvider
-     */
-    protected $linkTypeProvider;
-
-    /**
      * Get link type id by code
      *
      * @param string $code
+     * @throws NoSuchEntityException
      * @return int
-     * @throws \InvalidArgumentException
      */
     public function getTypeIdByCode($code)
     {
@@ -38,6 +39,6 @@ class LinkTypeResolver
         if (isset($types[$code])) {
             return $types[$code];
         }
-        throw new \InvalidArgumentException('Unknown link type code is provided');
+        throw new NoSuchEntityException('Unknown link type code is provided');
     }
 }

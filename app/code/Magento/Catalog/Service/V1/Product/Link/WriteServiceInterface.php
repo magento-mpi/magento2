@@ -16,8 +16,8 @@ interface WriteServiceInterface
      * @param string $productSku
      * @param \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity[] $assignedProducts
      * @param string $type
-     * @throws \Magento\Framework\Exception\InputException If new product links can not be saved
-     * @throws \Magento\Framework\Exception\InputException If the product with provided SKU is missed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
     public function assign($productSku, array $assignedProducts, $type);
@@ -28,8 +28,9 @@ interface WriteServiceInterface
      * @param string $productSku
      * @param string $linkedProductSku
      * @param string $type
-     * @throws \Magento\Framework\Exception\InputException If new product links can not be saved
-     * @throws \Magento\Framework\Exception\InputException If the product with provided SKU is missed
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
     public function remove($productSku, $linkedProductSku, $type);

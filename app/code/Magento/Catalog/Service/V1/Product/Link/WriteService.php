@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
 use \Magento\Framework\Exception\InputException;
+use \Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
 
 class WriteService implements WriteServiceInterface
@@ -57,7 +58,8 @@ class WriteService implements WriteServiceInterface
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param array $links
-     * @throws \Magento\Framework\Exception\InputException
+     * @throws CouldNotSaveException
+     * @return void
      */
     protected function saveLinks($product, array $links)
     {
@@ -65,7 +67,7 @@ class WriteService implements WriteServiceInterface
         try {
             $product->save();
         } catch (\Exception $exception) {
-            throw new InputException('Invalid data provided for linked products');
+            throw new CouldNotSaveException('Invalid data provided for linked products');
         }
     }
 
@@ -74,11 +76,7 @@ class WriteService implements WriteServiceInterface
      */
     public function assign($productSku, array $assignedProducts, $type)
     {
-        try {
-            $product = $this->productLoader->load($productSku);
-        } catch (\InvalidArgumentException $exception) {
-            throw new InputException('There is no product with provided SKU');
-        }
+        $product = $this->productLoader->load($productSku);
 
         $links = [];
         /** @var Data\LinkedProductEntity[] $assignedProducts*/
@@ -95,26 +93,10 @@ class WriteService implements WriteServiceInterface
      */
     public function remove($productSku, $linkedProductSku, $type)
     {
-        try {
-            $product = $this->productLoader->load($productSku);
-        } catch (\InvalidArgumentException $exception) {
-            throw new InputException('There is no product with provided SKU');
-        }
-
-        try {
-            $linkedProduct = $this->productLoader->load($linkedProductSku);
-        } catch (\InvalidArgumentException $exception) {
-            throw new InputException('There is no linked product with provided SKU');
-        }
-
-        try {
-            $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
-            $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
-        } catch (\OutOfRangeException $exception) {
-            throw new InputException('Unregistered collection type provider');
-        } catch (\InvalidArgumentException $exception) {
-            throw new InputException('Link type is not registered');
-        }
+        $product = $this->productLoader->load($productSku);
+        $linkedProduct = $this->productLoader->load($linkedProductSku);
+        $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
+        $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
 
         $links = [];
         foreach ($collection as $item) {

@@ -22,8 +22,7 @@ interface ReadServiceInterface
      *
      * @param string $productSku
      * @param string $type
-     * @throws \Magento\Framework\Exception\InputException If link type is not registered
-     * @throws \Magento\Framework\Exception\InputException If the product with provided SKU is missed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity[]
      */
     public function getLinkedProducts($productSku, $type);
@@ -32,7 +31,7 @@ interface ReadServiceInterface
      * Provide a list of the product link type attributes
      *
      * @param string $type
-     * @throws \Magento\Framework\Exception\InputException If link type is not registered
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkAttributeEntity[]
      */
     public function getLinkAttributes($type);

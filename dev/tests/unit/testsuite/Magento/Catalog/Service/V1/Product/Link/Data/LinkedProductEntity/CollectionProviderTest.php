@@ -21,7 +21,7 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage Collection provider for type someType is not registered
      */
     public function testGetCollectionWithInvalidType()

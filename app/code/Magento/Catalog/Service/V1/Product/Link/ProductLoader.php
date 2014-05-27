@@ -8,6 +8,8 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link;
 
+use \Magento\Framework\Exception\NoSuchEntityException;
+
 class ProductLoader
 {
     /**
@@ -28,7 +30,7 @@ class ProductLoader
      *
      * @param string $productSku
      * @return \Magento\Catalog\Model\Product
-     * @throws \InvalidArgumentException
+     * @throws NoSuchEntityException
      */
     public function load($productSku)
     {
@@ -37,9 +39,9 @@ class ProductLoader
         $productId = $product->getIdBySku($productSku);
 
         if (!$productId) {
-            throw new \InvalidArgumentException('There is no product with provided SKU');
+            throw new NoSuchEntityException('There is no product with provided SKU');
         }
         $product->load($productId);
         return $product;
     }
-} 
+}

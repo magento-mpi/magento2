@@ -14,6 +14,10 @@ use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Logger;
 
+/**
+ * Class ReadService
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ReadService implements ReadServiceInterface
 {
     /**
@@ -108,14 +112,8 @@ class ReadService implements ReadServiceInterface
     {
         $output = [];
         $product = $this->productLoader->load($productSku);
-        try {
-            $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
-            $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
-        } catch (\OutOfRangeException $exception) {
-            throw new InputException('Unregistered collection type provider');
-        } catch (\InvalidArgumentException $exception) {
-            throw new InputException('Link type is not registered');
-        }
+        $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
+        $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
 
         foreach ($collection as $item) {
             /** @var \Magento\Catalog\Model\Product $item */
@@ -137,11 +135,8 @@ class ReadService implements ReadServiceInterface
     public function getLinkAttributes($type)
     {
         $output = [];
-        try {
-            $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
-        } catch (\InvalidArgumentException $exception) {
-            throw new InputException('Link type is not registered');
-        }
+        $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
+
         /** @var \Magento\Catalog\Model\Product\Link $link */
         $link = $this->linkFactory->create(['data' => ['link_type_id' => $typeId]]);
         $attributes = $link->getAttributes();
