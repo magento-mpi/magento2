@@ -240,12 +240,31 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      *  Test for `save` method
-     *  @dataProvider saveDataProdiver
      */
-    public function testSave($isDublicate)
-    {
-        $this->model->setIsDuplicate($isDublicate);
+    public function testSave() {
+        $this->model->setIsDuplicate(false);
+        $this->configureSaveTest();
+        $this->optionInstanceMock->expects($this->any())->method('setProduct')->will($this->returnSelf());
+        $this->optionInstanceMock->expects($this->once())->method('saveOptions')->will($this->returnSelf());
+        $this->model->save();
+    }
 
+    /**
+     *  Test for `save` method for duplicated product
+     */
+    public function testSaveAndDuplicate()
+    {
+        $this->model->setIsDuplicate(true);
+        $this->configureSaveTest();
+        $this->model->save();
+    }
+
+    /**
+     * Configure environment for `testSave` and `testSaveAndDuplicate` methods
+     * @return array
+     */
+    protected function configureSaveTest()
+    {
         $productTypeMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Type\Simple')
             ->disableOriginalConstructor()->setMethods(['beforeSave', 'save'])->getMock();
         $productTypeMock->expects($this->once())->method('beforeSave')->will($this->returnSelf());
@@ -254,22 +273,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->productTypeInstanceMock->expects($this->once())->method('factory')->with($this->model)
             ->will($this->returnValue($productTypeMock));
 
-        if (!$isDublicate) {
-            $this->optionInstanceMock->expects($this->any())->method('setProduct')->will($this->returnSelf());
-            $this->optionInstanceMock->expects($this->once())->method('saveOptions')->will($this->returnSelf());
-        }
-
         $this->model->getResource()->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
         $this->model->getResource()->expects($this->any())->method('commit')->will($this->returnSelf());
-        $this->model->save();
-    }
-
-    /**
-     * Data provider for test `testSave`
-     * @return array
-     */
-    public function saveDataProdiver()
-    {
-        return array([true], [false]);
     }
 }
