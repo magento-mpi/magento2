@@ -7,71 +7,67 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder;
-
 class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Constants for testing
-     */
-    const ATTRIBUTE_ID = 'ATTRIBUTE_ID';
+    /** @var \Magento\Framework\Service\Data\AbstractObjectBuilder|\PHPUnit_Framework_TestCase */
+    protected $builderMock;
 
-    const ATTRIBUTE_CODE = 'ATTRIBUTE_CODE';
+    /** @var \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[] */
+    protected $validationRules;
 
-    const FRONTEND_INPUT = 'FRONT_END_INPUT';
+    /** @var \Magento\Catalog\Service\V1\Data\Eav\Option[] */
+    protected $optionRules;
 
-    const STORE_LABEL = 'STORE_LABEL';
-
-    const VALIDATION_RULES = 'VALIDATION_RULES';
-
-    const APPLY_TO = 'APPLY_TO';
-
-    /**
-     * Instance of AttributeMetadataBuilder
-     *
-     * @var AttributeMetadataBuilder
-     */
-    protected $attributeBuilder;
-
-    /**
-     * Create AttributeMetadataBuilder
-     */
     protected function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var \Magento\Catalog\Service\V1\Data\Eav\OptionBuilder $optionBuilder */
-        $optionBuilder = $objectManager->getObject('Magento\Catalog\Service\V1\Data\Eav\OptionBuilder');
-        /** @var \Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder */
-        $validationRuleBuilder = $objectManager->getObject(
-            'Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder'
+        $this->builderMock = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
+            ->setMethods(array('getData'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->validationRules = array(
+            $this->getMock('Magento\Catalog\Service\V1\Data\Eav\ValidationRule', [], [], '', false),
+            $this->getMock('Magento\Catalog\Service\V1\Data\Eav\ValidationRule', [], [], '', false)
         );
 
-        $this->attributeBuilder = (new AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder));
+        $this->optionRules = array(
+            $this->getMock('Magento\Catalog\Service\V1\Data\Eav\Option', [], [], '', false),
+            $this->getMock('Magento\Catalog\Service\V1\Data\Eav\Option', [], [], '', false)
+        );
     }
 
-    public function testConstructorAndGetters()
+    /**
+     * Test constructor and getters
+     *
+     * @dataProvider constructorAndGettersDataProvider
+     */
+    public function testConstructorAndGetters($method, $key, $expectedValue)
     {
-        $options = array(array('value' => 'OPTION_ONE'), array('value' => 'OPTION_TWO'));
-        $this->attributeBuilder->populateWithArray(
-            array(
-                'attribute_id' => self::ATTRIBUTE_ID,
-                'attribute_code' => self::ATTRIBUTE_CODE,
-                'frontend_input' => self::FRONTEND_INPUT,
-                'store_label' => self::STORE_LABEL,
-                'validation_rules' => array(),
-                'options' => $options
-            )
-        );
-        $attributeMetadata = new AttributeMetadata($this->attributeBuilder);
+        $this->builderMock
+            ->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue([$key => $expectedValue]));
+        $attributeMetadata = new AttributeMetadata($this->builderMock);
+        $this->assertEquals($expectedValue, $attributeMetadata->$method());
+    }
 
-        $this->assertSame(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
-        $this->assertSame(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
-        $this->assertSame(self::ATTRIBUTE_ID, $attributeMetadata->getAttributeId());
-        $this->assertSame(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertSame(array(), $attributeMetadata->getValidationRules());
-        $this->assertSame($options[0], $attributeMetadata->getOptions()[0]->__toArray());
-        $this->assertSame($options[1], $attributeMetadata->getOptions()[1]->__toArray());
+    public function constructorAndGettersDataProvider()
+    {
+        return array(
+            ['getAttributeCode', AttributeMetadata::ATTRIBUTE_CODE, 'code'],
+            ['getFrontendInput', AttributeMetadata::FRONTEND_INPUT, '<br>'],
+            ['getStoreLabel', AttributeMetadata::STORE_LABEL, 'My Store'],
+            ['getValidationRules', AttributeMetadata::VALIDATION_RULES, $this->validationRules],
+            ['getIsVisible', AttributeMetadata::VISIBLE, true],
+            ['getIsRequired', AttributeMetadata::IS_REQUIRED, true],
+            ['getOptions', AttributeMetadata::OPTIONS, $this->optionRules],
+            ['getIsUserDefined', AttributeMetadata::IS_USER_DEFINED, false],
+            ['getSortOrder', AttributeMetadata::SORT_ORDER, 100],
+            ['getFrontendLabel', AttributeMetadata::FRONTEND_LABEL, 'Label'],
+            ['getNote', AttributeMetadata::NOTE, 'Text Note'],
+            ['getIsSystem', AttributeMetadata::IS_SYSTEM, false],
+            ['getBackendType', AttributeMetadata::BACKEND_TYPE, 'Type']
+        );
     }
 
     /**
@@ -85,15 +81,22 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyTo($applyTo)
     {
-        $this->attributeBuilder->populateWithArray(array(
-            'apply_to' => $applyTo
-        ));
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\OptionBuilder $optionBuilder */
+        $optionBuilder = $objectManager->getObject('Magento\Catalog\Service\V1\Data\Eav\OptionBuilder');
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder */
+        $validationRuleBuilder = $objectManager->getObject(
+            'Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder'
+        );
 
-        $attributeMetadata = new AttributeMetadata($this->attributeBuilder);
+        $attributeBuilder = new AttributeMetadataBuilder($optionBuilder, $validationRuleBuilder);
+        $attributeBuilder->populateWithArray([AttributeMetadata::APPLY_TO => $applyTo]);
+
+        $attributeMetadata = new AttributeMetadata($attributeBuilder);
         $this->assertTrue(is_array($attributeMetadata->getApplyTo()));
 
-        $this->attributeBuilder->setApplyTo($applyTo);
-        $attributeMetadata = new AttributeMetadata($this->attributeBuilder);
+        $attributeBuilder->setApplyTo($applyTo);
+        $attributeMetadata = new AttributeMetadata($attributeBuilder);
         $this->assertTrue(is_array($attributeMetadata->getApplyTo()));
     }
 

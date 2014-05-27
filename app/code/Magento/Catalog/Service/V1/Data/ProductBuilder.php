@@ -9,12 +9,7 @@ namespace Magento\Catalog\Service\V1\Data;
 
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
-use Magento\Catalog\Service\V1\Data\Product;
 
-/**
- * Class ProductBuilder
- * @package Magento\Catalog\Service\V1\Data
- */
 class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
@@ -25,14 +20,14 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $valueBuilde
+     * @param AttributeValueBuilder $valueBuilder
      * @param ProductMetadataServiceInterface $metadataService
      */
     public function __construct(
-        AttributeValueBuilder $valueBuilde,
+        AttributeValueBuilder $valueBuilder,
         ProductMetadataServiceInterface $metadataService
     ) {
-        parent::__construct($valueBuilde);
+        parent::__construct($valueBuilder);
         $this->metadataService = $metadataService;
     }
 
@@ -51,7 +46,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
+     * Set id
+     *
      * @param int $value
+     * @return $this
      */
     public function setId($value)
     {
@@ -59,7 +57,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
+     * Set Sku
+     *
      * @param string $value
+     * @return $this
      */
     public function setSku($value)
     {
@@ -67,15 +68,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
-     * @param string $value
-     */
-    public function setName($value)
-    {
-        return $this->_set(Product::NAME, $value);
-    }
-
-    /**
+     * Set store id
+     *
      * @param int $value
+     * @return $this
      */
     public function setStoreId($value)
     {
@@ -83,7 +79,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
+     * Set price
+     *
      * @param float $value
+     * @return $this
      */
     public function setPrice($value)
     {
@@ -91,7 +90,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
+     * Set visibility
+     *
      * @param int $value
+     * @return $this
      */
     public function setVisibility($value)
     {
@@ -99,15 +101,10 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
+     * Set TypeId
+     *
      * @param int $value
-     */
-    public function setAttributeSetId($value)
-    {
-        return $this->_set(Product::ATTRIBUTE_SET_ID, $value);
-    }
-
-    /**
-     * @param string $value
+     * @return $this
      */
     public function setTypeId($value)
     {
@@ -115,10 +112,46 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
+     * Set created time
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setCreatedAt($value)
+    {
+        return $this->_set(Product::CREATED_AT, $value);
+    }
+
+    /**
+     * Set updated time
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setUpdatedAt($value)
+    {
+        return $this->_set(Product::UPDATED_AT, $value);
+    }
+
+    /**
+     * Set status
+     *
      * @param int $value
+     * @return $this
      */
     public function setStatus($value)
     {
         return $this->_set(Product::STATUS, $value);
+    }
+
+    /**
+     * Set weight
+     *
+     * @param float $value
+     * @return $this
+     */
+    public function setWeight($value)
+    {
+        return $this->_set(Product::WEIGHT, $value);
     }
 }
