@@ -129,69 +129,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Rma\Model\Resource\Item', $this->resourceModel);
     }
 
-    public function testGetItemsIdsByOrder()
+    public function testGetReturnableItems()
     {
-        $data = ['item' => 1];
-        $this->appResource->expects($this->any())
-            ->method('getTableName')
-            ->will($this->returnArgument(0));
-
-        $subSelectMock = $this->getMockBuilder('Magento\Framework\DB\Select')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $subSelectMock->expects($this->once())
-            ->method('from')
-            ->with(['main' => 'magento_rma'], [])
-            ->will($this->returnSelf());
-        $subSelectMock->expects($this->any())
-            ->method('where')
-            ->will($this->returnSelf());
-
-        $expression = new \Zend_Db_Expr('(qty_shipped - qty_requested)');
-
-        $selectMock = $this->getMockBuilder('Magento\Framework\DB\Select')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $selectMock->expects($this->once())
-            ->method('from')
-            ->with(
-                ['item_entity' => 'magento_rma_item_entity'],
-                ['item_entity.order_item_id', 'item_entity.order_item_id', 'can_return' => $expression]
-            )
-            ->will($this->returnSelf());
-        $selectMock->expects($this->once())
-            ->method('exists')
-            ->with($subSelectMock, 'main.entity_id = item_entity.rma_entity_id')
-            ->will($this->returnSelf());
-        $selectMock->expects($this->once())
-            ->method('joinInner')
-            ->with(
-                ['flat_item' => 'sales_flat_order_item'],
-                'flat_item.item_id = item_entity.order_item_id'
-            )
-            ->will($this->returnSelf());
-
-        $readMock = $this->getMockBuilder('Magento\Framework\DB\Adapter\Pdo\Mysql')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $readMock->expects($this->at(0))
-            ->method('select')
-            ->will($this->returnValue($subSelectMock));
-        $readMock->expects($this->any())
-            ->method('quoteIdentifier')
-            ->will($this->returnArgument(0));
-        $readMock->expects($this->at(3))
-            ->method('select')
-            ->will($this->returnValue($selectMock));
-        $readMock->expects($this->once())
-            ->method('fetchAll')
-            ->with($selectMock)
-            ->will($this->returnValue($data));
-
-        $this->resourceModel->setConnection($readMock);
+        $data = ['item' => ['item_id' => 5, 'remaining_qty' => 3]];
+        $items= [5 => 3];
+        $adapterMock = $this->getAdapterMock($data);
+        $this->resourceModel->setConnection($adapterMock);
         $orderId = 1000001;
-        $result = $this->resourceModel->getItemsIdsByOrder($orderId);
-        $this->assertEquals($data, $result);
+        $result = $this->resourceModel->getReturnableItems($orderId);
+        $this->assertEquals($items, $result);
     }
 
     public function testGetOrderItemsNoItems()
@@ -238,9 +184,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $parentId = 6;
         $itemId = 1;
 
-        $selectMock = $this->prepareSelectMock();
-
-        $readMock = $this->prepareAdapterMock($selectMock);
+        $readMock = $this->getAdapterMock([$itemId => 1]);
 
         $this->resourceModel->setConnection($readMock);
 
@@ -277,16 +221,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $orderId = 10000001;
         $itemId = 1;
-        $fetchData = [['order_item_id' => $itemId, 'can_return' => true]];
+        $fetchData = [$itemId => 2];
         $storeId = 1;
 
-        $selectMock = $this->prepareSelectMock();
-
-        $readMock = $this->prepareAdapterMock($selectMock);
-        $readMock->expects($this->at(6))
-            ->method('fetchAll')
-            ->with($selectMock)
-            ->will($this->returnValue($fetchData));
+        $readMock = $this->getAdapterMock($fetchData);
 
         $this->resourceModel->setConnection($readMock);
 
@@ -330,13 +268,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $fetchData = [];
         $storeId = 1;
 
-        $selectMock = $this->prepareSelectMock();
-
-        $readMock = $this->prepareAdapterMock($selectMock);
-        $readMock->expects($this->at(6))
-            ->method('fetchAll')
-            ->with($selectMock)
-            ->will($this->returnValue($fetchData));
+        $readMock = $this->getAdapterMock($fetchData);
 
         $this->resourceModel->setConnection($readMock);
 
@@ -380,13 +312,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $fetchData = [];
         $storeId = 1;
 
-        $selectMock = $this->prepareSelectMock();
-
-        $readMock = $this->prepareAdapterMock($selectMock);
-        $readMock->expects($this->at(6))
-            ->method('fetchAll')
-            ->with($selectMock)
-            ->will($this->returnValue($fetchData));
+        $readMock = $this->getAdapterMock($fetchData);
 
         $this->resourceModel->setConnection($readMock);
 
@@ -424,10 +350,17 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Get universal adapter mock with specified result for fetchAll
+     *
+     * @param array $data
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function prepareSelectMock()
+    protected function getAdapterMock($data)
     {
+        $this->appResource->expects($this->any())
+            ->method('getTableName')
+            ->will($this->returnArgument(0));
+
         $selectMock = $this->getMockBuilder('Magento\Framework\DB\Select')
             ->disableOriginalConstructor()
             ->getMock();
@@ -435,15 +368,23 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('from')
             ->will($this->returnSelf());
         $selectMock->expects($this->any())
-            ->method('where')
-            ->will($this->returnSelf());
-        $selectMock->expects($this->any())
-            ->method('exists')
-            ->will($this->returnSelf());
-        $selectMock->expects($this->any())
             ->method('joinInner')
             ->will($this->returnSelf());
-        return $selectMock;
+        $selectMock->expects($this->any())
+            ->method('where')
+            ->will($this->returnSelf());
+
+        $adapterMock = $this->getMockBuilder('Magento\Framework\DB\Adapter\Pdo\Mysql')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $adapterMock->expects($this->any())
+            ->method('select')
+            ->will($this->returnValue($selectMock));
+        $adapterMock->expects($this->once())
+            ->method('fetchAll')
+            ->will($this->returnValue($data));
+
+        return $adapterMock;
     }
 
     /**
@@ -477,7 +418,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $orderItemsCollectionMock->expects($this->once())
             ->method('addExpressionFieldToSelect')
-            ->with('available_qty', $expression, ['qty_shipped', 'qty_returned'])
             ->will($this->returnSelf());
         $orderItemsCollectionMock->expects($this->any())
             ->method('addFieldToFilter')
@@ -488,23 +428,5 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $orderItemsCollectionMock->expects($this->any())
             ->method('removeItemByKey');
         return $orderItemsCollectionMock;
-    }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $selectMock
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function prepareAdapterMock(\PHPUnit_Framework_MockObject_MockObject $selectMock)
-    {
-        $readMock = $this->getMockBuilder('Magento\Framework\DB\Adapter\Pdo\Mysql')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $readMock->expects($this->any())
-            ->method('quoteIdentifier')
-            ->will($this->returnArgument(0));
-        $readMock->expects($this->any())
-            ->method('select')
-            ->will($this->returnValue($selectMock));
-        return $readMock;
     }
 }

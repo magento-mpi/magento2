@@ -130,7 +130,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $orderId = $this->registry->registry('current_order')->getId();
         /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
         $resourceItem = $this->_itemFactory->create();
-        $itemsInActiveRmaArray = $resourceItem->getItemsIdsByOrder($orderId);
+        $returnableItems = $resourceItem->getReturnableItems($orderId);
 
         /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
         $resourceItem = $this->_itemFactory->create();
@@ -146,10 +146,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $product = $this->_productFactory->create();
 
         foreach ($fullItemsCollection as $item) {
-            $allowed = true;
-            if (in_array($item->getId(), $itemsInActiveRmaArray)) {
-                $allowed = false;
-            }
+            $allowed = array_key_exists($item->getId(), $returnableItems);
 
             if ($allowed === true) {
                 $product->reset();

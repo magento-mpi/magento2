@@ -13,6 +13,7 @@ use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 use Magento\Sales\Model\Order\Item as OrderItem;
+use Magento\Rma\Model\Rma\Source\Status;
 
 /**
  * RMA entity resource model
@@ -231,40 +232,50 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param  int $orderId
      * @return array
      */
-    public function getItemsIdsByOrder($orderId)
+    public function getReturnableItems($orderId)
     {
         $adapter = $this->_getReadAdapter();
 
-        $subSelect = $adapter->select()->from(
-            ['main' => $this->getTable('magento_rma')],
-            []
-        )->where(
-            'main.order_id = ?',
-            $orderId
-        )->where(
-            'main.status NOT IN (?)',
-            [
-                \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
-                \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
-            ]
-        );
+        $subSelect = $adapter->select()
+            ->from(['rma' => $this->getTable('magento_rma')],
+                [
+                    new \Zend_Db_Expr('SUM(qty_requested)')
+                ]
+            )
+            ->joinInner(
+                ['rma_item' => $this->getTable('magento_rma_item_entity')],
+                'rma.entity_id = rma_item.rma_entity_id',
+                []
+            )->where('rma_item.order_item_id = order_item.item_id')
+            ->where(
+                sprintf(
+                    '%s NOT IN (?)',
+                    $adapter->getIfNullSql('rma.status', $adapter->quote(Status::STATE_CLOSED))
+                ),
+                [Status::STATE_CLOSED, Status::STATE_PROCESSED_CLOSED]
+            );
+        $subSelect  = $adapter->getIfNullSql($subSelect, 0);
 
-        $expression = new \Zend_Db_Expr(
-            '(' . $adapter->quoteIdentifier('qty_shipped') . ' - ' . $adapter->quoteIdentifier('qty_requested') . ')'
-        );
+        $mainSelect = $adapter->select()
+            ->from(
+                ['order_item' => $this->getTable('sales_flat_order_item')],
+                [
+                    'order_item.item_id',
+                    'remaining_qty' => new \Zend_Db_Expr(sprintf('order_item.qty_shipped - %s', $subSelect))
+                ]
+            )
+            ->where(sprintf('order_item.qty_shipped > %s', $subSelect))
+            ->where('order_item.order_id = ?', $orderId);
 
-        $select = $adapter->select()->from(
-            ['item_entity' => $this->getTable('magento_rma_item_entity')],
-            ['item_entity.order_item_id', 'item_entity.order_item_id', 'can_return' => $expression]
-        )->exists(
-            $subSelect,
-            'main.entity_id = item_entity.rma_entity_id'
-        )->joinInner(
-            ['flat_item' => $this->getTable('sales_flat_order_item')],
-            'flat_item.item_id = item_entity.order_item_id'
-        );
+        $items = $adapter->fetchAll($mainSelect) ;
+        $result = [];
+        if (is_array($items)) {
+            foreach ($items as $item) {
+                $result[$item['item_id']] = $item['remaining_qty'];
+            }
+        }
 
-        return $adapter->fetchAll($select);
+        return $result;
     }
 
     /**
@@ -316,13 +327,15 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
 
+        $returnableItems = $this->getReturnableItems($orderId);
+
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
             if ($parentId && $item->getId() != $parentId && $item->getParentItemId() != $parentId) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
-            $canReturn = $this->canReturn($orderId, $item->getId());
+            $canReturn = array_key_exists($item->getId(), $returnableItems);
             $canReturnProduct = $this->_rmaData->canReturnProduct($product, $item->getStoreId());
             if (!$canReturn || !$canReturnProduct) {
                 $orderItemsCollection->removeItemByKey($item->getId());
@@ -331,27 +344,6 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             $item->setName($this->getProductName($item));
         }
         return $orderItemsCollection;
-    }
-
-    /**
-     * @param int $orderId
-     * @param int $orderItemId
-     * @return bool
-     */
-    protected function canReturn($orderId, $orderItemId)
-    {
-        $data = $this->getItemsIdsByOrder($orderId);
-        if (empty($data)) {
-            return true;
-        }
-        $canReturn = false;
-        foreach ($data as $item) {
-            if ($item['order_item_id'] == $orderItemId) {
-                $canReturn = floatval($item['can_return']) ? : $canReturn;
-                break;
-            }
-        }
-        return (bool)$canReturn;
     }
 
     /**
