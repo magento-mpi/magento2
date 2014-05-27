@@ -7,7 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException,
+    Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductAttributeSetAttributeService implements ProductAttributeSetAttributeServiceInterface
 {
@@ -80,5 +81,37 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
 
         $this->attributeResource->saveInSetIncluding($attribute);
         return $attribute->loadEntityAttributeIdBySet()->getData('entity_attribute_id');
+    }
+
+    /**
+     * @param string $attributeSetId
+     * @param string $attributeId
+     * @return bool
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function deleteAttribute($attributeSetId, $attributeId)
+    {
+        // check if attribute set with requested id exists
+        $attributeSet = $this->setFactory->create()->load($attributeSetId);
+        if (!$attributeSet->getId()) {
+            // Attribute set does not exist
+            throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
+        }
+
+        // check if attribute with requested id exists
+        $attribute = $this->attributeFactory->create()->load($attributeId);
+        if (!$attribute->getId()) {
+            // Attribute set does not exist
+            throw NoSuchEntityException::singleField('attributeId', $attributeId);
+        }
+        // check if attribute is in set
+        $attribute->setAttributeSetId($attributeSet->getId())->loadEntityAttributeIdBySet();
+        if(!$attribute->getEntityAttributeId())
+        {
+            throw  new InputException('Requested attribute is not in requested attribute set.');
+        }
+        $attribute->deleteEntity();
+        return true;
     }
 }

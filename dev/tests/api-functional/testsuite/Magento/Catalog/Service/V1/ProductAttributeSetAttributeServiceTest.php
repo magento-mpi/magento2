@@ -134,5 +134,37 @@ class ProductAttributeSetAttributeServiceTest extends WebapiAbstract
             ),
         );
     }
+
+    public function testDeleteAttribute()
+    {
+        $attrSetName = 'AttributeSet' . uniqid();
+        /** @var \Magento\Catalog\Service\V1\ProductAttributeSetWriteServiceInterface $attrSetWriteService*/
+        $attrSetWriteService = Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Service\V1\ProductAttributeSetWriteService');
+        /**  @var \Magento\Catalog\Service\V1\ProductAttributeSetReadServiceInterface $attrSetReadService*/
+        $attrSetReadService = Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Service\V1\ProductAttributeSetReadService');
+        $builder = Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtendedBuilder');
+        $attrSet = $attrSetWriteService->create($builder->setName($attrSetName)->setSkeletonId(4)->create());
+        $attrSets = $attrSetReadService->getList();
+        $this->assertEquals($attrSetName, $attrSets[count($attrSets)-1]->getName());
+        $attributes = $attrSetReadService->getAttributeList($attrSet);
+        $attributeSetId = $attrSet;
+        $attributeId = array_shift($attributes)->getId();
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => "/V1/products/attribute-sets/$attributeSetId/attributes/$attributeId",
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ),
+            'soap' => array(
+                'service' => 'catalogProductAttributeSetAttributeServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetAttributeServiceV1DeleteAttribute',
+            ),
+        );
+        $requestData = array('attributeSetId' => $attributeSetId, 'attributeId' => $attributeId);
+        $this->assertEquals(true, $this->_webApiCall($serviceInfo, $requestData));
+    }
 }
 

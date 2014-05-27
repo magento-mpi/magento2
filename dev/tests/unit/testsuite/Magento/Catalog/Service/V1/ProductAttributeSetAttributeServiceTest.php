@@ -165,4 +165,77 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
 
         $this->service->addAttribute(1, $attributeDataObject);
     }
+
+    public function testSuccessfullyDeleteAttribute()
+    {
+        $methods = array('__wakeup', 'setAttributeSetId',
+            'loadEntityAttributeIdBySet', 'getEntityAttributeId', 'deleteEntity', 'getId');
+        $objectMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $objectMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
+        $attributeMock =
+            $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', $methods, array(), '', false);
+        $this->attributeMock->expects($this->once())->method('load')->will($this->returnValue($attributeMock));
+        $attributeMock->expects($this->any())->method('getId')->will($this->returnValue(2));
+        $attributeMock->expects($this->once())->method('setAttributeSetId')->with(1)->will($this->returnSelf());
+        $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->will($this->returnSelf());
+        $attributeMock->expects($this->once())->method('getEntityAttributeId')->will($this->returnValue(10));
+        $attributeMock->expects($this->once())->method('deleteEntity');
+        $this->assertEquals(true, $this->service->deleteAttribute('attributeSetId', 'attributeId'));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with attributeSetId = attributeSetId
+     */
+    public function testDeleteAttributeFromNonExistingAttributeSet()
+    {
+        $objectMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $objectMock->expects($this->any())->method('getId')->will($this->returnValue(false));
+        $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
+        $this->attributeMock->expects($this->never())->method('load');
+
+        $this->service->deleteAttribute('attributeSetId', 'attributeId');
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with attributeId = attributeId
+     */
+    public function testDeleteNonExistingAttribute()
+    {
+        $methods = array('__wakeup', 'setAttributeSetId',
+            'loadEntityAttributeIdBySet', 'getEntityAttributeId', 'deleteEntity', 'getId');
+        $objectMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $objectMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
+        $attributeMock =
+            $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', $methods, array(), '', false);
+        $this->attributeMock->expects($this->once())->method('load')->will($this->returnValue($attributeMock));
+        $attributeMock->expects($this->any())->method('getId')->will($this->returnValue(false));
+        $attributeMock->expects($this->never())->method('setAttributeSetId');
+        $this->service->deleteAttribute('attributeSetId', 'attributeId');
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Requested attribute is not in requested attribute set.
+     */
+    public function testDeleteAttributeNotInAttributeSet()
+    {
+        $methods = array('__wakeup', 'setAttributeSetId',
+            'loadEntityAttributeIdBySet', 'getEntityAttributeId', 'deleteEntity', 'getId');
+        $objectMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $objectMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
+        $attributeMock =
+            $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', $methods, array(), '', false);
+        $this->attributeMock->expects($this->once())->method('load')->will($this->returnValue($attributeMock));
+        $attributeMock->expects($this->any())->method('getId')->will($this->returnValue(2));
+        $attributeMock->expects($this->once())->method('setAttributeSetId')->with(1)->will($this->returnSelf());
+        $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->will($this->returnSelf());
+        $attributeMock->expects($this->once())->method('getEntityAttributeId')->will($this->returnValue(false));
+        $attributeMock->expects($this->never())->method('deleteEntity');
+        $this->assertEquals(true, $this->service->deleteAttribute('attributeSetId', 'attributeId'));
+    }
 }
