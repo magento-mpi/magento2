@@ -23,16 +23,24 @@ use Magento\Tax\Model\TaxRegistry;
  */
 class TaxRateService implements TaxRateServiceInterface
 {
-    /** @var  TaxRateModelFactory */
+    /**
+     * @var  TaxRateModelFactory
+     */
     protected $rateModelFactory;
 
-    /** @var  Converter */
+    /**
+     * @var  Converter
+     */
     protected $converter;
 
-    /** @var  TaxRateBuilder */
+    /**
+     * @var  TaxRateBuilder
+     */
     protected $rateBuilder;
 
-    /** @var  TaxRegistry */
+    /**
+     * @var  TaxRegistry
+     */
     protected $taxRegistry;
 
     /**
@@ -56,7 +64,7 @@ class TaxRateService implements TaxRateServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createTaxRate(TaxRateDataObject $taxRate)
     {
@@ -65,7 +73,7 @@ class TaxRateService implements TaxRateServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getTaxRates()
     {
@@ -79,7 +87,7 @@ class TaxRateService implements TaxRateServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function updateTaxRate(TaxRateDataObject $taxRate)
     {
@@ -87,7 +95,7 @@ class TaxRateService implements TaxRateServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteTaxRate($rateId)
     {

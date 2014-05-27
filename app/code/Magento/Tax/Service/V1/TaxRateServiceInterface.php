@@ -21,17 +21,23 @@ interface TaxRateServiceInterface
     public function createTaxRate(TaxRateDataObject $taxRate);
 
     /**
+     * Get tax rates
+     *
      * @return \Magento\Tax\Service\V1\Data\TaxRate[]
      */
     public function getTaxRates();
 
     /**
+     * Update given tax rate
+     *
      * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
      * @return \Magento\Tax\Service\V1\Data\TaxRate
      */
     public function updateTaxRate(TaxRateDataObject $taxRate);
 
     /**
+     * Delete tax rate
+     *
      * @param int $rateId
      * @return bool
      */
