@@ -31,6 +31,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
             'id' => null,
             'name' => 'attribute set' . \time(),
             'sort_order' => 10,
+            'skeleton_id' => 4, // default attribute set id
         ];
         $attributeSetId = $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
 
@@ -68,7 +69,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $originalAttributeSet */
         $originalAttributeSet = $objectManager->get('\Magento\Eav\Model\Entity\Attribute\SetFactory')->create();
         $originalAttributeSet->setEntityTypeId(4)
-            ->setAttributeSetName('Custom Attribute Set')
+            ->setAttributeSetName('Custom Attribute Set'. \time())
             ->setSortOrder(100)
             ->save();
         $attributeSetId = $originalAttributeSet->getId();;
@@ -84,9 +85,10 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'operation' => 'catalogProductAttributeSetWriteServiceV1Update',
             ),
         );
+        $updatedName = 'Updated Attribute Set' . \time();
         $attributeSetData = array(
             AttributeSet::ID => $attributeSetId,
-            AttributeSet::NAME => 'Updated Attribute Set',
+            AttributeSet::NAME => $updatedName,
             AttributeSet::ORDER => 200,
         );
 
@@ -95,7 +97,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
         $this->assertEquals($attributeSetId, $targetAttributeSetId);
 
         $originalAttributeSet->load($attributeSetId);
-        $this->assertEquals($attributeSetData[AttributeSet::NAME], $originalAttributeSet->getAttributeSetName());
+        $this->assertEquals($updatedName, $originalAttributeSet->getAttributeSetName());
         $this->assertEquals($attributeSetData[AttributeSet::ORDER], $originalAttributeSet->getSortOrder());
         $originalAttributeSet->delete();
     }

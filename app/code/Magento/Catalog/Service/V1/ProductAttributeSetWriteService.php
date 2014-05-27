@@ -11,6 +11,10 @@ use Magento\Framework\Exception\InputException,
     Magento\Framework\Exception\NoSuchEntityException,
     Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
+/**
+ * Class ProductAttributeSetWriteService
+ * Service to create/update/remove product attribute sets
+ */
 class ProductAttributeSetWriteService implements ProductAttributeSetWriteServiceInterface
 {
     /**
@@ -33,13 +37,13 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
     /**
      * Create attribute set from data
      *
-     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet $setData
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $setData
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \InvalidArgumentException
      * @throws \Exception
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSet $setData)
+    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $setData)
     {
         if ($setData->getId()) {
             throw InputException::invalidFieldValue('id', $setData->getId());
@@ -59,6 +63,20 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
         if (!$set->validate()) {
             throw new \InvalidArgumentException('Invalid attribute set');
         }
+        $set->save();
+
+        //process skeleton data
+        $skeletonId = intval($setData->getSkeletonId());
+        if (empty($skeletonId)) {
+            throw InputException::invalidFieldValue('skeletonId', $skeletonId);
+        }
+
+        $skeletonSet = $this->setFactory->create()->load($skeletonId);
+        $skeletonData = $skeletonSet->getData();
+        if (empty($skeletonData)) {
+            throw new \InvalidArgumentException(sprintf('Attribute set with id %1 not found', $skeletonId));
+        }
+        $set->initFromSkeleton($skeletonId);
         $set->save();
 
         return $set->getId();

@@ -9,16 +9,20 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
+/**
+ * Interface ProductAttributeSetWriteServiceInterface
+ * Service interface to create/update/remove product attribute sets
+ */
 interface ProductAttributeSetWriteServiceInterface
 {
     /**
      * Create attribute set from data
      *
-     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet $attributeSet
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $attributeSet
      * @return int
      * @throws \Exception
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSet $attributeSet);
+    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $attributeSet);
 
     /**
      * Update attribute set data
