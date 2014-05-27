@@ -983,24 +983,29 @@
 
 // Field
 @form-field-type: block; //inline
-@form-field-type-revert: false; // block, false
-@form-field-border: none;
+@form-field-type-revert: inline; // block, false
+@form-field-border: false;
 @form-field-column: false;
-@form-field-column-padding: 0 10px 0 0;
-@form-field-column-width: 50%;
-@form-field-type-inline-vertical-margin: 18px;
-@form-field-type-block-margin: 0 0 @form-field-type-inline-vertical-margin;
-@form-field-type-inline-margin: 0 0 @form-field-type-inline-vertical-margin;
+@form-field-column-padding: 0 20px 0 0;
+@form-field-column-number: 2;
+@form-field-vertical-indent: 29px;
+@form-field-type-block-margin: 0 0 @form-field-vertical-indent;
+@form-field-type-inline-margin: 0 0 @form-field-vertical-indent;
 // form field label
+@form-field-label-align: false;
 @form-field-label-color: false;
 @form-field-label-font-size: false;
 @form-field-label-font-family: false;
-@form-field-label-font-weight: @font-weight-semibold;
+@form-field-label-font-weight: @font-weight-bold;
 @form-field-label-font-style: false;
 @form-field-label-line-height: false;
-@form-field-type-block-label-margin: 0 0 5px;
+@form-field-type-inline-label-margin: false;
 @form-field-type-inline-label-padding: 6px 15px 0 0;
-@form-field-type-inline-label-width: false;
+@form-field-type-inline-label-width: 25.8%;
+@form-field-type-inline-label-align: right;
+@form-field-type-block-label-margin: 0 0 5px;
+@form-field-type-block-label-padding: false;
+@form-field-type-block-label-align: @form-field-label-align;
 // form field control
 @form-field-type-inline-control-width: false;
 // form field label asterisk
