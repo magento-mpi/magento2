@@ -20,11 +20,15 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
 
     const SKU = 'sku';
 
+    const NAME = 'name';
+
     const PRICE = 'price';
 
     const WEIGHT = 'weight';
 
     const STATUS = 'status';
+
+    const ATTRIBUTE_SET_ID = 'attribute_set_id';
 
     const VISIBILITY = 'visibility';
 
@@ -46,11 +50,19 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getSku()
     {
         return $this->_get(self::SKU);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_get(self::NAME);
     }
 
     /**
@@ -62,7 +74,15 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return float|null
+     * @return int|null
+     */
+    public function getAttributeSetId()
+    {
+        return $this->_get(self::ATTRIBUTE_SET_ID);
+    }
+
+    /**
+     * @return float
      */
     public function getPrice()
     {
@@ -70,7 +90,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getStatus()
     {
@@ -86,7 +106,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
     public function getTypeId()
     {

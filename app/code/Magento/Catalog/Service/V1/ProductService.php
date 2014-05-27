@@ -9,6 +9,7 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Class ProductService
@@ -22,9 +23,9 @@ class ProductService implements ProductServiceInterface
     protected $initializationHelper;
 
     /**
-     * @var Product\Builder
+     * @var \Magento\Catalog\Service\V1\Data\ProductMapper
      */
-    protected $productBuilder;
+    protected $productMapper;
 
     /**
      * @var \Magento\Catalog\Model\Product\TypeTransitionManager
@@ -36,22 +37,19 @@ class ProductService implements ProductServiceInterface
      */
     protected $productFactory;
 
-
     /**
      * @param Product\Initialization\Helper $initializationHelper
-     * @param Product\Builder $productBuilder
+     * @param Data\ProductMapper $productMapper
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
     public function __construct(
         Product\Initialization\Helper $initializationHelper,
-        Product\Builder $productBuilder,
+        \Magento\Catalog\Service\V1\Data\ProductMapper $productMapper,
         \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory
-    )
-    {
+    ) {
         $this->initializationHelper = $initializationHelper;
-        $this->productBuilder = $productBuilder;
+        $this->productMapper = $productMapper;
         $this->productTypeManager = $productTypeManager;
         $this->productFactory = $productFactory;
     }
@@ -59,16 +57,41 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Service\V1\Data\Product $product)
+    public function create(\Magento\Catalog\Service\V1\Data\Product $product)
     {
-        $product = $this->productBuilder->build($product);
-        $this->initializationHelper->initialize($product);
-        $this->productTypeManager->processProduct($product);
-        $product->save();
-        if (!$product->getId()) {
-            throw new \Magento\Framework\Model\Exception(__('Unable to save product'));
+        try {
+            $productModel = $this->productMapper->toModel($product);
+            $this->initializationHelper->initialize($productModel);
+            $productModel->validate();
+            $productModel->save();
+        } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
+            throw \Magento\Framework\Exception\InputException::invalidFieldValue(
+                $exception->getAttributeCode(),
+                $productModel->getData($exception->getAttributeCode()),
+                $exception
+            );
         }
-        return $product->getId();
+        if (!$productModel->getId()) {
+            throw new \Magento\Framework\Exception\StateException('Unable to save product');
+        }
+        return $productModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(\Magento\Catalog\Service\V1\Data\Product $product)
+    {
+        $productModel = $this->productFactory->create();
+        if (!$productModel->getId()) {
+            throw NoSuchEntityException::singleField('id', $product->getId());
+        }
+        $this->productMapper->toModel($product, $productModel);
+        $this->initializationHelper->initialize($productModel);
+        $this->productTypeManager->processProduct($productModel);
+        $productModel->validate();
+        $productModel->save();
+        return $productModel->getId();
     }
 
     /**
@@ -90,7 +113,14 @@ class ProductService implements ProductServiceInterface
      * {@inheritdoc}
      */
     public function get($id)
-    {}
+    {
+        $product = $this->productFactory->create();
+        $product->load($id);
+        if (!$product->getId()) {
+            // product does not exist
+            throw NoSuchEntityException::singleField('id', $id);
+        }
+    }
 
     /**
      * {@inheritdoc}

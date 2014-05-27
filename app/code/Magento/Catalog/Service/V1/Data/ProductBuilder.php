@@ -15,7 +15,7 @@ use Magento\Catalog\Service\V1\Data\Product;
  * Class ProductBuilder
  * @package Magento\Catalog\Service\V1\Data
  */
-class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectBuilder
+class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
      * @var ProductMetadataServiceInterface
@@ -29,11 +29,11 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
      * @param ProductMetadataServiceInterface $metadataService
      */
     public function __construct(
-        AttributeValueBuilder $valueBuilde
-        //ProductMetadataServiceInterface $metadataService
+        AttributeValueBuilder $valueBuilde,
+        ProductMetadataServiceInterface $metadataService
     ) {
         parent::__construct($valueBuilde);
-        //$this->metadataService = $metadataService;
+        $this->metadataService = $metadataService;
     }
 
     /**
@@ -67,6 +67,14 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     }
 
     /**
+     * @param string $value
+     */
+    public function setName($value)
+    {
+        return $this->_set(Product::NAME, $value);
+    }
+
+    /**
      * @param int $value
      */
     public function setStoreId($value)
@@ -93,25 +101,17 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     /**
      * @param int $value
      */
+    public function setAttributeSetId($value)
+    {
+        return $this->_set(Product::ATTRIBUTE_SET_ID, $value);
+    }
+
+    /**
+     * @param string $value
+     */
     public function setTypeId($value)
     {
         return $this->_set(Product::TYPE_ID, $value);
-    }
-
-    /**
-     * @param \DataTime $value
-     */
-    public function setCreatedAt($value)
-    {
-        return $this->_set(Product::CREATED_AT, $value);
-    }
-
-    /**
-     * @param \DataTime $value
-     */
-    public function setUpdatedAt($value)
-    {
-        return $this->_set(Product::UPDATED_AT, $value);
     }
 
     /**
@@ -121,6 +121,4 @@ class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectB
     {
         return $this->_set(Product::STATUS, $value);
     }
-    
-    
 }

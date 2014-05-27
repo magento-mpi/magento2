@@ -23,34 +23,59 @@ class ProductServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products';
 
     /**
-     * @todo: extract in class
+     * @return array
      */
-    protected function _createProduct()
+    public static function productCreationProvider()
     {
+        $productBuilder = function($data) {
+            return array_replace_recursive(
+                [
+                    Product::SKU => uniqid('sku-', true),
+                    Product::NAME => uniqid('name-', true),
+                    Product::VISIBILITY => 4,
+                    Product::TYPE_ID => 'simple',
+                    Product::PRICE => 3.62,
+                    Product::STATUS => 1,
+                    'custom_attributes' => [
+                        [
+                            'attribute_code' => 'description',
+                            'value' => 'test description'
+                        ],
+                        [
+                            'attribute_code' => 'meta_title',
+                            'value' => 'meta_title'
+                        ],
+                    ]
+                ],
+                $data
+            );
+        };
         return [
-//            Product::ID => null,
-            Product::SKU => uniqid('sku-', true),
-            Product::VISIBILITY => 4,
-            Product::TYPE_ID => 4,
-            Product::STATUS => 1,
+            [$productBuilder([Product::TYPE_ID => 'simple'])],
+            [$productBuilder([Product::TYPE_ID => 'virtual'])],
         ];
-
     }
 
-    public function testSave()
+    /**
+     * @dataProvider productCreationProvider
+     */
+    public function testCreate($product)
     {
-        $product = $this->_createProduct();
-
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
-            ]
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'create'
+            ],
         ];
 
         $requestData = ['product' => $product];
         $response = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($response);
+        $this->assertGreaterThan(0, $response);
     }
 
     /**

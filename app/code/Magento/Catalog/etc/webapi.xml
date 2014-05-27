@@ -10,7 +10,7 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/products" method="POST">
-        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="save"/>
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="create"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
