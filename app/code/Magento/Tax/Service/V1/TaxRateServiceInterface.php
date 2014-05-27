@@ -11,6 +11,8 @@ namespace Magento\Tax\Service\V1;
 interface TaxRateServiceInterface
 {
     /**
+     * Create tax rate
+     *
      * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Model\Exception

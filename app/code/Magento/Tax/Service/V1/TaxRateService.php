@@ -129,7 +129,6 @@ class TaxRateService implements TaxRateServiceInterface
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-
     public function validate(RateModel $taxRateModel)
     {
         $exception = new InputException();
