@@ -63,14 +63,14 @@ class Converter
         if ($rateModel->getId()) {
             $this->taxRateDataObjectBuilder->setId($rateModel->getId());
         }
-        if ($rateModel->getCountryId()) {
-            $this->taxRateDataObjectBuilder->setCountryId($rateModel->getCountryId());
+        if ($rateModel->getTaxCountryId()) {
+            $this->taxRateDataObjectBuilder->setCountryId($rateModel->getTaxCountryId());
         }
-        if ($rateModel->getRegionId()) {
-            $this->taxRateDataObjectBuilder->setRegionId($rateModel->getRegionId());
+        if ($rateModel->getTaxRegionId()) {
+            $this->taxRateDataObjectBuilder->setRegionId($rateModel->getTaxRegionId());
         }
         if ($rateModel->getTaxPostcode()) {
-            $this->taxRateDataObjectBuilder->setZip($rateModel->getTaxPostcode());
+            $this->taxRateDataObjectBuilder->setPostcode($rateModel->getTaxPostcode());
         }
         if ($rateModel->getCode()) {
             $this->taxRateDataObjectBuilder->setCode($rateModel->getCode());
@@ -89,7 +89,7 @@ class Converter
     }
 
     /**
-     * Convert a  TaxRate data object to rate model
+     * Convert a TaxRate data object to rate model
      *
      * @param TaxRateDataObject $taxRate
      * @return TaxRateModel
