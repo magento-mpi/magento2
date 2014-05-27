@@ -1,4 +1,21 @@
+* Tax calculation updates:
+  * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
+  * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
+  * Fixed tax calculation errors when customer tax rate is different from store tax rate (MAGETWO-24163)
+  * Added support to round tax at individual tax rate (MAGETWO-24163)
+  * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
+  * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
+  * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
 * Fixed bugs:
+  * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
+  * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
+  * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
+  * Fixed: Wrong message about backordered items in cart on backend (MAGETWO-1275)
+  * Fixed: Validate Each Address Separately in Multi-address Checkout affects ability to proceed to multi-address checkout(MAGETWO-3113)
+  * Fixed: The Minimum Order Amount does not apply to the order(MAGETWO-5814)
+  * Fixed: Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
+  * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
+  * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
   * Fixed: Images upload in config looks broken (MAGETWO-15764)
   * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
@@ -48,10 +65,16 @@
   * Fixed: Customer redirected to Dashboard ("Redirect user to dashboard after login"="No") (MAGETWO-17437)
   * Fixed: Customer cannot register during Checkout if Guest Checkout is disallowed. (MAGETWO-24301)
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
+  * Fixed: Free shipping applied even if Free Shipping with Minimum Order Amount disabled (MAGETWO-18340)
+  * Fixed: Downloadable product that is set for "Links can be purchased separately" does not display as a grouped product (MAGETWO-21044)
+  * Fixed: Error at generation variation twice (MAGETWO-24155)
+  * Fixed: Category pager works incorrectly (MAGETWO-24235)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
   * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
   * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
+  * Fixed: File permissions change after system backup (MAGETWO-20995)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
 * Functional tests:
   * Tax Rule Creation
   * Admin User Roe Creation
@@ -59,6 +82,9 @@
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
+* GitHub requests:
+  * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
 
 2.0.0.0-dev78
 =============
