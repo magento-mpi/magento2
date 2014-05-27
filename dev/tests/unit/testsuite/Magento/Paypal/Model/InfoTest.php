@@ -23,10 +23,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->info = $this->objectManagerHelper->getObject(
-            'Magento\Paypal\Model\Info',
-            [
-                
-            ]
+            'Magento\Paypal\Model\Info'
         );
     }
 

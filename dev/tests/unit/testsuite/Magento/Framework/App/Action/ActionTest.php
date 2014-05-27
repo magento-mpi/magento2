@@ -18,9 +18,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Framework\App\Action\Context|\PHPUnit_Framework_MockObject_MockObject */
-    protected $contextMock;
-
     /**
      * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -30,11 +27,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
-
-    /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_objectManagerMock;
 
     /**
      * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -51,29 +43,29 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     protected $_redirectMock;
 
-    /**
-     * @var \Magento\Framework\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject
+    /*
+     * Full actio name
      */
-    protected $_viewMock;
-
-    /**
-     * @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_urlMock;
-
-    /**
-     * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $messageManager;
-
     const FULL_ACTION_NAME = 'module/controller/someaction';
 
+    /**
+     * Route name
+     */
     const ROUTE_NAME = 'module/controller/actionroute';
 
+    /**
+     * Action name
+     */
     const ACTION_NAME = 'someaction';
 
+    /**
+     * Controller name
+     */
     const CONTROLLER_NAME = 'controller';
 
+    /**
+     * Module name
+     */
     const MODULE_NAME = 'module';
 
     public static $actionParams = ['param' => 'value'];
@@ -81,12 +73,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
-        $this->_urlMock = $this->getMock('Magento\Framework\UrlInterface', [], [], '', false);
         $this->_actionFlagMock = $this->getMock('Magento\Framework\App\ActionFlag', [], [], '', false);
         $this->_redirectMock = $this->getMock('Magento\Framework\App\Response\RedirectInterface', [], [], '', false);
-        $this->_viewMock = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
-        $this->_messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface', [], [], '', false);
-        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
         $this->_requestMock = $this->getMock(
             'Magento\Framework\App\RequestInterface',
             [
@@ -109,40 +97,15 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         );
         $this->_responseMock = $this->getMock('Magento\Framework\App\ResponseInterface', [], [], '', false);
 
-        $this->contextMock = $this->getMock('Magento\Framework\App\Action\Context', [], [], '', false);
-        $this->contextMock->expects($this->once())->method('getObjectManager')->will(
-            $this->returnValue($this->_objectManagerMock)
-        );
-        $this->contextMock->expects($this->once())->method('getEventManager')->will(
-            $this->returnValue($this->_eventManagerMock)
-        );
-        $this->contextMock->expects($this->once())->method('getUrl')->will(
-            $this->returnValue($this->_urlMock)
-        );
-        $this->contextMock->expects($this->once())->method('getActionFlag')->will(
-            $this->returnValue($this->_actionFlagMock)
-        );
-        $this->contextMock->expects($this->once())->method('getRedirect')->will(
-            $this->returnValue($this->_redirectMock)
-        );
-        $this->contextMock->expects($this->once())->method('getView')->will(
-            $this->returnValue($this->_viewMock)
-        );
-        $this->contextMock->expects($this->once())->method('getMessageManager')->will(
-            $this->returnValue($this->_messageManagerMock)
-        );
-        $this->contextMock->expects($this->once())->method('getRequest')->will(
-            $this->returnValue($this->_requestMock)
-        );
-        $this->contextMock->expects($this->once())->method('getResponse')->will(
-            $this->returnValue($this->_responseMock)
-        );
-
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->action = $this->objectManagerHelper->getObject(
             'Magento\Framework\App\Action\ActionFake',
             [
-                'context' => $this->contextMock
+                'request' => $this->_requestMock,
+                'response' => $this->_responseMock,
+                'eventManager' => $this->_eventManagerMock,
+                'redirect' => $this->_redirectMock,
+                'actionFlag' => $this->_actionFlagMock,
             ]
         );
         \Magento\Framework\Profiler::disable();

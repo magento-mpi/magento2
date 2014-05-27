@@ -21,46 +21,13 @@ class TotalMinMaxTest extends \PHPUnit_Framework_TestCase
     const PAYMENT_MAX_TOTAL = 5;
 
     /**
-     * List of quote base grand totals
-     *
-     * @var array
-     */
-    private $quoteTotalsList = [1 => false, 6 => false, 3 => true];
-
-    /**
      * @dataProvider paymentMethodDataProvider
-     * @param PaymentMethodChecksInterface $paymentMethod Prepared payment method
-     * @param \Magento\Sales\Model\Quote $quote  Is not used in the method
+     * @param int $baseGrandTotal
      * @param bool $expectation
      */
-    public function testIsApplicable($paymentMethod, $quote, $expectation)
+    public function testIsApplicable($baseGrandTotal, $expectation)
     {
-        $model = new TotalMinMax();
-        $this->assertEquals($expectation, $model->isApplicable($paymentMethod, $quote));
-    }
-
-    /**
-     * Returns array of three prepared payments, with different Quote baseGrandTotal value
-     *
-     * @return array
-     */
-    public function paymentMethodDataProvider()
-    {
-        $resultArray = [];
-        foreach ($this->quoteTotalsList as $baseGrandTotal => $expectation) {
-            $resultArray[] = [$this->_getPaymentMethod(), $this->_getQuote($baseGrandTotal), $expectation];
-        }
-        return $resultArray;
-    }
-
-    /**
-     * Returns PaymentMethodChecksInterface mock
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function _getPaymentMethod()
-    {
-       $paymentMethod = $this->getMockBuilder(
+        $paymentMethod = $this->getMockBuilder(
             'Magento\Payment\Model\Checks\PaymentMethodChecksInterface'
         )->disableOriginalConstructor()->setMethods([])->getMock();
         $paymentMethod->expects($this->at(0))->method('getConfigData')->with(
@@ -69,21 +36,21 @@ class TotalMinMaxTest extends \PHPUnit_Framework_TestCase
         $paymentMethod->expects($this->at(1))->method('getConfigData')->with(
             TotalMinMax::MAX_ORDER_TOTAL
         )->will($this->returnValue(self::PAYMENT_MAX_TOTAL));
-        return $paymentMethod;
+
+        $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')->disableOriginalConstructor()->setMethods(
+            ['getBaseGrandTotal', '__wakeup']
+        )->getMock();
+        $quote->expects($this->once())->method('getBaseGrandTotal')->will($this->returnValue($baseGrandTotal));
+
+        $model = new TotalMinMax();
+        $this->assertEquals($expectation, $model->isApplicable($paymentMethod, $quote));
     }
 
     /**
-     * Return prepared quote with base grand total value
-     *
-     * @param int $baseGrandTotal
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return array
      */
-    private function _getQuote($baseGrandTotal)
+    public function paymentMethodDataProvider()
     {
-        $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')->disableOriginalConstructor()->setMethods(
-            ['getBaseGrandTotal', '__wakeup']
-        )->getMock();
-        $quoteMock->expects($this->once())->method('getBaseGrandTotal')->will($this->returnValue($baseGrandTotal));
-        return $quoteMock;
+        return [[1, false], [6, false], [3, true]];
     }
 }
