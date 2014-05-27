@@ -166,7 +166,6 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
      */
     protected function _getJs($quantityFieldId, $inStockFieldId)
     {
-        // @codingStandardsIgnoreStart
         return "
             <script type='text/javascript'>
                 jQuery(function($) {
@@ -231,6 +230,5 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
                 });
             </script>
         ";
-        // @codingStandardsIgnoreEnd
     }
 }
