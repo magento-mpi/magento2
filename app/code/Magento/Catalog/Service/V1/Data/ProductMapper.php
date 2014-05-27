@@ -33,7 +33,6 @@ class ProductMapper
      * @param \Magento\Catalog\Model\Product $productModel
      * @return \Magento\Catalog\Model\Product
      */
-
     public function toModel(
         Product $product,
         \Magento\Catalog\Model\Product $productModel = null
