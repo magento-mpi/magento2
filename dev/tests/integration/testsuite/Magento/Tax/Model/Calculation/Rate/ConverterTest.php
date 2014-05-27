@@ -90,15 +90,4 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
-    /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock
-     * @param array $valueMap
-     */
-    private function mockReturnValue(\PHPUnit_Framework_MockObject_MockObject $mock, $valueMap)
-    {
-        foreach ($valueMap as $method => $value) {
-            $mock->expects($this->any())->method($method)->will($this->returnValue($value));
-        }
-    }
 }
