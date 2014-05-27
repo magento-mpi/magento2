@@ -126,4 +126,25 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             }
         }
     }
+
+    public function testGetTaxRates()
+    {
+        $taxRates = $this->taxRateService->getTaxRates();
+        $this->assertEquals(2, count($taxRates));
+        foreach($taxRates as $taxRate) {
+            if ($taxRate->getId() == 1) {
+                $this->assertEquals('US', $taxRate->getCountryId());
+                $this->assertEquals(12, $taxRate->getRegionId());
+                $this->assertEquals(8.2500, $taxRate->getPercentageRate());
+                $this->assertNull($taxRate->getZipRange());
+            }
+
+            if ($taxRate->getId() == 2) {
+                $this->assertEquals('US', $taxRate->getCountryId());
+                $this->assertEquals(43, $taxRate->getRegionId());
+                $this->assertEquals(8.3750, $taxRate->getPercentageRate());
+                $this->assertNull($taxRate->getZipRange());
+            }
+        }
+    }
 }
