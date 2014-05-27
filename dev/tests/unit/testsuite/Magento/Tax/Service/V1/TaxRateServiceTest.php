@@ -8,8 +8,15 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\TestFramework\Helper\ObjectManager;
+
 class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var TaxRateServiceInterface
+     */
+    private $taxRateService;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Calculation\RateFactory
      */
@@ -32,7 +39,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->objectManager = new ObjectManager($this);
         $this->rateModelFactoryMock = $this->getMockBuilder(
             'Magento\Tax\Model\Calculation\RateFactory'
         )->disableOriginalConstructor()->setMethods(
@@ -47,6 +54,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->converterMock = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rate\Converter')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->taxRateService = $this->createService();
     }
 
     /**
@@ -112,8 +120,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $taxRateService = $this->createService();
-        $taxRates = $taxRateService->getTaxRates();
+        $taxRates = $this->taxRateService->getTaxRates();
         $this->assertEquals($expectedResult, count($taxRates));
         for($i = 0; $i < $itemCounts; $i++) {
             $this->assertEquals($taxRateDataObjectMocks[$i], $taxRates[$i]);
@@ -122,14 +129,13 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     public function getTaxRatesDataProvider()
     {
-
-
         return [
             [0, 0],
             [1, 1],
             [2, 2],
         ];
     }
+
     /**
      * Mock return value
      *
@@ -150,12 +156,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function createService()
     {
-        $taxRateService = $this->objectManager->getObject('Magento\Tax\Service\V1\TaxRateService',
+        return $this->objectManager->getObject('Magento\Tax\Service\V1\TaxRateService',
             [
                 'rateFactory' => $this->rateModelFactoryMock,
                 'converter' => $this->converterMock,
             ]
         );
-        return $taxRateService;
     }
 }
