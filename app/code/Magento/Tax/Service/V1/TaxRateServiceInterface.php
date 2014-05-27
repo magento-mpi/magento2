@@ -29,7 +29,7 @@ interface TaxRateServiceInterface
      * Update given tax rate
      *
      * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
-     * @return \Magento\Tax\Service\V1\Data\TaxRate
+     * @return bool
      */
     public function updateTaxRate(\Magento\Tax\Service\V1\Data\TaxRate $taxRate);
 
