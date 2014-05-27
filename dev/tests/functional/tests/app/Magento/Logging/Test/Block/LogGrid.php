@@ -13,8 +13,9 @@ use Magento\Backend\Test\Block\Widget\Grid;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class ProductGrid
- * Backend catalog product grid
+ * Class LogGrid
+ * Admin logging grid
+ *
  */
 class LogGrid extends Grid
 {
@@ -62,13 +63,23 @@ class LogGrid extends Grid
      *
      * @var string
      */
-    protected $lastViewLink = '#loggingLogGrid_table > tbody > tr:first-child > td.col-view.last:last-child > a';
+    protected $firstViewLink = "#loggingLogGrid_table tr:first-child [data-column='view'] > a";
 
     /**
-     * Click first View link in grid
+     * Search and open first View link in grid
+     *
+     * @param array $filter
+     * @throws \Exception
      */
-    public function clickViewLink()
+    public function searchAndOpen(array $filter)
     {
-        $this->_rootElement->find($this->lastViewLink, Locator::SELECTOR_CSS)->click();
+        $this->search($filter);
+        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
+        if ($rowItem->isVisible()) {
+            $rowItem->find($this->firstViewLink, Locator::SELECTOR_CSS)->click();
+            $this->waitForElement();
+        } else {
+            throw new \Exception('Searched item was not found.');
+        }
     }
 }

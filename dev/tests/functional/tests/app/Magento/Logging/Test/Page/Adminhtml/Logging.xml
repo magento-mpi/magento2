@@ -9,7 +9,7 @@
 -->
 <page mca="admin/logging" >
     <block>
-        <name>logGrid</name>
+        <name>logGridBlock</name>
         <class>Magento\Logging\Test\Block\LogGrid</class>
         <locator>#loggingLogGrid</locator>
         <strategy>css selector</strategy>

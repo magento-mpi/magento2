@@ -10,7 +10,7 @@ namespace Magento\Logging\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Logging\Test\Page\Adminhtml\Details;
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\Logging\Test\Fixture\Logging;
 
 /**
  * Class AssertAdminUserDataBlock
@@ -25,13 +25,15 @@ class AssertAdminUserDataBlock extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert that Admin User Data block with data according action is presented on page
+     *
      * @param Details $details
-     * @param AdminUserInjectable $adminUser
+     * @param Logging $logging
+     * @return void
      */
-    public function processAssert(Details $details, AdminUserInjectable $adminUser)
+    public function processAssert(Details $details, Logging $logging)
     {
-        $fixtureData = $adminUser->getData();
-        $fixtureData['aggregated_information'] = 'general';
+        $fixtureData = $logging->getData();
         $formData = $details->getDetailsBlock()->getData();
         $diff = $this->verifyData($formData, $fixtureData);
         if (!$details->getDetailsBlock()->isLoggingDetailsGridVisible()) {
@@ -41,6 +43,8 @@ class AssertAdminUserDataBlock extends AbstractConstraint
     }
 
     /**
+     * Check if 2 arrays are equal
+     *
      * @param array $formData
      * @param array $fixtureData
      * @return array

@@ -1,2 +1,2 @@
-"constraint"
-"assertAdminUserDataBlock"
+"logging/data/user_id";"logging/data/username";"logging/data/aggregated_information";"constraint"
+"1";"admin";"general";"assertAdminUserDataBlock"

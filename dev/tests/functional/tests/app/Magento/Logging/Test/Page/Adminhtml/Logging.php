@@ -18,8 +18,8 @@ class Logging extends BackendPage
     const MCA = 'admin/logging';
 
     protected $_blocks = [
-        'logGrid' => [
-            'name' => 'logGrid',
+        'logGridBlock' => [
+            'name' => 'logGridBlock',
             'class' => 'Magento\Logging\Test\Block\LogGrid',
             'locator' => '#loggingLogGrid',
             'strategy' => 'css selector',
@@ -29,8 +29,8 @@ class Logging extends BackendPage
     /**
      * @return \Magento\Logging\Test\Block\LogGrid
      */
-    public function getLogGrid()
+    public function getLogGridBlock()
     {
-        return $this->getBlockInstance('logGrid');
+        return $this->getBlockInstance('logGridBlock');
     }
 }

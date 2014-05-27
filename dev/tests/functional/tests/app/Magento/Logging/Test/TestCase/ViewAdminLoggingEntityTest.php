@@ -8,11 +8,10 @@
 
 namespace Magento\Logging\Test\TestCase;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 use Magento\Backend\Test\Page\Adminhtml\SystemConfig;
-use Magento\Logging\Test\Page\Adminhtml\Logging;
-use Magento\User\Test\Fixture\AdminUserInjectable;
+use Magento\Logging\Test\Page\Adminhtml\Logging as LoggingIndex;
+use Magento\Logging\Test\Fixture\Logging;
 
 /**
  * Test Creation for ViewAdminLoggingEntity
@@ -32,50 +31,47 @@ use Magento\User\Test\Fixture\AdminUserInjectable;
 class ViewAdminLoggingEntityTest extends Injectable
 {
     /**
+     * Page SystemConfig
+     *
      * @var SystemConfig
      */
     protected $systemConfig;
 
     /**
-     * @var Logging
+     * Page LoggingIndex
+     *
+     * @var LoggingIndex
      */
-    protected $logging;
+    protected $loggingIndex;
 
     /**
+     * Injection data
+     *
      * @param SystemConfig $systemConfig
-     * @param Logging $logging
+     * @param LoggingIndex $loggingIndex
+     * @return void
      */
-    public function __inject(SystemConfig $systemConfig, Logging $logging)
+    public function __inject(SystemConfig $systemConfig, LoggingIndex $loggingIndex)
     {
         $this->systemConfig = $systemConfig;
-        $this->logging = $logging;
-    }
-
-    /**
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $adminUser = $fixtureFactory->create('Magento\User\Test\Fixture\AdminUserInjectable', ['dataSet' => 'default']);
-        return ['adminUser' => $adminUser];
+        $this->loggingIndex = $loggingIndex;
     }
 
     /**
      * View Admin Logging details on backend
      *
-     * @param AdminUserInjectable $adminUser
+     * @param Logging $logging
+     * @return void
      */
-    public function testViewAdminLogging(AdminUserInjectable $adminUser)
+    public function testViewAdminLogging(Logging $logging)
     {
         $filter = [
-            'username' => $adminUser->getUsername(),
+            'username' => $logging->getUsername(),
         ];
         //Steps
         $this->systemConfig->open();
         $this->systemConfig->getPageActions()->save();
-        $this->logging->open();
-        $this->logging->getLogGrid()->search($filter);
-        $this->logging->getLogGrid()->clickViewLink();
+        $this->loggingIndex->open();
+        $this->loggingIndex->getLogGridBlock()->searchAndOpen($filter);
     }
 }

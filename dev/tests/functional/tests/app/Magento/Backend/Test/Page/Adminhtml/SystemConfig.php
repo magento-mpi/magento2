@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class SystemConfig
- *
- * @package Magento\Backend\Test\Page\Adminhtml
  */
 class SystemConfig extends BackendPage
 {

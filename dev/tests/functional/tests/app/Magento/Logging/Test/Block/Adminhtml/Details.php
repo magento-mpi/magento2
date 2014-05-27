@@ -17,22 +17,37 @@ use Mtf\Block\Block;
 class Details extends Block
 {
     /**
+     * Element locator to select admin user data
+     *
+     * @var string
+     */
+    protected $adminUserData = '#log_details_fieldset > table > tbody tr:nth-child(%d) > td';
+
+    /**
      * Get Admin User Data from grid
      *
-     * @return mixed
+     * @return array
      */
     public function getData()
     {
-        $data['aggregated_information'] =
-            $this->_rootElement->find('#log_details_fieldset > table > tbody tr:nth-child(1) > td')->getText();
-        $data['user_id'] =
-            $this->_rootElement->find('#log_details_fieldset > table > tbody tr:nth-child(2) > td')->getText();
-        $data['username'] =
-            $this->_rootElement->find('#log_details_fieldset > table > tbody tr:nth-child(3) > td')->getText();
-        preg_match('/\d+/', $data['user_id'], $matches);
-        $data['user_id'] = intval($matches[0]);
+        $fields = [
+            1 => 'aggregated_information',
+            2 => 'user_id',
+            3 => 'username'
+        ];
+        foreach ($fields as $key => $value) {
+            $data[$value] = $this->_rootElement->find(sprintf($this->adminUserData, $key))->getText();
+        }
+        $data['user_id'] = (isset($data['user_id'])) ? substr($data['user_id'], 1) : null;
         return $data;
     }
+
+    /**
+     * Element locator to select logging details block
+     *
+     * @var string
+     */
+    protected $loggingDetailsGrid = '#loggingDetailsGrid';
 
     /**
      * Check if Logging Details Grid visible
@@ -41,6 +56,6 @@ class Details extends Block
      */
     public function isLoggingDetailsGridVisible()
     {
-        return $this->_rootElement->find('#loggingDetailsGrid')->isVisible();
+        return $this->_rootElement->find($this->loggingDetailsGrid)->isVisible();
     }
 }
