@@ -78,12 +78,18 @@
         display:inline-block;
         vertical-align: middle;
         font-size: floor(0.8 * @font-size-base);
-        a {
-            margin-right: @indent-xs-base;
+        a:not(:last-child) {
+            margin-right: 30px;
         }
         .action.view span {
             margin-left: 3px;
         }
+    }
+}
+
+.product.info.main {
+    .rating.summary {
+        margin-right: 30px;
     }
 }
 
