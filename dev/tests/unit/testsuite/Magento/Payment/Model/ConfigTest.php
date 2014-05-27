@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
-     * List of expected list of month
+     * Expected months list
      *
      * @var array
      */
