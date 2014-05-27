@@ -31,8 +31,7 @@ body {
         .navigation {
             left: 0;
             z-index: 1;
-            -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            .box-shadow(@shadow: 1px 1px 3px rgba(0, 0, 0, 0.5));
             .transition(left .3s ease-out 0);
         }
         .page.wrapper {
@@ -43,6 +42,21 @@ body {
             width: 100%;
         }
     }
+}
+
+.action.toggle.nav {
+    .icon-font(
+        @icon-menu,
+        @_icon-font-size: 28px
+    );
+    .icon-text-hide();
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 0;
+    z-index: 14;
+    cursor: pointer;
 }
 
 .header.links {

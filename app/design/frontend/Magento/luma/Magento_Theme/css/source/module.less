@@ -104,20 +104,6 @@ body {
     .visually-hidden();
 }
 
-.action.toggle.nav {
-    .icon-font(
-        @icon-menu,
-        @_icon-font-size: 28px
-    );
-    .icon-text-hide();
-    display: block;
-    position: absolute;
-    top: 12px;
-    left: 15px;
-    font-size: 0;
-    z-index: 14;
-    cursor: pointer;
-}
 
 //
 //  Global notice
@@ -140,9 +126,6 @@ body {
         z-index: 3;
         .actions {
             margin-top: @indent-s-base;
-        }
-        .action.allow {
-            .button-primary();
         }
     }
     &.demo {

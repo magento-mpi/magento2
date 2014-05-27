@@ -74,20 +74,6 @@ body {
     .visually-hidden();
 }
 
-.action.toggle.nav {
-    .icon-font(
-        @icon-menu,
-        @_icon-font-size: 28px
-    );
-    .icon-text-hide();
-    display: block;
-    position: absolute;
-    top: 12px;
-    left: 15px;
-    font-size: 0;
-    z-index: 14;
-    cursor: pointer;
-}
 
 //
 //  Global notice
@@ -110,9 +96,6 @@ body {
         z-index: 3;
         .actions {
             margin-top: @indent-s-base;
-        }
-        .action.allow {
-            .button-primary();
         }
     }
     &.demo {
@@ -153,9 +136,6 @@ body {
         .switcher.store {
             margin: 0 0 30px 0;
         }
-    }
-    .copyright {
-        .clearer();
     }
     .copyright,
     .bugs {
@@ -248,9 +228,6 @@ body {
                     }
                 }
                 margin-left: auto;
-                a {
-                    .link();
-                }
             }
         }
         &.content {
@@ -289,6 +266,9 @@ body {
                 padding-right: 50px;
                 vertical-align: top;
             }
+        }
+        .copyright {
+            &:extend(.add-clearfix all);
         }
     }
 }

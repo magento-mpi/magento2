@@ -20,8 +20,7 @@ body {
         overflow: hidden;
         .navigation {
             left: 0;
-            -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            .box-shadow(@shadow: 1px 1px 3px rgba(0, 0, 0, 0.5));
             .transition(left .3s ease-out 0);
         }
         .page.wrapper {
@@ -34,82 +33,93 @@ body {
     }
 }
 
-.header.links {
-    padding: 10px 20px;
-    li {
-        display: block;
-        margin: 0;
-        a {
-            display: block;
-            line-height: 35px;
-            color: #575757;
-            &:hover {
-                color: #333;
-                text-decoration: none;
-            }
-        }
-        &.welcome {
-            line-height: 35px;
-        }
-    }
+.action.toggle.nav {
+    .icon-font(
+        @icon-menu,
+        @_icon-font-size: 28px
+    );
+    .icon-text-hide();
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 0;
+    z-index: 14;
+    cursor: pointer;
 }
 
 .navigation {
-        .switcher {
+    .switcher {
+        display: block;
+        margin: 0;
+        padding: 0;
+        &:first-child {
+            padding-bottom: 0;
+        }
+        .label {
+            display: block;
+            font-weight: @font-weight-base;
+            .font-size(16);
+            padding: 8px 20px;
+        }
+        .options {
+            display: block;
+            .action.toggle {
+                cursor: pointer;
+                display: block;
+                position: relative;
+                padding: 8px 20px;
+                &:extend(.navigation-icon all);
+                &.active:after {
+                    content: @icon-prev;
+                }
+            }
+            ul.dropdown {
+                display: none;
+                li {
+                    a {
+                        display: block;
+                        color: @navigation-level0-item-color;
+                        padding: 8px 20px;
+                        text-decoration: none;
+                    }
+                }
+            }
+            .ui-dialog {
+                background: none;
+                box-shadow: none;
+                ul.dropdown {
+                    padding: 0;
+                }
+            }
+            &.active {
+                ul {
+                    display: block;
+                }
+            }
+        }
+    }
+    &.active {
+        > .content {
+            display: block;
+        }
+    }
+
+    .header.links {
+        padding: 10px 20px;
+        li {
             display: block;
             margin: 0;
-            padding: 0;
-            &:first-child {
-                padding-bottom: 0;
-            }
-            .label {
+            a {
                 display: block;
-                font-weight: @font-weight-base;
-                .font-size(16);
-                padding: 8px 20px;
+                line-height: 35px;
+                .css(color, @navigation-level0-item-color);
             }
-            .options {
-                display: block;
-                .action.toggle {
-                    cursor: pointer;
-                    display: block;
-                    position: relative;
-                    padding: 8px 20px;
-                    &:extend(.navigation-icon all);
-                    &.active:after {
-                        content: @icon-prev;
-                    }
-                }
-                ul.dropdown {
-                    display: none;
-                    li {
-                        a {
-                            display: block;
-                            color: @navigation-level0-item-color;
-                            padding: 8px 20px;
-                            text-decoration: none;
-                        }
-                    }
-                }
-                .ui-dialog {
-                    background: none;
-                    box-shadow: none;
-                    ul.dropdown {
-                        padding: 0;
-                    }
-                }
-                &.active {
-                    ul {
-                        display: block;
-                    }
-                }
+            &.welcome {
+                line-height: 35px;
             }
         }
-        &.active {
-            > .content {
-                display: block;
-            }
-        }
+    }
 
     .nav {
         .parent {
