@@ -1674,4 +1674,5 @@ return array(
     ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
     ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
+    ['convertOldColumnDefinition', 'Magento\Framework\DB\Helper\AbstractHelper'],
 );

@@ -19,13 +19,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $contextMock = $this->getMockBuilder(
-            'Magento\Framework\App\Helper\Context'
-        )->disableOriginalConstructor()->getMock();
+        $contextMock = $this->getMockBuilder('Magento\Framework\App\Helper\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $filterManagerMock = $this->getMock('Magento\Framework\Filter\FilterManager',
-            array('stripTags'), array(), '', false);
-        $filterManagerMock->expects($this->any())->method('stripTags')->will($this->returnValue('stripTags'));
+        $filterManagerMock = $this->getMock(
+            'Magento\Framework\Filter\FilterManager',
+            array('stripTags'),
+            array(),
+            '',
+            false
+        );
+
+        $filterManagerMock->expects($this->any())
+            ->method('stripTags')
+            ->will($this->returnValue('stripTags'));
 
         $this->_helper = new \Magento\CustomAttributeManagement\Helper\Data(
             $contextMock,
@@ -44,7 +52,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckValidateRules($frontendInput, $validateRules, $result)
     {
-        $this->assertEquals($this->_helper->checkValidateRules($frontendInput, $validateRules), $result);
+        $this->assertEquals($result, $this->_helper->checkValidateRules($frontendInput, $validateRules));
     }
 
     /**
@@ -189,13 +197,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->_helper->getAttributeInputTypes(), $inputTypes);
+        $this->assertEquals($inputTypes, $this->_helper->getAttributeInputTypes());
 
         foreach ($inputTypes as $key => $value) {
-            $this->assertEquals($this->_helper->getAttributeInputTypes($key), $value);
+            $this->assertEquals($value, $this->_helper->getAttributeInputTypes($key));
         }
 
-        $this->assertEquals($this->_helper->getAttributeInputTypes('empty'), array());
+        $this->assertEquals(array(), $this->_helper->getAttributeInputTypes('empty'));
     }
 
     public function testGetFrontendInputOptions()
@@ -239,7 +247,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->assertEquals($this->_helper->getFrontendInputOptions(), $result);
+        $this->assertEquals($result, $this->_helper->getFrontendInputOptions());
     }
 
     public function testGetAttributeValidateFilters()
@@ -252,7 +260,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'email' => __('Email'),
             'date' => __('Date')
         );
-        $this->assertEquals($this->_helper->getAttributeValidateFilters(), $result);
+        $this->assertEquals($result, $this->_helper->getAttributeValidateFilters());
     }
 
     public function testGetAttributeFilterTypes()
@@ -262,7 +270,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'escapehtml' => __('Escape HTML Entities'),
             'date' => __('Normalize Date')
         );
-        $this->assertEquals($this->_helper->getAttributeFilterTypes(), $result);
+        $this->assertEquals($result, $this->_helper->getAttributeFilterTypes());
     }
 
     public function testGetAttributeElementScopes()
@@ -278,7 +286,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'date_range_min' => 'website',
             'date_range_max' => 'website'
         );
-        $this->assertEquals($this->_helper->getAttributeElementScopes(), $result);
+        $this->assertEquals($result, $this->_helper->getAttributeElementScopes());
     }
 
     /**
@@ -289,7 +297,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAttributeDefaultValueByInput($inputType, $result)
     {
-        $this->assertEquals($this->_helper->getAttributeDefaultValueByInput($inputType), $result);
+        $this->assertEquals($result, $this->_helper->getAttributeDefaultValueByInput($inputType));
     }
 
     /**
@@ -350,7 +358,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAttributeValidateRules($inputType, $data, $result)
     {
-        $this->assertEquals($this->_helper->getAttributeValidateRules($inputType, $data), $result);
+        $this->assertEquals($result, $this->_helper->getAttributeValidateRules($inputType, $data));
     }
 
     /**
@@ -384,22 +392,26 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttributeBackendModelByInputType()
     {
-        $this->assertEquals($this->_helper->getAttributeBackendModelByInputType('empty'), null);
-        $this->assertEquals($this->_helper->getAttributeBackendModelByInputType('date'),
-            'Magento\Eav\Model\Entity\Attribute\Backend\Datetime');
+        $this->assertEquals(null, $this->_helper->getAttributeBackendModelByInputType('empty'));
+        $this->assertEquals(
+            'Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
+            $this->_helper->getAttributeBackendModelByInputType('date')
+        );
     }
 
     public function testGetAttributeSourceModelByInputType()
     {
-        $this->assertEquals($this->_helper->getAttributeSourceModelByInputType('empty'), null);
-        $this->assertEquals($this->_helper->getAttributeSourceModelByInputType('multiselect'),
-            'Magento\Eav\Model\Entity\Attribute\Source\Table');
+        $this->assertEquals(null, $this->_helper->getAttributeSourceModelByInputType('empty'));
+        $this->assertEquals(
+            'Magento\Eav\Model\Entity\Attribute\Source\Table',
+            $this->_helper->getAttributeSourceModelByInputType('multiselect')
+        );
     }
 
     public function testGetAttributeBackendTypeByInputType()
     {
-        $this->assertEquals($this->_helper->getAttributeBackendTypeByInputType('empty'), null);
-        $this->assertEquals($this->_helper->getAttributeBackendTypeByInputType('text'), 'varchar');
+        $this->assertEquals(null, $this->_helper->getAttributeBackendTypeByInputType('empty'));
+        $this->assertEquals('varchar', $this->_helper->getAttributeBackendTypeByInputType('text'));
     }
 
     /**
@@ -415,7 +427,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $data = array('frontend_label' => array('Label'), 'attribute_code' => 'code');;
         $result = array('frontend_label' => array('stripTags'), 'attribute_code' => 'code');
-        $this->assertEquals($this->_helper->filterPostData($data), $result);
+        $this->assertEquals($result, $this->_helper->filterPostData($data));
     }
 
     /**

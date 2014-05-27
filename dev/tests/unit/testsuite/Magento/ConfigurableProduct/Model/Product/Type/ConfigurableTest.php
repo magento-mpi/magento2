@@ -103,26 +103,44 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $info = $this->_model->getRelationInfo();
         $this->assertInstanceOf('Magento\Framework\Object', $info);
-        $this->assertEquals($info->getData('table'), 'catalog_product_super_link');
-        $this->assertEquals($info->getData('parent_field_name'), 'parent_id');
-        $this->assertEquals($info->getData('child_field_name'), 'product_id');
+        $this->assertEquals('catalog_product_super_link', $info->getData('table'));
+        $this->assertEquals('parent_id', $info->getData('parent_field_name'));
+        $this->assertEquals('product_id', $info->getData('child_field_name'));
     }
 
     public function testCanUseAttribute()
     {
         $attribute = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array('getIsGlobal', 'getIsVisible', 'getIsConfigurable', 'usesSource', 'getIsUserDefined',
-                '__wakeup', '__sleep'),
-            array(), '', false
+            array(
+                'getIsGlobal',
+                'getIsVisible',
+                'getIsConfigurable',
+                'usesSource',
+                'getIsUserDefined',
+                '__wakeup',
+                '__sleep'
+            ),
+            array(),
+            '',
+            false
         );
-        $attribute->expects($this->any())->method('getIsGlobal')->will($this->returnValue(1));
-        $attribute->expects($this->any())->method('getIsVisible')->will($this->returnValue(1));
-        $attribute->expects($this->any())->method('getIsConfigurable')->will($this->returnValue(1));
-        $attribute->expects($this->any())->method('usesSource')->will($this->returnValue(1));
-        $attribute->expects($this->any())->method('getIsUserDefined')->will($this->returnValue(1));
+        $attribute->expects($this->once())
+            ->method('getIsGlobal')
+            ->will($this->returnValue(1));
+        $attribute->expects($this->once())
+            ->method('getIsVisible')
+            ->will($this->returnValue(1));
+        $attribute->expects($this->once())
+            ->method('getIsConfigurable')
+            ->will($this->returnValue(1));
+        $attribute->expects($this->once())
+            ->method('usesSource')
+            ->will($this->returnValue(1));
+        $attribute->expects($this->once())
+            ->method('getIsUserDefined')
+            ->will($this->returnValue(1));
 
         $this->assertTrue($this->_model->canUseAttribute($attribute));
     }
-
 }
