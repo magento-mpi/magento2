@@ -8,9 +8,9 @@
  */
 -->
 <fixture>
-    <catalogSearchQuery module="Magento_Search">
+    <catalogSearchQuery module="Magento_CatalogSearch">
         <type>flat</type>
         <entity_type>catalogsearch_query</entity_type>
-        <collection>Magento\Search\Model\Resource\Collection</collection>
+        <collection>Magento\CatalogSearch\Model\Resource\Query\Collection</collection>
     </catalogSearchQuery>
 </fixture>

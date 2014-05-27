@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Test\Constraint; 
+namespace Magento\CatalogSearch\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Search\Test\Fixture\CatalogSearchQuery;
+use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 
 /**
  * Class AssertSuggestSearchingResult
@@ -34,18 +34,16 @@ class AssertSuggestSearchingResult extends AbstractConstraint
      */
     public function processAssert(CmsIndex $cmsIndex, CatalogSearchQuery $catalogSearch)
     {
-        $isVisible = false;
         $cmsIndex->open();
         $searchBlock = $cmsIndex->getSearchBlock();
 
-        $searchData = $catalogSearch->getQueryText();
-        $searchData = reset($searchData);
-        $searchBlock->fillSearch($searchData['query_text']);
+        $queryText = $catalogSearch->getQueryText();
+        $searchBlock->fillSearch($queryText);
 
         if ($amount = $catalogSearch->getNumResults()) {
-            $isVisible = $searchBlock->isSuggestSearchVisible($searchData['query_text'], $amount);
+            $isVisible = $searchBlock->isSuggestSearchVisible($queryText, $amount);
         } else {
-            $isVisible = $searchBlock->isSuggestSearchVisible($searchData['query_text']);
+            $isVisible = $searchBlock->isSuggestSearchVisible($queryText);
         }
 
         \PHPUnit_Framework_Assert::assertTrue(

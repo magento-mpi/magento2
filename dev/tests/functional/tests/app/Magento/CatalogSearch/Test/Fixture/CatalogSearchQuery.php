@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Search\Test\Fixture;
+namespace Magento\CatalogSearch\Test\Fixture;
 
 use Mtf\Fixture\InjectableFixture;
 
@@ -18,12 +18,12 @@ class CatalogSearchQuery extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Search\Test\Repository\CatalogSearchQuery';
+    protected $repositoryClass = 'Magento\CatalogSearch\Test\Repository\CatalogSearchQuery';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Search\Test\Handler\CatalogSearchQuery\CatalogSearchQueryInterface';
+    protected $handlerInterface = 'Magento\CatalogSearch\Test\Handler\CatalogSearchQuery\CatalogSearchQueryInterface';
 
     protected $defaultDataSet = [
         'display_in_terms' => null,
@@ -45,7 +45,7 @@ class CatalogSearchQuery extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'fixture' => 'Magento\Search\Test\Fixture\CatalogSearchQuery\SearchData',
+        'source' => 'Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery\SearchData',
     ];
 
     protected $num_results = [

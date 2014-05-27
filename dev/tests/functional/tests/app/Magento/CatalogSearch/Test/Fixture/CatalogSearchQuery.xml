@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Search\Test\Fixture\CatalogSearchQuery">
-    <module>Magento_Search</module>
+<fixture class="Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery">
+    <module>Magento_CatalogSearch</module>
     <type>flat</type>
     <entity_type>catalogsearch_query</entity_type>
-    <collection>Magento\Search\Model\Resource\Collection</collection>
+    <collection>Magento\CatalogSearch\Model\Resource\Query\Collection</collection>
     <fields>
         <query_id>
             <attribute_code>query_id</attribute_code>
@@ -26,7 +26,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
-            <fixture>Magento\Search\Test\Fixture\CatalogSearchQuery\SearchData</fixture>
+            <source>Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery\SearchData</source>
         </query_text>
         <num_results>
             <attribute_code>num_results</attribute_code>
@@ -92,6 +92,6 @@
             <input></input>
         </updated_at>
     </fields>
-    <repository_class>Magento\Search\Test\Repository\CatalogSearchQuery</repository_class>
-    <handler_interface>Magento\Search\Test\Handler\CatalogSearchQuery\CatalogSearchQueryInterface</handler_interface>
+    <repository_class>Magento\CatalogSearch\Test\Repository\CatalogSearchQuery</repository_class>
+    <handler_interface>Magento\CatalogSearch\Test\Handler\CatalogSearchQuery\CatalogSearchQueryInterface</handler_interface>
 </fixture>

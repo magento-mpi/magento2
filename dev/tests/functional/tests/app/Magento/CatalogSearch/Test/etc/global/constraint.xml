@@ -8,11 +8,11 @@
  */
 -->
 <constraint>
-    <assertSuggestSearchingResult module="Magento_Search">
+    <assertSuggestSearchingResult module="Magento_CatalogSearch">
         <severeness>high</severeness>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogSearch class="Magento\Search\Test\Fixture\CatalogSearchQuery" />
+            <catalogSearch class="Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery" />
         </require>
     </assertSuggestSearchingResult>
 </constraint>

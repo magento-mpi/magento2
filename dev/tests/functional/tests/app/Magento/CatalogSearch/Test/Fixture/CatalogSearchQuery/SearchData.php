@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace  Magento\Search\Test\Fixture\CatalogSearchQuery;
+namespace  Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
@@ -20,9 +20,9 @@ class SearchData implements FixtureInterface
     /**
      * Resource data
      *
-     * @var array
+     * @var string
      */
-    protected $data = [];
+    protected $data;
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -37,13 +37,9 @@ class SearchData implements FixtureInterface
             /** @var FixtureInterface $fixture */
             $fixture = $fixtureFactory->createByCode($explodeValue[0]);
             $fixture->persist();
-            $this->data[] = [
-                'query_text' => $fixture->$explodeValue[1]()
-            ];
+            $this->data = $fixture->$explodeValue[1]();
         } else {
-            $this->data[] = [
-                'query_text' => strval($data['value'])
-            ];
+            $this->data = strval($data['value']);
         }
     }
 
@@ -58,10 +54,10 @@ class SearchData implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data
      *
-     * @param $key [optional]
-     * @return array
+     * @param string|null $key
+     * @return string
      */
     public function getData($key = null)
     {
