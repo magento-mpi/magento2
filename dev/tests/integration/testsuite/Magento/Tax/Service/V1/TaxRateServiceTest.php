@@ -41,6 +41,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testCreateTaxRate()
     {
         $taxData = [
@@ -71,6 +74,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Code already exists.
+     * @magentoDbIsolation enabled
      */
     public function testCreateTaxRateDuplicateCodes()
     {
