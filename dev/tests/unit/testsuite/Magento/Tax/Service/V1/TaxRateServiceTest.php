@@ -25,7 +25,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->taxRateService = $objectManager->getObject('Magento\Tax\Service\V1\TaxRateServiceInterface',
+        $this->taxRateService = $objectManager->getObject('Magento\Tax\Service\V1\TaxRateService',
             []
         );
         $this->taxRateBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
