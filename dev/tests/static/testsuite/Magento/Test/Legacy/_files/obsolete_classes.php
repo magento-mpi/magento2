@@ -2497,6 +2497,10 @@ return array(
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
     ],
+    [
+        'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Button',
+        'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid'
+    ],
     ['Magento\Framework\View\Url', 'Magento\Framework\View\Asset\Repository'],
     ['Magento\Less\File\Source\Base', 'Magento\Framework\View\File\Collector\Base'],
     ['Magento\Less\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],

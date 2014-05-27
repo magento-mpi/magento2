@@ -1680,6 +1680,8 @@ return array(
     ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
     ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
+    ['getVisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getVisibleOnFrontStatuses'],
+    ['getInvisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getInvisibleOnFrontStatuses'],
     array('_isStaticFilesSigned', 'Magento\Framework\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),
     ['getViewFileUrl', 'Magento\Framework\View\Url', 'Magento\Framework\View\Asset\Repository::getUrl'],
@@ -1700,5 +1702,5 @@ return array(
         'Magento\Framework\View\Asset\PreProcessor\ModuleNotation',
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
-    ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()']
+    ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
 );

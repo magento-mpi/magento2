@@ -5,46 +5,42 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order;
 
 /**
  *  Add sales archiving to order's grid view massaction
  */
-class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
+class Grid extends \Magento\Sales\Block\Adminhtml\Order
 {
     /**
      * @var \Magento\SalesArchive\Model\Resource\Order\Collection
      */
-    protected $_orderCollection;
+    protected $orderCollection;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         array $data = array()
     ) {
-        $this->_orderCollection = $orderCollection;
-        parent::__construct($context, $registry, $adminHelper, $data);
+        $this->orderCollection = $orderCollection;
+        parent::__construct($context, $data);
     }
 
     /**
-     * @return $this
+     * @return void
      */
-    protected function _prepareLayout()
+    protected function _construct()
     {
-        $ordersCount = $this->_orderCollection->getSize();
-        $parent = $this->getLayout()->getBlock('sales_order.grid.container');
-        if ($parent && $ordersCount) {
+        parent::_construct();
+        $ordersCount = $this->orderCollection->getSize();
+        if ($ordersCount) {
             $url = $this->getUrl('sales/archive/orders');
-            $parent->addButton(
+            $this->addButton(
                 'go_to_archive',
                 array(
                     'label' => __('Go to Archive (%1 orders)', $ordersCount),
@@ -53,14 +49,5 @@ class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
                 )
             );
         }
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return '';
     }
 }
