@@ -43,11 +43,11 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->linkType = 'related';
         $this->productData =
             [
-                Data\LinkedProductEntity::ID => 21,
-                Data\LinkedProductEntity::TYPE => 'virtual',
-                Data\LinkedProductEntity::ATTRIBUTE_SET_ID => 4,
-                Data\LinkedProductEntity::SKU => 'virtual-product',
-                Data\LinkedProductEntity::POSITION => 3,
+                Data\ProductLinkEntity::ID => 21,
+                Data\ProductLinkEntity::TYPE => 'virtual',
+                Data\ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
+                Data\ProductLinkEntity::SKU => 'virtual-product',
+                Data\ProductLinkEntity::POSITION => 3,
             ];
         $this->serviceInfo = [
             'rest' => [

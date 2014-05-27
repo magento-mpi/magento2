@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
 
-class Crosssell implements \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface
+class Crosssell implements \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface
 {
     /**
      * Get linked products

@@ -9,11 +9,11 @@
 namespace Magento\Catalog\Service\V1\Product\Link\Data;
 
 /**
- * Builder for the LinkedProductEntity Service Data Object
+ * Builder for the ProductLinkEntity Service Data Object
  *
- * @method LinkedProductEntity create()
+ * @method ProductLinkEntity create()
  */
-class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set product id
@@ -23,7 +23,7 @@ class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setProductId($productId)
     {
-        return $this->_set(LinkedProductEntity::ID, $productId);
+        return $this->_set(ProductLinkEntity::ID, $productId);
     }
 
     /**
@@ -34,7 +34,7 @@ class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setType($type)
     {
-        return $this->_set(LinkedProductEntity::TYPE, $type);
+        return $this->_set(ProductLinkEntity::TYPE, $type);
     }
 
     /**
@@ -45,7 +45,7 @@ class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setAttributeSetId($attributeSet)
     {
-        return $this->_set(LinkedProductEntity::ATTRIBUTE_SET_ID, $attributeSet);
+        return $this->_set(ProductLinkEntity::ATTRIBUTE_SET_ID, $attributeSet);
     }
 
     /**
@@ -56,7 +56,7 @@ class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setSku($sku)
     {
-        return $this->_set(LinkedProductEntity::SKU, $sku);
+        return $this->_set(ProductLinkEntity::SKU, $sku);
     }
 
     /**
@@ -67,6 +67,6 @@ class LinkedProductEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setPosition($position)
     {
-        return $this->_set(LinkedProductEntity::POSITION, $position);
+        return $this->_set(ProductLinkEntity::POSITION, $position);
     }
 }

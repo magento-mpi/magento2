@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 
 class CollectionProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage Collection provider for type someType is not registered
+     * @expectedExceptionMessage Collection provider is not registered
      */
     public function testGetCollectionWithInvalidType()
     {
@@ -37,7 +37,7 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
 
         $resultA = ['resultA'];
         $providerA = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface'
         );
         $providerA->expects($this->once())
             ->method('getLinkedProducts')
@@ -46,7 +46,7 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
 
         $resultB = ['resultB'];
         $providerB = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface'
         );
         $providerB->expects($this->once())
             ->method('getLinkedProducts')

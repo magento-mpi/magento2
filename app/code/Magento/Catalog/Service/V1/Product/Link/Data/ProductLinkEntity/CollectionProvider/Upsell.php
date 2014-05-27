@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
 
-class Grouped implements \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface
+class Upsell implements \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface
 {
     /**
      * Get linked products
@@ -18,6 +18,6 @@ class Grouped implements \Magento\Catalog\Service\V1\Product\Link\Data\LinkedPro
      */
     public function getLinkedProducts(\Magento\Catalog\Model\Product $product)
     {
-        return $product->getTypeInstance()->getAssociatedProducts($product);
+        return $product->getUpSellProducts();
     }
 }

@@ -10,8 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\LinkTypeProvider;
 use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
-use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
-use \Magento\Framework\Exception\InputException;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 use \Magento\Framework\Logger;
 
 /**
@@ -41,12 +40,12 @@ class ReadService implements ReadServiceInterface
     protected $linkTypeResolver;
 
     /**
-     * @var Data\LinkedProductEntityBuilder
+     * @var Data\ProductLinkEntityBuilder
      */
     protected $productEntityBuilder;
 
     /**
-     * @var Data\LinkedProductEntity\CollectionProvider
+     * @var Data\ProductLinkEntity\CollectionProvider
      */
     protected $entityCollectionProvider;
 
@@ -63,9 +62,9 @@ class ReadService implements ReadServiceInterface
     /**
      * @param LinkTypeProvider $linkTypeProvider
      * @param Data\LinkTypeEntityBuilder $builder
-     * @param Data\LinkedProductEntityBuilder $productEntityBuilder
+     * @param Data\ProductLinkEntityBuilder $productEntityBuilder
      * @param ProductLoader $productLoader
-     * @param LinkedProductEntity\CollectionProvider $entityCollectionProvider
+     * @param ProductLinkEntity\CollectionProvider $entityCollectionProvider
      * @param Data\LinkAttributeEntityBuilder $linkAttributeBuilder
      * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
      * @param LinkTypeResolver $linkTypeResolver
@@ -73,9 +72,9 @@ class ReadService implements ReadServiceInterface
     public function __construct(
         LinkTypeProvider $linkTypeProvider,
         Data\LinkTypeEntityBuilder $builder,
-        Data\LinkedProductEntityBuilder $productEntityBuilder,
+        Data\ProductLinkEntityBuilder $productEntityBuilder,
         ProductLoader $productLoader,
-        Data\LinkedProductEntity\CollectionProvider $entityCollectionProvider,
+        Data\ProductLinkEntity\CollectionProvider $entityCollectionProvider,
         Data\LinkAttributeEntityBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
         LinkTypeResolver $linkTypeResolver
@@ -118,11 +117,11 @@ class ReadService implements ReadServiceInterface
         foreach ($collection as $item) {
             /** @var \Magento\Catalog\Model\Product $item */
             $data = [
-                LinkedProductEntity::ID => $item->getId(),
-                LinkedProductEntity::TYPE => $item->getTypeId(),
-                LinkedProductEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
-                LinkedProductEntity::SKU => $item->getSku(),
-                LinkedProductEntity::POSITION => $item->getPosition()
+                ProductLinkEntity::ID => $item->getId(),
+                ProductLinkEntity::TYPE => $item->getTypeId(),
+                ProductLinkEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
+                ProductLinkEntity::SKU => $item->getSku(),
+                ProductLinkEntity::POSITION => $item->getPosition()
             ];
             $output[] = $this->productEntityBuilder->populateWithArray($data)->create();
         }

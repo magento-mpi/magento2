@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Product\Link;
 use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 
 class WriteService implements WriteServiceInterface
 {
@@ -21,7 +21,7 @@ class WriteService implements WriteServiceInterface
     protected $linkInitializer;
 
     /**
-     * @var Data\LinkedProductEntity\CollectionProvider
+     * @var Data\ProductLinkEntity\CollectionProvider
      */
     protected $entityCollectionProvider;
 
@@ -37,13 +37,13 @@ class WriteService implements WriteServiceInterface
 
     /**
      * @param LinksInitializer $linkInitializer
-     * @param LinkedProductEntity\CollectionProvider $entityCollectionProvider
+     * @param ProductLinkEntity\CollectionProvider $entityCollectionProvider
      * @param ProductLoader $productLoader
      * @param LinkTypeResolver $linkTypeResolver
      */
     public function __construct(
         LinksInitializer $linkInitializer,
-        LinkedProductEntity\CollectionProvider $entityCollectionProvider,
+        ProductLinkEntity\CollectionProvider $entityCollectionProvider,
         ProductLoader $productLoader,
         LinkTypeResolver $linkTypeResolver
     ) {
@@ -79,10 +79,10 @@ class WriteService implements WriteServiceInterface
         $product = $this->productLoader->load($productSku);
 
         $links = [];
-        /** @var Data\LinkedProductEntity[] $assignedProducts*/
+        /** @var Data\ProductLinkEntity[] $assignedProducts*/
         foreach ($assignedProducts as $linkedProduct) {
             $data = $linkedProduct->__toArray();
-            $links[$data[Data\LinkedProductEntity::ID]] = $data;
+            $links[$data[Data\ProductLinkEntity::ID]] = $data;
         }
         $this->saveLinks($product, [$type => $links]);
         return true;
@@ -102,17 +102,17 @@ class WriteService implements WriteServiceInterface
         foreach ($collection as $item) {
             /** @var \Magento\Catalog\Model\Product $item */
             $links[$item->getId()] = [
-                LinkedProductEntity::ID => $item->getId(),
-                LinkedProductEntity::TYPE => $item->getTypeId(),
-                LinkedProductEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
-                LinkedProductEntity::SKU => $item->getSku(),
-                LinkedProductEntity::POSITION => $item->getPosition()
+                ProductLinkEntity::ID => $item->getId(),
+                ProductLinkEntity::TYPE => $item->getTypeId(),
+                ProductLinkEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
+                ProductLinkEntity::SKU => $item->getSku(),
+                ProductLinkEntity::POSITION => $item->getPosition()
             ];
         }
 
         if (!isset($links[$linkedProduct->getId()])) {
             throw new InputException(
-                sprintf('Product with SKU %s in not assigned to product with SKU %s', [$linkedProductSku, $productSku])
+                sprintf('Product with SKU %s is not linked to product with SKU %s', [$linkedProductSku, $productSku])
             );
         }
 

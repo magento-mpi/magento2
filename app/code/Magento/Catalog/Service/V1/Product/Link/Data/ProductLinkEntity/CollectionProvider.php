@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
 
@@ -38,7 +38,7 @@ class CollectionProvider
     public function getCollection(\Magento\Catalog\Model\Product $product, $type)
     {
         if (!isset($this->providers[$type])) {
-            throw new NoSuchEntityException('Collection provider for type ' . $type . ' is not registered');
+            throw new NoSuchEntityException('Collection provider is not registered');
         }
         return $this->providers[$type]->getLinkedProducts($product);
     }

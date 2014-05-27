@@ -14,7 +14,7 @@ interface WriteServiceInterface
      * Assign a product link to another product
      *
      * @param string $productSku
-     * @param \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity[] $assignedProducts
+     * @param \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity[] $assignedProducts
      * @param string $type
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException

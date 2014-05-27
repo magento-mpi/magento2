@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider;
+namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
 
-class Related implements \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProviderInterface
+class Grouped implements \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface
 {
     /**
      * Get linked products
@@ -18,6 +18,6 @@ class Related implements \Magento\Catalog\Service\V1\Product\Link\Data\LinkedPro
      */
     public function getLinkedProducts(\Magento\Catalog\Model\Product $product)
     {
-        return $product->getRelatedProducts();
+        return $product->getTypeInstance()->getAssociatedProducts($product);
     }
 }

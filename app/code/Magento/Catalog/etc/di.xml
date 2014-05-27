@@ -357,20 +357,20 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider">
+    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
                 <item name="crosssell" xsi:type="array">
                     <item name="code" xsi:type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</item>
-                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider\Crosssell</item>
+                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Crosssell</item>
                 </item>
                 <item name="upsell" xsi:type="array">
                     <item name="code" xsi:type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</item>
-                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider\Upsell</item>
+                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Upsell</item>
                 </item>
                 <item name="related" xsi:type="array">
                     <item name="code" xsi:type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</item>
-                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider\Related</item>
+                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Related</item>
                 </item>
             </argument>
         </arguments>

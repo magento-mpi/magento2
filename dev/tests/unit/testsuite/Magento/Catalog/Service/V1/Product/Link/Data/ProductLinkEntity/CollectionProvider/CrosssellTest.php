@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity\CollectionProvider;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
 
-class RelatedTest  extends \PHPUnit_Framework_TestCase
+class CrosssellTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetLinkedProducts()
     {
         $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $expected = [$product];
-        $product->expects($this->once())->method('getRelatedProducts')->will($this->returnValue($expected));
-        $model = new Related();
+        $product->expects($this->once())->method('getCrossSellProducts')->will($this->returnValue($expected));
+        $model = new Crosssell();
         $this->assertEquals($expected, $model->getLinkedProducts($product));
     }
-} 
+}
