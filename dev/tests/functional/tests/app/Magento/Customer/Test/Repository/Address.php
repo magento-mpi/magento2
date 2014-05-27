@@ -127,7 +127,7 @@ class Address extends AbstractRepository
                         'input' => 'select'
                     ),
                     'telephone' => array(
-                        'value' => '777-77-77-77'
+                        'value' => '123-345-7890'
                     )
                 )
             )
@@ -191,7 +191,7 @@ class Address extends AbstractRepository
                         'value' => 'Doe',
                     ),
                     'telephone' => array(
-                        'value' => '444-44-444-44',
+                        'value' => '123-345-7890',
                     ),
                     'street[]' => array(
                         'value' => '172, Westminster Bridge Rd',
@@ -237,7 +237,7 @@ class Address extends AbstractRepository
                         'value' => 'Magento %isolation%'
                     ),
                     'telephone' => array(
-                        'value' => '444-44-444-44'
+                        'value' => '123-345-7890'
                     ),
                     'street_1' => array(
                         'value' => '42 King Street West'
@@ -322,7 +322,7 @@ class Address extends AbstractRepository
                         'value' => '10789'
                     ),
                     'telephone' => array(
-                        'value' => '333-33-333-33'
+                        'value' => '123-345-7890'
                     )
                 )
             )
