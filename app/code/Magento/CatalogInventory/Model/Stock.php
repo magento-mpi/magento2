@@ -27,6 +27,9 @@ class Stock extends \Magento\Framework\Model\AbstractModel
 
     const STOCK_IN_STOCK = 1;
 
+    /**
+     * Default stock id
+     */
     const DEFAULT_STOCK_ID = 1;
 
     /**

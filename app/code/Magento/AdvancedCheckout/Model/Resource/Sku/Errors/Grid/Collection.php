@@ -11,6 +11,9 @@ namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 
 use Magento\CatalogInventory\Service\V1\StockStatusServiceInterface as StockStatus;
 
+/**
+ * Class Collection
+ */
 class Collection extends \Magento\Framework\Data\Collection
 {
     /**
@@ -66,7 +69,9 @@ class Collection extends \Magento\Framework\Data\Collection
             foreach ($parentBlock->getFailedItems() as $affectedItem) {
                 // Escape user-submitted input
                 if (isset($affectedItem['item']['qty'])) {
-                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty']) ? '' : (double)$affectedItem['item']['qty'];
+                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty'])
+                        ? ''
+                        : (float) $affectedItem['item']['qty'];
                 }
                 $item = new \Magento\Framework\Object();
                 $item->setCode($affectedItem['code']);

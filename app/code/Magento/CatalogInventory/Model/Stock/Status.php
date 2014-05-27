@@ -34,7 +34,6 @@ class Status extends \Magento\Framework\Model\AbstractModel
     const STATUS_OUT_OF_STOCK = 0;
 
     const STATUS_IN_STOCK = 1;
-
     /**#@-*/
 
     /**
@@ -184,8 +183,11 @@ class Status extends \Magento\Framework\Model\AbstractModel
      * @param int $stockStatus
      * @return $this
      */
-    public function assignProduct(\Magento\Catalog\Model\Product $product, $stockId = 1, $stockStatus = null)
-    {
+    public function assignProduct(
+        \Magento\Catalog\Model\Product $product,
+        $stockId = Stock::DEFAULT_STOCK_ID,
+        $stockStatus = null
+    ) {
         if (is_null($stockStatus)) {
             $websiteId = $product->getStore()->getWebsiteId();
             $status = $this->getProductStockStatus($product->getId(), $websiteId, $stockId);
@@ -269,7 +271,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
         $productType,
         $qty = 0,
         $status = self::STATUS_IN_STOCK,
-        $stockId = 1,
+        $stockId = Stock::DEFAULT_STOCK_ID,
         $websiteId = null
     ) {
         if ($status == self::STATUS_OUT_OF_STOCK) {
@@ -285,7 +287,8 @@ class Status extends \Magento\Framework\Model\AbstractModel
             $statuses[$websiteId] = $status;
         }
 
-        if (!($typeInstance = $this->getProductTypeInstance($productType))) {
+        $typeInstance = $this->getProductTypeInstance($productType);
+        if (!$typeInstance) {
             return $this;
         }
 
@@ -299,28 +302,23 @@ class Status extends \Magento\Framework\Model\AbstractModel
             foreach ($websites as $websiteId => $storeId) {
                 $childrenStatus = $this->getProductStatus($childrenIds, $storeId);
                 $childrenStock = $this->getProductStockStatus($childrenIds, $websiteId, $stockId);
-
                 $websiteStatus = $statuses[$websiteId];
                 foreach ($requiredChildrenIds as $groupedChildrenIds) {
                     $optionStatus = false;
                     foreach ($groupedChildrenIds as $childId) {
-                        if (isset(
-                            $childrenStatus[$childId]
-                        ) && isset(
-                            $childrenWebsites[$childId]
-                        ) && in_array(
-                            $websiteId,
-                            $childrenWebsites[$childId]
-                        ) && $childrenStatus[$childId] == ProductStatus::STATUS_ENABLED && isset(
-                            $childrenStock[$childId]
-                        ) && $childrenStock[$childId] == self::STATUS_IN_STOCK
+                        if (isset($childrenStatus[$childId])
+                            && isset($childrenWebsites[$childId])
+                            && in_array($websiteId, $childrenWebsites[$childId])
+                            && $childrenStatus[$childId] == ProductStatus::STATUS_ENABLED
+                            && isset($childrenStock[$childId])
+                            && $childrenStock[$childId] == self::STATUS_IN_STOCK
                         ) {
                             $optionStatus = true;
                         }
                     }
                     $websiteStatus = $websiteStatus && $optionStatus;
                 }
-                $statuses[$websiteId] = (int)$websiteStatus;
+                $statuses[$websiteId] = (int) $websiteStatus;
             }
         }
 
@@ -339,7 +337,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
      * @param int $websiteId
      * @return $this
      */
-    protected function _processParents($productId, $stockId = 1, $websiteId = null)
+    protected function _processParents($productId, $stockId = Stock::DEFAULT_STOCK_ID, $websiteId = null)
     {
         $parentIds = array();
         foreach ($this->getProductTypeInstances() as $typeInstance) {
@@ -382,8 +380,13 @@ class Status extends \Magento\Framework\Model\AbstractModel
      * @param int|null $websiteId
      * @return $this
      */
-    public function saveProductStatus($productId, $status, $qty = 0, $stockId = 1, $websiteId = null)
-    {
+    public function saveProductStatus(
+        $productId,
+        $status,
+        $qty = 0,
+        $stockId = Stock::DEFAULT_STOCK_ID,
+        $websiteId = null
+    ) {
         /** @var \Magento\CatalogInventory\Model\Resource\Stock\Status $resource */
         $resource = $this->getResource();
         $resource->saveProductStatus($this, $productId, $status, $qty, $stockId, $websiteId);
@@ -465,7 +468,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
         }
         if ($websiteId === null) {
             $websiteId = $this->_storeManager->getStore()->getWebsiteId();
-            if ((int)$websiteId == 0 && $productCollection->getStoreId()) {
+            if ((int) $websiteId == 0 && $productCollection->getStoreId()) {
                 $websiteId = $this->_storeManager->getStore($productCollection->getStoreId())->getWebsiteId();
             }
         }
