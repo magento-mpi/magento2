@@ -91,7 +91,12 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function updateTaxRate(TaxRateDataObject $taxRate)
     {
-        // TODO: Implement updateTaxRate() method.
+        // Only update existing tax rates
+        $this->taxRegistry->retrieveTaxRate($taxRate->getId());
+
+        $this->saveTaxRate($taxRate);
+
+        return true;
     }
 
     /**
