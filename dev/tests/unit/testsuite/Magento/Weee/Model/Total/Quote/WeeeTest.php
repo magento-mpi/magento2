@@ -245,7 +245,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
     /**
      * Collect items without address item
      */
-    public function te1stCollectWithoutAddressItem()
+    public function testCollectWithoutAddressItem()
     {
         $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
             ->will($this->returnValue(array()));

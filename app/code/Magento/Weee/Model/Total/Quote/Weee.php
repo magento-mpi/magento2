@@ -180,12 +180,11 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _processDataWithWeeeData ($address, $item)
     {
-        if (!$this->_weeeData->isEnabled($this->_store)) {
-            return $this;
-        } else {
+        if ($this->_weeeData->isEnabled($this->_store)) {
             $processData = $this->_process($address, $item);
             $this->_setTax($processData);
         }
+        return $this;
     }
 
     /**
