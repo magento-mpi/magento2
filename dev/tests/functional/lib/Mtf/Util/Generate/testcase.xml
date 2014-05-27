@@ -77,30 +77,54 @@
     </components>
     <steps>
       <step>Login to backend.</step>
-      <step>Navigate to MARKETING -> Newsletter Template.</step>
+      <step>Navigate to MARKETING -&gt; Newsletter Template.</step>
       <step>Add New Template.</step>
       <step>Fill in all data according to data set.</step>
       <step>Save.</step>
       <step>Perform asserts.</step>
     </steps>
   </testcase>
-    <testcase>
-        <id>MTA-15</id>
-        <ticketId>MTA-15</ticketId>
-        <name>CreateDownloadableProductEntityTest</name>
-        <description>Test Creation for Create DownloadableProductEntity </description>
-        <module>Catalog</module>
-        <components>
-            <component>Downloadable Product (CS)</component>
-        </components>
-        <steps>
-            <step> Log in to Backend.</step>
-            <step> Navigate to Products &gt; Catalog.</step>
-            <step> Start to create new Downloadable product.</step>
-            <step> Fill in data according to data set.</step>
-            <step> Fill Downloadable Information tab according to data set.</step>
-            <step> Save product.</step>
-            <step> Verify created product.</step>
-        </steps>
-    </testcase>
+  <testcase>
+    <id>MTA-15</id>
+    <ticketId>MTA-15</ticketId>
+    <name>CreateDownloadableProductEntityTest</name>
+    <description>Test Creation for Create DownloadableProductEntity </description>
+    <module>Catalog</module>
+    <components>
+      <component>Downloadable Product (CS)</component>
+    </components>
+    <steps>
+      <step> Log in to Backend.</step>
+      <step> Navigate to Products &gt; Catalog.</step>
+      <step> Start to create new Downloadable product.</step>
+      <step> Fill in data according to data set.</step>
+      <step> Fill Downloadable Information tab according to data set.</step>
+      <step> Save product.</step>
+      <step> Verify created product.</step>
+    </steps>
+  </testcase>
+  <testcase>
+    <id>MTA-322</id>
+    <ticketId>MTA-322</ticketId>
+    <name>UpdateDownloadableProductEntityTest</name>
+    <description>Test Creation for Update DownloadableProductEntity</description>
+    <module>Catalog</module>
+    <components>
+      <component>Downloadable Product (MX)</component>
+    </components>
+    <steps>
+      <step/>
+      <step>+Precondition:+</step>
+      <step> Category is created.</step>
+      <step> Product is created(before each variation).</step>
+      <step/>
+      <step>+Steps:+</step>
+      <step> Login to backend.</step>
+      <step> Navigate to PRODUCTS &gt; Catalog.</step>
+      <step> Search and open product in the grid.</step>
+      <step> Edit test value(s) according to dataset.</step>
+      <step> Click "Save".</step>
+      <step> Perform asserts</step>
+    </steps>
+  </testcase>
 </testcases>
