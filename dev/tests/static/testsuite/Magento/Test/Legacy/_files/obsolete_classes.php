@@ -2503,5 +2503,6 @@ return array(
     ['Magento\OfflinePayments\Block\Form\Ccsave'],
     ['Magento\OfflinePayments\Block\Info\Ccsave'],
     ['Magento\OfflinePayments\Model\Ccsave'],
-    ['Magento\Sales\Model\Payment\Method\Converter']
+    ['Magento\Sales\Model\Payment\Method\Converter'],
+    ['Magento\Payment\Model\Config\Source\Allowedmethods']
 );

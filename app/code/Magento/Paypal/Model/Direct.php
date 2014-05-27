@@ -238,7 +238,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      */
     public function getAllowedCcTypes()
     {
-        $ccTypes = explode(',', $this->_pro->getConfig()->cctypes);
+        $ccTypes = explode(',', $this->_pro->getConfig()->getConfigValue('cctypes'));
         $country = $this->_pro->getConfig()->getMerchantCountry();
 
         if ($country == 'GB') {
@@ -278,7 +278,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
                 $value = $this->getAllowedCcTypes();
                 break;
             default:
-                $value = $this->_pro->getConfig()->{$field};
+                $value = $this->_pro->getConfig()->getConfigValue($field);
         }
         return $value;
     }
@@ -392,7 +392,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     {
         $validator = parent::getCentinelValidator();
         if (!$validator->getCustomApiEndpointUrl()) {
-            $validator->setCustomApiEndpointUrl($this->_pro->getConfig()->centinelDefaultApiUrl);
+            $validator->setCustomApiEndpointUrl($this->_pro->getConfig()->getConfigValue('centinelDefaultApiUrl'));
         }
         return $validator;
     }
@@ -420,7 +420,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     {
         $order = $payment->getOrder();
         $api = $this->_pro->getApi()->setPaymentAction(
-            $this->_pro->getConfig()->paymentAction
+            $this->_pro->getConfig()->getConfigValue('paymentAction')
         )->setIpAddress(
             $this->_requestHttp->getClientIp(false)
         )->setAmount(
@@ -464,7 +464,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
         // add line items
         $cart = $this->_cartFactory->create(array('salesModel' => $order));
 
-        $api->setPaypalCart($cart)->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled);
+        $api->setPaypalCart($cart)->setIsLineItemsEnabled($this->_pro->getConfig()->getConfigValue('lineItemsEnabled'));
 
         // call api and import transaction and other payment information
         $api->callDoDirectPayment();

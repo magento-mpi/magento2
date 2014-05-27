@@ -1680,4 +1680,6 @@ return array(
     ['_beforeSave', 'Magento\Sales\Model\Resource\AbstractResource'],
     ['_afterSave', 'Magento\Sales\Model\Resource\AbstractResource'],
     ['_afterLoad', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['getAllMethods', 'Magento\Payment\Model\Config'],
+    ['_getMethod', 'Magento\Payment\Model\Config']
 );

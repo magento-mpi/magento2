@@ -270,7 +270,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getConfigData($field, $storeId = null)
     {
-        return $this->_pro->getConfig()->{$field};
+        return $this->_pro->getConfig()->getConfigValue($field);
     }
 
     /**
@@ -593,7 +593,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         )->setAmount(
             $amount
         )->setPaymentAction(
-            $this->_pro->getConfig()->paymentAction
+            $this->_pro->getConfig()->getConfigValue('paymentAction')
         )->setNotifyUrl(
             $this->_urlBuilder->getUrl('paypal/ipn/')
         )->setInvNum(
@@ -603,7 +603,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         )->setPaypalCart(
             $cart
         )->setIsLineItemsEnabled(
-            $this->_pro->getConfig()->lineItemsEnabled
+            $this->_pro->getConfig()->getConfigValue('lineItemsEnabled')
         );
         if ($order->getIsVirtual()) {
             $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);

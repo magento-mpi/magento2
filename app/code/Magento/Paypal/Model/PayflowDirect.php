@@ -21,7 +21,7 @@ class PayflowDirect extends \Magento\Paypal\Model\Direct
      */
     public function getAllowedCcTypes()
     {
-        return $this->_pro->getConfig()->cctypes;
+        return $this->_pro->getConfig()->getConfigValue('cctypes');
     }
 
     /**
