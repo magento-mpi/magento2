@@ -856,9 +856,9 @@ class Config
      */
     public function getCountryMethods($countryCode = null)
     {
-        $countryMethods = array(
-            'other' => array(self::METHOD_WPS, self::METHOD_WPP_EXPRESS, self::METHOD_BILLING_AGREEMENT),
-            'US' => array(
+        $countryMethods = [
+            'other' => [self::METHOD_WPS, self::METHOD_WPP_EXPRESS, self::METHOD_BILLING_AGREEMENT],
+            'US' => [
                 self::METHOD_PAYFLOWADVANCED,
                 self::METHOD_WPP_DIRECT,
                 self::METHOD_WPS,
@@ -867,67 +867,71 @@ class Config
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT,
                 self::METHOD_WPP_PE_EXPRESS
-            ),
-            'CA' => array(
+            ],
+            'CA' => [
                 self::METHOD_WPP_DIRECT,
                 self::METHOD_WPS,
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_PAYFLOWLINK,
                 self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT
-            ),
-            'GB' => array(
+                self::METHOD_BILLING_AGREEMENT,
+                self::METHOD_WPP_PE_EXPRESS
+            ],
+            'GB' => [
                 self::METHOD_WPP_DIRECT,
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
-                self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_WPP_PE_EXPRESS
-            ),
-            'AU' => array(
+                self::METHOD_BILLING_AGREEMENT
+            ],
+            'AU' => [
                 self::METHOD_WPS,
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            ),
-            'NZ' => array(
+            ],
+            'NZ' => [
                 self::METHOD_WPS,
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            ),
-            'JP' => array(
+            ],
+            'JP' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            ),
-            'FR' => array(
+            ],
+            'FR' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            ),
-            'IT' => array(
+            ],
+            'IT' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            ),
-            'ES' => array(
+            ],
+            'ES' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            ),
-            'HK' => array(
+            ],
+            'HK' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT
-            )
-        );
+            ],
+            'DE' => [
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT
+            ]
+        ];
         if ($countryCode === null) {
             return $countryMethods;
         }

@@ -23,7 +23,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetCountryMethods()
     {
         $this->assertNotContains('payflow_direct', $this->_model->getCountryMethods('GB'));
-        $this->markTestIncomplete('MAGETWO-13169');
         $this->assertContains(Config::METHOD_WPP_PE_EXPRESS, $this->_model->getCountryMethods('CA'));
         $this->assertNotContains(Config::METHOD_WPP_PE_EXPRESS, $this->_model->getCountryMethods('GB'));
         $this->assertContains(Config::METHOD_WPP_PE_EXPRESS, $this->_model->getCountryMethods('CA'));
@@ -55,8 +54,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetSpecificConfigPath()
     {
         $this->_model->setMethod('payflow_direct');
-        // TODO: Update after MAGETWO-24243
-        $this->assertNull($this->_model->useccv);
-        $this->assertNull($this->_model->vendor);
+        $this->assertNull($this->_model->getConfigValue('useccv'));
+        $this->assertNull($this->_model->getConfigValue('vendor'));
     }
 }
