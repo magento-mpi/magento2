@@ -45,6 +45,13 @@ class ProductServiceTest extends WebapiAbstract
                             'attribute_code' => 'meta_title',
                             'value' => 'meta_title'
                         ],
+//                        [
+//                            'attribute_code' => 'test',
+//                            'value' => [
+//                                'a' => 'b',
+//                                'c' => 'd',
+//                            ]
+//                        ],
                     ]
                 ],
                 $data

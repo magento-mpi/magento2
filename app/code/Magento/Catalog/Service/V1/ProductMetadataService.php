@@ -70,7 +70,7 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     {
         $customAttributes = [];
         foreach ($this->getProductAttributesMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()) {
+            if (!$attributeMetadata->getIsSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
         }
