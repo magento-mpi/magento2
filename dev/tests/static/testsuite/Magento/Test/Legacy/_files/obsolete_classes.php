@@ -2499,5 +2499,6 @@ return array(
     ['Magento\Paypal\Model\PayflowDirect'],
     ['Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PayflowDirect'],
     ['Magento\PbridgePaypal\Block\Checkout\Payment\PayflowDirect'],
-    ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect']
+    ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect'],
+    ['Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Store']
 );
