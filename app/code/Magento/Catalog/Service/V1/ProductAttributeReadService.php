@@ -20,6 +20,9 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
      */
     private $metadataService;
 
+    /**
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory
+     */
     private $inputTypeFactory;
 
     /**
@@ -47,11 +50,11 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
     /**
      * {@inheritdoc}
      */
-    public function info($identifier)
+    public function info($id)
     {
         return $this->metadataService->getAttributeMetadata(
             ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
-            $identifier
+            $id
         );
     }
 }

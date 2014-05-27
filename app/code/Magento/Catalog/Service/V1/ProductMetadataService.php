@@ -123,8 +123,8 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             $attributeMetadata = $this->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
-            throw (new NoSuchEntityException('entityType', $entityType))
-                ->addField('attributeCode', $attributeCode);
+            throw (new NoSuchEntityException('entityType', array($entityType)))
+                ->singleField('attributeCode', $attributeCode);
         }
     }
 
@@ -152,11 +152,13 @@ class ProductMetadataService implements ProductMetadataServiceInterface
                 'label' => $attribute->getFrontendLabel()
             )
         );
-        foreach ($attribute->getStoreLabels() as $store_id => $label) {
-            $data[AttributeMetadata::FRONTEND_LABEL][] = array(
-                'store_id' => $store_id,
-                'label' => $label
-            );
+        if (is_array($attribute->getStoreLabels())) {
+            foreach ($attribute->getStoreLabels() as $store_id => $label) {
+                $data[AttributeMetadata::FRONTEND_LABEL][] = array(
+                    'store_id' => $store_id,
+                    'label' => $label
+                );
+            }
         }
 
         $attributeBuilder = $this->attributeMetadataBuilderFactory->create($attribute->getFrontendInput());

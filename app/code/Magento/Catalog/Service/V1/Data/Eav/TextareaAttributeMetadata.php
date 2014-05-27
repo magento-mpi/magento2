@@ -13,6 +13,10 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  */
 class TextareaAttributeMetadata extends AttributeMetadata
 {
+    const IS_WYSIWYG_ENABLED = 'is_wysiwyg_enabled';
+
+    const IS_HTML_ALLOWED_ON_FRONT = 'is_html_allowed_on_front';
+
     /**
      * Enable WYSIWYG flag
      *
@@ -20,7 +24,7 @@ class TextareaAttributeMetadata extends AttributeMetadata
      */
     public function getIsWysiwygEnabled()
     {
-        return (bool)$this->_get(AttributeMetadata::IS_WYSIWYG_ENABLED);
+        return (bool)$this->_get(self::IS_WYSIWYG_ENABLED);
     }
 
     /**
@@ -30,6 +34,6 @@ class TextareaAttributeMetadata extends AttributeMetadata
      */
     public function getIsHtmlAllowedOnFront()
     {
-        return (bool)$this->_get(AttributeMetadata::IS_HTML_ALLOWED_ON_FRONT);
+        return (bool)$this->_get(self::IS_HTML_ALLOWED_ON_FRONT);
     }
 }

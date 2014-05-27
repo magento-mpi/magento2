@@ -13,6 +13,14 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  */
 class SelectAttributeMetadata extends AttributeMetadata
 {
+    const IS_FILTERABLE = 'is_filterable';
+
+    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
+
+    const POSITION = 'position';
+
+    const USED_FOR_SORT_BY = 'used_for_sort_by';
+
     /**
      * Whether it used in layered navigation
      *
@@ -20,7 +28,7 @@ class SelectAttributeMetadata extends AttributeMetadata
      */
     public function getIsFilterable()
     {
-        return (bool)$this->_get(AttributeMetadata::IS_FILTERABLE);
+        return (bool)$this->_get(self::IS_FILTERABLE);
     }
 
     /**
@@ -30,7 +38,7 @@ class SelectAttributeMetadata extends AttributeMetadata
      */
     public function getIsFilterableInSearch()
     {
-        return (bool)$this->_get(AttributeMetadata::IS_FILTERABLE_IN_SEARCH);
+        return (bool)$this->_get(self::IS_FILTERABLE_IN_SEARCH);
     }
 
     /**
@@ -40,7 +48,7 @@ class SelectAttributeMetadata extends AttributeMetadata
      */
     public function getPosition()
     {
-        return (int)$this->_get(AttributeMetadata::POSITION);
+        return (int)$this->_get(self::POSITION);
     }
 
     /**
@@ -50,6 +58,6 @@ class SelectAttributeMetadata extends AttributeMetadata
      */
     public function getUsedForSortBy()
     {
-        return (bool)$this->_get(AttributeMetadata::USED_FOR_SORT_BY);
+        return (bool)$this->_get(self::USED_FOR_SORT_BY);
     }
 }
