@@ -12,6 +12,11 @@ namespace Magento\Centinel;
  */
 class CreateOrderTest extends \Magento\Backend\Utility\Controller
 {
+    public function setUp()
+    {
+        $this->markTestIncomplete('MAGETWO-23885: Remove Saved Credit Card payment method');
+    }
+
     /**
      * @magentoConfigFixture default_store payment/ccsave/centinel 1
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php

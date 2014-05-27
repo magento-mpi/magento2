@@ -2500,4 +2500,8 @@ return array(
         'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Button',
         'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid'
     ],
+    ['Magento\OfflinePayments\Block\Form\Ccsave'],
+    ['Magento\OfflinePayments\Block\Info\Ccsave'],
+    ['Magento\OfflinePayments\Model\Ccsave'],
+    ['Magento\Sales\Model\Payment\Method\Converter']
 );

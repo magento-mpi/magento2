@@ -1676,5 +1676,8 @@ return array(
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
     ['getVisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getVisibleOnFrontStatuses'],
     ['getInvisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getInvisibleOnFrontStatuses'],
-
+    ['_shouldBeConverted', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_beforeSave', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_afterSave', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_afterLoad', 'Magento\Sales\Model\Resource\AbstractResource'],
 );
