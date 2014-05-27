@@ -12,6 +12,7 @@ namespace Magento\Rma\Controller\Adminhtml;
  * Class RmaTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class RmaTest extends \PHPUnit_Framework_TestCase
 {

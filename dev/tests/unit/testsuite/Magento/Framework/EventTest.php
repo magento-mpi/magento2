@@ -1,10 +1,10 @@
 <?php
 /**
-* {license_notice}
-*
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Framework;
 
 use Magento\Framework\Event\Observer\Collection;
@@ -62,8 +62,9 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $data = ['name' => 'Add New Observer'];
         $observer = new Observer($data);
         $this->event->addObserver($observer);
+        $expected = 'Magento\Framework\Event\Observer';
         $actual = $this->event->getObservers()->getObserverByName($data['name']);
-        $this->assertSame($observer, $actual);
+        $this->assertInstanceOf($expected, $actual);
     }
 
     public function testRemoveObserverByName()
@@ -72,7 +73,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
             'name' => 'ObserverName',
         ];
         $this->event->addObserver($this->observer);
-        $result = $this->event->getObservers()->getObserverByName($data['name']);
+        $result = $this->event->getObservers()->removeObserverByName($data['name']);
         $this->assertEquals($this->observer, $result);
     }
 
