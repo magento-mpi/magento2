@@ -16,8 +16,8 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit as ParentCustomerInde
  */
 class CustomerIndexEdit extends ParentCustomerIndexEdit
 {
-    //TODO remove "-balance" after fix in old test generate factory
-    const MCA = 'customer-balance/index/edit';
+    //TODO remove "_balance" after fix in old test generate factory
+    const MCA = 'customer_balance/index/edit';
 
     /**
      * Custom constructor
