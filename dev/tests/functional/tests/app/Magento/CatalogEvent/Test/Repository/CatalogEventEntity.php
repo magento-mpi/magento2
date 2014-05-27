@@ -11,12 +11,16 @@ namespace Magento\CatalogEvent\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * @constructor
- * @param array $defaultConfig
- * @param array $defaultData
+ * Class CatalogEventEntity
+ * Data for creation Event
  */
 class CatalogEventEntity extends AbstractRepository
 {
+    /**
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default_event'] = [
