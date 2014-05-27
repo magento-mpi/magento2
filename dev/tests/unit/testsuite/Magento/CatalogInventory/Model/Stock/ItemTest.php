@@ -280,7 +280,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'is_saleable' => true
                 ],
                 'stock config' => ['use_config_manage_stock' => false, 'manage_stock' => false],
-                'expected qty' => 0
+                'expected qty' => 0.
             ],
             'not composite in stock' => [
                 'product config' => [
@@ -302,7 +302,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'is_saleable' => false
                 ],
                 'stock config' => ['use_config_manage_stock' => true, 'manage_stock' => true],
-                'expected qty' => 0
+                'expected qty' => 0.
             ],
         ];
     }
