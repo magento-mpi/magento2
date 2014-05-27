@@ -36,6 +36,16 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
+        $attributeFactoryMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\AttributeFactory', array('create'), array(), '', false
+        );
+        $setFactoryMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\SetFactory', array('create'), array(), '', false
+        );
+        $groupFactoryMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\GroupFactory', array('create'), array(), '', false
+        );
+
         $this->attributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute',
             array(
@@ -54,10 +64,14 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
             '\Magento\Eav\Model\Resource\Entity\Attribute', array(), array(), '', false
         );
 
+        $attributeFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->attributeMock));
+        $setFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->attributeSetMock));
+        $groupFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->attributeGroupMock));
+
         $this->service = new ProductAttributeSetAttributeService(
-            $this->attributeMock,
-            $this->attributeGroupMock,
-            $this->attributeSetMock,
+            $attributeFactoryMock,
+            $groupFactoryMock,
+            $setFactoryMock,
             $this->attrResourceMock
         );
     }

@@ -12,19 +12,19 @@ use Magento\Framework\Exception\InputException;
 class ProductAttributeSetAttributeService implements ProductAttributeSetAttributeServiceInterface
 {
     /**
-     * @var \Magento\Eav\Model\Entity\Attribute $attribute
+     * @var \Magento\Eav\Model\Entity\AttributeFactory
      */
-    protected $attribute;
+    protected $attributeFactory;
 
     /**
-     * @var \Magento\Eav\Model\Entity\Attribute\Set
+     * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
      */
-    protected $attributeSet;
+    protected $setFactory;
 
     /**
-     * @var \Magento\Eav\Model\Entity\Attribute\Group
+     * @var \Magento\Eav\Model\Entity\Attribute\GroupFactory
      */
-    protected $attributeGroup;
+    protected $groupFactory;
 
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute
@@ -32,20 +32,20 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
     protected $attributeResource;
 
     /**
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
-     * @param \Magento\Eav\Model\Entity\Attribute\Group $attributeGroup
-     * @param \Magento\Eav\Model\Entity\Attribute\Set $attributeSet
+     * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
+     * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute $attributeResource
      */
     public function __construct(
-        \Magento\Eav\Model\Entity\Attribute $attribute,
-        \Magento\Eav\Model\Entity\Attribute\Group $attributeGroup,
-        \Magento\Eav\Model\Entity\Attribute\Set $attributeSet,
+        \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
+        \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
+        \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute $attributeResource
     ) {
-        $this->attribute = $attribute;
-        $this->attributeGroup = $attributeGroup;
-        $this->attributeSet = $attributeSet;
+        $this->attributeFactory = $attributeFactory;
+        $this->groupFactory = $groupFactory;
+        $this->setFactory = $setFactory;
         $this->attributeResource = $attributeResource;
     }
 
@@ -59,25 +59,26 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
      */
     public function addAttribute($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeSet\Attribute $data)
     {
-        if (!$this->attributeSet->load($attributeSetId)->getId()) {
+        if (!$this->setFactory->create()->load($attributeSetId)->getId()) {
             throw new InputException('Attribute set does not exist');
         }
 
-        if (!$this->attributeGroup->load($data->getAttributeGroupId())->getId()) {
+        if (!$this->groupFactory->create()->load($data->getAttributeGroupId())->getId()) {
             throw new InputException('Attribute group does not exist');
         }
 
-        if (!$this->attribute->load($data->getAttributeId())->getId()) {
+        $attribute = $this->attributeFactory->create();
+        if (!$attribute->load($data->getAttributeId())->getId()) {
             throw new InputException('Attribute does not exist');
         }
 
-        $this->attribute->setId($data->getAttributeId());
-        $this->attribute->setEntityTypeId(4);
-        $this->attribute->setAttributeSetId($attributeSetId);
-        $this->attribute->setAttributeGroupId($data->getAttributeGroupId());
-        $this->attribute->setSortOrder($data->getSortOrder());
+        $attribute->setId($data->getAttributeId());
+        $attribute->setEntityTypeId(4);
+        $attribute->setAttributeSetId($attributeSetId);
+        $attribute->setAttributeGroupId($data->getAttributeGroupId());
+        $attribute->setSortOrder($data->getSortOrder());
 
-        $this->attributeResource->saveInSetIncluding($this->attribute);
-        return $this->attribute->loadEntityAttributeIdBySet()->getData('entity_attribute_id');
+        $this->attributeResource->saveInSetIncluding($attribute);
+        return $attribute->loadEntityAttributeIdBySet()->getData('entity_attribute_id');
     }
 }
