@@ -28,12 +28,12 @@ class AssertTaxRateSuccessSaveMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after tax rate saved
      *
-     * @param TaxRateIndex $taxRateIndex
+     * @param TaxRateIndex $taxRateIndexPage
      * @return void
      */
-    public function processAssert(TaxRateIndex $taxRateIndex)
+    public function processAssert(TaxRateIndex $taxRateIndexPage)
     {
-        $actualMessage = $taxRateIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $taxRateIndexPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

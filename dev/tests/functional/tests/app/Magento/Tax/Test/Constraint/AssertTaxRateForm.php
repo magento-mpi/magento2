@@ -26,17 +26,17 @@ class AssertTaxRateForm extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that tax rate form filled right
+     * Assert that tax rate form was filled correctly
      *
-     * @param TaxRateIndex $taxRateIndex
-     * @param TaxRateNew $taxRateNew
+     * @param TaxRateIndex $taxRateIndexPage
+     * @param TaxRateNew $taxRateNewPage
      * @param TaxRate $taxRate
      * @param TaxRate $initialTaxRate
      * @return void
      */
     public function processAssert(
-        TaxRateIndex $taxRateIndex,
-        TaxRateNew $taxRateNew,
+        TaxRateIndex $taxRateIndexPage,
+        TaxRateNew $taxRateNewPage,
         TaxRate $taxRate,
         TaxRate $initialTaxRate = null
     ) {
@@ -52,19 +52,19 @@ class AssertTaxRateForm extends AbstractConstraint
             'code' => $taxRateCode,
         ];
 
-        $taxRateIndex->open();
-        $taxRateIndex->getTaxRateGrid()->searchAndOpen($filter);
-        $formData = $taxRateNew->getTaxRateForm()->getData($taxRate);
+        $taxRateIndexPage->open();
+        $taxRateIndexPage->getTaxRateGrid()->searchAndOpen($filter);
+        $formData = $taxRateNewPage->getTaxRateForm()->getData($taxRate);
         $dataDiff = $this->verifyForm($formData, $data);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
-            'Tax Rate form was filled not right.'
+            'Tax Rate form was filled incorrectly.'
             . "\nLog:\n" . implode(";\n", $dataDiff)
         );
     }
 
     /**
-     * Verifying that form is filled right
+     * Verifying that form is filled correctly
      *
      * @param array $formData
      * @param array $fixtureData
@@ -86,12 +86,12 @@ class AssertTaxRateForm extends AbstractConstraint
     }
 
     /**
-     * Text that form was filled right
+     * Text that form was filled correctly
      *
      * @return string
      */
     public function toString()
     {
-        return 'Tax Rate form has been filled right.';
+        return 'Tax Rate form was filled correctly.';
     }
 }
