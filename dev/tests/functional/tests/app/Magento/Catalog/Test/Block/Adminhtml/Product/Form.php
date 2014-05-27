@@ -106,10 +106,10 @@ class Form extends FormTabs
 
         if ($fixture instanceof InjectableFixture) {
             $status = $fixture->getStatus();
-            if ($status === 'Product offline'
-                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible()
-                || $status === 'Product online'
-                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':not(:checked)'))->isVisible()
+            if (($status === 'Product offline'
+                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible())
+                || ($status === 'Product online'
+                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':not(:checked)'))->isVisible())
             ) {
                 $this->_rootElement->find(sprintf($this->onlineSwitcher, ''))->click();
             }

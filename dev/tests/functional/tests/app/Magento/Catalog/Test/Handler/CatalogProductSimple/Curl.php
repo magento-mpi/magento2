@@ -28,19 +28,29 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @var array
      */
     protected $placeholderData = [
+        'manage_stock' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
         'is_virtual' => [
             'Yes' => 1
         ],
         'inventory_manage_stock' => [
-            'Yes' => 1
+            'Yes' => 1,
+            'No' => 0
         ],
         'quantity_and_stock_status' => [
-            'In Stock' => 1
+            'In Stock' => 1,
+            'Out of Stock' => 0
         ],
         'visibility' => [
+            'Not Visible Individually' => 1,
+            'Catalog' => 2,
+            'Search' => 3,
             'Catalog, Search' => 4
         ],
         'tax_class_id' => [
+            'None' => 0,
             'Taxable Goods' => 2
         ],
         'website_ids' => [
@@ -48,7 +58,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         ],
         'status' => [
             'Product offline' => 2,
-            'Product online' => 1,
+            'Product online' => 1
         ],
         'attribute_set_id' => [
             'Default' => 4
@@ -69,19 +79,22 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         // @todo remove "if" when fixtures refactored
         if ($fixture instanceof InjectableFixture) {
             $fields = $fixture->getData();
+            // Apply a placeholder for data
+            array_walk_recursive(
+                $fields,
+                function (&$item, $key, $placeholder) {
+                    $item = isset($placeholder[$key][$item]) ? $placeholder[$key][$item] : $item;
+                },
+                $this->placeholderData
+            );
+
+            $fields = $this->prepareStockData($fields);
+
             if ($prefix) {
                 $data[$prefix] = $fields;
             } else {
                 $data = $fields;
             }
-            // Apply a placeholder for data
-            array_walk_recursive(
-                $data,
-                function(&$item, $key, $placeholder) {
-                    $item = isset($placeholder[$key][$item]) ? $placeholder[$key][$item] : $item;
-                },
-                $this->placeholderData
-            );
         } else {
             $data = $this->_prepareData($fixture->getData('fields'), $prefix);
         }
@@ -102,6 +115,36 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['id' => $id];
+    }
+
+    /**
+     * Preparation of stock data
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function prepareStockData(array $fields)
+    {
+        $fields['stock_data']['manage_stock'] = 0;
+
+        if (empty($fields['stock_data']['is_in_stock'])) {
+            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status'])
+                ? $fields['quantity_and_stock_status']
+                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
+        }
+        if (empty($fields['stock_data']['qty'])) {
+            $fields['stock_data']['qty'] = isset($fields['qty']) ? $fields['qty'] : null;
+        }
+        if (!empty($fields['stock_data']['qty']) || !empty($fields['stock_data']['is_in_stock'])) {
+            $fields['stock_data']['manage_stock'] = 1;
+        }
+
+        $fields['quantity_and_stock_status'] = [
+            'qty' => $fields['qty'],
+            'is_in_stock' => $fields['stock_data']['is_in_stock']
+        ];
+
+        return $fields;
     }
 
     /**

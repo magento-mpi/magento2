@@ -62,6 +62,8 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
             'weight' => 1,
+            'quantity_and_stock_status' => 'In Stock',
+            'qty' => 25,
             'price' => ['value' => 560, 'preset' => '-'],
         ];
     }
