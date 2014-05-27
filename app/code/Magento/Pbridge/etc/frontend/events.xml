@@ -8,6 +8,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/Event/etc/events.xsd">
+    <event name="checkout_submit_all_after">
+        <observer name="pbridge_save_order_after_submit" instance="Magento\Pbridge\Model\Observer" method="saveOrderAfterSubmit" />
+    </event>
     <event name="controller_action_postdispatch_checkout_onepage_saveOrder">
         <observer name="pbridge_save_order_onepage" instance="Magento\Pbridge\Model\Observer" method="setResponseAfterSaveOrder" />
     </event>
