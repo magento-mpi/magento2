@@ -88,7 +88,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testAssignWithInvalidLinkedProducts()
     {
-
         $expectedException = 'Invalid data provided for linked products';
         try {
             $this->_webApiCall(
@@ -141,5 +140,42 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'Exception does not contain expected message'
             );
         }
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
+     */
+    public function testRemove()
+    {
+        $productSku = 'simple_with_cross';
+        $linkedSku = 'simple';
+        $linkType = 'related';
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Remove'
+            ]
+        ];
+
+        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        /** @var \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface $service */
+        $service = $objectManager->get('Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface');
+
+        $actual = $service->getLinkedProducts($productSku, $linkType);
+        $this->assertCount(1, $actual);
+
+        $this->_webApiCall(
+            $serviceInfo,
+            ['productSku' => $productSku, 'linkedProductSku' => $linkedSku, 'type' => $linkType]
+        );
+
+        $actual = $service->getLinkedProducts($productSku, $linkType);
+        $this->assertEmpty($actual);
     }
 }

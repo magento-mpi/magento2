@@ -9,8 +9,8 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
-use \Magento\Framework\Logger;
 use \Magento\Framework\Exception\InputException;
+use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
 
 class WriteService implements WriteServiceInterface
 {
@@ -20,28 +20,53 @@ class WriteService implements WriteServiceInterface
     protected $linkInitializer;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var Data\LinkedProductEntity\CollectionProvider
      */
-    protected $productFactory;
+    protected $entityCollectionProvider;
 
     /**
-     * @var Logger
+     * @var ProductLoader
      */
-    protected $logger;
+    protected $productLoader;
+
+    /**
+     * @var LinkTypeResolver
+     */
+    protected $linkTypeResolver;
 
     /**
      * @param LinksInitializer $linkInitializer
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param Logger $logger
+     * @param LinkedProductEntity\CollectionProvider $entityCollectionProvider
+     * @param ProductLoader $productLoader
+     * @param LinkTypeResolver $linkTypeResolver
      */
     public function __construct(
         LinksInitializer $linkInitializer,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        Logger $logger
+        LinkedProductEntity\CollectionProvider $entityCollectionProvider,
+        ProductLoader $productLoader,
+        LinkTypeResolver $linkTypeResolver
     ) {
         $this->linkInitializer = $linkInitializer;
-        $this->productFactory = $productFactory;
-        $this->logger = $logger;
+        $this->entityCollectionProvider = $entityCollectionProvider;
+        $this->linkTypeResolver = $linkTypeResolver;
+        $this->productLoader = $productLoader;
+    }
+
+    /**
+     * Save product links
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param array $links
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function saveLinks($product, array $links)
+    {
+        $this->linkInitializer->initializeLinks($product, $links);
+        try {
+            $product->save();
+        } catch (\Exception $exception) {
+            throw new InputException('Invalid data provided for linked products');
+        }
     }
 
     /**
@@ -49,14 +74,11 @@ class WriteService implements WriteServiceInterface
      */
     public function assign($productSku, array $assignedProducts, $type)
     {
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productFactory->create();
-        $productId = $product->getIdBySku($productSku);
-
-        if (!$productId) {
+        try {
+            $product = $this->productLoader->load($productSku);
+        } catch (\InvalidArgumentException $exception) {
             throw new InputException('There is no product with provided SKU');
         }
-        $product->load($productId);
 
         $links = [];
         /** @var Data\LinkedProductEntity[] $assignedProducts*/
@@ -64,12 +86,59 @@ class WriteService implements WriteServiceInterface
             $data = $linkedProduct->__toArray();
             $links[$data[Data\LinkedProductEntity::ID]] = $data;
         }
-        $this->linkInitializer->initializeLinks($product, [$type => $links]);
+        $this->saveLinks($product, [$type => $links]);
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($productSku, $linkedProductSku, $type)
+    {
         try {
-            $product->save();
-        } catch (\Exception $exception) {
-            $this->logger->logException($exception);
-            throw new InputException('Invalid data provided for linked products');
+            $product = $this->productLoader->load($productSku);
+        } catch (\InvalidArgumentException $exception) {
+            throw new InputException('There is no product with provided SKU');
         }
+
+        try {
+            $linkedProduct = $this->productLoader->load($linkedProductSku);
+        } catch (\InvalidArgumentException $exception) {
+            throw new InputException('There is no linked product with provided SKU');
+        }
+
+        try {
+            $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
+            $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
+        } catch (\OutOfRangeException $exception) {
+            throw new InputException('Unregistered collection type provider');
+        } catch (\InvalidArgumentException $exception) {
+            throw new InputException('Link type is not registered');
+        }
+
+        $links = [];
+        foreach ($collection as $item) {
+            /** @var \Magento\Catalog\Model\Product $item */
+            $links[$item->getId()] = [
+                LinkedProductEntity::ID => $item->getId(),
+                LinkedProductEntity::TYPE => $item->getTypeId(),
+                LinkedProductEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
+                LinkedProductEntity::SKU => $item->getSku(),
+                LinkedProductEntity::POSITION => $item->getPosition()
+            ];
+        }
+
+        if (!isset($links[$linkedProduct->getId()])) {
+            throw new InputException(
+                sprintf('Product with SKU %s in not assigned to product with SKU %s', [$linkedProductSku, $productSku])
+            );
+        }
+
+        //Remove product from the linked product list
+        unset($links[$linkedProduct->getId()]);
+
+        $this->saveLinks($product, [$type => $links]);
+
+        return true;
     }
 }

@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\LinkTypeProvider;
-use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntityBuilder as Builder;
 use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
 use \Magento\Catalog\Service\V1\Product\Link\Data\LinkedProductEntity;
 use \Magento\Framework\Exception\InputException;
@@ -23,14 +22,19 @@ class ReadService implements ReadServiceInterface
     protected $linkTypeProvider;
 
     /**
-     * @var Builder
+     * @var Data\LinkTypeEntityBuilder
      */
     protected $builder;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var ProductLoader
      */
-    protected $productFactory;
+    protected $productLoader;
+
+    /**
+     * @var LinkTypeResolver
+     */
+    protected $linkTypeResolver;
 
     /**
      * @var Data\LinkedProductEntityBuilder
@@ -41,11 +45,6 @@ class ReadService implements ReadServiceInterface
      * @var Data\LinkedProductEntity\CollectionProvider
      */
     protected $entityCollectionProvider;
-
-    /**
-     * @var Logger
-     */
-    protected $logger;
 
     /**
      * @var \Magento\Catalog\Model\Product\LinkFactory
@@ -59,32 +58,32 @@ class ReadService implements ReadServiceInterface
 
     /**
      * @param LinkTypeProvider $linkTypeProvider
-     * @param Builder $builder
+     * @param Data\LinkTypeEntityBuilder $builder
      * @param Data\LinkedProductEntityBuilder $productEntityBuilder
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param Data\LinkedProductEntity\CollectionProvider $entityCollectionProvider
+     * @param ProductLoader $productLoader
+     * @param LinkedProductEntity\CollectionProvider $entityCollectionProvider
      * @param Data\LinkAttributeEntityBuilder $linkAttributeBuilder
      * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
-     * @param Logger $logger
+     * @param LinkTypeResolver $linkTypeResolver
      */
     public function __construct(
         LinkTypeProvider $linkTypeProvider,
-        Builder $builder,
+        Data\LinkTypeEntityBuilder $builder,
         Data\LinkedProductEntityBuilder $productEntityBuilder,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ProductLoader $productLoader,
         Data\LinkedProductEntity\CollectionProvider $entityCollectionProvider,
         Data\LinkAttributeEntityBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
-        Logger $logger
+        LinkTypeResolver $linkTypeResolver
     ) {
         $this->linkTypeProvider = $linkTypeProvider;
         $this->builder = $builder;
-        $this->productFactory = $productFactory;
+        $this->productLoader = $productLoader;
         $this->productEntityBuilder = $productEntityBuilder;
         $this->entityCollectionProvider = $entityCollectionProvider;
         $this->linkFactory = $linkFactory;
         $this->linkAttributeBuilder = $linkAttributeBuilder;
-        $this->logger = $logger;
+        $this->linkTypeResolver = $linkTypeResolver;
     }
 
     /**
@@ -108,22 +107,13 @@ class ReadService implements ReadServiceInterface
     public function getLinkedProducts($productSku, $type)
     {
         $output = [];
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productFactory->create();
-        $productId = $product->getIdBySku($productSku);
-
-        if (!$productId) {
-            throw new InputException('There is no product with provided SKU');
-        }
-        $product->load($productId);
-
+        $product = $this->productLoader->load($productSku);
         try {
-            $typeId = $this->getTypeId($type);
+            $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
             $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
         } catch (\OutOfRangeException $exception) {
-            throw new InputException($exception->getMessage());
+            throw new InputException('Unregistered collection type provider');
         } catch (\InvalidArgumentException $exception) {
-            $this->logger->logException($exception);
             throw new InputException('Link type is not registered');
         }
 
@@ -136,9 +126,7 @@ class ReadService implements ReadServiceInterface
                 LinkedProductEntity::SKU => $item->getSku(),
                 LinkedProductEntity::POSITION => $item->getPosition()
             ];
-            $output[] = $this->productEntityBuilder
-                ->populateWithArray($data)
-                ->create();
+            $output[] = $this->productEntityBuilder->populateWithArray($data)->create();
         }
         return $output;
     }
@@ -148,12 +136,12 @@ class ReadService implements ReadServiceInterface
      */
     public function getLinkAttributes($type)
     {
-        try {
-            $typeId = $this->getTypeId($type);
-        } catch (\OutOfRangeException $exception) {
-            throw new InputException($exception->getMessage());
-        }
         $output = [];
+        try {
+            $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
+        } catch (\InvalidArgumentException $exception) {
+            throw new InputException('Link type is not registered');
+        }
         /** @var \Magento\Catalog\Model\Product\Link $link */
         $link = $this->linkFactory->create(['data' => ['link_type_id' => $typeId]]);
         $attributes = $link->getAttributes();
@@ -162,26 +150,8 @@ class ReadService implements ReadServiceInterface
                 Data\LinkAttributeEntity::CODE => $item['code'],
                 Data\LinkAttributeEntity::TYPE => $item['type'],
             ];
-            $output[] = $this->linkAttributeBuilder
-                ->populateWithArray($data)
-                ->create();
+            $output[] = $this->linkAttributeBuilder->populateWithArray($data)->create();
         }
         return $output;
-    }
-
-    /**
-     * Get link type id by code
-     *
-     * @param string $code
-     * @throws \OutOfRangeException
-     * @return int
-     */
-    protected function getTypeId($code)
-    {
-        $types = $this->linkTypeProvider->getLinkTypes();
-        if (isset($types[$code])) {
-            return $types[$code];
-        }
-        throw new \OutOfRangeException('Unknown link type code is provided');
     }
 }

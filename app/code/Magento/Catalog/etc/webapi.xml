@@ -33,4 +33,10 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/:productSku/links/:type/:linkedProductSku" method="DELETE">
+        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="remove"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
 </routes>
