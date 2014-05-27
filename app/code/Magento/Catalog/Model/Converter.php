@@ -38,15 +38,15 @@ class Converter
      */
     public function createProductDataFromModel(\Magento\Catalog\Model\Product $productModel)
     {
-        $productBuilder = $this->_populateBuilderWithAttributes($productModel);
-        return $productBuilder->create();
+        $this->_populateBuilderWithAttributes($productModel);
+        return $this->productBuilder->create();
     }
 
     /**
      * Loads the values from a product model
      *
      * @param \Magento\Catalog\Model\Product $productModel
-     * @return \Magento\Catalog\Service\V1\Data\ProductBuilder
+     * @return void
      */
     protected function _populateBuilderWithAttributes(\Magento\Catalog\Model\Product $productModel)
     {
@@ -64,6 +64,7 @@ class Converter
             }
         }
 
-        return $this->productBuilder->populateWithArray($attributes);
+        $this->productBuilder->populateWithArray($attributes);
+        return;
     }
 }

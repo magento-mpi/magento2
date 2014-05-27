@@ -135,7 +135,7 @@ class ProductService implements ProductServiceInterface
      * products?searchCriteria[filterGroups][0][filters][0][field]=price&
      * searchCriteria[filterGroups][0][filters][0][value]=16.000&page_size=30&current_page=1&sort_orders[id]=1
      */
-    public function getAll(SearchCriteria $searchCriteria)
+    public function search(SearchCriteria $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */

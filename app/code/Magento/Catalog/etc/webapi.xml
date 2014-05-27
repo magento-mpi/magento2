@@ -22,7 +22,7 @@
         </resources>
     </route>
     <route url="/V1/products" method="GET">
-        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="getAll"/>
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="search"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
