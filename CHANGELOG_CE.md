@@ -1,9 +1,3 @@
-* Framework improvements:
-  * Covered Magento lib form elements with unit tests:
-     * 'lib/Magento/Framework/Event/*'
-     * 'lib/Magento/Framework/Exception/*'
-* Integration tests:
-  * Fixed Integration tests on Windows OS (MAGETWO-21821)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -13,6 +7,13 @@
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
 * Fixed bugs:
+  * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
+  * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
+  * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
+  * Fixed: Wrong message about backordered items in cart on backend (MAGETWO-1275)
+  * Fixed: Validate Each Address Separately in Multi-address Checkout affects ability to proceed to multi-address checkout(MAGETWO-3113)
+  * Fixed: The Minimum Order Amount does not apply to the order(MAGETWO-5814)
+  * Fixed: Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
   * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
   * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
