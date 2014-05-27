@@ -10,9 +10,9 @@ $rootDir = realpath(__DIR__ . '/../../../../../../..');
 require __DIR__ . '/../../../../../../../app/autoload.php';
 (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
     array(
-        $rootDir . '/lib/internal/',
-        $rootDir . '/dev/tests/unit/framework/',
-        $rootDir . '/app/code/',
+        $rootDir . '/lib/internal',
+        $rootDir . '/dev/tests/unit/framework',
+        $rootDir . '/app/code',
         $rootDir . '/app',
     )
 );
