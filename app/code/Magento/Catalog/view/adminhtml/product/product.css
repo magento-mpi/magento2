@@ -504,6 +504,7 @@
 
 /* Change Attribute Set */
 #product_info_tabs li.removed,
+.fieldset-wrapper.removed,
 .field.removed {
     display: none !important;
 }
