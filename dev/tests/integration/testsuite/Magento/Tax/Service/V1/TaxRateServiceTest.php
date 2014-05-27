@@ -47,7 +47,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'region_id' => '8',
             'percentage_rate' => '8.25',
-            'code' => 'US-CA-*-Rate'.rand(),
+            'code' => 'US-CA-*-Rate' . rand(),
             'zip_range' => ['from' => 78765, 'to' => 78780]
         ];
         // Tax rate data object created
@@ -69,12 +69,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test create tax rate existing code
-     *
      * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Code already exists.
      */
-    public function testCreateTaxRateWithModelException()
+    public function testCreateTaxRateDuplicateCodes()
     {
         $invalidTaxData = [
             'country_id' => 'US',
