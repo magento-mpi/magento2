@@ -54,6 +54,7 @@ class CategoryIds implements FixtureInterface
                     [
                         'id' => $category->getId(),
                         'name' => $category->getName(),
+                        'path' => $category->getPath(),
                     ],
                 ];
                 $this->category[] = $category;

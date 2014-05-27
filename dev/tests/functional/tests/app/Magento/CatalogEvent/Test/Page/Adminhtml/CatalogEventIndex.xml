@@ -15,13 +15,13 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>blockEventGrid</name>
+        <name>eventGrid</name>
         <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid</class>
         <locator>#catalogEventGrid</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>blockPageActionsEvent</name>
+        <name>pageActions</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>

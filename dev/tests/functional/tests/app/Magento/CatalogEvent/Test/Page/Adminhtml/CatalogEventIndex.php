@@ -50,7 +50,7 @@ class CatalogEventIndex extends BackendPage
     /**
      * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid
      */
-    public function getBlockEventGrid()
+    public function getEventGrid()
     {
         return $this->getBlockInstance('grid');
     }
@@ -58,7 +58,7 @@ class CatalogEventIndex extends BackendPage
     /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
-    public function getBlockPageActionsEvent()
+    public function getPageActions()
     {
         return $this->getBlockInstance('pageActionsBlock');
     }

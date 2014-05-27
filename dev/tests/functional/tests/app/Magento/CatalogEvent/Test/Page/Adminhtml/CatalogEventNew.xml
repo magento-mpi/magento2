@@ -23,7 +23,7 @@
     <block>
         <name>treeCategories</name>
         <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock</class>
-        <locator>.x-tree-node</locator>
+        <locator>#tree-div</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

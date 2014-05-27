@@ -34,29 +34,42 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 class CreateCatalogEventEntityFromCatalogEventPage extends Injectable
 {
     /**
-     * Product simple fixture
+     * Catalog Event Page
      *
-     * @var CatalogProductSimple
+     * @var CatalogEventNew
      */
-    protected $catalogProductSimple;
+    protected $catalogEventNew;
+
+    /**
+     * Catalog Event Page on the Backend
+     *
+     * @var CatalogEventIndex
+     */
+    protected $catalogEventIndex;
 
     /**
      * @param FixtureFactory $fixtureFactory
-     *
+     * @param CatalogEventIndex $catalogEventIndex
+     * @param CatalogEventNew $catalogEventNew
      * @return array
      */
     public function __inject(
+        CatalogEventIndex $catalogEventIndex,
+        CatalogEventNew $catalogEventNew,
         FixtureFactory $fixtureFactory
     ) {
+        $this->catalogEventIndex = $catalogEventIndex;
+        $this->catalogEventNew = $catalogEventNew;
+
         /**@var CatalogProductSimple $catalogProductSimple */
-        $catalogProductSimple = $fixtureFactory->createByCode(
+        $product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
-        $catalogProductSimple->persist();
+        $product->persist();
 
         return [
-            'catalogProductSimple' => $catalogProductSimple
+            'product' => $product
         ];
     }
 
@@ -64,27 +77,21 @@ class CreateCatalogEventEntityFromCatalogEventPage extends Injectable
      * Create Catalog Event Entity from Catalog Event page
      *
      * @param CatalogEventEntity $catalogEvent
-     * @param CatalogProductSimple $catalogProductSimple
-     * @param CatalogCategoryEntity $catalogCategoryEntity
-     * @param CatalogEventIndex $catalogEventIndex
-     * @param CatalogEventNew $catalogEventNew
+     * @param CatalogProductSimple $product
      * @return void
      */
     public function testCreateCatalogEventFromEventPage(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple,
-        CatalogCategoryEntity $catalogCategoryEntity,
-        CatalogEventIndex $catalogEventIndex,
-        CatalogEventNew $catalogEventNew
+        CatalogProductSimple $product
     ) {
         //Steps
-        $catalogEventIndex->open();
-        $catalogEventIndex->getBlockPageActionsEvent()->addNew();
-        $catalogEventNew->getTreeCategories()
+        $this->catalogEventIndex->open();
+        $this->catalogEventIndex->getPageActions()->addNew();
+        $this->catalogEventNew->getTreeCategories()
             ->selectCategory(
-                $catalogCategoryEntity->getPath() . '/' . $catalogProductSimple->getCategoryIds()[0]['name']
+                $product->getCategoryIds()[0]['path'] . '/' . $product->getCategoryIds()[0]['name']
             );
-        $catalogEventNew->getEventForm()->fill($catalogEvent);
-        $catalogEventNew->getPageActions()->save();
+        $this->catalogEventNew->getEventForm()->fill($catalogEvent);
+        $this->catalogEventNew->getPageActions()->save();
     }
 }
