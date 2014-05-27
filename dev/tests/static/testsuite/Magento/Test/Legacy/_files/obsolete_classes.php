@@ -2504,5 +2504,10 @@ return array(
     ['Magento\OfflinePayments\Block\Info\Ccsave'],
     ['Magento\OfflinePayments\Model\Ccsave'],
     ['Magento\Sales\Model\Payment\Method\Converter'],
-    ['Magento\Payment\Model\Config\Source\Allowedmethods']
+    ['Magento\Payment\Model\Config\Source\Allowedmethods'],
+    ['Magento\Paypal\Model\PayflowDirect'],
+    ['Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PayflowDirect'],
+    ['Magento\PbridgePaypal\Block\Checkout\Payment\PayflowDirect'],
+    ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect'],
+    ['Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Store']
 );

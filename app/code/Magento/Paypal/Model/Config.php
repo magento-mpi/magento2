@@ -29,11 +29,6 @@ class Config
     const METHOD_WPP_DIRECT = 'paypal_direct';
 
     /**
-     * Direct Payments (Payflow Edition)
-     */
-    const METHOD_WPP_PE_DIRECT = 'payflow_direct';
-
-    /**
      * Express Checkout (Payflow Edition)
      */
     const METHOD_WPP_PE_EXPRESS = 'payflow_express';
@@ -187,8 +182,7 @@ class Config
         'paypal_standard' => 'WPS',
         'paypal_express' => 'EC',
         'paypal_direct' => 'DP',
-        'payflow_express' => 'EC',
-        'payflow_direct' => 'DP'
+        'payflow_express' => 'EC'
     );
 
     /**
@@ -721,36 +715,21 @@ class Config
                     break;
                 }
                 // check for direct payments dependence
-                if ($this->isMethodActive(self::METHOD_WPP_DIRECT) || $this->isMethodActive(self::METHOD_WPP_PE_DIRECT)
-                ) {
+                if ($this->isMethodActive(self::METHOD_WPP_DIRECT)) {
                     $result = false;
                 }
                 break;
             case self::METHOD_WPP_EXPRESS:
-                // check for direct payments dependence
-                if ($this->isMethodActive(self::METHOD_WPP_PE_DIRECT)) {
-                    $result = false;
-                } elseif ($this->isMethodActive(self::METHOD_WPP_DIRECT)) {
+                if ($this->isMethodActive(self::METHOD_WPP_DIRECT)) {
                     $result = true;
                 }
                 break;
             case self::METHOD_WPP_PE_EXPRESS:
                 // check for direct payments dependence
-                if ($this->isMethodActive(
-                    self::METHOD_WPP_PE_DIRECT
-                ) || $this->isMethodActive(
-                    self::METHOD_PAYFLOWLINK
-                ) || $this->isMethodActive(
-                    self::METHOD_PAYFLOWADVANCED
-                )
-                ) {
+                if ($this->isMethodActive(self::METHOD_PAYFLOWLINK)
+                    || $this->isMethodActive(self::METHOD_PAYFLOWADVANCED)) {
                     $result = true;
-                } elseif (!$this->isMethodActive(
-                    self::METHOD_WPP_PE_DIRECT
-                ) && !$this->isMethodActive(
-                    self::METHOD_PAYFLOWPRO
-                )
-                ) {
+                } elseif (!$this->isMethodActive(self::METHOD_PAYFLOWPRO)) {
                     $result = false;
                 }
                 break;
@@ -758,7 +737,6 @@ class Config
                 $result = $this->isWppApiAvailabe();
                 break;
             case self::METHOD_WPP_DIRECT:
-            case self::METHOD_WPP_PE_DIRECT:
                 break;
         }
         return $result;
@@ -901,7 +879,6 @@ class Config
             'GB' => array(
                 self::METHOD_WPP_DIRECT,
                 self::METHOD_WPS,
-                self::METHOD_WPP_PE_DIRECT,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_BILLING_AGREEMENT,
@@ -1437,7 +1414,6 @@ class Config
     {
         switch ($code) {
             case self::METHOD_WPP_DIRECT:
-            case self::METHOD_WPP_PE_DIRECT:
             case self::METHOD_PAYFLOWPRO:
             case self::METHOD_PAYFLOWLINK:
             case self::METHOD_PAYFLOWADVANCED:
@@ -1547,7 +1523,6 @@ class Config
                 $path = $this->_mapExpressFieldset($fieldName);
                 break;
             case self::METHOD_WPP_DIRECT:
-            case self::METHOD_WPP_PE_DIRECT:
                 $path = $this->_mapDirectFieldset($fieldName);
                 break;
             case self::METHOD_BILLING_AGREEMENT:
@@ -1565,7 +1540,6 @@ class Config
                     $path = $this->_mapWppFieldset($fieldName);
                     break;
                 case self::METHOD_WPP_PE_EXPRESS:
-                case self::METHOD_WPP_PE_DIRECT:
                 case self::METHOD_PAYFLOWADVANCED:
                 case self::METHOD_PAYFLOWLINK:
                     $path = $this->_mapWpukFieldset($fieldName);
@@ -1719,10 +1693,7 @@ class Config
         )
         ) {
             $pathPrefix = 'payment/payflow_advanced';
-        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS && !$this->isMethodAvailable(
-            self::METHOD_WPP_PE_DIRECT
-        )
-        ) {
+        } elseif ($this->_methodCode == self::METHOD_WPP_PE_EXPRESS) {
             $pathPrefix = 'payment/payflowpro';
         } elseif ($this->_methodCode == self::METHOD_PAYFLOWADVANCED || $this->_methodCode == self::METHOD_PAYFLOWLINK
         ) {
