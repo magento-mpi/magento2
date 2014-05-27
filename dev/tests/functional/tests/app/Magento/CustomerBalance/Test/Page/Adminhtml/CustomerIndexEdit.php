@@ -28,18 +28,20 @@ class CustomerIndexEdit extends ParentCustomerIndexEdit
     {
         parent::_init();
 
-        $this->_blocks['customerForm'] = [
-            'name' => 'customerForm',
-            'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Edit\Form',
-            'locator' => '[id="page:main-container"]',
-            'strategy' => 'css selector',
-        ];
-        $this->_blocks['balanceHistoryGrid'] = [
-            'name' => 'balanceHistoryGrid',
-            'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Edit\BalanceHistoryGrid',
-            'locator' => '#historyGrid_table',
-            'strategy' => 'css selector',
-        ];
+        $this->_blocks = [
+            'customerForm' => [
+                'name' => 'customerForm',
+                'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Edit\Form',
+                'locator' => '[id="page:main-container"]',
+                'strategy' => 'css selector',
+            ],
+            'balanceHistoryGrid' => [
+                'name' => 'balanceHistoryGrid',
+                'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab\Balance\History\Grid',
+                'locator' => '#historyGrid_table',
+                'strategy' => 'css selector',
+            ]
+        ] + $this->_blocks;
     }
 
     /**
@@ -51,7 +53,7 @@ class CustomerIndexEdit extends ParentCustomerIndexEdit
     }
 
     /**
-     * @return \Magento\CustomerBalance\Test\Block\Adminhtml\Edit\BalanceHistoryGrid
+     * @return \Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab\Balance\History\Grid
      */
     public function getBalanceHistoryGrid()
     {

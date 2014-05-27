@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerBalance\Test\Block\Adminhtml\Edit;
+namespace Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Backend\Test\Block\Widget\Tab as AbstractTab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Form
- * Form for creation of the customer
+ * Class Tab
+ * Store credit tab
  */
 class Tab extends AbstractTab
 {
@@ -26,6 +26,13 @@ class Tab extends AbstractTab
     protected $storeCreditBalance = './/*[@id="Store_Credit"]//*[@data-column="amount"]';
 
     /**
+     * Field set
+     *
+     * @var string
+     */
+    protected $fieldSetStoreCredit = '#_customerbalancestorecreidt_fieldset';
+
+    /**
      * Fill data to fields on tab
      *
      * @param array $fields
@@ -34,7 +41,7 @@ class Tab extends AbstractTab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $this->waitForElementVisible('#_customerbalancestorecreidt_fieldset');
+        $this->waitForElementVisible($this->fieldSetStoreCredit);
         $data = $this->dataMapping($fields);
         $this->_fill($data, $element);
 
@@ -44,7 +51,7 @@ class Tab extends AbstractTab
     /**
      * Check store credit balance history
      *
-     * @param $value
+     * @param string $value
      * @return bool
      */
     public function isStoreCreditBalance($value)

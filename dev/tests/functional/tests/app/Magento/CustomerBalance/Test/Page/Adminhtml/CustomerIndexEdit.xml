@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>balanceHistoryGrid</name>
-        <class>Magento\CustomerBalance\Test\Block\Adminhtml\Edit\BalanceHistoryGrid</class>
+        <class>Magento\CustomerBalance\Test\Block\Adminhtml\Customer\Edit\Tab\Balance\History\Grid</class>
         <locator>#historyGrid_table</locator>
         <strategy>css selector</strategy>
     </block>

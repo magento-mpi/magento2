@@ -12,18 +12,19 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\CustomerBalance\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Mtf\TestCase\Injectable;
+use \Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureFactory;
 
 /**
  * Cover creating CustomerBalanceEntity with fucntional tests designed for automation
  *
  * *Precondition:*
- * Default customer is created
+ * 1. Default customer is created
  *
  * Test Flow:
  * 1. Login to backend as admin
  * 2. Navigate to CUSTOMERS->All Customers
- * 3. Open customer from precondiitons
+ * 3. Open customer from preconditions
  * 4. Open "Store Credit" tab
  * 5. Fill form with test data
  * 6. Click "Save Customer" button
@@ -37,7 +38,7 @@ class CreatingCustomerBalanceEntityTest extends Injectable
     /**
      * Customer fixture
      *
-     * @var \Magento\Customer\Test\Fixture\CustomerInjectable
+     * @var CustomerInjectable
      */
     protected $customer;
 
