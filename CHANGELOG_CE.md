@@ -76,7 +76,6 @@
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
-  * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome, FF browser (MAGETWO-23564)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
 * Functional tests:
   * Tax Rule Creation
