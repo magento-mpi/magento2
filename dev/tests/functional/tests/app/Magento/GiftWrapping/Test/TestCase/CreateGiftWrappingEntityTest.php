@@ -26,7 +26,7 @@ use Mtf\TestCase\Injectable;
  * 6. Perform asserts
  *
  * @group Gift_Wrapping_(CS)
- * @ZephyrId MTA-171
+ * @ZephyrId MAGETWO-24797
  */
 class CreateGiftWrappingEntityTest extends Injectable
 {
@@ -51,10 +51,8 @@ class CreateGiftWrappingEntityTest extends Injectable
      * @param GiftWrappingNew $giftWrappingNewPage
      * @return void
      */
-    public function __inject(
-        GiftWrappingIndex $giftWrappingIndexPage,
-        GiftWrappingNew $giftWrappingNewPage
-    ) {
+    public function __inject(GiftWrappingIndex $giftWrappingIndexPage, GiftWrappingNew $giftWrappingNewPage)
+    {
         $this->giftWrappingIndexPage = $giftWrappingIndexPage;
         $this->giftWrappingNewPage = $giftWrappingNewPage;
     }

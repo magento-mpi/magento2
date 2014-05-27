@@ -64,27 +64,27 @@ class AssertGiftWrappingForm extends AbstractConstraint
      */
     protected function verifyForm(array $formData, array $fixtureData)
     {
-        $errorMessage = [];
+        $errorMessages = [];
 
         foreach ($fixtureData as $key => $value) {
             if (is_array($value)) {
                 $diff = array_diff($value, $formData[$key]);
                 $diff = array_merge($diff, array_diff($formData[$key], $value));
                 if (!empty($diff)) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
+                    $errorMessages[] = "Data in " . $key . " field not equal."
                         . "\nExpected: " . implode(", ", $value)
                         . "\nActual: " . implode(", ", $formData[$key]);
                 }
             } else {
                 if ($value !== $formData[$key]) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
+                    $errorMessages[] = "Data in " . $key . " field not equal."
                         . "\nExpected: " . $value
                         . "\nActual: " . $formData[$key];
                 }
             }
         }
 
-        return $errorMessage;
+        return $errorMessages;
     }
 
     /**

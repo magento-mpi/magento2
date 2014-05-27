@@ -8,13 +8,13 @@
 
 namespace Magento\GiftWrapping\Test\Block\Adminhtml;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 
 /**
  * Class Grid
  * Adminhtml Gift Wrapping management grid
  */
-class Grid extends GridInterface
+class Grid extends ParentGrid
 {
     /**
      * Initialize block elements
