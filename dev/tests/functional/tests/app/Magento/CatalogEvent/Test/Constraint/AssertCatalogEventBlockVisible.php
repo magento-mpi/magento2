@@ -69,7 +69,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      * @param CatalogEventEntity $catalogEventOriginal
      *
@@ -79,7 +79,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         CmsIndex $cmsIndex,
         CatalogEventEntity $catalogEvent,
         CatalogCategoryView $catalogCategoryView,
-        CatalogProductSimple $catalogProductSimple,
+        CatalogProductSimple $product,
         CatalogProductView $catalogProductView,
         CatalogEventEntity $catalogEventOriginal = null
     ) {
@@ -87,18 +87,13 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
 
-        $this->categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
-        $this->productName = $catalogProductSimple->getName();
+        $this->categoryName = $product->getCategoryIds()[0]['name'];
+        $this->productName = $product->getName();
 
-        if ($catalogEventOriginal !== null) {
-            $catalogEventData = array_merge($catalogEventOriginal->getData(), $catalogEvent->getData());
-            $pageEvent = $catalogEventData['display_state'];
-            $this->checkEvent($pageEvent);
-        } else {
-            $catalogEventData = $catalogEvent->getData();
-            $pageEvent = $catalogEventData['display_state'];
-            $this->checkEvent($pageEvent);
-        }
+        $catalogEventData = ($catalogEventOriginal !== null)
+            ? array_merge($catalogEventOriginal->getData(), $catalogEvent->getData())
+            : $catalogEvent->getData();
+        $this->checkEvent($catalogEventData['display_state']);
     }
 
     /**

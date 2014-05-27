@@ -67,7 +67,7 @@ class AssertCatalogEventBlockAbsent extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      *
      * @return void
@@ -75,15 +75,15 @@ class AssertCatalogEventBlockAbsent extends AbstractConstraint
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
-        CatalogProductSimple $catalogProductSimple,
+        CatalogProductSimple $product,
         CatalogProductView $catalogProductView
     ) {
         $this->catalogCategoryView = $catalogCategoryView;
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
 
-        $this->categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
-        $this->productName = $catalogProductSimple->getName();
+        $this->categoryName = $product->getCategoryIds()[0]['name'];
+        $this->productName = $product->getName();
 
         $this->checkEventBlockOnCategoryPageAbsent();
         $this->checkEventBlockOnProductPageAbsent();

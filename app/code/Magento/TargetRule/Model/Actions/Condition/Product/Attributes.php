@@ -348,9 +348,8 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
                 $select->where('category_id IN(?)', $subSelect);
             } else {
                 //self::VALUE_TYPE_CONSTANT
-                $operator = $operator == '==' ? '' : 'NOT';
                 $value = $resource->bindArrayOfIds($this->getValue());
-                $where = "category_id {$operator} IN(" . implode(',', $value) . ")";
+                $where = $resource->getOperatorCondition('category_id', $operator, $value);
                 $select->where($where);
             }
 
