@@ -132,7 +132,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testGetReturnableItems()
     {
         $data = ['item' => ['item_id' => 5, 'remaining_qty' => 3]];
-        $items= [5 => 3];
+        $items = [5 => 3];
         $adapterMock = $this->getAdapterMock($data);
         $this->resourceModel->setConnection($adapterMock);
         $orderId = 1000001;

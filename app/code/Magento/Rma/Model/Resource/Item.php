@@ -237,7 +237,8 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->_getReadAdapter();
 
         $subSelect = $adapter->select()
-            ->from(['rma' => $this->getTable('magento_rma')],
+            ->from(
+                ['rma' => $this->getTable('magento_rma')],
                 [
                     new \Zend_Db_Expr('SUM(qty_requested)')
                 ]
@@ -254,7 +255,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 ),
                 [Status::STATE_CLOSED, Status::STATE_PROCESSED_CLOSED]
             );
-        $subSelect  = $adapter->getIfNullSql($subSelect, 0);
+        $subSelect = $adapter->getIfNullSql($subSelect, 0);
 
         $mainSelect = $adapter->select()
             ->from(
@@ -267,15 +268,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             ->where(sprintf('order_item.qty_shipped > %s', $subSelect))
             ->where('order_item.order_id = ?', $orderId);
 
-        $items = $adapter->fetchAll($mainSelect) ;
-        $result = [];
-        if (is_array($items)) {
-            foreach ($items as $item) {
-                $result[$item['item_id']] = $item['remaining_qty'];
-            }
-        }
-
-        return $result;
+        return $adapter->fetchPairs($mainSelect);
     }
 
     /**
@@ -335,7 +328,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
-            $canReturn = array_key_exists($item->getId(), $returnableItems);
+            $canReturn = isset($returnableItems[$item->getId()]);
             $canReturnProduct = $this->_rmaData->canReturnProduct($product, $item->getStoreId());
             if (!$canReturn || !$canReturnProduct) {
                 $orderItemsCollection->removeItemByKey($item->getId());

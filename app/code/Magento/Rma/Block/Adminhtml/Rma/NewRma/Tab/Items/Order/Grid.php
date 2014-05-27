@@ -146,7 +146,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $product = $this->_productFactory->create();
 
         foreach ($fullItemsCollection as $item) {
-            $allowed = array_key_exists($item->getId(), $returnableItems);
+            $allowed = isset($returnableItems[$item->getId()]);
 
             if ($allowed === true) {
                 $product->reset();
@@ -180,7 +180,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             }
             if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE && !isset(
                 $parent[$item->getId()]['child']
-            )
+                )
             ) {
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
