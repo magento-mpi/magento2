@@ -111,7 +111,7 @@ class OauthV1 implements OauthV1Interface
             throw $exception;
         } catch (\Exception $exception) {
             throw new \Magento\Framework\Oauth\Exception(
-                __('Unexpected error. Unable to create oAuth consumer account.')
+                'Unexpected error. Unable to create oAuth consumer account.'
             );
         }
     }
@@ -168,7 +168,7 @@ class OauthV1 implements OauthV1Interface
             throw $exception;
         } catch (\Exception $exception) {
             throw new \Magento\Framework\Oauth\Exception(
-                __('Unexpected error. Unable to load oAuth consumer account.')
+                'Unexpected error. Unable to load oAuth consumer account.'
             );
         }
     }
@@ -184,7 +184,7 @@ class OauthV1 implements OauthV1Interface
             throw $exception;
         } catch (\Exception $exception) {
             throw new \Magento\Framework\Oauth\Exception(
-                __('Unexpected error. Unable to load oAuth consumer account.')
+                'Unexpected error. Unable to load oAuth consumer account.'
             );
         }
     }
@@ -197,9 +197,8 @@ class OauthV1 implements OauthV1Interface
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             if (!$consumer->getId()) {
-                throw new \Magento\Framework\Oauth\Exception(
-                    __('A consumer with ID %1 does not exist', $consumerId),
-                    OauthInterface::ERR_PARAMETER_REJECTED
+                throw new \Magento\Framework\Oauth\OauthInputException(
+                    'A consumer with ID %1 does not exist', [$consumerId]
                 );
             }
             $consumerData = $consumer->getData();
@@ -226,7 +225,7 @@ class OauthV1 implements OauthV1Interface
         } catch (\Exception $exception) {
             $this->_logger->logException($exception);
             throw new \Magento\Framework\Oauth\Exception(
-                __('Unable to post data to consumer due to an unexpected error')
+                'Unable to post data to consumer due to an unexpected error'
             );
         }
     }

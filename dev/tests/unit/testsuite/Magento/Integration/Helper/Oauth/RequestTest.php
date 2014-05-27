@@ -41,12 +41,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                new \Magento\Framework\Oauth\Exception('msg', OauthInterface::ERR_VERSION_REJECTED),
+                new \Magento\Framework\Oauth\OauthInputException('msg'),
                 new \Zend_Controller_Response_Http(),
                 array('version_rejected&message=msg', \Magento\Framework\Oauth\Helper\Request::HTTP_BAD_REQUEST)
             ),
             array(
-                new \Magento\Framework\Oauth\Exception('msg', 255),
+                new \Magento\Framework\Oauth\Exception('msg'),
                 new \Zend_Controller_Response_Http(),
                 array(
                     'unknown_problem&code=255&message=msg',
@@ -54,7 +54,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                new \Magento\Framework\Oauth\Exception('param', OauthInterface::ERR_PARAMETER_ABSENT),
+                new \Magento\Framework\Oauth\OauthInputException('param'),
                 new \Zend_Controller_Response_Http(),
                 array(
                     'parameter_absent&oauth_parameters_absent=param',
