@@ -33,11 +33,6 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
     protected $_defaultCountry;
 
     /**
-     * @var \Magento\Framework\Escaper
-     */
-    protected $_escaper;
-
-    /**
      * @var \Magento\Backend\Model\Url
      */
     protected $_url;
@@ -59,7 +54,6 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Backend\Model\Url $url
      * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param \Magento\Core\Helper\Data $coreHelper
@@ -67,8 +61,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\Escaper $escaper,
+        \Magento\Backend\Block\Template\Context $context
         \Magento\Backend\Model\Url $url,
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Core\Helper\Data $coreHelper,
@@ -76,7 +69,6 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_escaper = $escaper;
         $this->_url = $url;
         $this->_jsHelper = $jsHelper;
         $this->_coreHelper = $coreHelper;

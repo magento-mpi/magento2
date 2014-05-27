@@ -13,11 +13,6 @@ namespace Magento\Paypal\Helper;
 class Backend extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $_request;
-
-    /**
      * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
@@ -29,18 +24,15 @@ class Backend extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Backend\Model\Config $backendConfig
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\App\RequestInterface $request,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Backend\Model\Config $backendConfig
     ) {
         parent::__construct($context);
-        $this->_request = $request;
         $this->_coreHelper = $coreHelper;
         $this->_backendConfig = $backendConfig;
     }

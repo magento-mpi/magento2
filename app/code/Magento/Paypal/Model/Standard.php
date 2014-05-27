@@ -297,7 +297,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getConfigData($field, $storeId = null)
     {
-        return $this->getConfig()->{$field};
+        return $this->getConfig()->getConfigValue($field);
     }
 
     /**
