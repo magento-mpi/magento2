@@ -44,7 +44,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     protected $_redirectMock;
 
     /*
-     * Full actio name
+     * Full action name
      */
     const FULL_ACTION_NAME = 'module/controller/someaction';
 

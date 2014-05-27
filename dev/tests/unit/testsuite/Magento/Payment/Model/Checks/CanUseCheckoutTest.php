@@ -24,7 +24,7 @@ class CanUseCheckoutTest extends \PHPUnit_Framework_TestCase
      * @dataProvider paymentMethodDataProvider
      * @param bool $expectation
      */
-    public function testIsApplicableFalse($expectation)
+    public function testIsApplicable($expectation)
     {
         $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')->disableOriginalConstructor()->setMethods(
             []
