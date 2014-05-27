@@ -118,7 +118,7 @@ class LibraryTest extends \PHPUnit_Framework_TestCase
 
         $this->libraryDirectoryMock->expects($this->any())->method('search')->will($this->returnValue($libraryFiles));
         $this->libraryDirectoryMock->expects($this->any())->method('getAbsolutePath')->will($this->returnCallback(
-                function($file) {
+                function ($file) {
                     return '/opt/Magneto/lib/' . $file;
                 }
             ));
