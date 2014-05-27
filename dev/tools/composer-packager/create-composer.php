@@ -8,14 +8,13 @@
 
 require __DIR__ . '/../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../');
-$generationDir = BP . '/packages';
+$generationDir = __DIR__ . '/packages';
 $logger;
 try {
     $opt = new Zend_Console_Getopt(
         array(
             'verbose|v' => 'Detailed console logs',
-            'output|o=s' => 'generation dir. Default value ' . $generationDir,
-            'clean|c' => 'Clean composer.json files from each component'
+            'clean|c' => 'Clean composer.json files from each component',
         )
     );
     $opt->parse();
@@ -35,24 +34,24 @@ try {
     $frontEndThemeExtractor = new \Magento\Composer\Extractor\FrontendThemeExtractor($rootDir, $logger);
 
     $modules = $moduleExtractor->extract();
-    $logger->debug("Completed creating %3d modules.", sizeof($modules));
+    $logger->debug("Read %3d modules.", sizeof($modules));
     $adminThemes = $adminThemeExtractor->extract();
-    $logger->debug("Completed creating %3d admin themes.", sizeof($adminThemes));
+    $logger->debug("Read %3d admin themes.", sizeof($adminThemes));
     $frontendThemes = $frontEndThemeExtractor->extract();
-    $logger->debug("Completed creating %3d frontend themes.", sizeof($frontendThemes));
+    $logger->debug("Read %3d frontend themes.", sizeof($frontendThemes));
 
     $components = array_merge( $modules, $adminThemes, $frontendThemes);
     if($opt->getOption('c')){
         $cleaner = new \Magento\Composer\Helper\ComposerCleaner($components, $logger);
         $cleanCount = $cleaner->clean();
-        $logger->log("SUCCESS: Cleaned %3d components.", $cleanCount);
+        $logger->log("SUCCESS: Cleaned %3d components.\n", $cleanCount);
         return;
     }
-   // $logger->log("SUCCESS: Created %3d components.\n", sizeof($components));
+    // $logger->log("SUCCESS: Created %3d components.\n", sizeof($components));
 
     $composerCreator = new \Magento\Composer\Creator\ComposerCreator($components, $logger);
     $successCount = $composerCreator->create();
-    $logger->log("SUCCESS: Created %3d components.", $successCount);
+    $logger->log("SUCCESS: Created %3d components. \n", $successCount);
 
 } catch (Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());

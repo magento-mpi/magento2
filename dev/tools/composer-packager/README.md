@@ -1,27 +1,34 @@
 composer-packager
 =================
 
-The tool that helps you pacakge magento source code into composer packages. 
+A tool that helps you pacakge magento source code into composer packages. 
 
-This tool uses the information stored in etc/module.xml of each module, and create a composer package file out of it. 
-The dependency's version are determined based on the module.xml file of those modules. The versions are modified to wrap upto 4 decimals.
-
-Here are the steps that the tool would follow: 
-
-1. Iterate through each Modules in /app/code/Magento folder, and create a Module class.
-2. Insert the information about version.
-3. Iterate through each dependencies, and check if Module Class exists for it. If so, add it to the dependency. 
-4. If not, create one, and add it to dependency.
-5. After iterating through all of the code, you should have an array of all modules with their versions and dependencies resolved.
-6. Start creating composer package file, for each module, and insert all necessary information. 
-7. Zip each module, and place it on /dev/composer-package/packages folder.
-
-Installation Instructions
+Uses
 ---
-The source code is supposed to be copied over to 
-<Magento Root>/dev/tools folder. 
+This tool uses the package identifier of each package, and create a composer package based on that information. 
+The dependency's version are determined based on the information provided in identifier file of those packages. 
+The versions are modified to wrap upto 4 decimals. This will soon be fixed when the new versioning policy takes place.
+It also includes script to archive zip each package, and store it in a specified location.
 
-After downloading the code to right place, you can run 
-  php -f create-composer.php -- -v
-  
-This will create the folder 'packages' inside /dev/tools/composer-packager, and dump zip folders for each magento core modules located in /app/code/ folder.
+Instructions
+---
+The tool is located at dev/tools/composer-packager 
+
+Help
+---
+
+```shell
+> php -f create-composer.php -- -help
+Usage: create-composer.php [ options ]
+--verbose|-v         Detailed console logs
+--clean|-c           Clean composer.json files from each component
+
+```
+
+```shell
+> php -f archiver.php -- -help
+Usage: archiver.php [ options ]
+--verbose|-v         Detailed console logs
+--output|-o <string> Generation dir. Default value magento2/dev/tools/composer-packager/packages
+
+```

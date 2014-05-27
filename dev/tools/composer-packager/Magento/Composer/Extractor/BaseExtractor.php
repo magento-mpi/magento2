@@ -54,7 +54,7 @@ abstract class BaseExtractor implements  \Magento\Composer\Extractor{
                 $component->addDependencies($dependentComponent);
             }
         }
-        $this->_logger->debug("Created Component %-40s [%9s] with %2d dependencies", $component->getName(), $component->getVersion(), sizeof($component->getDependencies()));
+        $this->_logger->debug("Extracted Component %-40s [%9s] with %2d dependencies", $component->getName(), $component->getVersion(), sizeof($component->getDependencies()));
         return $component;
     }
 
