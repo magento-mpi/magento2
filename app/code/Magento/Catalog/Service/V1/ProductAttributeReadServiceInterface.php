@@ -23,7 +23,7 @@ interface ProductAttributeReadServiceInterface
     /**
      * Get full information about a required attribute with the list of options
      *
-     * @param  string|int $id
+     * @param  string $id
      * @return mixed
      */
     public function info($id);
