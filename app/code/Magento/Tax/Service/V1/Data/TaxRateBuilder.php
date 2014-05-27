@@ -72,7 +72,7 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     /**
      * Set postcode
      *
-     * @param $postcode
+     * @param string $postcode
      * @return $this
      */
     public function setPostcode($postcode)
