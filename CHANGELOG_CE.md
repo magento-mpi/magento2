@@ -1,4 +1,31 @@
+* Tax calculation updates:
+  * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
+  * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
+  * Fixed tax calculation errors when customer tax rate is different from store tax rate (MAGETWO-24163)
+  * Added support to round tax at individual tax rate (MAGETWO-24163)
+  * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
+  * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
+  * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
 * Fixed bugs:
+  * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
+  * Fixed: Images upload in config looks broken (MAGETWO-15764)
+  * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
+  * Fixed: Page not found on attempt to open link from invitation email (MAGETWO-18652)
+  * Fixed: Adding CMS block Catalog Events Lister causes error (MAGETWO-22314)
+  * Fixed: Price is displayed twice on "Product" frontend page (MAGETWO-23914)
+  * Fixed: Store admin cannot open search result (MAGETWO-24344)
+  * Fixed: Rule based product relation functionality is generating incorrect SQL when product category attribute set through "is one of" or "contains" operator by constant value (MAGETWO-3185)
+  * Fixed: Cannot add to compare list from category with page layout 3 columns (MAGETWO-24327)
+  * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
+  * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
+  * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
+  * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
+  * Fixed: Variables are not visible in Newsletter Templates (MAGETWO-23975)
+  * 'No files found' displayed in Theme Java Script fieldset (MAGETWO-10592)
+  * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
+  * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
+  * Fixed: Backup is not created by cron (MAGETWO-21355)
+  * Fixed functional tests failing PSR2 test (MAGETWO-24351)
   * Fixed: "Please specify at least one search term." error message is missed in regular search (MAGETWO-23716)
   * Fixed: [GC] Layout is broken during updating status for review (MAGETWO-24071)
   * Fixed: Admin Look&Feel bugs: different (MAGETWO-18200)
@@ -12,6 +39,11 @@
   * Fixed: Bundle Product Price isn't displayed as calculated in floating block (MAGETWO-23919)
   * Fixed: It's impossible to disable debug mode (MAGETWO-22991)
   * Fixed: Page layout minor errors (MAGETWO-24038)
+  * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
+  * Fixed: Incorrect value in the "Grand Total (Base)" column in the Orders grid if Catalog Price Scope" = "Website" (MAGETWO-19335)
+  * Fixed: Entity Generator Tool Doesn't Accept "class" Parameter (MAGETWO-19618)
+  * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
+  * Fixed: Cron job 'magento_logging_rotate_logs' is not processed(processing with error) (MAGETWO-21714)
   * Fixed: Shipping price for flat rate set to 0 in the side block during checkout product with configured recurring profile (MAGETWO-3596)
   * Fixed ability to create more Shipping Labels than products in the shipment (in case with invalid data) (MAGETWO-17266)
   * Fixed missed data about "SHA-IN Pass Phrase" after change "Payment Action" in the Ogone Configuration (MAGETWO-18940)
@@ -26,13 +58,24 @@
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
+  * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
+  * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
+  * Fixed: File permissions change after system backup (MAGETWO-20995)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
 * Functional tests:
   * Tax Rule Creation
-  * Admin User Roe Creation
+  * Admin User Role Creation
   * Simple Product Creation
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+  * Virtual Product Creation
+  * Catalog Price Rule Creation
+  * Category Url Rewrite Creation
+  * Admin User Role Deletion
+* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
+* GitHub requests:
+  * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
 
 2.0.0.0-dev78
 =============
@@ -2714,4 +2757,3 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
-

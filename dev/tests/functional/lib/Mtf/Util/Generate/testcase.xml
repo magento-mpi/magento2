@@ -85,46 +85,82 @@
     </steps>
   </testcase>
   <testcase>
-    <id>MTA-15</id>
-    <ticketId>MTA-15</ticketId>
-    <name>CreateDownloadableProductEntityTest</name>
-    <description>Test Creation for Create DownloadableProductEntity </description>
+    <id>MTA-25</id>
+    <ticketId>MTA-25</ticketId>
+    <name>UpdateProductSimpleEntityTest</name>
+    <description>Cover UpdateProductSimpleEntity with fucntional tests designed for automation</description>
     <module>Catalog</module>
     <components>
-      <component>Downloadable Product (CS)</component>
+      <component>Products (CS)</component>
     </components>
     <steps>
-      <step> Log in to Backend.</step>
-      <step> Navigate to Products &gt; Catalog.</step>
-      <step> Start to create new Downloadable product.</step>
-      <step> Fill in data according to data set.</step>
-      <step> Fill Downloadable Information tab according to data set.</step>
-      <step> Save product.</step>
-      <step> Verify created product.</step>
+      <step>Login to backend.</step>
+      <step>Navigate to PRODUCTS &gt; Catalog.</step>
+      <step>Select a product in the grid.</step>
+      <step>Edit test value(s) according to dataset.</step>
+      <step>Click "Save".</step>
+      <step>Perform asserts</step>
     </steps>
   </testcase>
   <testcase>
-    <id>MTA-322</id>
-    <ticketId>MTA-322</ticketId>
-    <name>UpdateDownloadableProductEntityTest</name>
-    <description>Test Creation for Update DownloadableProductEntity</description>
+    <id>MTA-16</id>
+    <ticketId>MTA-16</ticketId>
+    <name>CreateVirtualProductEntityTest</name>
+    <description>Test Creation for CreateVirtualProductEntity</description>
     <module>Catalog</module>
     <components>
-      <component>Downloadable Product (MX)</component>
+      <component>Virtual Product (CS)</component>
     </components>
     <steps>
-      <step/>
-      <step>+Precondition:+</step>
-      <step> Category is created.</step>
-      <step> Product is created(before each variation).</step>
-      <step/>
-      <step>+Steps:+</step>
-      <step> Login to backend.</step>
-      <step> Navigate to PRODUCTS &gt; Catalog.</step>
-      <step> Search and open product in the grid.</step>
-      <step> Edit test value(s) according to dataset.</step>
-      <step> Click "Save".</step>
-      <step> Perform asserts</step>
+      <step>Login as admin.</step>
+      <step>Navigate to the Products &gt; Inventory &gt; Catalog.</step>
+      <step>Click on "+" dropdown and select Virtual Product type.</step>
+      <step>Fill in all data according to data set.</step>
+      <step>Save product.</step>
+      <step>Verify created product.</step>
     </steps>
   </testcase>
+    <testcase>
+        <id>MTA-15</id>
+        <ticketId>MTA-15</ticketId>
+        <name>CreateDownloadableProductEntityTest</name>
+        <description>Test Creation for Create DownloadableProductEntity </description>
+        <module>Catalog</module>
+        <components>
+            <component>Downloadable Product (CS)</component>
+        </components>
+        <steps>
+            <step> Log in to Backend.</step>
+            <step> Navigate to Products &gt; Catalog.</step>
+            <step> Start to create new Downloadable product.</step>
+            <step> Fill in data according to data set.</step>
+            <step> Fill Downloadable Information tab according to data set.</step>
+            <step> Save product.</step>
+            <step> Verify created product.</step>
+        </steps>
+    </testcase>
+    <testcase>
+        <id>MTA-322</id>
+        <ticketId>MTA-322</ticketId>
+        <name>UpdateDownloadableProductEntityTest</name>
+        <description>Test Creation for Update DownloadableProductEntity</description>
+        <module>Catalog</module>
+        <components>
+            <component>Downloadable Product (MX)</component>
+        </components>
+        <steps>
+            <step/>
+            <step>+Precondition:+</step>
+            <step> Category is created.</step>
+            <step> Product is created(before each variation).</step>
+            <step/>
+            <step>+Steps:+</step>
+            <step> Login to backend.</step>
+            <step> Navigate to PRODUCTS &gt; Catalog.</step>
+            <step> Search and open product in the grid.</step>
+            <step> Edit test value(s) according to dataset.</step>
+            <step> Click "Save".</step>
+            <step> Perform asserts</step>
+        </steps>
+    </testcase>
 </testcases>
