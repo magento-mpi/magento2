@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Service\V1\Data;
 
 class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
@@ -98,5 +103,13 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     public function getUpdatedAt()
     {
         return $this->_get(self::UPDATED_AT);
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getWeight()
+    {
+        return $this->_get(self::WEIGHT);
     }
 }
