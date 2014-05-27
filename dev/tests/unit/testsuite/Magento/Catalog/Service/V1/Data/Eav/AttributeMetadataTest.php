@@ -94,10 +94,12 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
 
         $attributeMetadata = new AttributeMetadata($attributeBuilder);
         $this->assertTrue(is_array($attributeMetadata->getApplyTo()));
+        $this->assertEquals(3, count($attributeMetadata->getApplyTo()));
 
         $attributeBuilder->setApplyTo($applyTo);
         $attributeMetadata = new AttributeMetadata($attributeBuilder);
         $this->assertTrue(is_array($attributeMetadata->getApplyTo()));
+        $this->assertEquals(3, count($attributeMetadata->getApplyTo()));
     }
 
     public function applyToDataProvider()
