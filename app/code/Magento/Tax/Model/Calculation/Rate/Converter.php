@@ -13,7 +13,6 @@ use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder as TaxRateDataObjectBuilder;
 use Magento\Tax\Service\V1\Data\ZipRangeBuilder as ZipRangeDataObjectBuilder;
 
-
 /**
  * Tax Rate Model converter.
  *
