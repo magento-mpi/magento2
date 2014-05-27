@@ -14,7 +14,8 @@ class CreateOrderTest extends \Magento\Backend\Utility\Controller
 {
     public function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-23885: Remove Saved Credit Card payment method');
+        parent::setUp();
+        $this->markTestIncomplete('MAGETWO-24796: [TD] Fix integration test according to story MAGETWO-23885');
     }
 
     /**
