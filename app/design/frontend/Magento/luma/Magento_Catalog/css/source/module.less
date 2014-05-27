@@ -398,14 +398,18 @@
         .font-size(@font-size-s);
     }
     .product.thumbs {
-        margin: @indent-base 0 @indent-l-base;
+        margin: 15px 0 55px;
     }
     .items.thumbs {
         .list-inline();
+        > li {
+            margin: 10px 0 0;
+            margin: 1rem 0 0;
+        }
         .active {
             display: block;
             line-height: 1;
-            outline: @border-width-base solid @link-color-active;
+            outline: @border-width-base solid @gallery-thumb-border-color-active;
         }
     }
 }
@@ -442,7 +446,7 @@
         vertical-align: top;
     }
     .stock {
-        margin-top: 4px;
+        margin: 4px 0 3px;
         &.available,
         &.unavailable {
             font-weight: @font-weight-bold;
@@ -457,7 +461,6 @@
 
         &.attibute {
             &.sku {
-                font-size: floor(0.8 * @font-size-base);
                 .type {
                     font-weight: normal;
                     &:after {
@@ -478,7 +481,7 @@
     }
 
     .price {
-        font-weight: @font-weight-bold;
+        font-weight: @font-weight-semibold;
     }
 
     .price-box {
@@ -521,16 +524,41 @@
         .action.tocart {
             .button-l();
             &:extend(.button-responsive all);
+            margin-bottom: 10px;
+            vertical-align: top;
         }
     }
     .addto {
-        margin: @indent-base 0;
-    }
-    .action.tocompare {
-        &:extend(.action-link-button all);
-        .button-s();
+        display: inline-block;
+        &:not(:last-child) {
+            margin-right: 20px;
+        }
     }
     .product.reviews.summary {
+    }
+}
+
+.product.social.links {
+    margin: 0 0 20px;
+    .action {
+        color: #999;
+        display: inline-block;
+        line-height: 44px;
+        margin-left: -13px;
+        text-transform: uppercase;
+        .icon-font(
+            @_icon-font-content: @icon-compare-full,
+            @_icon-font-size: 44px,
+            @_icon-font-line-height: 44px,
+            @_icon-font-vertical-align: top
+        );
+        &:hover {
+            color: @color-primary;
+            text-decoration: none;
+        }
+        &:not(:last-child) {
+            margin-right: 20px;
+        }
     }
 }
 
@@ -636,6 +664,15 @@
 .responsive(@break) when (@break = @break-point-1) {
     .product.add.form {
         &:extend(.revert-field-type-desktop all);
+        .product.options.wrapper .field:not(.date) {
+            input[type="text"],
+            select,
+            textarea {
+                min-width: 300px;
+                max-width: 300px;
+                width: auto;
+            }
+        }
     }
     .products {
         &.toolbar {

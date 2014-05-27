@@ -1,0 +1,114 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.form.wishlist.items {
+    .actions.toolbar {
+        &:extend(.reset-left-margin all);
+    }
+}
+
+.product.info.main {
+    .action.towishlist {
+        .icon-font-symbol(
+            @_icon-font-content: @icon-wishlist-full,
+            @_icon-font-position: before
+        );
+    }
+}
+
+.account .table.wrapper .data.table.wishlist {
+    .table-bordered(@_type: horizontal);
+    thead > tr > th {
+        border-bottom: 0;
+    }
+    tbody > tr:last-child > td {
+        border-bottom: 1px solid @table-border-color;
+    }
+    .product.name {
+        display: inline-block;
+        margin-bottom: @indent-s-base;
+    }
+    .box.tocart {
+        margin: @indent-s-base 0;
+        .qty {
+            vertical-align: middle;
+            &:extend(.input-qty all);
+        }
+    }
+    .col {
+        &.item {
+            width: 50%;
+        }
+        &.photo {
+            max-width: 150px;
+        }
+        &.selector {
+            max-width: 15px;
+        }
+    }
+    textarea {
+        margin: 10px 0;
+    }
+    .input-text.qty {
+        margin-bottom: 10px;
+    }
+    .action.primary {
+        vertical-align: top;
+    }
+    .price {
+        font-weight: @font-weight-bold;
+    }
+}
+
+.block.wishlist {
+    .item.product {
+        margin-bottom: 14px;
+        > .product {
+            position: relative;
+            .product.photo {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .product.details {
+                margin: 0 25px 0 64px;
+                padding: 0;
+            }
+        }
+    }
+    .price-box {
+        display: block;
+        margin: 7px 0;
+    }
+    .actions {
+        margin: 7px 0;
+        .action.delete {
+            &:extend(.remove-button-for-blocks all);
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        a.action.tocart {
+            .link-as-button();
+        }
+        .action.tocart {
+            padding: 0 7px;
+        }
+    }
+    .text {
+        margin-right: 8px;
+    }
+    .counter.qty {
+        color: #999;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+    .column.sidebar & .subtitle {
+        display: none;
+    }
+}
