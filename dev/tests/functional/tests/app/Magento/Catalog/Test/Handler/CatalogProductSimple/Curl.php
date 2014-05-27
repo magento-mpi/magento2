@@ -28,14 +28,31 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @var array
      */
     protected $placeholderData = [
-        'Yes' => 1,
-        'In Stock' => 1,
-        'Catalog, Search' => 4,
-        'Taxable Goods' => 2,
-        'Main Website' => 1,
-        'Product offline' => 2,
-        'Product online' => 1,
-        'Default' => 4
+        'is_virtual' => [
+            'Yes' => 1
+        ],
+        'inventory_manage_stock' => [
+            'Yes' => 1
+        ],
+        'quantity_and_stock_status' => [
+            'In Stock' => 1
+        ],
+        'visibility' => [
+            'Catalog, Search' => 4
+        ],
+        'tax_class_id' => [
+            'Taxable Goods' => 2
+        ],
+        'website_ids' => [
+            'Main Website' => 1
+        ],
+        'status' => [
+            'Product offline' => 2,
+            'Product online' => 1,
+        ],
+        'attribute_set_id' => [
+            'Default' => 4
+        ]
     ];
 
     /**
@@ -61,7 +78,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             array_walk_recursive(
                 $data,
                 function(&$item, $key, $placeholder) {
-                    $item = isset($placeholder[$item]) ? $placeholder[$item] : $item;
+                    $item = isset($placeholder[$key][$item]) ? $placeholder[$key][$item] : $item;
                 },
                 $this->placeholderData
             );

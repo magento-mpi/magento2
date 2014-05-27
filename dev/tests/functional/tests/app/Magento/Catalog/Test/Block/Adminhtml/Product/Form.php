@@ -75,18 +75,11 @@ class Form extends FormTabs
     protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
 
     /**
-     * Locator status of products - status On
+     * CSS locator button status of the product
      *
      * @var string
      */
-    protected $onlineSwitcherOn = '#product-online-switcher:checked + [for="product-online-switcher"]';
-
-    /**
-     * Locator status of products - status Off
-     *
-     * @var string
-     */
-    protected $onlineSwitcherOff = '#product-online-switcher:not(:checked) + [for="product-online-switcher"]';
+    protected $onlineSwitcher = '#product-online-switcher%s + [for="product-online-switcher"]';
 
     /**
      * Category fixture
@@ -114,13 +107,11 @@ class Form extends FormTabs
         if ($fixture instanceof InjectableFixture) {
             $status = $fixture->getStatus();
             if ($status === 'Product offline'
-                && $this->_rootElement->find($this->onlineSwitcherOn)->isVisible()
+                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible()
+                || $status === 'Product online'
+                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':not(:checked)'))->isVisible()
             ) {
-                $this->_rootElement->find($this->onlineSwitcherOn)->click();
-            } elseif ($status === 'Product online'
-                && $this->_rootElement->find($this->onlineSwitcherOff)->isVisible()
-            ) {
-                $this->_rootElement->find($this->onlineSwitcherOff)->click();
+                $this->_rootElement->find(sprintf($this->onlineSwitcher, ''))->click();
             }
         }
 

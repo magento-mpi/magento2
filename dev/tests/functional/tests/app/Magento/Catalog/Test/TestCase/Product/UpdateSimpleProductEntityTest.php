@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  *
  * Precondition:
  * Category is created.
- * Product is created.
+ * Product is created and assigned to created category.
  *
  * Steps:
  * 1. Login to backend.
@@ -30,7 +30,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * 3. Select a product in the grid.
  * 4. Edit test value(s) according to dataset.
  * 5. Click "Save".
- * 6. Perform asserts
+ * 6. Perform asserts.
  *
  * @group Products_(CS)
  * @ZephyrId MAGETWO-23544
@@ -57,6 +57,20 @@ class UpdateSimpleProductEntityTest extends Injectable
      * @var CatalogProductEdit
      */
     protected $editProductPage;
+
+    /**
+     * Prepare data
+     *
+     * @param CatalogCategoryEntity $category
+     * @return array
+     */
+    public function __prepare(CatalogCategoryEntity $category)
+    {
+        $category->persist();
+        return [
+            'category' => $category
+        ];
+    }
 
     /**
      * Injection data
@@ -88,20 +102,6 @@ class UpdateSimpleProductEntityTest extends Injectable
 
         $this->productGrid = $productGrid;
         $this->editProductPage = $editProductPage;
-    }
-
-    /**
-     * Prepare data
-     *
-     * @param CatalogCategoryEntity $category
-     * @return array
-     */
-    public function __prepare(CatalogCategoryEntity $category)
-    {
-        $category->persist();
-        return [
-            'category' => $category
-        ];
     }
 
     /**
