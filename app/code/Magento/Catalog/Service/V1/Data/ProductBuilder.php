@@ -15,7 +15,7 @@ use Magento\Catalog\Service\V1\Data\Product;
  * Class ProductBuilder
  * @package Magento\Catalog\Service\V1\Data
  */
-class ProductBuilder extends \Magento\Framework\Service\Data\EAV\AbstractObjectBuilder
+class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
      * @var ProductMetadataServiceInterface

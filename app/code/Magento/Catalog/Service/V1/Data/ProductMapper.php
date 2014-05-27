@@ -15,7 +15,7 @@ class ProductMapper
     protected $productFactory;
 
     /** @var  \Magento\Catalog\Model\Product\Type */
-    protected$productTypes;
+    protected $productTypes;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory

@@ -62,7 +62,6 @@ class ProductService implements ProductServiceInterface
         try {
             $productModel = $this->productMapper->toModel($product);
             $this->initializationHelper->initialize($productModel);
-            $this->productTypeManager->processProduct($productModel);
             $productModel->validate();
             $productModel->save();
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {

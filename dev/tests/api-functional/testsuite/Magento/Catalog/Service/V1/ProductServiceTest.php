@@ -27,25 +27,32 @@ class ProductServiceTest extends WebapiAbstract
      */
     public static function productCreationProvider()
     {
+        $productBuilder = function($data) {
+            return array_replace_recursive(
+                [
+                    Product::SKU => uniqid('sku-', true),
+                    Product::NAME => uniqid('name-', true),
+                    Product::VISIBILITY => 4,
+                    Product::TYPE_ID => 'simple',
+                    Product::PRICE => 3.62,
+                    Product::STATUS => 1,
+                    'custom_attributes' => [
+                        [
+                            'attribute_code' => 'description',
+                            'value' => 'test description'
+                        ],
+                        [
+                            'attribute_code' => 'meta_title',
+                            'value' => 'meta_title'
+                        ],
+                    ]
+                ],
+                $data
+            );
+        };
         return [
-            [[
-                Product::SKU => uniqid('sku-', true),
-                Product::NAME => uniqid('name-', true),
-                Product::VISIBILITY => 4,
-                Product::TYPE_ID => 'simple',
-                Product::PRICE => 3.62,
-                Product::STATUS => 1,
-                'custom_attributes' => [
-                    [
-                        'attribute_code' => 'description',
-                        'value' => 'test description'
-                    ],
-                    [
-                        'attribute_code' => 'meta_title',
-                        'value' => 'meta_title'
-                    ],
-                ]
-            ]]
+            [$productBuilder([Product::TYPE_ID => 'simple'])],
+            [$productBuilder([Product::TYPE_ID => 'virtual'])],
         ];
     }
 
