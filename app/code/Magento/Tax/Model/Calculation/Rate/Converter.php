@@ -38,7 +38,7 @@ class Converter
     /**
      * @param TaxRateDataObjectBuilder $taxRateDataObjectBuilder
      * @param TaxRateModelFactory $taxRateModelFactory
-     * @param ZipRangeDataObjectBuilder $zipRangeBuilder
+     * @param ZipRangeDataObjectBuilder $zipRangeDataObjectBuilder
      */
     public function __construct(
         TaxRateDataObjectBuilder $taxRateDataObjectBuilder,
