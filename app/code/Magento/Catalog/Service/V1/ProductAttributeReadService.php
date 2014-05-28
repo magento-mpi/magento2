@@ -26,16 +26,24 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
     private $inputTypeFactory;
 
     /**
+     * @var Data\ProductAttributeTypeBuilder
+     */
+    private $attributeTypeBuilder;
+
+    /**
      * @param ProductMetadataServiceInterface $metadataService
      * @param InputtypeFactory $inputTypeFactory
+     * @param Data\ProductAttributeTypeBuilder $attributeTypeBuilder
      */
     public function __construct(
         ProductMetadataServiceInterface $metadataService,
-        InputtypeFactory $inputTypeFactory
+        InputtypeFactory $inputTypeFactory,
+        Data\ProductAttributeTypeBuilder $attributeTypeBuilder
     )
     {
         $this->metadataService = $metadataService;
         $this->inputTypeFactory = $inputTypeFactory;
+        $this->attributeTypeBuilder = $attributeTypeBuilder;
     }
 
     /**
@@ -43,8 +51,13 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
      */
     public function types()
     {
+        $types = [];
         $inputType = $this->inputTypeFactory->create();
-        return $inputType->toOptionArray();
+
+        foreach ($inputType->toOptionArray() as $option) {
+            $types[] = $this->attributeTypeBuilder->populateWithArray($option)->create();
+        }
+        return $types;
     }
 
     /**
