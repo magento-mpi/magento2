@@ -9,8 +9,8 @@
 <?php /** @var \Magento\PageCache\Block\Javascript $this */ ?>
 <script type="text/javascript">
     //<![CDATA[
-    (function ($) {
-        $('body').mage('pageCache', <?php echo $this->getScriptOptions(); ?>);
-    })(jQuery);
+    jQuery(function () {
+        jQuery('body').mage('pageCache', <?php echo $this->getScriptOptions(); ?>);
+    });
     //]]>
 </script>

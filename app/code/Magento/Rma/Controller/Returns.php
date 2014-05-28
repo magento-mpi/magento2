@@ -252,12 +252,15 @@ class Returns extends \Magento\Framework\App\Action\Action
             return false;
         }
 
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
-        $availableStates = $this->_objectManager->get('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
+        $availableStatuses = $this->_objectManager
+            ->get('Magento\Sales\Model\Order\Config')
+            ->getVisibleOnFrontStatuses();
         if ($order->getId() && $order->getCustomerId() && $order->getCustomerId() == $customerId && in_array(
-            $order->getState(),
-            $availableStates,
+            $order->getStatus(),
+            $availableStatuses,
             $strict = true
         )
         ) {
