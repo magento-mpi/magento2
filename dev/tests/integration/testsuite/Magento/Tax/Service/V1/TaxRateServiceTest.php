@@ -219,6 +219,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage taxRateId =
      */
@@ -236,6 +237,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage postcode
      */
