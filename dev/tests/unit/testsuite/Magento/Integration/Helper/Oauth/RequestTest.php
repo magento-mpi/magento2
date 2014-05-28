@@ -43,23 +43,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             array(
                 new \Magento\Framework\Oauth\OauthInputException('msg'),
                 new \Zend_Controller_Response_Http(),
-                array('version_rejected&message=msg', \Magento\Framework\Oauth\Helper\Request::HTTP_BAD_REQUEST)
-            ),
-            array(
-                new \Magento\Framework\Oauth\Exception('msg'),
-                new \Zend_Controller_Response_Http(),
-                array(
-                    'unknown_problem&code=255&message=msg',
-                    \Magento\Framework\Oauth\Helper\Request::HTTP_INTERNAL_ERROR
-                )
-            ),
-            array(
-                new \Magento\Framework\Oauth\OauthInputException('param'),
-                new \Zend_Controller_Response_Http(),
-                array(
-                    'parameter_absent&oauth_parameters_absent=param',
-                    \Magento\Framework\Oauth\Helper\Request::HTTP_BAD_REQUEST
-                )
+                array('msg', \Magento\Framework\Oauth\Helper\Request::HTTP_BAD_REQUEST)
             ),
             array(
                 new \Exception('msg'),
