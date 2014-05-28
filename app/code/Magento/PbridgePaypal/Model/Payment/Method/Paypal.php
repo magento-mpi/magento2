@@ -43,10 +43,16 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
     protected $_pbridgeMethodInstance;
 
     /**
+     * @var \Magento\Paypal\Model\Config
+     */
+    protected $_paypalConfig;
+
+    /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Payment\Model\Method\Factory $paymentFactory
+     * @param \Magento\Paypal\Model\Config $paypalConfig
      * @param string $paypalClassName
      */
     public function __construct(
@@ -54,11 +60,13 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Payment\Model\Method\Factory $paymentFactory,
+        \Magento\Paypal\Model\Config $paypalConfig,
         $paypalClassName
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_scopeConfig = $scopeConfig;
         $this->_paymentData = $paymentData;
+        $this->_paypalConfig = $paypalConfig;
         $this->_paypalMethodInstance = $paymentFactory->create(
             $paypalClassName,
             array('pbridgeData' => $pbridgeData, 'paypal' => $this)
@@ -98,6 +106,9 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
         if ($this->_pbridgeMethodInstance === null) {
             $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
+            $this->_pbridgeMethodInstance->setAdditionalRequestParameters(
+                array('BNCODE' => $this->_paypalConfig->getBuildNotationCode())
+            );
         }
         return $this->_pbridgeMethodInstance;
     }
