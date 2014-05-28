@@ -31,7 +31,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo);
+        $actual = $this->_webApiCall($serviceInfo);
 
         /**
          * Validate that product type links provided by Magento_Catalog module are present
@@ -43,7 +43,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         ];
 
         foreach ($expectedItems as $item) {
-            $this->assertContains($item, $haystack);
+            $this->assertContains($item, $actual);
         }
     }
 
@@ -98,12 +98,12 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
+        $actual = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
 
         $expected = [
             ['type' => 'simple', 'attribute_set_id' => 4, 'sku' => 'simple', 'position' => 1]
         ];
-        $this->assertEquals($expected, $haystack);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -124,10 +124,10 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
+        $actual = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
 
         $expected = ['code' => 'position', 'type' => 'int'];
-        $this->assertContains($expected, $haystack);
+        $this->assertContains($expected, $actual);
     }
 
     public function linkAttributesTypeDataProvider()

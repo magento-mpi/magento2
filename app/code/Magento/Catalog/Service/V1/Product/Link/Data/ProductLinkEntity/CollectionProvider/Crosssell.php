@@ -8,16 +8,28 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
 
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\Converter;
+
 class Crosssell implements \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface
 {
     /**
-     * Get linked products
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product[]
+     * @var Converter
+     */
+    protected $converter;
+
+    /**
+     * @param Converter $converter
+     */
+    public function __construct(Converter $converter)
+    {
+        $this->converter = $converter;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getLinkedProducts(\Magento\Catalog\Model\Product $product)
     {
-        return $product->getCrossSellProducts();
+        return $this->converter->convert($product->getCrossSellProducts());
     }
 }

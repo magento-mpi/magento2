@@ -42,24 +42,32 @@ class WriteService implements WriteServiceInterface
     protected $productResource;
 
     /**
+     * @var Data\ProductLinkEntity\DataMapperInterface
+     */
+    protected $dataMapper;
+
+    /**
      * @param LinksInitializer $linkInitializer
      * @param ProductLinkEntity\CollectionProvider $entityCollectionProvider
      * @param ProductLoader $productLoader
      * @param LinkTypeResolver $linkTypeResolver
      * @param ProductResource $productResource
+     * @param ProductLinkEntity\DataMapperInterface $dataMapper
      */
     public function __construct(
         LinksInitializer $linkInitializer,
         ProductLinkEntity\CollectionProvider $entityCollectionProvider,
         ProductLoader $productLoader,
         LinkTypeResolver $linkTypeResolver,
-        ProductResource $productResource
+        ProductResource $productResource,
+        Data\ProductLinkEntity\DataMapperInterface $dataMapper
     ) {
         $this->linkInitializer = $linkInitializer;
         $this->entityCollectionProvider = $entityCollectionProvider;
         $this->linkTypeResolver = $linkTypeResolver;
         $this->productLoader = $productLoader;
         $this->productResource = $productResource;
+        $this->dataMapper = $dataMapper;
     }
 
     /**
@@ -72,6 +80,10 @@ class WriteService implements WriteServiceInterface
      */
     protected function saveLinks($product, array $links)
     {
+        foreach ($links as $type => $linksData) {
+            $links[$type] = $this->dataMapper->map($linksData);
+        }
+
         $this->linkInitializer->initializeLinks($product, $links);
         try {
             $product->save();
@@ -180,7 +192,7 @@ class WriteService implements WriteServiceInterface
         foreach ($collection as $item) {
             /** @var \Magento\Catalog\Model\Product $item */
             $links[$item->getId()] = [
-                'product_id' => $item->getId(),
+                ProductLinkEntity::ID => $item->getId(),
                 ProductLinkEntity::TYPE => $item->getTypeId(),
                 ProductLinkEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
                 ProductLinkEntity::SKU => $item->getSku(),

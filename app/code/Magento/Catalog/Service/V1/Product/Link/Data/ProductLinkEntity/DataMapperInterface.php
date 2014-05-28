@@ -8,13 +8,13 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 
-interface CollectionProviderInterface
+interface DataMapperInterface
 {
     /**
-     * Get linked products
+     * Map data object
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param array $data
      * @return array
      */
-    public function getLinkedProducts(\Magento\Catalog\Model\Product $product);
+    public function map(array $data);
 }

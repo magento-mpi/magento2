@@ -113,16 +113,8 @@ class ReadService implements ReadServiceInterface
         $product = $this->productLoader->load($productSku);
         $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
         $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
-
         foreach ($collection as $item) {
-            /** @var \Magento\Catalog\Model\Product $item */
-            $data = [
-                ProductLinkEntity::TYPE => $item->getTypeId(),
-                ProductLinkEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
-                ProductLinkEntity::SKU => $item->getSku(),
-                ProductLinkEntity::POSITION => $item->getPosition()
-            ];
-            $output[] = $this->productEntityBuilder->populateWithArray($data)->create();
+            $output[] = $this->productEntityBuilder->populateWithArray($item)->create();
         }
         return $output;
     }

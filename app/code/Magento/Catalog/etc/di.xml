@@ -19,6 +19,7 @@
     <preference for="Magento\Framework\Pricing\Adjustment\CalculatorInterface" type="Magento\Framework\Pricing\Adjustment\Calculator" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\WriteService" />
+    <preference for="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapperInterface" type="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapper\Composite" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>

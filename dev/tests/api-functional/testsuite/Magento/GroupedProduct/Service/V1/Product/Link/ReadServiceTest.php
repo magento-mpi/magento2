@@ -31,13 +31,13 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo);
+        $actual = $this->_webApiCall($serviceInfo);
 
         /**
          * Validate that product type links provided by Magento_GroupedProduct module are present
          */
         $expectedItems = ['type' => 'associated', 'code' => Link::LINK_TYPE_GROUPED];
-        $this->assertContains($expectedItems, $haystack);
+        $this->assertContains($expectedItems, $actual);
 
     }
 
@@ -61,23 +61,25 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
+        $actual = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
 
         $expected = [
             [
                 'type' => 'simple',
                 'attribute_set_id' => 4,
                 'sku' => 'simple-1',
-                'position' => 1
+                'position' => 1,
+                'customAttributes' => [['attribute_code' => 'qty', 'value' => 1]]
             ],
             [
                 'type' => 'virtual',
                 'attribute_set_id' => 4,
                 'sku' => 'virtual-product',
-                'position' => 2
+                'position' => 2,
+                'customAttributes' => [['attribute_code' => 'qty', 'value' => 1]]
             ]
         ];
-        $this->assertEquals($expected, $haystack);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testGetLinkAttributes()
@@ -96,12 +98,12 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
             ]
         ];
 
-        $haystack = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
+        $actual = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
 
         $expected = [
             ['code' => 'position', 'type' => 'int'],
             ['code' => 'qty', 'type' => 'decimal'],
         ];
-        $this->assertEquals($expected, $haystack);
+        $this->assertEquals($expected, $actual);
     }
 } 
