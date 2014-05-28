@@ -71,7 +71,7 @@ class Address extends AbstractRepository
                         'input' => 'select'
                     ),
                     'telephone' => array(
-                        'value' => '123-345-7890'
+                        'value' => '555-55-555-55'
                     )
                 )
             )
@@ -127,7 +127,7 @@ class Address extends AbstractRepository
                         'input' => 'select'
                     ),
                     'telephone' => array(
-                        'value' => '123-345-7890'
+                        'value' => '777-77-77-77'
                     )
                 )
             )
@@ -167,7 +167,7 @@ class Address extends AbstractRepository
                         'value' => '90230'
                     ),
                     'telephone' => array(
-                        'value' => '123-345-7890'
+                        'value' => '555-55-555-55'
                     )
                 )
             )
@@ -191,7 +191,7 @@ class Address extends AbstractRepository
                         'value' => 'Doe',
                     ),
                     'telephone' => array(
-                        'value' => '123-345-7890',
+                        'value' => '444-44-444-44',
                     ),
                     'street[]' => array(
                         'value' => '172, Westminster Bridge Rd',
@@ -237,7 +237,7 @@ class Address extends AbstractRepository
                         'value' => 'Magento %isolation%'
                     ),
                     'telephone' => array(
-                        'value' => '123-345-7890'
+                        'value' => '444-44-444-44'
                     ),
                     'street_1' => array(
                         'value' => '42 King Street West'
@@ -322,7 +322,7 @@ class Address extends AbstractRepository
                         'value' => '10789'
                     ),
                     'telephone' => array(
-                        'value' => '123-345-7890'
+                        'value' => '333-33-333-33'
                     )
                 )
             )
