@@ -10,6 +10,10 @@ namespace Magento\Rating\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
+/**
+ * Class RatingGrid
+ * Backend product rating grid
+ */
 class RatingGrid extends Grid
 {
     /**

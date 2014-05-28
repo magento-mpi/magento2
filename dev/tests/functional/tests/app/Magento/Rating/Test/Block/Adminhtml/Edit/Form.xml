@@ -15,7 +15,7 @@
         <fields>
             <stores>
                 <selector>[name="stores[]"]</selector>
-                <input>selectgrouplist</input>
+                <input>multiselectgrouplist</input>
             </stores>
             <is_active>
                 <input>checkbox</input>

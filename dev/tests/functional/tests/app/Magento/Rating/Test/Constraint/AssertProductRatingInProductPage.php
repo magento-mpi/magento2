@@ -57,6 +57,6 @@ class AssertProductRatingInProductPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product rating is displayed';
+        return 'Product rating is displayed.';
     }
 }

@@ -12,11 +12,16 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class SelectgrouplistElement
+ * Class MultiselectgrouplistElement
  * Typified element class for select with group
  */
-class SelectgrouplistElement extends MultiselectElement
+class MultiselectgrouplistElement extends MultiselectElement
 {
+    /**
+     * Indent lenght
+     */
+    const INDENT_LENGHT = 4;
+
     /**
      * Locator for search optgroup by label
      *
@@ -98,26 +103,26 @@ class SelectgrouplistElement extends MultiselectElement
         $this->clearSelectedOptions();
         if (is_array($values)) {
             foreach ($values as $value) {
-                $this->selectValue($value, $this);
+                $this->selectOption($value, $this);
             }
         } else {
-            $this->selectValue($values, $this);
+            $this->selectOption($values, $this);
         }
     }
 
     /**
-     * Set single value
+     * Select option
      *
-     * @param $values
+     * @param string $option
      * @param Element $context
      * @return void
      * @throws \Exception
      */
-    protected function selectValue($values, Element $context)
+    protected function selectOption($option, Element $context)
     {
         $isOptgroup = false;
         $optgroupIndent = '';
-        $values = explode('/', $values);
+        $values = explode('/', $option);
 
         foreach ($values as $value) {
             $optionIndent = $isOptgroup ? $this->indent : '';
@@ -133,48 +138,60 @@ class SelectgrouplistElement extends MultiselectElement
             $optgroupIndent .= $this->indent;
             if ($isOptgroup) {
                 $context = $this->getChildOptgroup($value, $context);
-                continue;
-            }
-            $optgroup = $context->find(sprintf($this->optgroupByLabel, $value), Locator::SELECTOR_XPATH);
-            if ($optgroup->isVisible()) {
-                $context = $optgroup;
+            } else {
+                $context = $this->getOptgroup($value, $context);
                 $isOptgroup = true;
-                continue;
             }
-
-            throw new \Exception("Can't find element");
         }
-
-        throw new \Exception("Can't find element");
+        throw new \Exception("Can't find option \"{$option}\".");
     }
 
     /**
-     * Get child optgroup element
+     * Get optgroup
      *
-     * @param $value
+     * @param string $value
+     * @param Element $context
+     * @return Element
+     * @throws \Exception
+     */
+    protected function getOptgroup($value, Element $context)
+    {
+        $optgroup = $context->find(sprintf($this->optgroupByLabel, $value), Locator::SELECTOR_XPATH);
+        if (!$optgroup->isVisible()) {
+            throw new \Exception("Can't find group \"{$value}\".");
+        }
+        return $optgroup;
+    }
+
+    /**
+     * Get child optgroup
+     *
+     * @param string $value
      * @param Element $context
      * @return Element
      * @throws \Exception
      */
     protected function getChildOptgroup($value, Element $context)
     {
+        $childOptgroup = null;
         $count = 1;
-        while (true) {
+        while (!$childOptgroup) {
             $optgroup = $context->find(sprintf($this->nextOptgroup, $count), Locator::SELECTOR_XPATH);
             if (!$optgroup->isVisible()) {
-                throw new \Exception("Can't find element");
+                throw new \Exception("Can't find child group \"{$value}\"");
             }
 
-            $optgroup = $context->find(
+            $childOptgroup = $context->find(
                 sprintf($this->childOptgroup, $count, $value),
                 Locator::SELECTOR_XPATH
             );
-            if ($optgroup->isVisible()) {
-                return $optgroup;
+            if (!$childOptgroup->isVisible()) {
+                $childOptgroup = null;
             }
-
-            $count += 1;
+            ++$count;
         }
+
+        return $childOptgroup;
     }
 
     /**
@@ -212,7 +229,7 @@ class SelectgrouplistElement extends MultiselectElement
 
             $amountIndent -= 1;
             $indent = $amountIndent ? str_repeat($this->indent, $amountIndent) : '';
-            $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * 4, $indent);
+            $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * self::INDENT_LENGHT, $indent);
             while (0 <= $amountIndent && $this->find($pathOptgroup, Locator::SELECTOR_XPATH)->isVisible()) {
                 $optgroup = $this->_getWrappedElement()->byXPath($pathOptgroup);
                 $optgroupText = $optgroup->attribute('label');
@@ -221,7 +238,7 @@ class SelectgrouplistElement extends MultiselectElement
 
                 $amountIndent -= 1;
                 $indent = (0 < $amountIndent) ? str_repeat($this->indent, $amountIndent) : '';
-                $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * 4, $indent);
+                $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * self::INDENT_LENGHT, $indent);
             }
 
             $values[] = implode('/', array_reverse($value));
@@ -256,7 +273,7 @@ class SelectgrouplistElement extends MultiselectElement
                 );
             }
 
-            $countOptgroup += 1;
+            ++$countOptgroup;
             $optgroup = $this->find(sprintf($this->optgroupByNumber, $countOptgroup), Locator::SELECTOR_XPATH);
         }
         return $options;
@@ -278,5 +295,4 @@ class SelectgrouplistElement extends MultiselectElement
         }
         return $options;
     }
-
-} 
+}

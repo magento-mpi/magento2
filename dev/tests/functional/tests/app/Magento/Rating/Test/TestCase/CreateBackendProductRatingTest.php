@@ -31,7 +31,7 @@ use Mtf\TestCase\Injectable;
  * 6. Perform asserts
  *
  * @group Reviews_and_Ratings_(MX)
- * @ZephyrId MTA-144
+ * @ZephyrId MAGETWO-23331
  */
 class CreateBackendProductRatingTest extends Injectable
 {
