@@ -100,6 +100,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'date',
                 array('date_range_min' => '3', 'date_range_max' => '2'),
                 array(__('Please correct the values for minimum and maximum date validation rules.'))
+            ),
+            array(
+                'empty',
+                array('date_range_min' => '3', 'date_range_max' => '2'),
+                array()
             )
         );
     }
@@ -438,5 +443,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $data = array('frontend_label' => array('Label'), 'attribute_code' => 'Code');
         $this->_helper->filterPostData($data);
+    }
+
+    public function testGetAttributeFormOptions()
+    {
+        $this->assertEquals(
+            array(array('label' => __('Default EAV Form'), 'value' => 'default')),
+            $this->_helper->getAttributeFormOptions()
+        );
     }
 }
