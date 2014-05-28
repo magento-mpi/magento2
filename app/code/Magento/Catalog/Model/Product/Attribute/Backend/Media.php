@@ -295,13 +295,13 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             $picturesInOtherStores[$image['filepath']] = true;
         }
 
-        $toDelete = array();
-        $filesToValueIds = array();
+        $recordsToDelete = array();
+        $filesToDelete = array();
         foreach ($value['images'] as &$image) {
             if (!empty($image['removed'])) {
                 if (!empty($image['value_id']) && !isset($picturesInOtherStores[$image['file']])) {
-                    $toDelete[] = $image['value_id'];
-                    $filesToValueIds[] = ltrim($image['file'], '/');
+                    $recordsToDelete[] = $image['value_id'];
+                    $filesToDelete[] = ltrim($image['file'], '/');
                 }
                 continue;
             }
@@ -328,8 +328,8 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             $this->_getResource()->insertGalleryValueInStore($data);
         }
 
-        $this->_getResource()->deleteGallery($toDelete);
-        $this->removeDeletedImages($filesToValueIds);
+        $this->_getResource()->deleteGallery($recordsToDelete);
+        $this->removeDeletedImages($filesToDelete);
     }
 
     /**

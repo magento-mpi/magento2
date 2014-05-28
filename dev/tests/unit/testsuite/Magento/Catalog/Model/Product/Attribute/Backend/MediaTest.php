@@ -20,7 +20,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_objectHelper;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Object | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataObject;
 
@@ -47,10 +47,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
 
-        $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', [], [], '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->resourceModel = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media',
             [
@@ -61,13 +61,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
                 'insertGalleryValueInStore',
                 'deleteGallery'
             ],
-            array(),
+            [],
             '',
             false
         );
         $this->resourceModel->expects($this->any())->method('getMainTable')->will($this->returnValue('table'));
 
-        $this->mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false);
+        $this->mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', [], [], '', false);
         $this->mediaDirectory = $this->getMockBuilder('Magento\Framework\Filesystem\Directory\Write')
             ->disableOriginalConstructor()
             ->getMock();
@@ -85,7 +85,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->model = $this->_objectHelper->getObject(
             'Magento\Catalog\Model\Product\Attribute\Backend\Media',
-            array(
+            [
                 'productFactory' => $this->productFactory,
                 'eventManager' => $eventManager,
                 'fileStorageDb' => $fileStorageDb,
@@ -93,13 +93,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
                 'mediaConfig' => $this->mediaConfig,
                 'filesystem' => $filesystem,
                 'resourceProductAttribute' => $this->resourceModel
-            )
+            ]
         );
         $this->dataObject = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
             ->setMethods(['getIsDuplicate', 'isLockedAttribute'])
             ->getMock();
-
     }
 
     public function testGetAffectedFields()
@@ -109,32 +108,28 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getBackendTable', 'isStatic', 'getAttributeId', 'getName', '__wakeup'),
-            array(),
+            ['getBackendTable', 'isStatic', 'getAttributeId', 'getName', '__wakeup'],
+            [],
             '',
             false
         );
         $attribute->expects($this->any())->method('getName')->will($this->returnValue('image'));
-
         $attribute->expects($this->any())->method('getAttributeId')->will($this->returnValue($attributeId));
-
         $attribute->expects($this->any())->method('isStatic')->will($this->returnValue(false));
-
         $attribute->expects($this->any())->method('getBackendTable')->will($this->returnValue('table'));
-
 
         $this->model->setAttribute($attribute);
 
         $object = new \Magento\Framework\Object();
-        $object->setImage(array('images' => array(array('value_id' => $valueId))));
+        $object->setImage(['images' => [['value_id' => $valueId]]]);
         $object->setId(555);
 
         $this->assertEquals(
-            array(
-                'table' => array(
-                    array('value_id' => $valueId, 'attribute_id' => $attributeId, 'entity_id' => $object->getId())
-                )
-            ),
+            [
+                'table' => [
+                    ['value_id' => $valueId, 'attribute_id' => $attributeId, 'entity_id' => $object->getId()]
+                ]
+            ],
             $this->model->getAffectedFields($object)
         );
     }
@@ -183,6 +178,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $storeIds = ['store_1' => 1, 'store_2' => 2];
         $attributeCode = 'test_code';
         $toDelete = [1];
+        $filePathToRemove = '/file/path';
         $attributeValue = [
             'images' => [
                 [
@@ -237,7 +233,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->mediaDirectory->expects($this->once())
             ->method('delete')
-            ->with('/' . $attributeValue['images'][0]['file']);
+            ->with($filePathToRemove);
 
         $this->model->setAttribute($attributeMock);
         $this->assertNull($this->model->afterSave($this->dataObject));
