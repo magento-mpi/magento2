@@ -106,11 +106,15 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
      */
     public function deleteAttribute($attributeSetId, $attributeId)
     {
-        // check if attribute set with requested id exists
         $attributeSet = $this->setFactory->create()->load($attributeSetId);
         if (!$attributeSet->getId()) {
             // Attribute set does not exist
             throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
+        }
+        // check that attribute set has type catalog_product
+        $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
+        if ($setEntityType->getEntityTypeCode() != \Magento\Catalog\Model\Product::ENTITY) {
+            throw new InputException('Attribute with wrong attribute type is provided');
         }
 
         // check if attribute with requested id exists
