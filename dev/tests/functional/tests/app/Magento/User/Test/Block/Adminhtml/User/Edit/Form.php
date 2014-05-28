@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Block\User\Edit;
+namespace Magento\User\Test\Block\Adminhtml\User\Edit;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
@@ -33,5 +33,18 @@ class Form extends FormTabs
     public function openRoleTab()
     {
         $this->_rootElement->find($this->roleTab, Locator::SELECTOR_ID)->click();
+    }
+
+    /**
+     * Get roles grid on user edit page
+     *
+     * @return \Mtf\Block\BlockInterface
+     */
+    public function getRolesGrid()
+    {
+        return $this->blockFactory->create(
+            'Magento\User\Test\Block\Adminhtml\User\Edit\Tab\Roles',
+            ['element' => $this->_rootElement->find('#permissionsUserRolesGrid')]
+        );
     }
 }

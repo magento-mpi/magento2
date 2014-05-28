@@ -21,8 +21,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>userFormTabs</name>
-        <class>Magento\User\Test\Block\Adminhtml\User\Edit</class>
+        <name>userForm</name>
+        <class>Magento\User\Test\Block\Adminhtml\User\Edit\Form</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Block\User\Edit\Tab;
+namespace Magento\User\Test\Block\Adminhtml\User\Edit\Tab;
 
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
@@ -41,5 +41,6 @@ class Roles extends Grid
     {
         parent::_init();
         $this->selectItem = 'tbody tr';
+        $this->editLink = '.col-role_name';
     }
 }

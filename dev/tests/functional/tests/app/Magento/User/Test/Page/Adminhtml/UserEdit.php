@@ -30,9 +30,9 @@ class UserEdit extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'userFormTabs' => [
-            'name' => 'userFormTabs',
-            'class' => 'Magento\User\Test\Block\Adminhtml\User\Edit',
+        'userForm' => [
+            'name' => 'userForm',
+            'class' => 'Magento\User\Test\Block\Adminhtml\User\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -55,10 +55,10 @@ class UserEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\User\Test\Block\Adminhtml\User\Edit
+     * @return \Magento\User\Test\Block\Adminhtml\User\Edit\Form
      */
-    public function getUserFormTabs()
+    public function getUserForm()
     {
-        return $this->getBlockInstance('userFormTabs');
+        return $this->getBlockInstance('userForm');
     }
 }

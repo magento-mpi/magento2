@@ -60,7 +60,7 @@ class UserWithRestrictedRoleTest extends Functional
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
         $editUser = Factory::getPageFactory()->getAdminUserEdit();
-        $editForm = $editUser->getUserFormTabs();
+        $editForm = $editUser->getUserForm();
         $salesPage = Factory::getPageFactory()->getSalesOrder();
         $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
@@ -69,7 +69,9 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
-        $editForm->fillUserRole($data['rolename']);
+        $editForm->openRoleTab();
+        $rolesGrid = $editForm->getRolesGrid();
+        $rolesGrid->searchAndOpen(['role_name'=>$data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
@@ -130,7 +132,7 @@ class UserWithRestrictedRoleTest extends Functional
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
         $editUser = Factory::getPageFactory()->getAdminUserEdit();
-        $editForm = $editUser->getUserFormTabs();
+        $editForm = $editUser->getUserForm();
         $salesPage = Factory::getPageFactory()->getSalesOrder();
         $salesGrid = $salesPage->getOrderGridBlock();
         $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
@@ -140,7 +142,9 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
-        $editForm->fillUserRole($data['rolename']);
+        $editForm->openRoleTab();
+        $rolesGrid = $editForm->getRolesGrid();
+        $rolesGrid->searchAndOpen(['role_name'=>$data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
