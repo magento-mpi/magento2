@@ -32,8 +32,16 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+    protected $entityTypeConfigMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $attrResourceMock;
 
+    /**
+     * @SuppressWarnings(PHPMD.LongVariable)
+     */
     protected function setUp()
     {
         $attributeFactoryMock = $this->getMock(
@@ -44,6 +52,9 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         );
         $groupFactoryMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\GroupFactory', array('create'), array(), '', false
+        );
+        $entityTypeFactoryMock = $this->getMock(
+            '\Magento\Eav\Model\ConfigFactory', array('create'), array(), '', false
         );
 
         $this->attributeMock = $this->getMock(
@@ -60,6 +71,10 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $this->attributeSetMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false
         );
+        $this->entityTypeConfigMock = $this->getMock(
+            '\Magento\Eav\Model\Config', array('getEntityType', 'getEntityTypeCode', 'getId', '__sleep', '__wakeup'),
+            array(), '', false
+        );
         $this->attrResourceMock = $this->getMock(
             '\Magento\Eav\Model\Resource\Entity\Attribute', array(), array(), '', false
         );
@@ -67,11 +82,14 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $attributeFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->attributeMock));
         $setFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->attributeSetMock));
         $groupFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->attributeGroupMock));
+        $entityTypeFactoryMock->expects($this->any())
+            ->method('create')->will($this->returnValue($this->entityTypeConfigMock));
 
         $this->service = new ProductAttributeSetAttributeService(
             $attributeFactoryMock,
             $groupFactoryMock,
             $setFactoryMock,
+            $entityTypeFactoryMock,
             $this->attrResourceMock
         );
     }
@@ -98,6 +116,11 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
         $this->attributeGroupMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
         $this->attributeMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
+
+        $this->entityTypeConfigMock->expects($this->once())->method('getEntityType')->will($this->returnSelf());
+        $this->entityTypeConfigMock->expects($this->once())
+            ->method('getEntityTypeCode')->will($this->returnValue(\Magento\Catalog\Model\Product::ENTITY));
+        $this->entityTypeConfigMock->expects($this->once())->method('getId')->will($this->returnValue(4));
 
         $this->attributeMock->expects($this->once())->method('setId')->with(1);
         $this->attributeMock->expects($this->once())->method('setEntityTypeId')->with(4);
@@ -129,6 +152,26 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
     /**
      * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
      * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Wrong attribute set id provided
+     */
+    public function testAddAttributeWithAttributeSetOfOtherEntityType()
+    {
+        $builder = new \Magento\Catalog\Service\V1\Data\Eav\AttributeSet\AttributeBuilder();
+        $attributeDataObject = $builder->populateWithArray(['attribute_group'])->create();
+
+        $attributeSetMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $attributeSetMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($attributeSetMock));
+
+        $this->entityTypeConfigMock->expects($this->once())->method('getEntityType')->will($this->returnSelf());
+        $this->entityTypeConfigMock->expects($this->once())->method('getEntityTypeCode')->will($this->returnValue('0'));
+
+        $this->service->addAttribute(1, $attributeDataObject);
+    }
+
+    /**
+     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
+     * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Attribute group does not exist
      */
     public function testAddAttributeWithWrongAttributeGroup()
@@ -139,6 +182,12 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $attributeSetMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $attributeSetMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($attributeSetMock));
+
+        $entityCode = \Magento\Catalog\Model\Product::ENTITY;
+        $this->entityTypeConfigMock->expects($this->once())->method('getEntityType')->will($this->returnSelf());
+        $this->entityTypeConfigMock->expects($this->once())
+            ->method('getEntityTypeCode')->will($this->returnValue($entityCode));
+
         $attributeGroupMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $this->attributeGroupMock->expects($this->once())->method('load')
             ->will($this->returnValue($attributeGroupMock));
@@ -160,6 +209,12 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $objectMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->attributeSetMock->expects($this->once())->method('load')->will($this->returnValue($objectMock));
         $this->attributeGroupMock->expects($this->once())->method('load') ->will($this->returnValue($objectMock));
+
+        $entityCode = \Magento\Catalog\Model\Product::ENTITY;
+        $this->entityTypeConfigMock->expects($this->once())->method('getEntityType')->will($this->returnSelf());
+        $this->entityTypeConfigMock->expects($this->once())
+            ->method('getEntityTypeCode')->will($this->returnValue($entityCode));
+
         $attributeMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $this->attributeMock->expects($this->once())->method('load')->will($this->returnValue($attributeMock));
 

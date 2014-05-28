@@ -10,17 +10,6 @@ namespace Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 class AttributeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
-     * Set attribute set id
-     *
-     * @param int $id
-     * @return $this
-     */
-    public function setAttributeSetId($id)
-    {
-        return $this->_set(Attribute::ATTRIBUTE_SET_ID, $id);
-    }
-
-    /**
      * Set attribute group id
      *
      * @param string $id
@@ -41,18 +30,6 @@ class AttributeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBui
     {
         return $this->_set(Attribute::ATTRIBUTE_ID, $id);
     }
-
-    /**
-     * Get attribute entity type id
-     *
-     * @param string $id
-     * @return $this
-     */
-    public function setEntityTypeId($id)
-    {
-        return $this->_set(Attribute::ENTITY_TYPE_ID, $id);
-    }
-
 
     /**
      * Set attribute set sort order index

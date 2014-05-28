@@ -33,21 +33,29 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
     protected $attributeResource;
 
     /**
+     * @var \Magento\Eav\Model\ConfigFactory
+     */
+    protected $entityTypeFactory;
+
+    /**
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute $attributeResource
+     * @param \Magento\Eav\Model\ConfigFactory $entityTypeFactory
      */
     public function __construct(
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
+        \Magento\Eav\Model\ConfigFactory $entityTypeFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute $attributeResource
     ) {
         $this->attributeFactory = $attributeFactory;
         $this->groupFactory = $groupFactory;
         $this->setFactory = $setFactory;
         $this->attributeResource = $attributeResource;
+        $this->entityTypeFactory = $entityTypeFactory;
     }
 
     /**
@@ -56,12 +64,18 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
      * @param int $attributeSetId
      * @param Data\Eav\AttributeSet\Attribute $data
      * @return int
-     * @throws InputException
+     * @throws \Magento\Framework\Exception\InputException
      */
     public function addAttribute($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeSet\Attribute $data)
     {
-        if (!$this->setFactory->create()->load($attributeSetId)->getId()) {
+        $attributeSet = $this->setFactory->create()->load($attributeSetId);
+        if (!$attributeSet->getId()) {
             throw new InputException('Attribute set does not exist');
+        }
+
+        $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
+        if ($setEntityType->getEntityTypeCode() != \Magento\Catalog\Model\Product::ENTITY) {
+            throw new InputException('Wrong attribute set id provided');
         }
 
         if (!$this->groupFactory->create()->load($data->getAttributeGroupId())->getId()) {
@@ -74,7 +88,7 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
         }
 
         $attribute->setId($data->getAttributeId());
-        $attribute->setEntityTypeId(4);
+        $attribute->setEntityTypeId($setEntityType->getId());
         $attribute->setAttributeSetId($attributeSetId);
         $attribute->setAttributeGroupId($data->getAttributeGroupId());
         $attribute->setSortOrder($data->getSortOrder());

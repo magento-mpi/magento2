@@ -44,7 +44,28 @@ class ProductAttributeSetAttributeServiceTest extends WebapiAbstract
      */
     public function testAddAttributeWrongAttributeSet($attributeSetId, $data)
     {
-        $data['attribute_set_id'] = $attributeSetId = 'BadId';
+        $attributeSetId = 'BadId';
+        $serviceInfo = $this->_getServiceInfo($attributeSetId);
+
+        $requestData = [
+            'attributeSetId' => $attributeSetId,
+            'data' => $data
+        ];
+
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
+
+    /**
+     * @param int $attributeSetId
+     * @param array $data
+     *
+     * @dataProvider addAttributeDataProvider
+     * @expectedException Exception
+     * @expectedExceptionMessage Wrong attribute set id provided
+     */
+    public function testAddAttributeAttributeSetOfOtherEntityType($attributeSetId, $data)
+    {
+        $attributeSetId = '1';
         $serviceInfo = $this->_getServiceInfo($attributeSetId);
 
         $requestData = [
@@ -102,13 +123,11 @@ class ProductAttributeSetAttributeServiceTest extends WebapiAbstract
     {
         return array(
             array(
-                'attributeSetId' => 1,
+                'attributeSetId' => 4,
                 'data' => array(
-                    'attribute_id'       => 1,
-                    'attribute_group_id' => 1,
-                    'attribute_set_id'   => 1,
-                    'sort_order'         => 10,
-                    'entity_type_id'     => 4
+                    'attribute_id'       => 77,
+                    'attribute_group_id' => 8,
+                    'sort_order'         => 3
                 ),
             )
         );
@@ -146,11 +165,10 @@ class ProductAttributeSetAttributeServiceTest extends WebapiAbstract
             ->get('Magento\Catalog\Service\V1\ProductAttributeSetReadService');
         $builder = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtendedBuilder');
-        $attrSet = $attrSetWriteService->create($builder->setName($attrSetName)->setSkeletonId(4)->create());
-        $attrSets = $attrSetReadService->getList();
-        $this->assertEquals($attrSetName, $attrSets[count($attrSets)-1]->getName());
-        $attributes = $attrSetReadService->getAttributeList($attrSet);
-        $attributeSetId = $attrSet;
+        $attributeSetId = $attrSetWriteService->create($builder->setName($attrSetName)->setSkeletonId(4)->create());
+        $createdAttributeSet = $attrSetReadService->getInfo($attributeSetId);
+        $this->assertEquals($attrSetName, $createdAttributeSet->getName());
+        $attributes = $attrSetReadService->getAttributeList($attributeSetId);
         $attributeId = array_shift($attributes)->getId();
         $serviceInfo = array(
             'rest' => array(
