@@ -81,4 +81,30 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             $this->fail(implode(PHP_EOL, $msg));
         }
     }
+
+    public function testObsoleteViewPaths()
+    {
+        $pathsToCheck = [
+            'app/code/*/*/view/frontend/*'  => ['requirejs-config.js'],
+            'app/code/*/*/view/adminhtml/*'  => ['requirejs-config.js'],
+            'app/code/*/*/view/base/*'  => ['requirejs-config.js'],
+            'app/design/*/*/*/*'     => ['requirejs-config.js', 'theme.xml'],
+            'app/design/*/*/*/*_*/*' => ['requirejs-config.js'],
+        ];
+        $errors = [];
+        foreach ($pathsToCheck as $path => $allowedFiles) {
+            $foundFiles = glob(BP . '/' . $path);
+            foreach ($foundFiles as $file) {
+                if (is_dir($file) || in_array(basename($file), $allowedFiles)) {
+                    continue;
+                }
+                $errors[] = "Wrong location of view file: '$file'. "
+                    . "Please, put template files inside 'templates' sub-dir, "
+                    . "static view files inside 'web' sub-dir and layout updates inside 'layout' sub-dir";
+            }
+        }
+        if (!empty($errors)) {
+            $this->fail(implode(PHP_EOL, $errors));
+        }
+    }
 }

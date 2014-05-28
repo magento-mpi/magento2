@@ -606,8 +606,6 @@ return array(
     array('XML_PATH_SECURE_BASE_LIB_URL'),
     array('XML_PATH_SECURE_BASE_CACHE_URL'),
     array('XML_PATH_UNSECURE_BASE_CACHE_URL'),
-    array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento\Framework\View\FileResolver',
-        'Magento\Theme\Model\Url\Plugin\Signature::XML_PATH_STATIC_FILE_SIGNATURE'),
     array('PUBLIC_MERGE_DIR', '', '\Magento\Framework\View\Asset\Merged::getRelativeDir'),
     array('PUBLIC_MINIFY_DIR', '', '\Magento\Framework\View\Asset\MinifyService::getRelativeDir'),
     ['CONTENT_TYPE_CSS', 'Magento\Framework\View\Publisher'],

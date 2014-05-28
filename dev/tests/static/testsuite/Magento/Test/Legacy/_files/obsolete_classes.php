@@ -1588,7 +1588,7 @@ return array(
     ),
     array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'),
     array('Magento\Adminhtml\Controller\Checkout\Agreement', 'Magento\Checkout\Controller\Adminhtml\Agreement'),
-    array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\Framework\View\FilesManagerInterface'),
+    array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\Framework\View\Asset\SourceFileInterface'),
     array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\Framework\View\AssetInterface'),
     array('Magento\Framework\View\DeployedFilesManager', 'Magento\Framework\View\AssetInterface'),
     array('Magento\Core\Model\View\Publisher', 'Magento\Framework\View\Publisher'),
@@ -2546,19 +2546,12 @@ return array(
         'Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface',
         'Magento\Framework\View\Asset\PreProcessorInterface'
     ],
-    [
-        'Magento\Framework\View\FileResolver',
-        'Magento\Framework\View\Asset\Repository, Magento\Framework\View\Asset\Source'
-    ],
-    ['Magento\Framework\View\FilesManagerInterface', 'Magento\Framework\View\Asset\SourceFileInterface'],
     ['Magento\Framework\View\Publisher', '\Magento\Framework\App\View\Asset\Publisher'],
-    ['Magento\Css\PreProcessor\Composite\UrlResolver'],
     ['Magento\Framework\View\Publisher\FileAbstract'],
     ['Magento\Framework\View\Publisher\File'],
     ['Magento\Framework\View\Publisher\FileFactory'],
     ['Magento\Framework\View\Publisher\CssFile'],
     ['Magento\Framework\View\RelatedFile'],
-    ['Magento\Less\Cache\Plugin'],
     ['Magento\Css\PreProcessor\Cache\Plugin\Less', 'Magento\Framework\View\Asset\PreProcessing\Cache'],
     ['Magento\Css\PreProcessor\Cache\Import\Cache'],
     ['Magento\Css\PreProcessor\Cache\Plugin\ImportCleaner'],
