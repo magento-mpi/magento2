@@ -25,6 +25,7 @@
   * Fixed: Store admin cannot open search result (MAGETWO-24344)
   * Fixed: Rule based product relation functionality is generating incorrect SQL when product category attribute set through "is one of" or "contains" operator by constant value (MAGETWO-3185)
   * Fixed: Cannot add to compare list from category with page layout 3 columns (MAGETWO-24327)
+  * Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
   * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
   * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
