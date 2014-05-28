@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\RowCustomizer;
+namespace Magento\Catalog\Model\ImportExport\Export\RowCustomizer;
 
-use Magento\ImportExport\Model\Export\RowCustomizerInterface;
+use Magento\Catalog\Model\ImportExport\Export\RowCustomizerInterface;
 use Magento\Framework\ObjectManager;
 
 class Composite implements RowCustomizerInterface
