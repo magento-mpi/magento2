@@ -107,9 +107,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $visible
      * @return $this
      */
-    public function setVisible($visible)
+    public function setIsVisible($visible)
     {
-        return $this->_set(AttributeMetadata::VISIBLE, $visible);
+        return $this->_set(AttributeMetadata::IS_VISIBLE, $visible);
     }
 
     /**

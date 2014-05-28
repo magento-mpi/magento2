@@ -25,7 +25,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const OPTIONS = 'options';
 
-    const VISIBLE = 'visible';
+    const IS_VISIBLE = 'is_visible';
 
     const IS_REQUIRED = 'is_required';
 
@@ -107,7 +107,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      */
     public function getIsVisible()
     {
-        return $this->_get(self::VISIBLE);
+        return $this->_get(self::IS_VISIBLE);
     }
 
     /**
@@ -228,16 +228,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getIsSearchable()
     {
         return $this->_get(self::IS_SEARCHABLE);
-    }
-
-    /**
-     * Whether the attribute uses for filtering
-     *
-     * @return string
-     */
-    public function getIsFilterableInSearch()
-    {
-        return $this->_get(self::IS_FILTERABLE_IN_SEARCH);
     }
 
     /**

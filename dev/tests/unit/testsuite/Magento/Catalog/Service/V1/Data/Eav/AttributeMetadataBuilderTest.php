@@ -69,21 +69,13 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
         return array(
             ['setAttributeCode', 'code', 'getAttributeCode'],
             ['setFrontendInput', '<br>', 'getFrontendInput'],
-            ['setInputFilter', 'date', 'getInputFilter'],
-            ['setStoreLabel', 'My Store', 'getStoreLabel'],
             ['setValidationRules', $this->validationRules, 'getValidationRules'],
-            ['setMultilineCount', 100, 'getMultilineCount'],
-            ['setVisible', true, 'isVisible'],
-            ['setRequired', true, 'isRequired'],
-            ['setDataModel', 'Model', 'getDataModel'],
+            ['setIsVisible', true, 'getIsVisible'],
+            ['setIsRequired', true, 'getIsRequired'],
             ['setOptions', $this->optionRules, 'getOptions'],
-            ['setFrontendClass', 'Class', 'getFrontendClass'],
-            ['setIsUserDefined', false, 'isUserDefined'],
-            ['setSortOrder', 100, 'getSortOrder'],
+            ['setIsUserDefined', false, 'getIsUserDefined'],
             ['setFrontendLabel', 'Label', 'getFrontendLabel'],
             ['setNote', 'Text Note', 'getNote'],
-            ['setIsSystem', false, 'isSystem'],
-            ['setBackendType', 'Type', 'getBackendType']
         );
     }
 
@@ -131,13 +123,13 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
             AttributeMetadata::OPTIONS => $this->optionRules,
             AttributeMetadata::VALIDATION_RULES => $this->validationRules,
             'note' => $textNote = 'Text Note',
-            'visible' => $visible = true,
+            'is_visible' => $visible = true,
             'some_key' => 'some_value',
         );
 
         $attributeData = $this->attributeMetadataBuilder->populateWithArray($data)->create();
         $this->assertEquals($textNote, $attributeData->getNote());
-        $this->assertEquals($visible, $attributeData->isVisible());
+        $this->assertEquals($visible, $attributeData->getIsVisible());
         $this->assertEquals($data[AttributeMetadata::OPTIONS], $attributeData->getOptions());
         $this->assertEquals($data[AttributeMetadata::VALIDATION_RULES], $attributeData->getValidationRules());
         $this->assertArrayNotHasKey('some_key',$attributeData->__toArray());
