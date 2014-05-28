@@ -21,8 +21,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const FRONTEND_INPUT = 'frontend_input';
 
-    const STORE_LABEL = 'store_label';
-
     const VALIDATION_RULES = 'validation_rules';
 
     const OPTIONS = 'options';
@@ -33,11 +31,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const IS_USER_DEFINED = 'is_user_defined';
 
-    const SORT_ORDER = 'sort_order';
-
     const FRONTEND_LABEL = 'frontend_label';
-
-    const IS_SYSTEM = 'is_system';
 
     const NOTE = 'note';
 
@@ -97,16 +91,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get label of the store.
-     *
-     * @return string
-     */
-    public function getStoreLabel()
-    {
-        return $this->_get(self::STORE_LABEL);
-    }
-
-    /**
      * Retrieve validation rules.
      *
      * @return \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[]
@@ -157,16 +141,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get attributes sort order.
-     *
-     * @return int
-     */
-    public function getSortOrder()
-    {
-        return $this->_get(self::SORT_ORDER);
-    }
-
-    /**
      * Get label which supposed to be displayed on frontend.
      *
      * @return string
@@ -184,16 +158,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getNote()
     {
         return $this->_get(self::NOTE);
-    }
-
-    /**
-     * Whether this is a system attribute.
-     *
-     * @return bool
-     */
-    public function getIsSystem()
-    {
-        return $this->_get(self::IS_SYSTEM);
     }
 
     /**

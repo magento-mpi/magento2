@@ -80,17 +80,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set store label
-     *
-     * @param  string $storeLabel
-     * @return $this
-     */
-    public function setStoreLabel($storeLabel)
-    {
-        return $this->_set(AttributeMetadata::STORE_LABEL, $storeLabel);
-    }
-
-    /**
      * Set validation rules
      *
      * @param  \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[] $validationRules
@@ -146,17 +135,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set sort order
-     *
-     * @param  int $sortOrder
-     * @return $this
-     */
-    public function setSortOrder($sortOrder)
-    {
-        return $this->_set(AttributeMetadata::SORT_ORDER, $sortOrder);
-    }
-
-    /**
      * Set front end label
      *
      * @param  string $frontendLabel
@@ -165,17 +143,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     public function setFrontendLabel($frontendLabel)
     {
         return $this->_set(AttributeMetadata::FRONTEND_LABEL, $frontendLabel);
-    }
-
-    /**
-     * Set is system
-     *
-     * @param  bool $isSystem
-     * @return $this
-     */
-    public function setIsSystem($isSystem)
-    {
-        return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
     }
 
     /**

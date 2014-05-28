@@ -10,6 +10,8 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\ProductAttributeReadService;
 use Magento\Catalog\Service\V1\ProductMetadataService;
+use Magento\Catalog\Service\V1\Data\ProductAttributeType;
+use Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder;
 
 class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,12 +33,12 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $productAttributeReadService = new ProductAttributeReadService(
             $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService'),
-            $inputtypeFactoryMock
+            $inputtypeFactoryMock,
+            new ProductAttributeTypeBuilder()
         );
         $types = $productAttributeReadService->types();
         $this->assertTrue(is_array($types));
-        $this->assertGreaterThan(0, count($types));
-        $this->assertArrayHasKey('value', $types[0]);
-        $this->assertArrayHasKey('label', $types[0]);
+        $this->assertNotEmpty($types);
+        $this->assertInstanceOf('Magento\Catalog\Service\V1\Data\ProductAttributeType', current($types));
     }
 }

@@ -56,16 +56,13 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
         return array(
             ['getAttributeCode', AttributeMetadata::ATTRIBUTE_CODE, 'code'],
             ['getFrontendInput', AttributeMetadata::FRONTEND_INPUT, '<br>'],
-            ['getStoreLabel', AttributeMetadata::STORE_LABEL, 'My Store'],
             ['getValidationRules', AttributeMetadata::VALIDATION_RULES, $this->validationRules],
             ['getIsVisible', AttributeMetadata::VISIBLE, true],
             ['getIsRequired', AttributeMetadata::IS_REQUIRED, true],
             ['getOptions', AttributeMetadata::OPTIONS, $this->optionRules],
             ['getIsUserDefined', AttributeMetadata::IS_USER_DEFINED, false],
-            ['getSortOrder', AttributeMetadata::SORT_ORDER, 100],
             ['getFrontendLabel', AttributeMetadata::FRONTEND_LABEL, 'Label'],
             ['getNote', AttributeMetadata::NOTE, 'Text Note'],
-            ['getIsSystem', AttributeMetadata::IS_SYSTEM, false],
             ['getBackendType', AttributeMetadata::BACKEND_TYPE, 'Type']
         );
     }

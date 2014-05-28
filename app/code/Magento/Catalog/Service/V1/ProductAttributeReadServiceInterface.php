@@ -27,6 +27,8 @@ interface ProductAttributeReadServiceInterface
      *
      * @param  string $id
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function info($id);
 }
