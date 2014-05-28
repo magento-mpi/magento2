@@ -89,11 +89,11 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
         parent::__construct(
             $context,
             $customerSession,
+            $checkoutSession,
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
             $httpContext,
-            $checkoutSession,
             $data
         );
     }

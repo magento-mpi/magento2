@@ -8,17 +8,19 @@
 
 namespace Magento\Pbridge\Model\System\Config\Source;
 
+use Magento\Payment\Model\Method\AbstractMethod;
+
 class PaymentAction
 {
     public function toOptionArray()
     {
         return array(
             array(
-                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
+                'value' => AbstractMethod::ACTION_AUTHORIZE,
                 'label' => __('Authorize Only')
             ),
             array(
-                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
+                'value' => AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
             ),
         );

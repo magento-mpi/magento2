@@ -179,6 +179,7 @@ class Observer
      */
     public function saveOrderAfterSubmit(\Magento\Framework\Event\Observer $observer)
     {
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getData('order');
         $this->_coreRegistry->register('pbridge_order', $order, true);
         return $this;
