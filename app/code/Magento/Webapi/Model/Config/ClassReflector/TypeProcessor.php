@@ -391,7 +391,11 @@ class TypeProcessor
             if (!settype($value, $type)) {
                 throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
             }
-        } else {
+        }
+//        elseif (!$this->isArrayType($type) && is_array($value)){
+//            return $value;
+//        }
+        else{
             throw new \Magento\Webapi\Exception(sprintf($invalidTypeMsg, $value, $type));
         }
         return $value;

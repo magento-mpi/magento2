@@ -29,8 +29,7 @@ class ProductServiceTest extends WebapiAbstract
     {
         $productBuilder = function($data) {
             return array_replace_recursive(
-                [
-                    Product::SKU => uniqid('sku-', true),
+                Product::SKU => uniqid('sku-', true),
                     Product::NAME => uniqid('name-', true),
                     Product::VISIBILITY => 4,
                     Product::TYPE_ID => 'simple',
@@ -45,13 +44,6 @@ class ProductServiceTest extends WebapiAbstract
                             'attribute_code' => 'meta_title',
                             'value' => 'meta_title'
                         ],
-//                        [
-//                            'attribute_code' => 'test',
-//                            'value' => [
-//                                'a' => 'b',
-//                                'c' => 'd',
-//                            ]
-//                        ],
                     ]
                 ],
                 $data
@@ -81,6 +73,50 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $requestData = ['product' => $product];
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertGreaterThan(0, $response);
+    }
+
+    public function testCreateEmpty()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'create'
+            ],
+        ];
+
+        $requestData = ['product' => []];
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertGreaterThan(0, $response);
+    }
+
+    public function testUpdate()
+    {
+        $id = 56;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'update'
+            ],
+        ];
+
+        $requestData = [
+            'product' => [
+                Product::ID => $id,
+                Product::NAME => uniqid('name-', true),
+            ]
+        ];
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertGreaterThan(0, $response);
     }

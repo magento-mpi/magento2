@@ -121,14 +121,23 @@ class ProductService implements ProductServiceInterface
     public function update(\Magento\Catalog\Service\V1\Data\Product $product)
     {
         $productModel = $this->productFactory->create();
+        $productModel->load($product->getId());
         if (!$productModel->getId()) {
             throw NoSuchEntityException::singleField('id', $product->getId());
         }
-        $this->productMapper->toModel($product, $productModel);
-        $this->initializationHelper->initialize($productModel);
-        $this->productTypeManager->processProduct($productModel);
-        $productModel->validate();
-        $productModel->save();
+        try {
+            $this->productMapper->toModel($product, $productModel);
+            $this->initializationHelper->initialize($productModel);
+            $this->productTypeManager->processProduct($productModel);
+            $productModel->validate();
+            $productModel->save();
+        } catch  (\Magento\Eav\Model\Entity\Attribute\Exception $exception) {
+            throw \Magento\Framework\Exception\InputException::invalidFieldValue(
+                $exception->getAttributeCode(),
+                $productModel->getData($exception->getAttributeCode()),
+                $exception
+            );
+        }
         return $productModel->getId();
     }
 

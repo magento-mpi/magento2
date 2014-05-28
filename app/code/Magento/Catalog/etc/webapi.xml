@@ -15,6 +15,12 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
+    <route url="/V1/products" method="PUT">
+        <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="update" />
+        <resources>
+            <resource ref="Magento_Catalog::products" />
+        </resources>
+    </route>
     <route url="/V1/products/:id" method="DELETE">
         <service class="Magento\Catalog\Service\V1\ProductServiceInterface" method="delete"/>
         <resources>
