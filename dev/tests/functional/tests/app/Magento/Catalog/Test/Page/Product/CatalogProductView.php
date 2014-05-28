@@ -85,6 +85,12 @@ class CatalogProductView extends FrontendPage
             'class' => 'Magento\Catalog\Test\Block\Product\Price',
             'locator' => '#map-popup-click-for-price',
             'strategy' => 'css selector',
+        ],
+        'titleBlock' => [
+            'name' => 'titleBlock',
+            'class' => 'Magento\Theme\Test\Block\Html\Title',
+            'locator' => '.page.title h1.title',
+            'strategy' => 'css selector',
         ]
     ];
 
@@ -195,5 +201,13 @@ class CatalogProductView extends FrontendPage
     public function getMapBlock()
     {
         return $this->getBlockInstance('mapBlock');
+    }
+
+    /**
+     * @return \Magento\Theme\Test\Block\Html\Title
+     */
+    public function getTitleBlock()
+    {
+        return $this->getBlockInstance('titleBlock');
     }
 }

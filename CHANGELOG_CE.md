@@ -75,13 +75,20 @@
   * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
   * Fixed: File permissions change after system backup (MAGETWO-20995)
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+  * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
+  * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
+  * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
 * Functional tests:
   * Tax Rule Creation
-  * Admin User Roe Creation
+  * Admin User Role Creation
   * Simple Product Creation
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+  * Virtual Product Creation
+  * Catalog Price Rule Creation
+  * Category Url Rewrite Creation
+  * Admin User Role Deletion
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
