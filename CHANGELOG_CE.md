@@ -75,6 +75,9 @@
   * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
   * Fixed: File permissions change after system backup (MAGETWO-20995)
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+  * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
+  * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
+  * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
 * Functional tests:
   * Tax Rule Creation
   * Admin User Roe Creation
