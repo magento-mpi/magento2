@@ -90,7 +90,8 @@ class Generator implements NonceGeneratorInterface
 
             if ($nonceObj->getNonce()) {
                 throw new \Magento\Framework\Oauth\Exception(
-                   'The nonce is already being used by the consumer with ID %1', [$consumer->getId()]
+                    'The nonce is already being used by the consumer with ID %1',
+                    [$consumer->getId()]
                 );
             }
 

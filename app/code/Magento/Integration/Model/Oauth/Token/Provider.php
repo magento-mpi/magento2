@@ -243,7 +243,8 @@ class Provider implements TokenProviderInterface
 
         if (!$consumer->getId()) {
             throw new \Magento\Framework\Oauth\Exception(
-                'A consumer with the ID %1 does not exist', [$consumerId]
+                'A consumer with the ID %1 does not exist',
+                [$consumerId]
             );
         }
 
@@ -289,7 +290,8 @@ class Provider implements TokenProviderInterface
 
         if (!$token->getId()) {
             throw new \Magento\Framework\Oauth\Exception(
-                'A token with consumer ID %1 does not exist', [$consumerId]
+                'A token with consumer ID %1 does not exist',
+                [$consumerId]
             );
         }
 

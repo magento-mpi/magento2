@@ -178,7 +178,8 @@ class Oauth implements OauthInterface
     {
         if (!in_array($params['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             throw new OauthInputException(
-                'Signature method %1 is not supported', [$params['oauth_signature_method']]
+                'Signature method %1 is not supported',
+                [$params['oauth_signature_method']]
             );
         }
 
@@ -253,7 +254,8 @@ class Oauth implements OauthInterface
         // Validate signature method.
         if (!in_array($protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             throw new OauthInputException(
-                'Signature method %1 is not supported', [$protocolParams['oauth_signature_method']]
+                'Signature method %1 is not supported',
+                [$protocolParams['oauth_signature_method']]
             );
         }
 

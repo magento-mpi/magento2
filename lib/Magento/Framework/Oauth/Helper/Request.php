@@ -195,7 +195,7 @@ class Request
 
         if ($exception instanceof \Magento\Framework\Oauth\Exception) {
             $responseCode = self::HTTP_UNAUTHORIZED;
-        } elseif($exception instanceof \Magento\Framework\Oauth\OauthInputException) {
+        } elseif ($exception instanceof \Magento\Framework\Oauth\OauthInputException) {
             $responseCode = self::HTTP_BAD_REQUEST;
         } else {
             $errorMsg = 'internal_error&message=' . ($errorMsg ? $errorMsg : 'empty_message');

@@ -198,7 +198,8 @@ class OauthV1 implements OauthV1Interface
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             if (!$consumer->getId()) {
                 throw new \Magento\Framework\Oauth\OauthInputException(
-                    'A consumer with ID %1 does not exist', [$consumerId]
+                    'A consumer with ID %1 does not exist',
+                    [$consumerId]
                 );
             }
             $consumerData = $consumer->getData();
