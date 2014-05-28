@@ -41,7 +41,7 @@ class AssertTaxRuleIsNotApplied extends AbstractConstraint
      * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param AddressInjectable $address
-     * @param $shipping
+     * @param array $shipping
      * @param TaxRule $initialTaxRule
      * @return void
      */
@@ -54,7 +54,7 @@ class AssertTaxRuleIsNotApplied extends AbstractConstraint
         CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         AddressInjectable $address,
-        $shipping,
+        array $shipping,
         TaxRule $initialTaxRule = null
     ) {
         $errorMessages = [];

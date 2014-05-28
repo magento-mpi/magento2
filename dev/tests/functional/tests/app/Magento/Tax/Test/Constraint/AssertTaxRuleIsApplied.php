@@ -41,7 +41,7 @@ class AssertTaxRuleIsApplied extends AbstractConstraint
      * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param AddressInjectable $address
-     * @param $shipping
+     * @param array $shipping
      * @return void
      */
     public function processAssert(
@@ -53,7 +53,7 @@ class AssertTaxRuleIsApplied extends AbstractConstraint
         CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         AddressInjectable $address,
-        $shipping
+        array $shipping
     ) {
         $errorMessages = [];
         // Customer login
