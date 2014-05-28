@@ -50,11 +50,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
                                ->will($this->returnValue($this->lessFileMock));
     }
 
-    /**
-     * Tests base case of no matched files.
-     * @return void
-     */
-    public function testProcess()
+    public function testProcessNoReplacement()
     {
         $importObject = new Import($this->relatedFileMock, $this->errorHandlerMock, $this->lessFileListMock);
 
@@ -63,11 +59,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $importObject->process($this->lessFileMock, self::SAMPLE_IMPORT_1));
     }
 
-    /**
-     * Tests simple case of a single path replacement.
-     * @return void
-     */
-    public function testProcess2()
+    public function testProcessSingleReplacement()
     {
         $importObject = new Import($this->relatedFileMock, $this->errorHandlerMock, $this->lessFileListMock);
 
@@ -83,10 +75,6 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * Tests the exception path.
-     * @return void
-     */
     public function testProcessException()
     {
         $importObject = new Import($this->relatedFileMock, $this->errorHandlerMock, $this->lessFileListMock);
