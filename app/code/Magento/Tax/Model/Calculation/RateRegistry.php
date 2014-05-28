@@ -14,10 +14,17 @@ use Magento\Tax\Model\Calculation\Rate as TaxRateModel;
 
 class RateRegistry
 {
-    /** @var  TaxRateModelFactory */
-    private $taxModelRateFactory;
     /**
-     * @var array
+     * Tax rate model factory
+     *
+     * @var  TaxRateModelFactory
+     */
+    private $taxRateModelFactory;
+
+    /**
+     * Tax rate models
+     *
+     * @var TaxRateModel[]
      */
     private $taxRateRegistryById = [];
 
@@ -29,13 +36,14 @@ class RateRegistry
     public function __construct(
         TaxRateModelFactory $taxModelRateFactory
     ) {
-        $this->taxModelRateFactory = $taxModelRateFactory;
+        $this->taxRateModelFactory = $taxModelRateFactory;
     }
 
     /**
-     * Registers TaxRate Model to registry
+     * Register TaxRate Model to registry
      *
      * @param TaxRateModel $taxRateModel
+     * @return void
      */
     public function registerTaxRate(TaxRateModel $taxRateModel)
     {
@@ -55,7 +63,7 @@ class RateRegistry
             return $this->taxRateRegistryById[$taxRateId];
         }
         /** @var TaxRateModel $taxRateModel */
-        $taxRateModel = $this->taxModelRateFactory->create()->load($taxRateId);
+        $taxRateModel = $this->taxRateModelFactory->create()->load($taxRateId);
         if (!$taxRateModel->getId()) {
             // tax rate does not exist
             throw NoSuchEntityException::singleField('taxRateId', $taxRateId);
