@@ -6,20 +6,33 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getInstance()
-    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+/** @var \Magento\Framework\Registry $registry */
+$registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+$registry->unregister('isSecureArea');
+$registry->register('isSecureArea', true);
+
 
 /** @var $simpleProduct \Magento\Catalog\Model\Product */
 $simpleProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $simpleProduct->load(2);
-$simpleProduct->delete();
+if ($simpleProduct->getId()) {
+    $simpleProduct->delete();
+}
 
 /** @var $virtualProduct \Magento\Catalog\Model\Product */
 $virtualProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $virtualProduct->load(21);
-$virtualProduct->delete();
+if ($virtualProduct->getId()) {
+    $virtualProduct->delete();
+}
 
 /** @var $groupedProduct \Magento\Catalog\Model\Product */
 $groupedProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $groupedProduct->load(9);
-$groupedProduct->delete();
+if ($groupedProduct->getId()) {
+    $groupedProduct->delete();
+}
+
+$registry->unregister('isSecureArea');
+$registry->register('isSecureArea', false);
