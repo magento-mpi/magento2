@@ -16,17 +16,6 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
 class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
-     * Set product id
-     *
-     * @param int $productId
-     * @return $this
-     */
-    public function setProductId($productId)
-    {
-        return $this->_set(ProductLinkEntity::ID, $productId);
-    }
-
-    /**
      * Set type
      *
      * @param string $type

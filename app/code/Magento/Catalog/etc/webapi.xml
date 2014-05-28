@@ -39,4 +39,10 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/:productSku/links/:type/:linkedProductSku" method="PUT">
+        <service class="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" method="update"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
 </routes>

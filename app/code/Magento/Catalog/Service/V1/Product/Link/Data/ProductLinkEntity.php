@@ -16,21 +16,10 @@ class ProductLinkEntity extends \Magento\Framework\Service\Data\AbstractObject
     /**#@+
      * Constants for Data Object keys
      */
-    const ID = 'product_id';
     const TYPE = 'type';
     const ATTRIBUTE_SET_ID = 'attribute_set_id';
     const SKU = 'sku';
     const POSITION = 'position';
-
-    /**
-     * Get product id
-     *
-     * @return int
-     */
-    public function getProductId()
-    {
-        return $this->_get(self::ID);
-    }
 
     /**
      * Get type

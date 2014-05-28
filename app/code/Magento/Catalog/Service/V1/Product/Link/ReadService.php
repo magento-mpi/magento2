@@ -117,7 +117,6 @@ class ReadService implements ReadServiceInterface
         foreach ($collection as $item) {
             /** @var \Magento\Catalog\Model\Product $item */
             $data = [
-                ProductLinkEntity::ID => $item->getId(),
                 ProductLinkEntity::TYPE => $item->getTypeId(),
                 ProductLinkEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
                 ProductLinkEntity::SKU => $item->getSku(),

@@ -43,7 +43,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->linkType = 'related';
         $this->productData =
             [
-                Data\ProductLinkEntity::ID => 21,
                 Data\ProductLinkEntity::TYPE => 'virtual',
                 Data\ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
                 Data\ProductLinkEntity::SKU => 'virtual-product',
@@ -88,7 +87,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testAssignWithInvalidLinkedProducts()
     {
-        $expectedException = 'Invalid data provided for linked products';
+        $expectedException = "Product with SKU \\\"virtual-product\\\" does not exist";
         try {
             $this->_webApiCall(
                 $this->serviceInfo,
@@ -177,5 +176,54 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $actual = $service->getLinkedProducts($productSku, $linkType);
         $this->assertEmpty($actual);
+    }
+
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
+     */
+    public function testUpdate()
+    {
+        $productSku = 'simple_with_cross';
+        $linkedSku = 'simple';
+        $linkType = 'related';
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Update'
+            ]
+        ];
+
+        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        /** @var \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface $service */
+        $service = $objectManager->get('Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface');
+
+        $actual = $service->getLinkedProducts($productSku, $linkType);
+        $this->assertCount(1, $actual);
+
+        $this->assertEquals(1, $actual[0]->getPosition());
+
+        /** @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntityBuilder $builder */
+        $builder = $objectManager->get('Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntityBuilder');
+        $builder->populate(
+            $actual[0]
+        )->setPosition(2);
+
+        $updatedLink = $builder->create();
+
+        $this->_webApiCall(
+            $serviceInfo,
+            ['productSku' => $productSku, 'linkedProduct' => $updatedLink->__toArray(), 'type' => $linkType]
+        );
+
+        $actual = $service->getLinkedProducts($productSku, $linkType);
+        $this->assertCount(1, $actual);
+        $this->assertEquals(2, $actual[0]->getPosition());
     }
 }

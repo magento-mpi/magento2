@@ -65,14 +65,12 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
 
         $expected = [
             [
-                'product_id' => 2,
                 'type' => 'simple',
                 'attribute_set_id' => 4,
                 'sku' => 'simple-1',
                 'position' => 1
             ],
             [
-                'product_id' => 21,
                 'type' => 'virtual',
                 'attribute_set_id' => 4,
                 'sku' => 'virtual-product',
