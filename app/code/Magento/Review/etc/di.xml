@@ -23,4 +23,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Review\Model\Review">
+        <arguments>
+            <argument name="urlModel" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
 </config>

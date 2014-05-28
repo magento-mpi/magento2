@@ -9,20 +9,16 @@ namespace Magento\Framework;
 
 interface UrlInterface
 {
-    /**
+    /**#@+
      * Possible URL types
      */
     const URL_TYPE_LINK = 'link';
-
     const URL_TYPE_DIRECT_LINK = 'direct_link';
-
     const URL_TYPE_WEB = 'web';
-
     const URL_TYPE_MEDIA = 'media';
-
     const URL_TYPE_STATIC = 'static';
-
     const URL_TYPE_JS = 'js';
+    /**#@-*/
 
     /**
      * Default url type
