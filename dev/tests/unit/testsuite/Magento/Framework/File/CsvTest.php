@@ -22,7 +22,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Framework\File\Csv;
+        $this->_model = new \Magento\Framework\File\Csv();
     }
 
     protected function tearDown()
@@ -32,7 +32,14 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
     public function testSetLineLength()
     {
-        $this->assertInstanceOf('\Magento\Framework\File\Csv', $this->_model->setLineLength(4));
+        $expected = 4;
+        $this->_model->setLineLength($expected);
+        $lineLengthProperty = new \ReflectionProperty(
+            'Magento\Framework\File\Csv', '_lineLength'
+        );
+        $lineLengthProperty->setAccessible(true);
+        $actual = $lineLengthProperty->getValue($this->_model);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testSetDelimiter()
