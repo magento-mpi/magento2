@@ -110,7 +110,7 @@ class Converter
         if ($zipRange) {
             $zipFrom = $zipRange->getFrom();
             $zipTo = $zipRange->getTo();
-            if (!empty($zipFrom) && !empty($zipTo)) {
+            if (!empty($zipFrom) || !empty($zipTo)) {
                 $rateModel->setZipIsRange(1);
             }
             $rateModel->setZipFrom($zipFrom);
