@@ -23,9 +23,11 @@ interface TaxRateServiceInterface
     /**
      * Get tax rates
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxRate[]
+     * @param int $rateId
+     * @return \Magento\Tax\Service\V1\Data\TaxRate
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getTaxRates();
+    public function getTaxRate($rateId);
 
     /**
      * Update given tax rate

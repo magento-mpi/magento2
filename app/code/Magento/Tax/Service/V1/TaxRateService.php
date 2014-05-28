@@ -15,7 +15,7 @@ use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Framework\Exception\InputException;
-use Magento\Tax\Model\TaxRegistry;
+use Magento\Tax\Model\Calculation\RateRegistry;
 
 /**
  * Handles tax rate CRUD operations
@@ -24,43 +24,41 @@ use Magento\Tax\Model\TaxRegistry;
 class TaxRateService implements TaxRateServiceInterface
 {
     /**
-     * @var  TaxRateModelFactory
-     */
-    protected $rateModelFactory;
-
-    /**
+     * Tax rate model and tax rate data object converter
+     *
      * @var  Converter
      */
     protected $converter;
 
     /**
+     * Tax rate data object builder
+     *
      * @var  TaxRateBuilder
      */
     protected $rateBuilder;
 
     /**
-     * @var  TaxRegistry
+     * Tax rate registry
+     *
+     * @var  RateRegistry
      */
-    protected $taxRegistry;
+    protected $rateRegistry;
 
     /**
      * Constructor
      *
-     * @param TaxRateModelFactory $rateFactory
      * @param TaxRateBuilder $rateBuilder
      * @param Converter $converter
-     * @param TaxRegistry $taxRegistry
+     * @param RateRegistry $rateRegistry
      */
     public function __construct(
-        TaxRateModelFactory $rateFactory,
         TaxRateBuilder $rateBuilder,
         Converter $converter,
-        TaxRegistry $taxRegistry
+        RateRegistry $rateRegistry
     ) {
-        $this->rateModelFactory = $rateFactory;
         $this->rateBuilder = $rateBuilder;
         $this->converter = $converter;
-        $this->taxRegistry = $taxRegistry;
+        $this->rateRegistry = $rateRegistry;
     }
 
     /**
@@ -75,15 +73,10 @@ class TaxRateService implements TaxRateServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getTaxRates()
+    public function getTaxRate($rateId)
     {
-        $collection = $this->rateModelFactory->create()->getResourceCollection();
-        $taxRates = [];
-        /** @var RateModel $rateModel */
-        foreach ($collection as $rateModel) {
-            $taxRates[] = $this->converter->createTaxRateDataObjectFromModel($rateModel);
-        }
-        return $taxRates;
+        $rateModel = $this->rateRegistry->retrieveTaxRate($rateId);
+        return $this->converter->createTaxRateDataObjectFromModel($rateModel);
     }
 
     /**

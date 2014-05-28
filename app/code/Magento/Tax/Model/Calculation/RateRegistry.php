@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Model;
+namespace Magento\Tax\Model\Calculation;
 
 use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Model\Calculation\Rate as TaxRateModel;
 
-class TaxRegistry
+class RateRegistry
 {
     /** @var  TaxRateModelFactory */
     private $taxModelRateFactory;

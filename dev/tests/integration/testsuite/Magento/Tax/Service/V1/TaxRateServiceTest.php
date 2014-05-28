@@ -127,24 +127,36 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetTaxRates()
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testGetTaxRate()
     {
-        $taxRates = $this->taxRateService->getTaxRates();
-        $this->assertEquals(2, count($taxRates));
-        foreach($taxRates as $taxRate) {
-            if ($taxRate->getId() == 1) {
-                $this->assertEquals('US', $taxRate->getCountryId());
-                $this->assertEquals(12, $taxRate->getRegionId());
-                $this->assertEquals(8.2500, $taxRate->getPercentageRate());
-                $this->assertNull($taxRate->getZipRange());
-            }
+        $data = [
+            'tax_country_id' => 'US',
+            'tax_region_id' => '12',
+            'tax_postcode' => '*',
+            'code' => 'US_12_Code',
+            'rate' => '7.5'
+        ];
+        $rate = $this->objectManager->create('Magento\Tax\Model\Calculation\Rate')
+            ->setData($data)
+            ->save();
+        $taxRate = $this->taxRateService->getTaxRate($rate->getId());
+        $this->assertEquals('US', $taxRate->getCountryId());
+        $this->assertEquals(12, $taxRate->getRegionId());
+        $this->assertEquals('*', $taxRate->getPostcode());
+        $this->assertEquals('US_12_Code', $taxRate->getCode());
+        $this->assertEquals(7.5, $taxRate->getPercentageRate());
+        $this->assertNull($taxRate->getZipRange());
+    }
 
-            if ($taxRate->getId() == 2) {
-                $this->assertEquals('US', $taxRate->getCountryId());
-                $this->assertEquals(43, $taxRate->getRegionId());
-                $this->assertEquals(8.3750, $taxRate->getPercentageRate());
-                $this->assertNull($taxRate->getZipRange());
-            }
-        }
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxRateId = 10
+     */
+    public function testGetRateWithNoSuchEntityException()
+    {
+        $this->taxRateService->getTaxRate(10);
     }
 }
