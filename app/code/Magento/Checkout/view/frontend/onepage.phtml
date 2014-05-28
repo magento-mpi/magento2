@@ -26,15 +26,18 @@ $_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
     </ol>
     <script type="text/javascript">
         (function($) {
-            $('#checkoutSteps').mage('accordion', {
-                'activeSelector': '#opc-<?php echo $this->getActiveStep() ?>'
-            }).mage('opcheckout', $.extend({
-                'checkoutAgreements': '#checkout-agreements',
-                'checkoutProgressContainer': '#checkout-progress-wrapper',
-                'methodDescription': '.items'
-                },
-                <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($_paymentBlock->getOptions()); ?>
-            ));
+            'use strict';
+            $(document).ready(function() {
+                $('#checkoutSteps').mage('accordion', {
+                    'activeSelector': '#opc-<?php echo $this->getActiveStep() ?>'
+                }).mage('opcheckout', $.extend({
+                    'checkoutAgreements': '#checkout-agreements',
+                    'checkoutProgressContainer': '#checkout-progress-wrapper',
+                    'methodDescription': '.items'
+                    },
+                    <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($_paymentBlock->getOptions()); ?>
+                ));
+            });
         })(jQuery);
     </script>
 </div>
