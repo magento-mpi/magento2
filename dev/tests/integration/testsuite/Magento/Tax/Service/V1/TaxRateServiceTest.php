@@ -119,11 +119,39 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function createDataProvider()
+    {
+        return [
+            'invalidZipRange' => [
+                ['zip_range' => ['from' => 'from', 'to' => 'to']],
+                'error' => [
+                    'Invalid value of "from" provided for the zip_from field.',
+                    'Invalid value of "to" provided for the zip_to field.'
+                ]
+            ],
+            'emptyZipRange' => [
+                ['zip_range' => ['from' => '', 'to' => '']],
+                'error' => [
+                    'Invalid value of "" provided for the zip_from field.',
+                    'Invalid value of "" provided for the zip_to field.'
+                ]
+            ],
+            'empty' => [
+                [],
+                'error' => ['postcode is a required field.']
+            ],
+            'zipRangeAndPostcode' => [
+                ['postcode' => 78727, 'zip_range' => ['from' => 78765, 'to' => 78780]],
+                'error' => []
+            ]
+        ];
+    }
+
     public function testGetTaxRates()
     {
         $taxRates = $this->taxRateService->getTaxRates();
         $this->assertEquals(2, count($taxRates));
-        foreach($taxRates as $taxRate) {
+        foreach ($taxRates as $taxRate) {
             if ($taxRate->getId() == 1) {
                 $this->assertEquals('US', $taxRate->getCountryId());
                 $this->assertEquals(12, $taxRate->getRegionId());
@@ -140,22 +168,4 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function createDataProvider()
-    {
-        $errorMessages = [
-            [
-                'Invalid value of "from" provided for the zip_from field.',
-                'Invalid value of "to" provided for the zip_to field.'
-            ],
-            ['postcode is a required field.']
-        ];
-        return [
-            ['invalidZipRange' => ['zip_range' => ['from' => 'from', 'to' => 'to']], 'error' => $errorMessages[0]],
-            ['emptyZipRange' => ['zip_range' => ['from' => '', 'to' => '']], 'error' => $errorMessages[1]],
-            [
-                'zipRangeAndPostCode' => ['postcode' => 78727, 'zip_range' => ['from' => 78765, 'to' => 78780]],
-                'error' => []
-            ]
-        ];
-    }
 }

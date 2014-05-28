@@ -148,11 +148,12 @@ class TaxRateService implements TaxRateServiceInterface
         if (!\Zend_Validate::is(trim($taxRate->getCode()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'code']);
         }
-        $zipRangeFromTo = [
-            'zip_from' => $taxRate->getZipRange()->getFrom(),
-            'zip_to' => $taxRate->getZipRange()->getTo()
-        ];
-        if (!empty($zipRangeFromTo['zip_from']) && !empty($zipRangeFromTo['zip_to'])) {
+
+        if ($taxRate->getZipRange()) {
+            $zipRangeFromTo = [
+                'zip_from' => $taxRate->getZipRange()->getFrom(),
+                'zip_to' => $taxRate->getZipRange()->getTo()
+            ];
             foreach ($zipRangeFromTo as $key => $value) {
                 if (!is_numeric($value) || $value < 0) {
                     $exception->addError(
