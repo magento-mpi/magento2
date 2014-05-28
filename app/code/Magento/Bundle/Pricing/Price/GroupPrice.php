@@ -21,6 +21,8 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice implements Di
     protected $percent;
 
     /**
+     * Returns percent discount value
+     *
      * @return bool|float
      */
     public function getDiscountPercent()
@@ -33,6 +35,8 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice implements Di
     }
 
     /**
+     * Returns pice value
+     *
      * @return float|bool
      */
     public function getValue()
@@ -52,6 +56,8 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice implements Di
     }
 
     /**
+     * Returns regular price
+     *
      * @return bool|float
      */
     protected function getRegularPrice()

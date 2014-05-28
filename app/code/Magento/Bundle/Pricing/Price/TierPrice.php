@@ -11,7 +11,7 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Catalog\Pricing\Price\RegularPrice;
 
 /**
- * Bundle tire prices model
+ * Bundle tier prices model
  */
 class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice implements DiscountProviderInterface
 {
@@ -26,6 +26,8 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice implements Disc
     protected $percent;
 
     /**
+     * Returns percent discount
+     *
      * @return bool|float
      */
     public function getDiscountPercent()
@@ -38,6 +40,8 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice implements Disc
     }
 
     /**
+     * Returns pricing value
+     *
      * @return bool|float
      */
     public function getValue()
@@ -57,6 +61,8 @@ class TierPrice extends \Magento\Catalog\Pricing\Price\TierPrice implements Disc
     }
 
     /**
+     * Returns regular price
+     *
      * @return bool|float
      */
     protected function getRegularPrice()

@@ -32,6 +32,8 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
+     * Returns price value
+     *
      * @return float
      */
     public function getValue()
@@ -52,6 +54,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
+     *
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMinimalPrice()
@@ -60,6 +63,8 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
+     * Returns price amount
+     *
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getAmount()
@@ -68,10 +73,12 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
+     * Returns option price
+     *
      * @return \Magento\Bundle\Pricing\Price\BundleOptionPrice
      */
     protected function getBundleOptionPrice()
     {
-        return $this->priceInfo->getPrice(BundleOptionPrice::PRICE_CODE, $this->quantity);
+        return $this->priceInfo->getPrice(BundleOptionPrice::PRICE_CODE);
     }
 }

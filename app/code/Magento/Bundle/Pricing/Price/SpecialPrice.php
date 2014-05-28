@@ -21,6 +21,8 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice implement
     protected $percent;
 
     /**
+     * Returns discount percent
+     *
      * @return bool|float
      */
     public function getDiscountPercent()
@@ -32,6 +34,8 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice implement
     }
 
     /**
+     * Returns price value
+     *
      * @return bool|float
      */
     public function getValue()
@@ -51,6 +55,8 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice implement
     }
 
     /**
+     * Returns regular price
+     *
      * @return bool|float
      */
     protected function getRegularPrice()
