@@ -1,7 +1,5 @@
 <?php
 /**
- * SKU failed grid collection
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,7 +10,7 @@ namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 use Magento\CatalogInventory\Service\V1\StockStatusServiceInterface as StockStatus;
 
 /**
- * Class Collection
+ * SKU failed grid collection
  */
 class Collection extends \Magento\Framework\Data\Collection
 {
@@ -80,19 +78,17 @@ class Collection extends \Magento\Framework\Data\Collection
                 }
                 $item->addData($affectedItem['item']);
                 $item->setId($item->getSku());
-                /* @var $product \Magento\Catalog\Model\Product */
-                $product = $this->_productModel;
                 if (isset($affectedItem['item']['id'])) {
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
-                    $product->load($productId);
+                    $this->_productModel->load($productId);
                     $status = $this->stockStatus->getProductStockStatus($productId, $this->getWebsiteId());
                     if (!empty($status[$productId])) {
-                        $product->setIsSalable($status[$productId]);
+                        $this->_productModel->setIsSalable($status[$productId]);
                     }
-                    $item->setPrice($this->_coreHelper->formatPrice($product->getPrice()));
+                    $item->setPrice($this->_coreHelper->formatPrice($this->_productModel->getPrice()));
                 }
-                $item->setProduct($product);
+                $item->setProduct($this->_productModel);
                 $this->addItem($item);
             }
             $this->_setIsLoaded(true);

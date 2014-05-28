@@ -128,8 +128,7 @@ class Products extends \Magento\Checkout\Block\Cart
     {
         $products = array();
         /* @var $item \Magento\Sales\Model\Quote\Item */
-        $ttt = $this->getItems();
-        foreach ($ttt as $item) {
+        foreach ($this->getItems() as $item) {
             if ($item->getProductType() == 'undefined') {
                 continue;
             }
