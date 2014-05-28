@@ -257,4 +257,24 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->taxRateService->updateTaxRate($updatedTaxRate);
     }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testDeleteTaxRate()
+    {
+        // Tax rates with ids 1 and 2 exist in database
+        $this->assertTrue($this->taxRateService->deleteTaxRate(1));
+        $this->assertTrue($this->taxRateService->deleteTaxRate(2));
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxRateId = 9999
+     */
+    public function testDeleteTaxRateException()
+    {
+        $this->taxRateService->deleteTaxRate(9999);
+    }
 }

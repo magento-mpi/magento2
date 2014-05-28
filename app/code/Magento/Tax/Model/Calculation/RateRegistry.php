@@ -71,4 +71,15 @@ class RateRegistry
         $this->taxRateRegistryById[$taxRateModel->getId()] = $taxRateModel;
         return $taxRateModel;
     }
+
+    /**
+     * Remove an instance of the TaxRate Model from the registry
+     *
+     * @param int $taxRateId
+     * @return void
+     */
+    public function removeTaxRate($taxRateId)
+    {
+        unset($this->taxRateRegistryById[$taxRateId]);
+    }
 }

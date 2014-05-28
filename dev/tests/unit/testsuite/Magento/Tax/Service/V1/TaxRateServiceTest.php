@@ -191,6 +191,47 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRateService->updateTaxRate($taxRate);
     }
 
+    public function testDeleteTaxRate()
+    {
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateRegistryMock->expects($this->once())
+            ->method('removeTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->taxRateService->deleteTaxRate(1);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testDeleteTaxRateRetrieveException()
+    {
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with(1)
+            ->will($this->throwException(new NoSuchEntityException()));
+        $this->taxRateService->deleteTaxRate(1);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testDeleteTaxRateRemoveException()
+    {
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateRegistryMock->expects($this->once())
+            ->method('removeTaxRate')
+            ->with(1)
+            ->will($this->throwException(new NoSuchEntityException()));
+        $this->taxRateService->deleteTaxRate(1);
+    }
+
     /**
      * Creates a mock Rate model from a given TaxRate data object.
      *
