@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Service\V1;
 
-
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
