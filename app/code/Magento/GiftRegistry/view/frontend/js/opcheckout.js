@@ -12,8 +12,7 @@
         options: {
             giftRegistry: {
                 radioTemplateSelector: '#gift-registry-billing',
-                checkboxTemplateSelector: '#gift-registry-shipping',
-                listContainerSelector: '.form-list'
+                checkboxTemplateSelector: '#gift-registry-shipping'
             }
         },
 
@@ -26,10 +25,12 @@
          * @private
          */
         _injectElement: function() {
-            $(this.options.giftRegistry.radioTemplateSelector).tmpl().appendTo($(this.options.giftRegistry.listContainerSelector, this.options.billing.form).last('li'));
-            $(this.options.giftRegistry.checkboxTemplateSelector).tmpl()
-                .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.shipping.form).last('li'))
-                .on('click', $.proxy(this._checkboxHandler, this));
+            $('.choice', this.options.billing.form).last()
+                .after($(this.options.giftRegistry.radioTemplateSelector).tmpl());
+            var shippingCheckbox = $(this.options.giftRegistry.checkboxTemplateSelector).tmpl();
+            $('.choice', this.options.shipping.form).last()
+                .after(shippingCheckbox);
+            shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
         },
 
         /**

@@ -23,7 +23,7 @@ class Collection
      *
      * @var array
      */
-    protected $_events;
+    protected $events;
 
     /**
      * Global observers
@@ -32,15 +32,18 @@ class Collection
      *
      * @var Observer\Collection
      */
-    protected $_observers;
+    protected $globalObservers;
 
     /**
      * Initializes global observers collection
+     *
+     * @param array $events
+     * @param Observer\Collection $observerCollection
      */
-    public function __construct()
+    public function __construct(array $events = [], Observer\Collection $observerCollection = null)
     {
-        $this->_events = array();
-        $this->_globalObservers = new Observer\Collection();
+        $this->events = $events;
+        $this->globalObservers = !$observerCollection ? new Observer\Collection() : $observerCollection;
     }
 
     /**
@@ -50,7 +53,7 @@ class Collection
      */
     public function getAllEvents()
     {
-        return $this->_events;
+        return $this->events;
     }
 
     /**
@@ -60,7 +63,7 @@ class Collection
      */
     public function getGlobalObservers()
     {
-        return $this->_globalObservers;
+        return $this->globalObservers;
     }
 
     /**
@@ -73,10 +76,10 @@ class Collection
      */
     public function getEventByName($eventName)
     {
-        if (!isset($this->_events[$eventName])) {
+        if (!isset($this->events[$eventName])) {
             $this->addEvent(new Event(array('name' => $eventName)));
         }
-        return $this->_events[$eventName];
+        return $this->events[$eventName];
     }
 
     /**
@@ -87,7 +90,7 @@ class Collection
      */
     public function addEvent(Event $event)
     {
-        $this->_events[$event->getName()] = $event;
+        $this->events[$event->getName()] = $event;
         return $this;
     }
 

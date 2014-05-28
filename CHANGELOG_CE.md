@@ -1,13 +1,34 @@
+* Fixed bugs:
+  * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
+  * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
+  * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
+  * Fixed: Wrong message about backordered items in cart on backend (MAGETWO-1275)
+  * Fixed: Validate Each Address Separately in Multi-address Checkout affects ability to proceed to multi-address checkout(MAGETWO-3113)
+  * Fixed: The Minimum Order Amount does not apply to the order(MAGETWO-5814)
+  * Fixed: Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
+  * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
+  * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
+  * Fixed: Free shipping applied even if Free Shipping with Minimum Order Amount disabled (MAGETWO-18340)
+  * Fixed: Downloadable product that is set for "Links can be purchased separately" does not display as a grouped product (MAGETWO-21044)
+  * Fixed: Error at generation variation twice (MAGETWO-24155)
+  * Fixed: Category pager works incorrectly (MAGETWO-24235)
+  * Fixed: File permissions change after system backup (MAGETWO-20995)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+  * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
+  * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
+  * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
+
 2.0.0.0-dev79
 =============
 * Tax calculation updates:
- * Fixed issues in tax calculation rounding with discount applied
- * Fixed an issue with extra penny  when exact tax amount ended with 0.5 cent
- * Fixed an issue where there were tax calculation errors when customer tax rate was different from store tax rate
- * Added support to round tax at individual tax rate
- * Fixed price inconsistencies between catalog and shopping cart
- * Added support for maintaining consistent price including tax for customers with different tax rates
- * Added support for applying tax rules with different priorities to subtotal only
+  * Fixed issues in tax calculation rounding with discount applied
+  * Fixed an issue with extra penny  when exact tax amount ended with 0.5 cent
+  * Fixed an issue where there were tax calculation errors when customer tax rate was different from store tax rate
+  * Added support to round tax at individual tax rate
+  * Fixed price inconsistencies between catalog and shopping cart
+  * Added support for maintaining consistent price including tax for customers with different tax rates
+  * Added support for applying tax rules with different priorities to subtotal only
+  
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
