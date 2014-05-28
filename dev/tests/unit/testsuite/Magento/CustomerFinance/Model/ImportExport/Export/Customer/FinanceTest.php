@@ -94,7 +94,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ),
             $customerCollectionFactory,
             $eavCustomerFactory,
-            $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
+            $this->getMock('Magento\CustomerFinance\Helper\Data', array(), array(), '', false, false),
             $this->_getModelDependencies()
         );
     }

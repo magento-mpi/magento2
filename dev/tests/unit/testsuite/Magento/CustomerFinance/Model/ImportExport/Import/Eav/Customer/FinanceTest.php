@@ -120,7 +120,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $moduleHelper = $this->getMock(
-            'Magento\ScheduledImportExport\Helper\Data',
+            'Magento\CustomerFinance\Helper\Data',
             array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'),
             array(),
             '',

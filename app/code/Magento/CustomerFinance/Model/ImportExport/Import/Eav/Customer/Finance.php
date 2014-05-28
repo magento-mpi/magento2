@@ -80,9 +80,9 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
     /**
      * Helper to check whether modules are enabled/disabled
      *
-     * @var \Magento\ScheduledImportExport\Helper\Data
+     * @var \Magento\CustomerFinance\Helper\Data
      */
-    protected $_importExportData;
+    protected $_customerFinanceData;
 
     /**
      * Admin user object
@@ -125,7 +125,7 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\CustomerFinance\Helper\Data $customerFinanceData
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
@@ -143,7 +143,7 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\CustomerFinance\Helper\Data $customerFinanceData,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -169,7 +169,7 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;
         $this->_balanceFactory = $balanceFactory;
-        $this->_importExportData = $importExportData;
+        $this->_customerFinanceData = $customerFinanceData;
 
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user'] : $authSession->getUser();
 
@@ -214,7 +214,7 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
      */
     protected function _importData()
     {
-        if (!$this->_importExportData->isRewardPointsEnabled() && !$this->_importExportData->isCustomerBalanceEnabled()
+        if (!$this->_customerFinanceData->isRewardPointsEnabled() && !$this->_customerFinanceData->isCustomerBalanceEnabled()
         ) {
             return false;
         }

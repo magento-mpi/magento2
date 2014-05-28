@@ -45,25 +45,25 @@ class Collection extends \Magento\Framework\Data\Collection
     /**
      * Import export data
      *
-     * @var \Magento\ScheduledImportExport\Helper\Data
+     * @var \Magento\CustomerFinance\Helper\Data
      */
-    protected $_importExportData = null;
+    protected $_customerFinanceData = null;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\CustomerFinance\Helper\Data $customerFinanceData
      * @param \Magento\Eav\Model\AttributeFactory $attributeFactory
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\CustomerFinance\Helper\Data $customerFinanceData,
         \Magento\Eav\Model\AttributeFactory $attributeFactory
     ) {
-        $this->_importExportData = $importExportData;
+        $this->_customerFinanceData = $customerFinanceData;
         $this->_attributeFactory = $attributeFactory;
         parent::__construct($entityFactory);
 
-        if ($this->_importExportData->isCustomerBalanceEnabled()) {
+        if ($this->_customerFinanceData->isCustomerBalanceEnabled()) {
             $storeCreditData = array(
                 'attribute_id' => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
@@ -76,7 +76,7 @@ class Collection extends \Magento\Framework\Data\Collection
             );
         }
 
-        if ($this->_importExportData->isRewardPointsEnabled()) {
+        if ($this->_customerFinanceData->isRewardPointsEnabled()) {
             $rewardPointsData = array(
                 'attribute_id' => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,
