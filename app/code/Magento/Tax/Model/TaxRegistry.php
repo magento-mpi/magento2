@@ -33,7 +33,17 @@ class TaxRegistry
     }
 
     /**
-     * Retrieve Customer Model from registry given an id
+     * Registers TaxRate Model to registry
+     *
+     * @param TaxRateModel $taxRateModel
+     */
+    public function registerTaxRate(TaxRateModel $taxRateModel)
+    {
+        $this->taxRateRegistryById[$taxRateModel->getId()] = $taxRateModel;
+    }
+
+    /**
+     * Retrieve TaxRate Model from registry given an id
      *
      * @param int $taxRateId
      * @return TaxRateModel
@@ -50,6 +60,7 @@ class TaxRegistry
             // tax rate does not exist
             throw NoSuchEntityException::singleField('taxRateId', $taxRateId);
         }
+        $this->taxRateRegistryById[$taxRateModel->getId()] = $taxRateModel;
         return $taxRateModel;
     }
 }

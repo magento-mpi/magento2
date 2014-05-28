@@ -35,7 +35,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Calculation\Rate\Converter
      */
-    private $coverterMock;
+    private $converterMock;
 
     public function setUp()
     {
@@ -55,6 +55,44 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->taxRateService = $this->createService();
+    }
+
+    public function testCreateTaxRate()
+    {
+        $taxData = [
+            'country_id' => 'US',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate',
+            'zip_range' => ['from' => 78765, 'to' => 78780]
+        ];
+        $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRateBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateBuilder',
+            ['zipRangeBuilder' => $zipRangeBuilder]
+        );
+        $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
+        $this->rateModelMock->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue($this->rateModelMock));
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRateModel')
+            ->will($this->returnValue($this->rateModelMock));
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRateDataObjectFromModel')
+            ->will($this->returnValue($taxRateDataObject));
+        $taxRateServiceData = $this->taxRateService->createTaxRate($taxRateDataObject);
+
+        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
+        $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
+        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
+        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
+        $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
+        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
+        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
+        $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
+        $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
+
     }
 
     /**
