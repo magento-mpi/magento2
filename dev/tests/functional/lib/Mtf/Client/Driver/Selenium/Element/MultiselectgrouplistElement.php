@@ -18,9 +18,9 @@ use Mtf\Client\Element\Locator;
 class MultiselectgrouplistElement extends MultiselectElement
 {
     /**
-     * Indent lenght
+     * Indent length
      */
-    const INDENT_LENGHT = 4;
+    const INDENT_LENGTH = 4;
 
     /**
      * Locator for search optgroup by label
@@ -101,12 +101,9 @@ class MultiselectgrouplistElement extends MultiselectElement
     public function setValue($values)
     {
         $this->clearSelectedOptions();
-        if (is_array($values)) {
-            foreach ($values as $value) {
-                $this->selectOption($value, $this);
-            }
-        } else {
-            $this->selectOption($values, $this);
+        $values = is_array($values) ? $values : [$values];
+        foreach ($values as $value) {
+            $this->selectOption($value);
         }
     }
 
@@ -114,22 +111,22 @@ class MultiselectgrouplistElement extends MultiselectElement
      * Select option
      *
      * @param string $option
-     * @param Element $context
      * @return void
      * @throws \Exception
      */
-    protected function selectOption($option, Element $context)
+    protected function selectOption($option)
     {
         $isOptgroup = false;
         $optgroupIndent = '';
         $values = explode('/', $option);
+        $context = $this;
 
         foreach ($values as $value) {
             $optionIndent = $isOptgroup ? $this->indent : '';
-            $option = $context->find(sprintf($this->option, $optionIndent . $value), Locator::SELECTOR_XPATH);
-            if ($option->isVisible()) {
-                if (!$option->isSelected()) {
-                    $option->click();
+            $optionElement = $context->find(sprintf($this->option, $optionIndent . $value), Locator::SELECTOR_XPATH);
+            if ($optionElement->isVisible()) {
+                if (!$optionElement->isSelected()) {
+                    $optionElement->click();
                 }
                 return;
             }
@@ -202,15 +199,16 @@ class MultiselectgrouplistElement extends MultiselectElement
     public function getValue()
     {
         $values = [];
+        $indentOption = str_repeat(' ', self::INDENT_LENGTH);
 
         foreach ($this->getSelectedOptions() as $option) {
             $value = [];
 
             /** @var Element $option */
             $optionText = $option->getText();
-            $optionValue = trim($option->getText(), $this->trim);
+            $optionValue = trim($optionText, $this->trim);
             $value[] = $optionValue;
-            if (0 !== strpos($optionText, '    ')) {
+            if (0 !== strpos($optionText, $indentOption)) {
                 $values[] = implode('/', $value);
                 continue;
             }
@@ -227,18 +225,18 @@ class MultiselectgrouplistElement extends MultiselectElement
                 continue;
             }
 
-            $amountIndent -= 1;
+            --$amountIndent;
             $indent = $amountIndent ? str_repeat($this->indent, $amountIndent) : '';
-            $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * self::INDENT_LENGHT, $indent);
+            $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * self::INDENT_LENGTH, $indent);
             while (0 <= $amountIndent && $this->find($pathOptgroup, Locator::SELECTOR_XPATH)->isVisible()) {
                 $optgroup = $this->_getWrappedElement()->byXPath($pathOptgroup);
                 $optgroupText = $optgroup->attribute('label');
                 $optgroupValue = trim($optgroupText, $this->trim);
                 $value[] = $optgroupValue;
 
-                $amountIndent -= 1;
+                --$amountIndent;
                 $indent = (0 < $amountIndent) ? str_repeat($this->indent, $amountIndent) : '';
-                $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * self::INDENT_LENGHT, $indent);
+                $pathOptgroup .= sprintf($this->precedingOptgroup, $amountIndent * self::INDENT_LENGTH, $indent);
             }
 
             $values[] = implode('/', array_reverse($value));
@@ -266,7 +264,7 @@ class MultiselectgrouplistElement extends MultiselectElement
             );
             while ($option->isVisible()) {
                 $options[] = $option;
-                $countOption += 1;
+                ++$countOption;
                 $option = $this->find(
                     sprintf($this->optionByNumber, $countOptgroup, $countOption),
                     Locator::SELECTOR_XPATH
