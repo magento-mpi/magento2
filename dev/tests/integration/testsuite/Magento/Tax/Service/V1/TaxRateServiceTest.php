@@ -210,8 +210,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->taxRateService->updateTaxRate($updatedTaxRate);
 
-        // Ideally call getTaxRate($taxRate->getId()) here and verify contents reflect the updated version
-        $retrievedRate = $this->getTaxRate($taxRate->getId());
+        $retrievedRate = $this->taxRateService->getTaxRate($taxRate->getId());
         // Expect the service to have filled in the new postcode for us
         $updatedTaxRate = $this->taxRateBuilder->populate($updatedTaxRate)->setPostcode('78700-78780')->create();
         $this->assertEquals($retrievedRate->__toArray(), $updatedTaxRate->__toArray());
@@ -256,20 +255,5 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->create();
 
         $this->taxRateService->updateTaxRate($updatedTaxRate);
-    }
-
-    /**
-     * Helper function to get a specific tax rate
-     *
-     * @param int $id
-     * @return Data\TaxRate|null
-     */
-    private function getTaxRate($id)
-    {
-        try {
-            return $this->taxRateService->getTaxRate($id);
-        } catch (NoSuchEntityException $e) {
-            return null;
-        }
     }
 }
