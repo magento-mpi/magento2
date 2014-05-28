@@ -105,10 +105,15 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
             throw InputException::invalidFieldValue('id', $id);
         }
 
+        /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
         $attributeSet = $this->setFactory->create()->load($id);
         $loadedData = $attributeSet->getData();
         if (empty($loadedData)) {
             throw NoSuchEntityException::singleField('id', $attributeSetId);
+        }
+        $productEntityId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+        if ($attributeSet->getEntityTypeId() != $productEntityId) {
+            throw InputException::invalidFieldValue('id', $attributeSetId);
         }
 
         $attributeSet->delete();

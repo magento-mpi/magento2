@@ -205,6 +205,10 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'abc',
                 'Invalid value of "%value" provided for the %fieldName field.'
             ),
+            'wrong entity type' => array(
+                1,
+                'Invalid value of "%value" provided for the %fieldName field.'
+            ),
         );
     }
 
