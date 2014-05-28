@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertUrlRewriteInGrid module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+        <require>
+            <urlRewriteIndex class="Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory"/>
+            <urlRewriteCategory class="Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex"/>
+        </require>
+    </assertUrlRewriteInGrid>
+    <assertUrlRewriteSaveMessage module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+    </assertUrlRewriteSaveMessage>
+    <assertUrlRewriteCategoryRedirect module="Magento_UrlRewrite">
+        <severeness>low</severeness>
+    </assertUrlRewriteCategoryRedirect>
+</constraint>
