@@ -39,7 +39,7 @@ class Backend extends \Magento\Framework\Validator\AbstractValidator
         /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         foreach ($attributes as $attribute) {
             $backend = $attribute->getBackend();
-            if (!method_exists($backend, 'validate')) {
+            if (!is_callable([$backend, 'validate'])) {
                 continue;
             }
             try {

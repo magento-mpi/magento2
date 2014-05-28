@@ -79,9 +79,11 @@ class Button extends AbstractRenderer
         foreach ($this->_getValidAttributes() as $attributeName) {
             $methodName = sprintf('_get%sAttribute', ucfirst($attributeName));
             $rowMethodName = sprintf('get%s', ucfirst($attributeName));
-            $attributeValue = method_exists(
-                $this,
-                $methodName
+            $attributeValue = is_callable(
+                [
+                    $this,
+                    $methodName
+                ]
             ) ? $this->{$methodName}(
                 $row
             ) : $this->getColumn()->{$rowMethodName}();

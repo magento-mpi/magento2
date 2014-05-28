@@ -147,7 +147,7 @@ abstract class AbstractIndexer extends \Magento\Framework\Model\AbstractModel im
         $method = str_replace(' ', '', ucwords(str_replace('_', ' ', $method)));
 
         $resourceModel = $this->_getResource();
-        if (method_exists($resourceModel, $method)) {
+        if (is_callable([$resourceModel, $method])) {
             $resourceModel->{$method}($event);
         }
         return $this;

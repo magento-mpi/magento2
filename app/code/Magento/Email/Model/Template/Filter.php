@@ -257,7 +257,7 @@ class Filter extends \Magento\Framework\Filter\Template
         if (isset($blockParameters['output'])) {
             $method = $blockParameters['output'];
         }
-        if (!isset($method) || !is_string($method) || !method_exists($block, $method)) {
+        if (!isset($method) || !is_string($method) || !is_callable([$block, $method])) {
             $method = 'toHtml';
         }
         return $block->{$method}();

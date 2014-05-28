@@ -230,7 +230,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
         }
 
         $controllerClassName = $this->getControllerClassName($currentModuleName, 'index');
-        if (!$controllerClassName || !method_exists($controllerClassName, 'norouteAction')) {
+        if (!$controllerClassName || !is_callable([$controllerClassName, 'norouteAction'])) {
             return null;
         }
 
@@ -278,7 +278,7 @@ class Base extends \Magento\Framework\App\Router\AbstractRouter
             $currentModuleName = $moduleName;
 
             $controllerClassName = $this->getControllerClassName($moduleName, $controller);
-            if (!$controllerClassName || false === method_exists($controllerClassName, $action . 'Action')) {
+            if (!$controllerClassName || false === is_callable([$controllerClassName, $action . 'Action'])) {
                 continue;
             }
 

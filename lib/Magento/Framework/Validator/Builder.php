@@ -305,7 +305,7 @@ class Builder
         if (isset($options['methods'])) {
             foreach ($options['methods'] as $methodData) {
                 $methodName = $methodData['method'];
-                if (method_exists($validator, $methodName)) {
+                if (is_callable([$validator, $methodName])) {
                     if (array_key_exists('arguments', $methodData)) {
                         $arguments = $this->_applyArgumentsCallback($methodData['arguments']);
                         call_user_func_array(array($validator, $methodName), $arguments);

@@ -765,7 +765,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if (!is_object($instance) || !method_exists($instance, $method)) {
+        if (!is_object($instance) || !is_callable([$instance, $method])) {
             return false;
         }
 

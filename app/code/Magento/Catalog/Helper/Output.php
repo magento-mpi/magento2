@@ -121,7 +121,7 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
     public function process($method, $result, $params)
     {
         foreach ($this->getHandlers($method) as $handler) {
-            if (method_exists($handler, $method)) {
+            if (is_callable([$handler, $method])) {
                 $result = $handler->{$method}($this, $result, $params);
             }
         }

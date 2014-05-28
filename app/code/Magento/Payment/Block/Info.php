@@ -70,7 +70,7 @@ class Info extends \Magento\Framework\View\Element\Template
     {
         $result = array();
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $child) {
-            if (method_exists($child, 'toPdf')) {
+            if (is_callable([$child, 'toPdf'])) {
                 $result[] = $child->toPdf();
             }
         }
