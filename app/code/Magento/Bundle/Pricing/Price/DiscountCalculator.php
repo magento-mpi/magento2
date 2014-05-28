@@ -9,7 +9,6 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Pricing\Price\FinalPrice;
 
 /**
  * Class DiscountCalculator
