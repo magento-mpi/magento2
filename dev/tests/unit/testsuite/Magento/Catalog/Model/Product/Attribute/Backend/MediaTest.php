@@ -178,7 +178,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $storeIds = ['store_1' => 1, 'store_2' => 2];
         $attributeCode = 'test_code';
         $toDelete = [1];
-        $filePathToRemove = '/file/path';
+        $mediaPath = 'catalog/media';
+        $filePathToRemove = $mediaPath . '/file/path';
         $attributeValue = [
             'images' => [
                 [
@@ -230,6 +231,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->resourceModel->expects($this->once())
             ->method('deleteGallery')
             ->with($toDelete);
+
+        $this->mediaConfig->expects($this->once())
+            ->method('getBaseMediaPath')
+            ->will($this->returnValue($mediaPath));
 
         $this->mediaDirectory->expects($this->once())
             ->method('delete')
