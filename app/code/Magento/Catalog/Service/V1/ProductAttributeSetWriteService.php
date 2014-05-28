@@ -43,7 +43,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
             throw InputException::invalidFieldValue('id', $setData->getId());
         }
 
-        $updateData = array(
+        $basicData = array(
             'attribute_set_name' => $setData->getName(),
             'sort_order' => $setData->getSortOrder(),
             'entity_type_id' => $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId(),
@@ -51,7 +51,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
 
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $set */
         $set = $this->setFactory->create();
-        foreach($updateData as $key => $value) {
+        foreach($basicData as $key => $value) {
             $set->setData($key, $value);
         }
         $set->validate();

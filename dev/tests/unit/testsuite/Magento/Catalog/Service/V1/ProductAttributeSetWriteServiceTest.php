@@ -31,6 +31,11 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $service;
 
+    /**
+     * @var int default attribute set id
+     */
+    protected $defaultSetId = 4;
+
     protected function setUp()
     {
         $this->setFactoryMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\SetFactory',
@@ -51,46 +56,70 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWithExistingId()
     {
-        $setDataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeSet', array(), array(), '', false);
+        $setDataMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
+            array(),
+            array(),
+            '',
+            false
+        );
         $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(100));
 
         $this->service->create($setDataMock);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Magento\Eav\Exception
      */
     public function testCreateWithEmptyName()
     {
-        $setDataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeSet', array(), array(), '', false);
+        $setDataMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
+            array(),
+            array(),
+            '',
+            false
+        );
         $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(null));
         $setDataMock->expects($this->any())->method('getName')->will($this->returnValue(null));
         $setDataMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(20));
 
         $setMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Set',
-            array('setData', 'validate', 'save', 'getId', '__wakeup'),
+            array('setData', 'validate', 'save', 'getId', 'load', '__wakeup'),
             array(),
             '',
             false
         );
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
-        $setMock->expects($this->once())->method('validate')->will($this->returnValue(false));
+        $exception = new \Magento\Eav\Exception('empty name');
+        $setMock->expects($this->once())->method('validate')->will($this->throwException($exception));
+        $setMock->expects($this->never())->method('save');
 
         $this->service->create($setDataMock);
     }
 
-    public function testCreatePositive()
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testCreateWithNoSkeletonId()
     {
         $setId = 123321;
-        $setDataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeSet', array(), array(), '', false);
+        $setDataMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
+            array(),
+            array(),
+            '',
+            false
+        );
         $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(null));
         $setDataMock->expects($this->any())->method('getName')->will($this->returnValue('cool attribute set'));
         $setDataMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(20));
+        $setDataMock->expects($this->any())->method('getSkeletonId')->will($this->returnValue(null));
 
         $setMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Set',
-            array('setData', 'validate', 'save', 'getId', '__wakeup'),
+            array('setData', 'validate', 'save', 'getId', 'getData', 'load', '__wakeup'),
             array(),
             '',
             false
@@ -98,7 +127,91 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
         $setMock->expects($this->once())->method('validate')->will($this->returnValue(true));
         $setMock->expects($this->once())->method('save');
+
+        $this->assertEquals($setId, $this->service->create($setDataMock));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testCreateWithAbsentSkeleton()
+    {
+        $setId = 123321;
+        $setDataMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(null));
+        $setDataMock->expects($this->any())->method('getName')->will($this->returnValue('cool attribute set'));
+        $setDataMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(20));
+        $setDataMock->expects($this->any())->method('getSkeletonId')->will($this->returnValue($this->defaultSetId));
+
+        $setMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('setData', 'validate', 'save', 'getId', 'getData', 'load', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->exactly(2))->method('create')->will($this->returnValue($setMock));
+        $setMock->expects($this->once())->method('validate')->will($this->returnValue(true));
+        $setMock->expects($this->once())->method('save');
+        $skeletonSetMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('setData', 'validate', 'save', 'getId', 'getData', 'load', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $skeletonSetMock->expects($this->once())->method('getData')->will($this->returnValue(array()));
+        $setMock->expects($this->once())->method('load')
+            ->with($this->defaultSetId)
+            ->will($this->returnValue($skeletonSetMock));
+
+        $this->assertEquals($setId, $this->service->create($setDataMock));
+    }
+
+    public function testCreatePositive()
+    {
+        $setId = 123321;
+        $setDataMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $setDataMock->expects($this->any())->method('getId')->will($this->returnValue(null));
+        $setDataMock->expects($this->any())->method('getName')->will($this->returnValue('cool attribute set'));
+        $setDataMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(20));
+        $setDataMock->expects($this->any())->method('getSkeletonId')->will($this->returnValue($this->defaultSetId));
+
+        $setMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('setData', 'validate', 'save', 'getId', 'load', 'initFromSkeleton', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->exactly(2))->method('create')->will($this->returnValue($setMock));
+        $setMock->expects($this->once())->method('validate')->will($this->returnValue(true));
+        $setMock->expects($this->exactly(2))->method('save');
         $setMock->expects($this->once())->method('getId')->will($this->returnValue($setId));
+        $skeletonSetMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array('setData', 'validate', 'save', 'getId', 'load', 'getData', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $setMock->expects($this->once())->method('load')
+            ->with($this->defaultSetId)
+            ->will($this->returnValue($skeletonSetMock));
+        $skeletonSetMock->expects($this->once())->method('getData')->will($this->returnValue(array(1, 2, 3)));
+        $setMock->expects($this->once())->method('initFromSkeleton')->with($this->defaultSetId);
 
         $this->assertEquals($setId, $this->service->create($setDataMock));
     }
