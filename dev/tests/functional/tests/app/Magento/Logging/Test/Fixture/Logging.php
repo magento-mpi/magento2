@@ -26,158 +26,99 @@ class Logging extends InjectableFixture
     protected $handlerInterface = 'Magento\Logging\Test\Handler\Logging\LoggingInterface';
 
     protected $defaultDataSet = [
-        'created' => null,
-        'is_active' => null,
-        'interface_locale' => null,
     ];
 
-    protected $user_id = [
-        'attribute_code' => 'user_id',
+    protected $log_id = [
+        'attribute_code' => 'log_id',
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',
         'input' => '',
     ];
 
-    protected $firstname = [
-        'attribute_code' => 'firstname',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $lastname = [
-        'attribute_code' => 'lastname',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $email = [
-        'attribute_code' => 'email',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $username = [
-        'attribute_code' => 'username',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $password = [
-        'attribute_code' => 'password',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $created = [
-        'attribute_code' => 'created',
-        'backend_type' => 'timestamp',
-        'is_required' => '',
-        'default_value' => 'CURRENT_TIMESTAMP',
-        'input' => '',
-    ];
-
-    protected $modified = [
-        'attribute_code' => 'modified',
-        'backend_type' => 'timestamp',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $logdate = [
-        'attribute_code' => 'logdate',
-        'backend_type' => 'timestamp',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $lognum = [
-        'attribute_code' => 'lognum',
-        'backend_type' => 'smallint',
+    protected $ip = [
+        'attribute_code' => 'ip',
+        'backend_type' => 'bigint',
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
     ];
 
-    protected $reload_acl_flag = [
-        'attribute_code' => 'reload_acl_flag',
-        'backend_type' => 'smallint',
+    protected $x_forwarded_ip = [
+        'attribute_code' => 'x_forwarded_ip',
+        'backend_type' => 'bigint',
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
     ];
 
-    protected $is_active = [
-        'attribute_code' => 'is_active',
-        'backend_type' => 'smallint',
+    protected $event_code = [
+        'attribute_code' => 'event_code',
+        'backend_type' => 'varchar',
         'is_required' => '',
-        'default_value' => '1',
+        'default_value' => '',
         'input' => '',
     ];
 
-    protected $extra = [
-        'attribute_code' => 'extra',
+    protected $time = [
+        'attribute_code' => 'time',
+        'backend_type' => 'timestamp',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $action = [
+        'attribute_code' => 'action',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $info = [
+        'attribute_code' => 'info',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $status = [
+        'attribute_code' => 'status',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $user = [
+        'attribute_code' => 'user',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $user_id = [
+        'attribute_code' => 'user_id',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $fullaction = [
+        'attribute_code' => 'fullaction',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $error_message = [
+        'attribute_code' => 'error_message',
         'backend_type' => 'text',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $rp_token = [
-        'attribute_code' => 'rp_token',
-        'backend_type' => 'text',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $rp_token_created_at = [
-        'attribute_code' => 'rp_token_created_at',
-        'backend_type' => 'timestamp',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $interface_locale = [
-        'attribute_code' => 'interface_locale',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => 'en_US',
-        'input' => '',
-    ];
-
-    protected $failures_num = [
-        'attribute_code' => 'failures_num',
-        'backend_type' => 'smallint',
-        'is_required' => '',
-        'default_value' => '0',
-        'input' => '',
-    ];
-
-    protected $first_failure = [
-        'attribute_code' => 'first_failure',
-        'backend_type' => 'timestamp',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $lock_expires = [
-        'attribute_code' => 'lock_expires',
-        'backend_type' => 'timestamp',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
@@ -188,99 +129,64 @@ class Logging extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    public function getLogId()
+    {
+        return $this->getData('log_id');
+    }
+
+    public function getIp()
+    {
+        return $this->getData('ip');
+    }
+
+    public function getXForwardedIp()
+    {
+        return $this->getData('x_forwarded_ip');
+    }
+
+    public function getEventCode()
+    {
+        return $this->getData('event_code');
+    }
+
+    public function getTime()
+    {
+        return $this->getData('time');
+    }
+
+    public function getAction()
+    {
+        return $this->getData('action');
+    }
+
+    public function getInfo()
+    {
+        return $this->getData('info');
+    }
+
+    public function getStatus()
+    {
+        return $this->getData('status');
+    }
+
+    public function getUser()
+    {
+        return $this->getData('user');
+    }
+
     public function getUserId()
     {
         return $this->getData('user_id');
     }
 
-    public function getFirstname()
+    public function getFullaction()
     {
-        return $this->getData('firstname');
+        return $this->getData('fullaction');
     }
 
-    public function getLastname()
+    public function getErrorMessage()
     {
-        return $this->getData('lastname');
-    }
-
-    public function getEmail()
-    {
-        return $this->getData('email');
-    }
-
-    public function getUsername()
-    {
-        return $this->getData('username');
-    }
-
-    public function getPassword()
-    {
-        return $this->getData('password');
-    }
-
-    public function getCreated()
-    {
-        return $this->getData('created');
-    }
-
-    public function getModified()
-    {
-        return $this->getData('modified');
-    }
-
-    public function getLogdate()
-    {
-        return $this->getData('logdate');
-    }
-
-    public function getLognum()
-    {
-        return $this->getData('lognum');
-    }
-
-    public function getReloadAclFlag()
-    {
-        return $this->getData('reload_acl_flag');
-    }
-
-    public function getIsActive()
-    {
-        return $this->getData('is_active');
-    }
-
-    public function getExtra()
-    {
-        return $this->getData('extra');
-    }
-
-    public function getRpToken()
-    {
-        return $this->getData('rp_token');
-    }
-
-    public function getRpTokenCreatedAt()
-    {
-        return $this->getData('rp_token_created_at');
-    }
-
-    public function getInterfaceLocale()
-    {
-        return $this->getData('interface_locale');
-    }
-
-    public function getFailuresNum()
-    {
-        return $this->getData('failures_num');
-    }
-
-    public function getFirstFailure()
-    {
-        return $this->getData('first_failure');
-    }
-
-    public function getLockExpires()
-    {
-        return $this->getData('lock_expires');
+        return $this->getData('error_message');
     }
 
     public function getAggregatedInformation()

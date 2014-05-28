@@ -66,12 +66,12 @@ class ViewAdminLoggingEntityTest extends Injectable
     public function testViewAdminLogging(Logging $logging)
     {
         $filter = [
-            'username' => $logging->getUsername(),
+            'username' => $logging->getUser(),
         ];
         //Steps
         $this->systemConfig->open();
         $this->systemConfig->getPageActions()->save();
         $this->loggingIndex->open();
-        $this->loggingIndex->getLogGridBlock()->searchAndOpen($filter);
+        $this->loggingIndex->getLogGridBlock()->searchSortAndOpen($filter);
     }
 }

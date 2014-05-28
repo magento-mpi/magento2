@@ -24,6 +24,13 @@ class Details extends Block
     protected $adminUserData = '#log_details_fieldset > table > tbody tr:nth-child(%d) > td';
 
     /**
+     * Element locator to select logging details block
+     *
+     * @var string
+     */
+    protected $loggingDetailsGrid = '#loggingDetailsGrid';
+
+    /**
      * Get Admin User Data from grid
      *
      * @return array
@@ -33,7 +40,7 @@ class Details extends Block
         $fields = [
             1 => 'aggregated_information',
             2 => 'user_id',
-            3 => 'username'
+            3 => 'user'
         ];
         foreach ($fields as $key => $value) {
             $data[$value] = $this->_rootElement->find(sprintf($this->adminUserData, $key))->getText();
@@ -41,13 +48,6 @@ class Details extends Block
         $data['user_id'] = (isset($data['user_id'])) ? substr($data['user_id'], 1) : null;
         return $data;
     }
-
-    /**
-     * Element locator to select logging details block
-     *
-     * @var string
-     */
-    protected $loggingDetailsGrid = '#loggingDetailsGrid';
 
     /**
      * Check if Logging Details Grid visible

@@ -20,14 +20,14 @@ class Logging extends BackendPage
     protected $_blocks = [
         'logGridBlock' => [
             'name' => 'logGridBlock',
-            'class' => 'Magento\Logging\Test\Block\LogGrid',
+            'class' => 'Magento\Logging\Test\Block\Grid',
             'locator' => '#loggingLogGrid',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Logging\Test\Block\LogGrid
+     * @return \Magento\Logging\Test\Block\Grid
      */
     public function getLogGridBlock()
     {

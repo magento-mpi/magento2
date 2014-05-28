@@ -11,7 +11,8 @@
     <assertAdminUserDataBlock module="Magento_Logging">
         <severeness>low</severeness>
         <require>
-            <pageLogEntry class="Magento\Logging\Test\Page\Adminhtml\LogEntry" />
+            <pageDetails class="Magento\Logging\Test\Page\Adminhtml\Details" />
+            <logging class="Magento\Logging\Test\Fixture\Logging" />
         </require>
     </assertAdminUserDataBlock>
 </constraint>

@@ -27,16 +27,16 @@ class AssertAdminUserDataBlock extends AbstractConstraint
     /**
      * Assert that Admin User Data block with data according action is presented on page
      *
-     * @param Details $details
+     * @param Details $pageDetails
      * @param Logging $logging
      * @return void
      */
-    public function processAssert(Details $details, Logging $logging)
+    public function processAssert(Details $pageDetails, Logging $logging)
     {
         $fixtureData = $logging->getData();
-        $formData = $details->getDetailsBlock()->getData();
+        $formData = $pageDetails->getDetailsBlock()->getData();
         $diff = $this->verifyData($formData, $fixtureData);
-        if (!$details->getDetailsBlock()->isLoggingDetailsGridVisible()) {
+        if (!$pageDetails->getDetailsBlock()->isLoggingDetailsGridVisible()) {
             $diff[] = "Logging Details Grid is not present on page.";
         }
         \PHPUnit_Framework_Assert::assertTrue(empty($diff), implode(' ', $diff));

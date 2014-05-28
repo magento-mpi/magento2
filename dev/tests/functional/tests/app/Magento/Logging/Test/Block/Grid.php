@@ -9,15 +9,14 @@
 
 namespace Magento\Logging\Test\Block;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class LogGrid
+ * Class Grid
  * Admin logging grid
- *
  */
-class LogGrid extends Grid
+class Grid extends GridInterface
 {
     /**
      * Admin action log report grid filters
@@ -71,13 +70,23 @@ class LogGrid extends Grid
      * @param array $filter
      * @throws \Exception
      */
-    public function searchAndOpen(array $filter)
+    public function searchSortAndOpen(array $filter)
     {
         $this->search($filter);
+        $sortLink = $this->_rootElement->find("[name='time'][title='asc']");
+        if ($sortLink->isVisible()) {
+            $this->sortGridByField('time', 'asc');
+            $this->getTemplateBlock()->waitLoader();
+            $this->sortGridByField('time');
+            $this->getTemplateBlock()->waitLoader();
+        } else {
+            $this->sortGridByField('time');
+            $this->getTemplateBlock()->waitLoader();
+        }
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->firstViewLink, Locator::SELECTOR_CSS)->click();
-            $this->waitForElement();
+            $this->getTemplateBlock()->waitLoader();
         } else {
             throw new \Exception('Searched item was not found.');
         }
