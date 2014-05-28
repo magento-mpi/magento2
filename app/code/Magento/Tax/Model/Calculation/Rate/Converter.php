@@ -107,16 +107,14 @@ class Converter
         $rateModel->setCode($taxRate->getCode());
         $rateModel->setTaxPostcode($taxRate->getPostCode());
         $zipRange = $taxRate->getZipRange();
-        if (!empty($zipRange)) {
-            if ($zipRange) {
-                $zipFrom = $zipRange->getFrom();
-                $zipTo = $zipRange->getTo();
-                if (!empty($zipFrom) && !empty($zipTo)) {
-                    $rateModel->setZipIsRange(1);
-                }
-                $rateModel->setZipFrom($zipFrom);
-                $rateModel->setZipTo($zipTo);
+        if ($zipRange) {
+            $zipFrom = $zipRange->getFrom();
+            $zipTo = $zipRange->getTo();
+            if (!empty($zipFrom) && !empty($zipTo)) {
+                $rateModel->setZipIsRange(1);
             }
+            $rateModel->setZipFrom($zipFrom);
+            $rateModel->setZipTo($zipTo);
         }
         return $rateModel;
     }
