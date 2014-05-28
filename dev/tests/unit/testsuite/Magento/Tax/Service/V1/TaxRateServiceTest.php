@@ -7,8 +7,8 @@
  */
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
-use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Tax\Service\V1\Data\TaxRate;
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -18,11 +18,6 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      * @var TaxRateServiceInterface
      */
     private $taxRateService;
-
-    /**
-     * @var TaxRateBuilder
-     */
-    private $taxRateBuilder;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Calculation\RateFactory
@@ -148,7 +143,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ['getSize', 'getItems', 'getIterator']
             )->getMock();
         $items = [];
-        for($i = 0; $i < $itemCounts; $i++) {
+        for ($i = 0; $i < $itemCounts; $i++) {
             $items[] = $rateModelMocks[$i];
         }
         $this->mockReturnValue(
@@ -177,7 +172,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $taxRates = $this->taxRateService->getTaxRates();
         $this->assertEquals($expectedResult, count($taxRates));
-        for($i = 0; $i < $itemCounts; $i++) {
+        for ($i = 0; $i < $itemCounts; $i++) {
             $this->assertEquals($taxRateDataObjectMocks[$i], $taxRates[$i]);
         }
     }
@@ -195,7 +190,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxRateBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $taxRate = $taxRateBuilder
-            ->setId(42)
+            ->setId(2)
             ->setCode('Rate-Code')
             ->setCountryId('US')
             ->setPercentageRate(0.1)
@@ -211,6 +206,44 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $result = $this->taxRateService->updateTaxRate($taxRate);
 
         $this->assertTrue($result);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateTaxRateNoId()
+    {
+        $taxRateBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
+        $taxRate = $taxRateBuilder
+            ->setCode('Rate-Code')
+            ->setCountryId('US')
+            ->setPercentageRate(0.1)
+            ->setPostcode('55555')
+            ->setRegionId('TX')
+            ->create();
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRateModel')
+            ->with($taxRate)
+            ->will($this->throwException(new NoSuchEntityException()));
+
+        $this->taxRateService->updateTaxRate($taxRate);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testUpdateTaxRateMissingRequiredInfo()
+    {
+        $taxRateBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
+        $taxRate = $taxRateBuilder
+            ->setId(2)
+            ->setCode('Rate-Code')
+            ->setCountryId('US')
+            ->setPercentageRate(0.1)
+            ->setRegionId('TX')
+            ->create();
+
+        $this->taxRateService->updateTaxRate($taxRate);
     }
 
     /**
