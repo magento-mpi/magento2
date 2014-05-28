@@ -9,7 +9,6 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\InputException;
 use Magento\Catalog\Service\V1\Data\Converter;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Catalog\Service\V1\Data\Product as ProductData;
@@ -158,6 +157,7 @@ class ProductService implements ProductServiceInterface
             // product does not exist
             throw NoSuchEntityException::singleField('id', $id);
         }
+        return $this->converter->createProductDataFromModel($product);
     }
 
     /**

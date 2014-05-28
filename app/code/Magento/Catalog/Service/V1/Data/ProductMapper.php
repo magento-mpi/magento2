@@ -19,6 +19,7 @@ class ProductMapper
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Product\Type $productTypes
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,

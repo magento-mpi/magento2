@@ -304,6 +304,69 @@ class ProductServiceTest extends WebapiAbstract
     }
 
     /**
+     * @depends testCreate
+     */
+    public function testGet()
+    {
+        $productData = $this->_createProduct($this->getSimpleProductData());
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH  . '/' . $productData[Product::ID] ,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'get'
+            ]
+        ];
+
+        $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
+            $this->_webApiCall($serviceInfo, ['id' => $productData[Product::ID]]) : $this->_webApiCall($serviceInfo);
+        foreach ([Product::SKU, Product::NAME, Product::PRICE, Product::STATUS, Product::VISIBILITY] as $key) {
+            $this->assertEquals($productData[$key], $response[$key]);
+        }
+    }
+
+    public function testGetNoSuchEntityException()
+    {
+        $invalidId = -1;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH  . '/' . $invalidId,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'get'
+            ]
+        ];
+
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
+
+        try {
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall($serviceInfo, ['id' => $invalidId]);
+            } else {
+                $this->_webApiCall($serviceInfo);
+            }
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals(['fieldName' => 'id', 'fieldValue' => $invalidId], $errorObj['parameters']);
+            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+        }
+    }
+
+    /**
      * @param \Exception $e
      * @return array
      * <pre> ex.

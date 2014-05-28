@@ -132,6 +132,6 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($visible, $attributeData->getIsVisible());
         $this->assertEquals($data[AttributeMetadata::OPTIONS], $attributeData->getOptions());
         $this->assertEquals($data[AttributeMetadata::VALIDATION_RULES], $attributeData->getValidationRules());
-        $this->assertArrayNotHasKey('some_key',$attributeData->__toArray());
+        $this->assertArrayNotHasKey('some_key', $attributeData->__toArray());
     }
 }

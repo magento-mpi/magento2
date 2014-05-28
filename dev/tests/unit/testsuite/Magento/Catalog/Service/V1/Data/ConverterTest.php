@@ -63,7 +63,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $dataUsingMethodCallback = $this->returnCallback(
             function ($attrCode) {
-                if(in_array($attrCode, ['sku', 'price', 'entity_id'])) {
+                if (in_array($attrCode, ['sku', 'price', 'entity_id'])) {
                     return $attrCode . 'value';
                 }
                 return null;
@@ -75,7 +75,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $dataCallback = $this->returnCallback(
             function ($attrCode) {
-                if($attrCode == 'status') {
+                if ($attrCode == 'status') {
                     return $attrCode . 'dataValue';
                 }
                 return null;
