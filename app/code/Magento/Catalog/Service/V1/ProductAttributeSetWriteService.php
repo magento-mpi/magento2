@@ -35,13 +35,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
     }
 
     /**
-     * Create attribute set from data
-     *
-     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $setData
-     * @return int
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $setData)
     {
@@ -60,9 +54,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
         foreach($updateData as $key => $value) {
             $set->setData($key, $value);
         }
-        if (!$set->validate()) {
-            throw new \InvalidArgumentException('Invalid attribute set');
-        }
+        $set->validate();
         $set->save();
 
         //process skeleton data
@@ -74,7 +66,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
         $skeletonSet = $this->setFactory->create()->load($skeletonId);
         $skeletonData = $skeletonSet->getData();
         if (empty($skeletonData)) {
-            throw new \InvalidArgumentException(sprintf('Attribute set with id %1 not found', $skeletonId));
+            throw NoSuchEntityException::singleField('id', $skeletonId);
         }
         $set->initFromSkeleton($skeletonId);
         $set->save();
@@ -104,16 +96,22 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function remove($attributeSetId)
     {
         $id = intval($attributeSetId);
         if (0 == $id) {
-            throw new \InvalidArgumentException('Incorrect attribute set id to remove');
+            throw InputException::invalidFieldValue('id', $id);
         }
 
-        $this->setFactory->create()->load($id)->delete();
+        $attributeSet = $this->setFactory->create()->load($id);
+        $loadedData = $attributeSet->getData();
+        if (empty($loadedData)) {
+            throw NoSuchEntityException::singleField('id', $attributeSetId);
+        }
 
+        $attributeSet->delete();
+        return true;
     }
 }

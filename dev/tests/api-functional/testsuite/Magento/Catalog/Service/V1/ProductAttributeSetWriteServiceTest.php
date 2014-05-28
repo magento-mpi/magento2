@@ -40,10 +40,105 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
     }
 
     /**
+     * @dataProvider createNegativeProvider
+     * @param $name
+     * @param $id
+     * @param $skeletonId
+     * @param $expectedMessage
+     * @return int
+     */
+    public function testCreateNegative($name, $id, $skeletonId, $expectedMessage)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/attribute-sets',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeSetWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetWriteServiceV1Create'
+            ]
+        ];
+        $requestData = [
+            'id' => $id,
+            'name' => $name,
+            'sort_order' => 10,
+            'skeleton_id' => $skeletonId,
+        ];
+        try {
+            //save the same attribute set again
+            $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+            $this->fail('Saving the same attribute set should throw an exception');
+        } catch (\SoapFault $e) {
+            $message = $e->getMessage();
+        } catch(\Exception $e) {
+            $message = json_decode($e->getMessage())->message;
+        }
+        $this->assertEquals($expectedMessage, $message);
+    }
+
+    public function createNegativeProvider()
+    {
+        $defaultSetId = 4;
+        return array(
+            'empty name' => array('', null, $defaultSetId, 'Attribute set name is empty.'),
+            'existing id' => array(
+                'attribute set' . time(),
+                $defaultSetId,
+                $defaultSetId,
+                'Invalid value of "%value" provided for the %fieldName field.'
+            ),
+            'absent skeleton' => array(
+                'attribute set' . time() + 1,
+                null,
+                null,
+                'Invalid value of "%value" provided for the %fieldName field.'
+            ),
+        );
+    }
+
+    public function testCreateDuplicate()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/attribute-sets',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeSetWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetWriteServiceV1Create'
+            ]
+        ];
+        $name = 'attribute set' . \time();
+        $requestData = [
+            'id' => null,
+            'name' => $name,
+            'sort_order' => 10,
+            'skeleton_id' => 4, // default attribute set id
+        ];
+        $attributeSetId = $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+        $this->assertGreaterThan(0, $attributeSetId);
+
+        $expectedMessage = 'An attribute set with the "'. $name . '" name already exists.';
+        try {
+            //save the same attribute set again
+            $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+            $this->fail('Saving the same attribute set should throw an exception');
+        } catch (\SoapFault $e) {
+            $message = $e->getMessage();
+        } catch(\Exception $e) {
+            $message = json_decode($e->getMessage())->message;
+        }
+        $this->assertEquals($expectedMessage, $message);
+    }
+
+    /**
      * @depends testCreate
      * @param $id
      */
-    public function testDelete($id)
+    public function testRemove($id)
     {
         $serviceInfo = [
             'rest' => [
@@ -57,10 +152,60 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = [
-            'id' => $id,
+            'attributeSetId' => $id,
         ];
 
-        $this->_webApiCall($serviceInfo, $requestData);
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        if ('rest' == strtolower(TESTS_WEB_API_ADAPTER)) {
+            $this->assertTrue($response);
+        }
+    }
+
+    /**
+     * @dataProvider removeNegativeProvider
+     * @param $id
+     * @param $expectedMessage
+     */
+    public function testRemoveNegative($id, $expectedMessage)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/attribute-sets/' . $id,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeSetWriteServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeSetWriteServiceV1Remove'
+            ]
+        ];
+        $requestData = [
+            'attributeSetId' => $id,
+        ];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Exception wasn\'t thrown because of wrong id');
+        } catch(\SoapFault $e) {
+            $message = $e->getMessage();
+        } catch(\Exception $e) {
+            $message = json_decode($e->getMessage())->message;
+        }
+        $this->assertEquals($expectedMessage, $message);
+    }
+
+    public function removeNegativeProvider()
+    {
+        return array(
+            'absent set' => array(
+                100500 + mt_rand(1,100), // too big to have such id
+                'No such entity with %fieldName = %fieldValue'
+            ),
+            'empty id' => array(
+                'abc',
+                'Invalid value of "%value" provided for the %fieldName field.'
+            ),
+        );
     }
 
     public function testUpdate()

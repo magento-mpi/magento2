@@ -20,7 +20,9 @@ interface ProductAttributeSetWriteServiceInterface
      *
      * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $attributeSet
      * @return int
-     * @throws \Exception
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Eav\Exception from validate()
      */
     public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $attributeSet);
 
@@ -36,8 +38,10 @@ interface ProductAttributeSetWriteServiceInterface
     /**
      * Remove attribute set by id
      *
-     * @param int $id
-     * @throws \InvalidArgumentException
+     * @param int $attributeSetId
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return bool
      */
-    public function remove($id);
+    public function remove($attributeSetId);
 }
