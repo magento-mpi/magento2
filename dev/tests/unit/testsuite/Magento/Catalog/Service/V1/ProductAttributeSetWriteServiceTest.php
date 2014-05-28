@@ -217,11 +217,32 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Magento\Framework\Exception\InputException
      */
-    public function testRemoveAbsentId()
+    public function testRemoveInvalidId()
     {
+        $this->setFactoryMock->expects($this->never())->method('create');
         $this->service->remove('absent id');
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testRemoveAbsentSet()
+    {
+        $id = 145678;
+        $setMock = $this->getMock(
+            '\Magento\Eav\Model\Entity\Attribute\Set',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
+        $setMock->expects($this->once())->method('load')->with($id)->will($this->returnSelf());
+        $setMock->expects($this->once())->method('getData')->will($this->returnValue(null));
+        $setMock->expects($this->never())->method('delete');
+        $this->service->remove($id);
     }
 
     public function testRemovePositive()
@@ -236,6 +257,7 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($setMock));
         $setMock->expects($this->once())->method('load')->with($id)->will($this->returnSelf());
+        $setMock->expects($this->once())->method('getData')->will($this->returnValue(array(5, 6, 7)));
         $setMock->expects($this->once())->method('delete');
 
         $this->service->remove($id);
