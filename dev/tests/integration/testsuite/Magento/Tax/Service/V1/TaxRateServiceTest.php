@@ -9,6 +9,7 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Tax\Service\V1\Data\ZipRangeBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
@@ -68,6 +69,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
         $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
         $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
+        $this->assertEquals('78765-78780', $taxRateServiceData->getPostcode());
         $this->assertNotNull($taxRateServiceData->getId());
     }
 
@@ -168,4 +170,51 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testUpdateTaxRates()
+    {
+        /** @var ZipRangeBuilder $zipRangeBuilder */
+        $zipRangeBuilder = $this->objectManager->get('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRate = $this->taxRateBuilder
+            ->setCountryId('US')
+            ->setRegionId(42)
+            ->setPercentageRate(8.25)
+            ->setCode('UpdateTaxRates')
+            ->setPostcode('78780')
+            ->create();
+        $taxRate = $this->taxRateService->createTaxRate($taxRate);
+        $zipRange = $zipRangeBuilder->setFrom(78700)->setTo(78780)->create();
+        $updatedTaxRate = $this->taxRateBuilder->populate($taxRate)
+            ->setPostcode(null)
+            ->setZipRange($zipRange)
+            ->create();
+
+        $this->taxRateService->updateTaxRate($updatedTaxRate);
+
+        // Ideally call getTaxRate($taxRate->getId()) here and verify contents reflect the updated version
+        $retrievedRate = $this->getTaxRate($taxRate->getId());
+        // Expect the service to have filled in the new postcode for us
+        $updatedTaxRate = $this->taxRateBuilder->populate($updatedTaxRate)->setPostcode('78700-78780')->create();
+        $this->assertEquals($retrievedRate->__toArray(), $updatedTaxRate->__toArray());
+        $this->assertNotEquals($retrievedRate->__toArray(), $taxRate->__toArray());
+    }
+
+    /**
+     * Helper function to get a specific tax rate
+     *
+     * @param int $id
+     * @return Data\TaxRate|null
+     */
+    private function getTaxRate($id)
+    {
+        $rates = $this->taxRateService->getTaxRates();
+        foreach ($rates as $rate) {
+            if ($rate->getId() === $id) {
+                return $rate;
+            }
+        }
+        return null;
+    }
 }
