@@ -23,11 +23,6 @@
             <argument name="cartFactory" xsi:type="object">MagentoPaypalCart</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\PayflowDirect" type="Magento\PbridgePaypal\Model\Payment\Method\Paypal">
-        <arguments>
-            <argument name="paypalClassName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect</argument>
-        </arguments>
-    </virtualType>
     <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\Payflowpro" type="Magento\PbridgePaypal\Model\Payment\Method\Paypal">
         <arguments>
             <argument name="paypalClassName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\Payflowpro</argument>
@@ -43,11 +38,6 @@
             <argument name="instanceName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect">
-        <arguments>
-            <argument name="proFactory" xsi:type="object">Magento\PbridgePaypal\Model\Payment\Method\Payflow\ProFactory</argument>
-        </arguments>
-    </type>
     <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\ProFactory" type="Magento\Paypal\Model\ProFactory">
         <arguments>
             <argument name="instanceName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\Paypal\Pro</argument>

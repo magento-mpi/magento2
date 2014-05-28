@@ -1231,10 +1231,12 @@
                     <field id="payment_action" type="select" showInDefault="1" showInWebsite="1" sortOrder="30" translate="label">
                         <label>Payment Action</label>
                         <config_path>payment/hosted_pro/payment_action</config_path>
+                        <source_model>Magento\Paypal\Model\System\Config\Source\PaymentActions</source_model>
                     </field>
                     <field id="display_ec" type="select" showInDefault="1" showInWebsite="1" sortOrder="40" translate="label">
                         <label>Display Express Checkout in the Payment Information step</label>
                         <config_path>payment/hosted_pro/display_ec</config_path>
+                        <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     </field>
                     <group id="pphs_settings_advanced" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
                         <label>Advanced Settings</label>

@@ -99,22 +99,35 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetActiveMethods()
+    /**
+     * @param bool $isActive
+     * @dataProvider getActiveMethodsDataProvider
+     */
+    public function testGetActiveMethods($isActive)
     {
         $abstractMethod = $this->getMockBuilder(
             'Magento\Payment\Model\Method\AbstractMethod'
-        )->disableOriginalConstructor()->setMethods(['setId', 'setStore'])->getMock();
+        )->disableOriginalConstructor()->setMethods(['setId', 'setStore', 'getConfigData'])->getMock();
         $this->scopeConfig->expects($this->once())->method('getValue')->with(
             'payment', ScopeInterface::SCOPE_STORE, null
         )->will($this->returnValue($this->paymentMethodsList));
         $this->paymentMethodFactory->expects($this->once())->method('create')->with(
             $this->paymentMethodsList['active_method']['model']
         )->will($this->returnValue($abstractMethod));
-        $abstractMethod->expects($this->at(0))->method('setId')->with('active_method')->will(
+        $abstractMethod->expects($this->any())->method('setId')->with('active_method')->will(
             $this->returnValue($abstractMethod)
         );
-        $abstractMethod->expects($this->at(1))->method('setStore')->with(null);
-        $this->assertEquals(['active_method' => $abstractMethod], $this->config->getActiveMethods());
+        $abstractMethod->expects($this->any())->method('setStore')->with(null);
+        $abstractMethod->expects($this->any())
+            ->method('getConfigData')
+            ->with('active', $this->isNull())
+            ->will($this->returnValue($isActive));
+        $this->assertEquals($isActive ? ['active_method' => $abstractMethod] : [], $this->config->getActiveMethods());
+    }
+
+    public function getActiveMethodsDataProvider()
+    {
+        return [[true], [false]];
     }
 
     public function testGetCcTypes()
@@ -163,7 +176,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    private function _getPreparedYearsList() {
+    private function _getPreparedYearsList()
+    {
         $expectedYearsList = [];
         for ($index = 0; $index <= Config::YEARS_RANGE; $index++) {
             $year = (int)self::CURRENT_YEAR + $index;

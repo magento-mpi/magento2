@@ -1459,8 +1459,9 @@ class Config
     public function exportExpressCheckoutStyleSettings(\Magento\Framework\Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
-            if ($this->{$key}) {
-                $to->setData($exportKey, $this->{$key});
+            $configValue = $this->getConfigValue($key);
+            if ($configValue) {
+                $to->setData($exportKey, $configValue);
             }
         }
     }

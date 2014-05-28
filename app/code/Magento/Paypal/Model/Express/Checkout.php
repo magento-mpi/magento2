@@ -515,8 +515,7 @@ class Checkout
 
         // add shipping options if needed and line items are available
         $cartItems = $cart->getAllItems();
-        if (
-            $this->_config->getConfigValue('lineItemsEnabled')
+        if ($this->_config->getConfigValue('lineItemsEnabled')
             && $this->_config->getConfigValue('transferShippingOptions')
             && !empty($cartItems)
         ) {
@@ -804,8 +803,7 @@ class Checkout
         $this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
         if (!$this->_quote->getIsVirtual()) {
             $this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
-            if (
-                !$this->_config->getConfigValue('requireBillingAddress')
+            if (!$this->_config->getConfigValue('requireBillingAddress')
                 && !$this->_quote->getBillingAddress()->getEmail()
             ) {
                 $this->_quote->getBillingAddress()->setSameAsBilling(1);

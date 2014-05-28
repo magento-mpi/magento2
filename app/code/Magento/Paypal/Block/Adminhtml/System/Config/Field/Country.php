@@ -48,31 +48,23 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_appConfig;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Url $url
      * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $appConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Url $url,
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Framework\App\Config\ScopeConfigInterface $appConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_url = $url;
         $this->_jsHelper = $jsHelper;
         $this->_coreHelper = $coreHelper;
-        $this->_appConfig = $appConfig;
     }
 
     /**
@@ -89,7 +81,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
         }
 
         if ($element->getCanUseDefaultValue()) {
-            $this->_defaultCountry = $this->_appConfig->getValue(self::FIELD_CONFIG_PATH);
+            $this->_defaultCountry = $this->_scopeConfig->getValue(self::FIELD_CONFIG_PATH);
             if (!$this->_defaultCountry) {
                 $this->_defaultCountry = $this->_coreHelper->getDefaultCountry();
             }

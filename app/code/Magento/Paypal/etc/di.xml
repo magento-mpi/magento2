@@ -35,9 +35,4 @@
             <argument name="proFactory" xsi:type="object">Magento\Paypal\Model\Payflow\ProFactory</argument>
         </arguments>
     </type>
-    <type name="Magento\Paypal\Model\PayflowDirect">
-        <arguments>
-            <argument name="proFactory" xsi:type="object">Magento\Paypal\Model\Payflow\ProFactory</argument>
-        </arguments>
-    </type>
 </config>

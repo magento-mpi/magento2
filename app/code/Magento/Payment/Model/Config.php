@@ -90,40 +90,22 @@ class Config
      */
     public function getActiveMethods()
     {
-        $store = null;
-        $methods = array();
-        $config = $this->_filterForActiveMethodsWithModel(
-            $this->_scopeConfig->getValue('payment', ScopeInterface::SCOPE_STORE, $store)
-        );
-        foreach ($config as $code => $methodConfig) {
-            /** @var AbstractMethod|null $methodModel Actually it's wrong interface */
-            $methodModel = $this->_paymentMethodFactory->create($methodConfig['model']);
-            $methodModel->setId($code)->setStore($store);
-            $methods[$code] = $methodModel;
+        $methods = [];
+        foreach ($this->_scopeConfig->getValue('payment', ScopeInterface::SCOPE_STORE, null) as $code => $data) {
+            if (isset($data['active']) && (bool)$data['active'] && isset($data['model'])) {
+                /** @var AbstractMethod|null $methodModel Actually it's wrong interface */
+                $methodModel = $this->_paymentMethodFactory->create($data['model']);
+                $methodModel->setId($code)->setStore(null);
+                if ($methodModel->getConfigData('active', null)) {
+                    $methods[$code] = $methodModel;
+                }
+            }
         }
         return $methods;
     }
 
     /**
-     * Method filters payments config for payments with active=1
-     *
-     * @param $config
-     * @return array
-     */
-    private function _filterForActiveMethodsWithModel($config)
-    {
-        $resultConfig = [];
-        foreach ($config as $code => $data) {
-            if ((bool)$data['active'] && isset($data['model'])) {
-                $resultConfig[$code] = $data;
-            }
-        }
-
-        return $resultConfig;
-    }
-
-    /**
-     * Retrieve array of credit card types
+     * Get list of credit card types
      *
      * @return array
      */

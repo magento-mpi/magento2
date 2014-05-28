@@ -33,12 +33,27 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetPaypalConfigCountriesWithOther()
+    {
+        $countries = StructurePlugin::getPaypalConfigCountries(true);
+        $this->assertContains('payment_us', $countries);
+        $this->assertContains('payment_other', $countries);
+    }
+
+    public function testGetPaypalConfigCountries()
+    {
+        $countries = StructurePlugin::getPaypalConfigCountries(false);
+        $this->assertContains('payment_us', $countries);
+        $this->assertNotContains('payment_other', $countries);
+    }
+
     /**
      * @param array $pathParts
      * @param bool $returnResult
      * @dataProvider aroundGetElementByPathPartsNonPaymentDataProvider
      */
-    public function testAroundGetElementByPathPartsNonPayment($pathParts, $returnResult) {
+    public function testAroundGetElementByPathPartsNonPayment($pathParts, $returnResult)
+    {
         $result = $returnResult
             ? $this->getMockForAbstractClass('Magento\Backend\Model\Config\Structure\ElementInterface')
             : null;
@@ -65,7 +80,8 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedPathParts
      * @dataProvider aroundGetElementByPathPartsDataProvider
      */
-    public function testAroundGetElementByPathPartsNoResult($pathParts, $countryCode, $expectedPathParts) {
+    public function testAroundGetElementByPathPartsNoResult($pathParts, $countryCode, $expectedPathParts)
+    {
         $this->_getElementByPathPartsPrepareHelper($countryCode);
         $this->_aroundGetElementByPathPartsAssertResult(
             null,
@@ -80,9 +96,43 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedPathParts
      * @dataProvider aroundGetElementByPathPartsDataProvider
      */
-    public function testAroundGetElementByPathParts($pathParts, $countryCode, $expectedPathParts) {
+    public function testAroundGetElementByPathParts($pathParts, $countryCode, $expectedPathParts)
+    {
         $this->_getElementByPathPartsPrepareHelper($countryCode);
         $result = $this->getMockForAbstractClass('Magento\Backend\Model\Config\Structure\ElementInterface');
+        $this->_aroundGetElementByPathPartsAssertResult(
+            $result,
+            $this->_getElementByPathPartsCallback($expectedPathParts, $result),
+            $pathParts
+        );
+    }
+
+    public function aroundGetElementByPathPartsDataProvider()
+    {
+        return [
+            [
+                ['payment', 'group1', 'group2', 'field'],
+                'any',
+                ['payment_other', 'group1', 'group2', 'field']
+            ],
+            [
+                ['payment', 'group1', 'group2', 'field'],
+                'DE',
+                ['payment_de', 'group1', 'group2', 'field']
+            ],
+        ];
+    }
+
+    /**
+     * @param array $pathParts
+     * @param string $countryCode
+     * @param array $expectedPathParts
+     * @dataProvider aroundGetSectionByPathPartsDataProvider
+     */
+    public function testAroundGetSectionByPathParts($pathParts, $countryCode, $expectedPathParts)
+    {
+        $this->_getElementByPathPartsPrepareHelper($countryCode);
+        $result = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Section', [], [], '', false);
         $self = $this;
         $getElementByPathParts = function ($pathParts) use ($self, $expectedPathParts, $result) {
             $self->assertEquals($expectedPathParts, $pathParts);
@@ -102,19 +152,9 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
         $this->_aroundGetElementByPathPartsAssertResult($result, $getElementByPathParts, $pathParts);
     }
 
-    public function aroundGetElementByPathPartsDataProvider()
+    public function aroundGetSectionByPathPartsDataProvider()
     {
         return [
-            [
-                ['payment', 'group1', 'group2', 'field'],
-                'any',
-                ['payment_other', 'group1', 'group2', 'field']
-            ],
-            [
-                ['payment', 'group1', 'group2', 'field'],
-                'DE',
-                ['payment_de', 'group1', 'group2', 'field']
-            ],
             [['payment'], 'GB', ['payment_gb']],
             [['payment'], 'any', ['payment_other']],
         ];

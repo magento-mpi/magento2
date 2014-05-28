@@ -16,7 +16,7 @@
             </pbridge_paypal_direct>
             <pbridge_payflowpro>
                 <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\Payflowpro</model>
-                <enabled>1</enabled>
+                <active>1</active>
             </pbridge_payflowpro>
         </payment>
     </default>

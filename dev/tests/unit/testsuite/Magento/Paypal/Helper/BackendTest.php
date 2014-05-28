@@ -39,7 +39,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $objectManager->getObject(
             'Magento\Paypal\Helper\Backend',
             [
-                'request' => $this->_request,
+                'httpRequest' => $this->_request,
                 'coreHelper' => $this->_coreHelper,
                 'backendConfig' => $this->_backendConfig
             ]
