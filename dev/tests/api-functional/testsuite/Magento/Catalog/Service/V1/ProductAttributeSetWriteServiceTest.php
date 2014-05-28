@@ -90,7 +90,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'Invalid value of "%value" provided for the %fieldName field.'
             ),
             'absent skeleton' => array(
-                'attribute set' . time() + 1,
+                'attribute set_' . time(),
                 null,
                 null,
                 'Invalid value of "%value" provided for the %fieldName field.'
