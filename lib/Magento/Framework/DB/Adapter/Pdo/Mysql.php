@@ -2459,14 +2459,21 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             $comment = $options['COMMENT'];
         }
 
+        //set column position
+        $after = null;
+        if (!empty($options['AFTER'])) {
+            $after = $options['AFTER'];
+        }
+
         return sprintf(
-            '%s%s%s%s%s COMMENT %s',
+            '%s%s%s%s%s COMMENT %s %s',
             $cType,
             $cUnsigned ? ' UNSIGNED' : '',
             $cNullable ? ' NULL' : ' NOT NULL',
             $cDefault !== false ? $this->quoteInto(' default ?', $cDefault) : '',
             $cIdentity ? ' auto_increment' : '',
-            $this->quote($comment)
+            $this->quote($comment),
+            $after ? 'AFTER ' . $this->quoteIdentifier($after) : ''
         );
     }
 
