@@ -50,13 +50,14 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param float $regularPrice
-     * @param float $specialPrice
-     * @param bool $isScopeDateInInterval
-     * @param float $value
+     * @param $regularPrice
+     * @param $specialPrice
+     * @param $isScopeDateInInterval
+     * @param $value
+     * @param $percent
      * @dataProvider getValueDataProvider
      */
-    public function testGetValue($regularPrice, $specialPrice, $isScopeDateInInterval, $value)
+    public function testGetValue($regularPrice, $specialPrice, $isScopeDateInInterval, $value, $percent)
     {
         $specialFromDate =  'some date from';
         $specialToDate =  'some date to';
@@ -98,6 +99,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
 
         //check that the second call will get data from cache the same as in first call
         $this->assertEquals($value, $this->model->getValue());
+        $this->assertEquals($percent, $this->model->getDiscountPercent());
     }
 
     /**
@@ -106,9 +108,12 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     public function getValueDataProvider()
     {
         return array(
-            ['regularPrice' => 100, 'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 40],
-            ['regularPrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 30],
-            ['regularPrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => false, 'value' => false],
+            ['regularPrice' => 100, 'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 40,
+                'percent' => 40],
+            ['regularPrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 30,
+                'percent' => 40],
+            ['regularPrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => false, 'value' => false,
+                'percent' => null],
         );
     }
 }

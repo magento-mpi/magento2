@@ -44,12 +44,13 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param float $regularPrice
-     * @param [] $storedGroupPrice
-     * @param float $value
+     * @param $regularPrice
+     * @param $storedGroupPrice
+     * @param $value
+     * @param $percent
      * @dataProvider getValueDataProvider
      */
-    public function testGetValue($regularPrice, $storedGroupPrice, $value)
+    public function testGetValue($regularPrice, $storedGroupPrice, $value, $percent)
     {
         $customerGroupId = 234;
 
@@ -72,8 +73,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                 ->method('getValue')
                 ->will($this->returnValue($regularPrice));
         }
-
         $this->assertEquals($value, $this->model->getValue());
+        $this->assertEquals($percent, $this->model->getDiscountPercent());
     }
 
     /**
@@ -82,9 +83,12 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     public function getValueDataProvider()
     {
         return array(
-            ['regularPrice' => 100, 'storedGroupPrice' => [['cust_group' => 234, 'website_price' => 40]], 'value' => 60],
-            ['regularPrice' => 75, 'storedGroupPrice' => [['cust_group' => 234, 'website_price' => 40]], 'value' => 45],
-            ['regularPrice' => 75, 'storedGroupPrice' => [], 'value' => false],
+            ['regularPrice' => 100, 'storedGroupPrice'
+                => [['cust_group' => 234, 'website_price' => 40]], 'value' => 60, 'percent' => 60],
+            ['regularPrice' => 75, 'storedGroupPrice'
+                => [['cust_group' => 234, 'website_price' => 40]], 'value' => 45, 'percent' => 60],
+            ['regularPrice' => 75, 'storedGroupPrice'
+                => [], 'value' => false, 'percent' => null],
         );
     }
 }
