@@ -9,7 +9,6 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Service\V1\Data\ZipRangeBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -169,7 +168,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $rate = $this->objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($data)
             ->save();
+
         $taxRate = $this->taxRateService->getTaxRate($rate->getId());
+
         $this->assertEquals('US', $taxRate->getCountryId());
         $this->assertEquals(12, $taxRate->getRegionId());
         $this->assertEquals('*', $taxRate->getPostcode());
@@ -180,11 +181,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = 10
+     * @expectedExceptionMessage No such entity with taxRateId = -1
      */
     public function testGetRateWithNoSuchEntityException()
     {
-        $this->taxRateService->getTaxRate(10);
+        $this->taxRateService->getTaxRate(-1);
     }
 
     /**
@@ -210,8 +211,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->taxRateService->updateTaxRate($updatedTaxRate);
 
-        // Ideally call getTaxRate($taxRate->getId()) here and verify contents reflect the updated version
-        $retrievedRate = $this->getTaxRate($taxRate->getId());
+        $retrievedRate = $this->taxRateService->getTaxRate($taxRate->getId());
         // Expect the service to have filled in the new postcode for us
         $updatedTaxRate = $this->taxRateBuilder->populate($updatedTaxRate)->setPostcode('78700-78780')->create();
         $this->assertEquals($retrievedRate->__toArray(), $updatedTaxRate->__toArray());
@@ -219,6 +219,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage taxRateId =
      */
@@ -236,6 +237,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage postcode
      */
@@ -254,20 +256,5 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->create();
 
         $this->taxRateService->updateTaxRate($updatedTaxRate);
-    }
-
-    /**
-     * Helper function to get a specific tax rate
-     *
-     * @param int $id
-     * @return Data\TaxRate|null
-     */
-    private function getTaxRate($id)
-    {
-        try {
-            return $this->taxRateService->getTaxRate($id);
-        } catch (NoSuchEntityException $e) {
-            return null;
-        }
     }
 }

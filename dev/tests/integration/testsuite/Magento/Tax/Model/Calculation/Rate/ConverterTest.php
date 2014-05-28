@@ -99,6 +99,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $taxRateDataObjectBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
         $zipRangeDataObjectBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+
         /** @var  $converter \Magento\Tax\Model\Calculation\Rate\Converter */
         $converter = $this->objectManager->create(
             'Magento\Tax\Model\Calculation\Rate\Converter',
@@ -138,7 +139,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                [
+                'withZipRange' => [
                     'id' => '1',
                     'countryId' => 'US',
                     'regionId' => '34',
@@ -148,14 +149,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             [
-                [
+                'withPostalCode' => [
                     'id' => '1',
                     'countryId' => 'US',
                     'code' => 'US-CA-*-Rate 1',
                     'rate' => '8.25',
-                    'postcode'=>'78727'
+                    'postcode' => '78727'
                 ],
-            ],
+            ]
         ];
     }
 }
