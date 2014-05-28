@@ -120,4 +120,15 @@
       <step>Verify created product.</step>
     </steps>
   </testcase>
+  <testcase>
+    <id>MTA-128</id>
+    <ticketId>MTA-128</ticketId>
+    <name>SuggestSearchingResult(SearchEntity)WithFucntionalTestsDesignedForAutomationTest</name>
+    <description>Cover Suggest Searching Result (SearchEntity) with fucntional tests designed for automation</description>
+    <module>Search</module>
+    <components>
+      <component>Search Frontend (CS)</component>
+    </components>
+    <steps/>
+  </testcase>
 </testcases>
