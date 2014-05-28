@@ -29,7 +29,7 @@ body {
 //
 //    Header
 //--------------------------------------
-.page.header {
+.page-header {
     .css(background-color, @header-bg-color);
     border-bottom: 1px solid @border-color-base;
     margin-bottom: 20px;
@@ -111,11 +111,12 @@ body {
 
 @footer-bg-color: false;
 
-.footer {
-    &.page {
+.page-footer {
         margin-top: 25px;
         .css(background-color, @footer-bg-color);
     }
+
+.footer {
     &.content {
         padding-top: 25px;
         padding-bottom: 25px;
@@ -144,8 +145,8 @@ body {
     }
 }
 
-.page.header,
-.page.footer {
+.page-header,
+.page-footer {
     .switcher {
         margin-right: 10px;
         .options {
@@ -186,7 +187,33 @@ body {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .page.header {
+    .header {
+        &.panel {
+            > .header.links {
+                float: right;
+                .list-inline();
+                > li {
+                    margin: 0 0 0 15px;
+                    &.welcome,
+                    a {
+                        line-height: 1.4;
+                    }
+                }
+                margin-left: auto;
+            }
+        }
+        &.content {
+            padding: 30px 20px 0;
+            &:extend(.add-clearfix-desktop all);
+        }
+        .links,
+        .switcher,
+        .panel {
+            display: block;
+        }
+    }
+
+    .page-header {
         border: 0;
         margin-bottom: 0;
         .panel.wrapper {
@@ -215,31 +242,6 @@ body {
         }
     }
 
-    .header {
-        &.panel {
-            > .header.links {
-                float: right;
-                .list-inline();
-                > li {
-                    margin: 0 0 0 15px;
-                    &.welcome,
-                    a {
-                        line-height: 1.4;
-                    }
-                }
-                margin-left: auto;
-            }
-        }
-        &.content {
-            padding: 30px 20px 0;
-            &:extend(.add-clearfix-desktop all);
-        }
-        .links,
-        .switcher,
-        .panel {
-            display: block;
-        }
-    }
 
     .logo {
         margin: -8px auto 25px 0;
@@ -248,7 +250,7 @@ body {
         }
     }
 
-    .page.wrapper {
+    .page-wrapper {
         position: relative;
         width: 100%;
         float: right;

@@ -288,9 +288,9 @@
     $.widget('mage.navigationMenu', $.mage.navigationMenu, {
         options: {
             responsive: false,
-            origNavPlaceholder: '.page.header',
+            origNavPlaceholder: '.page-header',
             mainContainer: 'body',
-            pageWrapper: '.page.wrapper',
+            pageWrapper: '.page-wrapper',
             openedMenuClass: 'opened',
             toggleActionPlaceholder: '.block.search',
             itemWithSubmenu: 'li.parent',
