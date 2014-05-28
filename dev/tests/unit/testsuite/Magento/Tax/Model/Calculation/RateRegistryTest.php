@@ -70,10 +70,12 @@ class RateRegistryTest extends \PHPUnit_Framework_TestCase
         $this->rateModelFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->rateModelMock));
+
         $actual = $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
         $this->assertEquals($this->rateModelMock, $actual);
+
         $actualCached = $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
-        $this->assertEquals($this->rateModelMock, $actualCached);
+        $this->assertEquals($actual, $actualCached);
     }
 
     /**
