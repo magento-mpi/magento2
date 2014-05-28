@@ -43,6 +43,8 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
+     * Returns max price
+     *
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMaximalPrice()
@@ -54,6 +56,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
+     * Returns min price
      *
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
