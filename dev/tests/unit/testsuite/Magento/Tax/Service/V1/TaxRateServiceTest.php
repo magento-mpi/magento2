@@ -115,6 +115,22 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRateDataObjectMock, $this->taxRateService->getTaxRate(1));
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxRateId = 1
+     */
+    public function testGetTaxRateWithNoSuchEntityException()
+    {
+        $rateId = 1;
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with($rateId)
+            ->will($this->throwException(NoSuchEntityException::singleField('taxRateId', $rateId)));
+        $this->converterMock->expects($this->never())
+            ->method('createTaxRateDataObjectFromModel');
+        $this->taxRateService->getTaxRate($rateId);
+    }
+
     public function testUpdateTaxRate()
     {
         $taxRateBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
@@ -209,21 +225,4 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         return $mockModel;
     }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = 1
-     */
-    public function testGetTaxRateWithNoSuchEntityException()
-    {
-        $rateId = 1;
-        $this->rateRegistryMock->expects($this->once())
-            ->method('retrieveTaxRate')
-            ->with($rateId)
-            ->will($this->throwException(NoSuchEntityException::singleField('taxRateId', $rateId)));
-        $this->converterMock->expects($this->never())
-            ->method('createTaxRateDataObjectFromModel');
-        $this->taxRateService->getTaxRate($rateId);
-    }
-
 }

@@ -21,7 +21,7 @@ interface TaxRateServiceInterface
     public function createTaxRate(\Magento\Tax\Service\V1\Data\TaxRate $taxRate);
 
     /**
-     * Get tax rates
+     * Get tax rate
      *
      * @param int $rateId
      * @return \Magento\Tax\Service\V1\Data\TaxRate
