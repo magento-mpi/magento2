@@ -99,6 +99,56 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage country_id is a required field.
+     */
+    public function testCreateTaxRateWithInputException()
+    {
+        $taxData = [
+            'country_id' => '',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate',
+            'zip_range' => ['from' => 78765, 'to' => 78780]
+        ];
+        $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRateBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateBuilder',
+            ['zipRangeBuilder' => $zipRangeBuilder]
+        );
+        $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
+        $this->taxRateService->createTaxRate($taxRateDataObject);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     */
+    public function testCreateTaxRateWithModelException()
+    {
+        $taxData = [
+            'country_id' => 'US',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate',
+            'postcode' => '78765-78780',
+            'zip_range' => ['from' => 78765, 'to' => 78780]
+        ];
+        $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRateBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateBuilder',
+            ['zipRangeBuilder' => $zipRangeBuilder]
+        );
+        $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
+        $this->rateModelMock->expects($this->once())
+            ->method('save')
+            ->will($this->throwException(new \Magento\Framework\Model\Exception));
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRateModel')
+            ->will($this->returnValue($this->rateModelMock));
+        $this->taxRateService->createTaxRate($taxRateDataObject);
+    }
+
     public function testGetTaxRate()
     {
         $taxRateDataObjectMock = $this->getMockBuilder('Magento\Tax\Service\V1\Data\TaxRate')

@@ -95,7 +95,6 @@ class Converter
      */
     public function createTaxRateModel(TaxRateDataObject $taxRate)
     {
-        /** @var TaxRateModel */
         $rateModel = $this->taxRateModelFactory->create();
         $rateId = $taxRate->getId();
         if ($rateId) {
