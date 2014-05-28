@@ -628,7 +628,8 @@ td.col-sku {
 
     .col-file {
         white-space: nowrap;
-        input {
+        input,
+        .input-text {
             margin: 0 5px;
             width: 40%;
             &:first-child {
@@ -1569,4 +1570,12 @@ td.col-sku {
 .adminhtml-logging-index .grid .col-info {
     &:extend(.col-110-max all);
     &:extend(.ellipsis all);
+}
+
+//
+//    Stores -> Gift Registry
+// --------------------------------------
+.eq-ie9 [class^=" adminhtml-giftregistry-"] .custom-options .data-table {
+    word-wrap: normal;
+    table-layout: auto;
 }
