@@ -24,6 +24,13 @@ class Toolbar extends Block
     protected $nextPageSelector = '.item.current + .item a';
 
     /**
+     * Selector for "sort by" element
+     *
+     * @var string
+     */
+    protected $sorter = '#sorter';
+
+    /**
      * Go to the next page
      *
      * @return bool
@@ -37,5 +44,15 @@ class Toolbar extends Block
         }
 
         return false;
+    }
+
+    /**
+     * Get method of sorting product
+     *
+     * @return array|string
+     */
+    public function getSelectSortType()
+    {
+        return $this->_rootElement->find($this->sorter)->getValue();
     }
 } 
