@@ -42,6 +42,9 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
     /** @var \Zend_Db_Select|\PHPUnit_Framework_MockObject_MockObject  */
     protected $selectMock;
 
+    /** @var \Magento\Framework\App\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    protected $objectManagerMock;
+
     protected function setUp()
     {
         $this->entityFactoryMock = $this->getMock('Magento\Framework\Data\Collection\EntityFactoryInterface');
@@ -56,12 +59,19 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
             ->method('getReadConnection')
             ->will($this->returnValue($this->connectionMock));
 
-        $this->selectMock = $this->getMock('Zend_Db_Select', ['getPart', 'setPart', 'from', 'columns'], [$this->connectionMock]);
+        $this->selectMock = $this->getMock(
+            'Zend_Db_Select',
+            ['getPart', 'setPart', 'from', 'columns'],
+            [$this->connectionMock]
+        );
 
         $this->connectionMock
             ->expects($this->any())
             ->method('select')
             ->will($this->returnValue($this->selectMock));
+
+        $this->objectManagerMock = $this->getMock('Magento\Framework\App\ObjectManager', [], [], '', false);
+        \Magento\Framework\App\ObjectManager::setInstance($this->objectManagerMock);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->uut = $this->getUut();
@@ -315,13 +325,15 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResource()
     {
+        $this->objectManagerMock->expects($this->once())->method('create');
         $this->uut->setResource(null);
-        \Magento\Framework\App\ObjectManager::$createInvoked = false;
         $this->uut->getResource();
-        $this->assertTrue(\Magento\Framework\App\ObjectManager::$createInvoked);
-        \Magento\Framework\App\ObjectManager::$createInvoked = false;
+    }
+
+    public function testGetResourceCached()
+    {
+        $this->objectManagerMock->expects($this->never())->method('create');
         $this->uut->getResource();
-        $this->assertFalse(\Magento\Framework\App\ObjectManager::$createInvoked);
     }
 
     public function testGetTable()
@@ -405,33 +417,5 @@ class Uut extends AbstractCollection
     public function getJoinedTables()
     {
         return $this->_joinedTables;
-    }
-}
-
-namespace Magento\Framework\App;
-
-class ObjectManager
-{
-    protected static $instance;
-    public static $createInvoked = false;
-
-    public static function getInstance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-    public function get($class)
-    {
-        return $class;
-    }
-
-    public function create($type, array $arguments = array())
-    {
-        self::$createInvoked = true;
-        return true;
     }
 }
