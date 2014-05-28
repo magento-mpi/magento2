@@ -6,20 +6,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Model;
+namespace Magento\Tax\Model\Calculation;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
- * Test for TaxRegistry
+ * Test for RateRegistry
  *
  */
-class TaxRegistryTest extends \PHPUnit_Framework_TestCase
+class RateRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Tax\Model\TaxRegistry
+     * @var \Magento\Tax\Model\Calculation\RateRegistry
      */
-    private $taxRegistry;
+    private $rateRegistry;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Calculation\RateFactory
@@ -40,8 +40,8 @@ class TaxRegistryTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->taxRegistry = $objectManager->getObject(
-            'Magento\Tax\Model\TaxRegistry',
+        $this->rateRegistry = $objectManager->getObject(
+            'Magento\Tax\Model\Calculation\RateRegistry',
             ['taxModelRateFactory' => $this->rateModelFactoryMock]
         );
         $this->rateModelMock = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rate')
@@ -54,8 +54,8 @@ class TaxRegistryTest extends \PHPUnit_Framework_TestCase
         $this->rateModelMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(self::TAX_RATE_ID));
-        $this->taxRegistry->registerTaxRate($this->rateModelMock);
-        $this->assertEquals($this->rateModelMock, $this->taxRegistry->retrieveTaxRate(self::TAX_RATE_ID));
+        $this->rateRegistry->registerTaxRate($this->rateModelMock);
+        $this->assertEquals($this->rateModelMock, $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID));
     }
 
     public function testRetrieveTaxRate()
@@ -70,9 +70,9 @@ class TaxRegistryTest extends \PHPUnit_Framework_TestCase
         $this->rateModelFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->rateModelMock));
-        $actual = $this->taxRegistry->retrieveTaxRate(self::TAX_RATE_ID);
+        $actual = $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
         $this->assertEquals($this->rateModelMock, $actual);
-        $actualCached = $this->taxRegistry->retrieveTaxRate(self::TAX_RATE_ID);
+        $actualCached = $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
         $this->assertEquals($this->rateModelMock, $actualCached);
     }
 
@@ -91,6 +91,6 @@ class TaxRegistryTest extends \PHPUnit_Framework_TestCase
         $this->rateModelFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->rateModelMock));
-        $this->taxRegistry->retrieveTaxRate(self::TAX_RATE_ID);
+        $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
     }
 }
