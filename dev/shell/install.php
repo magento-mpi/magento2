@@ -76,7 +76,7 @@ INSTALLSCHEME;
 define('BARE_BOOTSTRAP', 1);
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-$result = is_writable(__DIR__ . '/../../app/etc');
+$result = is_writable(BP . '/app/etc');
 if ($result === null) {
     echo 'error: Can\'t access directory "app/etc".' . PHP_EOL;
     exit(1);

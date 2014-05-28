@@ -24,11 +24,17 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
      */
     protected $directoryMock;
 
+    /**
+     * {inheritdoc}
+     */
     protected function tearDown()
     {
         $this->model = null;
     }
 
+    /**
+     * Test uninstall()
+     */
     public function testUninstall()
     {
         $this->model = $this->getModelMock();
@@ -41,6 +47,9 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Test uninstall() when error is triggered
+     */
     public function testUninstallWithError()
     {
         $this->model = $this->getModelMock();
@@ -58,11 +67,13 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
             );
         $expectedString = str_repeat(sprintf('Please delete the file manually : "%s" ' . "\n", TESTS_TEMP_DIR), 2);
 
-        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with()->will(
+        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->will(
             $this->returnValue($this->directoryMock)
         );
         $this->expectOutputString($expectedString);
-        $this->model->uninstall();
+        $result = $this->model->uninstall();
+
+        $this->assertTrue($result);
 
     }
 
@@ -87,7 +98,10 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
        $this->model->checkServer();
    }
 
-   public function checkServerDataProvider()
+    /**
+     * @return array
+     */
+    public function checkServerDataProvider()
    {
        $messageA = $this->getMockBuilder('SomeClass')->setMethods(['toString'])->getMock();
        $messageA->expects($this->any())->method('toString')->will($this->returnValue('textA'));
@@ -101,50 +115,50 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
        ];
    }
 
-   protected function getModelMock()
-   {
-       $dbModelName = 'Magento\Install\Model\Installer\Db\Mysql4';
-       $this->directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
-       $this->directoryMock->expects(
-           $this->once()
-       )->method('read')->will($this->returnValue([TESTS_TEMP_DIR]));
+    protected function getModelMock()
+    {
+        $dbModelName = 'Magento\Install\Model\Installer\Db\Mysql4';
+        $this->directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', [], [], '', false);
+        $this->directoryMock->expects(
+            $this->once()
+        )->method('read')->will($this->returnValue([TESTS_TEMP_DIR]));
 
-       $this->directoryMock->expects(
-           $this->any()
-       )->method('isDirectory')->will($this->returnValue(true));
+        $this->directoryMock->expects(
+            $this->any()
+        )->method('isDirectory')->will($this->returnValue(true));
 
-       $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
-       $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with()->will(
-           $this->returnValue($this->directoryMock)
-       );
-       /**
+        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
+        $this->filesystemMock->expects($this->any())->method('getDirectoryWrite')->with()->will(
+            $this->returnValue($this->directoryMock)
+        );
+        /**
         * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
         */
-       $appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
-       $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
+        $appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
-       $dbModelMock = $this->getMock($dbModelName, [], [], '', false);
-       $dbModelMock->expects($this->any())->method('cleanUpDatabase')->will($this->returnValue($this));
-       /**
+        $dbModelMock = $this->getMock($dbModelName, [], [], '', false);
+        $dbModelMock->expects($this->any())->method('cleanUpDatabase')->will($this->returnValue($this));
+        /**
         * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
         */
-       $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
-       $objectManagerMock->expects($this->any())->method('get')->with($dbModelName)->will(
-           $this->returnValue($dbModelMock)
-       );
+        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $objectManagerMock->expects($this->any())->method('get')->with($dbModelName)->will(
+            $this->returnValue($dbModelMock)
+        );
 
-       return new \Magento\Install\Model\Installer\Console(
-           $this->getMock('Magento\Install\Model\Installer', [], [], '', false),
-           $this->getMock('Magento\Framework\App\Resource\Config', [], [], '', false),
-           $this->getMock('Magento\Framework\Module\UpdaterInterface', [], [], '', false),
-           $this->filesystemMock,
-           $this->getMock('Magento\Install\Model\Installer\Data', [], [], '', false),
-           $appStateMock,
-           $this->getMock('Magento\Framework\Locale\ListsInterface', [], [], '', false),
-           $objectManagerMock
-       );
+        return new \Magento\Install\Model\Installer\Console(
+            $this->getMock('Magento\Install\Model\Installer', [], [], '', false),
+            $this->getMock('Magento\Framework\App\Resource\Config', [], [], '', false),
+            $this->getMock('Magento\Framework\Module\UpdaterInterface', [], [], '', false),
+            $this->filesystemMock,
+            $this->getMock('Magento\Install\Model\Installer\Data', [], [], '', false),
+            $appStateMock,
+            $this->getMock('Magento\Framework\Locale\ListsInterface', [], [], '', false),
+            $objectManagerMock
+        );
 
-   }
+    }
 
     /**
      * @param array $items

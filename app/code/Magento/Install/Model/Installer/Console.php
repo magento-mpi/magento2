@@ -174,7 +174,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * Retrieve validated installation options
      *
      * @param array $options
-     * @return array|false
+     * @return array|bool
      */
     protected function _getInstallOptions(array $options)
     {
@@ -540,6 +540,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
 
     /**
      * Check if server is applicable for Magento
+     * @return $this
      */
     public function checkServer()
     {
@@ -557,5 +558,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
                 $this->addError($message->toString());
             }
         }
+
+        return $this;
     }
 }
