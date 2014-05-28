@@ -48,12 +48,12 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return "Assert that displayed special price on product page equals passed from fixture";
+        return "Assert that displayed special price on product page equals passed from fixture.";
     }
 }
