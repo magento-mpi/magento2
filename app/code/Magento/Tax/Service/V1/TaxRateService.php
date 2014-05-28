@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Service\V1;
 
-
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
 use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
@@ -84,7 +83,12 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function updateTaxRate(TaxRateDataObject $taxRate)
     {
-        // TODO: Implement updateTaxRate() method.
+        // Only update existing tax rates
+        $this->rateRegistry->retrieveTaxRate($taxRate->getId());
+
+        $this->saveTaxRate($taxRate);
+
+        return true;
     }
 
     /**
@@ -95,50 +99,54 @@ class TaxRateService implements TaxRateServiceInterface
         // TODO: Implement deleteTaxRate() method.
     }
 
-    /*
+    /**
      * Save Tax Rate
      *
-     * @param TaxRateDataObject
+     * @param TaxRateDataObject $taxRate
      * @throws InputException
      * @throws \Magento\Framework\Model\Exception
      * @return RateModel
      */
     protected function saveTaxRate(TaxRateDataObject $taxRate)
     {
-        /** @var $taxRateModel RateModel */
+        $this->validate($taxRate);
         $taxRateModel = $this->converter->createTaxRateModel($taxRate);
-        $this->validate($taxRateModel);
         $taxRateModel->save();
+        $this->rateRegistry->registerTaxRate($taxRateModel);
         return $taxRateModel;
     }
 
     /**
      * Validate tax rate .
      *
-     * @param RateModel $taxRateModel
+     * @param TaxRateDataObject $taxRate
      * @throws InputException
-     * @return boolean
+     * @return void
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function validate(RateModel $taxRateModel)
+    private function validate(TaxRateDataObject $taxRate)
     {
         $exception = new InputException();
-        if (!\Zend_Validate::is(trim($taxRateModel->getTaxCountryId()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($taxRate->getCountryId()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
         }
-        if (!\Zend_Validate::is(trim($taxRateModel->getTaxRegionId()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($taxRate->getRegionId()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'region_id']);
         }
-        if (!\Zend_Validate::is(trim($taxRateModel->getRate()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($taxRate->getPercentageRate()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'percentage_rate']);
         }
-        if (!\Zend_Validate::is(trim($taxRateModel->getCode()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($taxRate->getCode()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'code']);
         }
-        if ($taxRateModel->getZipIsRange()) {
-            $zipRangeFromTo = ['zip_from' => $taxRateModel->getZipFrom(), 'zip_to' => $taxRateModel->getZipTo()];
+
+        if ($taxRate->getZipRange()) {
+            $zipRangeFromTo = [
+                'zip_from' => $taxRate->getZipRange()->getFrom(),
+                'zip_to' => $taxRate->getZipRange()->getTo()
+            ];
             foreach ($zipRangeFromTo as $key => $value) {
                 if (!is_numeric($value) || $value < 0) {
                     $exception->addError(
@@ -150,14 +158,14 @@ class TaxRateService implements TaxRateServiceInterface
             if ($zipRangeFromTo['zip_from'] > $zipRangeFromTo['zip_to']) {
                 $exception->addError('Range To should be equal or greater than Range From.');
             }
+
         } else {
-            if (!\Zend_Validate::is(trim($taxRateModel->getTaxPostcode()), 'NotEmpty')) {
+            if (!\Zend_Validate::is(trim($taxRate->getPostcode()), 'NotEmpty')) {
                 $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'postcode']);
             }
         }
         if ($exception->wasErrorAdded()) {
             throw $exception;
         }
-        return true;
     }
 }
