@@ -11,7 +11,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import\Proxy;
+namespace Magento\Catalog\Model\ImportExport\Import\Proxy;
 
 class Product extends \Magento\Catalog\Model\Product
 {

@@ -27,19 +27,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Uploader
+     * @var \Magento\Catalog\Model\ImportExport\Import\Uploader
      */
     protected $_uploader;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\UploaderFactory
+     * @var \Magento\Catalog\Model\ImportExport\Import\UploaderFactory
      */
     protected $_uploaderFactory;
 
     protected function setUp()
     {
         $this->_uploaderFactory = $this->getMock(
-            'Magento\ImportExport\Model\Import\UploaderFactory',
+            'Magento\Catalog\Model\ImportExport\Import\UploaderFactory',
             array('create'),
             array(),
             '',
@@ -523,7 +523,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $uploader = $this->getMock(
-            'Magento\ImportExport\Model\Import\Uploader',
+            'Magento\Catalog\Model\ImportExport\Import\Uploader',
             array('init'),
             array(
                 $objectManager->create('Magento\Core\Helper\File\Storage\Database'),

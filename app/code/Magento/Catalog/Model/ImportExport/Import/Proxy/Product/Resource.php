@@ -11,7 +11,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import\Proxy\Product;
+namespace Magento\Catalog\Model\ImportExport\Import\Proxy\Product;
 
 class Resource extends \Magento\Catalog\Model\Resource\Product
 {

@@ -325,7 +325,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Media files uploader
      *
-     * @var \Magento\ImportExport\Model\Import\Uploader
+     * @var \Magento\Catalog\Model\ImportExport\Import\Uploader
      */
     protected $_fileUploader;
 
@@ -363,7 +363,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_importConfig;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory
+     * @var \Magento\Catalog\Model\ImportExport\Import\Proxy\Product\ResourceFactory
      */
     protected $_resourceFactory;
 
@@ -403,12 +403,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_linkFactory;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Proxy\ProductFactory
+     * @var \Magento\Catalog\Model\ImportExport\Import\Proxy\ProductFactory
      */
     protected $_proxyProdFactory;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\UploaderFactory
+     * @var \Magento\Catalog\Model\ImportExport\Import\UploaderFactory
      */
     protected $_uploaderFactory;
 
@@ -454,7 +454,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ImportExport\Model\Import\Config $importConfig
-     * @param \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory
+     * @param \Magento\Catalog\Model\ImportExport\Import\Proxy\Product\ResourceFactory $resourceFactory
      * @param \Magento\Catalog\Model\ImportExport\Import\Product\OptionFactory $optionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
@@ -463,8 +463,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ImportExport\Import\Product\Type\Factory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
-     * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
-     * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
+     * @param \Magento\Catalog\Model\ImportExport\Import\Proxy\ProductFactory $proxyProdFactory
+     * @param \Magento\Catalog\Model\ImportExport\Import\UploaderFactory $uploaderFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
@@ -485,7 +485,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
-        \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory,
+        \Magento\Catalog\Model\ImportExport\Import\Proxy\Product\ResourceFactory $resourceFactory,
         \Magento\Catalog\Model\ImportExport\Import\Product\OptionFactory $optionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory,
@@ -494,8 +494,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ImportExport\Import\Product\Type\Factory $productTypeFactory,
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
-        \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
-        \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory,
+        \Magento\Catalog\Model\ImportExport\Import\Proxy\ProductFactory $proxyProdFactory,
+        \Magento\Catalog\Model\ImportExport\Import\UploaderFactory $uploaderFactory,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
@@ -1227,7 +1227,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _saveProducts()
     {
-        /** @var $resource \Magento\ImportExport\Model\Import\Proxy\Product\Resource */
+        /** @var $resource \Magento\Catalog\Model\ImportExport\Import\Proxy\Product\Resource */
         $resource = $this->_resourceFactory->create();
         $priceIsGlobal = $this->_catalogData->isPriceGlobal();
         $productLimit = null;
@@ -1530,7 +1530,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Returns an object for upload a media files
      *
-     * @return \Magento\ImportExport\Model\Import\Uploader
+     * @return \Magento\Catalog\Model\ImportExport\Import\Uploader
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _getUploader()

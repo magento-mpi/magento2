@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import;
+namespace Magento\Catalog\Model\ImportExport\Import;
 
 /**
  * Import entity product model
