@@ -47,6 +47,17 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set attribute id
+     *
+     * @param  int $attributeId
+     * @return $this
+     */
+    public function setAttributeId($attributeId)
+    {
+        return $this->_set(AttributeMetadata::ATTRIBUTE_ID, $attributeId);
+    }
+
+    /**
      * Set attribute code
      *
      * @param  string $attributeCode
@@ -58,14 +69,14 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set attribute id
+     * Set attribute as system
      *
-     * @param  int $attributeId
+     * @param  bool $isSystem
      * @return $this
      */
-    public function setAttributeId($attributeId)
+    public function setIsSystem($isSystem)
     {
-        return $this->_set(AttributeMetadata::ATTRIBUTE_ID, $attributeId);
+        return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
     }
 
     /**
@@ -300,6 +311,83 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     public function setScope($scope)
     {
         return $this->_set(AttributeMetadata::SCOPE, $scope);
+    }
+
+    /**
+     * Set whether it is used for sorting in product listing
+     *
+     * @param  bool $usedForSortBy
+     * @return $this
+     */
+    public function setUsedForSortBy($usedForSortBy)
+    {
+        return $this->_set(AttributeMetadata::USED_FOR_SORT_BY, (bool)$usedForSortBy);
+    }
+
+    /**
+     * Set whether it used in layered navigation
+     *
+     * @param  bool $isFilterable
+     * @return $this
+     */
+    public function setIsFilterable($isFilterable)
+    {
+        return $this->_set(AttributeMetadata::IS_FILTERABLE, (bool)$isFilterable);
+    }
+
+    /**
+     * Set whether it is used in search results layered navigation
+     *
+     * @param  bool $isFilterableInSearch
+     * @return $this
+     */
+    public function setIsFilterableInSearch($isFilterableInSearch)
+    {
+        return $this->_set(AttributeMetadata::IS_FILTERABLE_IN_SEARCH, (bool)$isFilterableInSearch);
+    }
+
+    /**
+     * Set position
+     *
+     * @param  int $position
+     * @return $this
+     */
+    public function setPosition($position)
+    {
+        return $this->_set(AttributeMetadata::POSITION, (int)$position);
+    }
+
+    /**
+     * Set whether WYSIWYG enabled or not
+     *
+     * @param  bool $isWysiwygEnabled
+     * @return $this
+     */
+    public function setIsWysiwygEnabled($isWysiwygEnabled)
+    {
+        return $this->_set(AttributeMetadata::IS_WYSIWYG_ENABLED, (bool)$isWysiwygEnabled);
+    }
+
+    /**
+     * Set whether the HTML tags are allowed on the frontend
+     *
+     * @param  bool $isHtmlAllowedOnFront
+     * @return $this
+     */
+    public function setIsHtmlAllowedOnFront($isHtmlAllowedOnFront)
+    {
+        return $this->_set(AttributeMetadata::IS_HTML_ALLOWED_ON_FRONT, (bool)$isHtmlAllowedOnFront);
+    }
+
+    /**
+     * Set frontend class for attribute
+     *
+     * @param  string $frontendClass
+     * @return $this
+     */
+    public function setFrontendClass($frontendClass)
+    {
+        return $this->_set(AttributeMetadata::FRONTEND_CLASS, $frontendClass);
     }
 
     /**

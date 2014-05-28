@@ -13,9 +13,9 @@ use Magento\Catalog\Service\V1\ProductMetadataService;
 class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test createMetadataAttribute private method through public getAttributeMetadata
+     * Test getAttributeMetadata
      */
-    public function testCreateMetadataAttribute()
+    public function testGetAttributeMetadata()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
@@ -42,31 +42,20 @@ class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'), array(), '', false);
         $eavConfigMock->expects($this->any())->method('getAttribute')->will($this->returnValue($attributeMock));
 
-        // attributeBuilderFactoryMock
-        $attributeBuilderFactory = $this->getMock(
-            'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilderFactory',
-            array('create'), array(), '', false
-        );
+        // create service
         $service = $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService',
             array(
                 'eavConfig' => $eavConfigMock,
-                'attributeMetadataBuilderFactory' => $attributeBuilderFactory
+                'attributeMetadataBuilder'
+                    => new AttributeMetadataBuilder(new OptionBuilder(), new ValidationRuleBuilder())
             )
         );
-
-        $attributeBuilderFactory->expects($this->once())
-            ->method('create')
-            ->with($data['frontend_input'])
-            ->will($this->returnValue(
-                $objectManager->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder')
-            ));
 
         $dto = $service->getAttributeMetadata('entity_type', 'attr_code');
         $this->assertInstanceOf('Magento\Framework\Service\Data\AbstractObject', $dto);
         $this->assertEquals($attributeMock->getFrontendInput(), $dto->getFrontendInput());
+
         $this->assertTrue(is_array($dto->getFrontendLabel()));
         $this->assertArrayHasKey('store_id', $dto->getFrontendLabel()[0]);
-        $this->assertEquals(0, $dto->getFrontendLabel()[0]['store_id']);
-        $this->assertEquals(1, $dto->getFrontendLabel()[1]['store_id']);
     }
 }

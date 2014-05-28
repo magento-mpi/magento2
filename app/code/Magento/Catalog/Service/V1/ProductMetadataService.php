@@ -38,29 +38,29 @@ class ProductMetadataService implements ProductMetadataServiceInterface
     private $validationRuleBuilder;
 
     /**
-     * @var Data\Eav\AttributeMetadataBuilderFactory
+     * @var Data\Eav\AttributeMetadataBuilder
      */
-    private $attributeMetadataBuilderFactory;
+    private $attributeMetadataBuilder;
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Data\Eav\OptionBuilder $optionBuilder
      * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
-     * @param Data\Eav\AttributeMetadataBuilderFactory $attributeMetadataBuilderFactory
+     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         Data\Eav\OptionBuilder $optionBuilder,
         Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
-        Data\Eav\AttributeMetadataBuilderFactory $attributeMetadataBuilderFactory
+        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->eavConfig = $eavConfig;
         $this->scopeResolver = $scopeResolver;
         $this->optionBuilder = $optionBuilder;
         $this->validationRuleBuilder = $validationRuleBuilder;
-        $this->attributeMetadataBuilderFactory = $attributeMetadataBuilderFactory;
+        $this->attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
     /**
@@ -141,6 +141,9 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             ? $attribute->getSource()->getAllOptions() : array();
         $data[AttributeMetadata::VALIDATION_RULES] = $attribute->getValidateRules();
 
+        //fill isSystem filed
+        $data[AttributeMetadata::IS_SYSTEM] = $attribute->getIsSystem();
+
         // fill scope
         $data[AttributeMetadata::SCOPE] = $attribute->isScopeGlobal()
             ? 'global' : ($attribute->isScopeWebsite() ? 'website' : 'store');
@@ -160,9 +163,6 @@ class ProductMetadataService implements ProductMetadataServiceInterface
                 );
             }
         }
-
-        $attributeBuilder = $this->attributeMetadataBuilderFactory->create($attribute->getFrontendInput());
-        $attributeBuilder->populateWithArray($data);
-        return $attributeBuilder->create();
+        return $this->attributeMetadataBuilder->populateWithArray($data)->create();
     }
 }
