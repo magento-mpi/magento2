@@ -117,7 +117,7 @@ class TaxRateService implements TaxRateServiceInterface
     }
 
     /**
-     * Validate tax rate .
+     * Validate tax rate
      *
      * @param TaxRateDataObject $taxRate
      * @throws InputException

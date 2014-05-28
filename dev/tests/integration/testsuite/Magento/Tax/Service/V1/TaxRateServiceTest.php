@@ -146,6 +146,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'zipRangeAndPostcode' => [
                 ['postcode' => 78727, 'zip_range' => ['from' => 78765, 'to' => 78780]],
                 'error' => []
+            ],
+            'higherRange' => [
+                ['zip_range' => ['from' => 78780, 'to' => 78765]],
+                'error' => ['Range To should be equal or greater than Range From.']
             ]
         ];
     }
