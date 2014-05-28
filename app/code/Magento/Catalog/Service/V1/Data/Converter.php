@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model;
+namespace Magento\Catalog\Service\V1\Data;
 
 use Magento\Catalog\Service\V1\Data\ProductBuilder;
 use Magento\Catalog\Service\V1\Data\Product as ProductDataObject;
@@ -51,8 +51,7 @@ class Converter
     protected function _populateBuilderWithAttributes(\Magento\Catalog\Model\Product $productModel)
     {
         $attributes = array();
-        foreach ($productModel->getAttributes() as $attribute) {
-            $attrCode = $attribute->getAttributeCode();
+        foreach ($this->productBuilder->getCustomAttributesCodes() as $attrCode) {
             $value = $productModel->getDataUsingMethod($attrCode);
             $value = $value ? $value : $productModel->getData($attrCode);
             if (null !== $value) {

@@ -9,7 +9,7 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Catalog\Model\Converter;
+use Magento\Catalog\Service\V1\Data\Converter;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Catalog\Service\V1\Data\Product as ProductData;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
@@ -38,6 +38,11 @@ class ProductService implements ProductServiceInterface
     private $productFactory;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    private $productCollection;
+
+    /**
      * @var ProductMetadataServiceInterface
      */
     private $metadataService;
@@ -57,7 +62,9 @@ class ProductService implements ProductServiceInterface
      * @param Product\Builder $productBuilder
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollection
      * @param ProductMetadataServiceInterface $metadataService
+     * @param \Magento\Catalog\Service\V1\Data\Converter $converter
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      */
     public function __construct(
@@ -65,14 +72,16 @@ class ProductService implements ProductServiceInterface
         Product\Builder $productBuilder,
         \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollection,
         ProductMetadataServiceInterface $metadataService,
-        \Magento\Catalog\Model\Converter $converter,
+        \Magento\Catalog\Service\V1\Data\Converter $converter,
         Data\SearchResultsBuilder $searchResultsBuilder
     ) {
         $this->initializationHelper = $initializationHelper;
         $this->productBuilder = $productBuilder;
         $this->productTypeManager = $productTypeManager;
         $this->productFactory = $productFactory;
+        $this->productCollection = $productCollection;
         $this->metadataService = $metadataService;
         $this->converter = $converter;
         $this->searchResultsBuilder = $searchResultsBuilder;
@@ -139,7 +148,7 @@ class ProductService implements ProductServiceInterface
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
-        $collection = $this->productFactory->create()->getCollection();
+        $collection = $this->productCollection->create();
         // This is needed to make sure all the attributes are properly loaded
         foreach ($this->metadataService->getProductAttributesMetadata() as $metadata) {
             $collection->addAttributeToSelect($metadata->getAttributeCode());

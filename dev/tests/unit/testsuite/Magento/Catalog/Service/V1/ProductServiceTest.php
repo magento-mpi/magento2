@@ -28,6 +28,11 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     protected $_productMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $productCollection;
+
+    /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
@@ -69,6 +74,11 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_productMock));
 
+        $this->productCollection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\CollectionFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+
         $this->searchResultsBuilderMock = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\SearchResultsBuilder')
             ->disableOriginalConstructor()
             ->getMock();
@@ -78,7 +88,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             )->disableOriginalConstructor()
             ->getMock();
 
-        $this->converterMock = $this->getMockBuilder('\Magento\Catalog\Model\Converter')
+        $this->converterMock = $this->getMockBuilder('\Magento\Catalog\Service\V1\Data\Converter')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -156,8 +166,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('setCurPage')->with($this->equalTo(1));
         $collection->expects($this->once())->method('setPageSize')->with($this->equalTo(10));
         $collection->expects($this->once())->method('getSize')->will($this->returnValue(5));
-        $this->_productMock->expects($this->once())
-            ->method('getCollection')
+        $this->productCollection->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($collection));
 
         $this->_mockReturnValue(
@@ -190,6 +200,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productService = $this->_objectManager->getObject('Magento\Catalog\Service\V1\ProductService',
             [
                 'productFactory' => $this->_productFactoryMock,
+                'productCollection' => $this->productCollection,
                 'searchResultsBuilder' => $this->searchResultsBuilderMock,
                 'metadataService' => $this->metadataServiceMock,
                 'converter' => $this->converterMock,

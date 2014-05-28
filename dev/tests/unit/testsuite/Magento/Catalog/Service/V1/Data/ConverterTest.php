@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model;
+namespace Magento\Catalog\Service\V1\Data;
 
 use Magento\Catalog\Service\V1\Data\ProductBuilder;
 use Magento\Catalog\Service\V1\Data\Product as ProductDataObject;
@@ -24,8 +24,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->productBuilder = $objectManager->getObject('Magento\Catalog\Service\V1\Data\ProductBuilder');
+        $this->productBuilder = $this->getMock(
+            'Magento\Catalog\Service\V1\Data\ProductBuilder',
+            [],
+            [],
+            '',
+            false
+        );
     }
 
     public function testCreateProductDataFromModel()
@@ -33,16 +38,28 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $productModelMock = $this->getMockBuilder('\Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->getMock();
-        $attributes = [];
         $attrCodes = ['sku', 'price', 'status', 'updatedAt', 'entity_id'];
-        foreach($attrCodes as $code) {
-            $attributeMock = $this->getMockBuilder('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute')
-                ->disableOriginalConstructor()
-                ->getMock();
-            $attributeMock->expects($this->once())->method('getAttributeCode')->will($this->returnValue($code));
-            $attributes[] = $attributeMock;
-        }
-        $productModelMock->expects($this->once())->method('getAttributes')->will($this->returnValue($attributes));
+        $this->productBuilder->expects($this->once())
+            ->method('getCustomAttributesCodes')
+            ->will($this->returnValue($attrCodes));
+
+        $attributes = [
+            ProductDataObject::SKU => ProductDataObject::SKU . 'value',
+            ProductDataObject::PRICE => ProductDataObject::PRICE . 'value',
+            ProductDataObject::STATUS => ProductDataObject::STATUS . 'dataValue',
+            ProductDataObject::ID => 'entity_id' . 'value'
+        ];
+        $this->productBuilder->expects($this->once())
+            ->method('populateWithArray')
+            ->with($attributes);
+
+        $this->productBuilder->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($attributes));
+
+        $this->productBuilder->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue(new ProductDataObject($this->productBuilder)));
 
         $dataUsingMethodCallback = $this->returnCallback(
             function ($attrCode) {
