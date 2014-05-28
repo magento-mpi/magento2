@@ -10,17 +10,8 @@ class ModuleXmlParser implements \Magento\Composer\Parser {
 
     public function __construct($moduleDir)
     {
-        $this->setModuleDir($moduleDir);
-        $this->setFile($moduleDir.'/etc/module.xml');
-    }
-
-    public function setModuleDir($moduleDir){
-        // Remove trailing slash
-        if (!is_null($moduleDir)) {
-            $moduleDir = rtrim($moduleDir, '\\/');
-        }
         $this->_moduleDir = $moduleDir;
-        return $this;
+        $this->setFile($moduleDir.'/etc/module.xml');
     }
 
     /**
@@ -35,7 +26,7 @@ class ModuleXmlParser implements \Magento\Composer\Parser {
      * @param string|SplFileObject $file
      * @return PackageXmlParser
      */
-    public function setFile($file)
+    protected function setFile($file)
     {
         if (is_string($file)) {
             $file = new \SplFileObject($file);

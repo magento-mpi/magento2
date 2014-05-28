@@ -4,7 +4,6 @@ namespace Magento\Composer\Extractor;
 
 class ModuleExtractor extends  BaseExtractor{
 
-    private $_collection = array();
     private $_path = 'app/code/Magento/';
 
     public function __construct($rootDir, $logger){
