@@ -46,7 +46,7 @@ interface ProductServiceInterface
      * get product list product
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
-     * @return \Magento\Catalog\Service\V1\Data\Product[]
+     * @return \Magento\Catalog\Service\V1\Data\SearchResults containing Data\Product objects
      */
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }
