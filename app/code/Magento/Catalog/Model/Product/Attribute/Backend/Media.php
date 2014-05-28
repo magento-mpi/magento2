@@ -301,6 +301,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             if (!empty($image['removed'])) {
                 if (!empty($image['value_id']) && !isset($picturesInOtherStores[$image['file']])) {
                     $toDelete[] = $image['value_id'];
+                    $filesToValueIds[] = ltrim($image['file'], '/');
                 }
                 continue;
             }
@@ -328,17 +329,29 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         $this->_getResource()->deleteGallery($toDelete);
+        $this->removeDeletedImages($filesToValueIds);
+    }
+
+    /**
+     * @param array $files
+     */
+    protected function removeDeletedImages(array $files)
+    {
+        $catalogPath = $this->_mediaConfig->getBaseMediaPath();
+        foreach ($files as $filePath) {
+            $this->_mediaDirectory->delete($catalogPath . '/' . $filePath);
+        }
     }
 
     /**
      * Add image to media gallery and return new filename
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param string                     $file              file path of image in file system
-     * @param string|string[]            $mediaAttribute    code of attribute with type 'media_image',
+     * @param string $file file path of image in file system
+     * @param string|string[] $mediaAttribute code of attribute with type 'media_image',
      *                                                      leave blank if image should be only in gallery
-     * @param boolean                    $move              if true, it will move source file
-     * @param boolean                    $exclude           mark image as disabled in product page view
+     * @param boolean $move if true, it will move source file
+     * @param boolean $exclude mark image as disabled in product page view
      * @return string
      * @throws Exception
      */
@@ -656,10 +669,10 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             );
         } else {
             $destFile = dirname(
-                $file
-            ) . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
-                $this->_mediaDirectory->getAbsolutePath($this->_mediaConfig->getMediaPath($file))
-            );
+                    $file
+                ) . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
+                    $this->_mediaDirectory->getAbsolutePath($this->_mediaConfig->getMediaPath($file))
+                );
         }
 
         return $destFile;
@@ -736,11 +749,11 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected function _getNotDuplicatedFilename($fileName, $dispretionPath)
     {
         $fileMediaName = $dispretionPath . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
-            $this->_mediaConfig->getMediaPath($fileName)
-        );
+                $this->_mediaConfig->getMediaPath($fileName)
+            );
         $fileTmpMediaName = $dispretionPath . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
-            $this->_mediaConfig->getTmpMediaPath($fileName)
-        );
+                $this->_mediaConfig->getTmpMediaPath($fileName)
+            );
 
         if ($fileMediaName != $fileTmpMediaName) {
             if ($fileMediaName != $fileName) {
