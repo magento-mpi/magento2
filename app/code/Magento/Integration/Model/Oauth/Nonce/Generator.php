@@ -7,7 +7,6 @@
  */
 namespace Magento\Integration\Model\Oauth\Nonce;
 
-use Magento\Framework\Oauth\OauthInterface;
 use Magento\Framework\Oauth\ConsumerInterface;
 use Magento\Framework\Oauth\NonceGeneratorInterface;
 

@@ -7,7 +7,6 @@
  */
 namespace Magento\Integration\Model\Oauth\Token;
 
-use Magento\Framework\Oauth\OauthInterface;
 use Magento\Framework\Oauth\TokenProviderInterface;
 
 class Provider implements TokenProviderInterface

@@ -9,8 +9,6 @@
  */
 namespace Magento\Integration\Helper\Oauth;
 
-use Magento\Framework\Oauth\OauthInterface;
-
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Framework\Oauth\Helper\Request */

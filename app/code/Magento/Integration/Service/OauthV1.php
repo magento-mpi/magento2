@@ -7,7 +7,6 @@
  */
 namespace Magento\Integration\Service;
 
-use Magento\Framework\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
 use Magento\Integration\Model\Oauth\Token;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;

@@ -7,8 +7,6 @@
  */
 namespace Magento\Framework\Oauth\Helper;
 
-use Magento\Framework\Oauth\OauthInterface;
-
 class Request
 {
     /**#@+
