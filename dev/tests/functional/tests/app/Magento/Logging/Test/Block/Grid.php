@@ -65,7 +65,7 @@ class Grid extends GridInterface
     protected $firstViewLink = "#loggingLogGrid_table tr:first-child [data-column='view'] > a";
 
     /**
-     * Search and open first View link in grid
+     * Search, sort and open View link in grid
      *
      * @param array $filter
      * @throws \Exception
@@ -73,20 +73,10 @@ class Grid extends GridInterface
     public function searchSortAndOpen(array $filter)
     {
         $this->search($filter);
-        $sortLink = $this->_rootElement->find("[name='time'][title='asc']");
-        if ($sortLink->isVisible()) {
-            $this->sortGridByField('time', 'asc');
-            $this->getTemplateBlock()->waitLoader();
-            $this->sortGridByField('time');
-            $this->getTemplateBlock()->waitLoader();
-        } else {
-            $this->sortGridByField('time');
-            $this->getTemplateBlock()->waitLoader();
-        }
+        $this->sortGridByField('time');
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->firstViewLink, Locator::SELECTOR_CSS)->click();
-            $this->getTemplateBlock()->waitLoader();
         } else {
             throw new \Exception('Searched item was not found.');
         }
