@@ -66,6 +66,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'region_id' => '8',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate',
+            'postcode' => '78765-78780',
             'zip_range' => ['from' => 78765, 'to' => 78780]
         ];
         $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
@@ -94,6 +95,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
         $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
         $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
+        $this->assertEquals($taxData['postcode'], $taxRateServiceData->getPostcode());
 
     }
 
