@@ -9,7 +9,6 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Service\V1\Data\ZipRangeBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -169,7 +168,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $rate = $this->objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($data)
             ->save();
+
         $taxRate = $this->taxRateService->getTaxRate($rate->getId());
+
         $this->assertEquals('US', $taxRate->getCountryId());
         $this->assertEquals(12, $taxRate->getRegionId());
         $this->assertEquals('*', $taxRate->getPostcode());
@@ -180,11 +181,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = 10
+     * @expectedExceptionMessage No such entity with taxRateId = -1
      */
     public function testGetRateWithNoSuchEntityException()
     {
-        $this->taxRateService->getTaxRate(10);
+        $this->taxRateService->getTaxRate(-1);
     }
 
     /**
