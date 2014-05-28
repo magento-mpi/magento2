@@ -54,7 +54,7 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      *
      * @var CatalogProductSimple
      */
-    protected $catalogProductSimple;
+    protected $product;
 
     /**
      * Product Page on Frontend
@@ -69,19 +69,19 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogEventEntity $catalogEvent
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      */
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple,
+        CatalogProductSimple $product,
         CatalogProductView $catalogProductView
     ) {
         $this->catalogCategoryView = $catalogCategoryView;
         $this->cmsIndex = $cmsIndex;
-        $this->catalogProductSimple = $catalogProductSimple;
+        $this->product = $product;
         $this->catalogProductView = $catalogProductView;
 
         $pageEvent = $catalogEvent->getDisplayState();
@@ -100,7 +100,7 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      */
     protected function checkEventStatusOnCategoryPage()
     {
-        $categoryName = $this->catalogProductSimple->getCategoryIds()[0]['name'];
+        $categoryName = $this->product->getCategoryIds()[0]['name'];
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         \PHPUnit_Framework_Assert::assertEquals(
@@ -119,10 +119,10 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
      */
     protected function checkEventStatusOnProductPage()
     {
-        $categoryName = $this->catalogProductSimple->getCategoryIds()[0]['name'];
+        $categoryName = $this->product->getCategoryIds()[0]['name'];
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->catalogProductSimple->getName());
+        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->product->getName());
         \PHPUnit_Framework_Assert::assertEquals(
             $this->eventStatus,
             $this->catalogProductView->getEventBlock()->getEventStatus(),

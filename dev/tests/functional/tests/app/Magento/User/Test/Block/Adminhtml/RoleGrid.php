@@ -13,8 +13,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
 /**
  * Class RoleGrid
  * Role grid on role index page
- *
- * @package Magento\User\Test\Block\Adminhtml
  */
 class RoleGrid extends Grid
 {
@@ -31,4 +29,11 @@ class RoleGrid extends Grid
             'selector' => '#roleGrid_filter_role_name'
         ]
     ];
-} 
+
+    /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = '[data-column="role_name"]';
+}
