@@ -202,6 +202,44 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage taxRateId =
+     */
+    public function testUpdateTaxRateNoId()
+    {
+        $taxRate = $this->taxRateBuilder
+            ->setCountryId('US')
+            ->setRegionId(42)
+            ->setPercentageRate(8.25)
+            ->setCode('UpdateTaxRates')
+            ->setPostcode('78780')
+            ->create();
+
+        $this->taxRateService->updateTaxRate($taxRate);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage postcode
+     */
+    public function testUpdateTaxRateMissingRequiredFields()
+    {
+        $taxRate = $this->taxRateBuilder
+            ->setCountryId('US')
+            ->setRegionId(42)
+            ->setPercentageRate(8.25)
+            ->setCode('UpdateTaxRates')
+            ->setPostcode('78780')
+            ->create();
+        $taxRate = $this->taxRateService->createTaxRate($taxRate);
+        $updatedTaxRate = $this->taxRateBuilder->populate($taxRate)
+            ->setPostcode(null)
+            ->create();
+
+        $this->taxRateService->updateTaxRate($updatedTaxRate);
+    }
+
+    /**
      * Helper function to get a specific tax rate
      *
      * @param int $id
