@@ -110,6 +110,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $taxRateDataObject = $taxRateDataObjectBuilder->populateWithArray($data)->create();
+        $zipIsRange = $taxRateDataObject->getZipRange();
+        $isZipRange = !empty($zipIsRange);
         $taxRateModel = $converter->createTaxRateModel($taxRateDataObject);
 
         //Assertion
@@ -119,16 +121,29 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRateDataObject->getPostcode(), $taxRateModel->getTaxPostcode());
         $this->assertEquals($taxRateDataObject->getcode(), $taxRateModel->getCode());
         $this->assertEquals($taxRateDataObject->getPercentageRate(), $taxRateModel->getRate());
-        $zipIsRange = $taxRateModel->getZipIsRange();
-        if ($zipIsRange) {
-            $this->assertEquals(
-                $taxRateDataObject->getZipRange()->getFrom(),
-                $taxRateModel->getZipFrom()
-            );
-            $this->assertEquals(
-                $taxRateDataObject->getZipRange()->getTo(),
-                $taxRateModel->getZipTo()
-            );
+        if ($isZipRange) {
+            if ($taxRateDataObject->getZipRange()->getFrom() && $taxRateModel->getZipTo()) {
+                $this->assertEquals(
+                    $taxRateDataObject->getZipRange()->getFrom(),
+                    $taxRateModel->getZipFrom()
+                );
+                $this->assertEquals(
+                    $taxRateDataObject->getZipRange()->getTo(),
+                    $taxRateModel->getZipTo()
+                );
+            } elseif ($taxRateDataObject->getZipRange()->getFrom()) {
+                $this->assertEquals(
+                    $taxRateDataObject->getZipRange()->getFrom(),
+                    $taxRateModel->getZipFrom()
+                );
+                $this->assertNull($taxRateModel->getZipTo());
+            } else {
+                $this->assertEquals(
+                    $taxRateDataObject->getZipRange()->getTo(),
+                    $taxRateModel->getZipTo()
+                );
+                $this->assertNull($taxRateModel->getZipFrom());
+            }
         } else {
             $this->assertNull($taxRateModel->getZipFrom());
             $this->assertNull($taxRateModel->getZipTo());
@@ -138,8 +153,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     public function createTaxRateModelDataProvider()
     {
         return [
-            [
-                'withZipRange' => [
+            'withZipRange' => [
+                [
                     'id' => '1',
                     'countryId' => 'US',
                     'regionId' => '34',
@@ -148,8 +163,28 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                     'zip_range' => ['from' => 78765, 'to' => 78780]
                 ],
             ],
-            [
-                'withPostalCode' => [
+            'withZipRangeFrom' => [
+                [
+                    'id' => '1',
+                    'countryId' => 'US',
+                    'regionId' => '34',
+                    'code' => 'US-CA-*-Rate 2',
+                    'percentage_rate' => '8.25',
+                    'zip_range' => ['from' => 78765]
+                ],
+            ],
+            'withZipRangeTo' => [
+                [
+                    'id' => '1',
+                    'countryId' => 'US',
+                    'regionId' => '34',
+                    'code' => 'US-CA-*-Rate 2',
+                    'percentage_rate' => '8.25',
+                    'zip_range' => ['to' => 78780]
+                ],
+            ],
+            'withPostalCode' => [
+                [
                     'id' => '1',
                     'countryId' => 'US',
                     'code' => 'US-CA-*-Rate 1',

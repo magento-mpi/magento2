@@ -82,9 +82,22 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->converterMock->expects($this->once())
             ->method('createTaxRateModel')
             ->will($this->returnValue($this->rateModelMock));
+        $zipRange = $zipRangeBuilder
+            ->setFrom(78765)
+            ->setTo(78780)
+            ->create();
+        $taxRate = $taxRateBuilder
+            ->setCode('US-CA-*-Rate')
+            ->setCountryId('US')
+            ->setPercentageRate(8.25)
+            ->setPostcode('78765-78780')
+            ->setZipRange($zipRange)
+            ->setRegionId(8)
+            ->create();
         $this->converterMock->expects($this->once())
             ->method('createTaxRateDataObjectFromModel')
-            ->will($this->returnValue($taxRateDataObject));
+            ->will($this->returnValue($taxRate));
+
 
         $expectedPostCode = '78765-78780';
         $taxRateServiceData = $this->taxRateService->createTaxRate($taxRateDataObject);
