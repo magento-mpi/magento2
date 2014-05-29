@@ -4,7 +4,7 @@ namespace Magento\Composer;
 
 interface Extractor {
 
-    public function extract();
+    public function extract($collection);
 
     public function createAndAdd(\Magento\Composer\Model\ArrayAndObjectAccess $definition);
 

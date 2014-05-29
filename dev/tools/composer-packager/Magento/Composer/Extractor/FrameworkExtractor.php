@@ -2,14 +2,13 @@
 
 namespace Magento\Composer\Extractor;
 
-class ModuleExtractor extends  BaseExtractor{
+class FrameworkExtractor extends  BaseExtractor{
 
-    private $_collection = array();
-    private $_path = 'app/code/Magento/';
+    private $_path;
 
     public function __construct($rootDir, $logger){
         parent::__construct($logger);
-        $this->_path = $rootDir . '/app/code/Magento/';
+        $this->_path = $rootDir . '/lib/Magento/';
     }
 
     public function getPath(){
@@ -17,20 +16,19 @@ class ModuleExtractor extends  BaseExtractor{
     }
 
     public function getType(){
-        return "magento2-module";
+        return "magento2-framework";
     }
 
     public function getParser($filename){
-        return new \Magento\Composer\Parser\ModuleXmlParser($filename);
+        return new \Magento\Composer\Parser\FrameworkXmlParser($filename);
     }
 
     public function createComponent($name){
-        return new \Magento\Composer\Model\Module($name);
+        return new \Magento\Composer\Model\Framework($name);
     }
 
     public function setValues(&$component, \Magento\Composer\Model\ArrayAndObjectAccess $definition){
         $component->setVersion($definition->version);
-        $component->setActive($definition->active);
         $component->setLocation($definition->location);
         $component->setType($this->getType());
         return $component;

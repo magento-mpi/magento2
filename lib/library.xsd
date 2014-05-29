@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="library" type="libraryDeclaration" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueLibraryName">
+            <xs:annotation>
+                <xs:documentation>
+                    Library name must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="library"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="libraryDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Library declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element minOccurs="0" maxOccurs="1" name="depends" type="libraryDependency">
+                <xs:unique name="uniqueDependencyName">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Dependency name must be unique.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:selector xpath=".//*" />
+                    <xs:field xpath="@name" />
+                </xs:unique>
+            </xs:element>
+        </xs:all>
+        <xs:attribute name="name" type="libraryName" use="required" />
+        <xs:attribute name="version" type="libraryVersion" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="libraryDependency">
+        <xs:annotation>
+            <xs:documentation>
+                Library dependency root element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:choice maxOccurs="unbounded">
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="library">
+                <xs:complexType>
+                    <xs:annotation>
+                        <xs:documentation>
+                            Library dependency that represents another library.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:attribute name="name" type="libraryName" use="required" />
+                    <xs:attribute name="type" type="libraryDependencyType" use="optional" />
+                </xs:complexType>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:simpleType name="libraryDependencyType">
+        <xs:annotation>
+            <xs:documentation>
+                Library dependency type can only be hard or soft.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(hard|soft)?" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="libraryName">
+        <xs:annotation>
+            <xs:documentation>
+                Library name attribute can contain only [A-Za-z0-9_].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="libraryVersion">
+        <xs:annotation>
+            <xs:documentation>
+                Library version attribute can contain only [0-9.].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9.]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

@@ -6,12 +6,17 @@ abstract class BaseExtractor implements  \Magento\Composer\Extractor{
 
     private $_collection = array();
     private $_logger;
+    protected  $_counter;
 
     public function __construct(\Magento\Composer\Log\Log $logger){
         $this->_logger = $logger;
     }
 
-    public function extract(){
+    public function extract($collection = array(), &$count = 0){
+        $this->_counter = &$count;
+        $this->_counter = 0;
+        $this->addToCollection($collection);
+
         foreach (new \DirectoryIterator($this->getPath()) as $component) {
             if ($component->isDot()) { continue; }
             if ($component->isDir()) {
@@ -21,6 +26,12 @@ abstract class BaseExtractor implements  \Magento\Composer\Extractor{
             }
         }
         return $this->getCollection();
+    }
+
+    public function addToCollection($collection){
+            if(!is_null($collection) && sizeof($collection) > 0){
+                $this->_collection = array_merge($this->_collection, $collection);
+            }
     }
 
     public function getCollection(){
@@ -37,6 +48,7 @@ abstract class BaseExtractor implements  \Magento\Composer\Extractor{
         } else {
             $component = $this->createComponent($name);
         }
+        $this->_counter++;
         $this->setValues($component, $definition);
         $this->_collection[$name] = $component;
         if(isset($definition->dependencies) && !empty($definition->dependencies)){

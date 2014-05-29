@@ -32,15 +32,20 @@ try {
     $moduleExtractor= new \Magento\Composer\Extractor\ModuleExtractor($rootDir, $logger);
     $adminThemeExtractor = new \Magento\Composer\Extractor\AdminThemeExtractor($rootDir, $logger);
     $frontEndThemeExtractor = new \Magento\Composer\Extractor\FrontendThemeExtractor($rootDir, $logger);
+    $libraryExtractor = new \Magento\Composer\Extractor\LibraryExtractor($rootDir, $logger);
+    $frameworkExtractor = new \Magento\Composer\Extractor\FrameworkExtractor($rootDir, $logger);
 
-    $modules = $moduleExtractor->extract();
-    $logger->debug("Read %3d modules.", sizeof($modules));
-    $adminThemes = $adminThemeExtractor->extract();
-    $logger->debug("Read %3d admin themes.", sizeof($adminThemes));
-    $frontendThemes = $frontEndThemeExtractor->extract();
-    $logger->debug("Read %3d frontend themes.", sizeof($frontendThemes));
+    $components = $moduleExtractor->extract(null, $moduleCount);
+    $logger->debug("Read %3d modules.", $moduleCount);
+    $components = $adminThemeExtractor->extract($components, $adminThemeCount);
+    $logger->debug("Read %3d admin themes.", $adminThemeCount);
+    $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
+    $logger->debug("Read %3d frontend themes.", $frontendThemeCount);
+    $components = $libraryExtractor->extract($components , $libraryCount);
+    $logger->debug("Read %3d libraries.", $libraryCount);
+    $components = $frameworkExtractor->extract($components, $frameworkCount);
+    $logger->debug("Read %3d frameworks.", $frameworkCount);
 
-    $components = array_merge( $modules, $adminThemes, $frontendThemes);
     if($opt->getOption('c')){
         $cleaner = new \Magento\Composer\Helper\ComposerCleaner($components, $logger);
         $cleanCount = $cleaner->clean();

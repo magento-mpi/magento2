@@ -2,14 +2,24 @@
 
 namespace Magento\Composer\Extractor;
 
-class ModuleExtractor extends  BaseExtractor{
+class LibraryExtractor extends  BaseExtractor{
 
     private $_collection = array();
-    private $_path = 'app/code/Magento/';
+    private $_path;
 
     public function __construct($rootDir, $logger){
         parent::__construct($logger);
-        $this->_path = $rootDir . '/app/code/Magento/';
+        $this->_path = $rootDir . '/lib/';
+    }
+
+    public function extract($components = array(), &$count = 0){
+        $this->_counter = &$count;
+        $this->_counter = 0;
+        $this->addToCollection($components);
+        $parser = $this->getParser($this->getPath());
+        $definition = $parser->getMappings();
+        $this->createAndAdd($definition);
+        return $this->getCollection();
     }
 
     public function getPath(){
@@ -17,20 +27,19 @@ class ModuleExtractor extends  BaseExtractor{
     }
 
     public function getType(){
-        return "magento2-module";
+        return "magento2-library";
     }
 
     public function getParser($filename){
-        return new \Magento\Composer\Parser\ModuleXmlParser($filename);
+        return new \Magento\Composer\Parser\LibraryXmlParser($filename);
     }
 
     public function createComponent($name){
-        return new \Magento\Composer\Model\Module($name);
+        return new \Magento\Composer\Model\Library($name);
     }
 
     public function setValues(&$component, \Magento\Composer\Model\ArrayAndObjectAccess $definition){
         $component->setVersion($definition->version);
-        $component->setActive($definition->active);
         $component->setLocation($definition->location);
         $component->setType($this->getType());
         return $component;
