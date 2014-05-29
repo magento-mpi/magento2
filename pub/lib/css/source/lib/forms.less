@@ -892,16 +892,22 @@
     @_type-block-label-padding: @form-field-type-block-label-padding,
     @_type-block-label-align: @form-field-type-block-label-align
 ) when (@_type = block) and not (@_type = false) {
-    > .label {
-        width: auto;
-        float: none;
-        .box-sizing(content-box);
-        ._revert-type-block-label-align(
-            @_type-block-label-align
-        );
-        ._revert-type-block-label-padding(
-            @_type-block-label-padding
-        );
+    &:not(.choice) {
+        > .label {
+            width: auto;
+            float: none;
+            .box-sizing(content-box);
+            ._revert-type-block-label-align(
+                @_type-block-label-align
+            );
+            ._revert-type-block-label-padding(
+                @_type-block-label-padding
+            );
+        }
+        > .control {
+            width: auto;
+            float: none;
+        }
     }
     ._form-field-type-block(
         @_type-block-margin,
@@ -909,10 +915,6 @@
         @_type-block-label-padding,
         @_type-block-label-align
     );
-    .control {
-        width: auto;
-        float: none;
-    }
     &.choice:before,
     &.no-label:before {
         display: none;

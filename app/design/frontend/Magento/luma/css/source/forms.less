@@ -6,6 +6,8 @@
 //  * @license     {license_link}
 //  */
 
+@legend-border-bottom: 1px solid #c5c5c5;
+
 .fieldset {
     .legend + .fieldset,
     .legend + div {
@@ -17,7 +19,6 @@
     }
     > .field {
         .form-field();
-        .form-field-type(@_type: block);
         &.no-label {
             > .label {
                 .visually-hidden();
@@ -65,10 +66,9 @@ select:focus ~ .tooltip .tooltip-content { display: block; }
 .responsive(@break) when (@break = @break-point-1) {
     .fieldset {
         .legend {
-            &:extend(.margin-for-forms-desktop all);
+            .css(border-bottom, @legend-border-bottom);
         }
         > .field {
-            .form-field-type-revert();
         }
     }
 }
