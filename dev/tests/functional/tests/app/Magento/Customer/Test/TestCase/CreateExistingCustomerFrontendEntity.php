@@ -67,7 +67,7 @@ class CreateExistingCustomerFrontendEntity extends Injectable
         CustomerAccountCreate $customerAccountCreate,
         CustomerAccountLogout $customerAccountLogout,
         CmsIndex $cmsIndex,
-        fixtureFactory $fixtureFactory
+        FixtureFactory $fixtureFactory
     ) {
         $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountCreate = $customerAccountCreate;
@@ -84,6 +84,7 @@ class CreateExistingCustomerFrontendEntity extends Injectable
      * Create Existing Customer account on frontend
      *
      * @param CustomerInjectable $customerInjectable
+     * @return void
      */
     public function testCreateExistingCustomer(CustomerInjectable $customerInjectable)
     {
@@ -96,7 +97,7 @@ class CreateExistingCustomerFrontendEntity extends Injectable
     /**
      * Logout customer from frontend account
      *
-     * return void
+     * @return void
      */
     public function tearDown()
     {
