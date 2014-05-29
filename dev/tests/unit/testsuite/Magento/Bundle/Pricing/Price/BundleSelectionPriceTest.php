@@ -39,12 +39,12 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     protected $bundleMock;
 
     /**
-     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
 
     /**
-     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
@@ -98,21 +98,17 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->eventManagerMock = $this->getMock(
-            'Magento\Framework\Event\ManagerInterface',
+            'Magento\Framework\Event\Manager',
             ['dispatch'],
             [],
             '',
-            false,
-            true,
             false
         );
         $this->priceInfoMock = $this->getMock(
-            'Magento\Framework\Pricing\PriceInfoInterface',
+            'Magento\Framework\Pricing\PriceInfo\Base',
             ['getPrice'],
             [],
             '',
-            false,
-            true,
             false
         );
         $this->discountCalculatorMock = $this->getMock(

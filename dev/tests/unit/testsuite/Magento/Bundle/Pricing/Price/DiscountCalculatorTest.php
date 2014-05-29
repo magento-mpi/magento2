@@ -26,7 +26,7 @@ class DiscountCalculatorTest extends \PHPUnit_Framework_TestCase
     protected $productMock;
 
     /**
-     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfo\Base |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
@@ -53,12 +53,10 @@ class DiscountCalculatorTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->priceInfoMock = $this->getMock(
-            'Magento\Framework\Pricing\PriceInfoInterface',
+            'Magento\Framework\Pricing\PriceInfo\Base',
             ['getPrice', 'getPrices'],
             [],
             '',
-            false,
-            true,
             false
         );
         $this->finalPriceMock = $this->getMock(
