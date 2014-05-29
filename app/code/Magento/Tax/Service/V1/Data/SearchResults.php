@@ -18,11 +18,11 @@ class SearchResults extends AbstractObject
     /**
      * Get items
      *
-     * @return TaxRule[]
+     * @return \Magento\Tax\Service\V1\Data\TaxRule[]
      */
     public function getItems()
     {
-        return is_null($this->_get('items')) ? array() : $this->_get('items');
+        return is_null($this->_get('items')) ? [] : $this->_get('items');
     }
 
     /**
