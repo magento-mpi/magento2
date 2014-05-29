@@ -1674,4 +1674,7 @@ return array(
     ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
     ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
+    ['getVisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getVisibleOnFrontStatuses'],
+    ['getInvisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getInvisibleOnFrontStatuses'],
+
 );
