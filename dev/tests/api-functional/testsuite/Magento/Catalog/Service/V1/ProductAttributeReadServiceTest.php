@@ -38,12 +38,7 @@ class ProductAttributeReadServiceTest extends WebapiAbstract
             ],
         ];
 
-        $types = array_map(
-            function ($array) {
-                return $array;
-            },
-            $this->_webApiCall($serviceInfo)
-        );
+        $types = $this->_webApiCall($serviceInfo);
         $this->assertGreaterThan(0, count($types), "The number of product attribute types returned is zero.");
     }
 
