@@ -31,13 +31,8 @@ class ProductServiceTest extends WebapiAbstract
     {
         $productBuilder = function ($data) {
             return array_replace_recursive(
+                $this->getSimpleProductData(),
                 [
-                    Product::SKU => uniqid('sku-', true),
-                    Product::NAME => uniqid('name-', true),
-                    Product::VISIBILITY => 4,
-                    Product::TYPE_ID => 'simple',
-                    Product::PRICE => 3.62,
-                    Product::STATUS => 1,
                     'custom_attributes' => [
                         [
                             'attribute_code' => 'description',
