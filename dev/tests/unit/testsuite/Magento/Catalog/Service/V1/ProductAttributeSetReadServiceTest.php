@@ -319,6 +319,6 @@ class ProductAttributeSetReadServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->attrCollectionMock->expects($this->never())->method('load');
         $this->attributeBuilderMock->expects($this->never())->method('create');
-        $this->service->getInfo($attributeSetId);
+        $this->service->getAttributeList($attributeSetId);
     }
 }
