@@ -151,9 +151,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'operation' => 'catalogProductAttributeSetWriteServiceV1Remove'
             ]
         ];
-        $requestData = [
-            'attributeSetId' => $id,
-        ];
+        $requestData = [];
 
         $response = $this->_webApiCall($serviceInfo, $requestData);
         if ('rest' == strtolower(TESTS_WEB_API_ADAPTER)) {
@@ -179,9 +177,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'operation' => 'catalogProductAttributeSetWriteServiceV1Remove'
             ]
         ];
-        $requestData = [
-            'attributeSetId' => $id,
-        ];
+        $requestData = [];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -198,7 +194,7 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
     {
         return array(
             'absent set' => array(
-                100500 + mt_rand(1,100), // too big to have such id
+                100500, // too big to have such attribute set id
                 'No such entity with %fieldName = %fieldValue'
             ),
             'empty id' => array(
