@@ -304,7 +304,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initTypeModels()
     {
-        $productTypes = $this->_exportConfig->getProductTypes();
+        $productTypes = $this->_exportConfig->getEntityTypes($this->getEntityTypeCode());
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             if (!($model = $this->_typeFactory->create($productTypeConfig['model']))) {
                 throw new \Magento\Framework\Model\Exception("Entity type model '{$productTypeConfig['model']}' is not found");

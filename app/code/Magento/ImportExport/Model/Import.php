@@ -60,15 +60,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_entityAdapter;
 
     /**
-     * Entity invalidated indexes.
-     *
-     * @var \Magento\ImportExport\Model\Import\Entity\AbstractEntity
-     */
-    protected static $_entityInvalidatedIndexes = array(
-        'catalog_product' => array('catalog_product_price', 'catalogsearch_fulltext', 'catalog_product_flat')
-    );
-
-    /**
      * Import export data
      *
      * @var \Magento\ImportExport\Helper\Data
@@ -619,12 +610,12 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function invalidateIndex()
     {
-        if (!isset(self::$_entityInvalidatedIndexes[$this->getEntity()])) {
+        $relatedIndexers = $this->_importConfig->getRelatedIndexers($this->getEntity());
+        if (empty($relatedIndexers)) {
             return $this;
         }
 
-        $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
-        foreach ($indexers as $indexer) {
+        foreach ($relatedIndexers as $indexer) {
             $indexProcess = $this->_indexer->getProcessByCode($indexer);
             if ($indexProcess) {
                 $indexProcess->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);

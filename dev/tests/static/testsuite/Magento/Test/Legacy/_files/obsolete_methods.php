@@ -334,6 +334,26 @@ return array(
     array('flush', 'Magento\Framework\App\Cache', 'Magento_Cache_FrontendInterface::clean()'),
     array('flush', 'Magento\Framework\App\Cache\Proxy', 'Magento_Cache_FrontendInterface::clean()'),
     array('flush', 'Magento\Framework\App\CacheInterface', 'Magento_Cache_FrontendInterface::clean()'),
+    array(
+        'getProductTypes',
+        'Magento\ImportExport\Model\Import\Config',
+        'Magento\ImportExport\Model\Import\Config::getEntityTypes()'
+    ),
+    array(
+        'getProductTypes',
+        '\Magento\ImportExport\Model\Import\ConfigInterface',
+        '\Magento\ImportExport\Model\Import\ConfigInterface::getEntityTypes()'
+    ),
+    array(
+        'getProductTypes',
+        'Magento\ImportExport\Model\Export\Config',
+        'Magento\ImportExport\Model\Export\Config::getEntityTypes()'
+    ),
+    array(
+        'getProductTypes',
+        '\Magento\ImportExport\Model\Export\ConfigInterface',
+        '\Magento\ImportExport\Model\Export\ConfigInterface::getEntityTypes()'
+    ),
     array('forsedSave'),
     array('generateBlocks', '', 'generateElements()'),
     array('getAbsolutePath', '', 'normalizePath'),

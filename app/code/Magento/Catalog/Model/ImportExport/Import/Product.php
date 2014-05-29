@@ -717,7 +717,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _initTypeModels()
     {
-        $productTypes = $this->_importConfig->getProductTypes();
+        $productTypes = $this->_importConfig->getEntityTypes($this->getEntityTypeCode());
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             $params = array($this, $productTypeName);
             if (!($model = $this->_productTypeFactory->create($productTypeConfig['model'], array('params' => $params)))

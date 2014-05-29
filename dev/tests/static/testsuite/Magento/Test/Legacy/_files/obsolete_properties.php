@@ -40,6 +40,7 @@ return array(
     array('_designProductSettingsApplied'),
     array('_directOutput', 'Magento\Framework\View\Layout'),
     array('_dirs', 'Magento\Framework\App\Resource'),
+    array('_entityInvalidatedIndexes', 'Magento\ImportExport\Model\Import'),
     array('_distroServerVars'),
     array('_entityIdsToIncrementIds'),
     array('entities', 'Magento\Framework\App\Resource'),
