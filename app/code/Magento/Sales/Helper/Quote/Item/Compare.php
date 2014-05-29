@@ -65,7 +65,7 @@ class Compare
     public function getOptions(Item $item)
     {
         $options = [];
-        foreach($item->getOptions() as $option) {
+        foreach ($item->getOptions() as $option) {
             $options[$option->getCode()] = $this->getOptionValues($option->getValue());
         }
         return $options;

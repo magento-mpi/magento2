@@ -162,9 +162,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         if ($instance instanceof AbstractBackend && ($method == 'beforeSave' || ($method = 'afterSave'))) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof \Magento\Framework\Object && $args[0]->getData(
-                    $attributeCode
-                ) === false
+            if (isset($args[0])
+                && $args[0] instanceof \Magento\Framework\Object
+                && $args[0]->getData($attributeCode) === false
             ) {
                 return false;
             }

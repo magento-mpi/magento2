@@ -280,6 +280,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param string $comment
      * @param bool $visibleOnFrontend
      * @param bool $isAdmin
+     * @return void
      */
     public function saveComment($comment, $visibleOnFrontend, $isAdmin = false)
     {
@@ -369,22 +370,22 @@ class History extends \Magento\Framework\Model\AbstractModel
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-                )->setTemplateVars(
-                    array(
-                        'rma' => $this,
-                        'order' => $order,
-                        'return_address' => $returnAddress,
-                        'item_collection' => $rma->getItemsForDisplay()
-                    )
-                )->setFrom(
-                    $this->_rmaConfig->getIdentity()
-                )->addTo(
-                    $recipient['email'],
-                    $recipient['name']
-                )->addBcc(
-                    $bcc
-                )->getTransport();
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            )->setTemplateVars(
+                array(
+                    'rma' => $this,
+                    'order' => $order,
+                    'return_address' => $returnAddress,
+                    'item_collection' => $rma->getItemsForDisplay()
+                )
+            )->setFrom(
+                $this->_rmaConfig->getIdentity()
+            )->addTo(
+                $recipient['email'],
+                $recipient['name']
+            )->addBcc(
+                $bcc
+            )->getTransport();
 
             $transport->sendMessage();
         }
