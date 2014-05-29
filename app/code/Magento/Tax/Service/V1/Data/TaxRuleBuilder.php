@@ -8,12 +8,11 @@
 namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
-use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 
 /**
  * Builder for the TaxRule Service Data Object
  *
- *  * @method TaxRule create()
+ * @method TaxRule create()
  */
 class TaxRuleBuilder extends AbstractObjectBuilder
 {
