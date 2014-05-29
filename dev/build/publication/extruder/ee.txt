@@ -6,6 +6,7 @@ dev/tests/static/testsuite/Magento/Test/{Legacy,Integrity}/Magento/AdminGws
 dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/AdminGws
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/AdvancedCheckout
+app/design/adminhtml/Magento/backend/Magento_AdvancedCheckout
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Banner
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/BannerCustomerSegment
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CacheInvalidate
@@ -144,6 +145,7 @@ dev/tests/functional/tests/app/Magento/Customer/Test/Fixture/VatGroup.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Repository/CustomerConfig.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Repository/VatGroup.php
 dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/VatGroupAssignmentTest.php
+dev/tests/functional/tests/app/Magento/CustomerBalance
 dev/tests/functional/tests/app/Magento/CustomerSegment
 dev/tests/functional/tests/app/Magento/Directory
 dev/tests/functional/tests/app/Magento/GiftCard

@@ -26,44 +26,50 @@
                     $(this.options.popupCartButtonId).on('click', $.proxy(function() {
                         this._addToCartSubmit();
                     }, this));
-                    $('#map-popup-heading').text(this.options.productName);
+                    $('#map-popup-heading-price').text(this.options.productName);
                     $('#map-popup-price').html($(this.options.realPrice));
-                    $('#map-popup-msrp').html(this.options.msrpPrice);
+                    $('#map-popup-msrp > span.price').html(this.options.msrpPrice);
                     this.element.trigger('reloadPrice');
-                    var width = $('#map-popup').width();
-                    var offsetX = e.pageX - (width / 2) + "px";
-                    $('#map-popup').addClass('active').css({left: offsetX, top: e.pageY}).show();
+                    var dialog = $( "#map-popup-click-for-price" );
+                    this._popupDialog(dialog,this.options.popupId);
                     if (!this.options.showAddToCart) {
                         $('#map-popup-content > .map-popup-checkout').hide();
                     }
-                    $('#map-popup-content').show();
-                    $('#map-popup-text').show();
-                    $('#map-popup-text-what-this').hide();
                     return false;
                 }
             }, this));
 
             $(this.options.helpLinkId).on('click', $.proxy(function(e) {
-                $('#map-popup-heading').text(this.options.productName);
-                var width = $('#map-popup').width();
-                var offsetX = e.pageX - (width / 2) + "px";
-                $('#map-popup').addClass('active').css({left: offsetX, top: e.pageY}).show();
-                $('#map-popup-content').hide();
-                $('#map-popup-text').hide();
-                $('#map-popup-text-what-this').show();
+                $('#map-popup-heading-what-this').text(this.options.productName);
+                var dialog = $( "#map-popup-what-this" );
+                this._popupDialog(dialog,this.options.helpLinkId);
                 return false;
             }, this));
 
-            $(this.options.closeButtonId).on('click', $.proxy(function() {
-                $('#map-popup').removeClass('active').hide();
-                return false;
-            }, this));
+
+        },
+
+        _popupDialog : function(target,trigger) {
+            if(!target.hasClass('ui-dialog-content')) {
+                target.dropdownDialog({
+                    appendTo :".column.main",
+                    dialogContentClass : 'active',
+                    timeout: "2000",
+                    autoPosition: true,
+                    "dialogClass" : "popup"
+                });
+            }
+            $('.mage-dropdown-dialog > .ui-dialog-content').dropdownDialog("close");
+            target.dropdownDialog("option","position",{my: "right+50% top", collision: "none", at: "center bottom", of: trigger});
+            target.dropdownDialog("option","triggerTarget",trigger);
+            target.dropdownDialog("open");
 
         },
 
         _addToCartSubmit: function() {
             this.element.trigger('addToCart', this.element);
             if (this.options.addToCartUrl) {
+                $('.mage-dropdown-dialog > .ui-dialog-content').dropdownDialog("close");
                 $(this.options.cartForm).attr('action', this.options.addToCartUrl);
             }
             $(this.options.cartForm).submit();
