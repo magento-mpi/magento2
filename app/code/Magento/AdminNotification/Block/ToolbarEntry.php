@@ -17,7 +17,7 @@ class ToolbarEntry extends \Magento\Backend\Block\Template
     /**
      * Number of notifications showed on expandable window
      */
-    const NOTIFICATIONS_NUMBER = 3;
+    const NOTIFICATIONS_NUMBER = 4;
 
     /**
      * Collection of latest unread notifications
