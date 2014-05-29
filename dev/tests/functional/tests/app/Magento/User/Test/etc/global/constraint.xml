@@ -50,4 +50,23 @@
             <rolePage class="Magento\User\Test\Page\Adminhtml\UserRoleEditRole" />
         </require>
     </assertImpossibleDeleteYourOwnRole>
+    <assertUserSuccessLogin module="Magento_User">
+        <severeness>low</severeness>
+        <require>
+            <dashboard class="Magento\Backend\Test\Page\Dashboard" />
+            <adminAuth class="Magento\Backend\Test\Page\AdminAuthLogin" />
+            <user class="Magento\User\Test\Fixture\AdminUserInjectable" />
+            <customAdmin class="Magento\User\Test\Fixture\AdminUserInjectable" />
+        </require>
+    </assertUserSuccessLogin>
+    <assertUserSuccessLogOut module="Magento_User">
+        <severeness>low</severeness>
+        <require>
+            <adminAuth class="Magento\Backend\Test\Page\AdminAuthLogin" />
+            <dashboard class="Magento\Backend\Test\Page\Dashboard" />
+        </require>
+    </assertUserSuccessLogOut>
+    <assertUserRoleSalesRestrictedAccess module="Magento_User">
+        <severeness>low</severeness>
+    </assertUserRoleSalesRestrictedAccess>
 </constraint>

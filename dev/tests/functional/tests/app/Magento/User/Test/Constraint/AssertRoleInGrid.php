@@ -8,6 +8,7 @@
 
 namespace Magento\User\Test\Constraint;
 
+use Magento\Backend\Test\Page\Dashboard;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Magento\User\Test\Fixture\AdminUserRole;

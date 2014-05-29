@@ -77,6 +77,11 @@
             <attribute_code>roles_resources</attribute_code>
             <backend_type>virtual</backend_type>
         </roles_resources>
+        <roles_users>
+            <attribute_code>roles_users</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>roles_users</group>
+        </roles_users>
     </fields>
     <repository_class>Magento\User\Test\Repository\AdminUserRole</repository_class>
     <handler_interface>Magento\User\Test\Handler\AdminUserRole\AdminUserRoleInterface</handler_interface>

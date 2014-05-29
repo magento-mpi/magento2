@@ -104,6 +104,12 @@ class AdminUserRole extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $roles_users = [
+        'attribute_code' => 'roles_users',
+        'backend_type' => 'virtual',
+        'group' => 'roles_users'
+    ];
+
     public function getRoleId()
     {
         return $this->getData('role_id');
@@ -167,5 +173,10 @@ class AdminUserRole extends InjectableFixture
     public function getRolesResources()
     {
         return $this->getData('roles_resources');
+    }
+
+    public function getRolesUsers()
+    {
+        return $this->getData('roles_users');
     }
 }
