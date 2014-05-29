@@ -8,15 +8,14 @@
 
 namespace Magento\User\Test\Block\Adminhtml\User\Edit;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\User\Test\Block\Adminhtml\User\Edit\Tab\Roles;
 
 /**
  * Class Form
  * Form for User Edit/Create page
- *
  */
 class Form extends FormTabs
 {
@@ -29,6 +28,8 @@ class Form extends FormTabs
 
     /**
      * Open Role tab for User Edit page
+     *
+     * @return void
      */
     public function openRoleTab()
     {
@@ -38,7 +39,7 @@ class Form extends FormTabs
     /**
      * Get roles grid on user edit page
      *
-     * @return \Mtf\Block\BlockInterface
+     * @return Roles
      */
     public function getRolesGrid()
     {

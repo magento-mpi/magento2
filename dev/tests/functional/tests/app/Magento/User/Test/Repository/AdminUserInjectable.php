@@ -29,7 +29,6 @@ class AdminUserInjectable extends AbstractRepository
             'email' => 'email%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'user_role' => 'Administrators',
             'user_id' => 1
         ];
 
@@ -40,7 +39,6 @@ class AdminUserInjectable extends AbstractRepository
             'email' => 'email%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'user_role' => 'user_role%isolation%'
         ];
     }
 }
