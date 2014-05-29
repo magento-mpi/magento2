@@ -76,7 +76,7 @@ class RateRegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->rateModelMock, $actual);
 
         $actualCached = $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
-        $this->assertEquals($actual, $actualCached);
+        $this->assertSame($actual, $actualCached);
     }
 
     /**

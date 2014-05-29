@@ -82,37 +82,15 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->converterMock->expects($this->once())
             ->method('createTaxRateModel')
             ->will($this->returnValue($this->rateModelMock));
-        $zipRange = $zipRangeBuilder
-            ->setFrom(78765)
-            ->setTo(78780)
-            ->create();
-        $taxRate = $taxRateBuilder
-            ->setCode('US-CA-*-Rate')
-            ->setCountryId('US')
-            ->setPercentageRate(8.25)
-            ->setPostcode('78765-78780')
-            ->setZipRange($zipRange)
-            ->setRegionId(8)
-            ->create();
+        $taxRate = $taxRateBuilder->populate($taxRateDataObject)->setPostcode('78765-78780')->create();
         $this->converterMock->expects($this->once())
             ->method('createTaxRateDataObjectFromModel')
             ->will($this->returnValue($taxRate));
 
-
-        $expectedPostCode = '78765-78780';
         $taxRateServiceData = $this->taxRateService->createTaxRate($taxRateDataObject);
 
         //Assertion
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
-        $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
-        $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
-        $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
-        $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
-        $this->assertEquals($expectedPostCode, $taxRateServiceData->getPostcode());
+        $this->assertSame($taxRate, $taxRateServiceData);
 
     }
 

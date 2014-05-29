@@ -114,45 +114,51 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         /** @var  $taxRateDataObject \Magento\Tax\Service\V1\Data\TaxRate */
         $taxRateDataObject = $taxRateBuilder->populateWithArray($data)->create();
-        $zipIsRange = $taxRateDataObject->getZipRange();
-        $isZipRange = !empty($zipIsRange);
 
         $rateModelMock = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rate')
+            ->disableOriginalConstructor()
             ->setMethods(
                 [
-                    'getCode',
-                    'getTaxCountryId',
-                    'getTaxRegionId',
-                    'getTaxPostcode',
-                    'getRate',
-                    'getZipFrom',
-                    'getZipTo',
-                    'getZipIsRange',
-                    '__wakeup'
+                    'setId',
+                    'setTaxCountryId',
+                    'setTaxRegionId',
+                    'setTaxPostcode',
+                    'setRate',
+                    'setZipFrom',
+                    'setZipTo',
+                    '__wakeup',
                 ]
             )
-            ->disableOriginalConstructor()->getMock();
-        $rateModelMock->expects($this->any())
-            ->method('getCode')->will($this->returnValue($taxRateDataObject->getCode()));
-        $rateModelMock->expects($this->any())
-            ->method('getTaxCountryId')->will($this->returnValue($taxRateDataObject->getCountryId()));
-        $rateModelMock->expects($this->any())
-            ->method('getTaxRegionId')->will($this->returnValue($taxRateDataObject->getRegionId()));
-        $rateModelMock->expects($this->any())
-            ->method('getTaxPostcode')->will($this->returnValue($taxRateDataObject->getPostcode()));
-        $rateModelMock->expects($this->any())
-            ->method('getRate')->will($this->returnValue($taxRateDataObject->getPercentageRate()));
-        if ($isZipRange) {
-            $rateModelMock->expects($this->any())
-                ->method('getZipFrom')->will($this->returnValue($taxRateDataObject->getZipRange()->getFrom()));
-            $rateModelMock->expects($this->any())
-                ->method('getZipTo')->will($this->returnValue($taxRateDataObject->getZipRange()->getTo()));
+            ->getMock();
+
+        $rateModelMock->expects($this->once())
+            ->method('setId')
+            ->with($taxRateDataObject->getId());
+        $rateModelMock->expects($this->once())
+            ->method('setTaxCountryId')
+            ->with($taxRateDataObject->getCountryId());
+        $rateModelMock->expects($this->once())
+            ->method('setTaxRegionId')
+            ->with($taxRateDataObject->getRegionId());
+        $rateModelMock->expects($this->once())
+            ->method('setTaxPostcode')
+            ->with($taxRateDataObject->getPostcode());
+        $rateModelMock->expects($this->once())
+            ->method('setRate')
+            ->with($taxRateDataObject->getPercentageRate());
+        if ($taxRateDataObject->getZipRange()) {
+            $rateModelMock->expects($this->once())
+                ->method('setZipFrom')
+                ->with($taxRateDataObject->getZipRange()->getFrom());
+            $rateModelMock->expects($this->once())
+                ->method('setZipTo')
+                ->with($taxRateDataObject->getZipRange()->getTo());
         }
 
         $rateModelFactoryMock = $this->getMockBuilder('Magento\Tax\Model\Calculation\RateFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $rateModelFactoryMock->expects($this->any())->method('create')->will($this->returnValue($rateModelMock));
+        $rateModelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($rateModelMock));
 
         /** @var  $converter \Magento\Tax\Model\Calculation\Rate\Converter */
         $converter = $this->objectManager->getObject(
@@ -163,43 +169,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'zipRangeDataObjectBuilder' => $zipRangeBuilder
             ]
         );
-        /** @var  $taxRateModel \Magento\Tax\Model\Calculation\Rate */
+
         $taxRateModel = $converter->createTaxRateModel($taxRateDataObject);
 
-        //Assertion
-        $this->assertEquals($taxRateDataObject->getId(), $taxRateModel->getId());
-        $this->assertEquals($taxRateDataObject->getCountryId(), $taxRateModel->getTaxCountryId());
-        $this->assertEquals($taxRateDataObject->getRegionId(), $taxRateModel->getTaxRegionId());
-        $this->assertEquals($taxRateDataObject->getPostcode(), $taxRateModel->getTaxPostcode());
-        $this->assertEquals($taxRateDataObject->getcode(), $taxRateModel->getCode());
-        $this->assertEquals($taxRateDataObject->getPercentageRate(), $taxRateModel->getRate());
-        if ($isZipRange) {
-            if ($taxRateDataObject->getZipRange()->getFrom() && $taxRateModel->getZipTo()) {
-                $this->assertEquals(
-                    $taxRateDataObject->getZipRange()->getFrom(),
-                    $taxRateModel->getZipFrom()
-                );
-                $this->assertEquals(
-                    $taxRateDataObject->getZipRange()->getTo(),
-                    $taxRateModel->getZipTo()
-                );
-            } elseif ($taxRateDataObject->getZipRange()->getFrom()) {
-                $this->assertEquals(
-                    $taxRateDataObject->getZipRange()->getFrom(),
-                    $taxRateModel->getZipFrom()
-                );
-                $this->assertNull($taxRateModel->getZipTo());
-            } else {
-                $this->assertEquals(
-                    $taxRateDataObject->getZipRange()->getTo(),
-                    $taxRateModel->getZipTo()
-                );
-                $this->assertNull($taxRateModel->getZipFrom());
-            }
-        } else {
-            $this->assertNull($taxRateModel->getZipFrom());
-            $this->assertNull($taxRateModel->getZipTo());
-        }
+        $this->assertSame($rateModelMock, $taxRateModel);
     }
 
     public function createTaxRateModelDataProvider()
@@ -208,8 +181,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withZipRange' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['from' => 78765, 'to' => 78780]
@@ -218,8 +191,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withZipRangeFrom' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['from' => 78765]
@@ -228,8 +201,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withZipRangeTo' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['to' => 78780]
@@ -238,7 +211,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withPostalCode' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
+                    'country_id' => 'US',
                     'code' => 'US-CA-*-Rate 1',
                     'rate' => '8.25',
                     'postcode' => '78727'

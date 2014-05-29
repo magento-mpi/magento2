@@ -110,8 +110,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $taxRateDataObject = $taxRateDataObjectBuilder->populateWithArray($data)->create();
-        $zipIsRange = $taxRateDataObject->getZipRange();
-        $isZipRange = !empty($zipIsRange);
         $taxRateModel = $converter->createTaxRateModel($taxRateDataObject);
 
         //Assertion
@@ -121,7 +119,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRateDataObject->getPostcode(), $taxRateModel->getTaxPostcode());
         $this->assertEquals($taxRateDataObject->getcode(), $taxRateModel->getCode());
         $this->assertEquals($taxRateDataObject->getPercentageRate(), $taxRateModel->getRate());
-        if ($isZipRange) {
+        if ($taxRateDataObject->getZipRange()) {
             if ($taxRateDataObject->getZipRange()->getFrom() && $taxRateModel->getZipTo()) {
                 $this->assertEquals(
                     $taxRateDataObject->getZipRange()->getFrom(),
@@ -156,8 +154,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withZipRange' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['from' => 78765, 'to' => 78780]
@@ -166,8 +164,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withZipRangeFrom' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['from' => 78765]
@@ -176,8 +174,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withZipRangeTo' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['to' => 78780]
@@ -186,7 +184,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'withPostalCode' => [
                 [
                     'id' => '1',
-                    'countryId' => 'US',
+                    'country_id' => 'US',
                     'code' => 'US-CA-*-Rate 1',
                     'rate' => '8.25',
                     'postcode' => '78727'
