@@ -120,27 +120,21 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRateDataObject->getcode(), $taxRateModel->getCode());
         $this->assertEquals($taxRateDataObject->getPercentageRate(), $taxRateModel->getRate());
         if ($taxRateDataObject->getZipRange()) {
-            if ($taxRateDataObject->getZipRange()->getFrom() && $taxRateModel->getZipTo()) {
+            if ($taxRateDataObject->getZipRange()->getFrom()) {
                 $this->assertEquals(
                     $taxRateDataObject->getZipRange()->getFrom(),
                     $taxRateModel->getZipFrom()
                 );
-                $this->assertEquals(
-                    $taxRateDataObject->getZipRange()->getTo(),
-                    $taxRateModel->getZipTo()
-                );
-            } elseif ($taxRateDataObject->getZipRange()->getFrom()) {
-                $this->assertEquals(
-                    $taxRateDataObject->getZipRange()->getFrom(),
-                    $taxRateModel->getZipFrom()
-                );
-                $this->assertNull($taxRateModel->getZipTo());
             } else {
+                $this->assertNull($taxRateModel->getZipFrom());
+            }
+            if ($taxRateDataObject->getZipRange()->getTo()) {
                 $this->assertEquals(
                     $taxRateDataObject->getZipRange()->getTo(),
                     $taxRateModel->getZipTo()
                 );
-                $this->assertNull($taxRateModel->getZipFrom());
+            } else {
+                $this->assertNull($taxRateModel->getTo());
             }
         } else {
             $this->assertNull($taxRateModel->getZipFrom());

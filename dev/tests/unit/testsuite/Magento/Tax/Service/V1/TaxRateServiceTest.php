@@ -136,7 +136,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
         $this->rateModelMock->expects($this->once())
             ->method('save')
-            ->will($this->throwException(new \Magento\Framework\Model\Exception));
+            ->will($this->throwException(new \Magento\Framework\Model\Exception()));
         $this->converterMock->expects($this->once())
             ->method('createTaxRateModel')
             ->will($this->returnValue($this->rateModelMock));
