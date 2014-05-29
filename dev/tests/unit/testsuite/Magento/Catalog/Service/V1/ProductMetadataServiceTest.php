@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1;
 
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\OptionBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder;
 
 class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
