@@ -259,4 +259,21 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new NoSuchEntityException()));
         $this->taxRateService->deleteTaxRate(1);
     }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Bad error occurred
+     */
+    public function testDeleteTaxRateDeleteException()
+    {
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateModelMock->expects($this->once())
+            ->method('delete')
+            ->will($this->throwException(new \Exception('Bad error occurred')));
+        $this->taxRateService->deleteTaxRate(1);
+    }
+
 }

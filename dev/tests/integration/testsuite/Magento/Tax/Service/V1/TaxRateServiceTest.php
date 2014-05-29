@@ -9,6 +9,7 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Service\V1\Data\ZipRangeBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -263,18 +264,64 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteTaxRate()
     {
-        // Tax rates with ids 1 and 2 exist in database
-        $this->assertTrue($this->taxRateService->deleteTaxRate(1));
-        $this->assertTrue($this->taxRateService->deleteTaxRate(2));
+        // Create a new tax rate
+        $taxRateData = $this->taxRateBuilder
+            ->setCode('TX')
+            ->setCountryId('US')
+            ->setPercentageRate(5)
+            ->setPostcode(77000)
+            ->setRegionId(1)
+            ->create();
+        $taxRateId = $this->taxRateService->createTaxRate($taxRateData)->getId();
+
+        // Delete the new tax rate
+        $this->assertTrue($this->taxRateService->deleteTaxRate($taxRateId));
+
+        // Get the new tax rate, this should fail
+        try {
+            $this->taxRateService->getTaxRate($taxRateId);
+            $this->fail('NoSuchEntityException expected but not thrown');
+        } catch(NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRateId',
+                'fieldValue' => $taxRateId,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        } catch (\Exception $e) {
+            $this->fail('Caught unexpected exception');
+        }
     }
 
     /**
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = 9999
      */
     public function testDeleteTaxRateException()
     {
-        $this->taxRateService->deleteTaxRate(9999);
+        // Create a new tax rate
+        $taxRateData = $this->taxRateBuilder
+            ->setCode('TX')
+            ->setCountryId('US')
+            ->setPercentageRate(6)
+            ->setPostcode(77001)
+            ->setRegionId(1)
+            ->create();
+        $taxRateId = $this->taxRateService->createTaxRate($taxRateData)->getId();
+
+        // Delete the new tax rate
+        $this->assertTrue($this->taxRateService->deleteTaxRate($taxRateId));
+
+        // Delete the new tax rate again, this should fail
+        try {
+            $this->taxRateService->deleteTaxRate($taxRateId);
+            $this->fail('NoSuchEntityException expected but not thrown');
+        } catch(NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRateId',
+                'fieldValue' => $taxRateId,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        } catch (\Exception $e) {
+            $this->fail('Caught unexpected exception');
+        }
     }
 }
