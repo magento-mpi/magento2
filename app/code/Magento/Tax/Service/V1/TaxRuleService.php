@@ -49,6 +49,7 @@ class TaxRuleService implements TaxRuleServiceInterface
     {
         // TODO: Implement getTaxRule() method.
     }
+
     /**
      * {@inheritdoc}
      */
