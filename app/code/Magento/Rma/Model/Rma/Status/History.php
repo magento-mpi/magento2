@@ -277,9 +277,10 @@ class History extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param string $comment
-     * @param bool $visibleOnFrontend
+     * @param $comment
+     * @param $visibleOnFrontend
      * @param bool $isAdmin
+     * @return void
      */
     public function saveComment($comment, $visibleOnFrontend, $isAdmin = false)
     {
