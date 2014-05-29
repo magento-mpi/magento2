@@ -69,14 +69,14 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
                 'attribute_set_id' => 4,
                 'sku' => 'simple-1',
                 'position' => 1,
-                'customAttributes' => [['attribute_code' => 'qty', 'value' => 1]]
+                'custom_attributes' => [['attribute_code' => 'qty', 'value' => 1.000]]
             ],
             [
                 'type' => 'virtual',
                 'attribute_set_id' => 4,
                 'sku' => 'virtual-product',
                 'position' => 2,
-                'customAttributes' => [['attribute_code' => 'qty', 'value' => 1]]
+                'custom_attributes' => [['attribute_code' => 'qty', 'value' => 1.000]]
             ]
         ];
         $this->assertEquals($expected, $actual);

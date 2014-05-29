@@ -26,7 +26,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $productSku = 'grouped-product';
         $linkType = 'associated';
         $productData = [
-            ProductLinkEntity::ID => 1,
             ProductLinkEntity::TYPE => 'simple',
             ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
             ProductLinkEntity::SKU => 'simple',

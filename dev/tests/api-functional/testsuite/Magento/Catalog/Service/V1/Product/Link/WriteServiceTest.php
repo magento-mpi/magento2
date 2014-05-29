@@ -87,7 +87,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testAssignWithInvalidLinkedProducts()
     {
-        $expectedException = "Product with SKU \\\"virtual-product\\\" does not exist";
+        $expectedException = "Product with SKU \"virtual-product\" does not exist";
         try {
             $this->_webApiCall(
                 $this->serviceInfo,

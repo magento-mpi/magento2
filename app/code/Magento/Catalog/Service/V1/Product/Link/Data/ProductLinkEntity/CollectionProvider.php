@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool;
 
 class CollectionProvider
 {
@@ -18,13 +19,18 @@ class CollectionProvider
     protected $providers;
 
     /**
-     * @param array $providers
+     * @var ConverterPool
      */
-    public function __construct(array $providers = array())
+    protected $converterPool;
+
+    /**
+     * @param ConverterPool $converterPool
+     * @param CollectionProviderInterface[] $providers
+     */
+    public function __construct(ConverterPool $converterPool, array $providers = array())
     {
-        foreach ($providers as $providerData) {
-            $this->providers[$providerData['code']] = $providerData['provider'];
-        }
+        $this->converterPool = $converterPool;
+        $this->providers = $providers;
     }
 
     /**
@@ -40,6 +46,13 @@ class CollectionProvider
         if (!isset($this->providers[$type])) {
             throw new NoSuchEntityException('Collection provider is not registered');
         }
-        return $this->providers[$type]->getLinkedProducts($product);
+
+        $products = $this->providers[$type]->getLinkedProducts($product);
+        $converter = $this->converterPool->getConverter($type);
+        $output = [];
+        foreach ($products as $item) {
+            $output[$item->getId()] = $converter->convert($item);
+        }
+        return $output;
     }
 }

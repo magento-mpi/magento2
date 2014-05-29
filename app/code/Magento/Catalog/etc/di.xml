@@ -361,18 +361,16 @@
     <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="crosssell" xsi:type="array">
-                    <item name="code" xsi:type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</item>
-                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Crosssell</item>
-                </item>
-                <item name="upsell" xsi:type="array">
-                    <item name="code" xsi:type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</item>
-                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Upsell</item>
-                </item>
-                <item name="related" xsi:type="array">
-                    <item name="code" xsi:type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</item>
-                    <item name="provider" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Related</item>
-                </item>
+                <item name="crosssell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Crosssell</item>
+                <item name="upsell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Upsell</item>
+                <item name="related" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Related</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool">
+        <arguments>
+            <argument name="converters" xsi:type="array">
+                <item name="default" xsi:type="object">\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\DefaultConverter</item>
             </argument>
         </arguments>
     </type>

@@ -111,8 +111,7 @@ class ReadService implements ReadServiceInterface
     {
         $output = [];
         $product = $this->productLoader->load($productSku);
-        $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
-        $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
+        $collection = $this->entityCollectionProvider->getCollection($product, $type);
         foreach ($collection as $item) {
             $output[] = $this->productEntityBuilder->populateWithArray($item)->create();
         }

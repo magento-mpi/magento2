@@ -13,6 +13,7 @@ use \Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Catalog\Model\Resource\Product as ProductResource;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool;
 
 class WriteService implements WriteServiceInterface
 {
@@ -32,11 +33,6 @@ class WriteService implements WriteServiceInterface
     protected $productLoader;
 
     /**
-     * @var LinkTypeResolver
-     */
-    protected $linkTypeResolver;
-
-    /**
      * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $productResource;
@@ -50,7 +46,6 @@ class WriteService implements WriteServiceInterface
      * @param LinksInitializer $linkInitializer
      * @param ProductLinkEntity\CollectionProvider $entityCollectionProvider
      * @param ProductLoader $productLoader
-     * @param LinkTypeResolver $linkTypeResolver
      * @param ProductResource $productResource
      * @param ProductLinkEntity\DataMapperInterface $dataMapper
      */
@@ -58,13 +53,11 @@ class WriteService implements WriteServiceInterface
         LinksInitializer $linkInitializer,
         ProductLinkEntity\CollectionProvider $entityCollectionProvider,
         ProductLoader $productLoader,
-        LinkTypeResolver $linkTypeResolver,
         ProductResource $productResource,
         Data\ProductLinkEntity\DataMapperInterface $dataMapper
     ) {
         $this->linkInitializer = $linkInitializer;
         $this->entityCollectionProvider = $entityCollectionProvider;
-        $this->linkTypeResolver = $linkTypeResolver;
         $this->productLoader = $productLoader;
         $this->productResource = $productResource;
         $this->dataMapper = $dataMapper;
@@ -83,7 +76,6 @@ class WriteService implements WriteServiceInterface
         foreach ($links as $type => $linksData) {
             $links[$type] = $this->dataMapper->map($linksData);
         }
-
         $this->linkInitializer->initializeLinks($product, $links);
         try {
             $product->save();
@@ -129,7 +121,8 @@ class WriteService implements WriteServiceInterface
     {
         $product = $this->productLoader->load($productSku);
         $linkedProductEntity = $this->productLoader->load($linkedProduct->getSku());
-        $links = $this->retrieveLinkedProducts($product, $type);
+        $links = $this->entityCollectionProvider->getCollection($product, $type);
+
         if (!isset($links[$linkedProductEntity->getId()])) {
             throw new NoSuchEntityException(
                 sprintf(
@@ -139,16 +132,9 @@ class WriteService implements WriteServiceInterface
             );
         }
 
-
-        /** @var \Magento\Catalog\Model\Product $item */
-        $links[$linkedProductEntity->getId()] = [
-            'product_id' => $linkedProductEntity->getId(),
-            ProductLinkEntity::TYPE => $linkedProduct->getType(),
-            ProductLinkEntity::ATTRIBUTE_SET_ID => $linkedProduct->getAttributeSetId(),
-            ProductLinkEntity::SKU => $linkedProduct->getSku(),
-            ProductLinkEntity::POSITION => $linkedProduct->getPosition()
-        ];
-
+        $data = $linkedProduct->__toArray();
+        $data['product_id'] = $linkedProductEntity->getId();
+        $links[$linkedProductEntity->getId()] = $data;
         $this->saveLinks($product, [$type => $links]);
         return true;
     }
@@ -160,7 +146,7 @@ class WriteService implements WriteServiceInterface
     {
         $linkedProduct = $this->productLoader->load($linkedProductSku);
         $product = $this->productLoader->load($productSku);
-        $links = $this->retrieveLinkedProducts($product, $type);
+        $links = $this->entityCollectionProvider->getCollection($product, $type);
 
         if (!isset($links[$linkedProduct->getId()])) {
             throw new NoSuchEntityException(
@@ -174,31 +160,5 @@ class WriteService implements WriteServiceInterface
         $this->saveLinks($product, [$type => $links]);
 
         return true;
-    }
-
-    /**
-     * Retrieve product links information
-     *
-     * @param string $type
-     * @param \Magento\Catalog\Model\Product $product
-     * @return array
-     */
-    protected function retrieveLinkedProducts(\Magento\Catalog\Model\Product $product, $type)
-    {
-        $typeId = $this->linkTypeResolver->getTypeIdByCode($type);
-        $collection = $this->entityCollectionProvider->getCollection($product, $typeId);
-
-        $links = [];
-        foreach ($collection as $item) {
-            /** @var \Magento\Catalog\Model\Product $item */
-            $links[$item->getId()] = [
-                ProductLinkEntity::ID => $item->getId(),
-                ProductLinkEntity::TYPE => $item->getTypeId(),
-                ProductLinkEntity::ATTRIBUTE_SET_ID => $item->getAttributeSetId(),
-                ProductLinkEntity::SKU => $item->getSku(),
-                ProductLinkEntity::POSITION => $item->getPosition()
-            ];
-        }
-        return $links;
     }
 }
