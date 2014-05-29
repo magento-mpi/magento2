@@ -90,4 +90,12 @@ class CatalogProductIndex extends BackendPage
     {
         return $this->getBlockInstance('addNewSplitButtonBlock');
     }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
+     */
+    public function getFormPageActions()
+    {
+        return $this->getBlockInstance('FormPageActions');
+    }
 }
