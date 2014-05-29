@@ -1225,13 +1225,19 @@ class Config
      * @param string|null $countryCode ISO 3166-1
      * @return string
      */
-    public function getBuildNotationCode()
+    public function getBuildNotationCode($countryCode = null)
     {
-        return $this->_scopeConfig->getValue(
-            'paypal/bncode',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->_storeId
-        );
+        $product = 'WPP';
+        if ($this->_methodCode && isset($this->_buildNotationPPMap[$this->_methodCode])) {
+            $product = $this->_buildNotationPPMap[$this->_methodCode];
+        }
+        if (null === $countryCode) {
+            $countryCode = $this->_matchBnCountryCode($this->getMerchantCountry());
+        }
+        if ($countryCode) {
+            $countryCode = '_' . $countryCode;
+        }
+        return sprintf('Magento_Cart_%s%s', $product, $countryCode);
     }
 
     /**

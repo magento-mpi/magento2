@@ -66,13 +66,6 @@ class Pbridge extends AbstractMethod
     );
 
     /**
-     * Array of additional parameters, which need to be included in Pbridge request
-     *
-     * @var array
-     */
-    protected $_additionalRequestParameters = array();
-
-    /**
      * Pbridge data
      *
      * @var \Magento\Pbridge\Helper\Data
@@ -174,16 +167,6 @@ class Pbridge extends AbstractMethod
     public function isAvailable($quote = null)
     {
         return false;
-    }
-
-    /**
-     * Ability to add additional parameters to request
-     *
-     * @param array $params
-     */
-    public function setAdditionalRequestParameters(array $params)
-    {
-        $this->_additionalRequestParameters = $params;
     }
 
     /**
@@ -348,7 +331,6 @@ class Pbridge extends AbstractMethod
         $order = $payment->getOrder();
         $request = $this->_getApiRequest();
         $request->setData('magento_payment_action', $this->getOriginalMethodInstance()->getConfigPaymentAction())
-            ->setData('additional_params', $this->_additionalRequestParameters)
             ->setData('client_ip', $this->_requestHttp->getClientIp(false))
             ->setData('amount', (string)$amount)
             ->setData('currency_code', $order->getBaseCurrencyCode())
@@ -429,7 +411,6 @@ class Pbridge extends AbstractMethod
         $request = $this->_getApiRequest();
         $order = $payment->getOrder();
         $request->setData('transaction_id', $authTransactionId)
-            ->setData('additional_params', $this->_additionalRequestParameters)
             ->setData('is_capture_complete', (int)$payment->getShouldCloseParentTransaction())
             ->setData('amount', $amount)
             ->setData('currency_code', $order->getBaseCurrencyCode())
@@ -473,7 +454,6 @@ class Pbridge extends AbstractMethod
 
             $request = $this->_getApiRequest();
             $request->setData('transaction_id', $captureTxnId)
-                ->setData('additional_params', $this->_additionalRequestParameters)
                 ->setData('amount', $amount)
                 ->setData('currency_code', $order->getBaseCurrencyCode())
                 ->setData('cc_number', $payment->getCcLast4())
@@ -518,8 +498,7 @@ class Pbridge extends AbstractMethod
             $request->addData(
                 array(
                     'transaction_id' => $authTransactionId,
-                    'amount' => $payment->getOrder()->getBaseTotalDue(),
-                    'additional_params' => $this->_additionalRequestParameters
+                    'amount' => $payment->getOrder()->getBaseTotalDue()
                 )
             );
 
@@ -547,8 +526,7 @@ class Pbridge extends AbstractMethod
         $request = $this->_getApiRequest();
         $request
             ->setData('transaction_id', $transactionId)
-            ->setData('order_id', $payment->getOrder()->getIncrementId())
-            ->setData('additional_params', $this->_additionalRequestParameters);
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
 
         $api = $this->_getApi()->doAccept($request);
         $this->_importResultToPayment($payment, $api->getResponse());
@@ -574,8 +552,7 @@ class Pbridge extends AbstractMethod
         $request = $this->_getApiRequest();
         $request
             ->setData('transaction_id', $transactionId)
-            ->setData('order_id', $payment->getOrder()->getIncrementId())
-            ->setData('additional_params', $this->_additionalRequestParameters);
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
 
         $api = $this->_getApi()->doDeny($request);
         $this->_importResultToPayment($payment, $api->getResponse());
@@ -600,8 +577,7 @@ class Pbridge extends AbstractMethod
         $request = $this->_getApiRequest();
         $request
             ->setData('transaction_id', $transactionId)
-            ->setData('order_id', $payment->getOrder()->getIncrementId())
-            ->setData('additional_params', $this->_additionalRequestParameters);
+            ->setData('order_id', $payment->getOrder()->getIncrementId());
 
         $api = $this->_getApi()->doFetchTransactionInfo($request);
         $this->_importResultToPayment($payment, $api->getResponse());
@@ -684,7 +660,6 @@ class Pbridge extends AbstractMethod
         $request = new \Magento\Framework\Object();
         $request->setCountryCode($this->_scopeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
-        $request->setData('additional_params', $this->_additionalRequestParameters);
 
         return $request;
     }
