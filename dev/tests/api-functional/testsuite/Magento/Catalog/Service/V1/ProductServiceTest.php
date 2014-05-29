@@ -380,7 +380,7 @@ class ProductServiceTest extends WebapiAbstract
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['id' => $invalidId]);
+                $this->_webApiCall($serviceInfo, [Product::ID => $invalidId]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }

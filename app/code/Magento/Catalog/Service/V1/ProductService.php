@@ -122,7 +122,7 @@ class ProductService implements ProductServiceInterface
         $productModel = $this->productFactory->create();
         $productModel->load($id);
         if (!$productModel->getId()) {
-            throw NoSuchEntityException::singleField('id', $product->getId());
+            throw NoSuchEntityException::singleField(ProductData::ID, $product->getId());
         }
         try {
             $this->productMapper->toModel($product, $productModel);
@@ -149,7 +149,7 @@ class ProductService implements ProductServiceInterface
         $product->load($id);
         if (!$product->getId()) {
             // product does not exist
-            throw NoSuchEntityException::singleField('id', $id);
+            throw NoSuchEntityException::singleField(ProductData::ID, $id);
         }
         $product->delete();
         return true;
@@ -164,7 +164,7 @@ class ProductService implements ProductServiceInterface
         $product->load($id);
         if (!$product->getId()) {
             // product does not exist
-            throw NoSuchEntityException::singleField('id', $id);
+            throw NoSuchEntityException::singleField(ProductData::ID, $id);
         }
         return $this->converter->createProductDataFromModel($product);
     }
