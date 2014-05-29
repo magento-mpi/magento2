@@ -254,4 +254,119 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productService = $this->_createService();
         $productService->get($productId);
     }
+
+    public function testCreate()
+    {
+        $initializationHelper = $this
+            ->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Data\ProductMapper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productTypeManager = $this
+            ->getMockBuilder('Magento\Catalog\Model\Product\TypeTransitionManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productFactory = $this
+            ->getMockBuilder('Magento\Catalog\Model\ProductFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var \Magento\Catalog\Service\V1\ProductService $productService */
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'initializationHelper' => $initializationHelper,
+                'productMapper' => $productMapper,
+                'productTypeManager' => $productTypeManager,
+                'productFactory' => $productFactory,
+            ]
+        );
+
+        $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
+                             ->disableOriginalConstructor()
+                             ->getMock();
+
+        $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $productMapper->expects($this->once())->method('toModel')->with($product)
+                      ->will($this->returnValue($productModel));
+
+        $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
+
+        $productModel->expects($this->once())->method('validate');
+        $productModel->expects($this->once())->method('save');
+
+        $productId = 42;
+        $productModel->expects($this->any())->method('getId')->will($this->returnValue($productId));
+
+        $this->assertEquals($productId, $productService->create($product));
+    }
+
+    public function testUpdate()
+    {
+        $initializationHelper = $this
+            ->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productMapper = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Data\ProductMapper')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productTypeManager = $this
+            ->getMockBuilder('Magento\Catalog\Model\Product\TypeTransitionManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $productFactory = $this
+            ->getMockBuilder('Magento\Catalog\Model\ProductFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var \Magento\Catalog\Service\V1\ProductService $productService */
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
+            [
+                'initializationHelper' => $initializationHelper,
+                'productMapper' => $productMapper,
+                'productTypeManager' => $productTypeManager,
+                'productFactory' => $productFactory,
+            ]
+        );
+
+        $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
+                 ->disableOriginalConstructor()
+                 ->getMock();
+
+        $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+        $productFactory->expects($this->once())->method('create')
+            ->will($this->returnValue($productModel));
+
+
+        $productMapper->expects($this->once())->method('toModel')->with($product, $productModel)
+                      ->will($this->returnValue($productModel));
+
+        $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
+        $productTypeManager->expects($this->once())->method('processProduct')->with($productModel);
+
+        $productModel->expects($this->once())->method('validate');
+        $productModel->expects($this->once())->method('save');
+
+        $productId = 42;
+        $productModel->expects($this->any())->method('getId')->will($this->returnValue($productId));
+
+        $this->assertEquals($productId, $productService->update(5, $product));
+    }
 }

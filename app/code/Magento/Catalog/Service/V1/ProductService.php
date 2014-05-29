@@ -117,10 +117,10 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function update(\Magento\Catalog\Service\V1\Data\Product $product)
+    public function update($id, \Magento\Catalog\Service\V1\Data\Product $product)
     {
         $productModel = $this->productFactory->create();
-        $productModel->load($product->getId());
+        $productModel->load($id);
         if (!$productModel->getId()) {
             throw NoSuchEntityException::singleField('id', $product->getId());
         }

@@ -13,8 +13,7 @@ use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-
-use \Magento\Catalog\Service\V1\Data\Product;
+use Magento\Catalog\Service\V1\Data\Product;
 
 /**
  * Class ProductServiceTest
@@ -32,7 +31,8 @@ class ProductServiceTest extends WebapiAbstract
     {
         $productBuilder = function($data) {
             return array_replace_recursive(
-                Product::SKU => uniqid('sku-', true),
+                [
+                    Product::SKU => uniqid('sku-', true),
                     Product::NAME => uniqid('name-', true),
                     Product::VISIBILITY => 4,
                     Product::TYPE_ID => 'simple',
@@ -240,6 +240,7 @@ class ProductServiceTest extends WebapiAbstract
                 [0 => $product1[Product::SKU], 1 => $product2[Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_ASC]
             ),
+
             array(
                 [
                     [
@@ -295,6 +296,9 @@ class ProductServiceTest extends WebapiAbstract
         return $product;
     }
 
+    /**
+     * @expectedException \Exception
+     */
     public function testCreateEmpty()
     {
         $serviceInfo = [
@@ -316,22 +320,21 @@ class ProductServiceTest extends WebapiAbstract
 
     public function testUpdate()
     {
-        $id = 56;
+        $response = $this->_createProduct($this->getSimpleProductData());
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'resourcePath' => self::RESOURCE_PATH . '/' . $response[Product::ID],
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'update'
-            ],
+            ]
         ];
 
         $requestData = [
             'product' => [
-                Product::ID => $id,
                 Product::NAME => uniqid('name-', true),
             ]
         ];
