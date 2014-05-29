@@ -277,8 +277,8 @@ class History extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $comment
-     * @param $visibleOnFrontend
+     * @param string $comment
+     * @param bool $visibleOnFrontend
      * @param bool $isAdmin
      * @return void
      */
