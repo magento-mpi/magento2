@@ -65,6 +65,18 @@
     }
 }
 
+.link.wishlist {
+    .counter {
+        color: @text-color-muted;
+        &:before {
+            content: "(";
+        }
+        &:after {
+            content: ")";
+        }
+    }
+}
+
 .block.wishlist {
     .item.product {
         margin-bottom: 14px;

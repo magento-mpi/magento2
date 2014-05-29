@@ -54,9 +54,9 @@ body {
                     @_link-color-visited: @header-panel-text-color,
                     @_link-text-decoration-visited: none,
                     @_link-color-hover: @header-panel-text-color,
-                    @_link-text-decoration-hover: none,
+                    @_link-text-decoration-hover: underline,
                     @_link-color-active: @header-panel-text-color,
-                    @_link-text-decoration-active: none
+                    @_link-text-decoration-active: underline
                 );
             }
         }
@@ -279,7 +279,7 @@ body {
             @_toggle-selector : ~".action.switch",
             @_options-selector : ~"ul",
             @_dropdown-actions-padding: 0,
-            @_dropdown-list-item-padding: 8px,
+            @_dropdown-list-item-padding: 0,
             @_dropdown-toggle-icon-content: @icon-down,
             @_dropdown-toggle-active-icon-content: @icon-up,
             @_icon-font-text-hide: true,
@@ -294,7 +294,19 @@ body {
             &:extend(.switcher li all);
             min-width: 120px;
             a {
-                &:extend(.panel.header .switcher all);
+                .link(
+                      @_link-color: #333,
+                      @_link-text-decoration: none,
+                      @_link-color-visited: #333,
+                      @_link-text-decoration-visited: none,
+                      @_link-color-hover: #333,
+                      @_link-text-decoration-hover: none,
+                      @_link-color-active: #333,
+                      @_link-text-decoration-active: none
+                 );
+                display: block;
+                padding: 8px;
+                line-height: 1.4;
             }
         }
     }
@@ -307,13 +319,13 @@ body {
                 > li {
                     margin: 0 0 0 15px;
                     &.welcome,
-                    a {
+                    > a {
                         line-height: 1.4;
                         display: inline-block;
                     }
                 }
                 margin-left: auto;
-                .authorization-link:after {
+                > .authorization-link:after {
                     content: "or";
                     display: inline-block;
                     margin: 0 -5px 0 5px;
