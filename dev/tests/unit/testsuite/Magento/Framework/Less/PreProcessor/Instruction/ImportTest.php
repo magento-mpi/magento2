@@ -28,10 +28,6 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Framework\Less\PreProcessor\File\Less | PHPUnit_Framework_MockObject */
     protected $lessFileMock;
 
-    /**
-     * Setup tests
-     * @return void
-     */
     public function setUp()
     {
         $this->relatedFileMock = $this->getMockBuilder('\Magento\Framework\View\RelatedFile')
