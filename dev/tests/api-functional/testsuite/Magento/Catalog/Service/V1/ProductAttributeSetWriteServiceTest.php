@@ -151,7 +151,9 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'operation' => 'catalogProductAttributeSetWriteServiceV1Remove'
             ]
         ];
-        $requestData = [];
+        $requestData = [
+            'attributeSetId' => $id,
+        ];
 
         $response = $this->_webApiCall($serviceInfo, $requestData);
         if ('rest' == strtolower(TESTS_WEB_API_ADAPTER)) {
@@ -177,7 +179,9 @@ class ProductAttributeSetWriteServiceTest extends WebapiAbstract
                 'operation' => 'catalogProductAttributeSetWriteServiceV1Remove'
             ]
         ];
-        $requestData = [];
+        $requestData = [
+            'attributeSetId' => $id,
+        ];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
