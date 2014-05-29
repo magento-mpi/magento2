@@ -12,11 +12,17 @@ namespace Magento\Catalog\Service\V1\Product\Data\Eav;
 
 class AttributeGroup extends \Magento\Framework\Service\Data\AbstractObject
 {
+    /**#@+
+     * Constants defined for keys of array, make typos less likely
+     */
     const KEY_ID = 'id';
 
     const KEY_NAME = 'name';
+    /**#@-*/
 
     /**
+     * Retrieve id
+     *
      * @return string
      */
     public function getId()
@@ -25,6 +31,8 @@ class AttributeGroup extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Retrieve name
+     *
      * @return string
      */
     public function getName()

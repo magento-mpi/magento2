@@ -92,8 +92,6 @@ class WriteServiceTest extends WebapiAbstract
             $serviceInfo,
             ['groupId' => $group->getId(), 'groupData' => ['id' => $group->getId(), 'name' => 'UpdatedGroup']]
         );
-
-        sleep(3);
         $groups = $this->_getGroups(1);
 
         $lastGroup = end($groups);
@@ -132,10 +130,9 @@ class WriteServiceTest extends WebapiAbstract
         ];
 
         $this->_webApiCall($serviceInfo, ['groupId' => $group->getId()]);
-        sleep(3);
         $groups = $this->_getGroups(1);
         $lastGroup = end($groups);
-        $this->assertEquals($groupCount-1, count($groups));
+        $this->assertEquals($groupCount - 1, count($groups));
         $this->assertNotEquals('GroupToDelete', $lastGroup['name'], "Group was not removed");
     }
 } 

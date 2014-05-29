@@ -27,7 +27,6 @@
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
     <type name="Magento\Indexer\Model\Indexer\State">
-
         <plugin name="setStatusForIndexer" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\IndexerState" />
     </type>
     <type name="Magento\Framework\Mview\View\StateInterface">

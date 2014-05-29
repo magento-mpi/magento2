@@ -6,11 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\Exception;
 
-
-class CouldNotSaveException extends Exception
+class CouldNotSaveException extends AbstractAggregateException
 {
 
 } 

@@ -27,6 +27,7 @@ interface WriteServiceInterface
      * @param \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @return bool
      */
     public function update($groupId, \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData);
 
@@ -35,6 +36,7 @@ interface WriteServiceInterface
      *
      * @param string $groupId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return bool
      */
     public function delete($groupId);
 }

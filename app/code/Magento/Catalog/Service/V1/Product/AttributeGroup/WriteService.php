@@ -28,6 +28,7 @@ class WriteService implements WriteServiceInterface
 
     /**
      * @param GroupFactory $groupFactory
+     * @param AttributeGroupBuilder $groupBuilder
      */
     public function __construct(GroupFactory $groupFactory, AttributeGroupBuilder $groupBuilder)
     {
@@ -52,17 +53,12 @@ class WriteService implements WriteServiceInterface
                 $attributeGroup->getAttributeGroupName()
             )->create();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException();
+            throw new CouldNotSaveException('Could not create attribute group');
         }
     }
 
     /**
-     * Update attribute group
-     *
-     * @param string $groupId
-     * @param \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * {@inheritdoc}
      */
     public function update($groupId, \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData)
     {
@@ -77,15 +73,12 @@ class WriteService implements WriteServiceInterface
             $attributeGroup->setAttributeGroupName($groupData->getName());
             $attributeGroup->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException();
+            throw new CouldNotSaveException('Could not update attribute group');
         }
     }
 
     /**
-     * Remove attribute group
-     *
-     * @param string $groupId
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * {@inheritdoc}
      */
     public function delete($groupId)
     {

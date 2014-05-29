@@ -37,8 +37,7 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * @param string $attributeSetId
-     * @return \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup[]
+     * {@inheritdoc}
      */
     public function getList($attributeSetId)
     {
@@ -49,8 +48,7 @@ class ReadService implements ReadServiceInterface
         $groups = array();
 
         /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
-        foreach ($collection->getItems() as $group)
-        {
+        foreach ($collection->getItems() as $group) {
             $this->groupBuilder->setId(
                 $group->getId()
             )->setName(
