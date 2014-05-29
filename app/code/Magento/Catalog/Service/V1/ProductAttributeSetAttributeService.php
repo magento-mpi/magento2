@@ -125,8 +125,7 @@ class ProductAttributeSetAttributeService implements ProductAttributeSetAttribut
         }
         // check if attribute is in set
         $attribute->setAttributeSetId($attributeSet->getId())->loadEntityAttributeIdBySet();
-        if (!$attribute->getEntityAttributeId())
-        {
+        if (!$attribute->getEntityAttributeId()) {
             throw  new InputException('Requested attribute is not in requested attribute set.');
         }
         $attribute->deleteEntity();
