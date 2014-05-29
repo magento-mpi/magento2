@@ -175,19 +175,19 @@ final class Converter
                 throw new \Exception("Invalid 'getterArgs' for '{$field}', should be array");
             }
 
-            if ($useGetter && !method_exists($pearObject, $rules['getter'])) {
+            if ($useGetter && !is_callable([$pearObject, $rules['getter']])) {
                 $mName = get_class($pearObject) . "::" . $rules['getter'];
                 throw new \Exception('No getter method exists: ' . $mName);
             }
 
-            if ($useSetter && !method_exists($mageObject, $rules['setter'])) {
+            if ($useSetter && !is_callable([$mageObject, $rules['setter']])) {
                 $mName = get_class($mageObject) . "::" . $rules['setter'];
                 throw new \Exception('No setter method exists: ' . $mName);
             }
 
             $useConverter = !empty($rules['converter']);
 
-            if ($useConverter && false === method_exists($this, $rules['converter'])) {
+            if ($useConverter && false === is_callable([$this, $rules['converter']])) {
                 $mName = get_class($this) . "::" . $rules['converter'];
                 throw new \Exception('No converter method exists: ' . $mName);
             }

@@ -132,7 +132,7 @@ class Command
     {
         $data = $this->getCommandInfo($command);
         $method = $data['function'];
-        if (!method_exists($this, $method)) {
+        if (!is_callable([$this, $method])) {
             throw new \Exception("{$method} does't exist in class " . $this->_class);
         }
         return $this->{$method}($command, $options, $params);
