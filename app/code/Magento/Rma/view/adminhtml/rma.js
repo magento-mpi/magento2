@@ -139,6 +139,12 @@ AdminRma.prototype = {
     },
 
     hidePopups: function() {
+        $$('.rma-popup input[type=checkbox]').each(function(checkbox) {
+            checkbox.removeAttribute('checked');
+        });
+        $$('.rma-popup [name=items_selector]').each(function(input) {
+            input.checked = false;
+        });
         $('details_container').childElements().each(Element.hide);
         $$('.rma-popup').each(Element.hide);
         $('popup-window-mask').hide();
