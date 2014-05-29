@@ -13,7 +13,6 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 /**
  * Class StatusGrid
  * Adminhtml sales order's status managment grid
- *
  */
 class StatusGrid extends GridInterface
 {

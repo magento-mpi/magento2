@@ -423,6 +423,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     Shipping::XML_PATH_ADDRESS1,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
+                ),
+                'firstname' => $this->_scopeConfig->getValue(
+                    Shipping::XML_PATH_CONTACT_NAME,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
                 )
             );
         }
