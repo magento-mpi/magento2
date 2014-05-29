@@ -12,8 +12,6 @@ use Mtf\Handler\HandlerInterface;
 
 /**
  * Interface TaxClassInterface
- *
- * @package Magento\Tax\Test\Handler\TaxClass
  */
 interface TaxClassInterface extends HandlerInterface
 {

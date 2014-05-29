@@ -17,7 +17,7 @@
     <?php endif ?>
     <strong><?php echo __('SKU: ') ?></strong> <?php echo $_sku ?><br/>
     <div class="notice">
-        <div style="font-size: 95%"><?php echo $this->getErrorMessage($_item) ?></div>
+        <?php echo $this->getErrorMessage($_item) ?>
     </div>
 
     <?php if ($_item->getQtyMaxAllowed()): ?>

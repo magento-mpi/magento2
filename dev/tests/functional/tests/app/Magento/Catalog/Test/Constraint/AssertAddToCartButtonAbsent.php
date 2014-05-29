@@ -46,7 +46,7 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
      *
      * @var CatalogProductSimple
      */
-    protected $catalogProductSimple;
+    protected $product;
 
     /**
      * Product Page on Frontend
@@ -56,11 +56,11 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
     protected $catalogProductView;
 
     /**
-     * Assert that "Add to cart" button is not display on page.
+     * Assert that "Add to cart" button is not display on page
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
      *
      * @return void
@@ -68,12 +68,12 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
     public function processAssert(
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
-        CatalogProductSimple $catalogProductSimple,
+        CatalogProductSimple $product,
         CatalogProductView $catalogProductView
     ) {
         $this->catalogCategoryView = $catalogCategoryView;
         $this->cmsIndex = $cmsIndex;
-        $this->catalogProductSimple = $catalogProductSimple;
+        $this->product = $product;
         $this->catalogProductView = $catalogProductView;
 
         $this->addToCardAbsentOnCategory();
@@ -89,7 +89,7 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName(
-            $this->catalogProductSimple->getCategoryIds()[0]['name']
+            $this->product->getCategoryIds()[0]['name']
         );
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogCategoryView->getListProductBlock()->checkAddToCardButton(),
@@ -106,12 +106,12 @@ class AssertAddToCartButtonAbsent extends AbstractConstraint
     {
         $this->cmsIndex->open();
         $this->cmsIndex->getTopmenu()->selectCategoryByName(
-            $this->catalogProductSimple->getCategoryIds()[0]['name']
+            $this->product->getCategoryIds()[0]['name']
         );
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->catalogProductSimple->getName());
+        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->product->getName());
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogProductView->getViewBlock()->checkAddToCardButton(),
-            "Button 'Add to Card' is present on Product page"
+            "Button 'Add to Card' is present on Product page."
         );
     }
 

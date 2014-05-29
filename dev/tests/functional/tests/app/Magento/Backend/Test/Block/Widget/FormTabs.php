@@ -148,8 +148,9 @@ class FormTabs extends Form
         }
 
         if (!empty($this->unassignedFields)) {
-            throw new \Exception('Could not find all elements on the tabs: '
-                . implode(', ', array_keys($this->unassignedFields)));
+            throw new \Exception(
+                'Could not find all elements on the tabs: ' . implode(', ', array_keys($this->unassignedFields))
+            );
         }
     }
 
@@ -271,7 +272,7 @@ class FormTabs extends Form
     protected function getTabElement($tabName)
     {
         $tabClass = $this->tabs[$tabName]['class'];
-        /** @var $tabElement Tab */
+        /** @var Tab $tabElement */
         $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');

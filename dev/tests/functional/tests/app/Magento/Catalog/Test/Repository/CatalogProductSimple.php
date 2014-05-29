@@ -18,24 +18,15 @@ class CatalogProductSimple extends AbstractRepository
 {
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['SimpleProduct_sku_516169631'] = [
-            'sku' => 'SimpleProduct_sku_516169631',
-            'name' => 'SimpleProduct 516169631',
+        $this->_data['default'] = [
             'type_id' => 'simple',
-            'attribute_set_id' => '4',
-            'price' => ['value' => 3, 'preset' => '-'],
-            'id' => '1',
-            'mtf_dataset_name' => 'SimpleProduct_sku_516169631'
-        ];
-
-        $this->_data['SimpleProduct_sku_1947585255'] = [
-            'sku' => 'SimpleProduct_sku_1947585255',
-            'name' => 'SimpleProduct 1947585255',
-            'type_id' => 'simple',
-            'attribute_set_id' => '4',
-            'price' => ['value' => 4, 'preset' => '-'],
-            'id' => '2',
-            'mtf_dataset_name' => 'SimpleProduct_sku_1947585255'
+            'attribute_set_id' => 'Default',
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'weight' => 1,
+            'quantity_and_stock_status' => 'In Stock',
+            'qty' => 25,
+            'price' => ['value' => 560, 'preset' => '-'],
         ];
 
         $this->_data['100_dollar_product'] = [

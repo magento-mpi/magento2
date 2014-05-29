@@ -49,10 +49,12 @@ class EditSimpleProductTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
-        $gridBlock->searchAndOpen(array(
-            'sku' => $product->getProductSku(),
-            'type' => 'Simple Product'
-        ));
+        $gridBlock->searchAndOpen(
+            array(
+                'sku' => $product->getProductSku(),
+                'type' => 'Simple Product'
+            )
+        );
         $productForm->fill($editProduct);
         $editProductPage->getFormAction()->save();
         //Verifying

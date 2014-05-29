@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertTaxRuleSuccessSaveMessage module="Magento_Tax">
+        <severeness>low</severeness>
+        <require>
+            <taxRuleIndex class="Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex" />
+        </require>
+    </assertTaxRuleSuccessSaveMessage>
+    <assertTaxRuleInGrid module="Magento_Tax">
+        <severeness>high</severeness>
+        <require>
+            <taxRuleIndex class="Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex" />
+            <taxRule class="Magento\Tax\Test\Fixture\TaxRule" />
+        </require>
+    </assertTaxRuleInGrid>
+    <assertTaxRuleForm module="Magento_Tax">
+        <severeness>high</severeness>
+        <require>
+            <taxRuleIndex class="Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex" />
+            <taxRuleNew class="Magento\Tax\Test\Page\Adminhtml\TaxRuleNew" />
+            <taxRule class="Magento\Tax\Test\Fixture\TaxRule" />
+        </require>
+    </assertTaxRuleForm>
+    <assertTaxRuleIsApplied module="Magento_Tax">
+        <severeness>high</severeness>
+        <require />
+    </assertTaxRuleIsApplied>
+    <assertTaxRuleIsNotApplied module="Magento_Tax">
+        <severeness>high</severeness>
+        <require />
+    </assertTaxRuleIsNotApplied>
+</constraint>
