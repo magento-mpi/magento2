@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Tax\Test\Constraint;
@@ -26,7 +26,7 @@ class AssertTaxRateForm extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that tax rate form was filled correctly
+     * Assert that tax rate form filled correctly
      *
      * @param TaxRateIndex $taxRateIndexPage
      * @param TaxRateNew $taxRateNewPage
@@ -40,16 +40,12 @@ class AssertTaxRateForm extends AbstractConstraint
         TaxRate $taxRate,
         TaxRate $initialTaxRate = null
     ) {
-        $data = $taxRate->getData();
-        $data['zip_is_range'] = ($data['zip_is_range'] === 'Yes') ? true : false;
-        $data['rate'] = number_format($data['rate'], 4);
-        if ($initialTaxRate !== null) {
-            $taxRateCode = ($taxRate->hasData('code')) ? $taxRate->getCode() : $initialTaxRate->getCode();
-        } else {
-            $taxRateCode = $taxRate->getCode();
-        }
+        $data = ($initialTaxRate !== null)
+            ? array_merge($initialTaxRate->getData(), $taxRate->getData())
+            : $taxRate->getData();
+        $data = $this->prepareData($data);
         $filter = [
-            'code' => $taxRateCode,
+            'code' => $data['code'],
         ];
 
         $taxRateIndexPage->open();
@@ -64,6 +60,24 @@ class AssertTaxRateForm extends AbstractConstraint
     }
 
     /**
+     * Preparing data for verification
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareData(array $data)
+    {
+        if ($data['zip_is_range'] === 'Yes') {
+            unset($data['tax_postcode']);
+        } else {
+            unset($data['zip_from'], $data['zip_to']);
+        }
+        $data['rate'] = number_format($data['rate'], 4);
+
+        return $data;
+    }
+
+    /**
      * Verifying that form is filled correctly
      *
      * @param array $formData
@@ -75,6 +89,9 @@ class AssertTaxRateForm extends AbstractConstraint
         $errorMessages = [];
 
         foreach ($fixtureData as $key => $value) {
+            if ($key === 'id') {
+                continue;
+            }
             if ($value !== $formData[$key]) {
                 $errorMessages[] = "Data in " . $key . " field not equal."
                     . "\nExpected: " . $value
