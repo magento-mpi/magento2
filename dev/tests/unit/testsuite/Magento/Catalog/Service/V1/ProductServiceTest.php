@@ -85,7 +85,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->metadataServiceMock = $this->getMockBuilder(
             '\Magento\Catalog\Service\V1\ProductMetadataServiceInterface'
-            )->disableOriginalConstructor()
+        )->disableOriginalConstructor()
             ->getMock();
 
         $this->converterMock = $this->getMockBuilder('\Magento\Catalog\Service\V1\Data\Converter')
@@ -118,8 +118,10 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $this->_productMock->expects($this->at(0))->method('load')->with($productId);
         $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(false));
 
-        $this->setExpectedException('Magento\Framework\Exception\NoSuchEntityException',
-            "No such entity with id = $productId");
+        $this->setExpectedException(
+            'Magento\Framework\Exception\NoSuchEntityException',
+            "No such entity with id = $productId"
+        );
         $productService = $this->_createService();
         $productService->delete($productId);
     }
@@ -129,7 +131,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
-        $productService = $this->_objectManager->getObject('Magento\Catalog\Service\V1\ProductService',
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
             [
                 'productFactory' => $this->_productFactoryMock
             ]
@@ -197,7 +200,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue(array($productDataBuilder->create())));
 
-        $productService = $this->_objectManager->getObject('Magento\Catalog\Service\V1\ProductService',
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
             [
                 'productFactory' => $this->_productFactoryMock,
                 'productCollection' => $this->productCollection,
@@ -234,7 +238,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(true));
         $this->converterMock->expects($this->once())->method('createProductDataFromModel')->with($this->_productMock);
 
-        $productService = $this->_objectManager->getObject('Magento\Catalog\Service\V1\ProductService',
+        $productService = $this->_objectManager->getObject(
+            'Magento\Catalog\Service\V1\ProductService',
             [
                 'productFactory' => $this->_productFactoryMock,
                 'converter' => $this->converterMock,
@@ -249,8 +254,10 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $this->_productMock->expects($this->at(0))->method('load')->with($productId);
         $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(false));
 
-        $this->setExpectedException('Magento\Framework\Exception\NoSuchEntityException',
-            "No such entity with id = $productId");
+        $this->setExpectedException(
+            'Magento\Framework\Exception\NoSuchEntityException',
+            "No such entity with id = $productId"
+        );
         $productService = $this->_createService();
         $productService->get($productId);
     }
@@ -289,15 +296,15 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
-                             ->disableOriginalConstructor()
-                             ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
-                        ->disableOriginalConstructor()
-                        ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $productMapper->expects($this->once())->method('toModel')->with($product)
-                      ->will($this->returnValue($productModel));
+            ->will($this->returnValue($productModel));
 
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
 
@@ -345,18 +352,17 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
-                 ->disableOriginalConstructor()
-                 ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
-                        ->disableOriginalConstructor()
-                        ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $productFactory->expects($this->once())->method('create')
             ->will($this->returnValue($productModel));
 
-
         $productMapper->expects($this->once())->method('toModel')->with($product, $productModel)
-                      ->will($this->returnValue($productModel));
+            ->will($this->returnValue($productModel));
 
         $initializationHelper->expects($this->once())->method('initialize')->with($productModel);
         $productTypeManager->expects($this->once())->method('processProduct')->with($productModel);

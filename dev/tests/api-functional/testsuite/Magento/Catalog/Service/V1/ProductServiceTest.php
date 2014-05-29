@@ -29,7 +29,7 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function productCreationProvider()
     {
-        $productBuilder = function($data) {
+        $productBuilder = function ($data) {
             return array_replace_recursive(
                 [
                     Product::SKU => uniqid('sku-', true),
@@ -75,7 +75,7 @@ class ProductServiceTest extends WebapiAbstract
         $productData = $this->_createProduct($this->getSimpleProductData());
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH  . '/' . $productData[Product::ID] ,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::ID],
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -95,7 +95,7 @@ class ProductServiceTest extends WebapiAbstract
         $invalidId = -1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH  . '/' . $invalidId,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -130,17 +130,17 @@ class ProductServiceTest extends WebapiAbstract
 
     /**
      * @dataProvider searchDataProvider
-     * @depends testCreate
+     * @depends      testCreate
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder*/
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
-        foreach($filterGroups as $filterGroup) {
+        foreach ($filterGroups as $filterGroup) {
             $group = array();
-            foreach($filterGroup as $filter) {
+            foreach ($filterGroup as $filter) {
                 list($filterKey, $filterValue) = $filter;
                 $group[] = (new FilterBuilder())
                     ->setField($filterKey)
@@ -169,7 +169,7 @@ class ProductServiceTest extends WebapiAbstract
         $this->assertArrayHasKey('items', $searchResults);
         $this->assertEquals(count($expected), count($searchResults['items']));
         $this->assertEquals(count($expected), $searchResults['total_count']);
-        foreach($expected as $key => $productSku) {
+        foreach ($expected as $key => $productSku) {
             $this->assertEquals($productSku, $searchResults['items'][$key][Product::SKU]);
         }
     }
@@ -240,7 +240,6 @@ class ProductServiceTest extends WebapiAbstract
                 [0 => $product1[Product::SKU], 1 => $product2[Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_ASC]
             ),
-
             array(
                 [
                     [
@@ -350,7 +349,7 @@ class ProductServiceTest extends WebapiAbstract
         $productData = $this->_createProduct($this->getSimpleProductData());
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH  . '/' . $productData[Product::ID] ,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::ID],
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -372,7 +371,7 @@ class ProductServiceTest extends WebapiAbstract
         $invalidId = -1;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH  . '/' . $invalidId,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [

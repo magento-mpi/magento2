@@ -53,6 +53,10 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $method
+     * @param $value
+     * @param $getMethod
+     *
      * @dataProvider setValueDataProvider
      */
     public function testSetValue($method, $value, $getMethod)
@@ -61,20 +65,41 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($value, $productData->$getMethod());
     }
 
+    /**
+     * @return array
+     */
     public function setValueDataProvider()
     {
-        return array(
+        return [
             ['setId', 100, 'getId'],
             ['setSku', 'product_sku', 'getSku'],
+            ['setName', 'buhanka hleba', 'getName'],
             ['setStoreId', 0, 'getStoreId'],
             ['setPrice', 100.00, 'getPrice'],
             ['setVisibility', 1, 'getVisibility'],
             ['setTypeId', 2, 'getTypeId'],
-            ['setCreatedAt', '2014-05-23', 'getCreatedAt'],
-            ['setUpdatedAt', '2014-05-25', 'getUpdatedAt'],
             ['setStatus', 2, 'getStatus'],
             ['setWeight', 72.5, 'getWeight']
-        );
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function readonlyFieldProvider()
+    {
+        return [
+            ['setCreatedAt', '2014-05-23', 'getCreatedAt'],
+            ['setUpdatedAt', '2014-05-25', 'getUpdatedAt'],
+        ];
+    }
+    /**
+     * @dataProvider readonlyFieldProvider
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testReadonlyFields($method)
+    {
+        $this->_productBuilder->$method('');
     }
 
     public function testGetCustomAttributes()
