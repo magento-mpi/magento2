@@ -43,6 +43,12 @@ class CatalogCategoryView extends FrontendPage
             'locator' => '.pages .items',
             'strategy' => 'css selector',
         ],
+        'productPagination' => [
+            'name' => 'productPagination',
+            'class' => 'Magento\Catalog\Test\Block\Category\ProductPagination',
+            'locator' => '.pages .items',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -75,5 +81,13 @@ class CatalogCategoryView extends FrontendPage
     public function getToolbar()
     {
         return $this->getBlockInstance('toolbar');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Category\ProductPagination
+     */
+    public function getProductPagination()
+    {
+        return $this->getBlockInstance('productPagination');
     }
 }

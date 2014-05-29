@@ -29,4 +29,12 @@
             <taxRule class="Magento\Tax\Test\Fixture\TaxRule" />
         </require>
     </assertTaxRuleForm>
+    <assertTaxRuleIsApplied module="Magento_Tax">
+        <severeness>high</severeness>
+        <require />
+    </assertTaxRuleIsApplied>
+    <assertTaxRuleIsNotApplied module="Magento_Tax">
+        <severeness>high</severeness>
+        <require />
+    </assertTaxRuleIsNotApplied>
 </constraint>

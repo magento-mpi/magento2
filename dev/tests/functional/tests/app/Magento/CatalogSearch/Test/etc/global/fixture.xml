@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <catalogSearchQuery module="Magento_CatalogSearch">
+        <type>flat</type>
+        <entity_type>catalogsearch_query</entity_type>
+        <collection>Magento\CatalogSearch\Model\Resource\Query\Collection</collection>
+    </catalogSearchQuery>
+</fixture>
