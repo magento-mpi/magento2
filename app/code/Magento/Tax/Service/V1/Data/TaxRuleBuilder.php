@@ -118,7 +118,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     {
         if (array_key_exists(TaxRule::TAX_RATES, $data)) {
             $taxRateArray = [];
-            foreach( $data[TaxRule::TAX_RATES] as $taxRateData) {
+            foreach ($data[TaxRule::TAX_RATES] as $taxRateData) {
                 $taxRateArray[] = $this->taxRateBuilder->populateWithArray($taxRateData)->create();
             }
             $data[TaxRule::TAX_RATES] = $taxRateArray;

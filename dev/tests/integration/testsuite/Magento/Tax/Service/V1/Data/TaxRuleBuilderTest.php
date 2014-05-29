@@ -268,7 +268,7 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
         }
         if (array_key_exists(TaxRule::TAX_RATES, $dataArray)) {
             $taxRates = [];
-            foreach($dataArray[TaxRule::TAX_RATES] as $taxRateData) {
+            foreach ($dataArray[TaxRule::TAX_RATES] as $taxRateData) {
                 $taxRates[] = $this->taxRateBuilder->populateWithArray($taxRateData)->create();
             }
             $this->builder->setTaxRates($taxRates);
