@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Constraint;
+namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -15,9 +15,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertUpSellsProductsSection
+ * Class AssertRelatedProductsSection
  */
-class AssertUpSellsProductsSection extends AbstractConstraint
+class AssertRelatedProductsSection extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,7 +27,7 @@ class AssertUpSellsProductsSection extends AbstractConstraint
     protected $severeness = 'middle';
 
     /**
-     * Assert that product is displayed in up-sell section
+     * Assert that product is displayed in related products section
      *
      * @param CatalogProductSimple $product1
      * @param CatalogProductSimple $product2
@@ -51,18 +51,18 @@ class AssertUpSellsProductsSection extends AbstractConstraint
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product1->getName());
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogProductView->getUpsellBlock()->isUpsellProductVisible($product2->getName()),
-            'Product \'' . $product2->getName() . '\' is absent in up-sells products.'
+            $catalogProductView->getRelatedProductBlock()->isRelatedProductVisible($product2->getName()),
+            'Product \'' . $product2->getName() . '\' is absent in related products.'
         );
     }
 
     /**
-     * Text success product is displayed in up-sell section
+     * Text success product is displayed in related products section
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product is displayed in up-sell section.';
+        return 'Product is displayed in related products section.';
     }
 }

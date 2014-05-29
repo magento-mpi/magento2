@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Block\Adminhtml\Edit;
+namespace Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit;
 
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
@@ -20,7 +20,7 @@ class Form extends FormTabs
      * @param FixtureInterface $fixture
      * @param Element|null $element
      * @param array|null $replace
-     * @return Form
+     * @return $this
      */
     public function fill(FixtureInterface $fixture, Element $element = null, array $replace = null)
     {
@@ -28,17 +28,7 @@ class Form extends FormTabs
         if ($replace) {
             $tabs = $this->prepareData($tabs, $replace);
         }
-        foreach ($tabs as $tabName => $tabFields) {
-            $tabElement = $this->getTabElement($tabName);
-            $this->openTab($tabName);
-            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
-            $this->updateUnassignedFields($tabElement);
-        }
-        if (!empty($this->unassignedFields)) {
-            $this->fillMissedFields($tabs);
-        }
-
-        return $this;
+        return $this->fillTabs($tabs, $element);
     }
 
     /**

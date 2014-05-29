@@ -32,7 +32,7 @@ class TargetRuleIndex extends BackendPage
         ],
         'targetRuleGrid' => [
             'name' => 'targetRuleGrid',
-            'class' => 'Magento\TargetRule\Test\Block\Adminhtml\TargetRuleGrid',
+            'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Grid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -55,7 +55,7 @@ class TargetRuleIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\TargetRule\Test\Block\Adminhtml\TargetRuleGrid
+     * @return \Magento\TargetRule\Test\Block\Adminhtml\Grid
      */
     public function getTargetRuleGrid()
     {

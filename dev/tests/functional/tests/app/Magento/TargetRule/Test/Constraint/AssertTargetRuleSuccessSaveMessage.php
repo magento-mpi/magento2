@@ -23,7 +23,7 @@ class AssertTargetRuleSuccessSaveMessage extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'middle';
+    protected $severeness = 'high';
 
     /**
      * Assert that success message is displayed after target rule save

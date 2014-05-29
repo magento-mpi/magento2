@@ -6,19 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Constraint;
+namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
- * Class AssertCrossSellsProductsSection
+ * Class AssertUpSellsProductsSection
  */
-class AssertCrossSellsProductsSection extends AbstractConstraint
+class AssertUpSellsProductsSection extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -28,14 +27,13 @@ class AssertCrossSellsProductsSection extends AbstractConstraint
     protected $severeness = 'middle';
 
     /**
-     * Assert that product is displayed in cross-sell section
+     * Assert that product is displayed in up-sell section
      *
      * @param CatalogProductSimple $product1
      * @param CatalogProductSimple $product2
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
-     * @param CheckoutCart $checkoutCart
      * @return void
      */
     public function processAssert(
@@ -43,32 +41,26 @@ class AssertCrossSellsProductsSection extends AbstractConstraint
         CatalogProductSimple $product2,
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
-        CatalogProductView $catalogProductView,
-        CheckoutCart $checkoutCart
+        CatalogProductView $catalogProductView
     ) {
-        $categoryIds = $product1->getCategoryIds();
-        $category = reset($categoryIds);
-
-        $checkoutCart->open();
-        $checkoutCart->getCartBlock()->clearShoppingCart();
+        $categoryName = $product1->getCategoryIds()[0]['name'];
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category['name']);
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product1->getName());
-        $catalogProductView->getViewBlock()->addToCart($product1);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $checkoutCart->getCrosssellBlock()->verifyProductCrosssell($product2),
-            'Product \'' . $product2->getName() . '\' is absent in cross-sell section.'
+            $catalogProductView->getUpsellBlock()->isUpsellProductVisible($product2->getName()),
+            'Product \'' . $product2->getName() . '\' is absent in up-sells products.'
         );
     }
 
     /**
-     * Text success product is displayed in cross-sell section
+     * Text success product is displayed in up-sell section
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product is displayed in cross-sell section.';
+        return 'Product is displayed in up-sell section.';
     }
 }

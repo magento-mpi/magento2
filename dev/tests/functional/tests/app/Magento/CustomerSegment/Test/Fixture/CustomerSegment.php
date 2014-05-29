@@ -31,10 +31,9 @@ class CustomerSegment extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test Customer Segment %isolation%',
         'description' => 'Test Customer Segment Description %isolation%',
-        'website_ids' =>
-            array (
-                0 => 'Main Website',
-            ),
+        'website_ids' => [
+            0 => 'Main Website',
+        ],
         'is_active' => 'Active',
         'apply_to' => 'Visitors and Registered Customers',
     ];

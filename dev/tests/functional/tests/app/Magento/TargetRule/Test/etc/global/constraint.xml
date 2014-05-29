@@ -9,7 +9,7 @@
 -->
 <constraint>
     <assertTargetRuleSuccessSaveMessage module="Magento_TargetRule">
-        <severeness>middle</severeness>
+        <severeness>high</severeness>
         <require>
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
         </require>
@@ -30,35 +30,4 @@
             <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
         </require>
     </assertTargetRuleForm>
-    <assertUpSellsProductsSection module="Magento_TargetRule">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertUpSellsProductsSection>
-    <assertRelatedProductsSection module="Magento_TargetRule">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertRelatedProductsSection>
-    <assertCrossSellsProductsSection module="Magento_TargetRule">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
-        </require>
-    </assertCrossSellsProductsSection>
 </constraint>

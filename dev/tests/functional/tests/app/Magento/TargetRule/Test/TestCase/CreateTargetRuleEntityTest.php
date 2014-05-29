@@ -82,12 +82,33 @@ class CreateTargetRuleEntityTest extends Injectable
         if ($customerSegment->hasData()) {
             $customerSegment->persist();
         }
+        $replace = $this->getReplaceData($product1, $product2, $customerSegment);
 
-        // Prepare data
-        $replace = [
+        // Steps
+        $this->targetRuleIndex->open();
+        $this->targetRuleIndex->getGridPageActions()->addNew();
+        $this->targetRuleNew->getTargetRuleForm()->fill($targetRule, null, $replace);
+        $this->targetRuleNew->getPageActions()->save();
+    }
+
+    /**
+     * Get data for replace in variations
+     *
+     * @param CatalogProductSimple $product1
+     * @param CatalogProductSimple $product2
+     * @param CustomerSegment $customerSegment
+     * @return array
+     */
+    protected function getReplaceData(
+        CatalogProductSimple $product1,
+        CatalogProductSimple $product2,
+        CustomerSegment $customerSegment = null
+    ) {
+        $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
+        return [
             'rule_information' => [
                 'customer_segment_ids' => [
-                    '%customer_segment%' => $customerSegment->hasData() ? $customerSegment->getName() : '',
+                    '%customer_segment%' => $customerSegmentName,
                 ],
             ],
             'products_to_match' => [
@@ -97,15 +118,9 @@ class CreateTargetRuleEntityTest extends Injectable
             ],
             'products_to_display' => [
                 'actions_serialized' => [
-                   '%category_2%' => $product2->getCategoryIds()[0]['id'],
+                    '%category_2%' => $product2->getCategoryIds()[0]['id'],
                 ],
             ],
         ];
-
-        // Steps
-        $this->targetRuleIndex->open();
-        $this->targetRuleIndex->getGridPageActions()->addNew();
-        $this->targetRuleNew->getTargetRuleForm()->fill($targetRule, null, $replace);
-        $this->targetRuleNew->getPageActions()->save();
     }
 }

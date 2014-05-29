@@ -26,7 +26,7 @@ class TargetRuleEdit extends BackendPage
         ],
         'targetRuleForm' => [
             'name' => 'targetRuleForm',
-            'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Edit\Form',
+            'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -41,7 +41,7 @@ class TargetRuleEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\TargetRule\Test\Block\Adminhtml\Edit\Form
+     * @return \Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\Form
      */
     public function getTargetRuleForm()
     {

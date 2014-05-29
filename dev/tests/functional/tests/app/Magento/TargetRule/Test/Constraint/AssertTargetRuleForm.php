@@ -103,21 +103,18 @@ class AssertTargetRuleForm extends AbstractConstraint
     protected function verify(array $dataFixture, array $dataForm)
     {
         $result = [];
+        $dateFields = ['from_date', 'to_date'];
 
-        if (isset($dataFixture['from_date'])) {
-            $dataFixture['from_date'] = strtotime($dataFixture['from_date']);
-        }
-        if (isset($dataFixture['to_date'])) {
-            $dataFixture['to_date'] = strtotime($dataFixture['to_date']);
-        }
-        if (isset($dataForm['from_date'])) {
-            $dataForm['from_date'] = strtotime($dataForm['from_date']);
-        }
-        if (isset($dataForm['to_date'])) {
-            $dataForm['to_date'] = strtotime($dataForm['to_date']);
+        foreach ($dateFields as $fieldName) {
+            if (isset($dataFixture[$fieldName])) {
+                $dataFixture[$fieldName] = strtotime($dataFixture[$fieldName]);
+            }
+            if (isset($dataForm[$fieldName])) {
+                $dataForm[$fieldName] = strtotime($dataForm[$fieldName]);
+            }
         }
         if (isset($dataFixture['customer_segment_ids']) && !is_array($dataFixture['customer_segment_ids'])) {
-            $dataFixture['customer_segment_ids'] = (array)$dataFixture['customer_segment_ids'];
+            $dataFixture['customer_segment_ids'] = [$dataFixture['customer_segment_ids']];
         }
 
         $dataFixture = array_diff_key($dataFixture, array_flip($this->skippedFields));

@@ -23,6 +23,27 @@ use Mtf\Handler\Curl as AbstractCurl;
 class Curl extends AbstractCurl implements CustomerSegmentInterface
 {
     /**
+     * Mapping "Is Active" values
+     *
+     * @var array
+     */
+    protected $mapIsActive = [
+        'Active' => 1,
+        'Inactive' => 0,
+    ];
+
+    /**
+     * Mapping "Apply To" values
+     *
+     * @var array
+     */
+    protected $mapApplyTo = [
+        'Visitors and Registered Customers' => 0,
+        'Registered Customers' => 1,
+        'Visitors' => 2,
+    ];
+
+    /**
      * Post request for creating customer segment in backend
      *
      * @param FixtureInterface|null $customerSegment
@@ -43,7 +64,8 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Customer entity entity creating  by curl handler was not successful! Response: $response");
+            throw new \Exception("CustomerSegment entity creating by curl handler was not successful!" .
+                " Response: $response");
         }
 
         return ['id' => $this->getCustomerSegmentId($customerSegment->getName())];
@@ -54,10 +76,14 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
      *
      * @param string $label
      * @return int
+     * @throws \Exception
      */
     protected function getIsActiveValue($label)
     {
-        return ('Active' == $label) ? 1 : 0;
+        if (!isset($this->mapIsActive[$label])) {
+            throw new \Exception("Unidentified value \"{$label}\" for field \"Is Active\"");
+        }
+        return $this->mapIsActive[$label];
     }
 
     /**
@@ -69,15 +95,10 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
      */
     protected function  getApplyToValue($label)
     {
-        switch ($label) {
-            case 'Visitors and Registered Customers':
-                return 0;
-            case 'Registered Customers':
-                return 1;
-            case 'Visitors':
-                return 2;
+        if (!isset($this->mapApplyTo[$label])) {
+            throw new \Exception("Unidentified value \"{$label}\" for field \"Apply To\"");
         }
-        throw new \Exception('Bad value of field "Apply To"');
+        return $this->mapApplyTo[$label];
     }
 
     /**

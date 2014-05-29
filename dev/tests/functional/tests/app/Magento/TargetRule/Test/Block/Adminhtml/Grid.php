@@ -8,9 +8,9 @@
 
 namespace Magento\TargetRule\Test\Block\Adminhtml;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
-class TargetRuleGrid extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Locator value for name column
