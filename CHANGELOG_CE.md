@@ -73,7 +73,6 @@
   * Fixed: Downloadable product that is set for "Links can be purchased separately" does not display as a grouped product (MAGETWO-21044)
   * Fixed: Error at generation variation twice (MAGETWO-24155)
   * Fixed: Category pager works incorrectly (MAGETWO-24235)
-  * Fixed: RMA does not allow multiple returns of different quantities of an order (MAGETWO-6686)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
   * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
