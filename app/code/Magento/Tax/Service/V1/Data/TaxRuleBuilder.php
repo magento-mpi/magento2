@@ -8,6 +8,7 @@
 namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 
 /**
  * Builder for the TaxRule Service Data Object
@@ -16,6 +17,24 @@ use Magento\Framework\Service\Data\AbstractObjectBuilder;
  */
 class TaxRuleBuilder extends AbstractObjectBuilder
 {
+    /**
+     * TaxRate builder
+     *
+     * @var TaxRateBuilder
+     */
+    protected $taxRateBuilder;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param TaxRateBuilder $taxRateBuilder
+     */
+    public function __construct(
+        TaxRateBuilder $taxRateBuilder
+    ) {
+        parent::__construct();
+        $this->taxRateBuilder = $taxRateBuilder;
+    }
     /**
      * Set id
      *
@@ -63,7 +82,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set tax rates
      *
-     * @param Magento\Tax\Service\V1\Data\TaxRate[]| null $taxRates
+     * @param \Magento\Tax\Service\V1\Data\TaxRate[]| null $taxRates
      * @return $this
      */
     public function setTaxRates($taxRates)
@@ -91,5 +110,20 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     public function setSortOrder($sortOrder)
     {
         return $this->_set(TaxRule::SORT_ORDER, $sortOrder);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _setDataValues(array $data)
+    {
+        if (array_key_exists(TaxRule::TAX_RATES, $data)) {
+            $taxRateArray = [];
+            foreach( $data[TaxRule::TAX_RATES] as $taxRateData) {
+                $taxRateArray[] = $this->taxRateBuilder->populateWithArray($taxRateData)->create();
+            }
+            $data[TaxRule::TAX_RATES] = $taxRateArray;
+        }
+        return parent::_setDataValues($data);
     }
 }
