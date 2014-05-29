@@ -11,12 +11,12 @@ namespace Magento\Tax\Service\V1\Data;
 use Magento\Framework\Service\Data\AbstractObject;
 
 /**
- * SearchResults Service Data Object used for the search service requests
+ * TaxRuleSearchResults Service Data Object used for the search service requests
  */
-class SearchResults extends AbstractObject
+class TaxRuleSearchResults extends AbstractObject
 {
     /**
-     * Get items
+     * Get tax rule items
      *
      * @return \Magento\Tax\Service\V1\Data\TaxRule[]
      */

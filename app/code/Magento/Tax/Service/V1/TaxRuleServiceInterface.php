@@ -68,7 +68,7 @@ interface TaxRuleServiceInterface
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
-     * @return \Magento\Tax\Service\V1\Data\SearchResults containing Data\TaxRule objects
+     * @return \Magento\Tax\Service\V1\Data\TaxRuleSearchResults containing Data\TaxRule objects
      */
     public function searchTaxRules(SearchCriteria $searchCriteria);
 }
