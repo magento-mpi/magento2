@@ -15,6 +15,11 @@ namespace Magento\AdminNotification\Block;
 class ToolbarEntry extends \Magento\Backend\Block\Template
 {
     /**
+     * Number of notifications showed on expandable window
+     */
+    const NOTIFICATIONS_NUMBER = 3;
+
+    /**
      * Collection of latest unread notifications
      *
      * @var \Magento\AdminNotification\Model\Resource\Inbox\Collection
@@ -52,7 +57,7 @@ class ToolbarEntry extends \Magento\Backend\Block\Template
      */
     public function getLatestUnreadNotifications()
     {
-        return $this->_notificationList;
+        return $this->_notificationList->setPageSize(self::NOTIFICATIONS_NUMBER);
     }
 
     /**
