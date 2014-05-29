@@ -6,7 +6,6 @@
 //  * @license     {license_link}
 //  */
 
-
 .form.send.friend {
    &:extend(.add-recipients all);
 }
@@ -23,6 +22,11 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .form.send.friend {
+        width: 60%;
         &:extend(.add-recipients-desktop all);
+        &:extend(.form-field-column-2 all);
+        .field.text {
+            &:extend(.form-field-revert-column-1 all);
+        }
     }
 }
