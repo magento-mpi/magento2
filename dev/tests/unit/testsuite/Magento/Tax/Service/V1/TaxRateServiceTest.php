@@ -281,20 +281,4 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new NoSuchEntityException()));
         $this->taxRateService->deleteTaxRate(1);
     }
-
-    /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function testDeleteTaxRateRemoveException()
-    {
-        $this->rateRegistryMock->expects($this->once())
-            ->method('retrieveTaxRate')
-            ->with(1)
-            ->will($this->returnValue($this->rateModelMock));
-        $this->rateRegistryMock->expects($this->once())
-            ->method('removeTaxRate')
-            ->with(1)
-            ->will($this->throwException(new NoSuchEntityException()));
-        $this->taxRateService->deleteTaxRate(1);
-    }
 }

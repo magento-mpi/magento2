@@ -8,6 +8,7 @@
 
 namespace Magento\Tax\Model\Calculation;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
@@ -94,5 +95,40 @@ class RateRegistryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->rateModelMock));
         $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
+    }
+
+    public function testRemoveTaxRate()
+    {
+        $this->rateModelMock->expects($this->any())
+            ->method('load')
+            ->with(self::TAX_RATE_ID)
+            ->will($this->returnValue($this->rateModelMock));
+
+        // The second time this is called, want it to return null indicating a new object
+        $this->rateModelMock->expects($this->any())
+            ->method('getId')
+            ->will($this->onConsecutiveCalls(self::TAX_RATE_ID, null));
+
+        $this->rateModelFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->rateModelMock));
+
+        $actual = $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
+        $this->assertEquals($this->rateModelMock, $actual);
+
+        // Remove the rate
+        $this->rateRegistry->removeTaxRate(self::TAX_RATE_ID);
+
+        // Verify that if the rate is retrieved again, an exception is thrown
+        try {
+            $this->rateRegistry->retrieveTaxRate(self::TAX_RATE_ID);
+            $this->fail('NoSuchEntityException was not thrown as expected');
+        } catch (NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRateId',
+                'fieldValue' => self::TAX_RATE_ID,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        }
     }
 }
