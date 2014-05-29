@@ -39,4 +39,4 @@ class AttributeGroup extends \Magento\Framework\Service\Data\AbstractObject
     {
         return $this->_get(self::KEY_NAME);
     }
-} 
+}

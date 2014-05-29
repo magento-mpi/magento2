@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Model\ProductTypes\ConfigInterface,
-    Magento\Catalog\Service\V1\Data\ProductTypeBuilder;
+use Magento\Catalog\Model\ProductTypes\ConfigInterface;
+use Magento\Catalog\Service\V1\Data\ProductTypeBuilder;
 
 class ProductTypeService implements ProductTypeServiceInterface
 {

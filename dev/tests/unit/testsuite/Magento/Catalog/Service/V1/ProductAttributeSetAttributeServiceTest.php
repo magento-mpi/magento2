@@ -275,7 +275,8 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $this->attributeSetMock->expects($this->once())->method('load')->with(1)->will($this->returnValue($objectMock));
         $attributeMock =
             $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', $methods, array(), '', false);
-        $this->attributeMock->expects($this->once())->method('load')->with(10)->will($this->returnValue($attributeMock));
+        $this->attributeMock->expects($this->once())->method('load')->with(10)
+            ->will($this->returnValue($attributeMock));
         $attributeMock->expects($this->any())->method('getId')->will($this->returnValue(false));
         $attributeMock->expects($this->never())->method('setAttributeSetId');
         $this->service->deleteAttribute(1, 10);
@@ -298,7 +299,8 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $this->attributeSetMock->expects($this->once())->method('load')->with(1)->will($this->returnValue($objectMock));
         $attributeMock =
             $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', $methods, array(), '', false);
-        $this->attributeMock->expects($this->once())->method('load')->with(10)->will($this->returnValue($attributeMock));
+        $this->attributeMock->expects($this->once())->method('load')->with(10)
+            ->will($this->returnValue($attributeMock));
         $attributeMock->expects($this->any())->method('getId')->will($this->returnValue(2));
         $attributeMock->expects($this->once())->method('setAttributeSetId')->with(1)->will($this->returnSelf());
         $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->will($this->returnSelf());

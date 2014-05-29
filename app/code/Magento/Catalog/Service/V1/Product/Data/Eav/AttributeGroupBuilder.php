@@ -33,4 +33,4 @@ class AttributeGroupBuilder extends \Magento\Framework\Service\Data\AbstractObje
         $this->_set(AttributeGroup::KEY_NAME, $name);
         return $this;
     }
-} 
+}

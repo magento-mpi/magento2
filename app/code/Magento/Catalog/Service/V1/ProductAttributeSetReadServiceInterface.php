@@ -32,4 +32,3 @@ interface ProductAttributeSetReadServiceInterface
      */
     public function getAttributeList($attributeSetId);
 }
-

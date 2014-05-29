@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Framework\Exception\InputException,
-    Magento\Framework\Exception\NoSuchEntityException,
-    Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
 /**
  * Class ProductAttributeSetWriteService
@@ -51,7 +51,7 @@ class ProductAttributeSetWriteService implements ProductAttributeSetWriteService
 
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $set */
         $set = $this->setFactory->create();
-        foreach($basicData as $key => $value) {
+        foreach ($basicData as $key => $value) {
             $set->setData($key, $value);
         }
         $set->validate();

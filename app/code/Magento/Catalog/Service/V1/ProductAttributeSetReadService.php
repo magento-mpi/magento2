@@ -77,7 +77,7 @@ class ProductAttributeSetReadService implements ProductAttributeSetReadServiceIn
             ->load();
 
         /** @var $attributeSet \Magento\Eav\Model\Resource\Entity\Attribute\Set */
-        foreach($attributeSetsCollection as $attributeSet) {
+        foreach ($attributeSetsCollection as $attributeSet) {
             $this->attributeSetBuilder->setId($attributeSet->getId());
             $this->attributeSetBuilder->setName($attributeSet->getAttributeSetName());
             $this->attributeSetBuilder->setSortOrder($attributeSet->getSortOrder());
