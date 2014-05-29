@@ -173,7 +173,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->_importConfig = $this->getMock(
             '\Magento\ImportExport\Model\Import\Config',
-            array('getProductTypes'),
+            array('getEntityTypes'),
             array(),
             '',
             false
@@ -181,7 +181,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_importConfig->expects(
             $this->atLeastOnce()
         )->method(
-            'getProductTypes'
+            'getEntityTypes'
+        )->with(
+            'catalog_product'
         )->will(
             $this->returnValue(array())
         );
