@@ -6,12 +6,12 @@ class Converter {
     static function nametoVendorPackage($name)
     {
         if ($name != null && sizeof($name) > 0 && substr_count($name, "/") <= 1) {
-            if(strpos($name, "_") != false) {
+            if(strpos($name, "/") != false){
+                return $name;
+            }elseif(strpos($name, "_") != false) {
                 return preg_replace("/_/", "/", $name, 1);
             } elseif(strpos($name, "\\") != false){
                 return preg_replace("/\\\/", "/", $name, 1);
-            } elseif(strpos($name, "/") != false){
-                return $name;
             }
         }
         throw new \Exception("Not a valid name: $name", "1");

@@ -7,7 +7,7 @@
  */
 -->
 <theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Config/etc/theme.xsd">
-    <name>Magento_Backend</name>
+    <name>Magento_backend</name>
     <title>Magento 2 backend</title>
     <version>1.0.0.0</version>
 </theme>

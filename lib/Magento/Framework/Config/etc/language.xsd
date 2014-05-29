@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="language" type="languageDeclaration" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueModuleName">
+            <xs:annotation>
+                <xs:documentation>
+                    Language Pack Locale must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="language"/>
+            <xs:field xpath="@locale"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="languageDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Language Pack declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element minOccurs="0" maxOccurs="1" name="depends" type="languagePackDependency">
+                <xs:unique name="uniqueDependencyName">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Dependency name must be unique.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:selector xpath=".//*" />
+                    <xs:field xpath="@name" />
+                </xs:unique>
+            </xs:element>
+        </xs:all>
+        <xs:attribute name="name" type="languagePackName" use="required" />
+        <xs:attribute name="version" type="languagePackVersion" use="required" />
+    </xs:complexType>
+
+    <xs:complexType name="languagePackDependency">
+        <xs:annotation>
+            <xs:documentation>
+                Lanaguage Pack dependency root element.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="framework" type="magentoFrameworkElement"  />
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="language">
+                    <xs:complexType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Language dependency that represents another language pack.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:attribute name="name" type="languagePackName" use="required" />
+                        <xs:attribute name="type" type="languagePackDependencyType" use="optional" />
+                        <xs:attribute name="sort_order" type="xs:integer" use="optional" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="languagePackDependencyType">
+        <xs:annotation>
+            <xs:documentation>
+                Language Pack dependency type can only be inherit or replace
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(inherit|replace)?" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="magentoFrameworkElement">
+        <xs:annotation>
+            <xs:documentation>
+                Language Pack dependency that represents Magento Framework
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="version" type="xs:string" use="required" />
+    </xs:complexType>
+
+    <xs:simpleType name="languagePackName">
+        <xs:annotation>
+            <xs:documentation>
+                Language Pack name attribute can contain only [A-Za-z0-9_].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z0-9_/]+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="languagePackVersion">
+        <xs:annotation>
+            <xs:documentation>
+                Language Pack version attribute can contain only [0-9.].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9.]+" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

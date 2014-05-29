@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../../lib/Magento/Framework/Config/etc/language.xsd">
+    <language version="0.1.0" name="Magento/fr_FR">
+        <depends>
+            <framework version="2.1.0" />
+            <language name="Magento/de_DE" sort_order="10" />
+        </depends>
+    </language>
+</config>

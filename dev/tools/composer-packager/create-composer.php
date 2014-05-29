@@ -29,11 +29,14 @@ try {
     $logger->debug("You selected %s. ", $generationDir);
     $logger->debug("Your root directory: %s ", $rootDir);
 
+
     $moduleExtractor= new \Magento\Composer\Extractor\ModuleExtractor($rootDir, $logger);
     $adminThemeExtractor = new \Magento\Composer\Extractor\AdminThemeExtractor($rootDir, $logger);
     $frontEndThemeExtractor = new \Magento\Composer\Extractor\FrontendThemeExtractor($rootDir, $logger);
     $libraryExtractor = new \Magento\Composer\Extractor\LibraryExtractor($rootDir, $logger);
     $frameworkExtractor = new \Magento\Composer\Extractor\FrameworkExtractor($rootDir, $logger);
+    $languagePackExtractor = new \Magento\Composer\Extractor\LanguagePackExtractor($rootDir, $logger);
+
 
     $components = $moduleExtractor->extract(null, $moduleCount);
     $logger->debug("Read %3d modules.", $moduleCount);
@@ -45,6 +48,8 @@ try {
     $logger->debug("Read %3d libraries.", $libraryCount);
     $components = $frameworkExtractor->extract($components, $frameworkCount);
     $logger->debug("Read %3d frameworks.", $frameworkCount);
+    $components = $languagePackExtractor->extract($components, $languagePackCount);
+    $logger->debug("Read %3d language packs.", $languagePackCount);
 
     if($opt->getOption('c')){
         $cleaner = new \Magento\Composer\Helper\ComposerCleaner($components, $logger);

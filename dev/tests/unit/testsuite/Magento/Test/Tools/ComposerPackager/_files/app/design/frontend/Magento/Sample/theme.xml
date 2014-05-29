@@ -7,7 +7,8 @@
  */
 -->
 <theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../../../lib/Magento/Framework/Config/etc/theme.xsd">
-    <title>Magento 2 sample</title>
+    <name>Magento_Sample</name>
+    <title>Magento 2 Sample</title>
     <version>1.2.3.4</version>
     <parent>Magento/OtherTheme</parent>
 </theme>
