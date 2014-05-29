@@ -96,4 +96,4 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($resultA, $provider->getCollection($this->productMock, 'typeA'));
         $this->assertEquals($resultB, $provider->getCollection($this->productMock, 'typeB'));
     }
-} 
+}

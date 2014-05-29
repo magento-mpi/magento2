@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity;
 
-class Test extends \PHPUnit_Framework_TestCase
+class ConverterPoolTests extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool
@@ -37,5 +37,4 @@ class Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('Default Converter', $this->model->getConverter('absent'));
     }
-
 }

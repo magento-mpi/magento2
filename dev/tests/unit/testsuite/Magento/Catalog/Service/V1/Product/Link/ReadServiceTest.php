@@ -212,4 +212,4 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->linkBuilderMock->expects($this->once())->method('create')->will($this->returnValue('Expected'));
         $this->assertequals(array('Expected'), $this->service->getLinkAttributes('productType'));
     }
-} 
+}
