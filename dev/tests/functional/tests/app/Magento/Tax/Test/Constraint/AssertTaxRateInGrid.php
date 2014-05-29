@@ -27,13 +27,13 @@ class AssertTaxRateInGrid extends AbstractConstraint
     /**
      * Assert tax rule availability in Tax Rate grid
      *
-     * @param TaxRateIndex $taxRateIndex
+     * @param TaxRateIndex $taxRateIndexPage
      * @param TaxRate $taxRate
      * @param TaxRate $initialTaxRate
      * @return void
      */
     public function processAssert(
-        TaxRateIndex $taxRateIndex,
+        TaxRateIndex $taxRateIndexPage,
         TaxRate $taxRate,
         TaxRate $initialTaxRate = null
     ) {
@@ -48,9 +48,9 @@ class AssertTaxRateInGrid extends AbstractConstraint
             ? $data['tax_postcode']
             : $data['zip_from'] . '-' . $data['zip_to'];
 
-        $taxRateIndex->open();
+        $taxRateIndexPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $taxRateIndex->getTaxRateGrid()->isRowVisible($filter),
+            $taxRateIndexPage->getTaxRateGrid()->isRowVisible($filter),
             'Tax Rate \'' . $filter['code'] . '\' is absent in Tax Rate grid.'
         );
     }

@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Test\Block\Adminhtml\Rate\Edit;
 
-use \Magento\Backend\Test\Block\FormPageActions as FormPageActionsInterface;
+use Magento\Backend\Test\Block\FormPageActions as FormPageActionsInterface;
 
 /**
  * Class FormPageActions
