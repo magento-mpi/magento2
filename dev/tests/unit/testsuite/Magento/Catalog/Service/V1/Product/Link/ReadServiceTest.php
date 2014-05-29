@@ -163,32 +163,23 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())->method('load')
             ->with('product_sku')
             ->will($this->returnValue($productMock));
-        $this->linkResolverMock
-            ->expects($this->once())
-            ->method('getTypeIdByCode')
-            ->with('productType')
-            ->will($this->returnValue('type_id'));
         $methods = array('getTypeId', 'getAttributeSetId', 'getSku', 'getPosition', '__wakeup');
-        $itemMock = $this->getMock('Magento\Catalog\Model\Product', $methods, array(), '', false);
-        $this->collectionProviderMock
-            ->expects($this->once())
-            ->method('getCollection')
-            ->with($productMock, 'type_id')
-            ->will($this->returnValue(array($itemMock)));
-        $itemMock->expects($this->once())->method('getTypeId')->will($this->returnValue('typeId'));
-        $itemMock->expects($this->once())->method('getAttributeSetId')->will($this->returnValue(10));
-        $itemMock->expects($this->once())->method('getSku')->will($this->returnValue('sku'));
-        $itemMock->expects($this->once())->method('getPosition')->will($this->returnValue(0));
-        $data = [
+        $itemMock = [
             ProductLinkEntity::TYPE => 'typeId',
             ProductLinkEntity::ATTRIBUTE_SET_ID => 10,
             ProductLinkEntity::SKU => 'sku',
             ProductLinkEntity::POSITION => 0
         ];
+        $this->collectionProviderMock
+            ->expects($this->once())
+            ->method('getCollection')
+            ->with($productMock, 'productType')
+            ->will($this->returnValue(array($itemMock)));
+
         $this->productBuilderMock
             ->expects($this->once())
             ->method('populateWithArray')
-            ->with($data)
+            ->with($itemMock)
             ->will($this->returnSelf());
         $this->productBuilderMock->expects($this->once())->method('create')->will($this->returnValue('Expected'));
         $this->assertequals(array('Expected'), $this->service->getLinkedProducts('product_sku', 'productType'));
