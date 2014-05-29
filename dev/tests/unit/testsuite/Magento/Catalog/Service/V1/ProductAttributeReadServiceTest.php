@@ -5,12 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Data\Eav;
+namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Catalog\Service\V1\ProductAttributeReadService;
-use Magento\Catalog\Service\V1\ProductMetadataService;
-use Magento\Catalog\Service\V1\Data\ProductAttributeType;
 use Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder;
 
 class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase

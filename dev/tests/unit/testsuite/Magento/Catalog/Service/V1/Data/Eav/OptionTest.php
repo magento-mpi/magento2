@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1\Data\Eav;
+namespace Magento\Catalog\Service\V1\Data\Eav;
 
 use Magento\Customer\Service\V1\Data\Eav\Option;
 use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;

@@ -121,7 +121,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Magento\Framework\Exception\NoSuchEntityException',
             "No such entity with id = $productId");
         $productService = $this->_createService();
-        $this->assertTrue($productService->delete($productId));
+        $productService->delete($productId);
     }
 
     /**
@@ -141,7 +141,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     {
         $metadata = array();
         $attributeCodes = ['price', 'id', 'sku'];
-        foreach($attributeCodes as $code) {
+        foreach ($attributeCodes as $code) {
             $attributeMetadataMock = $this->getMockBuilder('\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata')
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -225,5 +225,33 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         foreach ($valueMap as $method => $value) {
             $mock->expects($this->any())->method($method)->will($this->returnValue($value));
         }
+    }
+
+    public function testGet()
+    {
+        $productId = 100;
+        $this->_productMock->expects($this->at(0))->method('load')->with($productId);
+        $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(true));
+        $this->converterMock->expects($this->once())->method('createProductDataFromModel')->with($this->_productMock);
+
+        $productService = $this->_objectManager->getObject('Magento\Catalog\Service\V1\ProductService',
+            [
+                'productFactory' => $this->_productFactoryMock,
+                'converter' => $this->converterMock,
+            ]
+        );
+        $productService->get($productId);
+    }
+
+    public function testGetNoSuchEntityException()
+    {
+        $productId = 100;
+        $this->_productMock->expects($this->at(0))->method('load')->with($productId);
+        $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(false));
+
+        $this->setExpectedException('Magento\Framework\Exception\NoSuchEntityException',
+            "No such entity with id = $productId");
+        $productService = $this->_createService();
+        $productService->get($productId);
     }
 }

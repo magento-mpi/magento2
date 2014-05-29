@@ -39,8 +39,7 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
         ProductMetadataServiceInterface $metadataService,
         InputtypeFactory $inputTypeFactory,
         Data\ProductAttributeTypeBuilder $attributeTypeBuilder
-    )
-    {
+    ) {
         $this->metadataService = $metadataService;
         $this->inputTypeFactory = $inputTypeFactory;
         $this->attributeTypeBuilder = $attributeTypeBuilder;

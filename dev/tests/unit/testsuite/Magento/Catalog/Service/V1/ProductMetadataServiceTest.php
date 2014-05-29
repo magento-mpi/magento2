@@ -5,10 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Data\Eav;
+namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Catalog\Service\V1\ProductMetadataService;
 
 class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {

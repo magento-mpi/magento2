@@ -23,7 +23,7 @@ class Converter
     protected $productBuilder;
 
     /**
-     * @param ProductBuilder $customerBuilder
+     * @param ProductBuilder $productBuilder
      */
     public function __construct(ProductBuilder $productBuilder)
     {
