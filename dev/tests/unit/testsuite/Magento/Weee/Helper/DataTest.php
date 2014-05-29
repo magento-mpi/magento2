@@ -73,7 +73,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      * @param string $baseDiscountCalculationPrice
      * @param string $callPriceCalculation
      *
-     * @dataProvider priceData
+     * @dataProvider addItemDiscountPricesDataProvider
      */
     public function testAddItemDiscountPrices(
         $getDiscountPrice, $basePrice, $price, $baseDiscountCalculationPrice, $callPriceCalculation
@@ -96,7 +96,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function priceData(){
+    public function addItemDiscountPricesDataProvider(){
         return array(
             array(
                 'discount_price' => null,
