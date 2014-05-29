@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\DB\Helper;
+namespace Magento\Framework\DB\Tree;
 
 class NodeTest extends \PHPUnit_Framework_TestCase
 {
