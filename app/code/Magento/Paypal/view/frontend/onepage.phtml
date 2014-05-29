@@ -8,8 +8,6 @@
 ?>
 <script type="text/javascript">
     (function($) {
-        $('#checkoutSteps').mage('accordion', {
-            'activeSelector': '#opc-<?php echo $this->getActiveStep() ?>'
-        }).mage('opcheckoutPaypalIframe', {});
+    	$('#checkoutSteps').mage('opcheckoutPaypalIframe');
     })(jQuery);
 </script>

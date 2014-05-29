@@ -28,7 +28,7 @@
 <div class="price-box msrp">
     <?php $_price = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_product->getMsrp()) ?>
     <?php if($_product->getMsrp()): ?>
-        <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(),true,true) ?>
+        <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(),true,false) ?>
         <span class="old-price" ><?php echo $_msrpPrice ?></span>
     <?php endif; ?>
     <?php if ($_catalogHelper->isShowPriceOnGesture($_product)): ?>

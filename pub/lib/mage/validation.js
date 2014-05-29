@@ -725,7 +725,8 @@
             function(v) {
                 var test = new Date(v);
                 return $.mage.isEmptyNoTrim(v) || !isNaN(test);
-            }
+            },'Please enter a valid date.'
+
         ],
         "validate-date-range": [
             function(v, elm) {

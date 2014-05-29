@@ -1,9 +1,3 @@
-* Framework improvements:
-  * Covered Magento lib form elements with unit tests:
-     * 'lib/Magento/Framework/Event/*'
-     * 'lib/Magento/Framework/Exception/*'
-* Integration tests:
-  * Fixed Integration tests on Windows OS (MAGETWO-21821)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -13,6 +7,13 @@
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
 * Fixed bugs:
+  * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
+  * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
+  * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
+  * Fixed: Wrong message about backordered items in cart on backend (MAGETWO-1275)
+  * Fixed: Validate Each Address Separately in Multi-address Checkout affects ability to proceed to multi-address checkout(MAGETWO-3113)
+  * Fixed: The Minimum Order Amount does not apply to the order(MAGETWO-5814)
+  * Fixed: Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
   * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
   * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
   * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
@@ -74,16 +75,31 @@
   * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
   * Fixed: File permissions change after system backup (MAGETWO-20995)
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+  * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
+  * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
+  * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
 * Functional tests:
   * Tax Rule Creation
-  * Admin User Roe Creation
+  * Admin User Role Creation
   * Simple Product Creation
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+  * Virtual Product Creation
+  * Catalog Price Rule Creation
+  * Category Url Rewrite Creation
+  * Admin User Role Deletion
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
+* JavaScript improvements:
+  * Added standard validation to front-end address fields
+  * Implemented wishlist widget
+  * Implemented tabs widget
+  * Implemented collapsible widget
+  * Implemented accordion widget
+  * Implemented tooltip widget
+  * Standardized widgets on one page checkout
 
 2.0.0.0-dev78
 =============
