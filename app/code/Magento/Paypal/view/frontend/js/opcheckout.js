@@ -7,7 +7,7 @@
 /*jshint browser:true jquery:true*/
 (function ($, window) {
     "use strict";
-    $.widget('mage.opcheckoutPaypalIframe', $.mage.opcheckout, {
+    $.widget('mage.opcheckoutPaypalIframe', $.mage.opcOrderReview, {
         options: {
             review: {
                 submitContainer: '#checkout-review-submit'

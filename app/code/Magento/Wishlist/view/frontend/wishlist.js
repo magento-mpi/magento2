@@ -7,19 +7,20 @@
 
 /*jshint browser:true jquery:true sub:true*/
 /*global alert*/
-(function($, window) {
+/*global Handlebars*/
+
+(function($, Handlebars, window) {
     "use strict";
     $.widget('mage.wishlist', {
         options: {
             dataAttribute: 'item-id',
             nameFormat: 'qty[{0}]',
-            btnRemoveSelector: '.btn-remove',
-            qtySelector: '.qty',
-            addToCartSelector: '.btn-cart',
-            addAllToCartSelector: '.btn-add',
+            btnRemoveSelector: '[data-role=remove]',
+            qtySelector: '[data-role=qty]',
+            addToCartSelector: '[data-role=tocart]',
+            addAllToCartSelector: '[data-role=all-tocart]',
             commentInputType: 'textarea',
-            infoList: false,
-            confirmRemoveMessage: 'Are you sure you want to remove this product from your wishlist?'
+            infoList: false
         },
 
         /**
@@ -36,13 +37,19 @@
                         $.proxy(_this._addItemsToCart($(context).parents('.cart-cell').find(_this.options.addToCartSelector)), _this);
                     })
                     .on('click', this.options.btnRemoveSelector, $.proxy(function(event) {
-                        if (this._confirmRemoveWishlistItem()) {
-                            $.mage.dataPost().postData($(event.currentTarget).data('post-remove'));
-                        }
+                        event.preventDefault();
+                        $.mage.dataPost().postData($(event.currentTarget).data('post-remove'));
                     }, this))
                     .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
                     .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
             }
+
+			// Setup validation for the form
+			this.element.mage('validation', {
+				errorPlacement: function(error, element) { 
+					error.insertAfter(element.next()); 
+				}
+			});
         },
 
         /**
@@ -78,14 +85,6 @@
                 return;
             }
 
-        },
-
-        /**
-         * Confirmation window for removing wish list item.
-         * @private
-         */
-        _confirmRemoveWishlistItem: function() {
-            return window.confirm(this.options.confirmRemoveMessage);
         },
 
         /**
@@ -186,10 +185,13 @@
                         item: json['itemId'],
                         entity: json['entity'],
                         url: json['url']
-                    };
-                $(_this.options.formTmplSelector).tmpl(tmplJson).appendTo('body');
+                    },
+                    source = $(_this.options.formTmplSelector).html(),
+                    template = Handlebars.compile(source),
+                    html = template(tmplJson);
+                    $(html).appendTo('body');
                 $(_this.options.formTmplId).submit();
             });
         }
     });
-})(jQuery, window);
+})(jQuery, Handlebars, window);

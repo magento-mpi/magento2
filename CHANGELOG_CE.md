@@ -92,6 +92,14 @@
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
+* JavaScript improvements:
+  * Added standard validation to front-end address fields
+  * Implemented wishlist widget
+  * Implemented tabs widget
+  * Implemented collapsible widget
+  * Implemented accordion widget
+  * Implemented tooltip widget
+  * Standardized widgets on one page checkout
 
 2.0.0.0-dev78
 =============

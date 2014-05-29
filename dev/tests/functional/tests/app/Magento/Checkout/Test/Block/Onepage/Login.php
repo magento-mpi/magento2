@@ -69,7 +69,7 @@ class Login extends Form
     {
         $this->_rootElement->find($this->guestCheckout, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('.loading-mask');
     }
 
     /**
@@ -79,7 +79,7 @@ class Login extends Form
     {
         $this->_rootElement->find($this->registerCustomer, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('.loading-mask');
     }
 
     /**
@@ -92,6 +92,6 @@ class Login extends Form
         $customer = $fixture->getCustomer();
         $this->fill($customer);
         $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('.loading-mask');
     }
 }

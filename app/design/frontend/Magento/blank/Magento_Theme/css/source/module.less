@@ -41,9 +41,7 @@ body {
         position: relative;
         padding-right: 90px;
     }
-    .switcher,
-    .links,
-    .panel {
+    .switcher {
         display: none;
     }
 }
@@ -80,7 +78,6 @@ body {
         @_icon-font-size: 28px
     );
     .icon-text-hide();
-    display: block;
     position: absolute;
     top: 12px;
     left: 15px;
@@ -239,6 +236,13 @@ body {
         &.panel {
             > .header.links {
                 float: right;
+                position: relative;
+                left: 0;
+                background: none;
+                height: auto;
+                width: auto;
+                -webkit-box-shadow: none;
+                box-shadow: none;
                 .list-inline();
                 > li {
                     margin: 0 0 0 15px;
@@ -277,6 +281,7 @@ body {
         float: right;
         margin: 0;
         .transition(margin .3s ease-out 0);
+        left: 0 !important;
     }
 
     .footer {
@@ -290,6 +295,9 @@ body {
                 vertical-align: top;
             }
         }
+    }
+    .action.toggle.nav {
+        display: none;  
     }
 }
 
