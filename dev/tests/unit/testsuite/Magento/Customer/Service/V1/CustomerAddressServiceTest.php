@@ -113,6 +113,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $_validator;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManagerHelper;
+
     public function setUp()
     {
         $this->_customerFactoryMock = $this->getMockBuilder(
@@ -211,8 +216,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Model\Metadata\Validator'
         )->disableOriginalConstructor()->getMock();
 
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $regionBuilder = $objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
+        $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $regionBuilder = $this->objectManagerHelper->getObject('Magento\Customer\Service\V1\Data\RegionBuilder');
 
         $metadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
@@ -237,12 +242,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array())
         );
 
-        $this->_addressBuilder = $objectManagerHelper->getObject(
+        $this->_addressBuilder = $this->objectManagerHelper->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
             array('regionBuilder' => $regionBuilder, 'metadataService' => $metadataService)
         );
 
-        $customerBuilder = $objectManagerHelper->getObject(
+        $customerBuilder = $this->objectManagerHelper->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $metadataService]
         );
@@ -467,12 +472,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
+
         $this->_addressBuilder->setFirstname(
             'John'
         )->setLastname(
             self::LASTNAME
         )->setRegion(
-            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+            $this->objectManagerHelper->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                ->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
         )->setStreet(
             array(self::STREET)
         )->setTelephone(
@@ -522,7 +529,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         )->setLastname(
             self::LASTNAME
         )->setRegion(
-            (new RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+                $this->objectManagerHelper->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                    ->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
         )->setStreet(
             array(self::STREET)
         )->setTelephone(
@@ -592,7 +600,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         )->setLastname(
             self::LASTNAME
         )->setRegion(
-            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+                $this->objectManagerHelper->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                    ->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
         )->setStreet(
             array(self::STREET)
         )->setTelephone(
@@ -635,7 +644,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         )->setLastname(
             self::LASTNAME
         )->setRegion(
-            (new RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+            $this->objectManagerHelper->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                ->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
         )->setStreet(
             array(self::STREET)
         )->setTelephone(
@@ -716,7 +726,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         )->setLastname(
             self::LASTNAME
         )->setRegion(
-            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+            $this->objectManagerHelper->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                ->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
         )->setStreet(
             array(self::STREET)
         )->setTelephone(
@@ -756,7 +767,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         )->setLastname(
             self::LASTNAME
         )->setRegion(
-            (new Data\RegionBuilder())->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
+            $this->objectManagerHelper->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                ->setRegionId(self::REGION_ID)->setRegion(self::REGION)->create()
         )->setStreet(
             array(self::STREET)
         )->setTelephone(
