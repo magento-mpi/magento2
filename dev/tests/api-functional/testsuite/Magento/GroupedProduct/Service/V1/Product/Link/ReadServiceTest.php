@@ -69,16 +69,30 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
                 'attribute_set_id' => 4,
                 'sku' => 'simple-1',
                 'position' => 1,
-                'custom_attributes' => [['attribute_code' => 'qty', 'value' => 1.000]]
             ],
             [
                 'type' => 'virtual',
                 'attribute_set_id' => 4,
                 'sku' => 'virtual-product',
                 'position' => 2,
-                'custom_attributes' => [['attribute_code' => 'qty', 'value' => 1.000]]
             ]
         ];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                array_walk(
+                    $expected,
+                    function(&$item) {
+                    $item['customAttributes'] = [['attribute_code' => 'qty', 'value' => 1.000]];
+                }
+            );
+        } else {
+            array_walk(
+                $expected,
+                function(&$item) {
+                    $item['custom_attributes'] = [['attribute_code' => 'qty', 'value' => 1]];
+                }
+            );
+        }
         $this->assertEquals($expected, $actual);
     }
 

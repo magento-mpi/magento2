@@ -87,7 +87,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public function testAssignWithInvalidLinkedProducts()
     {
-        $expectedException = "Product with SKU \"virtual-product\" does not exist";
         try {
             $this->_webApiCall(
                 $this->serviceInfo,
@@ -100,13 +99,13 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             $this->fail('Expected exception');
         } catch (\SoapFault $exception) {
             $this->assertContains(
-                $expectedException,
+                "Product with SKU \"virtual-product\" does not exist",
                 $exception->getMessage(),
                 'SoapFault does not contain expected message'
             );
         } catch (\Exception $exception) {
             $this->assertContains(
-                $expectedException,
+                "Product with SKU \\\"virtual-product\\\" does not exist",
                 $exception->getMessage(),
                 'Exception does not contain expected message'
             );
