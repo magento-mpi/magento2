@@ -139,7 +139,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
 
-        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base');
+        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $priceInfo->expects($this->once())
             ->method('getPrice')
             ->with($priceCode)
