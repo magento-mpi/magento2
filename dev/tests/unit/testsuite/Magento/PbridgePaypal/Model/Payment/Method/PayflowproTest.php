@@ -96,11 +96,11 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
         return array(array(true), array(false));
     }
 
-    public function testAuthorize()
+    public function testAuthorizeRespMsg()
     {
         $payment = new \Magento\Framework\Object();
         $payment->setPreparedMessage('first');
-        $amount = '12.5';
+        $amount = 12.5;
         $this->_pbridgeMethod->expects($this->once())->method('authorize')->with($payment, $amount)->will(
             $this->returnValue(['respmsg' => 'response message', 'postfpsmsg' => 'something went wrong'])
         );
