@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogCategoryIndex;
 
 /**
  * Test Creation for Create CatalogEventEntity from Category page
@@ -70,14 +70,14 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
         $this->catalogEventNew = $catalogEventNew;
 
         /**@var CatalogProductSimple $catalogProductSimple */
-        $catalogProductSimple = $fixtureFactory->createByCode(
+        $product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
-        $catalogProductSimple->persist();
+        $product->persist();
 
         return [
-            'catalogProductSimple' => $catalogProductSimple
+            'product' => $product
         ];
     }
 
@@ -85,21 +85,21 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
      * Create Catalog Event Entity from Category page
      *
      * @param CatalogEventEntity $catalogEvent
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogProductSimple $product
      * @param CatalogCategoryEntity $catalogCategoryEntity
      *
      * @return void
      */
     public function testCreateCatalogEvent(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple,
+        CatalogProductSimple $product,
         CatalogCategoryEntity $catalogCategoryEntity
     ) {
         //Steps
         $this->catalogCategoryIndex->open();
         $this->catalogCategoryIndex->getTreeCategories()
             ->selectCategory(
-                $catalogCategoryEntity->getPath() . '/' . $catalogProductSimple->getCategoryIds()[0]['name']
+                $catalogCategoryEntity->getPath() . '/' . $product->getCategoryIds()[0]['name']
             );
         $this->catalogCategoryIndex->getPageActionsEvent()->addCatalogEvent();
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);

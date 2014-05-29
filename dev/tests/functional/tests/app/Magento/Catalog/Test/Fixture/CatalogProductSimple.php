@@ -326,7 +326,6 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => 'Block after Info Column',
-        'default_value' => 'Block after Info Column',
         'input' => 'select',
     ];
 
@@ -436,8 +435,9 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'status',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '1',
-        'input' => 'select',
+        'default_value' => 'Product online',
+        'input' => 'checkbox',
+        'group' => 'product-details',
     ];
 
     protected $tax_class_id = [
