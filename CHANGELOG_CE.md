@@ -7,6 +7,9 @@
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
 * Fixed bugs:
+  * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
+  * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
+  * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
   * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
   * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
   * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
