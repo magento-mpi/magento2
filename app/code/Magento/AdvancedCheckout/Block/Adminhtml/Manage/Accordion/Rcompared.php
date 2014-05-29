@@ -109,9 +109,10 @@ class Rcompared extends AbstractAccordion
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = $this->_compareListFactory->create()
-                ->getItemCollection()
-                ->useProductItem(true)
+            /** @var \Magento\Catalog\Model\Product\Compare\ListCompare $compareList */
+            $compareList = $this->_compareListFactory->create();
+            $collection = $compareList->getItemCollection();
+            $collection->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->setCustomerId($this->_getCustomer()->getId());
