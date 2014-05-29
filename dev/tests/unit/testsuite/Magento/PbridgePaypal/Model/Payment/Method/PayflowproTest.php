@@ -14,9 +14,14 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_pbridgeMethod;
+
     protected function setUp()
     {
-        $pbridgeMethod = $this->getMock(
+        $this->_pbridgeMethod = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge',
             array('capture', 'authorize', 'refund'),
             array(),
@@ -30,7 +35,9 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $paypal->expects($this->any())->method('getPbridgeMethodInstance')->will($this->returnValue($pbridgeMethod));
+        $paypal->expects($this->any())->method('getPbridgeMethodInstance')->will(
+            $this->returnValue($this->_pbridgeMethod)
+        );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\PbridgePaypal\Model\Payment\Method\Payflowpro',
@@ -87,5 +94,17 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
     public function refundDataProvider()
     {
         return array(array(true), array(false));
+    }
+
+    public function testAuthorize()
+    {
+        $payment = new \Magento\Framework\Object();
+        $payment->setPreparedMessage('first');
+        $amount = '12.5';
+        $this->_pbridgeMethod->expects($this->once())->method('authorize')->with($payment, $amount)->will(
+            $this->returnValue(['respmsg' => 'response message', 'postfpsmsg' => 'something went wrong'])
+        );
+        $this->_model->authorize($payment, $amount);
+        $this->assertEquals('first response message: something went wrong.', $payment->getPreparedMessage());
     }
 }

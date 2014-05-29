@@ -9,8 +9,16 @@ namespace Magento\PbridgePaypal\Model\Payment\Method\Paypal;
 
 class ProTest extends \PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Payment review actions
+     */
     const PAYMENT_REVIEW_ACCEPT = 'accept';
     const PAYMENT_REVIEW_DENY = 'deny';
+    /**#@-*/
+
+    /**
+     * Test transaction id
+     */
     const TRANSACTION_ID = 'AD3903FR972F';
 
     /**
