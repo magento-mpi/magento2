@@ -56,13 +56,13 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->priceInfoMock = $this->getMock('\Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
 
         $this->priceInfoMock->expects($this->atLeastOnce())
             ->method('getPrice')
             ->will($this->returnValueMap([
                 [\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE, $this->basePriceMock],
-                [BundleOptionPrice::PRICE_CODE, $this->quantity, $this->bundleOptionMock]
+                [BundleOptionPrice::PRICE_CODE, $this->bundleOptionMock]
             ]));
 
         $this->saleableInterfaceMock->expects($this->once())

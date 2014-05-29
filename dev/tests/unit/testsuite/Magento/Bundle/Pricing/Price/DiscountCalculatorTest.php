@@ -66,15 +66,7 @@ class DiscountCalculatorTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->priceMock = $this->getMock(
-            'Magento\Bundle\Pricing\Price\DiscountProviderInterface',
-            ['getDiscountPercent'],
-            [],
-            '',
-            false,
-            true,
-            false
-        );
+        $this->priceMock = $this->getMockForAbstractClass('Magento\Bundle\Pricing\Price\DiscountProviderInterface');
         $this->calculator = new \Magento\Bundle\Pricing\Price\DiscountCalculator();
     }
 

@@ -31,16 +31,19 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base');
+        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
 
         $this->saleable->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfo));
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\GroupPrice', [
-            'saleableItem' => $this->saleable
-        ]);
+        $this->model = $objectHelper->getObject(
+            'Magento\Bundle\Pricing\Price\GroupPrice',
+            [
+                'saleableItem' => $this->saleable
+            ]
+        );
     }
 
     /**

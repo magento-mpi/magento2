@@ -106,7 +106,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base');
+        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $amount = $this->getMock('Magento\Framework\Pricing\Amount\AmountInterface');
 
         $priceRenderBlock = $this->getMockBuilder('Magento\Framework\Pricing\Render')
