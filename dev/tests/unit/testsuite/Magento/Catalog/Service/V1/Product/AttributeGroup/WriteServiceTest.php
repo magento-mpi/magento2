@@ -114,7 +114,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->group->expects($this->once())->method('getId')->will($this->returnValue(null));
         $groupDataBuilder = new AttributeGroupBuilder();
         $groupDataBuilder->setName('testName');
-        $this->service->update(1, $groupDataBuilder->create());
+        $this->service->delete(1, $groupDataBuilder->create());
     }
 
     public function testDeleteRemovesEntity()
