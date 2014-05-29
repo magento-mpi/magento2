@@ -103,6 +103,10 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->method('getPrice')
             ->with($object, $amount)
             ->will($this->returnValue($price));
+        $this->taxHelper->expects($this->any())
+            ->method('getPriceUnRounded')
+            ->with($object, $amount)
+            ->will($this->returnValue($price));
 
         $this->assertEquals($expectedResult, $this->adjustment->extractAdjustment($amount, $object));
     }
@@ -133,6 +137,10 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isPriceIncludesTax));
         $this->taxHelper->expects($this->any())
             ->method('getPrice')
+            ->with($object, $amount, !$isPriceIncludesTax)
+            ->will($this->returnValue($price));
+        $this->taxHelper->expects($this->any())
+            ->method('getPriceUnRounded')
             ->with($object, $amount, !$isPriceIncludesTax)
             ->will($this->returnValue($price));
 

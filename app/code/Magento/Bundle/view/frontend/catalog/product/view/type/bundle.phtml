@@ -11,11 +11,15 @@
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()): ?>
     <script type="text/javascript">
+        var TOTAL_ROUNDING = <?php echo \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle::TOTAL_ROUNDING ?>;
+        var ROW_ROUNDING = <?php echo \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle::ROW_ROUNDING ?>;
+        var UNIT_ROUNDING = <?php echo \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle::UNIT_ROUNDING ?>;
         //<![CDATA[
         (function ($) {
             $(document).ready(function() {
                 $('#product_addtocart_form').mage('bundleOption', {
                     "bundleConfig": <?php echo $this->getJsonConfig() ?>,
+                    "roundingMethod" : "<?php echo $this->getRoundingMethod() ?>",
                     "bundleOptionQtyPrefix": "#bundle-option-",
                     "bundleOptionQtySuffix": "-qty-input",
                     "priceSelectors": {
