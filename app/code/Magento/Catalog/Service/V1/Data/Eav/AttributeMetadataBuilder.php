@@ -216,13 +216,26 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      */
     public function setApplyTo($applyTo)
     {
+        return $this->_set(AttributeMetadata::APPLY_TO, $this->processApplyToValue($applyTo));
+    }
+
+    /**
+     * Process applyTo value
+     *
+     * Transform string to array
+     *
+     * @param  string|array $applyTo
+     * @return array
+     */
+    protected function processApplyToValue($applyTo)
+    {
         $value = array();
         if (is_array($applyTo)) {
             $value = $applyTo;
         } elseif (is_string($applyTo)) {
             $value = explode(',', $applyTo);
         }
-        return $this->_set(AttributeMetadata::APPLY_TO, $value);
+        return $value;
     }
 
     /**
@@ -413,15 +426,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
             $data[AttributeMetadata::VALIDATION_RULES] = $validationRules;
         }
 
-        $applyTo = array();
         if (array_key_exists(AttributeMetadata::APPLY_TO, $data)) {
-            if (is_array($data[AttributeMetadata::APPLY_TO])) {
-                $applyTo = $data[AttributeMetadata::APPLY_TO];
-            } elseif (is_string($data[AttributeMetadata::APPLY_TO])) {
-                $applyTo = explode(',', $data[AttributeMetadata::APPLY_TO]);
-            }
+            $data[AttributeMetadata::APPLY_TO] = $this->processApplyToValue($data[AttributeMetadata::APPLY_TO]);
         }
-        $data[AttributeMetadata::APPLY_TO] = $applyTo;
 
         return parent::_setDataValues($data);
     }
