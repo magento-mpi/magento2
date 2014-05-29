@@ -13,7 +13,7 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CatalogAttributeEntity
  */
-class CatalogAttributeEntity extends InjectableFixture
+class CatalogProductAttribute extends InjectableFixture
 {
     /**
      * @var string
@@ -26,10 +26,9 @@ class CatalogAttributeEntity extends InjectableFixture
     protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogAttributeEntity\CatalogAttributeEntityInterface';
 
     protected $defaultDataSet = [
-        'backend_type' => null,
-        'is_global' => null,
-        'is_visible' => null,
-        'search_weight' => null,
+        'frontend_label' => 'attribute_label%isolation%',
+        'frontend_input' => 'Text Field',
+        'is_required' => 'No'
     ];
 
     protected $attribute_id = [
@@ -354,7 +353,7 @@ class CatalogAttributeEntity extends InjectableFixture
         'default_value' => '',
         'input' => '',
         'source' => '\Magento\Catalog\Test\Fixture\CatalogProductAttributeEntity\Options',
-        'group' => 'properties'
+        'group' => 'manage-options'
     ];
 
     public function getAttributeId()

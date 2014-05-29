@@ -8,13 +8,22 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
 
-use Mtf\ObjectManager;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 
-class AdvancedPropertiesTab extends Tab {
+/**
+ * Class AdvancedPropertiesTab
+ * Tab "Advanced Attribute Properties"
+ */
+class Advanced extends Tab
+{
+    /**
+     * "Advanced Attribute Properties" tab-button
+     *
+     * @var string
+     */
+    protected $propertiesTab = '[data-target="#advanced_fieldset-content"][data-toggle="collapse"]';
 
-    protected $propertiesTab = '[data-toggle="collapse"]';
     /**
      * Fill 'Advanced Attribute Properties' tab
      *

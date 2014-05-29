@@ -196,12 +196,12 @@
             <input_prefix>product</input_prefix>
         </data_config>
     </catalogProductVirtual>
-    <catalogAttributeEntity module="Magento_Catalog">
+    <catalogProductAttribute module="Magento_Catalog">
         <type>composite</type>
         <entities>
             <eav_attribute>eav_attribute</eav_attribute>
             <catalog_eav_attribute>catalog_eav_attribute</catalog_eav_attribute>
         </entities>
         <collection>Magento\Catalog\Model\Resource\Attribute</collection>
-    </catalogAttributeEntity>
+    </catalogProductAttribute>
 </fixture>

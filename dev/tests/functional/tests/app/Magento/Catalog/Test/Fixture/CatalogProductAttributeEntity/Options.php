@@ -42,7 +42,7 @@ class Options implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string|null $key
      * @return mixed
      */
     public function getData($key = null)

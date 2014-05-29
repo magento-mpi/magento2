@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Catalog\Test\Fixture\CatalogAttributeEntity">
+<fixture class="Magento\Catalog\Test\Fixture\CatalogProductAttribute">
     <module>Magento_Catalog</module>
     <type>composite</type>
     <entities>

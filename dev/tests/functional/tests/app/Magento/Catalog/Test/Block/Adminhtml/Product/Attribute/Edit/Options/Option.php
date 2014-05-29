@@ -15,7 +15,7 @@ use Mtf\Block\Form;
  * Class OptionDropDown
  * Form "Option dropdown" on tab product "Custom options"
  */
-class OptionDropDown extends Form
+class Option extends Form
 {
     /**
      * Fill the form

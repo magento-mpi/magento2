@@ -136,7 +136,7 @@ class Form extends FormTabs
             $categoryName = $this->category->getName();
         }
         if (empty($categoryName) && !($fixture instanceof InjectableFixture)) {
-                $categoryName = $fixture->getCategoryName();
+            $categoryName = $fixture->getCategoryName();
         }
         if (empty($categoryName)) {
             return;
@@ -279,15 +279,5 @@ class Form extends FormTabs
         }
 
         return $this;
-    }
-
-    /**
-     * Click 'Add Attribute' Button on the Product page
-     *
-     * @return void
-     */
-    public function addAttribute()
-    {
-        $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
     }
 }

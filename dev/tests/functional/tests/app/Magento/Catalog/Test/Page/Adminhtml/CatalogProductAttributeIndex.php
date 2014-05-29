@@ -26,7 +26,7 @@ class CatalogProductAttributeIndex extends BackendPage
         ],
         'pageActionsBlock' => [
             'name' => 'blockPageActionsAttribute',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -41,7 +41,7 @@ class CatalogProductAttributeIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions
+     * @return \Magento\Backend\Test\Block\GridPageActions
      */
     public function getPageActionsBlock()
     {

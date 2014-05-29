@@ -143,13 +143,13 @@ class FieldsProvider implements FieldsProviderInterface
 
         $attributes = [];
         foreach ($fields as $code => $field) {
-            $attributes[$code] = array(
+            $attributes[$code] = [
                 'attribute_code' => $code,
                 'backend_type' => $field['DATA_TYPE'],
                 'is_required' => ($field['PRIMARY'] || $field['IDENTITY']),
                 'default_value' => $field['DEFAULT'],
                 'input' => ''
-            );
+            ];
         }
 
         return $attributes;

@@ -9,7 +9,7 @@
 -->
 <tabs>
     <properties>
-        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\PropertiesTab</class>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#product_attribute_tabs_main</selector>
         <strategy>css selector</strategy>
         <fields>
@@ -24,8 +24,25 @@
             </is_required>
         </fields>
     </properties>
+    <manage-options>
+        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Options</class>
+        <selector>#manage-options-panel</selector>
+        <strategy>css selector</strategy>
+        <fields>
+            <is_default>
+                <selector>[name="default[]"]</selector>
+                <input>checkbox</input>
+            </is_default>
+            <admin>
+                <selector>[name="option[value][option_0][0]"]</selector>
+            </admin>
+            <view>
+                <selector>[name="option[value][option_0][1]"]</selector>
+            </view>
+        </fields>
+    </manage-options>
     <advanced-properties>
-        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\AdvancedPropertiesTab</class>
+        <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Advanced</class>
         <selector>#product_attribute_tabs_main</selector>
         <strategy>css selector</strategy>
         <fields>
