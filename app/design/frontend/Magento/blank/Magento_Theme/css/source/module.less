@@ -35,42 +35,13 @@ body {
     margin-bottom: 20px;
 }
 
-.customer.welcome {
-    .dropdown(
-        @_toggle-selector : ~".action.switch",
-        @_options-selector : ~"ul",
-        @_dropdown-actions-padding: 0,
-        @_dropdown-list-item-padding: 8px,
-        @_dropdown-toggle-icon-content: @icon-down,
-        @_dropdown-toggle-active-icon-content: @icon-up,
-        @_icon-font-text-hide: true,
-        @_icon-font-size: 22px,
-        @_icon-font-line-height: 22px
-    );
-    .action.switch {
-        .button-reset();
-    }
-    li {
-        &:extend(.switcher li all);
-        min-width: 120px;
-        a {
-            &:extend(.page.header .panel.header .switcher all);
-        }
-    }
-    .header.links & ~ li {
-        display: none;
-    }
-}
-
 .header {
     &.content {
         padding-top: 10px;
         position: relative;
         padding-right: 90px;
     }
-    .switcher,
-    .links,
-    .panel {
+    .switcher {
         display: none;
     }
 }
@@ -107,7 +78,6 @@ body {
         @_icon-font-size: 28px
     );
     .icon-text-hide();
-    display: block;
     position: absolute;
     top: 12px;
     left: 15px;
@@ -203,10 +173,10 @@ body {
                 @_dropdown-toggle-active-icon-content: @icon-up,
                 @_icon-font-text-hide: true,
                 @_icon-font-size: 22px,
-                @_icon-font-line-height: 22px
+                @_icon-font-line-height: 22px,
+                @_dropdown-list-min-width: 160px
             );
             ul.dropdown {
-                min-width: 160px;
                 a {
                     display: block;
                     padding: 8px;
@@ -266,6 +236,13 @@ body {
         &.panel {
             > .header.links {
                 float: right;
+                position: relative;
+                left: 0;
+                background: none;
+                height: auto;
+                width: auto;
+                -webkit-box-shadow: none;
+                box-shadow: none;
                 .list-inline();
                 > li {
                     margin: 0 0 0 15px;
@@ -304,6 +281,7 @@ body {
         float: right;
         margin: 0;
         .transition(margin .3s ease-out 0);
+        left: 0 !important;
     }
 
     .footer {
@@ -317,6 +295,9 @@ body {
                 vertical-align: top;
             }
         }
+    }
+    .action.toggle.nav {
+        display: none;  
     }
 }
 

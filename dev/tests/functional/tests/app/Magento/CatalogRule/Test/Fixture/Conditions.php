@@ -37,7 +37,7 @@ class Conditions implements FixtureInterface
             list($fixture, $dataSet) = explode('::', $data['product']);
             $this->product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
             $this->product->persist();
-            $this->data = $this->product->getCategoryIds()[0];
+            $this->data = $this->product->getCategoryIds()[0]['id'];
         }
     }
 
@@ -48,7 +48,7 @@ class Conditions implements FixtureInterface
      */
     public function persist()
     {
-
+        //
     }
 
     /**

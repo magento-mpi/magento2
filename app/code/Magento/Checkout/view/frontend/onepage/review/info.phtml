@@ -21,12 +21,12 @@
                 <th colspan="<?php echo $colspan ?>" class="col subtotal"><?php echo __('Subtotal') ?></th>
             </tr>
             <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>
-                <tr>
-                    <th class="col price excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                    <th class="col price incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                    <th class="col subtotal excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
-                    <th class="col subtotal incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
-                </tr>
+            <tr>
+                <th class="col price excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
+                <th class="col price incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
+                <th class="col subtotal excl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(false) ?></th>
+                <th class="col subtotal incl tax"><?php echo $this->helper('Magento\Tax\Helper\Data')->getIncExcTaxLabel(true) ?></th>
+            </tr>
             <?php endif; ?>
         </thead>
         <tfoot>
@@ -45,8 +45,5 @@
     <div class="actions" id="review-buttons-container">
         <div class="primary"><?php echo $this->getChildHtml('button') ?></div>
         <div class="secondary"><?php echo __('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><span><?php echo __('Edit Your Cart') ?></span></a></div>
-        <span class="please-wait load indicator" id="review-please-wait" style="display: none;" data-text="<?php echo __('Submitting order information...') ?>">
-            <span><?php echo __('Submitting order information...') ?></span>
-        </span>
     </div>
 </div>

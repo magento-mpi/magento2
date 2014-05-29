@@ -45,7 +45,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $loader = '[data-role=loader]';
+    protected $loader = './ancestor::body//*[contains(@data-role,"loader")]';
 
     /**
      * Attribute Opened
@@ -100,7 +100,7 @@ class Config extends Tab
         $loaderSelector = $this->loader;
         $browser->waitUntil(
             function () use ($browser, $loaderSelector) {
-                $loaderElement = $browser->find($loaderSelector);
+                $loaderElement = $browser->find($loaderSelector, Locator::SELECTOR_XPATH);
                 return $loaderElement->isVisible() == false ? true : null;
             }
         );
@@ -110,10 +110,10 @@ class Config extends Tab
      * Fill variations fieldset
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (!isset($fields['configurable_attributes_data'])) {
             return $this;
@@ -174,8 +174,10 @@ class Config extends Tab
             $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
             $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
             $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
-            $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
-                Locator::SELECTOR_XPATH);
+            $attribute = $this->_rootElement->find(
+                "//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
+                Locator::SELECTOR_XPATH
+            );
             if ($attribute->isVisible()) {
                 $attribute->click();
             }

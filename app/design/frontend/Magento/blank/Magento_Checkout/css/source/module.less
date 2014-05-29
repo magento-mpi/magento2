@@ -41,22 +41,19 @@
                     right: 0;
                     top: 0;
                 }
-                &.active {
-                    .icon-font-symbol(
-                        @_icon-font-content: @icon-prev,
-                        @_icon-font-position: after
-                    );
-                }
                 strong {
                     font-weight: @font-weight-base;
                 }
             }
-            .content {
-                display: none;
-            }
             &.active {
                 .content {
                     display: block;
+                }
+                .title {
+                    .icon-font-symbol(
+                        @_icon-font-content: @icon-prev,
+                        @_icon-font-position: after
+                    );
                 }
             }
             .item.options {
@@ -182,7 +179,6 @@
                 padding-bottom: 20px;
             }
         }
-
         .product {
             &.photo {
                 display: block;

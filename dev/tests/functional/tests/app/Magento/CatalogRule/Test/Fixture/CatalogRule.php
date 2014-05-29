@@ -16,7 +16,6 @@ use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogRule
- *
  */
 class CatalogRule extends InjectableFixture
 {
@@ -30,36 +29,27 @@ class CatalogRule extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\CatalogRule\Test\Handler\CatalogRule\CatalogRuleInterface';
 
-    /**
-     * Constructor
-     *
-     * @constructor
-     * @param Config $configuration
-     * @param RepositoryFactory $repositoryFactory
-     * @param FixtureFactory $fixtureFactory
-     * @param HandlerFactory $handlerFactory
-     * @param array $data
-     * @param string $dataSet
-     * @param bool $persist
-     */
-    public function __construct(
-        Config $configuration,
-        RepositoryFactory $repositoryFactory,
-        FixtureFactory $fixtureFactory,
-        HandlerFactory $handlerFactory,
-        array $data = [],
-        $dataSet = '',
-        $persist = false
-    ) {
-        parent::__construct(
-            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
-        );
-    }
+    protected $defaultDataSet = [
+        'name' => 'CatalogPriceRule %isolation%',
+        'description' => 'Catalog Price Rule Description',
+        'is_active' => 'Active',
+        'website_ids' => 'Main Website',
+        'customer_group_ids' => 'NOT LOGGED IN',
+        'simple_action' => 'By Percentage of the Original Price',
+        'discount_amount' => '50'
+    ];
 
     protected $name = [
         'attribute_code' => 'name',
         'backend_type' => 'varchar',
         'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'rule_information',
+    ];
+
+    protected $description = [
+        'attribute_code' => 'description',
         'default_value' => '',
         'input' => 'text',
         'group' => 'rule_information',
@@ -76,19 +66,38 @@ class CatalogRule extends InjectableFixture
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
-        'backend_type' => 'int',
+        'backend_type' => 'smallint',
         'is_required' => '1',
         'default_value' => '',
         'input' => 'multiselect',
-        'group'=> 'rule_information'
+        'group' => 'rule_information',
     ];
 
     protected $customer_group_ids = [
         'attribute_code' => 'customer_group_ids',
-        'backend_type' => 'int',
+        'backend_type' => 'smallint',
         'is_required' => '1',
         'default_value' => '',
-        'group'=> 'rule_information'
+        'input' => 'multiselect',
+        'group' => 'rule_information',
+    ];
+
+    protected $from_date = [
+        'attribute_code' => 'from_date',
+        'backend_type' => 'date',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'rule_information',
+    ];
+
+    protected $to_date = [
+        'attribute_code' => 'to_date',
+        'backend_type' => 'date',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'rule_information',
     ];
 
     protected $simple_action = [
@@ -97,7 +106,7 @@ class CatalogRule extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
-        'group'=> 'actions'
+        'group' => 'actions',
     ];
 
     protected $discount_amount = [
@@ -106,7 +115,7 @@ class CatalogRule extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group'=> 'actions'
+        'group' => 'actions',
     ];
 
     protected $condition_type = [
@@ -114,7 +123,7 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
-        'input' => 'select'
+        'input' => 'select',
     ];
 
     protected $condition_value = [
@@ -122,12 +131,22 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
-        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions'
+        'source' => 'Magento\CatalogRule\Test\Fixture\Conditions',
+    ];
+
+    protected $id = [
+        'attribute_code' => 'id',
+        'backend_type' => 'virtual',
     ];
 
     public function getName()
     {
         return $this->getData('name');
+    }
+
+    public function getDescription()
+    {
+        return $this->getData('description');
     }
 
     public function getIsActive()
@@ -143,6 +162,16 @@ class CatalogRule extends InjectableFixture
     public function getCustomerGroupIds()
     {
         return $this->getData('customer_group_ids');
+    }
+
+    public function getFromDate()
+    {
+        return $this->getData('from_date');
+    }
+
+    public function getToDate()
+    {
+        return $this->getData('to_date');
     }
 
     public function getSimpleAction()
@@ -164,5 +193,9 @@ class CatalogRule extends InjectableFixture
     {
         return $this->getData('condition_value');
     }
- }
 
+    public function getId()
+    {
+        return $this->getData('id');
+    }
+}

@@ -9,14 +9,22 @@
 (function($) {
     $.widget("mage.loader", {
         loaderStarted: 0,
-        spinner: $(undefined),
+        spinnerTemplate: $(undefined),
         options: {
             icon: 'icon.gif',
             texts: {
                 loaderText: $.mage.__('Please wait...'),
                 imgAlt: $.mage.__('Loading...')
             },
-            template: null
+            template: '<script id="loader-template" type="text/x-handlebars-template">' +
+                      '<div class="loading-mask" data-role="loader">' +
+                      '<div class="loader">' +
+                      '<img alt="{{imgAlt}}" src="{{icon}}">' +
+                      '<p>{{loaderText}}</p>' +
+                      '</div>' +
+                      '</div>' +
+                      '</script>'
+
         },
 
         /**
@@ -90,19 +98,19 @@
          * @protected
          */
         _render: function() {
-            if (this.spinner.length === 0) {
-                this.spinner = $(this.options.template)/*.css(this._getCssObj())*/;
+            if (this.spinnerTemplate.length === 0) {
+                this.spinnerTemplate = $(this.options.template)/*.css(this._getCssObj())*/;
+                var source = this.spinnerTemplate.html();
+                var template = Handlebars.compile(source);
+                var content = {
+                    imgAlt: this.options.texts.imgAlt,
+                    icon: this.options.icon,
+                    loaderText: this.options.texts.loaderText
+                };
+                var html = $(template(content));
+                html.prependTo(this.element);
+                this.spinner = html;
             }
-
-            var source = this.spinner.html();
-            var template = Handlebars.compile(source);
-            var content = {
-                imgAlt: this.options.texts.imgAlt, 
-                icon: this.options.icon, 
-                loaderText: this.options.texts.loaderText
-            };
-            var html = template(content);
-            this.element.prepend(html);
         },
 
         /**

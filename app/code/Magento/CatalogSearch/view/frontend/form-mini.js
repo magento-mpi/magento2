@@ -83,6 +83,8 @@
          */
         _onSubmit: function(e) {
             if (this.element.val() === this.options.placeholder || this.element.val() === '') {
+                this.options.placeholder = jQuery.mage.__('Please specify at least one search term.');
+                this.element.val(this.options.placeholder);
                 e.preventDefault();
             }
             if (this.responseList.selected) {
@@ -100,11 +102,19 @@
         _onKeyDown: function(e) {
             var keyCode = e.keyCode || e.which;
             switch (keyCode) {
+                case $.ui.keyCode.HOME:
+                    this._getFirstVisibleElement().addClass(this.options.selectClass);
+                    this.responseList.selected = this._getFirstVisibleElement();
+                    break;
+                case $.ui.keyCode.END:
+                    this._getLastElement().addClass(this.options.selectClass);
+                    this.responseList.selected = this._getLastElement();
+                    break;
                 case $.ui.keyCode.ESCAPE:
                     this._resetResponseList(true);
                     this.autoComplete.hide();
                     break;
-                case $.ui.keyCode.TAB:
+                case $.ui.keyCode.ENTER:
                     this.searchForm.trigger('submit');
                     break;
                 case $.ui.keyCode.DOWN:

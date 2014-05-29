@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page; 
+namespace Magento\Customer\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CustomerAccountCreate
@@ -25,8 +25,8 @@ class CustomerAccountCreate extends FrontendPage
             'locator' => '#form-validate',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages',
             'strategy' => 'css selector',
@@ -44,8 +44,8 @@ class CustomerAccountCreate extends FrontendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 }

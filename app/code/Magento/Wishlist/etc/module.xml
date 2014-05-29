@@ -26,7 +26,9 @@
             <module name="Magento_Bundle" type="soft"/>
             <module name="Magento_Sales"/>
             <module name="Magento_GroupedProduct"/>
-            <module name="Magento_ConfigurableProduct"/>
+            <module name="Magento_ConfigurableProduct" type="soft"/>
+            <module name="Magento_Downloadable" type="soft"/>
+            <module name="Magento_GiftCard" type="soft"/>
         </depends>
     </module>
 </config>
