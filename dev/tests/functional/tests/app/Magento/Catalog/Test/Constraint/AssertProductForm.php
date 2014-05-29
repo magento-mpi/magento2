@@ -99,7 +99,6 @@ class AssertProductForm extends AbstractConstraint
             },
             $this->formattingOptions
         );
-        unset($compareData['url_key']);
 
         return $compareData;
     }

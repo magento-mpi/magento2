@@ -10,31 +10,30 @@ namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Dow
 use Mtf\Block\Form;
 
 /**
- * Class LinkRow
- *
- * Form item links
+ * Class SampleRow
+ * Form item samples
  */
-class LinkRow extends Form
+class SampleRow extends Form
 {
     /**
-     * Fill item link
+     * Fill item sample
      *
      * @param array $fields
      * @return void
      */
-    public function fillLinkRow(array $fields)
+    public function fillSampleRow(array $fields)
     {
         $mapping = $this->dataMapping($fields);
         $this->_fill($mapping);
     }
 
     /**
-     * Get data item link
+     * Get data item sample
      *
      * @param array $fields
      * @return array
      */
-    public function getDataLinkRow(array $fields)
+    public function getDataSampleRow(array $fields)
     {
         $mapping = $this->dataMapping($fields);
         return $this->_getData($mapping);

@@ -72,7 +72,7 @@ class Form extends FormTabs
      *
      * @var string
      */
-    protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
+    protected $advancedTabPanel = './/*[role="tablist"]//ul[!contains(@style,"overflow")]';
 
     /**
      * CSS locator button status of the product
@@ -257,11 +257,11 @@ class Form extends FormTabs
         $strategy = isset($this->tabs[$tabName]['strategy'])
             ? $this->tabs[$tabName]['strategy']
             : Locator::SELECTOR_CSS;
-        $advancedTabList = $this->advancedTabList;
         $tab = $this->_rootElement->find($selector, $strategy);
         $advancedSettings = $this->_rootElement->find($this->advancedSettings);
 
         // Wait until all tabs will load
+        $advancedTabList = $this->advancedTabList;
         $this->_rootElement->waitUntil(
             function () use ($rootElement, $advancedTabList) {
                 return $rootElement->find($advancedTabList)->isVisible();
@@ -276,12 +276,17 @@ class Form extends FormTabs
             $tabPanel = $this->advancedTabPanel;
             $this->_rootElement->waitUntil(
                 function () use ($rootElement, $tabPanel) {
-                    return $rootElement->find($tabPanel)->isVisible();
+                    return $rootElement->find($tabPanel, Locator::SELECTOR_XPATH)->isVisible();
                 }
             );
             // Wait until needed tab will appear
             $this->_rootElement->waitUntil(
-                function () use ($rootElement, $selector, $strategy) {
+                function () use ($rootElement, $selector, $strategy, $tabPanel) {
+                    $this->_rootElement->waitUntil(
+                        function () use ($rootElement, $tabPanel) {
+                            return $rootElement->find($tabPanel, Locator::SELECTOR_XPATH)->isVisible();
+                        }
+                    );
                     return $rootElement->find($selector, $strategy)->isVisible();
                 }
             );

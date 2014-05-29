@@ -140,7 +140,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         }
 
         $fields['quantity_and_stock_status'] = [
-            'qty' => $fields['qty'],
+            'qty' => $fields['stock_data']['qty'],
             'is_in_stock' => $fields['stock_data']['is_in_stock']
         ];
 
