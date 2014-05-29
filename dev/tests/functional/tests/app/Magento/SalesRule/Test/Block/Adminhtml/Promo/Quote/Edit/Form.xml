@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<tabs name="salesRule">
+<tabs>
     <rule_information>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#promo_catalog_edit_tabs_main_section</selector>

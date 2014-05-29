@@ -10,12 +10,10 @@ namespace Magento\SalesRule\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteNew;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
@@ -26,7 +24,6 @@ use Magento\Customer\Test\Fixture\AddressInjectable;
  * 1. 2 sub categories in Default Category are created.
  * 2. 2 simple products are created and assigned to different subcategories by one for each
  * 3. Default customer are created
- * 4. Clear shopping cart
  *
  * Steps:
  * 1. Login to backend as admin
@@ -54,25 +51,11 @@ class CreateSalesRuleEntityTest extends Injectable
     protected $promoQuoteEdit;
 
     /**
-     * Page CustomerAccountLogout
-     *
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
      * Page PromoQuoteIndex
      *
      * @var PromoQuoteIndex
      */
     protected $promoQuoteIndex;
-
-    /**
-     * Page CheckoutCart
-     *
-     * @var CheckoutCart
-     */
-    protected $checkoutCart;
 
     /**
      * Sales rule name
@@ -82,34 +65,21 @@ class CreateSalesRuleEntityTest extends Injectable
     protected $salesRuleName;
 
     /**
-     * isloggedIn value from data set
-     *
-     * @var int
-     */
-    protected $isLoggedIn;
-
-    /**
      * Inject data
      *
      * @param PromoQuoteNew $promoQuoteNew
      * @param PromoQuoteIndex $promoQuoteIndex
      * @param PromoQuoteEdit $promoQuoteEdit
-     * @param CustomerAccountLogout $customerAccountLogout
-     * @param CheckoutCart $checkoutCart
      * @return void
      */
     public function __inject(
         PromoQuoteNew $promoQuoteNew,
         PromoQuoteIndex $promoQuoteIndex,
-        PromoQuoteEdit $promoQuoteEdit,
-        CustomerAccountLogout $customerAccountLogout,
-        CheckoutCart $checkoutCart
+        PromoQuoteEdit $promoQuoteEdit
     ) {
         $this->promoQuoteNew = $promoQuoteNew;
         $this->promoQuoteIndex = $promoQuoteIndex;
         $this->promoQuoteEdit = $promoQuoteEdit;
-        $this->customerAccountLogout = $customerAccountLogout;
-        $this->checkoutCart = $checkoutCart;
     }
 
     /**
@@ -160,9 +130,7 @@ class CreateSalesRuleEntityTest extends Injectable
         $isLoggedIn
     ) {
         // Preconditions
-        $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
         $this->salesRuleName = $salesRule->getName();
-        $this->isLoggedIn = $isLoggedIn;
 
         // Steps
         $this->promoQuoteNew->open();
@@ -171,7 +139,7 @@ class CreateSalesRuleEntityTest extends Injectable
     }
 
     /**
-     * Delete current sales rule and logout customer from frontend account
+     * Delete current sales rule
      *
      * @return void
      */
@@ -184,8 +152,5 @@ class CreateSalesRuleEntityTest extends Injectable
         $this->promoQuoteIndex->open();
         $this->promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
         $this->promoQuoteEdit->getFormPageActions()->delete();
-        if ($this->isLoggedIn) {
-            $this->customerAccountLogout->open();
-        }
     }
 }

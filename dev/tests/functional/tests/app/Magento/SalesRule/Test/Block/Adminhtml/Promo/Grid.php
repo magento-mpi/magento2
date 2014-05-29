@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid;
+namespace Magento\SalesRule\Test\Block\Adminhtml\Promo;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class PromoQuoteGrid
  * Backend sales rule grid
  */
-class PromoQuoteGrid extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Filters array mapping

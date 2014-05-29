@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteIndex
- *
- * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteIndex extends BackendPage
 {
@@ -22,7 +20,7 @@ class PromoQuoteIndex extends BackendPage
     protected $_blocks = [
         'promoQuoteGrid' => [
             'name' => 'promoQuoteGrid',
-            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid\PromoQuoteGrid',
+            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid',
             'locator' => '#promo_quote_grid',
             'strategy' => 'css selector',
         ],
@@ -35,7 +33,7 @@ class PromoQuoteIndex extends BackendPage
     ];
 
     /**
-     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid\PromoQuoteGrid
+     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid
      */
     public function getPromoQuoteGrid()
     {

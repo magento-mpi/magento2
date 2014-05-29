@@ -10,7 +10,7 @@
 <page mca="sales_rule/promo_quote/index" >
     <block>
         <name>promoQuoteGrid</name>
-        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid\PromoQuoteGrid</class>
+        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid</class>
         <locator>#promo_quote_grid</locator>
         <strategy>css selector</strategy>
     </block>

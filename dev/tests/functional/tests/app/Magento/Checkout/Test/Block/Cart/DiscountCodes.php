@@ -56,8 +56,8 @@ class DiscountCodes extends Form
     {
         if (!$this->_rootElement->find($this->formWrapper)->isVisible()) {
             $this->_rootElement->find($this->openForm, Locator::SELECTOR_CSS)->click();
-            $this->_rootElement->find($this->couponCode, Locator::SELECTOR_CSS)->setValue($code);
-            $this->_rootElement->find($this->applyButton, Locator::SELECTOR_CSS)->click();
         }
+        $this->_rootElement->find($this->couponCode, Locator::SELECTOR_CSS)->setValue($code);
+        $this->_rootElement->find($this->applyButton, Locator::SELECTOR_CSS)->click();
     }
 }

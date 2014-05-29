@@ -32,9 +32,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      */
     protected $skippedFields = [
         'conditions_serialized',
-        'actions_serialized',
-        'customer_group_ids',
-        'website_ids'
+        'actions_serialized'
     ];
 
     /**
@@ -55,64 +53,46 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         ];
         $promoQuoteIndex->open();
         $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
-        $dataForm = $promoQuoteEdit->getSalesRuleForm()->getData($salesRule);
-        $dataFixture = $salesRule->getData();
-        $dataDiff = $this->verify($dataFixture, $dataForm);
+        $formData = $promoQuoteEdit->getSalesRuleForm()->getData($salesRule);
+        $fixtureData = $salesRule->getData();
+        $dataDiff = $this->verify($formData, $fixtureData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
             'Sales rule data on edit page(backend) not equals to passed from fixture.'
-                . "\nFailed values: " . implode(', ', $dataDiff)
+                . "\nFailed values:\n " . implode(";\n ", $dataDiff)
         );
     }
 
     /**
      * Verify data in form equals to passed from fixture
      *
-     * @param array $dataFixture
-     * @param array $dataForm
+     * @param array $fixtureData
+     * @param array $formData
      * @return array
      */
-    protected function verify(array $dataFixture, array $dataForm)
+    protected function verify(array $formData, array $fixtureData)
     {
-        $result = [];
+        $errorMessage = [];
 
-        $diff = $this->arrayDiffRecursive($dataFixture, $dataForm);
-        foreach ($diff as $name => $value) {
-            if (!in_array($name, $this->skippedFields)) {
-                $result[] = $name . ' : ' . $value;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Recursively compare two arrays by difference
-     *
-     * @param array $array1
-     * @param array $array2
-     * @return array
-     */
-    protected function arrayDiffRecursive($array1, $array2)
-    {
-        $diff = [];
-        foreach ($array1 as $array1Key => $array1Value) {
-            if (array_key_exists($array1Key, $array2)) {
-                if (is_array($array1Value)) {
-                    $recursiveDiff = $this->arrayDiffRecursive($array1Value, $array2[$array1Key]);
-                    if (count($recursiveDiff)) {
-                        $diff[$array1Key] = $recursiveDiff;
-                    }
-                } else {
-                    if ($array1Value != $array2[$array1Key]) {
-                        $diff[$array1Key] = $array1Value;
-                    }
+        foreach ($fixtureData as $key => $value) {
+            if (is_array($value)) {
+                $diff = array_diff($value, $formData[$key]);
+                $diff = array_merge($diff, array_diff($formData[$key], $value));
+                if (!empty($diff)) {
+                    $errorMessage[] = "Data in " . $key . " field not equal."
+                        . "\nExpected: " . implode(", ", $value)
+                        . "\nActual: " . implode(", ", $formData[$key]);
                 }
             } else {
-                $diff[$array1Key] = $array1Value;
+                if ($value !== $formData[$key] && !in_array($key, $this->skippedFields)) {
+                    $errorMessage[] = "Data in " . $key . " field not equal."
+                        . "\nExpected: " . $value
+                        . "\nActual: " . $formData[$key];
+                }
             }
         }
-        return $diff;
+
+        return $errorMessage;
     }
 
     /**

@@ -11,6 +11,7 @@ namespace Magento\Checkout\Test\Block\Cart;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class Shipping
@@ -101,10 +102,10 @@ class Shipping extends Form
     /**
      * Fill shipping and tax form
      *
-     * @param array $address
+     * @param AddressInjectable $address
      * @return void
      */
-    public function  fillEstimateShippingAndTax($address)
+    public function fillEstimateShippingAndTax(AddressInjectable $address)
     {
         $this->openEstimateShippingAndTax();
         $this->fill($address);
