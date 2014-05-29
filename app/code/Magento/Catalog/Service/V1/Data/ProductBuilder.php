@@ -78,7 +78,6 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
         return $this->_set(Product::NAME, $value);
     }
 
-
     /**
      * Set store id
      *
@@ -126,6 +125,8 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     /**
      * Set created time
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param string|null $value
      * @return $this
      */
@@ -139,15 +140,27 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     /**
      * Set updated time
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param string|null $value
      * @return $this
      */
     public function setUpdatedAt($value)
     {
-
         throw new \Magento\Framework\Exception\InputException(
             'Field "updated_at" is readonly', ['fieldName' => 'updated_at']
         );
+    }
+
+    /**
+     * Set status
+     *
+     * @param int|null $value
+     * @return $this
+     */
+    public function setAttributeSetId($value)
+    {
+        return $this->_set(Product::ATTRIBUTE_SET_ID, $value);
     }
 
     /**
