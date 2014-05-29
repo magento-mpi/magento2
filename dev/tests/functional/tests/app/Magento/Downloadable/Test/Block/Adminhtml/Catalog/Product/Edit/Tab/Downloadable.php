@@ -46,9 +46,7 @@ class Downloadable extends Tab
         $element = $element ? : $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\\' . $type,
-            [
-                'element' => $element->find($this->downloadableBlock, Locator::SELECTOR_XPATH)
-            ]
+            ['element' => $element->find($this->downloadableBlock, Locator::SELECTOR_XPATH)]
         );
     }
 

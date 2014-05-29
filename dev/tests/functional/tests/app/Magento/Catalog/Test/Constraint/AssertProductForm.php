@@ -8,18 +8,39 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\InjectableFixture;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**
  * Class AssertProductForm
- *
- * Assert that displayed product data on edit page equals passed from fixture
  */
 class AssertProductForm extends AbstractConstraint
 {
+    /**
+     * Formatting options for numeric values
+     *
+     * @var array
+     */
+    protected $formattingOptions = [
+        'price' => [
+            'decimals' => 2,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'qty' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'weight' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ]
+    ];
+
     /**
      * Constraint severeness
      *
@@ -30,53 +51,92 @@ class AssertProductForm extends AbstractConstraint
     /**
      * Assert form data equals fixture data
      *
-     * @param InjectableFixture $product
+     * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
-     * @param CatalogProductNew $productPage
+     * @param CatalogProductEdit $productPage
      * @return void
      */
     public function processAssert(
-        InjectableFixture $product,
+        FixtureInterface $product,
         CatalogProductIndex $productGrid,
-        CatalogProductNew $productPage
+        CatalogProductEdit $productPage
     ) {
-        $filter = ['sku' => $product->getData('sku')];
+        $filter = ['sku' => $product->getSku()];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
-        $fields = $this->convertArray($product->getData());
-        $fieldsForm = $productPage->getForm()->getData($product);
-        \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data');
+
+        $fixtureData = $productPage->getForm()->getData($product);
+        $formData = $this->prepareFixtureData($product);
+
+        $errors = $this->compareArray($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertTrue(
+            empty($errors),
+            "These data must be equal to each other:\n" . implode("\n", $errors)
+        );
     }
 
     /**
-     * Convert fixture array
+     * Prepares and returns data to the fixture, ready for comparison
      *
-     * @param array $fields
+     * @param FixtureInterface $product
      * @return array
      */
-    public function convertArray(array $fields)
+    protected function prepareFixtureData(FixtureInterface $product)
     {
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $fields[$key] = $this->convertArray($value);
-            } else {
-                if ($value === null) {
-                    unset($fields[$key]);
-                } elseif ($key == "price" || $key == "special_price") {
-                    $fields[$key] = sprintf('%1.2f', $fields[$key]);
-                } elseif ($key == "qty" || $key == "stock_data_qty") {
-                    $fields[$key] = sprintf('%1.4f', $fields[$key]);
-                } elseif ($key == "stock_data_use_config_min_qty") {
-                    $fields[$key] = ($value == "No") ? false : true;
-                } elseif ($key == "is_require") {
-                    $fields[$key] = ($value == "Yes" || $value == "1" || $value == true) ? 1 : 0;
+        $compareData = $product->getData();
+        $compareData = array_filter($compareData);
+
+        array_walk_recursive(
+            $compareData,
+            function (&$item, $key, $formattingOptions) {
+                if (isset($formattingOptions[$key])) {
+                    $item = number_format(
+                        $item,
+                        $formattingOptions[$key]['decimals'],
+                        $formattingOptions[$key]['dec_point'],
+                        $formattingOptions[$key]['thousands_sep']
+                    );
                 }
-            }
-        }
-        return $fields;
+            },
+            $this->formattingOptions
+        );
+
+        return $compareData;
     }
 
     /**
-     * Text of Visible in product form assert
+     * Comparison of multidimensional arrays
+     *
+     * @param array $fixtureData
+     * @param array $formData
+     * @return array
+     */
+    protected function compareArray(array $fixtureData, array $formData)
+    {
+        $errors = [];
+        $keysDiff = array_diff(array_keys($fixtureData), array_keys($formData));
+        if (!empty($keysDiff)) {
+            return ['- fixture data do not correspond to form data in composition.'];
+        }
+
+        foreach ($fixtureData as $key => $value) {
+            if (is_array($value) && is_array($formData[$key])
+                && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
+            ) {
+                $errors = array_merge($errors, $innerErrors);
+            } elseif ($value != $formData[$key]) {
+                $fixtureValue = empty($value) ? '<empty-value>' : $value;
+                $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
+                $errors = array_merge($errors, [
+                    "- error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'."
+                ]);
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Returns a string representation of the object
      *
      * @return string
      */

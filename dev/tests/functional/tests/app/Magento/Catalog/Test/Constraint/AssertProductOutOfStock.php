@@ -30,7 +30,7 @@ class AssertProductOutOfStock extends AbstractConstraint
     const STOCK_AVAILABILITY = 'Out of stock';
 
     /**
-     * Assert  that Out of Stock status is displayed on product page
+     * Assert that Out of Stock status is displayed on product page
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
@@ -48,7 +48,7 @@ class AssertProductOutOfStock extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

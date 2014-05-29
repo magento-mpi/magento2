@@ -14,7 +14,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertCustomOptionsOnProductPage
- * Assert that displayed product custom options data on product page equals passed from fixture
  */
 class AssertCustomOptionsOnProductPage extends AbstractConstraint
 {
@@ -46,14 +45,30 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
         // Open product view page
         $catalogProductView->init($this->product);
         $catalogProductView->open();
+        // Prepare data
         $customOptions = $catalogProductView->getCustomOptionsBlock()->getOptions();
+        foreach ($customOptions as &$option) {
+            unset($option['value']);
+        }
+        unset($option);
         $compareOptions = $this->prepareOptionArray($this->product->getCustomOptions());
+        $customOptions = $this->dataSortByKey($customOptions);
+        $compareOptions = $this->dataSortByKey($compareOptions);
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $compareOptions,
             $customOptions,
+            $compareOptions,
             'Incorrect display of custom product options on the product page.'
         );
+    }
+
+    protected function dataSortByKey(array $data)
+    {
+        foreach ($data as &$item) {
+            ksort($item);
+        }
+        unset($item);
+        return $data;
     }
 
     /**
@@ -66,8 +81,8 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     {
         $result = [];
         $productPrice = $this->product->hasData('group_price')
-            ? $this->product->getPrice()
-            : $this->product->getGroupPrice()[0]['price'];
+            ? $this->product->getGroupPrice()[0]['price']
+            : $this->product->getPrice();
 
         $placeholder = ['Yes' => true, 'No' => false];
         foreach ($options as $option) {
@@ -79,10 +94,6 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
                     $optionValue['price'] = $productPrice / 100 * $optionValue['price'];
                 }
                 $result[$option['title']]['price'][] = number_format($optionValue['price'], 2);
-                foreach ($option['options'] as $itemOption) {
-                    $result[$option['title']]['value'][] = $itemOption['title']
-                        . ' +$' . number_format($optionValue['price'], 2);
-                }
             }
         }
 
@@ -90,7 +101,7 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

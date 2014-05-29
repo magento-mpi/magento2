@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**
  * Class AssertDownloadableProductForm
- *
- * Assert that downloadable product data on edit page equals to passed from fixture
  */
 class AssertDownloadableProductForm extends AssertProductForm
 {
@@ -28,7 +26,7 @@ class AssertDownloadableProductForm extends AssertProductForm
     protected $severeness = 'low';
 
     /**
-     * Assert form data equals fixture data
+     * Assert that downloadable product data on edit page equals to passed from fixture
      *
      * @param InjectableFixture $product
      * @param CatalogProductIndex $productGrid
@@ -42,9 +40,12 @@ class AssertDownloadableProductForm extends AssertProductForm
     ) {
         $filter = ['sku' => $product->getData('sku')];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
-        $fields = $this->convertDownloadableArray($product->getData());
+
+        $fields = $this->prepareFixtureData($product);
+        $fields = $this->convertDownloadableArray($fields);
+
         $fieldsForm = $productPage->getForm()->getData($product);
-        \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data');
+        \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data.');
     }
 
     /**
@@ -58,10 +59,7 @@ class AssertDownloadableProductForm extends AssertProductForm
         usort(
             $fields,
             function ($a, $b) {
-                if ($a['sort_order'] == $b['sort_order']) {
-                    return 0;
-                }
-                return ($a['sort_order'] < $b['sort_order']) ? -1 : 1;
+                return $a['sort_order'] - $b['sort_order'];
             }
         );
     }
@@ -89,16 +87,12 @@ class AssertDownloadableProductForm extends AssertProductForm
             if (is_array($value)) {
                 $fields[$key] = $this->convertDownloadableArray($value);
             } else {
-                if ($key == "sample_type_url" || $key == "sample_type_file"
-                    || $key == "file_type_url" || $key == "file_type_file"
-                ) {
-                    $fields[$key] = ($value == 'Yes') ? 1 : 0;
-                } elseif ($key == "special_price") {
+                if ($key == "special_price") {
                     $fields[$key] = [$key => $fields[$key]];
                 }
             }
         }
-        return $this->convertArray($fields);
+        return $fields;
     }
 
     /**

@@ -9,10 +9,10 @@
 namespace Magento\Downloadable\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\Category;
-use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
 /**
  * Test Creation for Create DownloadableProductEntity
@@ -34,7 +34,7 @@ class CreateDownloadableProductEntityTest extends Injectable
     /**
      * Fixture category
      *
-     * @var Category
+     * @var CatalogCategoryEntity
      */
     protected $category;
 
@@ -55,13 +55,12 @@ class CreateDownloadableProductEntityTest extends Injectable
     /**
      * Persist category
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return array
      */
-    public function __prepare(Category $category)
+    public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
-
         return [
             'category' => $category
         ];
@@ -70,12 +69,12 @@ class CreateDownloadableProductEntityTest extends Injectable
     /**
      * Filling objects of the class
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductNew $catalogProductNewPage
      */
     public function __inject(
-        Category $category,
+        CatalogCategoryEntity $category,
         CatalogProductIndex $catalogProductIndexNewPage,
         CatalogProductNew $catalogProductNewPage
     ) {
@@ -88,9 +87,9 @@ class CreateDownloadableProductEntityTest extends Injectable
      * Test create downloadable product
      *
      * @param CatalogProductDownloadable $product
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      */
-    public function testCreateDownloadableProduct(CatalogProductDownloadable $product, Category $category)
+    public function testCreateDownloadableProduct(CatalogProductDownloadable $product, CatalogCategoryEntity $category)
     {
         $this->catalogProductIndex->open();
         $this->catalogProductIndex->getProductBlock()->addProduct('downloadable');

@@ -40,18 +40,22 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
         $specialPrice = (isset($specialPrice['price_special_price']))
             ? $specialPrice['price_special_price']
             : null;
-        \PHPUnit_Framework_Assert::assertEquals(
-            $fields['special_price'],
-            $specialPrice,
-            'Assert that displayed special price on product page NOT equals passed from fixture.'
-        );
+        if (isset($fields['special_price'])) {
+            \PHPUnit_Framework_Assert::assertEquals(
+                $fields['special_price'],
+                $specialPrice,
+                'Assert that displayed special price on product page NOT equals passed from fixture.'
+            );
+        }
     }
 
     /**
+     * Returns a string representation of the object
+     *
      * @return string
      */
     public function toString()
     {
-        return "Assert that displayed special price on product page equals passed from fixture";
+        return "Assert that displayed special price on product page equals passed from fixture.";
     }
 }
