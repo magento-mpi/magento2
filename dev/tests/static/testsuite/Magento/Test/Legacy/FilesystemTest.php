@@ -85,20 +85,45 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     public function testObsoleteViewPaths()
     {
         $pathsToCheck = [
-            'app/code/*/*/view/frontend/*'  => ['requirejs-config.js'],
-            'app/code/*/*/view/adminhtml/*'  => ['requirejs-config.js'],
-            'app/code/*/*/view/base/*'  => ['requirejs-config.js'],
-            'app/design/*/*/*/*'     => ['requirejs-config.js', 'theme.xml'],
-            'app/design/*/*/*/*_*/*' => ['requirejs-config.js'],
+            'app/code/*/*/view/frontend/*'  => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+            'app/code/*/*/view/adminhtml/*' => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+            'app/code/*/*/view/base/*'      => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+            'app/design/*/*/*/*'            => [
+                'allowed_files' => ['requirejs-config.js', 'theme.xml'],
+                'allowed_dirs'  => ['layout', 'templates', 'web', 'etc', 'i18n', 'media', '\w+_\w+'],
+            ],
+            'app/design/*/*/*/*_*/*'        => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
         ];
         $errors = [];
-        foreach ($pathsToCheck as $path => $allowedFiles) {
+        foreach ($pathsToCheck as $path => $allowed) {
+            $allowedFiles = $allowed['allowed_files'];
+            $allowedDirs = $allowed['allowed_dirs'];
             $foundFiles = glob(BP . '/' . $path);
             foreach ($foundFiles as $file) {
-                if (is_dir($file) || in_array(basename($file), $allowedFiles)) {
+                $baseName = basename($file);
+                if (is_dir($file)) {
+                    foreach ($allowedDirs as $allowedDir) {
+                        if (preg_match("#^$allowedDir$#", $baseName)) {
+                            continue 2;
+                        }
+                    }
+                }
+                if (in_array($baseName, $allowedFiles)) {
                     continue;
                 }
-                $errors[] = "Wrong location of view file: '$file'. "
+                $errors[] = "Wrong location of view file/dir: '$file'. "
                     . "Please, put template files inside 'templates' sub-dir, "
                     . "static view files inside 'web' sub-dir and layout updates inside 'layout' sub-dir";
             }
