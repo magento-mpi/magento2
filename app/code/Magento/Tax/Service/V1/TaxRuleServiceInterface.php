@@ -5,10 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Service\V1;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Tax\Service\V1\Data\TaxRule;
+namespace Magento\Tax\Service\V1;
 
 /**
  * Interface TaxRuleServiceInterface
@@ -18,18 +16,18 @@ interface TaxRuleServiceInterface
     /**
      * Create TaxRule
      *
-     * @param TaxRule $rule
-     * @return TaxRule
+     * @param \Magento\Tax\Service\V1\Data\TaxRule $rule
+     * @return \Magento\Tax\Service\V1\Data\TaxRule
      */
-    public function createTaxRule(TaxRule $rule);
+    public function createTaxRule(\Magento\Tax\Service\V1\Data\TaxRule $rule);
 
     /**
      * Update TaxRule
      *
-     * @param TaxRule $rule
-     * @return TaxRule
+     * @param \Magento\Tax\Service\V1\Data\TaxRule $rule
+     * @return \Magento\Tax\Service\V1\Data\TaxRule
      */
-    public function updateTaxRule(TaxRule $rule);
+    public function updateTaxRule(\Magento\Tax\Service\V1\Data\TaxRule $rule);
 
     /**
      * Delete TaxRule
@@ -43,25 +41,14 @@ interface TaxRuleServiceInterface
      * Get TaxRule
      *
      * @param int $ruleId
-     * @return TaxRule
+     * @return \Magento\Tax\Service\V1\Data\TaxRule
      */
     public function getTaxRule($ruleId);
 
     /**
-     * Get TaxRule calculation preferences
-     *
-     * @param int $storeId
-     * @return array
+     * @return bool
      */
-    public function getTaxCalculationPreference($storeId);
-
-    /**
-     * Set TaxRule calculation preferences
-     *
-     * @param int $storeId
-     * @param array
-     */
-    public function setTaxCalculationPreference($storeId, array $preferences);
+    public function getCalculateOffSubtotalOnly();
 
     /**
      * Search TaxRules
@@ -70,5 +57,5 @@ interface TaxRuleServiceInterface
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @return \Magento\Tax\Service\V1\Data\TaxRuleSearchResults containing Data\TaxRule objects
      */
-    public function searchTaxRules(SearchCriteria $searchCriteria);
+    public function searchTaxRules(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 }
