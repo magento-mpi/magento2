@@ -320,19 +320,17 @@ jQuery(function($) {
 
                 $newPage.find('#product_info_tabs .fieldset').each(updateFieldsetElements);
 
-                $('#' + $(fieldSet).attr('id')).parents('.fieldset-wrapper')
-                    .removeClass(removedElementClass)
-                    .each(function(index, fieldsetContainer) {
-                    var newFieldsetContainer = $newPage.find('#'+$(fieldsetContainer).attr('id'));
-                    if (newFieldsetContainer.length == 0) {
-                        $(fieldsetContainer).find('fieldset .field')
-                            .addClass('ignore-validate')
-                            .addClass(removedElementClass);
-                        $(fieldsetContainer).addClass(removedElementClass);
-                    } else {
-                        $(newFieldsetContainer).find('fieldset').each(updateFieldsetElements);
-                    }
-                });
+                fieldsetContainer = $(fieldSet).parents('[data-ui-id*=-tab-content-]').first();
+                var newFieldsetContainer = $newPage.find('[data-ui-id='+$(fieldsetContainer).data('uiId')+']');
+                if (newFieldsetContainer.length == 0) {
+                    $(fieldsetContainer).find('fieldset .field')
+                        .addClass('ignore-validate')
+                        .addClass(removedElementClass);
+                    $(fieldsetContainer).addClass(removedElementClass);
+                } else {
+                    $(newFieldsetContainer).find('fieldset').each(updateFieldsetElements);
+                    $(fieldsetContainer).removeClass(removedElementClass);
+                }
             });
             $('#product_info_tabs').tabs('refresh');
             if (!$('#' + activeTabId).closest('li').hasClass(removedElementClass)) {
