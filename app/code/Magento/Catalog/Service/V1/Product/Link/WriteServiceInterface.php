@@ -45,5 +45,4 @@ interface WriteServiceInterface
      * @return bool
      */
     public function remove($productSku, $linkedProductSku, $type);
-
 }

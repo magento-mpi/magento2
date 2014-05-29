@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data;
+
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 /**
