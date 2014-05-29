@@ -13,11 +13,28 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $product;
+    protected $productMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $converterPoolMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $converterMock;
 
     protected function setUp()
     {
-        $this->product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $this->converterPoolMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool',
+            [], [], '', false
+        );
+        $this->converterMock = $this->getMock(
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterInterface'
+        );
     }
 
     /**
@@ -26,38 +43,57 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionWithInvalidType()
     {
-        $provider = new CollectionProvider();
-        $provider->getCollection($this->product, 'someType');
+        $provider = new CollectionProvider($this->converterPoolMock);
+        $provider->getCollection($this->productMock, 'someType');
     }
 
-
+    /**
+     * @covers \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider::getCollection
+     * @covers \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider::__construct
+     */
     public function testGetCollection()
     {
-        $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
-
-        $resultA = ['resultA'];
+        $productA = $this->getMock('\Magento\Catalog\Model\Product', ['getId', '__wakeup'], [], '', false);
+        $productA->expects($this->once())->method('getId')->will($this->returnValue('resultA'));
         $providerA = $this->getMock(
             '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface'
         );
         $providerA->expects($this->once())
             ->method('getLinkedProducts')
-            ->with($product)
-            ->will($this->returnValue($resultA));
+            ->with($this->productMock)
+            ->will($this->returnValue([$productA]));
+        $resultA = ['resultA' => $productA];
 
-        $resultB = ['resultB'];
+        $productB = $this->getMock('\Magento\Catalog\Model\Product', ['getId', '__wakeup'], [], '', false);
+        $productB->expects($this->once())->method('getId')->will($this->returnValue('resultB'));
         $providerB = $this->getMock(
             '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface'
         );
         $providerB->expects($this->once())
             ->method('getLinkedProducts')
-            ->with($product)
-            ->will($this->returnValue($resultB));
+            ->with($this->productMock)
+            ->will($this->returnValue([$productB]));
+        $resultB = ['resultB' => $productB];
+
+        $this->converterPoolMock
+            ->expects($this->any())
+            ->method('getConverter')
+            ->will($this->returnValue($this->converterMock));
+
+        $this->converterMock
+            ->expects($this->any())
+            ->method('convert')
+            ->will($this->returnArgument(0));
 
         $provider = new CollectionProvider(
-            [['code' => 'typeA', 'provider' => $providerA], ['code' => 'typeB', 'provider' => $providerB]]
+            $this->converterPoolMock,
+            [
+                'typeA' => $providerA,
+                'typeB' => $providerB
+            ]
         );
 
-        $this->assertEquals($resultA, $provider->getCollection($this->product, 'typeA'));
-        $this->assertEquals($resultB, $provider->getCollection($this->product, 'typeB'));
+        $this->assertEquals($resultA, $provider->getCollection($this->productMock, 'typeA'));
+        $this->assertEquals($resultB, $provider->getCollection($this->productMock, 'typeB'));
     }
 } 
