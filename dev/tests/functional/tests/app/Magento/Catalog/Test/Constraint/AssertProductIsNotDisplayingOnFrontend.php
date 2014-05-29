@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint; 
+namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Page\CmsIndex;

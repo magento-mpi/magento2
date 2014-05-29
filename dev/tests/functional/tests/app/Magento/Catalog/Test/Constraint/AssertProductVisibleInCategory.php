@@ -32,7 +32,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      *
      * @var string
      */
-    protected  $errorMessage = 'Product is absent on category page.';
+    protected $errorMessage = 'Product is absent on category page.';
 
     /**
      * Message for passing test
