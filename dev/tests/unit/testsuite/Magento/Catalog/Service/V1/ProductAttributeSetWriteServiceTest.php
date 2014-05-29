@@ -112,7 +112,6 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWithNoSkeletonId()
     {
-        $setId = 123321;
         $setDataMock = $this->getMock(
             '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
             array(),
@@ -129,7 +128,7 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->setMock->expects($this->once())->method('validate')->will($this->returnValue(true));
         $this->setMock->expects($this->once())->method('save');
 
-        $this->assertEquals($setId, $this->service->create($setDataMock));
+        $this->service->create($setDataMock);
     }
 
     /**
@@ -137,7 +136,6 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWithAbsentSkeleton()
     {
-        $setId = 123321;
         $setDataMock = $this->getMock(
             '\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended',
             array(),
@@ -165,7 +163,7 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->defaultSetId)
             ->will($this->returnValue($skeletonSetMock));
 
-        $this->assertEquals($setId, $this->service->create($setDataMock));
+        $this->service->create($setDataMock);
     }
 
     public function testCreatePositive()
