@@ -131,9 +131,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetReturnableItems()
     {
-        $data = ['item' => ['item_id' => 5, 'remaining_qty' => 3]];
         $items = [5 => 3];
-        $adapterMock = $this->getAdapterMock($data);
+        $adapterMock = $this->getAdapterMock($items);
         $this->resourceModel->setConnection($adapterMock);
         $orderId = 1000001;
         $result = $this->resourceModel->getReturnableItems($orderId);
@@ -188,9 +187,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->resourceModel->setConnection($readMock);
 
-        $expression = new \Zend_Db_Expr('(qty_shipped - qty_returned)');
-
-        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock($expression);
+        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock();
 
         $this->orderItemCollection->expects($this->once())
             ->method('create')
@@ -228,9 +225,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->resourceModel->setConnection($readMock);
 
-        $expression = new \Zend_Db_Expr('(qty_shipped - qty_returned)');
-
-        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock($expression);
+        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock();
 
         $this->orderItemCollection->expects($this->once())
             ->method('create')
@@ -272,9 +267,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->resourceModel->setConnection($readMock);
 
-        $expression = new \Zend_Db_Expr('(qty_shipped - qty_returned)');
-
-        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock($expression);
+        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock();
 
         $this->orderItemCollection->expects($this->once())
             ->method('create')
@@ -316,9 +309,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->resourceModel->setConnection($readMock);
 
-        $expression = new \Zend_Db_Expr('(qty_shipped - qty_returned)');
-
-        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock($expression);
+        $orderItemsCollectionMock = $this->prepareOrderItemCollectionMock();
 
         $this->orderItemCollection->expects($this->once())
             ->method('create')
@@ -350,7 +341,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get universal adapter mock with specified result for fetchAll
+     * Get universal adapter mock with specified result for fetchPairs
      *
      * @param array $data
      * @return \PHPUnit_Framework_MockObject_MockObject
@@ -381,7 +372,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('select')
             ->will($this->returnValue($selectMock));
         $adapterMock->expects($this->once())
-            ->method('fetchAll')
+            ->method('fetchPairs')
             ->will($this->returnValue($data));
 
         return $adapterMock;
@@ -408,10 +399,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Zend_Db_Expr $expression
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function prepareOrderItemCollectionMock(\Zend_Db_Expr $expression)
+    protected function prepareOrderItemCollectionMock()
     {
         $orderItemsCollectionMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Item\Collection')
             ->disableOriginalConstructor()
