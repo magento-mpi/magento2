@@ -230,7 +230,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *  - 'downloadable',
      *  - 'giftcard'
      *
-     * @return string
+     * @return string[]
      */
     public function getApplyTo()
     {

@@ -22,6 +22,27 @@ class ProductAttributeReadServiceTest extends WebapiAbstract
     const RESOURCE_PATH = '/V1/products/attributes';
 
     /**
+     * Checks retrieving product attribute types
+     */
+    public function testTypes()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/types',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'catalogProductAttributeReadServiceV1Types'
+            ],
+        ];
+
+        $types = $this->_webApiCall($serviceInfo);
+        $this->assertGreaterThan(0, count($types), "The number of product attribute types returned is zero.");
+    }
+
+    /**
      * @dataProvider infoDataProvider
      * @param $attributeCode
      */

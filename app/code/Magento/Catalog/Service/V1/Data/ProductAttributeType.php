@@ -11,7 +11,7 @@ namespace Magento\Catalog\Service\V1\Data;
  * Class ProductAttributeType
  * @package Magento\Catalog\Service\V1\Data
  */
-class ProductAttributeType extends \Magento\Framework\Service\Data\Eav\AbstractObject
+class ProductAttributeType extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**
      * Constants used as keys into $_data
