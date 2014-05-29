@@ -25,6 +25,8 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const OPTIONS = 'options';
 
+    const IS_SYSTEM = 'is_system';
+
     const IS_VISIBLE = 'is_visible';
 
     const IS_REQUIRED = 'is_required';
@@ -58,6 +60,21 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     const USED_IN_PRODUCT_LISTING = 'used_in_product_listing';
 
     const SCOPE = 'scope';
+
+    // additional fields
+    const IS_WYSIWYG_ENABLED = 'is_wysiwyg_enabled';
+
+    const IS_HTML_ALLOWED_ON_FRONT = 'is_html_allowed_on_front';
+
+    const FRONTEND_CLASS = 'frontend_class';
+
+    const USED_FOR_SORT_BY = 'used_for_sort_by';
+
+    const IS_FILTERABLE = 'is_filterable';
+
+    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
+
+    const POSITION = 'position';
     /**#@-*/
 
     /**
@@ -78,6 +95,16 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getAttributeCode()
     {
         return $this->_get(self::ATTRIBUTE_CODE);
+    }
+
+    /**
+     * Retrieve is system attribute flag
+     *
+     * @return bool
+     */
+    public function getIsSystem()
+    {
+        return $this->_get(self::IS_SYSTEM);
     }
 
     /**
@@ -288,5 +315,75 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getScope()
     {
         return $this->_get(self::SCOPE);
+    }
+
+    /**
+     * Retrieve frontend class of attribute
+     *
+     * @return string
+     */
+    public function getFrontendClass()
+    {
+        return $this->_get(self::FRONTEND_CLASS);
+    }
+
+    /**
+     * Enable WYSIWYG flag
+     *
+     * @return bool
+     */
+    public function getIsWysiwygEnabled()
+    {
+        return (bool)$this->_get(self::IS_WYSIWYG_ENABLED);
+    }
+
+    /**
+     * Whether the HTML tags are allowed on the frontend
+     *
+     * @return bool
+     */
+    public function getIsHtmlAllowedOnFront()
+    {
+        return (bool)$this->_get(self::IS_HTML_ALLOWED_ON_FRONT);
+    }
+
+    /**
+     * Whether it is used for sorting in product listing
+     *
+     * @return bool
+     */
+    public function getUsedForSortBy()
+    {
+        return (bool)$this->_get(self::USED_FOR_SORT_BY);
+    }
+
+    /**
+     * Whether it used in layered navigation
+     *
+     * @return bool
+     */
+    public function getIsFilterable()
+    {
+        return (bool)$this->_get(self::IS_FILTERABLE);
+    }
+
+    /**
+     * Whether it is used in search results layered navigation
+     *
+     * @return bool
+     */
+    public function getIsFilterableInSearch()
+    {
+        return (bool)$this->_get(self::IS_FILTERABLE_IN_SEARCH);
+    }
+
+    /**
+     * Get position
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return (int)$this->_get(self::POSITION);
     }
 }
