@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ScheduledImportExport\Helper;
+namespace Magento\CustomerFinance\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ScheduledImportExport\Helper\Data
+     * @var \Magento\CustomerFinance\Helper\Data
      */
-    protected $_importExportHelper;
+    protected $_customerFinanceHelper;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -31,8 +31,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Helper\Context',
             array('moduleManager' => $this->_moduleManagerMock)
         );
-        $this->_importExportHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ScheduledImportExport\Helper\Data',
+        $this->_customerFinanceHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CustomerFinance\Helper\Data',
             array('context' => $context)
         );
     }
@@ -53,7 +53,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->assertTrue($this->_importExportHelper->isRewardPointsEnabled());
+        $this->assertTrue($this->_customerFinanceHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -72,7 +72,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
+        $this->assertFalse($this->_customerFinanceHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -91,7 +91,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(null)
         );
-        $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
+        $this->assertFalse($this->_customerFinanceHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -110,7 +110,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(null)
         );
-        $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
+        $this->assertFalse($this->_customerFinanceHelper->isRewardPointsEnabled());
     }
 
     /**
@@ -129,7 +129,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->assertTrue($this->_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertTrue($this->_customerFinanceHelper->isCustomerBalanceEnabled());
     }
 
     /**
@@ -148,7 +148,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertFalse($this->_customerFinanceHelper->isCustomerBalanceEnabled());
     }
 
     /**
@@ -167,7 +167,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(null)
         );
-        $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertFalse($this->_customerFinanceHelper->isCustomerBalanceEnabled());
     }
 
     /**
@@ -186,6 +186,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(null)
         );
-        $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
+        $this->assertFalse($this->_customerFinanceHelper->isCustomerBalanceEnabled());
     }
 }

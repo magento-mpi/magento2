@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export;
+namespace Magento\Catalog\Model\ImportExport\Export;
 
 /**
  * Interface RowCustomizerInterface

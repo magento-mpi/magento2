@@ -11,9 +11,7 @@ namespace Magento\CustomerFinance\Model\ImportExport\Export\Customer;
  * Export customer finance entity model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
- * @todo refactor in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
- *
- * @method      array getData() getData()
+ * @method      array getData()
  */
 class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
@@ -79,9 +77,9 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     /**
      * Helper to check whether modules are enabled/disabled
      *
-     * @var \Magento\ScheduledImportExport\Helper\Data
+     * @var \Magento\CustomerFinance\Helper\Data
      */
-    protected $_importExportData;
+    protected $_customerFinanceData;
 
     /**
      * @var \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory
@@ -100,7 +98,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
      * @param \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory
-     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\CustomerFinance\Helper\Data $customerFinanceData
      * @param array $data
      */
     public function __construct(
@@ -110,14 +108,14 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
         \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory,
-        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\CustomerFinance\Helper\Data $customerFinanceData,
         array $data = array()
     ) {
         parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;
-        $this->_importExportData = $importExportData;
+        $this->_customerFinanceData = $customerFinanceData;
 
         $this->_initFrontendWebsites()->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());
@@ -229,11 +227,11 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         $this->_customerEntity->filterEntityCollection($this->_getEntityCollection());
 
         // join with finance data tables
-        if ($this->_importExportData->isRewardPointsEnabled()) {
+        if ($this->_customerFinanceData->isRewardPointsEnabled()) {
             $this->_getEntityCollection()->joinWithRewardPoints();
         }
 
-        if ($this->_importExportData->isCustomerBalanceEnabled()) {
+        if ($this->_customerFinanceData->isCustomerBalanceEnabled()) {
             $this->_getEntityCollection()->joinWithCustomerBalance();
         }
 
