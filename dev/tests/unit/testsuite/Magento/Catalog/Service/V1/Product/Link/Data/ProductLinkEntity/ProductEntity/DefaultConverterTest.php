@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity;
+
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+
+class DefaultConverterTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $product;
+
+    /**
+     * @var DefaultConverter
+     */
+    protected $converter;
+
+    protected function setUp()
+    {
+        $this->product = $this->getMock(
+            '\Magento\Catalog\Model\Product',
+            ['getAttributeSetId', 'getTypeId', 'getSku', 'getPosition', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $this->converter = new DefaultConverter();
+    }
+
+    public function testConvert()
+    {
+        $this->product->expects($this->once())->method('getTypeId')->will($this->returnValue('simple'));
+        $this->product->expects($this->once())->method('getAttributeSetId')->will($this->returnValue(4));
+        $this->product->expects($this->once())->method('getSku')->will($this->returnValue('simple-sku'));
+        $this->product->expects($this->once())->method('getPosition')->will($this->returnValue(1));
+
+        $expected = [
+            ProductLinkEntity::TYPE => 'simple',
+            ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
+            ProductLinkEntity::SKU => 'simple-sku',
+            ProductLinkEntity::POSITION => 1
+        ];
+
+        $this->assertEquals($expected, $this->converter->convert($this->product));
+    }
+}
