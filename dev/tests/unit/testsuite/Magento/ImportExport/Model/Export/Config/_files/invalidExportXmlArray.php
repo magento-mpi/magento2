@@ -21,8 +21,8 @@ return array(
         )
     ),
     'attributes_with_type_modelName_and_invalid_value' => array(
-        '<?xml version="1.0"?><config><entity name="Name/one" model="model_one"/><entityType entity="Name/one" name="name_one" ' .
-        ' model="1"/><fileFormat name="name_one" model="model1"/></config>',
+        '<?xml version="1.0"?><config><entity name="Name/one" model="model_one"/><entityType entity="Name/one"' .
+        ' name="name_one" model="1"/><fileFormat name="name_one" model="model1"/></config>',
         array(
             "Element 'entityType', attribute 'model': [facet 'pattern'] The value '1' is not accepted by the " .
             "pattern '[A-Za-z_\\\\\\\\]+'.",
