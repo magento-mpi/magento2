@@ -17,14 +17,14 @@ class Data extends \Magento\Core\Helper\Data
      *
      * @var \Magento\Reward\Helper\Data
      */
-    protected $_rewardData = null;
+    protected $_rewardHelper;
 
     /**
      * Customer balance data
      *
      * @var \Magento\CustomerBalance\Helper\Data
      */
-    protected $_customerBalanceData = null;
+    protected $_customerBalanceHelper;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -32,8 +32,8 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\Reward\Helper\Data $rewardHelper
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceHelper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -42,12 +42,12 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Reward\Helper\Data $rewardData,
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\Reward\Helper\Data $rewardHelper,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceHelper,
         $dbCompatibleMode = true
     ) {
-        $this->_rewardData = $rewardData;
-        $this->_customerBalanceData = $customerBalanceData;
+        $this->_rewardHelper = $rewardHelper;
+        $this->_customerBalanceHelper = $customerBalanceHelper;
         parent::__construct(
             $context,
             $scopeConfig,
@@ -66,7 +66,7 @@ class Data extends \Magento\Core\Helper\Data
     public function isRewardPointsEnabled()
     {
         if ($this->isModuleEnabled('Magento_Reward')) {
-            return $this->_rewardData->isEnabled();
+            return $this->_rewardHelper->isEnabled();
         }
         return false;
     }
@@ -79,7 +79,7 @@ class Data extends \Magento\Core\Helper\Data
     public function isCustomerBalanceEnabled()
     {
         if ($this->isModuleEnabled('Magento_CustomerBalance')) {
-            return $this->_customerBalanceData->isEnabled();
+            return $this->_customerBalanceHelper->isEnabled();
         }
         return false;
     }
