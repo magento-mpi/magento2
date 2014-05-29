@@ -43,7 +43,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->group = $this->getMock(
             '\Magento\Catalog\Model\Product\Attribute\Group',
-            array('getId', 'setId', 'setAttributeGroupName', '__wakeUp', 'save', 'load', 'delete'),
+            array(
+                'getId', 'setId', 'setAttributeGroupName', '__wakeUp', 'save', 'load', 'delete', 'hasSystemAttributes'
+            ),
             array(),
             '',
             false
@@ -117,12 +119,20 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->delete(1, $groupDataBuilder->create());
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testDeleteThrowsStateExceptionIfTryToDeleteGroupWithSystemAttributes()
+    {
+        $this->group->expects($this->once())->method('hasSystemAttributes')->will($this->returnValue(true));
+        $this->group->expects($this->never())->method('delete');
+        $this->service->delete(1);
+    }
+
     public function testDeleteRemovesEntity()
     {
         $this->group->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->group->expects($this->once())->method('delete');
-        $groupDataBuilder = new AttributeGroupBuilder();
-        $groupDataBuilder->setName('testName');
         $this->service->delete(1);
     }
 }

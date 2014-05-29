@@ -36,6 +36,7 @@ interface WriteServiceInterface
      *
      * @param string $groupId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      * @return bool
      */
     public function delete($groupId);

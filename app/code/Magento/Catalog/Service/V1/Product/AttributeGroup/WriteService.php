@@ -13,6 +13,7 @@ use \Magento\Catalog\Model\Product\Attribute\Group;
 use Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -85,6 +86,9 @@ class WriteService implements WriteServiceInterface
         /** @var Group $attributeGroup */
         $attributeGroup = $this->groupFactory->create();
         $attributeGroup->load($groupId);
+        if ($attributeGroup->hasSystemAttributes()) {
+            throw new StateException('Attribute group that contains system attributes can not be deleted');
+        }
         if (!$attributeGroup->getId()) {
             throw new NoSuchEntityException();
         }
