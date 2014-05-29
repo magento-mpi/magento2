@@ -20,7 +20,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     protected $saleable;
 
     /**
-     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfo\Base |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfo;
 
@@ -36,7 +36,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->localeDate = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
-        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface');
+        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base');
 
         $this->saleable->expects($this->once())
             ->method('getPriceInfo')

@@ -36,7 +36,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowRangePrice($value, $maxValue, $result)
     {
-        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface');
+        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base');
         $optionPrice = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleOptionPrice')
             ->disableOriginalConstructor()
             ->getMock();
