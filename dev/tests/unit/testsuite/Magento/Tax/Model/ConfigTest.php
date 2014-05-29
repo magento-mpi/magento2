@@ -69,7 +69,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $arrayOut = array();
 
-        foreach($arrayIn as $paramArray) {
+        foreach ($arrayIn as $paramArray) {
             // Replicate the paramArray, append 'true', and add the new array to the output array
             $arrayT = $paramArray;
             $arrayT[] = true;
@@ -131,17 +131,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testScopeConfigMethods($method, $path, $configValue, $expectedValue)
     {
         $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
-        $scopeConfigMock->expects(
-            $this->once()
-            )->method(
-                'getValue'
-            )->with(
-                $path,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                null
-            )->will(
-                $this->returnValue($configValue)
-            );
+        $scopeConfigMock->expects($this->once())
+            ->method('getValue')
+            ->with($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null)
+            ->will($this->returnValue($configValue));
 
         /** @var \Magento\Tax\Model\Config */
         $model = new Config($scopeConfigMock);
