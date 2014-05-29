@@ -44,12 +44,13 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param float $basePrice
-     * @param [] $storedGroupPrice
-     * @param float $value
+     * @param $regularPrice
+     * @param $storedGroupPrice
+     * @param $value
+     * @param $percent
      * @dataProvider getValueDataProvider
      */
-    public function testGetValue($basePrice, $storedGroupPrice, $value)
+    public function testGetValue($regularPrice, $storedGroupPrice, $value, $percent)
     {
         $customerGroupId = 234;
 
@@ -66,14 +67,14 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
             $this->priceInfo->expects($this->once())
                 ->method('getPrice')
-                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE)
+                ->with(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE)
                 ->will($this->returnValue($price));
             $price->expects($this->once())
                 ->method('getValue')
-                ->will($this->returnValue($basePrice));
+                ->will($this->returnValue($regularPrice));
         }
-
         $this->assertEquals($value, $this->model->getValue());
+        $this->assertEquals($percent, $this->model->getDiscountPercent());
     }
 
     /**
@@ -82,9 +83,12 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     public function getValueDataProvider()
     {
         return array(
-            ['basePrice' => 100, 'storedGroupPrice' => [['cust_group' => 234, 'website_price' => 40]], 'value' => 60],
-            ['basePrice' => 75, 'storedGroupPrice' => [['cust_group' => 234, 'website_price' => 40]], 'value' => 45],
-            ['basePrice' => 75, 'storedGroupPrice' => [], 'value' => false],
+            ['regularPrice' => 100, 'storedGroupPrice'
+                => [['cust_group' => 234, 'website_price' => 40]], 'value' => 60, 'percent' => 60],
+            ['regularPrice' => 75, 'storedGroupPrice'
+                => [['cust_group' => 234, 'website_price' => 40]], 'value' => 45, 'percent' => 60],
+            ['regularPrice' => 75, 'storedGroupPrice'
+                => [], 'value' => false, 'percent' => null],
         );
     }
 }

@@ -2500,4 +2500,12 @@ return array(
         'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Button',
         'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid'
     ],
+    ],
+    [
+        'Magento\Bundle\Pricing\Price\BasePrice',
+        'Magento\Catalog\Pricing\Price\BasePrice'
+    ],
+    [
+        '\Magento\Bundle\Pricing\Price\BasePriceInterface'
+    ]
 );
