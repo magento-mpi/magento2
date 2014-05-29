@@ -12,7 +12,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 
 class ProductAttributeSetReadServiceTest extends WebapiAbstract
 {
-    public function testGetGroups()
+    public function testGetList()
     {
         $serviceInfo = [
             'rest' => [
@@ -27,11 +27,7 @@ class ProductAttributeSetReadServiceTest extends WebapiAbstract
         ];
 
         $attributeSets = $this->_webApiCall($serviceInfo);
-        // check default attribute set to be present and be first
-        $defaultSet = reset($attributeSets);
-        $this->assertNotEmpty($defaultSet);
-        $this->assertEquals(4, $defaultSet['id']);
-        $this->assertEquals('Default', $defaultSet['name']);
+        $this->assertNotEmpty($attributeSets);
     }
 
     public function testGetInfo()
