@@ -208,11 +208,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->setPostcode('55555')
             ->setRegionId('TX')
             ->create();
-        $mockModel = $this->createMockModel($taxRate);
         $this->converterMock->expects($this->once())
             ->method('createTaxRateModel')
             ->with($taxRate)
-            ->will($this->returnValue($mockModel));
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateModelMock->expects($this->once())->method('save');
 
         $result = $this->taxRateService->updateTaxRate($taxRate);
 
@@ -296,40 +296,5 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->throwException(new NoSuchEntityException()));
         $this->taxRateService->deleteTaxRate(1);
-    }
-
-    /**
-     * Creates a mock Rate model from a given TaxRate data object.
-     *
-     * @param TaxRate $taxRate
-     * @return \PHPUnit_Framework_MockObject_MockObject|RateModel
-     */
-    private function createMockModel(TaxRate $taxRate)
-    {
-        $mockModel = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rate')
-            ->setMethods(['getCode', 'getTaxCountryId', 'getTaxRegionId', 'getTaxPostcode', 'getRate',
-                    'getZipFrom', 'getZipTo', 'getZipIsRange', '__wakeup'])
-            ->disableOriginalConstructor()->getMock();
-        $mockModel->expects($this->any())
-            ->method('getCode')->will($this->returnValue($taxRate->getCode()));
-        $mockModel->expects($this->any())
-            ->method('getTaxCountryId')->will($this->returnValue($taxRate->getCountryId()));
-        $mockModel->expects($this->any())
-            ->method('getTaxRegionId')->will($this->returnValue($taxRate->getRegionId()));
-        $mockModel->expects($this->any())
-            ->method('getTaxPostcode')->will($this->returnValue($taxRate->getPostcode()));
-        $mockModel->expects($this->any())
-            ->method('getRate')->will($this->returnValue($taxRate->getPercentageRate()));
-        $isZipRange = (bool)$taxRate->getZipRange();
-        $mockModel->expects($this->any())
-            ->method('getZipIsRange')->will($this->returnValue($isZipRange));
-        if ($isZipRange) {
-            $mockModel->expects($this->any())
-                ->method('getZipFrom')->will($this->returnValue($taxRate->getZipRange()->getFrom()));
-            $mockModel->expects($this->any())
-                ->method('getZipTo')->will($this->returnValue($taxRate->getZipRange()->getTo()));
-        }
-
-        return $mockModel;
     }
 }
