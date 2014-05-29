@@ -13,6 +13,13 @@
          * Declaration of resources needed for defined components
          */
         $.mage.component({
+            addToWishlist: [
+                '<?php echo $this->getViewFileUrl('Magento_Wishlist::js/add-to-wishlist.js') ?>'
+            ],
+            tabs: [
+                '<?php echo $this->getViewFileUrl('mage/collapsible.js') ?>',
+                '<?php echo $this->getViewFileUrl('mage/tabs.js') ?>'
+            ],
             catalogSearch: [
                 '<?php echo $this->getViewFileUrl('jquery/handlebars/handlebars-v1.3.0.js')?>',
                 '<?php echo $this->getViewFileUrl('Magento_CatalogSearch::form-mini.js')?>'
@@ -66,6 +73,7 @@
                 '<?php echo $this->getViewFileUrl('Magento_Catalog::js/date-option.js') ?>'
             ],
             zoom: [
+                '<?php echo $this->getViewFileUrl('jquery/handlebars/handlebars-v1.3.0.js')?>',
                 '<?php echo $this->getViewFileUrl('mage/zoom.js') ?>'
             ],
             gallery: [

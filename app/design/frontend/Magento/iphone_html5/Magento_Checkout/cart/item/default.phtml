@@ -76,7 +76,7 @@ $_options = $this->getOptionList();
                                          "msrpPrice": "<?php echo $this->helper('Magento\Core\Helper\Data')->currency($_product->getMsrp(),true,true) ?>",
                                          "showAddToCart": false}}'><?php echo __("What's this?"); ?>
         </a>
-                    </span>
+    </span>
     <?php else: ?>
 
     <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax() || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices()): ?>

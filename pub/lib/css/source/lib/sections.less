@@ -26,7 +26,6 @@
         width: 100%;
         float: right;
         margin-left: -100%;
-        display: none;
         .box-sizing();
         &.active {
             display: block;
@@ -78,9 +77,9 @@
     @_tab-content-padding-left: @tab-content-padding-left
 ) {
     .data-tabs-base();
-    > .item.title {
+    .item.title {
         margin: 0 @_tab-control-margin-right 0 0;
-        > .switch {
+        .switch {
             .typography(
                 @_color: @_tab-control-color,
                 @_font-size: @_tab-control-font-size,
@@ -162,7 +161,7 @@
         .box-sizing();
         float: none;
         margin: 0;
-        display: none;
+        display: block;
         &.active {
             display: block;
         }

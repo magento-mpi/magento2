@@ -10,7 +10,7 @@
 <?php echo $this->getChildHtml('form_before')?>
 <?php $maxPerSend = $this->getMaxInvitationsPerSend(); ?>
 <?php if ($maxPerSend): ?>
-    <form id="invitationForm" action="" method="post" class="form add invitations" data-hasrequired="<?php echo __('* Required Fields') ?>">
+    <form id="invitationForm" action="" method="post" class="form add invitations" data-mage-init='{"validation": {}}' data-hasrequired="<?php echo __('* Required Fields') ?>">
         <fieldset class="fieldset">
             <legend class="legend"><span><?php echo __('Invite your friends by entering their email addresses.'); ?></span></legend>
             <br>
@@ -18,7 +18,7 @@
                 <div class="field email<?php if ($_index == 1) echo ' required' ?>">
                     <label for="email_<?php echo $_index ?>" class="label"><span><?php echo $_index; ?></span></label>
                     <div class="control">
-                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text<?php if ($_index == 1) echo ' required-entry' ?>" type="email" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
+                        <input tabindex="<?php echo $_index ?>" name="email[<?php echo $_index ?>]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text" type="email" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
                     </div>
                 </div>
                 <?php endfor; ?>

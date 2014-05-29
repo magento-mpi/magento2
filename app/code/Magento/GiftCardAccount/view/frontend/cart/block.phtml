@@ -11,15 +11,15 @@
  * @see \Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount
  */
 ?>
-<div class="block giftcard">
-    <div class="title"><strong><?php echo __('Gift Cards') ?></strong></div>
-    <div class="content">
+<div class="block giftcard" id="block-giftcard" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
+    <div data-role="title" class="title"><strong><?php echo __('Gift Cards') ?></strong></div>
+    <div data-role="content" class="content">
         <div id="giftcard-balance-lookup"></div>
         <span id="gc-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Please wait, loading...') ?>">
             <span><?php echo __('Please wait, loading...') ?></span>
         </span>
         <form class="form giftcard add" id="giftcard-form" action="<?php echo $this->getUrl('magento_giftcardaccount/cart/add') ?>" method="post"
-              data-mage-init='{"giftCard": {
+              data-mage-init='{"validation": {},"giftCard": {
                 "giftCardCodeSelector": "#giftcard-code",
                 "checkStatus": ".action.check",
                 "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>",
@@ -31,7 +31,7 @@
                 <div class="field">
                     <label class="label" for="giftcard-code"><span><?php echo __('Enter the gift card code') ?></span></label>
                     <div class="control">
-                        <input class="input-text" type="text" id="giftcard-code" name="giftcard_code" data-validate="{required:true}" value="" />
+                        <input class="input-text" type="text" id="giftcard-code" name="giftcard_code" data-validate="{'required-entry':true}" value="" />
                     </div>
                 </div>
                 <div class="actions toolbar">

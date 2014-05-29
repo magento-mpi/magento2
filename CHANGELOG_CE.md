@@ -17,6 +17,15 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
+  
+* JavaScript improvements:
+  * Added standard validation to front-end address fields
+  * Implemented wishlist widget
+  * Implemented tabs widget
+  * Implemented collapsible widget
+  * Implemented accordion widget
+  * Implemented tooltip widget
+  * Standardized widgets on one page checkout
 
 2.0.0.0-dev79
 =============
@@ -73,12 +82,16 @@
   * Fixed an issue where Quoted price was displayed incorrectly from the shopping cart in the backend
 * Functional tests:
   * Tax Rule Creation
-  * Admin User Roe Creation
+  * Admin User Role Creation
   * Simple Product Creation
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
-* Updated composer.json.dist to download and install MTF from Public GitHub repository
+  * Virtual Product Creation
+  * Catalog Price Rule Creation
+  * Category Url Rewrite Creation
+  * Admin User Role Deletion
+* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity
   * [#507] (https://github.com/magento/magento2/issues/507) "Insert Image" window is overlapped on menu

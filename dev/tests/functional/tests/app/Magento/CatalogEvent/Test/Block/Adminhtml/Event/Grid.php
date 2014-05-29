@@ -56,6 +56,31 @@ class Grid extends AbstractGrid
     public function isRowVisible(array $filter, $isSearchable = false)
     {
         $this->search(['category_name' => $filter['category_name']]);
-        return parent::isRowVisible($filter, $isSearchable);
+        return $this->getRow($filter, $isSearchable)->isVisible();
+    }
+
+    /**
+     * Find row on grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
+     * @return Element
+     */
+    protected function getRow(array $filter, $isSearchable = true)
+    {
+        if ($isSearchable) {
+            $this->search($filter);
+        }
+        $location = '//div[@class="grid"]//tr[';
+        $rows = [];
+        foreach ($filter as $value) {
+            if (strripos($value, 'PM') || strripos($value, 'AM')) {
+                preg_match('#([^:]+)\s.*#', $value, $matches);
+                $value = $matches[1];
+            }
+            $rows[] = 'td[contains(text(),normalize-space("' . $value . '"))]';
+        }
+        $location = $location . implode(' and ', $rows) . ']';
+        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
     }
 }

@@ -56,40 +56,39 @@
 }
 
 .search.autocomplete {
-    position: absolute;
-    z-index: 3;
-    background: @autocomplete-background;
-    border: @autocomplete-border;
-    border-top: 0;
-    overflow: hidden;
-    display: none;
-    &:extend(.add-box-sizing all);
-    top: 100%;
-    margin-top: -15px;
-    left: 0;
-    ul {
-        li {
-            border-top: @autocomplete-item-border;
-            cursor: pointer;
-            padding: 5px 40px 5px 10px;
-            margin: 0;
-            position: relative;
-            text-align: left;
-            white-space: normal;
-            &:first-child {
-                border-top: none;
-            }
-            &:hover {
-                background: @autocomplete-item-hover;
-            }
-            .amount {
-                color: @autocomplete-item-amount-color;
-                position: absolute;
-                right: 7px;
-                top: 5px;
-            }
-        }
+  position: absolute;
+  top: 31px;
+  left: 15px;
+  z-index: 3;
+  background: @autocomplete-background;
+  border: @autocomplete-border;
+  border-top: 0;
+  overflow: hidden;
+  display: none;
+  &:extend(.add-box-sizing all);
+  ul {
+    li {
+      border-top: @autocomplete-item-border;
+      cursor: pointer;
+      padding: 5px 40px 5px 10px;
+      margin: 0;
+      position: relative;
+      text-align: left;
+      white-space: normal;
+      &:first-child {
+        border-top: none;
+      }
+      &:hover, &.selected {
+        background: @autocomplete-item-hover;
+      }
+      .amount {
+        color: @autocomplete-item-amount-color;
+        position: absolute;
+        right: 7px;
+        top: 5px;
+      }
     }
+  }
 }
 
 .form.search.advanced {
