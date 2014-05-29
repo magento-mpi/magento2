@@ -66,7 +66,66 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'region_id' => '8',
             'percentage_rate' => '8.25',
             'code' => 'US-CA-*-Rate',
-            'postcode' => '78765-78780',
+            'zip_range' => ['from' => 78765, 'to' => 78780]
+        ];
+
+        $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRateBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateBuilder',
+            ['zipRangeBuilder' => $zipRangeBuilder]
+        );
+
+        $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
+        $this->rateModelMock->expects($this->once())
+            ->method('save')
+            ->will($this->returnValue($this->rateModelMock));
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRateModel')
+            ->will($this->returnValue($this->rateModelMock));
+        $taxRate = $taxRateBuilder->populate($taxRateDataObject)->setPostcode('78765-78780')->create();
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRateDataObjectFromModel')
+            ->will($this->returnValue($taxRate));
+
+        $taxRateServiceData = $this->taxRateService->createTaxRate($taxRateDataObject);
+
+        //Assertion
+        $this->assertSame($taxRate, $taxRateServiceData);
+
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage country_id is a required field.
+     */
+    public function testCreateTaxRateWithInputException()
+    {
+        $taxData = [
+            'country_id' => '',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate',
+            'zip_range' => ['from' => 78765, 'to' => 78780]
+        ];
+        $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
+        $taxRateBuilder = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\Data\TaxRateBuilder',
+            ['zipRangeBuilder' => $zipRangeBuilder]
+        );
+        $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
+        $this->taxRateService->createTaxRate($taxRateDataObject);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     */
+    public function testCreateTaxRateWithModelException()
+    {
+        $taxData = [
+            'country_id' => 'US',
+            'region_id' => '8',
+            'percentage_rate' => '8.25',
+            'code' => 'US-CA-*-Rate',
             'zip_range' => ['from' => 78765, 'to' => 78780]
         ];
         $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
@@ -77,26 +136,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $taxRateDataObject = $taxRateBuilder->populateWithArray($taxData)->create();
         $this->rateModelMock->expects($this->once())
             ->method('save')
-            ->will($this->returnValue($this->rateModelMock));
+            ->will($this->throwException(new \Magento\Framework\Model\Exception()));
         $this->converterMock->expects($this->once())
             ->method('createTaxRateModel')
             ->will($this->returnValue($this->rateModelMock));
-        $this->converterMock->expects($this->once())
-            ->method('createTaxRateDataObjectFromModel')
-            ->will($this->returnValue($taxRateDataObject));
-        $taxRateServiceData = $this->taxRateService->createTaxRate($taxRateDataObject);
-
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
-        $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
-        $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
-        $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
-        $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
-        $this->assertEquals($taxData['postcode'], $taxRateServiceData->getPostcode());
-
+        $this->taxRateService->createTaxRate($taxRateDataObject);
     }
 
     public function testGetTaxRate()
@@ -115,6 +159,22 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRateDataObjectMock, $this->taxRateService->getTaxRate(1));
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxRateId = 1
+     */
+    public function testGetTaxRateWithNoSuchEntityException()
+    {
+        $rateId = 1;
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with($rateId)
+            ->will($this->throwException(NoSuchEntityException::singleField('taxRateId', $rateId)));
+        $this->converterMock->expects($this->never())
+            ->method('createTaxRateDataObjectFromModel');
+        $this->taxRateService->getTaxRate($rateId);
+    }
+
     public function testUpdateTaxRate()
     {
         $taxRateBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRateBuilder');
@@ -126,11 +186,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->setPostcode('55555')
             ->setRegionId('TX')
             ->create();
-        $mockModel = $this->createMockModel($taxRate);
         $this->converterMock->expects($this->once())
             ->method('createTaxRateModel')
             ->with($taxRate)
-            ->will($this->returnValue($mockModel));
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateModelMock->expects($this->once())->method('save');
 
         $result = $this->taxRateService->updateTaxRate($taxRate);
 
@@ -175,55 +235,45 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRateService->updateTaxRate($taxRate);
     }
 
-    /**
-     * Creates a mock Rate model from a given TaxRate data object.
-     *
-     * @param TaxRate $taxRate
-     * @return \PHPUnit_Framework_MockObject_MockObject|RateModel
-     */
-    private function createMockModel(TaxRate $taxRate)
+    public function testDeleteTaxRate()
     {
-        $mockModel = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rate')
-            ->setMethods(['getCode', 'getTaxCountryId', 'getTaxRegionId', 'getTaxPostcode', 'getRate',
-                    'getZipFrom', 'getZipTo', 'getZipIsRange', '__wakeup'])
-            ->disableOriginalConstructor()->getMock();
-        $mockModel->expects($this->any())
-            ->method('getCode')->will($this->returnValue($taxRate->getCode()));
-        $mockModel->expects($this->any())
-            ->method('getTaxCountryId')->will($this->returnValue($taxRate->getCountryId()));
-        $mockModel->expects($this->any())
-            ->method('getTaxRegionId')->will($this->returnValue($taxRate->getRegionId()));
-        $mockModel->expects($this->any())
-            ->method('getTaxPostcode')->will($this->returnValue($taxRate->getPostcode()));
-        $mockModel->expects($this->any())
-            ->method('getRate')->will($this->returnValue($taxRate->getPercentageRate()));
-        $isZipRange = (bool)$taxRate->getZipRange();
-        $mockModel->expects($this->any())
-            ->method('getZipIsRange')->will($this->returnValue($isZipRange));
-        if ($isZipRange) {
-            $mockModel->expects($this->any())
-                ->method('getZipFrom')->will($this->returnValue($taxRate->getZipRange()->getFrom()));
-            $mockModel->expects($this->any())
-                ->method('getZipTo')->will($this->returnValue($taxRate->getZipRange()->getTo()));
-        }
-
-        return $mockModel;
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateRegistryMock->expects($this->once())
+            ->method('removeTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->taxRateService->deleteTaxRate(1);
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = 1
      */
-    public function testGetTaxRateWithNoSuchEntityException()
+    public function testDeleteTaxRateRetrieveException()
     {
-        $rateId = 1;
         $this->rateRegistryMock->expects($this->once())
             ->method('retrieveTaxRate')
-            ->with($rateId)
-            ->will($this->throwException(NoSuchEntityException::singleField('taxRateId', $rateId)));
-        $this->converterMock->expects($this->never())
-            ->method('createTaxRateDataObjectFromModel');
-        $this->taxRateService->getTaxRate($rateId);
+            ->with(1)
+            ->will($this->throwException(new NoSuchEntityException()));
+        $this->taxRateService->deleteTaxRate(1);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Bad error occurred
+     */
+    public function testDeleteTaxRateDeleteException()
+    {
+        $this->rateRegistryMock->expects($this->once())
+            ->method('retrieveTaxRate')
+            ->with(1)
+            ->will($this->returnValue($this->rateModelMock));
+        $this->rateModelMock->expects($this->once())
+            ->method('delete')
+            ->will($this->throwException(new \Exception('Bad error occurred')));
+        $this->taxRateService->deleteTaxRate(1);
     }
 
 }

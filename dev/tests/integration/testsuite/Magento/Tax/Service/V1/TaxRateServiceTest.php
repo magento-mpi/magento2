@@ -169,7 +169,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $rate = $this->objectManager->create('Magento\Tax\Model\Calculation\Rate')
             ->setData($data)
             ->save();
+
         $taxRate = $this->taxRateService->getTaxRate($rate->getId());
+
         $this->assertEquals('US', $taxRate->getCountryId());
         $this->assertEquals(12, $taxRate->getRegionId());
         $this->assertEquals('*', $taxRate->getPostcode());
@@ -180,11 +182,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = 10
+     * @expectedExceptionMessage No such entity with taxRateId = -1
      */
     public function testGetRateWithNoSuchEntityException()
     {
-        $this->taxRateService->getTaxRate(10);
+        $this->taxRateService->getTaxRate(-1);
     }
 
     /**
@@ -210,8 +212,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->taxRateService->updateTaxRate($updatedTaxRate);
 
-        // Ideally call getTaxRate($taxRate->getId()) here and verify contents reflect the updated version
-        $retrievedRate = $this->getTaxRate($taxRate->getId());
+        $retrievedRate = $this->taxRateService->getTaxRate($taxRate->getId());
         // Expect the service to have filled in the new postcode for us
         $updatedTaxRate = $this->taxRateBuilder->populate($updatedTaxRate)->setPostcode('78700-78780')->create();
         $this->assertEquals($retrievedRate->__toArray(), $updatedTaxRate->__toArray());
@@ -259,17 +260,68 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Helper function to get a specific tax rate
-     *
-     * @param int $id
-     * @return Data\TaxRate|null
+     * @magentoDbIsolation enabled
      */
-    private function getTaxRate($id)
+    public function testDeleteTaxRate()
     {
+        // Create a new tax rate
+        $taxRateData = $this->taxRateBuilder
+            ->setCode('TX')
+            ->setCountryId('US')
+            ->setPercentageRate(5)
+            ->setPostcode(77000)
+            ->setRegionId(1)
+            ->create();
+        $taxRateId = $this->taxRateService->createTaxRate($taxRateData)->getId();
+
+        // Delete the new tax rate
+        $this->assertTrue($this->taxRateService->deleteTaxRate($taxRateId));
+
+        // Get the new tax rate, this should fail
         try {
-            return $this->taxRateService->getTaxRate($id);
-        } catch (NoSuchEntityException $e) {
-            return null;
+            $this->taxRateService->getTaxRate($taxRateId);
+            $this->fail('NoSuchEntityException expected but not thrown');
+        } catch(NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRateId',
+                'fieldValue' => $taxRateId,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        } catch (\Exception $e) {
+            $this->fail('Caught unexpected exception');
+        }
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testDeleteTaxRateException()
+    {
+        // Create a new tax rate
+        $taxRateData = $this->taxRateBuilder
+            ->setCode('TX')
+            ->setCountryId('US')
+            ->setPercentageRate(6)
+            ->setPostcode(77001)
+            ->setRegionId(1)
+            ->create();
+        $taxRateId = $this->taxRateService->createTaxRate($taxRateData)->getId();
+
+        // Delete the new tax rate
+        $this->assertTrue($this->taxRateService->deleteTaxRate($taxRateId));
+
+        // Delete the new tax rate again, this should fail
+        try {
+            $this->taxRateService->deleteTaxRate($taxRateId);
+            $this->fail('NoSuchEntityException expected but not thrown');
+        } catch(NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRateId',
+                'fieldValue' => $taxRateId,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        } catch (\Exception $e) {
+            $this->fail('Caught unexpected exception');
         }
     }
 }

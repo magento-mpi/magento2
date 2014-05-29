@@ -95,7 +95,6 @@ class Converter
      */
     public function createTaxRateModel(TaxRateDataObject $taxRate)
     {
-        /** @var TaxRateModel */
         $rateModel = $this->taxRateModelFactory->create();
         $rateId = $taxRate->getId();
         if ($rateId) {
@@ -107,16 +106,14 @@ class Converter
         $rateModel->setCode($taxRate->getCode());
         $rateModel->setTaxPostcode($taxRate->getPostCode());
         $zipRange = $taxRate->getZipRange();
-        if (!empty($zipRange)) {
-            if ($zipRange) {
-                $zipFrom = $zipRange->getFrom();
-                $zipTo = $zipRange->getTo();
-                if (!empty($zipFrom) && !empty($zipTo)) {
-                    $rateModel->setZipIsRange(1);
-                }
-                $rateModel->setZipFrom($zipFrom);
-                $rateModel->setZipTo($zipTo);
+        if ($zipRange) {
+            $zipFrom = $zipRange->getFrom();
+            $zipTo = $zipRange->getTo();
+            if (!empty($zipFrom) || !empty($zipTo)) {
+                $rateModel->setZipIsRange(1);
             }
+            $rateModel->setZipFrom($zipFrom);
+            $rateModel->setZipTo($zipTo);
         }
         return $rateModel;
     }

@@ -21,7 +21,7 @@ interface TaxRateServiceInterface
     public function createTaxRate(\Magento\Tax\Service\V1\Data\TaxRate $taxRate);
 
     /**
-     * Get tax rates
+     * Get tax rate
      *
      * @param int $rateId
      * @return \Magento\Tax\Service\V1\Data\TaxRate
@@ -45,6 +45,8 @@ interface TaxRateServiceInterface
      *
      * @param int $rateId
      * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If no TaxRate with the given ID can be found.
+     * @throws \Exception If something went wrong while performing the delete.
      */
     public function deleteTaxRate($rateId);
 }
