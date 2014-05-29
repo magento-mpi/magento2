@@ -578,6 +578,7 @@
         @_type-block-label-padding,
         @_type-block-label-align
     );
+
     &:last-child {
         margin-bottom: 0;
     }
@@ -588,14 +589,79 @@
         @_column-number
     );
 
-    ._form-field-label(
-        @_label-color,
-        @_label-font-size,
-        @_label-font-family,
-        @_label-font-weight,
-        @_label-font-style,
-        @_label-line-height
-    );
+    > .label {
+        .typography(
+            @_font-size: @_label-font-size,
+            @_color: @_label-color,
+            @_font-family: @_label-font-family,
+            @_font-weight: @_label-font-weight,
+            @_line-height: @_label-line-height,
+            @_font-style: @_label-font-style
+        );
+        & + br {
+            display: none;
+        }
+    }
+
+    .choice {
+        input {
+            vertical-align: top;
+        }
+    }
+
+    .fields.group {
+        .clearfix();
+        .field {
+            .box-sizing();
+            float: left;
+        }
+        &.group-2 .field {
+            width: 50% !important;
+        }
+        &.group-3 .field {
+            width: 33.3% !important;
+        }
+        &.group-4 .field {
+            width: 25% !important;
+        }
+        &.group-5 .field {
+            width: 20% !important;
+        }
+    }
+
+    .addon {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        padding: 0;
+        width: 100%;
+        textarea,
+        select,
+        input {
+            order: 2;
+            box-shadow: none;
+            display: inline-block;
+            margin: 0;
+            width: auto;
+            flex-basis: 100%;
+        }
+        .addbefore,
+        .addafter {
+            order:3;
+            display: inline-block;
+            .form-element-input(@_type: input-text);
+            width: auto;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+        .addbefore {
+            float: left;
+            order: 1;
+        }
+    }
+
+    .additional {
+        margin-top: @_vertical-indent;
+    }
 
     ._form-field-required(
         @_label-asterisk-color,
@@ -605,15 +671,6 @@
         @_label-asterisk-font-style,
         @_label-asterisk-line-height,
         @_label-asterisk-margin
-    );
-    ._form-field-choice();
-
-    ._form-filed-group();
-
-    ._form-field-addon();
-
-    ._form-field-nested(
-        @_vertical-indent
     );
 
     ._form-field-note(
@@ -640,13 +697,112 @@
     );
 }
 
-._form-field-choice() {
-    &.choice {
-        .label {
+.form-field-type(
+    @_type: @form-field-type,
+    @_type-inline-margin: @form-field-type-inline-margin,
+    @_type-inline-label-margin: @form-field-type-inline-label-margin,
+    @_type-inline-label-padding: @form-field-type-inline-label-padding,
+    @_type-inline-label-align: @form-field-type-inline-label-align,
+    @_type-inline-label-width: @form-field-type-inline-label-width,
+    @_type-inline-control-width: @form-field-type-inline-control-width,
+    @_vertical-indent: @form-field-vertical-indent,
+    @_type-block-margin: @form-field-type-block-margin,
+    @_type-block-label-margin: @form-field-type-block-label-margin,
+    @_type-block-label-padding: @form-field-type-block-label-padding,
+    @_type-block-label-align: @form-field-type-block-label-align
+) when (@_type = inline) {
+    ._form-field-type-inline(
+        @_type-inline-margin,
+        @_type-inline-label-margin,
+        @_type-inline-label-padding,
+        @_type-inline-label-width,
+        @_type-inline-control-width,
+        @_type-inline-label-align,
+        @_vertical-indent
+    );
+}
+
+.form-field-type(
+    @_type: @form-field-type,
+    @_type-inline-margin: @form-field-type-inline-margin,
+    @_type-inline-label-margin: @form-field-type-inline-label-margin,
+    @_type-inline-label-padding: @form-field-type-inline-label-padding,
+    @_type-inline-label-align: @form-field-type-inline-label-align,
+    @_type-inline-label-width: @form-field-type-inline-label-width,
+    @_type-inline-control-width: @form-field-type-inline-control-width,
+    @_vertical-indent: @form-field-vertical-indent,
+    @_type-block-margin: @form-field-type-block-margin,
+    @_type-block-label-margin: @form-field-type-block-label-margin,
+    @_type-block-label-padding: @form-field-type-block-label-padding,
+    @_type-block-label-align: @form-field-type-block-label-align
+) when (@_type = block) {
+    ._form-field-type-block(
+        @_type-block-margin,
+        @_type-block-label-margin,
+        @_type-block-label-padding,
+        @_type-block-label-align
+    );
+}
+
+._form-field-type-inline(
+    @_type-inline-margin,
+    @_type-inline-label-margin,
+    @_type-inline-label-padding,
+    @_type-inline-label-width,
+    @_type-inline-control-width,
+    @_type-inline-label-align,
+    @_vertical-indent
+) {
+    .box-sizing();
+    .clearfix();
+    .css(margin, @_type-inline-margin);
+
+    &.choice:before,
+    &.no-label:before {
+        .box-sizing();
+        content: " ";
+        height: 1px;
+        float: left;
+        .css(width, @_type-inline-label-width);
+        .css(padding, @_type-inline-label-padding);
+    }
+    .description {
+        .box-sizing();
+        float: left;
+        .css(text-align, @_type-inline-label-align);
+        .css(width, @_type-inline-label-width);
+        .css(padding, @_type-inline-label-padding);
+    }
+    &:not(.choice) {
+        > .label {
+            .box-sizing();
+            float: left;
+            .css(text-align, @_type-inline-label-align);
+            .css(width, @_type-inline-label-width);
+            .css(padding, @_type-inline-label-padding);
+            .css(margin, @_type-inline-label-margin);
         }
-        input {
-            vertical-align: top;
+        > .control {
+            float: left;
+            .css(width, @_type-inline-control-width);
         }
+    }
+}
+
+._form-field-type-block(
+    @_type-block-margin,
+    @_type-block-label-margin,
+    @_type-block-label-padding,
+    @_type-block-label-align
+) {
+    .css(margin, @_type-block-margin);
+    > .label {
+        display: inline-block;
+        .css(text-align, @_type-block-label-align);
+        .css(margin, @_type-block-label-margin);
+        .css(padding, @_type-block-label-padding);
+    }
+    .control {
     }
 }
 
@@ -659,7 +815,7 @@
     @_line-height: @form-field-label-asterisk-line-height,
     @_margin: @form-field-label-asterisk-margin
 ) {
-    &.required .label:after {
+    &.required > .label:after {
         content: '*';
         .typography(
             @_font-size: @_font-size,
@@ -670,110 +826,6 @@
             @_font-style: @_font-style
         );
         .css(margin, @_margin);
-    }
-}
-
-._form-field-label(
-    @_color: @form-field-label-color,
-    @_font-size: @form-field-label-font-size,
-    @_font-family: @form-field-label-font-family,
-    @_font-weight: @form-field-label-font-weight,
-    @_font-style: @form-field-label-font-style,
-    @_line-height: @form-field-label-line-height
-) {
-    .label {
-        .typography(
-            @_font-size: @_font-size,
-            @_color: @_color,
-            @_font-family: @_font-family,
-            @_font-weight: @_font-weight,
-            @_line-height: @_line-height,
-            @_font-style: @_font-style
-        );
-        & + br {
-            display: none;
-        }
-    }
-}
-
-._form-filed-group() {
-    .fields.group {
-        .clearfix();
-        .field {
-            .box-sizing();
-            vertical-align: top;
-            margin: 0;
-            &.no-label:before {
-                display: none;
-            }
-            .label {
-                width: auto;
-                float: none;
-                text-align: left;
-                padding-right: 0;
-            }
-            .control {
-            }
-        }
-        &.group .field {
-            float: left;
-        }
-        &.group-2 .field {
-            width: 50% !important;
-        }
-        &.group-3 .field {
-            width: 33.3% !important;
-        }
-        &.group-4 .field {
-            width: 25% !important;
-        }
-        &.group-5 .field {
-            width: 20% !important;
-        }
-    }
-}
-
-._form-field-addon() {
-    .addon {
-        display: inline-flex;
-        flex-wrap: nowrap;
-        padding: 0;
-        width: 100%;
-        textarea,
-        select,
-        input {
-            order: 2;
-            box-shadow: none;
-            display: inline-block;
-            margin: 0;
-            width: auto;
-            flex-basis: 100%;
-        }
-        .addbefore,
-        .addafter {
-            order:3;
-            display: inline-block;
-            .form-element-input(@_type: input-text);
-            width: auto;
-            white-space: nowrap;
-            vertical-align: middle;
-        }
-        .addbefore {
-            float:left;
-            order:1;
-        }
-    }
-}
-
-._form-field-nested(
-    @_vertical-indent
-) {
-    .nested {
-        .css(padding-top, @_vertical-indent);
-        .clearfix();
-        .no-label:before {
-            display: none;
-        }
     }
 }
 
@@ -826,136 +878,6 @@
     }
 }
 
-.form-field-type(
-    @_type: @form-field-type,
-    @_type-inline-margin: @form-field-type-inline-margin,
-    @_type-inline-label-margin: @form-field-type-inline-label-margin,
-    @_type-inline-label-padding: @form-field-type-inline-label-padding,
-    @_type-inline-label-align: @form-field-type-inline-label-align,
-    @_type-inline-label-width: @form-field-type-inline-label-width,
-    @_type-inline-control-width: @form-field-type-inline-control-width,
-    @_vertical-indent: @form-field-vertical-indent,
-    @_type-block-margin: @form-field-type-block-margin,
-    @_type-block-label-margin: @form-field-type-block-label-margin,
-    @_type-block-label-padding: @form-field-type-block-label-padding,
-    @_type-block-label-align: @form-field-type-block-label-align
-) when (@_type = inline) {
-    ._form-field-type-inline(
-        @_type-inline-margin,
-        @_type-inline-label-margin,
-        @_type-inline-label-padding,
-        @_type-inline-label-width,
-        @_type-inline-control-width,
-        @_type-inline-label-align,
-        @_vertical-indent
-    );
-    // &:not(:first-child):last-of-type {
-    //     margin-bottom: 0;
-    // }
-}
-
-.form-field-type(
-    @_type: @form-field-type,
-    @_type-inline-margin: @form-field-type-inline-margin,
-    @_type-inline-label-margin: @form-field-type-inline-label-margin,
-    @_type-inline-label-padding: @form-field-type-inline-label-padding,
-    @_type-inline-label-align: @form-field-type-inline-label-align,
-    @_type-inline-label-width: @form-field-type-inline-label-width,
-    @_type-inline-control-width: @form-field-type-inline-control-width,
-    @_vertical-indent: @form-field-vertical-indent,
-    @_type-block-margin: @form-field-type-block-margin,
-    @_type-block-label-margin: @form-field-type-block-label-margin,
-    @_type-block-label-padding: @form-field-type-block-label-padding,
-    @_type-block-label-align: @form-field-type-block-label-align
-) when (@_type = block) {
-    ._form-field-type-block(
-        @_type-block-margin,
-        @_type-block-label-margin,
-        @_type-block-label-padding,
-        @_type-block-label-align
-    );
-    // &:not(:first-child):last-of-type {
-    //     margin-bottom: 0;
-    // }
-}
-
-._form-field-type-inline(
-    @_type-inline-margin,
-    @_type-inline-label-margin,
-    @_type-inline-label-padding,
-    @_type-inline-label-width,
-    @_type-inline-control-width,
-    @_type-inline-label-align,
-    @_vertical-indent
-) {
-    .box-sizing();
-    .clearfix();
-    .css(margin, @_type-inline-margin);
-    &:not(.choice) .label {
-        .box-sizing();
-        float: left;
-        .css(text-align, @_type-inline-label-align);
-        .css(width, @_type-inline-label-width);
-        .css(padding, @_type-inline-label-padding);
-        .css(margin, @_type-inline-label-margin);
-    }
-    &.choice:before,
-    &.no-label:before {
-        .box-sizing();
-        content: " ";
-        height: 1px;
-        float: left;
-        .css(width, @_type-inline-label-width);
-        .css(padding, @_type-inline-label-padding);
-    }
-    .control {
-        float: left;
-        .css(width, @_type-inline-control-width);
-    }
-    .description {
-        .box-sizing();
-        float: left;
-        .css(text-align, @_type-inline-label-align);
-        .css(width, @_type-inline-label-width);
-        .css(padding, @_type-inline-label-padding);
-    }
-    .nested {
-        .control {
-            width: 100%;
-        }
-    }
-    .fields.group {
-        .field {
-            .label {
-                width: auto;
-                float: none;
-                padding-right: 0;
-            }
-            .control {
-                float: none;
-                width: auto;
-            }
-        }
-    }
-}
-
-._form-field-type-block(
-    @_type-block-margin,
-    @_type-block-label-margin,
-    @_type-block-label-padding,
-    @_type-block-label-align
-) {
-    .css(margin, @_type-block-margin);
-    &:not(.choice) > .label {
-        display: inline-block;
-        .css(text-align, @_type-block-label-align);
-        .css(margin, @_type-block-label-margin);
-        .css(padding, @_type-block-label-padding);
-    }
-    .control {
-    }
-}
-
 .form-field-type-revert(
     @_type: @form-field-type-revert,
     @_type-inline-margin: @form-field-type-inline-margin,
@@ -970,7 +892,7 @@
     @_type-block-label-padding: @form-field-type-block-label-padding,
     @_type-block-label-align: @form-field-type-block-label-align
 ) when (@_type = block) and not (@_type = false) {
-    &:not(.choice) > .label {
+    > .label {
         width: auto;
         float: none;
         .box-sizing(content-box);
@@ -1011,7 +933,7 @@
     @_type-block-label-padding: @form-field-type-block-label-padding,
     @_type-block-label-align: @form-field-type-block-label-align
 ) when (@_type = inline) and not (@_type = false) {
-    &:not(.choice) > .label {
+   > .label {
         ._revert-type-inline-label-margin(
             @_type-inline-label-margin
         );
@@ -1032,23 +954,13 @@
     @_column-padding: @form-field-column-padding,
     @_column-number: @form-field-column-number
 ) when (@_column = true) {
+
     .box-sizing();
     float: left;
     .css(padding, @_column-padding);
     .form-field-column-number(@_column-number);
     vertical-align: top;
 
-    // .fields.group {
-    //     .clearfix();
-    //     .field {
-    //         padding: 0;
-    //     }
-    // }
-    .nested {
-        .field {
-            padding: 0;
-        }
-    }
     & + .fieldset {
         clear: both;
     }

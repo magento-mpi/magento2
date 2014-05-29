@@ -15,7 +15,7 @@
     &:last-child {
         margin-bottom: 0;
     }
-    .field {
+    > .field {
         .form-field();
         .form-field-type(@_type: block);
         &.no-label {
@@ -67,7 +67,7 @@ select:focus ~ .tooltip .tooltip-content { display: block; }
         .legend {
             &:extend(.margin-for-forms-desktop all);
         }
-        .field {
+        > .field {
             .form-field-type-revert();
         }
     }
