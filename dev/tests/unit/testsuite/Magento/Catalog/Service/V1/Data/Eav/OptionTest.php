@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Customer\Service\V1\Data\Eav\Option;
-use Magento\Customer\Service\V1\Data\Eav\OptionBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\Option;
+use Magento\Catalog\Service\V1\Data\Eav\OptionBuilder;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
