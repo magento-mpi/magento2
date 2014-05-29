@@ -17,6 +17,7 @@
     <xs:element name="theme">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="name" type="name" />
                 <xs:element name="title" type="title"/>
                 <xs:element name="version" type="version"/>
                 <xs:element name="parent" type="parent_theme" minOccurs="0"/>
@@ -28,6 +29,13 @@
     <xs:simpleType name="title">
         <xs:restriction base="xs:string">
             <xs:pattern value=".*[^\s].*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="name">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+            <xs:pattern value=".*[^\s].*" />
         </xs:restriction>
     </xs:simpleType>
 

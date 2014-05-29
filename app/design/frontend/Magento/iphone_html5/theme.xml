@@ -7,6 +7,7 @@
  */
 -->
 <theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Config/etc/theme.xsd">
+    <name>Magento_iphone_html5</name>
     <title>Magento Iphone (HTML5)</title>
     <version>2.0.0.0</version>
     <parent>Magento/plushe</parent>

@@ -78,15 +78,16 @@ class ThemeXmlParser implements \Magento\Composer\Parser {
         $path = $this->getFile()->getPathname();
         /** @var $package SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
-        $packageName = basename($this->_themeDir);
-        $vendorName = basename(dirname($this->_themeDir));
+        /*
+         * $packageName = basename($this->_themeDir);
+         * $vendorName = basename(dirname($this->_themeDir));
+         */
 
-        //$json = json_encode($package);
         if (isset($package)) {
-           // echo "\n\n\n";
             $map = array();
             $themeDefinitions = new \Magento\Composer\Model\ArrayAndObjectAccess();
-            $themeDefinitions->name = (string)$vendorName . "_" . $packageName . "-Theme";
+            $name = (string)$package->xpath('name')[0];
+            $themeDefinitions->name = (string)$name . "-Theme";
             $themeDefinitions->version = (string)$package->xpath('version')[0];
             $themeDefinitions->location = $this->getThemeDir();
             //Dependencies
