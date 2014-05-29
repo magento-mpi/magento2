@@ -13,13 +13,8 @@ use Magento\Tax\Service\V1\Data\TaxRule;
 
 class TaxRuleService implements TaxRuleServiceInterface
 {
-
-    public function __construct()
-    {
-    }
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createTaxRule(TaxRule $rule)
     {
@@ -27,7 +22,7 @@ class TaxRuleService implements TaxRuleServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function updateTaxRule(TaxRule $rule)
     {
@@ -35,7 +30,7 @@ class TaxRuleService implements TaxRuleServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteTaxRule($ruleId)
     {
@@ -43,31 +38,20 @@ class TaxRuleService implements TaxRuleServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getTaxRule($ruleId)
     {
         // TODO: Implement getTaxRule() method.
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTaxCalculationPreference($storeId)
+    public function getCalculateOffSubtotalOnly()
     {
-        // TODO: Implement getTaxCalculationPreference() method.
+        // TODO: Implement getTaxRule() method.
     }
 
     /**
-     * @inheritdoc
-     */
-    public function setTaxCalculationPreference($storeId, array $preferences)
-    {
-        // TODO: Implement setTaxCalculationPreference() method.
-    }
-
-    /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function searchTaxRules(SearchCriteria $searchCriteria)
     {

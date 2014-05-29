@@ -119,16 +119,23 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRateDataObject->getPostcode(), $taxRateModel->getTaxPostcode());
         $this->assertEquals($taxRateDataObject->getcode(), $taxRateModel->getCode());
         $this->assertEquals($taxRateDataObject->getPercentageRate(), $taxRateModel->getRate());
-        $zipIsRange = $taxRateModel->getZipIsRange();
-        if ($zipIsRange) {
-            $this->assertEquals(
-                $taxRateDataObject->getZipRange()->getFrom(),
-                $taxRateModel->getZipFrom()
-            );
-            $this->assertEquals(
-                $taxRateDataObject->getZipRange()->getTo(),
-                $taxRateModel->getZipTo()
-            );
+        if ($taxRateDataObject->getZipRange()) {
+            if ($taxRateDataObject->getZipRange()->getFrom()) {
+                $this->assertEquals(
+                    $taxRateDataObject->getZipRange()->getFrom(),
+                    $taxRateModel->getZipFrom()
+                );
+            } else {
+                $this->assertNull($taxRateModel->getZipFrom());
+            }
+            if ($taxRateDataObject->getZipRange()->getTo()) {
+                $this->assertEquals(
+                    $taxRateDataObject->getZipRange()->getTo(),
+                    $taxRateModel->getZipTo()
+                );
+            } else {
+                $this->assertNull($taxRateModel->getTo());
+            }
         } else {
             $this->assertNull($taxRateModel->getZipFrom());
             $this->assertNull($taxRateModel->getZipTo());
@@ -138,20 +145,40 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     public function createTaxRateModelDataProvider()
     {
         return [
-            [
-                'withZipRange' => [
+            'withZipRange' => [
+                [
                     'id' => '1',
-                    'countryId' => 'US',
-                    'regionId' => '34',
+                    'country_id' => 'US',
+                    'region_id' => '34',
                     'code' => 'US-CA-*-Rate 2',
                     'percentage_rate' => '8.25',
                     'zip_range' => ['from' => 78765, 'to' => 78780]
                 ],
             ],
-            [
-                'withPostalCode' => [
+            'withZipRangeFrom' => [
+                [
                     'id' => '1',
-                    'countryId' => 'US',
+                    'country_id' => 'US',
+                    'region_id' => '34',
+                    'code' => 'US-CA-*-Rate 2',
+                    'percentage_rate' => '8.25',
+                    'zip_range' => ['from' => 78765]
+                ],
+            ],
+            'withZipRangeTo' => [
+                [
+                    'id' => '1',
+                    'country_id' => 'US',
+                    'region_id' => '34',
+                    'code' => 'US-CA-*-Rate 2',
+                    'percentage_rate' => '8.25',
+                    'zip_range' => ['to' => 78780]
+                ],
+            ],
+            'withPostalCode' => [
+                [
+                    'id' => '1',
+                    'country_id' => 'US',
                     'code' => 'US-CA-*-Rate 1',
                     'rate' => '8.25',
                     'postcode' => '78727'

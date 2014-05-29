@@ -10,7 +10,6 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Tax\Model\Calculation\Rate\Converter;
 use Magento\Tax\Service\V1\Data\TaxRate as TaxRateDataObject;
-use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Tax\Model\Calculation\Rate as RateModel;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Framework\Exception\InputException;
@@ -96,7 +95,10 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function deleteTaxRate($rateId)
     {
-        // TODO: Implement deleteTaxRate() method.
+        $rateModel = $this->rateRegistry->retrieveTaxRate($rateId);
+        $rateModel->delete();
+        $this->rateRegistry->removeTaxRate($rateId);
+        return true;
     }
 
     /**
