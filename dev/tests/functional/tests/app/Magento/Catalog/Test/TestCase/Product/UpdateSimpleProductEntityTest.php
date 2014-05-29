@@ -22,7 +22,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  *
  * Precondition:
  * Category is created.
- * Product is created.
+ * Product is created and assigned to created category.
  *
  * Steps:
  * 1. Login to backend.
@@ -30,12 +30,12 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * 3. Select a product in the grid.
  * 4. Edit test value(s) according to dataset.
  * 5. Click "Save".
- * 6. Perform asserts
+ * 6. Perform asserts.
  *
  * @group Products_(CS)
  * @ZephyrId MAGETWO-23544
  */
-class UpdateProductSimpleEntityTest extends Injectable
+class UpdateSimpleProductEntityTest extends Injectable
 {
     /**
      * Simple product fixture
@@ -59,43 +59,6 @@ class UpdateProductSimpleEntityTest extends Injectable
     protected $editProductPage;
 
     /**
-     * Category fixture
-     *
-     * @var CatalogCategoryEntity
-     */
-    protected $category;
-
-    /**
-     * Injection data
-     *
-     * @param CatalogProductIndex $productGrid
-     * @param CatalogProductEdit $editProductPage
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __inject(
-        CatalogProductIndex $productGrid,
-        CatalogProductEdit $editProductPage,
-        FixtureFactory $fixtureFactory
-    ) {
-        $this->product = $fixtureFactory->createByCode(
-            'catalogProductSimple',
-            [
-                'dataSet' => 'product_without_category',
-                'data' => [
-                    'category_ids' => [
-                        'category' => $this->category
-                    ]
-                ]
-            ]
-        );
-        $this->product->persist();
-
-        $this->productGrid = $productGrid;
-        $this->editProductPage = $editProductPage;
-    }
-
-    /**
      * Prepare data
      *
      * @param CatalogCategoryEntity $category
@@ -104,10 +67,41 @@ class UpdateProductSimpleEntityTest extends Injectable
     public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
-        $this->category = $category;
         return [
             'category' => $category
         ];
+    }
+
+    /**
+     * Injection data
+     *
+     * @param CatalogProductIndex $productGrid
+     * @param CatalogProductEdit $editProductPage
+     * @param CatalogCategoryEntity $category
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __inject(
+        CatalogProductIndex $productGrid,
+        CatalogProductEdit $editProductPage,
+        CatalogCategoryEntity $category,
+        FixtureFactory $fixtureFactory
+    ) {
+        $this->product = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            [
+                'dataSet' => 'default',
+                'data' => [
+                    'category_ids' => [
+                        'category' => $category
+                    ]
+                ]
+            ]
+        );
+        $this->product->persist();
+
+        $this->productGrid = $productGrid;
+        $this->editProductPage = $editProductPage;
     }
 
     /**

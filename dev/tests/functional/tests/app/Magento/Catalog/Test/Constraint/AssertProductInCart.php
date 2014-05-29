@@ -38,7 +38,7 @@ class AssertProductInCart extends AbstractConstraint
         FixtureInterface $product,
         CheckoutCart $checkoutCart
     ) {
-        //Add product to cart
+        // Add product to cart
         $catalogProductView->init($product);
         $catalogProductView->open();
         $productOptions = $product->getCustomOptions();
