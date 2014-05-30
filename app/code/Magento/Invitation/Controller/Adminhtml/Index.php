@@ -159,6 +159,7 @@ class Index extends \Magento\Backend\App\Action
             $customerExistsCount = 0;
             foreach ($emails as $key => $email) {
                 try {
+                    /** @var \Magento\Invitation\Model\Invitation $invitation */
                     $invitation = $this->_invitationFactory->create()->setData(
                         array(
                             'email' => $email,

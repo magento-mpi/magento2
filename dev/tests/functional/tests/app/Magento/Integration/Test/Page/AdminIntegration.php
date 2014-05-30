@@ -34,7 +34,7 @@ class AdminIntegration extends Page
      *
      * @var string
      */
-    protected $messageBlock = '#messages';
+    protected $messagesBlock = '#messages';
 
     /**
      * {@inheritdoc}
@@ -61,10 +61,10 @@ class AdminIntegration extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 }

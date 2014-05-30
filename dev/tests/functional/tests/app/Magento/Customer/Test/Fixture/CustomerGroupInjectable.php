@@ -34,7 +34,7 @@ class CustomerGroupInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'fixture' => 'Magento\Customer\Test\Fixture\CustomerGroup\TaxClassIds',
+        'source' => 'Magento\Customer\Test\Fixture\CustomerGroup\TaxClassIds',
     ];
 
     public function getCustomerGroupCode()

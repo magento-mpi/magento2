@@ -10,14 +10,19 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 
+/**
+ * Class UpsellTest
+ * Product upsell test
+ */
 class UpsellTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -28,6 +33,7 @@ class UpsellTest extends Functional
      * Product Up-selling.  Assign upselling to products and see them related on the front-end.
      *
      * @ZephirId MAGETWO-12391
+     * @return void
      */
     public function testCreateUpsell()
     {
@@ -44,8 +50,9 @@ class UpsellTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
-        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
-        $editProductPage->getProductBlockForm()->save($assignToSimple1);
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($assignToSimple1);
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $productGridPage->open();
@@ -53,8 +60,9 @@ class UpsellTest extends Functional
             array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
         );
         $assignToSimple1->switchData('add_upsell_product');
-        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
-        $editProductPage->getProductBlockForm()->save($assignToSimple1);
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($assignToSimple1);
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
@@ -63,8 +71,9 @@ class UpsellTest extends Functional
     /**
      * @param Product $product
      * @param Product[] $assigned
+     * @return void
      */
-    protected function assertOnTheFrontEnd(Product $product, $assigned)
+    protected function assertOnTheFrontEnd(Product $product, array $assigned)
     {
         /** @var Product $simple2 */
         /** @var Product $configurable */
@@ -76,7 +85,7 @@ class UpsellTest extends Functional
         $this->assertEquals($product->getProductName(), $productPage->getViewBlock()->getProductName());
 
         /** @var \Magento\Catalog\Test\Block\Product\ProductList\Upsell $upsellBlock */
-        $upsellBlock = $productPage->getUpsellProductBlock();
+        $upsellBlock = $productPage->getUpsellBlock();
         //Verify upsell simple2 and configurable on Simple1 product page
         $this->assertTrue($upsellBlock->isUpsellProductVisible($simple2->getProductName()));
         $this->assertTrue($upsellBlock->isUpsellProductVisible($configurable->getProductName()));
@@ -84,10 +93,10 @@ class UpsellTest extends Functional
         $upsellBlock->openUpsellProduct($configurable->getProductName());
         $this->assertEquals($configurable->getProductName(), $productPage->getViewBlock()->getProductName());
         //Verify upsell simple2 on Configurable product page and open it
-        $upsellBlock = $productPage->getUpsellProductBlock();
+        $upsellBlock = $productPage->getUpsellBlock();
         $this->assertTrue($upsellBlock->isUpsellProductVisible($simple2->getProductName()));
         $upsellBlock->openUpsellProduct($simple2->getProductName());
         $this->assertEquals($simple2->getProductName(), $productPage->getViewBlock()->getProductName());
-        $this->assertFalse($productPage->getUpsellProductBlock()->isVisible());
+        $this->assertFalse($productPage->getUpsellBlock()->isVisible());
     }
 }
