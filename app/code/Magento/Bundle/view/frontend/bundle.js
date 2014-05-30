@@ -232,6 +232,10 @@
         },
 
         selectionPrice: function(optionId, selectionId) {
+            //Those constants need to be in sync with Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
+            var TOTAL_ROUNDING = 2;
+            var ROW_ROUNDING = 1;
+            var UNIT_ROUNDING = 0;
             var qty = null,
                 config = this.options.bundleConfig,
                 configOption = config.options[optionId];
