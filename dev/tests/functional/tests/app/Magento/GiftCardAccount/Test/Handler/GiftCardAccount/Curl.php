@@ -61,6 +61,11 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
         $curl->read();
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $content = $curl->read();
+
+        if (!strpos($content, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Product creation by curl handler was not successful! Response: $content");
+        }
+
         preg_match('`<td data-column=\"code\".*?>(.*?)<`mis', $content, $res);
         $curl->close();
         return ['code' => trim($res[1])];

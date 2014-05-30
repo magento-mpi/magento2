@@ -12,12 +12,12 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 
 /**
- * Class AssertMessageGiftCardAccountSuccessDeleted
+ * Class AssertGiftCardAccountSuccessDeleteMessage
  * Assert that message gift card account success deleted
  */
-class AssertMessageGiftCardAccountSuccessDeleted extends AbstractConstraint
+class AssertGiftCardAccountSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'This gift card account has been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'This gift card account has been deleted.';
 
     /**
      * Constraint severeness
@@ -27,7 +27,7 @@ class AssertMessageGiftCardAccountSuccessDeleted extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that message gift card account success deleted
+     * Assert that gift card account delete success message is present
      *
      * @param Index $index
      * @return void
@@ -36,21 +36,21 @@ class AssertMessageGiftCardAccountSuccessDeleted extends AbstractConstraint
     {
         $actualMessage = $index->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
-            'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            'Wrong success delete message is displayed.'
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }
 
     /**
-     * Success that message gift card account success deleted
+     * Text for successfully gift card account deletion message
      *
      * @return string
      */
     public function toString()
     {
-        return 'Gift card account success deleted message is present.';
+        return 'Gift card account success delete message is present.';
     }
 }

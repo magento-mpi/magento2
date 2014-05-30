@@ -16,9 +16,14 @@ use Mtf\Repository\AbstractRepository;
  */
 class GiftCardAccount extends AbstractRepository
 {
+    /**
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['gift_card_account'] = [
+        $this->_data['default'] = [
             'status' => 'Yes',
             'is_redeemable' => 'Yes',
             'website_id' => 'Main Website',

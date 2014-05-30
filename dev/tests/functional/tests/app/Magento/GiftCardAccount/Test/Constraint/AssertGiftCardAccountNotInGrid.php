@@ -42,9 +42,9 @@ class AssertGiftCardAccountNotInGrid extends AbstractConstraint
         }
         $filter = [
             'balance' => $giftCardAccount->getBalance(),
-            'state' => 'Available',
             'date_expires' => $dateExpires,
         ];
+        $index->getGiftCardAccount()->sortGridByField('giftcardaccount_id');
         \PHPUnit_Framework_Assert::assertFalse(
             $index->getGiftCardAccount()->isRowVisible($filter, false),
             'Gift card is present in gift card account grid.'
@@ -58,6 +58,6 @@ class AssertGiftCardAccountNotInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Gift card account not in grid.';
+        return 'Gift card account is absent in grid.';
     }
 }

@@ -25,7 +25,7 @@ use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
  * 5. In confirmation popup message with text: "Are you sure you want to do this?" click "OK".
  * 6. Perform appropriate assertions.
  *
- * @group Gift_Card_(CS)
+ * @group Gift_Card_Account_(CS)
  * @ZephyrId MAGETWO-24342
  */
 class DeleteGiftCardAccountEntityTest extends Injectable
@@ -52,8 +52,7 @@ class DeleteGiftCardAccountEntityTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $product = $fixtureFactory->
-            createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
+        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
         $product->persist();
         $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
         $customer->persist();
