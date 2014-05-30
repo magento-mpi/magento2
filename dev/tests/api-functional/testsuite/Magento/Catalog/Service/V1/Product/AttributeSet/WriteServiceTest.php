@@ -29,6 +29,7 @@ class WriteServiceTest extends WebapiAbstract
         ];
         $requestData = [
             'attributeSet' => [
+                'id' => null,
                 'name' => 'attribute set' . \time(),
                 'sort_order' => 10,
             ],
@@ -62,6 +63,7 @@ class WriteServiceTest extends WebapiAbstract
         ];
         $requestData = [
             'attributeSet' => [
+                'id' => null,
                 'name' => $name,
                 'sort_order' => 10,
             ],
@@ -108,6 +110,7 @@ class WriteServiceTest extends WebapiAbstract
         $name = 'attribute set' . \time();
         $requestData = array(
             'attributeSet' => [
+                'id' => null,
                 'name' => $name,
                 'sort_order' => 10,
             ],
