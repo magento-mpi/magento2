@@ -42,26 +42,26 @@ class Calculator implements BundleCalculatorInterface
     /**
      * Tax helper, needed to get rounding setting
      *
-     * @var \Magento\Tax\Helper\Data
+     * @var TaxHelper
      */
-    protected $taxData;
+    protected $taxHelper;
     /**
      * @param CalculatorBase $calculator
      * @param AmountFactory $amountFactory
      * @param BundleSelectionFactory $bundleSelectionFactory
-     * @param \Magento\Tax\Helper\Data
+     * @param TaxHelper $taxHelper
      * @return Calculator
      */
     public function __construct(
         CalculatorBase $calculator,
         AmountFactory $amountFactory,
         BundleSelectionFactory $bundleSelectionFactory,
-        TaxHelper $taxData
+        TaxHelper $taxHelper
     ) {
         $this->calculator = $calculator;
         $this->amountFactory = $amountFactory;
         $this->selectionFactory = $bundleSelectionFactory;
-        $this->taxData = $taxData;
+        $this->taxHelper = $taxHelper;
     }
 
     /**
@@ -242,7 +242,7 @@ class Calculator implements BundleCalculatorInterface
      */
     protected function getRoundingMethod(Store $store = null)
     {
-        return $this->taxData->getCalculationAgorithm($store);
+        return $this->taxHelper->getCalculationAgorithm($store);
     }
 
     /**

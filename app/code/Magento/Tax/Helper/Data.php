@@ -479,7 +479,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param   bool $priceIncludesTax flag what price parameter contain tax
      * @return  float
      */
-    public function getPriceUnRounded(
+    public function getPriceUnrounded(
         $product,
         $price,
         $includingTax = null,
