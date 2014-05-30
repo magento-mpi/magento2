@@ -77,15 +77,8 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateTaxRule()
     {
-        // Tax rule data object created
-        $taxRule = $this->taxRuleBuilder
-            ->setCode('code')
-            ->setCustomerTaxClassIds([3])
-            ->setProductTaxClassIds([2])
-            ->setTaxRateIds([2])
-            ->setPriority(0)
-            ->setSortOrder(1)
-            ->create();
+
+        $taxRule = $this->createTaxRuleDataObject();
         //Tax rule service call
         $taxRuleServiceData = $this->taxRuleService->createTaxRule($taxRule);
 
@@ -108,7 +101,17 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateTaxRuleNoId()
     {
-        $taxRule = $this->taxRuleBuilder
+        $this->taxRuleService->updateTaxRule($this->createTaxRuleDataObject());
+    }
+
+    /*
+     * Creates Tax Rule Data Object
+     *
+     * @return \Magento\Tax\Service\V1\Data\TaxRule
+     */
+    private function createTaxRuleDataObject()
+    {
+        return $this->taxRuleBuilder
             ->setCode('code')
             ->setCustomerTaxClassIds([3])
             ->setProductTaxClassIds([2])
@@ -116,7 +119,5 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
             ->setPriority(0)
             ->setSortOrder(1)
             ->create();
-
-        $this->taxRuleService->updateTaxRule($taxRule);
     }
 }
