@@ -11,6 +11,7 @@ use Magento\TestFramework\Matcher\MethodInvokedAtIndex;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
  */
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,7 +103,6 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      * @param bool $forceReload
      * @param array $cachedData
      * @dataProvider dataProviderForTestLoadData
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function testLoadData($area, $forceReload, $cachedData)
     {
