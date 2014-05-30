@@ -34,8 +34,7 @@ class RowCustomizer implements RowCustomizerInterface
         );
 
         while ($product = $collection->fetchItem()) {
-            $t = $product->getTypeInstance();
-            $productAttributesOptions = $t->getConfigurableOptions($product);
+            $productAttributesOptions = $product->getTypeInstance()->getConfigurableOptions($product);
 
             foreach ($productAttributesOptions as $productAttributeOption) {
                 $this->configurableData[$product->getId()] = array();

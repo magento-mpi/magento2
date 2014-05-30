@@ -44,7 +44,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @param string $frontendInput
      * @param array $validateRules
      * @param array $result

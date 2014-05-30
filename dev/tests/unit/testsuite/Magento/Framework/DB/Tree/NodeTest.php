@@ -18,7 +18,9 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      * @dataProvider constructorDataProvider
      */
     public function testConstructorWithInvalidArgumentsThrowsException(
-        array $data, $expectedException, $expectedExceptionMessage
+        array $data,
+        $expectedException,
+        $expectedExceptionMessage
     ) {
         $this->setExpectedException($expectedException, $expectedExceptionMessage);
         new \Magento\Framework\DB\Tree\Node($data['node_data'], $data['keys']);
