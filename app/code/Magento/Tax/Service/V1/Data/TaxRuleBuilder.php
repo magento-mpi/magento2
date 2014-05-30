@@ -37,7 +37,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set id
      *
-     * @param int
+     * @param int $id
      * @return $this
      */
     public function setId($id)
@@ -48,7 +48,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set code
      *
-     * @param String
+     * @param String $code
      * @return $this
      */
     public function setCode($code)
@@ -59,7 +59,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set customer tax class id
      *
-     * @param int
+     * @param int $customerTaxClassId
      * @return $this
      */
     public function setCustomerTaxClassId($customerTaxClassId)
@@ -70,7 +70,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set product tax class id
      *
-     * @param int
+     * @param int $productTaxClassId
      * @return $this
      */
     public function setProductTaxClassId($productTaxClassId)
@@ -92,7 +92,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set priority
      *
-     * @param int
+     * @param int $priority
      * @return $this
      */
     public function setPriority($priority)
@@ -103,7 +103,7 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Set sort order.
      *
-     * @param int
+     * @param int $sortOrder
      * @return $this
      */
     public function setSortOrder($sortOrder)
