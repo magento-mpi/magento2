@@ -17,6 +17,7 @@ use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Model\PathProcessor;
 use Magento\Webapi\Model\Config\Converter;
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Webapi\Controller\Rest\Response\PartialResponseProcessor;
 
 /**
  * Front controller for WebAPI REST area.
@@ -69,6 +70,11 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected $areaList;
 
     /**
+     * @var PartialResponseProcessor
+     */
+    protected $partialResponseProcessor;
+
+    /**
      * Initialize dependencies
      *
      * @param RestRequest $request
@@ -84,6 +90,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param ErrorProcessor $errorProcessor
      * @param PathProcessor $pathProcessor
      * @param \Magento\Framework\App\AreaList $areaList
+     * @param PartialResponseProcessor $partialResponseProcessor
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -101,7 +108,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
         PathProcessor $pathProcessor,
-        \Magento\Framework\App\AreaList $areaList
+        \Magento\Framework\App\AreaList $areaList,
+        PartialResponseProcessor $partialResponseProcessor
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -116,6 +124,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $this->_errorProcessor = $errorProcessor;
         $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
+        $this->partialResponseProcessor = $partialResponseProcessor;
     }
 
     /**
@@ -163,6 +172,12 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             /** @var \Magento\Framework\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
+            //Check if the request contains response filtering. Cannot use $inputData since it won't be available for
+            //POST and PUT
+            $filterCriteria = $this->partialResponseProcessor->extractFilter($this->_request);
+            if ($filterCriteria) {
+                $outputArray = $this->partialResponseProcessor->filter($filterCriteria, $outputArray);
+            }
             $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
             $maskedException = $this->_errorProcessor->maskException($e);
