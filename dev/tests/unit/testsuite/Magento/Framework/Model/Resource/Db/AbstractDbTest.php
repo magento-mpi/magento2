@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Model\Resource\Db;
 
-class AbstractDblTest extends \PHPUnit_Framework_TestCase
+class AbstractDbTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\Model\Resource\Db\AbstractDb
