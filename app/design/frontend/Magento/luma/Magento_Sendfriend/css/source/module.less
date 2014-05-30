@@ -10,7 +10,8 @@
    &:extend(.add-recipients all);
 }
 
-.product.social.links .action.mailto.friend {
+.product-social-links .action.mailto.friend {
+    &:extend(.product-social-links .action.tocompare all);
     .icon-font-symbol(
         @_icon-font-content: @icon-envelope,
         @_icon-font-position: before

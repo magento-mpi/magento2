@@ -99,7 +99,7 @@
                     <argument name="add_attribute" xsi:type="string">itemprop="description"</argument>
                 </arguments>
             </block>
-            <container name="product.info.social" label="Product social links container" htmlTag="div" htmlClass="social links product" after="product.info.overview">
+            <container name="product.info.social" label="Product social links container" htmlTag="div" htmlClass="product-social-links" after="product.info.overview">
                 <block class="Magento\Catalog\Block\Product\View" name="product.info.mailto" template="product/view/mailto.phtml"/>
             </container>
         </container>

@@ -768,7 +768,7 @@
 //
 //    Loaders variables
 //--------------------------------------
-@loader-overlay-background-color: rgba(255, 255, 255, 0.5); // also used in: @loading-background-color
+@loader-overlay-background-color: rgba(255, 255, 255, 0.7); // also used in: @loading-background-color
 @loader-overlay-z-index: 9999;
 @loader-icon-width: 160px;
 @loader-icon-height: 160px;
@@ -1267,6 +1267,7 @@
 //    Breadcrumbs variables
 //--------------------------------------
 @breadcrumbs-font-size: @font-size-s;
+@breadcrumbs-container-margin: 0 0 20px;
 
 @breadcrumbs-separator-symbol: false;
 @breadcrumbs-separator-color: @breadcrumbs-current-color;
@@ -1338,29 +1339,30 @@
 @popup-height: auto;
 @popup-padding: 22px;
 @popup-background: #fff;
-@popup-border: 1px solid #aeaeae;
+@popup-border-color: #adadad;
+@popup-border: 1px solid @popup-border-color;
 @popup-shadow: 0 3px 3px rgba(0,0,0,.15);
 @popup-fade: opacity 0.3s linear;
 @popup-z-index: 1001;
 
 @popup-position: fixed;
 @popup-position-top: 20%;
-@popup-position-right: '';
-@popup-position-bottom: '';
+@popup-position-right: false;
+@popup-position-bottom: false;
 @popup-position-left: 50%;
 
-@popup-margin-top: '';
-@popup-margin-right: '';
-@popup-margin-bottom: '';
+@popup-margin-top: false;
+@popup-margin-right: false;
+@popup-margin-bottom: false;
 @popup-margin-left: -((@popup-width+(@popup-padding*2))/2);
 
 @popup-content-height: auto;
-@popup-header-margin: '';
-@popup-content-margin: '';
-@popup-footer-margin: '';
+@popup-header-margin: 0 0 25px;
+@popup-content-margin: false;
+@popup-footer-margin: false;
 
 @popup-title-headings: true; //false
-@popup-title-headings-level: h3; // h1, h2, h3, h4, h5, h6
+@popup-title-headings-level: h2; // h1, h2, h3, h4, h5, h6
 
 @popup-action-toolbar: false; //true
 
@@ -1369,8 +1371,8 @@
 @popup-button-close-position: absolute;
 @popup-button-close-position-top: 10px;
 @popup-button-close-position-right: 10px;
-@popup-button-close-position-bottom: '';
-@popup-button-close-position-left: '';
+@popup-button-close-position-bottom: false;
+@popup-button-close-position-left: false;
 
 //Actions toolbar variables
 @popup-actions-toolbar-actions-position: @actions-toolbar-actions-position;
@@ -1387,20 +1389,20 @@
 //  Popup Icons variables
 @popup-icon-font-content: @icon-remove;
 @popup-icon-font: @button-icon-font;
-@popup-icon-font-size: @button-icon-font-size;
-@popup-icon-font-line-height: @button-icon-font-line-height;
-@popup-icon-font-color: @button-icon-font-color;
-@popup-icon-font-color-hover: @button-icon-font-color-hover;
-@popup-icon-font-color-active: @button-icon-font-color-active;
+@popup-icon-font-size: 30px;
+@popup-icon-font-line-height: 30px;
+@popup-icon-font-color: #8c8c8c;
+@popup-icon-font-color-hover: darken(#8c8c8c, 10%);
+@popup-icon-font-color-active: @popup-icon-font-color-hover;
 @popup-icon-font-margin: @button-icon-font-margin;
 @popup-icon-font-vertical-align: @button-icon-font-vertical-align;
 @popup-icon-font-position: @button-icon-font-position;
 @popup-icon-font-text-hide: true;
 
 //  Window overlay variables
-@overlay-background: #000;
-@overlay-opacity: 0.5;
-@overlay-opacity-old: 50;
+@overlay-background: #8c8c8c;
+@overlay-opacity: 0.7;
+@overlay-opacity-old: 70;
 @overlay-fade: opacity 0.15s linear;
 @overlay-z-index: 1000;
 

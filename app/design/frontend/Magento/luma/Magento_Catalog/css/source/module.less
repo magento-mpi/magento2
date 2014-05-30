@@ -406,6 +406,9 @@
             margin: 10px 0 0;
             margin: 1rem 0 0;
         }
+        img {
+            display: block;
+        }
         .active {
             display: block;
             line-height: 1;
@@ -528,7 +531,7 @@
             vertical-align: top;
         }
     }
-    .addto {
+    .product-addto-links {
         display: inline-block;
         &:not(:last-child) {
             margin-right: 20px;
@@ -538,10 +541,10 @@
     }
 }
 
-.product.social.links {
+.product-social-links {
     margin: 0 0 20px;
-    .action {
-        color: #999;
+    .action.tocompare {
+        color: @addto-color;
         display: inline-block;
         line-height: 44px;
         margin-left: -13px;
@@ -553,7 +556,7 @@
             @_icon-font-vertical-align: top
         );
         &:hover {
-            color: @color-primary;
+            color: @addto-hover-color;
             text-decoration: none;
         }
         &:not(:last-child) {
@@ -648,13 +651,58 @@
 //--------------------------------------
 .map.popup {
     .popup(
-        @_popup-margin-top: @indent-s-base,
+        @_popup-margin-top: 15px,
         @_popup-margin-left: 0,
-        @_popup-content-margin: 10px 0 0
+        @_popup-content-margin: 0
     );
     position: absolute;
-    .form.map.checkout {
-        float: right;
+    &:before {
+        z-index: 99;
+        border: solid 6px;
+        border-color: transparent transparent @popup-background transparent;
+        margin-left: -4px;
+        top: -12px;
+    }
+    &:after {
+        z-index: 98;
+        border: solid 7px;
+        border-color: transparent transparent @popup-border-color transparent;
+        top: -14px;
+        margin-left: -5px;
+    }
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-bottom-style: solid;
+        left: 50%;
+    }
+    .map.add.form {
+        margin: 0 0 20px;
+    }
+    .additional-addtocart-box {
+        display: inline-block;
+    }
+    .action.primary {
+        float: left;
+        margin-right: 10px;
+    }
+    .map.msrp {
+        margin-bottom: 9px;
+        .label {
+            display: none;
+        }
+    }
+    .actual.price {
+        font-size: @font-size-l;
+        margin: 3px 0 15px;
+    }
+    .popup-header,
+    .map.msrp .label {
+        display: none;
     }
 }
 
@@ -835,7 +883,7 @@ body.catalog-product-compare-index {
         margin: 15px 0;
     }
 
-    .addto.links {
+    .product-addto-links {
         margin-top: 15px;
 
         .action.split,
