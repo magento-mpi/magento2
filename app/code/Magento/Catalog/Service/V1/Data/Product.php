@@ -50,7 +50,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getSku()
     {
@@ -58,7 +58,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -82,7 +82,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getPrice()
     {
@@ -90,7 +90,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getStatus()
     {

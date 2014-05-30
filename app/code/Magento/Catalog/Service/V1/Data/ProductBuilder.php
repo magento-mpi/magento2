@@ -103,7 +103,7 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     /**
      * Set visibility
      *
-     * @param int $value
+     * @param int|null $value
      * @return $this
      */
     public function setVisibility($value)
