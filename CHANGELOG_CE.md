@@ -1,4 +1,9 @@
 * Framework improvements:
+  * Created Service API for Magento_Catalog Module::
+    * AttributeSet Service (MAGETWO-23316)
+    * AttributeSetGroup Service (MAGETWO-23317)
+    * ProductLinks Service (MAGETWO-23318)
+    * ProductType Service (MAGETWO-23310)
   * Completely revisited subsystem of static view files preprocessing (MAGETWO-18001):
     * Transforming LESS into CSS is now just a particular case of a more general interface of preprocessors, so a custom preprocessor can be registered
     * Refactored implementation of view files "fallback" and "collecting" (layout XML files, LESS files for `@magento_import`) mechanisms for better abstraction
