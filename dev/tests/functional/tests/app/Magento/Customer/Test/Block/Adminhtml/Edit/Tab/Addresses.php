@@ -57,7 +57,7 @@ class Addresses extends Tab
             /* Fix switch between region_id and region */
             /** @var AddressInjectable $address */
             $countryId = $address->getCountryId();
-            if($countryId && $this->mapping['country_id']) {
+            if ($countryId && $this->mapping['country_id']) {
                 $this->_fill($this->dataMapping(['country_id' => $countryId]));
                 $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
             }
@@ -92,7 +92,7 @@ class Addresses extends Tab
             /* Fix switch between region_id and region */
             /** @var AddressInjectable $address */
             $countryId = $address->getCountryId();
-            if($countryId && $this->mapping['country_id']) {
+            if ($countryId && $this->mapping['country_id']) {
                 $this->_fill($this->dataMapping(['country_id' => $countryId]));
                 $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
             }

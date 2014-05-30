@@ -10,6 +10,9 @@ namespace Magento\Review\Controller\Adminhtml;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**

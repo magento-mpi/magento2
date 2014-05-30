@@ -7,6 +7,8 @@
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
 
+use \Magento\Framework\View\Design\ThemeInterface;
+
 /**
  * Theme form, general tab
  *
@@ -22,21 +24,17 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     protected $_isThemeEditable = false;
 
     /**
-     * @var \Magento\Framework\View\Design\Theme\Image\PathInterface
-     */
-    protected $_themeImagePath;
-
-    /**
      * @var \Magento\Framework\File\Size
      */
     protected $_fileSize;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\Framework\File\Size $fileSize
      * @param array $data
      */
@@ -45,11 +43,9 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\Framework\File\Size $fileSize,
         array $data = array()
     ) {
-        $this->_themeImagePath = $themeImagePath;
         $this->_fileSize = $fileSize;
         parent::__construct($context, $registry, $formFactory, $objectManager, $data);
     }
@@ -65,7 +61,9 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         $formDataFromSession = $session->getThemeData();
         $this->_isThemeEditable = $this->_getCurrentTheme()->isEditable();
-        $formData = $this->_getCurrentTheme()->getData();
+        /** @var $currentTheme ThemeInterface */
+        $currentTheme = $this->_getCurrentTheme();
+        $formData = $currentTheme->getData();
         if ($formDataFromSession && isset($formData['theme_id'])) {
             unset($formDataFromSession['preview_image']);
             $formData = array_merge($formData, $formDataFromSession);
@@ -75,16 +73,13 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-
-        $this->_addThemeFieldset($form, $formData);
-
+        $this->_addThemeFieldset($form, $formData, $currentTheme);
         if (!$this->getIsThemeExist()) {
             $formData = array_merge($formData, $this->_getDefaults());
         }
         $form->addValues($formData);
         $form->setFieldNameSuffix('theme');
         $this->setForm($form);
-
         return $this;
     }
 
@@ -93,10 +88,11 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
      *
      * @param \Magento\Framework\Data\Form $form
      * @param array $formData
+     * @param \Magento\Core\Model\Theme|ThemeInterface $theme
      * @return $this
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    protected function _addThemeFieldset($form, $formData)
+    protected function _addThemeFieldset($form, $formData, ThemeInterface $theme)
     {
         $themeFieldset = $form->addFieldset('theme', array('legend' => __('Theme Settings')));
         $this->_addElementTypes($themeFieldset);
@@ -193,10 +189,11 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
                     'title'    => __('Theme Preview Image'),
                     'name'     => 'preview',
                     'required' => false,
-                    'note'     => $this->_getPreviewImageNote()
+                    'note'     => $this->_getPreviewImageNote(),
+                    'theme'    => $theme
                 )
             );
-        } elseif (!empty($formData['preview_image'])) {
+        } elseif ($theme->hasPreviewImage()) {
             $themeFieldset->addField(
                 'preview_image',
                 'note',
@@ -205,11 +202,11 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
                     'title'    => __('Theme Preview Image'),
                     'name'     => 'preview',
                     'after_element_html' => '<a href="'
-                    . $this->_themeImagePath->getPreviewImageDirectoryUrl()
-                    . $formData['preview_image'] . '" onclick="imagePreview(\'theme_preview_image\'); return false;">'
+                    . $theme->getThemeImage()->getPreviewImageUrl()
+                    . '" onclick="imagePreview(\'theme_preview_image\'); return false;">'
                     . '<img width="50" src="'
-                    . $this->_themeImagePath->getPreviewImageDirectoryUrl()
-                    . $formData['preview_image'] . '" id="theme_preview_image" /></a>'
+                    . $theme->getThemeImage()->getPreviewImageUrl()
+                    . '" id="theme_preview_image" /></a>'
                 )
             );
         }

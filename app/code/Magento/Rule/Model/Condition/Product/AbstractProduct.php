@@ -269,7 +269,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         switch ($this->getAttribute()) {
             case 'sku':
             case 'category_ids':
-                $image = $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif');
+                $image = $this->_assetRepo->getUrl('images/rule_chooser_trigger.gif');
                 break;
         }
 
@@ -393,7 +393,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage($this->_viewUrl->getViewFileUrl('images/grid-cal.gif'));
+                    $element->setImage($this->_assetRepo->getUrl('images/grid-cal.gif'));
                     break;
                 default:
                     break;
