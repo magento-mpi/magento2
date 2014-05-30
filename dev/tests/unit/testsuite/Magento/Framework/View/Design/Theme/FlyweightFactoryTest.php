@@ -26,13 +26,15 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $path
+     * @param int $expectedId
+     * @dataProvider createByIdDataProvider
      * @covers \Magento\Framework\View\Design\Theme\FlyweightFactory::create
      */
-    public function testCreateById()
+    public function testCreateById($path, $expectedId)
     {
-        $themeId = 5;
         $theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
-        $theme->expects($this->exactly(3))->method('getId')->will($this->returnValue($themeId));
+        $theme->expects($this->exactly(3))->method('getId')->will($this->returnValue($expectedId));
 
         $theme->expects($this->once())->method('getFullPath')->will($this->returnValue(null));
 
@@ -41,12 +43,23 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getThemeById'
         )->with(
-            $themeId
+            $expectedId
         )->will(
             $this->returnValue($theme)
         );
 
-        $this->assertSame($theme, $this->factory->create($themeId));
+        $this->assertSame($theme, $this->factory->create($path));
+    }
+
+    /**
+     * @return array
+     */
+    public function createByIdDataProvider()
+    {
+        return array(
+            array(5, 5),
+            array('_theme10', 10),
+        );
     }
 
     /**
@@ -74,6 +87,10 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($theme, $this->factory->create($path));
     }
 
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Unable to load theme by specified key: '0'
+     */
     public function testCreateDummy()
     {
         $themeId = 0;

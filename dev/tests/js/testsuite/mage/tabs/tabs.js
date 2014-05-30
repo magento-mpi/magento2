@@ -94,7 +94,7 @@ asyncTest( "Keyboard support for tabs view", function() {
 
     setTimeout(function(){
         title1.focus();
-    },10)
+    },10);
 });
 
 asyncTest( "Keyboard support for accordion view", function() {
@@ -122,5 +122,5 @@ asyncTest( "Keyboard support for accordion view", function() {
 
     setTimeout(function(){
         title1.focus();
-    },10)
+    },10);
 });
