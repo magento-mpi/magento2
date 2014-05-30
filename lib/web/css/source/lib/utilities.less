@@ -236,6 +236,31 @@
 }
 
 //
+//    Add url to property
+//--------------------------------------
+// usage:
+// .column.left {
+//     .url('images/fallback.png');
+//     background:url("@{url}") repeat-y;
+// }
+// .columns {
+//     .url('images/fallback.png', 'Magento_Catalog');
+//     background:url("@{url}") repeat;
+// }
+
+@urls-resolved: false;
+
+.url (@_path) {
+    @url: "@{baseDir}@{_path}";
+}
+.url (@_path, @_module) when not (@_module = false) and not (@_module = '') and  (@urls-resolved = false) {
+    @url: "@{_module}::@{_path}";
+}
+.url (@_path, @_module) when not (@_module = false) and not (@_module = '') and  (@urls-resolved = true) {
+    @url: "@{baseDir}@{_module}/@{_path}";
+}
+
+//
 //    Add padding when the variable is set
 //--------------------------------------
 .add-padding(@_add-padding) when not (@_add-padding = false) and not (@_add-padding = '') {
