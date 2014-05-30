@@ -32,8 +32,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $groupBuilder;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectHelper;
+
     protected function setUp()
     {
+        $this->objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
         $this->groupFactory = $this->getMock(
             '\Magento\Catalog\Model\Product\Attribute\GroupFactory',
             array('create'),
@@ -51,7 +58,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->groupFactory->expects($this->any())->method('create')->will($this->returnValue($this->group));
-        $this->groupBuilder = new AttributeGroupBuilder();
+        $this->groupBuilder = $this->objectHelper->getObject(
+            'Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder'
+        );
         $this->service = new WriteService($this->groupFactory, $this->groupBuilder);
     }
 
@@ -61,7 +70,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateThrowsException()
     {
         $this->group->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
-        $groupDataBuilder = new AttributeGroupBuilder();
+        $groupDataBuilder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $groupDataBuilder->setName('testName');
         $this->service->create(1, $groupDataBuilder->create());
     }
@@ -70,7 +79,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->group->expects($this->once())->method('setAttributeGroupName')->with('testName');
         $this->group->expects($this->once())->method('save');
-        $groupDataBuilder = new AttributeGroupBuilder();
+        $groupDataBuilder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $groupDataBuilder->setName('testName');
         $this->service->create(1, $groupDataBuilder->create());
     }
@@ -80,7 +89,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateThrowsExceptionIfNoSuchEntityExists()
     {
-        $groupDataBuilder = new AttributeGroupBuilder();
+        $groupDataBuilder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $groupDataBuilder->setName('testName');
         $this->service->update(1, $groupDataBuilder->create());
     }
@@ -92,7 +101,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->group->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
         $this->group->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $groupDataBuilder = new AttributeGroupBuilder();
+        $groupDataBuilder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $groupDataBuilder->setName('testName');
         $this->service->update(1, $groupDataBuilder->create());
     }
@@ -103,7 +112,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->group->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->group->expects($this->once())->method('setId')->with(null);
         $this->group->expects($this->once())->method('setAttributeGroupName')->with('testName');
-        $groupDataBuilder = new AttributeGroupBuilder();
+        $groupDataBuilder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $groupDataBuilder->setName('testName');
         $this->service->update(1, $groupDataBuilder->create());
     }
@@ -114,7 +123,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteThrowsExceptionIfNoEntityExists()
     {
         $this->group->expects($this->once())->method('getId')->will($this->returnValue(null));
-        $groupDataBuilder = new AttributeGroupBuilder();
+        $groupDataBuilder = $this->objectHelper->getObject('Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $groupDataBuilder->setName('testName');
         $this->service->delete(1, $groupDataBuilder->create());
     }

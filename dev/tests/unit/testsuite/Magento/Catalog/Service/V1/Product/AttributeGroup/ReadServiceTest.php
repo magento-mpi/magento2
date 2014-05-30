@@ -22,6 +22,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->groupListFactory = $this->getMock(
             '\Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory',
             array('create'),
@@ -29,7 +30,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $groupBuilder = new \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder();
+        $groupBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder');
         $this->service = new ReadService($this->groupListFactory, $groupBuilder);
     }
 

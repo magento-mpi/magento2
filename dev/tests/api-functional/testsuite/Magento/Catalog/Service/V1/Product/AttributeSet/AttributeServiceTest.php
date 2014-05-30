@@ -165,8 +165,8 @@ class AttributeServiceTest extends WebapiAbstract
         $attrSetReadService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Product\AttributeSet\ReadService');
         $builder = Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtendedBuilder');
-        $attributeSetId = $attrSetWriteService->create($builder->setName($attrSetName)->setSkeletonId(4)->create());
+            ->get('Magento\Catalog\Service\V1\Data\Eav\AttributeSetBuilder');
+        $attributeSetId = $attrSetWriteService->create($builder->setName($attrSetName)->create(), 4);
         $createdAttributeSet = $attrSetReadService->getInfo($attributeSetId);
         $this->assertEquals($attrSetName, $createdAttributeSet->getName());
         $attributes = $attrSetReadService->getAttributeList($attributeSetId);
