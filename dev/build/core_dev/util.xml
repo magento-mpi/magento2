@@ -38,13 +38,14 @@
         </exec>
     </target>
 
-    <target name="_product_edition_files_no_build" depends="_product_location"
-            description="Removal of files, which do not belong to a product edition, without --build option">
+    <target name="_product_edition_files_no_additional" depends="_product_location"
+            description="Removal of files, which do not belong to a product edition, without --additional option">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/edition.php --
                 --dir=${product_root_dir}
                 --edition=${product_edition_code}
+                --build
                 "/>
         </exec>
     </target>
@@ -77,10 +78,10 @@
         </antcall>
     </target>
 
-    <target name="_product_edition_no_build" description="Product edition source code preparation (without --build option)">
+    <target name="_product_edition_no_additional" description="Product edition source code preparation (without --additional option)">
         <antcall>
+            <target name="_product_edition_files_no_additional"/>
             <target name="_license_replacement"/>
-            <target name="_product_edition_files_no_build"/>
         </antcall>
     </target>
 
