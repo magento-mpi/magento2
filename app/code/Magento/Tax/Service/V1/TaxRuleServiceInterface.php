@@ -25,7 +25,10 @@ interface TaxRuleServiceInterface
      * Update TaxRule
      *
      * @param \Magento\Tax\Service\V1\Data\TaxRule $rule
-     * @return \Magento\Tax\Service\V1\Data\TaxRule
+     * @return bool
+     * @throws \Magento\Framework\Exception\InputException If input is invalid or required input is missing.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If the TaxRule to update can't be found in the system.
+     * @throws \Magento\Framework\Model\Exception If something went wrong while performing the update.
      */
     public function updateTaxRule(\Magento\Tax\Service\V1\Data\TaxRule $rule);
 
