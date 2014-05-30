@@ -14,18 +14,24 @@ use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
 use Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use Magento\Framework\Exception\InputException;
+use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 
 class TaxRuleService implements TaxRuleServiceInterface
 {
     /**
      * Builder for TaxRule data objects.
      *
-     * @var Data\TaxRuleBuilder
+     * @var TaxRuleBuilder
      */
     protected $taxRuleBuilder;
 
+    /*
+     * @var TaxRuleConverter
+     */
+    protected $converter;
+
     /**
-     * @var \Magento\Tax\Model\Calculation\TaxRuleRegistry
+     * @var TaxRuleRegistry
      */
     protected $taxRuleRegistry;
 
@@ -58,7 +64,12 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function updateTaxRule(TaxRule $rule)
     {
-        // TODO: Implement updateTaxRule() method.
+        // Only update existing tax rules
+        $this->taxRuleRegistry->retrieveTaxRule($rule->getId());
+
+        $this->saveTaxRule($rule);
+
+        return true;
     }
 
     /**
@@ -74,7 +85,7 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function getTaxRule($taxRuleId)
     {
-        $taxRuleModel = $this->taxRuleRegistry->retrieve($taxRuleId);
+        $taxRuleModel = $this->taxRuleRegistry->retrieveTaxRule($taxRuleId);
         return $this->converter->createTaxRuleDataObjectFromModel($taxRuleModel);
     }
 
@@ -98,9 +109,9 @@ class TaxRuleService implements TaxRuleServiceInterface
      * Save Tax Rule
      *
      * @param TaxRule $taxRule
+     * @return TaxRuleModel
      * @throws InputException
      * @throws \Magento\Framework\Model\Exception
-     * @return RuleModel
      */
     protected function saveTaxRule(TaxRule $taxRule)
     {
@@ -115,8 +126,8 @@ class TaxRuleService implements TaxRuleServiceInterface
      * Validate tax rule
      *
      * @param TaxRule $taxRule
-     * @throws InputException
      * @return void
+     * @throws InputException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)

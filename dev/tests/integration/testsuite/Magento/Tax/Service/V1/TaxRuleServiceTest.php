@@ -71,4 +71,52 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRuleData[TaxRule::SORT_ORDER], $taxRuleServiceData->getSortOrder());
         $this->assertNotNull($taxRuleServiceData->getId());
     }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testUpdateTaxRule()
+    {
+        // Tax rule data object created
+        $taxRule = $this->taxRuleBuilder
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+        //Tax rule service call
+        $taxRuleServiceData = $this->taxRuleService->createTaxRule($taxRule);
+
+        $updatedTaxRule = $this->taxRuleBuilder->populate($taxRuleServiceData)
+            ->setCode('updated code')
+            ->create();
+
+        $this->taxRuleService->updateTaxRule($updatedTaxRule);
+        $retrievedRule = $this->taxRuleService->getTaxRule($taxRuleServiceData->getId());
+
+        //Assertion
+        $this->assertEquals($retrievedRule->__toArray(), $updatedTaxRule->__toArray());
+        $this->assertNotEquals($retrievedRule->__toArray(), $taxRule->__toArray());
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage taxRuleId =
+     */
+    public function testUpdateTaxRuleNoId()
+    {
+        $taxRule = $this->taxRuleBuilder
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        $this->taxRuleService->updateTaxRule($taxRule);
+    }
 }
