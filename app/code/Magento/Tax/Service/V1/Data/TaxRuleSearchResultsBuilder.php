@@ -9,14 +9,14 @@
 namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Framework\Service\V1\Data\SearchResultsBuilder;
+use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
 
 /**
  * Builder for the TaxRuleSearchResults Service Data Object
  *
  * @method TaxRuleSearchResults create()
  */
-class TaxRuleSearchResultsBuilder extends SearchResultsBuilder
+class TaxRuleSearchResultsBuilder extends AbstractSearchResultsBuilder
 {
     /**
      * Constructor

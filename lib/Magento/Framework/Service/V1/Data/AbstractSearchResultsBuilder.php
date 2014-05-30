@@ -15,7 +15,7 @@ use Magento\Framework\Service\Data\AbstractObjectBuilder;
  *
  * @method SearchResults create()
  */
-class SearchResultsBuilder extends AbstractObjectBuilder
+abstract class AbstractSearchResultsBuilder extends AbstractObjectBuilder
 {
     /**
      * Search criteria builder
