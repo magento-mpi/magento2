@@ -115,9 +115,9 @@ test('Change icons when content gets expanded/collapsed', function() {
     group.collapsible({icons: {header:"minus",activeHeader:"plus"}});
     group.collapsible("deactivate");
     var icons = group.collapsible("option","icons");
-    ok(title.children("[data-role=icons]").hasClass(icons["header"]), "When content is collapsed,header has the right class for icons" );
+    ok(title.children("[data-role=icons]").hasClass(icons.header), "When content is collapsed,header has the right class for icons" );
     title.trigger("click");
-    ok(title.children("[data-role=icons]").hasClass(icons["activeHeader"]), "When content is expanded,header has the right class for icons" );
+    ok(title.children("[data-role=icons]").hasClass(icons.activeHeader), "When content is expanded,header has the right class for icons" );
     group.collapsible('destroy');
 });
 
@@ -153,7 +153,7 @@ asyncTest( "keyboard support", function() {
     
     setTimeout(function(){
         title.focus();
-    },10)
+    },10);
 
 });
 

@@ -73,7 +73,6 @@ app/design/install/Magento/enterprise
 app/etc/enterprise
 
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
-dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/view_files_ee.php
 
 dev/tests/integration/testsuite/Magento/ToolkitFramework/_files/tax_rates.csv
 dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
@@ -97,7 +96,7 @@ downloader/template/enterprise
 
 dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php
-lib/Apache
+lib/internal/Apache
 pub/errors/enterprise
 dev/tools/performance_toolkit
 
