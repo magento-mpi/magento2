@@ -318,7 +318,7 @@ class ProductServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $response[Product::ID],
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -328,6 +328,7 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $requestData = [
+            Product::ID => $response[Product::ID],
             'product' => [
                 Product::NAME => uniqid('name-', true),
             ]

@@ -103,7 +103,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $soapClient->setSoapVersion(SOAP_1_2);
         $soapClient->setStreamContext($context);
         if (TESTS_XDEBUG_ENABLED) {
-            $soapClient->setCookie('XDEBUG_SESSION', TESTS_XDEBUG_SESSION);
+            $soapClient->setCookie('XDEBUG_SESSION', 1);
         }
         return $soapClient;
     }
