@@ -6,6 +6,13 @@
  * @license    {license_link}
  */
 
+//Check if composer exists.
+exec("composer --version", $output, $code);
+if (!($code === 0 && $output != null && is_array($output) && strpos($output[0], "version") !== false)){
+      echo "Composer is not installed. Please install composer and include it into the path for this tool to function properly." . PHP_EOL;
+      die -1;
+}
+
 require __DIR__ . '/../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../');
 $generationDir = __DIR__ . '/packages';
@@ -18,13 +25,12 @@ try {
     );
     $opt->parse();
 
-
     $generationDir = $opt->getOption('o') ? $opt->getOption('o') : $generationDir;
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
 
-    $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+    $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
-
+    $logger->setTimestampFormat("H:i:s");
     $filter = $opt->getOption('v') ? new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) : new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 

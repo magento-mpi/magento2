@@ -21,9 +21,9 @@ try {
     $generationDir = $opt->getOption('o') ? $opt->getOption('o') : $generationDir;
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
 
-    $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+    $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
-
+    $logger->setTimestampFormat("H:i:s");
     $filter = $opt->getOption('v') ? new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) : new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 
