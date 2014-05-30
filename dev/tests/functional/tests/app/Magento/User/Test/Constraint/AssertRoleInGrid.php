@@ -14,8 +14,6 @@ use Magento\User\Test\Fixture\AdminUserRole;
 
 /**
  * Class AssertRoleInGrid
- *
- * @package Magento\User\Test\Constraint
  */
 class AssertRoleInGrid extends AbstractConstraint
 {
@@ -29,6 +27,8 @@ class AssertRoleInGrid extends AbstractConstraint
     /**
      * Asserts that saved role is present in Role Grid.
      *
+     * @param UserRoleIndex $rolePage
+     * @param AdminUserRole $role
      * @return void
      */
     public function processAssert(

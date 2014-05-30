@@ -6,7 +6,7 @@
  */
 TranslateTest = TestCase('TranslateTest');
 TranslateTest.prototype.testTranslateExist = function() {
-    assertEquals(true, jQuery.mage.translate != undefined ? true : false);
+    assertNotUndefined(jQuery.mage.translate);
 };
 TranslateTest.prototype.testTranslationParametersOneArgument = function() {
     jQuery.mage.translate.add('Hello World!');

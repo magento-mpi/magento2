@@ -201,7 +201,7 @@ class Attributes extends AbstractCondition
         if (is_object($this->getAttributeObject())) {
             switch ($this->getAttributeObject()->getFrontendInput()) {
                 case 'date':
-                    $element->setImage($this->_viewUrl->getViewFileUrl('images/grid-cal.gif'));
+                    $element->setImage($this->_assetRepo->getUrl('images/grid-cal.gif'));
                     break;
             }
         }
