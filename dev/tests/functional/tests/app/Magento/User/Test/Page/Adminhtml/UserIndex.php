@@ -6,28 +6,28 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Page\Adminhtml; 
+namespace Magento\User\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
- * Class SystemConfig
+ * Class UserIndex
  */
-class SystemConfig extends BackendPage
+class UserIndex extends BackendPage
 {
-    const MCA = 'admin/system_config';
+    const MCA = 'admin/user';
 
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => 'Magento\Backend\Test\Block\System\Config\PageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'form' => [
-            'name' => 'form',
-            'class' => 'Magento\Backend\Test\Block\System\Config\Form',
-            'locator' => '#config-edit-form',
+        'userGrid' => [
+            'name' => 'userGrid',
+            'class' => 'Magento\User\Test\Block\Adminhtml\UserGrid',
+            'locator' => '#permissionsUserGrid',
             'strategy' => 'css selector',
         ],
         'messagesBlock' => [
@@ -39,7 +39,7 @@ class SystemConfig extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Config\PageActions
+     * @return \Magento\Backend\Test\Block\GridPageActions
      */
     public function getPageActions()
     {
@@ -47,11 +47,11 @@ class SystemConfig extends BackendPage
     }
 
     /**
-     * @return \Magento\Backend\Test\Block\System\Config\Form
+     * @return \Magento\User\Test\Block\Adminhtml\UserGrid
      */
-    public function getForm()
+    public function getUserGrid()
     {
-        return $this->getBlockInstance('form');
+        return $this->getBlockInstance('userGrid');
     }
 
     /**
