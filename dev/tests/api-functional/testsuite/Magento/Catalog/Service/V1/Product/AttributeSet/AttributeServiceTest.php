@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
+use Magento\Catalog\Service\V1\Exception;
 use Magento\TestFramework\Helper\Bootstrap,
     Magento\TestFramework\TestCase\WebapiAbstract,
     Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -14,7 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap,
 /**
  * Class ProductTypeServiceTest
  */
-class ProductAttributeSetAttributeServiceTest extends WebapiAbstract
+class AttributeServiceTest extends WebapiAbstract
 {
 
     /**
@@ -157,10 +158,10 @@ class ProductAttributeSetAttributeServiceTest extends WebapiAbstract
     public function testDeleteAttribute()
     {
         $attrSetName = 'AttributeSet' . uniqid();
-        /** @var \Magento\Catalog\Service\V1\ProductAttributeSetWriteServiceInterface $attrSetWriteService*/
+        /** @var \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface $attrSetWriteService*/
         $attrSetWriteService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\ProductAttributeSetWriteService');
-        /**  @var \Magento\Catalog\Service\V1\ProductAttributeSetReadServiceInterface $attrSetReadService*/
+        /**  @var \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface $attrSetReadService*/
         $attrSetReadService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\ProductAttributeSetReadService');
         $builder = Bootstrap::getObjectManager()

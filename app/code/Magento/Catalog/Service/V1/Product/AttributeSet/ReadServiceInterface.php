@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
-interface ProductAttributeSetReadServiceInterface
+interface ReadServiceInterface
 {
     /**
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeSet[]

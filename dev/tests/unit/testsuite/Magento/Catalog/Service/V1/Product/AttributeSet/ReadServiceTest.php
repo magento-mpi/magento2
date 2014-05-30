@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
-class ProductAttributeSetReadServiceTest extends \PHPUnit_Framework_TestCase
+class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Service\V1\ProductAttributeSetReadService
+     * @var \Magento\Catalog\Service\V1\Product\AttributeSet\ReadService
      */
     protected $service;
 
@@ -74,7 +74,7 @@ class ProductAttributeSetReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->attributeBuilderMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder',
             array(), array(), '', false);
 
-        $this->service = new ProductAttributeSetReadService(
+        $this->service = new ReadService(
             $this->setFactoryMock,
             $this->collectionFactoryMock,
             $this->eavConfigMock,

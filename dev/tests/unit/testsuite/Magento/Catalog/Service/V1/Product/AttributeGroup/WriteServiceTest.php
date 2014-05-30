@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\AttributeGroup;
 
-use Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +28,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $group;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder
+     * @var \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder
      */
     protected $groupBuilder;
 

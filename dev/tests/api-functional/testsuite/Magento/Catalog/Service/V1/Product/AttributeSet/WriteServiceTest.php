@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
 use Magento\TestFramework\TestCase\WebapiAbstract,
     Magento\TestFramework\Helper\Bootstrap,
     Magento\Catalog\Service\V1\Data\Eav\AttributeSet,
     Magento\Webapi\Model\Rest\Config as RestConfig;
 
-class ProductAttributeSetWriteServiceTest extends WebapiAbstract
+class WriteServiceTest extends WebapiAbstract
 {
     public function testCreate()
     {

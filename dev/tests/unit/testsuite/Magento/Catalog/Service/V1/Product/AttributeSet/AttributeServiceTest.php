@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
-class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCase
+class AttributeServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ProductAttributeSetAttributeService
+     * @var AttributeService
      */
     private $service;
 
@@ -85,7 +85,7 @@ class ProductAttributeSetAttributeServiceTest extends \PHPUnit_Framework_TestCas
         $entityTypeFactoryMock->expects($this->any())
             ->method('create')->will($this->returnValue($this->entityTypeConfigMock));
 
-        $this->service = new ProductAttributeSetAttributeService(
+        $this->service = new AttributeService(
             $attributeFactoryMock,
             $groupFactoryMock,
             $setFactoryMock,

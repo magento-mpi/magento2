@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
+use Magento\Catalog\Service\V1\Data;
+use Magento\Catalog\Service\V1\Product\AttributeSet\ProductAttributeSetReadServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-class ProductAttributeSetReadService implements ProductAttributeSetReadServiceInterface
+class ReadService implements ProductAttributeSetReadServiceInterface
 {
     /**
      * @var \Magento\Eav\Model\Entity\Attribute\SetFactory

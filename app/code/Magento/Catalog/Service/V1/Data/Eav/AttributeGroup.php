@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Data\Eav;
+namespace Magento\Catalog\Service\V1\Data\Eav;
 
 
 class AttributeGroup extends \Magento\Framework\Service\Data\AbstractObject

@@ -29,7 +29,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $groupBuilder = new \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder();
+        $groupBuilder = new \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder();
         $this->service = new ReadService($this->groupListFactory, $groupBuilder);
     }
 
@@ -48,8 +48,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $groupList->expects($this->once())->method('getItems')->will($this->returnValue(array($item1, $item2)));
         $result = $this->service->getList(1);
         $this->assertCount(2, $result);
-        $this->assertInstanceOf('\Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup', $result[0]);
-        $this->assertInstanceOf('\Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup', $result[1]);
+        $this->assertInstanceOf('\Magento\Catalog\Service\V1\Data\Eav\AttributeGroup', $result[0]);
+        $this->assertInstanceOf('\Magento\Catalog\Service\V1\Data\Eav\AttributeGroup', $result[1]);
         $this->assertEquals('First', $result[0]->getName());
         $this->assertEquals('Second', $result[1]->getName());
     }

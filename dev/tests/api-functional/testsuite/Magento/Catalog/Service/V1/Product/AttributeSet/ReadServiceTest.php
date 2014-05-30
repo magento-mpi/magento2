@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
 use Magento\TestFramework\TestCase\WebapiAbstract,
     Magento\Webapi\Model\Rest\Config as RestConfig;
 
-class ProductAttributeSetReadServiceTest extends WebapiAbstract
+class ReadServiceTest extends WebapiAbstract
 {
     public function testGetList()
     {

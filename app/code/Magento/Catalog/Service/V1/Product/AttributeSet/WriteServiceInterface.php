@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
 /**
- * Interface ProductAttributeSetWriteServiceInterface
+ * Interface WriteServiceInterface
  * Service interface to create/update/remove product attribute sets
  */
-interface ProductAttributeSetWriteServiceInterface
+interface WriteServiceInterface
 {
     /**
      * Create attribute set from data

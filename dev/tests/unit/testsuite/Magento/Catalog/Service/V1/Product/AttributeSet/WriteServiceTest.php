@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 
-class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
+class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -27,7 +27,7 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $entityTypeMock;
 
     /**
-     * @var \Magento\Catalog\Service\V1\ProductAttributeSetWriteService
+     * @var \Magento\Catalog\Service\V1\Product\AttributeSet\WriteService
      */
     protected $service;
 
@@ -60,7 +60,7 @@ class ProductAttributeSetWriteServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->service = new ProductAttributeSetWriteService(
+        $this->service = new WriteService(
             $this->setFactoryMock,
             $this->eavConfigMock
         );

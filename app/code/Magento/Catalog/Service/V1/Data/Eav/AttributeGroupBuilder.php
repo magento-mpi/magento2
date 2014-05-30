@@ -6,7 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Product\Data\Eav;
+namespace Magento\Catalog\Service\V1\Data\Eav;
+
+use Magento\Catalog\Service\V1\Data\Eav\AttributeGroup;
 
 class AttributeGroupBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
