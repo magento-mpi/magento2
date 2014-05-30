@@ -39,7 +39,7 @@ define('ACTION_SPLIT', 3);
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/template/');
 
-include BASE_PATH . '/lib/Magento/Framework/File/Csv.php';
+include BASE_PATH . '/lib/internal/Magento/Framework/File/Csv.php';
 class GenerateEmailTemplates
 {
     /**

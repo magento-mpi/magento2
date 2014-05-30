@@ -32,7 +32,6 @@ class CatalogPriceRule extends AbstractRepository
 
     const CONDITION_VALUE = 'conditions__1--1__value';
 
-
     public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
