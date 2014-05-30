@@ -76,7 +76,7 @@ class TaxRule extends AbstractObject
     /**
      * Get tax rates
      *
-     * @return Magento\Tax\Service\V1\Data\TaxRate[]| null
+     * @return \Magento\Tax\Service\V1\Data\TaxRate[]| null
      */
     public function getTaxRates()
     {
