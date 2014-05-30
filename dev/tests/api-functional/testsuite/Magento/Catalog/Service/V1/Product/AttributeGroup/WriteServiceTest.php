@@ -54,12 +54,12 @@ class WriteServiceTest extends WebapiAbstract
         $groupCountAfter = count($groupData);
 
         $newGroup = $groupData[$groupCountAfter-1];
-
-        $this->assertCount($groupCountBefore + 1, $groupData, "The group data does not match.");
-        $this->assertEquals('New Group', $newGroup['name'], "The group data does not match.");
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface');
         $groupService->delete($newGroup['id']);
+
+        $this->assertCount($groupCountBefore + 1, $groupData, "The group data does not match.");
+        $this->assertEquals('New Group', $newGroup['name'], "The group data does not match.");
     }
 
     public function testUpdate()
