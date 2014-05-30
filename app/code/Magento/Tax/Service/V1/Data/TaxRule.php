@@ -22,11 +22,11 @@ class TaxRule extends AbstractObject
 
     const CODE = 'code';
 
-    const CUSTOMER_TAX_CLASS_ID = 'customer_tax_class_id';
+    const CUSTOMER_TAX_CLASS_IDS = 'customer_tax_class_ids';
 
-    const PRODUCT_TAX_CLASS_ID = 'product_tax_class_id';
+    const PRODUCT_TAX_CLASS_IDS = 'product_tax_class_ids';
 
-    const TAX_RATES = 'tax_rates';
+    const TAX_RATE_IDS = 'tax_rate_ids';
 
     const PRIORITY = 'priority';
 
@@ -56,31 +56,31 @@ class TaxRule extends AbstractObject
     /**
      * Get customer tax class id
      *
-     * @return int
+     * @return int[]|null
      */
-    public function getCustomerTaxClassId()
+    public function getCustomerTaxClassIds()
     {
-        return $this->_get(self::CUSTOMER_TAX_CLASS_ID);
+        return $this->_get(self::CUSTOMER_TAX_CLASS_IDS);
     }
 
     /**
      * Get product tax class id
      *
-     * @return int
+     * @return int[]|null
      */
-    public function getProductTaxClassId()
+    public function getProductTaxClassIds()
     {
-        return $this->_get(self::PRODUCT_TAX_CLASS_ID);
+        return $this->_get(self::PRODUCT_TAX_CLASS_IDS);
     }
 
     /**
-     * Get tax rates
+     * Get tax rate ids
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxRate[]| null
+     * @return int[]|null
      */
-    public function getTaxRates()
+    public function getTaxRateIds()
     {
-        return $this->_get(self::TAX_RATES);
+        return $this->_get(self::TAX_RATE_IDS);
     }
 
     /**

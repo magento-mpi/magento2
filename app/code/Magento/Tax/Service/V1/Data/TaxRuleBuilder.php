@@ -57,36 +57,36 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set customer tax class id
+     * Set customer tax class ids
      *
-     * @param int $customerTaxClassId
+     * @param int[] $customerTaxClassIds
      * @return $this
      */
-    public function setCustomerTaxClassId($customerTaxClassId)
+    public function setCustomerTaxClassIds($customerTaxClassIds)
     {
-        return $this->_set(TaxRule::CUSTOMER_TAX_CLASS_ID, $customerTaxClassId);
+        return $this->_set(TaxRule::CUSTOMER_TAX_CLASS_IDS, $customerTaxClassIds);
     }
 
     /**
-     * Set product tax class id
+     * Set product tax class ids
      *
-     * @param int $productTaxClassId
+     * @param int[] $productTaxClassIds
      * @return $this
      */
-    public function setProductTaxClassId($productTaxClassId)
+    public function setProductTaxClassIds($productTaxClassIds)
     {
-        return $this->_set(TaxRule::PRODUCT_TAX_CLASS_ID, $productTaxClassId);
+        return $this->_set(TaxRule::PRODUCT_TAX_CLASS_IDS, $productTaxClassIds);
     }
 
     /**
-     * Set tax rates
+     * Set product tax class ids
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxRate[]| null $taxRates
+     * @param int[] $taxRateIds
      * @return $this
      */
-    public function setTaxRates($taxRates)
+    public function setTaxRateIds($taxRateIds)
     {
-        return $this->_set(TaxRule::TAX_RATES, $taxRates);
+        return $this->_set(TaxRule::TAX_RATE_IDS, $taxRateIds);
     }
 
     /**
@@ -109,20 +109,5 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     public function setSortOrder($sortOrder)
     {
         return $this->_set(TaxRule::SORT_ORDER, $sortOrder);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _setDataValues(array $data)
-    {
-        if (array_key_exists(TaxRule::TAX_RATES, $data)) {
-            $taxRateArray = [];
-            foreach ($data[TaxRule::TAX_RATES] as $taxRateData) {
-                $taxRateArray[] = $this->taxRateBuilder->populateWithArray($taxRateData)->create();
-            }
-            $data[TaxRule::TAX_RATES] = $taxRateArray;
-        }
-        return parent::_setDataValues($data);
     }
 }

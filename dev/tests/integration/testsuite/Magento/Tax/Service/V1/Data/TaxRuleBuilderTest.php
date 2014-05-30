@@ -70,73 +70,32 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
     {
         return[
             'empty' => [[]],
-            'all but rates' => [
+            'all' => [
                 [
                     TaxRule::ID => 1,
                     TaxRule::CODE => 'code',
-                    TaxRule::CUSTOMER_TAX_CLASS_ID => '1',
-                    TaxRule::PRODUCT_TAX_CLASS_ID => '1',
-                    TaxRule::PRIORITY => 'low',
+                    TaxRule::CUSTOMER_TAX_CLASS_IDS => [1, 2],
+                    TaxRule::PRODUCT_TAX_CLASS_IDS => [3, 4],
+                    TaxRule::TAX_RATE_IDS => [1, 3],
+                    TaxRule::PRIORITY => 0,
                     TaxRule::SORT_ORDER => 1,
                 ]
             ],
             'one rate' => [
                 [
                     TaxRule::ID => 1,
-                    TaxRule::TAX_RATES => [
-                        [
-                            TaxRate::KEY_ID => 1,
-                            TaxRate::KEY_COUNTRY_ID => 'US',
-                            TaxRate::KEY_POSTCODE => '78727',
-                            TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                            TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                            TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                        ]
-                    ]
+                    TaxRule::TAX_RATE_IDS => [1]
                 ]
             ],
             'multiple rates' => [
                 [
                     TaxRule::ID => 1,
                     TaxRule::CODE => 'code',
-                    TaxRule::CUSTOMER_TAX_CLASS_ID => '1',
-                    TaxRule::PRODUCT_TAX_CLASS_ID => '1',
-                    TaxRule::PRIORITY => 'low',
+                    TaxRule::CUSTOMER_TAX_CLASS_IDS => [1],
+                    TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
+                    TaxRule::TAX_RATE_IDS => [1,2,3,4],
+                    TaxRule::PRIORITY => 0,
                     TaxRule::SORT_ORDER => 1,
-                    TaxRule::TAX_RATES => [
-                        [
-                            TaxRate::KEY_ID => 1,
-                            TaxRate::KEY_COUNTRY_ID => 'US',
-                            TaxRate::KEY_POSTCODE => '78727',
-                            TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                            TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                            TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                        ],
-                        [
-                            TaxRate::KEY_ID => 2,
-                            TaxRate::KEY_COUNTRY_ID => 'Don\'tLiveHere',
-                            TaxRate::KEY_POSTCODE => '10000',
-                            TaxRate::KEY_PERCENTAGE_RATE => '1000',
-                            TaxRate::KEY_CODE => 'DN-LH-*-Rate 1',
-                            TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 10000, ZipRange::KEY_TO => 10001]
-                        ],
-                        [
-                            TaxRate::KEY_ID => 3,
-                            TaxRate::KEY_COUNTRY_ID => 'AA',
-                            TaxRate::KEY_POSTCODE => '78727',
-                            TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                            TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                            TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                        ],
-                        [
-                            TaxRate::KEY_ID => 4,
-                            TaxRate::KEY_COUNTRY_ID => 'BB',
-                            TaxRate::KEY_POSTCODE => '78727',
-                            TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                            TaxRate::KEY_CODE => 'US-CA-*-Rate 2',
-                            TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                        ]
-                    ]
                 ]
             ],
         ];
@@ -147,44 +106,26 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRuleDataSomeFields = [
                 TaxRule::ID => 1,
                 TaxRule::CODE => 'code',
-                TaxRule::TAX_RATES => [
-                    [
-                        TaxRate::KEY_ID => 1,
-                        TaxRate::KEY_COUNTRY_ID => 'US',
-                        TaxRate::KEY_POSTCODE => '78727',
-                        TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                        TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                        TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                    ]
-                ]
+                TaxRule::TAX_RATE_IDS => [1],
         ];
 
         $taxRuleDataMoreFields = [
             TaxRule::ID => 1,
             TaxRule::CODE => 'codeChanged',
-            TaxRule::CUSTOMER_TAX_CLASS_ID => '1',
-            TaxRule::PRODUCT_TAX_CLASS_ID => '1',
-            TaxRule::PRIORITY => 'low',
+            TaxRule::CUSTOMER_TAX_CLASS_IDS => [1],
+            TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
+            TaxRule::PRIORITY => 0,
             TaxRule::SORT_ORDER => 1,
         ];
 
         $taxRuleDataExpected = [
             TaxRule::ID => 1,
             TaxRule::CODE => 'codeChanged',
-            TaxRule::CUSTOMER_TAX_CLASS_ID => '1',
-            TaxRule::PRODUCT_TAX_CLASS_ID => '1',
-            TaxRule::PRIORITY => 'low',
+            TaxRule::CUSTOMER_TAX_CLASS_IDS => [1],
+            TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
+            TaxRule::TAX_RATE_IDS => [1],
+            TaxRule::PRIORITY => 0,
             TaxRule::SORT_ORDER => 1,
-            TaxRule::TAX_RATES => [
-                [
-                    TaxRate::KEY_ID => 1,
-                    TaxRate::KEY_COUNTRY_ID => 'US',
-                    TaxRate::KEY_POSTCODE => '78727',
-                    TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                    TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                    TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                ]
-            ]
         ];
 
         $taxRuleExpected = $this->builder->populateWithArray($taxRuleDataExpected)->create();
@@ -199,44 +140,26 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRuleDataSomeFields = [
             TaxRule::ID => 1,
             TaxRule::CODE => 'code',
-            TaxRule::TAX_RATES => [
-                [
-                    TaxRate::KEY_ID => 1,
-                    TaxRate::KEY_COUNTRY_ID => 'US',
-                    TaxRate::KEY_POSTCODE => '78727',
-                    TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                    TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                    TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                ]
-            ]
+            TaxRule::TAX_RATE_IDS => [1],
         ];
 
         $taxRuleDataMoreFields = [
             TaxRule::ID => 1,
             TaxRule::CODE => 'codeChanged',
-            TaxRule::CUSTOMER_TAX_CLASS_ID => '1',
-            TaxRule::PRODUCT_TAX_CLASS_ID => '1',
-            TaxRule::PRIORITY => 'low',
+            TaxRule::CUSTOMER_TAX_CLASS_IDS => [1],
+            TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
+            TaxRule::PRIORITY => 0,
             TaxRule::SORT_ORDER => 1,
         ];
 
         $taxRuleDataExpected = [
             TaxRule::ID => 1,
             TaxRule::CODE => 'codeChanged',
-            TaxRule::CUSTOMER_TAX_CLASS_ID => '1',
-            TaxRule::PRODUCT_TAX_CLASS_ID => '1',
-            TaxRule::PRIORITY => 'low',
+            TaxRule::CUSTOMER_TAX_CLASS_IDS => [1],
+            TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
+            TaxRule::PRIORITY => 0,
             TaxRule::SORT_ORDER => 1,
-            TaxRule::TAX_RATES => [
-                [
-                    TaxRate::KEY_ID => 1,
-                    TaxRate::KEY_COUNTRY_ID => 'US',
-                    TaxRate::KEY_POSTCODE => '78727',
-                    TaxRate::KEY_PERCENTAGE_RATE => '8.25',
-                    TaxRate::KEY_CODE => 'US-CA-*-Rate 1',
-                    TaxRate::KEY_ZIP_RANGE => [ZipRange::KEY_FROM => 78701, ZipRange::KEY_TO => 78780]
-                ]
-            ]
+            TaxRule::TAX_RATE_IDS => [1],
         ];
 
         $taxRuleExpected = $this->builder->populateWithArray($taxRuleDataExpected)->create();
@@ -260,18 +183,14 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
         if (array_key_exists(TaxRule::CODE, $dataArray)) {
             $this->builder->setCode($dataArray[TaxRule::CODE]);
         }
-        if (array_key_exists(TaxRule::CUSTOMER_TAX_CLASS_ID, $dataArray)) {
-            $this->builder->setCustomerTaxClassId($dataArray[TaxRule::CUSTOMER_TAX_CLASS_ID]);
+        if (array_key_exists(TaxRule::CUSTOMER_TAX_CLASS_IDS, $dataArray)) {
+            $this->builder->setCustomerTaxClassIds($dataArray[TaxRule::CUSTOMER_TAX_CLASS_IDS]);
         }
-        if (array_key_exists(TaxRule::PRODUCT_TAX_CLASS_ID, $dataArray)) {
-            $this->builder->setProductTaxClassId($dataArray[TaxRule::PRODUCT_TAX_CLASS_ID]);
+        if (array_key_exists(TaxRule::PRODUCT_TAX_CLASS_IDS, $dataArray)) {
+            $this->builder->setProductTaxClassIds($dataArray[TaxRule::PRODUCT_TAX_CLASS_IDS]);
         }
-        if (array_key_exists(TaxRule::TAX_RATES, $dataArray)) {
-            $taxRates = [];
-            foreach ($dataArray[TaxRule::TAX_RATES] as $taxRateData) {
-                $taxRates[] = $this->taxRateBuilder->populateWithArray($taxRateData)->create();
-            }
-            $this->builder->setTaxRates($taxRates);
+        if (array_key_exists(TaxRule::TAX_RATE_IDS, $dataArray)) {
+            $this->builder->setTaxRateIds($dataArray[TaxRule::TAX_RATE_IDS]);
         }
         if (array_key_exists(TaxRule::PRIORITY, $dataArray)) {
             $this->builder->setPriority($dataArray[TaxRule::PRIORITY]);
