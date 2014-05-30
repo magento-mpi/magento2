@@ -55,6 +55,7 @@ class TargetRule extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
         'group' => 'rule_information',
     ];
 
@@ -64,6 +65,7 @@ class TargetRule extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
         'group' => 'rule_information',
     ];
 

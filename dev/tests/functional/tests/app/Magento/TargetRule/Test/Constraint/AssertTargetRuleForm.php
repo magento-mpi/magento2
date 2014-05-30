@@ -8,11 +8,11 @@
 
 namespace Magento\TargetRule\Test\Constraint;
 
+use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
-use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTargetRuleForm
@@ -42,28 +42,30 @@ class AssertTargetRuleForm extends AbstractConstraint
      * @param TargetRuleIndex $targetRuleIndex
      * @param TargetRuleEdit $targetRuleEdit
      * @param TargetRule $targetRule
-     * @param CustomerSegment $customerSegment
+     * @param CustomerSegment|null $customerSegment
+     * @param TargetRule|null $initialTargetRule
      * @return void
      */
     public function processAssert(
         TargetRuleIndex $targetRuleIndex,
         TargetRuleEdit $targetRuleEdit,
         TargetRule $targetRule,
-        CustomerSegment $customerSegment = null
+        CustomerSegment $customerSegment = null,
+        TargetRule $initialTargetRule = null
     ) {
-        $filter = [
-            'name' => $targetRule->getName(),
-        ];
         $replace = [
             'customer_segment_ids' => [
                 '%customer_segment%' => $customerSegment->hasData() ? $customerSegment->getName() : '',
             ],
         ];
 
+        $targetRuleData = $initialTargetRule
+            ? array_replace($initialTargetRule->getData(), $targetRule->getData())
+            : $targetRule->getData();
+        $targetRuleData = $this->prepareData($targetRuleData, $replace);
         $targetRuleIndex->open();
-        $targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
-        $targetRuleData = $this->prepareData($targetRule->getData(), $replace);
-        $formData = $targetRuleEdit->getTargetRuleForm()->getData($targetRule);
+        $targetRuleIndex->getTargetRuleGrid()->searchAndOpen(['name' => $targetRuleData['name']]);
+        $formData = $targetRuleEdit->getTargetRuleForm()->getData();
         $dataDiff = $this->verify($targetRuleData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),

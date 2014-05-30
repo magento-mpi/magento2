@@ -18,7 +18,7 @@ use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
- * Curl handler for creating target rule through backend.
+ * Curl handler for creating customer segment through backend.
  */
 class Curl extends AbstractCurl implements CustomerSegmentInterface
 {
@@ -55,8 +55,8 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
         /** @var CustomerSegment $customerSegment */
         $url = $_ENV['app_backend_url'] . 'customersegment/index/save/edit/active_tab/general_section';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-
         $data = $customerSegment->getData();
+
         $data['is_active'] = $this->getIsActiveValue($data['is_active']);
         $data['apply_to'] = $this->getApplyToValue($data['apply_to']);
         $data['website_ids'] = $this->getWebsiteIdsValue($data['website_ids']);
@@ -112,12 +112,13 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
     {
         $url = $_ENV['app_backend_url'] . 'admin/system_store';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $result = [];
 
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
         $curl->close();
 
-        $result = [];
+        $names = is_array($names) ? $names : [$names];
         foreach ($names as $name) {
             preg_match(
                 '/<a[^>]+href="[^"]+website_id\\/([\\d]+)\\/"[^>]*>' . $name . '<\\/a>/',

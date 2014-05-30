@@ -16,26 +16,25 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
 
 /**
- * Test Creation for CreateTargetRuleEntity
+ * Test Creation for UpdateTargetRuleEntity
  *
  * Test Flow:
  *
  * Preconditions:
- * 1. Test Category are created.
- * 2. Products are created (1 product per each category).
+ * 1. Target Rule is created.
  *
  * Steps:
- * 1. Log in as default admin user.
- * 2. Go to Marketing > Related Products Rules
- * 3. Click 'Add Rule' button.
- * 4. Fill in data according to dataSet
- * 5. Save Related Products Rule.
- * 6. Perform all assertions.
+ * 1. Login to backend.
+ * 2. Navigate to MARKETING > Related Products Rules.
+ * 3. Click Target Rule from grid.
+ * 4. Edit test value(s) according to dataset.
+ * 5. Click 'Save' button.
+ * 6. Perform all asserts.
  *
  * @group Target_Rules_(MX)
- * @ZephyrId MAGETWO-24686
+ * @ZephyrId MAGETWO-24807
  */
-class CreateTargetRuleEntityTest extends Injectable
+class UpdateTargetRuleEntityTest extends Injectable
 {
     /**
      * @var TargetRuleIndex
@@ -62,31 +61,35 @@ class CreateTargetRuleEntityTest extends Injectable
     }
 
     /**
-     * Run create TargetRule entity test
+     * Run update TargetRule entity test
      *
      * @param CatalogProductSimple $product1
      * @param CatalogProductSimple $product2
+     * @param TargetRule $initialTargetRule
      * @param TargetRule $targetRule
      * @param CustomerSegment|null $customerSegment
      * @return void
      */
-    public function testCreateTargetRuleEntity(
+    public function testUpdateTargetRuleEntity(
         CatalogProductSimple $product1,
         CatalogProductSimple $product2,
+        TargetRule $initialTargetRule,
         TargetRule $targetRule,
         CustomerSegment $customerSegment = null
     ) {
         // Preconditions:
         $product1->persist();
         $product2->persist();
+        $initialTargetRule->persist();
         if ($customerSegment->hasData()) {
             $customerSegment->persist();
         }
         $replace = $this->getReplaceData($product1, $product2, $customerSegment);
 
         // Steps
+        $filter = ['name' => $initialTargetRule->getName()];
         $this->targetRuleIndex->open();
-        $this->targetRuleIndex->getGridPageActions()->addNew();
+        $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleNew->getTargetRuleForm()->fill($targetRule, null, $replace);
         $this->targetRuleNew->getPageActions()->save();
     }
