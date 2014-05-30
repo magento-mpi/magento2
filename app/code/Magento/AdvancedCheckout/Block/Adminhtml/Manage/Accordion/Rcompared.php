@@ -25,14 +25,14 @@ class Rcompared extends AbstractAccordion
     protected $_adminhtmlSales;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Compare\ListCompareFactory
+     * @var \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory
      */
     protected $_compareListFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
-    protected $_productFactory;
+    protected $productListFactory;
 
     /**
      * @var \Magento\Catalog\Model\Config
@@ -57,8 +57,8 @@ class Rcompared extends AbstractAccordion
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory
      * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param array $data
      *
@@ -72,15 +72,15 @@ class Rcompared extends AbstractAccordion
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Reports\Model\Resource\Event $reportsEventResource,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
+        \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory,
         \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->_reportsEventResource = $reportsEventResource;
         $this->_adminhtmlSales = $adminhtmlSales;
-        $this->_productFactory = $productFactory;
+        $this->productListFactory = $productListFactory;
         $this->_compareListFactory = $compareListFactory;
         $this->stockItemService = $stockItemService;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
@@ -109,9 +109,7 @@ class Rcompared extends AbstractAccordion
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            /** @var \Magento\Catalog\Model\Product\Compare\ListCompare $compareList */
-            $compareList = $this->_compareListFactory->create();
-            $collection = $compareList->getItemCollection();
+            $collection = $this->_compareListFactory->create();
             $collection->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
@@ -127,8 +125,7 @@ class Rcompared extends AbstractAccordion
                 // Status attribute is required even if it is not used in product listings
                 $attributes[] = 'status';
             }
-            $productCollection = $this->_productFactory->create()
-                ->getCollection()
+            $productCollection = $this->productListFactory->create()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);

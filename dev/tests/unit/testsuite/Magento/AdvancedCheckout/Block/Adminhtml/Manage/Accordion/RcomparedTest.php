@@ -52,7 +52,7 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productFactory;
+    protected $productListFactory;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -71,18 +71,15 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
             ->setMethods([])
             ->getMock();
 
-        $compareList = $this->getMockBuilder('Magento\Catalog\Model\Product\Compare\ListCompare')
-            ->disableOriginalConstructor()
-            ->setMethods(['getItemCollection'])
-            ->getMock();
-        $compareList->expects($this->any())->method('getItemCollection')
-            ->will($this->returnValue($this->itemCollection));
-
         $this->listCompareFactory = $this->getMock(
-            'Magento\Catalog\Model\Product\Compare\ListCompareFactory',
-            ['create']
+            'Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory',
+            ['create'],
+            [],
+            '',
+            false
         );
-        $this->listCompareFactory->expects($this->any())->method('create')->will($this->returnValue($compareList));
+        $this->listCompareFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->itemCollection));
 
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customer->expects($this->any())->method('getId')->will($this->returnValue($this->customerId));
@@ -98,10 +95,12 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
-        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $product->expects($this->any())->method('getCollection')->will($this->returnValue($this->productCollection));
-        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
-        $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($product));
+        $this->productListFactory = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\CollectionFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $this->productListFactory->expects($this->any())->method('create')
+            ->will($this->returnValue($this->productCollection));
 
         $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItem')
             ->disableOriginalConstructor()
@@ -190,7 +189,7 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
                 'compareListFactory' => $this->listCompareFactory,
                 'coreRegistry'       => $this->registry,
                 'catalogConfig'      => $catalogConfig,
-                'productFactory'     => $this->productFactory,
+                'productListFactory' => $this->productListFactory,
                 'adminhtmlSales'     => $adminhtmlSales,
                 'stockItemService'   => $this->stockItemService
             ]
