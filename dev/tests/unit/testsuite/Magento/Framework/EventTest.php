@@ -62,9 +62,8 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $data = ['name' => 'Add New Observer'];
         $observer = new Observer($data);
         $this->event->addObserver($observer);
-        $expected = 'Magento\Framework\Event\Observer';
         $actual = $this->event->getObservers()->getObserverByName($data['name']);
-        $this->assertInstanceOf($expected, $actual);
+        $this->assertSame($observer, $actual);
     }
 
     public function testRemoveObserverByName()
@@ -73,8 +72,9 @@ class EventTest extends \PHPUnit_Framework_TestCase
             'name' => 'ObserverName',
         ];
         $this->event->addObserver($this->observer);
-        $result = $this->event->getObservers()->removeObserverByName($data['name']);
-        $this->assertEquals($this->observer, $result);
+        $expected = 'Magento\Framework\Event\Observer\Collection';
+        $actual = $this->event->getObservers()->removeObserverByName($data['name']);
+        $this->assertInstanceOf($expected, $actual);
     }
 
     public function testDispatch()
