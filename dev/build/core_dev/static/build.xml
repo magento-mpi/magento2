@@ -67,6 +67,23 @@
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
             <target name="_static_tests_no_js"/>
+        </antcall>
+    </target>
+
+    <target name="sanity_check_ce" depends="_server_info" description="Sanity Check for CE">
+        <antcall>
+            <param name="license_replacement_enabled" value="true"/>
+            <param name="product_edition_code" value="ce"/>
+            <target name="_product_edition_no_build"/>
+            <target name="_sanity_check"/>
+        </antcall>
+    </target>
+
+    <target name="sanity_check_ee" depends="_server_info" description="Sanity Check for EE">
+        <antcall>
+            <param name="license_replacement_enabled" value="true"/>
+            <param name="product_edition_code" value="ee"/>
+            <target name="_product_edition_no_build"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>
@@ -77,7 +94,6 @@
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
             <target name="_static_tests_no_js"/>
-            <target name="_sanity_check"/>
         </antcall>
     </target>
 
