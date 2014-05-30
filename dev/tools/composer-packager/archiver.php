@@ -27,8 +27,8 @@ try {
     $filter = $opt->getOption('v') ? new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) : new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 
-    $logger->info(sprintf("You selected %s. ", $generationDir));
-    $logger->info(sprintf("Your root directory: %s ", $rootDir));
+    $logger->info(sprintf("Your selected Generation Directory: %s. ", $generationDir));
+    $logger->info(sprintf("Your Magento Installation Directory: %s ", $rootDir));
 
     $moduleExtractor= new \Magento\Composer\Extractor\ModuleExtractor($rootDir, $logger);
     $adminThemeExtractor = new \Magento\Composer\Extractor\AdminThemeExtractor($rootDir, $logger);
