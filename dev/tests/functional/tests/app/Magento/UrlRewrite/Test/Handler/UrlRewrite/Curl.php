@@ -28,10 +28,12 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
      * @var array
      */
     protected $dataMapping = [
-        'Default Store View' => 1,
-        'Temporary (302)' => 'R',
-        'Temporary (301)' => 'RP',
-        'No' => ''
+        'store_id' => ['Default Store View' => 1],
+        'options' => [
+            'Temporary (302)' => 'R',
+            'Temporary (301)' => 'RP',
+            'No' => ''
+        ]
     ];
 
     /**
@@ -45,15 +47,20 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
      * Post request for creating url rewrite
      *
      * @param FixtureInterface $fixture
+     * @throws \Exception
      * @return mixed|void
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $url = $_ENV['app_backend_url'] . $this->url . $fixture->getData('rewrite_path');
+        $url = $_ENV['app_backend_url'] . $this->url . $fixture->getRewritePath();
         $data = $this->prepareData($fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-        $curl->read();
+        $response = $curl->read();
+
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
+        }
         $curl->close();
     }
 
@@ -65,13 +72,11 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
      */
     protected function prepareData(array $data)
     {
-        array_walk_recursive(
-            $data,
-            function (&$value, $key, $placeholder) {
-                $value = isset($placeholder[$value]) ? $placeholder[$value] : $value;
-            },
-            $this->dataMapping
-        );
+        foreach ($data as $key => $value) {
+            if (isset($this->dataMapping[$key])) {
+                $data[$key] = $this->dataMapping[$key][$value];
+            }
+        }
         return $data;
     }
 }

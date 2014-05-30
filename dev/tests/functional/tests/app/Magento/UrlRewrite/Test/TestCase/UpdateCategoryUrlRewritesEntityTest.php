@@ -16,26 +16,26 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 
 /**
- * Test Creation for UpdateCategoryURLRewritesEntity
+ * Test Creation for UpdateCategoryUrlRewritesEntity
  *
  * Test Flow:
  *
  * Precondition:
- * 1. SubCategory is created. Category
- * 2. Category URL Rewrite is created. CategoryRewrite
+ * 1. SubCategory is created.
+ * 2. Category URL Rewrite is created.
  *
  * Steps:
- * 1. Log in to backend as Admin
- * 2. Go to the Marketing-> SEO & Search->URL Redirects
- * 3. Click Category URL Rewrite from grid
+ * 1. Log in to backend as Admin.
+ * 2. Go to the Marketing-> SEO & Search->URL Redirects.
+ * 3. Click Category URL Rewrite from grid.
  * 4. Edit test value(s) according to dataSet.
  * 5. Click 'Save' button.
- * 6. Perform all asserts
+ * 6. Perform all asserts.
  *
  * @group URL_Rewrites_(PS)
  * @ZephyrId MAGETWO-24838
  */
-class UpdateCategoryURLRewritesEntityTest extends Injectable
+class UpdateCategoryUrlRewritesEntityTest extends Injectable
 {
     /**
      * Url rewrite index page
@@ -73,7 +73,7 @@ class UpdateCategoryURLRewritesEntityTest extends Injectable
             'urlRewrite',
             [
                 'dataSet' => 'default',
-                'data' => ['rewrite_path' => 'product/' . $category->getId()]
+                'data' => ['rewrite_path' => 'category/' . $category->getId()]
             ]
         );
         $categoriesRedirect->persist();
@@ -84,16 +84,16 @@ class UpdateCategoryURLRewritesEntityTest extends Injectable
     /**
      * Update category URL rewrites
      *
-     * @param CatalogCategoryEntity $category
+     * @param UrlRewrite $categoriesRedirect
      * @param UrlRewrite $urlRewrite
      * @return void
      */
-    public function testUpdateCategoryURLRewrites(CatalogCategoryEntity $category, UrlRewrite $urlRewrite)
+    public function testUpdateCategoryURLRewrites(UrlRewrite $categoriesRedirect, UrlRewrite $urlRewrite)
     {
         //Steps
         $this->urlRewriteIndex->open();
-        $this->urlRewriteIndex->getPageActionsBlock()->addNew();
-        $this->urlRewriteEdit->getTreeBlock()->selectCategory($category->getName());
+        $filter = ['request_path' => $categoriesRedirect->getRequestPath()];
+        $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
     }
