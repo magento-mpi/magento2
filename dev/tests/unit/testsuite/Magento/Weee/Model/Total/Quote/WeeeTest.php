@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Weee\Model;
+namespace Magento\Weee\Model\Total\Quote;
 
 class WeeeTest extends \PHPUnit_Framework_TestCase
 {
@@ -109,7 +109,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
     /**
      * Initialize mock objects
      */
-    protected function _initializeMockObjects(){
+    protected function _initializeMockObjects()
+    {
         $weeeDataMethods = [
             'isEnabled',
             'isDiscounted',
@@ -155,7 +156,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Prepare constructor data for \Magento\Weee\Helper\Data
      * return array
      */
-    protected function _prepareWeeeDataConstruct() {
+    protected function _prepareWeeeDataConstruct()
+    {
         $this->_contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->_storeManagerInterfaceMock = $this->getMock(
             'Magento\Store\Model\StoreManagerInterface', [], [], '', false
@@ -183,7 +185,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
     /**
      * Prepare expects for mocked objects
      */
-    protected function _prepareStaticMockExpects() {
+    protected function _prepareStaticMockExpects()
+    {
         $this->_addressMock->expects($this->any())->method('getQuote')
             ->will($this->returnValue($this->_quoteModelMock));
         $this->_addressMock->expects($this->any())->method('getAllItems')
@@ -422,7 +425,9 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessConfigArray()
     {
-        $this->assertEquals($this->_configMock, $this->_model->processConfigArray($this->_configMock, $this->_storeMock));
+        $this->assertEquals(
+            $this->_configMock, $this->_model->processConfigArray($this->_configMock, $this->_storeMock)
+        );
     }
 
     /**
