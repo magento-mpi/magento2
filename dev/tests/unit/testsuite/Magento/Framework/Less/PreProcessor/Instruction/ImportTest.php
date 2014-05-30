@@ -4,167 +4,133 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
-namespace Magento\Framework\Less\PreProcessor\Instruction;
 
-use Magento\Framework\Filesystem\FilesystemException;
+namespace Magento\Framework\Less\PreProcessor\Instruction;
 
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Sample @import instructions.
+     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
      */
-    const SAMPLE_IMPORT_SIMPLE = '@import "foo";';
-    const SAMPLE_IMPORT_COMPLEX = '@import (reference) "foo" (image);';
-    const SAMPLE_IMPORT_MALFORMED = '@this "is a malformed" (input);';
+    private $notationResolver;
 
-    /** @var  \Magento\Framework\View\RelatedFile | PHPUnit_Framework_MockObject */
-    private $relatedFileMock;
+    /**
+     * @var \Magento\Framework\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $asset;
 
-    /** @var  \Magento\Framework\Less\PreProcessor\ErrorHandlerInterface | PHPUnit_Framework_MockObject */
-    private $errorHandlerMock;
+    /**
+     * @var \Magento\Framework\Less\PreProcessor\Instruction\Import
+     */
+    private $object;
 
-    /** @var  \Magento\Framework\Less\PreProcessor\File\FileList | PHPUnit_Framework_MockObject */
-    private $lessFileListMock;
-
-    /** @var  \Magento\Framework\Less\PreProcessor\File\Less | PHPUnit_Framework_MockObject */
-    private $lessFileMock;
-
-    /** @var  \Magento\Framework\Less\PreProcessor\Instruction\Import */
-    private $importObject;
-
-    public function setUp()
+    protected function setUp()
     {
-        $this->relatedFileMock =
-            $this->getMockBuilder('\Magento\Framework\View\RelatedFile')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->errorHandlerMock =
-            $this->getMockBuilder('\Magento\Framework\Less\PreProcessor\ErrorHandlerInterface')
-            ->getMock();
-
-        $this->lessFileListMock =
-            $this->getMockBuilder('\Magento\Framework\Less\PreProcessor\File\FileList')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->lessFileMock =
-            $this->getMockBuilder('\Magento\Framework\Less\PreProcessor\File\Less')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->lessFileMock
-            ->expects($this->any())
-            ->method('getFilePath')
-            ->will($this->returnValue('/'));
-
-        $this->lessFileListMock
-            ->expects($this->any())
-            ->method('createFile')
-            ->will($this->returnValue($this->lessFileMock));
-
-        $this->importObject = new Import(
-            $this->relatedFileMock,
-            $this->errorHandlerMock,
-            $this->lessFileListMock
+        $this->notationResolver = $this->getMock(
+            '\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false
         );
+        $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
+        $this->object = new \Magento\Framework\Less\PreProcessor\Instruction\Import($this->notationResolver);
     }
 
-    public function testProcessBlankRequestNoReplacement()
+    /**
+     * @param string $originalContent
+     * @param string $foundPath
+     * @param string $resolvedPath
+     * @param string $expectedContent
+     *
+     * @dataProvider processDataProvider
+     */
+    public function testProcess($originalContent, $foundPath, $resolvedPath, $expectedContent)
     {
-        $expectedValue = '';
-
-        $this->lessFileMock
-            ->expects($this->never())
-            ->method('getViewParams');
-
-        $actualValueBlankRequest = $this->importObject
-            ->process($this->lessFileMock, '');
-        $this->assertEquals($expectedValue, $actualValueBlankRequest);
-
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
+        $this->notationResolver->expects($this->once())
+            ->method('convertModuleNotationToPath')
+            ->with($this->asset, $foundPath)
+            ->will($this->returnValue($resolvedPath));
+        $this->object->process($chain);
+        $this->assertEquals($expectedContent, $chain->getContent());
+        $this->assertEquals('css', $chain->getContentType());
     }
 
-    public function testProcessSimpleRequestNoReplacement()
+    /**
+     * @return array
+     */
+    public function processDataProvider()
     {
-        $expectedValue = '';
-
-        $this->lessFileMock
-            ->expects($this->once())
-            ->method('getViewParams');
-
-        $this->lessFileListMock
-            ->expects($this->once())
-            ->method('createFile')
-            ->with(null, null);
-
-        $this->lessFileListMock
-            ->expects($this->once())
-            ->method('addFile');
-
-        $actualValueSimpleRequestNoReplacement = $this->importObject
-            ->process($this->lessFileMock, self::SAMPLE_IMPORT_SIMPLE);
-        $this->assertEquals($expectedValue, $actualValueSimpleRequestNoReplacement);
+        return [
+            'non-modular notation' => [
+                '@import (type) "some/file.css" media;',
+                'some/file.css',
+                'some/file.css',
+                "@import (type) 'some/file.css' media;",
+            ],
+            'modular, with extension' => [
+                '@import (type) "Magento_Module::something.css" media;',
+                'Magento_Module::something.css',
+                'Magento_Module/something.css',
+                "@import (type) 'Magento_Module/something.css' media;",
+            ],
+            'modular, no extension' => [
+                '@import (type) "Magento_Module::something" media;',
+                'Magento_Module::something.less',
+                'Magento_Module/something.less',
+                "@import (type) 'Magento_Module/something.less' media;",
+            ],
+            'no type' => [
+                '@import "Magento_Module::something.css" media;',
+                'Magento_Module::something.css',
+                'Magento_Module/something.css',
+                "@import 'Magento_Module/something.css' media;",
+            ],
+            'no media' => [
+                '@import (type) "Magento_Module::something.css";',
+                'Magento_Module::something.css',
+                'Magento_Module/something.css',
+                "@import (type) 'Magento_Module/something.css';",
+            ],
+        ];
     }
 
-    public function testProcessSimpleRequestSingleReplacement()
+    public function testProcessNoImport()
     {
-        $expectedValue = "@import 'bar';";
+        $originalContent = 'color: #000000;';
+        $expectedContent = 'color: #000000;';
 
-        $this->lessFileMock
-            ->expects($this->once())
-            ->method('getPublicationPath')
-            ->will($this->returnValue('bar'));
-
-        $actualValueSimpleReplacement = $this->importObject
-            ->process($this->lessFileMock, self::SAMPLE_IMPORT_SIMPLE);
-
-        $this->assertEquals($expectedValue, $actualValueSimpleReplacement);
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
+        $this->notationResolver->expects($this->never())
+            ->method('convertModuleNotationToPath');
+        $this->object->process($chain);
+        $this->assertEquals($expectedContent, $chain->getContent());
+        $this->assertEquals('css', $chain->getContentType());
     }
 
-    public function testProcessComplexRequestSingleReplacement()
+    /**
+     * @covers resetRelatedFiles
+     */
+    public function testGetRelatedFiles()
     {
-        $expectedValue = "@import (reference) 'bar'  (image);";
+        $this->assertSame([], $this->object->getRelatedFiles());
 
-        $this->lessFileMock
-            ->expects($this->once())
-            ->method('getPublicationPath')
-            ->will($this->returnValue('bar'));
+        $this->notationResolver->expects($this->once())
+            ->method('convertModuleNotationToPath')
+            ->with($this->asset, 'Magento_Module::something.css')
+            ->will($this->returnValue('Magento_Module/something.css'));
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain(
+            $this->asset,
+            '@import (type) "Magento_Module::something.css" media;',
+            'css'
+        );
+        $this->object->process($chain);
+        $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, 'color: #000000;', 'css');
+        $this->object->process($chain);
 
-        $actualValueComplexReplacement = $this->importObject
-            ->process($this->lessFileMock, self::SAMPLE_IMPORT_COMPLEX);
+        $expected = [['Magento_Module::something.css', $this->asset]];
+        $this->assertSame($expected, $this->object->getRelatedFiles());
 
-        $this->assertEquals($expectedValue, $actualValueComplexReplacement);
+        $this->object->resetRelatedFiles();
+        $this->assertSame([], $this->object->getRelatedFiles());
     }
-
-    public function testMalformedRequest()
-    {
-        $expectedValue = self::SAMPLE_IMPORT_MALFORMED;
-
-        $this->lessFileMock
-            ->expects($this->never())
-            ->method('getViewParams');
-
-        $actualValueMalformedRequest = $this->importObject
-            ->process($this->lessFileMock, self::SAMPLE_IMPORT_MALFORMED);
-
-        $this->assertEquals($expectedValue, $actualValueMalformedRequest);
-    }
-
-    public function testProcessException()
-    {
-        $expectedValue = '';
-
-        $this->lessFileMock
-            ->expects($this->once())
-            ->method('getPublicationPath')
-            ->will($this->throwException(new FilesystemException));
-
-        $actualValueExceptionRequest = $this->importObject
-            ->process($this->lessFileMock, self::SAMPLE_IMPORT_SIMPLE);
-
-        $this->assertEquals($expectedValue, $actualValueExceptionRequest);
-    }
-
 }

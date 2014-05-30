@@ -13,10 +13,11 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class ProductForm
@@ -74,9 +75,16 @@ class Form extends FormTabs
     protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
 
     /**
+     * Locator status of products
+     *
+     * @var string
+     */
+    protected $onlineSwitcher = '#product-online-switcher + [for="product-online-switcher"]';
+
+    /**
      * Category fixture
      *
-     * @var Category
+     * @var CatalogCategoryEntity
      */
     protected $category;
 
@@ -84,14 +92,17 @@ class Form extends FormTabs
      * Fill the product form
      *
      * @param FixtureInterface $fixture
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @param Element $element
      * @return $this
      */
-    public function fillProduct(FixtureInterface $fixture, Category $category = null, Element $element = null)
+    public function fillProduct(FixtureInterface $fixture, CatalogCategoryEntity $category = null, Element $element = null)
     {
         $this->category = $category;
         $this->fillCategory($fixture);
+        if ($fixture instanceof InjectableFixture && $fixture->getStatus() === 'Product offline') {
+            $this->_rootElement->find($this->onlineSwitcher)->click();
+        }
         return parent::fill($fixture, $element);
     }
 
@@ -120,19 +131,30 @@ class Form extends FormTabs
     protected function fillCategory(FixtureInterface $fixture)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $categoryName = $this->category
-            ? $this->category->getCategoryName()
-            : ($fixture->getCategoryName() ? $fixture->getCategoryName() : '');
-
-        if (!$categoryName) {
+        $categoryName = null;
+        if (!empty($this->category)) {
+            $categoryName = $this->category->getName();
+        }
+        if (empty($categoryName) && !($fixture instanceof InjectableFixture)) {
+                $categoryName = $fixture->getCategoryName();
+        }
+        if (empty($categoryName)) {
             return;
         }
+
         $category = $this->_rootElement->find(
-            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
+            str_replace(
+                '%categoryName%',
+                $categoryName,
+                $this->categoryName
+            ),
+            Locator::SELECTOR_XPATH
         );
         if (!$category->isVisible()) {
             $this->fillCategoryField(
-                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
+                $categoryName,
+                'category_ids-suggest',
+                '//*[@id="attribute-category_ids-container"]'
             );
         }
     }
