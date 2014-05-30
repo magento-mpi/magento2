@@ -63,7 +63,7 @@ class Attribute extends AbstractObject
      *
      * @return boolean
      */
-    public function getIsRequired()
+    public function isRequired()
     {
         return $this->_get(self::IS_REQUIRED);
     }
@@ -73,7 +73,7 @@ class Attribute extends AbstractObject
      *
      * @return boolean
      */
-    public function getIsUserDefined()
+    public function isUserDefined()
     {
         return $this->_get(self::IS_USER_DEFINED);
     }
