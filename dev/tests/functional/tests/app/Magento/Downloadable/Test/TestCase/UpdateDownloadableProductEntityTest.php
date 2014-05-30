@@ -9,10 +9,11 @@
 namespace Magento\Downloadable\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\Category;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Test Creation for Update DownloadableProductEntity
@@ -33,9 +34,16 @@ class UpdateDownloadableProductEntityTest extends Injectable
     /**
      * Fixture category
      *
-     * @var Category
+     * @var CatalogCategoryEntity
      */
     protected $category;
+
+    /**
+     * Downloadable product fixture
+     *
+     * @var CatalogProductDownloadable
+     */
+    protected $product;
 
     /**
      * Product page with a grid
@@ -47,17 +55,17 @@ class UpdateDownloadableProductEntityTest extends Injectable
     /**
      * New product page on backend
      *
-     * @var CatalogProductNew
+     * @var CatalogProductEdit
      */
-    protected $catalogProductNew;
+    protected $catalogProductEdit;
 
     /**
      * Persist category
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return array
      */
-    public function __prepare(Category $category)
+    public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
 
@@ -69,32 +77,39 @@ class UpdateDownloadableProductEntityTest extends Injectable
     /**
      * Filling objects of the class
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @param CatalogProductIndex $catalogProductIndexNewPage
-     * @param CatalogProductNew $catalogProductNewPage
+     * @param CatalogProductEdit $catalogProductEditPage
+     * @param FixtureFactory $fixtureFactory
      */
     public function __inject(
-        Category $category,
+        CatalogCategoryEntity $category,
         CatalogProductIndex $catalogProductIndexNewPage,
-        CatalogProductNew $catalogProductNewPage
+        CatalogProductEdit $catalogProductEditPage,
+        FixtureFactory $fixtureFactory
     ) {
-        $this->category = $category;
+        $this->product = $fixtureFactory->createByCode(
+            'catalogProductDownloadable',
+            ['dataSet' => 'customDefault']
+        );
+        $this->product->persist();
         $this->catalogProductIndex = $catalogProductIndexNewPage;
-        $this->catalogProductNew = $catalogProductNewPage;
+        $this->catalogProductEdit = $catalogProductEditPage;
+        $this->category = $category;
     }
 
     /**
      * Test create downloadable product
      *
      * @param CatalogProductDownloadable $product
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      */
-    public function testUpdateDownloadableProduct(CatalogProductDownloadable $product, Category $category)
+    public function testUpdateDownloadableProduct(CatalogProductDownloadable $product, CatalogCategoryEntity $category)
     {
-        $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getProductBlock()->addProduct('downloadable');
-        $productBlockForm = $this->catalogProductNew->getForm();
+        $filter = ['sku' => $this->product->getSku()];
+        $this->catalogProductIndex->open()->getProductGrid()->searchAndOpen($filter);
+        $productBlockForm = $this->catalogProductEdit->getForm();
         $productBlockForm->fillProduct($product, $category);
-        $this->catalogProductNew->getFormAction()->save();
+        $this->catalogProductEdit->getFormAction()->save();
     }
 }

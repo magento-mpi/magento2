@@ -13,11 +13,11 @@ use Magento\Downloadable\Test\Page\Product\CatalogProductView;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
 /**
- * Class AssertDownloadableLinks
+ * Class AssertDownloadableLinksData
  *
  * Assert that Link block for downloadable product on front-end
  */
-class AssertDownloadableLinks extends AbstractConstraint
+class AssertDownloadableLinksData extends AbstractConstraint
 {
     /**
      * Constraint severeness
