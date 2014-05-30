@@ -10,6 +10,7 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Service\V1\Data\TaxRule;
+
 class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -61,7 +62,10 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         //Assertions
         $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRule', $taxRuleServiceData);
         $this->assertEquals($taxRuleData[TaxRule::CODE], $taxRuleServiceData->getCode());
-        $this->assertEquals($taxRuleData[TaxRule::CUSTOMER_TAX_CLASS_IDS], $taxRuleServiceData->getCustomerTaxClassIds());
+        $this->assertEquals(
+            $taxRuleData[TaxRule::CUSTOMER_TAX_CLASS_IDS],
+            $taxRuleServiceData->getCustomerTaxClassIds()
+        );
         $this->assertEquals($taxRuleData[TaxRule::PRODUCT_TAX_CLASS_IDS], $taxRuleServiceData->getProductTaxClassIds());
         $this->assertEquals($taxRuleData[TaxRule::PRIORITY], $taxRuleServiceData->getPriority());
         $this->assertEquals($taxRuleData[TaxRule::SORT_ORDER], $taxRuleServiceData->getSortOrder());

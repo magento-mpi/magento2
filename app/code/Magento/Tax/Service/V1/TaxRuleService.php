@@ -30,19 +30,15 @@ class TaxRuleService implements TaxRuleServiceInterface
     protected $taxRuleRegistry;
 
     /**
-     * @var \Magento\Tax\
-     */
-    /**
      * @param TaxRuleBuilder $taxRuleBuilder
-     * @param TaxRuleConverter $taxRuleConverter
+     * @param TaxRuleConverter $converter
      * @param TaxRuleRegistry $taxRuleRegistry
      */
     public function __construct(
         TaxRuleBuilder $taxRuleBuilder,
         TaxRuleConverter $converter,
         TaxRuleRegistry $taxRuleRegistry
-    )
-    {
+    ) {
         $this->taxRuleBuilder = $taxRuleBuilder;
         $this->converter = $converter;
         $this->taxRuleRegistry = $taxRuleRegistry;
@@ -116,7 +112,7 @@ class TaxRuleService implements TaxRuleServiceInterface
     }
 
     /**
-     * Validate tax rate
+     * Validate tax rule
      *
      * @param TaxRule $taxRule
      * @throws InputException
