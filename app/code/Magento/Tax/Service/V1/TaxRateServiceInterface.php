@@ -16,7 +16,7 @@ interface TaxRateServiceInterface
      * @param \Magento\Tax\Service\V1\Data\TaxRate $taxRate
      * @return \Magento\Tax\Service\V1\Data\TaxRate
      * @throws \Magento\Framework\Exception\InputException If input is invalid or required input is missing.
-     * @throws \Magento\Framework\Model\Exception If something went wrong while creating the TaxRate.
+     * @throws \Exception If something went wrong while creating the TaxRate.
      */
     public function createTaxRate(\Magento\Tax\Service\V1\Data\TaxRate $taxRate);
 
@@ -36,7 +36,7 @@ interface TaxRateServiceInterface
      * @return bool
      * @throws \Magento\Framework\Exception\InputException If input is invalid or required input is missing.
      * @throws \Magento\Framework\Exception\NoSuchEntityException If the TaxRate to update can't be found in the system.
-     * @throws \Magento\Framework\Model\Exception If something went wrong while performing the update.
+     * @throws \Exception If something went wrong while performing the update.
      */
     public function updateTaxRate(\Magento\Tax\Service\V1\Data\TaxRate $taxRate);
 
