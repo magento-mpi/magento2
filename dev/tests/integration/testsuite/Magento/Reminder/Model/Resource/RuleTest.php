@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reminder\Model\Resource\Rule;
+namespace Magento\Reminder\Model\Resource;
 
 use Magento\Reminder\Model\Rule;
 
