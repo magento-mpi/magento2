@@ -341,4 +341,23 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->setMock->expects($this->never())->method('save');
         $this->service->update($attributeSetDataMock);
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionMessage Default attribute set can not be deleted
+     */
+    public function testRemoveDefaultAttributeSet()
+    {
+        $id = 456;
+        $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
+        $this->setMock->expects($this->once())->method('load')->with($id)->will($this->returnSelf());
+        $this->setMock->expects($this->once())->method('getData')->will($this->returnValue(array(5, 6, 7)));
+        $this->setMock->expects($this->never())->method('delete');
+        $this->entityTypeMock
+            ->expects($this->once())
+            ->method('getDefaultAttributeSetId')
+            ->will($this->returnValue($id));
+        $this->service->remove($id);
+    }
+
 }
