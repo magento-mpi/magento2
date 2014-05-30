@@ -22,9 +22,10 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class assertCartPriceRuleApplying
+ * Class AssertCartPriceRuleApplying
+ * Abstract class for implementing assert applying
  */
-abstract class assertCartPriceRuleApplying extends AbstractConstraint
+abstract class AssertCartPriceRuleApplying extends AbstractConstraint
 {
     /**
      * Page CheckoutCart
@@ -197,23 +198,12 @@ abstract class assertCartPriceRuleApplying extends AbstractConstraint
     {
         foreach ($productQuantity as $product => $quantity) {
             if ($quantity > 0) {
-                $categoryName = $this->$product->getDataFieldConfig('category_ids')['source']
-                    ->getCategory()['0']->getData('name');
+                $categoryName = $this->$product->getCategoryIds()[0]['name'];
                 $productName = $this->$product->getName();
                 $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
                 $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
                 $this->catalogProductView->getViewBlock()->setQtyAndClickAddToCart($quantity);
             }
         }
-    }
-
-    /**
-     * Returns a string representation of the object.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Prepared for assertion applying.';
     }
 }

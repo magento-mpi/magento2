@@ -12,7 +12,7 @@ namespace Magento\SalesRule\Test\Constraint;
  * Class AssertCartPriceRuleConditionIsApplied
  * Check that shopping cart subtotal not equals with grand total(excluding shipping price if exist).
  */
-class AssertCartPriceRuleConditionIsApplied extends assertCartPriceRuleApplying
+class AssertCartPriceRuleConditionIsApplied extends AssertCartPriceRuleApplying
 {
     /**
      * Constraint severeness
@@ -28,7 +28,6 @@ class AssertCartPriceRuleConditionIsApplied extends assertCartPriceRuleApplying
      */
     protected function assert()
     {
-        $this->checkoutCart->open();
         preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getSubtotal(), $subTotalMatch);
         $subTotal = $subTotalMatch[1];
         preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getGrandTotal(), $grandTotalMatch);
@@ -52,6 +51,6 @@ class AssertCartPriceRuleConditionIsApplied extends assertCartPriceRuleApplying
      */
     public function toString()
     {
-        return 'Shopping cart subtotal not equals with grand total - price rule condition is applied.';
+        return "Shopping cart subtotal doesn't equal to grand total - price rule has been applied.";
     }
 }

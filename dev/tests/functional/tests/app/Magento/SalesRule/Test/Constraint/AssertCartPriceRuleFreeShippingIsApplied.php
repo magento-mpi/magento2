@@ -8,12 +8,11 @@
 
 namespace Magento\SalesRule\Test\Constraint;
 
-
-
 /**
  * Class AssertCartPriceRuleFreeShippingIsApplied
+ * Check that shopping cart free shipping is applied
  */
-class AssertCartPriceRuleFreeShippingIsApplied extends assertCartPriceRuleApplying
+class AssertCartPriceRuleFreeShippingIsApplied extends AssertCartPriceRuleApplying
 {
     const FREE_SHIPPING_PRICE = '0.00';
 
@@ -31,7 +30,6 @@ class AssertCartPriceRuleFreeShippingIsApplied extends assertCartPriceRuleApplyi
      */
     protected function assert()
     {
-        $this->checkoutCart->open();
         preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getChippingPrice(), $shippingPriceMatch);
         $currentShippingPrice = $shippingPriceMatch[1];
 
