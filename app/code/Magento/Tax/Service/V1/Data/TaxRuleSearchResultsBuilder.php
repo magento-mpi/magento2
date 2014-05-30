@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
 
 /**
@@ -22,23 +22,23 @@ class TaxRuleSearchResultsBuilder extends AbstractSearchResultsBuilder
      * Constructor
      *
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param TaxRuleBuilder $itemObjectBuilder
+     * @param TaxRuleBuilder $taxRuleObjectBuilder
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        TaxRuleBuilder $itemObjectBuilder
+        TaxRuleBuilder $taxRuleObjectBuilder
     ) {
-        parent::__construct($searchCriteriaBuilder, $itemObjectBuilder);
+        parent::__construct($searchCriteriaBuilder, $taxRuleObjectBuilder);
     }
 
     /**
-     * Set items
+     * Set tax rule items
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxRule[] $items
+     * @param \Magento\Tax\Service\V1\Data\TaxRule[] $taxRuleItems
      * @return $this
      */
-    public function setItems($items)
+    public function setItems($taxRuleItems)
     {
-        return parent::setItems($items);
+        return parent::setItems($taxRuleItems);
     }
 }

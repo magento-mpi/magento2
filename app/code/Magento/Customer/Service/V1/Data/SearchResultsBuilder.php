@@ -8,7 +8,6 @@
 
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
 
@@ -23,23 +22,23 @@ class SearchResultsBuilder extends AbstractSearchResultsBuilder
      * Constructor
      *
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param CustomerDetailsBuilder $itemObjectBuilder
+     * @param CustomerDetailsBuilder $customerDetailsObjectBuilder
      */
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        CustomerDetailsBuilder $itemObjectBuilder
+        CustomerDetailsBuilder $customerDetailsObjectBuilder
     ) {
-        parent::__construct($searchCriteriaBuilder, $itemObjectBuilder);
+        parent::__construct($searchCriteriaBuilder, $customerDetailsObjectBuilder);
     }
 
     /**
-     * Set items
+     * Set customer details items
      *
-     * @param \Magento\Customer\Service\V1\Data\CustomerDetails[] $items
+     * @param \Magento\Customer\Service\V1\Data\CustomerDetails[] $customerDetailsItems
      * @return $this
      */
-    public function setItems($items)
+    public function setItems($customerDetailsItems)
     {
-        return parent::setItems($items);
+        return parent::setItems($customerDetailsItems);
     }
 }
