@@ -11,7 +11,7 @@ test('Storage', function() {
     expect(2);
     var key = 'test-storage';
     var storage = $.localStorage;
-    if(window["localStorage"] !== null) {
+    if(window.localStorage !== null) {
         localStorage.setItem(key,'false');
         storage.set(key,'true');
         equal(localStorage.getItem(key),"true");
