@@ -70,11 +70,8 @@ class EventList
      */
     public function getEventInStore($categoryId)
     {
-        if ($this->registry->registry(
-                'current_category'
-            ) && $this->registry->registry(
-                'current_category'
-            )->getId() == $categoryId
+        if ($this->registry->registry('current_category')
+            && $this->registry->registry('current_category')->getId() == $categoryId
         ) {
             // If category already loaded for page, we don't need to load categories tree
             return $this->registry->registry('current_category')->getEvent();

@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Weee\Model;
+namespace Magento\Weee\Model\Total\Quote;
 
 class WeeeTest extends \PHPUnit_Framework_TestCase
 {
