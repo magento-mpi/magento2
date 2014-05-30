@@ -129,6 +129,10 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
+        list($sortField, $sortValue) = $sortData;
+        if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestSkipped('Sorting doesn\'t work in SOAP');
+        }
         /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
         $searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
@@ -144,7 +148,7 @@ class ProductServiceTest extends WebapiAbstract
             }
             $searchCriteriaBuilder->addFilter($group);
         }
-        list($sortField, $sortValue) = $sortData;
+
         $searchCriteriaBuilder->setSortOrders([$sortField => $sortValue]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
