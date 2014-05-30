@@ -209,5 +209,25 @@ body {
                 text-transform: uppercase;
             }
         }
+        .parent.more {
+            .parent {
+                > .submenu {
+                    position: relative;
+                    margin-top: 0;
+                    ul {
+                        margin: 0;
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        border: none;
+                        box-shadow: none;
+                        background: transparent;
+                        &:after,
+                        &:before {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
