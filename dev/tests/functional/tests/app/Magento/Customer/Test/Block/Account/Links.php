@@ -34,4 +34,4 @@ class Links extends Block
     {
         $this->_rootElement->find(sprintf($this->menuItem, $link), Locator::SELECTOR_XPATH)->click();
     }
-} 
+}
