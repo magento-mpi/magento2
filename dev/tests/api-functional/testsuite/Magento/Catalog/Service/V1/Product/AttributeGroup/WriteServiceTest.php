@@ -45,7 +45,7 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
 
-        $response = $this->_webApiCall(
+        $this->_webApiCall(
             $serviceInfo,
             ['attributeSetId' => 1, 'groupData' => ['id' => null, 'name' => 'New Group']]
         );
@@ -79,7 +79,7 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertEquals('GroupToUpdate', $groups[count($groups) - 1]->getName());
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/1/groups/" . $group->getId(),
+                'resourcePath' => self::RESOURCE_PATH . "/1/groups",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [

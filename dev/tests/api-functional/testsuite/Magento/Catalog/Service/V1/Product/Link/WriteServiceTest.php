@@ -189,7 +189,7 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
