@@ -1942,12 +1942,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function _createService()
     {
+        $searchResultBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\SearchResultsBuilder'
+        );
         $customerService = $this->_objectManager->getObject('Magento\Customer\Service\V1\CustomerAccountService',
             [
                 'customerFactory' => $this->_customerFactoryMock,
                 'storeManager' => $this->_storeManagerMock,
                 'converter' => $this->_converter,
-                'searchResultsBuilder' => new Data\SearchResultsBuilder,
+                'searchResultsBuilder' => $searchResultBuilder,
                 'customerBuilder' => $this->_customerBuilder,
                 'customerDetailsBuilder' => $this->_customerDetailsBuilder,
                 'customerAddressService' => $this->_customerAddressServiceMock,

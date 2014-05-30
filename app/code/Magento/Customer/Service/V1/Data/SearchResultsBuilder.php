@@ -9,6 +9,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Builder for the SearchResults Service Data Object

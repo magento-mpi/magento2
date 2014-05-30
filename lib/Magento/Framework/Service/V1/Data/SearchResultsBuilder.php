@@ -42,7 +42,7 @@ class SearchResultsBuilder extends AbstractObjectBuilder
         AbstractObjectBuilder $itemObjectBuilder
     ) {
         parent::__construct();
-        $this->searchCriteriaBuilder = $filterGroupBuilder;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->itemObjectBuilder = $itemObjectBuilder;
     }
 
