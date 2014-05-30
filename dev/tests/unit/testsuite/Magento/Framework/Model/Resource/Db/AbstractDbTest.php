@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\ModelResource\Db;
+namespace Magento\Framework\Model\Resource\Db;
 
 class AbstractDblTest extends \PHPUnit_Framework_TestCase
 {
@@ -116,19 +116,19 @@ class AbstractDblTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTableDataProvider
      * @param $tableName
-     * @param $expected_result
+     * @param $expectedResult
      */
-    public function testGetMainTable($tableName, $expected_result)
+    public function testGetMainTable($tableName, $expectedResult)
     {
         $mainTableProperty = new \ReflectionProperty('Magento\Framework\Model\Resource\Db\AbstractDb', '_mainTable');
         $mainTableProperty->setAccessible(true);
         $mainTableProperty->setValue($this->_model, $tableName);
         $this->_resourcesMock->expects($this->once())
             ->method('getTableName')
-            ->with($expected_result)
-            ->will($this->returnValue($expected_result)
+            ->with($expectedResult)
+            ->will($this->returnValue($expectedResult)
             );
-        $this->assertEquals($expected_result, $this->_model->getMainTable());
+        $this->assertEquals($expectedResult, $this->_model->getMainTable());
     }
 
     public function getTableDataProvider()
@@ -186,7 +186,8 @@ class AbstractDblTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'checksum', 'checksum'
+                'checksum',
+                'checksum'
             ],
             [
                 14,
@@ -206,7 +207,10 @@ class AbstractDblTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUniqueFields()
     {
-        $uniqueFieldsReflection = new \ReflectionProperty('Magento\Framework\Model\Resource\Db\AbstractDb', '_uniqueFields');
+        $uniqueFieldsReflection = new \ReflectionProperty(
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
+            '_uniqueFields'
+        );
         $uniqueFieldsReflection->setAccessible(true);
         $uniqueFieldsReflection->setValue($this->_model, null);
         $this->assertEquals([], $this->_model->getUniqueFields());
@@ -251,13 +255,13 @@ class AbstractDblTest extends \PHPUnit_Framework_TestCase
         );
 
         $value = 'some_value';
-        $field = $idFieldName = new \ReflectionProperty('Magento\Framework\Model\Resource\Db\AbstractDb', '_idFieldName');
+        $idFieldName = new \ReflectionProperty('Magento\Framework\Model\Resource\Db\AbstractDb', '_idFieldName');
         $idFieldName->setAccessible(true);
         $idFieldName->setValue($this->_model, 'field_value');
 
         $this->assertInstanceOf(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            $this->_model->load($abstractModelMock, $value, $field)
+            $this->_model->load($abstractModelMock, $value, $idFieldName)
         );
     }
 }
