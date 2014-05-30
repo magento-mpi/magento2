@@ -10,6 +10,9 @@
  */
 namespace Magento\Weee\Model\Total\Quote;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class WeeeTest extends \PHPUnit_Framework_TestCase
 {
     /**
