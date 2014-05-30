@@ -172,7 +172,7 @@ class AttributeServiceTest extends WebapiAbstract
         $attributes = $attrSetReadService->getAttributeList($attributeSetId);
         $removableAttribute = array();
         foreach ($attributes as $attribute) {
-            if($attribute->isUserDefined()) {
+            if($attribute->getIsUserDefined()) {
                 $removableAttribute[] = $attribute;
             }
         }
