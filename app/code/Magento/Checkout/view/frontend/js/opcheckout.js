@@ -75,7 +75,7 @@
          */
         _ajaxSend: function() {
             this.element.addClass('loading');
-            var loader = this.element.find('.section.active .please-wait').show();
+            var loader = this.element.find('.please-wait').show();
             if (this.options.ajaxLoaderPlaceButton) {
                 loader.siblings('.button').hide();
             }
@@ -119,6 +119,10 @@
                 } else {
                     alert($.mage.__('Please choose to register or to checkout as a guest.'));
                     return false;
+                }
+            } else {
+                if (json.registrationUrl) {
+                    window.location.href = json.registrationUrl;
                 }
             }
             this.element.trigger('login');

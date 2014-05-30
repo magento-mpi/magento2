@@ -19,6 +19,29 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class AssertProductForm extends AbstractConstraint
 {
     /**
+     * Formatting options for numeric values
+     *
+     * @var array
+     */
+    protected $formattingOptions = [
+        'price' => [
+            'decimals' => 2,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'qty' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ],
+        'weight' => [
+            'decimals' => 4,
+            'dec_point' => '.',
+            'thousands_sep' => ''
+        ]
+    ];
+
+    /**
      * Constraint severeness
      *
      * @var string
@@ -47,7 +70,7 @@ class AssertProductForm extends AbstractConstraint
         $errors = $this->compareArray($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($errors),
-            "These data must be equal to each other:\n" . implode("\n - ", $errors)
+            "These data must be equal to each other:\n" . implode("\n", $errors)
         );
     }
 
@@ -62,34 +85,20 @@ class AssertProductForm extends AbstractConstraint
         $compareData = $product->getData();
         $compareData = array_filter($compareData);
 
-        $compareData['price'] = $this->priceFormat($compareData['price']);
-        $compareData['qty'] = number_format($compareData['qty'], 4, '.', '');
-        $compareData['weight'] = number_format($compareData['weight'], 4, '.', '');
-        unset($compareData['url_key']);
-
-        if (!empty($compareData['tier_price'])) {
-            foreach ($compareData['tier_price'] as &$value) {
-                $value['price'] = $this->priceFormat($value['price']);
-            }
-            unset($value);
-        }
-        if (!empty($compareData['group_price'])) {
-            foreach ($compareData['group_price'] as &$value) {
-                $value['price'] = $this->priceFormat($value['price']);
-            }
-            unset($value);
-        }
-        if (!empty($compareData['custom_options'])) {
-            $placeholder = ['Yes' => true, 'No' => false];
-            foreach ($compareData['custom_options'] as &$option) {
-                $option['is_require'] = $placeholder[$option['is_require']];
-                foreach ($option['options'] as &$value) {
-                    $value['price'] = $this->priceFormat($value['price']);
+        array_walk_recursive(
+            $compareData,
+            function (&$item, $key, $formattingOptions) {
+                if (isset($formattingOptions[$key])) {
+                    $item = number_format(
+                        $item,
+                        $formattingOptions[$key]['decimals'],
+                        $formattingOptions[$key]['dec_point'],
+                        $formattingOptions[$key]['thousands_sep']
+                    );
                 }
-                unset($value);
-            }
-            unset($option);
-        }
+            },
+            $this->formattingOptions
+        );
 
         return $compareData;
     }
@@ -104,10 +113,9 @@ class AssertProductForm extends AbstractConstraint
     protected function compareArray(array $fixtureData, array $formData)
     {
         $errors = [];
-        ksort($fixtureData);
-        ksort($formData);
-        if (array_keys($fixtureData) !== array_keys($formData)) {
-            return ['arrays do not correspond to each other in composition'];
+        $keysDiff = array_diff(array_keys($fixtureData), array_keys($formData));
+        if (!empty($keysDiff)) {
+            return ['- fixture data do not correspond to form data in composition.'];
         }
 
         foreach ($fixtureData as $key => $value) {
@@ -119,7 +127,7 @@ class AssertProductForm extends AbstractConstraint
                 $fixtureValue = empty($value) ? '<empty-value>' : $value;
                 $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
                 $errors = array_merge($errors, [
-                    "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
+                    "- error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'."
                 ]);
             }
         }
@@ -128,18 +136,7 @@ class AssertProductForm extends AbstractConstraint
     }
 
     /**
-     * Formatting prices
-     *
-     * @param $price
-     * @return string
-     */
-    protected function priceFormat($price)
-    {
-        return number_format($price, 2, '.', '');
-    }
-
-    /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */

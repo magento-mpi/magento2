@@ -210,6 +210,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         1,
                         'Test Street 1'
+                    ),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_CONTACT_NAME,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Hafizullah Amin'
                     )
                 ),
                 array(
@@ -226,6 +232,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     'street2' => 'Test Street 2',
                     'street1' => 'Test Street 1',
                     'country' => 'Afghanistan',
+                    'firstname' => 'Hafizullah Amin',
                     'region' => 'Kabul',
                     'company' => null,
                     'telephone' => null

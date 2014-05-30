@@ -8,11 +8,9 @@
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\Tab;
 
-use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
-
 
 /**
  * Class Conditions
