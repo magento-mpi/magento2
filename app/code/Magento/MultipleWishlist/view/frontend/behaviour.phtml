@@ -19,17 +19,17 @@
     </form>
 </script>
 <script id="popup-tmpl" type="text/x-jQuery-tmpl">
-    <div class="window  wishlist overlay active" style="height: ${$('body').height()}px;"></div>
+    <div class="window wishlist overlay active"></div>
     <div id="${popupWishlistBlockId}" class="window wishlist popup active">
-        <div class="popup actions">
+        <div class="popup-actions">
             <div class="secondary">
                 <button type="button" title="${$.mage.__('Close')}" class="action close ${btnCloseClass}" data-dismiss="popup"><span>${$.mage.__('Close')}</span></button>
             </div>
         </div>
-        <div class="popup header">
+        <div class="popup-header">
              <strong class="title" id="popup-title"><span>{{if isEdit}}${$.mage.__('Edit Wish List')}{{else}}${$.mage.__('Create New Wish List')}{{/if}}</span></strong>
         </div>
-        <div class="popup content" id="popup-content">
+        <div class="popup-content" id="popup-content">
             <form id="${popupWishlistFormId}" method="post" action="${url}" class="form wishlist">
                 <fieldset class="fieldset">
                     <div class="field name">
@@ -91,8 +91,8 @@
         });
         $('.products.list [data-toggle=dropdown]')
             .add('.cart.items.data [data-toggle=dropdown]')
-            .add('.product.addto.links [data-toggle=dropdown]')
-            .add('.secondary.addto.links [data-toggle=dropdown]')
+            .add('.product-addto-links [data-toggle=dropdown]')
+            .add('.secondary-addto-links [data-toggle=dropdown]')
             .dropdown({
                 events: [{
                     'name': 'mouseleave',
