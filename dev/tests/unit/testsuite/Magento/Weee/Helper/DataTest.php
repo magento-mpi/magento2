@@ -96,7 +96,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function addItemDiscountPricesDataProvider(){
+    public function addItemDiscountPricesDataProvider()
+    {
         return array(
             array(
                 'discount_price' => null,

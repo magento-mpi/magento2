@@ -241,7 +241,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      *  Test for `save` method
      */
-    public function testSave() {
+    public function testSave()
+    {
         $this->model->setIsDuplicate(false);
         $this->configureSaveTest();
         $this->optionInstanceMock->expects($this->any())->method('setProduct')->will($this->returnSelf());

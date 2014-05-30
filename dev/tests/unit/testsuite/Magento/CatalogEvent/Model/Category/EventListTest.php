@@ -192,8 +192,8 @@ class EventListTest extends \PHPUnit_Framework_TestCase
         );
         $eventsToCategory = $this->eventList->getEventToCategoriesList();
         $this->assertInternalType('array', $eventsToCategory);
-        foreach($categoryList as $key => $value) {
-            if(!is_null($value)) {
+        foreach ($categoryList as $key => $value) {
+            if (!is_null($value)) {
                 $this->assertInstanceOf('\Magento\Framework\Object', $eventsToCategory[$key]);
             } else {
                 $this->assertNull($eventsToCategory[$key]);
