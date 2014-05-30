@@ -202,11 +202,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($inputTypes, $this->_helper->getAttributeInputTypes());
-
         foreach ($inputTypes as $key => $value) {
             $this->assertEquals($value, $this->_helper->getAttributeInputTypes($key));
         }
-
         $this->assertEquals(array(), $this->_helper->getAttributeInputTypes('empty'));
     }
 
@@ -434,12 +432,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $this->_helper->filterPostData($data));
     }
 
-    /**
-     * @expectedException \Magento\Framework\Model\Exception
-     * @expectedExceptionMessage The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.
-     */
     public function testFilterPostDataWithException()
     {
+        $exceptionMessage = 'The attribute code is invalid.';
+        $exceptionMessage .= ' Please use only letters (a-z), numbers (0-9) or underscores (_) in this field.';
+        $exceptionMessage .= ' The first character should be a letter.';
+        $this->setExpectedException('Magento\Framework\Model\Exception', $exceptionMessage);
         $data = array('frontend_label' => array('Label'), 'attribute_code' => 'Code');
         $this->_helper->filterPostData($data);
     }
