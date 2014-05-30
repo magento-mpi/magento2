@@ -154,13 +154,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'checkbox',
             array(
                 'name'  => 'calculate_subtotal',
- 	 	        'label' => __('Calculate Off Subtotal Only'),
- 	 	        'onclick' => 'this.value = this.checked ? 1 : 0;',
- 	 	        'checked' => (int)$model->getCalculateSubtotal()
- 	 	    ),
+                'label' => __('Calculate Off Subtotal Only'),
+                'onclick' => 'this.value = this.checked ? 1 : 0;',
+                'checked' => (int)$model->getCalculateSubtotal()
+            ),
             false,
             true
- 	 	);
+        );
 
         $fieldset->addField(
             'position',
