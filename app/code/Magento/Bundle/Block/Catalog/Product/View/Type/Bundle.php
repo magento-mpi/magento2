@@ -20,7 +20,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     const UNIT_ROUNDING = 0;
     const ROW_ROUNDING = 1;
-    const TOTAL_ROUNDING  =2;
+    const TOTAL_ROUNDING = 2;
 
     /**
      * @var array
