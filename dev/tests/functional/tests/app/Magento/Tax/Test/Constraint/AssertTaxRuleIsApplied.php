@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Customer\Test\Fixture\AddressInjectable;
@@ -17,6 +16,7 @@ use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Tax\Test\Fixture\TaxRule;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertTaxRuleIsApplied
@@ -33,29 +33,43 @@ class AssertTaxRuleIsApplied extends AbstractConstraint
     /**
      * Assert that tax rule is applied on product in shopping cart.
      *
+     * @param FixtureFactory $fixtureFactory
      * @param TaxRule $taxRule
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerInjectable $customer
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param AddressInjectable $address
      * @param array $shipping
      * @return void
      */
     public function processAssert(
+        FixtureFactory $fixtureFactory,
         TaxRule $taxRule,
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountLogout $customerAccountLogout,
         CustomerInjectable $customer,
         CatalogProductView $catalogProductView,
-        CatalogProductSimple $productSimple,
         CheckoutCart $checkoutCart,
         AddressInjectable $address,
         array $shipping
     ) {
         $errorMessages = [];
+        // Creating simple product with custom tax class
+        /** @var \Magento\Tax\Test\Fixture\TaxClass $taxProductClass */
+        $taxProductClass = $taxRule->getDataFieldConfig('tax_product_class')['source']->getFixture()[0];
+        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $productSimple */
+        $productSimple = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            [
+                'dataSet' => '100_dollar_product',
+                'data' => [
+                    'tax_class_id' => ['tax_product_class' => $taxProductClass],
+                ]
+            ]
+        );
+        $productSimple->persist();
         // Customer login
         $customerAccountLogout->open();
         $customerAccountLogin->open();
