@@ -163,7 +163,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())->method('load')
             ->with('product_sku')
             ->will($this->returnValue($productMock));
-        $methods = array('getTypeId', 'getAttributeSetId', 'getSku', 'getPosition', '__wakeup');
         $itemMock = [
             ProductLinkEntity::TYPE => 'typeId',
             ProductLinkEntity::ATTRIBUTE_SET_ID => 10,

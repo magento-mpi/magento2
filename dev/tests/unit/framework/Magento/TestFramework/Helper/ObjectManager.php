@@ -185,7 +185,7 @@ class ObjectManager
         $objectFactory->expects($this->_testObject->any())
             ->method('create')
             ->will($this->_testObject->returnCallback(
-                function($className, $arguments) {
+                function ($className, $arguments) {
                     $reflectionClass = new \ReflectionClass($className);
                     return $reflectionClass->newInstanceArgs($arguments);
                 }
