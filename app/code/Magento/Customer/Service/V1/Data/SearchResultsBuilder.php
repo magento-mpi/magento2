@@ -18,6 +18,19 @@ use Magento\Framework\Service\V1\Data\SearchCriteria;
 class SearchResultsBuilder extends \Magento\Framework\Service\V1\Data\SearchResultsBuilder
 {
     /**
+     * Constructor
+     *
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param CustomerDetailsBuilder $itemObjectBuilder
+     */
+    public function __construct(
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        CustomerDetailsBuilder $itemObjectBuilder
+    ) {
+        parent::__construct($searchCriteriaBuilder, $itemObjectBuilder);
+    }
+
+    /**
      * Set items
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails[] $items
