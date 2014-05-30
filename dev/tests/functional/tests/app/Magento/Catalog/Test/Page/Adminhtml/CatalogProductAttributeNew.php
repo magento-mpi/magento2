@@ -20,7 +20,7 @@ class CatalogProductAttributeNew extends BackendPage
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => '\Magento\Backend\Test\Block\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],

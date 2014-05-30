@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture\CatalogProductAttributeEntity;
+namespace Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
 use Mtf\Fixture\FixtureInterface;
 

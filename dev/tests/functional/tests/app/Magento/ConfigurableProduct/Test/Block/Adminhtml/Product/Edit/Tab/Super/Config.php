@@ -116,7 +116,9 @@ class Config extends Tab
         }
         $this->fillAttributeOptions($attributes);
         $this->generateVariations();
-        $this->fillVariationsMatrix($fields['variations-matrix']['value']);
+        if(isset($fields['variations-matrix']['value'])) {
+            $this->fillVariationsMatrix($fields['variations-matrix']['value']);
+        }
 
         return $this;
     }

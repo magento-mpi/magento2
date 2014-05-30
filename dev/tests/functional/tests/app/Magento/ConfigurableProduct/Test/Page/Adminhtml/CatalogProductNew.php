@@ -24,7 +24,7 @@ class CatalogProductNew extends ParentCatalogProductNew
     {
         $this->_blocks['form'] = [
             'name' => 'form',
-            'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Form',
+            'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ];
@@ -32,7 +32,7 @@ class CatalogProductNew extends ParentCatalogProductNew
     }
 
     /**
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Form
+     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
      */
     public function getForm()
     {

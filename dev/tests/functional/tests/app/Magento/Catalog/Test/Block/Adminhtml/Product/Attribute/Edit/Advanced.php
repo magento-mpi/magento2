@@ -25,6 +25,13 @@ class Advanced extends Tab
     protected $propertiesTab = '[data-target="#advanced_fieldset-content"][data-toggle="collapse"]';
 
     /**
+     * "Advanced Attribute Properties" tab-button active
+     *
+     * @var string
+     */
+    protected $propertiesTabActive = '.title.active';
+
+    /**
      * Fill 'Advanced Attribute Properties' tab
      *
      * @param array $fields
@@ -33,8 +40,10 @@ class Advanced extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
+        if ($this->_rootElement->find($this->propertiesTabActive)){
+            return parent::fillFormTab($fields);
+        }
         $this->_rootElement->find($this->propertiesTab)->click();
-        parent::fillFormTab($fields);
-        return $this;
+        return parent::fillFormTab($fields);
     }
 }
