@@ -34,9 +34,54 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $localeResolver;
 
+    /**
+     * @var \Magento\SalesRule\Model\Resource\Coupon\Usage|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $couponUsage;
+
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\Timezone|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $localeDate;
+
+    /**
+     * @var \Magento\SalesRule\Model\Resource\Report\Rule|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $reportRule;
+
+    /**
+     * @var \Magento\SalesRule\Model\Resource\Rule\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var \Magento\Framework\Message\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $messageManager;
+
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->initMocks();
+
+        $this->model = $helper->getObject(
+            'Magento\SalesRule\Model\Observer',
+            [
+                'coupon' => $this->couponMock,
+                'ruleFactory' => $this->ruleFactory,
+                'ruleCustomerFactory' => $this->ruleCustomerFactory,
+                'localeResolver' => $this->localeResolver,
+                'couponUsage' => $this->couponUsage,
+                'localeDate' => $this->localeDate,
+                'reportRule' => $this->reportRule,
+                'collectionFactory' => $this->collectionFactory,
+                'messageManager' => $this->messageManager
+            ]
+        );
+    }
+
+    protected function initMocks()
+    {
         $this->couponMock = $this->getMock(
             '\Magento\SalesRule\Model\Coupon',
             [
@@ -46,6 +91,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'getId',
                 'setTimesUsed',
                 'getTimesUsed',
+                'getRuleId',
+                'loadByCode',
                 'updateCustomerCouponTimesUsed'
             ],
             [],
@@ -61,15 +108,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->localeResolver = $this->getMock('Magento\Framework\Locale\Resolver', [], [], '', false);
-
-        $this->model = $helper->getObject(
-            'Magento\SalesRule\Model\Observer',
-            [
-                'coupon' => $this->couponMock,
-                'ruleFactory' => $this->ruleFactory,
-                'ruleCustomerFactory' => $this->ruleCustomerFactory,
-                'localeResolver' => $this->localeResolver
-            ]
+        $this->couponUsage = $this->getMock('Magento\SalesRule\Model\Resource\Coupon\Usage', [], [], '', false);
+        $this->localeDate = $this->getMock('Magento\Framework\Stdlib\DateTime\Timezone', ['date'], [], '', false);
+        $this->reportRule = $this->getMock('Magento\SalesRule\Model\Resource\Report\Rule', [], [], '', false);
+        $this->collectionFactory = $this->getMock(
+            'Magento\SalesRule\Model\Resource\Rule\CollectionFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+        $this->messageManager = $this->getMock(
+            'Magento\Framework\Message\Manager',
+            ['addWarning'],
+            [],
+            '',
+            false
         );
     }
 
@@ -82,16 +136,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $event = $this->getMock('Magento\Framework\Event', ['getOrder'], [], '', false);
         $order = $this->getMock(
             'Magento\Sales\Model\Order',
-            ['getAppliedRuleIds', 'getCustomerId', 'getDiscountAmount', '__wakeup'],
+            ['getAppliedRuleIds', 'getCustomerId', 'getDiscountAmount', 'getCouponCode', '__wakeup'],
             [],
             '',
             false
         );
 
-        $observer->expects($this->once())
+        $observer->expects($this->any())
             ->method('getEvent')
             ->will($this->returnValue($event));
-        $event->expects($this->once())
+        $event->expects($this->any())
             ->method('getOrder')
             ->will($this->returnValue($order));
 
@@ -170,17 +224,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $ruleCustomer->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($ruleCustomerId));
-        $ruleCustomer->expects($this->once())
+        $ruleCustomer->expects($this->any())
             ->method('setCustomerId')
             ->will($this->returnSelf());
-        $ruleCustomer->expects($this->once())
+        $ruleCustomer->expects($this->any())
             ->method('setRuleId')
             ->will($this->returnSelf());
         $this->couponMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($couponId));
 
-        $this->couponMock->expects($this->once())
+        $this->couponUsage->expects($this->once())
             ->method('updateCustomerCouponTimesUsed')
             ->with($customerId, $couponId);
 
@@ -193,5 +247,252 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'With customer rule id' => [1],
             'Without customer rule id' => [null]
         ];
+    }
+
+    public function testAggregateSalesReportCouponsData()
+    {
+        $dateMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateInterface', [], [], '', false);
+        $this->localeResolver->expects($this->once())
+            ->method('emulate')
+            ->with(0);
+        $this->localeDate->expects($this->once())
+            ->method('date')
+            ->will($this->returnValue($dateMock));
+        $dateMock->expects($this->once())
+            ->method('subHour')
+            ->with(25)
+            ->will($this->returnSelf());
+        $this->reportRule->expects($this->once())
+            ->method('aggregate')
+            ->with($dateMock);
+        $this->localeResolver->expects($this->once())
+            ->method('revert');
+
+        $this->assertEquals($this->model, $this->model->aggregateSalesReportCouponsData());
+    }
+
+    protected function checkSalesRuleAvailability($attributeCode)
+    {
+        $collection = $this->getMock(
+            'Magento\SalesRule\Model\Resource\Rule\Collection',
+            ['addAttributeInConditionFilter', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $rule = $this->getMock(
+            'Magento\SalesRule\Model\Rule',
+            ['setIsActive', 'getConditions', 'getActions', 'save', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $combine = $this->getMock(
+            'Magento\Rule\Model\Condition\Combine',
+            ['getConditions', 'setConditions', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $combineProduct = $this->getMock(
+            'Magento\SalesRule\Model\Rule\Condition\Product',
+            ['getAttribute', 'setConditions', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+
+        $this->collectionFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($collection));
+        $collection->expects($this->once())
+            ->method('addAttributeInConditionFilter')
+            ->with($attributeCode)
+            ->will($this->returnValue([$rule]));
+        $rule->expects($this->once())
+            ->method('setIsActive')
+            ->with(0);
+        $rule->expects($this->once())
+            ->method('getConditions')
+            ->will($this->returnValue($combine));
+        $rule->expects($this->once())
+            ->method('getActions')
+            ->will($this->returnValue($combine));
+        $combine->expects($this->at(0))
+            ->method('getConditions')
+            ->will($this->returnValue([$combine]));
+        $combine->expects($this->at(1))
+            ->method('getConditions')
+            ->will($this->returnValue([$combineProduct]));
+        $combine->expects($this->at(4))
+            ->method('getConditions')
+            ->will($this->returnValue([]));
+
+        $combineProduct->expects($this->once())
+            ->method('getAttribute')
+            ->will($this->returnValue($attributeCode));
+        $combine->expects($this->any())
+            ->method('setConditions')
+            ->will(
+                $this->returnValueMap(
+                    [
+                        [[], null],
+                        [[$combine], null],
+                        [[], null],
+                    ]
+                )
+            );
+
+        $this->messageManager->expects($this->once())
+            ->method('addWarning')
+            ->with(sprintf('1 Shopping Cart Price Rules based on "%s" attribute have been disabled.', $attributeCode));
+    }
+
+    public function testCatalogAttributeSaveAfter()
+    {
+        $attributeCode = 'attributeCode';
+        $observer = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
+        $event = $this->getMock('Magento\Framework\Event', ['getAttribute', '__wakeup'], [], '', false);
+        $attribute = $this->getMock(
+            'Magento\Catalog\Model\Resource\Eav\Attribute',
+            ['dataHasChangedFor', 'getIsUsedForPromoRules', 'getAttributeCode', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $observer->expects($this->once())
+            ->method('getEvent')
+            ->will($this->returnValue($event));
+        $event->expects($this->any())
+            ->method('getAttribute')
+            ->will($this->returnValue($attribute));
+        $attribute->expects($this->any())
+            ->method('dataHasChangedFor')
+            ->with('is_used_for_promo_rules')
+            ->will($this->returnValue(true));
+        $attribute->expects($this->any())
+            ->method('getIsUsedForPromoRules')
+            ->will($this->returnValue(false));
+        $attribute->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+        $this->checkSalesRuleAvailability($attributeCode);
+
+        $this->assertEquals($this->model, $this->model->catalogAttributeSaveAfter($observer));
+    }
+
+    public function testCatalogAttributeDeleteAfter()
+    {
+        $attributeCode = 'attributeCode';
+        $observer = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
+        $event = $this->getMock('Magento\Framework\Event', ['getAttribute', '__wakeup'], [], '', false);
+        $attribute = $this->getMock(
+            'Magento\Catalog\Model\Resource\Eav\Attribute',
+            ['dataHasChangedFor', 'getIsUsedForPromoRules', 'getAttributeCode', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $observer->expects($this->once())
+            ->method('getEvent')
+            ->will($this->returnValue($event));
+        $event->expects($this->any())
+            ->method('getAttribute')
+            ->will($this->returnValue($attribute));
+        $attribute->expects($this->any())
+            ->method('getIsUsedForPromoRules')
+            ->will($this->returnValue(true));
+        $attribute->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+        $this->checkSalesRuleAvailability($attributeCode);
+
+        $this->assertEquals($this->model, $this->model->catalogAttributeDeleteAfter($observer));
+    }
+
+    public function testAddSalesRuleNameToOrderWithoutCouponCode()
+    {
+        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getOrder'], [], '', false);
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['setCouponRuleName', 'getCouponCode', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $observer->expects($this->any())
+            ->method('getOrder')
+            ->will($this->returnValue($order));
+
+        $this->couponMock->expects($this->never())
+            ->method('loadByCode');
+
+        $this->assertEquals($this->model, $this->model->addSalesRuleNameToOrder($observer));
+    }
+
+    public function testAddSalesRuleNameToOrderWithoutRule()
+    {
+        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getOrder'], [], '', false);
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['setCouponRuleName', 'getCouponCode', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $couponCode = 'coupon code';
+
+        $observer->expects($this->any())
+            ->method('getOrder')
+            ->will($this->returnValue($order));
+
+        $order->expects($this->once())
+            ->method('getCouponCode')
+            ->will($this->returnValue($couponCode));
+        $this->ruleFactory->expects($this->never())
+            ->method('create');
+
+        $this->assertEquals($this->model, $this->model->addSalesRuleNameToOrder($observer));
+    }
+
+    public function testAddSalesRuleNameToOrder()
+    {
+        $observer = $this->getMock('Magento\Framework\Event\Observer', ['getOrder'], [], '', false);
+        $rule = $this->getMock('Magento\SalesRule\Model\Rule', ['load', 'getName', '__wakeup'], [], '', false);
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['setCouponRuleName', 'getCouponCode', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $couponCode = 'coupon code';
+        $ruleId = 1;
+
+        $observer->expects($this->any())
+            ->method('getOrder')
+            ->will($this->returnValue($order));
+
+        $order->expects($this->once())
+            ->method('getCouponCode')
+            ->will($this->returnValue($couponCode));
+        $this->couponMock->expects($this->once())
+            ->method('getRuleId')
+            ->will($this->returnValue($ruleId));
+        $this->ruleFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($rule));
+        $rule->expects($this->once())
+            ->method('load')
+            ->with($ruleId)
+            ->will($this->returnSelf());
+        $order->expects($this->once())
+            ->method('setCouponRuleName');
+
+        $this->assertEquals($this->model, $this->model->addSalesRuleNameToOrder($observer));
     }
 }
