@@ -2,26 +2,26 @@
 =============
 * Framework improvements:
   * Reworked subsystem of static view files preprocessing
-   * Refactored implementation of the view files "fallback" and "collecting" (layout XML files, LESS files for @magento_import) mechanisms for better abstraction
-   * Used the concept of "view asset" in client code of the View library across the board
-   * Refactored and simplified LESS preprocessing library, mechanisms of merging and minifying static view files
-   * Reworked the way how links to static view files are generated and served):
-    * Changed the strategy of generating unique URL for view static files
-    * Separated the view files publication process from the page generation
-    * Added a separate entry point (pub/static.php) for file materialization
-   * View files deployment tool changes:
-    * Renamed CLI script from generator.php to deploy.php
-    * Fixed the known limitation of view files deployment tool of being unable to materialize files per languages. Now the list of intended languages can be provided as a CLI parameter
-    * Expanded the tool parameters
-   * Improved security and reliability of view files structure:
-    * Restructured the module view folder by file type: "web" – view static files, "templates" – module template files, and "layout" – module layout files
-    * Reworked the theme module folder to repeat the same structure as in the module
-    * Added “web” folder to a theme root which contains static view files
-    * Renamed the pub/lib to lib/web. Currently there are no static files that are publicly accessible by default. All static view files may be subject of preprocessing
-    * Renamed the former lib to lib/internal
+     * Refactored implementation of the view files "fallback" and "collecting" (layout XML files, LESS files for @magento_import) mechanisms for better abstraction
+     * Used the concept of "view asset" in client code of the View library across the board
+     * Refactored and simplified LESS preprocessing library, mechanisms of merging and minifying static view files
+     * Reworked the way how links to static view files are generated and served):
+        * Changed the strategy of generating unique URL for view static files
+        * Separated the view files publication process from the page generation
+        * Added a separate entry point (pub/static.php) for file materialization
+     * View files deployment tool changes:
+        * Renamed CLI script from generator.php to deploy.php
+        * Fixed the known limitation of view files deployment tool of being unable to materialize files per languages. Now the list of intended languages can be provided as a CLI parameter
+        * Expanded the tool parameters
+     * Improved security and reliability of view files structure:
+        * Restructured the module view folder by file type: "web" – view static files, "templates" – module template files, and "layout" – module layout files
+        * Reworked the theme module folder to repeat the same structure as in the module
+        * Added “web” folder to a theme root which contains static view files
+        * Renamed the pub/lib to lib/web. Currently there are no static files that are publicly accessible by default. All static view files may be subject of preprocessing
+        * Renamed the former lib to lib/internal
   * Support of RequireJS:
-   * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config)
-   * Refactored scripts in the Magento_ConfigurableProduct module to be loaded via RequireJS
+     * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config)
+     * Refactored scripts in the Magento_ConfigurableProduct module to be loaded via RequireJS
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent
