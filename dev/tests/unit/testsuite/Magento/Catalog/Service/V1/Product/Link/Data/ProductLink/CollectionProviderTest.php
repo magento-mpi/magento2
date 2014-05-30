@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class CollectionProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,11 +29,11 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->converterPoolMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool',
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool',
             [], [], '', false
         );
         $this->converterMock = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterInterface'
         );
     }
 
@@ -48,15 +48,15 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider::getCollection
-     * @covers \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider::__construct
+     * @covers \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider::getCollection
+     * @covers \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider::__construct
      */
     public function testGetCollection()
     {
         $productA = $this->getMock('\Magento\Catalog\Model\Product', ['getId', '__wakeup'], [], '', false);
         $productA->expects($this->once())->method('getId')->will($this->returnValue('resultA'));
         $providerA = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProviderInterface'
         );
         $providerA->expects($this->once())
             ->method('getLinkedProducts')
@@ -67,7 +67,7 @@ class CollectionProviderTest extends \PHPUnit_Framework_TestCase
         $productB = $this->getMock('\Magento\Catalog\Model\Product', ['getId', '__wakeup'], [], '', false);
         $productB->expects($this->once())->method('getId')->will($this->returnValue('resultB'));
         $providerB = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProviderInterface'
         );
         $providerB->expects($this->once())
             ->method('getLinkedProducts')

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
+namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\CollectionProvider;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProviderInterface;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProviderInterface;
 
 class Grouped implements CollectionProviderInterface
 {

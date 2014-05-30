@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapper;
+namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\DataMapper;
 
 
 class GroupedProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapper\GroupedProduct::map
+     * @covers \Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\DataMapper\GroupedProduct::map
      */
     public function testMap()
     {

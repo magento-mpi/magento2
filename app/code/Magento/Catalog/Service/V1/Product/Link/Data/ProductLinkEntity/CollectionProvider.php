@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool;
 
 class CollectionProvider
 {

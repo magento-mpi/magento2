@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 interface CollectionProviderInterface
 {

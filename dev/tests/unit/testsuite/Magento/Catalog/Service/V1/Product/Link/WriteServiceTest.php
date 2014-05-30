@@ -55,7 +55,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->collectionProviderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider',
+            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider',
             [],
             [],
             '',
@@ -79,7 +79,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->dataMapperMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapperInterface',
+            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface',
             [],
             [],
             '',
@@ -172,7 +172,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testSuccessUpdate()
     {
         $linkedEntityMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity',
+            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink',
             [],
             [],
             '',
@@ -215,7 +215,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testUpdateNotLinkedProduct()
     {
         $linkedEntityMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity',
+            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink',
             [],
             [],
             '',

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class DefaultConverter implements ConverterInterface
 {
@@ -18,10 +18,10 @@ class DefaultConverter implements ConverterInterface
     public function convert(\Magento\Catalog\Model\Product $product)
     {
         return [
-            ProductLinkEntity::TYPE => $product->getTypeId(),
-            ProductLinkEntity::ATTRIBUTE_SET_ID => $product->getAttributeSetId(),
-            ProductLinkEntity::SKU => $product->getSku(),
-            ProductLinkEntity::POSITION => $product->getPosition()
+            ProductLink::TYPE => $product->getTypeId(),
+            ProductLink::ATTRIBUTE_SET_ID => $product->getAttributeSetId(),
+            ProductLink::SKU => $product->getSku(),
+            ProductLink::POSITION => $product->getPosition()
         ];
     }
 }

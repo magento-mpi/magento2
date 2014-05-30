@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\LinkTypeProvider;
 use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 use \Magento\Framework\Logger;
 
 /**
@@ -25,7 +25,7 @@ class ReadService implements ReadServiceInterface
     protected $linkTypeProvider;
 
     /**
-     * @var Data\LinkTypeEntityBuilder
+     * @var Data\LinkTypeBuilder
      */
     protected $builder;
 
@@ -40,12 +40,12 @@ class ReadService implements ReadServiceInterface
     protected $linkTypeResolver;
 
     /**
-     * @var Data\ProductLinkEntityBuilder
+     * @var Data\ProductLinkBuilder
      */
     protected $productEntityBuilder;
 
     /**
-     * @var Data\ProductLinkEntity\CollectionProvider
+     * @var Data\ProductLink\CollectionProvider
      */
     protected $entityCollectionProvider;
 
@@ -61,20 +61,20 @@ class ReadService implements ReadServiceInterface
 
     /**
      * @param LinkTypeProvider $linkTypeProvider
-     * @param Data\LinkTypeEntityBuilder $builder
-     * @param Data\ProductLinkEntityBuilder $productEntityBuilder
+     * @param Data\LinkTypeBuilder $builder
+     * @param Data\ProductLinkBuilder $productEntityBuilder
      * @param ProductLoader $productLoader
-     * @param ProductLinkEntity\CollectionProvider $entityCollectionProvider
+     * @param ProductLink\CollectionProvider $entityCollectionProvider
      * @param Data\LinkAttributeEntityBuilder $linkAttributeBuilder
      * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
      * @param LinkTypeResolver $linkTypeResolver
      */
     public function __construct(
         LinkTypeProvider $linkTypeProvider,
-        Data\LinkTypeEntityBuilder $builder,
-        Data\ProductLinkEntityBuilder $productEntityBuilder,
+        Data\LinkTypeBuilder $builder,
+        Data\ProductLinkBuilder $productEntityBuilder,
         ProductLoader $productLoader,
-        Data\ProductLinkEntity\CollectionProvider $entityCollectionProvider,
+        Data\ProductLink\CollectionProvider $entityCollectionProvider,
         Data\LinkAttributeEntityBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
         LinkTypeResolver $linkTypeResolver

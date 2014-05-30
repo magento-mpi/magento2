@@ -23,7 +23,7 @@ interface ReadServiceInterface
      * @param string $productSku
      * @param string $type
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @return \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity[]
+     * @return \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink[]
      */
     public function getLinkedProducts($productSku, $type);
 

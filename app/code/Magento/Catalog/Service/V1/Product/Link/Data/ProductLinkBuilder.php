@@ -11,11 +11,11 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 /**
- * Builder for the ProductLinkEntity Service Data Object
+ * Builder for the ProductLink Service Data Object
  *
- * @method ProductLinkEntity create()
+ * @method ProductLink create()
  */
-class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
+class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
      * @var array
@@ -44,7 +44,7 @@ class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Eav\Abstr
      */
     public function setType($type)
     {
-        return $this->_set(ProductLinkEntity::TYPE, $type);
+        return $this->_set(ProductLink::TYPE, $type);
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Eav\Abstr
      */
     public function setAttributeSetId($attributeSet)
     {
-        return $this->_set(ProductLinkEntity::ATTRIBUTE_SET_ID, $attributeSet);
+        return $this->_set(ProductLink::ATTRIBUTE_SET_ID, $attributeSet);
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Eav\Abstr
      */
     public function setSku($sku)
     {
-        return $this->_set(ProductLinkEntity::SKU, $sku);
+        return $this->_set(ProductLink::SKU, $sku);
     }
 
     /**
@@ -77,7 +77,7 @@ class ProductLinkEntityBuilder extends \Magento\Framework\Service\Data\Eav\Abstr
      */
     public function setPosition($position)
     {
-        return $this->_set(ProductLinkEntity::POSITION, $position);
+        return $this->_set(ProductLink::POSITION, $position);
     }
 
     /**

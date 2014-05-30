@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapper;
+namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\DataMapper;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapperInterface;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface;
 
 class GroupedProduct implements DataMapperInterface
 {

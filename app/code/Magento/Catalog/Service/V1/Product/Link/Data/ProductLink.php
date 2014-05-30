@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Service\V1\Product\Link\Data;
 
 /**
- * ProductLinkEntity Service Data Object
+ * ProductLink Service Data Object
  */
-class ProductLinkEntity extends \Magento\Framework\Service\Data\Eav\AbstractObject
+class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
 {
     /**#@+
      * Constants for Data Object keys

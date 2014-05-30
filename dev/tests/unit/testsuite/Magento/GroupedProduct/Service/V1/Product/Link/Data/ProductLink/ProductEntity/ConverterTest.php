@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity;
+namespace Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\ProductEntity;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 use \Magento\Framework\Service\Data\Eav\AttributeValue;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\Converter::convert
+     * @covers \Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\ProductEntity\Converter::convert
      */
     public function testConvert()
     {
@@ -25,11 +25,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $expected = [
-            ProductLinkEntity::TYPE             => 1,
-            ProductLinkEntity::ATTRIBUTE_SET_ID => 2,
-            ProductLinkEntity::SKU              => 3,
-            ProductLinkEntity::POSITION         => 4,
-            ProductLinkEntity::CUSTOM_ATTRIBUTES_KEY => [
+            ProductLink::TYPE             => 1,
+            ProductLink::ATTRIBUTE_SET_ID => 2,
+            ProductLink::SKU              => 3,
+            ProductLink::POSITION         => 4,
+            ProductLink::CUSTOM_ATTRIBUTES_KEY => [
                 [AttributeValue::ATTRIBUTE_CODE => 'qty',AttributeValue::VALUE => 5]
             ]
         ];

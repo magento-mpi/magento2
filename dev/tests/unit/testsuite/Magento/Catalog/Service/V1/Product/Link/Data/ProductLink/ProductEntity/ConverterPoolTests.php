@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity;
 
 class ConverterPoolTests extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool
+     * @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool
      */
     protected $model;
 
@@ -23,7 +23,7 @@ class ConverterPoolTests extends \PHPUnit_Framework_TestCase
             'default' => 'Default Converter',
         );
 
-        $this->model = new \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool(
+        $this->model = new \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool(
             $converters
         );
     }

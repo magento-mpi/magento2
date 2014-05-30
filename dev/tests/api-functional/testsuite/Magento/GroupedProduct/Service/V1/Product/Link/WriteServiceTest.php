@@ -9,7 +9,7 @@
 namespace Magento\GroupedProduct\Service\V1\Product\Link;
 
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -26,11 +26,11 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $productSku = 'grouped-product';
         $linkType = 'associated';
         $productData = [
-            ProductLinkEntity::TYPE => 'simple',
-            ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
-            ProductLinkEntity::SKU => 'simple',
-            ProductLinkEntity::POSITION => 3,
-            ProductLinkEntity::CUSTOM_ATTRIBUTES_KEY => [
+            ProductLink::TYPE => 'simple',
+            ProductLink::ATTRIBUTE_SET_ID => 4,
+            ProductLink::SKU => 'simple',
+            ProductLink::POSITION => 3,
+            ProductLink::CUSTOM_ATTRIBUTES_KEY => [
                 'qty' => ['attribute_code' => 'qty', 'value' => 300]
             ]
         ];

@@ -10,10 +10,10 @@ namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
 use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Catalog\Model\Resource\Product as ProductResource;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool;
 
 class WriteService implements WriteServiceInterface
 {
@@ -23,7 +23,7 @@ class WriteService implements WriteServiceInterface
     protected $linkInitializer;
 
     /**
-     * @var Data\ProductLinkEntity\CollectionProvider
+     * @var Data\ProductLink\CollectionProvider
      */
     protected $entityCollectionProvider;
 
@@ -38,23 +38,23 @@ class WriteService implements WriteServiceInterface
     protected $productResource;
 
     /**
-     * @var Data\ProductLinkEntity\DataMapperInterface
+     * @var Data\ProductLink\DataMapperInterface
      */
     protected $dataMapper;
 
     /**
      * @param LinksInitializer $linkInitializer
-     * @param ProductLinkEntity\CollectionProvider $entityCollectionProvider
+     * @param ProductLink\CollectionProvider $entityCollectionProvider
      * @param ProductLoader $productLoader
      * @param ProductResource $productResource
-     * @param ProductLinkEntity\DataMapperInterface $dataMapper
+     * @param ProductLink\DataMapperInterface $dataMapper
      */
     public function __construct(
         LinksInitializer $linkInitializer,
-        ProductLinkEntity\CollectionProvider $entityCollectionProvider,
+        ProductLink\CollectionProvider $entityCollectionProvider,
         ProductLoader $productLoader,
         ProductResource $productResource,
-        Data\ProductLinkEntity\DataMapperInterface $dataMapper
+        Data\ProductLink\DataMapperInterface $dataMapper
     ) {
         $this->linkInitializer = $linkInitializer;
         $this->entityCollectionProvider = $entityCollectionProvider;
@@ -99,7 +99,7 @@ class WriteService implements WriteServiceInterface
         $linkedProductIds = $this->productResource->getProductsIdsBySkus($assignedSkuList);
 
         $links = [];
-        /** @var Data\ProductLinkEntity[] $assignedProducts*/
+        /** @var Data\ProductLink[] $assignedProducts*/
         foreach ($assignedProducts as $linkedProduct) {
             $data = $linkedProduct->__toArray();
             if (!isset($linkedProductIds[$linkedProduct->getSku()])) {
@@ -117,7 +117,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function update($productSku, Data\ProductLinkEntity $linkedProduct, $type)
+    public function update($productSku, Data\ProductLink $linkedProduct, $type)
     {
         $product = $this->productLoader->load($productSku);
         $linkedProductEntity = $this->productLoader->load($linkedProduct->getSku());

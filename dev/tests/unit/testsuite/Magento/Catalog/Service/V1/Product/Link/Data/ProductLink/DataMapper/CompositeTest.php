@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapper;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapper;
 
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     public function testMap()
     {
         $mapperOne = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapperInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface'
         );
 
         $mapperTwo = $this->getMock(
-            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapperInterface'
+            '\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface'
         );
 
         $model = new Composite([$mapperOne, $mapperTwo]);

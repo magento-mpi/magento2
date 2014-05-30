@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 use Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
-use Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -64,14 +64,14 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->providerMock = $this->getMock('Magento\Catalog\Model\Product\LinkTypeProvider', [], [], '', false);
         $this->builderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntityBuilder',
+            'Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeBuilder',
             [],
             [],
             '',
             false
         );
         $this->productBuilderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntityBuilder',
+            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkBuilder',
             [],
             [],
             '',
@@ -87,7 +87,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->collectionProviderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider',
+            'Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider',
             [],
             [],
             '',
@@ -164,10 +164,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with('product_sku')
             ->will($this->returnValue($productMock));
         $itemMock = [
-            ProductLinkEntity::TYPE => 'typeId',
-            ProductLinkEntity::ATTRIBUTE_SET_ID => 10,
-            ProductLinkEntity::SKU => 'sku',
-            ProductLinkEntity::POSITION => 0
+            ProductLink::TYPE => 'typeId',
+            ProductLink::ATTRIBUTE_SET_ID => 10,
+            ProductLink::SKU => 'sku',
+            ProductLink::POSITION => 0
         ];
         $this->collectionProviderMock
             ->expects($this->once())

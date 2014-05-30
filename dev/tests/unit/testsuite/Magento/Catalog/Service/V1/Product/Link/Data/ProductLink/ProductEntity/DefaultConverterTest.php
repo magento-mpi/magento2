@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class DefaultConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,10 +43,10 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
         $this->product->expects($this->once())->method('getPosition')->will($this->returnValue(1));
 
         $expected = [
-            ProductLinkEntity::TYPE => 'simple',
-            ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
-            ProductLinkEntity::SKU => 'simple-sku',
-            ProductLinkEntity::POSITION => 1
+            ProductLink::TYPE => 'simple',
+            ProductLink::ATTRIBUTE_SET_ID => 4,
+            ProductLink::SKU => 'simple-sku',
+            ProductLink::POSITION => 1
         ];
 
         $this->assertEquals($expected, $this->converter->convert($this->product));

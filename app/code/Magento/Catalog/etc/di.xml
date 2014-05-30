@@ -19,7 +19,7 @@
     <preference for="Magento\Framework\Pricing\Adjustment\CalculatorInterface" type="Magento\Framework\Pricing\Adjustment\Calculator" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\WriteService" />
-    <preference for="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapperInterface" type="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\DataMapper\Composite" />
+    <preference for="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface" type="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapper\Composite" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -358,19 +358,19 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider">
+    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="crosssell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Crosssell</item>
-                <item name="upsell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Upsell</item>
-                <item name="related" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider\Related</item>
+                <item name="crosssell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Crosssell</item>
+                <item name="upsell" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Upsell</item>
+                <item name="related" xsi:type="object">Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider\Related</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\ConverterPool">
+    <type name="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool">
         <arguments>
             <argument name="converters" xsi:type="array">
-                <item name="default" xsi:type="object">\Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\ProductEntity\DefaultConverter</item>
+                <item name="default" xsi:type="object">\Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\DefaultConverter</item>
             </argument>
         </arguments>
     </type>

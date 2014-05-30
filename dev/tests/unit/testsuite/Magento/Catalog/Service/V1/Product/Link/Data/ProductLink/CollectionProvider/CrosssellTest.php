@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntity\CollectionProvider;
+namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\CollectionProvider;
 
 class CrosssellTest extends \PHPUnit_Framework_TestCase
 {

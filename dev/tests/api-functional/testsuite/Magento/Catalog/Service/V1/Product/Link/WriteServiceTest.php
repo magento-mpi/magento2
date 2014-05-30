@@ -43,10 +43,10 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->linkType = 'related';
         $this->productData =
             [
-                Data\ProductLinkEntity::TYPE => 'virtual',
-                Data\ProductLinkEntity::ATTRIBUTE_SET_ID => 4,
-                Data\ProductLinkEntity::SKU => 'virtual-product',
-                Data\ProductLinkEntity::POSITION => 3,
+                Data\ProductLink::TYPE => 'virtual',
+                Data\ProductLink::ATTRIBUTE_SET_ID => 4,
+                Data\ProductLink::SKU => 'virtual-product',
+                Data\ProductLink::POSITION => 3,
             ];
         $this->serviceInfo = [
             'rest' => [
@@ -208,8 +208,8 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $this->assertEquals(1, $actual[0]->getPosition());
 
-        /** @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntityBuilder $builder */
-        $builder = $objectManager->get('Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkEntityBuilder');
+        /** @var \Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkBuilder $builder */
+        $builder = $objectManager->get('Magento\Catalog\Service\V1\Product\Link\Data\ProductLinkBuilder');
         $builder->populate(
             $actual[0]
         )->setPosition(2);
