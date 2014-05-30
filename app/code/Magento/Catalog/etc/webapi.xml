@@ -21,6 +21,12 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
+    <route url="/V1/products/attribute-sets/:attributeSetId" method="GET">
+        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getInfo"/>
+        <resources>
+            <resource ref="Magento_Catalog::sets"/>
+        </resources>
+    </route>
     <route url="/V1/products/attribute-sets/:attributeSetId" method="DELETE">
         <service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="remove"/>
         <resources>
@@ -39,8 +45,8 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getInfo"/>
+    <route url="/V1/products/attribute-sets/:attributeSetId/attributes" method="GET">
+        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getAttributeList"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
@@ -51,8 +57,8 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/attributes" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface" method="getAttributeList"/>
+    <route url="/V1/products/attribute-sets/:attributeSetId/attributes/:attributeId" method="DELETE">
+        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface" method="deleteAttribute"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
@@ -77,12 +83,6 @@
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId/groups/:groupId" method="DELETE">
         <service class="Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface" method="delete"/>
-        <resources>
-            <resource ref="Magento_Catalog::sets"/>
-        </resources>
-    </route>
-    <route url="/V1/products/attribute-sets/:attributeSetId/attributes/:attributeId" method="DELETE">
-        <service class="Magento\Catalog\Service\V1\Product\AttributeSet\AttributeServiceInterface" method="deleteAttribute"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>

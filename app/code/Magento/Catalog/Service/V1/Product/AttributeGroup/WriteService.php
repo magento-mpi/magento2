@@ -23,7 +23,7 @@ class WriteService implements WriteServiceInterface
     protected $groupFactory;
 
     /**
-     * @var  \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder
+     * @var \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder
      */
     protected $groupBuilder;
 

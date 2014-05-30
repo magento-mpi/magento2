@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
 use Magento\Catalog\Service\V1\Data;
-use Magento\Catalog\Service\V1\Product\AttributeSet\ProductAttributeSetAttributeServiceInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;

@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
 use Magento\Catalog\Service\V1\Data;
-use Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface
