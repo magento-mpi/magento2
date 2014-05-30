@@ -24,12 +24,20 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
      */
     protected $directoryMock;
 
+    protected $defaultRenderer;
+
+    protected function setUp()
+    {
+        $this->defaultRenderer = \Magento\Framework\Phrase::getRenderer();
+    }
+
     /**
      * {inheritdoc}
      */
     protected function tearDown()
     {
         $this->model = null;
+        \Magento\Framework\Phrase::setRenderer($this->defaultRenderer);
     }
 
     /**
@@ -88,32 +96,32 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Install\Model\Installer\Data|\PHPUnit_Framework_MockObject_MockObject $installerData */
         list($this->model, $installerData) = $this->getMocks($items);
 
-       // 2. Set expectations
-       for ($i = 0; $i < count($items); $i++) {
-           $text = $expectedResult[$i];
-           $installerData->expects($this->at($i))->method('addError')->with($text);
-       }
+        // 2. Set expectations
+        for ($i = 0; $i < count($items); $i++) {
+            $text = $expectedResult[$i];
+            $installerData->expects($this->at($i))->method('addError')->with($text);
+        }
 
-       // 3. Run tested method
-       $this->model->checkServer();
-   }
+        // 3. Run tested method
+        $this->model->checkServer();
+    }
 
     /**
      * @return array
      */
     public function checkServerDataProvider()
-   {
-       $messageA = $this->getMockBuilder('SomeClass')->setMethods(['toString'])->getMock();
-       $messageA->expects($this->any())->method('toString')->will($this->returnValue('textA'));
+    {
+        $messageA = $this->getMockBuilder('SomeClass')->setMethods(['toString'])->getMock();
+        $messageA->expects($this->any())->method('toString')->will($this->returnValue('textA'));
 
-       $messageB = $this->getMockBuilder('SomeClass')->setMethods(['toString'])->getMock();
-       $messageB->expects($this->any())->method('toString')->will($this->returnValue('textB'));
+        $messageB = $this->getMockBuilder('SomeClass')->setMethods(['toString'])->getMock();
+        $messageB->expects($this->any())->method('toString')->will($this->returnValue('textB'));
 
-       return [
-           [[$messageA, $messageB], ['textA', 'textB']],
-           [[$messageB, $messageA], ['textB', 'textA']],
-       ];
-   }
+        return [
+            [[$messageA, $messageB], ['textA', 'textB']],
+            [[$messageB, $messageA], ['textB', 'textA']],
+        ];
+    }
 
     protected function getModelMock()
     {
@@ -132,16 +140,16 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->directoryMock)
         );
         /**
-        * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
-        */
+         * @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject
+         */
         $appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
         $dbModelMock = $this->getMock($dbModelName, [], [], '', false);
         $dbModelMock->expects($this->any())->method('cleanUpDatabase')->will($this->returnValue($this));
         /**
-        * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
-        */
+         * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+         */
         $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
         $objectManagerMock->expects($this->any())->method('get')->with($dbModelName)->will(
             $this->returnValue($dbModelMock)
@@ -157,7 +165,6 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Framework\Locale\ListsInterface', [], [], '', false),
             $objectManagerMock
         );
-
     }
 
     /**
@@ -165,42 +172,42 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
      * @return array
      */
     protected function getMocks($items)
-   {
-       $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+    {
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-       $installerData = $this->getMockBuilder('Magento\Install\Model\Installer\Data')
-           ->disableOriginalConstructor()
-           ->setMethods(['addError'])
-           ->getMock();
+        $installerData = $this->getMockBuilder('Magento\Install\Model\Installer\Data')
+            ->disableOriginalConstructor()
+            ->setMethods(['addError'])
+            ->getMock();
 
-       $phraseRenderer = $this->getMockBuilder('Magento\Framework\Phrase\RendererInterface')
-           ->disableOriginalConstructor()
-           ->getMock();
+        $phraseRenderer = $this->getMockBuilder('Magento\Framework\Phrase\RendererInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-       $messageCollection = $this->getMockBuilder('SomeClass')
-           ->setMethods(['getItems'])
-           ->getMock();
+        $messageCollection = $this->getMockBuilder('SomeClass')
+            ->setMethods(['getItems'])
+            ->getMock();
 
-       $messageManager = $this->getMockBuilder('Magento\Framework\Message\ManagerInterface')
-           ->disableOriginalConstructor()
-           ->getMock();
+        $messageManager = $this->getMockBuilder('Magento\Framework\Message\ManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-       $objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')
-           ->disableOriginalConstructor()
-           ->getMock();
+        $objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-       $messageCollection->expects($this->any())->method('getItems')->will($this->returnValue($items));
-       $messageManager->expects($this->any())->method('getMessages')->will($this->returnValue($messageCollection));
-       $objectManager->expects($this->any())->method('get')->will($this->returnValueMap([
-           ['Magento\Framework\Phrase\RendererInterface', $phraseRenderer],
-           ['Magento\Framework\Message\ManagerInterface', $messageManager],
-       ]));
+        $messageCollection->expects($this->any())->method('getItems')->will($this->returnValue($items));
+        $messageManager->expects($this->any())->method('getMessages')->will($this->returnValue($messageCollection));
+        $objectManager->expects($this->any())->method('get')->will($this->returnValueMap([
+            ['Magento\Framework\Phrase\RendererInterface', $phraseRenderer],
+            ['Magento\Framework\Message\ManagerInterface', $messageManager],
+        ]));
 
-       $consoleInstaller = $helper->getObject('Magento\Install\Model\Installer\Console', [
-           'objectManager' => $objectManager,
-           'installerData' => $installerData,
-       ]);
+        $consoleInstaller = $helper->getObject('Magento\Install\Model\Installer\Console', [
+            'objectManager' => $objectManager,
+            'installerData' => $installerData,
+        ]);
 
-       return [$consoleInstaller, $installerData];
-   }
+        return [$consoleInstaller, $installerData];
+    }
 }
