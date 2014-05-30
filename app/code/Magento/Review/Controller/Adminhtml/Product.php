@@ -152,7 +152,8 @@ class Product extends \Magento\Backend\App\Action
                     $review->addData($data)->save();
 
                     $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                    $votes = $this->_ratingFactory->create(
+                    $votes = $this->_objectManager->create(
+                        'Magento\Review\Model\Rating\Option\Vote'
                     )->getResourceCollection()->setReviewFilter(
                         $reviewId
                     )->addOptionInfo()->load()->addRatingOptions();
