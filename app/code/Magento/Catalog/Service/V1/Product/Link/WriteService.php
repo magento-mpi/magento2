@@ -127,7 +127,8 @@ class WriteService implements WriteServiceInterface
             throw new NoSuchEntityException(
                 sprintf(
                     "Product with SKU \"%s\" is not linked to product with SKU %s",
-                    $linkedProduct->getSku(), $productSku
+                    $linkedProduct->getSku(),
+                    $productSku
                 )
             );
         }
