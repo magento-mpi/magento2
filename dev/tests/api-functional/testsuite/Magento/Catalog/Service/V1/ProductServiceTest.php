@@ -300,21 +300,19 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function testCreateEmpty()
     {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
-            ],
-        ];
+        $this->_createProduct([]);
+    }
 
-        $requestData = ['product' => []];
-        $response = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertGreaterThan(0, $response);
+    /**
+     * @expectedException \Exception
+     */
+    public function testCreateEmptySku()
+    {
+        $this->_createProduct([
+            Product::SKU => '',
+            Product::NAME => 'name',
+            Product::PRICE => '10',
+        ]);
     }
 
     public function testUpdate()
