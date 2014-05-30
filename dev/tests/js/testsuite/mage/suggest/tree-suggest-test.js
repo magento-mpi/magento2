@@ -35,7 +35,7 @@ TreeSuggestTest.prototype.stub = function(instance, methodName, retVal) {
             if(retVal) {
                 return retVal;
             }
-        }
+        };
     }
     return d.promise();
 };

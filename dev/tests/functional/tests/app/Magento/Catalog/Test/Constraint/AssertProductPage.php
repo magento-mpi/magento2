@@ -107,7 +107,8 @@ class AssertProductPage extends AbstractConstraint
      * @param array $price
      * @return array
      */
-    protected function assertSpecialPrice(array $price) {
+    protected function assertSpecialPrice(array $price)
+    {
         $priceComparing = false;
         if ($specialPrice = $this->product->getSpecialPrice()) {
             $priceComparing = $specialPrice;
