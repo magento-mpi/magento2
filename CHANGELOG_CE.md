@@ -1,3 +1,5 @@
+2.0.0.0-dev80
+=============
 * Framework improvements:
   * Completely revisited subsystem of static view files preprocessing (MAGETWO-18001):
     * Transforming LESS into CSS is now just a particular case of a more general interface of preprocessors, so a custom preprocessor can be registered
