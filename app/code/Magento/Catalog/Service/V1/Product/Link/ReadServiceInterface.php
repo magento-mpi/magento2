@@ -13,7 +13,7 @@ interface ReadServiceInterface
     /**
      * Provide the list of product link types
      *
-     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity[]
+     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkType[]
      */
     public function getProductLinkTypes();
 

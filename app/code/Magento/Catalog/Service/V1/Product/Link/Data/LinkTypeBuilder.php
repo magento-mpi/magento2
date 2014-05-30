@@ -9,11 +9,11 @@
 namespace Magento\Catalog\Service\V1\Product\Link\Data;
 
 /**
- * Builder for the LinkTypeEntity Service Data Object
+ * Builder for the LinkType Service Data Object
  *
- * @method LinkTypeEntity create()
+ * @method LinkType create()
  */
-class LinkTypeEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LinkTypeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set type
@@ -23,7 +23,7 @@ class LinkTypeEntityBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setType($type)
     {
-        return $this->_set(LinkTypeEntity::TYPE, $type);
+        return $this->_set(LinkType::TYPE, $type);
     }
 
     /**
@@ -34,6 +34,6 @@ class LinkTypeEntityBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setCode($code)
     {
-        return $this->_set(LinkTypeEntity::CODE, $code);
+        return $this->_set(LinkType::CODE, $code);
     }
 }

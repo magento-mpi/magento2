@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link;
 
-use Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
+use Magento\Catalog\Service\V1\Product\Link\Data\LinkType;
 use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
@@ -144,8 +144,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('populateWithArray')
             ->with(
                 $this->logicalOr(
-                    $this->equalTo([LinkTypeEntity::TYPE => 'typeOne', LinkTypeEntity::CODE => 'codeOne']),
-                    $this->equalTo([LinkTypeEntity::TYPE => 'typeTwo', LinkTypeEntity::CODE => 'codeTwo'])
+                    $this->equalTo([LinkType::TYPE => 'typeOne', LinkType::CODE => 'codeOne']),
+                    $this->equalTo([LinkType::TYPE => 'typeTwo', LinkType::CODE => 'codeTwo'])
                 )
             )->will($this->returnSelf());
 

@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Service\V1\Product\Link;
 
 use \Magento\Catalog\Model\Product\LinkTypeProvider;
-use \Magento\Catalog\Service\V1\Product\Link\Data\LinkTypeEntity;
+use \Magento\Catalog\Service\V1\Product\Link\Data\LinkType;
 use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 use \Magento\Framework\Logger;
 
@@ -96,7 +96,7 @@ class ReadService implements ReadServiceInterface
     {
         $output = [];
         foreach ($this->linkTypeProvider->getLinkTypes() as $type => $typeCode) {
-            $data = [LinkTypeEntity::TYPE => $type, LinkTypeEntity::CODE => $typeCode];
+            $data = [LinkType::TYPE => $type, LinkType::CODE => $typeCode];
             $output[] = $this->builder
                 ->populateWithArray($data)
                 ->create();
