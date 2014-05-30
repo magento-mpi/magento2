@@ -134,7 +134,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         $this->_weeeDataMock = $this->getMock('\Magento\Weee\Helper\Data', $weeeDataMethods,
             $this->_prepareWeeeDataConstruct(), '');
         $this->_configMock = $this->getMock('\Magento\Tax\Model\Config', ['priceIncludesTax'], [], '', false);
-        $this->_objectMock = $this->getMock('\Magento\Object', [], [], '', false);
+        $this->_objectMock = $this->getMock('\Magento\Framework\Object', [], [], '', false);
         $this->_storeMock = $this->getMock('\Magento\Store\Model\Store', ['__wakeup', 'convertPrice'], [], '', false);
         $this->_quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', $quoteItemMethods, [], '', false);
         $this->_productModelMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
@@ -156,7 +156,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * return array
      */
     protected function _prepareWeeeDataConstruct() {
-        $this->_contextMock = $this->getMock('\Magento\App\Helper\Context', [], [], '', false);
+        $this->_contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->_storeManagerInterfaceMock = $this->getMock(
             'Magento\Store\Model\StoreManagerInterface', [], [], '', false
         );
@@ -164,9 +164,9 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             '\Magento\Weee\Model\Tax', ['__wakeup', 'getProductWeeeAttributes'], [], '', false
         );
         $this->_taxHelperMock = $this->getMock('\Magento\Tax\Helper\Data', [], [], '', false);
-        $this->_registryMock = $this->getMock('\Magento\Registry', [], [], '', false);
+        $this->_registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
         $this->_scopeConfigInterfaceMock = $this->getMock(
-            '\Magento\App\Config\ScopeConfigInterface', ['isSetFlag', 'getValue'], [], '', false
+            '\Magento\Framework\App\Config\ScopeConfigInterface', ['isSetFlag', 'getValue'], [], '', false
         );
         $weeeDataArgs = [
             'context'       => $this->_contextMock,
