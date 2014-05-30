@@ -19,7 +19,7 @@ class PartialResponseProcessor
      * Process filter from the request and apply over response to get the partial results
      *
      * @param string $filter filter criteria for partial response filtering
-     * @param string $response
+     * @param array $response
      * @return array partial response array or empty array if invalid filter criteria is provided
      */
     public function filter($filter, $response)
@@ -57,9 +57,9 @@ class PartialResponseProcessor
      *                       array(
      *                           'region_code' => 1,
      *                           'region' => 1,
-     *                       ),
-     *                   ),
-     *               )
+     *                         ),
+     *               ),
+     *      )
      * </pre>
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -136,6 +136,7 @@ class PartialResponseProcessor
      */
     protected function applyFilter(array $responseArray, array $filter)
     {
+        $arrayIntersect = null;
         //Check if its a sequential array. Presence of sequential arrays mean that the filed is a collection
         //and the filtering will be applied to all the collection items
         if (!(bool)count(array_filter(array_keys($responseArray), 'is_string'))) {
@@ -175,6 +176,10 @@ class PartialResponseProcessor
      */
     public function extractFilter(\Zend_Controller_Request_Http $request)
     {
-        return $request->getParams()[self::FILTER_PARAMETER];
+        $params = $request->getParams();
+        if (isset($params[self::FILTER_PARAMETER])) {
+            return $params[self::FILTER_PARAMETER];
+        }
+        return null;
     }
 }

@@ -256,5 +256,22 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
             ['customer[id,email],addresses[city,postcode,region[region_code,region]'] //Missing last parentheses
         ];
     }
+
+    public function testExtractFilter()
+    {
+        $request = new \Zend_Controller_Request_Http();
+        $sampleFilter = 'customer[id,email],addresses[city,postcode,region[region_code,region]]';
+        $params = ['fields' => $sampleFilter, 'id' => 1];
+        $request->setParams($params);
+        $this->assertEquals($sampleFilter, $this->processor->extractFilter($request));
+    }
+
+    public function testExtractFilterNoFilterProvided()
+    {
+        $request = new \Zend_Controller_Request_Http();
+        $params = ['id' => 1];
+        $request->setParams($params);
+        $this->assertNull($this->processor->extractFilter($request));
+    }
 }
  
