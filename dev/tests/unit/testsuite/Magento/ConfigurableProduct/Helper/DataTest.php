@@ -79,7 +79,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $currentProductMock = $this->getMock(
             'Magento\Catalog\Model\Product', array('getTypeInstance', '__wakeup'), array(), '', false
         );
-
         $provider = array();
         $provider[] = array(
             array(),
@@ -88,16 +87,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'current_product_mock' => $currentProductMock
             )
         );
-
         $attributesCount = 3;
         $attributes = array();
         for ($i = 1; $i < $attributesCount; $i++) {
             $attribute = $this->getMock(
-                'Magento\Framework\Object',
-                array('getProductAttribute'),
-                array(),
-                '',
-                false
+                'Magento\Framework\Object', array('getProductAttribute'), array(), '', false
             );
             $productAttribute = $this->getMock(
                 'Magento\Framework\Object',
@@ -115,27 +109,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $attribute->expects($this->any())
                 ->method('getProductAttribute')
                 ->will($this->returnValue($productAttribute));
-
             $attributes[] = $attribute;
         }
-
         $typeInstanceMock = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable', array(), array(), '', false
         );
         $typeInstanceMock->expects($this->any())
             ->method('getConfigurableAttributes')
             ->will($this->returnValue($attributes));
-
         $currentProductMock->expects($this->any())
             ->method('getTypeInstance')
             ->will($this->returnValue($typeInstanceMock));
-
         $allowedProducts = array();
         for ($i = 1; $i <= 2; $i++) {
             $productMock = $this->getMock(
                 'Magento\Catalog\Model\Product', array('getData', 'getImage', 'getId', '__wakeup'), array(), '', false
             );
-
             $productMock->expects($this->any())
                 ->method('getData')
                 ->will($this->returnCallback(array($this, 'getDataCallback')));
@@ -147,10 +136,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
                     ->method('getImage')
                     ->will($this->returnValue(true));
             }
-
             $allowedProducts[] = $productMock;
         }
-
         $provider[] = array(
             array(
                 'attribute_id_1' => array(
@@ -179,7 +166,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'current_product_mock' => $currentProductMock
             )
         );
-
         return $provider;
     }
 
