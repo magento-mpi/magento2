@@ -225,7 +225,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     {
         $entityCode = \Magento\Catalog\Model\Product::ENTITY;
         $methods = array('__wakeup', 'setAttributeSetId',
-            'loadEntityAttributeIdBySet', 'getEntityAttributeId', 'deleteEntity', 'getId');
+            'loadEntityAttributeIdBySet', 'getEntityAttributeId', 'deleteEntity', 'getId', 'getIsUserDefined');
         $this->entityTypeConfigMock->expects($this->once())->method('getEntityType')->will($this->returnSelf());
         $this->entityTypeConfigMock->expects($this->once())
             ->method('getEntityTypeCode')->will($this->returnValue($entityCode));
@@ -240,6 +240,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
         $attributeMock->expects($this->once())->method('setAttributeSetId')->with(1)->will($this->returnSelf());
         $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->will($this->returnSelf());
         $attributeMock->expects($this->once())->method('getEntityAttributeId')->will($this->returnValue(10));
+        $attributeMock->expects($this->once())->method('getIsUserDefined')->will($this->returnValue(true));
         $attributeMock->expects($this->once())->method('deleteEntity');
         $this->assertEquals(true, $this->service->deleteAttribute(1, 10));
     }
@@ -324,4 +325,33 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
         $this->attributeMock->expects($this->never())->method('load');
         $this->assertEquals(true, $this->service->deleteAttribute(1, 10));
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionMessage System attribute can not be deleted
+     */
+    public function testDeleteSystemAttribute()
+    {
+        $entityCode = \Magento\Catalog\Model\Product::ENTITY;
+        $methods = array('__wakeup', 'setAttributeSetId',
+            'loadEntityAttributeIdBySet', 'getEntityAttributeId', 'deleteEntity', 'getId', 'getIsUserDefined');
+        $this->entityTypeConfigMock->expects($this->once())->method('getEntityType')->will($this->returnSelf());
+        $this->entityTypeConfigMock->expects($this->once())
+            ->method('getEntityTypeCode')->will($this->returnValue($entityCode));
+        $objectMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $objectMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->attributeSetMock->expects($this->once())->method('load')->with(1)->will($this->returnValue($objectMock));
+        $attributeMock =
+            $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', $methods, array(), '', false);
+        $this->attributeMock
+            ->expects($this->once())->method('load')->with(10)->will($this->returnValue($attributeMock));
+        $attributeMock->expects($this->any())->method('getId')->will($this->returnValue(2));
+        $attributeMock->expects($this->once())->method('setAttributeSetId')->with(1)->will($this->returnSelf());
+        $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->will($this->returnSelf());
+        $attributeMock->expects($this->once())->method('getEntityAttributeId')->will($this->returnValue(10));
+        $attributeMock->expects($this->once())->method('getIsUserDefined')->will($this->returnValue(false));
+        $attributeMock->expects($this->never())->method('deleteEntity');
+        $this->service->deleteAttribute(1, 10);
+    }
+
 }

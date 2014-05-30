@@ -11,6 +11,7 @@ use Magento\Catalog\Service\V1\Data;
 use Magento\Catalog\Service\V1\Product\AttributeSet\ProductAttributeSetAttributeServiceInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 class AttributeService implements ProductAttributeSetAttributeServiceInterface
 {
@@ -104,6 +105,7 @@ class AttributeService implements ProductAttributeSetAttributeServiceInterface
      * @param string $attributeId
      * @return bool
      * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Exception\StateException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function deleteAttribute($attributeSetId, $attributeId)
@@ -129,6 +131,10 @@ class AttributeService implements ProductAttributeSetAttributeServiceInterface
         $attribute->setAttributeSetId($attributeSet->getId())->loadEntityAttributeIdBySet();
         if (!$attribute->getEntityAttributeId()) {
             throw  new InputException('Requested attribute is not in requested attribute set.');
+        }
+        if (!$attribute->getIsUserDefined())
+        {
+            throw new StateException('System attribute can not be deleted');
         }
         $attribute->deleteEntity();
         return true;

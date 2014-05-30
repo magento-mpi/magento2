@@ -170,7 +170,15 @@ class AttributeServiceTest extends WebapiAbstract
         $createdAttributeSet = $attrSetReadService->getInfo($attributeSetId);
         $this->assertEquals($attrSetName, $createdAttributeSet->getName());
         $attributes = $attrSetReadService->getAttributeList($attributeSetId);
-        $attributeId = array_shift($attributes)->getId();
+        $removableAttribute = array();
+        foreach ($attributes as $attribute)
+        {
+            if($attribute->getIsUserDefined())
+            {
+                $removableAttribute[] = $attribute;
+            }
+        }
+        $attributeId = array_shift($removableAttribute)->getId();
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => "/V1/products/attribute-sets/$attributeSetId/attributes/$attributeId",

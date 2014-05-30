@@ -23,6 +23,7 @@ interface AttributeServiceInterface
      * @param string $attributeId
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      * @return bool
      */
     public function deleteAttribute($attributeSetId, $attributeId);
