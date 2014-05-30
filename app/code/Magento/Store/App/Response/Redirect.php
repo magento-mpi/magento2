@@ -194,13 +194,15 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
             $unsecure = strpos(
                 $url,
                 $this->_storeManager->getStore()->getBaseUrl(
-                    \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK, false
+                    \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK,
+                    false
                 )
             ) === 0;
             $secure = strpos(
                 $url,
                 $this->_storeManager->getStore()->getBaseUrl(
-                    \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK, true
+                    \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK,
+                    true
                 )
             ) === 0;
             return $unsecure || $secure;

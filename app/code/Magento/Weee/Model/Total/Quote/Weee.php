@@ -217,7 +217,8 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 
         $this->_setAppliedTaxes($item, $values);
         $this->_processTaxSettings(
-            $item, $values['total'],
+            $item,
+            $values['total'],
             $values['base_total'],
             $values['total_row'],
             $values['base_total_row']
