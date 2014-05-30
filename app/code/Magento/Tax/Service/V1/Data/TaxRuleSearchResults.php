@@ -8,12 +8,12 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Customer\Service\V1\Data\SearchResults;
 
 /**
  * TaxRuleSearchResults Service Data Object used for the search service requests
  */
-class TaxRuleSearchResults extends AbstractObject
+class TaxRuleSearchResults extends SearchResults
 {
     /**
      * Get items
