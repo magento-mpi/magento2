@@ -56,7 +56,7 @@ class WriteService implements WriteServiceInterface
             $set->setData($key, $value);
         }
         $set->validate();
-
+        $set->save();
         //process skeleton data
         $skeletonId = intval($skeletonId);
         if (0 == $skeletonId) {

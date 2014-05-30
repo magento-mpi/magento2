@@ -131,8 +131,7 @@ class AttributeService implements AttributeServiceInterface
         if (!$attribute->getEntityAttributeId()) {
             throw  new InputException('Requested attribute is not in requested attribute set.');
         }
-        if (!$attribute->getIsUserDefined())
-        {
+        if (!$attribute->getIsUserDefined()) {
             throw new StateException('System attribute can not be deleted');
         }
         $attribute->deleteEntity();

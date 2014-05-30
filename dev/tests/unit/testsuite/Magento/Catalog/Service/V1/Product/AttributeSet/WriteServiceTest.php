@@ -180,7 +180,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->setFactoryMock->expects($this->exactly(2))->method('create')->will($this->returnValue($this->setMock));
         $this->setMock->expects($this->once())->method('validate')->will($this->returnValue(true));
-        $this->setMock->expects($this->once())->method('save');
+        $this->setMock->expects($this->exactly(2))->method('save');
         $this->setMock->expects($this->once())->method('getId')->will($this->returnValue($setId));
         $skeletonSetMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Set',
