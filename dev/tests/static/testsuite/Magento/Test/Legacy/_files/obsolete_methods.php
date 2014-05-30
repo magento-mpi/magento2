@@ -1000,6 +1000,7 @@ return array(
     array('getProductStatusModel', 'Magento\CatalogInventory\Model\Stock\Status'),
     array('getStorage', 'Magento\Cms\Helper\Wysiwyg\Images'),
     array('_getSession', 'Magento\Review\Helper\Action\Pager'),
+    array('expandSource', 'Magento\ImportExport\Model\Import'),
     array('_getProductType', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix'),
     array('_getProductType', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config'),
     array('_getSession', 'Magento\Sales\Model\AdminOrder'),
