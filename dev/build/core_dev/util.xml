@@ -79,8 +79,8 @@
 
     <target name="_product_edition_no_build" description="Product edition source code preparation (without --build option)">
         <antcall>
-            <target name="_product_edition_files_no_build"/>
             <target name="_license_replacement"/>
+            <target name="_product_edition_files_no_build"/>
         </antcall>
     </target>
 
