@@ -35,7 +35,7 @@ class EditSimpleProductTest extends \Magento\Catalog\Test\TestCase\Product\EditS
      * @param SimpleProduct $product
      * @param string $categoryName
      */
-    protected function assertOnCategoryPage($product, $categoryName)
+    protected function assertOnCategoryPage(SimpleProduct $product, $categoryName)
     {
         parent::assertOnCategoryPage($product, $categoryName);
     }
@@ -46,7 +46,7 @@ class EditSimpleProductTest extends \Magento\Catalog\Test\TestCase\Product\EditS
      * @param SimpleProduct $productOld
      * @param SimpleProduct $productEdited
      */
-    protected function assertOnProductPage($productOld, $productEdited)
+    protected function assertOnProductPage(SimpleProduct $productOld, SimpleProduct $productEdited)
     {
         return;
     }
