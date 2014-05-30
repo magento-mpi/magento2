@@ -13,7 +13,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 
-class AttributeService implements ProductAttributeSetAttributeServiceInterface
+class AttributeService implements AttributeServiceInterface
 {
     /**
      * @var \Magento\Eav\Model\Entity\AttributeFactory

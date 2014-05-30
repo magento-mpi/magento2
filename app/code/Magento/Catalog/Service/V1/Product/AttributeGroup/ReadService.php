@@ -9,7 +9,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\AttributeGroup;
 
-use \Magento\Catalog\Service\V1\Product\Data;
+use \Magento\Catalog\Service\V1\Data;
 use \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory as AttributeGroupCollectionFactory;
 
 class ReadService implements ReadServiceInterface
@@ -20,13 +20,13 @@ class ReadService implements ReadServiceInterface
     protected $groupListFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder
+     * @var \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder
      */
     protected $groupBuilder;
 
     /**
      * @param AttributeGroupCollectionFactory $groupListFactory
-     * @param \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder $groupBuilder
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder $groupBuilder
      */
     public function __construct(
         AttributeGroupCollectionFactory $groupListFactory,

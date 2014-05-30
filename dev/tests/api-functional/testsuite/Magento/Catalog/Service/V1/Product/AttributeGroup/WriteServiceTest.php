@@ -71,7 +71,7 @@ class WriteServiceTest extends WebapiAbstract
         $groupReadService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface');
         $builder = Bootstrap::getObjectManager()->get(
-            '\Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder'
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder'
         );
         $group = $builder->setName('GroupToUpdate')->create();
         $group = $groupService->create(1, $group);
@@ -109,7 +109,7 @@ class WriteServiceTest extends WebapiAbstract
         $groupReadService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Product\AttributeGroup\ReadServiceInterface');
         $builder = Bootstrap::getObjectManager()->get(
-            '\Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder'
+            '\Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder'
         );
         $group = $builder->setName('GroupToDelete')->create();
         $group = $groupService->create(1, $group);

@@ -14,22 +14,22 @@ interface WriteServiceInterface
      * Create attribute group
      *
      * @param string $attributeSetId
-     * @param \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData
-     * @return \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData
+     * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function create($attributeSetId, \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData);
+    public function create($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData);
 
     /**
      * Update attribute group
      *
      * @param string $groupId
-     * @param \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
      */
-    public function update($groupId, \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData);
+    public function update($groupId, \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData);
 
     /**
      * Remove attribute group

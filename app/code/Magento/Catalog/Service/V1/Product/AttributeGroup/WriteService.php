@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\AttributeGroup;
 
 use \Magento\Catalog\Model\Product\Attribute\GroupFactory;
 use \Magento\Catalog\Model\Product\Attribute\Group;
-use Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
@@ -23,7 +23,7 @@ class WriteService implements WriteServiceInterface
     protected $groupFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroupBuilder
+     * @var  \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder
      */
     protected $groupBuilder;
 
@@ -40,7 +40,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {inheritdoc}
      */
-    public function create($attributeSetId, \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData)
+    public function create($attributeSetId, \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData)
     {
         try {
             /** @var Group $attributeGroup */
@@ -61,7 +61,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function update($groupId, \Magento\Catalog\Service\V1\Product\Data\Eav\AttributeGroup $groupData)
+    public function update($groupId, \Magento\Catalog\Service\V1\Data\Eav\AttributeGroup $groupData)
     {
         /** @var Group $attributeGroup */
         $attributeGroup = $this->groupFactory->create();

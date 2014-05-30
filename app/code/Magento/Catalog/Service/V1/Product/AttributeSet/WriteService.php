@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
-use Magento\Catalog\Service\V1\Product\AttributeSet\ProductAttributeSetWriteServiceInterface;
+use Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
@@ -16,7 +16,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
  * Class WriteService
  * Service to create/update/remove product attribute sets
  */
-class WriteService implements ProductAttributeSetWriteServiceInterface
+class WriteService implements WriteServiceInterface
 {
     /**
      * @var \Magento\Eav\Model\Entity\Attribute\SetFactory

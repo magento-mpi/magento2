@@ -160,10 +160,10 @@ class AttributeServiceTest extends WebapiAbstract
         $attrSetName = 'AttributeSet' . uniqid();
         /** @var \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface $attrSetWriteService*/
         $attrSetWriteService = Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Service\V1\ProductAttributeSetWriteService');
+            ->get('Magento\Catalog\Service\V1\Product\AttributeSet\WriteService');
         /**  @var \Magento\Catalog\Service\V1\Product\AttributeSet\ReadServiceInterface $attrSetReadService*/
         $attrSetReadService = Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Service\V1\ProductAttributeSetReadService');
+            ->get('Magento\Catalog\Service\V1\Product\AttributeSet\ReadService');
         $builder = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtendedBuilder');
         $attributeSetId = $attrSetWriteService->create($builder->setName($attrSetName)->setSkeletonId(4)->create());
