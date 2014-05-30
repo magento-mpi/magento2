@@ -147,9 +147,10 @@ class ProductServiceTest extends WebapiAbstract
         list($sortField, $sortValue) = $sortData;
         $searchCriteriaBuilder->setSortOrders([$sortField => $sortValue]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -159,7 +160,7 @@ class ProductServiceTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['searchCriteria' => $searchData];
+
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('items', $searchResults);
         $this->assertEquals(count($expected), count($searchResults['items']));
