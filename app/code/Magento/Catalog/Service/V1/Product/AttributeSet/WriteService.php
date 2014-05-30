@@ -11,6 +11,7 @@ use Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
+use Magento\Framework\Exception\StateException;
 
 /**
  * Class WriteService
@@ -107,6 +108,8 @@ class WriteService implements WriteServiceInterface
 
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
         $attributeSet = $this->setFactory->create()->load($id);
+        $defaultAttributeSetId =
+            $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getDefaultAttributeSetId();
         $loadedData = $attributeSet->getData();
         if (empty($loadedData)) {
             throw NoSuchEntityException::singleField('id', $attributeSetId);
@@ -116,6 +119,9 @@ class WriteService implements WriteServiceInterface
             throw InputException::invalidFieldValue('id', $attributeSetId);
         }
 
+        if ($attributeSetId == $defaultAttributeSetId) {
+            throw new StateException('Default attribute set can not be deleted');
+        }
         $attributeSet->delete();
         return true;
     }
