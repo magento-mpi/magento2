@@ -218,7 +218,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 't1.attribute_id IN (?)',
                 $attributeIds
             )->where(
-                't1.store_id = ? OR t1.store_id = ?',
+                't1.store_id IN (?)',
                 array(0, $this->getStoreId())
             )->where(
                 $this->_resourceHelper->getCILike('t1.value', $this->_searchQuery, $likeOptions)

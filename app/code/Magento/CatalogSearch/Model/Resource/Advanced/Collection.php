@@ -114,20 +114,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                     if (!is_numeric($attributeId)) {
                         $field = 't1.' . $attributeId;
                     } else {
-                        $storeId = $this->getStoreId();
-                        $onCondition = 't1.entity_id = t2.entity_id' .
-                            ' AND t1.attribute_id = t2.attribute_id' .
-                            ' AND t2.store_id=?';
-
-                        $select->joinLeft(array('t2' => $table), $conn->quoteInto($onCondition, $storeId), array());
-                        $select->where('t1.store_id = ?', 0);
+                        $select->where('t1.store_id IN(?)', array(0, $this->getStoreId()));
                         $select->where('t1.attribute_id = ?', $attributeId);
-
-                        if (array_key_exists('price_index', $this->getSelect()->getPart(\Magento\Framework\DB\Select::FROM))) {
+                        $queryFromPart = $this->getSelect()->getPart(\Magento\Framework\DB\Select::FROM);
+                        if (array_key_exists('price_index', $queryFromPart)) {
                             $select->where('t1.entity_id = price_index.entity_id');
                         }
-
-                        $field = $this->getConnection()->getCheckSql('t2.value_id>0', 't2.value', 't1.value');
+                        $field = 't1.value';
                     }
 
                     if (is_array($conditionValue)) {
