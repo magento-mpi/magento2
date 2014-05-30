@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\TestFramework\Helper\Bootstrap,
-    Magento\Catalog\Service\V1\Data\Eav\AttributeSet,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -28,12 +28,13 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = [
-            'id' => null,
-            'name' => 'attribute set' . \time(),
-            'sort_order' => 10,
-            'skeleton_id' => 4, // default attribute set id
+            'attributeSet' => [
+                'name' => 'attribute set' . \time(),
+                'sort_order' => 10,
+            ],
+            'skeletonId' => 4, // default attribute set id
         ];
-        $attributeSetId = $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+        $attributeSetId = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertGreaterThan(0, $attributeSetId);
         return $attributeSetId;
@@ -42,12 +43,11 @@ class WriteServiceTest extends WebapiAbstract
     /**
      * @dataProvider createNegativeProvider
      * @param $name
-     * @param $id
      * @param $skeletonId
      * @param $expectedMessage
      * @return int
      */
-    public function testCreateNegative($name, $id, $skeletonId, $expectedMessage)
+    public function testCreateNegative($name, $skeletonId, $expectedMessage)
     {
         $serviceInfo = [
             'rest' => [
@@ -61,14 +61,15 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = [
-            'id' => $id,
-            'name' => $name,
-            'sort_order' => 10,
-            'skeleton_id' => $skeletonId,
+            'attributeSet' => [
+                'name' => $name,
+                'sort_order' => 10,
+            ],
+            'skeletonId' => $skeletonId,
         ];
         try {
             //save the same attribute set again
-            $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+            $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Saving the same attribute set should throw an exception');
         } catch (\SoapFault $e) {
             $message = $e->getMessage();
@@ -82,17 +83,10 @@ class WriteServiceTest extends WebapiAbstract
     {
         $defaultSetId = 4;
         return array(
-            'empty name' => array('', null, $defaultSetId, 'Attribute set name is empty.'),
-            'existing id' => array(
-                'attribute set' . time(),
-                $defaultSetId,
-                $defaultSetId,
-                'Invalid value of "%value" provided for the %fieldName field.'
-            ),
+            'empty name' => array('', $defaultSetId, 'Attribute set name is empty.'),
             'absent skeleton' => array(
                 'attribute set_' . time(),
-                null,
-                null,
+                0,
                 'Invalid value of "%value" provided for the %fieldName field.'
             ),
         );
@@ -112,19 +106,20 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
         $name = 'attribute set' . \time();
-        $requestData = [
-            'id' => null,
-            'name' => $name,
-            'sort_order' => 10,
-            'skeleton_id' => 4, // default attribute set id
-        ];
-        $attributeSetId = $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+        $requestData = array(
+            'attributeSet' => [
+                'name' => $name,
+                'sort_order' => 10,
+            ],
+            'skeletonId' => 4, // default attribute set id
+        );
+        $attributeSetId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertGreaterThan(0, $attributeSetId);
 
         $expectedMessage = 'An attribute set with the "'. $name . '" name already exists.';
         try {
             //save the same attribute set again
-            $this->_webApiCall($serviceInfo, array('attributeSet' => $requestData));
+            $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Saving the same attribute set should throw an exception');
         } catch (\SoapFault $e) {
             $message = $e->getMessage();

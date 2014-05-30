@@ -38,7 +38,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $setData)
+    public function create(AttributeSet $setData, $skeletonId)
     {
         if ($setData->getId()) {
             throw InputException::invalidFieldValue('id', $setData->getId());
@@ -56,11 +56,10 @@ class WriteService implements WriteServiceInterface
             $set->setData($key, $value);
         }
         $set->validate();
-        $set->save();
 
         //process skeleton data
-        $skeletonId = intval($setData->getSkeletonId());
-        if (empty($skeletonId)) {
+        $skeletonId = intval($skeletonId);
+        if (0 == $skeletonId) {
             throw InputException::invalidFieldValue('skeletonId', $skeletonId);
         }
 

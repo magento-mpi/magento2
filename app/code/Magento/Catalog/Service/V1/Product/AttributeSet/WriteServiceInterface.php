@@ -18,13 +18,14 @@ interface WriteServiceInterface
     /**
      * Create attribute set from data
      *
-     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $attributeSet
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeSet $attributeSet
+     * @param int $skeletonId
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeSetExtended $attributeSet);
+    public function create(AttributeSet $attributeSet, $skeletonId);
 
     /**
      * Update attribute set data
