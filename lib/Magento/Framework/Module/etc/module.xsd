@@ -56,7 +56,8 @@
             </xs:element>
         </xs:all>
         <xs:attribute name="name" type="moduleName" use="required" />
-        <xs:attribute name="version" type="moduleVersion" use="optional" />
+        <xs:attribute name="dbversion" type="moduleVersion" use="optional" />
+        <xs:attribute name="version" type="softwareVersion" use="required" />
         <xs:attribute name="active" type="xs:boolean" use="optional" />
     </xs:complexType>
 
@@ -143,6 +144,17 @@
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="softwareVersion">
+        <xs:annotation>
+            <xs:documentation>
+                Software version attribute can contain only [0-9.].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9.]+" />
         </xs:restriction>
     </xs:simpleType>
 

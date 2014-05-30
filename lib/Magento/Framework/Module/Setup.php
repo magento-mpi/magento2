@@ -213,7 +213,7 @@ class Setup implements \Magento\Framework\Module\Updater\SetupInterface
     public function applyUpdates()
     {
         $dbVer = $this->_resourceResource->getDbVersion($this->_resourceName);
-        $configVer = $this->_moduleConfig['version'];
+        $configVer = $this->_moduleConfig['dbversion'];
 
         // Module is installed
         if ($dbVer !== false) {
