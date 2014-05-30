@@ -13,11 +13,24 @@ use Magento\TestModule2\Service\V1\Entity\Item;
 class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
 {
     /**
+     * @var ItemBuilder
+     */
+    protected $itemBuilder;
+
+    /**
+     * @param ItemBuilder $itemBuilder
+     */
+    public function __construct(ItemBuilder $itemBuilder)
+    {
+        $this->itemBuilder = $itemBuilder;
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function item($id)
     {
-        return (new ItemBuilder())->setId($id)->setName('testItem' . $id)->create();
+        return $this->itemBuilder->setId($id)->setName('testItem' . $id)->create();
     }
 
     /**
@@ -25,9 +38,9 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
      */
     public function items()
     {
-        $result1 = (new ItemBuilder())->setId(1)->setName('testItem1')->create();
+        $result1 = $this->itemBuilder->setId(1)->setName('testItem1')->create();
 
-        $result2 = (new ItemBuilder())->setId(2)->setName('testItem2')->create();
+        $result2 = $this->itemBuilder->setId(2)->setName('testItem2')->create();
 
         return array($result1, $result2);
     }
@@ -37,7 +50,7 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
      */
     public function create($name)
     {
-        return (new ItemBuilder())->setId(rand())->setName($name)->create();
+        return $this->itemBuilder->setId(rand())->setName($name)->create();
     }
 
     /**
@@ -45,7 +58,7 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated' . $item->getName())->create();
+        return $this->itemBuilder->setId($item->getId())->setName('Updated' . $item->getName())->create();
     }
 
     /**
@@ -53,6 +66,6 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
      */
     public function remove($id)
     {
-        return (new ItemBuilder())->setId(1)->create();
+        return $this->itemBuilder->setId(1)->create();
     }
 }
