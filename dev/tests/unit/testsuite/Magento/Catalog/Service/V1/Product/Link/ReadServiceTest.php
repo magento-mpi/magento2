@@ -103,7 +103,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->linkBuilderMock = $this->getMock(
-            'Magento\Catalog\Service\V1\Product\Link\Data\LinkAttributeEntityBuilder',
+            'Magento\Catalog\Service\V1\Product\Link\Data\LinkAttributeBuilder',
             [],
             [],
             '',
@@ -199,8 +199,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with(['data' => ['link_type_id' => 'type_id']])
             ->will($this->returnValue($linkMock));
         $data = [
-            Data\LinkAttributeEntity::CODE => 'code_name',
-            Data\LinkAttributeEntity::TYPE => 'type_name'
+            Data\LinkAttribute::CODE => 'code_name',
+            Data\LinkAttribute::TYPE => 'type_name'
         ];
         $linkMock->expects($this->once())->method('getAttributes')->will($this->returnValue($attributeMock));
         $this->linkBuilderMock

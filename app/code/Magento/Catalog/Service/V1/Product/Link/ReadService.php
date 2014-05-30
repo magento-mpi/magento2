@@ -55,7 +55,7 @@ class ReadService implements ReadServiceInterface
     protected $linkFactory;
 
     /**
-     * @var Data\LinkAttributeEntityBuilder
+     * @var Data\LinkAttributeBuilder
      */
     protected $linkAttributeBuilder;
 
@@ -65,7 +65,7 @@ class ReadService implements ReadServiceInterface
      * @param Data\ProductLinkBuilder $productEntityBuilder
      * @param ProductLoader $productLoader
      * @param ProductLink\CollectionProvider $entityCollectionProvider
-     * @param Data\LinkAttributeEntityBuilder $linkAttributeBuilder
+     * @param Data\LinkAttributeBuilder $linkAttributeBuilder
      * @param \Magento\Catalog\Model\Product\LinkFactory $linkFactory
      * @param LinkTypeResolver $linkTypeResolver
      */
@@ -75,7 +75,7 @@ class ReadService implements ReadServiceInterface
         Data\ProductLinkBuilder $productEntityBuilder,
         ProductLoader $productLoader,
         Data\ProductLink\CollectionProvider $entityCollectionProvider,
-        Data\LinkAttributeEntityBuilder $linkAttributeBuilder,
+        Data\LinkAttributeBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
         LinkTypeResolver $linkTypeResolver
     ) {
@@ -131,8 +131,8 @@ class ReadService implements ReadServiceInterface
         $attributes = $link->getAttributes();
         foreach ($attributes as $item) {
             $data = [
-                Data\LinkAttributeEntity::CODE => $item['code'],
-                Data\LinkAttributeEntity::TYPE => $item['type'],
+                Data\LinkAttribute::CODE => $item['code'],
+                Data\LinkAttribute::TYPE => $item['type'],
             ];
             $output[] = $this->linkAttributeBuilder->populateWithArray($data)->create();
         }

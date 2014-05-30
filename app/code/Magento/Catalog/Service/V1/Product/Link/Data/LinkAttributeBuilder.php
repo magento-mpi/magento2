@@ -9,11 +9,11 @@
 namespace Magento\Catalog\Service\V1\Product\Link\Data;
 
 /**
- * Builder for the LinkAttributeEntity Service Data Object
+ * Builder for the LinkAttribute Service Data Object
  *
- * @method LinkAttributeEntity create()
+ * @method LinkAttribute create()
  */
-class LinkAttributeEntityBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class LinkAttributeBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set attribute code
@@ -23,7 +23,7 @@ class LinkAttributeEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setCode($code)
     {
-        return $this->_set(LinkAttributeEntity::CODE, $code);
+        return $this->_set(LinkAttribute::CODE, $code);
     }
 
     /**
@@ -34,6 +34,6 @@ class LinkAttributeEntityBuilder extends \Magento\Framework\Service\Data\Abstrac
      */
     public function setType($type)
     {
-        return $this->_set(LinkAttributeEntity::TYPE, $type);
+        return $this->_set(LinkAttribute::TYPE, $type);
     }
 }

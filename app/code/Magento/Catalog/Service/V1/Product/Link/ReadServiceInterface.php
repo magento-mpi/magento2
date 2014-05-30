@@ -32,7 +32,7 @@ interface ReadServiceInterface
      *
      * @param string $type
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkAttributeEntity[]
+     * @return \Magento\Catalog\Service\V1\Product\Link\Data\LinkAttribute[]
      */
     public function getLinkAttributes($type);
 }
