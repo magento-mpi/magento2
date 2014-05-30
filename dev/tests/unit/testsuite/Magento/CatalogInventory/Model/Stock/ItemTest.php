@@ -11,6 +11,8 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class ItemTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ItemTest extends \PHPUnit_Framework_TestCase
 {
