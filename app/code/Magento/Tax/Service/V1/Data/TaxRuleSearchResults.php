@@ -12,10 +12,16 @@ use Magento\Framework\Service\Data\AbstractObject;
 
 /**
  * TaxRuleSearchResults Service Data Object used for the search service requests
- *
- * @method \Magento\Tax\Service\V1\Data\TaxRule[] getItems()
  */
 class TaxRuleSearchResults extends AbstractObject
 {
-
+    /**
+     * Get items
+     *
+     * @return \Magento\Tax\Service\V1\Data\TaxRule[]
+     */
+    public function getItems()
+    {
+        return is_null($this->_get(self::KEY_ITEMS)) ? [] : $this->_get(self::KEY_ITEMS);
+    }
 }
