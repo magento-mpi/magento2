@@ -133,7 +133,8 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     public function setCreatedAt($value)
     {
         throw new \Magento\Framework\Exception\InputException(
-            'Field "created_at" is readonly', ['fieldName' => 'created_at']
+            'Field "created_at" is readonly',
+            ['fieldName' => 'created_at']
         );
     }
 
@@ -148,7 +149,8 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     public function setUpdatedAt($value)
     {
         throw new \Magento\Framework\Exception\InputException(
-            'Field "updated_at" is readonly', ['fieldName' => 'updated_at']
+            'Field "updated_at" is readonly',
+            ['fieldName' => 'updated_at']
         );
     }
 

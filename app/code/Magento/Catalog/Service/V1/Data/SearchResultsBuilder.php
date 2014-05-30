@@ -42,7 +42,7 @@ class SearchResultsBuilder extends \Magento\Framework\Service\Data\AbstractObjec
     /**
      * Set items
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product[]
+     * @param \Magento\Catalog\Service\V1\Data\Product[] $items
      * @return $this
      */
     public function setItems($items)
