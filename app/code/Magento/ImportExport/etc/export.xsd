@@ -45,6 +45,7 @@
         <xs:attribute name="name" type="xs:string" use="required" />
         <xs:attribute name="label" type="xs:string" use="optional" />
         <xs:attribute name="model" type="modelName" use="optional" />
+        <xs:attribute name="entityAttributeFilterType" type="xs:string" use="required" />
     </xs:complexType>
 
     <xs:complexType name="entityTypeDeclaration">

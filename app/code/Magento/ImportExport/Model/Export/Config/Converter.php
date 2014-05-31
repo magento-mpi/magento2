@@ -27,8 +27,15 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $name = $attributes->getNamedItem('name')->nodeValue;
             $label = $attributes->getNamedItem('label')->nodeValue;
             $model = $attributes->getNamedItem('model')->nodeValue;
+            $entityAttributeFilterType = $attributes->getNamedItem('entityAttributeFilterType')->nodeValue;
 
-            $output['entities'][$name] = array('name' => $name, 'label' => $label, 'model' => $model, 'types' => []);
+            $output['entities'][$name] = array(
+                'name' => $name,
+                'label' => $label,
+                'model' => $model,
+                'types' => [],
+                'entityAttributeFilterType' => $entityAttributeFilterType
+            );
         }
 
         /** @var \DOMNodeList $entityTypes */

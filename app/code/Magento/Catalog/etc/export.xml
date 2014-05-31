@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ImportExport/etc/export.xsd">
-    <entity name="catalog_product" label="Products" model="Magento\Catalog\Model\ImportExport\Export\Product" />
+    <entity name="catalog_product" label="Products" model="Magento\Catalog\Model\ImportExport\Export\Product" entityAttributeFilterType="catalog_product"/>
     <entityType entity="catalog_product" name="simple" model="Magento\Catalog\Model\ImportExport\Export\Product\Type\Simple" />
     <entityType entity="catalog_product" name="virtual" model="Magento\Catalog\Model\ImportExport\Export\Product\Type\Simple" />
     <fileFormat name="csv" label="CSV" model="Magento\ImportExport\Model\Export\Adapter\Csv" />
