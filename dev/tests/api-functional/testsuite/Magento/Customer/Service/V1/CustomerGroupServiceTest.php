@@ -378,12 +378,13 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function testCreateGroupDuplicateGroupRest()
     {
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $this->_markTestAsRestOnly();
 
         $duplicateGroupCode = 'Duplicate Group Code REST';
 
         $this->createGroup(
-            (new CustomerGroupBuilder())->populateWithArray([
+            $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => $duplicateGroupCode,
                 CustomerGroup::TAX_CLASS_ID => 3
@@ -530,9 +531,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testUpdateGroupRest()
     {
         $this->_markTestAsRestOnly();
-
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $groupId = $this->createGroup(
-            (new CustomerGroupBuilder())->populateWithArray([
+            $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => 'New Group REST',
                 CustomerGroup::TAX_CLASS_ID => 3
@@ -643,11 +644,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testCreateGroupDuplicateGroupSoap()
     {
         $this->_markTestAsSoapOnly();
-
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $duplicateGroupCode = 'Duplicate Group Code SOAP';
 
         $this->createGroup(
-            (new CustomerGroupBuilder())->populateWithArray([
+            $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => $duplicateGroupCode,
                 CustomerGroup::TAX_CLASS_ID => 3
@@ -798,9 +799,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testUpdateGroupSoap()
     {
         $this->_markTestAsSoapOnly();
-
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $groupId = $this->createGroup(
-            (new CustomerGroupBuilder())->populateWithArray([
+            $builder->populateWithArray([
                     CustomerGroup::ID => null,
                     CustomerGroup::CODE => 'New Group SOAP',
                     CustomerGroup::TAX_CLASS_ID => 3
@@ -876,8 +877,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function testDeleteGroupExists()
     {
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
         $groupId = $this->createGroup(
-            (new CustomerGroupBuilder())->populateWithArray([
+            $builder->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => 'Delete Group',
                 CustomerGroup::TAX_CLASS_ID => 3
