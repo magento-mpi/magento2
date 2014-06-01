@@ -7,7 +7,8 @@
  */
 return array(
     'export_entity_name_must_be_unique' => array(
-        '<?xml version="1.0"?><config><entity name="name_one" /><entity name="name_one" /></config>',
+        '<?xml version="1.0"?><config><entity name="name_one" entityAttributeFilterType="name_one"/>'
+            . '<entity name="name_one" entityAttributeFilterType="name_one"/></config>',
         array(
             "Element 'entity': Duplicate key-sequence ['name_one'] in unique identity-constraint " .
             "'uniqueEntityName'."
@@ -21,8 +22,9 @@ return array(
         )
     ),
     'attributes_with_type_modelName_and_invalid_value' => array(
-        '<?xml version="1.0"?><config><entity name="Name/one" model="model_one"/><entityType entity="Name/one"' .
-        ' name="name_one" model="1"/><fileFormat name="name_one" model="model1"/></config>',
+        '<?xml version="1.0"?><config><entity name="Name/one" model="model_one" '
+            . 'entityAttributeFilterType="model_one"/><entityType entity="Name/one" name="name_one" model="1"/>'
+            . ' <fileFormat name="name_one" model="model1"/></config>',
         array(
             "Element 'entityType', attribute 'model': [facet 'pattern'] The value '1' is not accepted by the " .
             "pattern '[A-Za-z_\\\\\\\\]+'.",
@@ -46,7 +48,11 @@ return array(
         array("Element 'fileFormat': The attribute 'name' is required but missing.")
     ),
     'entity_node_with_required_attribute' => array(
-        '<?xml version="1.0"?><config><entity label="name_one" /></config>',
+        '<?xml version="1.0"?><config><entity label="name_one" entityAttributeFilterType="name_one"/></config>',
         array("Element 'entity': The attribute 'name' is required but missing.")
+    ),
+    'entity_node_with_missing_filter_type_attribute' => array(
+        '<?xml version="1.0"?><config><entity label="name_one" name="name_one"/></config>',
+        array("Element 'entity': The attribute 'entityAttributeFilterType' is required but missing.")
     )
 );

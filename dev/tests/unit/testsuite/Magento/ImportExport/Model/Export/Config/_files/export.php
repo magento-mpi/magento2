@@ -14,7 +14,8 @@ return array(
             'types' => array(
                 'product_type_one' => array('name' => 'product_type_one', 'model' => 'Product_Model_Type_One'),
                 'type_two' => array('name' => 'type_two', 'model' => 'Model_Type_Two')
-            )
+            ),
+            'entityAttributeFilterType' => 'product'
         ),
         'customer' => array(
             'name' => 'customer',
@@ -23,7 +24,8 @@ return array(
             'types' => array(
                 'type_one' => array('name' => 'type_one', 'model' => 'Model_Type_One'),
                 'type_two' => array('name' => 'type_two', 'model' => 'Model_Type_Two')
-            )
+            ),
+            'entityAttributeFilterType' => 'customer'
         )
     ),
     'fileFormats' => array(
