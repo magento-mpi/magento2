@@ -198,5 +198,4 @@ class Customer extends WebapiAbstract
         unset($error['type']);
         return $error;
     }
-
 }

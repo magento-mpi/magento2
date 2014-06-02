@@ -42,7 +42,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     {
         $filter = 'customer[email]';
         $expected = ['customer' => ['email' => $this->customerData['email']]];
-        $result = $this->_makeCall($filter, $this->customerData['id']);
+        $result = $this->_getCustomerWithFilter($filter, $this->customerData['id']);
         $this->assertEquals($expected, $result);
     }
 
@@ -58,7 +58,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 ['city' => CustomerHelper::ADDRESS_CITY2]
             ]
         ];
-        $result = $this->_makeCall($filter, $this->customerData['id']);
+        $result = $this->_getCustomerWithFilter($filter, $this->customerData['id']);
         $this->assertEquals($expected, $result);
     }
 
@@ -71,14 +71,14 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 ['region' => ['region_code' => CustomerHelper::ADDRESS_REGION_CODE2]]
             ]
         ];
-        $result = $this->_makeCall($filter, $this->customerData['id']);
+        $result = $this->_getCustomerWithFilter($filter, $this->customerData['id']);
         $this->assertEquals($expected, $result);
     }
 
     public function testCustomerInvalidFilter()
     {
         try {
-            $result = $this->_makeCall('invalid', $this->customerData['id']);
+            $result = $this->_getCustomerWithFilter('invalid', $this->customerData['id']);
             $this->assertEmpty($result);
         } catch (\Exception $e) {
             $this->fail('Invalid filter was not expected to result in an HTTP error : ' . $e->getCode());
@@ -88,7 +88,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function testFilterForCustomerApiWithSimpleResponse()
     {
         try {
-            $result = $this->_makeCall('customer', $this->customerData['id'], '/canDelete');
+            $result = $this->_getCustomerWithFilter('customer', $this->customerData['id'], '/canDelete');
             //assert if filter is ignored and a normal response is returned
             $this->assertTrue($result);
         } catch (\Exception $e) {
@@ -96,7 +96,7 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         }
     }
 
-    protected function _makeCall($filter, $customerId, $path = '')
+    protected function _getCustomerWithFilter($filter, $customerId, $path = '')
     {
         $resourcePath = sprintf(
             '%s/%d%s?fields=%s',
