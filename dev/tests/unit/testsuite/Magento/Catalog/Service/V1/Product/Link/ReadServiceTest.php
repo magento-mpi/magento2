@@ -165,7 +165,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($productMock));
         $itemMock = [
             ProductLink::TYPE => 'typeId',
-            ProductLink::ATTRIBUTE_SET_ID => 10,
             ProductLink::SKU => 'sku',
             ProductLink::POSITION => 0
         ];

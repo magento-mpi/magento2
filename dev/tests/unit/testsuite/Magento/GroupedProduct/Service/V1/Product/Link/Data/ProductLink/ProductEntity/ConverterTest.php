@@ -20,13 +20,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            ['getTypeId', 'getAttributeSetId', 'getPosition', 'getSku', 'getQty', '__wakeup', '__sleep'],
+            ['getTypeId', 'getPosition', 'getSku', 'getQty', '__wakeup', '__sleep'],
             [], '', false
         );
 
         $expected = [
             ProductLink::TYPE             => 1,
-            ProductLink::ATTRIBUTE_SET_ID => 2,
             ProductLink::SKU              => 3,
             ProductLink::POSITION         => 4,
             ProductLink::CUSTOM_ATTRIBUTES_KEY => [
@@ -35,7 +34,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         ];
 
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue(1));
-        $productMock->expects($this->once())->method('getAttributeSetId')->will($this->returnValue(2));
         $productMock->expects($this->once())->method('getSku')->will($this->returnValue(3));
         $productMock->expects($this->once())->method('getPosition')->will($this->returnValue(4));
         $productMock->expects($this->once())->method('getQty')->will($this->returnValue(5));

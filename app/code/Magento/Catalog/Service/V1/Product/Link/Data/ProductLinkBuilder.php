@@ -48,17 +48,6 @@ class ProductLinkBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
     }
 
     /**
-     * Set attribute set
-     *
-     * @param int $attributeSet
-     * @return $this
-     */
-    public function setAttributeSetId($attributeSet)
-    {
-        return $this->_set(ProductLink::ATTRIBUTE_SET_ID, $attributeSet);
-    }
-
-    /**
      * Set product sku
      *
      * @param string $sku

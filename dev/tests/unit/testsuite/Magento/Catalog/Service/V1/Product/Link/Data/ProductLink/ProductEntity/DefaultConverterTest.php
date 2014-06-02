@@ -26,7 +26,7 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->product = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            ['getAttributeSetId', 'getTypeId', 'getSku', 'getPosition', '__sleep', '__wakeup'],
+            ['getTypeId', 'getSku', 'getPosition', '__sleep', '__wakeup'],
             [],
             '',
             false
@@ -38,13 +38,11 @@ class DefaultConverterTest extends \PHPUnit_Framework_TestCase
     public function testConvert()
     {
         $this->product->expects($this->once())->method('getTypeId')->will($this->returnValue('simple'));
-        $this->product->expects($this->once())->method('getAttributeSetId')->will($this->returnValue(4));
         $this->product->expects($this->once())->method('getSku')->will($this->returnValue('simple-sku'));
         $this->product->expects($this->once())->method('getPosition')->will($this->returnValue(1));
 
         $expected = [
             ProductLink::TYPE => 'simple',
-            ProductLink::ATTRIBUTE_SET_ID => 4,
             ProductLink::SKU => 'simple-sku',
             ProductLink::POSITION => 1
         ];

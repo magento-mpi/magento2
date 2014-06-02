@@ -27,7 +27,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $linkType = 'associated';
         $productData = [
             ProductLink::TYPE => 'simple',
-            ProductLink::ATTRIBUTE_SET_ID => 4,
             ProductLink::SKU => 'simple',
             ProductLink::POSITION => 3,
             ProductLink::CUSTOM_ATTRIBUTES_KEY => [

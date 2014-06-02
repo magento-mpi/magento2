@@ -101,7 +101,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $actual = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
 
         $expected = [
-            ['type' => 'simple', 'attribute_set_id' => 4, 'sku' => 'simple', 'position' => 1]
+            ['type' => 'simple', 'sku' => 'simple', 'position' => 1]
         ];
         $this->assertEquals($expected, $actual);
     }

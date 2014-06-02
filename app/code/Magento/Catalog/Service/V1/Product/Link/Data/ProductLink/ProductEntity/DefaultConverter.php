@@ -19,7 +19,6 @@ class DefaultConverter implements ConverterInterface
     {
         return [
             ProductLink::TYPE => $product->getTypeId(),
-            ProductLink::ATTRIBUTE_SET_ID => $product->getAttributeSetId(),
             ProductLink::SKU => $product->getSku(),
             ProductLink::POSITION => $product->getPosition()
         ];

@@ -44,7 +44,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->productData =
             [
                 Data\ProductLink::TYPE => 'virtual',
-                Data\ProductLink::ATTRIBUTE_SET_ID => 4,
                 Data\ProductLink::SKU => 'virtual-product',
                 Data\ProductLink::POSITION => 3,
             ];

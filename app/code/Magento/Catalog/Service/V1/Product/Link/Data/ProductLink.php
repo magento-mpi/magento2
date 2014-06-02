@@ -32,16 +32,6 @@ class ProductLink extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * Get attribute set
-     *
-     * @return int
-     */
-    public function getAttributeSetId()
-    {
-        return $this->_get(self::ATTRIBUTE_SET_ID);
-    }
-
-    /**
      * Get product sku
      *
      * @return string
