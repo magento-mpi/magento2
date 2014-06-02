@@ -51,7 +51,17 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->_adapter = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('_connect', '_beginTransaction', '_commit', '_rollBack', 'query', '_debugWriteToFile', 'fetchRow'),
+            array(
+                '_connect',
+                '_beginTransaction',
+                '_commit',
+                '_rollBack',
+                'query',
+                '_debugWriteToFile',
+                'fetchRow',
+                'rawFetchRow',
+                'loadDdlCache'
+            ),
             array(
                 'dbname' => 'not_exists',
                 'username' => 'not_valid',
@@ -466,6 +476,85 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                 ->where($prepareField . ' >= ?', 151)
                 ->where($prepareField . ' < ?', 201),
             $result[3]
+        );
+    }
+
+    /**
+     * @param array $data
+     * @param array $expectedResult
+     * @dataProvider getCreateTableDataProvider
+     */
+    public function testGetCreateTable(array $data, array $expectedResult)
+    {
+        $this->_adapter->expects($this->once())
+            ->method('loadDdlCache')
+            ->will($this->returnValue($data['ddl_cache']));
+
+        $this->_adapter->expects($this->any())
+            ->method('rawFetchRow')
+            ->with($data['sql'], 'Create Table')
+            ->will($this->returnValue($data['rawFetchRow_return']));
+
+        $this->assertEquals(
+            $expectedResult['return'],
+            $this->_adapter->getCreateTable($data['table'], $data['schema'])
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getCreateTableDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'ddl_cache' => 'cached_ddl',
+                    'table' => 'table_name',
+                    'schema' => 'schema_name',
+                    'sql' => 'SHOW CREATE TABLE `schema_name`.`table_name`',
+                    'rawFetchRow_return' => 'ddl'
+                ),
+                array(
+                    'return' => 'cached_ddl'
+                )
+            ),
+            array(
+                array(
+                    'ddl_cache' => false,
+                    'table' => 'table_name',
+                    'schema' => 'schema_name',
+                    'sql' => 'SHOW CREATE TABLE `schema_name`.`table_name`',
+                    'rawFetchRow_return' => 'ddl'
+                ),
+                array(
+                    'return' => 'ddl'
+                )
+            ),
+            array(
+                array(
+                    'ddl_cache' => false,
+                    'table' => 'table_name',
+                    'schema' => null,
+                    'sql' => 'SHOW CREATE TABLE `table_name`',
+                    'rawFetchRow_return' => 'ddl'
+                ),
+                array(
+                    'return' => 'ddl'
+                )
+            ),
+            array(
+                array(
+                    'ddl_cache' => false,
+                    'table' => 'table_name',
+                    'schema' => '',
+                    'sql' => 'SHOW CREATE TABLE `table_name`',
+                    'rawFetchRow_return' => 'ddl'
+                ),
+                array(
+                    'return' => 'ddl'
+                )
+            )
         );
     }
 
