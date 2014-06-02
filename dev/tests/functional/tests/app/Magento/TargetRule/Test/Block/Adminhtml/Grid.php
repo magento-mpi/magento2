@@ -10,6 +10,10 @@ namespace Magento\TargetRule\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
+/**
+ * Class Grid
+ * Backend target rule grid
+ */
 class Grid extends AbstractGrid
 {
     /**
