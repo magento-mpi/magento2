@@ -38,7 +38,7 @@ class UpdateAdminUserRoleEntityTest extends Injectable
     /**
      * @var UserRoleIndex
      */
-    protected $userRoleIndex;
+    protected $rolePage;
 
     /**
      * @var UserRoleEditRole
@@ -63,6 +63,33 @@ class UpdateAdminUserRoleEntityTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
+        $userWithOutRole = $fixtureFactory->createByCode('adminUserInjectable',['dataSet' => 'custom_admin']);
+        $userWithOutRole->persist();
+        return ['userWithOutRole' => $userWithOutRole];
+    }
+
+    /**
+     * Preconditions for test
+     *
+     * @param UserRoleIndex $rolePage
+     * @param UserRoleEditRole $userRoleEditRole
+     * @param AdminAuthLogin $adminAuthLogin
+     * @param Dashboard $dashboard
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __inject(
+        UserRoleIndex $rolePage,
+        UserRoleEditRole $userRoleEditRole,
+        AdminAuthLogin $adminAuthLogin,
+        Dashboard $dashboard,
+        FixtureFactory $fixtureFactory
+    ) {
+        $this->rolePage = $rolePage;
+        $this->userRoleEditRole = $userRoleEditRole;
+        $this->adminAuthLogin = $adminAuthLogin;
+        $this->dashboard = $dashboard;
+
         $role = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => 'default']);
         $role->persist();
 
@@ -76,35 +103,10 @@ class UpdateAdminUserRoleEntityTest extends Injectable
         );
         $customAdmin->persist();
 
-        $userWithOutRole = $fixtureFactory->createByCode('adminUserInjectable',['dataSet' => 'custom_admin']);
-        $userWithOutRole->persist();
-
         return [
             'roleInit' => $role,
-            'customAdmin' => $customAdmin,
-            'userWithOutRole' => $userWithOutRole
+            'customAdmin' => $customAdmin
         ];
-    }
-
-    /**
-     * Preparing pages for test
-     *
-     * @param UserRoleIndex $userRoleIndex
-     * @param UserRoleEditRole $userRoleEditRole
-     * @param AdminAuthLogin $adminAuthLogin
-     * @param Dashboard $dashboard
-     * @return void
-     */
-    public function __inject(
-        UserRoleIndex $userRoleIndex,
-        UserRoleEditRole $userRoleEditRole,
-        AdminAuthLogin $adminAuthLogin,
-        Dashboard $dashboard
-    ) {
-        $this->userRoleIndex = $userRoleIndex;
-        $this->userRoleEditRole = $userRoleEditRole;
-        $this->adminAuthLogin = $adminAuthLogin;
-        $this->dashboard = $dashboard;
     }
 
     /**
@@ -122,23 +124,18 @@ class UpdateAdminUserRoleEntityTest extends Injectable
         AdminUserInjectable $customAdmin,
         AdminUserInjectable $userWithOutRole
     ) {
-        $filter = [
-            'role_name' => $roleInit->getRoleName()
-        ];
+        $filter = ['role_name' => $roleInit->getRoleName()];
 
         // Steps:
-        if ($customAdmin->getUsername() != 'admin') {
+        if ($role->getRoleName() != null) {
             $this->adminAuthLogin->open();
             $this->adminAuthLogin->getLoginBlock()->fill($customAdmin);
             $this->adminAuthLogin->getLoginBlock()->submit();
         }
-        $this->userRoleIndex->open();
-        $this->userRoleIndex->getRoleGrid()->searchAndOpen($filter);
-        if ($role->getRolesUsers() != null ) {
-            $this->userRoleEditRole->getRoleForm()->fillRole($role, $userWithOutRole->getUsername());
-        } else {
-            $this->userRoleEditRole->getRoleForm()->fill($role);
-        }
+        $this->rolePage->open();
+        $this->rolePage->getRoleGrid()->searchAndOpen($filter);
+        $username = $role->getRolesUsers() != null ? $userWithOutRole->getUsername() : null;
+        $this->userRoleEditRole->getRoleForm()->fillRole($role, $username);
         $this->userRoleEditRole->getPageActions()->save();
     }
 

@@ -36,9 +36,9 @@
             </roles_resources>
         </fields>
     </role-resources-tab>
-    <roles-users>
+    <roles_users>
         <class>\Magento\User\Test\Block\Adminhtml\Role\Tab\Role</class>
         <selector>#role_info_tabs_roles</selector>
         <strategy>css selector</strategy>
-    </roles-users>
+    </roles_users>
 </tabs>
