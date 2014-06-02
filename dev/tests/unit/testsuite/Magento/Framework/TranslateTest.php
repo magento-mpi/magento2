@@ -142,7 +142,9 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             );
 
         // _loadThemeTranslation()
-        $this->_viewFileSystem->expects($this->any())->method('getFilename')->will($this->returnValue('/theme.csv'));
+        $this->_viewFileSystem->expects($this->any())
+            ->method('getLocaleFileName')
+            ->will($this->returnValue('/theme.csv'));
 
         // _loadDbTranslation()
         $dbData = ['db original' => 'db translated'];
