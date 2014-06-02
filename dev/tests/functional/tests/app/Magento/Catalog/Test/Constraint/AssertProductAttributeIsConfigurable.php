@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
@@ -38,25 +39,45 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
      *
      * @param CatalogProductAttribute $productAttribute
      * @param CatalogProductIndex $productGrid
+     * @param FixtureFactory $fixtureFactory
      * @param CatalogProductNew $newProductPage
-     * @return void
      */
     public function processAssert
     (
         CatalogProductAttribute $productAttribute,
         CatalogProductIndex $productGrid,
+        FixtureFactory $fixtureFactory,
         CatalogProductNew $newProductPage
     ) {
         $this->attributeFrontendLabel = $productAttribute->getFrontendLabel();
         $productGrid->open();
         $productGrid->getProductBlock()->addProduct('configurable');
 
-         \PHPUnit_Framework_Assert::assertEquals(
+        $productConfigurable = $fixtureFactory->createByCode(
+            'catalogProductConfigurable',
+            [
+                'dataSet' => 'default',
+                'data' => [
+                    'configurable_attributes_data' => [
+                        'value' => [
+                            'label' => [
+                                'value' => $this->attributeFrontendLabel
+                            ]
+                        ]
+                    ]
+                ],
+            ]
+        );
+
+        $productBlockForm = $newProductPage->getForm();
+        $productBlockForm->fill($productConfigurable);
+
+        \PHPUnit_Framework_Assert::assertEquals(
             $this->attributeFrontendLabel,
-            $newProductPage->getForm()->fillSearchAttribute($this->attributeFrontendLabel),
+            $newProductPage->getForm()->findAttribute(),
             'Product attribute not found.'
             . "\nExpected: " . $this->attributeFrontendLabel
-            . "\nActual: " . $newProductPage->getForm()->fillSearchAttribute($this->attributeFrontendLabel)
+            . "\nActual: " . $newProductPage->getForm()->findAttribute()
         );
     }
 
@@ -70,4 +91,3 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
         return "$this->attributeFrontendLabel attribute present on the product page in variations section";
     }
 }
-

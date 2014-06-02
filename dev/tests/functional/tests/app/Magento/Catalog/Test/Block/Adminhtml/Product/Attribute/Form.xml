@@ -26,7 +26,7 @@
     </properties>
     <manage-options>
         <class>\Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Options</class>
-        <selector>#manage-options-panel</selector>
+        <selector>#product_attribute_tabs_main</selector>
         <strategy>css selector</strategy>
         <fields>
             <is_default>

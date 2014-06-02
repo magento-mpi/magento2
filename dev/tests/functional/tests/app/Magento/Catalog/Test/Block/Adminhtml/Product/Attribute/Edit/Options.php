@@ -13,16 +13,16 @@ use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Options
- * Tab "Properties"
+ * Options form
  */
 class Options extends Tab
 {
     /**
-     * Main tab locator
+     * 'Add Option' button
      *
      * @var string
      */
-    protected $propertiesTab = '#add_new_option_button';
+    protected $addOption = '#add_new_option_button';
 
     /**
      * Fill 'Options' tab
@@ -34,7 +34,7 @@ class Options extends Tab
     public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields['options']['value'] as $field) {
-            $this->_rootElement->find($this->propertiesTab)->click();
+            $this->_rootElement->find($this->addOption)->click();
             $this->blockFactory->create(
                 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Options\Option',
                 ['element' => $this->_rootElement->find('.ui-sortable tr:nth-child(1)')]

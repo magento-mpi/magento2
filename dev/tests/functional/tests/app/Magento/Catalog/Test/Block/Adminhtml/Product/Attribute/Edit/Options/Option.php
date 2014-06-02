@@ -8,12 +8,11 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Options;
 
-use Mtf\Client\Element;
 use Mtf\Block\Form;
 
 /**
- * Class OptionDropDown
- * Form "Option dropdown" on tab product "Custom options"
+ * Class Option
+ * Form "Option" on tab "Manage Options"
  */
 class Option extends Form
 {

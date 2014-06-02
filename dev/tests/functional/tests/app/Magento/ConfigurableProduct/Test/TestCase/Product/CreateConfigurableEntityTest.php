@@ -9,7 +9,7 @@
 namespace Magento\ConfigurableProduct\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\Category;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
@@ -32,7 +32,7 @@ class CreateConfigurableEntityTest extends Injectable
     /**
      * Category fixture
      *
-     * @var Category
+     * @var CatalogCategoryEntity
      */
     protected $category;
 
@@ -51,10 +51,10 @@ class CreateConfigurableEntityTest extends Injectable
     protected $newProductPage;
 
     /**
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return array
      */
-    public function __prepare(Category $category)
+    public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
 
@@ -64,12 +64,12 @@ class CreateConfigurableEntityTest extends Injectable
     }
 
     /**
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @param CatalogProductIndex $productPageGrid
      * @param CatalogProductNew $newProductPage
      */
     public function __inject(
-        Category $category,
+        CatalogCategoryEntity $category,
         CatalogProductIndex $productPageGrid,
         CatalogProductNew $newProductPage
     ) {
@@ -82,10 +82,10 @@ class CreateConfigurableEntityTest extends Injectable
      * Run create configurable product test
      *
      * @param CatalogProductConfigurable $configurable
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return void
      */
-    public function testCreate(CatalogProductConfigurable $configurable, Category $category)
+    public function testCreate(CatalogProductConfigurable $configurable, CatalogCategoryEntity $category)
     {
         // Steps
         $this->productPageGrid->open();
