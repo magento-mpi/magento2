@@ -12,6 +12,8 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteNew
+ *
+ * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteNew extends BackendPage
 {
@@ -30,6 +32,18 @@ class PromoQuoteNew extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
+            'strategy' => 'css selector',
+        ],
+        'conditionsTab' => [
+            'name' => 'conditionsTab',
+            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions',
+            'locator' => '#conditions__1__children',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -46,5 +60,21 @@ class PromoQuoteNew extends BackendPage
     public function getFormPageActions()
     {
         return $this->getBlockInstance('formPageActions');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions
+     */
+    public function getConditionsTab()
+    {
+        return $this->getBlockInstance('conditionsTab');
     }
 }

@@ -20,4 +20,16 @@
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>conditionsTab</name>
+        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions</class>
+        <locator>#conditions__1__children</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

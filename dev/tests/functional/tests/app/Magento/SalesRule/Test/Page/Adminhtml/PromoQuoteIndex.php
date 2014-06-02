@@ -12,6 +12,8 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteIndex
+ *
+ * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteIndex extends BackendPage
 {
@@ -30,6 +32,12 @@ class PromoQuoteIndex extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
+        'gridPageActions' => [
+            'name' => 'gridPageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -46,5 +54,13 @@ class PromoQuoteIndex extends BackendPage
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\GridPageActions
+     */
+    public function getGridPageActions()
+    {
+        return $this->getBlockInstance('gridPageActions');
     }
 }
