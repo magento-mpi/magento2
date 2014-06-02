@@ -12,7 +12,7 @@ use Zend\View\Model\ViewModel;
 
 class MenuController extends AbstractActionController
 {
-    public function invokeAction()
+    public function indexAction()
     {
         $items = array(
             $this->getItemObject(array(
@@ -75,7 +75,7 @@ class MenuController extends AbstractActionController
     protected function getItemObject($arguments)
     {
         $item = new \stdClass();
-        foreach($arguments as $key => $value) {
+        foreach ($arguments as $key => $value) {
             $item->$key = $value;
         }
         return $item;

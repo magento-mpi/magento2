@@ -12,7 +12,7 @@ use Zend\View\Model\ViewModel;
 
 class EnvironmentController extends AbstractActionController
 {
-    public function invokeAction()
+    public function indexAction()
     {
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true);

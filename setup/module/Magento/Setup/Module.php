@@ -1,24 +1,64 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 
 namespace Magento\Setup;
 
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\EventManager\EventInterface;
+use Magento\Setup\View\Http\InjectTemplateListener;
 
-class Module
+class Module implements
+    BootstrapListenerInterface,
+    ConfigProviderInterface,
+    AutoloaderProviderInterface
 {
-    public function onBootstrap(MvcEvent $e)
+    /**
+     * @param EventInterface $e
+     * @return void
+     */
+    public function onBootstrap(EventInterface $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $application = $e->getApplication();
+        $events = $application->getEventManager();
+        $sharedEvents = $events->getSharedManager();
+
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+        $moduleRouteListener->attach($events);
+
+        // Override Zend\Mvc\View\Http\InjectTemplateListener
+        // to process templates by Vendor/Module
+        $injectTemplateListener = new InjectTemplateListener();
+        $sharedEvents->attach(
+            'Zend\Stdlib\DispatchableInterface',
+            MvcEvent::EVENT_DISPATCH,
+            [$injectTemplateListener, 'injectTemplate'],
+            -89
+        );
     }
 
+    /**
+     * @return array|mixed|\Traversable
+     */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return array_merge(
+            include __DIR__ . '/config/module.config.php',
+            include __DIR__ . '/config/router.config.php'
+        );
     }
 
+    /**
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(
