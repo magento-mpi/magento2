@@ -27,6 +27,7 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode
      * @param array $data
      */
     public function __construct(
