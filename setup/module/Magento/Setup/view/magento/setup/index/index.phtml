@@ -6,22 +6,21 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked" ng-controller="navigation">
-            <li><a href="#">License</a></li>
-            <li><a href="#">Check environment</a></li>
-            <li><a href="#">Access to Database</a></li>
-            <li><a href="#">Configuration Magento</a></li>
-            <li><a href="#">Add admin user</a></li>
+    <div class="col-md-3" ng-controller="navigation as nav" id="menu">
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-repeat="item in nav.items"
+                ng-click="nav.loadMenuContent(item,$index)"
+                ng-class="{active: nav.isActive($index), disabled: nav.isDisabled($index)}">
+                    <a ng-href="#{{item.name}}" ng-class="{disabled: nav.isDisabled($index)}">{{item.label}}</a>
+            </li>
         </ul>
     </div>
     <div class="col-md-9">
-        <div ng-controller="main" class="well">
-            <div style="height:600px; overflow-y: scroll;" ng-bind-html="content"></div>
+        <div ng-controller="main" class="well" dynamic="html">
         </div>
-        <div ng-controller="continue" class="page-bottm">
+        <div ng-controller="continue as cnt" class="page-bottm">
             <div class="col-sm-offset-10 col-sm-12">
-                <button class="btn btn-default">{{text}}</button>
+                <button class="btn btn-default" ng-click="cnt.next()">{{text}}</button>
             </div>
         </div>
     </div>
