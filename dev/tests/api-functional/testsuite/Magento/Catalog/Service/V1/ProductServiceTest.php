@@ -59,7 +59,7 @@ class ProductServiceTest extends WebapiAbstract
     public function testCreate($product)
     {
         $response = $this->_createProduct($product);
-        $this->assertGreaterThan(0, $response[Product::ID]);
+        $this->assertArrayHasKey(Product::SKU, $response);
     }
 
     /**
@@ -70,7 +70,7 @@ class ProductServiceTest extends WebapiAbstract
         $productData = $this->_createProduct($this->getSimpleProductData());
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::ID],
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::SKU],
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -81,16 +81,16 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productData[Product::ID]]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['sku' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
         $this->assertTrue($response);
     }
 
     public function testDeleteNoSuchEntityException()
     {
-        $invalidId = -1;
+        $invalidSku = '';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidSku,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
@@ -100,11 +100,11 @@ class ProductServiceTest extends WebapiAbstract
             ]
         ];
 
-        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
+        $expectedMessage = 'There is no product with provided SKU';
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['id' => $invalidId]);
+                $this->_webApiCall($serviceInfo, [Product::SKU => $invalidSku]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }
@@ -118,7 +118,6 @@ class ProductServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
-            $this->assertEquals(['fieldName' => 'id', 'fieldValue' => $invalidId], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
@@ -291,7 +290,7 @@ class ProductServiceTest extends WebapiAbstract
             ],
         ];
         $requestData = ['product' => $product];
-        $product[Product::ID] = $this->_webApiCall($serviceInfo, $requestData);
+        $product[Product::SKU] = $this->_webApiCall($serviceInfo, $requestData);
         return $product;
     }
 
@@ -318,9 +317,10 @@ class ProductServiceTest extends WebapiAbstract
     public function testUpdate()
     {
         $response = $this->_createProduct($this->getSimpleProductData());
+        $productSku = $response[Product::SKU];
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $response[Product::ID],
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
@@ -331,13 +331,13 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $requestData = [
-            Product::ID => $response[Product::ID],
+            Product::SKU => $productSku,
             'product' => [
                 Product::NAME => uniqid('name-', true),
             ]
         ];
         $response = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertGreaterThan(0, $response);
+        $this->assertEquals($productSku, $response);
     }
 
     /**
@@ -348,7 +348,7 @@ class ProductServiceTest extends WebapiAbstract
         $productData = $this->_createProduct($this->getSimpleProductData());
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::ID],
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::SKU],
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -359,7 +359,7 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productData[Product::ID]]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['sku' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
         foreach ([Product::SKU, Product::NAME, Product::PRICE, Product::STATUS, Product::VISIBILITY] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
@@ -367,10 +367,10 @@ class ProductServiceTest extends WebapiAbstract
 
     public function testGetNoSuchEntityException()
     {
-        $invalidId = -1;
+        $invalidSku = '';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidSku,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -380,11 +380,11 @@ class ProductServiceTest extends WebapiAbstract
             ]
         ];
 
-        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
+        $expectedMessage = 'There is no product with provided SKU';
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, [Product::ID => $invalidId]);
+                $this->_webApiCall($serviceInfo, [Product::SKU => $invalidSku]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }
@@ -398,7 +398,7 @@ class ProductServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
-            $this->assertEquals(['fieldName' => 'id', 'fieldValue' => $invalidId], $errorObj['parameters']);
+            $this->assertEquals(['fieldName' => Product::SKU, 'fieldValue' => $invalidSku], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }

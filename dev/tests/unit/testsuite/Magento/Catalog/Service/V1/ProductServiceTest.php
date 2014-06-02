@@ -16,6 +16,10 @@ use Magento\Framework\Service\V1\Data\FilterBuilder;
  */
 class ProductServiceTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\catalog\Service\V1\Product\ProductLoader
+     */
+    protected $_productLoaderMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Model\ProductFactory
@@ -74,6 +78,12 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_productMock));
 
+        $this->_productLoaderMock = $this->_objectManager
+            ->getObject(
+                'Magento\Catalog\Service\V1\Product\ProductLoader',
+                ['productFactory' => $this->_productFactoryMock]
+            );
+
         $this->productCollection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\CollectionFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
@@ -104,26 +114,29 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     public function testDelete()
     {
         $productId = 100;
-        $this->_productMock->expects($this->at(0))->method('load')->with($productId);
-        $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(true));
-        $this->_productMock->expects($this->at(2))->method('delete');
+        $productSku = 'sku-001';
 
+        $this->_productMock->expects($this->at(0))->method('getIdBySku')->will($this->returnValue($productId));
+        $this->_productMock->expects($this->at(1))->method('load')->with($productId);
         $productService = $this->_createService();
-        $this->assertTrue($productService->delete($productId));
+
+        $this->assertTrue($productService->delete($productSku));
     }
 
     public function testDeleteNoSuchEntityException()
     {
-        $productId = 100;
-        $this->_productMock->expects($this->at(0))->method('load')->with($productId);
-        $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(false));
+        $productId = 0;
+        $productSku = 'sku-001';
+
+        $this->_productMock->expects($this->once())->method('getIdBySku')->will($this->returnValue($productId));
+        $productService = $this->_createService();
 
         $this->setExpectedException(
             'Magento\Framework\Exception\NoSuchEntityException',
-            "No such entity with id = $productId"
+            "There is no product with provided SKU"
         );
-        $productService = $this->_createService();
-        $productService->delete($productId);
+
+        $productService->delete($productSku);
     }
 
     /**
@@ -134,7 +147,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productService = $this->_objectManager->getObject(
             'Magento\Catalog\Service\V1\ProductService',
             [
-                'productFactory' => $this->_productFactoryMock
+                'productLoader' => $this->_productLoaderMock
             ]
         );
         return $productService;
@@ -234,32 +247,36 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $productId = 100;
-        $this->_productMock->expects($this->at(0))->method('load')->with($productId);
-        $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(true));
+        $productSku = 'sku-001';
+
+        $this->_productMock->expects($this->at(0))->method('getIdBySku')->will($this->returnValue($productId));
+        $this->_productMock->expects($this->at(1))->method('load')->with($productId);
         $this->converterMock->expects($this->once())->method('createProductDataFromModel')->with($this->_productMock);
 
         $productService = $this->_objectManager->getObject(
             'Magento\Catalog\Service\V1\ProductService',
             [
-                'productFactory' => $this->_productFactoryMock,
+                'productLoader' => $this->_productLoaderMock,
                 'converter' => $this->converterMock,
             ]
         );
-        $productService->get($productId);
+        $productService->get($productSku);
     }
 
     public function testGetNoSuchEntityException()
     {
-        $productId = 100;
-        $this->_productMock->expects($this->at(0))->method('load')->with($productId);
-        $this->_productMock->expects($this->at(1))->method('getId')->will($this->returnValue(false));
+        $productId = 0;
+        $productSku = 'sku-001';
+
+        $this->_productMock->expects($this->once())->method('getIdBySku')->will($this->returnValue($productId));
+        $productService = $this->_createService();
 
         $this->setExpectedException(
             'Magento\Framework\Exception\NoSuchEntityException',
-            "No such entity with id = $productId"
+            "There is no product with provided SKU"
         );
-        $productService = $this->_createService();
-        $productService->get($productId);
+
+        $productService->get($productSku);
     }
 
     public function testCreate()
@@ -311,10 +328,10 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productModel->expects($this->once())->method('validate');
         $productModel->expects($this->once())->method('save');
 
-        $productId = 42;
-        $productModel->expects($this->any())->method('getId')->will($this->returnValue($productId));
+        $productSku = 'sku-001';
+        $productModel->expects($this->any())->method('getSku')->will($this->returnValue($productSku));
 
-        $this->assertEquals($productId, $productService->create($product));
+        $this->assertEquals($productSku, $productService->create($product));
     }
 
     public function testUpdate()
@@ -334,9 +351,9 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $productFactory = $this
-            ->getMockBuilder('Magento\Catalog\Model\ProductFactory')
-            ->setMethods(['create'])
+        $productLoader = $this
+            ->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoader')
+            ->setMethods(['load'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -347,7 +364,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
                 'initializationHelper' => $initializationHelper,
                 'productMapper' => $productMapper,
                 'productTypeManager' => $productTypeManager,
-                'productFactory' => $productFactory,
+                'productLoader' => $productLoader,
             ]
         );
 
@@ -358,7 +375,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
             ->disableOriginalConstructor()
             ->getMock();
-        $productFactory->expects($this->once())->method('create')
+        $productLoader->expects($this->once())->method('load')
             ->will($this->returnValue($productModel));
 
         $productMapper->expects($this->once())->method('toModel')->with($product, $productModel)
@@ -370,9 +387,9 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productModel->expects($this->once())->method('validate');
         $productModel->expects($this->once())->method('save');
 
-        $productId = 42;
-        $productModel->expects($this->any())->method('getId')->will($this->returnValue($productId));
+        $productSku = 'sku-001';
+        $productModel->expects($this->any())->method('getSku')->will($this->returnValue($productSku));
 
-        $this->assertEquals($productId, $productService->update(5, $product));
+        $this->assertEquals($productSku, $productService->update(5, $product));
     }
 }

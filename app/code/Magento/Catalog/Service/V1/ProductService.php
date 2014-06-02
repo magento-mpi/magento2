@@ -37,9 +37,9 @@ class ProductService implements ProductServiceInterface
     private $productTypeManager;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
      */
-    private $productFactory;
+    private $productLoader;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -65,7 +65,7 @@ class ProductService implements ProductServiceInterface
      * @param Product\Initialization\Helper $initializationHelper
      * @param Data\ProductMapper $productMapper
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollection
      * @param ProductMetadataServiceInterface $metadataService
      * @param \Magento\Catalog\Service\V1\Data\Converter $converter
@@ -75,7 +75,7 @@ class ProductService implements ProductServiceInterface
         Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Service\V1\Data\ProductMapper $productMapper,
         \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollection,
         ProductMetadataServiceInterface $metadataService,
         \Magento\Catalog\Service\V1\Data\Converter $converter,
@@ -84,7 +84,7 @@ class ProductService implements ProductServiceInterface
         $this->initializationHelper = $initializationHelper;
         $this->productMapper = $productMapper;
         $this->productTypeManager = $productTypeManager;
-        $this->productFactory = $productFactory;
+        $this->productLoader = $productLoader;
         $this->productCollection = $productCollection;
         $this->metadataService = $metadataService;
         $this->converter = $converter;
@@ -108,22 +108,18 @@ class ProductService implements ProductServiceInterface
                 $exception
             );
         }
-        if (!$productModel->getId()) {
+        if (!$productModel->getSku()) {
             throw new \Magento\Framework\Exception\StateException('Unable to save product');
         }
-        return $productModel->getId();
+        return $productModel->getSku();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function update($id, \Magento\Catalog\Service\V1\Data\Product $product)
+    public function update($sku, \Magento\Catalog\Service\V1\Data\Product $product)
     {
-        $productModel = $this->productFactory->create();
-        $productModel->load($id);
-        if (!$productModel->getId()) {
-            throw NoSuchEntityException::singleField(ProductData::ID, $product->getId());
-        }
+        $productModel = $this->productLoader->load($sku);
         try {
             $this->productMapper->toModel($product, $productModel);
             $this->initializationHelper->initialize($productModel);
@@ -137,20 +133,15 @@ class ProductService implements ProductServiceInterface
                 $exception
             );
         }
-        return $productModel->getId();
+        return $productModel->getSku();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete($id)
+    public function delete($sku)
     {
-        $product = $this->productFactory->create();
-        $product->load($id);
-        if (!$product->getId()) {
-            // product does not exist
-            throw NoSuchEntityException::singleField(ProductData::ID, $id);
-        }
+        $product = $this->productLoader->load($sku);
         $product->delete();
         return true;
     }
@@ -158,15 +149,9 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function get($id)
+    public function get($sku)
     {
-        $product = $this->productFactory->create();
-        $product->load($id);
-        if (!$product->getId()) {
-            // product does not exist
-            throw NoSuchEntityException::singleField(ProductData::ID, $id);
-        }
-        return $this->converter->createProductDataFromModel($product);
+        return $this->converter->createProductDataFromModel($this->productLoader->load($sku));
     }
 
     /**

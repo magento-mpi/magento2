@@ -16,44 +16,44 @@ interface ProductServiceInterface
     /**
      * Get product info
      *
-     * @param int $id
+     * @param  string $sku
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @return \Magento\Catalog\Service\V1\Data\Product $product
      */
-    public function get($id);
+    public function get($sku);
 
     /**
      * Delete product
      *
-     * @param int $id
+     * @param  string $sku
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      */
-    public function delete($id);
+    public function delete($sku);
 
     /**
      * Save product process
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @param  \Magento\Catalog\Service\V1\Data\Product $product
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int ID
+     * @return string sku
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * Update product process
      *
-     * @param string $id
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @param  string $sku
+     * @param  \Magento\Catalog\Service\V1\Data\Product $product
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int ID
+     * @return string sku
      */
-    public function update($id, \Magento\Catalog\Service\V1\Data\Product $product);
+    public function update($sku, \Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * get product list product
