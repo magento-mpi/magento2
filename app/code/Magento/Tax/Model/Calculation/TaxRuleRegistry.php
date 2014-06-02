@@ -18,7 +18,7 @@ class TaxRuleRegistry
     private $taxRuleModelFactory;
 
     /**
-     * @var array
+     * @var array taxRuleId => TaxRuleModel
      */
     private $registry = [];
 
