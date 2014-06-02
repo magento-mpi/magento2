@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 
 namespace Magento\Setup\Controller;
 
@@ -8,11 +14,34 @@ use Magento\Setup\Model\Form\License;
 
 class LicenseController extends AbstractActionController
 {
-    public function invokeAction()
+    /**
+     * @var \Zend\View\Model\ViewModel
+     */
+    protected $view;
+
+    /**
+     * @var \Magento\Setup\Model\Form\License
+     */
+    protected $license;
+
+    /**
+     * @param ViewModel $view
+     * @param \Magento\Setup\Model\Form\License $license
+     */
+    public function __construct(ViewModel $view, License $license)
     {
-        $viewModel = new ViewModel();
-        $viewModel->setVariable('form', new License());
-        $viewModel->setTerminal(true);
-        return $viewModel;
+        $this->view = $view;
+        $this->license = $license;
+    }
+
+    /**
+     * @return array|ViewModel
+     */
+    public function indexAction()
+    {
+        $this->view->setVariable('form', $this->license);
+        $this->view->setTerminal(true);
+
+        return $this->view;
     }
 }

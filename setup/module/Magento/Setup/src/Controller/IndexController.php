@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 
 namespace Magento\Setup\Controller;
 
@@ -7,8 +13,24 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
-    public function invokeAction()
+    /**
+     * @var \Zend\View\Model\ViewModel
+     */
+    protected $view;
+
+    /**
+     * @param ViewModel $view
+     */
+    public function __construct(ViewModel $view)
     {
-        return new ViewModel();
+        $this->view = $view;
+    }
+
+    /**
+     * @return ViewModel
+     */
+    public function indexAction()
+    {
+        return $this->view;
     }
 }
