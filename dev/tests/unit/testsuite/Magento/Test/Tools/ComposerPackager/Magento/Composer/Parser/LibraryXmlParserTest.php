@@ -12,7 +12,7 @@ class LibraryXmlParserTest extends \PHPUnit_Framework_TestCase
     {
         $libraryDir = __DIR__ . '/../../../_files/lib';
         $objectManagerHelper = new ObjectManager($this);
-        $this->parser = $objectManagerHelper->getObject('\Magento\Composer\Parser\LibraryXmlParser', array('libraryDir' => $libraryDir));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Composer\Parser\LibraryXmlParser', array('componentDir' => $libraryDir));
     }
 
     public function testGetMappings()
@@ -25,7 +25,7 @@ class LibraryXmlParserTest extends \PHPUnit_Framework_TestCase
 
     public function testChangeModuleDir()
     {
-        $this->endsWith(realpath($this->parser->getFile()->getPathname()), "/app/code/Magento/lib/library.xml");
+        $this->endsWith(realpath($this->parser->getFile()->getPathname()), "lib/library.xml");
     }
 
     public function endsWith($haystack, $needle)

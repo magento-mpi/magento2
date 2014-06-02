@@ -2,17 +2,10 @@
 
 namespace Magento\Composer\Extractor;
 
-class LanguagePackExtractor extends  BaseExtractor{
+class LanguagePackExtractor extends  AbstractExtractor{
 
-    private $_path = 'app/i18n/Magento/';
-
-    public function __construct($rootDir, $logger){
-        parent::__construct($logger);
-        $this->_path = $rootDir . '/app/i18n/Magento/';
-    }
-
-    public function getPath(){
-        return $this->_path;
+    public function getSubPath(){
+        return '/app/i18n/Magento/';
     }
 
     public function getType(){
@@ -25,13 +18,6 @@ class LanguagePackExtractor extends  BaseExtractor{
 
     public function createComponent($name){
         return new \Magento\Composer\Model\LanguagePack($name);
-    }
-
-    public function setValues(&$component, \Magento\Composer\Model\ArrayAndObjectAccess $definition){
-        $component->setVersion($definition->version);
-        $component->setLocation($definition->location);
-        $component->setType($this->getType());
-        return $component;
     }
 
 }

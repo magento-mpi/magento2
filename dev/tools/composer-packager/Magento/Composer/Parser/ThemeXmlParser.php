@@ -2,81 +2,20 @@
 
 namespace Magento\Composer\Parser;
 
-class ThemeXmlParser implements \Magento\Composer\Parser {
+class ThemeXmlParser extends AbstractXmlParser {
 
-    private $_themeDir = null;
-
-    protected $_file = null;
-
-    public function __construct($themeDir)
-    {
-        $this->setThemeDir($themeDir);
-        $this->setFile($themeDir.'/theme.xml');
-    }
-
-    public function setThemeDir($themeDir){
-        // Remove trailing slash
-        if (!is_null($themeDir)) {
-            $themeDir = rtrim($themeDir, '\\/');
-        }
-        $this->_themeDir = $themeDir;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getThemeDir()
-    {
-        return $this->_themeDir;
-    }
-
-    /**
-     * @param string|SplFileObject $file
-     * @return PackageXmlParser
-     */
-    public function setFile($file)
-    {
-        if (is_string($file)) {
-            $file = new \SplFileObject($file);
-        }
-        $this->_file = $file;
-        return $this;
-    }
-
-    /**
-     * @return \SplFileObject
-     */
-    public function getFile()
-    {
-        return $this->_file;
-    }
-
-    /**
-     * @return array
-     * @throws \ErrorException
-     */
-    public function getMappings()
-    {
-        $file = $this->getFile();
-
-        if (!$file->isReadable()) {
-            throw new \ErrorException(sprintf('Package file "%s" not readable', $file->getPathname()));
-        }
-
-        $map = $this->_parseMappings();
-        return $map;
+    public function getSubPath(){
+        return '/theme.xml';
     }
 
     /**
      * @throws \ErrorException
-     * @return Magento\Composer\ArrayAndObjectAccess
+     * @return \Magento\Composer\Model\ArrayAndObjectAccess
      */
     protected function _parseMappings()
     {
-        $map = array();
         $path = $this->getFile()->getPathname();
-        /** @var $package SimpleXMLElement */
+        /** @var $package \SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
 
         if (isset($package)) {
@@ -85,7 +24,7 @@ class ThemeXmlParser implements \Magento\Composer\Parser {
             $name = (string)$package->xpath('name')[0];
             $themeDefinitions->name = (string)$name . "-Theme";
             $themeDefinitions->version = (string)$package->xpath('version')[0];
-            $themeDefinitions->location = $this->getThemeDir();
+            $themeDefinitions->location = $this->getComponentDir();
             //Dependencies
             $dependency = $package->xpath("parent");
 

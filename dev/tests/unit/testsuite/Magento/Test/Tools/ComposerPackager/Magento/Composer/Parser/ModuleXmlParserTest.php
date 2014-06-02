@@ -13,7 +13,7 @@ class ModuleXmlParserTest extends \PHPUnit_Framework_TestCase
     {
         $moduleDir = __DIR__ . '/../../../_files/app/code/Magento/SampleModule';
         $objectManagerHelper = new ObjectManager($this);
-        $this->parser = $objectManagerHelper->getObject('\Magento\Composer\Parser\ModuleXmlParser', array('moduleDir' => $moduleDir));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Composer\Parser\ModuleXmlParser', array('componentDir' => $moduleDir));
     }
 
     public function testgetMappings()
@@ -21,7 +21,6 @@ class ModuleXmlParserTest extends \PHPUnit_Framework_TestCase
         $moduleDefinition = $this->parser->getMappings();
         $this->assertEquals($moduleDefinition->name, "Magento_SampleModule");
         $this->assertEquals($moduleDefinition->version, "1.2.3");
-        $this->assertTrue($moduleDefinition->active);
         $this->assertEquals(sizeof($moduleDefinition->dependencies), 1);
     }
 

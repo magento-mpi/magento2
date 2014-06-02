@@ -2,17 +2,10 @@
 
 namespace Magento\Composer\Extractor;
 
-class FrameworkExtractor extends  BaseExtractor{
+class FrameworkExtractor extends  AbstractExtractor{
 
-    protected  $_path = 'lib/Magento/';
-
-    public function __construct($rootDir, $logger){
-        parent::__construct($logger);
-        $this->_path = $rootDir . '/lib/Magento/';
-    }
-
-    public function getPath(){
-        return $this->_path;
+    public function getSubPath(){
+        return "/lib/Magento/";
     }
 
     public function getType(){
@@ -25,13 +18,6 @@ class FrameworkExtractor extends  BaseExtractor{
 
     public function createComponent($name){
         return new \Magento\Composer\Model\Library($name);
-    }
-
-    public function setValues(&$component, \Magento\Composer\Model\ArrayAndObjectAccess $definition){
-        $component->setVersion($definition->version);
-        $component->setLocation($definition->location);
-        $component->setType($this->getType());
-        return $component;
     }
 
 }

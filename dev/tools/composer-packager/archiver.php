@@ -27,7 +27,7 @@ try {
     $filter = $opt->getOption('v') ? new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) : new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 
-    $logger->info(sprintf("Your selected Generation Directory: %s. ", $generationDir));
+    $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
     $logger->info(sprintf("Your Magento Installation Directory: %s ", $rootDir));
 
     $moduleExtractor= new \Magento\Composer\Extractor\ModuleExtractor($rootDir, $logger);
@@ -38,17 +38,17 @@ try {
     $languagePackExtractor = new \Magento\Composer\Extractor\LanguagePackExtractor($rootDir, $logger);
 
     $components = $moduleExtractor->extract(null, $moduleCount);
-    $logger->debug("Read %3d modules.", $moduleCount);
+    $logger->debug(sprintf("Read %3d modules.", $moduleCount));
     $components = $adminThemeExtractor->extract($components, $adminThemeCount);
-    $logger->debug("Read %3d admin themes.", $adminThemeCount);
+    $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
     $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
-    $logger->debug("Read %3d frontend themes.", $frontendThemeCount);
+    $logger->debug(sprintf("Read %3d frontend themes.", $frontendThemeCount));
     $components = $libraryExtractor->extract($components , $libraryCount);
-    $logger->debug("Read %3d libraries.", $libraryCount);
+    $logger->debug(sprintf("Read %3d libraries.", $libraryCount));
     $components = $frameworkExtractor->extract($components, $frameworkCount);
-    $logger->debug("Read %3d frameworks.", $frameworkCount);
+    $logger->debug(sprintf("Read %3d frameworks.", $frameworkCount));
     $components = $languagePackExtractor->extract($components, $languagePackCount);
-    $logger->debug("Read %3d language packs.", $languagePackCount);
+    $logger->debug(sprintf("Read %3d language packs.", $languagePackCount));
 
     try {
         if (!file_exists($generationDir)) {
@@ -59,14 +59,14 @@ try {
         exit($e->getCode());
     }
 
-    $logger->debug("Zip Archive Location: %s", $generationDir);
+    $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
     $noOfZips = 0;
     foreach($components as $component) {
         $name = \Magento\Composer\Helper\Converter::vendorPackagetoName($component->getName());
         $noOfZips += \Magento\Composer\Helper\Zip::Zip($component->getLocation(), $generationDir . "/" . $name . "-". $component->getVersion() . ".zip");
-        $logger->debug("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion());
+        $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion()));
     }
-    $logger->info("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n", $generationDir);
+    $logger->info(sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n", $generationDir));
 
 } catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());

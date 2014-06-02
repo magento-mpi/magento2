@@ -13,7 +13,7 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
     {
         $dir = __DIR__ . '/../../../_files/app/design/adminhtml/Magento/Sample';
         $objectManagerHelper = new ObjectManager($this);
-        $this->parser = $objectManagerHelper->getObject('\Magento\Composer\Parser\ThemeXmlParser', array('themeDir' => $dir));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Composer\Parser\ThemeXmlParser', array('componentDir' => $dir));
     }
 
     public function testgetMappings()

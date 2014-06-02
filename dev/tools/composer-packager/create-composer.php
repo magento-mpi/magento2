@@ -16,7 +16,6 @@ if (!($code === 0 && $output != null && is_array($output) && strpos($output[0], 
 */
 require __DIR__ . '/../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../');
-$generationDir = __DIR__ . '/packages';
 try {
     $opt = new \Zend_Console_Getopt(
         array(
@@ -25,8 +24,6 @@ try {
         )
     );
     $opt->parse();
-
-    $generationDir = $opt->getOption('o') ? $opt->getOption('o') : $generationDir;
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
 
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
@@ -35,9 +32,7 @@ try {
     $filter = $opt->getOption('v') ? new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) : new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 
-    $logger->info(sprintf("You selected %s. ", $generationDir));
-    $logger->info(sprintf("Your root directory: %s ", $rootDir));
-
+    $logger->info(sprintf("Your Magento Installation Directory: %s ", $rootDir));
 
     $moduleExtractor= new \Magento\Composer\Extractor\ModuleExtractor($rootDir, $logger);
     $adminThemeExtractor = new \Magento\Composer\Extractor\AdminThemeExtractor($rootDir, $logger);

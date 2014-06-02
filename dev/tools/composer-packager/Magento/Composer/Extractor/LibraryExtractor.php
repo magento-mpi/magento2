@@ -4,10 +4,8 @@ namespace Magento\Composer\Extractor;
 
 class LibraryExtractor extends  FrameworkExtractor{
 
-
-    public function __construct($rootDir, $logger){
-        parent::__construct($rootDir,$logger);
-        $this->_path = $rootDir . '/lib/';
+    public function getSubPath(){
+        return '/lib/';
     }
 
     public function extract($collection = array(), &$count = 0){
@@ -16,8 +14,8 @@ class LibraryExtractor extends  FrameworkExtractor{
         $this->addToCollection($collection);
         $parser = $this->getParser($this->getPath());
         $definition = $parser->getMappings();
-        $this->createAndAdd($definition);
-        return $this->getCollection();
+        $this->create($definition);
+        return $this->_collection;
     }
 
 
