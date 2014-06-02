@@ -142,6 +142,8 @@ class Tax extends \Magento\Backend\App\Action
 
     /**
      * Set tax ignore notification flag and redirect back
+     *
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function ignoreTaxNotificationAction()
     {

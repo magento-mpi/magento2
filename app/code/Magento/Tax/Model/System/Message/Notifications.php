@@ -19,40 +19,40 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    protected $storeManager;
 
     /**
      * @var \Magento\Framework\UrlInterface
      */
-    protected $_urlBuilder;
+    protected $urlBuilder;
 
     /**
      * Tax configuration object
      *
      * @var \Magento\Tax\Model\Config
      */
-    protected $_taxConfig;
+    protected $taxConfig;
 
     /*
      * Stores with invalid display settings
      *
      * @var array
      */
-    protected $_storesWithInvalidDisplaySettings;
+    protected $storesWithInvalidDisplaySettings;
 
     /*
      * Websites with invalid discount settings
      *
      * @var array
      */
-    protected $_storesWithInvalidDiscountSettings;
+    protected $storesWithInvalidDiscountSettings;
 
     /*
      * Stores with conflicting FPT settings
      *
      * @var array
      */
-    protected $_storesWithConflictingFPTSettings;
+    protected $storesWithConflictingFPTSettings;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -60,13 +60,13 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Tax\Model\Config $taxConfig
+        \Magento\Store\Model\StoreManagerInterface $storeManager = null,
+        \Magento\Framework\UrlInterface $urlBuilder = null,
+        \Magento\Tax\Model\Config $taxConfig = null
     ) {
-        $this->_storeManager = $storeManager;
-        $this->_urlBuilder = $urlBuilder;
-        $this->_taxConfig = $taxConfig;
+        $this->storeManager = $storeManager;
+        $this->urlBuilder = $urlBuilder;
+        $this->taxConfig = $taxConfig;
     }
 
     /**
@@ -86,22 +86,22 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      *      Tax Calculation Method Based On 'Total' or 'Row'
      *      and at least one Price Display Settings has 'Including and Excluding Tax' value
      *
-     * @param mixed $store
+     * @param null|int|bool|string|Store $store $store
      * @return bool
      */
     public function checkDisplaySettings($store = null)
     {
-        if ($this->_taxConfig->getAlgorithm($store) == \Magento\Tax\Model\Calculation::CALC_UNIT_BASE) {
+        if ($this->taxConfig->getAlgorithm($store) == \Magento\Tax\Model\Calculation::CALC_UNIT_BASE) {
             return true;
         }
-        return $this->_taxConfig->getPriceDisplayType($store) != \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
-        && $this->_taxConfig->getShippingPriceDisplayType($store) != \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
-        && !$this->_taxConfig->displayCartPricesBoth($store)
-        && !$this->_taxConfig->displayCartSubtotalBoth($store)
-        && !$this->_taxConfig->displayCartShippingBoth($store)
-        && !$this->_taxConfig->displaySalesPricesBoth($store)
-        && !$this->_taxConfig->displaySalesSubtotalBoth($store)
-        && !$this->_taxConfig->displaySalesShippingBoth($store);
+        return $this->taxConfig->getPriceDisplayType($store) != \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+        && $this->taxConfig->getShippingPriceDisplayType($store) != \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+        && !$this->taxConfig->displayCartPricesBoth($store)
+        && !$this->taxConfig->displayCartSubtotalBoth($store)
+        && !$this->taxConfig->displayCartShippingBoth($store)
+        && !$this->taxConfig->displaySalesPricesBoth($store)
+        && !$this->taxConfig->displaySalesSubtotalBoth($store)
+        && !$this->taxConfig->displaySalesShippingBoth($store);
     }
 
     /**
@@ -111,12 +111,12 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      *      Before Discount / Excluding Tax
      *      Before Discount / Including Tax
      *
-     * @param mixed $store
+     * @param null|int|bool|string|Store $store $store
      * @return bool
      */
     public function checkDiscountSettings($store = null)
     {
-        return $this->_taxConfig->applyTaxAfterDiscount($store);
+        return $this->taxConfig->applyTaxAfterDiscount($store);
     }
 
     /**
@@ -126,7 +126,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      */
     public function getInfoUrl()
     {
-        return $this->_taxConfig->getInfoUrl();
+        return $this->taxConfig->getInfoUrl();
     }
 
     /**
@@ -136,7 +136,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      */
     public function getManageUrl()
     {
-        return $this->_urlBuilder->getUrl('adminhtml/system_config/edit/section/tax');
+        return $this->urlBuilder->getUrl('adminhtml/system_config/edit/section/tax');
     }
 
     /**
@@ -147,7 +147,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      */
     public function getIgnoreTaxNotificationUrl($section)
     {
-        return $this->_urlBuilder->getUrl('tax/tax/ignoreTaxNotification', array('section' => $section));
+        return $this->urlBuilder->getUrl('tax/tax/ignoreTaxNotification', array('section' => $section));
     }
 
     /**
@@ -159,7 +159,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
     public function getStoresWithWrongDisplaySettings()
     {
         $storeNames = array();
-        $storeCollection = $this->_storeManager->getStores(true);
+        $storeCollection = $this->storeManager->getStores(true);
         foreach ($storeCollection as $store) {
             if (!$this->checkDisplaySettings($store)) {
                 $website = $store->getWebsite();
@@ -178,7 +178,7 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
     public function getStoresWithWrongDiscountSettings()
     {
         $storeNames = array();
-        $storeCollection = $this->_storeManager->getStores(true);
+        $storeCollection = $this->storeManager->getStores(true);
         foreach ($storeCollection as $store) {
             if (!$this->checkDiscountSettings($store)) {
                 $website = $store->getWebsite();
@@ -199,9 +199,9 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
         $storeNames = array();
 
         // Will enable in future work
-//        $storeCollection = $this->_storeManager->getStores(true);
+//        $storeCollection = $this->storeManager->getStores(true);
 //        foreach ($storeCollection as $store) {
-//            if ($this->_weeeData->validateCatalogPricesAndFptConfiguration($store)) {
+//            if ($this->weeeData->validateCatalogPricesAndFptConfiguration($store)) {
 //                $website = $store->getWebsite();
 //                $storeNames[] = $website->getName() . '(' . $store->getName() . ')';
 //            }
@@ -222,19 +222,19 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
     public function isDisplayed()
     {
         // Check if we are ignoring all notifications
-        if ($this->_taxConfig->isWrongDisplaySettingsIgnored() && $this->_taxConfig->isWrongDiscountSettingsIgnored() &&
-            $this->_taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
+        if ($this->taxConfig->isWrongDisplaySettingsIgnored() && $this->taxConfig->isWrongDiscountSettingsIgnored() &&
+            $this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
             return false;
         }
 
-        $this->_storesWithInvalidDisplaySettings = $this->getStoresWithWrongDisplaySettings();
-        $this->_storesWithInvalidDiscountSettings = $this->getStoresWithWrongDiscountSettings();
+        $this->storesWithInvalidDisplaySettings = $this->getStoresWithWrongDisplaySettings();
+        $this->storesWithInvalidDiscountSettings = $this->getStoresWithWrongDiscountSettings();
         $this->storesWithConflictingFPTSettings = $this->getStoresWithConflictingFptTaxConfigurationSettings();
 
         // Check if we have valid tax notifications
-        if ((!empty($this->_storesWithInvalidDisplaySettings) && !$this->_taxConfig->isWrongDisplaySettingsIgnored()) ||
-            (!empty($this->_storesWithInvalidDiscountSettings) && !$this->_taxConfig->isWrongDiscountSettingsIgnored()) ||
-            (!empty($this->storesWithConflictingFPTSettings) && !$this->_taxConfig->isConflictingFptTaxConfigurationSettingsIgnored())) {
+        if ((!empty($this->storesWithInvalidDisplaySettings) && !$this->taxConfig->isWrongDisplaySettingsIgnored()) ||
+            (!empty($this->storesWithInvalidDiscountSettings) && !$this->taxConfig->isWrongDiscountSettingsIgnored()) ||
+            (!empty($this->storesWithConflictingFPTSettings) && !$this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored())) {
             return true;
         }
 
@@ -249,39 +249,39 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      */
     public function getText()
     {
-        $messageDetails = __('');
+        $messageDetails = '';
 
-        if (!empty($this->_storesWithInvalidDisplaySettings) && !$this->_taxConfig->isWrongDisplaySettingsIgnored()) {
+        if (!empty($this->storesWithInvalidDisplaySettings) && !$this->taxConfig->isWrongDisplaySettingsIgnored()) {
             $messageDetails .= '<strong>';
             $messageDetails .= __('Warning tax configuration can result in rounding errors. ');
             $messageDetails .= '</strong><br>';
             $messageDetails .= __('Store(s) affected: ');
-            $messageDetails .= implode(', ', $this->_storesWithInvalidDisplaySettings);
+            $messageDetails .= implode(', ', $this->storesWithInvalidDisplaySettings);
             $messageDetails .= '<br><div style="text-align:right">';
             $messageDetails .= __('Click on the link to <a href="%1">ignore this notification</a>',
                 $this->getIgnoreTaxNotificationUrl('price_display'));
             $messageDetails .= "</div><br>";
         }
 
-        if (!empty($this->_storesWithInvalidDiscountSettings) && !$this->_taxConfig->isWrongDiscountSettingsIgnored()) {
+        if (!empty($this->storesWithInvalidDiscountSettings) && !$this->taxConfig->isWrongDiscountSettingsIgnored()) {
             $messageDetails .= '<strong>';
             $messageDetails .= __('Warning tax discount configuration might result in different discounts
                 than a customer might expect. ');
             $messageDetails .= '</strong><br>';
             $messageDetails .= __('Store(s) affected: ');
-            $messageDetails .= implode(', ', $this->_storesWithInvalidDiscountSettings);
+            $messageDetails .= implode(', ', $this->storesWithInvalidDiscountSettings);
             $messageDetails .= '<br><div style="text-align:right">';
             $messageDetails .= __('Click on the link to <a href="%1">ignore this notification</a>',
                 $this->getIgnoreTaxNotificationUrl('discount'));
             $messageDetails .= "</div><br>";
         }
 
-        if (!empty($this->_storesWithConflictingFPTSettings) && !$this->_taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
+        if (!empty($this->storesWithConflictingFPTSettings) && !$this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
             $messageDetails .= '<strong>';
             $messageDetails .= __('Warning tax configuration can result in unexpected FPT prices on applicable devices. ');
             $messageDetails .= '</strong><br>';
             $messageDetails .= __('Store(s) affected: ');
-            $messageDetails .= implode(', ', $this->_storesWithConflictingFPTSettings);
+            $messageDetails .= implode(', ', $this->storesWithConflictingFPTSettings);
             $messageDetails .= '<br><div style="text-align:right">';
             $messageDetails .= __('Click on the link to <a href="%1">ignore this notification</a>',
                 $this->getIgnoreTaxNotificationUrl('fpt_configuration'));

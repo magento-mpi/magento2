@@ -10,8 +10,6 @@ namespace Magento\Tax\Model\Config;
 /**
  * Tax Config Notification
  *
- * @category   Mage
- * @package    Mage_Tax
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Notification extends \Magento\Framework\App\Config\Value
@@ -19,7 +17,7 @@ class Notification extends \Magento\Framework\App\Config\Value
     /**
      * @var \Magento\Core\Model\Resource\Config
      */
-    protected $_resourceConfig;
+    protected $resourceConfig;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -36,10 +34,10 @@ class Notification extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        \Magento\Core\Model\Resource\Config $resourceConfig,
+        \Magento\Core\Model\Resource\Config $resourceConfig = null,
         array $data = array()
     ) {
-        $this->_resourceConfig = $resourceConfig;
+        $this->resourceConfig = $resourceConfig;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
@@ -65,7 +63,7 @@ class Notification extends \Magento\Framework\App\Config\Value
      */
     protected function _resetNotificationFlag($path)
     {
-        $this->_resourceConfig->saveConfig($path, 0, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, 0);
+        $this->resourceConfig->saveConfig($path, 0, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, 0);
         return $this;
     }
 }
