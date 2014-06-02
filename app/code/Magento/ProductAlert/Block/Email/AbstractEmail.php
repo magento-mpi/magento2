@@ -34,9 +34,8 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
     protected $_maliciousCode;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode
-     * @param \Magento\Email\Model\TemplateFactory $emailFactory
      * @param array $data
      */
     public function __construct(
