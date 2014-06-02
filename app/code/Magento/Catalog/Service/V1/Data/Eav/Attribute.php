@@ -62,6 +62,7 @@ class Attribute extends AbstractObject
      * Get attribute is_required flag
      *
      * @return boolean
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsRequired()
     {
@@ -72,6 +73,7 @@ class Attribute extends AbstractObject
      * Get attribute is_user_defined flag
      *
      * @return boolean
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsUserDefined()
     {
