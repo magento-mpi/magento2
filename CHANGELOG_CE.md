@@ -17,6 +17,7 @@
     * Accordingly, renamed the former `lib` into `lib/internal` (!!!MAGETWO-21067!!! - may be controversial. We may want to revert this change before rolling out this release to the github)
   * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config) (MAGETWO-18001)
     * Refactored some of scripts in `Magento_ConfigurableProduct` module to be loaded via RequireJS
+  * Increased unit tests coverage (MAGETWO-24243)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -25,6 +26,10 @@
   * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
+* Payments Parity between M1 and M2
+  * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
+  * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
+  * Removed Saved Credit Card payment method (MAGETWO-23885)
 * Fixed bugs:
   * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
   * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
