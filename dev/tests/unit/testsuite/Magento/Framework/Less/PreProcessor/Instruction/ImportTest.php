@@ -108,7 +108,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers resetRelatedFiles
+     * @covers \Magento\Framework\Less\PreProcessor\Instruction\Import::resetRelatedFiles()
      */
     public function testGetRelatedFiles()
     {
