@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TargetRuleEdit
+ * Backend target rule edit page
  */
 class TargetRuleEdit extends BackendPage
 {

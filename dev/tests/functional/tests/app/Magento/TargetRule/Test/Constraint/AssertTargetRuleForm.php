@@ -32,6 +32,7 @@ class AssertTargetRuleForm extends AbstractConstraint
      * @var array
      */
     protected $skippedFields = [
+        'id',
         'conditions_serialized',
         'actions_serialized',
     ];
@@ -139,7 +140,7 @@ class AssertTargetRuleForm extends AbstractConstraint
                 continue;
             }
             if ($value != $dataForm[$key]) {
-                $result[] = "\ntarget rule{$key}: \"{$dataForm[$key]}\" instead of \"{$value}\"";
+                $result[] = "\ntarget rule {$key}: \"{$dataForm[$key]}\" instead of \"{$value}\"";
             }
         }
 

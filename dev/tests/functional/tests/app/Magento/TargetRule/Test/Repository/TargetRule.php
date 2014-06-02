@@ -22,7 +22,7 @@ class TargetRule extends AbstractRepository
             'is_active' => 'Active',
             'apply_to' => 'Related Products',
             'from_date' => ['pattern' => '04/16/2014'],
-            'to_date' => ['pattern' => '09/30/2014'],
+            'to_date' => ['pattern' => '09/30/2024'],
             'use_customer_segment' => 'All',
             'conditions_serialized' => '[Category|is|2]',
             'actions_serialized' => '[Category|is|the Child of the Matched Product Categories]'
@@ -41,7 +41,7 @@ class TargetRule extends AbstractRepository
             'is_active' => 'Active',
             'apply_to' => 'Cross-sells',
             'from_date' => ['pattern' => '04/16/2014'],
-            'to_date' => ['pattern' => '09/30/2014'],
+            'to_date' => ['pattern' => '09/30/2024'],
             'use_customer_segment' => 'All',
             'conditions_serialized' => '[Attribute Set|is|Default]',
             'actions_serialized' => '[Price (percentage)|equal to|100]',

@@ -8,7 +8,6 @@
 
 namespace Magento\TargetRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
@@ -34,7 +33,7 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
  * @group Target_Rules_(MX)
  * @ZephyrId MAGETWO-24807
  */
-class UpdateTargetRuleEntityTest extends Injectable
+class UpdateTargetRuleEntityTest extends TargetRuleEntityTest
 {
     /**
      * @var TargetRuleIndex
@@ -51,6 +50,7 @@ class UpdateTargetRuleEntityTest extends Injectable
      *
      * @param TargetRuleIndex $targetRuleIndex
      * @param TargetRuleNew $targetRuleNew
+     * @return void
      */
     public function __inject(
         TargetRuleIndex $targetRuleIndex,
@@ -92,6 +92,9 @@ class UpdateTargetRuleEntityTest extends Injectable
         $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleNew->getTargetRuleForm()->fill($targetRule, null, $replace);
         $this->targetRuleNew->getPageActions()->save();
+
+        // Prepare data for tear down
+        $this->prepareTearDown($targetRule);
     }
 
     /**
