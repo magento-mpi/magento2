@@ -44,7 +44,7 @@ dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Rma
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/SalesArchive
-{app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerFinance
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/ScheduledImportExport
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Search
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/TargetRule
 

@@ -35,6 +35,7 @@
         <word>CustomerCustomAttributes</word>
         <word>CustomerSegment</word>
         <word>CustomerBalance</word>
+        <word>CustomerFinance</word>
         <word>Enterprise</word>
         <word>CacheInvalidate</word>
         <!-- GiftCard and GiftCardAccount modules -->
@@ -67,7 +68,7 @@
         <word>Magento\Rma</word>
         <word>Magento_Rma</word>
         <word>SalesArchive</word>
-        <word>CustomerFinance</word>
+        <word>ScheduledImportExport</word>
         <word>Magento/Search</word>
         <word>Magento\Search</word>
         <word>Magento_Search</word>
@@ -188,6 +189,7 @@
             <word>CustomerCustomAttributes</word>
             <word>CustomerSegment</word>
             <word>CustomerBalance</word>
+            <word>CustomerFinance</word>
             <word>Enterprise</word>
             <word>CacheInvalidate</word>
             <!-- GiftCard and GiftCardAccount modules -->
@@ -217,7 +219,7 @@
             <word>Magento\Rma</word>
             <word>Magento_Rma</word>
             <word>SalesArchive</word>
-            <word>CustomerFinance</word>
+            <word>ScheduledImportExport</word>
             <word>Magento/Search</word>
             <word>Magento\Search</word>
             <word>Magento_Search</word>
