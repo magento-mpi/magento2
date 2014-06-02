@@ -15,7 +15,7 @@ class ComposerCreator implements \Magento\Composer\Creator{
     public function create(){
         $counter = 0;
         foreach($this->_components as $component){
-            $command = "cd ".$component->getLocation() ." && php ".__DIR__."/../../../composer.phar init  --name \"". $component->getName(). "\" --description=\"This is the description\" --author=\"Jay Patel <jaypatel512@gmail.com>\" --stability=\"dev\" -n";
+            $command = "cd ".$component->getLocation() ." && php ".__DIR__."/../../../composer.phar init  --name \"". $component->getName(). "\" --description=\"We would be updating the description soon.\" --author=\"Magento Support <support@magentocommerce.com>\" --stability=\"dev\" -n";
             //Command to include package installer.
             $dependencies = $component->getDependencies();
             foreach($dependencies as $dependency){
