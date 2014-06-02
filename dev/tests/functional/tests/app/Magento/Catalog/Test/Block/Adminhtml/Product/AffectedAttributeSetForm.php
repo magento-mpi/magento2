@@ -57,7 +57,8 @@ class AffectedAttributeSetForm extends ParentForm
      *
      * @return void
      */
-    public function confirm() {
+    public function confirm()
+    {
         if ($this->_rootElement->find($this->confirmButton, Locator::SELECTOR_XPATH)->isVisible()) {
             $this->_rootElement->find($this->confirmButton, Locator::SELECTOR_XPATH)->click();
         }
