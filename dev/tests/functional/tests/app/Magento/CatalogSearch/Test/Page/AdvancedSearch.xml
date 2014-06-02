@@ -9,12 +9,6 @@
 -->
 <page mca="catalogsearch/advanced" >
     <block>
-        <name>searchForm</name>
-        <class>Magento\CatalogSearch\Test\Block\Form\Advanced</class>
-        <locator>.form.search.advanced</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
         <name>form</name>
         <class>Magento\CatalogSearch\Test\Block\Advanced\Form</class>
         <locator>.form.search.advanced</locator>

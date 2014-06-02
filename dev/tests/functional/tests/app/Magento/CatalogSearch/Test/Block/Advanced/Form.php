@@ -56,12 +56,6 @@ class Form extends ParentForm
         $data = array_merge($data, $data['price']);
         unset($data['price']);
 
-        foreach ($data as $key => $value) {
-            if ($value === '-') {
-                unset($data[$key]);
-            }
-        }
-
         // If you want to select all, we obtain values
         if ($data['tax_class_id'] === 'all') {
             $taxClassValues = explode(
@@ -77,4 +71,20 @@ class Form extends ParentForm
 
         return $this;
     }
-} 
+
+    /**
+     * Fill form with custom fields
+     * (for End To End Tests)
+     *
+     * @param FixtureInterface $fixture
+     * @param array $fields
+     * @param Element $element
+     */
+    public function fillCustom(FixtureInterface $fixture, array $fields, Element $element = null)
+    {
+        $data = $fixture->getData('fields');
+        $dataForMapping = array_intersect_key($data, array_flip($fields));
+        $mapping = $this->dataMapping($dataForMapping);
+        $this->_fill($mapping, $element);
+    }
+}

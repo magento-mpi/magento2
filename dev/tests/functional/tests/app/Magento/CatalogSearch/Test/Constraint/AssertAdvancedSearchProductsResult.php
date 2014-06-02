@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Test\Constraint; 
+namespace Magento\CatalogSearch\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogSearch\Test\Page\Advanced\Result;
+use Magento\CatalogSearch\Test\Page\AdvancedResult;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -37,7 +37,7 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
     /**
      * Search results page
      *
-     * @var Result
+     * @var AdvancedResult
      */
     protected $resultPage;
 
@@ -54,14 +54,14 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
      * Assert that Advanced Search result page contains only product(s) according to requested from fixture
      *
      * @param array $products
-     * @param Result $resultPage
+     * @param AdvancedResult $resultPage
      * @param array $productsSearch
      * @param CatalogProductSimple $productSearch
      * @return void
      */
     public function processAssert(
         array $products,
-        Result $resultPage,
+        AdvancedResult $resultPage,
         array $productsSearch,
         CatalogProductSimple $productSearch
     ) {
@@ -69,7 +69,7 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
         $searchResult = [];
         foreach ($products as $key => $value) {
             if ($value === 'Yes') {
-                /** @var CatalogProductSimple $productsSearch[$key] */
+                /** @var CatalogProductSimple $productsSearch [$key] */
                 $searchResult[$productsSearch[$key]->getSku()] = $productsSearch[$key];
             }
         }
@@ -78,7 +78,11 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
         foreach ($searchResult as $sku => $product) {
             /** @var CatalogProductSimple $product */
             $name = $product->getName();
-            if (!$this->resultPage->getListProductBlock()->isProductVisible($name)) {
+            $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($product->getName());
+            while (!$isProductVisible && $resultPage->getToolbar()->nextPage()) {
+                $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($product->getName());
+            }
+            if (!$isProductVisible) {
                 $errors[] = '- failed to find the product (SKU - "'
                     . $sku . '", name - "' . $name . '") according to the search parameters';
             }
@@ -111,16 +115,17 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
         }
 
         $searchData = $searchBlock->getSearchSummaryItems();
-        foreach ($this->prepareFixtureData($productSearch) as $key => $data) {
+        $productData = $this->prepareFixtureData($productSearch);
+        foreach ($productData as $key => $data) {
             if (!isset($searchData[$key])) {
-                $errors[] = '- "' . $key . '" not found on the page' ;
-            } elseif($searchData[$key] !== $data) {
+                $errors[] = '- "' . $key . '" not found on the page';
+            } elseif ($searchData[$key] !== $data) {
                 if ($key === 'tax_class') {
-                    if ($data === 'all' && count($searchData[$key]) <= 1) {
-                        $errors[] = '- incorrect values ​​for the selected "Tax class"' ;
+                    if (reset($data) === 'all' && count($searchData[$key]) <= 1) {
+                        $errors[] = '- incorrect values ​​for the selected "Tax class"';
                     }
                 } else {
-                    $errors[] = '- "' . $key . '" value does not match the page' ;
+                    $errors[] = '- "' . $key . '" value does not match the page';
                 }
             }
         }
@@ -139,13 +144,13 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
         $compareData = [];
         foreach ($productSearch->getData() as $key => $value) {
             if ($key === 'price') {
-                if ($value['price_from'] !== '-') {
+                if (isset($value['price_from'])) {
                     $compareData[$key][] = $value['price_from'];
                 }
-                if ($value['price_to'] !== '-') {
+                if (isset($value['price_to'])) {
                     $compareData[$key][] = $value['price_to'];
                 }
-            } elseif ($value !== '-') {
+            } else {
                 $index = isset($this->placeholder[$key]) ? $this->placeholder[$key] : $key;
                 $compareData[$index][] = $value;
             }
@@ -156,12 +161,12 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
     }
 
     /**
-     * Returns a string representation of the object.
+     * Returns a string representation of the object
      *
      * @return string
      */
     public function toString()
     {
-        return 'All products are involved in the search were found successfully';
+        return 'All products are involved in the search were found successfully.';
     }
 }

@@ -11,25 +11,22 @@ namespace Magento\CatalogSearch\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\CatalogSearch\Test\Page\Advanced;
+use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Test Creation for AdvancedSearchEntity
  *
  * Test Flow:
- *
  * Preconditions:
- *
- * Two specific simple product is created(unique sku,name,short/full description, tax class)
+ * 1. Two specific simple product is created(unique sku,name,short/full description, tax class)
  *
  * Steps:
- *
- * Navigate to Frontend
- * Click "Advanced Search"
- * Fill test data in to field(s)
- * Click "Search" button
- * Perform all asserts
+ * 1. Navigate to Frontend
+ * 2. Click "Advanced Search"
+ * 3. Fill test data in to field(s)
+ * 4. Click "Search" button
+ * 5. Perform all asserts
  *
  * @group Search_Frontend_(MX)
  * @ZephyrId MAGETWO-24729
@@ -72,14 +69,14 @@ class AdvancedSearchEntityTest extends Injectable
      * @param array $products
      * @param CatalogProductSimple $productSearch
      * @param CmsIndex $cmsIndex
-     * @param Advanced $searchPage
+     * @param AdvancedSearch $searchPage
      * @return void
      */
     public function testSearch(
         array $products,
         CatalogProductSimple $productSearch,
         CmsIndex $cmsIndex,
-        Advanced $searchPage
+        AdvancedSearch $searchPage
     ) {
         $cmsIndex->open();
         $cmsIndex->getSearchBlock()->clickAdvancedSearchButton();

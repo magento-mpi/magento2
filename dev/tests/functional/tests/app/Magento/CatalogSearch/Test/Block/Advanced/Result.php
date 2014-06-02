@@ -68,25 +68,17 @@ class Result extends Block
         $index = 1;
 
         $element = $this->_rootElement->find($this->searchSummary);
-        while ($element->find(
-                sprintf($this->searchSummaryItems, $index),
-                Locator::SELECTOR_XPATH)
-            ->isVisible()
-        ) {
-            $parentElement = $element->find(
-                sprintf($this->searchSummaryItems, $index),
-                Locator::SELECTOR_XPATH
-            );
+        while ($element->find(sprintf($this->searchSummaryItems, $index), Locator::SELECTOR_XPATH)->isVisible()) {
+            $parentElement = $element->find(sprintf($this->searchSummaryItems, $index), Locator::SELECTOR_XPATH);
             $childIndex = 1;
             while ($parentElement->find(
                 sprintf($this->searchSummaryItem, $childIndex),
-                Locator::SELECTOR_XPATH)
-                ->isVisible()
-            ) {
+                Locator::SELECTOR_XPATH
+            )->isVisible()) {
                 $result[] = $parentElement->find(
                     sprintf($this->searchSummaryItem, $childIndex),
-                    Locator::SELECTOR_XPATH)
-                    ->getText();
+                    Locator::SELECTOR_XPATH
+                )->getText();
                 ++$childIndex;
             }
             ++$index;
@@ -104,8 +96,7 @@ class Result extends Block
                     $result[$explodeData[0]][] = $matches[2];
                 } elseif (preg_match('#^[^\d]+(\d+)$#umis', $explodeData[1], $matches)) { // up to
                     $result[$explodeData[0]][] = $matches[1];
-                }
-                elseif (preg_match('#^(\d+)[^\d]+$#umis', $explodeData[1], $matches)) { // greater
+                } elseif (preg_match('#^(\d+)[^\d]+$#umis', $explodeData[1], $matches)) { // greater
                     $result[$explodeData[0]][] = $matches[1];
                 }
             } else {
@@ -117,4 +108,4 @@ class Result extends Block
 
         return $result;
     }
-} 
+}

@@ -40,8 +40,8 @@ class AssertSuggestSearchingResult extends AbstractConstraint
         $queryText = $catalogSearch->getQueryText();
         $searchBlock->fillSearch($queryText);
 
-        if ($amount = $catalogSearch->getNumResults()) {
-            $isVisible = $searchBlock->isSuggestSearchVisible($queryText, $amount);
+        if ($catalogSearch->hasData('num_results')) {
+            $isVisible = $searchBlock->isSuggestSearchVisible($queryText, $catalogSearch->getNumResults());
         } else {
             $isVisible = $searchBlock->isSuggestSearchVisible($queryText);
         }

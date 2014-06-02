@@ -78,7 +78,7 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'weight' => 1.0000,
             'description' => '<p>dfj_full</p>',
-            'status' => 1, //online
+            'status' => 'Product online',
             'website_ids' => [
                 0 => 'Main Website',
             ],
@@ -102,7 +102,7 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'weight' => 1.0000,
             'description' => '<p>adc_Full</p>',
-            'status' => 1, //online
+            'status' => 'Product online',
             'short_description' => '<p>abc_short</p>',
             'website_ids' => [
                 0 => 'Main Website',

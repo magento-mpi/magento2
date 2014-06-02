@@ -6,14 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Test\Page\Advanced; 
-
-use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
+namespace Magento\CatalogSearch\Test\Page;
 
 /**
- * Class Result
+ * Class AdvancedResult
  */
-class Result extends CatalogsearchResult
+class AdvancedResult extends CatalogsearchResult
 {
     const MCA = 'catalogsearch/advanced/result';
 
@@ -30,6 +28,12 @@ class Result extends CatalogsearchResult
             'locator' => '.column.main',
             'strategy' => 'css selector',
         ];
+        $this->_blocks['toolbar'] = [
+            'name' => 'toolbar',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
+            'locator' => '.column.main',
+            'strategy' => 'css selector',
+        ];
         parent::_init();
     }
 
@@ -39,5 +43,13 @@ class Result extends CatalogsearchResult
     public function getSearchResultBlock()
     {
         return $this->getBlockInstance('searchResultBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     */
+    public function getToolbar()
+    {
+        return $this->getBlockInstance('toolbar');
     }
 }
