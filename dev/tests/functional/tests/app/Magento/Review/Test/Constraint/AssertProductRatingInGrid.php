@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Constraint; 
+namespace Magento\Review\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 

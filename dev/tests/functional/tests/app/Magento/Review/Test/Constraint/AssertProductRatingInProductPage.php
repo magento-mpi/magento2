@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Constraint; 
+namespace Magento\Review\Test\Constraint;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Rating\Test\Fixture\Rating;
+use Magento\Review\Test\Fixture\Rating;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -43,10 +43,9 @@ class AssertProductRatingInProductPage extends AbstractConstraint
         $catalogProductView->getReviewSummaryBlock()->getAddReviewLink()->click();
 
         $reviewForm = $catalogProductView->getReviewFormBlock();
-        $ratingCode = $productRating->getRatingCode();
         \PHPUnit_Framework_Assert::assertTrue(
-            $reviewForm->getRating($ratingCode)->isVisible(),
-            'Product rating "' . $ratingCode . '" is not displayed.'
+            $reviewForm->isVisibleRating($productRating),
+            'Product rating "' . $productRating->getRatingCode() . '" is not displayed.'
         );
     }
 

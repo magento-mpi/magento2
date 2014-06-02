@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Fixture;
+namespace Magento\Review\Test\Fixture;
 
 use Mtf\Fixture\InjectableFixture;
 

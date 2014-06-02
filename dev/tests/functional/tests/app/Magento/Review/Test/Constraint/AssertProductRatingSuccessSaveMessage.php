@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Constraint; 
+namespace Magento\Review\Test\Constraint;
 
-use Magento\Rating\Test\Page\Adminhtml\RatingIndex;
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -23,7 +23,7 @@ class AssertProductRatingSuccessSaveMessage extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'middle';
+    protected $severeness = 'high';
 
     /**
      * Assert that success message is displayed after rating save

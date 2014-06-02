@@ -13,7 +13,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class MultiselectgrouplistElement
- * Typified element class for select with group
+ * Typified element class for multiselect with group
  */
 class MultiselectgrouplistElement extends MultiselectElement
 {

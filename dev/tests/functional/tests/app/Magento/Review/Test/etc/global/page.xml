@@ -11,11 +11,11 @@
     <ratingIndex>
         <mca>review/rating</mca>
         <area>adminhtml</area>
-        <class>Magento\Rating\Test\Page\Adminhtml\RatingIndex</class>
+        <class>Magento\Review\Test\Page\Adminhtml\RatingIndex</class>
     </ratingIndex>
     <ratingNew>
         <mca>review/rating/new</mca>
         <area>adminhtml</area>
-        <class>Magento\Rating\Test\Page\Adminhtml\RatingNew</class>
+        <class>Magento\Review\Test\Page\Adminhtml\RatingNew</class>
     </ratingNew>
 </page>

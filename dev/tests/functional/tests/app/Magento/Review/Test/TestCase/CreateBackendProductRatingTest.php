@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\TestCase;
+namespace Magento\Review\Test\TestCase;
 
-use Magento\Rating\Test\Page\Adminhtml\RatingIndex;
-use Magento\Rating\Test\Page\Adminhtml\RatingNew;
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
+use Magento\Review\Test\Page\Adminhtml\RatingNew;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Rating\Test\Fixture\Rating;
+use Magento\Review\Test\Fixture\Rating;
 use Mtf\TestCase\Injectable;
 
 /**

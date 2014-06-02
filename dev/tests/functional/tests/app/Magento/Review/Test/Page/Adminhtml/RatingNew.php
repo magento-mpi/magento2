@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Page\Adminhtml; 
+namespace Magento\Review\Test\Page\Adminhtml; 
 
 use Mtf\Page\BackendPage; 
 
@@ -26,7 +26,7 @@ class RatingNew extends BackendPage
         ],
         'ratingForm' => [
             'name' => 'ratingForm',
-            'class' => 'Magento\Rating\Test\Block\Adminhtml\Edit\Form',
+            'class' => 'Magento\Review\Test\Block\Adminhtml\Rating\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -41,7 +41,7 @@ class RatingNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Rating\Test\Block\Adminhtml\Edit\Form
+     * @return \Magento\Review\Test\Block\Adminhtml\Rating\Edit\Form
      */
     public function getRatingForm()
     {

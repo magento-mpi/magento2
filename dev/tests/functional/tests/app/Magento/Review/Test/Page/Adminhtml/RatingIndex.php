@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Page\Adminhtml; 
+namespace Magento\Review\Test\Page\Adminhtml; 
 
 use Mtf\Page\BackendPage; 
 
@@ -32,7 +32,7 @@ class RatingIndex extends BackendPage
         ],
         'ratingGrid' => [
             'name' => 'ratingGrid',
-            'class' => 'Magento\Rating\Test\Block\Adminhtml\RatingGrid',
+            'class' => 'Magento\Review\Test\Block\Adminhtml\Rating\Grid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -55,7 +55,7 @@ class RatingIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Rating\Test\Block\Adminhtml\RatingGrid
+     * @return \Magento\Review\Test\Block\Adminhtml\Rating\Grid
      */
     public function getRatingGrid()
     {

@@ -8,16 +8,16 @@
  */
 -->
 <constraint>
-    <assertProductRatingSuccessSaveMessage module="Magento_Rating">
-        <severeness>middle</severeness>
+    <assertProductRatingSuccessSaveMessage module="Magento_Review">
+        <severeness>high</severeness>
     </assertProductRatingSuccessSaveMessage>
-    <assertProductRatingInGrid module="Magento_Rating">
+    <assertProductRatingInGrid module="Magento_Review">
         <severeness>middle</severeness>
     </assertProductRatingInGrid>
-    <assertProductRatingInProductPage module="Magento_Rating">
+    <assertProductRatingInProductPage module="Magento_Review">
         <severeness>middle</severeness>
     </assertProductRatingInProductPage>
-    <assertProductRatingNotInProductPage module="Magento_Rating">
+    <assertProductRatingNotInProductPage module="Magento_Review">
         <severeness>middle</severeness>
     </assertProductRatingNotInProductPage>
 </constraint>

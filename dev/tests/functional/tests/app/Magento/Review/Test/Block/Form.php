@@ -8,13 +8,14 @@
 
 namespace Magento\Review\Test\Block;
 
+use Magento\Review\Test\Fixture\Rating;
 use Mtf\Block\Form as BlockForm;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
+ * Class Form
  * Review form
- *
  */
 class Form extends BlockForm
 {
@@ -58,12 +59,24 @@ class Form extends BlockForm
     }
 
     /**
+     * Check rating element is visible
+     *
+     * @param Rating $rating
+     * @return bool
+     */
+    public function isVisibleRating(Rating $rating)
+    {
+        return $this->getRating($rating)->isVisible();
+    }
+
+    /**
      * Get single product rating
      *
-     * @param $code
+     * @param Rating $rating
      * @return Element
      */
-    public function getRating($code) {
-        return $this->_rootElement->find(sprintf($this->rating, $code), Locator::SELECTOR_XPATH);
+    protected function getRating(Rating $rating)
+    {
+        return $this->_rootElement->find(sprintf($this->rating, $rating->getRatingCode()), Locator::SELECTOR_XPATH);
     }
 }

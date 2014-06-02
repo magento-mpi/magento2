@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rating\Test\Block\Adminhtml;
+namespace Magento\Review\Test\Block\Adminhtml\Rating;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class RatingGrid
  * Backend product rating grid
  */
-class RatingGrid extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Locator value for rating code column
