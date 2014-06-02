@@ -16,7 +16,8 @@
             if (!alertAlreadyDisplayed && (newFileContainer.empty() || newFileContainer.is(':visible'))) {
                 alertAlreadyDisplayed = true;
                 alert($.mage.__('There are files that were selected but not uploaded yet. ' +
-                    'Please upload or remove them first'));
+                    'Please upload or remove them first')
+                );
             }
             return false;
         }
@@ -28,5 +29,5 @@
             return false;
         }
         return true;
-    }, $.mage.__('Please specify Url.'));
+    }, 'Please specify Url.');
 })(jQuery);

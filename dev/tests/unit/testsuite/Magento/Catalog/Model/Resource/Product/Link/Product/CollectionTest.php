@@ -10,6 +10,10 @@ namespace Magento\Catalog\Model\Resource\Product\Link\Product;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
@@ -25,7 +29,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $loggerMock;
 
     /** @var \Magento\Data\Collection\Db\FetchStrategyInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $fetchStrategyInterfaceMock;
+    protected $fetchStrategyMock;
 
     /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterfaceMock;
@@ -76,7 +80,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false);
         $this->loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
-        $this->fetchStrategyInterfaceMock = $this->getMock('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
+        $this->fetchStrategyMock = $this->getMock('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
         $this->managerInterfaceMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->configMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
         $this->resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
@@ -111,7 +115,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             [
                 'entityFactory' => $this->entityFactoryMock,
                 'logger' => $this->loggerMock,
-                'fetchStrategy' => $this->fetchStrategyInterfaceMock,
+                'fetchStrategy' => $this->fetchStrategyMock,
                 'eventManager' => $this->managerInterfaceMock,
                 'eavConfig' => $this->configMock,
                 'resource' => $this->resourceMock,
