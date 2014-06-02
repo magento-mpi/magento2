@@ -80,13 +80,18 @@
         </ul>
     </div>
 </script>
+<?php
+    $canCreateWishlist = $this->canCreateWishlists($this->getWishlists());
+    $shortWishList = $this->getWishlistShortList();
+    if ($canCreateWishlist || !empty($shortWishList)):
+?>
 <script type="text/javascript">
     <?php if (count($this->getWishlistShortList()) > 0): ?>
     (function($) {
         $('body').mage('multipleWishlist', {
             'canCreate': <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
             'createUrl': '<?php echo $this->getCreateUrl();?>',
-            'wishlists': <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>,
+            'wishlists': <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($shortWishList);?>,
             'wishlistLink': '.action.towishlist'
         });
         $('.products.list [data-toggle=dropdown]')
@@ -106,3 +111,4 @@
     }(jQuery));
     <?php endif; ?>
 </script>
+<?php endif; ?>
