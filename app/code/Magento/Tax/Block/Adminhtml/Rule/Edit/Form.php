@@ -148,7 +148,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             false,
             true
         );
-
+        
         $fieldset->addField(
             'calculate_subtotal',
             'checkbox',
