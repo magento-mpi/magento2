@@ -669,10 +669,10 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             );
         } else {
             $destFile = dirname(
-                    $file
-                ) . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
-                    $this->_mediaDirectory->getAbsolutePath($this->_mediaConfig->getMediaPath($file))
-                );
+                $file
+            ) . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
+                $this->_mediaDirectory->getAbsolutePath($this->_mediaConfig->getMediaPath($file))
+            );
         }
 
         return $destFile;
@@ -749,11 +749,11 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected function _getNotDuplicatedFilename($fileName, $dispretionPath)
     {
         $fileMediaName = $dispretionPath . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
-                $this->_mediaConfig->getMediaPath($fileName)
-            );
+            $this->_mediaConfig->getMediaPath($fileName)
+        );
         $fileTmpMediaName = $dispretionPath . '/' . \Magento\Core\Model\File\Uploader::getNewFileName(
-                $this->_mediaConfig->getTmpMediaPath($fileName)
-            );
+            $this->_mediaConfig->getTmpMediaPath($fileName)
+        );
 
         if ($fileMediaName != $fileTmpMediaName) {
             if ($fileMediaName != $fileName) {

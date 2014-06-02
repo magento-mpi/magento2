@@ -52,9 +52,9 @@ abstract class AbstractObject
                 $data[$key] = $value->__toArray();
             } elseif (is_array($value)) {
                 foreach ($value as $nestedArrayKey => $nestedArrayValue) {
-                    if (is_object($nestedArrayValue) && method_exists($nestedArrayValue, '__toArray') && is_callable(
-                            [$nestedArrayValue, '__toArray']
-                        )
+                    if (is_object($nestedArrayValue)
+                        && method_exists($nestedArrayValue, '__toArray')
+                        && is_callable([$nestedArrayValue, '__toArray'])
                     ) {
                         $value[$nestedArrayKey] = $nestedArrayValue->__toArray();
                     }

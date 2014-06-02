@@ -148,10 +148,8 @@ abstract class AbstractModel extends \Magento\Framework\Object
         $this->_logger = $context->getLogger();
         $this->_actionValidator = $context->getActionValidator();
 
-        if (method_exists(
-                $this->_resource,
-                'getIdFieldName'
-            ) || $this->_resource instanceof \Magento\Framework\Object
+        if (method_exists($this->_resource, 'getIdFieldName')
+            || $this->_resource instanceof \Magento\Framework\Object
         ) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
         }
