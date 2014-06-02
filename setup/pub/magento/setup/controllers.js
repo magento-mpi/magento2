@@ -13,7 +13,6 @@ angular.module('magentoSetup', ['ngSanitize'])
                 return $http.get('menu');
             },
             loadMenuContent: function(item) {
-                console.debug([1, item]);
                 $http.get(item.name)
                     .success(function (data) {
                         $rootScope.$broadcast('updateContent', data);
