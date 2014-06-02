@@ -38,7 +38,10 @@ class PartialResponseProcessor
      */
     public function filter($response)
     {
-        $filter = (string)$this->_request->getParam(self::FILTER_PARAMETER);
+        $filter = $this->_request->getParam(self::FILTER_PARAMETER);
+        if (!is_string($filter)) {
+            return [];
+        }
         $filterArray = $this->parse($filter);
         if (is_null($filterArray)) {
             return [];
