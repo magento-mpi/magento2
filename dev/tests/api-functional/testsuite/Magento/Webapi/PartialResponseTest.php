@@ -78,19 +78,31 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function testCustomerInvalidFilter()
     {
         try {
-            $result = $this->_makeCall('nonsense', $this->customerData['id']);
+            $result = $this->_makeCall('invalid', $this->customerData['id']);
             $this->assertEmpty($result);
         } catch (\Exception $e) {
-            $this->fail('Invalid filter was not expected to result in an HTTP error : ' + $e->getCode());
+            $this->fail('Invalid filter was not expected to result in an HTTP error : ' . $e->getCode());
         }
     }
 
-    protected function _makeCall($filter, $customerId)
+    public function testFilterForCustomerApiWithSimpleResponse()
+    {
+        try {
+            $result = $this->_makeCall('customer', $this->customerData['id'], '/canDelete');
+            //assert if filter is ignored and a normal response is returned
+            $this->assertTrue($result);
+        } catch (\Exception $e) {
+            $this->fail('Invalid filter was not expected to result in an HTTP error : ' . $e->getCode());
+        }
+    }
+
+    protected function _makeCall($filter, $customerId, $path = '')
     {
         $resourcePath = sprintf(
-            '%s/%d?fields=%s',
+            '%s/%d%s?fields=%s',
             CustomerAccountServiceTest::RESOURCE_PATH,
             $customerId,
+            $path,
             $filter
         );
 
