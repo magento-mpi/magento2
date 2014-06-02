@@ -596,11 +596,11 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                         'SCHEMA_NAME'       => 'schema1',
                         'TABLE_NAME'        => 'table1',
                         'COLUMN_NAME'       => 'refcol',
-                        'REF_SHEMA_NAME'    => '`test_ref`',
+                        'REF_SHEMA_NAME'    => 'test_ref',
                         'REF_TABLE_NAME'    => 'usefuldata',
                         'REF_COLUMN_NAME'   => 'col',
-                        'ON_DELETE'         => 'SET NULL',
-                        'ON_UPDATE'         => 'CASCADE'
+                        'ON_DELETE'         => '',
+                        'ON_UPDATE'         => ''
                     ]
                 ]
             ],
