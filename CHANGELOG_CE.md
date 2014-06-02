@@ -49,6 +49,7 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
+  * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
   
 * JavaScript improvements:
   * Added standard validation to front-end address fields
