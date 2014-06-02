@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Attribute\Source;
+namespace Magento\Catalog\Model\Product\Attribute\Source;
 
 class CountryofmanufactureTest extends \PHPUnit_Framework_TestCase
 {
