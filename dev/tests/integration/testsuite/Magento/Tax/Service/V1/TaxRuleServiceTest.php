@@ -98,8 +98,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                 'fieldValue' => $ruleId,
             ];
             $this->assertEquals($expectedParams, $e->getParameters());
-        } catch (\Exception $e) {
-            $this->fail('Caught unexpected exception');
         }
     }
 
@@ -128,8 +126,6 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                 'fieldValue' => $ruleId,
             ];
             $this->assertEquals($expectedParams, $e->getParameters());
-        } catch (\Exception $e) {
-            $this->fail('Caught unexpected exception');
         }
     }
 

@@ -36,7 +36,7 @@ class TaxRuleRegistry
     /**
      * Registers TaxRule Model to registry
      *
-     * @param TaxReModel $taxRuleModel
+     * @param TaxRuleModel $taxRuleModel
      * @return void
      */
     public function registerTaxRule(TaxRuleModel $taxRuleModel)
@@ -56,7 +56,6 @@ class TaxRuleRegistry
         if (isset($this->registry[$taxRuleId])) {
             return $this->registry[$taxRuleId];
         }
-        /** @var TaxRuleModel $taxRuleModel */
         $taxRuleModel = $this->taxRuleModelFactory->create()->load($taxRuleId);
         if (!$taxRuleModel->getId()) {
             // tax rule does not exist
