@@ -10,7 +10,6 @@
 namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Integration;
-use Magento\Framework\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token;
 
 class OauthV1Test extends \PHPUnit_Framework_TestCase
@@ -228,8 +227,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         )->will(
             $this->throwException(
                 new \Magento\Framework\Oauth\Exception(
-                    'A token with consumer ID 0 does not exist',
-                    OauthInterface::ERR_TOKEN_REJECTED
+                    'A token with consumer ID 0 does not exist'
                 )
             )
         );

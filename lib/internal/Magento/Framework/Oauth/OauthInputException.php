@@ -8,11 +8,11 @@
 
 namespace Magento\Framework\Oauth;
 
-use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\InputException;
 
 /**
- * OAuth \Exception
+ * OAuth \OAuthInputException
  */
-class Exception extends AuthenticationException
+class OauthInputException extends InputException
 {
 }
