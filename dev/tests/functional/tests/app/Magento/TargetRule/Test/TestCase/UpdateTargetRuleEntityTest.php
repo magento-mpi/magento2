@@ -11,8 +11,6 @@ namespace Magento\TargetRule\Test\TestCase;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
 
 /**
  * Test Creation for UpdateTargetRuleEntity
@@ -35,31 +33,6 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
  */
 class UpdateTargetRuleEntityTest extends TargetRuleEntityTest
 {
-    /**
-     * @var TargetRuleIndex
-     */
-    protected $targetRuleIndex;
-
-    /**
-     * @var TargetRuleNew
-     */
-    protected $targetRuleNew;
-
-    /**
-     * Injection data
-     *
-     * @param TargetRuleIndex $targetRuleIndex
-     * @param TargetRuleNew $targetRuleNew
-     * @return void
-     */
-    public function __inject(
-        TargetRuleIndex $targetRuleIndex,
-        TargetRuleNew $targetRuleNew
-    ) {
-        $this->targetRuleIndex = $targetRuleIndex;
-        $this->targetRuleNew = $targetRuleNew;
-    }
-
     /**
      * Run update TargetRule entity test
      *
