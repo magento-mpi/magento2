@@ -224,7 +224,7 @@ class View extends Block
     {
         return $this->blockFactory->create(
             'Magento\Catalog\Test\Block\Product\Price',
-            array('element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME))
+            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
         );
     }
 
