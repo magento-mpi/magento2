@@ -126,7 +126,7 @@ class Ipn
         }
 
         if ($error = $this->_curl->getError()) {
-            $this->_notifyAdmin(__('IPN postback HTTP error: %s', $error));
+            $this->_notifyAdmin(__('IPN postback HTTP error: %1', $error));
             $this->_curl->close();
             return;
         }
@@ -137,7 +137,7 @@ class Ipn
         if (false !== preg_match('~VERIFIED~si', $response)) {
             $this->processIpnVerified();
         } else {
-            $this->_notifyAdmin(__('IPN postback Validation error: %s', $sReq));
+            $this->_notifyAdmin(__('IPN postback Validation error: %1', $sReq));
         }
     }
 
@@ -157,7 +157,7 @@ class Ipn
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
-                throw new \Exception(__('Wrong Order ID (%s) specified.', $id));
+                throw new \Exception(__('Wrong Order ID (%1) specified.', $id));
             }
             $this->_order = $order;
         }
@@ -188,7 +188,7 @@ class Ipn
                     break;
             }
         } catch (\Magento\Framework\Model\Exception $e) {
-            $history = $this->_createIpnComment(__('Note: %s', $e->getMessage()))
+            $history = $this->_createIpnComment(__('Note: %1', $e->getMessage()))
                 ->save();
             $this->_notifyAdmin($history->getComment(), $e);
         }
@@ -246,7 +246,7 @@ class Ipn
         if ($invoice = $payment->getCreatedInvoice()) {
             $order->sendNewOrderEmail()
                 ->addStatusHistoryComment(
-                    __('Notified customer about invoice #%s.', $invoice->getIncrementId())
+                    __('Notified customer about invoice #%1.', $invoice->getIncrementId())
                 )
                 ->setIsCustomerNotified(true)
                 ->save();
@@ -281,7 +281,7 @@ class Ipn
     protected function _createIpnComment($comment = '', $addToHistory = true)
     {
         $paymentStatus = $this->getIpnFormData('txaction');
-        $message = __('IPN verification "%s".', $paymentStatus);
+        $message = __('IPN verification "%1".', $paymentStatus);
         if ($comment) {
             $message .= ' ' . $comment;
         }

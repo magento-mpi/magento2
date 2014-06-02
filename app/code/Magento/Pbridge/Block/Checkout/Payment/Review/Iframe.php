@@ -18,11 +18,6 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     protected $_iframeHeight = '400';
 
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $_requestHttp;
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -30,7 +25,6 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param array $data
      */
     public function __construct(
@@ -41,10 +35,8 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Framework\App\RequestInterface $requestHttp,
         array $data = array()
     ) {
-        $this->_requestHttp = $requestHttp;
         parent::__construct(
             $context,
             $customerSession,
@@ -104,7 +96,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             'customer_id' => $this->getCustomerIdentifier(),
             'customer_name' => $this->getCustomerName(),
             'customer_email' => $this->getCustomerEmail(),
-            'client_ip' => $this->_requestHttp->getClientIp(false)
+            'client_ip' => $this->_request->getClientIp(false)
         );
 
         $sourceUrl = $this->_pbridgeData->getGatewayFormUrl($requestParams, $this->getQuote());
