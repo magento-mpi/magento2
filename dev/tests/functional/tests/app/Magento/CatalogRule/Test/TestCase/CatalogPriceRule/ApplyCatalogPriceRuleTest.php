@@ -37,7 +37,6 @@ class ApplyCatalogPriceRuleTest extends Functional
      */
     public function testApplyCatalogPriceRule()
     {
-        $this->markTestSkipped('MAGETWO-22504');
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData(SimpleProduct::BASE);
@@ -94,7 +93,7 @@ class ApplyCatalogPriceRuleTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
 
         // Open Catalog Price Rule page
-        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
         $catalogRulePage->open();
 
         // Add new Catalog Price Rule
@@ -124,9 +123,10 @@ class ApplyCatalogPriceRuleTest extends Functional
         // Verify Catalog Price Rule in grid
         $catalogRulePage->open();
         $gridBlock = $catalogRulePage->getCatalogRuleGrid();
+        $filter['name'] = $catalogRuleFixture->getRuleName();
         $this->assertTrue(
-            $gridBlock->isRuleVisible($catalogRuleFixture->getRuleName()),
-            'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid'
+            $gridBlock->isRowVisible($filter),
+            'Rule name "' . $filter['name'] . '" not found in the grid'
         );
         // Get the Id
         $catalogPriceRuleId = $gridBlock->getCatalogPriceId($catalogRuleFixture->getRuleName());

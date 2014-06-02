@@ -75,4 +75,12 @@
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleNoticeMessage>
+    <assertCatalogPriceRuleAppliedProductPage module="Magento_CatalogRule">
+        <severeness>high</severeness>
+        <require>
+            <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
+            <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <pageCatalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView"/>
+        </require>
+    </assertCatalogPriceRuleAppliedProductPage>
 </constraint>

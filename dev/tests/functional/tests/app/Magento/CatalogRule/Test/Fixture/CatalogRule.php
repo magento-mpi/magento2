@@ -138,9 +138,10 @@ class CatalogRule extends InjectableFixture
         'fixture' => 'Magento\CatalogRule\Test\Fixture\CatalogRule\Conditions',
     ];
 
-    protected $condition = [
-        'attribute_code' => 'rule',
+    protected $conditions = [
+        'attribute_code' => 'conditions',
         'backend_type' => 'virtual',
+        'group' => 'conditions',
     ];
 
     protected $id = [
@@ -208,9 +209,9 @@ class CatalogRule extends InjectableFixture
         return $this->getData('rule');
     }
 
-    public function getCondition()
+    public function getConditions()
     {
-        return $this->getData('condition');
+        return $this->getData('conditions');
     }
 
     public function getId()

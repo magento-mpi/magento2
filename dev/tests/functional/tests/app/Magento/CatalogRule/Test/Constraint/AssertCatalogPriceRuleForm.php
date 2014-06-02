@@ -74,7 +74,7 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
     {
         $errorMessage = [];
         foreach ($fixtureData as $key => $value) {
-            if ($key == 'condition') {
+            if ($key == 'conditions') {
                 continue;
             }
             if (is_array($value)) {

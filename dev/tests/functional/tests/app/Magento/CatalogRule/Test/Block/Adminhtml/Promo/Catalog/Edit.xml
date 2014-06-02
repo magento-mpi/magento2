@@ -31,10 +31,10 @@
         <selector>#promo_catalog_edit_tabs_conditions_section</selector>
         <strategy>css selector</strategy>
         <fields>
-            <condition>
+            <conditions>
                 <selector>#rule_conditions_fieldset</selector>
                 <input>conditions</input>
-            </condition>
+            </conditions>
         </fields>
     </conditions>
     <actions>

@@ -12,12 +12,12 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class Widget Repository
- *
  */
 class Widget extends AbstractRepository
 {
     /**
-     * {@inheritdoc}
+     * @param array $defaultConfig
+     * @param array $defaultData
      */
     public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
@@ -65,7 +65,7 @@ class Widget extends AbstractRepository
                     )
                 )
             ),
-            'theme' => '3'
+            'theme' => '2'
         );
     }
 }
