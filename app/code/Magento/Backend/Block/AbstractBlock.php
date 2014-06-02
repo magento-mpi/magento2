@@ -9,8 +9,6 @@ namespace Magento\Backend\Block;
 
 /**
  * Backend abstract block
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AbstractBlock extends \Magento\Framework\View\Element\AbstractBlock
 {
