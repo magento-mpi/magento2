@@ -26,8 +26,19 @@
         width: 60%;
         &:extend(.add-recipients-desktop all);
         &:extend(.form-field-column-2 all);
-        .field.text {
-            &:extend(.form-field-revert-column-1 all);
+        .fieldset {
+            .field {
+                width: 43%;
+            }
+            .field.text {
+                //&:extend(.form-field-revert-column-1 all);
+                width: 86%;
+            }
+        }
+        .recipients {
+            .field {
+                margin-bottom: 0;
+            }
         }
     }
 }

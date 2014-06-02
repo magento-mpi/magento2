@@ -186,7 +186,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .action-remove-desktop {
-        margin-left: 70%;
+        margin-left: 86%;
     }
 }
 
@@ -197,11 +197,11 @@
     .recipients {
         .field {
              .control {
-                width:70%;
+                width: 70%;
             }
         }
         .additional {
-            margin-top: 55px;
+            margin-top: @form-field-vertical-indent;
             position: relative;
             .action.remove {
                 &:extend(.action-remove all);
@@ -232,6 +232,11 @@
 .responsive(@break) when (@break = @break-point-1) {
     .add-recipients-desktop {
         .recipients {
+            .field {
+                 .control {
+                    width:auto;
+                }
+            }
             .additional {
                 .action.remove {
                     &:extend(.action-remove-desktop all);
@@ -245,7 +250,7 @@
 //    Margin for forms
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .margin-for-forms-desktop when not (@form-field-type-inline-label-width = false) and not (@form-field-type-inline-label-width = '') {
+    .margin-for-forms-desktop {
         margin-left: @form-field-type-inline-label-width;
     }
 }
