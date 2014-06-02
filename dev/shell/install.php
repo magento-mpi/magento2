@@ -85,5 +85,10 @@ if ($result === null) {
     exit(1);
 }
 
+if (file_exists(BP . '/var') && !is_writable(BP . '/var')) {
+    echo 'error: Path "var" must be writable.' . PHP_EOL;
+    exit(1);
+}
+
 $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Magento\Install\App\Console', array('arguments' => $args));
