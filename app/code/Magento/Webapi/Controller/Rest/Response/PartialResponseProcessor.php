@@ -8,6 +8,8 @@
 
 namespace Magento\Webapi\Controller\Rest\Response;
 
+use Magento\Webapi\Controller\Rest\Request as RestRequest;
+
 /**
  * Class to handle partial service response
  */
@@ -15,15 +17,28 @@ class PartialResponseProcessor
 {
     const FILTER_PARAMETER = 'fields';
 
+    /** @var RestRequest */
+    protected $_request;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param RestRequest $request
+     */
+    public function __construct(RestRequest $request)
+    {
+        $this->_request = $request;
+    }
+
     /**
      * Process filter from the request and apply over response to get the partial results
      *
-     * @param string $filter filter criteria for partial response filtering
      * @param array $response
      * @return array partial response array or empty array if invalid filter criteria is provided
      */
-    public function filter($filter, $response)
+    public function filter($response)
     {
+        $filter = (string)$this->_request->getParam(self::FILTER_PARAMETER);
         $filterArray = $this->parse($filter);
         if (is_null($filterArray)) {
             return [];
@@ -166,20 +181,5 @@ class PartialResponseProcessor
             }
         }
         return $arrayIntersect;
-    }
-
-    /**
-     * Extract the value for partial response filtering from request
-     *
-     * @param \Zend_Controller_Request_Http $request
-     * @return string
-     */
-    public function extractFilter(\Zend_Controller_Request_Http $request)
-    {
-        $params = $request->getParams();
-        if (isset($params[self::FILTER_PARAMETER])) {
-            return $params[self::FILTER_PARAMETER];
-        }
-        return null;
     }
 }

@@ -23,12 +23,16 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     protected $sampleResponseValue;
 
+    /** @var \Magento\Webapi\Controller\Rest\Request|\PHPUnit_Framework_MockObject_MockObject */
+    protected $requestMock;
+
     /**
      * Setup SUT
      */
     public function setUp()
     {
-        $this->processor = new PartialResponseProcessor();
+        $this->requestMock = $this->getMock('Magento\Webapi\Controller\Rest\Request', [], [], '', false);
+        $this->processor = new PartialResponseProcessor($this->requestMock);
         $this->sampleResponseValue = array(
             'customer' =>
                 array(
@@ -112,11 +116,8 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
         $expected = array('customer' => $this->sampleResponseValue['customer']);
 
         $simpleFilter = 'customer';
-
-        $filteredResponse = $this->processor->filter(
-            $simpleFilter,
-            $this->sampleResponseValue
-        );
+        $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValue($simpleFilter));
+        $filteredResponse = $this->processor->filter($this->sampleResponseValue);
 
         $this->assertEquals($expected, $filteredResponse);
     }
@@ -132,10 +133,8 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
 
         $simpleFilter = "customer[email,id]";
 
-        $filteredResponse = $this->processor->filter(
-            $simpleFilter,
-            $this->sampleResponseValue
-        );
+        $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValue($simpleFilter));
+        $filteredResponse = $this->processor->filter($this->sampleResponseValue);
 
         $this->assertEquals($expected, $filteredResponse);
     }
@@ -175,10 +174,8 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
 
         $nestedFilter = 'customer[id,email],addresses[city,postcode,region[region_code,region]]';
 
-        $filteredResponse = $this->processor->filter(
-            $nestedFilter,
-            $this->sampleResponseValue
-        );
+        $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValue($nestedFilter));
+        $filteredResponse = $this->processor->filter($this->sampleResponseValue);
 
         $this->assertEquals($expected, $filteredResponse);
     }
@@ -219,10 +216,11 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
 
         $nonExistentFieldFilter = 'customer[id,email],addresses[invalid,postcode,region[region_code,region]]';
 
-        $filteredResponse = $this->processor->filter(
-            $nonExistentFieldFilter,
-            $this->sampleResponseValue
-        );
+        $this->requestMock
+            ->expects($this->any())
+            ->method('getParam')
+            ->will($this->returnValue($nonExistentFieldFilter));
+        $filteredResponse = $this->processor->filter($this->sampleResponseValue);
 
         $this->assertEquals($expected, $filteredResponse);
     }
@@ -232,10 +230,8 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidFilters($invalidFilter)
     {
-        $filteredResponse = $this->processor->filter(
-            $invalidFilter,
-            $this->sampleResponseValue
-        );
+        $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValue($invalidFilter));
+        $filteredResponse = $this->processor->filter($this->sampleResponseValue);
 
         $this->assertEmpty($filteredResponse);
     }
@@ -256,22 +252,4 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
             ['customer[id,email],addresses[city,postcode,region[region_code,region]'] //Missing last parentheses
         ];
     }
-
-    public function testExtractFilter()
-    {
-        $request = new \Zend_Controller_Request_Http();
-        $sampleFilter = 'customer[id,email],addresses[city,postcode,region[region_code,region]]';
-        $params = ['fields' => $sampleFilter, 'id' => 1];
-        $request->setParams($params);
-        $this->assertEquals($sampleFilter, $this->processor->extractFilter($request));
-    }
-
-    public function testExtractFilterNoFilterProvided()
-    {
-        $request = new \Zend_Controller_Request_Http();
-        $params = ['id' => 1];
-        $request->setParams($params);
-        $this->assertNull($this->processor->extractFilter($request));
-    }
 }
- 

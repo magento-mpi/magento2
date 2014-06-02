@@ -172,11 +172,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             /** @var \Magento\Framework\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
-            //Check if the request contains response filtering. Cannot use $inputData since it won't be available for
-            //POST and PUT
-            $filterCriteria = $this->partialResponseProcessor->extractFilter($this->_request);
-            if ($filterCriteria) {
-                $outputArray = $this->partialResponseProcessor->filter($filterCriteria, $outputArray);
+            if ($this->_request->getParam(PartialResponseProcessor::FILTER_PARAMETER)) {
+                $outputArray = $this->partialResponseProcessor->filter($outputArray);
             }
             $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
