@@ -33,5 +33,8 @@ class Grid extends ParentGrid
             'selector' => '#giftwrappingGrid_filter_websites',
             'input' => 'select',
         ],
+        'base_price' => [
+            'selector' => '#giftwrappingGrid_filter_base_price_from',
+        ],
     ];
 }

@@ -41,11 +41,12 @@ class AssertGiftWrappingInGrid extends AbstractConstraint
             'design' => $giftWrapping->getDesign(),
             'status' => $giftWrapping->getStatus(),
             'website_ids' => current($websites),
+            'base_price' => $giftWrapping->getBasePrice(),
         ];
 
         $giftWrappingIndexPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftWrappingIndexPage->getGiftWrappingGrid()->isRowVisible($filter),
+            $giftWrappingIndexPage->getGiftWrappingGrid()->isRowVisible($filter, true, false),
             'Gift Wrapping \'' . $filter['design'] . '\' is absent in Gift Wrapping grid.'
         );
     }
