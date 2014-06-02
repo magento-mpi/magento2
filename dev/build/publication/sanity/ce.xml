@@ -67,7 +67,7 @@
         <word>Magento\Rma</word>
         <word>Magento_Rma</word>
         <word>SalesArchive</word>
-        <word>ScheduledImportExport</word>
+        <word>CustomerFinance</word>
         <word>Magento/Search</word>
         <word>Magento\Search</word>
         <word>Magento_Search</word>
@@ -217,7 +217,7 @@
             <word>Magento\Rma</word>
             <word>Magento_Rma</word>
             <word>SalesArchive</word>
-            <word>ScheduledImportExport</word>
+            <word>CustomerFinance</word>
             <word>Magento/Search</word>
             <word>Magento\Search</word>
             <word>Magento_Search</word>
