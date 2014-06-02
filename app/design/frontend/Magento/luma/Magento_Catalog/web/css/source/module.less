@@ -567,9 +567,13 @@
 
 .prices.tier.items {
     &:extend(.reset-list all);
-    background: @sidebar-background;
-    padding: @indent-s-base (0.75 * @indent-base);
-    margin: @indent-s-base 0;
+    .item {
+        margin-bottom: @indent-s-base;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    margin-bottom: @indent-s-base + @indent-xs-base;
 }
 
 .minimal-price-link,
