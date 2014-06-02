@@ -6,11 +6,6 @@
  * @license     {license_link}
  */
 
-/**
- * Dibs payment block
- *
- * @author      Magento
- */
 namespace Magento\Pbridge\Block\Checkout\Payment\Review;
 
 class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
