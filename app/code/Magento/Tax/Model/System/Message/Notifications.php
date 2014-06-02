@@ -258,40 +258,54 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
             $messageDetails .= __('Store(s) affected: ');
             $messageDetails .= implode(', ', $this->storesWithInvalidDisplaySettings);
             $messageDetails .= '<br><div style="text-align:right">';
-            $messageDetails .= __('Click on the link to <a href="%1">ignore this notification</a>',
-                $this->getIgnoreTaxNotificationUrl('price_display'));
+            $messageDetails .= __(
+                'Click on the link to <a href="%1">ignore this notification</a>',
+                $this->getIgnoreTaxNotificationUrl('price_display')
+            );
             $messageDetails .= "</div><br>";
         }
 
         if (!empty($this->storesWithInvalidDiscountSettings) && !$this->taxConfig->isWrongDiscountSettingsIgnored()) {
             $messageDetails .= '<strong>';
-            $messageDetails .= __('Warning tax discount configuration might result in different discounts
-                than a customer might expect. ');
+            $messageDetails .= __(
+                'Warning tax discount configuration might result in different discounts
+                                than a customer might expect. '
+            );
             $messageDetails .= '</strong><br>';
             $messageDetails .= __('Store(s) affected: ');
             $messageDetails .= implode(', ', $this->storesWithInvalidDiscountSettings);
             $messageDetails .= '<br><div style="text-align:right">';
-            $messageDetails .= __('Click on the link to <a href="%1">ignore this notification</a>',
-                $this->getIgnoreTaxNotificationUrl('discount'));
+            $messageDetails .= __(
+                'Click on the link to <a href="%1">ignore this notification</a>',
+                $this->getIgnoreTaxNotificationUrl('discount')
+            );
             $messageDetails .= "</div><br>";
         }
 
-        if (!empty($this->storesWithConflictingFPTSettings) && !$this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
+        if (!empty($this->storesWithConflictingFPTSettings)
+            && !$this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()
+        ) {
             $messageDetails .= '<strong>';
-            $messageDetails .= __('Warning tax configuration can result in unexpected FPT prices on applicable devices. ');
+            $messageDetails .= __(
+                'Warning tax configuration can result in unexpected FPT prices on applicable devices. '
+            );
             $messageDetails .= '</strong><br>';
             $messageDetails .= __('Store(s) affected: ');
             $messageDetails .= implode(', ', $this->storesWithConflictingFPTSettings);
             $messageDetails .= '<br><div style="text-align:right">';
-            $messageDetails .= __('Click on the link to <a href="%1">ignore this notification</a>',
-                $this->getIgnoreTaxNotificationUrl('fpt_configuration'));
+            $messageDetails .= __(
+                'Click on the link to <a href="%1">ignore this notification</a>',
+                $this->getIgnoreTaxNotificationUrl('fpt_configuration')
+            );
             $messageDetails .= "</div><br>";
         }
 
         $messageDetails .= '<br>';
         $messageDetails .= __('Please see <a href="%1">documentation</a> for more details. ', $this->getInfoUrl());
-        $messageDetails .= __('Click here to go to <a href="%1">Tax Configuration</a> and change your settings.',
-            $this->getManageUrl());
+        $messageDetails .= __(
+            'Click here to go to <a href="%1">Tax Configuration</a> and change your settings.',
+            $this->getManageUrl()
+        );
 
         return $messageDetails;
     }
