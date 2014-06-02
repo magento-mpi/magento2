@@ -7,7 +7,7 @@ angular.module('magentoSetup', ['ngSanitize'])
             }
         }
     })
-    .service('Menu', function ($http, $rootScope, $compile) {
+    .service('Menu', function ($http, $rootScope) {
         return {
             load: function() {
                 return $http.get('menu');
@@ -18,7 +18,7 @@ angular.module('magentoSetup', ['ngSanitize'])
                     .success(function (data) {
                         $rootScope.$broadcast('updateContent', data);
                     });
-            },
+            }
         }
     })
     .service('Page', function ($http, Menu, License, $rootScope) {
@@ -28,7 +28,7 @@ angular.module('magentoSetup', ['ngSanitize'])
         parent.getMenuByName = function(name) {
             this.current = {next: null};
             this.name = name;
-            angular.forEach(parent.menu, function(value, key) {
+            angular.forEach(parent.menu, function(value) {
                 if (value.name === this.name) {
                     this.current = value;
                 }
@@ -39,7 +39,7 @@ angular.module('magentoSetup', ['ngSanitize'])
             load: function() {
                 if (parent.menu.length == 0) {
                     Menu.load().success(function(data) {
-                        angular.forEach(data, function(value, key) {
+                        angular.forEach(data, function(value) {
                             this.menu.push(value);
                         }, parent);
                     });
@@ -67,10 +67,10 @@ angular.module('magentoSetup', ['ngSanitize'])
                 } else {
                     console.debug('Finish');
                 }
-            },
+            }
         };
 
-        $rootScope.$on('changeStep', function(event, args) {
+        $rootScope.$on('changeStep', function() {
             obj.nextStep();
         });
         return obj;
@@ -99,7 +99,7 @@ angular.module('magentoSetup', ['ngSanitize'])
 
         $scope.$on('changeStep', function() {
             self.current++;
-            self.max++;o
+            self.max++;
         });
     })
     .controller('continue', function ($scope, $rootScope) {
@@ -119,7 +119,7 @@ angular.module('magentoSetup', ['ngSanitize'])
         return {
             restrict: 'A',
             replace: true,
-            template: '<div style="height:600px; overflow-y: scroll;"></div>',
+            template: '<div></div>',
             link: function (scope, ele, attrs) {
                 scope.$watch(attrs.dynamic, function(html) {
                     ele.html(html);
@@ -127,4 +127,4 @@ angular.module('magentoSetup', ['ngSanitize'])
                 });
             }
         };
-    });;
+    });
