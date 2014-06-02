@@ -22,6 +22,6 @@ class TaxRuleSearchResults extends SearchResults
      */
     public function getItems()
     {
-        return is_null($this->_get(self::KEY_ITEMS)) ? [] : $this->_get(self::KEY_ITEMS);
+        return parent::getItems();
     }
 }
