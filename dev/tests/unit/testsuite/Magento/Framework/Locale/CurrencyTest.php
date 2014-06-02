@@ -56,16 +56,19 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        /*
+         * This code using the ObjectManager is broken. Wasn't able to figure out the correct syntax.
+         * Using the old style (below).
         $this->testCurrencyObject = (new \Magento\TestFramework\Helper\ObjectManager($this))
             ->getObject('Magento\Framework\Locale\Currency',
                 [
-                    data => [
-                        $this->mockEventManager,
-                        $this->mockLocaleResolver,
-                        $this->mockCurrencyFactory
-                    ],
+                    $this->mockEventManager,
+                    $this->mockLocaleResolver,
+                    $this->mockCurrencyFactory,
                 ]
             );
+        */
+        $this->testCurrencyObject = new Currency($this->mockEventManager, $this->mockLocaleResolver, $this->mockCurrencyFactory);
     }
 
     public function testGetDefaultCurrency()
