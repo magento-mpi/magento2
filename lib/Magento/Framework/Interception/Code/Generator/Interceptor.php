@@ -124,7 +124,7 @@ class Interceptor extends \Magento\Framework\Code\Generator\EntityAbstract
 
         $methods[] = array(
             'name' => '__sleep',
-            'body' => "if (is_callable([get_parent_class(\$this), '__sleep'])) {\n" .
+            'body' => "if (method_exists(get_parent_class(\$this), '__sleep')) {\n" .
             "    return parent::__sleep();\n" .
             "} else {\n" .
             "    return array_keys(get_class_vars(get_parent_class(\$this)));\n" .

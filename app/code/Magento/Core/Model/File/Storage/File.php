@@ -215,7 +215,7 @@ class File
      */
     public function import($data, $callback)
     {
-        if (!is_array($data) || !is_callable([$this, $callback])) {
+        if (!is_array($data) || !method_exists($this, $callback)) {
             return $this;
         }
 

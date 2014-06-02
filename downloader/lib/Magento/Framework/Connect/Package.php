@@ -1200,14 +1200,14 @@ END;
             /**
              * Check for method availability, package
              */
-            if (!is_callable([$this, $method])) {
+            if (!method_exists($this, $method)) {
                 throw new \Magento\Framework\Exception("Invalid method specified for Package : {$method}");
             }
 
             /**
              * Check for method availability, validator
              */
-            if (!is_callable([$v, $validatorMethod])) {
+            if (!method_exists($v, $validatorMethod) || !is_callable([$v, $validatorMethod])) {
                 throw new \Magento\Framework\Exception("Invalid method specified for Validator : {$validatorMethod}");
             }
 

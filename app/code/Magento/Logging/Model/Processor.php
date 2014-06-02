@@ -418,9 +418,11 @@ class Processor
             } else {
                 $callback = $classPath[0];
             }
-            if (!$handler || !$callback || !is_callable([$handler, $callback])) {
+            if (!$handler || !$callback || !method_exists($handler, $callback)) {
                 $this->_logger->logException(
-                    new \Magento\Framework\Model\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback))
+                    new \Magento\Framework\Model\Exception(
+                        sprintf("Unknown callback function: %s::%s", $handler, $callback)
+                    )
                 );
             }
         }

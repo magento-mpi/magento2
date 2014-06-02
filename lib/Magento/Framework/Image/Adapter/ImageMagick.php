@@ -118,7 +118,7 @@ class ImageMagick extends \Magento\Framework\Image\Adapter\AbstractAdapter
             $this->_options['resolution']['x'],
             $this->_options['resolution']['y']
         );
-        if (is_callable([$this->_imageHandler, 'optimizeImageLayers'])) {
+        if (method_exists($this->_imageHandler, 'optimizeImageLayers')) {
             $this->_imageHandler->optimizeImageLayers();
         }
 
@@ -262,7 +262,7 @@ class ImageMagick extends \Magento\Framework\Image\Adapter\AbstractAdapter
             );
         }
 
-        if (is_callable([$watermark, 'setImageOpacity'])) {
+        if (method_exists($watermark, 'setImageOpacity')) {
             // available from imagick 6.3.1
             $watermark->setImageOpacity($opacity);
         } else {
@@ -420,9 +420,9 @@ class ImageMagick extends \Magento\Framework\Image\Adapter\AbstractAdapter
         // Transparent
 
         if (!empty($font)) {
-            if (is_callable([$image, 'setFont'])) {
+            if (method_exists($image, 'setFont')) {
                 $image->setFont($font);
-            } elseif (is_callable([$draw, 'setFont'])) {
+            } elseif (method_exists($draw, 'setFont')) {
                 $draw->setFont($font);
             }
         }

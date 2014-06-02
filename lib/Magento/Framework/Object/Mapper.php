@@ -99,7 +99,7 @@ class Mapper
                 $value = null;
                 if ($shouldGet = $from->hasData($keyFrom)) {
                     $value = $from->{$get}($keyFrom);
-                } elseif (is_callable([$from, $get])) {
+                } elseif (method_exists($from, $get)) {
                     $value = $from->{$get}($keyFrom);
                     if ($value) {
                         $shouldGet = true;

@@ -229,7 +229,7 @@ class Config
         $object = $this->_persistentFactory->create($info['class']);
         $method = $info['method'];
 
-        if (is_callable([$object, $method])) {
+        if (method_exists($object, $method)) {
             $object->{$method}($instance);
         } elseif ($this->_appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
             throw new \Magento\Framework\Model\Exception(

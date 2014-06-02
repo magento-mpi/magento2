@@ -1929,7 +1929,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _clearData()
     {
         foreach ($this->_data as $data) {
-            if (is_object($data) && is_callable([$data, 'reset'])) {
+            if (is_object($data) && method_exists($data, 'reset') && is_callable([$data, 'reset'])) {
                 $data->reset();
             }
         }

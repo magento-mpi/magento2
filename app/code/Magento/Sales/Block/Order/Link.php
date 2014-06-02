@@ -58,11 +58,9 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
      */
     protected function _toHtml()
     {
-        if ($this->hasKey() && is_callable(
-                [
-                    $this->getOrder(),
-                    'has' . $this->getKey()
-                ]
+        if ($this->hasKey() && method_exists(
+                $this->getOrder(),
+                'has' . $this->getKey()
             ) && !$this->getOrder()->{'has' . $this->getKey()}()
         ) {
             return '';

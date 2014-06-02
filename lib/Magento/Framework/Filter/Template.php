@@ -258,21 +258,17 @@ class Template implements \Zend_Filter_Interface
                 // If object calling methods or getting properties
                 if ($stackVars[$i]['type'] == 'property') {
                     $caller = 'get' . $this->string->upperCaseWords($stackVars[$i]['name'], '_', '');
-                    $stackVars[$i]['variable'] = is_callable(
-                        [
+                    $stackVars[$i]['variable'] = method_exists(
                             $stackVars[$i - 1]['variable'],
                             $caller
-                        ]
                     ) ? $stackVars[$i - 1]['variable']->{$caller}() : $stackVars[$i - 1]['variable']->getData(
                         $stackVars[$i]['name']
                     );
                 } elseif ($stackVars[$i]['type'] == 'method') {
                     // Calling of object method
-                    if (is_callable(
-                            [
-                                $stackVars[$i - 1]['variable'],
-                                $stackVars[$i]['name']
-                            ]
+                    if (method_exists(
+                            $stackVars[$i - 1]['variable'],
+                            $stackVars[$i]['name']
                         ) || substr(
                             $stackVars[$i]['name'],
                             0,

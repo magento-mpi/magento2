@@ -46,7 +46,7 @@ class HelperMethod implements InterpreterInterface
         }
         $helperMethod = $data['helper'];
         list($helperClass, $methodName) = explode('::', $helperMethod, 2);
-        if (!is_callable([$helperClass, $methodName])) {
+        if (!method_exists($helperClass, $methodName)) {
             throw new \InvalidArgumentException("Helper method '{$helperMethod}' does not exist.");
         }
         $methodParams = $this->paramsInterpreter->evaluate($data);

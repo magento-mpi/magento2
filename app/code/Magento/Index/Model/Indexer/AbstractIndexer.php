@@ -131,7 +131,7 @@ abstract class AbstractIndexer extends \Magento\Framework\Model\AbstractModel im
     }
 
     /**
-     * Try dynamicly detect and call event hanler from resource model.
+     * Try dynamicly detect and call event handler from resource model.
      * Handler name will be generated from event entity and type code
      *
      * @param   Event $event
@@ -147,7 +147,7 @@ abstract class AbstractIndexer extends \Magento\Framework\Model\AbstractModel im
         $method = str_replace(' ', '', ucwords(str_replace('_', ' ', $method)));
 
         $resourceModel = $this->_getResource();
-        if (is_callable([$resourceModel, $method])) {
+        if (method_exists($resourceModel, $method)) {
             $resourceModel->{$method}($event);
         }
         return $this;

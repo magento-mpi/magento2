@@ -678,7 +678,7 @@ final class Controller
             }
             $action = !empty($_GET[self::ACTION_KEY]) ? $_GET[self::ACTION_KEY] : 'index';
         }
-        if (empty($action) || !is_string($action) || !is_callable([$this, $this->getActionMethod($action)])) {
+        if (empty($action) || !is_string($action) || !method_exists($this, $this->getActionMethod($action))) {
             //$action = 'noroute';
             $action = 'index';
         }
