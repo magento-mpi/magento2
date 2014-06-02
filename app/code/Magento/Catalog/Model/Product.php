@@ -1372,7 +1372,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function getIsSalable()
     {
         $productType = $this->getTypeInstance();
-        if (method_exists($productType, 'getIsSalable')) {
+        if (is_callable([$productType, 'getIsSalable'])) {
             return $productType->getIsSalable($this);
         }
         if ($this->hasData('is_salable')) {
@@ -1929,7 +1929,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _clearData()
     {
         foreach ($this->_data as $data) {
-            if (is_object($data) && method_exists($data, 'reset')) {
+            if (is_object($data) && method_exists($data, 'reset') && is_callable([$data, 'reset'])) {
                 $data->reset();
             }
         }

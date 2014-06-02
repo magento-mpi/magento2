@@ -103,9 +103,9 @@ class Template implements \Zend_Filter_Interface
     {
         // "depend" and "if" operands should be first
         foreach (array(
-            self::CONSTRUCTION_DEPEND_PATTERN => 'dependDirective',
-            self::CONSTRUCTION_IF_PATTERN => 'ifDirective'
-        ) as $pattern => $directive) {
+                     self::CONSTRUCTION_DEPEND_PATTERN => 'dependDirective',
+                     self::CONSTRUCTION_IF_PATTERN => 'ifDirective'
+                 ) as $pattern => $directive) {
             if (preg_match_all($pattern, $value, $constructions, PREG_SET_ORDER)) {
                 foreach ($constructions as $construction) {
                     $callback = array($this, $directive);
@@ -253,27 +253,27 @@ class Template implements \Zend_Filter_Interface
                 $stackVars[$i]['variable'] =& $this->_templateVars[$stackVars[$i]['name']];
             } elseif (isset(
                 $stackVars[$i - 1]['variable']
-            ) && $stackVars[$i - 1]['variable'] instanceof \Magento\Framework\Object
+                ) && $stackVars[$i - 1]['variable'] instanceof \Magento\Framework\Object
             ) {
                 // If object calling methods or getting properties
                 if ($stackVars[$i]['type'] == 'property') {
                     $caller = 'get' . $this->string->upperCaseWords($stackVars[$i]['name'], '_', '');
                     $stackVars[$i]['variable'] = method_exists(
-                        $stackVars[$i - 1]['variable'],
-                        $caller
+                            $stackVars[$i - 1]['variable'],
+                            $caller
                     ) ? $stackVars[$i - 1]['variable']->{$caller}() : $stackVars[$i - 1]['variable']->getData(
                         $stackVars[$i]['name']
                     );
                 } elseif ($stackVars[$i]['type'] == 'method') {
                     // Calling of object method
                     if (method_exists(
-                        $stackVars[$i - 1]['variable'],
-                        $stackVars[$i]['name']
-                    ) || substr(
-                        $stackVars[$i]['name'],
-                        0,
-                        3
-                    ) == 'get'
+                            $stackVars[$i - 1]['variable'],
+                            $stackVars[$i]['name']
+                        ) || substr(
+                            $stackVars[$i]['name'],
+                            0,
+                            3
+                        ) == 'get'
                     ) {
                         $stackVars[$i]['variable'] = call_user_func_array(
                             array($stackVars[$i - 1]['variable'], $stackVars[$i]['name']),

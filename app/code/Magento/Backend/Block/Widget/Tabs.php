@@ -317,7 +317,7 @@ class Tabs extends \Magento\Backend\Block\Widget
     public function getTabUrl($tab)
     {
         if ($tab instanceof TabInterface) {
-            if (method_exists($tab, 'getTabUrl')) {
+            if (is_callable([$tab, 'getTabUrl'])) {
                 return $tab->getTabUrl();
             }
             return '#';
@@ -347,7 +347,7 @@ class Tabs extends \Magento\Backend\Block\Widget
     public function getTabClass($tab)
     {
         if ($tab instanceof TabInterface) {
-            if (method_exists($tab, 'getTabClass')) {
+            if (is_callable([$tab, 'getTabClass'])) {
                 return $tab->getTabClass();
             }
             return '';
