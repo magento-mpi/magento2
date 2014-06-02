@@ -1,5 +1,5 @@
 * Framework improvements:
-  * Created Service API for Magento_Catalog Module::
+  * Created Service API for Magento_Catalog Module:
     * AttributeSet Service (MAGETWO-23316)
     * AttributeSetGroup Service (MAGETWO-23317)
     * ProductLinks Service (MAGETWO-23318)
