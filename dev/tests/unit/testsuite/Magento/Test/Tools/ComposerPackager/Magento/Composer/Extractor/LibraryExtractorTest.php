@@ -11,8 +11,9 @@ class LibraryExtractorTest extends \PHPUnit_Framework_TestCase {
     {
         $rootDir = __DIR__ . '/../../../_files/';
         $objectManagerHelper = new ObjectManager($this);
-        $silentLogger = $objectManagerHelper->getObject('\Magento\Composer\Log\Writer\QuietWriter');
-        $logger = $objectManagerHelper->getObject('\Magento\Composer\Log\Log' , array('logWriter' => $silentLogger, 'debugWriter' => $silentLogger));
+        $logger = $this->getMockBuilder('Zend_Log')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->extractor = $objectManagerHelper->getObject('\Magento\Composer\Extractor\LibraryExtractor', array('rootDir' => $rootDir, 'logger' => $logger));
     }
 
