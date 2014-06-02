@@ -10,6 +10,7 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Service\V1\Data\TaxRule;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,6 +71,66 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxRuleData[TaxRule::PRIORITY], $taxRuleServiceData->getPriority());
         $this->assertEquals($taxRuleData[TaxRule::SORT_ORDER], $taxRuleServiceData->getSortOrder());
         $this->assertNotNull($taxRuleServiceData->getId());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testDeleteTaxRule()
+    {
+        /** @var $registry \Magento\Framework\Registry */
+        $registry = $this->objectManager->get('Magento\Framework\Registry');
+        /** @var $taxRule \Magento\Tax\Model\Calculation\Rule */
+        $taxRule = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
+        $this->assertNotNull($taxRule);
+        $ruleId = $taxRule->getId();
+
+        // Delete the new tax rate
+        $this->assertTrue($this->taxRuleService->deleteTaxRule($ruleId));
+
+        // Get the new tax rate, this should fail
+        try {
+            $this->taxRuleService->getTaxRule($ruleId);
+            $this->fail('NoSuchEntityException expected but not thrown');
+        } catch(NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRuleId',
+                'fieldValue' => $ruleId,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        } catch (\Exception $e) {
+            $this->fail('Caught unexpected exception');
+        }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testDeleteTaxRateException()
+    {
+        /** @var $registry \Magento\Framework\Registry */
+        $registry = $this->objectManager->get('Magento\Framework\Registry');
+        /** @var $taxRule \Magento\Tax\Model\Calculation\Rule */
+        $taxRule = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
+        $this->assertNotNull($taxRule);
+        $ruleId = $taxRule->getId();
+
+        // Delete the new tax rate
+        $this->assertTrue($this->taxRuleService->deleteTaxRule($ruleId));
+
+        // Delete the new tax rate again, this should fail
+        try {
+            $this->taxRuleService->deleteTaxRule($ruleId);
+            $this->fail('NoSuchEntityException expected but not thrown');
+        } catch(NoSuchEntityException $e) {
+            $expectedParams = [
+                'fieldName' => 'taxRuleId',
+                'fieldValue' => $ruleId,
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+        } catch (\Exception $e) {
+            $this->fail('Caught unexpected exception');
+        }
     }
 
     /**

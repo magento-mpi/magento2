@@ -37,6 +37,8 @@ interface TaxRuleServiceInterface
      *
      * @param int $ruleId
      * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If no TaxRate with the given ID can be found.
+     * @throws \Exception If something went wrong while performing the delete.
      */
     public function deleteTaxRule($ruleId);
 

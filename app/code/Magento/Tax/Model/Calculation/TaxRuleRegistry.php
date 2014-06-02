@@ -15,7 +15,7 @@ use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 class TaxRuleRegistry
 {
     /** @var  TaxRuleModelFactory */
-    private $taxModelRuleFactory;
+    private $taxRuleModelFactory;
 
     /**
      * @var array
@@ -25,18 +25,19 @@ class TaxRuleRegistry
     /**
      * Constructor
      *
-     * @param TaxRuleModelFactory $taxModelRuleFactory
+     * @param TaxRuleModelFactory $taxRuleModelFactory
      */
     public function __construct(
-        TaxRuleModelFactory $taxModelRuleFactory
+        TaxRuleModelFactory $taxRuleModelFactory
     ) {
-        $this->taxModelRuleFactory = $taxModelRuleFactory;
+        $this->taxRuleModelFactory = $taxRuleModelFactory;
     }
 
     /**
      * Registers TaxRule Model to registry
      *
      * @param TaxReModel $taxRuleModel
+     * @return void
      */
     public function registerTaxRule(TaxRuleModel $taxRuleModel)
     {
@@ -56,12 +57,23 @@ class TaxRuleRegistry
             return $this->registry[$taxRuleId];
         }
         /** @var TaxRuleModel $taxRuleModel */
-        $taxRuleModel = $this->taxModelRuleFactory->create()->load($taxRuleId);
+        $taxRuleModel = $this->taxRuleModelFactory->create()->load($taxRuleId);
         if (!$taxRuleModel->getId()) {
             // tax rule does not exist
             throw NoSuchEntityException::singleField('taxRuleId', $taxRuleId);
         }
         $this->registry[$taxRuleModel->getId()] = $taxRuleModel;
         return $taxRuleModel;
+    }
+
+    /**
+     * Remove an instance of the TaxRule Model from the registry
+     *
+     * @param int $taxRuleId
+     * @return void
+     */
+    public function removeTaxRule($taxRuleId)
+    {
+        unset($this->registry[$taxRuleId]);
     }
 }

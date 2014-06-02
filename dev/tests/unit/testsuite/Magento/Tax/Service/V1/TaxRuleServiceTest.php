@@ -49,59 +49,52 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->ruleModelMock = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rule')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->taxRuleService = $this->objectManager->getObject(
-            'Magento\Tax\Service\V1\TaxRuleService',
+        $this->taxRuleService = $this->objectManager->getObject('Magento\Tax\Service\V1\TaxRuleService',
             [
-                'ruleRegistry' => $this->ruleRegistryMock,
+                'taxRuleRegistry' => $this->ruleRegistryMock,
                 'converter' => $this->converterMock,
             ]
         );
     }
 
-    public function testUpdateTaxRate()
+    public function testDeleteTaxRule()
     {
-        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
-        $taxRule = $taxRuleBuilder
-            ->setId(2)
-            ->setCode('code')
-            ->setCustomerTaxClassIds([3])
-            ->setProductTaxClassIds([2])
-            ->setTaxRateIds([2])
-            ->setPriority(0)
-            ->setSortOrder(1)
-            ->create();
-        $this->converterMock->expects($this->once())
-            ->method('createTaxRuleModel')
-            ->with($taxRule)
+        $this->ruleRegistryMock->expects($this->once())
+            ->method('retrieveTaxRule')
+            ->with(1)
             ->will($this->returnValue($this->ruleModelMock));
-        $this->ruleModelMock->expects($this->once())->method('save');
-
-        $result = $this->taxRuleService->updateTaxRule($taxRule);
-
-        $this->assertTrue($result);
+        $this->ruleRegistryMock->expects($this->once())
+            ->method('removeTaxRule')
+            ->with(1);
+        $this->taxRuleService->deleteTaxRule(1);
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function testUpdateTaxRuleNoId()
+    public function testDeleteTaxRuleRetrieveException()
     {
-        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
-        $taxRule = $taxRuleBuilder
-            ->setCode('code')
-            ->setCustomerTaxClassIds([3])
-            ->setProductTaxClassIds([2])
-            ->setTaxRateIds([2])
-            ->setPriority(0)
-            ->setSortOrder(1)
-            ->create();
-
-        $this->converterMock->expects($this->once())
-            ->method('createTaxRuleModel')
-            ->with($taxRule)
+        $this->ruleRegistryMock->expects($this->once())
+            ->method('retrieveTaxRule')
+            ->with(1)
             ->will($this->throwException(new NoSuchEntityException()));
+        $this->taxRuleService->deleteTaxRule(1);
+    }
 
-        $this->taxRuleService->updateTaxRule($taxRule);
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Bad error occurred
+     */
+    public function testDeleteTaxRuleDeleteException()
+    {
+        $this->ruleRegistryMock->expects($this->once())
+            ->method('retrieveTaxRule')
+            ->with(1)
+            ->will($this->returnValue($this->ruleModelMock));
+        $this->ruleModelMock->expects($this->once())
+            ->method('delete')
+            ->will($this->throwException(new \Exception('Bad error occurred')));
+        $this->taxRuleService->deleteTaxRule(1);
     }
 
 }

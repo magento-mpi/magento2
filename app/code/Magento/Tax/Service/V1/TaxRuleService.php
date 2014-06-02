@@ -77,7 +77,10 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function deleteTaxRule($ruleId)
     {
-        // TODO: Implement deleteTaxRule() method.
+        $ruleModel = $this->taxRuleRegistry->retrieveTaxRule($ruleId);
+        $ruleModel->delete();
+        $this->taxRuleRegistry->removeTaxRule($ruleId);
+        return true;
     }
 
     /**
