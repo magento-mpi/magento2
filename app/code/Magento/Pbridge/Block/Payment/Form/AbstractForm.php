@@ -76,6 +76,9 @@ abstract class AbstractForm extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      */
     public function is3dSecureEnabled()
     {
+        if ($this->hasMethod() && $this->getMethod()->is3dSecureEnabled()) {
+            return true;
+        }
         return false;
     }
 
@@ -90,15 +93,5 @@ abstract class AbstractForm extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             return $this->_iframeHeight3dSecure;
         }
         return $this->_iframeHeight;
-    }
-
-    /**
-     * Render block HTML
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return parent::_toHtml();
     }
 }

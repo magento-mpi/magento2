@@ -63,19 +63,4 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     {
         return $this->is3dSecureEnabled();
     }
-
-    /**
-     * Refunding method being executed via Payment Bridge
-     *
-     * @param \Magento\Framework\Object $payment
-     * @param float $amount
-     * @return $this
-     */
-    public function refund(\Magento\Framework\Object $payment, $amount)
-    {
-        $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
-        $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(1);
-        return $this;
-    }
 }

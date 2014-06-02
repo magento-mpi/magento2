@@ -71,14 +71,6 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
     }
 
     /**
-     * @return bool
-     */
-    public function getIsCentinelValidationEnabled()
-    {
-        return true;
-    }
-
-    /**
      * Fetch transaction info
      *
      * @param \Magento\Payment\Model\Info $payment

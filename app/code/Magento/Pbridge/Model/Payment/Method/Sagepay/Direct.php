@@ -40,4 +40,15 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     {
         return $this->is3dSecureEnabled();
     }
+
+    /**
+     * Cancel payment
+     *
+     * @param \Magento\Framework\Object $payment
+     * @return $this
+     */
+    public function cancel(\Magento\Framework\Object $payment)
+    {
+        return $this->void($payment);
+    }
 }

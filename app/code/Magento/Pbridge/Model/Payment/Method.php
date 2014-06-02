@@ -325,14 +325,4 @@ class Method extends \Magento\Payment\Model\Method\Cc
         $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
-
-    /**
-     * Return payment method Centinel validation status
-     *
-     * @return bool
-     */
-    public function getIsCentinelValidationEnabled()
-    {
-        return false;
-    }
 }
