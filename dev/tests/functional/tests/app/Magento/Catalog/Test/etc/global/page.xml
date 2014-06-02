@@ -33,4 +33,9 @@
         <area>category</area>
         <class>Magento\Catalog\Test\Page\Category\CatalogCategoryView</class>
     </catalogCategoryView>
+    <catalogCategoryEdit>
+        <mca>catalog/category/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit</class>
+    </catalogCategoryEdit>
 </page>

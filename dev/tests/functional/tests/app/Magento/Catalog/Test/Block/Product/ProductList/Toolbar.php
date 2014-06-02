@@ -55,4 +55,15 @@ class Toolbar extends Block
     {
         return $this->_rootElement->find($this->sorter)->getValue();
     }
+
+    /**
+     * Get all available method of sorting product
+     *
+     * @return array|string
+     */
+    public function getSortType()
+    {
+        $content = str_replace("\r", '', $this->_rootElement->find($this->sorter)->getText());
+        return explode("\n", $content);
+    }
 } 

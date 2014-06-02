@@ -11,20 +11,20 @@ namespace Magento\Catalog\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class CatalogCategoryEntity
+ * Class CatalogCategory
  * Category fixture
  */
-class CatalogCategoryEntity extends InjectableFixture
+class CatalogCategory extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogCategoryEntity';
+    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogCategory';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogCategoryEntity\CatalogCategoryEntityInterface';
+    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogCategory\CatalogCategoryInterface';
 
     protected $defaultDataSet = [
         'name' => 'Category%isolation%',

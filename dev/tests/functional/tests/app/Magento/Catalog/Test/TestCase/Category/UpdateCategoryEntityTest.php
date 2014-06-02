@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\TestCase\Category;
 
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
-use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -35,43 +35,52 @@ use Mtf\TestCase\Injectable;
 class UpdateCategoryEntityTest extends Injectable
 {
     /**
-     * Catalog category edit page
+     * Catalog category index page
      *
      * @var CatalogCategoryIndex
      */
     protected $catalogCategoryIndex;
 
     /**
+     * Catalog category edit page
+     *
+     * @var CatalogCategoryEdit
+     */
+    protected $catalogCategoryEdit;
+
+    /**
      * Inject page end prepare default category
      *
-     * @param FixtureFactory $fixtureFactory
+     * @param CatalogCategory $initialCategory
      * @param CatalogCategoryIndex $catalogCategoryIndex
+     * @param CatalogCategoryEdit $catalogCategoryEdit
      * @return array
      */
-    public function __inject(FixtureFactory $fixtureFactory, CatalogCategoryIndex $catalogCategoryIndex)
-    {
+    public function __inject(
+        CatalogCategory $initialCategory,
+        CatalogCategoryIndex $catalogCategoryIndex,
+        CatalogCategoryEdit $catalogCategoryEdit
+    ) {
         $this->catalogCategoryIndex = $catalogCategoryIndex;
-        /** @var CatalogProductSimple $product */
-        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
-        $product->persist();
-        $catalogCategory = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
-        return ['catalogCategory' => $catalogCategory];
+        $this->catalogCategoryEdit = $catalogCategoryEdit;
+        $initialCategory->persist();
+        return ['initialCategory' => $initialCategory];
     }
 
     /**
      * Test for update category
      *
-     * @param CatalogCategoryEntity $category
-     * @param CatalogCategoryEntity $catalogCategory
+     * @param CatalogCategory $category
+     * @param CatalogCategory $initialCategory
      * @return void
      */
-    public function testUpdateCategory(CatalogCategoryEntity $category, CatalogCategoryEntity $catalogCategory)
+    public function testUpdateCategory(CatalogCategory $category, CatalogCategory $initialCategory)
     {
         $this->catalogCategoryIndex->open();
         $this->catalogCategoryIndex->getTreeCategories()->selectCategory(
-            $catalogCategory->getPath() . '/' . $catalogCategory->getName()
+            $initialCategory->getPath() . '/' . $initialCategory->getName()
         );
-        $this->catalogCategoryIndex->getEditForm()->fill($category);
-        $this->catalogCategoryIndex->getFormPageActions()->save();
+        $this->catalogCategoryEdit->getEditForm()->fill($category);
+        $this->catalogCategoryEdit->getFormPageActions()->save();
     }
 }

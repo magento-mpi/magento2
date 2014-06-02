@@ -25,24 +25,6 @@ class CatalogCategoryIndex extends BackendPage
             'locator' => '[id="page:left"]',
             'strategy' => 'css selector',
         ],
-        'messagesBlock' => [
-            'name' => 'messagesBlock',
-            'class' => 'Magento\Core\Test\Block\Messages',
-            'locator' => '#messages',
-            'strategy' => 'css selector',
-        ],
-        'formPageActions' => [
-            'name' => 'formPageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
-            'locator' => '.page-main-actions',
-            'strategy' => 'css selector',
-        ],
-        'editForm' => [
-            'name' => 'editForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form',
-            'locator' => '#category-edit-container',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**
@@ -51,29 +33,5 @@ class CatalogCategoryIndex extends BackendPage
     public function getTreeCategories()
     {
         return $this->getBlockInstance('treeCategories');
-    }
-
-    /**
-     * @return \Magento\Core\Test\Block\Messages
-     */
-    public function getMessagesBlock()
-    {
-        return $this->getBlockInstance('messagesBlock');
-    }
-
-    /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
-     */
-    public function getFormPageActions()
-    {
-        return $this->getBlockInstance('formPageActions');
-    }
-
-    /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form
-     */
-    public function getEditForm()
-    {
-        return $this->getBlockInstance('editForm');
     }
 }

@@ -12,7 +12,7 @@ use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -66,7 +66,7 @@ class CreateCategoryRewritesEntityTest extends Injectable
         $this->urlRewriteEdit = $urlRewriteEdit;
         $this->urlRewriteIndex = $urlRewriteIndex;
         $category = $fixtureFactory->createByCode(
-            'catalogCategoryEntity',
+            'catalogCategory',
             ['dataSet' => 'default_subcategory']
         );
         $category->persist();
@@ -77,10 +77,10 @@ class CreateCategoryRewritesEntityTest extends Injectable
      * Test check create category rewrites
      *
      * @param UrlRewrite $urlRewrite
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return void
      */
-    public function testCreateCategoryRewrites(UrlRewrite $urlRewrite, CatalogCategoryEntity $category)
+    public function testCreateCategoryRewrites(UrlRewrite $urlRewrite, CatalogCategory $category)
     {
         //Steps
         $this->urlRewriteIndex->open();

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint; 
+namespace Magento\Catalog\Test\Constraint;
 
-use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -32,12 +32,12 @@ class AssertCategorySaveMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after category save
      *
-     * @param CatalogCategoryIndex $catalogCategoryIndex
+     * @param CatalogCategoryEdit $catalogCategoryEdit
      * @return void
      */
-    public function processAssert(CatalogCategoryIndex $catalogCategoryIndex)
+    public function processAssert(CatalogCategoryEdit $catalogCategoryEdit)
     {
-        $actualMessage = $catalogCategoryIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $catalogCategoryEdit->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

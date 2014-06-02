@@ -6,11 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint; 
+namespace Magento\Catalog\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -29,16 +30,32 @@ class AssertCategoryPage extends AbstractConstraint
     /**
      * Assert that displayed category data on category page equals to passed from fixture
      *
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
+     * @param CatalogCategory $initialCategory
+     * @param FixtureFactory $fixtureFactory
      * @param CatalogCategoryView $categoryView
      * @param Browser $browser
      * @return void
      */
     public function processAssert(
-        CatalogCategoryEntity $category,
+        CatalogCategory $category,
+        CatalogCategory $initialCategory,
+        FixtureFactory $fixtureFactory,
         CatalogCategoryView $categoryView,
         Browser $browser
     ) {
+        $product = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            [
+                'dataSet' => 'product_without_category',
+                'data' => [
+                    'category_ids' => [
+                        'category' => $initialCategory
+                    ]
+                ]
+            ]
+        );
+        $product->persist();
         $url = $_ENV['app_frontend_url'] . strtolower($category->getUrlKey()) . '.html';
         $browser->open($url);
         \PHPUnit_Framework_Assert::assertEquals(
@@ -58,11 +75,11 @@ class AssertCategoryPage extends AbstractConstraint
         );
         $categoryDescription = $category->getDescription();
         if ($categoryDescription) {
-            $description = $categoryView->getDescriptionBlock()->getDescription();
+            $description = $categoryView->getViewBlock()->getDescription();
             \PHPUnit_Framework_Assert::assertEquals(
                 $categoryDescription,
                 $description,
-                'Wrong description.'
+                'Wrong category description.'
                 . "\nExpected: " . $categoryDescription
                 . "\nActual: " . $description
             );
@@ -76,6 +93,23 @@ class AssertCategoryPage extends AbstractConstraint
                 'Wrong sorting type.'
                 . "\nExpected: " . $sortBy
                 . "\nActual: " . $sortType
+            );
+        }
+        $availableSortType = array_filter(
+            $category->getAvailableSortBy(),
+            function (&$value) {
+                return $value !== '-' && ucfirst($value);
+            }
+        );
+        if ($availableSortType) {
+            $availableSortType = array_values($availableSortType);
+            $availableSortTypeOnPage = $categoryView->getToolbar()->getSortType();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $availableSortType,
+                $availableSortTypeOnPage,
+                'Wrong available sorting type.'
+                . "\nExpected: " . implode(PHP_EOL, $availableSortType)
+                . "\nActual: " . implode(PHP_EOL, $availableSortTypeOnPage)
             );
         }
     }

@@ -49,7 +49,7 @@ class CatalogCategoryView extends FrontendPage
             'locator' => '.page.title h1.title',
             'strategy' => 'css selector',
         ],
-        'descriptionBlock' => [
+        'viewBlock' => [
             'name' => 'descriptionBlock',
             'class' => 'Magento\Catalog\Test\Block\Category\View',
             'locator' => '.category.view',
@@ -100,8 +100,8 @@ class CatalogCategoryView extends FrontendPage
     /**
      * @return \Magento\Catalog\Test\Block\Category\View
      */
-    public function getDescriptionBlock()
+    public function getViewBlock()
     {
-        return $this->getBlockInstance('descriptionBlock');
+        return $this->getBlockInstance('viewBlock');
     }
 }

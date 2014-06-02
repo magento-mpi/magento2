@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\InjectableFixture;
 
 /**
@@ -84,7 +84,7 @@ class Form extends FormTabs
     /**
      * Category fixture
      *
-     * @var CatalogCategoryEntity
+     * @var CatalogCategory
      */
     protected $category;
 
@@ -92,11 +92,11 @@ class Form extends FormTabs
      * Fill the product form
      *
      * @param FixtureInterface $fixture
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @param Element $element
      * @return $this
      */
-    public function fillProduct(FixtureInterface $fixture, CatalogCategoryEntity $category = null, Element $element = null)
+    public function fillProduct(FixtureInterface $fixture, CatalogCategory $category = null, Element $element = null)
     {
         $this->category = $category;
         $this->fillCategory($fixture);

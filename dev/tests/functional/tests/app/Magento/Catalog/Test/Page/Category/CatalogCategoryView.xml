@@ -39,7 +39,7 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>descriptionBlock</name>
+        <name>viewBlock</name>
         <class>Magento\Catalog\Test\Block\Category\View</class>
         <locator>.category.view</locator>
         <strategy>css selector</strategy>

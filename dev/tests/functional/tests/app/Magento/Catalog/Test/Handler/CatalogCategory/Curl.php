@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Handler\CatalogCategoryEntity;
+namespace Magento\Catalog\Test\Handler\CatalogCategory;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +19,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
  * Class Curl
  * Create new category via curl
  */
-class Curl extends AbstractCurl implements CatalogCategoryEntityInterface
+class Curl extends AbstractCurl implements CatalogCategoryInterface
 {
     /**
      * Data use config for category
