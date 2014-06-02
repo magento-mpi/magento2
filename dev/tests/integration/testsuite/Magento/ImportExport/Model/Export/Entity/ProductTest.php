@@ -10,7 +10,7 @@ namespace Magento\ImportExport\Model\Export\Entity;
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Export\Entity\Product
+     * @var \Magento\Catalog\Model\ImportExport\Export\Product
      */
     protected $_model;
 
@@ -47,7 +47,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ImportExport\Model\Export\Entity\Product'
+            'Magento\Catalog\Model\ImportExport\Export\Product'
         );
     }
 
@@ -67,7 +67,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Verify that all stock item attribute values are exported (aren't equal to empty string)
      *
-     * @covers \Magento\ImportExport\Model\Export\Entity\Product::export
+     * @covers \Magento\Catalog\Model\ImportExport\Export\Product::export
      * @magentoDataFixture Magento/ImportExport/_files/product.php
      */
     public function testExportStockItemAttributesAreFilled()

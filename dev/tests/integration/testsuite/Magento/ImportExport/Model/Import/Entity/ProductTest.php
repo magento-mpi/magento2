@@ -7,7 +7,7 @@
  */
 
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\Product
+ * Test class for \Magento\Catalog\Model\ImportExport\Import\Product
  *
  * The "CouplingBetweenObjects" warning is caused by tremendous complexity of the original class
  *
@@ -22,31 +22,31 @@ namespace Magento\ImportExport\Model\Import\Entity;
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Import\Entity\Product
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product
      */
     protected $_model;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Uploader
+     * @var \Magento\Catalog\Model\ImportExport\Import\Uploader
      */
     protected $_uploader;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\UploaderFactory
+     * @var \Magento\Catalog\Model\ImportExport\Import\UploaderFactory
      */
     protected $_uploaderFactory;
 
     protected function setUp()
     {
         $this->_uploaderFactory = $this->getMock(
-            'Magento\ImportExport\Model\Import\UploaderFactory',
+            'Magento\Catalog\Model\ImportExport\Import\UploaderFactory',
             array('create'),
             array(),
             '',
             false
         );
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ImportExport\Model\Import\Entity\Product',
+            'Magento\Catalog\Model\ImportExport\Import\Product',
             array('uploaderFactory' => $this->_uploaderFactory)
         );
     }
@@ -311,7 +311,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             if (!empty($data['_custom_option_row_title']) && empty($data['_custom_option_store'])) {
                 $optionData = array();
                 foreach ($this->_assertOptionValues as $assertKey) {
-                    $valueKey = \Magento\ImportExport\Model\Import\Entity\Product\Option::COLUMN_PREFIX .
+                    $valueKey = \Magento\Catalog\Model\ImportExport\Import\Product\Option::COLUMN_PREFIX .
                         'row_' .
                         $assertKey;
                     $optionData[$assertKey] = $data[$valueKey];
@@ -523,7 +523,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $uploader = $this->getMock(
-            'Magento\ImportExport\Model\Import\Uploader',
+            'Magento\Catalog\Model\ImportExport\Import\Uploader',
             array('init'),
             array(
                 $objectManager->create('Magento\Core\Helper\File\Storage\Database'),
