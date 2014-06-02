@@ -175,7 +175,7 @@ class TaxRuleSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRuleSearchResults = $this->builder->populateWithArray($dataMerged)->create();
         $taxRuleSearchResults1 = $this->builder->populateWithArray($data1)->create();
         $taxRuleSearchResults2 = $this->builder->populateWithArray($data2)->create();
-        $taxRuleSearchResultsMerged = $this->builder->mergeDataObjects($taxRuleSearchResults, $taxRuleSearchResults2);
+        $taxRuleSearchResultsMerged = $this->builder->mergeDataObjects($taxRuleSearchResults1, $taxRuleSearchResults2);
         $this->assertEquals($taxRuleSearchResults->__toArray(), $taxRuleSearchResultsMerged->__toArray());
     }
 
