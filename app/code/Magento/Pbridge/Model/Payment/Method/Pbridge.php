@@ -272,13 +272,6 @@ class Pbridge extends AbstractMethod
      */
     public function getOriginalMethodInstance()
     {
-        if (null === $this->_originalMethodInstance) {
-            $this->_originalMethodCode = $this->getPbridgeResponse('original_payment_method');
-            if (null === $this->_originalMethodCode) {
-                return null;
-            }
-            $this->_originalMethodInstance = $this->_paymentData->getMethodInstance($this->_originalMethodCode);
-        }
         return $this->_originalMethodInstance;
     }
 
@@ -327,7 +320,7 @@ class Pbridge extends AbstractMethod
      */
     public function authorize(\Magento\Framework\Object $payment, $amount)
     {
-        //        parent::authorize($payment, $amount);
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
         $request = $this->_getApiRequest();
         $request->setData('magento_payment_action', $this->getOriginalMethodInstance()->getConfigPaymentAction())
@@ -345,12 +338,11 @@ class Pbridge extends AbstractMethod
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
         if ($order->getCustomerId()) {
-            $id = $order->getCustomerId();
             $request->setData(
                 'customer_id',
-                $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
+                $this->_pbridgeData->getCustomerIdentifierByEmail($order->getCustomerId(), $order->getStore()->getId())
             );
-            $request->setData('numeric_customer_id', $id);
+            $request->setData('numeric_customer_id', $order->getCustomerId());
         }
 
         if (!$order->getIsVirtual()) {
@@ -658,7 +650,12 @@ class Pbridge extends AbstractMethod
     protected function _getApiRequest()
     {
         $request = new \Magento\Framework\Object();
-        $request->setCountryCode($this->_scopeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+        $request->setCountryCode(
+            $this->_scopeConfig->getValue(
+                self::XML_CONFIG_PATH_DEFAULT_COUNTRY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;
