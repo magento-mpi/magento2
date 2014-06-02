@@ -46,13 +46,10 @@ class AssertCrossSellsProductsSection extends AbstractConstraint
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart
     ) {
-        $categoryIds = $product1->getCategoryIds();
-        $category = reset($categoryIds);
-
+        $categoryName = $product1->getCategoryIds()[0]['name'];
         $checkoutCart->open();
         $checkoutCart->getCartBlock()->clearShoppingCart();
-        $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category['name']);
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product1->getName());
         $catalogProductView->getViewBlock()->addToCart($product1);
 

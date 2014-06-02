@@ -12,6 +12,10 @@ use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
+/**
+ * Class Form
+ * Target rule form on backend target rule page
+ */
 class Form extends FormTabs
 {
     /**

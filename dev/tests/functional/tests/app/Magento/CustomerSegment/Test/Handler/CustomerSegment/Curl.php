@@ -23,24 +23,20 @@ use Mtf\Handler\Curl as AbstractCurl;
 class Curl extends AbstractCurl implements CustomerSegmentInterface
 {
     /**
-     * Mapping "Is Active" values
+     * Mapping values
      *
      * @var array
      */
-    protected $mapIsActive = [
-        'Active' => 1,
-        'Inactive' => 0,
-    ];
-
-    /**
-     * Mapping "Apply To" values
-     *
-     * @var array
-     */
-    protected $mapApplyTo = [
-        'Visitors and Registered Customers' => 0,
-        'Registered Customers' => 1,
-        'Visitors' => 2,
+    protected $mapping = [
+        'is_active' => [
+            'Active' => 1,
+            'Inactive' => 0,
+        ],
+        'apply_to' => [
+            'Visitors and Registered Customers' => 0,
+            'Registered Customers' => 1,
+            'Visitors' => 2,
+        ],
     ];
 
     /**
@@ -80,10 +76,10 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
      */
     protected function getIsActiveValue($label)
     {
-        if (!isset($this->mapIsActive[$label])) {
+        if (!isset($this->mapping['is_active'][$label])) {
             throw new \Exception("Unidentified value \"{$label}\" for field \"Is Active\"");
         }
-        return $this->mapIsActive[$label];
+        return $this->mapping['is_active'][$label];
     }
 
     /**
@@ -95,10 +91,10 @@ class Curl extends AbstractCurl implements CustomerSegmentInterface
      */
     protected function  getApplyToValue($label)
     {
-        if (!isset($this->mapApplyTo[$label])) {
+        if (!isset($this->mapping['apply_to'][$label])) {
             throw new \Exception("Unidentified value \"{$label}\" for field \"Apply To\"");
         }
-        return $this->mapApplyTo[$label];
+        return $this->mapping['apply_to'][$label];
     }
 
     /**

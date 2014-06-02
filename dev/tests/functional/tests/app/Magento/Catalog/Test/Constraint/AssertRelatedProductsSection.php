@@ -43,11 +43,9 @@ class AssertRelatedProductsSection extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CatalogProductView $catalogProductView
     ) {
-        $categoryIds = $product1->getCategoryIds();
-        $category = reset($categoryIds);
-
+        $categoryName = $product1->getCategoryIds()[0]['name'];
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category['name']);
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product1->getName());
 
         \PHPUnit_Framework_Assert::assertTrue(

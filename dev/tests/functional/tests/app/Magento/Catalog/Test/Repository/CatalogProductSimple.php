@@ -27,6 +27,7 @@ class CatalogProductSimple extends AbstractRepository
             'quantity_and_stock_status' => 'In Stock',
             'qty' => 25,
             'price' => ['value' => 560, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['100_dollar_product'] = [
@@ -35,6 +36,7 @@ class CatalogProductSimple extends AbstractRepository
             'type_id' => 'simple',
             'attribute_set_id' => '4',
             'price' => ['value' => 100, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['40_dollar_product'] = [
@@ -44,37 +46,41 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => '4',
             'price' => ['value' => 40, 'preset' => '-'],
             'id' => '2',
-            'mtf_dataset_name' => '40_dollar_product'
+            'mtf_dataset_name' => '40_dollar_product',
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['MAGETWO-23036'] = [
             'sku' => 'MAGETWO-23036',
             'name' => 'simple_with_category',
             'type_id' => 'simple',
-            'attribute_set_id' => '4',
+            'attribute_set_id' => 'Default',
             'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
             'id' => '3',
             'category_ids' => ['presets' => 'default'],
-            'mtf_dataset_name' => 'simple_with_category'
+            'mtf_dataset_name' => 'simple_with_category',
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['product_with_category'] = [
             'sku' => 'simple_product_with_category_%isolation%',
             'name' => 'Simple product with category %isolation%',
             'type_id' => 'simple',
-            'attribute_set_id' => '4',
+            'attribute_set_id' => 'Default',
             'price' => ['value' => 100, 'preset' => ''],
-            'category_ids' => ['presets' => 'default_subcategory']
+            'category_ids' => ['presets' => 'default_subcategory'],
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['product_with_special_price_and_category'] = [
             'sku' => 'simple_product_with_special_price_and_category%isolation%',
             'name' => 'Simple product with special price and category %isolation%',
             'type_id' => 'simple',
-            'attribute_set_id' => '4',
+            'attribute_set_id' => 'Default',
             'price' => ['value' => 100, 'preset' => ''],
             'special_price' => 90,
-            'category_ids' => ['presets' => 'default_subcategory']
+            'category_ids' => ['presets' => 'default_subcategory'],
+            'website_ids' => ['Main Website'],
         ];
     }
 }
