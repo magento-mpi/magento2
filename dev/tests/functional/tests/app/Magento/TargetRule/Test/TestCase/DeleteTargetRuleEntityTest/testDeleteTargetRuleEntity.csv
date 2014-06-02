@@ -1,0 +1,4 @@
+"product1/dataSet";"product2/dataSet";"targetRule/dataSet";"constraint"
+"product_with_category";"product_with_special_price_and_category";"target_rule_related_products";"assertTargetRuleSuccessDeleteMessage, assertTargetRuleIsNotPresentedInGrid, assertNoRelatedProductsSection"
+"product_with_category";"product_with_special_price_and_category";"target_rule_up_sells";"assertTargetRuleSuccessDeleteMessage, assertTargetRuleIsNotPresentedInGrid, assertNoUpSellsProductsSection"
+"product_with_category";"product_with_special_price_and_category";"target_rule_cross_sells";"assertTargetRuleSuccessDeleteMessage, assertTargetRuleIsNotPresentedInGrid, assertNoCrossSellsProductsSection"

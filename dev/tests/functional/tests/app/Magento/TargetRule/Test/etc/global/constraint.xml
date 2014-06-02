@@ -8,6 +8,9 @@
  */
 -->
 <constraint>
+    <assertTargetRuleSuccessDeleteMessage module="Magento_TargetRule">
+        <severeness>high</severeness>
+    </assertTargetRuleSuccessDeleteMessage>
     <assertTargetRuleSuccessSaveMessage module="Magento_TargetRule">
         <severeness>high</severeness>
         <require>
@@ -21,6 +24,9 @@
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
         </require>
     </assertTargetRuleInGrid>
+    <assertTargetRuleIsNotPresentedInGrid module="Magento_TargetRule">
+        <severeness>middle</severeness>
+    </assertTargetRuleIsNotPresentedInGrid>
     <assertTargetRuleForm module="Magento_TargetRule">
         <severeness>high</severeness>
         <require>
