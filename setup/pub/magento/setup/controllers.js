@@ -13,7 +13,7 @@ angular.module('magentoSetup', ['ngSanitize'])
                 return $http.get('menu');
             },
             loadMenuContent: function(item) {
-                console.debug(item);
+                console.debug([1, item]);
                 $http.get(item.name)
                     .success(function (data) {
                         $rootScope.$broadcast('updateContent', data);
@@ -23,7 +23,7 @@ angular.module('magentoSetup', ['ngSanitize'])
     })
     .service('Page', function ($http, Menu, License, $rootScope) {
         var parent = this;
-        parent.currentStep = [];
+        parent.currentStep = {};
         parent.menu = [];
         parent.getMenuByName = function(name) {
             this.current = {next: null};
@@ -63,7 +63,7 @@ angular.module('magentoSetup', ['ngSanitize'])
                 var menu = parent.getMenuByName(currentStep.name);
                 if (menu.next !== null) {
                     currentStep.name = menu.next;
-                    Menu.loadMenuContent(menu);
+                    Menu.loadMenuContent(parent.getMenuByName(currentStep.name));
                 } else {
                     console.debug('Finish');
                 }
@@ -99,8 +99,7 @@ angular.module('magentoSetup', ['ngSanitize'])
 
         $scope.$on('changeStep', function() {
             self.current++;
-            self.max++;
-            console.debug([self.current, self.max]);
+            self.max++;o
         });
     })
     .controller('continue', function ($scope, $rootScope) {
