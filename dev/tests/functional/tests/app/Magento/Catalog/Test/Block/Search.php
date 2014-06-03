@@ -111,13 +111,12 @@ class Search extends Block
             $searchAutocomplete .= sprintf($this->searchItemAmount, $amount);
         }
 
-        $element = $this->_rootElement->find($searchAutocomplete, Locator::SELECTOR_XPATH);
-        $this->_rootElement->waitUntil(
-            function () use ($element) {
-                return $element->isVisible() ? true : null;
+        $rootElement = $this->_rootElement;
+        return (bool)$this->_rootElement->waitUntil(
+            function () use ($rootElement, $searchAutocomplete) {
+                return $rootElement->find($searchAutocomplete, Locator::SELECTOR_XPATH)->isVisible() ? true : null;
             }
         );
-        return $element->isVisible();
     }
 
     /**
