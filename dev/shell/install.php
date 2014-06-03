@@ -85,8 +85,9 @@ if ($result === null) {
     exit(1);
 }
 
-if (file_exists(BP . '/var') && !is_writable(BP . '/var')) {
-    echo 'error: Path "var" must be writable.' . PHP_EOL;
+$varDir = BP . '/var';
+if (file_exists($varDir) && (!is_dir($varDir) || !is_writable($varDir))) {
+    echo 'error: Path "var" must be writable directory.' . PHP_EOL;
     exit(1);
 }
 
