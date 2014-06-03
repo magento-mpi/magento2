@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class SalesRuleInjectable
- *
- * @package Magento\SalesRule\Test\Fixture
  */
 class SalesRuleInjectable extends InjectableFixture
 {
@@ -230,8 +228,6 @@ class SalesRuleInjectable extends InjectableFixture
     protected $rule = [
         'attribute_code' => 'rule',
         'backend_type' => 'virtual',
-        'is_required' => '0',
-        'comment' => 'Array',
     ];
 
     public function getRuleId()

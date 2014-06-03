@@ -52,7 +52,7 @@ class SalesRuleInjectable extends AbstractRepository
             'uses_per_coupon' => '13',
             'uses_per_customer' => '63',
             'from_date' => ['pattern' => '3/25/2014'],
-            'to_date' => ['pattern' => '6/29/2014'],
+            'to_date' => ['pattern' => '6/29/2024'],
             'sort_order' => '1',
             'is_rss' => 'Yes',
             'rule' =>

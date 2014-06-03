@@ -176,7 +176,6 @@
         <rule>
             <attribute_code>rule</attribute_code>
             <backend_type>virtual</backend_type>
-            <is_required>0</is_required>l
         </rule>
     </fields>
     <repository_class>Magento\SalesRule\Test\Repository\SalesRuleInjectable</repository_class>

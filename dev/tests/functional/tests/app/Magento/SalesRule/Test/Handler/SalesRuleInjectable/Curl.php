@@ -34,7 +34,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
         $data = $this->conversionDataForCurl($fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -47,7 +47,6 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
      * Conversion data for curl
      *
      * @param $uiData
-     *
      * @return array
      */
     protected function conversionDataForCurl($uiData)
