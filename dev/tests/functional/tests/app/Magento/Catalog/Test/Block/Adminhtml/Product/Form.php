@@ -310,4 +310,14 @@ class Form extends FormTabs
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
     }
+
+    /**
+     * Click 'Add AttributeButton' on the Product page
+     *
+     * @return void
+     */
+    public function addAttribute()
+    {
+        $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
+    }
 }

@@ -29,7 +29,7 @@ class CatalogProductAttributeIndex extends BackendPage
         'pageActionsBlock' => [
             'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
-            'locator' => '#page-main-actions',
+            'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'blockAttributeGrid' => [

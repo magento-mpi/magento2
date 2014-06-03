@@ -238,4 +238,31 @@
             <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
         </require>
     </assertProductAttributeIsConfigurable>
+
+
+    <assertSuccessDeletedAttribute module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+        </require>
+    </assertSuccessDeletedAttribute>
+
+
+    <assertAbsenceProductAttributeInGrid module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+        </require>
+    </assertAbsenceProductAttributeInGrid>
+
+
+    <assertAbsenceInAddAttributeSearch module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+        </require>
+    </assertAbsenceInAddAttributeSearch>
+
+    <assertAbsenceProductAttributeForExport module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+        </require>
+    </assertAbsenceProductAttributeForExport>
 </constraint>

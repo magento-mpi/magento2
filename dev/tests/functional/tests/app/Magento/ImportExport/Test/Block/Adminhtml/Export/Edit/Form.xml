@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <entity>
+            <selector>[name="entity"]</selector>
+            <input>select</input>
+        </entity>
+        <file_format>
+            <selector>[name="file_format"]</selector>
+            <input>select</input>
+        </file_format>
+    </fields>
+</mapping>

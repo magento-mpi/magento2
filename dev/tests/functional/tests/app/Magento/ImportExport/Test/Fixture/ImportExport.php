@@ -1,0 +1,86 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\ImportExport\Test\Fixture;
+
+use Mtf\Fixture\InjectableFixture;
+
+/**
+ * Class ImportExport
+ *
+ * @package Magento\ImportExport\Test\Fixture
+ */
+class ImportExport extends InjectableFixture
+{
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\ImportExport\Test\Repository\ImportExport';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\ImportExport\Test\Handler\ImportExport\ImportExportInterface';
+
+    protected $defaultDataSet = [
+        'entity' => 'Products',
+        'behavior' => 'CSV',
+    ];
+
+    protected $id = [
+        'attribute_code' => 'id',
+        'backend_type' => 'int',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $entity = [
+        'attribute_code' => 'entity',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $behavior = [
+        'attribute_code' => 'behavior',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => 'append',
+        'input' => '',
+    ];
+
+    protected $data_export = [
+        'attribute_code' => 'data',
+        'backend_type' => 'longtext',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    public function getId()
+    {
+        return $this->getData('id');
+    }
+
+    public function getEntity()
+    {
+        return $this->getData('entity');
+    }
+
+    public function getBehavior()
+    {
+        return $this->getData('behavior');
+    }
+
+    public function getDataExport()
+    {
+        return $this->getData('data_export');
+    }
+}

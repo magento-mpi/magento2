@@ -1,0 +1,3 @@
+"attribute/dataset";"isRequired";"constraint"
+"attribute_type_text_field";"Yes";"assertSuccessDeletedAttribute, assertAbsenceProductAttributeInGrid, assertAbsenceInAddAttributeSearch, assertAbsenceProductAttributeForExport"
+"attribute_type_dropdown";"No";"assertSuccessDeletedAttribute, assertAbsenceProductAttributeInGrid, assertAbsenceInAddAttributeSearch, assertAbsenceProductAttributeForExport"
