@@ -356,6 +356,12 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
             foreach ($this->_getTypes() as $type) {
                 $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
                 if (count($redundant)) {
+                    // Override if there were hard dependencies found but the code may not be activated if the optional
+                    // is not activated, so they are really soft dependencies
+                    $hardDependencyCount = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_FOUND);
+                    if ($type == self::TYPE_SOFT && count($hardDependencyCount)) {
+                        continue;
+                    }
                     $result[] = sprintf(
                         "\r\nModule %s: %s [%s]",
                         $module,
