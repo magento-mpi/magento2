@@ -14,7 +14,7 @@ class CustomersegmentTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks if child 'grid' block is found in
-     * Magento/CustomerSegment/view/adminhtml/report/detail/grid/container.phtml
+     * Magento/CustomerSegment/view/adminhtml/templates/report/detail/grid/container.phtml
      *
      * @magentoDataFixture Magento/CustomerSegment/_files/segment.php
      */
