@@ -210,18 +210,26 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             }
         }
 
+        $ifValueId = $this->getConnection()->getIfNullSql('t2.value', 't1.value');
         foreach ($tables as $table => $attributeIds) {
             $selects[] = $this->getConnection()->select()->from(
                 array('t1' => $table),
                 'entity_id'
+            )->joinLeft(
+                array('t2' => $table),
+                $this->getConnection()->quoteInto(
+                    't1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id = ?',
+                    $this->getStoreId()
+                ),
+                array()
             )->where(
                 't1.attribute_id IN (?)',
                 $attributeIds
             )->where(
-                't1.store_id IN (?)',
-                array(0, $this->getStoreId())
+                't1.store_id = ?',
+                0
             )->where(
-                $this->_resourceHelper->getCILike('t1.value', $this->_searchQuery, $likeOptions)
+                $this->_resourceHelper->getCILike($ifValueId, $this->_searchQuery, $likeOptions)
             );
         }
 
@@ -230,7 +238,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inherent unions may be inside
         }
 
-        $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION);
+        $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
 
