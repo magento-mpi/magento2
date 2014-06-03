@@ -793,7 +793,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function canCancel()
     {
-        if (!$this->canVoidPayment()) {
+        if (!$this->_canVoidOrder()) {
             return false;
         }
         if ($this->canUnhold()) {
