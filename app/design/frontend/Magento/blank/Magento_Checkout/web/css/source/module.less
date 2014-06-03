@@ -567,9 +567,6 @@
         @_icon-font-color-active: @color-primary
     );
     float: right;
-    margin-left: 30px;
-    right: 15px;
-    position: absolute;
     .block.minicart {
         right: -15px;
         width: 320px;
@@ -648,6 +645,9 @@
         );
         white-space: nowrap;
         .counter.qty {
+            &.empty {
+               display:none;
+            }
             background: @color-active;
             border-radius: 2px;
             color: #fff;
@@ -707,8 +707,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .minicart.wrapper {
-        position: relative;
-        right: inherit;
+        margin-left: 30px;
         .block.minicart {
             width: 380px;
         }
