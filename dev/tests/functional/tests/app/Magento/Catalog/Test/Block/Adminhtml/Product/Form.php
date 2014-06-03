@@ -297,4 +297,17 @@ class Form extends FormTabs
 
         return $this;
     }
+
+    /**
+     * Check visibility of the attribute on the product page
+     *
+     * @param string $attributeLabel
+     * @return bool
+     */
+    public function checkAttributeLabel($attributeLabel)
+    {
+        $attributeLabelLocator = sprintf(".//*[contains(@class,'label')]/span[text()='%s']", $attributeLabel);
+
+        return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
+    }
 }

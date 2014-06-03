@@ -18,6 +18,13 @@ class CatalogProductSimple extends AbstractRepository
 {
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['default'] = [
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 10, 'preset' => ''],
+            'weight' => 1
+        ];
+
         $this->_data['100_dollar_product'] = [
             'sku' => '100_dollar_product%isolation%',
             'name' => '100_dollar_product%isolation%',

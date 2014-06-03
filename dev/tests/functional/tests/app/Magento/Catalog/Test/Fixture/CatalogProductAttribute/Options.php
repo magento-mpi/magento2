@@ -72,8 +72,8 @@ class Options implements FixtureInterface
             'default' => [
                 [
                     'is_default' => 'Yes',
-                    'admin' => 'Admin',
-                    'view' => 'Electronics',
+                    'admin' => 'blue',
+                    'view' => '',
                 ]
             ],
         ];

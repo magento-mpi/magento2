@@ -18,12 +18,12 @@ class CatalogProductAttribute extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogAttributeEntity';
+    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogProductAttribute';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogAttributeEntity\CatalogAttributeEntityInterface';
+    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogProductAttribute\CatalogProductAttributeInterface';
 
     protected $defaultDataSet = [
         'frontend_label' => 'attribute_label%isolation%',

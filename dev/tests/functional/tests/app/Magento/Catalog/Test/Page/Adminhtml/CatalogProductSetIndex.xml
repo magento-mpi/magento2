@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/product_set/index" >
+    <block>
+        <name>pageActionsBlock</name>
+        <class>Magento\Backend\Test\Block\GridPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>blockAttributeSetGrid</name>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Grid</class>
+        <locator>#setGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

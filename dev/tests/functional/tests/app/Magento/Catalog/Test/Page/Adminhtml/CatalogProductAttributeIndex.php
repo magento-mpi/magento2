@@ -6,12 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Adminhtml;
+namespace Magento\Catalog\Test\Page\Adminhtml; 
 
-use Mtf\Page\BackendPage;
+use Mtf\Page\BackendPage; 
 
 /**
  * Class CatalogProductAttributeIndex
+ *
+ * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductAttributeIndex extends BackendPage
 {
@@ -19,15 +21,21 @@ class CatalogProductAttributeIndex extends BackendPage
 
     protected $_blocks = [
         'messagesBlock' => [
-            'name' => 'messageBlock',
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'blockPageActionsAttribute',
+            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
-            'locator' => '.page-main-actions',
+            'locator' => '#page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'blockAttributeGrid' => [
+            'name' => 'blockAttributeGrid',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Grid',
+            'locator' => '#attributeGrid',
             'strategy' => 'css selector',
         ],
     ];
@@ -35,7 +43,7 @@ class CatalogProductAttributeIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
     }
@@ -46,5 +54,13 @@ class CatalogProductAttributeIndex extends BackendPage
     public function getPageActionsBlock()
     {
         return $this->getBlockInstance('pageActionsBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Grid
+     */
+    public function getBlockAttributeGrid()
+    {
+        return $this->getBlockInstance('blockAttributeGrid');
     }
 }

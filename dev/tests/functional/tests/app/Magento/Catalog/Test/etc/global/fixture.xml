@@ -204,4 +204,9 @@
         </entities>
         <collection>Magento\Catalog\Model\Resource\Attribute</collection>
     </catalogProductAttribute>
+    <catalogProductTemplate module="Magento_Catalog">
+        <type>flat</type>
+        <entity_type>eav_attribute_set</entity_type>
+        <collection>Magento\Catalog\Model\Resource\Product\Link\Product\Collection</collection>
+    </catalogProductTemplate>
 </fixture>
