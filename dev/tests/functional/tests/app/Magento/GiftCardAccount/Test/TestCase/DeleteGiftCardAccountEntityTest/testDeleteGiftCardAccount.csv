@@ -1,0 +1,2 @@
+"giftCardAccount/dataSet";"product/data/status";"product/data/is_redeemable";"product/data/website_id";"product/data/balance";"product/data/date_expires";"constraint"
+"default";"-";"-";"-";"-";"-";"assertGiftCardAccountSuccessDeleteMessage, assertGiftCardAccountNotInGrid, assertGiftCardAccountIsNotUsableInCartOnFrontend, assertGiftCardAccountNotRedeemableOnFrontend"
