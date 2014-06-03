@@ -30,9 +30,10 @@ class ProductMapper
     }
 
     /**
-     * @param Product $product
-     * @param \Magento\Catalog\Model\Product $productModel
+     * @param  Product $product
+     * @param  \Magento\Catalog\Model\Product $productModel
      * @return \Magento\Catalog\Model\Product
+     * @throws \RuntimeException
      */
     public function toModel(
         Product $product,

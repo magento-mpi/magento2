@@ -16,7 +16,7 @@ interface ProductServiceInterface
     /**
      * Get product info
      *
-     * @param int $id
+     * @param  string $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @return \Magento\Catalog\Service\V1\Data\Product $product
      */
@@ -25,7 +25,7 @@ interface ProductServiceInterface
     /**
      * Delete product
      *
-     * @param int $id
+     * @param  string $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
@@ -35,23 +35,23 @@ interface ProductServiceInterface
     /**
      * Save product process
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @param  \Magento\Catalog\Service\V1\Data\Product $product
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int ID
+     * @return string id
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * Update product process
      *
-     * @param string $id
-     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @param  string $id
+     * @param  \Magento\Catalog\Service\V1\Data\Product $product
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return int ID
+     * @return string id
      */
     public function update($id, \Magento\Catalog\Service\V1\Data\Product $product);
 
