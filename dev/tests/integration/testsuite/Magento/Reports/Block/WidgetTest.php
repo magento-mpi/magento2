@@ -69,8 +69,8 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
             $containers[] = $block['container_name'];
         }
 
-        $this->assertContains('left', $containers);
+        $this->assertContains('sidebar.main', $containers);
         $this->assertContains('content', $containers);
-        $this->assertContains('right', $containers);
+        $this->assertContains('sidebar.additional', $containers);
     }
 }
