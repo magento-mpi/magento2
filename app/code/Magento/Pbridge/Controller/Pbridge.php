@@ -147,6 +147,8 @@ class Pbridge extends \Magento\Framework\App\Action\Action
 
     /**
      * Redirect to Onepage checkout success page
+     *
+     * @return void
      */
     public function onepagesuccessAction()
     {
@@ -156,6 +158,8 @@ class Pbridge extends \Magento\Framework\App\Action\Action
 
     /**
      * Review success action
+     *
+     * @return void
      */
     public function cancelAction()
     {

@@ -31,6 +31,8 @@ class PbridgeIpn extends \Magento\Framework\App\Action\Action
 
     /**
      * Payone IPN action
+     *
+     * @return void
      */
     public function payoneAction()
     {

@@ -44,7 +44,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      */
     public function isAvailable($quote = null)
     {
-        if (!parent::isAvailable($quote)){
+        if (!parent::isAvailable($quote)) {
             return false;
         }
 

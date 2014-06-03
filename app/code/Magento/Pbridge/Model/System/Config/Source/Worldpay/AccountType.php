@@ -10,6 +10,9 @@ namespace Magento\Pbridge\Model\System\Config\Source\Worldpay;
 
 class AccountType
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

@@ -10,6 +10,9 @@ namespace Magento\Pbridge\Model\System\Config\Source\Ogone;
 
 class Country
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

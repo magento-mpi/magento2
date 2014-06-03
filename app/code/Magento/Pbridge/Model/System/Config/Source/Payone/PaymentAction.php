@@ -12,6 +12,9 @@ use Magento\Payment\Model\Method\AbstractMethod;
 
 class PaymentAction
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

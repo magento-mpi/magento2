@@ -295,8 +295,9 @@ class Ipn
     /**
      * Notify Administrator about exceptional situation
      *
-     * @param $message
+     * @param string $message
      * @param \Exception $exception
+     * @return void
      */
     protected function _notifyAdmin($message, \Exception $exception = null)
     {

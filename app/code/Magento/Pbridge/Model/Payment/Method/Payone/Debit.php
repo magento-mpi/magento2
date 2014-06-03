@@ -23,7 +23,7 @@ class Debit extends \Magento\Pbridge\Model\Payment\Method
      */
     protected $_infoBlockType = 'Magento\Pbridge\Block\Payment\Info\Payone\Debit';
 
-    /**
+    /**#@+
      * Availability options
      */
     protected $_canAuthorize = true;
@@ -36,4 +36,5 @@ class Debit extends \Magento\Pbridge\Model\Payment\Method
     protected $_canUseCheckout = true;
     protected $_canUseForMultishipping = false;
     protected $_canSaveCc = false;
+    /**#@-*/
 }
