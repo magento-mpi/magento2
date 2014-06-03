@@ -267,7 +267,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function addLinkLimitation($collection)
     {
-        if (is_callable([$collection, 'getLinkModel']) || $collection->getFlag('is_link_collection')) {
+        if (method_exists($collection, 'getLinkModel') || $collection->getFlag('is_link_collection')) {
             $collection->getSelect()->where(
                 'perm.grant_catalog_product_price != ?' . ' OR perm.grant_catalog_product_price IS NULL',
                 Permission::PERMISSION_DENY

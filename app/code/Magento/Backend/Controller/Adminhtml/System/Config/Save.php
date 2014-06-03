@@ -166,7 +166,7 @@ class Save extends AbstractConfig
     protected function _saveSection()
     {
         $method = '_save' . $this->string->upperCaseWords($this->getRequest()->getParam('section'), '_', '');
-        if (is_callable([$this, $method])) {
+        if (method_exists($this, $method)) {
             $this->{$method}();
         }
     }

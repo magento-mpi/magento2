@@ -1373,7 +1373,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function getIsSalable()
     {
         $productType = $this->getTypeInstance();
-        if (is_callable([$productType, 'getIsSalable'])) {
+        if (method_exists($productType, 'getIsSalable')) {
             return $productType->getIsSalable($this);
         }
         if ($this->hasData('is_salable')) {
