@@ -15,6 +15,19 @@ class WebapiObjectManager implements \Magento\Framework\ObjectManager
     private $configuration;
 
     /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $factory;
+
+    /**
+     * @param \Magento\TestFramework\Helper\ObjectManager $factory
+     */
+    public function __construct(\Magento\TestFramework\Helper\ObjectManager $factory)
+    {
+        $this->factory = $factory;
+    }
+
+    /**
      * Create new object instance
      *
      * @param string $type
@@ -23,7 +36,7 @@ class WebapiObjectManager implements \Magento\Framework\ObjectManager
      */
     public function create($type, array $arguments = array())
     {
-        return new $type($arguments);
+        return $this->factory->getObject($type, $arguments);
     }
 
     /**
@@ -34,7 +47,7 @@ class WebapiObjectManager implements \Magento\Framework\ObjectManager
      */
     public function get($type)
     {
-        return new $type();
+        return $this->factory->getObject($type);
     }
 
     /**
