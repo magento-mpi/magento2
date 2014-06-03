@@ -8,13 +8,13 @@
 namespace Magento\Rma\Controller;
 
 /**
- * Class ReturnsTest
+ * Class GuestTest
  * @package Magento\Rma\Controller
  */
-class ReturnsTest extends \PHPUnit_Framework_TestCase
+class GuestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Returns
+     * @var Guest
      */
     protected $controller;
 
@@ -84,10 +84,10 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             ->method('getUrl')
             ->will($this->returnValue($this->url));
 
-        $this->coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $this->coreRegistry = $this->getMock('Magento\Framework\Registry', ['registry'], [], '', false);
 
         $this->controller = $objectManagerHelper->getObject(
-            'Magento\Rma\Controller\Returns',
+            'Magento\Rma\Controller\Guest',
             [
                 'coreRegistry' => $this->coreRegistry,
                 'context' => $context
@@ -98,13 +98,7 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
     public function testCreateAction()
     {
         $orderId = 2;
-        $customerId = 5;
         $post = ['customer_custom_email' => true, 'items' => ['1', '2'], 'rma_comment' => 'comment'];
-
-        $this->request->expects($this->once())
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
 
         $order = $this->getMock(
             'Magento\Sales\Model\Order',
@@ -113,16 +107,9 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $order->expects($this->once())
-            ->method('load')
-            ->with($orderId)
-            ->will($this->returnSelf());
         $order->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($orderId));
-        $order->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue($customerId));
 
         $dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
         $rma = $this->getMock('Magento\Rma\Model\Rma', [], [], '', false);
@@ -139,15 +126,16 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             ->method('canCreateRma')
             ->with($orderId)
             ->will($this->returnValue(true));
-        $session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
-        $session->expects($this->once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($customerId));
+        $guestHelper = $this->getMock('Magento\Sales\Helper\Guest', [], [], '', false);
+        $guestHelper->expects($this->once())
+            ->method('loadValidOrder')
+            ->with($this->request, $this->response)
+            ->will($this->returnValue(true));
 
         $this->objectManager->expects($this->at(0))
-            ->method('create')
-            ->with('Magento\Sales\Model\Order')
-            ->will($this->returnValue($order));
+            ->method('get')
+            ->with('Magento\Sales\Helper\Guest')
+            ->will($this->returnValue($guestHelper));
         $this->objectManager->expects($this->at(1))
             ->method('get')
             ->with('Magento\Rma\Helper\Data')
@@ -157,18 +145,14 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Framework\Stdlib\DateTime\DateTime')
             ->will($this->returnValue($dateTime));
         $this->objectManager->expects($this->at(3))
-            ->method('get')
-            ->with('Magento\Customer\Model\Session')
-            ->will($this->returnValue($session));
-        $this->objectManager->expects($this->at(4))
             ->method('create')
             ->with('Magento\Rma\Model\Rma')
             ->will($this->returnValue($rma));
-        $this->objectManager->expects($this->at(5))
+        $this->objectManager->expects($this->at(4))
             ->method('create')
             ->with('Magento\Rma\Model\Rma\Status\History')
             ->will($this->returnValue($history1));
-        $this->objectManager->expects($this->at(6))
+        $this->objectManager->expects($this->at(5))
             ->method('create')
             ->with('Magento\Rma\Model\Rma\Status\History')
             ->will($this->returnValue($history2));
@@ -176,6 +160,10 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
         $this->request->expects($this->once())
             ->method('getPost')
             ->will($this->returnValue($post));
+        $this->coreRegistry->expects($this->once())
+            ->method('registry')
+            ->with('current_order')
+            ->will($this->returnValue($order));
 
         $this->controller->createAction();
     }
@@ -183,7 +171,7 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
     public function testAddCommentAction()
     {
         $entityId = 7;
-        $customerId = 8;
+        $orderId = 5;
         $comment = 'comment';
 
         $this->request->expects($this->any())
@@ -200,7 +188,19 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $rma = $this->getMock('Magento\Rma\Model\Rma', ['__wakeup', 'load', 'getCustomerId', 'getId'], [], '', false);
+        $guestHelper = $this->getMock('Magento\Sales\Helper\Guest', [], [], '', false);
+        $guestHelper->expects($this->once())
+            ->method('loadValidOrder')
+            ->with($this->request, $this->response)
+            ->will($this->returnValue(true));
+
+        $rma = $this->getMock(
+            'Magento\Rma\Model\Rma',
+            ['__wakeup', 'load', 'getCustomerId', 'getId', 'getOrderId'],
+            [],
+            '',
+            false
+        );
         $rma->expects($this->once())
             ->method('load')
             ->with($entityId)
@@ -209,13 +209,19 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($entityId));
         $rma->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue($customerId));
+            ->method('getOrderId')
+            ->will($this->returnValue($orderId));
 
-        $session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
-        $session->expects($this->once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($customerId));
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['__wakeup', 'getCustomerId', 'load', 'getId'],
+            [],
+            '',
+            false
+        );
+        $order->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($orderId));
 
         $history = $this->getMock('Magento\Rma\Model\Rma\Status\History', [], [], '', false);
         $history->expects($this->once())
@@ -229,17 +235,26 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Rma\Helper\Data')
             ->will($this->returnValue($rmaHelper));
         $this->objectManager->expects($this->at(1))
+            ->method('get')
+            ->with('Magento\Sales\Helper\Guest')
+            ->will($this->returnValue($guestHelper));
+        $this->objectManager->expects($this->at(2))
             ->method('create')
             ->with('Magento\Rma\Model\Rma')
             ->will($this->returnValue($rma));
-        $this->objectManager->expects($this->at(2))
-            ->method('get')
-            ->with('Magento\Customer\Model\Session')
-            ->will($this->returnValue($session));
         $this->objectManager->expects($this->at(3))
             ->method('create')
             ->with('Magento\Rma\Model\Rma\Status\History')
             ->will($this->returnValue($history));
+
+        $this->coreRegistry->expects($this->at(0))
+            ->method('registry')
+            ->with('current_order')
+            ->will($this->returnValue($order));
+        $this->coreRegistry->expects($this->at(1))
+            ->method('registry')
+            ->with('current_rma')
+            ->will($this->returnValue($rma));
 
         $this->controller->addCommentAction();
     }

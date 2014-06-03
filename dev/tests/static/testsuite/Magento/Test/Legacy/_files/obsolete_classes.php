@@ -2563,4 +2563,9 @@ return array(
     ['Magento\Css\PreProcessor\Cache\CacheInterface'],
     ['Magento\Css\PreProcessor\Cache\CacheManager'],
     ['Magento\Framework\View\Design\FileResolution\Strategy\ViewInterface'],
+    [
+        'Magento\Bundle\Pricing\Price\BasePrice',
+        'Magento\Catalog\Pricing\Price\BasePrice'
+    ],
+    ['\Magento\Bundle\Pricing\Price\BasePriceInterface'],
 );
