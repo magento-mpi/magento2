@@ -334,6 +334,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
     /**
      * @param array $files
+     * @return null
      */
     protected function removeDeletedImages(array $files)
     {
