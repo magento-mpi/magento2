@@ -2,15 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
-
 
 class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,24 +29,24 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_priceProcessorMock = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Product\Price\Processor', array('markIndexerAsInvalid'), array(), '', false
+            'Magento\Catalog\Model\Indexer\Product\Price\Processor',
+            array('markIndexerAsInvalid'),
+            array(),
+            '',
+            false
         );
 
         $this->_model = $this->_objectManager->getObject(
             '\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Website',
-            array(
-                'processor' => $this->_priceProcessorMock
-            )
+            array('processor' => $this->_priceProcessorMock)
         );
     }
 
     public function testAfterDelete()
     {
-        $this->_priceProcessorMock->expects($this->once())
-            ->method('markIndexerAsInvalid');
+        $this->_priceProcessorMock->expects($this->once())->method('markIndexerAsInvalid');
 
-        $websiteMock = $this->getMock('Magento\Core\Model\Resource\Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Store\Model\Resource\Website', array(), array(), '', false);
         $this->assertEquals('return_value', $this->_model->afterDelete($websiteMock, 'return_value'));
     }
-
 }

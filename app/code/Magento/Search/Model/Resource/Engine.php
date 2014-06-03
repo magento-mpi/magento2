@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Search\Model\Resource;
 /**
  * Search engine resource model
  *
- * @category    Magento
- * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
@@ -46,10 +42,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      *
      * @var string[]
      */
-    protected $_advancedDynamicIndexFields = array(
-        '#position_category_',
-        '#price_'
-    );
+    protected $_advancedDynamicIndexFields = array('#position_category_', '#price_');
 
     /**
      * Catalog product visibility
@@ -89,14 +82,14 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -106,8 +99,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
     public function __construct(
@@ -116,8 +109,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollectionFactory = $searchCollectionFactory;
@@ -126,7 +119,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_adapter = $searchFactory->getFactory()->createAdapter();
         $this->_searchResource = $searchResource;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_initAdapter();
     }
@@ -138,12 +131,13 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected function _canHoldCommit()
     {
-        $commitMode = $this->_coreStoreConfig->getConfig(
-            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+        $commitMode = $this->_scopeConfig->getValue(
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
-            || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
+        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL ||
+            $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
     }
 
     /**
@@ -153,12 +147,13 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected function _canAllowCommit()
     {
-        $commitMode = $this->_coreStoreConfig->getConfig(
-            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+        $commitMode = $this->_scopeConfig->getValue(
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
-            || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;
+        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL ||
+            $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;
     }
 
     /**
@@ -281,10 +276,10 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $storeIds = array_keys($this->_storeManager->getStores());
         } else {
-            $storeIds = (array) $storeIds;
+            $storeIds = (array)$storeIds;
         }
 
         $queries = array();
@@ -293,7 +288,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
                 $queries[] = 'store_id:' . $storeId;
             }
         } else {
-            $entityIds = (array) $entityIds;
+            $entityIds = (array)$entityIds;
             $uniqueKey = $this->_adapter->getUniqueKey();
             foreach ($storeIds as $storeId) {
                 foreach ($entityIds as $entityId) {
@@ -553,9 +548,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         $advancedIndex = array();
 
         foreach ($productData as $field => $value) {
-            if (in_array($field, $this->_advancedStaticIndexFields)
-                || $this->_isDynamicField($field)
-            ) {
+            if (in_array($field, $this->_advancedStaticIndexFields) || $this->_isDynamicField($field)) {
                 if (!empty($value)) {
                     $advancedIndex[$field] = $value;
                 }

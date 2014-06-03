@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Widget;
 /**
  * Button widget
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Button extends \Magento\Backend\Block\Widget
@@ -74,9 +70,7 @@ class Button extends \Magento\Backend\Block\Widget
             $classes[] = $disabled;
         }
 
-        return $this->_attributesToHtml(
-            $this->_prepareAttributes($title, $classes, $disabled)
-        );
+        return $this->_attributesToHtml($this->_prepareAttributes($title, $classes, $disabled));
     }
 
     /**
@@ -90,15 +84,15 @@ class Button extends \Magento\Backend\Block\Widget
     protected function _prepareAttributes($title, $classes, $disabled)
     {
         $attributes = array(
-            'id'        => $this->getId(),
-            'name'      => $this->getElementName(),
-            'title'     => $title,
-            'type'      => $this->getType(),
-            'class'     => join(' ', $classes),
-            'onclick'   => $this->getOnClick(),
-            'style'     => $this->getStyle(),
-            'value'     => $this->getValue(),
-            'disabled'  => $disabled,
+            'id' => $this->getId(),
+            'name' => $this->getElementName(),
+            'title' => $title,
+            'type' => $this->getType(),
+            'class' => join(' ', $classes),
+            'onclick' => $this->getOnClick(),
+            'style' => $this->getStyle(),
+            'value' => $this->getValue(),
+            'disabled' => $disabled
         );
         if ($this->getDataAttribute()) {
             foreach ($this->getDataAttribute() as $key => $attr) {
@@ -121,8 +115,7 @@ class Button extends \Magento\Backend\Block\Widget
             if ($attributeValue === null || $attributeValue == '') {
                 continue;
             }
-            $html .= $attributeKey . '="'
-                . $this->escapeHtml($attributeValue) . '" ';
+            $html .= $attributeKey . '="' . $this->escapeHtml($attributeValue) . '" ';
         }
 
         return $html;

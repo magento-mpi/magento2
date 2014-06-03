@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name;
 
 class Grouped extends \Magento\Sales\Block\Adminhtml\Items\Column\Name

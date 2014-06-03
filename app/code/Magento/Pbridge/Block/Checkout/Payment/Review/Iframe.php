@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Dibs payment block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento
  */
 namespace Magento\Pbridge\Block\Checkout\Payment\Review;
@@ -34,19 +30,21 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     protected $_pbridgeSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_pbridgeSession = $pbridgeSession;
@@ -56,6 +54,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
+            $httpContext,
             $data
         );
     }

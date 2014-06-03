@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
@@ -19,12 +16,10 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testButtons()
     {
-        $themeMock  =  $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, array(), '', false);
+        $themeMock = $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, array(), '', false);
         $buttonMock = $this->getMock('StdClass', array('toHtml'));
 
-        $buttonMock->expects($this->once())
-            ->method('toHtml')
-            ->will($this->returnValue('Block html data'));
+        $buttonMock->expects($this->once())->method('toHtml')->will($this->returnValue('Block html data'));
 
         $themeMock->addButton($buttonMock);
         $this->assertEquals('Block html data', $themeMock->getButtonsHtml());

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,28 +12,26 @@ use Magento\Downloadable\Model\Link\Purchased\Item;
 /**
  * Downloadable helper
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
@@ -51,10 +47,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         switch ($link->getIsShareable()) {
             case \Magento\Downloadable\Model\Link::LINK_SHAREABLE_YES:
             case \Magento\Downloadable\Model\Link::LINK_SHAREABLE_NO:
-                $shareable = (bool) $link->getIsShareable();
+                $shareable = (bool)$link->getIsShareable();
                 break;
             case \Magento\Downloadable\Model\Link::LINK_SHAREABLE_CONFIG:
-                $shareable = (bool) $this->_coreStoreConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_CONFIG_IS_SHAREABLE);
+                $shareable = (bool)$this->_scopeConfig->isSetFlag(
+                    \Magento\Downloadable\Model\Link::XML_PATH_CONFIG_IS_SHAREABLE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
         }
         return $shareable;
     }

@@ -30,31 +30,44 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_invitationStatus;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
+     */
+    protected $currentCustomer;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_invitationFactory = $invitationFactory;
         $this->_invitationStatus = $invitationStatus;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
         $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -65,9 +78,11 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function getInvitationCollection()
     {
         if (!$this->hasInvitationCollection()) {
-            $this->setData('invitation_collection', $this->_invitationFactory->create()->getCollection()
-                ->addOrder('invitation_id', \Magento\Data\Collection::SORT_ORDER_DESC)
-                ->loadByCustomerId($this->_customerSession->getCustomerId())
+            $this->setData(
+                'invitation_collection',
+                $this->_invitationFactory->create()->getCollection()
+                ->addOrder('invitation_id', \Magento\Framework\Data\Collection::SORT_ORDER_DESC)
+                ->loadByCustomerId($this->currentCustomer->getCustomerId())
             );
         }
         return $this->_getData('invitation_collection');

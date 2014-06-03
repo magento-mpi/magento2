@@ -10,9 +10,10 @@ namespace Magento\Customer\Service\V1\Data;
 /**
  * Class CustomerDetails
  */
-class CustomerDetails extends \Magento\Service\Data\AbstractObject
+class CustomerDetails extends \Magento\Framework\Service\Data\AbstractObject
 {
     const KEY_CUSTOMER = 'customer';
+
     const KEY_ADDRESSES = 'addresses';
 
     /**

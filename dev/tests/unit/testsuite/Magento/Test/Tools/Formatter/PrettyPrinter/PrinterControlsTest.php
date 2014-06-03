@@ -62,7 +62,7 @@ class PrinterControlsTest extends TestBase
                 "<?php\nclass L2\n{\n    public function a()\n    {\n        try {\n" .
                 "            echo 'hi';\n        } catch (\\Exception \$e) {\n            echo 'lo';\n        }\n" .
                 "    }\n}\n"
-            ),
+            )
         );
     }
 
@@ -90,7 +90,7 @@ protected function alpha() {
             throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
-        ){throw new \Magento\Core\Exception($response->getRespmsg());}}}
+        ){throw new \Magento\Framework\Model\Exception($response->getRespmsg());}}}
 ORIGINALIF5;
         $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
@@ -103,7 +103,7 @@ class If5
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Core\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
     }
 }
@@ -164,7 +164,7 @@ FORMATTEDIF6;
                 "        }\n    }\n}\n"
             ),
             array($originalIf5, $formattedIf5),
-            array($originalIf6, $formattedIf6),
+            array($originalIf6, $formattedIf6)
         );
     }
 
@@ -304,7 +304,7 @@ class TestIfCase{
             $files = array_merge($files,glob($this->_path . '/*.php', GLOB_NOSORT),
                 glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                 self::getFiles(array("{$this->_path}/downloader"), '*.php'),
-                self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+                self::getFiles(array("{$this->_path}/lib/internal/{Mage,Magento,Varien}"), '*.php')
             );
         }}}
 ORIGINALCODESNIPPET;
@@ -320,7 +320,7 @@ class TestIfCase
                 glob($this->_path . '/*.php', GLOB_NOSORT),
                 glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                 self::getFiles(array("{$this->_path}/downloader"), '*.php'),
-                self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+                self::getFiles(array("{$this->_path}/lib/internal/{Mage,Magento,Varien}"), '*.php')
             );
         }
     }
@@ -332,8 +332,8 @@ FORMATTEDCODESNIPPET;
 function alpha() {
 if ($ftp) {
     $cwd=$ftpObj->getcwd();
-    $dir=$cwd . DIRECTORY_SEPARATOR .$config->downloader_path . DIRECTORY_SEPARATOR
-        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . DIRECTORY_SEPARATOR . trim( $pChan, "\\/");
+    $dir=$cwd . '/' .$config->downloader_path . '/'
+        . \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
     $ftpObj->mkdirRecursive($dir,0777);
     $ftpObj->chdir($cwd);
 } else {
@@ -348,11 +348,11 @@ function alpha()
     if ($ftp) {
         $cwd = $ftpObj->getcwd();
         $dir = $cwd .
-            DIRECTORY_SEPARATOR .
+            '/' .
             $config->downloader_path .
-            DIRECTORY_SEPARATOR .
-            \Magento\Connect\Config::DEFAULT_CACHE_PATH .
-            DIRECTORY_SEPARATOR .
+            '/' .
+            \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH .
+            '/' .
             trim(
             $pChan,
             "\\/"
@@ -420,7 +420,7 @@ FORMATTEDCLOSURE2;
 class CSample3 {
     public function cS3() {
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+            /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
             return $fileTheme->getThemeId();
         }, $themes));}}
 ORIGINALCLOSURE3;
@@ -434,7 +434,7 @@ class CSample3
             array($codeDir, $jsDir),
             array_map(
                 function ($fileTheme) {
-                    /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+                    /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
                     return $fileTheme->getThemeId();
                 },
                 $themes
@@ -533,7 +533,7 @@ FC6;
 <?php
 class CSample7 {
     public function cS7() {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );
@@ -545,7 +545,7 @@ class CSample7
 {
     public function cS7()
     {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );
@@ -610,11 +610,11 @@ class MC3 { public function mC3(){
         if ($this->_role->getWebsiteIds()) {
             return $this->_redirect($controller, $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode())
                 ));}
         $this->_redirect($controller, $this->_backendUrl->getUrl('adminhtml/system_config/edit', array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode())
+                    'website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getDefaultStoreView()->getCode())
                 ));}}
 OMC3;
         $formattedMethodCall3 = <<<'FMC3'
@@ -629,7 +629,7 @@ class MC3
                 $controller,
                 $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode())
                 )
             );
         }
@@ -638,8 +638,8 @@ class MC3
             $this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
+                    'website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getDefaultStoreView()->getCode()
                 )
             )
         );
@@ -732,7 +732,7 @@ FS0;
             array($originalMethodCall2, $formattedMethodCall2),
             array($originalMethodCall3, $formattedMethodCall3),
             array($originalMethodCall4, $formattedMethodCall4),
-            array($originalSwitch, $formattedSwitch),
+            array($originalSwitch, $formattedSwitch)
         );
     }
 }

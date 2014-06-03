@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,31 +9,28 @@
 /**
  * Gift wrapping order items view block
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class Items
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
+class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemsInfo()
     {
         $data = array();
         foreach ($this->getOrder()->getAllItems() as $item) {
             if ($this->getDisplayWrappingBothPrices()) {
-                 $temp['price_excl_tax'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());
-                 $temp['price_incl_tax'] = $this->_preparePrices(
+                $temp['price_excl_tax'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());
+                $temp['price_incl_tax'] = $this->_preparePrices(
                     $item->getGwBasePrice() + $item->getGwBaseTaxAmount(),
                     $item->getGwPrice() + $item->getGwTaxAmount()
-                 );
-            } else if ($this->getDisplayWrappingPriceInclTax()) {
+                );
+            } elseif ($this->getDisplayWrappingPriceInclTax()) {
                 $temp['price'] = $this->_preparePrices(
                     $item->getGwBasePrice() + $item->getGwBaseTaxAmount(),
                     $item->getGwPrice() + $item->getGwTaxAmount()
@@ -46,7 +41,7 @@ class Items
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

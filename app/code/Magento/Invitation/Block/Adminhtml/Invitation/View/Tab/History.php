@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,8 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 /**
  * Invitation view status history tab block
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
-class History
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class History extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -27,7 +21,7 @@ class History
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -40,13 +34,13 @@ class History
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         array $data = array()
     ) {
@@ -112,10 +106,12 @@ class History
      */
     public function getHistoryCollection()
     {
-        return $this->_historyFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
-            ->addOrder('history_id');
+        return $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'invitation_id',
+            $this->getInvitation()->getId()
+        )->addOrder(
+            'history_id'
+        );
     }
 
     /**
@@ -129,7 +125,7 @@ class History
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -146,7 +142,7 @@ class History
     public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
-            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

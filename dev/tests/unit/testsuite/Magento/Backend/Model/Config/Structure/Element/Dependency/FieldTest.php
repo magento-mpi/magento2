@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
@@ -17,9 +13,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      * SUT values
      */
     const SIMPLE_VALUE = 'someValue';
+
     const COMPLEX_VALUE1 = 'value_1';
+
     const COMPLEX_VALUE2 = 'value_2';
+
     const COMPLEX_VALUE3 = 'value_3';
+
     /**#@-*/
 
     /**
@@ -34,10 +34,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getSimpleData()
     {
-        return array(
-            'value' => self::SIMPLE_VALUE,
-            'dependPath' => array('section_2', 'group_3', 'field_4')
-        );
+        return array('value' => self::SIMPLE_VALUE, 'dependPath' => array('section_2', 'group_3', 'field_4'));
     }
 
     /**
@@ -99,7 +96,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array($this->_getSimpleData(), true),
             array($this->_getSimpleData(), false),
             array($this->_getComplexData(), true),
-            array($this->_getComplexData(), false),
+            array($this->_getComplexData(), false)
         );
     }
 
@@ -125,7 +122,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array($this->_getComplexData(), true, self::COMPLEX_VALUE1, false),
             array($this->_getComplexData(), false, self::COMPLEX_VALUE2, true),
             array($this->_getComplexData(), true, self::SIMPLE_VALUE, true),
-            array($this->_getComplexData(), false, self::SIMPLE_VALUE, false),
+            array($this->_getComplexData(), false, self::SIMPLE_VALUE, false)
         );
     }
 
@@ -147,7 +144,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array($this->_getSimpleData(), true, array(self::SIMPLE_VALUE)),
             array($this->_getSimpleData(), false, array(self::SIMPLE_VALUE)),
             array($this->_getComplexData(), true, $complexDataValues),
-            array($this->_getComplexData(), false, $complexDataValues),
+            array($this->_getComplexData(), false, $complexDataValues)
         );
     }
 }

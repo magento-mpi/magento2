@@ -2,24 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Block\Widget\Form\Renderer;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Form fieldset default renderer
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fieldset extends \Magento\Backend\Block\Template
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Fieldset extends \Magento\Backend\Block\Template implements \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * @var AbstractElement

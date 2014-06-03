@@ -23,7 +23,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Constructor
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -31,7 +31,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerAccountServiceInterface $customerAccountService,
@@ -39,7 +39,12 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
         array $data = array()
     ) {
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
         $this->_isScopePrivate = true;
     }

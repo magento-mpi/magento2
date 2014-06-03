@@ -2,14 +2,15 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
 namespace Magento\Tools\Translate;
 
-define('USAGE', <<<USAGE
+
+define(
+    'USAGE',
+<<<USAGE
  Create translation file(s) from e-mail templates of locale
   php -f GenerateEmailTemplates.php -- --locale <locale_NAME> --output <file|directory>
 
@@ -38,8 +39,7 @@ define('ACTION_SPLIT', 3);
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/template/');
 
-include(BASE_PATH . '/lib/Magento/File/Csv.php');
-
+include BASE_PATH . '/lib/internal/Magento/Framework/File/Csv.php';
 class GenerateEmailTemplates
 {
     /**
@@ -136,39 +136,37 @@ class GenerateEmailTemplates
         $translateName = null;
         $action = null;
 
-        foreach ($argv as $k=>$arg) {
-            switch($arg) {
+        foreach ($argv as $k => $arg) {
+            switch ($arg) {
                 case '--split':
-                    $inputName = @$argv[$k+1];
+                    $inputName = @$argv[$k + 1];
                     $this->_action = ACTION_SPLIT;
                     break;
 
                 case '--merge-locales':
-                    $inputName1 = @$argv[$k+1];
-                    $inputName2 = @$argv[$k+2];
-                    $outputName = @$argv[$k+3];
+                    $inputName1 = @$argv[$k + 1];
+                    $inputName2 = @$argv[$k + 2];
+                    $outputName = @$argv[$k + 3];
                     $this->_action = ACTION_MERGE_LOCALES;
                     break;
 
                 case '--output':
-                    $outputName = @$argv[$k+1];
+                    $outputName = @$argv[$k + 1];
                     break;
 
                 case '--locale':
-                    $localeName = @$argv[$k+1];
+                    $localeName = @$argv[$k + 1];
                     break;
 
                 case '--translate':
-                    $translateName = @$argv[$k+1];
+                    $translateName = @$argv[$k + 1];
                     break;
             }
         }
 
         if (ACTION_SPLIT == $this->_action) {
             if (!empty($inputName)) {
-                $this->_arguments = array(
-                    'inputName' => $inputName,
-                );
+                $this->_arguments = array('inputName' => $inputName);
                 return;
             }
         }
@@ -178,7 +176,7 @@ class GenerateEmailTemplates
                 $this->_arguments = array(
                     'inputName1' => $inputName1,
                     'inputName2' => $inputName2,
-                    'outputName' => $outputName,
+                    'outputName' => $outputName
                 );
                 return;
             }
@@ -190,19 +188,19 @@ class GenerateEmailTemplates
             return;
         }
 
-        if (file_exists($outputName) && !is_writable($outputName)){
+        if (file_exists($outputName) && !is_writable($outputName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("File '%s' exists and isn't writeable", $outputName));
             $this->_error = true;
             return;
         }
 
-        if (!is_dir(sprintf($this->_localePath, $localeName))){
+        if (!is_dir(sprintf($this->_localePath, $localeName))) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Locale '%s' was not found", $localeName));
             $this->_error = true;
             return;
         }
 
-        if (!is_readable(sprintf($this->_localePath, $localeName))){
+        if (!is_readable(sprintf($this->_localePath, $localeName))) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Locale '%s' is not readable", $localeName));
             $this->_error = true;
             return;
@@ -234,7 +232,6 @@ class GenerateEmailTemplates
         $this->_action = ACTION_PROCESS_TEMPLATE;
     }
 
-
     /**
      * Does not support flag GLOB_BRACE
      *
@@ -245,8 +242,7 @@ class GenerateEmailTemplates
     protected function globRecursive($pattern, $flags = 0)
     {
         $files = glob($pattern, $flags);
-        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
-        {
+        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir) {
             $files = array_merge($files, $this->globRecursive($dir . '/' . basename($pattern), $flags));
         }
         return $files;
@@ -263,11 +259,11 @@ class GenerateEmailTemplates
     protected function _getFilesToProcess($path, $pattern = "*.html")
     {
         $result = array();
-        $prefix = (substr($path, -1) == '/' ? $path : $path . '/');
+        $prefix = substr($path, -1) == '/' ? $path : $path . '/';
 
         $files = $this->globRecursive($prefix . $pattern);
         foreach ($files as $filename) {
-            $result[pathinfo($filename, PATHINFO_FILENAME)]=$filename;
+            $result[pathinfo($filename, PATHINFO_FILENAME)] = $filename;
         }
         return $result;
     }
@@ -293,45 +289,34 @@ class GenerateEmailTemplates
         $files = $this->_getFilesToProcess($localePath);
         $csv = null;
         if (!$outputSeparate) {
-            $csv = new \Magento\File\Csv();
+            $csv = new \Magento\Framework\File\Csv();
         }
 
-        foreach ($files as $alias=>$file){
+        foreach ($files as $alias => $file) {
             if ($outputSeparate) {
-                $csv = new \Magento\File\Csv();
+                $csv = new \Magento\Framework\File\Csv();
                 $resultData = array();
             }
 
-//            $data = $csv->getData($file);
+            //            $data = $csv->getData($file);
 
             $data = file_get_contents($file);
             //remove comments
-            $data = preg_replace(
-                array(
-                    '/\<\!\-\-[\s\S]*?\-\-\>/i',
-                    '/\{\*[\s\S]*?\*\}/i'
-                ),
-                '', $data
-            );
+            $data = preg_replace(array('/\<\!\-\-[\s\S]*?\-\-\>/i', '/\{\*[\s\S]*?\*\}/i'), '', $data);
             $strings = preg_match_all('/\s*(<[^>]+>)*\s*([^<>\n]+)*/i', $data, $matches, PREG_OFFSET_CAPTURE);
             if ($strings) {
                 $matchedGaps = array_reverse($matches[2]);
                 $_resultData = array();
-                foreach($matchedGaps as $found) {
-                    if(!is_array($found)) {
+                foreach ($matchedGaps as $found) {
+                    if (!is_array($found)) {
                         continue;
                     }
                     $offset = $found[1];
                     $key = trim(trim($found[0], "-,.: |\n\r"));
-                    $key = preg_replace(
-                        array(
-                            '/^\&[a-z0-9]{1,6}\;/',
-                            '/\&[a-z0-9]{1,6}\;$/'
-                        ), '', $key
-                    );
+                    $key = preg_replace(array('/^\&[a-z0-9]{1,6}\;/', '/\&[a-z0-9]{1,6}\;$/'), '', $key);
                     $key = trim(trim($key, ";,.: |\n\r"));
                     $varName = preg_match('/^\{\{[\s\S]*?\}\}$/i', $key);
-                    if(!empty($key) && !$varName) {
+                    if (!empty($key) && !$varName) {
                         //Use for debug:
                         //$resultData[] = array($alias, $key, '<span style="background:red;">'.$key.'</span>');
                         if ($outputSeparate) {
@@ -339,9 +324,18 @@ class GenerateEmailTemplates
                         } else {
                             $_resultData[] = array($alias, $key, $key);
                         }
-                        $data = substr($data, 0, $offset)
-                            . str_replace($key, '__(\''.$key.'\')__', substr($data, $offset, strlen($found[0])))
-                            . substr($data, $offset + strlen($found[0]));
+                        $data = substr(
+                            $data,
+                            0,
+                            $offset
+                        ) . str_replace(
+                            $key,
+                            '__(\'' . $key . '\')__',
+                            substr($data, $offset, strlen($found[0]))
+                        ) . substr(
+                            $data,
+                            $offset + strlen($found[0])
+                        );
                     }
                 }
                 $resultData = array_merge($resultData, array_reverse($_resultData));
@@ -372,7 +366,7 @@ class GenerateEmailTemplates
     protected function separateTranslations($inpuArray)
     {
         $resultArray = array();
-        foreach($inpuArray as $translateLine) {
+        foreach ($inpuArray as $translateLine) {
             $resultArray[$translateLine[0]]['from'][] = $translateLine[1];
             $resultArray[$translateLine[0]]['to'][] = $translateLine[2];
         }
@@ -387,19 +381,19 @@ class GenerateEmailTemplates
         $inputSeparate = is_dir($this->_translateName);
 
         if (!$inputSeparate) {
-            $translatedDirName = dirname($this->_translateName) . '/' . $this->_localeName.'_templates';
+            $translatedDirName = dirname($this->_translateName) . '/' . $this->_localeName . '_templates';
         } else {
-            $translatedDirName = $this->_translateName . $this->_localeName.'_templates';
+            $translatedDirName = $this->_translateName . $this->_localeName . '_templates';
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
             $strings = $this->separateTranslations($strings);
         }
 
-        foreach ($files as $alias=>$file){
+        foreach ($files as $alias => $file) {
             $template = file_get_contents($file);
 
             if ($inputSeparate) {
@@ -426,23 +420,27 @@ class GenerateEmailTemplates
     protected function splitTranslation()
     {
         /*
-        $this->_arguments = array(
-            'inputName' => $inputName,
-        );*/
-        $csv = new \Magento\File\Csv();
+                $this->_arguments = array(
+                   'inputName' => $inputName,
+                );*/
+        $csv = new \Magento\Framework\File\Csv();
         $inputData = $csv->getData($this->_arguments['inputName']);
         $output = array();
-        foreach ($inputData as $row){
+        foreach ($inputData as $row) {
             $output[$row[0]][] = array_slice($row, 1);
         }
-        $resultDir = dirname($this->_arguments['inputName']) . '/'
-            . pathinfo($this->_arguments['inputName'], PATHINFO_FILENAME) . '/';
+        $resultDir = dirname(
+            $this->_arguments['inputName']
+        ) . '/' . pathinfo(
+            $this->_arguments['inputName'],
+            PATHINFO_FILENAME
+        ) . '/';
 
         if (!file_exists($resultDir)) {
             mkdir($resultDir, 0777, true);
         }
 
-        foreach ($output as $file=>$data){
+        foreach ($output as $file => $data) {
             $outputFileName = $resultDir . "{$file}.csv";
             $csv->saveData($outputFileName, $data);
         }
@@ -456,28 +454,24 @@ class GenerateEmailTemplates
     protected function mergeLocales()
     {
         /*
-        $this->_arguments = array(
-            'inputName1' => $inputName1,
-            'inputName2' => $inputName1,
-            'outputName' => $outputName,
-        );*/
+                $this->_arguments = array(
+                   'inputName1' => $inputName1,
+                   'inputName2' => $inputName1,
+                   'outputName' => $outputName,
+                );*/
 
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
         $strings1 = $this->separateTranslations($csv->getData($this->_arguments['inputName1']));
         $strings2 = $this->separateTranslations($csv->getData($this->_arguments['inputName2']));
         $resultArray = array();
         $skippedLines = 0;
         $skippedFiles = '';
 
-        foreach($strings1 as $alias => $row) {
+        foreach ($strings1 as $alias => $row) {
             if (isset($strings2[$alias])) {
-                for ($i = 0, $j=0, $c = count($strings1[$alias]['from']); $i<$c; $i++) {
+                for ($i = 0,$j = 0,$c = count($strings1[$alias]['from']); $i < $c; $i++) {
                     if (isset($strings2[$alias]['to'][$j])) {
-                        $resultArray[] = array(
-                            $alias,
-                            $strings1[$alias]['from'][$i],
-                            $strings2[$alias]['to'][$j]
-                        );
+                        $resultArray[] = array($alias, $strings1[$alias]['from'][$i], $strings2[$alias]['to'][$j]);
                         $j++;
                     } else {
                         $skippedLines++;
@@ -535,11 +529,11 @@ class GenerateEmailTemplates
     {
         $result = array();
 
-        foreach ($this->_messages as $message){
+        foreach ($this->_messages as $message) {
             $type = $message['type'];
             $text = $message['text'];
 
-            switch($type){
+            switch ($type) {
                 case MESSAGE_TYPE_ERROR:
                     $type = 'Error';
                     break;
@@ -567,7 +561,7 @@ class GenerateEmailTemplates
      */
     protected function _addMessage($type, $message)
     {
-        $this->_messages[] = array('type'=>$type, 'text'=>$message);
+        $this->_messages[] = array('type' => $type, 'text' => $message);
     }
 }
 

@@ -26,15 +26,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
@@ -49,31 +49,28 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            [
-                'data' => [
+            array(
+                'data' => array(
                     'id' => 'edit_form',
                     'action' => $this->getUrl('customer/*/save'),
                     'method' => 'post',
-                    'enctype' => 'multipart/form-data',
-                ]
-            ]
+                    'enctype' => 'multipart/form-data'
+                )
+            )
         );
 
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         if ($customerId) {
-            $form->addField(
-                'id',
-                'hidden',
-                [
-                    'name' => 'customer_id',
-                ]
-            );
+            $form->addField('id', 'hidden', array('name' => 'customer_id'));
             $customer = $this->_customerAccountService->getCustomer($customerId);
-            $form->setValues(\Magento\Service\DataObjectConverter::toFlatArray($customer))
-                ->addValues(['customer_id' => $customerId]);
+            $form->setValues(
+                \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer)
+            )->addValues(
+                array('customer_id' => $customerId)
+            );
         }
 
         $form->setUseContainer(true);

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Customer EAV additional attribute resource collection
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Model\Resource\Attribute;
@@ -25,7 +21,7 @@ class Collection extends \Magento\Eav\Model\Resource\Attribute\Collection
      *
      * @var string
      */
-    protected $_entityTypeCode   = 'customer';
+    protected $_entityTypeCode = 'customer';
 
     /**
      * Default attribute entity type code

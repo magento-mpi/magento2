@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Product image attribute frontend
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Product\Attribute\Frontend;
@@ -23,18 +19,17 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFronten
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 
@@ -48,8 +43,11 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFronten
     {
         $image = $product->getData($this->getAttribute()->getAttributeCode());
         if ($image) {
-            $url = $this->_storeManager->getStore($product->getStore())
-                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product/' . $image;
+            $url = $this->_storeManager->getStore(
+                $product->getStore()
+            )->getBaseUrl(
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
+            ) . 'catalog/product/' . $image;
         } else {
             $url = false;
         }

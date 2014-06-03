@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reports\Model\Resource\Report\Product\Viewed;
 
 /**
@@ -20,13 +19,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Reports\Model\Resource\Report\Product\Viewed\Collection');
-        $this->_collection
-            ->setPeriod('day')
-            ->setDateRange(null, null)
-            ->addStoreFilter(array(1))
-        ;
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Reports\Model\Resource\Report\Product\Viewed\Collection'
+        );
+        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter(array(1));
     }
 
     /**

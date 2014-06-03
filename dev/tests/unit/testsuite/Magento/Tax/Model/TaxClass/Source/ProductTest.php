@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\TaxClass\Source;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -30,12 +26,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $abstractAttributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getAttributeCode', '__wakeup'), array(), '', false
+            array('getAttributeCode', '__wakeup'),
+            array(),
+            '',
+            false
         );
 
-        $abstractAttributeMock->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue('code'));
+        $abstractAttributeMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue('code'));
 
         $this->_model->setAttribute($abstractAttributeMock);
 

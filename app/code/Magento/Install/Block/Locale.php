@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Install localization block
  *
- * @category   Magento
- * @package    Magento_Install
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Install\Block;
@@ -34,38 +30,38 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_localeCode;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Session\Generic $session,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_localeLists = $localeLists;
@@ -99,15 +95,13 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     /**
      * Retrieve locale object
      *
-     * @return \Magento\LocaleInterface
+     * @return \Magento\Framework\LocaleInterface
      */
     public function getLocale()
     {
         $locale = $this->getData('locale');
         if (null === $locale) {
-            $locale = $this->_localeResolver->setLocaleCode(
-                $this->getLocaleCode()
-            )->getLocale();
+            $locale = $this->_localeResolver->setLocaleCode($this->getLocaleCode())->getLocale();
             $this->setData('locale', $locale);
         }
         return $locale;
@@ -140,14 +134,21 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getLocaleSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName('config[locale]')
-            ->setId('locale')
-            ->setTitle(__('Locale'))
-            ->setClass('required-entry')
-            ->setValue($this->getLocale()->__toString())
-            ->setOptions($this->_localeLists->getTranslatedOptionLocales())
-            ->getHtml();
+        $html = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setName(
+            'config[locale]'
+        )->setId(
+            'locale'
+        )->setTitle(
+            __('Locale')
+        )->setClass(
+            'required-entry'
+        )->setValue(
+            $this->getLocale()->__toString()
+        )->setOptions(
+            $this->_localeLists->getTranslatedOptionLocales()
+        )->getHtml();
         return $html;
     }
 
@@ -158,14 +159,21 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getTimezoneSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName('config[timezone]')
-            ->setId('timezone')
-            ->setTitle(__('Time Zone'))
-            ->setClass('required-entry')
-            ->setValue($this->getTimezone())
-            ->setOptions($this->_localeLists->getOptionTimezones())
-            ->getHtml();
+        $html = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setName(
+            'config[timezone]'
+        )->setId(
+            'timezone'
+        )->setTitle(
+            __('Time Zone')
+        )->setClass(
+            'required-entry'
+        )->setValue(
+            $this->getTimezone()
+        )->setOptions(
+            $this->_localeLists->getOptionTimezones()
+        )->getHtml();
         return $html;
     }
 
@@ -176,10 +184,13 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getTimezone()
     {
-        $timezone = $this->_session->getTimezone()
-            ? $this->_session->getTimezone()
-            : $this->_localeDate->getDefaultTimezone();
-        if ($timezone == \Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE) {
+        $timezone = $this->_session
+            ->getTimezone() ? $this
+            ->_session
+            ->getTimezone() : $this
+            ->_localeDate
+            ->getDefaultTimezone();
+        if ($timezone == \Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;
@@ -192,14 +203,21 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getCurrencySelect()
     {
-        $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName('config[currency]')
-            ->setId('currency')
-            ->setTitle(__('Default Currency'))
-            ->setClass('required-entry')
-            ->setValue($this->getCurrency())
-            ->setOptions($this->_localeLists->getOptionCurrencies())
-            ->getHtml();
+        $html = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setName(
+            'config[currency]'
+        )->setId(
+            'currency'
+        )->setTitle(
+            __('Default Currency')
+        )->setClass(
+            'required-entry'
+        )->setValue(
+            $this->getCurrency()
+        )->setOptions(
+            $this->_localeLists->getOptionCurrencies()
+        )->getHtml();
         return $html;
     }
 
@@ -210,22 +228,24 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      */
     public function getCurrency()
     {
-        return $this->_session->getCurrency()
-            ? $this->_session->getCurrency()
-            : $this->_localeCurrency->getDefaultCurrency();
+        return $this->_session
+            ->getCurrency() ? $this
+            ->_session
+            ->getCurrency() : $this
+            ->_localeCurrency
+            ->getDefaultCurrency();
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $this->setData('form_data', $data);
         }
         return $data;
     }
-
 }

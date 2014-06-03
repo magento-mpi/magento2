@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
 namespace Magento\Tools\Translate;
+
 
 //merge
 
@@ -16,7 +15,6 @@ namespace Magento\Tools\Translate;
 //- write to file non translate
 
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
-
 class Merge
 {
     /**
@@ -32,7 +30,7 @@ class Merge
     /**
      * Magento File CSV
      *
-     * @var \Magento\File\Csv
+     * @var \Magento\Framework\File\Csv
      */
     protected $_csv;
 
@@ -60,8 +58,8 @@ OPTIONAL PARAMETRS:
 ';
 
         $this->_checkArgs();
-        require_once(BASE_PATH . '/lib/Magento/File/Csv.php');
-        $this->_csv = new \Magento\File\Csv();
+        require_once BASE_PATH . '/lib/internal/Magento/Framework/File/Csv.php';
+        $this->_csv = new \Magento\Framework\File\Csv();
     }
 
     /**
@@ -76,8 +74,7 @@ OPTIONAL PARAMETRS:
                 if (preg_match('/^--(.*)$/', $arg, $match)) {
                     $argCurrent = $match[1];
                     $this->_args[$argCurrent] = true;
-                }
-                else {
+                } else {
                     if ($argCurrent) {
                         $this->_args[$argCurrent] = $arg;
                     }
@@ -139,8 +136,7 @@ OPTIONAL PARAMETRS:
     {
         if (isset($this->_translate[$module][$string])) {
             return $this->_translate[$module][$string];
-        }
-        else {
+        } else {
             foreach ($this->_translate as $translate) {
                 if (isset($translate[$string])) {
                     return $translate[$string];
@@ -155,45 +151,44 @@ OPTIONAL PARAMETRS:
      */
     public function run()
     {
-        $result  = array(
-            'original_modules'  => array(),
-            'original_string'   => 0,
+        $result = array(
+            'original_modules' => array(),
+            'original_string' => 0,
             'translate_modules' => array(),
-            'translate_string'  => 0,
-            'translated'        => 0,
-            'diff_string'       => 0
+            'translate_string' => 0,
+            'translated' => 0,
+            'diff_string' => 0
         );
 
         $outData = array();
-        $outKey  = 0;
+        $outKey = 0;
         foreach ($this->_csv->getData($this->_args['tf']) as $data) {
             if (empty($data[0]) || empty($data[1]) || empty($data[2])) {
                 continue;
             }
             $this->_translate[$data[0]][$data[1]] = $data[2];
-            $result['translate_modules'][$data[0]] = isset($result['translate_modules'][$data[0]]) ? $result['translate_modules'][$data[0]] + 1 : 1;
-            $result['translate_string'] ++;
+            $result['translate_modules'][$data[0]] = isset(
+                $result['translate_modules'][$data[0]]
+            ) ? $result['translate_modules'][$data[0]] + 1 : 1;
+            $result['translate_string']++;
         }
 
         foreach ($this->_csv->getData($this->_args['of']) as $data) {
-            $result['original_modules'][$data[0]] = isset($result['original_modules'][$data[0]]) ? $result['original_modules'][$data[0]] + 1 : 1;
-            $result['original_string'] ++;
+            $result['original_modules'][$data[0]] = isset(
+                $result['original_modules'][$data[0]]
+            ) ? $result['original_modules'][$data[0]] + 1 : 1;
+            $result['original_string']++;
             $translate = $this->_findTranslate($data[1], $data[0]);
-            $outData[$outKey] = array(
-                $data[0],
-                $data[1],
-                $translate ? $translate : $data[2]
-            );
+            $outData[$outKey] = array($data[0], $data[1], $translate ? $translate : $data[2]);
             if (isset($this->_args['diff'])) {
                 $outData[$outKey][3] = $translate ? 'true' : 'false';
             }
             if ($translate) {
-                $result['translated'] ++;
+                $result['translated']++;
+            } else {
+                $result['diff_string']++;
             }
-            else {
-                $result['diff_string'] ++;
-            }
-            $outKey ++;
+            $outKey++;
         }
         if (file_exists($this->_args['mf'])) {
             @unlink($this->_args['mf']);
@@ -202,13 +197,23 @@ OPTIONAL PARAMETRS:
 
         echo 'RESULT
 -------------------------------------------------------------------------------
-modules on translate file:  '.count($result['translate_modules']).'
-string on translate file:   '.$result['translate_string'].'
-modules on original file:   '.count($result['original_modules']).'
-string on original file:    '.$result['original_string'].'
+modules on translate file:  ' .
+            count(
+                $result['translate_modules']
+            ) . '
+string on translate file:   ' . $result['translate_string'] . '
+modules on original file:   ' . count($result['original_modules']) .
+            '
+string on original file:    ' .
+            $result['original_string'] .
+            '
 
-translated string:          '.$result['translated'].'
-unknown string:             '.$result['diff_string'].'
+translated string:          ' .
+            $result['translated'] .
+            '
+unknown string:             ' .
+            $result['diff_string'] .
+            '
 ';
     }
 }
@@ -216,7 +221,6 @@ unknown string:             '.$result['diff_string'].'
 try {
     $merge = new \Magento\Tools\Translate\Merge();
     $merge->run();
-}
-catch (\Exception $e) {
-    die($e->getMessage());
+} catch (\Exception $e) {
+    exit($e->getMessage());
 }

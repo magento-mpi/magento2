@@ -2,19 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Block;
 
 /**
  * Class Form
- * @package Magento\PageCache\Block
  */
-class Javascript extends \Magento\View\Element\Template
+class Javascript extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\PageCache\Helper\Data
@@ -24,19 +20,18 @@ class Javascript extends \Magento\View\Element\Template
     /**
      * Constructor
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\PageCache\Helper\Data         $helper
      * @param array                                  $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\PageCache\Helper\Data $helper,
         array $data = array()
     ) {
         $this->helper = $helper;
         parent::__construct($context, $data);
     }
-
 
     /**
      * Retrieve script options encoded to json
@@ -48,7 +43,7 @@ class Javascript extends \Magento\View\Element\Template
         $params = array(
             'url' => $this->getUrl('page_cache/block/render/'),
             'handles' => $this->helper->getActualHandles(),
-            'versionCookieName' => \Magento\App\PageCache\Version::COOKIE_NAME
+            'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
         );
         return json_encode($params);
     }

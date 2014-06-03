@@ -36,23 +36,24 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_addressFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param CustomerAccountService $customerAccountService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
@@ -60,6 +61,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerAccountService $customerAccountService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
@@ -75,6 +77,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerAccountService,
             $customerAddressService,
             $addressConfig,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;
@@ -87,10 +90,10 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('billing', array(
-            'label'     => __('Billing Information'),
-            'is_show'   => $this->isShow()
-        ));
+        $this->getCheckout()->setStepData(
+            'billing',
+            array('label' => __('Billing Information'), 'is_show' => $this->isShow())
+        );
 
         if ($this->isCustomerLoggedIn()) {
             $this->getCheckout()->setStepData('billing', 'allow', true);
@@ -103,8 +106,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function isUseBillingAddressForShipping()
     {
-        if (($this->getQuote()->getIsVirtual())
-            || !$this->getQuote()->getShippingAddress()->getSameAsBilling()) {
+        if ($this->getQuote()->getIsVirtual() || !$this->getQuote()->getShippingAddress()->getSameAsBilling()) {
             return false;
         }
         return true;
@@ -222,10 +224,12 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getTaxvatHtml()
     {
-        return $this->_getTaxvat()
-            ->setTaxvat($this->getQuote()->getCustomerTaxvat())
-            ->setFieldIdFormat('billing:%s')
-            ->setFieldNameFormat('billing[%s]')
-            ->toHtml();
+        return $this->_getTaxvat()->setTaxvat(
+            $this->getQuote()->getCustomerTaxvat()
+        )->setFieldIdFormat(
+            'billing:%s'
+        )->setFieldNameFormat(
+            'billing[%s]'
+        )->toHtml();
     }
 }

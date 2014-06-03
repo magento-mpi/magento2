@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -35,17 +34,10 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $userDefinedAttributeCode = FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME;
         $attributeCodes = $this->_customerBuilder->getCustomAttributesCodes();
-        $expectedAttributes = [
+        $expectedAttributes = array(
             'disable_auto_group_change',
-            'prefix',
-            'middlename',
-            'suffix',
-            'created_at',
-            'dob',
-            'taxvat',
-            'gender',
             $userDefinedAttributeCode
-        ];
+        );
         $this->assertEquals($expectedAttributes, $attributeCodes, 'Custom attribute codes list is invalid.');
     }
 }

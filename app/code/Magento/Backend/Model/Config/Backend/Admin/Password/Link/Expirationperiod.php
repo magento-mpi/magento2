@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Admin Reset Password Link Expiration period backend model
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Backend\Admin\Password\Link;
 
-class Expirationperiod
-    extends \Magento\Core\Model\Config\Value
+class Expirationperiod extends \Magento\Framework\App\Config\Value
 {
     /**
      * Validate expiration period value before saving

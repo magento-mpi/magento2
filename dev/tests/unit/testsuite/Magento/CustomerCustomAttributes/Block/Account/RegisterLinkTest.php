@@ -22,20 +22,17 @@ class RegisterLinkTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         /** @var \Magento\AdvancedCheckout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject $customerHelper */
-        $customerHelper = $this->getMockBuilder('Magento\AdvancedCheckout\Helper\Data')
-            ->disableOriginalConstructor()->getMock();
+        $customerHelper = $this->getMockBuilder(
+            'Magento\AdvancedCheckout\Helper\Data'
+        )->disableOriginalConstructor()->getMock();
 
         /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\AdvancedCheckout\Block\Customer\Link',
-            array(
-                'customerHelper' => $customerHelper,
-            )
+            array('customerHelper' => $customerHelper)
         );
 
-        $customerHelper->expects($this->once())->method('isSkuApplied')->will(
-            $this->returnValue(false)
-        );
+        $customerHelper->expects($this->once())->method('isSkuApplied')->will($this->returnValue(false));
 
         $this->assertEquals('', $block->toHtml());
     }

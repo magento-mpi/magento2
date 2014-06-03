@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
  * Parse static calls and collect dependencies for it
  *
- * @package Magento\TestFramework
  */
 class StaticCalls implements Parser, DependenciesCollector
 {
@@ -50,8 +48,15 @@ class StaticCalls implements Parser, DependenciesCollector
      */
     protected function isTokenClass($token)
     {
-        return is_array($token)
-            && !(in_array($token[1], array('static', 'self', 'parent')) || preg_match('#^\$#', $token[1]));
+        return is_array(
+            $token
+        ) && !(in_array(
+            $token[1],
+            array('static', 'self', 'parent')
+        ) || preg_match(
+            '#^\$#',
+            $token[1]
+        ));
     }
 
     /**
@@ -59,9 +64,11 @@ class StaticCalls implements Parser, DependenciesCollector
      */
     public function parse($token, $key)
     {
-        if (is_array($token)
-            && $token[0] == T_PAAMAYIM_NEKUDOTAYIM
-            && $this->isTokenClass($this->tokens->getPreviousToken($key))
+        if (is_array(
+            $token
+        ) && $token[0] == T_PAAMAYIM_NEKUDOTAYIM && $this->isTokenClass(
+            $this->tokens->getPreviousToken($key)
+        )
         ) {
             $this->staticCalls[] = $key;
         }
@@ -77,10 +84,12 @@ class StaticCalls implements Parser, DependenciesCollector
     {
         $step = 1;
         $staticClassParts = array();
-        while ($this->tokens->getTokenCodeByKey($staticCall-$step) == T_STRING
-            || $this->tokens->getTokenCodeByKey($staticCall-$step) == T_NS_SEPARATOR
-        ) {
-            $staticClassParts[] = $this->tokens->getTokenValueByKey($staticCall-$step);
+        while ($this->tokens->getTokenCodeByKey(
+            $staticCall - $step
+        ) == T_STRING || $this->tokens->getTokenCodeByKey(
+            $staticCall - $step
+        ) == T_NS_SEPARATOR) {
+            $staticClassParts[] = $this->tokens->getTokenValueByKey($staticCall - $step);
             $step++;
         }
         return implode(array_reverse($staticClassParts));

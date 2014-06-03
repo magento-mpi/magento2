@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Newsletter subscribers grid block
  *
- * @category   Magento
- * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Newsletter\Block\Adminhtml\Subscriber;
@@ -49,8 +45,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     {
 
         if ($this->getRequest()->getParam('queue', false)) {
-            $this->getCollection()->useQueue($this->_queueFactory->create()
-                ->load($this->getRequest()->getParam('queue'))
+            $this->getCollection()->useQueue(
+                $this->_queueFactory->create()->load($this->getRequest()->getParam('queue'))
             );
         }
 

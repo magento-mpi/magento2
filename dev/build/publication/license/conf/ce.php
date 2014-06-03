@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category   build
- * @package    license
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -32,8 +30,9 @@ $config = array(
     'app/etc'               => array('xml' => 'AFL'),
     'dev'                   => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
     'downloader'            => $magentoOslAfl,
-    'lib/flex'              => array('xml' => 'AFL', 'flex' => 'AFL'),
-    'lib/Magento'           => $magentoOslAfl,
+    'lib/internal/flex'     => array('xml' => 'AFL', 'flex' => 'AFL'),
+    'lib/internal/Magento'  => $magentoOslAfl,
+    'lib/web'               => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
 );
 

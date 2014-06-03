@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Wishlist model collection
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Model\Resource\Wishlist;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -28,17 +24,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->_init('Magento\Wishlist\Model\Wishlist', 'Magento\Wishlist\Model\Resource\Wishlist');
-    }
-
-    /**
-     * Filter collection by customer
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return $this
-     */
-    public function filterByCustomer(\Magento\Customer\Model\Customer $customer)
-    {
-        return $this->filterByCustomerId($customer->getId());
     }
 
     /**

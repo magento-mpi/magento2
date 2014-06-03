@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Model;
 
 /**

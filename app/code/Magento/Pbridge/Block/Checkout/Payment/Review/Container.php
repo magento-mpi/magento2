@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Dibs payment block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento
  */
 namespace Magento\Pbridge\Block\Checkout\Payment\Review;
 
-class Container extends \Magento\View\Element\Template
+class Container extends \Magento\Framework\View\Element\Template
 {
     /**
      * Checkout session
@@ -27,12 +23,12 @@ class Container extends \Magento\View\Element\Template
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {

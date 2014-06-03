@@ -10,7 +10,7 @@ namespace Magento\Sales\Model;
 class Download
 {
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_rootDir;
 
@@ -25,23 +25,23 @@ class Download
     protected $_storageDatabaseFactory;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
-        $this->_rootDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $this->_rootDir = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $this->_fileStorageDatabase = $fileStorageDatabase;
         $this->_storageDatabaseFactory = $storageDatabaseFactory;
         $this->_fileFactory = $fileFactory;
@@ -67,11 +67,8 @@ class Download
 
         $this->_fileFactory->create(
             $info['title'],
-            [
-                'value' => $this->_rootDir->getRelativePath($relativePath),
-                'type' => 'filename',
-            ],
-            \Magento\App\Filesystem::ROOT_DIR
+            array('value' => $this->_rootDir->getRelativePath($relativePath), 'type' => 'filename'),
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         );
     }
 
@@ -82,8 +79,13 @@ class Download
     protected function _isCanProcessed($relativePath)
     {
         $filePath = $this->_rootDir->getAbsolutePath($relativePath);
-        return (!$this->_rootDir->isFile($relativePath) || !$this->_rootDir->isReadable($relativePath))
-            && !$this->_processDatabaseFile($filePath);
+        return (!$this->_rootDir->isFile(
+            $relativePath
+        ) || !$this->_rootDir->isReadable(
+            $relativePath
+        )) && !$this->_processDatabaseFile(
+            $filePath
+        );
     }
 
     /**

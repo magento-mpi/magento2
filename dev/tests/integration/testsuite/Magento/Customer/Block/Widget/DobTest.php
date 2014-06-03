@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,8 +15,9 @@ class DobTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDateFormat()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Block\Widget\Dob');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Block\Widget\Dob'
+        );
         $this->assertNotEmpty($block->getDateFormat());
     }
 }

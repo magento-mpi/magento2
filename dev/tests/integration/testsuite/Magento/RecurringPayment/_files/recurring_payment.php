@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-// Requires Magento/Sales/_files/quote.php
-// Requires Magento/Customer/_files/customer.php
+require __DIR__ . '/../../Sales/_files/quote.php';
+require __DIR__ . '/../../Customer/_files/customer.php';
 use Magento\TestFramework\Helper\Bootstrap;
 
 /** @var Magento\RecurringPayment\Model\Payment $payment */
@@ -21,5 +21,6 @@ $payment
     ->setCurrencyCode('USD')
     ->setMethodCode('paypal_express')
     ->setInternalReferenceId('rp-1')
+    ->setReferenceId('external-reference-1')
     ->setCustomerId(1)
     ->save();

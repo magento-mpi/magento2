@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V2;
 
 use Magento\TestModule1\Service\V2\Entity\ItemBuilder;
@@ -14,23 +13,50 @@ use Magento\TestModule1\Service\V2\Entity\Item;
 class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestInterface
 {
     /**
+     * @var ItemBuilder
+     */
+    protected $itemBuilder;
+
+    /**
+     * @param ItemBuilder $itemBuilder
+     */
+    public function __construct(ItemBuilder $itemBuilder)
+    {
+        $this->itemBuilder = $itemBuilder;
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function item($id)
     {
-        return (new ItemBuilder())->setId($id)->setName('testProduct1')->setPrice('1')->create();
+        return $this->itemBuilder->setId($id)->setName('testProduct1')->setPrice('1')->create();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function items()
+    public function items($filters = array(), $sortOrder = 'ASC')
     {
-        $result1 = (new ItemBuilder())->setId(1)->setName('testProduct1')->setPrice('1')->create();
+        $result = [];
+        $firstItem = $this->itemBuilder->setId(1)->setName('testProduct1')->setPrice('1')->create();
+        $secondItem = $this->itemBuilder->setId(2)->setName('testProduct2')->setPrice('2')->create();
 
-        $result2 = (new ItemBuilder())->setId(2)->setName('testProduct2')->setPrice('2')->create();
-
-        return [$result1, $result2];
+        /** Simple filtration implementation */
+        if (!empty($filters)) {
+            /** @var \Magento\Framework\Service\V1\Data\Filter $filter */
+            foreach ($filters as $filter) {
+                if ('id' == $filter->getField() && $filter->getValue() == 1) {
+                    $result[] = $firstItem;
+                } elseif ('id' == $filter->getField() && $filter->getValue() == 2) {
+                    $result[] = $secondItem;
+                }
+            }
+        } else {
+            /** No filter is specified. */
+            $result = [$firstItem, $secondItem];
+        }
+        return $result;
     }
 
     /**
@@ -38,7 +64,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
      */
     public function create($name)
     {
-        return (new ItemBuilder())->setId(rand())->setName($name)->setPrice('10')->create();
+        return $this->itemBuilder->setId(rand())->setName($name)->setPrice('10')->create();
     }
 
     /**
@@ -46,7 +72,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated'.$item->getName())->setPrice('5')->create();
+        return $this->itemBuilder->setId($item->getId())->setName('Updated'.$item->getName())->setPrice('5')->create();
     }
 
     /**
@@ -54,6 +80,6 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
      */
     public function delete($id)
     {
-        return (new ItemBuilder())->setId($id)->setName('testProduct1')->setPrice('1')->create();
+        return $this->itemBuilder->setId($id)->setName('testProduct1')->setPrice('1')->create();
     }
 }

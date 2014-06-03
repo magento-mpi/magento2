@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Email/etc/email_templates.xsd">
     <template id="currency_import_error_email_template" label="Currency Update Warnings" file="currency_update_notification.html" type="text" module="Magento_Directory"/>
 </config>

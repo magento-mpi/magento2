@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\System\Store;
 /**
  * Store / store view / website delete form container
  *
- * @category    Magento
- * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Delete extends \Magento\Backend\Block\Widget\Form\Container
@@ -37,17 +33,19 @@ class Delete extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->_updateButton('delete', 'region', 'footer');
         $this->_updateButton('delete', 'onclick', null);
-        $this->_updateButton('delete', 'data_attribute',
-            array('mage-init' => array(
-                'button' => array('event' => 'save', 'target' => '#edit_form'),
-            ))
+        $this->_updateButton(
+            'delete',
+            'data_attribute',
+            array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
         );
 
-        $this->_addButton('cancel', array(
-            'label'     => __('Cancel'),
-            'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
-        ), 2, 100, 'footer');
-
+        $this->_addButton(
+            'cancel',
+            array('label' => __('Cancel'), 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')'),
+            2,
+            100,
+            'footer'
+        );
     }
 
     /**
@@ -57,8 +55,11 @@ class Delete extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        return __("Delete %1 '%2'", $this->getStoreTypeTitle(),
-            $this->escapeHtml($this->getChildBlock('form')->getDataObject()->getName()));
+        return __(
+            "Delete %1 '%2'",
+            $this->getStoreTypeTitle(),
+            $this->escapeHtml($this->getChildBlock('form')->getDataObject()->getName())
+        );
     }
 
     /**
@@ -86,5 +87,4 @@ class Delete extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('back', 'onclick', "setLocation('" . $url . "')");
         return $this;
     }
-
 }

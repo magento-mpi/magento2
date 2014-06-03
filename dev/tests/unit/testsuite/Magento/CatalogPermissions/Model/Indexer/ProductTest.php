@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
@@ -33,16 +32,30 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fullMock = $this->getMock(
-            'Magento\CatalogPermissions\Model\Indexer\Category\Action\FullFactory', ['create'], [], '', false
+            'Magento\CatalogPermissions\Model\Indexer\Category\Action\FullFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
 
         $this->rowsMock = $this->getMock(
-            'Magento\CatalogPermissions\Model\Indexer\Product\Action\RowsFactory', ['create'], [], '', false
+            'Magento\CatalogPermissions\Model\Indexer\Product\Action\RowsFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
 
-        $methods = ['getId', 'load', 'isInvalid', 'isWorking', '__wakeup'];
+        $methods = array('getId', 'load', 'isInvalid', 'isWorking', '__wakeup');
         $this->indexerMock = $this->getMockForAbstractClass(
-            'Magento\Indexer\Model\IndexerInterface', [], '', false, false, true, $methods
+            'Magento\Indexer\Model\IndexerInterface',
+            array(),
+            '',
+            false,
+            false,
+            true,
+            $methods
         );
 
         $this->model = new \Magento\CatalogPermissions\Model\Indexer\Product(
@@ -54,58 +67,59 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexerWorking()
     {
-        $ids = [1, 2, 3];
+        $ids = array(1, 2, 3);
 
-        $this->indexerMock->expects($this->once())
-            ->method('load')
-            ->with(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
-            ->will($this->returnSelf());
-        $this->indexerMock->expects($this->once())
-            ->method('isWorking')
-            ->will($this->returnValue(true));
+        $this->indexerMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
+        )->will(
+            $this->returnSelf()
+        );
+        $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
 
         $rowMock = $this->getMock(
-            'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows', ['execute'], [], '', false
+            'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows',
+            array('execute'),
+            array(),
+            '',
+            false
         );
-        $rowMock->expects($this->at(0))
-            ->method('execute')
-            ->with($ids, true)
-            ->will($this->returnSelf());
-        $rowMock->expects($this->at(1))
-            ->method('execute')
-            ->with($ids, false)
-            ->will($this->returnSelf());
+        $rowMock->expects($this->at(0))->method('execute')->with($ids, true)->will($this->returnSelf());
+        $rowMock->expects($this->at(1))->method('execute')->with($ids, false)->will($this->returnSelf());
 
-        $this->rowsMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($rowMock));
+        $this->rowsMock->expects($this->once())->method('create')->will($this->returnValue($rowMock));
 
         $this->model->execute($ids);
     }
 
     public function testExecuteWithIndexerNotWorking()
     {
-        $ids = [1, 2, 3];
+        $ids = array(1, 2, 3);
 
-        $this->indexerMock->expects($this->once())
-            ->method('load')
-            ->with(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
-            ->will($this->returnSelf());
-        $this->indexerMock->expects($this->once())
-            ->method('isWorking')
-            ->will($this->returnValue(false));
+        $this->indexerMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
+        )->will(
+            $this->returnSelf()
+        );
+        $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
 
         $rowMock = $this->getMock(
-            'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows', ['execute'], [], '', false
+            'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows',
+            array('execute'),
+            array(),
+            '',
+            false
         );
-        $rowMock->expects($this->once())
-            ->method('execute')
-            ->with($ids, false)
-            ->will($this->returnSelf());
+        $rowMock->expects($this->once())->method('execute')->with($ids, false)->will($this->returnSelf());
 
-        $this->rowsMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($rowMock));
+        $this->rowsMock->expects($this->once())->method('create')->will($this->returnValue($rowMock));
 
         $this->model->execute($ids);
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -56,10 +54,7 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         $result = array();
         foreach ($this->_getValues() as $k => $v) {
-            $result[] = array(
-                'value' => $k,
-                'label' => $v,
-            );
+            $result[] = array('value' => $k, 'label' => $v);
         }
 
         return $result;
@@ -89,7 +84,7 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         return array(
             \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED => __('No'),
-            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED  => __('Yes'),
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED => __('Yes')
         );
     }
 
@@ -107,13 +102,13 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 
         $column = array(
             'unsigned' => false,
-            'extra'    => null,
-            'default'  => $isNullable ? null : $attributeDefaultValue
+            'extra' => null,
+            'default' => $isNullable ? null : $attributeDefaultValue
         );
 
-        $column['type']     = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
+        $column['type'] = $this->_resourceHelper->getDdlTypeByColumnType($attributeType);
         $column['nullable'] = $isNullable;
-        $column['comment']  = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
+        $column['comment'] = 'Enterprise Giftcard Open ' . $attributeCode . ' column';
 
         return array($attributeCode => $column);
     }
@@ -122,7 +117,7 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (bundle options preset name)
  *  - products (comma separated sku identifiers)
  *
- * @package Magento\Bundle\Test\Fixture
  */
 class Selections implements FixtureInterface
 {
@@ -26,6 +25,11 @@ class Selections implements FixtureInterface
      * @var \Mtf\Fixture\FixtureFactory
      */
     protected $fixtureFactory;
+
+    /**
+     * @var string
+     */
+    protected $currentPreset;
 
     /**
      * @constructor
@@ -53,7 +57,7 @@ class Selections implements FixtureInterface
                     ->createByCode($fixture, ['dataSet' => $dataSet]);
             }
         }
-
+        $this->currentPreset = $this->data['preset'];
         $this->data['preset'] = $this->getPreset($this->data['preset']);
 
         $this->params = $params;
@@ -96,6 +100,37 @@ class Selections implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
+    }
+
+    /**
+     * Get selection for performing checkout
+     *
+     * @return array|null
+     */
+    public function getSelectionForCheckout()
+    {
+        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $product */
+        $product = $this->data['products'][0];
+        $selectionsForCheckout = [
+            'default' => [
+                0 => [
+                    'value' => $product->getName(),
+                    'type' => 'select',
+                    'qty' => 1
+                ]
+            ],
+            'second' => [
+                0 => [
+                    'value' => $product->getName(),
+                    'type' => 'select',
+                    'qty' => 1
+                ]
+            ],
+        ];
+        if (!isset($selectionsForCheckout[$this->currentPreset])) {
+            return null;
+        }
+        return $selectionsForCheckout[$this->currentPreset];
     }
 
     /**
@@ -178,6 +213,9 @@ class Selections implements FixtureInterface
                                     ],
                                     'product_id' => [
                                         'value' => '%item1::getProductId%'
+                                    ],
+                                    'selection_price_value' => [
+                                        'value' => '5'
                                     ]
                                 ]
                             ],
@@ -191,6 +229,9 @@ class Selections implements FixtureInterface
                                     ],
                                     'product_id' => [
                                         'value' => '%item2::getProductId%'
+                                    ],
+                                    'selection_price_value' => [
+                                        'value' => '10'
                                     ]
                                 ]
                             ]

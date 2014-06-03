@@ -2,11 +2,9 @@
 /**
  * {license_notice}
  *
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\OfflineShipping\Block\Adminhtml\Form\Field;
 
 class ExportTest extends \PHPUnit_Framework_TestCase
@@ -22,8 +20,9 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $backendUrl->expects($this->once())->method('getUrl')->with("*/*/exportTablerates", array('website' => 1));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_object = $objectManager->getObject('Magento\OfflineShipping\Block\Adminhtml\Form\Field\Export', array(
-            'backendUrl' => $backendUrl)
+        $this->_object = $objectManager->getObject(
+            'Magento\OfflineShipping\Block\Adminhtml\Form\Field\Export',
+            array('backendUrl' => $backendUrl)
         );
     }
 
@@ -31,15 +30,20 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'some test data';
 
-        $form = $this->getMock('Magento\Data\Form', array('getParent'), array(), '', false, false);
-        $parentObjectMock = $this->getMock('Magento\Backend\Block\Template',
-            array('getLayout'), array(), '', false, false
+        $form = $this->getMock('Magento\Framework\Data\Form', array('getParent'), array(), '', false, false);
+        $parentObjectMock = $this->getMock(
+            'Magento\Backend\Block\Template',
+            array('getLayout'),
+            array(),
+            '',
+            false,
+            false
         );
-        $layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
+        $layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
 
         $blockMock = $this->getMock('Magento\Backend\Block\Widget\Button', array(), array(), '', false, false);
 
-        $requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false, false);
+        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false, false);
         $requestMock->expects($this->once())->method('getParam')->with('website')->will($this->returnValue(1));
 
         $mockData = $this->getMock('StdClass', array('toHtml'));

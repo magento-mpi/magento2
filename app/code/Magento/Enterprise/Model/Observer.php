@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,16 +22,15 @@ class Observer
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
      */
-    public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession
-    ) {
+    public function __construct(\Magento\Backend\Model\Auth\Session $authSession)
+    {
         $this->_authSession = $authSession;
     }
 
     /**
      * Set hide survey question to session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function setHideSurveyQuestion($observer)

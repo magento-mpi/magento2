@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Shipping
  * One page checkout status shipping block
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Shipping extends Form
 {
@@ -30,6 +26,13 @@ class Shipping extends Form
      * @var string
      */
     protected $continue = '#shipping-buttons-container button';
+
+    /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
 
     /**
      * Fill form data. Unset 'email' field as it absent in current form
@@ -56,6 +59,6 @@ class Shipping extends Form
         }
         $this->fill($shippingAddress);
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#shipping-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

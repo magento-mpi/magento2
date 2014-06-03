@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,34 +18,34 @@ class Observer
     protected $_backendSession;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Framework\App\CacheInterface
      */
-    protected $_app;
+    protected $cache;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\App\RequestInterface $request
+     * @param Session $backendSession
+     * @param \Magento\Framework\App\CacheInterface $cache
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Model\App $app,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\CacheInterface $cache,
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->_backendSession = $backendSession;
-        $this->_app = $app;
+        $this->cache = $cache;
         $this->_request = $request;
     }
 
     /**
      * Bind locale
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function bindLocale($observer)
@@ -73,33 +71,23 @@ class Observer
     }
 
     /**
-     * Backend will always use base class for translation.
-     *
-     * @return $this
-     */
-    public function initializeTranslation()
-    {
-        return $this;
-    }
-
-    /**
      * Set url class name for store 'admin'
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function setUrlClassName(\Magento\Event\Observer $observer)
+    public function setUrlClassName(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var $storeCollection \Magento\Core\Model\Resource\Store\Collection */
+        /** @var $storeCollection \Magento\Store\Model\Resource\Store\Collection */
         $storeCollection = $observer->getEvent()->getStoreCollection();
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         foreach ($storeCollection as $store) {
             if ($store->getId() == 0) {
                 $store->setUrlClassName('Magento\Backend\Model\UrlInterface');
                 break;
             }
         }
-        $this->_app->removeCache(
+        $this->cache->remove(
             \Magento\AdminNotification\Model\System\Message\Security::VERIFICATION_RESULT_CACHE_KEY
         );
         return $this;

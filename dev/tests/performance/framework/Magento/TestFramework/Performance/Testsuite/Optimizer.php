@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -58,11 +56,12 @@ class Optimizer
         $chosenNumItems = null;
         foreach ($pileOfSets as $key => $checkSet) {
             if (array_diff($set, $checkSet)) {
-                continue; // $checkSet is not a super set, as it doesn't have some items of $set
+                // $checkSet is not a super set, as it doesn't have some items of $set
+                continue;
             }
 
             $numItems = count($checkSet);
-            if (($chosenKey === null) || ($chosenNumItems > $numItems)) {
+            if ($chosenKey === null || $chosenNumItems > $numItems) {
                 $chosenKey = $key;
                 $chosenNumItems = $numItems;
             }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -32,22 +30,21 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
 
     /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager);
     }
-
 
     /**
      * Return price of the specified product
@@ -94,7 +91,6 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getAmounts($product)
     {
-        $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('giftcard_amounts');
 
         if (is_null($prices)) {
@@ -104,15 +100,16 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             }
         }
 
-        return ($prices) ? $prices : array();
+        return $prices ? $prices : array();
     }
-
 
     /**
      * Return minimal amount for Giftcard product
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return float
+     *
+     * @deprecated
      */
     public function getMinAmount($product)
     {
@@ -125,6 +122,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return float
+     *
+     * @deprecated
      */
     public function getMaxAmount($product)
     {
@@ -197,7 +196,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
                 }
             }
 
-            $this->_minMaxCache[$product->getId()] = array('min'=>$min, 'max'=>$max);
+            $this->_minMaxCache[$product->getId()] = array('min' => $min, 'max' => $max);
         }
         return $this->_minMaxCache[$product->getId()];
     }

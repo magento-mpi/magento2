@@ -5,17 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class Item extends \Magento\Service\Data\AbstractObject
+class Item extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**
      * @return int
      */
-    public function getId()
+    public function getItemId()
     {
-        return $this->_data['id'];
+        return $this->_data['item_id'];
     }
 
     /**
@@ -25,5 +24,4 @@ class Item extends \Magento\Service\Data\AbstractObject
     {
         return $this->_data['name'];
     }
-
 }

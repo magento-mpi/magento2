@@ -12,6 +12,7 @@ namespace Magento\AdminNotification\Model\System;
 interface MessageInterface
 {
     const SEVERITY_CRITICAL = 1;
+
     const SEVERITY_MAJOR = 2;
 
     /**

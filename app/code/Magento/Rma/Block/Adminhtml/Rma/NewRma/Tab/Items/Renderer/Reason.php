@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer;
 
 /**
@@ -15,8 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Reason
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Reason extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Rma reason template name

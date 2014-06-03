@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
 class Product extends AbstractProduct
@@ -18,7 +17,7 @@ class Product extends AbstractProduct
      */
     public function afterSave(\Magento\Catalog\Model\Product $product)
     {
-        $this->reindex([$product->getId()]);
+        $this->reindex(array($product->getId()));
         return $product;
     }
 
@@ -30,7 +29,7 @@ class Product extends AbstractProduct
      */
     public function afterDelete(\Magento\Catalog\Model\Product $product)
     {
-        $this->reindex([$product->getId()]);
+        $this->reindex(array($product->getId()));
         return $product;
     }
 }

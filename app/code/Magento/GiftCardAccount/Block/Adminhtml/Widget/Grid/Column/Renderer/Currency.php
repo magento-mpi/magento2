@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
-class Currency
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
+class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * @var array
@@ -18,7 +15,7 @@ class Currency
     protected static $_websiteBaseCurrencyCodes = array();
 
     /**
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -31,7 +28,7 @@ class Currency
     }
 
     /**
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return float|int
      */
     protected function _getRate($row)

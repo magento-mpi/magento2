@@ -27,7 +27,7 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
     /**
      * Core registry.
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     private $coreRegistry;
 
@@ -37,17 +37,18 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('adminhtml');
 
-        $this->coreRegistry = $objectManager->get('Magento\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Framework\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
-        $this->block = $objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock(
-                'Magento\Customer\Block\Adminhtml\Edit\Tab\Orders',
-                '',
-                ['coreRegistry' => $this->coreRegistry]
-            );
+        $this->block = $objectManager->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Adminhtml\Edit\Tab\Orders',
+            '',
+            array('coreRegistry' => $this->coreRegistry)
+        );
         $this->block->getPreparedCollection();
     }
 
@@ -65,7 +66,7 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRowUrl()
     {
-        $row = new \Magento\Object(['id' => 1]);
+        $row = new \Magento\Framework\Object(array('id' => 1));
         $this->assertContains('sales/order/view/order_id/1', $this->block->getRowUrl($row));
     }
 

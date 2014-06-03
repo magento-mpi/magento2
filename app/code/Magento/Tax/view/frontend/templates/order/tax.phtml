@@ -1,0 +1,62 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+    $_order  = $this->getOrder();
+    $_source = $this->getSource();
+    $_fullInfo = $_order->getFullTaxInfo();
+    global $taxIter; $taxIter++;
+?>
+
+<?php if ($this->displayFullSummary()): ?>
+<?php $isTop = 1; ?>
+    <?php if ($_fullInfo) foreach ($_fullInfo as $info): ?>
+        <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
+        <?php
+            $percent    = $info['percent'];
+            $amount     = $info['amount'];
+            $rates      = $info['rates'];
+            $isFirst    = 1;
+        ?>
+        <?php foreach ($rates as $rate): ?>
+        <tr class="totals tax details details-<?php echo $taxIter; ?> <?php echo ($this->getIsPlaneMode()) ? ' plane' : '';?>">
+            <td class="mark" <?php echo $this->getLabelProperties()?>>
+                <?php echo $this->escapeHtml($rate['title']); ?>
+                <?php if (!is_null($rate['percent'])): ?>
+                    (<?php echo (float)$rate['percent']; ?>%)
+                <?php endif; ?>
+                <br />
+            </td>
+            <?php if ($isFirst): ?>
+                <td class="amount" <?php echo $this->getValueProperties()?> rowspan="<?php echo count($rates); ?>">
+                    <?php echo $_order->formatPrice($amount); ?>
+                </td>
+            <?php endif; ?>
+        </tr>
+        <?php $isFirst = 0; ?>
+        <?php $isTop = 0; ?>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+<?php endif;?>
+
+<?php if ($this->displayFullSummary() && $_fullInfo && !$this->getIsPlaneMode()): ?>
+<tr class="totals tax summary">
+<?php elseif ($this->displayFullSummary() && $_fullInfo && $this->getIsPlaneMode()): ?>
+<tr class="totals tax summary plane">
+<?php else: ?>
+<tr class="totals tax">
+<?php endif; ?>
+    <td class="mark" <?php echo $this->getLabelProperties()?>>
+        <?php if ($this->displayFullSummary()): ?>
+            <div class="detailed"><?php echo __('Tax'); ?></div>
+        <?php else: ?>
+            <?php echo __('Tax'); ?>
+        <?php endif;?>
+    </td>
+    <td class="amount" <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getTaxAmount()) ?></td>
+</tr>

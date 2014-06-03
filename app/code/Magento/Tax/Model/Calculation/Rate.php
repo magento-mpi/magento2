@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\Calculation;
 
 /**
  * Tax Rate Model
@@ -30,17 +29,17 @@
  * @method int getZipTo()
  * @method \Magento\Tax\Model\Calculation\Rate setZipTo(int $value)
  */
-namespace Magento\Tax\Model\Calculation;
-
-class Rate extends \Magento\Core\Model\AbstractModel
+class Rate extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var mixed
+     * List of tax titles
+     *
+     * @var array
      */
     protected $_titles = null;
 
     /**
-     * @var mixed
+     * @var \Magento\Tax\Model\Calculation\Rate\Title
      */
     protected $_titleModel = null;
 
@@ -55,21 +54,21 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_titleFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_regionFactory = $regionFactory;
@@ -90,22 +89,24 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare location settings and tax postcode before save rate
      *
-     * @return $this
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Tax\Model\Calculation\Rate
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         $isWrongRange = $this->getZipIsRange() && ($this->getZipFrom() === '' || $this->getZipTo() === '');
 
-        $isEmptyValues = $this->getCode() === '' || $this->getTaxCountryId() === '' || $this->getRate() === ''
-            || $this->getTaxPostcode() === '';
+        $isEmptyValues = $this->getCode() === '' ||
+            $this->getTaxCountryId() === '' ||
+            $this->getRate() === '' ||
+            ($this->getTaxPostcode() === '' && !$this->getZipIsRange());
 
         if ($isEmptyValues || $isWrongRange) {
-            throw new \Magento\Core\Exception(__('Please fill all required fields with valid information.'));
+            throw new \Magento\Framework\Model\Exception(__('Please fill all required fields with valid information.'));
         }
 
-        if (!is_numeric($this->getRate()) || $this->getRate() <= 0) {
-            throw new \Magento\Core\Exception(__('Rate Percent should be a positive number.'));
+        if (!is_numeric($this->getRate()) || $this->getRate() < 0) {
+            throw new \Magento\Framework\Model\Exception(__('Rate Percent should be a positive number.'));
         }
 
         if ($this->getZipIsRange()) {
@@ -113,15 +114,15 @@ class Rate extends \Magento\Core\Model\AbstractModel
             $zipTo = $this->getZipTo();
 
             if (strlen($zipFrom) > 9 || strlen($zipTo) > 9) {
-                throw new \Magento\Core\Exception(__('Maximum zip code length is 9.'));
+                throw new \Magento\Framework\Model\Exception(__('Maximum zip code length is 9.'));
             }
 
             if (!is_numeric($zipFrom) || !is_numeric($zipTo) || $zipFrom < 0 || $zipTo < 0) {
-                throw new \Magento\Core\Exception(__('Zip code should not contain characters other than digits.'));
+                throw new \Magento\Framework\Model\Exception(__('Zip code should not contain characters other than digits.'));
             }
 
             if ($zipFrom > $zipTo) {
-                throw new \Magento\Core\Exception(__('Range To should be equal or greater than Range From.'));
+                throw new \Magento\Framework\Model\Exception(__('Range To should be equal or greater than Range From.'));
             }
 
             $this->setTaxPostcode($zipFrom . '-' . $zipTo);
@@ -132,10 +133,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
                 $taxPostCode = substr($taxPostCode, 0, 10);
             }
 
-            $this->setTaxPostcode($taxPostCode)
-                ->setZipIsRange(null)
-                ->setZipFrom(null)
-                ->setZipTo(null);
+            $this->setTaxPostcode($taxPostCode)->setZipIsRange(null)->setZipFrom(null)->setZipTo(null);
         }
 
         parent::_beforeSave();
@@ -153,7 +151,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Save rate titles
      *
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     protected function _afterSave()
     {
@@ -165,13 +163,13 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before delete data
      *
-     * @return $this
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Tax\Model\Calculation\Rate
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeDelete()
     {
         if ($this->_isInRule()) {
-            throw new \Magento\Core\Exception(__('The tax rate cannot be removed. It exists in a tax rule.'));
+            throw new \Magento\Framework\Model\Exception(__('The tax rate cannot be removed. It exists in a tax rule.'));
         }
         return parent::_beforeDelete();
     }
@@ -180,7 +178,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * After rate delete
      * redeclared for dispatch tax_settings_change_after event
      *
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     protected function _afterDelete()
     {
@@ -189,6 +187,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Saves the tax titles
+     *
      * @param array|null $titles
      * @return void
      */
@@ -200,21 +200,26 @@ class Rate extends \Magento\Core\Model\AbstractModel
 
         $this->getTitleModel()->deleteByRateId($this->getId());
         if (is_array($titles) && $titles) {
-            foreach ($titles as $store=>$title) {
+            foreach ($titles as $store => $title) {
                 if ($title !== '') {
-                    $this->getTitleModel()
-                        ->setId(null)
-                        ->setTaxCalculationRateId($this->getId())
-                        ->setStoreId((int) $store)
-                        ->setValue($title)
-                        ->save();
+                    $this->getTitleModel()->setId(
+                        null
+                    )->setTaxCalculationRateId(
+                        $this->getId()
+                    )->setStoreId(
+                        (int)$store
+                    )->setValue(
+                        $title
+                    )->save();
                 }
             }
         }
     }
 
     /**
-     * @return mixed
+     * Returns a tax title
+     *
+     * @return \Magento\Tax\Model\Calculation\Rate\Title
      */
     public function getTitleModel()
     {
@@ -225,7 +230,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return mixed
+     * Returns the list of tax titles
+     *
+     * @return array
      */
     public function getTitles()
     {
@@ -236,7 +243,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return $this
+     * Deletes all tax rates
+     *
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     public function deleteAllRates()
     {
@@ -249,14 +258,13 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * Load rate model by code
      *
      * @param  string $code
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     public function loadByCode($code)
     {
         $this->load($code, 'code');
         return $this;
     }
-
 
     /**
      * Check if rate exists in tax rule

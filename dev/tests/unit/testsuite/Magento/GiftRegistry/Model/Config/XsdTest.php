@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Framework
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Model\Config;
 
 class XsdTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +18,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_xsdFilePath =  __DIR__ . '/../../../../../../../../app/code/Magento/GiftRegistry/etc/giftregistry.xsd';
+        $this->_xsdFilePath = __DIR__ . '/../../../../../../../../app/code/Magento/GiftRegistry/etc/giftregistry.xsd';
     }
 
     /**
@@ -35,7 +31,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     public function testInvalidXmlFile($xmlFile, $expectedErrors)
     {
         $dom = new \DOMDocument();
-        $dom->load(__DIR__. '/../_files/' . $xmlFile);
+        $dom->load(__DIR__ . '/../_files/' . $xmlFile);
         libxml_use_internal_errors(true);
         $dom->schemaValidate($this->_xsdFilePath);
 
@@ -55,7 +51,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     public function testValidXmlFile()
     {
         $dom = new \DOMDocument();
-        $dom->load(__DIR__. '/../_files/config_valid.xml');
+        $dom->load(__DIR__ . '/../_files/config_valid.xml');
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($this->_xsdFilePath);
         libxml_use_internal_errors(false);
@@ -69,7 +65,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-               'config_invalid_attribute_group.xml',
+                'config_invalid_attribute_group.xml',
                 array(
                     "Element 'attribute_group': Duplicate key-sequence ['registry'] " .
                     "in unique identity-constraint 'uniqueAttributeGroupName'.\n"
@@ -86,14 +82,14 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 'config_invalid_static_attribute.xml',
                 array(
                     "Element 'static_attribute': Duplicate key-sequence ['event_date'] " .
-                     "in unique identity-constraint 'uniqueStaticAttributeName'.\n"
+                    "in unique identity-constraint 'uniqueStaticAttributeName'.\n"
                 )
             ),
             array(
                 'config_invalid_custom_attribute.xml',
                 array(
                     "Element 'custom_attribute': Duplicate key-sequence ['custom_event_data'] " .
-                     "in unique identity-constraint 'uniqueCustomAttributeName'.\n"
+                    "in unique identity-constraint 'uniqueCustomAttributeName'.\n"
                 )
             )
         );

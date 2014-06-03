@@ -12,4 +12,6 @@
 return array(
     // Fails because of dependence on registry
     'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers',
+    'Magento\LayeredNavigation\Block\Navigation',
+    'Magento\LayeredNavigation\Block\Navigation\State',
 );

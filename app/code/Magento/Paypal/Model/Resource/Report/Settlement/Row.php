@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Paypal\Model\Resource\Report\Settlement;
 /**
  * Report settlement row resource model
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Row extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Row extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization.

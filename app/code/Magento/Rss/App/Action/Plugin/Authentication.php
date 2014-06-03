@@ -9,24 +9,24 @@
  */
 namespace Magento\Rss\App\Action\Plugin;
 
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\AbstractAction;
 
 class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
     /**
-     * @var \Magento\HTTP\Authentication
+     * @var \Magento\Framework\HTTP\Authentication
      */
     protected $_httpAuthentication;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -35,10 +35,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      */
     protected $_aclResources = array(
         'authenticate' => 'Magento_Rss::rss',
-        'catalog' => array(
-            'notifystock' => 'Magento_Catalog::products',
-            'review' => 'Magento_Review::reviews_all'
-        ),
+        'catalog' => array('notifystock' => 'Magento_Catalog::products', 'review' => 'Magento_Review::reviews_all'),
         'order' => 'Magento_Sales::sales_order'
     );
 
@@ -46,21 +43,21 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\UrlInterface $url
      * @param ResponseInterface $response
-     * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\HTTP\Authentication $httpAuthentication
-     * @param \Magento\Logger $logger
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\HTTP\Authentication $httpAuthentication
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      */
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\UrlInterface $url,
         ResponseInterface $response,
-        \Magento\App\ActionFlag $actionFlag,
-        \Magento\Message\ManagerInterface $messageManager,
-        \Magento\HTTP\Authentication $httpAuthentication,
-        \Magento\Logger $logger,
-        \Magento\AuthorizationInterface $authorization
+        \Magento\Framework\App\ActionFlag $actionFlag,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\HTTP\Authentication $httpAuthentication,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\AuthorizationInterface $authorization
     ) {
         $this->_httpAuthentication = $httpAuthentication;
         $this->_logger = $logger;
@@ -77,16 +74,17 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @return ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(
-        AbstractAction $subject,
-        \Closure $proceed,
-        RequestInterface $request
-    ) {
-        $resource = isset($this->_aclResources[$request->getControllerName()])
-            ? (isset($this->_aclResources[$request->getControllerName()][$request->getActionName()])
-                ? $this->_aclResources[$request->getControllerName()][$request->getActionName()]
-                : $this->_aclResources[$request->getControllerName()])
-            : null;
+    public function aroundDispatch(AbstractAction $subject, \Closure $proceed, RequestInterface $request)
+    {
+        $resource = isset(
+            $this->_aclResources[$request->getControllerName()]
+        ) ? isset(
+            $this->_aclResources[$request->getControllerName()][$request->getActionName()]
+        ) ? $this->_aclResources[$request
+            ->getControllerName()][$request
+            ->getActionName()] : $this
+            ->_aclResources[$request
+            ->getControllerName()] : null;
         if (!$resource) {
             return parent::aroundDispatch($subject, $proceed, $request);
         }

@@ -9,6 +9,7 @@ namespace Magento\Customer\Block\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
+
 /**
  * Class EditTest
  *
@@ -27,7 +28,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * Core Registry.
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     private $coreRegistry;
 
@@ -44,17 +45,18 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('adminhtml');
 
-        $this->coreRegistry = $objectManager->get('Magento\Registry');
+        $this->coreRegistry = $objectManager->get('Magento\Framework\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::$customerId);
 
-        $this->block = $objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock(
-                'Magento\Customer\Block\Adminhtml\Edit',
-                '',
-                ['coreRegistry' => $this->coreRegistry]
-            );
+        $this->block = $objectManager->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Adminhtml\Edit',
+            '',
+            array('coreRegistry' => $this->coreRegistry)
+        );
     }
 
     /**
@@ -116,10 +118,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $html = $this->block->getFormHtml();
         $this->assertContains('<div class="entry-edit form-inline">', $html);
-        $this->assertStringMatchesFormat(
-            '%a name="customer_id" %s value="' . self::$customerId . '" %a',
-            $html
-        );
+        $this->assertStringMatchesFormat('%a name="customer_id" %s value="' . self::$customerId . '" %a', $html);
         $this->assertContains('id="product_composite_configure_form"', $html);
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Compare;
 
 class ItemTest extends \PHPUnit_Framework_TestCase

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,17 +20,26 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $resourceMock = $this->getMock('Magento\CatalogRule\Model\Resource\Rule',
-        array('getIdFieldName', 'getRulesFromProduct'), array(), '', false);
-        $resourceMock->expects($this->any())
-            ->method('getIdFieldName')
-            ->will($this->returnValue('id'));
-        $resourceMock->expects($this->any())
-            ->method('getRulesFromProduct')
-            ->will($this->returnValue($this->_getCatalogRulesFixtures()));
+        $resourceMock = $this->getMock(
+            'Magento\CatalogRule\Model\Resource\Rule',
+            array('getIdFieldName', 'getRulesFromProduct'),
+            array(),
+            '',
+            false
+        );
+        $resourceMock->expects($this->any())->method('getIdFieldName')->will($this->returnValue('id'));
+        $resourceMock->expects(
+            $this->any()
+        )->method(
+            'getRulesFromProduct'
+        )->will(
+            $this->returnValue($this->_getCatalogRulesFixtures())
+        );
 
-        $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogRule\Model\Rule', array('resource' => $resourceMock));
+        $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogRule\Model\Rule',
+            array('resource' => $resourceMock)
+        );
     }
 
     /**
@@ -42,8 +48,9 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalcProductPriceRule()
     {
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $this->assertEquals($this->_object->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
         $this->assertEquals($this->_object->calcProductPriceRule($product, 50), 5);
@@ -62,15 +69,15 @@ class RuleTest extends \PHPUnit_Framework_TestCase
                 'action_amount' => '10.0000',
                 'sub_simple_action' => 'by_percent',
                 'sub_discount_amount' => '90.0000',
-                'action_stop' => '0',
+                'action_stop' => '0'
             ),
             array(
                 'action_operator' => 'by_percent',
                 'action_amount' => '50.0000',
                 'sub_simple_action' => '',
                 'sub_discount_amount' => '0.0000',
-                'action_stop' => '0',
-            ),
+                'action_stop' => '0'
+            )
         );
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Segment\Condition\Combine;
 
 class RootTest extends \PHPUnit_Framework_TestCase
@@ -27,10 +26,10 @@ class RootTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CustomerSegment\Model\Segment\Condition\Combine\Root'
+        );
     }
-
 
     /**
      * @dataProvider prepareConditionsSqlDataProvider
@@ -57,15 +56,8 @@ class RootTest extends \PHPUnit_Framework_TestCase
                 new \Zend_Db_Expr(1),
                 array('`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=1)')
             ),
-            array(
-                null,
-                2,
-                array('`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=2)')
-            ),
-            array(
-                1,
-                3,
-                array('select 1')),
+            array(null, 2, array('`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=2)')),
+            array(1, 3, array('select 1'))
         );
     }
 }

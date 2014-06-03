@@ -2,23 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
+
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Adminhtml tier price item renderer
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
-
-class Tier
-    extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup
+class Tier extends Group\AbstractGroup
 {
     /**
      * @var string
@@ -32,7 +26,7 @@ class Tier
      */
     protected function _getInitialCustomerGroups()
     {
-        return array(\Magento\Customer\Model\Group::CUST_GROUP_ALL => __('ALL GROUPS'));
+        return array(CustomerGroupServiceInterface::CUST_GROUP_ALL => __('ALL GROUPS'));
     }
 
     /**
@@ -77,16 +71,14 @@ class Tier
      */
     protected function _prepareLayout()
     {
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label' => __('Add Tier'),
-                'onclick' => 'return tierPriceControl.addItem()',
-                'class' => 'add'
-            ));
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Add Tier'), 'onclick' => 'return tierPriceControl.addItem()', 'class' => 'add')
+        );
         $button->setName('add_tier_price_item_button');
 
         $this->setChild('add_button', $button);
         return parent::_prepareLayout();
     }
-
 }

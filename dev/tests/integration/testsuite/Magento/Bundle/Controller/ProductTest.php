@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,9 +21,9 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('catalog/product/view/id/3');
         $this->assertContains(
             'catalog_product_view_type_bundle',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->getUpdate()
-                ->getHandles()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->getUpdate()->getHandles()
         );
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('Bundle Product', $responseBody);

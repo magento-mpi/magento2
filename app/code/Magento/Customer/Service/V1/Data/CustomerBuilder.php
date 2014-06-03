@@ -8,25 +8,35 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Framework\Service\Data\Eav\AbstractObject;
+use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 /**
  * Builder for the Customer Service Data Object
  *
- * @method \Magento\Customer\Service\V1\Data\Customer create()
+ * @method Customer create()
+ * @method Customer mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
+ * @method Customer mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
  */
-class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
+class CustomerBuilder extends AbstractObjectBuilder
 {
-    /** @var CustomerMetadataServiceInterface */
+    /**
+     * @var CustomerMetadataServiceInterface
+     */
     protected $_metadataService;
 
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param CustomerMetadataServiceInterface $metadataService
      */
-    public function __construct(CustomerMetadataServiceInterface $metadataService)
-    {
-        parent::__construct();
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        CustomerMetadataServiceInterface $metadataService
+    ) {
+        parent::__construct($objectFactory, $valueBuilder);
         $this->_metadataService = $metadataService;
     }
 
@@ -37,7 +47,7 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
      */
     public function getCustomAttributesCodes()
     {
-        $attributeCodes = [];
+        $attributeCodes = array();
         foreach ($this->_metadataService->getCustomCustomerAttributeMetadata() as $attribute) {
             $attributeCodes[] = $attribute->getAttributeCode();
         }
@@ -68,7 +78,7 @@ class CustomerBuilder extends \Magento\Service\Data\EAV\AbstractObjectBuilder
 
     /**
      * Set confirmation
-     * 
+     *
      * @param string $confirmation
      * @return $this
      */

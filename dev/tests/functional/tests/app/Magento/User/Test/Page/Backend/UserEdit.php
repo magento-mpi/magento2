@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class UserEdit
  *
- * @package Magento\User\Test\Page\Backend
  */
 class UserEdit extends Page
 {
@@ -29,7 +28,7 @@ class UserEdit extends Page
      *
      * @var string
      */
-    protected  $editFormBlock = 'page:main-container';
+    protected $editFormBlock = 'page:main-container';
 
     /**
      * Global messages block
@@ -43,6 +42,13 @@ class UserEdit extends Page
      * var @string
      */
     protected $roleGridBlock = 'permissionsUserRolesGrid';
+
+    /**
+     * Grid page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -72,7 +78,8 @@ class UserEdit extends Page
     public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messagesBlock));
+            $this->_browser->find($this->messagesBlock)
+        );
     }
 
     /**
@@ -83,7 +90,19 @@ class UserEdit extends Page
     public function getRoleGridBlock()
     {
         return Factory::getBlockFactory()->getMagentoUserUserEditTabRoles(
-            $this->_browser->find($this->roleGridBlock, Locator::SELECTOR_ID));
+            $this->_browser->find($this->roleGridBlock, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get Grid page actions block
+     *
+     * @return \Magento\User\Test\Block\Backend\UserEditPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoUserBackendUserEditPageActions(
+            $this->_browser->find($this->pageActionsBlock)
+        );
     }
 }
-

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,7 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column;
 
-class Invitee
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Invitee extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Backend Url
@@ -41,17 +38,21 @@ class Invitee
     /**
      * Render invitee email linked to its account edit page
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         if ($this->_authorization->isAllowed('Magento_Customer::manage')) {
             if (!$row->getReferralId()) {
                 return '';
             }
-            return '<a href="' . $this->_url->getUrl('customer/index/edit', array('id' => $row->getReferralId())) . '">'
-                   . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
+            return '<a href="' . $this->_url->getUrl(
+                'customer/index/edit',
+                array('id' => $row->getReferralId())
+            ) . '">' . $this->escapeHtml(
+                $row->getData($this->getColumn()->getIndex())
+            ) . '</a>';
         } else {
             return parent::_getValue($row);
         }

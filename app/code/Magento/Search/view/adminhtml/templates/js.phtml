@@ -1,0 +1,27 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+if ($this->isThirdPartSearchEngine()) :?>
+<script type="text/javascript">
+//<![CDATA[
+function checkIsSearchWeightVisibility()
+{
+    if ($F('is_searchable')==1) {
+        setRowVisibility('search_weight', true);
+    } else {
+        setRowVisibility('search_weight', false);
+    }
+}
+checkIsSearchWeightVisibility();
+if($('frontend_input')){
+    Event.observe($('is_searchable'), 'change', checkIsSearchWeightVisibility);
+}
+//]]>
+</script>
+<?php endif;?>

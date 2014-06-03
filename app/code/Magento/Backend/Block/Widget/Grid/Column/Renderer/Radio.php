@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 /**
  * Grid radiogroup column renderer
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Radio
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Radio extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var int
@@ -71,20 +66,21 @@ class Radio
         }
         return $this->_values;
     }
+
     /**
      * Renders grid column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $values = $this->_getValues();
-        $value  = $row->getData($this->getColumn()->getIndex());
+        $value = $row->getData($this->getColumn()->getIndex());
         if (is_array($values)) {
             $checked = in_array($value, $values) ? ' checked="checked"' : '';
         } else {
-            $checked = ($value === $this->getColumn()->getValue()) ? ' checked="checked"' : '';
+            $checked = $value === $this->getColumn()->getValue() ? ' checked="checked"' : '';
         }
         $html = '<input type="radio" name="' . $this->getColumn()->getHtmlName() . '" ';
         $html .= 'value="' . $row->getId() . '" class="radio"' . $checked . '/>';

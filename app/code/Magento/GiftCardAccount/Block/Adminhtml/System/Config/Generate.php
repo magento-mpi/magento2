@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\System\Config;
 
-class Generate
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Generate extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * @var string
@@ -41,10 +38,10 @@ class Generate
     /**
      * Get the button and scripts contents
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->_toHtml();
@@ -53,7 +50,7 @@ class Generate
     /**
      * Return code pool usage
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getUsage()
     {

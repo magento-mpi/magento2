@@ -7,8 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
-class Security
-    implements \Magento\AdminNotification\Model\System\MessageInterface
+class Security implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
      * Cache key for saving verification result
@@ -26,10 +25,10 @@ class Security
      * Time out for HTTP verification request
      * @var int
      */
-    private $_verificationTimeOut  = 2;
+    private $_verificationTimeOut = 2;
 
     /**
-     * @var \Magento\App\CacheInterface
+     * @var \Magento\Framework\App\CacheInterface
      */
     protected $_cache;
 
@@ -39,26 +38,26 @@ class Security
     protected $_backendConfig;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @var \Magento\HTTP\Adapter\CurlFactory
+     * @var \Magento\Framework\HTTP\Adapter\CurlFactory
      */
     protected $_curlFactory;
 
     /**
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
      */
     public function __construct(
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Backend\App\ConfigInterface $backendConfig,
-        \Magento\App\ConfigInterface $config,
-        \Magento\HTTP\Adapter\CurlFactory $curlFactory
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
     ) {
         $this->_cache = $cache;
         $this->_backendConfig = $backendConfig;
@@ -81,7 +80,7 @@ class Security
             return true;
         }
 
-        $adminSessionLifetime = (int) $this->_backendConfig->getValue('admin/security/session_lifetime');
+        $adminSessionLifetime = (int)$this->_backendConfig->getValue('admin/security/session_lifetime');
         $this->_cache->save(true, self::VERIFICATION_RESULT_CACHE_KEY, array(), $adminSessionLifetime);
         return false;
     }
@@ -93,12 +92,9 @@ class Security
      */
     private function _isFileAccessible()
     {
-        $unsecureBaseURL = $this->_config->getValue(
-            \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
-            'default'
-        );
+        $unsecureBaseURL = $this->_config->getValue(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, 'default');
 
-        /** @var $http \Magento\HTTP\Adapter\Curl */
+        /** @var $http \Magento\Framework\HTTP\Adapter\Curl */
         $http = $this->_curlFactory->create();
         $http->setConfig(array('timeout' => $this->_verificationTimeOut));
         $http->write(\Zend_Http_Client::POST, $unsecureBaseURL . $this->_filePath);
@@ -136,7 +132,9 @@ class Security
      */
     public function getText()
     {
-        return __('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
+        return __(
+            'Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.'
+        );
     }
 
     /**

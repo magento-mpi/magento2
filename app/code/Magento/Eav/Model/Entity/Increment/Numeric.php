@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +33,7 @@ class Numeric extends \Magento\Eav\Model\Entity\Increment\AbstractIncrement
             $last = (int)$last;
         }
 
-        $next = $last+1;
+        $next = $last + 1;
 
         return $this->format($next);
     }

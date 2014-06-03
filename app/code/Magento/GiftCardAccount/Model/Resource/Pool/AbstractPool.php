@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\GiftCardAccount\Model\Resource\Pool;
 /**
  * GiftCardAccount Pool Resource Model Abstract
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractPool extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractPool extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Delete records in db using specified status as criteria

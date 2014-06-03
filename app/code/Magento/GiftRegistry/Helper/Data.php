@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,11 +13,13 @@ use Magento\Sales\Model\Quote\Item;
 /**
  * Gift Registry helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
+
     const XML_PATH_SEND_LIMIT = 'magento_giftregistry/sharing_email/send_limit';
-    const XML_PATH_MAX_REGISTRANT   = 'magento_giftregistry/general/max_registrant';
+
+    const XML_PATH_MAX_REGISTRANT = 'magento_giftregistry/general/max_registrant';
 
     const ADDRESS_PREFIX = 'gr_address_';
 
@@ -51,63 +51,63 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $productFactory;
 
     /**
-     * @var \Magento\UrlFactory
-     */
-    protected $urlFactory;
-
-    /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\UrlFactory $urlFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Escaper $escaper,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->productFactory = $productFactory;
-        $this->urlFactory = $urlFactory;
         $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
         $this->_localeResolver = $localeResolver;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -117,7 +117,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED);
+        return (bool)$this->_scopeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRecipientsLimit()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SEND_LIMIT);
+        return $this->_scopeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -148,7 +148,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxRegistrant($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_REGISTRANT, $store);
+        return (int)$this->_scopeConfig->getValue(self::XML_PATH_MAX_REGISTRANT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -163,12 +163,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $errors = array();
         foreach ($attributes as $field => $data) {
             if (empty($customValues[$field])) {
-                if ((!empty($data['frontend'])) && is_array($data['frontend'])
-                    && (!empty($data['frontend']['is_required']))) {
+                if (!empty($data['frontend']) && is_array(
+                    $data['frontend']
+                ) && !empty($data['frontend']['is_required'])
+                ) {
                     $errors[] = __('Please enter the "%1".', $data['label']);
                 }
             } else {
-                if (($data['type']) == 'select' && is_array($data['options'])) {
+                if ($data['type'] == 'select' && is_array($data['options'])) {
                     $found = false;
                     foreach ($data['options'] as $option) {
                         if ($customValues[$field] == $option['code']) {
@@ -196,14 +198,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getCurrentCustomerEntityOptions()
     {
         $result = array();
-        $entityCollection = $this->entityFactory->create()->getCollection()
-            ->filterByCustomerId($this->customerSession->getCustomerId())
-            ->filterByIsActive(1);
+        $entityCollection = $this->entityFactory->create()->getCollection()->filterByCustomerId(
+            $this->customerSession->getCustomerId()
+        )->filterByIsActive(
+            1
+        );
 
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
-                $result[] = new \Magento\Object(array('value' => $entity->getId(),
-                        'title' => $this->_escaper->escapeHtml($entity->getTitle())));
+                $result[] = new \Magento\Framework\Object(
+                    array('value' => $entity->getId(), 'title' => $this->_escaper->escapeHtml($entity->getTitle()))
+                );
             }
         }
         return $result;
@@ -254,13 +259,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         } else {
             $formatIn = $this->_localeDate->getDateFormat($formatIn);
         }
-        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => $formatIn,
-            'locale'      => $this->_localeResolver->getLocaleCode()
-        ));
-        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
-        ));
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(
+            array('date_format' => $formatIn, 'locale' => $this->_localeResolver->getLocaleCode())
+        );
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(
+            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+        );
 
         $value = $filterInput->filter($value);
         $value = $filterInternal->filter($value);
@@ -276,8 +280,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRegistryLink($entity)
     {
-        return $this->urlFactory->create()->setScope($entity->getStoreId())
-            ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
+        return $this->_storeManager->getStore($entity->getStoreId())
+            ->getUrl(
+                'giftregistry/view/index',
+                array('id' => $entity->getUrlKey())
+            );
     }
 
     /**

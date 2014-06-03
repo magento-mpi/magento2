@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Catalog\Model\Resource\Layer\Filter;
 /**
  * Catalog Layer Decimal attribute Filter Resource Model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
@@ -39,7 +35,7 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function applyFilterToCollection($filter, $range, $index)
     {
         $collection = $filter->getLayer()->getProductCollection();
-        $attribute  = $filter->getAttributeModel();
+        $attribute = $filter->getAttributeModel();
         $connection = $this->_getReadAdapter();
         $tableAlias = sprintf('%s_idx', $attribute->getAttributeCode());
         $conditions = array(
@@ -54,9 +50,13 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
             array()
         );
 
-        $collection->getSelect()
-            ->where("{$tableAlias}.value >= ?", ($range * ($index - 1)))
-            ->where("{$tableAlias}.value < ?", ($range * $index));
+        $collection->getSelect()->where(
+            "{$tableAlias}.value >= ?",
+            $range * ($index - 1)
+        )->where(
+            "{$tableAlias}.value < ?",
+            $range * $index
+        );
 
         return $this;
     }
@@ -69,15 +69,17 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getMinMax($filter)
     {
-        $select     = $this->_getSelect($filter);
-        $adapter    = $this->_getReadAdapter();
+        $select = $this->_getSelect($filter);
+        $adapter = $this->_getReadAdapter();
 
-        $select->columns(array(
-            'min_value' => new \Zend_Db_Expr('MIN(decimal_index.value)'),
-            'max_value' => new \Zend_Db_Expr('MAX(decimal_index.value)'),
-        ));
+        $select->columns(
+            array(
+                'min_value' => new \Zend_Db_Expr('MIN(decimal_index.value)'),
+                'max_value' => new \Zend_Db_Expr('MAX(decimal_index.value)')
+            )
+        );
 
-        $result     = $adapter->fetchRow($select);
+        $result = $adapter->fetchRow($select);
 
         return array($result['min_value'], $result['max_value']);
     }
@@ -87,7 +89,7 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Joined table has index
      *
      * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect($filter)
     {
@@ -102,13 +104,17 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
         $attributeId = $filter->getAttributeModel()->getId();
-        $storeId     = $collection->getStoreId();
+        $storeId = $collection->getStoreId();
 
         $select->join(
             array('decimal_index' => $this->getMainTable()),
-            'e.entity_id = decimal_index.entity_id'.
-            ' AND ' . $this->_getReadAdapter()->quoteInto('decimal_index.attribute_id = ?', $attributeId) .
-            ' AND ' . $this->_getReadAdapter()->quoteInto('decimal_index.store_id = ?', $storeId),
+            'e.entity_id = decimal_index.entity_id' . ' AND ' . $this->_getReadAdapter()->quoteInto(
+                'decimal_index.attribute_id = ?',
+                $attributeId
+            ) . ' AND ' . $this->_getReadAdapter()->quoteInto(
+                'decimal_index.store_id = ?',
+                $storeId
+            ),
             array()
         );
 
@@ -124,16 +130,13 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCount($filter, $range)
     {
-        $select     = $this->_getSelect($filter);
-        $adapter    = $this->_getReadAdapter();
+        $select = $this->_getSelect($filter);
+        $adapter = $this->_getReadAdapter();
 
-        $countExpr  = new \Zend_Db_Expr("COUNT(*)");
-        $rangeExpr  = new \Zend_Db_Expr("FLOOR(decimal_index.value / {$range}) + 1");
+        $countExpr = new \Zend_Db_Expr("COUNT(*)");
+        $rangeExpr = new \Zend_Db_Expr("FLOOR(decimal_index.value / {$range}) + 1");
 
-        $select->columns(array(
-            'decimal_range' => $rangeExpr,
-            'count' => $countExpr
-        ));
+        $select->columns(array('decimal_range' => $rangeExpr, 'count' => $countExpr));
         $select->group($rangeExpr);
 
         return $adapter->fetchPairs($select);

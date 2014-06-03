@@ -12,19 +12,23 @@ namespace Magento\AdvancedCheckout\Block\Sku\Column\Renderer;
 class Remove extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Button
 {
     /**
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
-        $removeButtonHtml = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button', '', array(
-            'data' => array(
-                'class' => 'delete',
-                'label' => 'Remove',
-                'onclick' => 'addBySku.removeFailedItem(this)',
-                'type' => 'button',
+        $removeButtonHtml = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button',
+            '',
+            array(
+                'data' => array(
+                    'class' => 'delete',
+                    'label' => 'Remove',
+                    'onclick' => 'addBySku.removeFailedItem(this)',
+                    'type' => 'button'
+                )
             )
-        ));
+        );
 
         return $removeButtonHtml->toHtml();
     }

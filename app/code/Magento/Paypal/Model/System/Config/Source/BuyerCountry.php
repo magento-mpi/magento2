@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Paypal\Model\System\Config\Source;
 /**
  * Source model for buyer countries supported by PayPal
  */
-class BuyerCountry implements \Magento\Option\ArrayInterface
+class BuyerCountry implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory
@@ -42,9 +40,12 @@ class BuyerCountry implements \Magento\Option\ArrayInterface
     public function toOptionArray($isMultiselect = false)
     {
         $supported = $this->_configFactory->create()->getSupportedBuyerCountryCodes();
-        $options = $this->_countryCollectionFactory->create()->addCountryCodeFilter($supported, 'iso2')
-            ->loadData()
-            ->toOptionArray($isMultiselect ? false : __('--Please Select--'));
+        $options = $this->_countryCollectionFactory->create()->addCountryCodeFilter(
+            $supported,
+            'iso2'
+        )->loadData()->toOptionArray(
+            $isMultiselect ? false : __('--Please Select--')
+        );
 
         return $options;
     }

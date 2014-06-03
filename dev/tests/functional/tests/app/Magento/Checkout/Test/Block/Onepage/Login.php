@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
@@ -19,7 +15,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Login
  * One page checkout status login block
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Login extends Form
 {
@@ -60,8 +55,7 @@ class Login extends Form
     {
         if ($fixture->isRegisteredCustomer()) {
             $this->loginCustomer($fixture);
-        }
-        else if ($fixture->getCustomer()) {
+        } elseif ($fixture->getCustomer()) {
             $this->registerCustomer();
         } else {
             $this->guestCheckout();
@@ -75,7 +69,7 @@ class Login extends Form
     {
         $this->_rootElement->find($this->guestCheckout, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('.loading-mask');
     }
 
     /**
@@ -85,7 +79,7 @@ class Login extends Form
     {
         $this->_rootElement->find($this->registerCustomer, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('.loading-mask');
     }
 
     /**
@@ -98,6 +92,6 @@ class Login extends Form
         $customer = $fixture->getCustomer();
         $this->fill($customer);
         $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('.loading-mask');
     }
 }

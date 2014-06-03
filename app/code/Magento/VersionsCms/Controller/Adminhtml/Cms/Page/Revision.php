@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 /**
  * Manage revision controller
  */
-class Revision
-    extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
+class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
      * @var \Magento\Cms\Model\Page
@@ -21,38 +18,38 @@ class Revision
     protected $_cmsPage;
 
     /**
-     * @var \Magento\Core\Model\Design
+     * @var \Magento\Framework\App\DesignInterface
      */
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Cms\Model\Page $cmsPage
-     * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\DesignInterface $design
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\App\DesignInterface $design,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_cmsPage = $cmsPage;
@@ -68,7 +65,6 @@ class Revision
         );
     }
 
-
     /**
      * Init actions
      *
@@ -78,9 +74,15 @@ class Revision
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Cms::cms_page')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
+        $this->_setActiveMenu(
+            'Magento_Cms::cms_page'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('Manage Pages'),
+            __('Manage Pages')
+        );
         return $this;
     }
 
@@ -159,14 +161,13 @@ class Revision
             $data = $this->_filterPostData($data);
             // init model and set data
             $revision = $this->_initRevision();
-            $revision->setData($data)
-                ->setUserId($this->_backendAuthSession->getUser()->getId());
+            $revision->setData($data)->setUserId($this->_backendAuthSession->getUser()->getId());
 
             if (!$this->_validatePostData($data)) {
-                $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'), array(
-                    'page_id' => $revision->getPageId(),
-                    'revision_id' => $revision->getId()
-                ));
+                $this->_redirect(
+                    'adminhtml/*/' . $this->getRequest()->getParam('back'),
+                    array('page_id' => $revision->getPageId(), 'revision_id' => $revision->getId())
+                );
                 return;
             }
 
@@ -181,17 +182,17 @@ class Revision
                 $this->_session->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'), array(
-                        'page_id' => $revision->getPageId(),
-                        'revision_id' => $revision->getId()
-                    ));
+                    $this->_redirect(
+                        'adminhtml/*/' . $this->getRequest()->getParam('back'),
+                        array('page_id' => $revision->getPageId(), 'revision_id' => $revision->getId())
+                    );
                     return;
                 }
                 // go to grid
-                $this->_redirect('adminhtml/cms_page_version/edit', array(
-                    'page_id' => $revision->getPageId(),
-                    'version_id' => $revision->getVersionId()
-                ));
+                $this->_redirect(
+                    'adminhtml/cms_page_version/edit',
+                    array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
+                );
                 return;
             } catch (\Exception $e) {
                 // display error message
@@ -199,10 +200,13 @@ class Revision
                 // save data in session
                 $this->_session->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array(
-                    'page_id' => $this->getRequest()->getParam('page_id'),
-                    'revision_id' => $this->getRequest()->getParam('revision_id'),
-                ));
+                $this->_redirect(
+                    'adminhtml/*/edit',
+                    array(
+                        'page_id' => $this->getRequest()->getParam('page_id'),
+                        'revision_id' => $this->getRequest()->getParam('revision_id')
+                    )
+                );
                 return;
             }
         }
@@ -227,10 +231,13 @@ class Revision
             // display error message
             $this->messageManager->addError($e->getMessage());
             // redirect to edit form
-            $this->_redirect('adminhtml/*/edit', array(
-                'page_id' => $this->getRequest()->getParam('page_id'),
-                'revision_id' => $this->getRequest()->getParam('revision_id')
-            ));
+            $this->_redirect(
+                'adminhtml/*/edit',
+                array(
+                    'page_id' => $this->getRequest()->getParam('page_id'),
+                    'revision_id' => $this->getRequest()->getParam('revision_id')
+                )
+            );
             return;
         }
     }
@@ -246,7 +253,7 @@ class Revision
         $data = $this->getRequest()->getPost();
         if (empty($data) || !isset($data['page_id'])) {
             $this->_forward('noroute');
-            return ;
+            return;
         }
 
         $page = $this->_initPage();
@@ -290,9 +297,13 @@ class Revision
      */
     public function dropAction()
     {
-        $this->_objectManager->get('Magento\Translate\InlineInterface')->disable();
-        $this->_objectManager->get('Magento\App\State')
-            ->emulateAreaCode('frontend', array($this, 'previewFrontendPage'));
+        $this->_objectManager->get('Magento\Framework\Translate\Inline\StateInterface')->suspend();
+        $this->_objectManager->get(
+            'Magento\Framework\App\State'
+        )->emulateAreaCode(
+            'frontend',
+            array($this, 'previewFrontendPage')
+        );
     }
 
     /**
@@ -309,7 +320,7 @@ class Revision
             $page = $this->_cmsPage->load($data['page_id']);
             if (!$page->getId()) {
                 $this->_forward('noroute');
-                return ;
+                return;
             }
 
             /**
@@ -358,15 +369,18 @@ class Revision
             $this->_localeResolver->emulate($selectedStoreId);
             $this->_storeManager->setCurrentStore($this->_storeManager->getStore($selectedStoreId));
 
-            $theme = $this->_objectManager->get('Magento\View\DesignInterface')
-                ->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
-            $this->_objectManager->get('Magento\View\DesignInterface')->setDesignTheme($theme, 'frontend');
+            $theme = $this->_objectManager->get(
+                'Magento\Framework\View\DesignInterface'
+            )->getConfigurationDesignTheme(
+                null,
+                array('store' => $selectedStoreId)
+            );
+            $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
             $designChange = $this->_design->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
-                $this->_objectManager->get('Magento\View\DesignInterface')
-                    ->setDesignTheme($designChange->getDesign());
+                $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($designChange->getDesign());
             }
 
             // add handles used to render cms page on frontend
@@ -374,7 +388,6 @@ class Revision
             $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
             $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
             $this->_localeResolver->revert();
-
         } else {
             $this->_forward('noroute');
         }
@@ -396,17 +409,17 @@ class Revision
                 $revision->delete();
                 // display success message
                 $this->messageManager->addSuccess(__('You have deleted the revision.'));
-                $this->_redirect('adminhtml/cms_page_version/edit', array(
-                        'page_id' => $revision->getPageId(),
-                        'version_id' => $revision->getVersionId()
-                    ));
+                $this->_redirect(
+                    'adminhtml/cms_page_version/edit',
+                    array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
+                );
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }

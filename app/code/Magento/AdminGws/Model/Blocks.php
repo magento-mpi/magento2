@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Blocks limiter
@@ -20,7 +18,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -38,13 +36,13 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Cms\Model\Resource\Page $cmsPageResource,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_cmsPageResource = $cmsPageResource;
         $this->_categoryResource = $categoryResource;
@@ -60,7 +58,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogCategoryIsMoveable($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
         $category = $observer->getEvent()->getOptions()->getCategory();
@@ -77,7 +76,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogCategoryCanBeAdded($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
 
@@ -108,7 +108,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogRootCategoryCanBeAdded($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
 
@@ -190,10 +191,13 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeCatalogProductAttributeButtons($observer)
     {
-        $observer->getEvent()->getBlock()
-            ->removeButton('save')
-            ->removeButton('save_and_edit_button')
-            ->removeButton('delete');
+        $observer->getEvent()->getBlock()->removeButton(
+            'save'
+        )->removeButton(
+            'save_and_edit_button'
+        )->removeButton(
+            'delete'
+        );
     }
 
     /**
@@ -233,7 +237,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function disallowCreateAttributeButtonDisplay($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
 
@@ -248,7 +253,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeAttributeSetControls($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
 
@@ -271,7 +277,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeAddNewAttributeSetButton($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
 
@@ -288,7 +295,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeAddNewCustomerAttributeButton($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
         $block = $observer->getEvent()->getBlock();
@@ -303,7 +311,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeDeleteCustomerAttributeButton($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
         $block = $observer->getEvent()->getBlock();
@@ -318,7 +327,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function widgetCatalogEventCategoryEditButtons($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) {
+            // because observer is passed through directly
             return;
         }
         $block = $observer->getEvent()->getBlock();
@@ -331,8 +341,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 }
             }
 
-            $block->removeAdditionalButton('add_event')
-                ->removeAdditionalButton('edit_event');
+            $block->removeAdditionalButton('add_event')->removeAdditionalButton('edit_event');
         }
     }
 
@@ -356,13 +365,15 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
-
         }
         if ($setDisabled) {
-            $element = $observer->getEvent()->getBlock()->getForm()
-                       ->getElement('display_state_array');
-            $element->setDisabled( array(\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
-                                         \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE));
+            $element = $observer->getEvent()->getBlock()->getForm()->getElement('display_state_array');
+            $element->setDisabled(
+                array(
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE
+                )
+            );
         }
     }
 
@@ -374,10 +385,13 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function setIsRequiredSubscribersFromFieldForNewsletterQueueForm($observer)
     {
-        $observer->getEvent()
-            ->getBlock()
-            ->getForm()
-            ->getElement('stores')->setRequired(true)->addClass('required-entry');
+        $observer->getEvent()->getBlock()->getForm()->getElement(
+            'stores'
+        )->setRequired(
+            true
+        )->addClass(
+            'required-entry'
+        );
     }
 
     /**
@@ -420,7 +434,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model \Magento\Core\Model\AbstractModel */
+        /* @var $model \Magento\Framework\Model\AbstractModel */
         $model = $this->_coreRegistry->registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();
@@ -567,9 +581,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeProcessEditButtons($observer)
     {
-        $observer->getEvent()->getBlock()
-            ->removeButton('save')
-            ->removeButton('reindex');
+        $observer->getEvent()->getBlock()->removeButton('save')->removeButton('reindex');
 
         return $this;
     }
@@ -588,9 +600,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
         /* @var $massBlock \Magento\Backend\Block\Widget\Grid\Massaction */
         if ($massBlock) {
-            $massBlock->removeItem('cancel_order')
-                ->removeItem('hold_order')
-                ->removeItem('unhold_order');
+            $massBlock->removeItem('cancel_order')->removeItem('hold_order')->removeItem('unhold_order');
         }
 
         return $this;
@@ -610,9 +620,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($model && $model->getId()) {
             $storeIds = $this->_cmsPageResource->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
-                $observer->getEvent()->getBlock()
-                    ->removeButton('publish')
-                    ->removeButton('save_publish');
+                $observer->getEvent()->getBlock()->removeButton('publish')->removeButton('save_publish');
             }
         }
     }
@@ -630,8 +638,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($model && $model->getId()) {
             $storeIds = $this->_cmsPageResource->lookupStoreIds($model->getPageId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
-                $observer->getEvent()->getBlock()
-                    ->removeButton('publish');
+                $observer->getEvent()->getBlock()->removeButton('publish');
             }
         }
     }
@@ -680,9 +687,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $block = $observer->getEvent()->getBlock();
         if ($block) {
-            $block->unsetChild('save_button')
-                ->unsetChild('import_button')
-                ->unsetChild('import_services');
+            $block->unsetChild('save_button')->unsetChild('import_button')->unsetChild('import_services');
         }
     }
 
@@ -696,8 +701,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $block = $observer->getEvent()->getBlock();
         if ($block) {
-            $block->unsetChild('save_button')
-                ->unsetChild('delete_button');
+            $block->unsetChild('save_button')->unsetChild('delete_button');
         }
     }
 
@@ -763,7 +767,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $block = $observer->getEvent()->getBlock();
         if ($block) {
             $access = $this->_role->hasWebsiteAccess($block->getProduct()->getWebsiteIds(), true);
-            if ((!$block->getProduct()->isObjectNew() && !$access) || $block->getProduct()->isReadonly()) {
+            if (!$block->getProduct()->isObjectNew() && !$access || $block->getProduct()->isReadonly()) {
                 $block->setIsReadonly(true);
             }
         }
@@ -789,14 +793,12 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 $block->getCategory()->setPermissionsReadonly(true);
                 $addButton = $block->getChildBlock('add_button');
                 if ($addButton) {
-                    $addButton->setDisabled(true)
-                        ->setClass($addButton->getClass() . ' disabled');
+                    $addButton->setDisabled(true)->setClass($addButton->getClass() . ' disabled');
                 }
                 if ($row) {
                     $deleteButton = $row->getChildBlock('delete_button');
                     if ($deleteButton) {
-                        $addButton->setDisabled(true)
-                            ->setClass($deleteButton->getClass() . ' disabled');
+                        $addButton->setDisabled(true)->setClass($deleteButton->getClass() . ' disabled');
                     }
                 }
             }
@@ -859,7 +861,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $model = $observer->getEvent()->getModel();
         if (!$this->_role->getIsAll() && $model) {
-             $model->setCanSaveAllStoreViewsContent(false);
+            $model->setCanSaveAllStoreViewsContent(false);
         }
         return $this;
     }
@@ -898,10 +900,12 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
                 foreach ($nodesAssoc as $nodeId => $node) {
                     // define parent page/node
-                    $parent = isset($nodesAssoc[$node['parent_node_id']]) ? $nodesAssoc[$node['parent_node_id']] : null;
-                    $parentDenied = $parent !== null
-                                 && isset($parent['append_denied'])
-                                 && $parent['append_denied'] === true;
+                    $parent = isset(
+                        $nodesAssoc[$node['parent_node_id']]
+                    ) ? $nodesAssoc[$node['parent_node_id']] : null;
+                    $parentDenied = $parent !== null && isset(
+                        $parent['append_denied']
+                    ) && $parent['append_denied'] === true;
 
                     // If appending is denied for parent - deny it for child
                     if ($parentDenied || !$node['page_id']) {
@@ -983,10 +987,13 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeTaxRuleControlButtons($observer)
     {
-        $observer->getEvent()->getBlock()
-            ->removeButton('save')
-            ->removeButton('save_and_continue')
-            ->removeButton('delete');
+        $observer->getEvent()->getBlock()->removeButton(
+            'save'
+        )->removeButton(
+            'save_and_continue'
+        )->removeButton(
+            'delete'
+        );
         return $this;
     }
 
@@ -1010,9 +1017,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeTaxRateControlButtons($observer)
     {
-        $observer->getEvent()->getBlock()
-            ->unsetChild('saveButton')
-            ->unsetChild('deleteButton');
+        $observer->getEvent()->getBlock()->unsetChild('saveButton')->unsetChild('deleteButton');
         return $this;
     }
 
@@ -1063,7 +1068,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         /* @var $block \Magento\Backend\Block\Widget\Grid\Container */
         $block = $observer->getEvent()->getBlock();
         if (!$block) {
-             return true;
+            return true;
         }
 
         $controllerName = $block->getRequest()->getControllerName();
@@ -1149,10 +1154,6 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         return $this;
     }
 
-
-
-
-
     /**
      * Remove add button for users who does not permissions for any site
      *
@@ -1203,7 +1204,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function disableTaxRelatedMultiselects($observer)
     {
         /**
-         * @var $form \Magento\Data\Form
+         * @var $form \Magento\Framework\Data\Form
          */
         $form = $observer->getEvent()->getBlock()->getForm();
         $form->getElement('tax_customer_class')->setDisabled(true);
@@ -1212,5 +1213,4 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         return $this;
     }
-
 }

@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Framework\Session;
 
-namespace Magento\Session;
 use \Magento\Backend\Model\SessionTest;
 
 function headers_sent()

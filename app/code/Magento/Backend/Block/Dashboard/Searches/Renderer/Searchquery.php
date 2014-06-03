@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Dashboard\Searches\Renderer;
 
 /**
@@ -18,18 +15,18 @@ class Searchquery extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
     /**
      * String helper
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $stringHelper;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Stdlib\String $stringHelper
+     * @param \Magento\Framework\Stdlib\String $stringHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Stdlib\String $stringHelper,
+        \Magento\Framework\Stdlib\String $stringHelper,
         array $data = array()
     ) {
         $this->stringHelper = $stringHelper;
@@ -39,15 +36,18 @@ class Searchquery extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
     /**
      * Renders a column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if ($this->stringHelper->strlen($value) > 30) {
-            $value = '<span title="' . $this->escapeHtml($value) . '">'
-                . $this->escapeHtml($this->filterManager->truncate($value, array('length' => 30))) . '</span>';
+            $value = '<span title="' . $this->escapeHtml(
+                $value
+            ) . '">' . $this->escapeHtml(
+                $this->filterManager->truncate($value, array('length' => 30))
+            ) . '</span>';
         } else {
             $value = $this->escapeHtml($value);
         }

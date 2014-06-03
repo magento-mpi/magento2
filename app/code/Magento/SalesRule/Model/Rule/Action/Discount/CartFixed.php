@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
 class CartFixed extends AbstractDiscount
@@ -35,10 +32,10 @@ class CartFixed extends AbstractDiscount
         $quote = $item->getQuote();
         $address = $item->getAddress();
 
-        $itemPrice              = $this->validator->getItemPrice($item);
-        $baseItemPrice          = $this->validator->getItemBasePrice($item);
-        $itemOriginalPrice      = $this->validator->getItemOriginalPrice($item);
-        $baseItemOriginalPrice  = $this->validator->getItemBaseOriginalPrice($item);
+        $itemPrice = $this->validator->getItemPrice($item);
+        $baseItemPrice = $this->validator->getItemBasePrice($item);
+        $itemOriginalPrice = $this->validator->getItemOriginalPrice($item);
+        $baseItemOriginalPrice = $this->validator->getItemBaseOriginalPrice($item);
 
         /**
          * prevent applying whole cart discount for every shipping order, but only for first order

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,11 +23,9 @@ namespace Magento\Logging\Model\Event;
  * @method string getResultData()
  * @method \Magento\Logging\Model\Event\Changes setResultData(string $value)
  *
- * @category    Magento
- * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Changes extends \Magento\Core\Model\AbstractModel
+class Changes extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Set of fields that should not be logged for all models
@@ -53,18 +49,18 @@ class Changes extends \Magento\Core\Model\AbstractModel
     protected $_difference = null;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $skipFields
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $skipFields = array(),
         array $data = array()
     ) {
@@ -133,7 +129,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
                 $newResultData = array('__was_deleted' => true);
                 $difference = $origData;
             } elseif ($origData && $resultData) {
-                $newParams  = array_diff_key($resultData, $origData);
+                $newParams = array_diff_key($resultData, $origData);
                 $sameParams = array_intersect_key($origData, $resultData);
                 foreach ($sameParams as $key => $value) {
                     if ($origData[$key] != $resultData[$key]) {
@@ -187,7 +183,18 @@ class Changes extends \Magento\Core\Model\AbstractModel
         }
         $clearedData = array();
         foreach ($data as $key => $value) {
-            if (!in_array($key, $this->_globalSkipFields) && !in_array($key, $skipFields) && !is_array($value) && !is_object($value)) {
+            if (!in_array(
+                $key,
+                $this->_globalSkipFields
+            ) && !in_array(
+                $key,
+                $skipFields
+            ) && !is_array(
+                $value
+            ) && !is_object(
+                $value
+            )
+            ) {
                 $clearedData[$key] = $value;
             }
         }

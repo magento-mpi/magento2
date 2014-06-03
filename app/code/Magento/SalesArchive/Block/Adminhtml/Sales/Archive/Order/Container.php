@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,6 +18,7 @@ class Container extends \Magento\Backend\Block\Widget\Grid\Container
     protected function _prepareLayout()
     {
         $this->_removeButton('add');
-         return $this;
+        parent::_prepareLayout();
+        return $this;
     }
 }

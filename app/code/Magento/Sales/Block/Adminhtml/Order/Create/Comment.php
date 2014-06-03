@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +17,7 @@ class Comment extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Data Form object
      *
-     * @var \Magento\Data\Form
+     * @var \Magento\Framework\Data\Form
      */
     protected $_form;
 

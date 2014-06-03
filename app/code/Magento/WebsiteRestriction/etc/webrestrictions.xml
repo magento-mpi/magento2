@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../WebsiteRestriction/etc/webrestrictions.xsd">
     <action path="captcha_refresh_index" type="generic" />
     <action path="customer_account_login" type="generic" />
     <action path="customer_account_loginPost" type="generic" />

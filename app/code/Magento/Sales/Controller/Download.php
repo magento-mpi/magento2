@@ -7,14 +7,14 @@
  */
 namespace Magento\Sales\Controller;
 
-use Magento\App\Action\Context;
+use Magento\Framework\App\Action\Context;
 use Magento\Sales\Model\Download as ModelDownload;
 use Magento\Catalog\Model\Product\Type\AbstractType as AbstractProductType;
 
 /**
  * Sales controller for download purposes
  */
-class Download extends \Magento\App\Action\Action
+class Download extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var \Magento\Sales\Model\Download
@@ -59,8 +59,10 @@ class Download extends \Magento\App\Action\Action
             /** @var $productOption \Magento\Catalog\Model\Product\Option */
             $productOption = $this->_objectManager->create('Magento\Catalog\Model\Product\Option')->load($optionId);
         }
-        if (!$productOption || !$productOption->getId()
-            || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'
+        if (!$productOption ||
+            !$productOption->getId() ||
+            $productOption->getProductId() != $option->getProductId() ||
+            $productOption->getType() != 'file'
         ) {
             $this->_forward('noroute');
             return;

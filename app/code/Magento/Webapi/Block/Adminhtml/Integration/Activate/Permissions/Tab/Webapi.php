@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Block\Adminhtml\Integration\Activate\Permissions\Tab;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
@@ -19,16 +18,16 @@ use Magento\Webapi\Helper\Data as WebapiHelper;
  * TODO: Fix warnings suppression
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /** @var string[] */
     protected $_selectedResources;
 
-    /** @var \Magento\Acl\RootResource */
+    /** @var \Magento\Framework\Acl\RootResource */
     protected $_rootResource;
 
-    /** @var \Magento\Acl\Resource\ProviderInterface */
+    /** @var \Magento\Framework\Acl\Resource\ProviderInterface */
     protected $_resourceProvider;
 
     /** @var \Magento\Integration\Helper\Data */
@@ -44,22 +43,22 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      * Initialize dependencies.
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Acl\RootResource $rootResource
-     * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
+     * @param \Magento\Framework\Acl\RootResource $rootResource
+     * @param \Magento\Framework\Acl\Resource\ProviderInterface $resourceProvider
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param \Magento\Webapi\Helper\Data $webapiData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Acl\RootResource $rootResource,
-        \Magento\Acl\Resource\ProviderInterface $resourceProvider,
+        \Magento\Framework\Acl\RootResource $rootResource,
+        \Magento\Framework\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
         \Magento\Webapi\Helper\Data $webapiData,
         array $data = array()
@@ -90,8 +89,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     public function canShowTab()
     {
         $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
-        return isset($integrationData[Info::DATA_SETUP_TYPE])
-            && ($integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG);
+        return isset(
+            $integrationData[Info::DATA_SETUP_TYPE]
+        ) && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
     }
 
     /**
@@ -152,8 +152,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $selectedResources = $this->_selectedResources;
         if ($this->isEverythingAllowed()) {
-             $resources = $this->_resourceProvider->getAclResources();
-             $selectedResources = $this->_getAllResourceIds($resources[1]['children']);
+            $resources = $this->_resourceProvider->getAclResources();
+            $selectedResources = $this->_getAllResourceIds($resources[1]['children']);
         }
         return $this->_coreHelper->jsonEncode($selectedResources);
     }
@@ -165,7 +165,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function isTreeEmpty()
     {
-        return $this->_selectedResources === [];
+        return $this->_selectedResources === array();
     }
 
     /**

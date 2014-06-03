@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,7 +33,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'attrGroupFactory' => $attrGroupFactory,
             'attributeFactory' => $attrFactory,
-            'resource' => $resource,
+            'resource' => $resource
         );
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Eav\Model\Entity\Attribute\Set', $arguments);
@@ -47,7 +44,6 @@ class SetTest extends \PHPUnit_Framework_TestCase
         $this->_model = null;
     }
 
-
     /**
      * @param string $attributeSetName
      * @param string $exceptionMessage
@@ -55,10 +51,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateWithExistingName($attributeSetName, $exceptionMessage)
     {
-        $this->_model->getResource()
-            ->expects($this->any())
-            ->method('validate')
-            ->will($this->returnValue(false));
+        $this->_model->getResource()->expects($this->any())->method('validate')->will($this->returnValue(false));
 
         $this->setExpectedException('Magento\Eav\Exception', $exceptionMessage);
         $this->_model->setAttributeSetName($attributeSetName);
@@ -67,10 +60,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWithNonexistentValidName()
     {
-        $this->_model->getResource()
-            ->expects($this->any())
-            ->method('validate')
-            ->will($this->returnValue(true));
+        $this->_model->getResource()->expects($this->any())->method('validate')->will($this->returnValue(true));
 
         $this->_model->setAttributeSetName('nonexistent_name');
         $this->assertTrue($this->_model->validate());

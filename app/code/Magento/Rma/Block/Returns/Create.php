@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +22,7 @@ class Create extends \Magento\Rma\Block\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -43,25 +41,25 @@ class Create extends \Magento\Rma\Block\Form
     protected $_itemFormFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -89,13 +87,13 @@ class Create extends \Magento\Rma\Block\Form
 
         $formData = $this->_session->getRmaFormData(true);
         if (!empty($formData)) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
         $errorKeys = $this->_session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $data->addData($errorKeys);
             $this->setErrorKeys($data);
         }
@@ -136,9 +134,7 @@ class Create extends \Magento\Rma\Block\Form
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
-        $itemForm->setFormCode('default')
-            ->setStore($this->getStore())
-            ->setEntity($itemModel);
+        $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($itemModel);
 
         // prepare item attributes to show
         $attributes = array();
@@ -159,7 +155,24 @@ class Create extends \Magento\Rma\Block\Form
             }
         }
 
-        uasort($attributes, array($this, '_compareSortOrder'));
+        uasort(
+            $attributes,
+            // @codingStandardsIgnoreStart
+            /**
+             * Compares sort order of attributes, returns -1, 0 or 1 if $a sort
+             * order is less, equal or greater than $b sort order respectively.
+             *
+             * @param Attribute $a
+             * @param Attribute $b
+             *
+             * @return int
+             */
+            // @codingStandardsIgnoreEnd
+            function (Attribute $a, Attribute $b) {
+                $diff = $a->getSortOrder() - $b->getSortOrder();
+                return $diff ? ($diff > 0 ? 1 : -1) : 0;
+            }
+        );
 
         return $attributes;
     }
@@ -171,27 +184,12 @@ class Create extends \Magento\Rma\Block\Form
      */
     public function getContactEmail()
     {
-        $data   = $this->getFormData();
-        $email  = '';
+        $data = $this->getFormData();
+        $email = '';
 
         if ($data) {
             $email = $this->escapeHtml($data->getCustomerCustomEmail());
         }
         return $email;
-    }
-
-    /**
-     * Compares sort order of attributes, returns -1, 0 or 1 if $a sort
-     * order is less, equal or greater than $b sort order respectively.
-     *
-     * @param Attribute $a
-     * @param Attribute $b
-     *
-     * @return int
-     */
-    protected function _compareSortOrder(Attribute $a, Attribute $b)
-    {
-        $diff = $a->getSortOrder() - $b->getSortOrder();
-        return $diff ? ($diff > 0 ? 1 : -1) : 0;
     }
 }

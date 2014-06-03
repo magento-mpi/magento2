@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Enterpise_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Catalog Event statuses option array
  *
- * @category   Magento
- * @package    Enterpise_CatalogEvent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class Statuses implements \Magento\Option\ArrayInterface
+class Statuses implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return statuses option array
@@ -28,8 +24,8 @@ class Statuses implements \Magento\Option\ArrayInterface
     {
         return array(
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN 	  => __('Open'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED   => __('Closed'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
     }
 }

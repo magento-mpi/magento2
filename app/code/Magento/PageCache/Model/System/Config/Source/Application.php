@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,9 +14,8 @@ namespace Magento\PageCache\Model\System\Config\Source;
 /**
  * Class Application
  *
- * @package Magento\PageCache\Model\System\Config\Source
  */
-class Application implements \Magento\Option\ArrayInterface
+class Application implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Options getter
@@ -28,8 +25,8 @@ class Application implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value' => \Magento\PageCache\Model\Config::BUILT_IN, 'label'=>__('Built-in Application')),
-            array('value' => \Magento\PageCache\Model\Config::VARNISH, 'label'=>__('Varnish Caching')),
+            array('value' => \Magento\PageCache\Model\Config::BUILT_IN, 'label' => __('Built-in Application')),
+            array('value' => \Magento\PageCache\Model\Config::VARNISH, 'label' => __('Varnish Caching'))
         );
     }
 
@@ -42,7 +39,7 @@ class Application implements \Magento\Option\ArrayInterface
     {
         return array(
             \Magento\PageCache\Model\Config::BUILT_IN => __('Built-in Application'),
-            \Magento\PageCache\Model\Config::VARNISH => __('Varnish Caching'),
+            \Magento\PageCache\Model\Config::VARNISH => __('Varnish Caching')
         );
     }
 }

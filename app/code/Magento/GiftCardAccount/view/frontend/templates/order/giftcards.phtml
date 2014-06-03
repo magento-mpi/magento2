@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php 
+    $_order  = $this->getOrder();
+    $_source = $this->getSource();
+    $_cards  = $this->getGiftCards();
+?>
+<?php if ($_cards):?>
+    <?php foreach ($_cards as $_card): ?>
+    <tr class="giftcard totals">
+        <td class="mark" <?php echo $this->getLabelProperties()?>>
+            <?php echo __('Gift Card (%1)', $_card->getCode()); ?>
+        </td>
+        <td class="amount" <?php echo $this->getValueProperties()?>><span class="discount">-<?php echo $_order->formatPrice($_card->getAmount()) ?></span></td>
+    </tr>
+    <?php endforeach; ?>
+<?php elseif ($_source->getGiftCardsAmount()>0): ?>
+    <tr class="giftcard totals">
+        <td class="mark" <?php echo $this->getLabelProperties()?>>
+            <?php echo __('Gift Card'); ?>
+        </td>
+        <td class="amount" <?php echo $this->getValueProperties()?>><span class="discount">-<?php echo $_order->formatPrice($_source->getGiftCardsAmount()) ?></span></td>
+    </tr>
+<?php endif?>

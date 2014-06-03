@@ -12,9 +12,8 @@ use Magento\Shipping\Model\Rate\Result;
 /**
  * Flat rate shipping model
  */
-class Flatrate
-    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Flatrate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
+    \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * @var string
@@ -37,24 +36,24 @@ class Flatrate
     protected $_rateMethodFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         array $data = array()
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
+        parent::__construct($scopeConfig, $rateErrorFactory, $logAdapterFactory, $data);
     }
 
     /**
@@ -90,10 +89,16 @@ class Flatrate
 
         /** @var Result $result */
         $result = $this->_rateResultFactory->create();
-        if ($this->getConfigData('type') == 'O') { // per order
+        if ($this->getConfigData('type') == 'O') {
+            // per order
             $shippingPrice = $this->getConfigData('price');
-        } elseif ($this->getConfigData('type') == 'I') { // per item
-            $shippingPrice = ($request->getPackageQty() * $this->getConfigData('price')) - ($this->getFreeBoxes() * $this->getConfigData('price'));
+        } elseif ($this->getConfigData('type') == 'I') {
+            // per item
+            $shippingPrice = $request->getPackageQty() * $this->getConfigData(
+                'price'
+            ) - $this->getFreeBoxes() * $this->getConfigData(
+                'price'
+            );
         } else {
             $shippingPrice = false;
         }
@@ -128,7 +133,6 @@ class Flatrate
      */
     public function getAllowedMethods()
     {
-        return array('flatrate'=>$this->getConfigData('name'));
+        return array('flatrate' => $this->getConfigData('name'));
     }
-
 }

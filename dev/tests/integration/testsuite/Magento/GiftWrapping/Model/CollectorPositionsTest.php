@@ -19,42 +19,17 @@ class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPosit
     public function collectorPositionDataProvider()
     {
         return array(
-            'quote collectors' => array(
-                'giftwrapping',
-                'quote',
-                array(),
-                array('subtotal'),
-            ),
-            'invoice collectors' => array(
-                'giftwrapping',
-                'invoice',
-                array('giftcardaccount'),
-                array('cost_total'),
-            ),
+            'quote collectors' => array('giftwrapping', 'quote', array(), array('subtotal')),
+            'invoice collectors' => array('giftwrapping', 'invoice', array('giftcardaccount'), array('cost_total')),
             'creditmemo collectors' => array(
                 'giftwrapping',
                 'creditmemo',
                 array('giftcardaccount'),
-                array('cost_total'),
+                array('cost_total')
             ),
-            'tax quote collectors' => array(
-                'tax_giftwrapping',
-                'quote',
-                array('grand_total'),
-                array('tax'),
-            ),
-            'tax invoice collectors' => array(
-                'tax_giftwrapping',
-                'quote',
-                array('grand_total'),
-                array('tax'),
-            ),
-            'tax creditmemo collectors' => array(
-                'tax_giftwrapping',
-                'creditmemo',
-                array('grand_total'),
-                array('tax'),
-            ),
+            'tax quote collectors' => array('tax_giftwrapping', 'quote', array('grand_total'), array('tax')),
+            'tax invoice collectors' => array('tax_giftwrapping', 'quote', array('grand_total'), array('tax')),
+            'tax creditmemo collectors' => array('tax_giftwrapping', 'creditmemo', array('grand_total'), array('tax'))
         );
     }
 }

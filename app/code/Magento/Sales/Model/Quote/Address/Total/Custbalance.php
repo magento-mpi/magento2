@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
-class Custbalance
-    extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+class Custbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * @param \Magento\Sales\Model\Quote\Address $address

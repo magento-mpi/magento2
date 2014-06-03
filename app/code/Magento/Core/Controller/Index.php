@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Controller;
 
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * @return void
      */
     public function indexAction()
     {
-
     }
 
     /**
@@ -39,11 +35,11 @@ class Index extends \Magento\App\Action\Action
      */
     public function noCookiesAction()
     {
-        $redirect = new \Magento\Object();
-        $this->_eventManager->dispatch('controller_action_nocookies', array(
-            'action' => $this,
-            'redirect' => $redirect
-        ));
+        $redirect = new \Magento\Framework\Object();
+        $this->_eventManager->dispatch(
+            'controller_action_nocookies',
+            array('action' => $this, 'redirect' => $redirect)
+        );
 
         $url = $redirect->getRedirectUrl();
         if ($url) {

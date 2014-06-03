@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,10 +28,12 @@ abstract class AbstractDirector
      *
      * @param array $config
      * @param \Magento\Backend\Model\Menu\Builder $builder
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @return void
      */
     abstract public function direct(
-        array $config, \Magento\Backend\Model\Menu\Builder $builder, \Magento\Logger $logger
+        array $config,
+        \Magento\Backend\Model\Menu\Builder $builder,
+        \Magento\Framework\Logger $logger
     );
 }

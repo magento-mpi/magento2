@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Condition;
 
 use Magento\Customer\Model\Customer;
@@ -54,7 +51,6 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
             $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
             $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
             $this->_defaultOperatorInputByType['multiselect'] = array('==', '!=', '[]', '![]');
-
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -115,9 +111,15 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {
-        $storeTable = $this->getResource()->getTable('core_store');
-        $select->join(array('store'=> $storeTable), $storeIdField.'=store.store_id', array())
-            ->where('store.website_id=?', $website);
+        $storeTable = $this->getResource()->getTable('store');
+        $select->join(
+            array('store' => $storeTable),
+            $storeIdField . '=store.store_id',
+            array()
+        )->where(
+            'store.website_id=?',
+            $website
+        );
         return $this;
     }
 }

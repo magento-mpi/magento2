@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Catalog composite product configuration controller
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Cart extends \Magento\Backend\App\Action
@@ -45,21 +41,25 @@ class Cart extends \Magento\Backend\App\Action
      * Loads customer, quote and quote item by request params
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initData()
     {
         $this->_customerId = (int)$this->getRequest()->getParam('customer_id');
         if (!$this->_customerId) {
-            throw new \Magento\Core\Exception(__('No customer ID defined.'));
+            throw new \Magento\Framework\Model\Exception(__('No customer ID defined.'));
         }
 
         $quoteItemId = (int)$this->getRequest()->getParam('id');
         $websiteId = (int)$this->getRequest()->getParam('website_id');
 
-        $this->_quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
-            ->setWebsite($this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId))
-            ->loadByCustomer($this->_customerId);
+        $this->_quote = $this->_objectManager->create(
+            'Magento\Sales\Model\Quote'
+        )->setWebsite(
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
+        )->loadByCustomer(
+            $this->_customerId
+        );
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
@@ -76,29 +76,34 @@ class Cart extends \Magento\Backend\App\Action
      */
     public function configureAction()
     {
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')
-                ->getCollection()
-                ->addItemFilter($quoteItem);
+            $optionCollection = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote\Item\Option'
+            )->getCollection()->addItemFilter(
+                $quoteItem
+            );
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setOk(true);
             $configureResult->setProductId($quoteItem->getProductId());
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
-            $configureResult->setCustomerId($this->_customerId);
+            $configureResult->setCurrentCustomerId($this->_customerId);
         } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
-        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($configureResult);
+        $this->_objectManager->get(
+            'Magento\Catalog\Helper\Product\Composite'
+        )->renderConfigureResult(
+            $configureResult
+        );
     }
 
     /**
@@ -108,14 +113,13 @@ class Cart extends \Magento\Backend\App\Action
      */
     public function updateAction()
     {
-        $updateResult = new \Magento\Object();
+        $updateResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
-            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
             $this->_quote->updateItem($this->_quoteItem->getId(), $buyRequest);
-            $this->_quote->collectTotals()
-                ->save();
+            $this->_quote->collectTotals()->save();
 
             $updateResult->setOk(true);
         } catch (\Exception $e) {

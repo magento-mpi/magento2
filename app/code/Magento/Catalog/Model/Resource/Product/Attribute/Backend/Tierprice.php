@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice\Abstract
 /**
  * Catalog product tier price backend attribute model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Tierprice extends AbstractGroupprice
@@ -46,8 +42,8 @@ class Tierprice extends AbstractGroupprice
     /**
      * Order by qty
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _loadPriceDataSelect($select)
     {

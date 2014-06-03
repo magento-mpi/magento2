@@ -26,41 +26,58 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
     {
         $checkoutSessionArgs = $this->objectManager->getConstructArguments(
             'Magento\Checkout\Model\Session',
-            array('storage' => new \Magento\Session\Storage('checkout'))
+            array('storage' => new \Magento\Framework\Session\Storage('checkout'))
         );
         $checkoutSession = $this->getMock(
             'Magento\Checkout\Model\Session',
-            ['getLastRecurringPaymentIds'],
+            array('getLastRecurringPaymentIds'),
             $checkoutSessionArgs
         );
-        $checkoutSession->expects($this->once())
-            ->method('getLastRecurringPaymentIds')
-            ->will($this->returnValue([1, 2, 3]));
+        $checkoutSession->expects(
+            $this->once()
+        )->method(
+            'getLastRecurringPaymentIds'
+        )->will(
+            $this->returnValue(array(1, 2, 3))
+        );
         $collection = $this->getMock(
             'Magento\RecurringPayment\Model\Resource\Payment\Collection',
-            ['addFieldToFilter'],
-            [],
+            array('addFieldToFilter'),
+            array(),
             '',
             false
         );
-        $collection->expects($this->once())->method('addFieldToFilter')
-            ->with('payment_id', ['in' => [1, 2, 3]])->will($this->returnValue([]));
+        $collection->expects(
+            $this->once()
+        )->method(
+            'addFieldToFilter'
+        )->with(
+            'payment_id',
+            array('in' => array(1, 2, 3))
+        )->will(
+            $this->returnValue(array())
+        );
         $recurringPaymentCollectionFactory = $this->getMock(
             'Magento\RecurringPayment\Model\Resource\Payment\CollectionFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
-        $recurringPaymentCollectionFactory->expects($this->once())
-            ->method('create')->will($this->returnValue($collection));
+        $recurringPaymentCollectionFactory->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($collection)
+        );
 
         /** @var \Magento\Checkout\Block\Onepage\Success $block */
         $block = $this->objectManager->getObject(
             'Magento\RecurringPayment\Block\Checkout\Onepage\Success',
             array(
                 'checkoutSession' => $checkoutSession,
-                'recurringPaymentCollectionFactory' => $recurringPaymentCollectionFactory,
+                'recurringPaymentCollectionFactory' => $recurringPaymentCollectionFactory
             )
         );
         $this->assertEquals('', $block->toHtml());

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V1;
 
 use Magento\TestModule5\Service\V1\Entity\AllSoapAndRestBuilder;
@@ -13,15 +12,28 @@ use Magento\TestModule5\Service\V1\Entity\AllSoapAndRestBuilder;
 class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestInterface
 {
     /**
+     * @var AllSoapAndRestBuilder
+     */
+    protected $builder;
+
+    /**
+     * @param AllSoapAndRestBuilder $builder
+     */
+    public function __construct(AllSoapAndRestBuilder $builder)
+    {
+        $this->builder = $builder;
+    }
+    
+    /**
      * @inheritdoc
      */
     public function item($id)
     {
-        return (new AllSoapAndRestBuilder())
+        return $this->builder
             ->setId($id)
             ->setName('testItemName')
             ->setIsEnabled(true)
-            ->setHasName(true)
+            ->setHasOrders(true)
             ->create();
     }
 
@@ -30,8 +42,8 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
      */
     public function items()
     {
-        $allSoapAndRest1 = (new AllSoapAndRestBuilder())->setId(1)->setName('testProduct1')->create();
-        $allSoapAndRest2 = (new AllSoapAndRestBuilder())->setId(2)->setName('testProduct2')->create();
+        $allSoapAndRest1 = $this->builder->setId(1)->setName('testProduct1')->create();
+        $allSoapAndRest2 = $this->builder->setId(2)->setName('testProduct2')->create();
         return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
@@ -40,7 +52,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
      */
     public function create(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item)
     {
-        return (new AllSoapAndRestBuilder())->populate($item)->create();
+        return $this->builder->populate($item)->create();
     }
 
     /**
@@ -49,6 +61,6 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     public function update(\Magento\TestModule5\Service\V1\Entity\AllSoapAndRest $item)
     {
         $item->setName('Updated' . $item->getName());
-        return (new AllSoapAndRestBuilder())->populate($item)->create();
+        return $this->builder->populate($item)->create();
     }
 }

@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
  * Parse php code and found dependencies
  *
- * @package Magento\TestFramework
  */
 class Tokens
 {

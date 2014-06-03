@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,11 +13,11 @@ $customerData = array(
     'website_id' => 1,
     'firstname' => 'test firstname',
     'lastname' => 'test lastname',
-    'email' => 'example@domain.com',
+    'email' => 'customer@example.com',
     'default_billing' => 1,
     'password' => '123123q',
-    'attribute_set_id' => 1,
- );
+    'attribute_set_id' => 1
+);
 $customer->setData($customerData);
 $customer->setId(1);
 
@@ -34,7 +31,7 @@ $addressOneData = array(
     'country_id' => 'US',
     'postcode' => '01001',
     'telephone' => '+7000000001',
-    'entity_id' => 1,
+    'entity_id' => 1
 );
 $addressOne->setData($addressOneData);
 $customer->addAddress($addressOne);
@@ -49,7 +46,7 @@ $addressTwoData = array(
     'country_id' => 'US',
     'postcode' => '01001',
     'telephone' => '+7000000001',
-    'entity_id' => 2,
+    'entity_id' => 2
 );
 $addressTwo->setData($addressTwoData);
 $customer->addAddress($addressTwo);
@@ -64,7 +61,7 @@ $addressThreeData = array(
     'country_id' => 'US',
     'postcode' => '01001',
     'telephone' => '+7000000001',
-    'entity_id' => 3,
+    'entity_id' => 3
 );
 $addressThree->setData($addressThreeData);
 $customer->addAddress($addressThree);

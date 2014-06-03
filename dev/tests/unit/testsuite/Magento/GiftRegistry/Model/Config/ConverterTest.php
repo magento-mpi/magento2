@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,11 +46,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     public function testConvert()
     {
         $this->_source->loadXML(file_get_contents($this->_filePath . 'config_valid.xml'));
-        $convertedFile = include ($this->_filePath . 'giftregistry_config.php');
+        $convertedFile = include $this->_filePath . 'giftregistry_config.php';
         $converted = $this->_model->convert($this->_source);
 
         $this->assertEquals($converted, $convertedFile);
-
     }
 
     /**

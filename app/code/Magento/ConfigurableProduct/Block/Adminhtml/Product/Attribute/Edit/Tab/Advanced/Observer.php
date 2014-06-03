@@ -27,20 +27,24 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event $event
+     * @param \Magento\Framework\Event $event
      * @return void
      */
     public function observe($event)
     {
-        /** @var \Magento\Data\Form\AbstractForm $form */
+        /** @var \Magento\Framework\Data\Form\AbstractForm $form */
         $form = $event->getForm();
         /** @var  $fieldset */
         $fieldset = $form->getElement('advanced_fieldset');
 
-        $fieldset->addField('is_configurable', 'select', array(
-            'name' => 'is_configurable',
-            'label' => __('Use To Create Configurable Product'),
-            'values' => $this->optionList->toOptionArray()
-        ));
+        $fieldset->addField(
+            'is_configurable',
+            'select',
+            array(
+                'name' => 'is_configurable',
+                'label' => __('Use To Create Configurable Product'),
+                'values' => $this->optionList->toOptionArray()
+            )
+        );
     }
-} 
+}

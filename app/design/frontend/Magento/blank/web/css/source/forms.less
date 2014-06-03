@@ -1,0 +1,84 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.fieldset {
+    .legend + .fieldset,
+    .legend + div {
+        clear: both;
+    }
+    .form-fieldset();
+    &:last-child {
+        margin-bottom: 0;
+    }
+    > .field,
+    .fields > .field {
+        .form-field();
+        &:not(:first-child):last-of-type {
+            margin-bottom: 0;
+        }
+        &.no-label {
+            > .label {
+                .visually-hidden();
+            }
+        }
+        &.choice {
+            .label {
+                font-weight: normal;
+            }
+        }
+        .label {
+            &:extend(.add-box-sizing all);
+            .column:not(.main) & {
+                font-weight: normal;
+            }
+        }
+        .field.choice {
+            margin-bottom: @indent-s-base;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+div.mage-error[generated] {
+    margin-top: 7px;
+}
+
+// TEMP
+
+.field .tooltip {
+    .tooltip(right);
+    .tooltip-content {
+        min-width: 200px;
+        white-space: normal;
+    }
+}
+
+input:focus ~ .tooltip .tooltip-content,
+select:focus ~ .tooltip .tooltip-content { display: block; }
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .column.main {
+        .fieldset {
+            > .legend {
+                &:extend(.margin-for-forms-desktop all);
+            }
+            > .field,
+            .fields > .field {
+                .form-field-type-revert();
+                &:not(:first-child):last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

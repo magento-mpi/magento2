@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,7 @@ use Zend_Db_Expr;
 /**
  * Last viewed/orderd items conditions combine
  */
-class History
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
@@ -25,8 +22,9 @@ class History
      */
     protected $_combineProductCondition = true;
 
-    const VIEWED    = 'viewed_history';
-    const ORDERED   = 'ordered_history';
+    const VIEWED = 'viewed_history';
+
+    const ORDERED = 'ordered_history';
 
     /**
      * @var string
@@ -74,9 +72,11 @@ class History
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Product\Combine')
-            ->setDateConditions(true)
-            ->getNewChildSelectOptions();
+        return $this->_conditionFactory->create(
+            'Product\Combine'
+        )->setDateConditions(
+            true
+        )->getNewChildSelectOptions();
     }
 
     /**
@@ -86,10 +86,7 @@ class History
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            self::VIEWED  => __('viewed'),
-            self::ORDERED => __('ordered'),
-        ));
+        $this->setValueOption(array(self::VIEWED => __('viewed'), self::ORDERED => __('ordered')));
         return $this;
     }
 
@@ -135,10 +132,7 @@ class History
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '=='  => __('was'),
-            '!='  => __('was not')
-        ));
+        $this->setOperatorOption(array('==' => __('was'), '!=' => __('was not')));
         return $this;
     }
 
@@ -149,9 +143,12 @@ class History
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Product %1 %2 and matches %3 of these Conditions:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Product %1 %2 and matches %3 of these Conditions:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -159,7 +156,7 @@ class History
      *
      * @param Customer|Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -204,7 +201,7 @@ class History
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getOperator() == '==');
+        return $this->getOperator() == '==';
     }
 
     /**
@@ -224,9 +221,6 @@ class History
                 break;
         }
 
-        return array(
-            'product' => 'item.product_id',
-            'date'    => $dateField
-        );
+        return array('product' => 'item.product_id', 'date' => $dateField);
     }
 }

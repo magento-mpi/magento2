@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +12,9 @@ namespace Magento\Reports\Block\Product;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
+class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \Magento\Framework\View\Block\IdentityInterface
 {
-    const XML_PATH_RECENTLY_VIEWED_COUNT    = 'catalog/recently_products/viewed_count';
+    const XML_PATH_RECENTLY_VIEWED_COUNT = 'catalog/recently_products/viewed_count';
 
     /**
      * Viewed Product Index type
@@ -35,7 +33,7 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \
         if ($this->hasData('page_size')) {
             return $this->getData('page_size');
         }
-        return $this->_storeConfig->getConfig(self::XML_PATH_RECENTLY_VIEWED_COUNT);
+        return $this->_scopeConfig->getValue(self::XML_PATH_RECENTLY_VIEWED_COUNT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -60,9 +58,6 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \
      */
     protected function _toHtml()
     {
-        if (!$this->getCount()) {
-            return '';
-        }
         $this->setRecentlyViewedProducts($this->getItemsCollection());
         return parent::_toHtml();
     }

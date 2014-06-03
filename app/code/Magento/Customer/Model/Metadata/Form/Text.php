@@ -12,38 +12,38 @@ namespace Magento\Customer\Model\Metadata\Form;
 class Text extends AbstractData
 {
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_string;
 
     /**
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param string $value
      * @param string $entityTypeCode
      * @param bool $isAjax
-     * @param \Magento\Stdlib\String $stringHelper
+     * @param \Magento\Framework\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Logger $logger,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Logger $logger,
         \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $value,
         $entityTypeCode,
-        $isAjax = false,
-        \Magento\Stdlib\String $stringHelper
+        $isAjax,
+        \Magento\Framework\Stdlib\String $stringHelper
     ) {
-        parent::__construct($localeDate, $logger, $attribute, $localeResolver,  $value, $entityTypeCode, $isAjax);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_string = $stringHelper;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
     {
         return $this->_applyInputFilter($this->_getRequestValue($request));
     }
@@ -53,9 +53,9 @@ class Text extends AbstractData
      */
     public function validateValue($value)
     {
-        $errors     = array();
-        $attribute  = $this->getAttribute();
-        $label      = __($attribute->getStoreLabel());
+        $errors = array();
+        $attribute = $this->getAttribute();
+        $label = __($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it

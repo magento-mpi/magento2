@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Quote;
 /**
  * Shopping cart interface
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface CartInterface
@@ -24,7 +20,7 @@ interface CartInterface
      * Add product to shopping cart (quote)
      *
      * @param int|\Magento\Catalog\Model\Product $productInfo
-     * @param array|float|int|\Magento\Object|null $requestInfo
+     * @param array|float|int|\Magento\Framework\Object|null $requestInfo
      * @return $this
      */
     public function addProduct($productInfo, $requestInfo = null);

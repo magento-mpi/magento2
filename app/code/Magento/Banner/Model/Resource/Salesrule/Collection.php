@@ -11,7 +11,7 @@
  */
 namespace Magento\Banner\Model\Resource\Salesrule;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -30,7 +30,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\Object', 'Magento\SalesRule\Model\Resource\Rule');
+        $this->_init('Magento\Framework\Object', 'Magento\SalesRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_salesrule');
     }
 
@@ -42,14 +42,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->join(
-                array('banner' => $this->getTable('magento_banner')),
-                'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-                array()
-            )
-            ->group('main_table.banner_id')
-        ;
+        $this->getSelect()->join(
+            array('banner' => $this->getTable('magento_banner')),
+            'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
+            array()
+        )->group(
+            'main_table.banner_id'
+        );
         return $this;
     }
 

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
 use Magento\Payment\Model\Method\Specification\AbstractSpecification;
@@ -25,7 +24,8 @@ class Enabled extends AbstractSpecification
      */
     public function isSatisfiedBy($paymentMethod)
     {
-        return isset($this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_ADDRESS])
-            && $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_ADDRESS];
+        return isset(
+            $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_ADDRESS]
+        ) && $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_ADDRESS];
     }
 }

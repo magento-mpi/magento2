@@ -7,14 +7,17 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Data\EAV\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\Eav\AbstractObject;
+use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 /**
  * Builder for the Address Service Data Object
  *
  * @method Address create()
- * @method Address mergeDataObjectWithArray(AbstractObjectBuilder $dataObject, array $data)
+ * @method Address mergeDataObjectWithArray(AbstractObject $dataObject, array $data)
+ * @method Address mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
  */
 class AddressBuilder extends AbstractObjectBuilder
 {
@@ -29,14 +32,18 @@ class AddressBuilder extends AbstractObjectBuilder
     protected $_metadataService;
 
     /**
-     * Initialize dependencies.
-     *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
      * @param RegionBuilder $regionBuilder
      * @param CustomerMetadataServiceInterface $metadataService
      */
-    public function __construct(RegionBuilder $regionBuilder, CustomerMetadataServiceInterface $metadataService)
-    {
-        parent::__construct();
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        RegionBuilder $regionBuilder,
+        CustomerMetadataServiceInterface $metadataService
+    ) {
+        parent::__construct($objectFactory, $valueBuilder);
         $this->_metadataService = $metadataService;
         $this->_regionBuilder = $regionBuilder;
         $this->_data[Address::KEY_REGION] = $regionBuilder->create();
@@ -83,8 +90,8 @@ class AddressBuilder extends AbstractObjectBuilder
         if (array_key_exists(Address::KEY_REGION, $data)) {
             if (!is_array($data[Address::KEY_REGION])) {
                 // Region data has been submitted as individual keys of Address object. Let's extract it.
-                $regionData = [];
-                foreach ([Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID] as $attrCode) {
+                $regionData = array();
+                foreach (array(Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID) as $attrCode) {
                     if (isset($data[$attrCode])) {
                         $regionData[$attrCode] = $data[$attrCode];
                     }
@@ -102,7 +109,7 @@ class AddressBuilder extends AbstractObjectBuilder
      */
     public function getCustomAttributesCodes()
     {
-        $attributeCodes = [];
+        $attributeCodes = array();
         foreach ($this->_metadataService->getCustomAddressAttributeMetadata() as $attribute) {
             $attributeCodes[] = $attribute->getAttributeCode();
         }

@@ -9,6 +9,7 @@ namespace Magento\Reward\Model\Reward\Balance;
 
 use Magento\Sales\Model\Order;
 use Magento\Reward\Model\Reward\Balance\Exception;
+
 class Validator
 {
     /**
@@ -21,7 +22,7 @@ class Validator
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -33,12 +34,12 @@ class Validator
     protected $_session;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $modelFactory
      * @param \Magento\Checkout\Model\Session $session
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $modelFactory,
         \Magento\Checkout\Model\Session $session
     ) {
@@ -64,12 +65,10 @@ class Validator
             $reward->setWebsiteId($websiteId);
             $reward->loadByCustomer();
 
-            if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) >= 0.0001) {
+            if ($order->getRewardPointsBalance() - $reward->getPointsBalance() >= 0.0001) {
                 $this->_session->setUpdateSection('payment-method');
                 $this->_session->setGotoSection('payment');
-                throw new Exception(
-                    __('You don\'t have enough reward points to pay for this purchase.')
-                );
+                throw new Exception(__('You don\'t have enough reward points to pay for this purchase.'));
             }
         }
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,13 +19,10 @@ namespace Magento\Directory\Model\Country;
  * @method string getFormat()
  * @method \Magento\Directory\Model\Country\Format setFormat(string $value)
  *
- * @category    Magento
- * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Format extends \Magento\Core\Model\AbstractModel
+class Format extends \Magento\Framework\Model\AbstractModel
 {
-
     /**
      * @return void
      */
@@ -35,5 +30,4 @@ class Format extends \Magento\Core\Model\AbstractModel
     {
         $this->_init('Magento\Directory\Model\Resource\Country\Format');
     }
-
 }

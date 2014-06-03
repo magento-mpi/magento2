@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,31 +10,28 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
 /**
  * Catalog Product Eav Attributes abstract indexer resource model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractEav
-    extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
+abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
 {
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($resource, $eavConfig);
@@ -90,7 +85,7 @@ abstract class AbstractEav
         if ($parentIds) {
             $processIds = array_unique(array_merge($processIds, $parentIds));
         }
-        $childIds  = $this->getRelationsByParent($processIds);
+        $childIds = $this->getRelationsByParent($processIds);
         if ($childIds) {
             $processIds = array_unique(array_merge($processIds, $childIds));
         }
@@ -158,11 +153,10 @@ abstract class AbstractEav
      */
     protected function _removeNotVisibleEntityFromIndex()
     {
-        $write      = $this->_getWriteAdapter();
-        $idxTable   = $this->getIdxTable();
+        $write = $this->_getWriteAdapter();
+        $idxTable = $this->getIdxTable();
 
-        $select = $write->select()
-            ->from($idxTable, null);
+        $select = $write->select()->from($idxTable, null);
 
         $condition = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
         $this->_addAttributeToSelect(
@@ -187,22 +181,23 @@ abstract class AbstractEav
      */
     protected function _prepareRelationIndex($parentIds = null)
     {
-        $write      = $this->_getWriteAdapter();
-        $idxTable   = $this->getIdxTable();
+        $write = $this->_getWriteAdapter();
+        $idxTable = $this->getIdxTable();
 
-        $select = $write->select()
-            ->from(array('l' => $this->getTable('catalog_product_relation')), 'parent_id')
-            ->join(
-                array('cs' => $this->getTable('core_store')),
-                '',
-                array())
-            ->join(
-                array('i' => $idxTable),
-                'l.child_id = i.entity_id AND cs.store_id = i.store_id',
-                array('attribute_id', 'store_id', 'value'))
-            ->group(array(
-                'l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value'
-            ));
+        $select = $write->select()->from(
+            array('l' => $this->getTable('catalog_product_relation')),
+            'parent_id'
+        )->join(
+            array('cs' => $this->getTable('store')),
+            '',
+            array()
+        )->join(
+            array('i' => $idxTable),
+            'l.child_id = i.entity_id AND cs.store_id = i.store_id',
+            array('attribute_id', 'store_id', 'value')
+        )->group(
+            array('l.parent_id', 'i.attribute_id', 'i.store_id', 'i.value')
+        );
         if (!is_null($parentIds)) {
             $select->where('l.parent_id IN(?)', $parentIds);
         }
@@ -210,15 +205,21 @@ abstract class AbstractEav
         /**
          * Add additional external limitation
          */
-        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
-            'select'        => $select,
-            'entity_field'  => new \Zend_Db_Expr('l.parent_id'),
-            'website_field' => new \Zend_Db_Expr('cs.website_id'),
-            'store_field'   => new \Zend_Db_Expr('cs.store_id')
-        ));
+        $this->_eventManager->dispatch(
+            'prepare_catalog_product_index_select',
+            array(
+                'select' => $select,
+                'entity_field' => new \Zend_Db_Expr('l.parent_id'),
+                'website_field' => new \Zend_Db_Expr('cs.website_id'),
+                'store_field' => new \Zend_Db_Expr('cs.store_id')
+            )
+        );
 
-        $query = $write->insertFromSelect($select, $idxTable, array(),
-            \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE
+        $query = $write->insertFromSelect(
+            $select,
+            $idxTable,
+            array(),
+            \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_IGNORE
         );
         $write->query($query);
 

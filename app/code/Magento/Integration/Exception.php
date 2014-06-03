@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Integration
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Integration;
 
-class Exception extends \Magento\Core\Exception
+class Exception extends \Magento\Framework\Model\Exception
 {
-
 }

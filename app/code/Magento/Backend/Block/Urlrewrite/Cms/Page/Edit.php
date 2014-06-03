@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Backend\Block\Urlrewrite\Cms\Page;
  * @method \Magento\Cms\Model\Page getCmsPage()
  * @method \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit setCmsPage(\Magento\Cms\Model\Page $cmsPage)
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
@@ -28,14 +24,14 @@ class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Cms\Model\PageFactory $pageFactory,
         array $data = array()
@@ -87,11 +83,15 @@ class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
      */
     private function _addCmsPageLinkBlock()
     {
-        $this->addChild('cms_page_link', 'Magento\Backend\Block\Urlrewrite\Link', array(
-            'item_url'  => $this->_adminhtmlData->getUrl('adminhtml/*/*') . 'cms_page',
-            'item_name' => $this->getCmsPage()->getTitle(),
-            'label'     => __('CMS page:')
-        ));
+        $this->addChild(
+            'cms_page_link',
+            'Magento\Backend\Block\Urlrewrite\Link',
+            array(
+                'item_url' => $this->_adminhtmlData->getUrl('adminhtml/*/*') . 'cms_page',
+                'item_name' => $this->getCmsPage()->getTitle(),
+                'label' => __('CMS page:')
+            )
+        );
     }
 
     /**
@@ -111,11 +111,10 @@ class Edit extends \Magento\Backend\Block\Urlrewrite\Edit
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form', '', array(
-            'data' => array(
-                'cms_page'    => $this->_getCmsPage(),
-                'url_rewrite' => $this->_getUrlRewrite()
-            )
-        ));
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Urlrewrite\Cms\Page\Edit\Form',
+            '',
+            array('data' => array('cms_page' => $this->_getCmsPage(), 'url_rewrite' => $this->_getUrlRewrite()))
+        );
     }
 }

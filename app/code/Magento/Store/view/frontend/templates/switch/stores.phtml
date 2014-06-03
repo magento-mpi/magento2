@@ -1,0 +1,42 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Store switcher template
+ *
+ * @see \Magento\Store\Block\Store\Switcher
+ */
+?>
+<?php if(count($this->getGroups())>1): ?>
+<div class="switcher store">
+    <strong class="label"><span><?php echo __('Select Store') ?></span></strong>
+    <div class="actions dropdown options">
+        <?php foreach ($this->getGroups() as $_group): ?>
+        <?php if ($_group->getId()==$this->getCurrentGroupId()): ?>
+            <div class="action toggle" data-toggle="dropdown">
+                <strong>
+                    <span><?php echo $this->escapeHtml($_group->getName()) ?></span>
+                </strong>
+            </div>
+        <?php endif; ?>
+        <?php endforeach; ?>
+        <ul class="dropdown">
+            <?php foreach ($this->getGroups() as $_group): ?>
+            <?php if (!($_group->getId()==$this->getCurrentGroupId())): ?>
+                <li>
+                    <a href="#" data-post='<?php echo $this->getTargetStorePostData($_group->getDefaultStore()); ?>'>
+                        <?php echo $this->escapeHtml($_group->getName()) ?>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>
+<?php endif; ?>

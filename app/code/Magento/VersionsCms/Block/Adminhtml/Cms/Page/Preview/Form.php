@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 /**
  * Preview Form for revisions
  *
- * @category   Magento
- * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -25,22 +21,24 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'preview_form',
-                'action' => $this->getUrl('adminhtml/*/drop', array('_current' => true)),
-                'method' => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'preview_form',
+                    'action' => $this->getUrl('adminhtml/*/drop', array('_current' => true)),
+                    'method' => 'post'
+                )
+            )
         );
 
         if ($data = $this->getFormData()) {
             foreach ($data as $key => $value) {
                 if (is_array($value)) {
                     foreach ($value as $subKey => $subValue) {
-                        $newKey = $key.$subKey;
+                        $newKey = $key . $subKey;
                         $data[$newKey] = $subValue;
-                        $form->addField($newKey, 'hidden', array('name' => $key."[$subKey]"));
+                        $form->addField($newKey, 'hidden', array('name' => $key . "[{$subKey}]"));
                     }
                     unset($data[$key]);
                 } else {

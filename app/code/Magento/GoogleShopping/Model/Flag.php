@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\GoogleShopping\Model;
 /**
  * Google shopping synchronization operations flag
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Flag extends \Magento\Core\Model\Flag
+class Flag extends \Magento\Framework\Flag
 {
     /**
      * Flag time to live in seconds
@@ -37,8 +33,7 @@ class Flag extends \Magento\Core\Model\Flag
      */
     public function lock()
     {
-        $this->setState(1)
-            ->save();
+        $this->setState(1)->save();
     }
 
     /**
@@ -75,7 +70,7 @@ class Flag extends \Magento\Core\Model\Flag
     {
         if (!!$this->getState() && \Magento\GoogleShopping\Model\Flag::FLAG_TTL) {
             if ($this->getLastUpdate()) {
-                return (time() > (strtotime($this->getLastUpdate()) + \Magento\GoogleShopping\Model\Flag::FLAG_TTL));
+                return time() > strtotime($this->getLastUpdate()) + \Magento\GoogleShopping\Model\Flag::FLAG_TTL;
             } else {
                 return true;
             }

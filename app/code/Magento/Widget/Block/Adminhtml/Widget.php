@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * WYSIWYG widget plugin main block
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Widget\Block\Adminhtml;
@@ -37,9 +33,14 @@ class Widget extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('save', 'class', 'add-widget');
         $this->_updateButton('save', 'id', 'insert_button');
         $this->_updateButton('save', 'onclick', 'wWidget.insertWidget()');
+        $this->_updateButton('save', 'region', 'footer');
 
-        $this->_formScripts[] = 'wWidget = new WysiwygWidget.Widget('
-            . '"widget_options_form", "select_widget_type", "widget_options", "'
-            . $this->getUrl('adminhtml/*/loadOptions') .'", "' . $this->getRequest()->getParam('widget_target_id') . '");';
+        $this->_formScripts[] = 'wWidget = new WysiwygWidget.Widget(' .
+            '"widget_options_form", "select_widget_type", "widget_options", "' .
+            $this->getUrl(
+                'adminhtml/*/loadOptions'
+            ) . '", "' . $this->getRequest()->getParam(
+                'widget_target_id'
+            ) . '");';
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Adminhtml\Order\Create;
 
 class Sidebar
@@ -15,7 +14,7 @@ class Sidebar
      *
      * @param \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar $subject
      * @param callable $proceed
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      *
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -23,7 +22,7 @@ class Sidebar
     public function aroundGetItemQty(
         \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar $subject,
         \Closure $proceed,
-        \Magento\Object $item
+        \Magento\Framework\Object $item
     ) {
         if ($item->getProduct()->getTypeId() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
             return '';
@@ -51,4 +50,4 @@ class Sidebar
         }
         return $proceed($productType);
     }
-} 
+}

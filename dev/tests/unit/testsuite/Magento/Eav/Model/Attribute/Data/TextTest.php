@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Attribute\Data;
 
 class TextTest extends \PHPUnit_Framework_TestCase
@@ -20,20 +16,30 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $locale = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false, false);
-        $localeResolver = $this->getMock('Magento\Locale\ResolverInterface', array(), array(), '', false, false);
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false, false);
-        $helper = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
+        $locale = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $localeResolver = $this->getMock(
+            'Magento\Framework\Locale\ResolverInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false, false);
+        $helper = $this->getMock('Magento\Framework\Stdlib\String', array(), array(), '', false, false);
 
         $attributeData = array(
             'store_label' => 'Test',
             'attribute_code' => 'test',
             'is_required' => 1,
-            'validate_rules' => array(
-                'min_text_length' => 0,
-                'max_text_length' => 0,
-                'input_validation' => 0
-            )
+            'validate_rules' => array('min_text_length' => 0, 'max_text_length' => 0, 'input_validation' => 0)
         );
 
         $attributeClass = 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute';

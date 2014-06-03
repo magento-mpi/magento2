@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,14 +22,14 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      *
      * @var bool
      */
-    protected $_addOrderStatistics           = false;
+    protected $_addOrderStatistics = false;
 
     /**
      * Add order statistics is filter flag
      *
      * @var bool
      */
-    protected $_addOrderStatFilter   = false;
+    protected $_addOrderStatFilter = false;
 
     /**
      * Customer id table name
@@ -73,15 +71,15 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory
      * @param mixed $connection
@@ -91,15 +89,15 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory,
         $connection = null,
@@ -136,15 +134,12 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             if ($quote instanceof \Magento\Sales\Model\Quote) {
                 $totals = $quote->getTotals();
                 $item->setTotal($totals['subtotal']->getValue());
-                $quoteItems = $this->_quoteItemFactory
-                    ->create()
-                    ->setQuoteFilter($quote->getId());
+                $quoteItems = $this->_quoteItemFactory->create()->setQuoteFilter($quote->getId());
                 $quoteItems->load();
                 $item->setItems($quoteItems->count());
             } else {
                 $item->remove();
             }
-
         }
         return $this;
     }
@@ -175,10 +170,11 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             $dateFilter = '';
         }
 
-        $this->getSelect()
-            ->joinLeft(array('orders' => $this->getTable('sales_flat_order')),
-                "orders.customer_id = e.entity_id".$dateFilter,
-            array());
+        $this->getSelect()->joinLeft(
+            array('orders' => $this->getTable('sales_flat_order')),
+            "orders.customer_id = e.entity_id" . $dateFilter,
+            array()
+        );
 
         return $this;
     }
@@ -190,10 +186,14 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function addOrdersCount()
     {
-        $this->getSelect()
-            ->columns(array("orders_count" => "COUNT(orders.entity_id)"))
-            ->where('orders.state <> ?', \Magento\Sales\Model\Order::STATE_CANCELED)
-            ->group("e.entity_id");
+        $this->getSelect()->columns(
+            array("orders_count" => "COUNT(orders.entity_id)")
+        )->where(
+            'orders.state <> ?',
+            \Magento\Sales\Model\Order::STATE_CANCELED
+        )->group(
+            "e.entity_id"
+        );
 
         return $this;
     }
@@ -207,19 +207,22 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     public function addSumAvgTotals($storeId = 0)
     {
         $adapter = $this->getConnection();
-        $baseSubtotalRefunded   = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
-        $baseSubtotalCanceled   = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
+        $baseSubtotalRefunded = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
+        $baseSubtotalCanceled = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
 
         /**
          * calculate average and total amount
          */
-        $expr = ($storeId == 0)
-            ? "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate"
-            : "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
+        $expr = $storeId ==
+            0 ?
+            "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate" :
+            "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
 
-        $this->getSelect()
-            ->columns(array("orders_avg_amount" => "AVG({$expr})"))
-            ->columns(array("orders_sum_amount" => "SUM({$expr})"));
+        $this->getSelect()->columns(
+            array("orders_avg_amount" => "AVG({$expr})")
+        )->columns(
+            array("orders_sum_amount" => "SUM({$expr})")
+        );
 
         return $this;
     }
@@ -232,8 +235,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function orderByTotalAmount($dir = self::SORT_ORDER_DESC)
     {
-        $this->getSelect()
-            ->order("orders_sum_amount {$dir}");
+        $this->getSelect()->order("orders_sum_amount {$dir}");
         return $this;
     }
 
@@ -245,8 +247,8 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function addOrdersStatistics($isFilter = false)
     {
-        $this->_addOrderStatistics          = true;
-        $this->_addOrderStatFilter  = (bool)$isFilter;
+        $this->_addOrderStatistics = true;
+        $this->_addOrderStatFilter = (bool)$isFilter;
         return $this;
     }
 
@@ -261,22 +263,31 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 
         if ($this->_addOrderStatistics && !empty($customerIds)) {
             $adapter = $this->getConnection();
-            $baseSubtotalRefunded   = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
-            $baseSubtotalCanceled   = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
+            $baseSubtotalRefunded = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
+            $baseSubtotalCanceled = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
 
-            $totalExpr = ($this->_addOrderStatFilter)
-                ? "(orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded})*orders.base_to_global_rate"
-                : "orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded}";
+            $totalExpr = $this->_addOrderStatFilter ?
+                "(orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded})*orders.base_to_global_rate" :
+                "orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded}";
 
             $select = $this->getConnection()->select();
-            $select->from(array('orders'=>$this->getTable('sales_flat_order')), array(
-                'orders_avg_amount' => "AVG({$totalExpr})",
-                'orders_sum_amount' => "SUM({$totalExpr})",
-                'orders_count' => 'COUNT(orders.entity_id)',
-                'customer_id'
-            ))->where('orders.state <> ?', \Magento\Sales\Model\Order::STATE_CANCELED)
-              ->where('orders.customer_id IN(?)', $customerIds)
-              ->group('orders.customer_id');
+            $select->from(
+                array('orders' => $this->getTable('sales_flat_order')),
+                array(
+                    'orders_avg_amount' => "AVG({$totalExpr})",
+                    'orders_sum_amount' => "SUM({$totalExpr})",
+                    'orders_count' => 'COUNT(orders.entity_id)',
+                    'customer_id'
+                )
+            )->where(
+                'orders.state <> ?',
+                \Magento\Sales\Model\Order::STATE_CANCELED
+            )->where(
+                'orders.customer_id IN(?)',
+                $customerIds
+            )->group(
+                'orders.customer_id'
+            );
 
             foreach ($this->getConnection()->fetchAll($select) as $ordersInfo) {
                 $this->getItemById($ordersInfo['customer_id'])->addData($ordersInfo);

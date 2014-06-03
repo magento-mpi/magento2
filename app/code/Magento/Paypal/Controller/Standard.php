@@ -12,11 +12,9 @@ use Magento\Sales\Model\Order;
 /**
  * Paypal Standard Checkout Controller
  *
- * @category   Magento
- * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Standard extends \Magento\App\Action\Action
+class Standard extends \Magento\Framework\App\Action\Action
 {
     /**
      * Order instance
@@ -85,8 +83,11 @@ class Standard extends \Magento\App\Action\Action
 
         if ($session->getLastRealOrderId()) {
             /** @var \Magento\Sales\Model\Order $order */
-            $order = $this->_objectManager->create('Magento\Sales\Model\Order')
-                ->loadByIncrementId($session->getLastRealOrderId());
+            $order = $this->_objectManager->create(
+                'Magento\Sales\Model\Order'
+            )->loadByIncrementId(
+                $session->getLastRealOrderId()
+            );
             if ($order->getId()) {
                 $order->cancel()->save();
             }

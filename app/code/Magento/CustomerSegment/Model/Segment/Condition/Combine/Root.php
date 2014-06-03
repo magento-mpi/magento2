@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,7 @@ use Zend_Db_Select;
 /**
  * Root segment condition (top level condition)
  */
-class Root
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
+class Root extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
 {
     /**
      * @var \Magento\Customer\Model\Config\Share
@@ -76,7 +73,7 @@ class Root
      *
      * @param   null|array|int|Customer $customer
      * @param   int|Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
+     * @return  \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

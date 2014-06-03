@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Quote
  *
- * @package Magento\SalesRule\Test\Block\Adminhtml\Promo
  */
 class Quote extends Grid
 {
@@ -28,11 +27,6 @@ class Quote extends Grid
      * {@inheritDoc}
      */
     protected $filters = array('name' => array('selector' => '#promo_quote_grid_filter_name'));
-
-    /**
-     * @var string
-     */
-    protected $clickAddNewSelector = '.page-actions button#add';
 
     /**
      * @var string
@@ -56,15 +50,5 @@ class Quote extends Grid
             $rid = $idElement->getText();
         }
         return $rid;
-    }
-
-    /**
-     * Click the add new button
-     */
-    public function clickAddNew()
-    {
-        $this->_rootElement->find($this->clickAddNewSelector)->click();
-        $this->reinitRootElement();
-        $this->getTemplateBlock()->waitForElementVisible($this->promoQuoteFormSelector);
     }
 }

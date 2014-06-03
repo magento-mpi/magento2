@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Model;
 
 class ShellTest extends \PHPUnit_Framework_TestCase
@@ -21,8 +17,10 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Index\Model\Shell', array('entryPoint' => $entryPoint));
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Index\Model\Shell',
+            array('entryPoint' => $entryPoint)
+        );
     }
 
     /**
@@ -87,7 +85,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'execution without issues' => array('info', false),
-            'issue with wrong index' => array('--reindex=wrong_index_code', true),
+            'issue with wrong index' => array('--reindex=wrong_index_code', true)
         );
     }
 }

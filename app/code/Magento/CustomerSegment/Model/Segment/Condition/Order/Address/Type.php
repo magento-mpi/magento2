@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 /**
  * Order address type condition
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends AbstractCondition
@@ -60,10 +56,7 @@ class Type extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Address Type')
-        );
+        return array('value' => $this->getType(), 'label' => __('Address Type'));
     }
 
     /**
@@ -73,10 +66,7 @@ class Type extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            'shipping' => __('Shipping'),
-            'billing'  => __('Billing'),
-        ));
+        $this->setValueOption(array('shipping' => __('Shipping'), 'billing' => __('Billing')));
         return $this;
     }
 
@@ -97,9 +87,11 @@ class Type extends AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Order Address %1 a %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Order Address %1 a %2 Address',
+            $this->getOperatorElementHtml(),
+            $this->getValueElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -107,7 +99,7 @@ class Type extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

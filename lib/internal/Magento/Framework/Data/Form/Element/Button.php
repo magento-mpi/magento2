@@ -1,0 +1,54 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+/**
+ * Form button element
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Framework\Data\Form\Element;
+
+use Magento\Framework\Escaper;
+
+class Button extends AbstractElement
+{
+    /**
+     * Additional html attributes
+     *
+     * @var string[]
+     */
+    protected $_htmlAttributes = array('data-mage-init');
+
+    /**
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
+     * @param array $data
+     */
+    public function __construct(
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
+        $data = array()
+    ) {
+        parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
+        $this->setType('button');
+        $this->setExtType('textfield');
+    }
+
+    /**
+     * Html attributes
+     *
+     * @return string[]
+     */
+    public function getHtmlAttributes()
+    {
+        $attributes = parent::getHtmlAttributes();
+        return array_merge($attributes, $this->_htmlAttributes);
+    }
+}

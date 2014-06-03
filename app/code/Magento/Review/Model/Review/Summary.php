@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,18 +10,18 @@ namespace Magento\Review\Model\Review;
 /**
  * Review summary
  */
-class Summary extends \Magento\Core\Model\AbstractModel
+class Summary extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Review\Model\Resource\Review\Summary $resource
      * @param \Magento\Review\Model\Resource\Review\Summary\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Review\Model\Resource\Review\Summary $resource,
         \Magento\Review\Model\Resource\Review\Summary\Collection $resourceCollection,
         array $data = array()

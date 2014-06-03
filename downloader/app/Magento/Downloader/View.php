@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Downloader;
 /**
  * Class for viewer
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class View
@@ -30,14 +26,13 @@ class View
      */
     public function __construct()
     {
-
     }
 
     /**
-    * Retrieve Controller as singleton
-    *
-    * @return \Magento\Downloader\Controller
-    */
+     * Retrieve Controller as singleton
+     *
+     * @return \Magento\Downloader\Controller
+     */
     public function controller()
     {
         return \Magento\Downloader\Controller::singleton();
@@ -50,7 +45,7 @@ class View
      * @param mixed $params
      * @return string
      */
-    public function url($action='', $params=array())
+    public function url($action = '', $params = array())
     {
         return $this->controller()->url($action, $params);
     }
@@ -84,17 +79,17 @@ class View
     public function template($name)
     {
         ob_start();
-        include $this->controller()->filepath('template/'.$name);
+        include $this->controller()->filepath('template/' . $name);
         return ob_get_clean();
     }
 
     /**
-    * Set value for key
-    *
-    * @param string $key
-    * @param mixed $value
-    * @return \Magento\Downloader\Controller
-    */
+     * Set value for key
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return \Magento\Downloader\Controller
+     */
     public function set($key, $value)
     {
         $this->_data[$key] = $value;
@@ -120,8 +115,8 @@ class View
      */
     public function getNavLinkParams($action)
     {
-        $params = 'href="'.$this->url($action).'"';
-        if ($this->controller()->getAction()==$action) {
+        $params = 'href="' . $this->url($action) . '"';
+        if ($this->controller()->getAction() == $action) {
             $params .= ' class="active"';
         }
         return $params;

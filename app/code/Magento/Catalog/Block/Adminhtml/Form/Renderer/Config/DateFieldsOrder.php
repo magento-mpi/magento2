@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,12 @@
 /**
  * Catalog Custom Options Config Renderer
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Form\Renderer\Config;
 
 use Magento\Backend\Block\System\Config\Form\Field;
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class DateFieldsOrder extends Field
 {
@@ -28,15 +24,9 @@ class DateFieldsOrder extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $_options = array(
-            'd' => __('Day'),
-            'm' => __('Month'),
-            'y' => __('Year')
-        );
+        $_options = array('d' => __('Day'), 'm' => __('Month'), 'y' => __('Year'));
 
-        $element->setValues($_options)
-            ->setClass('select-date')
-            ->setName($element->getName() . '[]');
+        $element->setValues($_options)->setClass('select-date')->setName($element->getName() . '[]');
         if ($element->getValue()) {
             $values = explode(',', $element->getValue());
         } else {

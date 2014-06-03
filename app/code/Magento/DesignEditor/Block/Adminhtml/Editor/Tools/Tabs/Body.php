@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +18,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
 
-class Body extends \Magento\View\Element\Template
+class Body extends \Magento\Framework\View\Element\Template
 {
     /**
      * Get tab content

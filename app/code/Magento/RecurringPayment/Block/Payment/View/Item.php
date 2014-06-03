@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -17,6 +16,7 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
      * @var \Magento\Catalog\Model\Product\Option
      */
     protected $_option;
+
     /**
      * @var \Magento\Catalog\Model\Product
      */
@@ -28,16 +28,16 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
     protected $_quoteItemOptionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $quoteItemOptionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Catalog\Model\Product $product,
         \Magento\Sales\Model\Quote\Item\OptionFactory $quoteItemOptionFactory,
@@ -68,7 +68,7 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
         ) as $itemKey => $label) {
             $value = $this->_recurringPayment->getInfoValue($key, $itemKey);
             if ($value) {
-                $this->_addInfo(array('label' => $label, 'value' => $value,));
+                $this->_addInfo(array('label' => $label, 'value' => $value));
             }
         }
 
@@ -82,21 +82,30 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
             return;
         }
 
-        $options = $this->_option->getCollection()
-            ->addIdsToFilter(array_keys($request['options']))
-            ->addTitleToResult($this->_recurringPayment->getInfoValue($key, 'store_id'))
-            ->addValuesToResult();
+        $options = $this->_option->getCollection()->addIdsToFilter(
+            array_keys($request['options'])
+        )->addTitleToResult(
+            $this->_recurringPayment->getInfoValue($key, 'store_id')
+        )->addValuesToResult();
 
         foreach ($options as $option) {
             $quoteItemOption = $this->_quoteItemOptionFactory->create()->setId($option->getId());
 
-            $group = $option->groupFactory($option->getType())
-                ->setOption($option)
-                ->setRequest(new \Magento\Object($request))
-                ->setProduct($this->_product)
-                ->setUseQuotePath(true)
-                ->setQuoteItemOption($quoteItemOption)
-                ->validateUserValue($request['options']);
+            $group = $option->groupFactory(
+                $option->getType()
+            )->setOption(
+                $option
+            )->setRequest(
+                new \Magento\Framework\Object($request)
+            )->setProduct(
+                $this->_product
+            )->setUseQuotePath(
+                true
+            )->setQuoteItemOption(
+                $quoteItemOption
+            )->validateUserValue(
+                $request['options']
+            );
 
             $skipHtmlEscaping = false;
             if ('file' == $option->getType()) {
@@ -107,8 +116,11 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
                     'option_id' => $option->getId(),
                     'key' => $request['options'][$option->getId()]['secret_key']
                 );
-                $group->setCustomOptionDownloadUrl('sales/download/downloadProfileCustomOption')
-                    ->setCustomOptionUrlParams($downloadParams);
+                $group->setCustomOptionDownloadUrl(
+                    'sales/download/downloadProfileCustomOption'
+                )->setCustomOptionUrlParams(
+                    $downloadParams
+                );
             }
 
             $optionValue = $group->prepareForCart();

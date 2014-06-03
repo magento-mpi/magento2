@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * sales admin controller
  *
- * @category   Magento
- * @package    Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogRule\Controller\Adminhtml;
@@ -39,5 +35,4 @@ class Promo extends Action
     {
         return $this->_authorization->isAllowed('Magento_CatalogRule::promo');
     }
-
 }

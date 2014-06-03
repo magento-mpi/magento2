@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Model\Config;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -35,10 +32,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento\GiftRegistry\Model\Config\Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
-        $this->_cacheMock = $this->getMockBuilder('Magento\App\Cache\Type\Config')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMockBuilder(
+            'Magento\Framework\App\Cache\Type\Config'
+        )->disableOriginalConstructor()->getMock();
         $this->_model = new \Magento\GiftRegistry\Model\Config\Data(
             $this->_readerMock,
             $this->_configScopeMock,

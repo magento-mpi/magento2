@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker setOptions(array $options)
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker setCssClass($class)
  */
-class FontPicker extends \Magento\Data\Form\Element\Select
+class FontPicker extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
      * Control type
@@ -32,7 +30,7 @@ class FontPicker extends \Magento\Data\Form\Element\Select
         'Arial, Helvetica, sans-serif',
         'Verdana, Geneva, sans-serif',
         'Tahoma, Geneva, sans-serif',
-        'Georgia, serif',
+        'Georgia, serif'
     );
 
     /**
@@ -51,4 +49,3 @@ class FontPicker extends \Magento\Data\Form\Element\Select
         $this->setCssClass('element-' . self::CONTROL_TYPE);
     }
 }
-

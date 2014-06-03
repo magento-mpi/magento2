@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Wishlist item option resource model
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Model\Resource\Item;
 
-class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @return void

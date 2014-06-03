@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,9 +27,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_configData = $this->getMockBuilder('Magento\Cron\Model\Config\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_configData = $this->getMockBuilder(
+            'Magento\Cron\Model\Config\Data'
+        )->disableOriginalConstructor()->getMock();
         $this->_config = new \Magento\Cron\Model\Config($this->_configData);
     }
 
@@ -41,11 +39,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetJobs()
     {
         $jobList = array(
-            'jobname1' => array(
-                'instance' => 'TestInstance',
-                'method' => 'testMethod',
-                'schedule' => '* * * * *'
-            )
+            'jobname1' => array('instance' => 'TestInstance', 'method' => 'testMethod', 'schedule' => '* * * * *')
         );
         $this->_configData->expects($this->once())->method('getJobs')->will($this->returnValue($jobList));
         $result = $this->_config->getJobs();

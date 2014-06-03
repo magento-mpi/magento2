@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer\Category;
 
-use Magento\Event\Observer;
+use Magento\Framework\Event\Observer;
 
 class Save extends \Magento\GoogleOptimizer\Model\Observer\AbstractSave
 {
@@ -50,7 +50,7 @@ class Save extends \Magento\GoogleOptimizer\Model\Observer\AbstractSave
             'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $this->_category->getId(),
             'store_id' => $this->_category->getStoreId(),
-            'experiment_script' => $this->_params['experiment_script'],
+            'experiment_script' => $this->_params['experiment_script']
         );
     }
 }

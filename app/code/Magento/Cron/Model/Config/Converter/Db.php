@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Converter;
 
 /**
  * Convert data incoming from data base storage
  */
-class Db implements \Magento\Config\ConverterInterface
+class Db implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert data
@@ -23,12 +20,12 @@ class Db implements \Magento\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $jobs = isset($source['crontab']['jobs']) ? $source['crontab']['jobs'] : array();
+        $cronTab = isset($source['crontab']) ? $source['crontab'] : array();
 
-        if (empty($jobs)) {
-            return $jobs;
+        if (empty($cronTab)) {
+            return $cronTab;
         }
-        return $this->_extractParams($jobs);
+        return $this->_extractParams($cronTab);
     }
 
     /**
@@ -37,18 +34,21 @@ class Db implements \Magento\Config\ConverterInterface
      * @param array $jobs
      * @return array
      */
-    protected function _extractParams(array $jobs)
+    protected function _extractParams(array $cronTab)
     {
         $result = array();
-        foreach ($jobs as $jobName => $value) {
-            $result[$jobName] = $value;
+        foreach ($cronTab as $groupName => $groupConfig) {
+            $jobs = $groupConfig['jobs'];
+            foreach ($jobs as $jobName => $value) {
+                $result[$groupName][$jobName] = $value;
 
-            if (isset($value['schedule']) && is_array($value['schedule'])) {
-                $this->_processConfigParam($value, $jobName, $result);
-                $this->_processScheduleParam($value, $jobName, $result);
+                if (isset($value['schedule']) && is_array($value['schedule'])) {
+                    $this->_processConfigParam($value, $jobName, $result[$groupName]);
+                    $this->_processScheduleParam($value, $jobName, $result[$groupName]);
+                }
+
+                $this->_processRunModel($value, $jobName, $result[$groupName]);
             }
-
-            $this->_processRunModel($value, $jobName, $result);
         }
         return $result;
     }
@@ -67,6 +67,7 @@ class Db implements \Magento\Config\ConverterInterface
             $result[$jobName]['config_path'] = $jobConfig['schedule']['config_path'];
         }
     }
+
     /**
      * Fetch parameter 'cron_expr' from 'schedule' container, reassign it
      *

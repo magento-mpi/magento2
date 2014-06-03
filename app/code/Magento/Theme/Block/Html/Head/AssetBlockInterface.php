@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html\Head;
 
 /**
@@ -16,7 +15,7 @@ interface AssetBlockInterface
     /**
      * Get block asset
      *
-     * @return \Magento\View\Asset\AssetInterface
+     * @return \Magento\Framework\View\Asset\AssetInterface
      */
     public function getAsset();
 }

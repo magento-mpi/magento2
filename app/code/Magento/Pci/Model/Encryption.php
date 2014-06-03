@@ -2,31 +2,34 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Pci\Model;
 
-use Magento\Core\Exception;
-use Magento\Encryption\Crypt;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Encryption\Crypt;
 
 /**
  * More sophisticated encryption model, that can:
  * - generate/check hashes of different versions
  * - use different encryption ciphers
  */
-class Encryption extends \Magento\Encryption\Encryptor
+class Encryption extends \Magento\Framework\Encryption\Encryptor
 {
-    const HASH_VERSION_MD5    = 0;
+    const HASH_VERSION_MD5 = 0;
+
     const HASH_VERSION_SHA256 = 1;
+
     const HASH_VERSION_LATEST = 1;
 
-    const CIPHER_BLOWFISH     = 0;
+    const CIPHER_BLOWFISH = 0;
+
     const CIPHER_RIJNDAEL_128 = 1;
+
     const CIPHER_RIJNDAEL_256 = 2;
-    const CIPHER_LATEST       = 2;
+
+    const CIPHER_LATEST = 2;
 
     /**
      * Indicate cipher
@@ -50,13 +53,13 @@ class Encryption extends \Magento\Encryption\Encryptor
     protected $_keys = array();
 
     /**
-     * @param \Magento\Math\Random $randomGenerator
-     * @param \Magento\Encryption\CryptFactory $cryptFactory
+     * @param \Magento\Framework\Math\Random $randomGenerator
+     * @param \Magento\Framework\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\Math\Random $randomGenerator,
-        \Magento\Encryption\CryptFactory $cryptFactory,
+        \Magento\Framework\Math\Random $randomGenerator,
+        \Magento\Framework\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {
         parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
@@ -96,8 +99,15 @@ class Encryption extends \Magento\Encryption\Encryptor
      */
     public function validateHash($password, $hash)
     {
-        return $this->validateHashByVersion($password, $hash, self::HASH_VERSION_SHA256)
-            || $this->validateHashByVersion($password, $hash, self::HASH_VERSION_MD5);
+        return $this->validateHashByVersion(
+            $password,
+            $hash,
+            self::HASH_VERSION_SHA256
+        ) || $this->validateHashByVersion(
+            $password,
+            $hash,
+            self::HASH_VERSION_MD5
+        );
     }
 
     /**
@@ -140,11 +150,11 @@ class Encryption extends \Magento\Encryption\Encryptor
      * @param int $version
      * @return $this
      */
-//    public function setCipher($version = self::CIPHER_LATEST)
-//    {
-//        $this->_cipher = $this->validateCipher($version);
-//        return $this;
-//    }
+    //    public function setCipher($version = self::CIPHER_LATEST)
+    //    {
+    //        $this->_cipher = $this->validateCipher($version);
+    //        return $this;
+    //    }
 
     /**
      * Attempt to append new key & version
@@ -196,13 +206,13 @@ class Encryption extends \Magento\Encryption\Encryptor
 
         if ($cipherVersion === self::CIPHER_RIJNDAEL_128) {
             $cipher = MCRYPT_RIJNDAEL_128;
-            $mode   = MCRYPT_MODE_ECB;
-        } else if ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
+            $mode = MCRYPT_MODE_ECB;
+        } elseif ($cipherVersion === self::CIPHER_RIJNDAEL_256) {
             $cipher = MCRYPT_RIJNDAEL_128;
-            $mode   = MCRYPT_MODE_CBC;
+            $mode = MCRYPT_MODE_CBC;
         } else {
             $cipher = MCRYPT_BLOWFISH;
-            $mode   = MCRYPT_MODE_ECB;
+            $mode = MCRYPT_MODE_ECB;
         }
 
         return new Crypt($key, $cipher, $mode, $initVector);
@@ -228,29 +238,25 @@ class Encryption extends \Magento\Encryption\Encryptor
             // specified key, specified crypt, specified iv
             if (4 === $partsCount) {
                 list($keyVersion, $cryptVersion, $iv, $data) = $parts;
-                $initVector   = $iv ? $iv : false;
-                $keyVersion   = (int)$keyVersion;
+                $initVector = $iv ? $iv : false;
+                $keyVersion = (int)$keyVersion;
                 $cryptVersion = self::CIPHER_RIJNDAEL_256;
-            }
-            // specified key, specified crypt
-            elseif (3 === $partsCount) {
+                // specified key, specified crypt
+            } elseif (3 === $partsCount) {
                 list($keyVersion, $cryptVersion, $data) = $parts;
-                $keyVersion   = (int)$keyVersion;
+                $keyVersion = (int)$keyVersion;
                 $cryptVersion = (int)$cryptVersion;
-            }
-            // no key version = oldest key, specified crypt
-            elseif (2 === $partsCount) {
+                // no key version = oldest key, specified crypt
+            } elseif (2 === $partsCount) {
                 list($cryptVersion, $data) = $parts;
-                $keyVersion   = 0;
+                $keyVersion = 0;
                 $cryptVersion = (int)$cryptVersion;
-            }
-            // no key version = oldest key, no crypt version = oldest crypt
-            elseif (1 === $partsCount) {
-                $keyVersion   = 0;
+                // no key version = oldest key, no crypt version = oldest crypt
+            } elseif (1 === $partsCount) {
+                $keyVersion = 0;
                 $cryptVersion = self::CIPHER_BLOWFISH;
-            }
-            // not supported format
-            else {
+                // not supported format
+            } else {
                 return '';
             }
             // no key for decryption
@@ -272,9 +278,10 @@ class Encryption extends \Magento\Encryption\Encryptor
     public function encrypt($data)
     {
         $crypt = $this->_getCrypt();
-        return $this->_keyVersion . ':' . $this->_cipher . ':' .
-               (MCRYPT_MODE_CBC === $crypt->getMode() ? $crypt->getInitVector() . ':' : '') .
-               base64_encode($crypt->encrypt((string)$data));
+        return $this->_keyVersion . ':' . $this->_cipher . ':' . (MCRYPT_MODE_CBC ===
+            $crypt->getMode() ? $crypt->getInitVector() . ':' : '') . base64_encode(
+                $crypt->encrypt((string)$data)
+            );
     }
 
     /**
@@ -286,7 +293,7 @@ class Encryption extends \Magento\Encryption\Encryptor
      */
     public function validateKey($key)
     {
-        if ((false !== strpos($key, '<![CDATA[')) || (false !== strpos($key, ']]>')) || preg_match('/\s/s', $key)) {
+        if (false !== strpos($key, '<![CDATA[') || false !== strpos($key, ']]>') || preg_match('/\s/s', $key)) {
             throw new \Exception(__('The encryption key format is invalid.'));
         }
         return parent::validateKey($key);

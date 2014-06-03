@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,13 +10,12 @@ require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Cl
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/AggregateInvoker.php';
 
 $testsBaseDir = dirname(__DIR__);
-$testsTmpDir = "$testsBaseDir/tmp";
-$magentoBaseDir = realpath("$testsBaseDir/../../../");
+$testsTmpDir = "{$testsBaseDir}/tmp";
+$magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 
-\Magento\Autoload\IncludePath::addIncludePath(array(
-    "$testsBaseDir/framework",
-    "$testsBaseDir/testsuite",
-));
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+    array("{$testsBaseDir}/framework", "{$testsBaseDir}/testsuite")
+);
 
 function tool_autoloader($className)
 {
@@ -31,7 +27,7 @@ function tool_autoloader($className)
     $filePath = BP . '/dev/tools/' . $filePath . '.php';
 
     if (file_exists($filePath)) {
-        include_once($filePath);
+        include_once $filePath;
     } else {
         return false;
     }
@@ -40,15 +36,13 @@ function tool_autoloader($className)
 spl_autoload_register('tool_autoloader');
 
 /* Bootstrap the application */
-$invariantSettings = array(
-    'TESTS_LOCAL_CONFIG_EXTRA_FILE' => 'etc/integration-tests-config.xml',
-);
+$invariantSettings = array('TESTS_LOCAL_CONFIG_EXTRA_FILE' => 'etc/integration-tests-config.xml');
 $bootstrap = new \Magento\TestFramework\Bootstrap(
     new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new \Magento\TestFramework\Bootstrap\Environment(),
-    new \Magento\TestFramework\Bootstrap\DocBlock("$testsBaseDir/testsuite"),
-    new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Profiler\Driver\Standard()),
-    new \Magento\Shell(new \Magento\OSInfo()),
+    new \Magento\TestFramework\Bootstrap\DocBlock("{$testsBaseDir}/testsuite"),
+    new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Framework\Profiler\Driver\Standard()),
+    new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer()),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();

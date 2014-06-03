@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +18,7 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -38,13 +36,13 @@ class Customerbalance extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerBalance\Model\Balance $balance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerBalance\Model\Balance $balance,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;
         $this->_customerFactory = $customerFactory;
@@ -55,10 +53,10 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Dispatch request
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         $this->_request = $request;
         if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
@@ -105,9 +103,7 @@ class Customerbalance extends \Magento\Backend\App\Action
      */
     public function deleteOrphanBalancesAction()
     {
-        $this->_balance->deleteBalancesByCustomerId(
-            (int)$this->getRequest()->getParam('id')
-        );
+        $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
         $this->_redirect('customer/index/edit/', array('_current' => true));
     }
 
@@ -116,15 +112,17 @@ class Customerbalance extends \Magento\Backend\App\Action
      *
      * @param string $idFieldName
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = $this->_customerFactory->create()->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            throw new \Magento\Core\Exception(__('Failed to initialize customer'));
+            throw new \Magento\Framework\Model\Exception(__('Failed to initialize customer'));
         }
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
+
     }
 
     /**

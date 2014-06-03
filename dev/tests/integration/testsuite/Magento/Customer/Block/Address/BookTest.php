@@ -18,35 +18,41 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     protected $_block;
 
-    /** @var  \Magento\Customer\Model\Session */
-    protected $_customerSession;
+    /**
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
+     */
+    protected $currentCustomer;
 
     protected function setUp()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject $blockMock */
-        $blockMock = $this->getMockBuilder('\Magento\View\Element\BlockInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('setTitle', 'toHtml'))
-            ->getMock();
-        $blockMock->expects($this->any())
-            ->method('setTitle');
+        $blockMock = $this->getMockBuilder(
+            '\Magento\Framework\View\Element\BlockInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array('setTitle', 'toHtml')
+        )->getMock();
+        $blockMock->expects($this->any())->method('setTitle');
 
-        $this->_customerSession = Bootstrap::getObjectManager()
-            ->get('\Magento\Customer\Model\Session');
-        /** @var \Magento\View\LayoutInterface $layout */
-        $layout = Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $this->currentCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Helper\Session\CurrentCustomer');
+        /** @var \Magento\Framework\View\LayoutInterface $layout */
+        $layout = Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface');
         $layout->setBlock('head', $blockMock);
         $this->_block = $layout
             ->createBlock(
                 'Magento\Customer\Block\Address\Book',
                 '',
-                ['customerSession' => $this->_customerSession]
+                ['currentCustomer' => $this->currentCustomer]
             );
     }
 
     protected function tearDown()
     {
-        $this->_customerSession->unsCustomerId();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        // Cleanup customer from registry
+        $customerRegistry->remove(1);
     }
 
     public function testGetAddressEditUrl()
@@ -66,18 +72,14 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testHasPrimaryAddress($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->hasPrimaryAddress());
     }
 
     public function hasPrimaryAddressDataProvider()
     {
-        return [
-            '0' => [0, false],
-            '1' => [1, true],
-            '5' => [5, false],
-        ];
+        return array('0' => array(0, false), '1' => array(1, true), '5' => array(5, false));
     }
 
     /**
@@ -86,7 +88,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalAddresses()
     {
-        $this->_customerSession->setCustomerId(1);
+        $this->currentCustomer->setCustomerId(1);
         $this->assertNotNull($this->_block->getAdditionalAddresses());
         $this->assertCount(1, $this->_block->getAdditionalAddresses());
         $this->assertInstanceOf(
@@ -103,17 +105,14 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetAdditionalAddressesNegative($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->getAdditionalAddresses());
     }
 
     public function getAdditionalAddressesDataProvider()
     {
-        return [
-            '0' => [0, false],
-            '5' => [5, false],
-        ];
+        return array('0' => array(0, false), '5' => array(5, false));
     }
 
     /**
@@ -122,11 +121,13 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressHtml()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
-                  . "\nUnited States<br/>\nT: 3468676\n\n";
-        $address = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface')
-            ->getAddress(1);
+        $expected = "John Smith<br/>\nCompanyName<br />\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
+            "\nUnited States<br/>\nT: 3468676\n\n";
+        $address = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
+        )->getAddress(
+            1
+        );
         $html = $this->_block->getAddressHtml($address);
         $this->assertEquals($expected, $html);
     }
@@ -142,11 +143,12 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = Bootstrap::getObjectManager()
-        ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customerAccountService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $customer = $customerAccountService->getCustomer(1);
 
-        $this->_customerSession->setCustomerId(1);
+        $this->currentCustomer->setCustomerId(1);
         $object = $this->_block->getCustomer();
         $this->assertEquals($customer, $object);
     }
@@ -164,19 +166,13 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultBilling($customerId, $expected)
     {
-        if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
-        }
+        $this->currentCustomer->setCustomerId($customerId);
         $this->assertEquals($expected, $this->_block->getDefaultBilling());
     }
 
     public function getDefaultBillingDataProvider()
     {
-        return [
-            '0' => [0, null],
-            '1' => [1, 1],
-            '5' => [5, null],
-        ];
+        return array('0' => array(0, null), '1' => array(1, 1), '5' => array(5, null));
     }
 
     /**
@@ -188,18 +184,14 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultShipping($customerId, $expected)
     {
         if (!empty($customerId)) {
-            $this->_customerSession->setCustomerId($customerId);
+            $this->currentCustomer->setCustomerId($customerId);
         }
         $this->assertEquals($expected, $this->_block->getDefaultShipping());
     }
 
     public function getDefaultShippingDataProvider()
     {
-        return [
-            '0' => [0, null],
-            '1' => [1, 1],
-            '5' => [5, null],
-        ];
+        return array('0' => array(0, null), '1' => array(1, 1), '5' => array(5, null));
     }
 
     /**
@@ -208,10 +200,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressById()
     {
-        $this->assertInstanceOf(
-            '\Magento\Customer\Service\V1\Data\Address',
-            $this->_block->getAddressById(1)
-        );
+        $this->assertInstanceOf('\Magento\Customer\Service\V1\Data\Address', $this->_block->getAddressById(1));
         $this->assertNull($this->_block->getAddressById(5));
     }
 }

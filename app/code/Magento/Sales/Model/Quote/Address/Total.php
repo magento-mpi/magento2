@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Model\Quote\Address;
 
-class Total extends \Magento\Object
+class Total extends \Magento\Framework\Object
 {
     /**
      * Merge numeric total values
@@ -22,7 +20,7 @@ class Total extends \Magento\Object
         $newData = $total->getData();
         foreach ($newData as $key => $value) {
             if (is_numeric($value)) {
-                $this->setData($key, $this->_getData($key)+$value);
+                $this->setData($key, $this->_getData($key) + $value);
             }
         }
         return $this;

@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
  * Html page breadcrumbs block
  */
-class Breadcrumbs extends \Magento\View\Element\Template
+class Breadcrumbs extends \Magento\Framework\View\Element\Template
 {
     /**
      * Current template name
@@ -25,14 +24,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
      *
      * @var string[]
      */
-    protected $_properties = array(
-        'label',
-        'title',
-        'link',
-        'first',
-        'last',
-        'readonly',
-    );
+    protected $_properties = array('label', 'title', 'link', 'first', 'last', 'readonly');
 
     /**
      * List of breadcrumbs
@@ -63,7 +55,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
             }
         }
 
-        if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
+        if (!isset($this->_crumbs[$crumbName]) || !$this->_crumbs[$crumbName]['readonly']) {
             $this->_crumbs[$crumbName] = $crumbInfo;
         }
 
@@ -82,7 +74,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
         if (is_null($this->_cacheKeyInfo)) {
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
                 'crumbs' => base64_encode(serialize($this->_crumbs)),
-                'name' => $this->getNameInLayout(),
+                'name' => $this->getNameInLayout()
             );
         }
         return $this->_cacheKeyInfo;

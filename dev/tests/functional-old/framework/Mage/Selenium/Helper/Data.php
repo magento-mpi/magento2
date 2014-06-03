@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +9,6 @@
 /**
  * Test data helper class
  *
- * @package     selenium
- * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
@@ -110,11 +105,11 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     {
         $fileName = $dataFile;
         if (preg_match('/(\/)|(\\\)/', $dataFile)) {
-            $condition = preg_quote(preg_replace('/(\/)|(\\\)/', DIRECTORY_SEPARATOR, $dataFile));
-            $explode = explode(DIRECTORY_SEPARATOR, $condition);
+            $condition = preg_quote(preg_replace('/(\/)|(\\\)/', '/', $dataFile));
+            $explode = explode('/', $condition);
             $fileName = end($explode);
         } else {
-            $condition = 'data' . preg_quote(DIRECTORY_SEPARATOR) . $dataFile;
+            $condition = 'data' . preg_quote('/') . $dataFile;
         }
         if (!preg_match('|\.yml$|', $condition)) {
             $condition .= '\.yml$';

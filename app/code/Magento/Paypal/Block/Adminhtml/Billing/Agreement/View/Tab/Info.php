@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
+
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Adminhtml billing agreement info tab
  */
-class Info extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Info extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ class Info extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,13 +35,13 @@ class Info extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
@@ -105,17 +105,11 @@ class Info extends \Magento\Backend\Block\Template
         $customer = $this->_customerAccountService->getCustomer($customerId);
 
         $this->setCustomerEmail($customer->getEmail());
-        $this->setCustomerUrl(
-            $this->getUrl('customer/index/edit', array('id' => $customerId))
-        );
+        $this->setCustomerUrl($this->getUrl('customer/index/edit', array('id' => $customerId)));
         $this->setStatus($agreement->getStatusLabel());
-        $this->setCreatedAt(
-            $this->formatDate($agreement->getCreatedAt(), 'short', true)
-        );
+        $this->setCreatedAt($this->formatDate($agreement->getCreatedAt(), 'short', true));
         $this->setUpdatedAt(
-            ($agreement->getUpdatedAt())
-                ? $this->formatDate($agreement->getUpdatedAt(), 'short', true)
-                : __('N/A')
+            $agreement->getUpdatedAt() ? $this->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
         );
 
         return parent::_toHtml();

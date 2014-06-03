@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Product\Grouped;
 
-class AssociatedProducts
-    extends \Magento\Backend\Block\Catalog\Product\Tab\Container
+class AssociatedProducts extends \Magento\Backend\Block\Catalog\Product\Tab\Container
 {
     /**
      * @return void

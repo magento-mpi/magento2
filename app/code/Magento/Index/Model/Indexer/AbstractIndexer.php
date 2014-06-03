@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +15,7 @@ namespace Magento\Index\Model\Indexer;
 use Magento\Index\Model\Event;
 use Magento\Index\Model\IndexerInterface;
 
-abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
-    implements IndexerInterface
+abstract class AbstractIndexer extends \Magento\Framework\Model\AbstractModel implements IndexerInterface
 {
     /**
      * @var array
@@ -102,7 +99,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
     public function matchEvent(Event $event)
     {
         $entity = $event->getEntity();
-        $type   = $event->getType();
+        $type = $event->getType();
         return $this->matchEntityAndType($entity, $type);
     }
 
@@ -151,7 +148,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
 
         $resourceModel = $this->_getResource();
         if (method_exists($resourceModel, $method)) {
-            $resourceModel->$method($event);
+            $resourceModel->{$method}($event);
         }
         return $this;
     }

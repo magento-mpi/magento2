@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -44,10 +42,10 @@ class Observer
     /**
      * Prepare catalog rule post data to save
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\Banner\Model\Observer
      */
-    public function prepareCatalogRuleSave(\Magento\Event\Observer $observer)
+    public function prepareCatalogRuleSave(\Magento\Framework\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
@@ -60,28 +58,27 @@ class Observer
     /**
      * Bind specified banners to catalog rule
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Banner\Model\Observer
      */
-    public function bindRelatedBannersToCatalogRule(\Magento\Event\Observer $observer)
+    public function bindRelatedBannersToCatalogRule(\Magento\Framework\Event\Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
         }
-        $this->_bannerFactory->create()
-            ->bindBannersToCatalogRule($catalogRule->getId(), $banners);
+        $this->_bannerFactory->create()->bindBannersToCatalogRule($catalogRule->getId(), $banners);
         return $this;
     }
 
     /**
      * Prepare sales rule post data to save
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return \Magento\Banner\Model\Observer
      */
-    public function prepareSalesRuleSave(\Magento\Event\Observer $observer)
+    public function prepareSalesRuleSave(\Magento\Framework\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $request->setPost(
@@ -94,18 +91,17 @@ class Observer
     /**
      * Bind specified banners to sales rule
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  \Magento\Banner\Model\Observer
      */
-    public function bindRelatedBannersToSalesRule(\Magento\Event\Observer $observer)
+    public function bindRelatedBannersToSalesRule(\Magento\Framework\Event\Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
         }
-        $this->_bannerFactory->create()
-            ->bindBannersToSalesRule($salesRule->getId(), $banners);
+        $this->_bannerFactory->create()->bindBannersToSalesRule($salesRule->getId(), $banners);
         return $this;
     }
 }

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Controller\Adminhtml;
 
 /**
@@ -36,15 +32,19 @@ class UserTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionWrongId()
     {
         /** @var $user \Magento\User\Model\User */
-        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User')->loadByUsername('dummy_username');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\User\Model\User'
+        )->loadByUsername(
+            'dummy_username'
+        );
         $userId = $user->getId();
         $this->assertNotEmpty($userId, 'Broken fixture');
         $user->delete();
         $this->getRequest()->setPost('user_id', $userId);
         $this->dispatch('backend/admin/user/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('This user no longer exists.')), \Magento\Message\MessageInterface::TYPE_ERROR
+            $this->equalTo(array('This user no longer exists.')),
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }
@@ -56,7 +56,8 @@ class UserTest extends \Magento\Backend\Utility\Controller
     {
         $this->_createNew();
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the user.')), \Magento\Message\MessageInterface::TYPE_SUCCESS
+            $this->equalTo(array('You saved the user.')),
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }
@@ -67,22 +68,75 @@ class UserTest extends \Magento\Backend\Utility\Controller
     private function _createNew()
     {
         $fixture = uniqid();
-        $this->getRequest()->setPost(array(
-            'username' => $fixture,
-            'email' => "{$fixture}@example.com",
-            'firstname' => 'First',
-            'lastname' => 'Last',
-            'password' => 'password_with_1_number',
-            'password_confirmation' => 'password_with_1_number',
-        ));
+        $this->getRequest()->setPost(
+            array(
+                'username' => $fixture,
+                'email' => "{$fixture}@example.com",
+                'firstname' => 'First',
+                'lastname' => 'Last',
+                'password' => 'password_with_1_number',
+                'password_confirmation' => 'password_with_1_number'
+            )
+        );
         $this->dispatch('backend/admin/user/save');
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @dataProvider resetPasswordDataProvider
+     */
+    public function testSaveActionPasswordChange($postData, $isPasswordCorrect)
+    {
+        $this->getRequest()->setPost($postData);
+        $this->dispatch('backend/admin/user/save');
+
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $user \Magento\User\Model\User */
+        $user = $objectManager->create('Magento\User\Model\User');
+        $user->loadByUsername($postData['username']);
+        if ($isPasswordCorrect) {
+            $this->assertRedirect($this->stringContains('backend/admin/user/index'));
+            $this->assertEquals($postData['username'], $user->getUsername());
+            $this->assertEquals($postData['email'], $user->getEmail());
+            $this->assertEquals($postData['firstname'], $user->getFirstname());
+            $this->assertEquals($postData['lastname'], $user->getLastname());
+            $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
+            $this->assertTrue($encryptor->validateHash($postData['password'], $user->getPassword()));
+        } else {
+            $this->assertRedirect($this->stringContains('backend/admin/user/edit'));
+            $this->assertEmpty($user->getData());
+        }
+    }
+
+    public function resetPasswordDataProvider()
+    {
+        $password = uniqid('123q');
+        $passwordPairs = array(
+            array('password' => $password, 'password_confirmation' => $password, 'is_correct' => true),
+            array('password' => $password, 'password_confirmation' => '', 'is_correct' => false),
+            array('password' => $password, 'password_confirmation' => $password . '123', 'is_correct' => false),
+            array('password' => '', 'password_confirmation' => '', 'is_correct' => false),
+            array('password' => '', 'password_confirmation' => $password, 'is_correct' => false)
+        );
+        $data = array();
+        foreach ($passwordPairs as $passwordPair) {
+            $fixture = uniqid();
+            $postData = array(
+                'username' => $fixture,
+                'email' => "{$fixture}@example.com",
+                'firstname' => 'First',
+                'lastname' => 'Last',
+                'password' => $passwordPair['password'],
+                'password_confirmation' => $passwordPair['password_confirmation']
+            );
+            $data[] = array($postData, $passwordPair['is_correct']);
+        }
+        return $data;
     }
 
     public function testRoleGridAction()
     {
-        $this->getRequest()
-            ->setParam('ajax', true)
-            ->setParam('isAjax', true);
+        $this->getRequest()->setParam('ajax', true)->setParam('isAjax', true);
         $this->dispatch('backend/admin/user/roleGrid');
         $expected = '%a<table %a id="permissionsUserGrid_table">%a';
         $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
@@ -93,10 +147,7 @@ class UserTest extends \Magento\Backend\Utility\Controller
      */
     public function testRolesGridAction()
     {
-        $this->getRequest()
-            ->setParam('ajax', true)
-            ->setParam('isAjax', true)
-            ->setParam('user_id', 1);
+        $this->getRequest()->setParam('ajax', true)->setParam('isAjax', true)->setParam('user_id', 1);
         $this->dispatch('backend/admin/user/rolesGrid');
         $expected = '%a<table %a id="permissionsUserRolesGrid_table">%a';
         $this->assertStringMatchesFormat($expected, $this->getResponse()->getBody());
@@ -114,5 +165,45 @@ class UserTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('data-ui-id="adminhtml-user-edit-tabs-title"', $response);
         $this->assertContains('User Information', $response);
         $this->assertSelectCount('#user_base_fieldset', 1, $response);
+    }
+
+    public function testValidateActionSuccess()
+    {
+        $data = [
+            'username' => 'admin2',
+            'firstname' => 'new firstname',
+            'lastname' => 'new lastname',
+            'email' => 'example@domain.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $this->getRequest()->setPost($data);
+        $this->dispatch('backend/admin/user/validate');
+        $body = $this->getResponse()->getBody();
+
+        $this->assertEquals('{"error":0}', $body);
+    }
+
+    public function testValidateActionError()
+    {
+        $data = [
+            'username' => 'admin2',
+            'firstname' => 'new firstname',
+            'lastname' => 'new lastname',
+            'email' => 'example@domain.cim',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        /**
+         * set customer data
+         */
+        $this->getRequest()->setPost($data);
+        $this->dispatch('backend/admin/user/validate');
+        $body = $this->getResponse()->getBody();
+
+        $this->assertContains('{"error":1,"html_message":', $body);
+        $this->assertContains('Please correct this email address: \"example@domain.cim\"', $body);
     }
 }

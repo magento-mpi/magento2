@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Bundle\Model\Resource\Selection;
 /**
  * Bundle Selections Resource Collection
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
@@ -61,7 +57,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->join(array('selection' => $this->_selectionTable),
+        $this->getSelect()->join(
+            array('selection' => $this->_selectionTable),
             'selection.product_id = e.entity_id',
             array('*')
         );
@@ -86,7 +83,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             'price.selection_price_value',
             'selection.selection_price_value'
         );
-        $this->getSelect()->joinLeft(array('price' => $this->getTable('catalog_product_bundle_selection_price')),
+        $this->getSelect()->joinLeft(
+            array('price' => $this->getTable('catalog_product_bundle_selection_price')),
             'selection.selection_id = price.selection_id AND price.website_id = ' . (int)$websiteId,
             array(
                 'selection_price_type' => $priceType,
@@ -132,8 +130,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setPositionOrder()
     {
-        $this->getSelect()->order('selection.position asc')
-            ->order('selection.selection_id asc');
+        $this->getSelect()->order('selection.position asc')->order('selection.selection_id asc');
         return $this;
     }
 }

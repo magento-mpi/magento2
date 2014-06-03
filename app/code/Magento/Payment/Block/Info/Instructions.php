@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,8 +33,9 @@ class Instructions extends \Magento\Payment\Block\Info
     public function getInstructions()
     {
         if (is_null($this->_instructions)) {
-            $this->_instructions = $this->getInfo()->getAdditionalInformation('instructions')
-                ?: $this->getMethod()->getInstructions();
+            $this->_instructions = $this->getInfo()->getAdditionalInformation(
+                'instructions'
+            ) ?: $this->getMethod()->getInstructions();
         }
         return $this->_instructions;
     }

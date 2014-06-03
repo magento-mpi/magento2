@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Email\Block\Adminhtml\Template\Grid\Filter;
 /**
  * Adminhtml system template grid type filter
  *
- * @category   Magento
- * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
@@ -25,8 +21,8 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     protected static $_types = array(
         null => null,
-        \Magento\App\TemplateTypesInterface::TYPE_HTML => 'HTML',
-        \Magento\App\TemplateTypesInterface::TYPE_TEXT => 'Text',
+        \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => 'HTML',
+        \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => 'Text'
     );
 
     /**

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
  * @method string                                                   getHeaderText()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku setHeaderText()
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
@@ -40,8 +36,9 @@ class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
     public function getAdditionalJavascript()
     {
         // Origin of configure popup HTML
-        $js = $this->getJsOrderObject() . ".addSourceGrid({htmlId: \"{$this->getId()}\", "
-            . "listType: \"{$this->getListType()}\"});";
+        $js = $this->getJsOrderObject() .
+            ".addSourceGrid({htmlId: \"{$this->getId()}\", " .
+            "listType: \"{$this->getListType()}\"});";
         $js .= $this->getJsOrderObject() . ".addNoCleanSource('{$this->getId()}');";
         $js .= 'addBySku.observeAddToCart();';
         return $js;

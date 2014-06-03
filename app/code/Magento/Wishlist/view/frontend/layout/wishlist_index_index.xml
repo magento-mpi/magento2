@@ -7,8 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="customer_account"/>
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="wishlist_head_components" template="Magento_Wishlist::js/components.phtml"/>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Wishlist\Block\Customer\Wishlist" name="customer.wishlist" template="view.phtml" cacheable="false">
             <block class="Magento\Wishlist\Block\Customer\Wishlist\Items" name="customer.wishlist.items" as="items" template="item/list.phtml" cacheable="false">
@@ -28,6 +31,13 @@
                         <argument name="col_class" xsi:type="string">actions</argument>
                         <argument name="title" translate="true" xsi:type="string">Add to Cart</argument>
                     </arguments>
+                    <block class="Magento\Catalog\Pricing\Render" name="product.price.render.wishlist">
+                        <arguments>
+                            <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                            <argument name="price_type_code" xsi:type="string">configured_price</argument>
+                            <argument name="zone" xsi:type="string">item_list</argument>
+                        </arguments>
+                    </block>
                     <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Options" name="customer.wishlist.item.options" cacheable="false"/>
                 </block>
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Remove" name="customer.wishlist.item.remove" template="item/column/remove.phtml" cacheable="false">

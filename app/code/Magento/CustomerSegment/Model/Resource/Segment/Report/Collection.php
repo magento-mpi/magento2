@@ -7,8 +7,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Segment\Report;
 
-class Collection
-    extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
+class Collection extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
 {
     /**
      * @return \Magento\CustomerSegment\Model\Resource\Segment\Report\Collection
@@ -16,8 +15,7 @@ class Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addCustomerCountToSelect()
-            ->addWebsitesToResult();
+        $this->addCustomerCountToSelect()->addWebsitesToResult();
         return $this;
     }
 }

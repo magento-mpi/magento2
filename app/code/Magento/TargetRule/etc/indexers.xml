@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Index/etc/indexers.xsd">
     <indexer name="targetrule" instance="Magento\TargetRule\Model\Index" />
 </config>

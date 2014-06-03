@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Model\Config\Source;
 
-class Group implements \Magento\Option\ArrayInterface
+class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array
@@ -22,17 +20,17 @@ class Group implements \Magento\Option\ArrayInterface
     protected $_groupService;
 
     /**
-     * @var \Magento\Convert\Object
+     * @var \Magento\Framework\Convert\Object
      */
     protected $_converter;
 
     /**
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Convert\Object $converter
+     * @param \Magento\Framework\Convert\Object $converter
      */
     public function __construct(
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Convert\Object $converter
+        \Magento\Framework\Convert\Object $converter
     ) {
         $this->_groupService = $groupService;
         $this->_converter = $converter;
@@ -44,9 +42,9 @@ class Group implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $groups = $this->_groupService->getGroups(FALSE);
+            $groups = $this->_groupService->getGroups(false);
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
-            array_unshift($this->_options, array('value'=> '', 'label'=> __('-- Please Select --')));
+            array_unshift($this->_options, array('value' => '', 'label' => __('-- Please Select --')));
         }
         return $this->_options;
     }

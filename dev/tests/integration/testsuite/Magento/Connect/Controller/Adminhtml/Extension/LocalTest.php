@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Controller\Adminhtml\Extension;
 
 /**
@@ -22,9 +18,10 @@ class LocalTest extends \Magento\Backend\Utility\Controller
     {
         $this->dispatch('backend/admin/extension_local/index');
         $expected = '?return=' . urlencode(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Backend\Helper\Data')->getHomePageUrl()
-            );
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Backend\Helper\Data'
+            )->getHomePageUrl()
+        );
         $this->assertRedirect($this->stringEndsWith($expected));
     }
 }

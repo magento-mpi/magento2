@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Converter;
 
 /**
  * Converts cron parameters from XML files
  */
-class Xml implements \Magento\Config\ConverterInterface
+class Xml implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Converting data to array type
@@ -50,6 +47,7 @@ class Xml implements \Magento\Config\ConverterInterface
                 $config['name'] = $jobName;
                 $config += $this->convertCronConfig($jobConfig);
                 $config += $this->convertCronSchedule($jobConfig);
+                $config += $this->convertCronConfigPath($jobConfig);
 
                 $output[$group->getAttribute('id')][$jobName] = $config;
             }
@@ -93,6 +91,29 @@ class Xml implements \Magento\Config\ConverterInterface
             if ($schedules->nodeName == 'schedule') {
                 if (!empty($schedules->nodeValue)) {
                     $result['schedule'] = $schedules->nodeValue;
+                    break;
+                }
+            }
+            continue;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Convert schedule cron configurations
+     *
+     * @param \DOMElement $jobConfig
+     * @return array
+     */
+    protected function convertCronConfigPath(\DOMElement $jobConfig)
+    {
+        $result = array();
+        /** @var \DOMText $schedules */
+        foreach ($jobConfig->childNodes as $schedules) {
+            if ($schedules->nodeName == 'config_path') {
+                if (!empty($schedules->nodeValue)) {
+                    $result['config_path'] = $schedules->nodeValue;
                     break;
                 }
             }

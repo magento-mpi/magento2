@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
  * Wishlist Item Configure block
  * Serves for configuring item on product view page
  *
- * @category   Magento
- * @package    Magento_Wishlist
  * @module     Wishlist
  */
 namespace Magento\Wishlist\Block\Item;
 
-class Configure extends \Magento\View\Element\Template
+class Configure extends \Magento\Framework\View\Element\Template
 {
     /**
      * Wishlist data
@@ -30,20 +26,20 @@ class Configure extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;

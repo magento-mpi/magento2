@@ -1,0 +1,71 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\Rma\Block\Returns\Tracking\Package */ ?>
+<?php  $_results = $this->getPackageInfo() ?>
+<div class="page title">
+    <h1 class="title"><span class="base"><?php echo __('Packages'); ?></span></h1>
+    <div class="actions">
+        <button class="action print" type="button" title="<?php echo __('Print') ?>" onclick="setLocation('<?php echo $this->getPrintPackageUrl() ?>');return false;"><span><?php echo __('Print') ?></span></button>
+        <button class="action close" type="button" title="<?php echo __('Close Window') ?>" onclick="window.close(); window.opener.focus();"><span><?php echo __('Close Window') ?></span></button>
+    </div>
+</div>
+<div class="packed content">
+<?php foreach ($this->getPackages() as $packageId => $package): ?>
+        <?php $package = new \Magento\Framework\Object($package) ?>
+        <?php $params = new \Magento\Framework\Object($package->getParams()) ?>
+        <div class="block package info">
+            <div class="title"><strong><?php echo __('Package') . ' ' . $packageId ?></strong></div>
+            <table class="tracking popup data table">
+                <tbody>
+                    <tr>
+                        <th class="col type"><?php echo __('Type') ?></th>
+                        <td class="col type"><?php echo $this->getContainerTypeByCode($params->getContainer()) ?></td>
+                        <th class="col length"><?php echo __('Length') ?></th>
+                        <td class="col length"><?php echo $params->getLength() .' '. $this->helper('Magento\Shipping\Helper\Carrier')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                    </tr>
+                    <tr>
+                        <th class="col weight"><?php echo __('Total Weight') ?></th>
+                        <td class="col weight"><?php echo $params->getWeight() .' '. $this->helper('Magento\Shipping\Helper\Carrier')->getMeasureWeightName($params->getWeightUnits()) ?></td>
+                        <th class="col width"><?php echo __('Width') ?></th>
+                        <td class="col width"><?php echo $params->getWidth() .' '. $this->helper('Magento\Shipping\Helper\Carrier')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td>&nbsp;</td>
+                        <th class="col height"><?php echo __('Height') ?></th>
+                        <td class="col height"><?php echo $params->getHeight() .' '. $this->helper('Magento\Shipping\Helper\Carrier')->getMeasureDimensionName($params->getDimensionUnits()) ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="block package items">
+            <div class="title"><strong><?php echo __('Items in the Package') ?></strong></div>
+            <table class="tracking popup data table">
+                <tr>
+                    <th class="col product"><?php echo __('Product') ?></th>
+                    <th class="col weight"><?php echo __('Weight') ?></th>
+                    <th class="col qty"><?php echo __('Qty') ?></th>
+                </tr>
+                <?php foreach($package->getItems() as $itemId => $item) : ?>
+                    <?php $item = new \Magento\Framework\Object($item) ?>
+                    <tr title="#">
+                        <td class="col product"> <?php echo $item->getName(); ?></td>
+                        <td class="col weight"><?php echo $item->getWeight(); ?></td>
+                        <td class="col qty"><?php echo $item->getQty()*1; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>
+<div class="actions">
+    <button class="action close" type="button" title="<?php echo __('Close Window') ?>" onclick="window.close(); window.opener.focus();"><span><?php echo __('Close Window') ?></span></button>
+    <button class="action print" type="button" title="<?php echo __('Print') ?>" onclick="setLocation('<?php echo $this->getPrintPackageUrl() ?>');return false;"><span><?php echo __('Print') ?></span></button>
+</div>

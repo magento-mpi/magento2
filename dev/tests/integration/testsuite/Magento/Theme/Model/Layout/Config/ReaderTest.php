@@ -16,28 +16,28 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /** @var  \Magento\Config\FileResolverInterface/PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Framework\Config\FileResolverInterface/PHPUnit_Framework_MockObject_MockObject */
     protected $_fileResolverMock;
 
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $cache \Magento\App\Cache */
-        $cache = $objectManager->create('Magento\App\Cache');
+        /** @var $cache \Magento\Framework\App\Cache */
+        $cache = $objectManager->create('Magento\Framework\App\Cache');
         $cache->clean();
-        $this->_fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_model = $objectManager->create('Magento\Theme\Model\Layout\Config\Reader',
-            array('fileResolver'=>$this->_fileResolverMock));
+        $this->_fileResolverMock = $this->getMockBuilder(
+            'Magento\Framework\Config\FileResolverInterface'
+        )->disableOriginalConstructor()->getMock();
+        $this->_model = $objectManager->create(
+            'Magento\Theme\Model\Layout\Config\Reader',
+            array('fileResolver' => $this->_fileResolverMock)
+        );
     }
 
     public function testRead()
     {
         $fileList = array(file_get_contents(__DIR__ . '/../_files/page_layouts.xml'));
-        $this->_fileResolverMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($fileList));
+        $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($fileList));
         $result = $this->_model->read('global');
         $expected = array(
             'empty' => array(
@@ -53,7 +53,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 'template' => '1column.phtml',
                 'layout_handle' => 'page_one_column',
                 'is_default' => '1'
-            ),
+            )
         );
         $this->assertEquals($expected, $result);
     }
@@ -64,9 +64,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             file_get_contents(__DIR__ . '/../_files/page_layouts.xml'),
             file_get_contents(__DIR__ . '/../_files/page_layouts2.xml')
         );
-        $this->_fileResolverMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($fileList));
+        $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($fileList));
 
         $result = $this->_model->read('global');
         $expected = array(
@@ -90,7 +88,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 'template' => '2columns-left.phtml',
                 'layout_handle' => 'page_two_columns_left',
                 'is_default' => '0'
-            ),
+            )
         );
         $this->assertEquals($expected, $result);
     }

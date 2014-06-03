@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Opti
 /**
  * Bundle option checkbox type renderer
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Checkbox
-    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox
+class Checkbox extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox
 {
     /**
      * @var string
@@ -32,7 +27,11 @@ class Checkbox
     public function setValidationContainer($elementId, $containerId)
     {
         return '<script type="text/javascript">
-            $(\'' . $elementId . '\').advaiceContainer = \'' . $containerId . '\';
+            $(\'' .
+            $elementId .
+            '\').advaiceContainer = \'' .
+            $containerId .
+            '\';
             </script>';
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,22 +12,22 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -52,32 +50,40 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _beforeToHtml()
     {
-        $this->addTab('info', array(
-            'label'     => __('Information'),
-            'content'   => $this->getLayout()->createBlock(
-                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
-            )->initForm()->toHtml(),
-            'active'    => true
-        ));
+        $this->addTab(
+            'info',
+            array(
+                'label' => __('Information'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
+                )->initForm()->toHtml(),
+                'active' => true
+            )
+        );
 
-        $this->addTab('send', array(
-            'label'     => __('Send Gift Card'),
-            'content'   => $this->getLayout()->createBlock(
-                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
-            )->initForm()->toHtml(),
-        ));
+        $this->addTab(
+            'send',
+            array(
+                'label' => __('Send Gift Card'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
+                )->initForm()->toHtml()
+            )
+        );
 
         $model = $this->_coreRegistry->registry('current_giftcardaccount');
         if ($model->getId()) {
-            $this->addTab('history', array(
-                'label'     => __('History'),
-                'content'   => $this->getLayout()->createBlock(
-                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
-                )->toHtml(),
-            ));
+            $this->addTab(
+                'history',
+                array(
+                    'label' => __('History'),
+                    'content' => $this->getLayout()->createBlock(
+                        'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
+                    )->toHtml()
+                )
+            );
         }
 
         return parent::_beforeToHtml();
     }
-
 }

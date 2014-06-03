@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Controller\Adminhtml;
 /**
  * Cms manage blocks controller
  *
- * @category   Magento
- * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Block extends \Magento\Backend\App\Action
@@ -21,18 +17,16 @@ class Block extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -46,9 +40,15 @@ class Block extends \Magento\Backend\App\Action
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Cms::cms_block')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'));
+        $this->_setActiveMenu(
+            'Magento_Cms::cms_block'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('Static Blocks'),
+            __('Static Blocks')
+        );
         return $this;
     }
 
@@ -92,7 +92,7 @@ class Block extends \Magento\Backend\App\Action
         // 2. Initial checking
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -103,7 +103,7 @@ class Block extends \Magento\Backend\App\Action
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
-        if (! empty($data)) {
+        if (!empty($data)) {
             $model->setData($data);
         }
 
@@ -111,8 +111,10 @@ class Block extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('cms_block', $model);
 
         // 5. Build edit form
-        $this->_initAction()
-            ->_addBreadcrumb($id ? __('Edit Block') : __('New Block'), $id ? __('Edit Block') : __('New Block'));
+        $this->_initAction()->_addBreadcrumb(
+            $id ? __('Edit Block') : __('New Block'),
+            $id ? __('Edit Block') : __('New Block')
+        );
         $this->_view->renderLayout();
     }
 
@@ -155,7 +157,6 @@ class Block extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());

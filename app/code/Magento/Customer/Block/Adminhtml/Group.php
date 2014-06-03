@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,12 @@
 /**
  * Adminhtml customers group page content block
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Adminhtml;
 
 class Group extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
     /**
      * Modify header & button labels
      *

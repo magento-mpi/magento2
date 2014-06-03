@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Virtual cart condition
@@ -38,8 +36,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Virtual Only'));
+        return array('value' => $this->getType(), 'label' => __('Virtual Only'));
     }
 
     /**
@@ -49,9 +46,10 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping cart %1 only virtual items', $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping cart %1 only virtual items',
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -71,10 +69,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            '1' => __('has'),
-            '0' => __('does not have')
-        ));
+        $this->setValueOption(array('1' => __('has'), '0' => __('does not have')));
         return $this;
     }
 

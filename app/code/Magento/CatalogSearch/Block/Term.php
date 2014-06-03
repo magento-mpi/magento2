@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,17 +9,15 @@
 /**
  * Catalogsearch term block
  *
- * @category   Magento
- * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogSearch\Block;
 
 use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory;
-use Magento\UrlFactory;
-use Magento\UrlInterface;
-use Magento\View\Element\Template;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\UrlFactory;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 
 class Term extends Template
 {
@@ -29,7 +25,6 @@ class Term extends Template
      * @var array
      */
     protected $_terms;
-
 
     /**
      * @var int
@@ -81,13 +76,13 @@ class Term extends Template
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = $this->_queryCollectionFactory->create()
-                ->setPopularQueryFilter($this->_storeManager->getStore()->getId())
-                ->setPageSize(100)
-                ->load()
-                ->getItems();
+            $terms = $this->_queryCollectionFactory->create()->setPopularQueryFilter(
+                $this->_storeManager->getStore()->getId()
+            )->setPageSize(
+                100
+            )->load()->getItems();
 
-            if( count($terms) == 0 ) {
+            if (count($terms) == 0) {
                 return $this;
             }
 
@@ -95,12 +90,12 @@ class Term extends Template
             $this->_maxPopularity = reset($terms)->getPopularity();
             $this->_minPopularity = end($terms)->getPopularity();
             $range = $this->_maxPopularity - $this->_minPopularity;
-            $range = ( $range == 0 ) ? 1 : $range;
+            $range = $range == 0 ? 1 : $range;
             foreach ($terms as $term) {
-                if( !$term->getPopularity() ) {
+                if (!$term->getPopularity()) {
                     continue;
                 }
-                $term->setRatio(($term->getPopularity()-$this->_minPopularity)/$range);
+                $term->setRatio(($term->getPopularity() - $this->_minPopularity) / $range);
                 $temp[$term->getName()] = $term;
                 $termKeys[] = $term->getName();
             }
@@ -123,7 +118,7 @@ class Term extends Template
     }
 
     /**
-     * @param /Magento/Object $obj
+     * @param \Magento\Framework\Object $obj
      * @return string
      */
     public function getSearchUrl($obj)
@@ -131,9 +126,9 @@ class Term extends Template
         /** @var $url UrlInterface */
         $url = $this->_urlFactory->create();
         /*
-        * url encoding will be done in Url.php http_build_query
-        * so no need to explicitly called urlencode for the text
-        */
+         * url encoding will be done in Url.php http_build_query
+         * so no need to explicitly called urlencode for the text
+         */
         $url->setQueryParam('q', $obj->getName());
         return $url->getUrl('catalogsearch/result');
     }

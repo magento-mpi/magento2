@@ -28,7 +28,6 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
      */
     protected $subjectMock;
 
-
     protected function setUp()
     {
         $this->orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item', array(), array(), '', false);
@@ -43,8 +42,7 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundItemToOrderItemEmptyOptions()
     {
-        $this->quoteItemMock->expects($this->exactly(2))->method('getOptions')
-            ->will($this->returnValue(array()));
+        $this->quoteItemMock->expects($this->exactly(2))->method('getOptions')->will($this->returnValue(array()));
 
         $orderItem = $this->model->aroundItemToOrderItem($this->subjectMock, $this->closureMock, $this->quoteItemMock);
         $this->assertSame($this->orderItemMock, $orderItem);
@@ -59,8 +57,13 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->quoteItemMock->expects($this->exactly(2))->method('getOptions')
-            ->will($this->returnValue(array($itemOption, $itemOption)));
+        $this->quoteItemMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getOptions'
+        )->will(
+            $this->returnValue(array($itemOption, $itemOption))
+        );
 
         $itemOption->expects($this->at(0))->method('getCode')->will($this->returnValue('someText_8'));
         $itemOption->expects($this->at(1))->method('getCode')->will($this->returnValue('not_int_text'));
@@ -71,8 +74,7 @@ class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
 
         $productMock->expects($this->once())->method('getOptionById')->will($this->returnValue($optionMock));
 
-        $this->quoteItemMock->expects($this->once())->method('getProduct')
-            ->will($this->returnValue($productMock));
+        $this->quoteItemMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
 
         $orderItem = $this->model->aroundItemToOrderItem($this->subjectMock, $this->closureMock, $this->quoteItemMock);
         $this->assertSame($this->orderItemMock, $orderItem);

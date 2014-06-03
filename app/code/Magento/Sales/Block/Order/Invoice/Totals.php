@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,13 +12,13 @@ use Magento\Sales\Model\Order;
 class Totals extends \Magento\Sales\Block\Order\Totals
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $data);
@@ -80,6 +78,4 @@ class Totals extends \Magento\Sales\Block\Order\Totals
         $this->removeTotal('base_grandtotal');
         return $this;
     }
-
-
 }

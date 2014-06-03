@@ -27,7 +27,7 @@ return array(
         'orig_country_id' => 'US',
         'country_id' => 'US',
         'region_id' => '12',
-        'city'=> 'Culver City',
+        'city' => 'Culver City',
         'postcode' => '90034',
         'usps_userid' => '213MAGEN6752',
         'usps_container' => 'VARIABLE',
@@ -35,6 +35,6 @@ return array(
         'girth' => null,
         'height' => null,
         'length' => null,
-        'width' => null,
+        'width' => null
     )
 );

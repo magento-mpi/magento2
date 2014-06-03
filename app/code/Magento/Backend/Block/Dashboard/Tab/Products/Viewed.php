@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Dashboard\Tab\Products;
 /**
  * Adminhtml dashboard most viewed products grid
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Viewed extends \Magento\Backend\Block\Dashboard\Grid
@@ -62,11 +58,13 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
         } else {
             $storeId = (int)$this->getParam('store');
         }
-        $collection = $this->_productsFactory->create()
-            ->addAttributeToSelect('*')
-            ->addViewsCount()
-            ->setStoreId($storeId)
-            ->addStoreFilter($storeId);
+        $collection = $this->_productsFactory->create()->addAttributeToSelect(
+            '*'
+        )->addViewsCount()->setStoreId(
+            $storeId
+        )->addStoreFilter(
+            $storeId
+        );
 
         $this->setCollection($collection);
 
@@ -78,29 +76,32 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array(
-            'header'    =>__('Product'),
-            'sortable'  => false,
-            'index'     =>'name'
-        ));
+        $this->addColumn('name', array('header' => __('Product'), 'sortable' => false, 'index' => 'name'));
 
-        $this->addColumn('price', array(
-            'header'    =>__('Price'),
-            'width'     =>'120px',
-            'type'      =>'currency',
-            'currency_code' => (string) $this->_storeManager->getStore((int)$this->getParam('store'))
-                ->getBaseCurrencyCode(),
-            'sortable'  => false,
-            'index'     =>'price'
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'width' => '120px',
+                'type' => 'currency',
+                'currency_code' => (string)$this->_storeManager->getStore(
+                    (int)$this->getParam('store')
+                )->getBaseCurrencyCode(),
+                'sortable' => false,
+                'index' => 'price'
+            )
+        );
 
-        $this->addColumn('views', array(
-            'header'    =>__('Views'),
-            'width'     =>'120px',
-            'align'     =>'right',
-            'sortable'  => false,
-            'index'     =>'views'
-        ));
+        $this->addColumn(
+            'views',
+            array(
+                'header' => __('Views'),
+                'width' => '120px',
+                'align' => 'right',
+                'sortable' => false,
+                'index' => 'views'
+            )
+        );
 
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
@@ -113,7 +114,7 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        $params = array('id'=>$row->getId());
+        $params = array('id' => $row->getId());
         if ($this->getRequest()->getParam('store')) {
             $params['store'] = $this->getRequest()->getParam('store');
         }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 /**
  * Abstract class for accordion grids
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractAccordion
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Collection field name for using in controls
@@ -42,27 +37,27 @@ abstract class AbstractAccordion
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -93,7 +88,7 @@ abstract class AbstractAccordion
      */
     public function getIsCollapsed()
     {
-        return ($this->getItemsCount() == 0);
+        return $this->getItemsCount() == 0;
     }
 
     /**
@@ -113,7 +108,7 @@ abstract class AbstractAccordion
     /**
      * Return items collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getItemsCollection()
     {
@@ -148,24 +143,30 @@ abstract class AbstractAccordion
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('product_name', array(
-            'header'    => __('Product'),
-            'renderer'  => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Product',
-            'index'     => 'name',
-            'sortable'  => false
-        ));
+        $this->addColumn(
+            'product_name',
+            array(
+                'header' => __('Product'),
+                'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Product',
+                'index' => 'name',
+                'sortable' => false
+            )
+        );
 
-        $this->addColumn('price', array(
-            'header'    => __('Price'),
-            'renderer'  => $this->_getPriceRenderer(),
-            'align'     => 'right',
-            'type'      => 'currency',
-            'column_css_class' => 'price',
-            'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
-            'rate'      => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
-            'index'     => 'price',
-            'sortable'  => false
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'renderer' => $this->_getPriceRenderer(),
+                'align' => 'right',
+                'type' => 'currency',
+                'column_css_class' => 'price',
+                'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
+                'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
+                'index' => 'price',
+                'sortable' => false
+            )
+        );
 
         $this->_addControlColumns();
 
@@ -179,28 +180,34 @@ abstract class AbstractAccordion
      */
     protected function _addControlColumns()
     {
-        $this->addColumn('in_products', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'field_name'=> $this->getId() ? $this->getId() : 'source_product',
-            'align'     => 'center',
-            'index'     => $this->_controlFieldName,
-            'use_index' => true,
-            'sortable'  => false
-        ));
+        $this->addColumn(
+            'in_products',
+            array(
+                'header_css_class' => 'a-center',
+                'type' => 'checkbox',
+                'field_name' => $this->getId() ? $this->getId() : 'source_product',
+                'align' => 'center',
+                'index' => $this->_controlFieldName,
+                'use_index' => true,
+                'sortable' => false
+            )
+        );
 
-        $this->addColumn('qty', array(
-            'sortable'  => false,
-            'header'    => __('Quantity'),
-            'renderer'  => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty',
-            'name'      => 'qty',
-            'inline_css'=> 'qty',
-            'align'     => 'right',
-            'type'      => 'input',
-            'validate_class' => 'validate-number',
-            'index'     => 'qty',
-            'width'     => '1',
-        ));
+        $this->addColumn(
+            'qty',
+            array(
+                'sortable' => false,
+                'header' => __('Quantity'),
+                'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty',
+                'name' => 'qty',
+                'inline_css' => 'qty',
+                'align' => 'right',
+                'type' => 'input',
+                'validate_class' => 'validate-number',
+                'index' => 'qty',
+                'width' => '1'
+            )
+        );
 
         return $this;
     }
@@ -218,7 +225,7 @@ abstract class AbstractAccordion
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {
@@ -242,10 +249,7 @@ abstract class AbstractAccordion
      */
     public function getConfigureUrl()
     {
-        $params = array(
-            'customer' => $this->_getCustomer()->getId(),
-            'store' => $this->_getStore()->getId()
-        );
+        $params = array('customer' => $this->_getCustomer()->getId(), 'store' => $this->_getStore()->getId());
         return $this->getUrl($this->_configureRoute, $params);
     }
 
@@ -254,13 +258,19 @@ abstract class AbstractAccordion
      *
      * @return string
      */
-    public function getAdditionalJavaScript ()
+    public function getAdditionalJavaScript()
     {
-        return "Event.observe(window, 'load',  function() {\n"
-            . "setTimeout(function(){productConfigure.addListType('" . $this->getListType() . "', {urlFetch: '"
-            . $this->getConfigureUrl() . "'})\n"
-            . "});\n"
-            . "checkoutObj.addSourceGrid({htmlId: '" . $this->getId() . "', listType: '" . $this->getListType()
-            . "'});\n}, 10)";
+        return "Event.observe(window, 'load',  function() {\n" .
+            "setTimeout(function(){productConfigure.addListType('" .
+            $this->getListType() .
+            "', {urlFetch: '" .
+            $this->getConfigureUrl() .
+            "'})\n" .
+            "});\n" .
+            "checkoutObj.addSourceGrid({htmlId: '" .
+            $this->getId() .
+            "', listType: '" .
+            $this->getListType() .
+            "'});\n}, 10)";
     }
 }

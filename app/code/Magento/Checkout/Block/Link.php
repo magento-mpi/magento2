@@ -10,10 +10,10 @@ namespace Magento\Checkout\Block;
 /**
  * "Checkout" link
  */
-class Link extends \Magento\View\Element\Html\Link
+class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $_moduleManager;
 
@@ -23,14 +23,14 @@ class Link extends \Magento\View\Element\Html\Link
     protected $_checkoutHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Checkout\Helper\Data $checkoutHelper,
         array $data = array()
     ) {
@@ -54,8 +54,9 @@ class Link extends \Magento\View\Element\Html\Link
      */
     protected function _toHtml()
     {
-        if (!$this->_checkoutHelper->canOnepageCheckout()
-            || !$this->_moduleManager->isOutputEnabled('Magento_Checkout')
+        if (!$this->_checkoutHelper->canOnepageCheckout() || !$this->_moduleManager->isOutputEnabled(
+            'Magento_Checkout'
+        )
         ) {
             return '';
         }

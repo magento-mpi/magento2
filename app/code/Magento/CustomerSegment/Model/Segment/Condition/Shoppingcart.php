@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition;
 
-class Shoppingcart
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Shoppingcart extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @var \Magento\CustomerSegment\Model\ConditionFactory
@@ -50,10 +47,10 @@ class Shoppingcart
             'value' => array(
                 $this->_conditionFactory->create('Shoppingcart\Amount')->getNewChildSelectOptions(),
                 $this->_conditionFactory->create('Shoppingcart\Itemsquantity')->getNewChildSelectOptions(),
-                $this->_conditionFactory->create('Shoppingcart\Productsquantity')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Shoppingcart\Productsquantity')->getNewChildSelectOptions()
             ),
             'label' => __('Shopping Cart'),
-            'available_in_guest_mode' => true,
+            'available_in_guest_mode' => true
         );
     }
 }

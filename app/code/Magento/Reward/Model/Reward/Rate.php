@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,10 +23,11 @@ namespace Magento\Reward\Model\Reward;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rate extends \Magento\Core\Model\AbstractModel
+class Rate extends \Magento\Framework\Model\AbstractModel
 {
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
-    const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
+
+    const RATE_EXCHANGE_DIRECTION_TO_POINTS = 2;
 
     /**
      * Reward data
@@ -40,33 +39,33 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\Rate $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
@@ -91,7 +90,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
                 return $this->_rewardData->formatRateToCurrency($points, $amount, $currencyCode);
             case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
                 return $this->_rewardData->formatRateToPoints($points, $amount, $currencyCode);
-            default;
+            default:
                 return null;
         }
     }
@@ -167,9 +166,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
     {
         if ($this->_getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
             $this->setData('points', (int)$this->_getData('value'));
-            $this->setData('currency_amount', (float)$this->_getData('equal_value'));
+            $this->setData('currency_amount', (double)$this->_getData('equal_value'));
         } elseif ($this->_getData('direction') == self::RATE_EXCHANGE_DIRECTION_TO_POINTS) {
-            $this->setData('currency_amount', (float)$this->_getData('value'));
+            $this->setData('currency_amount', (double)$this->_getData('value'));
             $this->setData('points', (int)$this->_getData('equal_value'));
         }
         return $this;
@@ -183,9 +182,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param int $direction
      * @return $this
      */
-    public function fetch($customerGroupId, $websiteId, $direction) {
-        $this->setData('original_website_id', $websiteId)
-            ->setData('original_customer_group_id', $customerGroupId);
+    public function fetch($customerGroupId, $websiteId, $direction)
+    {
+        $this->setData('original_website_id', $websiteId)->setData('original_customer_group_id', $customerGroupId);
         $this->_getResource()->fetch($this, $customerGroupId, $websiteId, $direction);
         return $this;
     }
@@ -202,15 +201,15 @@ class Rate extends \Magento\Core\Model\AbstractModel
         $amount = 0;
         if ($this->getPoints()) {
             if ($rounded) {
-                $roundedPoints = (int)($points/$this->getPoints());
+                $roundedPoints = (int)($points / $this->getPoints());
             } else {
-                $roundedPoints = round($points/$this->getPoints(), 2);
+                $roundedPoints = round($points / $this->getPoints(), 2);
             }
             if ($roundedPoints) {
-                $amount = $this->getCurrencyAmount()*$roundedPoints;
+                $amount = $this->getCurrencyAmount() * $roundedPoints;
             }
         }
-        return (float)$amount;
+        return (double)$amount;
     }
 
     /**
@@ -227,9 +226,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
              * Type casting made in such way to avoid wrong automatic type casting and calculation.
              * $amount always int and $this->getCurrencyAmount() is string or float
              */
-            $amountValue = (int)((string)$amount/(string)$this->getCurrencyAmount());
+            $amountValue = (int)((string)$amount / (string)$this->getCurrencyAmount());
             if ($amountValue) {
-                $points = $this->getPoints()*$amountValue;
+                $points = $this->getPoints() * $amountValue;
             }
         }
         return $points;

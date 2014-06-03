@@ -3,13 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
     <default>
         <general>
             <file>
@@ -24,12 +22,6 @@
                 <bunch_size>100</bunch_size>
             </file>
         </general>
-        <export>
-            <customer_page_size>
-                <customer>10000</customer>
-                <address>5000</address>
-            </customer_page_size>
-        </export>
         <import>
             <format_v1>
                 <page_size>5000</page_size>

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\MultipleWishlist\Model\Search\Strategy;
 /**
  * Wishlist search by email strategy
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface
@@ -28,7 +24,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,11 +39,11 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      * Construct
      *
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_storeManager = $storeManager;
@@ -78,11 +74,10 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_customerFactory->create();
-        $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-            ->loadByEmail($this->_email);
+        $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($this->_email);
 
-        $collection->filterByCustomer($customer);
-        foreach ($collection as $item){
+        $collection->filterByCustomerId($customer->getId());
+        foreach ($collection as $item) {
             $item->setCustomer($customer);
         }
         return $collection;

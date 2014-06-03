@@ -9,8 +9,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History;
 
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Prepare grid collection object

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct as ConfigurableProductFixtu
 /**
  * Class Configurable Product Repository
  *
- * @package Magento\Catalog\Test\Repository
  */
 class ConfigurableProduct extends Product
 {
@@ -57,7 +53,9 @@ class ConfigurableProduct extends Product
         $pricing = array(
             'data' => array(
                 'fields' => array(
-                    'special_price' => array('value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
+                    'special_price' => array(
+                        'value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING
+                    )
                 )
             )
         );

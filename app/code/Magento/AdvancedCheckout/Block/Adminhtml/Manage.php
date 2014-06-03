@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,32 +15,32 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $registry
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Registry $registry,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -58,15 +56,6 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     {
         parent::_construct();
         $this->setId('checkout_manage_container');
-
-        if ($this->_authorization->isAllowed('Magento_Sales::create')) {
-            $this->_updateButton('save', 'label', __('Create Order'));
-            $this->_updateButton('save', 'onclick', 'setLocation(\'' . $this->getCreateOrderUrl() . '\');');
-        } else {
-            $this->_removeButton('save');
-        }
-        $this->_removeButton('reset');
-        $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getBackUrl() . '\');');
     }
 
     /**
@@ -80,37 +69,77 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
             return $this;
         }
 
-        $this->addChild('add_products_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Add Products'),
-            'onclick' => 'checkoutObj.searchProducts()',
-            'class' => 'add',
-            'id' => 'add_products_btn'
-        ));
+        if ($this->_authorization->isAllowed('Magento_Sales::create')) {
+            $this->getToolbar()->addChild(
+                'save',
+                'Magento\Backend\Block\Widget\Button',
+                array(
+                    'label' => __('Create Order'),
+                    'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\');',
+                    'class' => 'save primary'
+                )
+            );
+        }
 
-        $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Update Items and Qty\'s'),
-            'onclick' => 'checkoutObj.updateItems()',
-            'class' => 'update'
-        ));
+        $this->getToolbar()->addChild(
+            'back',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\');',
+                'class' => 'back'
+            )
+        );
+
+        $this->addChild(
+            'add_products_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add Products'),
+                'onclick' => 'checkoutObj.searchProducts()',
+                'class' => 'add',
+                'id' => 'add_products_btn'
+            )
+        );
+
+        $this->addChild(
+            'update_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Update Items and Qty\'s'),
+                'onclick' => 'checkoutObj.updateItems()',
+                'class' => 'update'
+            )
+        );
         $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Clear the shopping cart.'),
-            'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
-                . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
-            'class' => 'clear'
-        ));
+        $this->addChild(
+            'empty_customer_cart_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Clear the shopping cart.'),
+                'onclick' => 'confirm(\'' .
+                $deleteAllConfirmString .
+                '\') ' .
+                ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
+                'class' => 'clear'
+            )
+        );
 
-        $this->addChild('addto_cart_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Add Selected Product(s) to Shopping Cart'),
-            'onclick' => 'checkoutObj.addToCart()',
-            'class' => 'add button-to-cart'
-        ));
+        $this->addChild(
+            'addto_cart_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add Selected Product(s) to Shopping Cart'),
+                'onclick' => 'checkoutObj.addToCart()',
+                'class' => 'add button-to-cart'
+            )
+        );
 
-        $this->addChild('cancel_add_products_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Cancel'),
-            'onclick' => 'checkoutObj.cancelSearch()',
-            'class' => 'cancel'
-        ));
+        $this->addChild(
+            'cancel_add_products_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Cancel'), 'onclick' => 'checkoutObj.cancelSearch()', 'class' => 'cancel')
+        );
 
         return $this;
     }
@@ -150,7 +179,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {
@@ -213,9 +242,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
             'coupon' => $this->getActionUrl('coupon')
         );
 
-        $messages = array(
-            'chooseProducts' => __('Choose  products to add to shopping cart.')
-        );
+        $messages = array('chooseProducts' => __('Choose  products to add to shopping cart.'));
 
         $data = array(
             'action_urls' => $actionUrls,

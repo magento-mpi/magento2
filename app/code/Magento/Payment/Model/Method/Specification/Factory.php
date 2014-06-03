@@ -5,10 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Payment\Model\Method\Specification;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Payment\Model\Method\SpecificationInterface;
 
 /**

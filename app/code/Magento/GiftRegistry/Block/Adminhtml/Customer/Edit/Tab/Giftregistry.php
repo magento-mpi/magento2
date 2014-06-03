@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
-class Giftregistry
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Gift registry data
@@ -23,20 +19,20 @@ class Giftregistry
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -49,7 +45,7 @@ class Giftregistry
      *
      * @return void
      */
-    protected  function _construct()
+    protected function _construct()
     {
         parent::_construct();
         $this->setId('gifregustry');
@@ -84,9 +80,9 @@ class Giftregistry
     public function canShowTab()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        return $customer->getId()
-           && $this->_giftRegistryData->isEnabled()
-           && $this->_authorization->isAllowed('Magento_GiftRegistry::customer_magento_giftregistry');
+        return $customer->getId() && $this->_giftRegistryData->isEnabled() && $this->_authorization->isAllowed(
+            'Magento_GiftRegistry::customer_magento_giftregistry'
+        );
     }
 
     /**

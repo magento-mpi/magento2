@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
 
 /**
@@ -15,8 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Js
-    extends \Magento\Backend\Block\Template
+class Js extends \Magento\Backend\Block\Template
 {
     /**
      * Rma eav
@@ -28,19 +24,19 @@ class Js
     /**
      * Json encoder interface
      *
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\CustomAttributeManagement\Helper\Data $attributeHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\CustomAttributeManagement\Helper\Data $attributeHelper,
         array $data = array()
     ) {
@@ -56,9 +52,7 @@ class Js
      */
     public function getValidateFiltersJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_attributeHelper->getAttributeValidateFilters()
-        );
+        return $this->_jsonEncoder->encode($this->_attributeHelper->getAttributeValidateFilters());
     }
 
     /**
@@ -68,9 +62,7 @@ class Js
      */
     public function getFilteTypesJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_attributeHelper->getAttributeFilterTypes()
-        );
+        return $this->_jsonEncoder->encode($this->_attributeHelper->getAttributeFilterTypes());
     }
 
     /**

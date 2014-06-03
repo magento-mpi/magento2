@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Admin form widget
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue\Preview;
@@ -26,13 +22,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'preview_form',
-                'action' => $this->getUrl('*/*/drop', array('_current' => true)),
-                'method' => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'preview_form',
+                    'action' => $this->getUrl('*/*/drop', array('_current' => true)),
+                    'method' => 'post'
+                )
+            )
         );
 
         if ($data = $this->getFormData()) {

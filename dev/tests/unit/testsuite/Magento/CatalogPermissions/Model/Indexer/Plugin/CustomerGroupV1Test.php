@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
 class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
@@ -28,61 +27,72 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->indexerMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer', array('getId', 'load', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer',
+            array('getId', 'load', 'invalidate'),
+            array(),
+            '',
+            false
         );
 
         $this->appConfigMock = $this->getMock(
-            'Magento\CatalogPermissions\App\Backend\Config', array('isEnabled'), array(), '', false
+            'Magento\CatalogPermissions\App\Backend\Config',
+            array('isEnabled'),
+            array(),
+            '',
+            false
         );
 
-        $this->customerGroupV1 = new CustomerGroupV1(
-            $this->indexerMock,
-            $this->appConfigMock
-        );
+        $this->customerGroupV1 = new CustomerGroupV1($this->indexerMock, $this->appConfigMock);
     }
 
     public function testAfterDeleteGroupIndexerOff()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService', array(), array(), '', false
+            'Magento\Customer\Service\V1\CustomerGroupService',
+            array(),
+            array(),
+            '',
+            false
         );
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(false));
-        $this->indexerMock->expects($this->never())
-            ->method('getId');
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
+        $this->indexerMock->expects($this->never())->method('getId');
         $this->customerGroupV1->afterDeleteGroup($customerGroupService);
     }
 
     public function testAfterDeleteGroupIndexerOn()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService', array(), array(), '', false
+            'Magento\Customer\Service\V1\CustomerGroupService',
+            array(),
+            array(),
+            '',
+            false
         );
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->prepareIndexer();
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('invalidate');
         $this->customerGroupV1->afterDeleteGroup($customerGroupService);
     }
 
     public function testAroundSaveGroupNoNeedInvalidating()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService', array(), array(), '', false
+            'Magento\Customer\Service\V1\CustomerGroupService',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $customerGroupMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerGroup', array('getId'), array(), '', false
+            'Magento\Customer\Service\V1\Data\CustomerGroup',
+            array('getId'),
+            array(),
+            '',
+            false
         );
-        $customerGroupMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(10));
-        $this->appConfigMock->expects($this->never())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $customerGroupMock->expects($this->once())->method('getId')->will($this->returnValue(10));
+        $this->appConfigMock->expects($this->never())->method('isEnabled')->will($this->returnValue(true));
 
         $proceedMock = function () {
             return 10;
@@ -94,21 +104,24 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     public function testAroundSaveGroupInvalidating()
     {
         $customerGroupService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerGroupService', array(), array(), '', false
+            'Magento\Customer\Service\V1\CustomerGroupService',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $customerGroupMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerGroup', array('getId'), array(), '', false
+            'Magento\Customer\Service\V1\Data\CustomerGroup',
+            array('getId'),
+            array(),
+            '',
+            false
         );
-        $customerGroupMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(0));
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $customerGroupMock->expects($this->once())->method('getId')->will($this->returnValue(0));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->prepareIndexer();
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('invalidate');
 
         $proceedMock = function () {
             return 10;
@@ -119,12 +132,15 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
 
     protected function prepareIndexer()
     {
-        $this->indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(0));
-        $this->indexerMock->expects($this->once())
-            ->method('load')
-            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
-            ->will($this->returnSelf());
+        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(0));
+        $this->indexerMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
+        )->will(
+            $this->returnSelf()
+        );
     }
 }

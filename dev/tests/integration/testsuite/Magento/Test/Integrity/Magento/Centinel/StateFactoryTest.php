@@ -11,7 +11,6 @@ namespace Magento\Test\Integrity\Magento\Centinel;
 
 class StateFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testFactoryTypes()
     {
         $factoryTypes = $this->_getFactoryTypes();
@@ -19,8 +18,14 @@ class StateFactoryTest extends \PHPUnit_Framework_TestCase
 
         $definedTypes = array_intersect($factoryTypes, $ccTypes);
 
-        $this->assertEquals($factoryTypes, $definedTypes, 'Some factory types are missing from payments config.'
-            . "\nMissing types: " . implode(',', array_diff($factoryTypes, $definedTypes)));
+        $this->assertEquals(
+            $factoryTypes,
+            $definedTypes,
+            'Some factory types are missing from payments config.' . "\nMissing types: " . implode(
+                ',',
+                array_diff($factoryTypes, $definedTypes)
+            )
+        );
     }
 
     /**
@@ -31,8 +36,9 @@ class StateFactoryTest extends \PHPUnit_Framework_TestCase
     private function _getFactoryTypes()
     {
         /** @var \Magento\Centinel\Model\StateFactory $stateFactory */
-        $stateFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Centinel\Model\StateFactory');
+        $stateFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Centinel\Model\StateFactory'
+        );
         $reflectionObj = new \ReflectionClass($stateFactory);
         $stateMapProp = $reflectionObj->getProperty('_stateClassMap');
         $stateMapProp->setAccessible(true);
@@ -49,8 +55,9 @@ class StateFactoryTest extends \PHPUnit_Framework_TestCase
     private function _getCcTypes()
     {
         /** @var \Magento\Payment\Model\Config $paymentConfig */
-        $paymentConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Payment\Model\Config');
+        $paymentConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Payment\Model\Config'
+        );
         $ccTypes = array_keys($paymentConfig->getCcTypes());
         return $ccTypes;
     }

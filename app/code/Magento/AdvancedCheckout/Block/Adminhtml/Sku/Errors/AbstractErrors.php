@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors setListType()
  * @method string                                                  getListType()
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractErrors extends \Magento\Backend\Block\Widget
@@ -83,7 +79,10 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      */
     public function getHeaderText()
     {
-        return __('<span id="sku-attention-num">%1</span> product(s) require attention.', count($this->getFailedItems()));
+        return __(
+            '<span id="sku-attention-num">%1</span> product(s) require attention.',
+            count($this->getFailedItems())
+        );
     }
 
     /**
@@ -104,9 +103,9 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
     public function getButtonsHtml()
     {
         $buttonData = array(
-            'label'   => __('Remove All'),
+            'label' => __('Remove All'),
             'onclick' => 'addBySku.removeAllFailed()',
-            'class'   => 'action-delete',
+            'class' => 'action-delete'
         );
         return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData)->toHtml();
     }
@@ -163,7 +162,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
     public function getCart()
     {
         if (!isset($this->_cart)) {
-            $this->_cart =  $this->_cartFactory->create();
+            $this->_cart = $this->_cartFactory->create();
         }
         return $this->_cart;
     }
@@ -172,7 +171,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      * Retrieve current store instance
      *
      * @abstract
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     abstract public function getStore();
 

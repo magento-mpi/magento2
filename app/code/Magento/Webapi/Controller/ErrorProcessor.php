@@ -1,7 +1,5 @@
 <?php
 /**
- * Helper for errors processing.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,60 +7,80 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\Framework\App\State;
+use Magento\Framework\Exception\AbstractAggregateException;
+use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Webapi\Exception as WebapiException;
+
+/**
+ * Helper for errors processing.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ErrorProcessor
 {
     const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
 
     const DEFAULT_ERROR_HTTP_CODE = 500;
+
     const DEFAULT_RESPONSE_CHARSET = 'UTF-8';
 
     /**#@+
      * Error data representation formats.
      */
     const DATA_FORMAT_JSON = 'json';
+
     const DATA_FORMAT_XML = 'xml';
+
     /**#@-*/
 
-    /** @var \Magento\Core\Helper\Data */
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
     protected $_coreHelper;
 
-    /** @var \Magento\Core\Model\App */
-    protected $_app;
+    /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $_appState;
 
-    /** @var \Magento\Logger */
+    /**
+     * @var \Magento\Framework\Logger
+     */
     protected $_logger;
 
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 
     /**
-     * Initialize dependencies. Register custom shutdown function.
-     *
      * @param \Magento\Core\Helper\Data $helper
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Logger $logger
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
-        \Magento\AppInterface $app,
-        \Magento\Logger $logger,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_coreHelper = $helper;
-        $this->_app = $app;
+        $this->_appState = $appState;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
-        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->registerShutdownFunction();
     }
 
@@ -71,45 +89,56 @@ class ErrorProcessor
      *
      * Convert any exception into \Magento\Webapi\Exception.
      *
-     * @param \Exception $exception
-     * @return \Magento\Webapi\Exception
+     * @param \Exception $exception Exception to convert to a WebAPI exception
+     *
+     * @return WebapiException
      */
     public function maskException(\Exception $exception)
     {
-        /** Log information about actual exception. */
-        $reportId = $this->_logException($exception);
-        if ($exception instanceof \Magento\Service\Exception) {
-            if ($exception instanceof \Magento\Service\ResourceNotFoundException) {
-                $httpCode = \Magento\Webapi\Exception::HTTP_NOT_FOUND;
-            } elseif ($exception instanceof \Magento\Service\AuthorizationException) {
-                $httpCode = \Magento\Webapi\Exception::HTTP_UNAUTHORIZED;
+        $stackTrace = ($this->_appState->getMode() === State::MODE_DEVELOPER) ?
+            $stackTrace = $exception->getTrace() : null;
+
+        if ($exception instanceof LocalizedException) {
+            // Map HTTP codes for LocalizedExceptions according to exception type
+            if ($exception instanceof NoSuchEntityException) {
+                $httpCode = WebapiException::HTTP_NOT_FOUND;
+            } elseif (($exception instanceof AuthorizationException)
+                || ($exception instanceof AuthenticationException)
+            ) {
+                $httpCode = WebapiException::HTTP_UNAUTHORIZED;
             } else {
-                $httpCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;
+                // Input, Expired, InvalidState exceptions will fall to here
+                $httpCode = WebapiException::HTTP_BAD_REQUEST;
             }
-            $maskedException = new \Magento\Webapi\Exception(
-                $exception->getMessage(),
+
+            if ($exception instanceof AbstractAggregateException) {
+                $errors = $exception->getErrors();
+            } else {
+                $errors = null;
+            }
+
+            $maskedException = new WebapiException(
+                $exception->getRawMessage(),
                 $exception->getCode(),
                 $httpCode,
                 $exception->getParameters(),
-                $exception->getName()
+                get_class($exception),
+                $errors,
+                $stackTrace
             );
-        } else if ($exception instanceof \Magento\Webapi\Exception) {
+
+        } else if ($exception instanceof WebapiException) {
             $maskedException = $exception;
         } else {
-            if (!$this->_app->isDeveloperMode()) {
-                /** Create exception with masked message. */
-                $maskedException = new \Magento\Webapi\Exception(
-                    __('Internal Error. Details are available in Magento log file. Report ID: %1', $reportId),
-                    0,
-                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
-                );
-            } else {
-                $maskedException = new \Magento\Webapi\Exception(
-                    $exception->getMessage(),
-                    $exception->getCode(),
-                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR
-                );
-            }
+            $maskedException = new WebapiException(
+                $exception->getMessage(),
+                $exception->getCode(),
+                WebapiException::HTTP_INTERNAL_ERROR,
+                [],
+                '',
+                null,
+                $stackTrace
+            );
         }
         return $maskedException;
     }
@@ -126,7 +155,7 @@ class ErrorProcessor
      */
     public function renderException(\Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
-        if ($this->_app->isDeveloperMode() || $exception instanceof \Magento\Webapi\Exception) {
+        if ($this->_appState->getMode() == State::MODE_DEVELOPER || $exception instanceof \Magento\Webapi\Exception) {
             $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
             $reportId = $this->_logException($exception);
@@ -136,7 +165,7 @@ class ErrorProcessor
                 $httpCode
             );
         }
-        die();
+        exit;
     }
 
     /**
@@ -151,7 +180,7 @@ class ErrorProcessor
         $reportId = uniqid("webapi-");
         $exceptionForLog = new $exceptionClass(
             /** Trace is added separately by logException. */
-            "Report ID: $reportId; Message: {$exception->getMessage()}",
+            "Report ID: {$reportId}; Message: {$exception->getMessage()}",
             $exception->getCode()
         );
         $this->_logger->logException($exceptionForLog);
@@ -199,7 +228,8 @@ class ErrorProcessor
     {
         $errorData = array();
         $message = array('code' => $httpCode, 'message' => $errorMessage);
-        if ($this->_app->isDeveloperMode()) {
+        $isDeveloperMode = $this->_appState->getMode() == State::MODE_DEVELOPER;
+        if ($isDeveloperMode) {
             $message['trace'] = $trace;
         }
         $errorData['messages']['error'][] = $message;
@@ -215,7 +245,7 @@ class ErrorProcessor
                     . '<data_item>'
                     . '<code>' . $httpCode . '</code>'
                     . '<message><![CDATA[' . $errorMessage . ']]></message>'
-                    . ($this->_app->isDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
+                    . ($isDeveloperMode ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
                     . '</data_item>'
                     . '</error>'
                     . '</messages>'
@@ -245,10 +275,10 @@ class ErrorProcessor
     {
         $fatalErrorFlag = E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_RECOVERABLE_ERROR;
         $error = error_get_last();
-        if ($error && ($error['type'] & $fatalErrorFlag)) {
+        if ($error && $error['type'] & $fatalErrorFlag) {
             $errorMessage = "Fatal Error: '{$error['message']}' in '{$error['file']}' on line {$error['line']}";
             $reportId = $this->_saveFatalErrorReport($errorMessage);
-            if ($this->_app->isDeveloperMode()) {
+            if ($this->_appState->getMode() == State::MODE_DEVELOPER) {
                 $this->render($errorMessage);
             } else {
                 $this->render(__('Server internal error. See details in report api/%1', $reportId));

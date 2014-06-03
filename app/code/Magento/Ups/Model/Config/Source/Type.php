@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Model\Config\Source;
 
-use Magento\Data\OptionSourceInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class Type
@@ -22,7 +21,7 @@ class Type implements OptionSourceInterface
     {
         return array(
             array('value' => 'UPS', 'label' => __('United Parcel Service')),
-            array('value' => 'UPS_XML', 'label' => __('United Parcel Service XML')),
+            array('value' => 'UPS_XML', 'label' => __('United Parcel Service XML'))
         );
     }
 }

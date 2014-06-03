@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Product form MSRP field helper
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Msrp;
 
-class Price extends \Magento\Data\Form\Element\Select
+class Price extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment
@@ -32,4 +28,3 @@ class Price extends \Magento\Data\Form\Element\Select
         return parent::getElementHtml();
     }
 }
-

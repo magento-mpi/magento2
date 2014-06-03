@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Reward action model
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Model\Action;
 
-abstract class AbstractAction extends \Magento\Object
+abstract class AbstractAction extends \Magento\Framework\Object
 {
     /**
      * Reward Instance
@@ -33,7 +29,7 @@ abstract class AbstractAction extends \Magento\Object
 
     /**
      * Entity Instance
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_entity;
 
@@ -81,7 +77,9 @@ abstract class AbstractAction extends \Magento\Object
             return false;
         }
         $total = $this->getHistory()->getTotalQtyRewards(
-            $this->getAction(), $this->getReward()->getCustomerId(), $this->getReward()->getWebsiteId()
+            $this->getAction(),
+            $this->getReward()->getCustomerId(),
+            $this->getReward()->getWebsiteId()
         );
 
         if ($limit > $total) {
@@ -111,7 +109,9 @@ abstract class AbstractAction extends \Magento\Object
         $maxQty = (int)$this->getRewardLimit();
         if ($maxQty > 0) {
             $usedQty = (int)$this->getHistory()->getTotalQtyRewards(
-                $this->getAction(), $this->getReward()->getCustomerId(), $this->getReward()->getWebsiteId()
+                $this->getAction(),
+                $this->getReward()->getCustomerId(),
+                $this->getReward()->getWebsiteId()
             );
             return min(max($maxQty - $usedQty, 0), $maxQty);
         }
@@ -137,6 +137,7 @@ abstract class AbstractAction extends \Magento\Object
         $this->_reward = $reward;
         return $this;
     }
+
     /**
      * Getter for $_reward
      *
@@ -158,6 +159,7 @@ abstract class AbstractAction extends \Magento\Object
         $this->_history = $history;
         return $this;
     }
+
     /**
      * Getter for $_history
      *
@@ -171,21 +173,22 @@ abstract class AbstractAction extends \Magento\Object
     /**
      * Setter for $_entity and assign entity Id to history
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return $this
      */
     public function setEntity($entity)
     {
         $this->_entity = $entity;
-        if ($this->getHistory() instanceof \Magento\Object) {
+        if ($this->getHistory() instanceof \Magento\Framework\Object) {
             $this->getHistory()->setEntity($entity->getId());
         }
         return $this;
     }
+
     /**
      * Description goes here...
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getEntity()
     {

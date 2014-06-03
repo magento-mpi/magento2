@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
 /**
  * Bundle Price View Attribute Renderer
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class View
-    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Core data
@@ -52,14 +47,8 @@ class View
     {
         if (is_null($this->_options)) {
             $this->_options = array(
-                array(
-                    'label' => __('As Low as'),
-                    'value' =>  1
-                ),
-                array(
-                    'label' => __('Price Range'),
-                    'value' =>  0
-                ),
+                array('label' => __('As Low as'), 'value' => 1),
+                array('label' => __('Price Range'), 'value' => 0)
             );
         }
         return $this->_options;
@@ -90,28 +79,23 @@ class View
     public function getFlatColums()
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
-        $column = array(
-            'unsigned'  => false,
-            'default'   => null,
-            'extra'     => null
-        );
+        $column = array('unsigned' => false, 'default' => null, 'extra' => null);
 
-        $column['type']     = \Magento\DB\Ddl\Table::TYPE_INTEGER;
+        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER;
         $column['nullable'] = true;
-        $column['comment']  = 'Bundle Price View ' . $attributeCode . ' column';
+        $column['comment'] = 'Bundle Price View ' . $attributeCode . ' column';
 
         return array($attributeCode => $column);
-   }
+    }
 
     /**
      * Retrieve Select for update Attribute value in flat table
      *
      * @param   int $store
-     * @return  \Magento\DB\Select|null
+     * @return  \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {
-        return $this->_entityAttribute->create()
-            ->getFlatUpdateSelect($this->getAttribute(), $store, false);
+        return $this->_entityAttribute->create()->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

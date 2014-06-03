@@ -14,13 +14,15 @@ namespace Magento\Indexer\Model\Indexer;
  * @method string getUpdated()
  * @method \Magento\Indexer\Model\Indexer\State setUpdated($value)
  */
-class State extends \Magento\Core\Model\AbstractModel
+class State extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Indexer statuses
      */
     const STATUS_WORKING = 'working';
+
     const STATUS_VALID = 'valid';
+
     const STATUS_INVALID = 'invalid';
 
     /**
@@ -38,15 +40,15 @@ class State extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'indexer_state';
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Indexer\Model\Resource\Indexer\State $resource
      * @param \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Indexer\Model\Resource\Indexer\State $resource,
         \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection,
         array $data = array()

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Entity;
 
-use \Magento\Catalog\Model\Attribute\LockValidatorInterface;
+use Magento\Catalog\Model\Attribute\LockValidatorInterface;
 
 /**
  * Product attribute extension with event dispatching
@@ -75,37 +73,37 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     protected $attrLockValidator;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param LockValidatorInterface $lockValidator
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->attrLockValidator = $lockValidator;
@@ -119,7 +117,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $resourceHelper,
             $universalFactory,
             $localeDate,
-            $catalogProductFactory,
+            $reservedAttributeList,
             $localeResolver,
             $resource,
             $resourceCollection,
@@ -130,14 +128,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Eav\Exception
      */
     protected function _beforeSave()
     {
         try {
             $this->attrLockValidator->validate($this);
-        } catch (\Magento\Core\Exception $exception) {
+        } catch (\Magento\Framework\Model\Exception $exception) {
             throw new \Magento\Eav\Exception($exception->getMessage());
         }
 
@@ -148,7 +146,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object after save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _afterSave()
     {

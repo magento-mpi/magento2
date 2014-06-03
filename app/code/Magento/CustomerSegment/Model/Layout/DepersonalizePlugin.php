@@ -4,33 +4,32 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Layout;
+
+use \Magento\CustomerSegment\Helper\Data;
 
 /**
  * Class DepersonalizePlugin
  */
-class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePlugin
+class DepersonalizePlugin
 {
-    /**
-     * @var \Magento\View\LayoutInterface
-     */
-    protected $layout;
-
     /**
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
+
+    /**
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
 
     /**
      * @var array
@@ -38,41 +37,68 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
     protected $customerSegmentIds;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @var \Magento\Framework\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
+     * @var \Magento\PageCache\Model\Config
+     */
+    protected $cacheConfig;
+
+    /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\Module\Manager $moduleManager
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\PageCache\Model\Config $cacheConfig
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Module\Manager $moduleManager,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\PageCache\Model\Config $cacheConfig
     ) {
-        $this->layout = $layout;
         $this->customerSession = $customerSession;
         $this->request = $request;
+        $this->moduleManager = $moduleManager;
+        $this->httpContext = $httpContext;
+        $this->cacheConfig = $cacheConfig;
     }
 
     /**
      * Before layout generate
      *
-     * @param \Magento\Core\Model\Layout $subject
+     * @param \Magento\Framework\View\LayoutInterface $subject
      * @return void
      */
-    public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
+    public function beforeGenerateXml(\Magento\Framework\View\LayoutInterface $subject)
     {
-        $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && $this->cacheConfig->isEnabled()
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
+            $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+        }
     }
 
     /**
      * After layout generate
      *
-     * @param \Magento\Core\Model\Layout $subject
-     * @param mixed $result
-     * @return mixed
+     * @param \Magento\Framework\View\LayoutInterface $subject
+     * @param \Magento\Framework\View\LayoutInterface $result
+     * @return \Magento\Framework\View\LayoutInterface
      */
-    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
+    public function afterGenerateXml(\Magento\Framework\View\LayoutInterface $subject, $result)
     {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && $this->cacheConfig->isEnabled()
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
+            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds, array());
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
         return $result;

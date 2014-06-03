@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Catalog\Test\Fixture\Category;
  * Class CreateTest
  * Create category test
  *
- * @package Magento\Catalog\Test\TestCase\Category
  */
 class CreateTest extends Functional
 {
@@ -36,17 +32,20 @@ class CreateTest extends Functional
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
-        $formBlock = $catalogCategoryPage->getFormBlock();
-        $messageBlock = $catalogCategoryPage->getMessageBlock();
+        $catalogCategoryEditPage = Factory::getPageFactory()->getCatalogCategoryEditId();
+        $treeBlockEdit = $catalogCategoryEditPage->getTreeBlock();
+        $formBlock = $catalogCategoryEditPage->getFormBlock();
+        $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
+        $messagesBlock = $catalogCategoryEditPage->getMessagesBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
         $treeBlock->selectCategory($category->getCategoryPath());
-        $treeBlock->addSubcategory();
+        $treeBlockEdit->addSubcategory();
         $formBlock->fill($category);
-        $formBlock->save($category);
+        $actionsBlock->save();
         //Verifying
-        $messageBlock->assertSuccessMessage();
+        $messagesBlock->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

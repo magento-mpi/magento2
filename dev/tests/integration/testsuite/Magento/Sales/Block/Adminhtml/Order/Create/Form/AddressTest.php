@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 /**
@@ -15,7 +14,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address */
@@ -27,18 +26,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_addressService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
-        );
-        /** @var \Magento\View\LayoutInterface $layout */
-        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
-        $sessionQuoteMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
-            ->disableOriginalConstructor()
-            ->setMethods(['getCustomerId', 'getStore', 'getStoreId', 'getQuote'])
-            ->getMock();
-        $sessionQuoteMock->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue(1));
+        $this->_addressService = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+        /** @var \Magento\Framework\View\LayoutInterface $layout */
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
+        $sessionQuoteMock = $this->getMockBuilder(
+            'Magento\Backend\Model\Session\Quote'
+        )->disableOriginalConstructor()->setMethods(
+            array('getCustomerId', 'getStore', 'getStoreId', 'getQuote')
+        )->getMock();
+        $sessionQuoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
 
         $this->_addressBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address',
@@ -121,18 +117,33 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetForm()
     {
-        $expectedFields = ['prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'company', 'street', 'city',
-            'country_id', 'region', 'region_id', 'postcode', 'telephone', 'fax', 'vat_id'];
+        $expectedFields = array(
+            'prefix',
+            'firstname',
+            'middlename',
+            'lastname',
+            'suffix',
+            'company',
+            'street',
+            'city',
+            'country_id',
+            'region',
+            'region_id',
+            'postcode',
+            'telephone',
+            'fax',
+            'vat_id'
+        );
         $form = $this->_addressBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");
-        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
+        /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElements()[0];
         $this->assertEquals(
             count($expectedFields),
             $fieldset->getElements()->count(),
             "Form has invalid number of fields"
         );
-        /** @var \Magento\Data\Form\Element\AbstractElement $element */
+        /** @var \Magento\Framework\Data\Form\Element\AbstractElement $element */
         foreach ($fieldset->getElements() as $element) {
             $this->assertTrue(
                 in_array($element->getId(), $expectedFields),
@@ -140,9 +151,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        /** @var \Magento\Data\Form\Element\Select $countryIdField */
+        /** @var \Magento\Framework\Data\Form\Element\Select $countryIdField */
         $countryIdField = $fieldset->getElements()->searchById('country_id');
-        $this->assertSelectCount('option', 247, $countryIdField->getElementHtml());
+        $this->assertSelectCount('option', 246, $countryIdField->getElementHtml());
     }
 
     /**
@@ -153,11 +164,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $addressBuilder->populateWithArray(
-            array('id' => 1, 'street' => 'Street1', 'firstname' => 'FirstName1', 'lastname' => 'LastName1')
+            array('id' => 1, 'street' => ['Street1'], 'firstname' => 'FirstName1', 'lastname' => 'LastName1')
         );
         $addressData[] = $addressBuilder->create();
         $addressBuilder->populateWithArray(
-            array('id' => 2, 'street' => 'Street2', 'firstname' => 'FirstName2', 'lastname' => 'LastName2')
+            array('id' => 2, 'street' => ['Street2'], 'firstname' => 'FirstName2', 'lastname' => 'LastName2')
         );
         $addressData[] = $addressBuilder->create();
         return $addressData;

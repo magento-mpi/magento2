@@ -1,5 +1,4 @@
 <?php
-
 /**
  * oAuth client for Magento REST API.
  *
@@ -10,6 +9,7 @@
  */
 namespace Magento\TestFramework\Authentication\Rest;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\ClientInterface;
 use OAuth\Common\Http\Exception\TokenResponseException;
@@ -22,7 +22,6 @@ use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\OAuth1\Token\TokenInterface;
 
 require_once __DIR__ . '/../../../../../lib/OAuth/bootstrap.php';
-
 class OauthClient extends AbstractService
 {
     /** @var string|null */
@@ -42,7 +41,7 @@ class OauthClient extends AbstractService
             $storage = new \OAuth\Common\Storage\Session();
         }
         if (!isset($signature)) {
-            $signature = new \OAuth\OAuth1\Signature\Signature($credentials);
+            $signature = new \Magento\TestFramework\Authentication\Rest\OauthClient\Signature($credentials);
         }
         parent::__construct($credentials, $httpClient, $storage, $signature, $baseApiUri);
     }
@@ -62,7 +61,9 @@ class OauthClient extends AbstractService
      */
     public function getAuthorizationEndpoint()
     {
-        throw new \OAuth\Common\Exception\Exception('Magento REST API is 2-legged. Current operation is not available.');
+        throw new \OAuth\Common\Exception\Exception(
+            'Magento REST API is 2-legged. Current operation is not available.'
+        );
     }
 
     /**
@@ -82,7 +83,9 @@ class OauthClient extends AbstractService
      */
     public function getTestApiEndpoint()
     {
-        return new Uri(TESTS_BASE_URL . '/rest/V1/testmodule1');
+        $defaultStoreCode = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
+            ->getStore()->getCode();
+        return new Uri(TESTS_BASE_URL . '/rest/' . $defaultStoreCode . '/V1/testmodule1');
     }
 
     /**
@@ -228,15 +231,12 @@ class OauthClient extends AbstractService
     {
 
         //Need to add Accept header else Magento errors out with 503
-        $extraAuthenticationHeaders = array(
-            'Accept' => 'application/json',
-        );
+        $extraAuthenticationHeaders = array('Accept' => 'application/json');
 
         $this->signature->setTokenSecret($token->getAccessTokenSecret());
 
         $authorizationHeader = array(
-            'Authorization' =>
-            $this->buildAuthorizationHeaderForAPIRequest(
+            'Authorization' => $this->buildAuthorizationHeaderForAPIRequest(
                 $method,
                 $this->getTestApiEndpoint(),
                 $token,

@@ -12,13 +12,12 @@ namespace Magento\ConfigurableProduct\Block\Product\Configurable\AssociatedSelec
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ColumnSet
-    extends \Magento\Backend\Block\Widget\Grid\ColumnSet
+class ColumnSet extends \Magento\Backend\Block\Widget\Grid\ColumnSet
 {
     /**
      * Registry instance
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
@@ -30,21 +29,21 @@ class ColumnSet
     protected $_productType;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Registry $registryManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
-        \Magento\Registry $registryManager,
+        \Magento\Framework\Registry $registryManager,
         array $data = array()
     ) {
         parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);

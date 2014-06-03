@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Model\Resource\Customer;
 /**
  * Customers collection
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
@@ -24,7 +20,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     const CUSTOMER_MODEL_NAME = 'Magento\Customer\Model\Customer';
 
     /**
-     * @var \Magento\Object\Copy\Config
+     * @var \Magento\Framework\Object\Copy\Config
      */
     protected $_fieldsetConfig;
 
@@ -35,15 +31,15 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param string $modelName
      * 
@@ -51,15 +47,15 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {
@@ -96,13 +92,14 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function groupByEmail()
     {
-        $this->getSelect()
-            ->from(
-                array('email' => $this->getEntity()->getEntityTable()),
-                array('email_count' => new \Zend_Db_Expr('COUNT(email.entity_id)'))
-            )
-            ->where('email.entity_id = e.entity_id')
-            ->group('email.email');
+        $this->getSelect()->from(
+            array('email' => $this->getEntity()->getEntityTable()),
+            array('email_count' => new \Zend_Db_Expr('COUNT(email.entity_id)'))
+        )->where(
+            'email.entity_id = e.entity_id'
+        )->group(
+            'email.email'
+        );
 
         return $this;
     }
@@ -128,7 +125,8 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
             $concatenate[] = $adapter->getCheckSql(
                 '{{prefix}} IS NOT NULL AND {{prefix}} != \'\'',
                 $adapter->getConcatSql(array('LTRIM(RTRIM({{prefix}}))', '\' \'')),
-                '\'\'');
+                '\'\''
+            );
         }
         $concatenate[] = 'LTRIM(RTRIM({{firstname}}))';
         $concatenate[] = '\' \'';
@@ -136,14 +134,16 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
             $concatenate[] = $adapter->getCheckSql(
                 '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
                 $adapter->getConcatSql(array('LTRIM(RTRIM({{middlename}}))', '\' \'')),
-                '\'\'');
+                '\'\''
+            );
         }
         $concatenate[] = 'LTRIM(RTRIM({{lastname}}))';
         if (isset($fields['suffix'])) {
-            $concatenate[] = $adapter
-                    ->getCheckSql('{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',
+            $concatenate[] = $adapter->getCheckSql(
+                '{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',
                 $adapter->getConcatSql(array('\' \'', 'LTRIM(RTRIM({{suffix}}))')),
-                '\'\'');
+                '\'\''
+            );
         }
 
         $nameExpr = $adapter->getConcatSql($concatenate);
@@ -156,7 +156,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

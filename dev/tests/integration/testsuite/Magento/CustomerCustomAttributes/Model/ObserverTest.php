@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerCustomAttributes\Model;
 
 /**
@@ -21,12 +17,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_blockInjections = array(
-        'Magento\Model\Context',
-        'Magento\Registry',
-        null,
-        null
-    );
+    protected $_blockInjections = array('Magento\Framework\Model\Context', 'Magento\Framework\Registry', null, null);
 
     /**
      * @var \Magento\CustomerCustomAttributes\Model\Observer
@@ -34,7 +25,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -50,18 +41,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
-        $entity = new \Magento\Object(array('id' => $address->getId()));
-        $collection = $this->getMock('Magento\Data\Collection\Db', array('getItems'), array(), '', false);
-        $collection
-            ->expects($this->any())
-            ->method('getItems')
-            ->will($this->returnValue(array($entity)))
-        ;
-        $observer = new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array(
-                'order_address_collection' => $collection,
-            ))
-        ));
+        $entity = new \Magento\Framework\Object(array('id' => $address->getId()));
+        $collection = $this->getMock('Magento\Framework\Data\Collection\Db', array('getItems'), array(), '', false);
+        $collection->expects($this->any())->method('getItems')->will($this->returnValue(array($entity)));
+        $observer = new \Magento\Framework\Event\Observer(
+            array('event' => new \Magento\Framework\Object(array('order_address_collection' => $collection)))
+        );
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_observer->salesOrderAddressCollectionAfterLoad($observer);
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));
@@ -74,9 +59,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $arguments = $this->_prepareConstructorArguments();
 
         $arguments[] = array('id' => $address->getId());
-        $entity = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
-        $observer = new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array(
+        $entity = $this->getMockForAbstractClass('Magento\Framework\Model\AbstractModel', $arguments);
+        $observer = new \Magento\Framework\Event\Observer(array(
+            'event' => new \Magento\Framework\Object(array(
                 'address' => $entity,
             ))
         ));

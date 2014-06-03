@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -83,16 +81,10 @@ class Attributes extends AbstractCondition
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array(
-                'value' => $this->getType() . '|' . $code,
-                'label' => $label
-            );
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Order Address Attributes')
-        );
+        return array('value' => $conditions, 'label' => __('Order Address Attributes'));
     }
 
     /**
@@ -103,7 +95,7 @@ class Attributes extends AbstractCondition
     public function loadAttributeOptions()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = array();
+            $this->_attributes = array();
 
             $attributes = array();
             foreach ($this->_eavConfig->getEntityAttributeCodes('customer_address') as $attributeCode) {
@@ -135,13 +127,11 @@ class Attributes extends AbstractCondition
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = $this->_countryFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_countryFactory->create()->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = $this->_allregionFactory->create()
-                        ->toOptionArray();
+                    $options = $this->_allregionFactory->create()->toOptionArray();
                     break;
 
                 default:
@@ -155,7 +145,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve attribute element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -172,7 +162,8 @@ class Attributes extends AbstractCondition
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'string';
@@ -186,7 +177,8 @@ class Attributes extends AbstractCondition
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region_id':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'text';
@@ -218,7 +210,7 @@ class Attributes extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

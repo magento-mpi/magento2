@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +10,12 @@
 /**
  * Preconfigured widget
  *
- * @category    Magento
- * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Widget\Model\Resource;
 
-class Widget extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Widget extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
-
     /**
      * Define main table
      *
@@ -40,9 +35,11 @@ class Widget extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadPreconfiguredWidget($widgetId)
     {
         $readAdapter = $this->_getReadAdapter();
-        $select = $readAdapter->select()
-            ->from($this->getMainTable())
-            ->where($this->getIdFieldName() . '=:' . $this->getIdFieldName());
+        $select = $readAdapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            $this->getIdFieldName() . '=:' . $this->getIdFieldName()
+        );
         $bind = array($this->getIdFieldName() => $widgetId);
         $widget = $readAdapter->fetchRow($select, $bind);
         if (is_array($widget)) {

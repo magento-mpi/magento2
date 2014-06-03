@@ -13,9 +13,9 @@ $installer->getConnection()->addColumn(
     $installer->getTable('catalog_category_anc_products_index_tmp'),
     'position',
     array(
-        'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
-        'unsigned'  => true,
-        'nullable'  => true,
-        'comment'   => 'Position'
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        'unsigned' => true,
+        'nullable' => true,
+        'comment' => 'Position'
     )
 );

@@ -2,18 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Search\Controller\Adminhtml;
 
- /**
+/**
  * Admin search controller for Ajax Grid in Catalog Search Terms
  *
- * @category   Magento
- * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Search extends \Magento\Backend\App\Action
@@ -21,7 +17,7 @@ class Search extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -36,12 +32,12 @@ class Search extends \Magento\Backend\App\Action
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -63,7 +59,7 @@ class Search extends \Magento\Backend\App\Action
 
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This search no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;

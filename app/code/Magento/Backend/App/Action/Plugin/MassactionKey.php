@@ -9,7 +9,6 @@
  */
 namespace Magento\Backend\App\Action\Plugin;
 
-
 class MassactionKey
 {
     /**
@@ -17,7 +16,7 @@ class MassactionKey
      *
      * @param \Magento\Backend\App\AbstractAction $subject
      * @param callable $proceed
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -25,7 +24,7 @@ class MassactionKey
     public function aroundDispatch(
         \Magento\Backend\App\AbstractAction $subject,
         \Closure $proceed,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $key = $request->getPost('massaction_prepare_key');
         if ($key) {
@@ -35,4 +34,4 @@ class MassactionKey
         }
         return $proceed($request);
     }
-} 
+}

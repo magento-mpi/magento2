@@ -1,0 +1,85 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.order.details {
+    ul.items {
+        &:extend(.reset-list all);
+        margin-bottom: @indent-base;
+        .label:after {
+            content: ": ";
+        }
+        strong {
+            font-weight: normal;
+        }
+    }
+    .order.status {
+        display: inline-block;
+        .heading(h2);
+        margin-top: 0;
+    }
+    .order.date {
+        margin-bottom: @indent-base;
+    }
+    .order.toolbar {
+        float: right;
+        .action {
+            margin-left: 15px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    .order.subtitle.caption,
+    .order.title  {
+        strong {
+            .heading(h3);
+        }
+        .action {
+            margin-left: 15px;
+        }
+        margin-bottom: @indent-base;
+    }
+}
+
+.form.orders.search {
+    .field {
+        &.email,
+        &.zip {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.block.reorder {
+    .item {
+        .checkbox {
+            position: relative;
+            top: 2px;
+            vertical-align: baseline;
+        }
+    }
+    .actions.toolbar {
+        margin: 17px 0;
+        max-width: 178px;
+    }
+    .column.sidebar & .subtitle {
+        display: none;
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .order.details {
+        &:extend(.add-clearfix-desktop all);
+        .block {
+            &:extend(.blocks-2columns all);
+        }
+    }
+}

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,23 +9,20 @@
 /**
  * Permission model
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Model;
 
-use Magento\App\Action\Action;
-use Magento\App\ActionFlag;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission\Index;
-use Magento\Core\Exception;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
-use Magento\Data\Tree\Node;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Data\Tree\Node;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\Quote\Item;
 
@@ -110,7 +105,7 @@ class Observer
         ActionFlag $actionFlag
     ) {
         $this->_permissionsConfig = $permissionsConfig;
-        $this->_storeManager    = $storeManager;
+        $this->_storeManager = $storeManager;
         $this->_catalogPermData = $catalogPermData;
         $this->_permissionIndex = $permissionIndex;
         $this->_customerSession = $customerSession;
@@ -202,7 +197,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function applyCategoryPermission(EventObserver $observer)
     {
@@ -224,12 +219,11 @@ class Observer
         $this->_applyPermissionsOnCategory($category);
         if ($observer->getEvent()->getCategory()->getIsHidden()) {
 
-            $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect($this->_catalogPermData->getLandingPageUrl());
-
-            throw new Exception(
-                __('You may need more permissions to access this category.')
+            $observer->getEvent()->getControllerAction()->getResponse()->setRedirect(
+                $this->_catalogPermData->getLandingPageUrl()
             );
+
+            throw new \Magento\Framework\Model\Exception(__('You may need more permissions to access this category.'));
         }
         return $this;
     }
@@ -266,11 +260,13 @@ class Observer
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection as $product) {
             if ($collection->hasFlag('product_children')) {
-                $product->addData(array(
-                    'grant_catalog_category_view'   => -1,
-                    'grant_catalog_product_price'   => -1,
-                    'grant_checkout_items'          => -1,
-                ));
+                $product->addData(
+                    array(
+                        'grant_catalog_category_view' => -1,
+                        'grant_catalog_product_price' => -1,
+                        'grant_checkout_items' => -1
+                    )
+                );
             }
             $this->_applyPermissionsOnProduct($product);
         }
@@ -302,15 +298,17 @@ class Observer
             if ($quoteItem->getDisableAddToCart() && !$quoteItem->isDeleted()) {
                 $quote->removeItem($quoteItem->getId());
                 if ($parentItem) {
-                    $quote->setHasError(true)
-                            ->addMessage(
-                                __('You cannot add "%1" to the cart.', $parentItem->getName())
-                            );
+                    $quote->setHasError(
+                        true
+                    )->addMessage(
+                        __('You cannot add "%1" to the cart.', $parentItem->getName())
+                    );
                 } else {
-                     $quote->setHasError(true)
-                            ->addMessage(
-                                __('You cannot add "%1" to the cart.', $quoteItem->getName())
-                            );
+                    $quote->setHasError(
+                        true
+                    )->addMessage(
+                        __('You cannot add "%1" to the cart.', $quoteItem->getName())
+                    );
                 }
             }
         }
@@ -323,7 +321,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkQuoteItemSetProduct(EventObserver $observer)
     {
@@ -348,13 +346,9 @@ class Observer
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
-                throw new Exception(
-                    __('You cannot add "%1" to the cart.', $parentItem->getName())
-                );
+                throw new \Magento\Framework\Model\Exception(__('You cannot add "%1" to the cart.', $parentItem->getName()));
             } else {
-                throw new Exception(
-                    __('You cannot add "%1" to the cart.', $quoteItem->getName())
-                );
+                throw new \Magento\Framework\Model\Exception(__('You cannot add "%1" to the cart.', $quoteItem->getName()));
             }
         }
 
@@ -372,8 +366,7 @@ class Observer
         $productIds = array();
 
         foreach ($quote->getAllItems() as $item) {
-            if (!isset($this->_permissionsQuoteCache[$item->getProductId()]) &&
-                $item->getProductId()) {
+            if (!isset($this->_permissionsQuoteCache[$item->getProductId()]) && $item->getProductId()) {
                 $productIds[] = $item->getProductId();
             }
         }
@@ -408,8 +401,7 @@ class Observer
                 }
 
                 foreach ($defaultGrants as $grant => $defaultPermission) {
-                    if ($permission[$grant] == -2 ||
-                        ($permission[$grant] != -1 && !$defaultPermission)) {
+                    if ($permission[$grant] == -2 || $permission[$grant] != -1 && !$defaultPermission) {
                         $item->setDisableAddToCart(true);
                         break;
                     }
@@ -425,7 +417,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function applyProductPermission(EventObserver $observer)
     {
@@ -437,12 +429,11 @@ class Observer
         $this->_permissionIndex->addIndexToProduct($product, $this->_getCustomerGroupId());
         $this->_applyPermissionsOnProduct($product);
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
-            $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect($this->_catalogPermData->getLandingPageUrl());
-
-            throw new Exception(
-                __('You may need more permissions to access this product.')
+            $observer->getEvent()->getControllerAction()->getResponse()->setRedirect(
+                $this->_catalogPermData->getLandingPageUrl()
             );
+
+            throw new \Magento\Framework\Model\Exception(__('You may need more permissions to access this product.'));
         }
 
         return $this;
@@ -456,9 +447,12 @@ class Observer
      */
     protected function _applyPermissionsOnCategory($category)
     {
-        if ($category->getData('permissions/grant_catalog_category_view') == -2 ||
-            ($category->getData('permissions/grant_catalog_category_view')!= -1 &&
-                !$this->_catalogPermData->isAllowedCategoryView())) {
+        if ($category->getData(
+            'permissions/grant_catalog_category_view'
+        ) == -2 || $category->getData(
+            'permissions/grant_catalog_category_view'
+        ) != -1 && !$this->_catalogPermData->isAllowedCategoryView()
+        ) {
             $category->setIsActive(0);
             $category->setIsHidden(true);
         }
@@ -474,23 +468,32 @@ class Observer
      */
     protected function _applyPermissionsOnProduct($product)
     {
-        if ($product->getData('grant_catalog_category_view') == -2 ||
-            ($product->getData('grant_catalog_category_view')!= -1 &&
-                !$this->_catalogPermData->isAllowedCategoryView())) {
+        if ($product->getData(
+            'grant_catalog_category_view'
+        ) == -2 || $product->getData(
+            'grant_catalog_category_view'
+        ) != -1 && !$this->_catalogPermData->isAllowedCategoryView()
+        ) {
             $product->setIsHidden(true);
         }
 
 
-        if ($product->getData('grant_catalog_product_price') == -2 ||
-            ($product->getData('grant_catalog_product_price')!= -1 &&
-                !$this->_catalogPermData->isAllowedProductPrice())) {
+        if ($product->getData(
+            'grant_catalog_product_price'
+        ) == -2 || $product->getData(
+            'grant_catalog_product_price'
+        ) != -1 && !$this->_catalogPermData->isAllowedProductPrice()
+        ) {
             $product->setCanShowPrice(false);
             $product->setDisableAddToCart(true);
         }
 
-        if ($product->getData('grant_checkout_items') == -2 ||
-            ($product->getData('grant_checkout_items')!= -1 &&
-                !$this->_catalogPermData->isAllowedCheckoutItems())) {
+        if ($product->getData(
+            'grant_checkout_items'
+        ) == -2 || $product->getData(
+            'grant_checkout_items'
+        ) != -1 && !$this->_catalogPermData->isAllowedCheckoutItems()
+        ) {
             $product->setDisableAddToCart(true);
         }
 
@@ -512,7 +515,6 @@ class Observer
         return $this;
     }
 
-
     /**
      * Check catalog search availability on load layout
      *
@@ -526,9 +528,7 @@ class Observer
         }
 
         if (!$this->_catalogPermData->isAllowedCatalogSearch()) {
-            $observer->getEvent()->getLayout()->getUpdate()->addHandle(
-                'CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH'
-            );
+            $observer->getEvent()->getLayout()->getUpdate()->addHandle('CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH');
         }
 
         return $this;
@@ -548,9 +548,10 @@ class Observer
 
         /** @var Action $action */
         $action = $observer->getEvent()->getControllerAction();
-        if (!$this->_catalogPermData->isAllowedCatalogSearch()
-            && !$this->_actionFlag->get('', Action::FLAG_NO_DISPATCH)
-            && $action->getRequest()->isDispatched()
+        if (!$this->_catalogPermData->isAllowedCatalogSearch() && !$this->_actionFlag->get(
+            '',
+            Action::FLAG_NO_DISPATCH
+        ) && $action->getRequest()->isDispatched()
         ) {
             $this->_actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
             $action->getResponse()->setRedirect($this->_catalogPermData->getLandingPageUrl());
@@ -597,19 +598,11 @@ class Observer
         }
 
         $observer->getEvent()->getProduct()->setAllowedInRss(
-            $this->_checkPermission(
-                $row,
-                'grant_catalog_category_view',
-                'isAllowedCategoryView'
-            )
+            $this->_checkPermission($row, 'grant_catalog_category_view', 'isAllowedCategoryView')
         );
 
         $observer->getEvent()->getProduct()->setAllowedPriceInRss(
-            $this->_checkPermission(
-                $row,
-                'grant_catalog_product_price',
-                'isAllowedProductPrice'
-            )
+            $this->_checkPermission($row, 'grant_catalog_product_price', 'isAllowedProductPrice')
         );
 
         return $this;
@@ -637,15 +630,14 @@ class Observer
             $data[$permission] = null;
         }
 
-        if (!$this->_catalogPermData->$method()) {
+        if (!$this->_catalogPermData->{$method}()) {
             if ($data[$permission] == Permission::PERMISSION_ALLOW) {
                 $result = true;
             } else {
                 $result = false;
             }
         } else {
-            if ($data[$permission] != Permission::PERMISSION_DENY
-                    || is_null($data[$permission])) {
+            if ($data[$permission] != Permission::PERMISSION_DENY || is_null($data[$permission])) {
                 $result = true;
             } else {
                 $result = false;
@@ -654,5 +646,4 @@ class Observer
 
         return $result;
     }
-
 }

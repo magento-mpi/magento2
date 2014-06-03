@@ -2,27 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
-use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
- * Product View block
- *
- * @package Magento\Catalog\Test\Block\Product\View
+ * Product view block on the product page
  */
 class View extends Block
 {
@@ -55,6 +50,27 @@ class View extends Block
     protected $productName = '.page.title.product span';
 
     /**
+     * Product sku element
+     *
+     * @var string
+     */
+    protected $productSku = '[itemprop="sku"]';
+
+    /**
+     * Product description element
+     *
+     * @var string
+     */
+    protected $productDescription = '.product.attibute.description';
+
+    /**
+     * Product short-description element
+     *
+     * @var string
+     */
+    protected $productShortDescription = '.product.attibute.overview';
+
+    /**
      * Product price element
      *
      * @var string
@@ -80,7 +96,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $mapPopup = '#map-popup';
+    protected $mapPopup = '#map-popup-click-for-price';
 
     /**
      * Stock Availability control
@@ -90,11 +106,25 @@ class View extends Block
     protected $stockAvailability = '.stock span';
 
     /**
+     * Customize and add to cart button selector
+     *
+     * @var string
+     */
+    protected $customizeButton = '.action.primary.customize';
+
+    /**
+     * This member holds the class name of the tier price block.
+     *
+     * @var string
+     */
+    protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
      */
-    protected function getBundleBlock()
+    public function getBundleBlock()
     {
         return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
             $this->_rootElement->find($this->bundleBlock)
@@ -102,6 +132,8 @@ class View extends Block
     }
 
     /**
+     * Get block price
+     *
      * @return \Magento\Catalog\Test\Block\Product\Price
      */
     protected function getPriceBlock()
@@ -114,16 +146,49 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param Product $product
+     * @param FixtureInterface $product
+     * @return void
      */
-    public function addToCart(Product $product)
+    public function addToCart(FixtureInterface $product)
     {
         $this->fillOptions($product);
+        $this->clickAddToCart();
+    }
+
+    /**
+     * Find button 'Add to cart'
+     *
+     * @return boolean
+     */
+    public function addToCartIsVisible()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
+
+    /**
+     * Click link
+     *
+     * @return void
+     */
+    public function clickAddToCart()
+    {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
     /**
+     * Find Add To Cart button
+     *
+     * @return bool
+     */
+    public function isVisibleAddToCart()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
+
+    /**
      * Press 'Check out with PayPal' button
+     *
+     * @return void
      */
     public function paypalCheckout()
     {
@@ -138,6 +203,16 @@ class View extends Block
     public function getProductName()
     {
         return $this->_rootElement->find($this->productName, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
+     * Get product sku displayed on page
+     *
+     * @return string
+     */
+    public function getProductSku()
+    {
+        return $this->_rootElement->find($this->productSku, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -160,6 +235,32 @@ class View extends Block
     public function getProductPrice()
     {
         return $this->getPriceBlock()->getPrice();
+    }
+
+    /**
+     * Return product short description on page
+     *
+     * @return string|null
+     */
+    public function getProductShortDescription()
+    {
+        if ($this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
+    }
+
+    /**
+     * Return product description on page
+     *
+     * @return string|null
+     */
+    public function getProductDescription()
+    {
+        if ($this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
     }
 
     /**
@@ -206,25 +307,54 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param BundleFixture|Product $product
+     * @param FixtureInterface $product
+     * @return void
      */
-    public function fillOptions($product)
+    public function fillOptions(FixtureInterface $product)
     {
-        $configureButton = $this->_rootElement->find('.action.primary.customize');
+        $configureButton = $this->_rootElement->find($this->customizeButton);
         $configureSection = $this->_rootElement->find('.product.options.wrapper');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
             $bundleOptions = $product->getSelectionData();
             $this->getBundleBlock()->fillBundleOptions($bundleOptions);
-        } elseif ($configureSection->isVisible()) {
+        }
+        if ($configureSection->isVisible()) {
             $productOptions = $product->getProductOptions();
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }
     }
 
     /**
+     * This method return array tier prices
+     *
+     * @param int $lineNumber
+     * @return array
+     */
+    public function getTierPrices($lineNumber = 1)
+    {
+        return $this->_rootElement->find(
+            str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
+            Locator::SELECTOR_XPATH
+        )->getText();
+    }
+
+    /**
+     * Click "Customize and add to cart button"
+     *
+     * @return void
+     */
+    public function clickCustomize()
+    {
+        $this->_rootElement->find($this->customizeButton)->click();
+
+    }
+
+    /**
      * Click "ADD TO CART" button
+     *
+     * @return void
      */
     public function clickAddToCartButton()
     {
@@ -232,6 +362,8 @@ class View extends Block
     }
 
     /**
+     * Verification of group products
+     *
      * @param GroupedProduct $product
      * @return bool
      */
@@ -251,6 +383,8 @@ class View extends Block
 
     /**
      * Open MAP block on Product View page
+     *
+     * @return void
      */
     public function openMapBlockOnProductPage()
     {
@@ -259,11 +393,11 @@ class View extends Block
     }
 
     /**
-     * Is 'ADD TO CART' button visible
+     * Check 'Add to card' button visible
      *
      * @return bool
      */
-    public function isAddToCartButtonVisible()
+    public function checkAddToCardButton()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }
@@ -271,7 +405,7 @@ class View extends Block
     /**
      * Get text of Stock Availability control
      *
-     * @return array|string
+     * @return string
      */
     public function stockAvailability()
     {

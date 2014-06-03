@@ -11,7 +11,7 @@
  */
 namespace Magento\PbridgePaypal\Controller;
 
-class PbridgeIpn extends \Magento\App\Action\Action
+class PbridgeIpn extends \Magento\Framework\App\Action\Action
 {
     /**
      * Pbridge ipn factory
@@ -23,11 +23,11 @@ class PbridgeIpn extends \Magento\App\Action\Action
     /**
      * Construct
      *
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
     ) {
         $this->_pbridgeIpnFactory = $pbridgeIpnFactory;
@@ -45,8 +45,7 @@ class PbridgeIpn extends \Magento\App\Action\Action
         /** @var \Magento\PbridgePaypal\Model\Payment\Method\Pbridge\Ipn $ipn */
         $ipn = $this->_pbridgeIpnFactory->create();
 
-        $ipn->setIpnFormData($this->getRequest()->getPost())
-            ->processIpnRequest();
+        $ipn->setIpnFormData($this->getRequest()->getPost())->processIpnRequest();
         exit;
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\CustomerBalance\Block\Account;
 /**
  * Customer balance block
  */
-class Balance extends \Magento\View\Element\Template
+class Balance extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\BalanceFactory
@@ -20,23 +18,23 @@ class Balance extends \Magento\View\Element\Template
     protected $_balanceFactory;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
-    protected $_session;
+    protected $currentCustomer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
-     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        \Magento\Customer\Model\Session $session,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
-        $this->_session = $session;
+        $this->currentCustomer = $currentCustomer;
         $this->_balanceFactory = $balanceFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -49,14 +47,12 @@ class Balance extends \Magento\View\Element\Template
      */
     public function getBalance()
     {
-        $customerId = $this->_session->getCustomerId();
+        $customerId = $this->currentCustomer->getCustomerId();
         if (!$customerId) {
             return 0;
         }
 
-        $model = $this->_balanceFactory->create()
-            ->setCustomerId($customerId)
-            ->loadByCustomer();
+        $model = $this->_balanceFactory->create()->setCustomerId($customerId)->loadByCustomer();
 
         return $model->getAmount();
     }

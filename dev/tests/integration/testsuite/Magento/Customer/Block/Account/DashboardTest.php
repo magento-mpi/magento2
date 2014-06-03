@@ -26,21 +26,21 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->customerSession =
-            Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
-        $this->customerAccountService =
-            Bootstrap::getObjectManager()
-                ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
+        $this->customerAccountService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
 
-        $this->block = Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock(
-                'Magento\Customer\Block\Account\Dashboard',
-                '',
-                [
-                    'customerSession' => $this->customerSession,
-                    'customerAccountService' => $this->customerAccountService
-                ]
-            );
+        $this->block = Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Account\Dashboard',
+            '',
+            array(
+                'customerSession' => $this->customerSession,
+                'customerAccountService' => $this->customerAccountService
+            )
+        );
     }
 
     /**
@@ -49,6 +49,12 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->customerSession->unsCustomerId();
+
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
     }
 
     /**

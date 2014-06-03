@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\Directory\Model\Currency\Import;
 
-abstract class AbstractImport
-    implements \Magento\Directory\Model\Currency\Import\ImportInterface
+abstract class AbstractImport implements \Magento\Directory\Model\Currency\Import\ImportInterface
 {
     /**
      * Messages
@@ -74,10 +71,7 @@ abstract class AbstractImport
     protected function _saveRates($rates)
     {
         foreach ($rates as $currencyCode => $currencyRates) {
-            $this->_currencyFactory->create()
-                ->setId($currencyCode)
-                ->setRates($currencyRates)
-                ->save();
+            $this->_currencyFactory->create()->setId($currencyCode)->setRates($currencyRates)->save();
         }
         return $this;
     }
@@ -111,8 +105,7 @@ abstract class AbstractImport
             foreach ($currencies as $currencyTo) {
                 if ($currencyFrom == $currencyTo) {
                     $data[$currencyFrom][$currencyTo] = $this->_numberFormat(1);
-                }
-                else {
+                } else {
                     $data[$currencyFrom][$currencyTo] = $this->_numberFormat(
                         $this->_convert($currencyFrom, $currencyTo)
                     );

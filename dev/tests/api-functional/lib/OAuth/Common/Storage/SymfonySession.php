@@ -8,10 +8,14 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class SymfonySession implements TokenStorageInterface
 {
     private $session;
+
     private $sessionVariableName;
 
-    public function __construct(SessionInterface $session, $startSession = true, $sessionVariableName = 'lusitanian_oauth_token')
-    {
+    public function __construct(
+        SessionInterface $session,
+        $startSession = true,
+        $sessionVariableName = 'lusitanian_oauth_token'
+    ) {
         $this->session = $session;
         $this->sessionVariableName = $sessionVariableName;
     }
@@ -38,17 +42,12 @@ class SymfonySession implements TokenStorageInterface
         // get previously saved tokens
         $tokens = $this->session->get($this->sessionVariableName);
 
-        if (is_array($tokens))
-        {
+        if (is_array($tokens)) {
             // add to array
             $tokens[$service] = $token;
-        }
-        else
-        {
+        } else {
             // new array
-            $tokens = array(
-                $service => $token,
-            );
+            $tokens = array($service => $token);
         }
 
         // save
@@ -59,21 +58,19 @@ class SymfonySession implements TokenStorageInterface
     }
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function hasAccessToken($service)
     {
         // get from session
         $tokens = $this->session->get($this->sessionVariableName);
 
-        return is_array($tokens) &&
-               isset($tokens[$service]) &&
-               $tokens[$service] instanceof TokenInterface;
+        return is_array($tokens) && isset($tokens[$service]) && $tokens[$service] instanceof TokenInterface;
     }
 
     /**
-    * Delete the users tokens. Aka, log out.
-    */
+     * Delete the users tokens. Aka, log out.
+     */
     public function clearToken()
     {
         $this->session->remove($this->sessionVariableName);

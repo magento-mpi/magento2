@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 return array(
-    'type_one' => array(
+    'generic' => array(
         0 => 'path_one'
     ),
-    'type_two' =>array(
+    'register' =>array(
         0 => 'path_two'
     )
 );

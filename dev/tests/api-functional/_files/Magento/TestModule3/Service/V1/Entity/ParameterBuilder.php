@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule3\Service\V1\Entity;
 
-class ParameterBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class ParameterBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set Name.
@@ -33,6 +32,4 @@ class ParameterBuilder extends \Magento\Service\Data\AbstractObjectBuilder
         $this->_data['value'] = $value;
         return $this;
     }
-
-
 }

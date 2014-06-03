@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\Reminder\Model\Rule\Condition\Cart;
 /**
  * Rule conditions container
  */
-class Combine
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Cart Couponcode Factory
@@ -87,7 +84,8 @@ class Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(
-            parent::getNewChildSelectOptions(), array(
+            parent::getNewChildSelectOptions(),
+            array(
                 $this->_getRecursiveChildSelectOption(),
                 $this->_couponFactory->create()->getNewChildSelectOptions(),
                 $this->_itemsQtyFactory->create()->getNewChildSelectOptions(),

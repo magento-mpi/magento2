@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 /**
  * Adminhtml sales order create sidebar block
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -93,7 +89,7 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
     /**
      * Retrieve identifier of block item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return int
      */
     public function getIdentifierId($item)
@@ -104,7 +100,7 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
     /**
      * Retrieve item identifier of block item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return int
      */
     public function getItemId($item)
@@ -115,7 +111,7 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
     /**
      * Retrieve product identifier linked with item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return int
      */
     public function getProductId($item)
@@ -168,9 +164,9 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
                 } else {
                     $type = '';
                     // Maybe some item, that can give us product via getProduct()
-                    if (($item instanceof \Magento\Object) || method_exists($item, 'getProduct')) {
+                    if ($item instanceof \Magento\Framework\Object || method_exists($item, 'getProduct')) {
                         $product = $item->getProduct();
-                        if ($product && ($product instanceof \Magento\Catalog\Model\Product)) {
+                        if ($product && $product instanceof \Magento\Catalog\Model\Product) {
                             $type = $product->getTypeId();
                         }
                     }
@@ -207,12 +203,12 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
     /**
      * Get item qty
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return int
      */
-    public function getItemQty(\Magento\Object $item)
+    public function getItemQty(\Magento\Framework\Object $item)
     {
-        return $item->getQty()*1 ? $item->getQty()*1 : 1;
+        return $item->getQty() * 1 ? $item->getQty() * 1 : 1;
     }
 
     /**

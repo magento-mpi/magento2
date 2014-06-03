@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,27 +15,27 @@ return array(
             'fields' => array(
                 'f2.1' => array('value' => 'f2.1.val'),
                 'f2.2' => array('value' => 'f2.2.val'),
-                'f2.3' => array('value' => ''),
+                'f2.3' => array('value' => '')
             ),
             'groups' => array(
                 'group.2.1' => array(
                     'fields' => array(
                         'f2.1.1' => array('value' => 'f2.1.1.val'),
                         'f2.1.2' => array('value' => 'f2.1.2.val'),
-                        'f2.1.3' => array('value' => ''),
+                        'f2.1.3' => array('value' => '')
                     ),
                     'groups' => array(
                         'group.2.1.1' => array(
                             'fields' => array(
                                 'f2.1.1.1' => array('value' => 'f2.1.1.1.val'),
                                 'f2.1.1.2' => array('value' => 'f2.1.1.2.val'),
-                                'f2.1.1.3' => array('value' => ''),
+                                'f2.1.1.3' => array('value' => '')
                             )
-                        ),
-                    ),
-                ),
+                        )
+                    )
+                )
             )
         ),
-        'group.3' => 'some.data',
+        'group.3' => 'some.data'
     )
 );

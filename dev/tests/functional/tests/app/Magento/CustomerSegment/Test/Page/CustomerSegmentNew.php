@@ -3,15 +3,11 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\CustomerSegment\Test\Page;
-
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
@@ -26,7 +22,6 @@ use Mtf\Page\Page;
 /**
  * Class for creating new customer in backend page
  *
- * @package Magento\CustomerSegment\Test\Page
  */
 class CustomerSegmentNew extends Page
 {
@@ -48,6 +43,13 @@ class CustomerSegmentNew extends Page
      * @var string
      */
     protected $messagesBlock = '#messages .messages';
+
+    /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * Custom constructor
@@ -74,7 +76,7 @@ class CustomerSegmentNew extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
@@ -138,6 +140,16 @@ class CustomerSegmentNew extends Page
     {
         return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlReportCustomerSegmentDetailGrid(
             $this->_browser->find('#segmentGrid')
+        );
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\FormPageActions
+     */
+    public function getActions()
+    {
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentEditActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

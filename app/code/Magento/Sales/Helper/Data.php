@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Helper;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Sales module base helper
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Core\Helper\Data
@@ -34,11 +30,9 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function checkQuoteAmount(\Magento\Sales\Model\Quote $quote, $amount)
     {
-        if (!$quote->getHasError() && ($amount>=self::MAXIMUM_AVAILABLE_NUMBER)) {
+        if (!$quote->getHasError() && $amount >= self::MAXIMUM_AVAILABLE_NUMBER) {
             $quote->setHasError(true);
-            $quote->addMessage(
-                __('This item price or quantity is not valid for checkout.')
-            );
+            $quote->addMessage(__('This item price or quantity is not valid for checkout.'));
         }
         return $this;
     }
@@ -51,7 +45,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewOrderConfirmationEmail($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(\Magento\Sales\Model\Order::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order::XML_PATH_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -73,7 +71,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendOrderCommentEmail($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(\Magento\Sales\Model\Order::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order::XML_PATH_UPDATE_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -84,8 +86,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewShipmentEmail($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfigFlag(\Magento\Sales\Model\Order\Shipment::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -96,8 +101,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendShipmentCommentEmail($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfigFlag(\Magento\Sales\Model\Order\Shipment::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_UPDATE_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -108,8 +116,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewInvoiceEmail($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfigFlag(\Magento\Sales\Model\Order\Invoice::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order\Invoice::XML_PATH_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -120,8 +131,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendInvoiceCommentEmail($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfigFlag(\Magento\Sales\Model\Order\Invoice::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order\Invoice::XML_PATH_UPDATE_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -132,8 +146,11 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendNewCreditmemoEmail($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfigFlag(\Magento\Sales\Model\Order\Creditmemo::XML_PATH_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order\Creditmemo::XML_PATH_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -144,7 +161,10 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function canSendCreditmemoCommentEmail($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfigFlag(\Magento\Sales\Model\Order\Creditmemo::XML_PATH_UPDATE_EMAIL_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Sales\Model\Order\Creditmemo::XML_PATH_UPDATE_EMAIL_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Abstract installer model
  *
- * @category   Magento
- * @package    Magento_Install
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Install\Model\Installer;
@@ -85,8 +81,10 @@ class AbstractInstaller
             return 'backend';
         }
         if (!preg_match('/^[a-z]+[a-z0-9_]+$/', $value)) {
-            throw new \Exception('backend_frontname value must contain only letters (a-z), numbers (0-9)'
-                . ' or underscore(_), first character should be a letter.');
+            throw new \Exception(
+                'backend_frontname value must contain only letters (a-z), numbers (0-9)' .
+                ' or underscore(_), first character should be a letter.'
+            );
         }
         return $value;
     }

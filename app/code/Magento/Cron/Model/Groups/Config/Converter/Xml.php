@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Groups\Config\Converter;
 
 /**
  * Converts cron parameters from XML files
  */
-class Xml implements \Magento\Config\ConverterInterface
+class Xml implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Converting data to array type
@@ -37,7 +34,7 @@ class Xml implements \Magento\Config\ConverterInterface
                 throw new \InvalidArgumentException('Attribute "id" does not exist');
             }
             foreach ($group->childNodes as $child) {
-                if (!($child instanceof \DOMElement)) {
+                if (!$child instanceof \DOMElement) {
                     continue;
                 }
                 /** @var $group \DOMElement */

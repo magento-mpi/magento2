@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
         <section id="carriers">
             <group id="dhl" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -147,10 +147,6 @@
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="1950" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Debug</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="active_rma" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled for RMA</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>

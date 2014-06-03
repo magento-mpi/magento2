@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,11 +37,8 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array(
-                'value' => $this->getType(),
-                'label' => __('Conditions Combination')
-            ),
-            $this->_attributeFactory->create()->getNewChildSelectOptions(),
+            array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+            $this->_attributeFactory->create()->getNewChildSelectOptions()
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

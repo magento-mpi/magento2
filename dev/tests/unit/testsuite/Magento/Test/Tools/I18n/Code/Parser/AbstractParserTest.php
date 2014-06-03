@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Parser;
 
 class AbstractParserTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,12 @@ class AbstractParserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_parserMock = $this->getMockForAbstractClass('Magento\Tools\I18n\Code\Parser\AbstractParser',
-            array(), '', false);
+        $this->_parserMock = $this->getMockForAbstractClass(
+            'Magento\Tools\I18n\Code\Parser\AbstractParser',
+            array(),
+            '',
+            false
+        );
     }
 
     /**
@@ -39,10 +42,12 @@ class AbstractParserTest extends \PHPUnit_Framework_TestCase
         return array(
             array(array(array('paths' => array())), 'Missed "type" in parser options.'),
             array(array(array('type' => '', 'paths' => array())), 'Missed "type" in parser options.'),
-            array(array(array('type' => 'wrong_type', 'paths' => array())),
-                'Adapter is not set for type "wrong_type".'),
+            array(
+                array(array('type' => 'wrong_type', 'paths' => array())),
+                'Adapter is not set for type "wrong_type".'
+            ),
             array(array(array('type' => 'php')), '"paths" in parser options must be array.'),
-            array(array(array('type' => 'php', 'paths' => '')), '"paths" in parser options must be array.'),
+            array(array(array('type' => 'php', 'paths' => '')), '"paths" in parser options must be array.')
         );
     }
 

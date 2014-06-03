@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tabs
-    extends \Magento\Backend\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs

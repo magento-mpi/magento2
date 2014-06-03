@@ -20,10 +20,7 @@ class WebapiDocBlock extends \Magento\TestFramework\Bootstrap\DocBlock
     protected function _getSubscribers(\Magento\TestFramework\Application $application)
     {
         $subscribers = parent::_getSubscribers($application);
-        array_unshift(
-            $subscribers,
-            new \Magento\TestFramework\Annotation\ApiDataFixture($this->_fixturesBaseDir)
-        );
+        array_unshift($subscribers, new \Magento\TestFramework\Annotation\ApiDataFixture($this->_fixturesBaseDir));
         return $subscribers;
     }
 }

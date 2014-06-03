@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order\Payment\Transaction;
 /**
  * Payment transactions collection
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
@@ -23,56 +19,56 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      *
      * @var int
      */
-    protected $_orderId                = null;
+    protected $_orderId = null;
 
     /**
      * Columns of order info that should be selected
      *
      * @var string[]
      */
-    protected $_addOrderInformation    = array();
+    protected $_addOrderInformation = array();
 
     /**
      * Columns of payment info that should be selected
      *
      * @var array
      */
-    protected $_addPaymentInformation  = array();
+    protected $_addPaymentInformation = array();
 
     /**
      * Order Store ids
      *
      * @var int[]
      */
-    protected $_storeIds               = array();
+    protected $_storeIds = array();
 
     /**
      * Payment ID filter
      *
      * @var int
      */
-    protected $_paymentId              = null;
+    protected $_paymentId = null;
 
     /**
      * Parent ID filter
      *
      * @var int
      */
-    protected $_parentId               = null;
+    protected $_parentId = null;
 
     /**
      * Filter by transaction type
      *
      * @var string[]
      */
-    protected $_txnTypes               = null;
+    protected $_txnTypes = null;
 
     /**
      * Order field for setOrderFilter
      *
      * @var string
      */
-    protected $_orderField             = 'order_id';
+    protected $_orderField = 'order_id';
 
     /**
      * Initialize collection items factory class
@@ -81,7 +77,10 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento\Sales\Model\Order\Payment\Transaction', 'Magento\Sales\Model\Resource\Order\Payment\Transaction');
+        $this->_init(
+            'Magento\Sales\Model\Order\Payment\Transaction',
+            'Magento\Sales\Model\Resource\Order\Payment\Transaction'
+        );
         parent::_construct();
     }
 
@@ -174,25 +173,18 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      */
     public function addStoreFilter($storeIds)
     {
-        $storeIds = (is_array($storeIds)) ? $storeIds : array($storeIds);
+        $storeIds = is_array($storeIds) ? $storeIds : array($storeIds);
         $this->_storeIds = array_merge($this->_storeIds, $storeIds);
         return $this;
     }
 
     /**
-     * Prepare filters
+     * Render additional filters and joins
      *
-     * @return $this
+     * @return void
      */
-    protected function _beforeLoad()
+    protected function _renderFiltersBefore()
     {
-        parent::_beforeLoad();
-
-        if ($this->isLoaded()) {
-            return $this;
-        }
-
-        // filters
         if ($this->_paymentId) {
             $this->getSelect()->where('main_table.payment_id = ?', $this->_paymentId);
         }
@@ -223,7 +215,6 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
                 $this->_addOrderInformation
             );
         }
-        return $this;
     }
 
     /**

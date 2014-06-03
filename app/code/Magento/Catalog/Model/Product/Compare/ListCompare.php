@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Compare;
 
 use Magento\Catalog\Model\Resource\Product\Compare\Item\Collection;
@@ -17,7 +14,7 @@ use Magento\Catalog\Model\Resource\Product\Compare\Item\Collection;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class ListCompare extends \Magento\Object
+class ListCompare extends \Magento\Framework\Object
 {
     /**
      * Log visitor
@@ -157,7 +154,7 @@ class ListCompare extends \Magento\Object
     {
         $item->addVisitorId($this->_logVisitor->getId());
         if ($this->_customerSession->isLoggedIn()) {
-            $item->addCustomerData($this->_customerSession->getCustomer());
+            $item->setCustomerId($this->_customerSession->getCustomerId());
         }
 
         return $this;
@@ -172,7 +169,6 @@ class ListCompare extends \Magento\Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return $this->_catalogProductCompareItem
-            ->getCount($customerId, $visitorId);
+        return (bool)$this->_catalogProductCompareItem->getCount($customerId, $visitorId);
     }
 }

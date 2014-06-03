@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Controller\Adminhtml\Page;
 /**
  * Controller for CMS Page Link Widget plugin
  *
- * @category   Magento
- * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Widget extends \Magento\Backend\App\Action
@@ -26,9 +22,11 @@ class Widget extends \Magento\Backend\App\Action
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $pagesGrid = $this->_view->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Page\Widget\Chooser', '', array(
-            'data' => array('id' => $uniqId)
-        ));
+        $pagesGrid = $this->_view->getLayout()->createBlock(
+            'Magento\Cms\Block\Adminhtml\Page\Widget\Chooser',
+            '',
+            array('data' => array('id' => $uniqId))
+        );
         $this->getResponse()->setBody($pagesGrid->toHtml());
     }
 }

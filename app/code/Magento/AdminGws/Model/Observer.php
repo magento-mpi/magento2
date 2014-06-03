@@ -9,15 +9,16 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 
 class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     const ACL_WEBSITE_LEVEL = 'website';
+
     const ACL_STORE_LEVEL = 'store';
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
@@ -37,12 +38,12 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -52,17 +53,17 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -72,37 +73,37 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_userRoles;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Acl\Builder $aclBuilder
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Store\Model\System\Store $systemStore
+     * @param \Magento\Framework\Acl\Builder $aclBuilder
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param \Magento\AdminGws\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Stdlib\String $string
-     * 
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\Stdlib\String $string
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Acl\Builder $aclBuilder,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Store\Model\System\Store $systemStore,
+        \Magento\Framework\Acl\Builder $aclBuilder,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
-        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
-        \Magento\Stdlib\String $string
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;
@@ -153,9 +154,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         } else {
             // set selected website ids
             // set either the set store group ids or all of allowed websites
-            if (empty($storeGroupIds)
-                && count($object->getGwsWebsites())
-            ) {
+            if (empty($storeGroupIds) && count($object->getGwsWebsites())) {
                 foreach ($this->_getAllStoreGroups() as $storeGroup) {
                     if (in_array($storeGroup->getWebsiteId(), $object->getGwsWebsites())) {
                         $storeGroupIds[] = $storeGroup->getId();
@@ -187,10 +186,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Assign websites/stores permissions data after loading admin role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addDataAfterRoleLoad(\Magento\Event\Observer $observer)
+    public function addDataAfterRoleLoad(\Magento\Framework\Event\Observer $observer)
     {
         $this->_assignRolePermissions($observer->getEvent()->getObject());
     }
@@ -211,7 +210,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Get all store groups
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return \Magento\Store\Model\Resource\Group\Collection
      */
     protected function _getAllStoreGroups()
     {
@@ -221,27 +220,23 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      * @throws Exception
      */
     public function setDataBeforeRoleSave($observer)
     {
         $object = $observer->getEvent()->getObject();
-        $websiteIds    = $object->getGwsWebsites();
+        $websiteIds = $object->getGwsWebsites();
         $storeGroupIds = $object->getGwsStoreGroups();
 
         // validate specified data
         if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
-            throw new Exception(
-                __('Please specify at least one website or one store group.')
-            );
+            throw new Exception(__('Please specify at least one website or one store group.'));
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
-                throw new Exception(
-                    __('You need more permissions to set All Scopes to a Role.')
-                );
+                throw new Exception(__('You need more permissions to set All Scopes to a Role.'));
             }
         }
 
@@ -260,7 +255,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
                         throw new Exception(
-                            __('You need more permissions to access website "%1".', $this->_storeManager->getWebsite($websiteId)->getName())
+                            __(
+                                'You need more permissions to access website "%1".',
+                                $this->_storeManager->getWebsite($websiteId)->getName()
+                            )
                         );
                     }
                 }
@@ -282,9 +280,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
-                    throw new Exception(
-                        __('You need more permissions to save this setting.')
-                    );
+                    throw new Exception(__('You need more permissions to save this setting.'));
                 }
             }
         }
@@ -298,7 +294,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prepare role object permissions data before saving
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function prepareRoleSave($observer)
@@ -320,7 +316,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Copy permission scopes to new specified website
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function copyWebsiteCopyPermissions($observer)
@@ -330,7 +326,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         foreach ($this->_userRoles as $role) {
             $shouldRoleBeUpdated = false;
             $roleWebsites = explode(',', $role->getGwsWebsites());
-            if ((!$role->getGwsIsAll()) && $role->getGwsWebsites()) {
+            if (!$role->getGwsIsAll() && $role->getGwsWebsites()) {
                 if (in_array($oldWebsiteId, $roleWebsites)) {
                     $roleWebsites[] = $newWebsiteId;
                     $shouldRoleBeUpdated = true;
@@ -346,7 +342,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminControllerPredispatch($observer)
@@ -379,7 +375,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Check access to massaction status block
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function catalogProductPrepareMassAction($observer)
@@ -389,9 +385,9 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $storeCode = $this->_request->getParam('store');
-        $storeId = $storeCode
-            ? $this->_storeManager->getStore($storeCode)->getId()
-            : \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        $storeId = $storeCode ? $this->_storeManager->getStore(
+            $storeCode
+        )->getId() : \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -420,7 +416,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit a collection
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function limitCollection($observer)
@@ -429,7 +425,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $collection = $observer->getEvent()->getCollection();
-        if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
+        if (!($callback = $this->_pickCallback('collection_load_before', $collection))) {
             return;
         }
         $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Collections', $collection);
@@ -438,7 +434,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate / update a model before saving it
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelSaveBefore($observer)
@@ -447,7 +443,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $model = $observer->getEvent()->getObject();
-        if (!$callback = $this->_pickCallback('model_save_before', $model)) {
+        if (!($callback = $this->_pickCallback('model_save_before', $model))) {
             return;
         }
         $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
@@ -456,7 +452,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Initialize a model after loading it
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelLoadAfter($observer)
@@ -465,7 +461,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
         $model = $observer->getEvent()->getObject();
-        if (!$callback = $this->_pickCallback('model_load_after', $model)) {
+        if (!($callback = $this->_pickCallback('model_load_after', $model))) {
             return;
         }
         $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
@@ -474,7 +470,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate a model before delete
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelDeleteBefore($observer)
@@ -484,7 +480,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $model = $observer->getEvent()->getObject();
-        if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
+        if (!($callback = $this->_pickCallback('model_delete_before', $model))) {
             return;
         }
         $this->_invokeCallback($callback, 'Magento\AdminGws\Model\Models', $model);
@@ -493,7 +489,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate page by current request (module, controller, action)
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateControllerPredispatch($observer)
@@ -502,7 +498,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
 
-        /** @var \Magento\App\RequestInterface $request */
+        /** @var \Magento\Framework\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();
         // initialize controllers map
         if (null === $this->_controllersMap) {
@@ -510,26 +506,35 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             foreach ($this->_config->getCallbacks('controller_predispatch') as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 if ($action) {
-                    $this->_controllersMap['full'][$module][$controller][$action] =
-                        $this->_recognizeCallbackString($method);
+                    $this->_controllersMap['full'][$module][$controller][$action] = $this->_recognizeCallbackString(
+                        $method
+                    );
                 } else {
-                    $this->_controllersMap['partial'][$module][$controller] =
-                        $this->_recognizeCallbackString($method);
+                    $this->_controllersMap['partial'][$module][$controller] = $this->_recognizeCallbackString($method);
                 }
             }
         }
 
         // map request to validator callback
-        $routeName      = $request->getRouteName();
+        $routeName = $request->getRouteName();
         $controllerName = $request->getControllerName();
-        $actionName     = $request->getActionName();
-        $callback       = false;
-        if (isset($this->_controllersMap['full'][$routeName])
-            && isset($this->_controllersMap['full'][$routeName][$controllerName])
-            && isset($this->_controllersMap['full'][$routeName][$controllerName][$actionName])) {
+        $actionName = $request->getActionName();
+        $callback = false;
+        if (isset(
+            $this->_controllersMap['full'][$routeName]
+        ) && isset(
+            $this->_controllersMap['full'][$routeName][$controllerName]
+        ) && isset(
+            $this->_controllersMap['full'][$routeName][$controllerName][$actionName]
+        )
+        ) {
             $callback = $this->_controllersMap['full'][$routeName][$controllerName][$actionName];
-        } elseif (isset($this->_controllersMap['partial'][$routeName])
-            && isset($this->_controllersMap['partial'][$routeName][$controllerName])) {
+        } elseif (isset(
+            $this->_controllersMap['partial'][$routeName]
+        ) && isset(
+            $this->_controllersMap['partial'][$routeName][$controllerName]
+        )
+        ) {
             $callback = $this->_controllersMap['partial'][$routeName][$controllerName];
         }
 
@@ -545,7 +550,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Apply restrictions to misc blocks before html
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restrictBlocks($observer)
@@ -553,10 +558,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($this->_role->getIsAll()) {
             return;
         }
-        if (!$block = $observer->getEvent()->getBlock()) {
+        if (!($block = $observer->getEvent()->getBlock())) {
             return;
         }
-        if (!$callback = $this->_pickCallback('block_html_before', $block)) {
+        if (!($callback = $this->_pickCallback('block_html_before', $block))) {
             return;
         }
         /* the $observer is used intentionally */
@@ -572,7 +577,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function _pickCallback($callbackGroup, $instance)
     {
-        if (!$instanceClass = get_class($instance)) {
+        if (!($instanceClass = get_class($instance))) {
             return;
         }
 
@@ -598,7 +603,6 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     $className = str_replace('_', '\\', $className);
                     $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
                 }
-                //}
             }
         }
 
@@ -645,23 +649,25 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _invokeCallback($callback, $defaultFactoryClassName, $passThroughObject)
     {
-        $class  = $defaultFactoryClassName;
+        $class = $defaultFactoryClassName;
         $method = $callback;
         if (is_array($callback)) {
             list($class, $method) = $callback;
         }
-        $this->_objectManager->get($class)->$method($passThroughObject);
+        $this->_objectManager->get($class)->{$method}($passThroughObject);
     }
 
     /**
      * Update store list which is available for role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function updateRoleStores($observer)
     {
-        $this->_role->setStoreIds(array_merge($this->_role->getStoreIds(), array($observer->getStore()->getStoreId())));
+        $this->_role->setStoreIds(
+            array_merge($this->_role->getStoreIds(), array($observer->getStore()->getStoreId()))
+        );
         return $this;
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Export\Entity\Product\Type;
 
 use Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType;

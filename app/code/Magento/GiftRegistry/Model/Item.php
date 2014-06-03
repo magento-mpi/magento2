@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,12 +25,10 @@ namespace Magento\GiftRegistry\Model;
  * @method string getCustomOptions()
  * @method \Magento\GiftRegistry\Model\Item setCustomOptions(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
+class Item extends \Magento\Framework\Model\AbstractModel implements
+    \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -43,6 +39,11 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @var \Magento\GiftRegistry\Model\Item\OptionFactory
      */
     protected $optionFactory;
+
+    /**
+     * @var \Magento\Framework\Message\ManagerInterface
+     */
+    protected $messageManager;
 
     /**
      * List of options related to item
@@ -65,23 +66,25 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $resourceUrl = array();
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
-     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -89,6 +92,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $this->optionFactory = $optionFactory;
         $this->optionFactory = $optionFactory;
         $this->resourceUrl = $resourceUrl;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -128,15 +132,29 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Checkout\Model\Cart $cart
      * @param int $qty
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addToCart(\Magento\Checkout\Model\Cart $cart, $qty)
     {
         $product = $this->_getProduct();
         $storeId = $this->getStoreId();
 
-        if ($this->getQty() < ($qty + $this->getQtyFulfilled())) {
+        if ($this->getQty() < $qty + $this->getQtyFulfilled()) {
             $qty = $this->getQty() - $this->getQtyFulfilled();
+            $this->messageManager->addNotice(__('The quantity of "%1" product added to cart exceeds the quantity desired by the Gift Registry owner. The quantity added has been adjusted to meet remaining quantity %2.', $product->getName(), $qty));
+        }
+
+        $productIdsInCart = $cart->getProductIds();
+        if (in_array($product->getId(), $productIdsInCart)) {
+            foreach ($cart->getQuote()->getAllItems() as $item) {
+                if (($item->getProduct()->getId() == $product->getId())
+                    /* Checkout of giftRegistry products together with non-registry products will be adjusted in a specific story */
+                    /*&& ($item->getGiftregistryItemId() == $this->getId())*/
+                    && (($item->getQty() + $qty) > ($this->getQty() - $this->getQtyFulfilled()))) {
+                        $cart->removeItem($item->getId());
+                        $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
+                }
+            }
         }
 
         if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
@@ -151,7 +169,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
-            $product->setUrlDataObject(new \Magento\Object($urlData));
+            $product->setUrlDataObject(new \Magento\Framework\Object($urlData));
             $visibility = $product->getUrlDataObject()->getVisibility();
             if (!in_array($visibility, $product->getVisibleInSiteVisibilities())) {
                 return false;
@@ -159,8 +177,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$product->isSalable()) {
-            throw new \Magento\Core\Exception(
-                __('This product(s) is out of stock.'));
+            throw new \Magento\Framework\Model\Exception(__('This product(s) is out of stock.'));
         }
 
         $product->setGiftregistryItemId($this->getId());
@@ -212,15 +229,15 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _compareOptions($options1, $options2)
     {
-        $skipOptions = array('qty','info_buyRequest');
+        $skipOptions = array('qty', 'info_buyRequest');
         foreach ($options1 as $option) {
             $code = $option->getCode();
             if (in_array($code, $skipOptions)) {
                 continue;
             }
-            if ( !isset($options2[$code])
-                || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()
+            if (!isset(
+                $options2[$code]
+            ) || $options2[$code]->getValue() === null || $options2[$code]->getValue() != $option->getValue()
             ) {
                 return false;
             }
@@ -255,15 +272,14 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Return item product
      *
      * @return \Magento\Catalog\Model\Product
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
             $product = $this->productFactory->create()->load($this->getProductId());
             if (!$product->getId()) {
-                throw new \Magento\Core\Exception(
-                    __('Please correct the product for adding the item to the quote.'));
+                throw new \Magento\Framework\Model\Exception(__('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
         }
@@ -322,7 +338,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $this->_flagOptionsSaved = true; // Report to watchers that options were saved
+        $this->_flagOptionsSaved = true;
+        // Report to watchers that options were saved
 
         return $this;
     }
@@ -399,29 +416,35 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\GiftRegistry\Model\Item\Option $option
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = $this->optionFactory->create()->setData($option)
-                ->setItem($this);
+            $option = $this->optionFactory->create()->setData($option)->setItem($this);
         } elseif ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             // import data from existing quote item option
-            $option = $this->optionFactory->create()->setProduct($option->getProduct())
-               ->setCode($option->getCode())
-               ->setValue($option->getValue())
-               ->setItem($this);
-        } elseif (($option instanceof \Magento\Object)
-            && !($option instanceof \Magento\GiftRegistry\Model\Item\Option)
-        ) {
-            $option = $this->optionFactory->create()->setData($option->getData())
-               ->setProduct($option->getProduct())
-               ->setItem($this);
+            $option = $this->optionFactory->create()->setProduct(
+                $option->getProduct()
+            )->setCode(
+                $option->getCode()
+            )->setValue(
+                $option->getValue()
+            )->setItem(
+                $this
+            );
+        } elseif ($option instanceof \Magento\Framework\Object && !$option instanceof \Magento\GiftRegistry\Model\Item\Option) {
+            $option = $this->optionFactory->create()->setData(
+                $option->getData()
+            )->setProduct(
+                $option->getProduct()
+            )->setItem(
+                $this
+            );
         } elseif ($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option->setItem($this);
         } else {
-            throw new \Magento\Core\Exception(__('Please correct the item option format.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -439,14 +462,14 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param   \Magento\GiftRegistry\Model\Item\Option $option
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _addOptionCode($option)
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            throw new \Magento\Core\Exception(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new \Magento\Framework\Model\Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -469,14 +492,14 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
-        $buyRequest->setOriginalQty($buyRequest->getQty())
-            ->setQty($this->getQty() * 1); // Qty value that is stored in buyRequest can be out-of-date
+        $buyRequest = new \Magento\Framework\Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest->setOriginalQty($buyRequest->getQty())->setQty($this->getQty() * 1);
+        // Qty value that is stored in buyRequest can be out-of-date
         return $buyRequest;
     }
 
@@ -501,7 +524,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      * Currently returns null, as far as we don't show file options and don't need controllers to give file.
      *
-     * @return null|\Magento\Object
+     * @return null|\Magento\Framework\Object
      */
     public function getFileDownloadParams()
     {
@@ -516,7 +539,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function setQty($quantity)
     {
-        $quantity = (float)$quantity;
+        $quantity = (double)$quantity;
 
         if (!$this->_getProduct()->getTypeInstance()->canUseQtyDecimals()) {
             $quantity = round($quantity);

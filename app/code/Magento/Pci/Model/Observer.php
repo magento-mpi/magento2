@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Pci\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Pci backend observer model
@@ -42,7 +40,7 @@ class Observer
     public function upgradeCustomerPassword($observer)
     {
         $password = $observer->getEvent()->getPassword();
-        $model    = $observer->getEvent()->getModel();
+        $model = $observer->getEvent()->getModel();
         if (!$this->_encryptor->validateHashByVersion($password, $model->getPasswordHash())) {
             $model->changePassword($password);
         }

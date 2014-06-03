@@ -51,8 +51,8 @@ class EndToEndTests
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
 
         // Url rewrites
-        $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\ProductTest');
-        $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\CategoryTest');
+        $suite->addTestSuite('Magento\UrlRewrite\Test\TestCase\ProductTest');
+        $suite->addTestSuite('Magento\UrlRewrite\Test\TestCase\CategoryTest');
 
         // Admin user
         $suite->addTestSuite('Magento\Pci\Test\TestCase\LockedTest');

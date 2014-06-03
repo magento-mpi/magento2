@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +10,11 @@
 /**
  * Resource collection for report rows
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Paypal\Model\Resource\Report\Settlement\Row;
 
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initializing
@@ -28,7 +23,10 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento\Paypal\Model\Report\Settlement\Row', 'Magento\Paypal\Model\Resource\Report\Settlement\Row');
+        $this->_init(
+            'Magento\Paypal\Model\Report\Settlement\Row',
+            'Magento\Paypal\Model\Resource\Report\Settlement\Row'
+        );
     }
 
     /**
@@ -39,12 +37,11 @@ class Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->join(
-                array('report' => $this->getTable('paypal_settlement_report')),
-                'report.report_id = main_table.report_id',
-                array('report.account_id', 'report.report_date')
-            );
+        $this->getSelect()->join(
+            array('report' => $this->getTable('paypal_settlement_report')),
+            'report.report_id = main_table.report_id',
+            array('report.account_id', 'report.report_date')
+        );
         return $this;
     }
 

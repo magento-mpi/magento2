@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Circular\Data;
 
 /**
@@ -33,7 +32,7 @@ class Module
      * @param array $name
      * @param \Magento\Tools\Dependency\Report\Circular\Data\Chain[] $chains
      */
-    public function __construct($name, array $chains = [])
+    public function __construct($name, array $chains = array())
     {
         $this->name = $name;
         $this->chains = $chains;

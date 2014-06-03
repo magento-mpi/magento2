@@ -10,7 +10,7 @@ namespace Magento\Checkout\Block\Onepage;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
-use Magento\Message\Collection;
+use Magento\Framework\Message\Collection;
 
 /**
  * One page checkout status
@@ -25,29 +25,30 @@ class Login extends AbstractOnepage
     protected $_checkoutData = null;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param \Magento\Checkout\Helper\Data $checkoutData
-     * @param \Magento\Message\ManagerInterface $messageManager
      * @param CustomerAccountService $customerAccountService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
@@ -55,8 +56,9 @@ class Login extends AbstractOnepage
         CustomerAccountService $customerAccountService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
 
@@ -73,6 +75,7 @@ class Login extends AbstractOnepage
             $customerAccountService,
             $customerAddressService,
             $addressConfig,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;
@@ -84,7 +87,7 @@ class Login extends AbstractOnepage
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
-            $this->getCheckout()->setStepData('login', array('label'=>__('Checkout Method'), 'allow'=>true));
+            $this->getCheckout()->setStepData('login', array('label' => __('Checkout Method'), 'allow' => true));
         }
         parent::_construct();
     }
@@ -102,7 +105,7 @@ class Login extends AbstractOnepage
      */
     public function getPostAction()
     {
-        return $this->getUrl('customer/account/loginPost', array('_secure'=>true));
+        return $this->getUrl('customer/account/loginPost', array('_secure' => true));
     }
 
     /**

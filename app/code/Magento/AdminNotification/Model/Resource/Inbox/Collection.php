@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\AdminNotification\Model\Resource\Inbox;
 /**
  * AdminNotification Inbox model
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -35,8 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addRemoveFilter()
     {
-        $this->getSelect()
-            ->where('is_remove=?', 0);
+        $this->getSelect()->where('is_remove=?', 0);
         return $this;
     }
 }

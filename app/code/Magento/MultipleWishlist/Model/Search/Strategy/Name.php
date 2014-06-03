@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Model\Search\Strategy;
 
 /**
@@ -43,9 +40,8 @@ class Name implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyIn
      *
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
      */
-    public function __construct(
-        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
-    ) {
+    public function __construct(\Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory)
+    {
         $this->_customerCollectionFactory = $customerCollectionFactory;
     }
 
@@ -79,11 +75,10 @@ class Name implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyIn
         /* @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
         $customers = $this->_customerCollectionFactory->create();
         $customers->addAttributeToFilter(
-                array(array('attribute' => 'firstname', 'like' => '%'.$this->_firstname.'%'))
-            )
-            ->addAttributeToFilter(
-                array(array('attribute' => 'lastname', 'like' => '%'.$this->_lastname.'%'))
-            );
+            array(array('attribute' => 'firstname', 'like' => '%' . $this->_firstname . '%'))
+        )->addAttributeToFilter(
+            array(array('attribute' => 'lastname', 'like' => '%' . $this->_lastname . '%'))
+        );
 
         $collection->filterByCustomerIds($customers->getAllIds());
         foreach ($collection as $wishlist) {

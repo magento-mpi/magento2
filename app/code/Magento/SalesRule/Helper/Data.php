@@ -2,18 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\SalesRule\Helper;
 
 use Magento\Sales\Model\Quote\Item\AbstractItem;
+
 /**
  * SalesRule data helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Set store and base price which will be used during discount calculation to item object
@@ -40,13 +39,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function addItemDiscountPrices(AbstractItem $item, $basePrice, $price)
     {
-        $discountPrice      = $item->getDiscountCalculationPrice();
-        $baseDiscountPrice  = $item->getBaseDiscountCalculationPrice();
+        $discountPrice = $item->getDiscountCalculationPrice();
+        $baseDiscountPrice = $item->getBaseDiscountCalculationPrice();
 
         if ($discountPrice || $baseDiscountPrice || $basePrice || $price) {
-            $discountPrice      = $discountPrice ? $discountPrice : $item->getCalculationPrice();
-            $baseDiscountPrice  = $baseDiscountPrice ? $baseDiscountPrice : $item->getBaseCalculationPrice();
-            $this->setItemDiscountPrices($item, $baseDiscountPrice+$basePrice, $discountPrice+$price);
+            $discountPrice = $discountPrice ? $discountPrice : $item->getCalculationPrice();
+            $baseDiscountPrice = $baseDiscountPrice ? $baseDiscountPrice : $item->getBaseCalculationPrice();
+            $this->setItemDiscountPrices($item, $baseDiscountPrice + $basePrice, $discountPrice + $price);
         }
         return $this;
     }

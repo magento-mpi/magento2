@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @category   build
- * @package    license
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\License;
 
 /**
  * Service routines for license-tool command line script
@@ -131,11 +130,10 @@ class Routine
     /**
      * Filter directory by passed file mask. Results will be saved in $result variable.
      *
-     * @static
-     * @param $directory
-     * @param $fileMasks
-     * @param $result
-     * @return null
+     * @param string $directory
+     * @param array $fileMasks
+     * @param array $result
+     * @return void
      */
     protected static function _filterFilesByMask($directory, $fileMasks, &$result)
     {
@@ -151,9 +149,10 @@ class Routine
     /**
      * Filters passed array on skip path items marked by "!" sign
      *
-     * @static
      * @param string $workingDir
      * @param array $list
+     * @return void
+     * @throws \Exception
      */
     protected static function _setSkippedPaths($workingDir, $list)
     {
@@ -162,7 +161,7 @@ class Routine
             $path = $workingDir . '/' . $globPattern;
             $subPaths = glob($path, GLOB_BRACE);
             if (false === $subPaths) {
-                throw new Exception("No real paths found by glob pattern: {$path}");
+                throw new \Exception("No real paths found by glob pattern: {$path}");
             }
             $paths = array_merge($paths, $subPaths);
         }
@@ -210,18 +209,39 @@ class Routine
     }
 
     /**
+     * Prepare license notice for specific file types.
+     *
+     * @static
+     * @param string $licenseNotice
+     * @param string $fileType
+     * @return string
+     */
+    public static function prepareLicenseNotice($licenseNotice, $fileType)
+    {
+        if ($fileType == 'less') {
+            $lines = explode("\n", $licenseNotice);
+            foreach ($lines as $k => $v) {
+                $lines[$k] = '// ' . $v;
+            }
+            return implode("\n", $lines);
+        }
+        return $licenseNotice;
+    }
+
+    /**
      * Updates files in passed directory using license rules.
      * Could be run as validation process for files in dry run case.
      *
      * @static
      * @param string|array $directories
-     * @param string|array $fileMasks
-     * @param AbstractLicense $license
+     * @param string $fileType
+     * @param LicenseAbstract $license
      * @param bool $recursive
      * @return null
      */
-    public static function updateLicense($directories, $fileMasks, $license, $recursive = true)
+    public static function updateLicense($directories, $fileType, $license, $recursive = true)
     {
+        $fileMasks = self::$fileTypes[$fileType];
         $foundFiles = array();
         self::globSearch($directories, $fileMasks, $foundFiles, $recursive);
 
@@ -234,8 +254,6 @@ class Routine
                 self::$_errorsCount += 1;
                 continue;
             }
-
-
             $placeholders = array(
                 ' * {license_notice}',
                 '{copyright}',
@@ -243,7 +261,7 @@ class Routine
             );
 
             $changeset = array(
-                $license->getNotice(),
+                self::prepareLicenseNotice($license->getNotice(), $fileType),
                 $license->getCopyright(),
                 $license->getLink()
             );
@@ -251,7 +269,6 @@ class Routine
             $docBlock = str_replace($placeholders, $changeset, $matches[1]);
 
             $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1'. $docBlock . '$2', $contents, 1);
-            
             if ($contents !== $newContents) {
                 if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);
@@ -283,30 +300,31 @@ class Routine
      * Create instance of license class which contains information about license
      *
      * @static
-     * @throws Exception
+     * @throws \Exception
      * @param string $license
      * @return AbstractLicense
      */
     public static function createLicenseInstance($license)
     {
         $licenseClassName = ucfirst(strtolower($license));
-        if (!class_exists($licenseClassName)) {
+        $licenseFullyQualifiedClassName = '\Magento\Tools\License\\' . $licenseClassName;
+        if (!class_exists($licenseFullyQualifiedClassName)) {
             $licenseClassFile = __DIR__ . '/' . $licenseClassName . '.php';
             if (!file_exists($licenseClassFile) || !is_readable($licenseClassFile)) {
-                throw new Exception("Can't access license file: {$licenseClassFile}.\n");
+                throw new \Exception("Can't access license file: {$licenseClassFile}.\n");
             }
 
             include_once $licenseClassFile;
 
-            if (!class_exists($licenseClassName)) {
-                throw new Exception("Can't find license class: {$licenseClassName}.\n");
+            if (!class_exists($licenseFullyQualifiedClassName)) {
+                throw new \Exception("Can't find license class: {$licenseFullyQualifiedClassName}.\n");
             }
         }
 
-        $licenseObject = new $licenseClassName;
+        $licenseObject = new $licenseFullyQualifiedClassName;
 
-        if (!$licenseObject instanceof LicenseAbstract) {
-            throw new Exception("License class does not have correct interface: {$licenseClassName}.\n");
+        if (!$licenseObject instanceof \Magento\Tools\License\LicenseAbstract) {
+            throw new \Exception("License class does not have correct interface: {$licenseFullyQualifiedClassName}.\n");
         }
 
         return $licenseObject;
@@ -315,11 +333,11 @@ class Routine
     /**
      * Entry point of routine work
      *
-     * @static
      * @param string $workingDir
      * @param array $config
      * @param array $blackList
-     * @throws Exception
+     * @return void
+     * @throws \Exception
      */
     public static function run($workingDir, $config, $blackList)
     {
@@ -348,18 +366,21 @@ class Routine
                 }
                 Routine::updateLicense(
                     array($workingDir . ($path ? '/' . $path : '')),
-                    Routine::$fileTypes[$fileType],
+                    $fileType,
                     $licenseInstances[$licenseType],
                     $recursive
                 );
             }
         }
 
-        Routine::printLog(sprintf("\n" . 'Updated: %d; Skipped: %d; Errors: %d.' . "\n",
-            self::$_updatedCount, self::$_skippedCount, self::$_errorsCount
+        Routine::printLog(sprintf(
+            "\n" . 'Updated: %d; Skipped: %d; Errors: %d.' . "\n",
+            self::$_updatedCount,
+            self::$_skippedCount,
+            self::$_errorsCount
         ));
         if (self::$_errorsCount || self::$_skippedCount) {
-            throw new Exception('Failed: check skipped files or errors.' . "\n");
+            throw new \Exception('Failed: check skipped files or errors.' . "\n");
         }
         Routine::printLog('Success.' . "\n");
     }

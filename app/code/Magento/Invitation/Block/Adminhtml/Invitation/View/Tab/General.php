@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,8 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 /**
  * Invitation view general tab block
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
-class General extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class General extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -33,7 +28,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -45,33 +40,31 @@ class General extends \Magento\Backend\Block\Template
     protected $_customerFactory;
 
     /**
-     * Customer Group Factory
-     *
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupFactory;
+    protected $_customerGroupService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
         $this->_invitationData = $invitationData;
         $this->_customerFactory = $customerFactory;
-        $this->_groupFactory = $groupFactory;
+        $this->_customerGroupService = $customerGroupService;
     }
 
     /**
@@ -155,7 +148,7 @@ class General extends \Magento\Backend\Block\Template
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -170,9 +163,7 @@ class General extends \Magento\Backend\Block\Template
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = $this->_customerFactory->create()->load(
-                    $this->getInvitation()->getReferralId()
-                );
+                $referral = $this->_customerFactory->create()->load($this->getInvitation()->getReferralId());
             } else {
                 $referral = false;
             }
@@ -192,9 +183,7 @@ class General extends \Magento\Backend\Block\Template
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = $this->_customerFactory->create()->load(
-                    $this->getInvitation()->getCustomerId()
-                );
+                $customer = $this->_customerFactory->create()->load($this->getInvitation()->getCustomerId());
             } else {
                 $customer = false;
             }
@@ -203,23 +192,6 @@ class General extends \Magento\Backend\Block\Template
         }
 
         return $this->getData('customer');
-    }
-
-    /**
-     * Return customer group collection
-     *
-     * @return \Magento\Customer\Model\Resource\Group\Collection
-     */
-    public function getCustomerGroupCollection()
-    {
-        if (!$this->hasData('customer_groups_collection')) {
-            $groups = $this->_groupFactory->create()->getCollection()
-                ->addFieldToFilter('customer_group_id', array('gt'=> 0))
-                ->load();
-            $this->setData('customer_groups_collection', $groups);
-        }
-
-        return $this->getData('customer_groups_collection');
     }
 
     /**
@@ -233,9 +205,9 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getCustomerGroupCode($groupId, $configUsed = false)
     {
-        $group = $this->getCustomerGroupCollection()->getItemById($groupId);
+        $group = $this->_customerGroupService->getGroup($groupId);
         if ($group) {
-            return $group->getCustomerGroupCode();
+            return $group->getCode();
         } else {
             if ($configUsed) {
                 return __('Default from System Configuration');
@@ -252,8 +224,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getWebsiteName()
     {
-        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
-            ->getWebsite()->getName();
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsite()->getName();
     }
 
     /**
@@ -263,8 +234,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getStoreName()
     {
-        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
-            ->getName();
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getName();
     }
 
     /**
@@ -275,8 +245,10 @@ class General extends \Magento\Backend\Block\Template
     public function getInvitationUrl()
     {
         if (!$this->getInvitation()->canBeAccepted(
-            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
-                return false;
+            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId()
+        )
+        ) {
+            return false;
         }
         return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }
@@ -288,7 +260,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function isInvitedByAdmin()
     {
-        $invitedByAdmin = ($this->getInvitation()->getCustomerId() == null);
+        $invitedByAdmin = $this->getInvitation()->getCustomerId() == null;
         return $invitedByAdmin;
     }
 

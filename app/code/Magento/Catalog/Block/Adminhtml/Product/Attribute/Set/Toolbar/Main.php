@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,11 +9,8 @@
 /**
  * Adminhtml catalog product sets main page toolbar
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar;
 
 class Main extends \Magento\Backend\Block\Template
@@ -30,11 +25,15 @@ class Main extends \Magento\Backend\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addChild('addButton', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Add New Set'),
-            'onclick'   => 'setLocation(\'' . $this->getUrl('catalog/*/add') . '\')',
-            'class' => 'add',
-        ));
+        $this->getToolbar()->addChild(
+            'addButton',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add New Set'),
+                'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/add') . '\')',
+                'class' => 'add primary add-set'
+            )
+        );
         return parent::_prepareLayout();
     }
 
@@ -59,9 +58,10 @@ class Main extends \Magento\Backend\Block\Template
      */
     protected function _toHtml()
     {
-        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array(
-            'block' => $this,
-        ));
+        $this->_eventManager->dispatch(
+            'adminhtml_catalog_product_attribute_set_toolbar_main_html_before',
+            array('block' => $this)
+        );
         return parent::_toHtml();
     }
 }

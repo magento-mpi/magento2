@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage;
 
 /**
@@ -47,28 +44,28 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_mediaHelper;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateModel
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
      * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
-     * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string|null $connectionName
+     * @param Directory\DatabaseFactory $directoryFactory
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
+     * @param null $connectionName
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\Core\Model\App $app,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
+        \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\Database $resource,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
         array $data = array()
     ) {
@@ -79,7 +76,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             $registry,
             $coreFileStorageDb,
             $dateModel,
-            $app,
+            $configuration,
             $resource,
             $resourceCollection,
             $connectionName,
@@ -96,7 +93,9 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     public function getDirectoryModel()
     {
         if (is_null($this->_directoryModel)) {
-            $this->_directoryModel = $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()));
+            $this->_directoryModel = $this->_directoryFactory->create(
+                array('connectionName' => $this->getConnectionName())
+            );
         }
 
         return $this->_directoryModel;
@@ -146,7 +145,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function hasErrors()
     {
-        return (!empty($this->_errors) || $this->getDirectoryModel()->hasErrors());
+        return !empty($this->_errors) || $this->getDirectoryModel()->hasErrors();
     }
 
     /**
@@ -193,8 +192,8 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function exportFiles($offset = 0, $count = 100)
     {
-        $offset = ((int) $offset >= 0) ? (int) $offset : 0;
-        $count  = ((int) $count >= 1) ? (int) $count : 1;
+        $offset = (int)$offset >= 0 ? (int)$offset : 0;
+        $count = (int)$count >= 1 ? (int)$count : 1;
 
         $result = $this->_getResource()->getFiles($offset, $count);
         if (empty($result)) {
@@ -224,10 +223,15 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
             try {
                 $file['update_time'] = $dateSingleton->date();
-                $file['directory_id'] = (isset($file['directory']) && strlen($file['directory']))
-                    ? $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()))
-                        ->loadByPath($file['directory'])->getId()
-                    : null;
+                $file['directory_id'] = isset(
+                    $file['directory']
+                ) && strlen(
+                    $file['directory']
+                ) ? $this->_directoryFactory->create(
+                    array('connectionName' => $this->getConnectionName())
+                )->loadByPath(
+                    $file['directory']
+                )->getId() : null;
 
                 $this->_getResource()->saveFile($file);
             } catch (\Exception $e) {

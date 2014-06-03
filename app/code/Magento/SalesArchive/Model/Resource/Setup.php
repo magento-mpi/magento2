@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\SalesArchive\Model\Resource;
 /**
  * Module setup
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Framework\Module\Setup
 {
     /**
      * Call afterApplyAllUpdates flag
@@ -31,10 +27,10 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @var array
      */
     protected $_tablesMap = array(
-        'sales_flat_order_grid'      => 'magento_sales_order_grid_archive',
-        'sales_flat_invoice_grid'    => 'magento_sales_invoice_grid_archive',
+        'sales_flat_order_grid' => 'magento_sales_order_grid_archive',
+        'sales_flat_invoice_grid' => 'magento_sales_invoice_grid_archive',
         'sales_flat_creditmemo_grid' => 'magento_sales_creditmemo_grid_archive',
-        'sales_flat_shipment_grid'   => 'magento_sales_shipment_grid_archive'
+        'sales_flat_shipment_grid' => 'magento_sales_shipment_grid_archive'
     );
 
     /**
@@ -43,10 +39,10 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @var array
      */
     protected $_tableContraintMap = array(
-        'sales_flat_order_grid'      => array('SALES_FLAT_ORDER_GRID',      'SALES_FLAT_ORDER_GRID_ARCHIVE'),
-        'sales_flat_invoice_grid'    => array('SALES_FLAT_INVOICE_GRID',    'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
+        'sales_flat_order_grid' => array('SALES_FLAT_ORDER_GRID', 'SALES_FLAT_ORDER_GRID_ARCHIVE'),
+        'sales_flat_invoice_grid' => array('SALES_FLAT_INVOICE_GRID', 'SALES_FLAT_INVOICE_GRID_ARCHIVE'),
         'sales_flat_creditmemo_grid' => array('SALES_FLAT_CREDITMEMO_GRID', 'SALES_FLAT_CREDITMEMO_GRID_ARCHIVE'),
-        'sales_flat_shipment_grid'   => array('SALES_FLAT_SHIPMENT_GRID',   'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
+        'sales_flat_shipment_grid' => array('SALES_FLAT_SHIPMENT_GRID', 'SALES_FLAT_SHIPMENT_GRID_ARCHIVE')
     );
 
     /**
@@ -55,18 +51,18 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_salesHelper;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\SalesArchive\Model\Resource\Helper $salesHelper
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $moduleName = 'Magento_SalesArchive',
-        $connectionName = ''
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_salesHelper = $salesHelper;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
@@ -92,10 +88,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected function _syncArchiveStructure()
     {
         foreach ($this->_tablesMap as $sourceTable => $targetTable) {
-                $this->_syncTable(
-                $this->getTable($sourceTable),
-                $this->getTable($targetTable)
-            );
+            $this->_syncTable($this->getTable($sourceTable), $this->getTable($targetTable));
         }
         return $this;
     }
@@ -168,17 +161,14 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                     if ($currentKey) {
                         $moved = prev($targetFields) !== false;
                         // If column positions diffrent
-                        if (($moved && $previous !== key($targetFields)) || !$moved) {
+                        if ($moved && $previous !== key($targetFields) || !$moved) {
                             $this->changeColumnPosition($targetTable, $field, $previous);
                         }
                     }
                 }
                 $previous = $field;
             }
-            $this->_syncTableIndex(
-                $sourceTable,
-                $targetTable
-            );
+            $this->_syncTableIndex($sourceTable, $targetTable);
 
             if (isset($this->_tableContraintMap[$sourceTable])) {
                 $this->_syncTableConstraint(
@@ -229,10 +219,15 @@ class Setup extends \Magento\Core\Model\Resource\Setup
             }
             if (!$indexExists) {
                 $newIndexName = $this->getConnection()->getIndexName(
-                    $targetTable, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
+                    $targetTable,
+                    $indexData['COLUMNS_LIST'],
+                    $indexData['INDEX_TYPE']
                 );
                 $this->getConnection()->addIndex(
-                    $targetTable, $newIndexName, $indexData['COLUMNS_LIST'], $indexData['INDEX_TYPE']
+                    $targetTable,
+                    $newIndexName,
+                    $indexData['COLUMNS_LIST'],
+                    $indexData['INDEX_TYPE']
                 );
             }
         }
@@ -264,8 +259,13 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     protected function _checkIndexDifference($sourceIndex, $targetIndex)
     {
-        return (strtoupper($sourceIndex['INDEX_TYPE']) != strtoupper($targetIndex['INDEX_TYPE'])
-                || count(array_diff($sourceIndex['COLUMNS_LIST'], $targetIndex['COLUMNS_LIST'])) > 0);
+        return strtoupper(
+            $sourceIndex['INDEX_TYPE']
+        ) != strtoupper(
+            $targetIndex['INDEX_TYPE']
+        ) || count(
+            array_diff($sourceIndex['COLUMNS_LIST'], $targetIndex['COLUMNS_LIST'])
+        ) > 0;
     }
 
     /**
@@ -277,11 +277,11 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     protected function _checkConstraintDifference($sourceConstraint, $targetConstraint)
     {
-        return ($sourceConstraint['COLUMN_NAME'] != $targetConstraint['COLUMN_NAME'] ||
-                $sourceConstraint['REF_TABLE_NAME'] != $targetConstraint['REF_TABLE_NAME'] ||
-                $sourceConstraint['REF_COLUMN_NAME'] != $targetConstraint['REF_COLUMN_NAME'] ||
-                $sourceConstraint['ON_DELETE'] != $targetConstraint['ON_DELETE'] ||
-                $sourceConstraint['ON_UPDATE'] != $targetConstraint['ON_UPDATE']);
+        return $sourceConstraint['COLUMN_NAME'] != $targetConstraint['COLUMN_NAME'] ||
+            $sourceConstraint['REF_TABLE_NAME'] != $targetConstraint['REF_TABLE_NAME'] ||
+            $sourceConstraint['REF_COLUMN_NAME'] != $targetConstraint['REF_COLUMN_NAME'] ||
+            $sourceConstraint['ON_DELETE'] != $targetConstraint['ON_DELETE'] ||
+            $sourceConstraint['ON_UPDATE'] != $targetConstraint['ON_UPDATE'];
     }
 
     /**
@@ -306,8 +306,13 @@ class Setup extends \Magento\Core\Model\Resource\Setup
                 $constraintInfo['REF_TABLE_NAME'],
                 $constraintInfo['REF_COLUMN_NAME']
             );
-            if (!isset($targetConstraints[$targetConstraint]) ||
-                $this->_checkConstraintDifference($constraintInfo, $targetConstraints[$targetConstraint])) {
+            if (!isset(
+                $targetConstraints[$targetConstraint]
+            ) || $this->_checkConstraintDifference(
+                $constraintInfo,
+                $targetConstraints[$targetConstraint]
+            )
+            ) {
                 $this->getConnection()->addForeignKey(
                     $targetConstraint,
                     $targetTable,

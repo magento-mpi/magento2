@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
 
 class CssTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +15,7 @@ class CssTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -39,18 +35,22 @@ class CssTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareModelArguments()
     {
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
-                'formFactory'      => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
-                'objectManager'   => $this->_objectManager,
+                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
+                'objectManager' => $this->_objectManager,
                 'uploaderService' => $this->getMock(
-                    'Magento\Theme\Model\Uploader\Service', array(), array(), '', false
+                    'Magento\Theme\Model\Uploader\Service',
+                    array(),
+                    array(),
+                    '',
+                    false
                 ),
-                'urlBuilder'      => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
+                'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
             )
         );
         return $constructArguments;
@@ -64,21 +64,23 @@ class CssTest extends \PHPUnit_Framework_TestCase
     public function testGetUploadCssFileNote()
     {
         $method = self::getMethod('_getUploadCssFileNote');
-        /** @var $sizeModel \Magento\File\Size */
-        $sizeModel = $this->getMock('Magento\File\Size', null, array(), '', false);
+        /** @var $sizeModel \Magento\Framework\File\Size */
+        $sizeModel = $this->getMock('Magento\Framework\File\Size', null, array(), '', false);
 
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->with('Magento\File\Size')
-            ->will($this->returnValue($sizeModel));
+        $this->_objectManager->expects(
+            $this->any()
+        )->method(
+            'get'
+        )->with(
+            'Magento\Framework\File\Size'
+        )->will(
+            $this->returnValue($sizeModel)
+        );
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = 'Allowed file types *.css.<br />';
         $expectedResult .= 'This file will replace the current custom.css file and can\'t be more than 2 MB.<br />';
-        $expectedResult .= sprintf(
-            'Max file size to upload %sM',
-            $sizeModel->getMaxFileSizeInMb()
-        );
+        $expectedResult .= sprintf('Max file size to upload %sM', $sizeModel->getMaxFileSizeInMb());
         $this->assertEquals($expectedResult, $result);
     }
 
@@ -86,13 +88,18 @@ class CssTest extends \PHPUnit_Framework_TestCase
     {
         $method = self::getMethod('_getAdditionalElementTypes');
 
-        /** @var $configModel \Magento\App\ConfigInterface */
-        $configModel = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        /** @var $configModel \Magento\Framework\App\Config\ScopeConfigInterface */
+        $configModel = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->with('Magento\App\ConfigInterface')
-            ->will($this->returnValue($configModel));
+        $this->_objectManager->expects(
+            $this->any()
+        )->method(
+            'get'
+        )->with(
+            'Magento\Framework\App\Config\ScopeConfigInterface'
+        )->will(
+            $this->returnValue($configModel)
+        );
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = array(

@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingaddress
+ */
+?>
+<?php if ($this->getOrderShippingAddress()) : ?>
+    <div class="fieldset-wrapper">
+        <div class="fieldset-wrapper-title">
+            <span class="title"><?php echo __('Order Shipping Address') ?></span>
+        </div>
+        <address><?php echo $this->getOrderShippingAddress() ?></address>
+    </div>
+<?php endif ?>

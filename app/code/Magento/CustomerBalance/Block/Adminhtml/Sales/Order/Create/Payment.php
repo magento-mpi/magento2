@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 /**
  * Customer balance block for order creation page
  */
-class Payment extends \Magento\View\Element\Template
+class Payment extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\Balance
@@ -40,7 +38,7 @@ class Payment extends \Magento\View\Element\Template
     protected $_customerBalanceHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -48,7 +46,7 @@ class Payment extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
@@ -75,7 +73,7 @@ class Payment extends \Magento\View\Element\Template
     /**
      * Return store manager instance
      *
-     * @return \Magento\Core\Model\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     protected function _getStoreManagerModel()
     {
@@ -101,15 +99,15 @@ class Payment extends \Magento\View\Element\Template
      */
     public function getBalance($convertPrice = false)
     {
-        if (
-            !$this->_customerBalanceHelper->isEnabled()
-            || !$this->_getBalanceInstance()
-        ) {
+        if (!$this->_customerBalanceHelper->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         if ($convertPrice) {
-            return $this->_getStoreManagerModel()->getStore($this->_getOrderCreateModel()->getQuote()->getStoreId())
-                ->convertPrice($this->_getBalanceInstance()->getAmount());
+            return $this->_getStoreManagerModel()->getStore(
+                $this->_getOrderCreateModel()->getQuote()->getStoreId()
+            )->convertPrice(
+                $this->_getBalanceInstance()->getAmount()
+            );
         }
         return $this->_getBalanceInstance()->getAmount();
     }
@@ -161,10 +159,11 @@ class Payment extends \Magento\View\Element\Template
             }
 
             $store = $this->_storeManager->getStore($quote->getStoreId());
-            $this->_balanceInstance = $this->_balanceFactory->create()
-                ->setCustomerId($quote->getCustomerId())
-                ->setWebsiteId($store->getWebsiteId())
-                ->loadByCustomer();
+            $this->_balanceInstance = $this->_balanceFactory->create()->setCustomerId(
+                $quote->getCustomerId()
+            )->setWebsiteId(
+                $store->getWebsiteId()
+            )->loadByCustomer();
         }
         return $this->_balanceInstance;
     }
@@ -177,6 +176,6 @@ class Payment extends \Magento\View\Element\Template
     public function canUseCustomerBalance()
     {
         $quote = $this->_orderCreate->getQuote();
-        return $this->getBalance() && ($quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0);
+        return $this->getBalance() && $quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0;
     }
 }

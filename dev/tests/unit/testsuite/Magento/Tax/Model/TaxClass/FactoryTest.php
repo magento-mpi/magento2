@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\TaxClass;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -32,11 +28,17 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $classMock->expects($this->once())->method('getClassType')->will($this->returnValue($classType));
         $classMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
-        $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
-        $objectManager->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo($className), $this->equalTo(array('data' => array('id' => 1))))
-            ->will($this->returnValue($classTypeMock));
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array('create'), '', false);
+        $objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo($className),
+            $this->equalTo(array('data' => array('id' => 1)))
+        )->will(
+            $this->returnValue($classTypeMock)
+        );
 
         $taxClassFactory = new \Magento\Tax\Model\TaxClass\Factory($objectManager);
         $this->assertEquals($classTypeMock, $taxClassFactory->create($classMock));
@@ -56,7 +58,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT,
                 'Magento\Tax\Model\TaxClass\Type\Product',
                 $productClassMock
-            ),
+            )
         );
     }
 
@@ -72,12 +74,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         );
         $classMock->expects($this->once())->method('getClassType')->will($this->returnValue($wrongClassType));
 
-        $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
 
         $taxClassFactory = new \Magento\Tax\Model\TaxClass\Factory($objectManager);
 
         $this->setExpectedException(
-            'Magento\Core\Exception',
+            'Magento\Framework\Model\Exception',
             sprintf('Invalid type of tax class "%s"', $wrongClassType)
         );
         $taxClassFactory->create($classMock);

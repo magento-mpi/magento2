@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @category   build
- * @package    license
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\License;
 
 /**
  * Magento Enterprise License information class

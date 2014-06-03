@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,19 +10,17 @@
 /**
  * Enterprise CustomerSegment Resource Helper Mysql
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerSegment\Model\Resource;
 
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query
      *
      * @param string $operator
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return string
      */
     public function getSqlOperator($operator)
@@ -62,7 +58,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Core\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown operator specified.'));
         }
     }
 }

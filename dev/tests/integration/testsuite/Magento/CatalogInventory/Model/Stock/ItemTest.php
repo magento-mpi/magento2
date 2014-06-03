@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Stock;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +16,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogInventory\Model\Stock\Item');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogInventory\Model\Stock\Item'
+        );
     }
 
     /**
@@ -30,17 +27,26 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public static function simpleProductFixture()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-        $product->setTypeId('simple')
-            ->setId(1)
-            ->setAttributeSetId(4)
-            ->setName('Simple Product')
-            ->setSku('simple')
-            ->setPrice(10)
-            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-            ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-            ->save();
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $product->setTypeId(
+            'simple'
+        )->setId(
+            1
+        )->setAttributeSetId(
+            4
+        )->setName(
+            'Simple Product'
+        )->setSku(
+            'simple'
+        )->setPrice(
+            10
+        )->setVisibility(
+            \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
+        )->setStatus(
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        )->save();
     }
 
     /**
@@ -48,11 +54,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveWithNullQty()
     {
-        $this->_model
-            ->setProductId(1)
-            ->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)
-            ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)
-            ->setQty(null);
+        $this->_model->setProductId(
+            1
+        )->setTypeId(
+            \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE
+        )->setStockId(
+            \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID
+        )->setQty(
+            null
+        );
         $this->_model->save();
 
         $this->_model->setQty(2);
@@ -73,11 +83,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testStockStatusChangedAuto()
     {
-        $this->_model
-            ->setProductId(1)
-            ->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)
-            ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)
-            ->setQty(1);
+        $this->_model->setProductId(
+            1
+        )->setTypeId(
+            \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE
+        )->setStockId(
+            \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID
+        )->setQty(
+            1
+        );
         $this->_model->save();
         $this->assertEquals(0, $this->_model->getStockStatusChangedAuto());
 
@@ -100,11 +114,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testSetGetProduct()
     {
         $this->assertNull($this->_model->getProduct());
-        $productOne = new \Magento\Object;
+        $productOne = new \Magento\Framework\Object();
         $this->_model->setData('product', $productOne);
         $this->assertSame($productOne, $this->_model->getProduct());
 
-        $productTwo = new \Magento\Object;
+        $productTwo = new \Magento\Framework\Object();
         $this->_model->setProduct($productTwo);
         $this->assertSame($productTwo, $this->_model->getProduct());
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 /**
  * Backend grid item renderer currency
  */
-class Price
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var int
@@ -23,37 +20,36 @@ class Price
     /**
      * Currency objects cache
      *
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected static $_currencies = array();
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_localeCurrency = $localeCurrency;
     }
 
-
     /**
      * Renders grid column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             $currencyCode = $this->_getCurrencyCode($row);
@@ -73,7 +69,7 @@ class Price
     /**
      * Returns currency code for the row, false on error
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string|false
      */
     protected function _getCurrencyCode($row)
@@ -90,7 +86,7 @@ class Price
     /**
      * Returns rate for the row, 1 by default
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return float|int
      */
     protected function _getRate($row)

@@ -16,10 +16,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Directory\Model\Currency\Import\Config(array(
-            'service_one' => array('class' => 'Service_One', 'label' => 'Service One'),
-            'service_two' => array('class' => 'Service_Two', 'label' => 'Service Two'),
-        ));
+        $this->_model = new \Magento\Directory\Model\Currency\Import\Config(
+            array(
+                'service_one' => array('class' => 'Service_One', 'label' => 'Service One'),
+                'service_two' => array('class' => 'Service_Two', 'label' => 'Service Two')
+            )
+        );
     }
 
     /**
@@ -59,7 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'empty label' => array(
                 array('test' => array('class' => 'Test_Class', 'label' => '')),
                 'Label for a currency import service has to be specified'
-            ),
+            )
         );
     }
 
@@ -80,10 +82,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getServiceClassDataProvider()
     {
-        return array(
-            'known'     => array('service_one', 'Service_One'),
-            'unknown'   => array('unknown', null),
-        );
+        return array('known' => array('service_one', 'Service_One'), 'unknown' => array('unknown', null));
     }
 
     /**
@@ -98,9 +97,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getServiceLabelDataProvider()
     {
-        return array(
-            'known'     => array('service_one', 'Service One'),
-            'unknown'   => array('unknown', null),
-        );
+        return array('known' => array('service_one', 'Service One'), 'unknown' => array('unknown', null));
     }
 }

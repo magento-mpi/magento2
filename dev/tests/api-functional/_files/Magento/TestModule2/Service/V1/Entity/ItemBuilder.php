@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule2\Service\V1\Entity;
 
-class ItemBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * @param int $id

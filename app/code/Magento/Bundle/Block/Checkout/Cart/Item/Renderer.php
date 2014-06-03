@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Bundle\Helper\Catalog\Product\Configuration;
 /**
  * Shopping cart item render block
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
@@ -33,28 +29,34 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     protected $_bundleProdConfigur = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Configuration $bundleProdConfigur
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         Configuration $bundleProdConfigur,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;
         parent::__construct(
-            $context, $productConfig, $checkoutSession, $imageHelper, $urlHelper, $messageManager, $data
+            $context,
+            $productConfig,
+            $checkoutSession,
+            $imageHelper,
+            $urlHelper,
+            $messageManager,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -131,10 +133,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         $baseMessages = $quoteItem->getMessage(false);
         if ($baseMessages) {
             foreach ($baseMessages as $message) {
-                $messages[] = array(
-                    'text' => $message,
-                    'type' => $quoteItem->getHasError() ? 'error' : 'notice'
-                );
+                $messages[] = array('text' => $message, 'type' => $quoteItem->getHasError() ? 'error' : 'notice');
             }
         }
 

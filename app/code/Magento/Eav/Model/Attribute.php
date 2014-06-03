@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,13 +12,11 @@
  * @method \Magento\Eav\Model\Attribute\Data\AbstractData|null getDataModel() Get data model linked to attribute or null.
  * @method string|null getFrontendInput() Get attribute type for user interface form or null
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Eav\Model;
 
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
 
 abstract class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {

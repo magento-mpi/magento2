@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Reward action for reverting points
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Model\Action;
@@ -38,22 +34,19 @@ class OrderRevert extends \Magento\Reward\Model\Action\AbstractAction
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-
-        return __('Reverted from order #%1', $incrementId);
+        return __('Reverted from incomplete order #%1', $incrementId);
     }
 
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param   \Magento\Object $entity
+     * @param   \Magento\Framework\Object $entity
      * @return  \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'increment_id' => $this->getEntity()->getIncrementId()
-        ));
+        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
 
         return $this;
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Additional Renderer of Product's Attribute Enable RMA control structure
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Product;
 
-class Renderer extends \Magento\Data\Form\Element\Select
+class Renderer extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment

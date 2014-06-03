@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model;
 
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
@@ -20,12 +19,10 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollectTotalsWithVirtual()
     {
-        $quote = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Quote');
+        $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
 
-        $product = Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
         $product->load(21);
         $quote->addProduct($product);
         $quote->collectTotals();
@@ -39,11 +36,16 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testSetCustomerData()
     {
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Quote');
-        $customerMetadataService = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerMetadataService');
-        $customerBuilder = new CustomerBuilder($customerMetadataService);
+        $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
+        $customerMetadataService = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerMetadataService'
+        );
+        $customerBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            [
+                'metadataService' => $customerMetadataService
+            ]
+        );
         $expected = $this->_getCustomerDataArray();
         $customerBuilder->populateWithArray($expected);
 
@@ -59,11 +61,16 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testUpdateCustomerData()
     {
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Quote');
-        $customerMetadataService = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerMetadataService');
-        $customerBuilder = new CustomerBuilder($customerMetadataService);
+        $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
+        $customerMetadataService = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerMetadataService'
+        );
+        $customerBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            [
+                'metadataService' => $customerMetadataService
+            ]
+        );
         $expected = $this->_getCustomerDataArray();
 
         $customerBuilder->populateWithArray($expected);
@@ -97,11 +104,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $quote->unsetData('customer_group_id');
 
         /** Execute SUT */
-        $this->assertEquals(
-            $customerGroupId,
-            $quote->getCustomerGroupId(),
-            "Customer group ID is invalid"
-        );
+        $this->assertEquals($customerGroupId, $quote->getCustomerGroupId(), "Customer group ID is invalid");
     }
 
     /**
@@ -148,7 +151,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         /** Check if SUT caused expected effects */
         $fixtureCustomerId = 1;
         $this->assertEquals($fixtureCustomerId, $quote->getCustomerId(), 'Customer ID in quote is invalid.');
-        $expectedBillingAddressData = [
+        $expectedBillingAddressData = array(
             'street' => 'Green str, 67',
             'telephone' => 3468676,
             'postcode' => 75477,
@@ -159,7 +162,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'customer_id' => 1,
             'customer_address_id' => 1,
             'region_id' => 1
-        ];
+        );
         $billingAddress = $quote->getBillingAddress();
         foreach ($expectedBillingAddressData as $field => $value) {
             $this->assertEquals(
@@ -168,7 +171,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 "'{$field}' value in quote billing address is invalid."
             );
         }
-        $expectedShippingAddressData = [
+        $expectedShippingAddressData = array(
             'customer_address_id' => 2,
             'telephone' => 3234676,
             'postcode' => 47676,
@@ -179,7 +182,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'customer_id' => 1,
             'region_id' => 1
-        ];
+        );
         $shippingAddress = $quote->getShippingAddress();
         foreach ($expectedShippingAddressData as $field => $value) {
             $this->assertEquals(
@@ -208,7 +211,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $quote = $objectManager->create('Magento\Sales\Model\Quote');
         $customerData = $this->_prepareQuoteForTestAssignCustomerWithAddressChange($quote);
         /** @var \Magento\Sales\Model\Quote\Address $quoteBillingAddress */
-        $expectedBillingAddressData = [
+        $expectedBillingAddressData = array(
             'street' => 'Billing str, 67',
             'telephone' => 16546757,
             'postcode' => 2425457,
@@ -217,11 +220,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'LastBilling',
             'firstname' => 'FirstBilling',
             'region_id' => 1
-        ];
+        );
         $quoteBillingAddress = $objectManager->create('Magento\Sales\Model\Quote\Address');
         $quoteBillingAddress->setData($expectedBillingAddressData);
 
-        $expectedShippingAddressData = [
+        $expectedShippingAddressData = array(
             'telephone' => 787878787,
             'postcode' => 117785,
             'country_id' => 'US',
@@ -230,7 +233,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'LastShipping',
             'firstname' => 'FirstShipping',
             'region_id' => 1
-        ];
+        );
         $quoteShippingAddress = $objectManager->create('Magento\Sales\Model\Quote\Address');
         $quoteShippingAddress->setData($expectedShippingAddressData);
 
@@ -291,7 +294,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function _getCustomerDataArray()
     {
-        return [
+        return array(
             Customer::ID => 1,
             Customer::CONFIRMATION => 'test',
             Customer::CREATED_AT => '2/3/2014',
@@ -302,7 +305,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             Customer::EMAIL => 'qa@example.com',
             Customer::FIRSTNAME => 'Joe',
             Customer::GENDER => 'Male',
-            Customer::GROUP_ID => \Magento\Customer\Service\V1\CustomerGroupService::NOT_LOGGED_IN_ID,
+            Customer::GROUP_ID => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
             Customer::LASTNAME => 'Dou',
             Customer::MIDDLENAME => 'Ivan',
             Customer::PREFIX => 'Dr.',
@@ -310,6 +313,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             Customer::SUFFIX => 'Jr.',
             Customer::TAXVAT => 1,
             Customer::WEBSITE_ID => 1
-        ];
+        );
     }
 }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,9 +16,11 @@ class DefaultCaptchaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-             ->get('Magento\View\LayoutInterface')
-             ->createBlock('Magento\Captcha\Block\Adminhtml\Captcha\DefaultCaptcha');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Captcha\Block\Adminhtml\Captcha\DefaultCaptcha'
+        );
     }
 
     /**

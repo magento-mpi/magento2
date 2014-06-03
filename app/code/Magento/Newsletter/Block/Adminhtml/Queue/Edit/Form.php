@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
 /**
  * Newsletter queue edit form
  *
- * @category   Magento
- * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -24,7 +20,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_wysiwygConfig;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -35,19 +31,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\QueueFactory $queueFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\QueueFactory $queueFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         array $data = array()
     ) {
@@ -69,136 +65,183 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /* @var $queue \Magento\Newsletter\Model\Queue */
         $queue = $this->getQueue();
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    =>  __('Queue Information'),
-            'class'    =>  'fieldset-wide'
-        ));
+        $fieldset = $form->addFieldset(
+            'base_fieldset',
+            array('legend' => __('Queue Information'), 'class' => 'fieldset-wide')
+        );
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = $this->_localeDate->getDateFormat(
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+        );
+        $timeFormat = $this->_localeDate->getTimeFormat(
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+        );
 
         if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
-            $fieldset->addField('date', 'date', array(
-                'name'      =>    'start_at',
-                'date_format' => $dateFormat,
-                'time_format' => $timeFormat,
-                'label'     =>    __('Queue Date Start'),
-                'image'     =>    $this->getViewFileUrl('images/grid-cal.gif')
-            ));
+            $fieldset->addField(
+                'date',
+                'date',
+                array(
+                    'name' => 'start_at',
+                    'date_format' => $dateFormat,
+                    'time_format' => $timeFormat,
+                    'label' => __('Queue Date Start'),
+                    'image' => $this->getViewFileUrl('images/grid-cal.gif')
+                )
+            );
 
             if (!$this->_storeManager->hasSingleStore()) {
-                $fieldset->addField('stores', 'multiselect', array(
-                    'name'          => 'stores[]',
-                    'label'         => __('Subscribers From'),
-                    'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
-                    'values'        => $this->_systemStore->getStoreValuesForForm(),
-                    'value'         => $queue->getStores()
-                ));
+                $fieldset->addField(
+                    'stores',
+                    'multiselect',
+                    array(
+                        'name' => 'stores[]',
+                        'label' => __('Subscribers From'),
+                        'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                        'values' => $this->_systemStore->getStoreValuesForForm(),
+                        'value' => $queue->getStores()
+                    )
+                );
             } else {
-                $fieldset->addField('stores', 'hidden', array(
-                    'name'      => 'stores[]',
-                    'value'     => $this->_storeManager->getStore(true)->getId()
-                ));
+                $fieldset->addField(
+                    'stores',
+                    'hidden',
+                    array('name' => 'stores[]', 'value' => $this->_storeManager->getStore(true)->getId())
+                );
             }
         } else {
-            $fieldset->addField('date', 'date', array(
-                'name'      => 'start_at',
-                'disabled'  => 'true',
-                'style'     => 'width:38%;',
-                'date_format' => $dateFormat,
-                'time_format' => $timeFormat,
-                'label'     => __('Queue Date Start'),
-                'image'     => $this->getViewFileUrl('images/grid-cal.gif')
-            ));
+            $fieldset->addField(
+                'date',
+                'date',
+                array(
+                    'name' => 'start_at',
+                    'disabled' => 'true',
+                    'style' => 'width:38%;',
+                    'date_format' => $dateFormat,
+                    'time_format' => $timeFormat,
+                    'label' => __('Queue Date Start'),
+                    'image' => $this->getViewFileUrl('images/grid-cal.gif')
+                )
+            );
 
             if (!$this->_storeManager->hasSingleStore()) {
-                $fieldset->addField('stores', 'multiselect', array(
-                    'name'          => 'stores[]',
-                    'label'         => __('Subscribers From'),
-                    'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
-                    'required'      => true,
-                    'values'        => $this->_systemStore->getStoreValuesForForm(),
-                    'value'         => $queue->getStores()
-                ));
+                $fieldset->addField(
+                    'stores',
+                    'multiselect',
+                    array(
+                        'name' => 'stores[]',
+                        'label' => __('Subscribers From'),
+                        'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                        'required' => true,
+                        'values' => $this->_systemStore->getStoreValuesForForm(),
+                        'value' => $queue->getStores()
+                    )
+                );
             } else {
-                $fieldset->addField('stores', 'hidden', array(
-                    'name'      => 'stores[]',
-                    'value'     => $this->_storeManager->getStore(true)->getId()
-                ));
+                $fieldset->addField(
+                    'stores',
+                    'hidden',
+                    array('name' => 'stores[]', 'value' => $this->_storeManager->getStore(true)->getId())
+                );
             }
         }
 
         if ($queue->getQueueStartAt()) {
-            $form->getElement('date')->setValue(
-                $this->_localeDate->date($queue->getQueueStartAt(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+            $form->getElement(
+                'date'
+            )->setValue(
+                $this->_localeDate->date($queue->getQueueStartAt(), \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
         }
 
-        $fieldset->addField('subject', 'text', array(
-            'name'      =>'subject',
-            'label'     => __('Subject'),
-            'required'  => true,
-            'value'     => (
-                $queue->isNew() ? $queue->getTemplate()->getTemplateSubject() : $queue->getNewsletterSubject()
+        $fieldset->addField(
+            'subject',
+            'text',
+            array(
+                'name' => 'subject',
+                'label' => __('Subject'),
+                'required' => true,
+                'value' => $queue->isNew() ? $queue
+                    ->getTemplate()
+                    ->getTemplateSubject() : $queue
+                    ->getNewsletterSubject()
             )
-        ));
+        );
 
-        $fieldset->addField('sender_name', 'text', array(
-            'name'      =>'sender_name',
-            'label'     => __('Sender Name'),
-            'title'     => __('Sender Name'),
-            'required'  => true,
-            'value'     => (
-                $queue->isNew() ? $queue->getTemplate()->getTemplateSenderName() : $queue->getNewsletterSenderName()
+        $fieldset->addField(
+            'sender_name',
+            'text',
+            array(
+                'name' => 'sender_name',
+                'label' => __('Sender Name'),
+                'title' => __('Sender Name'),
+                'required' => true,
+                'value' => $queue->isNew() ? $queue
+                    ->getTemplate()
+                    ->getTemplateSenderName() : $queue
+                    ->getNewsletterSenderName()
             )
-        ));
+        );
 
-        $fieldset->addField('sender_email', 'text', array(
-            'name'      =>'sender_email',
-            'label'     => __('Sender Email'),
-            'title'     => __('Sender Email'),
-            'class'     => 'validate-email',
-            'required'  => true,
-            'value'     => (
-                $queue->isNew() ? $queue->getTemplate()->getTemplateSenderEmail() : $queue->getNewsletterSenderEmail()
+        $fieldset->addField(
+            'sender_email',
+            'text',
+            array(
+                'name' => 'sender_email',
+                'label' => __('Sender Email'),
+                'title' => __('Sender Email'),
+                'class' => 'validate-email',
+                'required' => true,
+                'value' => $queue->isNew() ? $queue
+                    ->getTemplate()
+                    ->getTemplateSenderEmail() : $queue
+                    ->getNewsletterSenderEmail()
             )
-        ));
+        );
 
         $widgetFilters = array('is_email_compatible' => 1);
         $wysiwygConfig = $this->_wysiwygConfig->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
-            $fieldset->addField('text', 'editor', array(
-                'name'      => 'text',
-                'label'     => __('Message'),
-                'state'     => 'html',
-                'required'  => true,
-                'value'     => $queue->getTemplate()->getTemplateText(),
-                'style'     => 'height: 600px;',
-                'config'    => $wysiwygConfig
-            ));
+            $fieldset->addField(
+                'text',
+                'editor',
+                array(
+                    'name' => 'text',
+                    'label' => __('Message'),
+                    'state' => 'html',
+                    'required' => true,
+                    'value' => $queue->getTemplate()->getTemplateText(),
+                    'style' => 'height: 600px;',
+                    'config' => $wysiwygConfig
+                )
+            );
 
-            $fieldset->addField('styles', 'textarea', array(
-                'name'          =>'styles',
-                'label'         => __('Newsletter Styles'),
-                'container_id'  => 'field_newsletter_styles',
-                'value'         => $queue->getTemplate()->getTemplateStyles()
-            ));
+            $fieldset->addField(
+                'styles',
+                'textarea',
+                array(
+                    'name' => 'styles',
+                    'label' => __('Newsletter Styles'),
+                    'container_id' => 'field_newsletter_styles',
+                    'value' => $queue->getTemplate()->getTemplateStyles()
+                )
+            );
         } elseif (\Magento\Newsletter\Model\Queue::STATUS_NEVER != $queue->getQueueStatus()) {
-            $fieldset->addField('text', 'textarea', array(
-                'name'      =>    'text',
-                'label'     =>    __('Message'),
-                'value'     =>    $queue->getNewsletterText(),
-            ));
+            $fieldset->addField(
+                'text',
+                'textarea',
+                array('name' => 'text', 'label' => __('Message'), 'value' => $queue->getNewsletterText())
+            );
 
-            $fieldset->addField('styles', 'textarea', array(
-                'name'          =>'styles',
-                'label'         => __('Newsletter Styles'),
-                'value'         => $queue->getNewsletterStyles()
-            ));
+            $fieldset->addField(
+                'styles',
+                'textarea',
+                array('name' => 'styles', 'label' => __('Newsletter Styles'), 'value' => $queue->getNewsletterStyles())
+            );
 
             $form->getElement('text')->setDisabled('true')->setRequired(false);
             $form->getElement('styles')->setDisabled('true')->setRequired(false);
@@ -207,22 +250,30 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->getElement('sender_email')->setDisabled('true')->setRequired(false);
             $form->getElement('stores')->setDisabled('true');
         } else {
-            $fieldset->addField('text', 'editor', array(
-                'name'      =>    'text',
-                'label'     =>    __('Message'),
-                'state'     => 'html',
-                'required'  => true,
-                'value'     =>    $queue->getNewsletterText(),
-                'style'     => 'height: 600px;',
-                'config'    => $wysiwygConfig
-            ));
+            $fieldset->addField(
+                'text',
+                'editor',
+                array(
+                    'name' => 'text',
+                    'label' => __('Message'),
+                    'state' => 'html',
+                    'required' => true,
+                    'value' => $queue->getNewsletterText(),
+                    'style' => 'height: 600px;',
+                    'config' => $wysiwygConfig
+                )
+            );
 
-            $fieldset->addField('styles', 'textarea', array(
-                'name'          =>'styles',
-                'label'         => __('Newsletter Styles'),
-                'value'         => $queue->getNewsletterStyles(),
-                'style'         => 'height: 300px;',
-            ));
+            $fieldset->addField(
+                'styles',
+                'textarea',
+                array(
+                    'name' => 'styles',
+                    'label' => __('Newsletter Styles'),
+                    'value' => $queue->getNewsletterStyles(),
+                    'style' => 'height: 300px;'
+                )
+            );
         }
 
         $this->setForm($form);

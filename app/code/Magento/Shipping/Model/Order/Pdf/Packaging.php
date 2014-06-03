@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model\Order\Pdf;
 
 use Magento\Shipping\Helper\Carrier;
@@ -20,52 +19,52 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_carrierHelper;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\TranslateInterface $translate
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\Stdlib\String $string
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\TranslateInterface $translate,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\Stdlib\String $string,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         Carrier $carrierHelper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\View\LayoutInterface $layout,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_carrierHelper = $carrierHelper;
@@ -76,13 +75,13 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         parent::__construct(
             $paymentData,
             $string,
-            $coreStoreConfig,
-            $translate,
+            $scopeConfig,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
             $localeDate,
+            $inlineTranslation,
             $data
         );
     }
@@ -170,16 +169,15 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $page->drawText($packageText, 525, $this->y, 'UTF-8');
             $packageNum++;
 
-            $package = new \Magento\Object($package);
-            $params = new \Magento\Object($package->getParams());
+            $package = new \Magento\Framework\Object($package);
+            $params = new \Magento\Framework\Object($package->getParams());
             $dimensionUnits = $this->_carrierHelper->getMeasureDimensionName($params->getDimensionUnits());
 
-            $typeText = __('Type') . ' : '
-                . $packaging->getContainerTypeByCode($params->getContainer());
+            $typeText = __('Type') . ' : ' . $packaging->getContainerTypeByCode($params->getContainer());
             $page->drawText($typeText, 35, $this->y, 'UTF-8');
 
             if ($params->getLength() != null) {
-                $lengthText = $params->getLength() .' '. $dimensionUnits;
+                $lengthText = $params->getLength() . ' ' . $dimensionUnits;
             } else {
                 $lengthText = '--';
             }
@@ -187,22 +185,22 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $page->drawText($lengthText, 200, $this->y, 'UTF-8');
 
             if ($params->getDeliveryConfirmation() != null) {
-                $confirmationText = __('Signature Confirmation')
-                    . ' : '
-                    . $packaging->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation());
+                $confirmationText = __(
+                    'Signature Confirmation'
+                ) . ' : ' . $packaging->getDeliveryConfirmationTypeByCode(
+                    $params->getDeliveryConfirmation()
+                );
                 $page->drawText($confirmationText, 355, $this->y, 'UTF-8');
             }
 
             $this->y = $this->y - 10;
 
             if ($packaging->displayCustomsValue() != null) {
-                $customsValueText = __('Customs Value')
-                    . ' : '
-                    . $packaging->displayPrice($params->getCustomsValue());
+                $customsValueText = __('Customs Value') . ' : ' . $packaging->displayPrice($params->getCustomsValue());
                 $page->drawText($customsValueText, 35, $this->y, 'UTF-8');
             }
             if ($params->getWidth() != null) {
-                $widthText = $params->getWidth() .' '. $dimensionUnits;
+                $widthText = $params->getWidth() . ' ' . $dimensionUnits;
             } else {
                 $widthText = '--';
             }
@@ -221,12 +219,15 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
             $this->y = $this->y - 10;
 
-            $weightText = __('Total Weight') . ' : ' . $params->getWeight() .' '
-                . $this->_carrierHelper->getMeasureWeightName($params->getWeightUnits());
+            $weightText = __(
+                'Total Weight'
+            ) . ' : ' . $params->getWeight() . ' ' . $this->_carrierHelper->getMeasureWeightName(
+                $params->getWeightUnits()
+            );
             $page->drawText($weightText, 35, $this->y, 'UTF-8');
 
             if ($params->getHeight() != null) {
-                $heightText = $params->getHeight() .' '. $dimensionUnits;
+                $heightText = $params->getHeight() . ' ' . $dimensionUnits;
             } else {
                 $heightText = '--';
             }
@@ -240,15 +241,16 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                 $page->drawText($sizeText, 35, $this->y, 'UTF-8');
             }
             if ($params->getGirth() != null) {
-                $dimensionGirthUnits = $this->_carrierHelper->getMeasureDimensionName($params->getGirthDimensionUnits());
-                $girthText = __('Girth')
-                             . ' : ' . $params->getGirth() . ' ' . $dimensionGirthUnits;
+                $dimensionGirthUnits = $this->_carrierHelper->getMeasureDimensionName(
+                    $params->getGirthDimensionUnits()
+                );
+                $girthText = __('Girth') . ' : ' . $params->getGirth() . ' ' . $dimensionGirthUnits;
                 $page->drawText($girthText, 200, $this->y, 'UTF-8');
             }
 
             $this->y = $this->y - 5;
             $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
-            $page->drawRectangle(25, $this->y, 570, $this->y - 30 - (count($package->getItems()) * 12));
+            $page->drawRectangle(25, $this->y, 570, $this->y - 30 - count($package->getItems()) * 12);
 
             $this->y = $this->y - 10;
             $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
@@ -256,13 +258,15 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
             $txtIndent = 5;
             $itemCollsNumber = $packaging->displayCustomsValue() ? 5 : 4;
-            $itemCollsX[0] = 30; //  coordinate for Product name
-            $itemCollsX[1] = 250; // coordinate for Product name
+            $itemCollsX[0] = 30;
+            //  coordinate for Product name
+            $itemCollsX[1] = 250;
+            // coordinate for Product name
             $itemCollsXEnd = 565;
             $itemCollsXStep = round(($itemCollsXEnd - $itemCollsX[1]) / ($itemCollsNumber - 1));
             // calculate coordinates for all other cells (Weight, Customs Value, Qty Ordered, Qty)
             for ($i = 2; $i <= $itemCollsNumber; $i++) {
-                $itemCollsX[$i] = $itemCollsX[$i-1] + $itemCollsXStep;
+                $itemCollsX[$i] = $itemCollsX[$i - 1] + $itemCollsXStep;
             }
 
             $i = 0;
@@ -280,21 +284,14 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $page->drawText(__('Product'), $itemCollsX[$i] + $txtIndent, $this->y, 'UTF-8');
             $page->drawText(__('Weight'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
             if ($packaging->displayCustomsValue()) {
-                $page->drawText(
-                    __('Customs Value'),
-                    $itemCollsX[++$i] + $txtIndent,
-                    $this->y,
-                    'UTF-8'
-                );
+                $page->drawText(__('Customs Value'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
             }
-            $page->drawText(
-                __('Qty Ordered'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8'
-            );
+            $page->drawText(__('Qty Ordered'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
             $page->drawText(__('Qty'), $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
 
             $i = 0;
             foreach ($package->getItems() as $itemId => $item) {
-                $item = new \Magento\Object($item);
+                $item = new \Magento\Framework\Object($item);
                 $i = 0;
 
                 $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));
@@ -323,7 +320,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                     $this->y,
                     'UTF-8'
                 );
-                $page->drawText($item->getQty()*1, $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
+                $page->drawText($item->getQty() * 1, $itemCollsX[++$i] + $txtIndent, $this->y, 'UTF-8');
             }
             $this->y = $this->y - 30;
         }

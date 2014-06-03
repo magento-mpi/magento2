@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
 
 /**
@@ -23,7 +20,7 @@ class Factory
     /**
      * Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -33,13 +30,13 @@ class Factory
      * @var array
      */
     protected $_specificRenderer = array(
-        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
+        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage'
     );
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -52,9 +49,10 @@ class Factory
      */
     public function get($attribute)
     {
-        $renderer = array_key_exists($attribute, $this->_specificRenderer)
-            ? $this->_specificRenderer[$attribute]
-            : 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer';
+        $renderer = array_key_exists(
+            $attribute,
+            $this->_specificRenderer
+        ) ? $this->_specificRenderer[$attribute] : 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer';
 
         return $this->_objectManager->create($renderer);
     }

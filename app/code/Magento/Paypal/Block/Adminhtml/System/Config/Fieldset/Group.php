@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,19 +11,18 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
-class Group
-    extends \Magento\Backend\Block\System\Config\Form\Fieldset
+class Group extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         parent::__construct($context, $authSession, $jsHelper, $data);
@@ -34,7 +31,7 @@ class Group
     /**
      * Return header comment part of html for fieldset
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
     protected function _getHeaderCommentHtml($element)
@@ -45,9 +42,14 @@ class Group
             return parent::_getHeaderCommentHtml($element);
         }
 
-        $html = '<div class="comment">' . $element->getComment()
-            . ' <a target="_blank" href="' . $groupConfig['help_url'] . '">'
-            . __('Help') . '</a></div>';
+        $html = '<div class="comment">' .
+            $element->getComment() .
+            ' <a target="_blank" href="' .
+            $groupConfig['help_url'] .
+            '">' .
+            __(
+                'Help'
+            ) . '</a></div>';
 
         return $html;
     }
@@ -55,7 +57,7 @@ class Group
     /**
      * Return collapse state
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return bool
      */
     protected function _isCollapseState($element)

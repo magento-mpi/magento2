@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,19 +16,17 @@ class Factory
     /**
      * @var array
      */
-    protected $_types = array(
-        'mysql4' => 'Magento\Install\Model\Installer\Db\Mysql4'
-    );
+    protected $_types = array('mysql4' => 'Magento\Install\Model\Installer\Db\Mysql4');
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -49,7 +45,4 @@ class Factory
         }
         return false;
     }
-
-
-
 }

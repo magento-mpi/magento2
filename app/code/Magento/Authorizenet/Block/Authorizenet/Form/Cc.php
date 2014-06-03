@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,8 +21,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getMethodFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento\Payment\Block\Form\Cc')
-            ->setMethod($this->getMethod());
+        return $this->getLayout()->createBlock('Magento\Payment\Block\Form\Cc')->setMethod($this->getMethod());
     }
 
     /**
@@ -34,11 +31,17 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getCardsBlock()
     {
-        return $this->getLayout()->createBlock('Magento\Authorizenet\Block\Authorizenet\Info\Cc')
-            ->setMethod($this->getMethod())
-            ->setInfo($this->getMethod()->getInfoInstance())
-            ->setCheckoutProgressBlock(false)
-            ->setHideTitle(true);
+        return $this->getLayout()->createBlock(
+            'Magento\Authorizenet\Block\Authorizenet\Info\Cc'
+        )->setMethod(
+            $this->getMethod()
+        )->setInfo(
+            $this->getMethod()->getInfoInstance()
+        )->setCheckoutProgressBlock(
+            false
+        )->setHideTitle(
+            true
+        );
     }
 
     /**
@@ -81,9 +84,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function showNoticeMessage($message)
     {
-        return $this->getLayout()->getMessagesBlock()
-            ->addNotice(__($message))
-            ->getGroupedHtml();
+        return $this->getLayout()->getMessagesBlock()->addNotice(__($message))->getGroupedHtml();
     }
 
     /**
@@ -96,10 +97,14 @@ class Cc extends \Magento\Payment\Block\Form
         $lastActionState = $this->getMethod()->getPartialAuthorizationLastActionState();
         if ($lastActionState == \Magento\Authorizenet\Model\Authorizenet::PARTIAL_AUTH_LAST_SUCCESS) {
             $this->getMethod()->unsetPartialAuthorizationLastActionState();
-            return __('You don\'t have enough on your credit card to pay for this purchase. To complete your purchase, click "OK" and add a credit card to use for the balance. Otherwise, you can cancel the purchase and release the partial payment we are holding.');
+            return __(
+                'You don\'t have enough on your credit card to pay for this purchase. To complete your purchase, click "OK" and add a credit card to use for the balance. Otherwise, you can cancel the purchase and release the partial payment we are holding.'
+            );
         } elseif ($lastActionState == \Magento\Authorizenet\Model\Authorizenet::PARTIAL_AUTH_LAST_DECLINED) {
             $this->getMethod()->unsetPartialAuthorizationLastActionState();
-            return __('Your credit card has been declined. You can click OK to add another credit card to complete your purchase. Or you can cancel this credit transaction and pay a different way.');
+            return __(
+                'Your credit card has been declined. You can click OK to add another credit card to complete your purchase. Or you can cancel this credit transaction and pay a different way.'
+            );
         }
         return false;
     }
@@ -118,10 +123,14 @@ class Cc extends \Magento\Payment\Block\Form
                 $message = __('We canceled your payment and released any money we were holding.');
                 break;
             case \Magento\Authorizenet\Model\Authorizenet::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED:
-                $message = __('You can\'t use any more credit cards for this payment, and you don\'t have enough to pay for this purchase. Sorry, but we\'ll have to cancel your transaction.');
+                $message = __(
+                    'You can\'t use any more credit cards for this payment, and you don\'t have enough to pay for this purchase. Sorry, but we\'ll have to cancel your transaction.'
+                );
                 break;
             case \Magento\Authorizenet\Model\Authorizenet::PARTIAL_AUTH_DATA_CHANGED:
-                $message = __('Your order has not been placed, because the contents of the shopping cart and/or your address has been changed. Authorized amounts from your previous payment that were left pending are now released. Please go through the checkout process to purchase your cart contents.');
+                $message = __(
+                    'Your order has not been placed, because the contents of the shopping cart and/or your address has been changed. Authorized amounts from your previous payment that were left pending are now released. Please go through the checkout process to purchase your cart contents.'
+                );
                 break;
         }
         if ($message) {
@@ -137,7 +146,9 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getCancelConfirmationMessage()
     {
-        return __('Are you sure you want to cancel your payment? Click OK to cancel your payment and release the amount on hold. Click Cancel to enter another credit card and continue with your payment.');
+        return __(
+            'Are you sure you want to cancel your payment? Click OK to cancel your payment and release the amount on hold. Click Cancel to enter another credit card and continue with your payment.'
+        );
     }
 
     /**
@@ -157,12 +168,39 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getCancelButtonHtml()
     {
-        $cancelButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'id'      => 'payment_cancel',
-                'label'   => __('Cancel'),
-                'onclick' => 'cancelPaymentAuthorizations()'
-            ));
+        $cancelButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('id' => 'payment_cancel', 'label' => __('Cancel'), 'onclick' => 'cancelPaymentAuthorizations()')
+        );
         return $cancelButton->toHtml();
+    }
+
+    /**
+     * Escape single and double quotes
+     *
+     * @param string $message
+     * @return string
+     */
+    public function escapeMessage($message)
+    {
+        return htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Return init data for authorizenetAuthenticate widget as json
+     *
+     * @return string
+     */
+    public function getWidgetInitData()
+    {
+        $initData = [
+            'authorizenetAuthenticate' => [
+                'partialAuthorizationConfirmationMessage' => $this->getPartialAuthorizationConfirmationMessage(),
+                'cancelConfirmationMessage' => $this->getCancelConfirmationMessage(),
+                'cancelUrl' => $this->getCancelUrl()
+            ]
+        ];
+        return \Zend_Json::encode($initData);
     }
 }

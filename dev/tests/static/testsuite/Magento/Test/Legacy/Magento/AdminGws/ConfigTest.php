@@ -4,13 +4,9 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Legacy\Magento\AdminGws;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase

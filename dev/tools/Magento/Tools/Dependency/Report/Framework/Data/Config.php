@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Framework\Data;
 
 use Magento\Tools\Dependency\Report\Data\Config\AbstractConfig;

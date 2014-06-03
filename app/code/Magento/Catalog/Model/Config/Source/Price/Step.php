@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Config\Source\Price;
 
-class Step implements \Magento\Option\ArrayInterface
+class Step implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
@@ -28,7 +26,7 @@ class Step implements \Magento\Option\ArrayInterface
             array(
                 'value' => \Magento\Catalog\Model\Layer\Filter\Price::RANGE_CALCULATION_MANUAL,
                 'label' => __('Manual')
-            ),
+            )
         );
     }
 }

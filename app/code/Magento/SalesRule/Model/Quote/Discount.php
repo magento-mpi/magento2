@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,23 +22,23 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\Validator $validator
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\Validator $validator
     ) {
         $this->_eventManager = $eventManager;
@@ -68,9 +66,9 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
 
         $eventArgs = array(
-            'website_id'        => $store->getWebsiteId(),
+            'website_id' => $store->getWebsiteId(),
             'customer_group_id' => $quote->getCustomerGroupId(),
-            'coupon_code'       => $quote->getCouponCode(),
+            'coupon_code' => $quote->getCouponCode()
         );
 
         $this->_calculator->init($store->getWebsiteId(), $quote->getCustomerGroupId(), $quote->getCouponCode());
@@ -83,8 +81,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             if ($item->getNoDiscount()) {
                 $item->setDiscountAmount(0);
                 $item->setBaseDiscountAmount(0);
-            }
-            else {
+            } else {
                 /**
                  * Child item discount we calculate for parent
                  */
@@ -173,18 +170,14 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     {
         $amount = $address->getDiscountAmount();
 
-        if ($amount!=0) {
+        if ($amount != 0) {
             $description = $address->getDiscountDescription();
             if (strlen($description)) {
                 $title = __('Discount (%1)', $description);
             } else {
                 $title = __('Discount');
             }
-            $address->addTotal(array(
-                'code'  => $this->getCode(),
-                'title' => $title,
-                'value' => $amount
-            ));
+            $address->addTotal(array('code' => $this->getCode(), 'title' => $title, 'value' => $amount));
         }
         return $this;
     }

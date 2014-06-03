@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,8 +39,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -50,8 +48,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -85,9 +83,15 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         $this->_view->getLayout()->initMessages();
 
         //load layout, set active menu and breadcrumbs
-        $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
+        $this->_setActiveMenu(
+            'Magento_VersionsCms::versionscms_page_page'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('Manage Pages'),
+            __('Manage Pages')
+        );
 
         $this->_view->setIsLayoutLoaded(true);
 
@@ -130,7 +134,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             $page->setData($data);
         }
 
-        if ($page->getId()){
+        if ($page->getId()) {
             if ($page->getUnderVersionControl()) {
                 $this->_handles[] = 'adminhtml_cms_page_edit_changes';
             }
@@ -183,13 +187,11 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
                         $version->delete();
                     }
                 }
-                $this->messageManager->addSuccess(
-                    __('A total of %1 record(s) have been deleted.', count($ids))
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addSuccess(__('A total of %1 record(s) have been deleted.', count($ids)));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Something went wrong while deleting these versions.'));
             }
         }

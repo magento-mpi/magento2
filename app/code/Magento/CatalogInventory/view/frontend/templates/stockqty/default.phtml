@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @var $this \Magento\CatalogInventory\Block\Stockqty\DefaultStockqty
+ */
+?>
+<?php if($this->isMsgVisible()): ?>
+    <div class="availability only" title="<?php echo __('Only %1 left', ($this->getStockQty())) ?>">
+        <?php echo __('Only %1 left', "<strong>{$this->getStockQty()}</strong>") ?>
+    </div>
+<?php endif ?>

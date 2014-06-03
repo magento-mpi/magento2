@@ -2,19 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Resource\Rma\Grid;
 
 /**
  * RMA grid collection
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
@@ -24,14 +19,14 @@ class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
      *
      * @var string
      */
-    protected $_eventPrefix    = 'rma_rma_grid_collection';
+    protected $_eventPrefix = 'rma_rma_grid_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'rma_grid_collection';
+    protected $_eventObject = 'rma_grid_collection';
 
     /**
      * Model initialization
@@ -47,7 +42,7 @@ class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

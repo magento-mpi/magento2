@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,7 @@
  */
 namespace Magento\TestFramework\App;
 
-class State extends \Magento\App\State
+class State extends \Magento\Framework\App\State
 {
     /**
      * {@inheritdoc}

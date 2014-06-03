@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Default attribute model
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GoogleShopping\Model\Attribute;
@@ -24,17 +20,20 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
      *
      * @var string
      */
-    const ATTRIBUTE_TYPE_TEXT    = 'text';
-    const ATTRIBUTE_TYPE_INT     = 'int';
-    const ATTRIBUTE_TYPE_FLOAT   = 'float';
-    const ATTRIBUTE_TYPE_URL     = 'url';
+    const ATTRIBUTE_TYPE_TEXT = 'text';
+
+    const ATTRIBUTE_TYPE_INT = 'int';
+
+    const ATTRIBUTE_TYPE_FLOAT = 'float';
+
+    const ATTRIBUTE_TYPE_URL = 'url';
 
     /**
      * Set current attribute to entry (for specified product)
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
+     * @return \Magento\Framework\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {
@@ -68,14 +67,13 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
             return null;
         }
 
-        if ($productAttribute->getFrontendInput() == 'date' ||
-            $productAttribute->getBackendType() == 'date') {
-                $value = $product->getData($productAttribute->getAttributeCode());
-                if (empty($value) || !\Zend_Date::isDate($value, \Zend_Date::ISO_8601)) {
-                    return null;
-                }
-                $date = new \Magento\Stdlib\DateTime\Date($value, \Zend_Date::ISO_8601);
-                $value = $date->toString(\Zend_Date::ATOM);
+        if ($productAttribute->getFrontendInput() == 'date' || $productAttribute->getBackendType() == 'date') {
+            $value = $product->getData($productAttribute->getAttributeCode());
+            if (empty($value) || !\Zend_Date::isDate($value, \Zend_Date::ISO_8601)) {
+                return null;
+            }
+            $date = new \Magento\Framework\Stdlib\DateTime\Date($value, \Zend_Date::ISO_8601);
+            $value = $date->toString(\Zend_Date::ATOM);
         } else {
             $value = $productAttribute->getFrontend()->getValue($product);
         }
@@ -90,10 +88,7 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
      */
     public function getGcontentAttributeType($attribute)
     {
-        $typesMapping = array(
-            'price'      => self::ATTRIBUTE_TYPE_FLOAT,
-            'decimal'    => self::ATTRIBUTE_TYPE_INT,
-        );
+        $typesMapping = array('price' => self::ATTRIBUTE_TYPE_FLOAT, 'decimal' => self::ATTRIBUTE_TYPE_INT);
         if (isset($typesMapping[$attribute->getFrontendInput()])) {
             return $typesMapping[$attribute->getFrontendInput()];
         } elseif (isset($typesMapping[$attribute->getBackendType()])) {
@@ -106,23 +101,26 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
     /**
      * Insert/update attribute in the entry
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
      * @param string $name
      * @param string $type
      * @param string $value
      * @param string $unit
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @return \Magento\Framework\Gdata\Gshopping\Entry
      */
     protected function _setAttribute($entry, $name, $type = self::ATTRIBUTE_TYPE_TEXT, $value = '', $unit = null)
     {
-        if (is_object($value) || ((string)$value != $value)) {
-            throw new \Magento\Core\Exception(
-                __('Please correct the attribute "%1" type for Google Shopping. The product with this attribute hasn\'t been updated in Google Content.', $name)
+        if (is_object($value) || (string)$value != $value) {
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'Please correct the attribute "%1" type for Google Shopping. The product with this attribute hasn\'t been updated in Google Content.',
+                    $name
+                )
             );
         }
         $attribute = $entry->getContentAttributeByName($name);
-        if ($attribute instanceof \Magento\Gdata\Gshopping\Extension\Attribute) {
-            $attribute->text = (string) $value;
+        if ($attribute instanceof \Magento\Framework\Gdata\Gshopping\Extension\Attribute) {
+            $attribute->text = (string)$value;
             $attribute->type = $type;
             if (!is_null($unit)) {
                 $attribute->unit = $unit;

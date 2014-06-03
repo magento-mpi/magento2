@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 /**
  * Color-picker form element renderer
  */
-class BackgroundUploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
+class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
 {
     /**
      * @var \Magento\DesignEditor\Model\Theme\Context
@@ -48,7 +45,8 @@ class BackgroundUploader
      */
     public function getImageUploadUrl()
     {
-        return $this->getUrl('adminhtml/system_design_editor_tools/uploadQuickStyleImage',
+        return $this->getUrl(
+            'adminhtml/system_design_editor_tools/uploadQuickStyleImage',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
         );
     }
@@ -60,7 +58,8 @@ class BackgroundUploader
      */
     public function getImageRemoveUrl()
     {
-        return $this->getUrl('adminhtml/system_design_editor_tools/removeQuickStyleImage',
+        return $this->getUrl(
+            'adminhtml/system_design_editor_tools/removeQuickStyleImage',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
         );
     }

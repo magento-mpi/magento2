@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@
  *
  * Removes certain blocks from layout if user do not have required permissions
  *
- * @category    Magento
- * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Block\Adminhtml\Permission;
@@ -31,7 +27,7 @@ class Monitor extends \Magento\Backend\Block\Template
         parent::_prepareLayout();
 
         if (!$this->_authorization->isAllowed('Magento_Banner::magento_banner')) {
-            /** @var $layout \Magento\View\LayoutInterface */
+            /** @var $layout \Magento\Framework\View\LayoutInterface */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {
                 /** @var $promoQuoteBlock \Magento\Backend\Block\Widget\Tabs */

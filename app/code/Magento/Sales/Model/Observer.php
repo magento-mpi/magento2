@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,14 +43,14 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\StoresConfig
      */
-    protected $_storeConfig;
+    protected $_storesConfig;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\CollectionFactory
@@ -60,7 +58,7 @@ class Observer
     protected $_quoteCollectionFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -85,43 +83,43 @@ class Observer
     protected $_bestsellersFactory;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param Resource\Report\OrderFactory $orderFactory
      * @param Resource\Report\InvoicedFactory $invoicedFactory
      * @param Resource\Report\RefundedFactory $refundedFactory
      * @param Resource\Report\BestsellersFactory $bestsellersFactory
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
         \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,
         \Magento\Sales\Model\Resource\Report\BestsellersFactory $bestsellersFactory,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_customerAddressHelper = $customerAddressHelper;
         $this->_catalogData = $catalogData;
-        $this->_storeConfig = $storeConfig;
+        $this->_storesConfig = $storesConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
         $this->_localeDate = $localeDate;
         $this->_orderFactory = $orderFactory;
@@ -141,15 +139,15 @@ class Observer
     {
         $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
-        $lifetimes = $this->_storeConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
-        foreach ($lifetimes as $storeId=>$lifetime) {
+        $lifetimes = $this->_storesConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        foreach ($lifetimes as $storeId => $lifetime) {
             $lifetime *= 86400;
 
             /** @var $quotes \Magento\Sales\Model\Resource\Quote\Collection */
             $quotes = $this->_quoteCollectionFactory->create();
 
             $quotes->addFieldToFilter('store_id', $storeId);
-            $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
+            $quotes->addFieldToFilter('updated_at', array('to' => date("Y-m-d", time() - $lifetime)));
             $quotes->addFieldToFilter('is_active', 0);
 
             foreach ($this->getExpireQuotesAdditionalFilterFields() as $field => $condition) {
@@ -250,10 +248,10 @@ class Observer
     /**
      * Set Quote information about MSRP price enabled
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function setQuoteCanApplyMsrp(\Magento\Event\Observer $observer)
+    public function setQuoteCanApplyMsrp(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
@@ -274,27 +272,28 @@ class Observer
     /**
      * Add VAT validation request date and identifier to order comments
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addVatRequestParamsOrderComment(\Magento\Event\Observer $observer)
+    public function addVatRequestParamsOrderComment(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $orderInstance \Magento\Sales\Model\Order */
         $orderInstance = $observer->getOrder();
         /** @var $orderAddress \Magento\Sales\Model\Order\Address */
         $orderAddress = $this->_getVatRequiredSalesAddress($orderInstance);
-        if (!($orderAddress instanceof \Magento\Sales\Model\Order\Address)) {
+        if (!$orderAddress instanceof \Magento\Sales\Model\Order\Address) {
             return;
         }
 
         $vatRequestId = $orderAddress->getVatRequestId();
         $vatRequestDate = $orderAddress->getVatRequestDate();
-        if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate)
-            && !empty($vatRequestDate)
+        if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate) && !empty($vatRequestDate)
         ) {
-            $orderHistoryComment = __('VAT Request Identifier')
-                . ': ' . $vatRequestId . '<br />' . __('VAT Request Date')
-                . ': ' . $vatRequestDate;
+            $orderHistoryComment = __(
+                'VAT Request Identifier'
+            ) . ': ' . $vatRequestId . '<br />' . __(
+                'VAT Request Date'
+            ) . ': ' . $vatRequestDate;
             $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
         }
     }
@@ -303,7 +302,7 @@ class Observer
      * Retrieve sales address (order or quote) on which tax calculation must be based
      *
      * @param \Magento\Sales\Model\Order $order
-     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @param \Magento\Store\Model\Store|string|int|null $store
      * @return \Magento\Sales\Model\Order\Address|null
      */
     protected function _getVatRequiredSalesAddress($order, $store = null)
@@ -324,7 +323,7 @@ class Observer
     /**
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restoreQuoteCustomerGroupId($observer)
@@ -332,8 +331,8 @@ class Observer
         $quoteAddress = $observer->getQuoteAddress();
         $configAddressType = $this->_customerAddressHelper->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
-        if ($quoteAddress->hasPrevQuoteCustomerGroupId()
-            && $configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING
+        if ($quoteAddress->hasPrevQuoteCustomerGroupId() &&
+            $configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING
         ) {
             $quoteAddress->getQuote()->setCustomerGroupId($quoteAddress->getPrevQuoteCustomerGroupId());
             $quoteAddress->unsPrevQuoteCustomerGroupId();

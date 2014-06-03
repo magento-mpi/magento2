@@ -2,16 +2,13 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    translate
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Translate;
 
-include('ModuleTranslations.php');
 
+include 'ModuleTranslations.php';
 class DirectoryFilter extends FilterIterator
 {
     /**
@@ -31,7 +28,6 @@ class DirectoryFilter extends FilterIterator
         $this->_allowedExtensions = $allowedExtensions;
     }
 
-
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Check whether the current element of the iterator is acceptable
@@ -44,6 +40,4 @@ class DirectoryFilter extends FilterIterator
         $current = $this->current();
         return in_array($current->getExtension(), $this->_allowedExtensions);
     }
-
 }
-?>

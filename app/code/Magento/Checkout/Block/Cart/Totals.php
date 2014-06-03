@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\View\Element\BlockInterface;
+use Magento\Framework\View\Element\BlockInterface;
 
 class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
@@ -32,7 +32,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_salesConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -40,7 +40,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -50,7 +50,6 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_salesConfig = $salesConfig;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
-
     }
 
     /**
@@ -111,11 +110,15 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
         if ($total->getAs()) {
             $code = $total->getAs();
         }
-        return $this->_getTotalRenderer($code)
-            ->setTotal($total)
-            ->setColspan($colspan)
-            ->setRenderingArea(is_null($area) ? -1 : $area)
-            ->toHtml();
+        return $this->_getTotalRenderer(
+            $code
+        )->setTotal(
+            $total
+        )->setColspan(
+            $colspan
+        )->setRenderingArea(
+            is_null($area) ? -1 : $area
+        )->toHtml();
     }
 
     /**
@@ -128,7 +131,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
     public function renderTotals($area = null, $colspan = 1)
     {
         $html = '';
-        foreach($this->getTotals() as $total) {
+        foreach ($this->getTotals() as $total) {
             if ($total->getArea() != $area && $area != -1) {
                 continue;
             }
@@ -144,7 +147,7 @@ class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function needDisplayBaseGrandtotal()
     {
-        $quote  = $this->getQuote();
+        $quote = $this->getQuote();
         if ($quote->getBaseCurrencyCode() != $quote->getQuoteCurrencyCode()) {
             return true;
         }

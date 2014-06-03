@@ -1,0 +1,35 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.wrapper.table {
+    .table-overflow();
+    > table {
+        .table-caption(@_table-caption-hide: true);
+    }
+    margin-bottom: @indent-base;
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .wrapper.table {
+        > table {
+            > thead,
+            > tbody,
+            > tfoot {
+                > tr {
+                    > th,
+                    > td {
+                        white-space: normal;
+                    }
+                }
+            }
+        }
+    }
+}

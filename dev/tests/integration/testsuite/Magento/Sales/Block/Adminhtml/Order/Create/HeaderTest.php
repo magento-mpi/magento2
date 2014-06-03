@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -44,15 +43,15 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     {
         $customerIdFromFixture = 1;
         $defaultStoreView = 1;
-        return [
-            'Customer and store' => [
+        return array(
+            'Customer and store' => array(
                 $customerIdFromFixture,
                 $defaultStoreView,
                 'Create New Order for Firstname Lastname in Default Store View'
-            ],
-            'No store' => [$customerIdFromFixture, null, 'Create New Order for Firstname Lastname'],
-            'No customer' => [null, $defaultStoreView, 'Create New Order for New Customer in Default Store View'],
-            'No customer, no store' => [null, null, 'Create New Order for New Customer'],
-        ];
+            ),
+            'No store' => array($customerIdFromFixture, null, 'Create New Order for Firstname Lastname'),
+            'No customer' => array(null, $defaultStoreView, 'Create New Order for New Customer in Default Store View'),
+            'No customer, no store' => array(null, null, 'Create New Order for New Customer')
+        );
     }
 }

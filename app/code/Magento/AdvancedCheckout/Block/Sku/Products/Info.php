@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +10,12 @@
 /**
  * SKU failed information Block
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  *
  * @method \Magento\Sales\Model\Quote\Item getItem()
  */
 namespace Magento\AdvancedCheckout\Block\Sku\Products;
 
-class Info extends \Magento\View\Element\Template
+class Info extends \Magento\Framework\View\Element\Template
 {
     /**
      * Checkout data
@@ -31,7 +27,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -43,17 +39,17 @@ class Info extends \Magento\View\Element\Template
     protected $_productAlertData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;
@@ -72,8 +68,10 @@ class Info extends \Magento\View\Element\Template
     {
         switch ($this->getItem()->getCode()) {
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
-                    . $this->_checkoutData->getMessage(
+                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' .
+                    $this->getItem()->getId() .
+                    '">' .
+                    $this->_checkoutData->getMessage(
                         \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
                     ) . '</span>';
                 return $message;
@@ -81,7 +79,12 @@ class Info extends \Magento\View\Element\Template
                 $message = $this->_checkoutData->getMessage(
                     \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
                 );
-                $message .= '<br/>' . __("Only %1%2%3 left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
+                $message .= '<br/>' . __(
+                    "Only %1%2%3 left in stock",
+                    '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">',
+                    $this->getItem()->getQtyMaxAllowed(),
+                    '</span>'
+                );
                 return $message;
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
@@ -91,7 +94,7 @@ class Info extends \Magento\View\Element\Template
                 $message .= '<br/>';
                 if ($item->getQtyMaxAllowed()) {
                     $message .= __('The maximum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
-                } else if ($item->getQtyMinAllowed()) {
+                } elseif ($item->getQtyMinAllowed()) {
                     $message .= __('The minimum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
@@ -109,7 +112,7 @@ class Info extends \Magento\View\Element\Template
      */
     public function isItemSkuFailed()
     {
-        return $this->getItem()->getCode() ==  \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
+        return $this->getItem()->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
     }
 
     /**
@@ -132,14 +135,13 @@ class Info extends \Magento\View\Element\Template
         $item = $this->getItem();
         switch ($item->getCode()) {
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $link = $this->getUrl('checkout/cart/configureFailed', array(
-                    'id'  => $item->getProductId(),
-                    'qty' => $item->getQty(),
-                    'sku' => $item->getSku()
-                ));
-                return '<a href="' . $link . '" class="configure-popup">'
-                        . __("Specify the product's options")
-                        . '</a>';
+                $link = $this->getUrl(
+                    'checkout/cart/configureFailed',
+                    array('id' => $item->getProductId(), 'qty' => $item->getQty(), 'sku' => $item->getSku())
+                );
+                return '<a href="' . $link . '" class="configure-popup">' . __(
+                    "Specify the product's options"
+                ) . '</a>';
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper \Magento\ProductAlert\Helper\Data */
                 $helper = $this->_productAlertData;
@@ -150,43 +152,42 @@ class Info extends \Magento\View\Element\Template
 
                 $helper->setProduct($this->getItem()->getProduct());
                 $signUpLabel = $this->escapeHtml(__('Receive notice when item is restocked.'));
-                return '<a href="'
-                    . $this->escapeHtml($helper->getSaveUrl('stock'))
-                    . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';
+                return '<a href="' . $this->escapeHtml(
+                    $helper->getSaveUrl('stock')
+                ) . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';
             default:
                 return '';
         }
     }
-
     /**
-     * Get html of tier price
+     * Get tier price formatted with html
      *
      * @return string
      */
-    public function getTierPriceHtml()
+    public function getProductTierPriceHtml()
     {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = $this->getItem()->getProduct();
-        if (!$product || !$product->getId()) {
-            return '';
+        $priceRender = $this->getPriceRender();
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE,
+                $this->getItem()->getProduct(),
+                [
+                    'include_container' => true,
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
         }
 
-        $productTierPrices = $product->getData('tier_price');
-        if (!is_array($productTierPrices)) {
-            $productAttributes = $product->getAttributes();
-            if (!isset($productAttributes['tier_price'])
-                || !($productAttributes['tier_price'] instanceof \Magento\Catalog\Model\Resource\Eav\Attribute)
-            ) {
-                return '';
-            }
-            $productAttributes['tier_price']->getBackend()->afterLoad($product);
-        }
+        return $price;
+    }
 
-        $this->_coreRegistry->unregister('product');
-        $this->_coreRegistry->register('product', $product);
-        if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('Magento\Catalog\Block\Product\View'));
-        }
-        return $this->getProductViewBlock()->getTierPriceHtml();
+    /**
+     * @return \Magento\Framework\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
     }
 }

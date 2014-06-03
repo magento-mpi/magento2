@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Product;
 
 /**
@@ -20,16 +16,21 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->_requireVisitorWithNoProducts();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Data\Form\FormKey $formKey */
-        $formKey = $objectManager->get('Magento\Data\Form\FormKey');
+        /** @var \Magento\Framework\Data\Form\FormKey $formKey */
+        $formKey = $objectManager->get('Magento\Framework\Data\Form\FormKey');
 
         $this->dispatch('catalog/product_compare/add/product/1/form_key/' . $formKey->getFormKey() . '?nocookie=1');
 
-        /** @var $messageManager \Magento\Message\Manager */
-        $messageManager = $objectManager->get('Magento\Message\Manager');
-        $this->assertInstanceOf('Magento\Message\Success', $messageManager->getMessages()->getLastAddedMessage());
-        $this->assertContains('Simple Product 1 Name',
-            (string)$messageManager->getMessages()->getLastAddedMessage()->getText());
+        /** @var $messageManager \Magento\Framework\Message\Manager */
+        $messageManager = $objectManager->get('Magento\Framework\Message\Manager');
+        $this->assertInstanceOf(
+            'Magento\Framework\Message\Success',
+            $messageManager->getMessages()->getLastAddedMessage()
+        );
+        $this->assertContains(
+            'Simple Product 1 Name',
+            (string)$messageManager->getMessages()->getLastAddedMessage()->getText()
+        );
 
         $this->assertRedirect();
 
@@ -53,20 +54,50 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->dispatch('catalog/product_compare/remove/product/2');
 
-        /** @var $messageManager \Magento\Message\Manager */
-        $messageManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Message\Manager');
-        $this->assertInstanceOf('Magento\Message\Success', $messageManager->getMessages()->getLastAddedMessage());
-        $this->assertContains('Simple Product 2 Name',
-            (string)$messageManager->getMessages()->getLastAddedMessage()->getText());
+        /** @var $messageManager \Magento\Framework\Message\Manager */
+        $messageManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Message\Manager');
+        $this->assertInstanceOf(
+            'Magento\Framework\Message\Success',
+            $messageManager->getMessages()->getLastAddedMessage()
+        );
+        $this->assertContains(
+            'Simple Product 2 Name',
+            (string)$messageManager->getMessages()->getLastAddedMessage()->getText()
+        );
 
         $this->assertRedirect();
 
         $this->_assertCompareListEquals(array(1));
     }
 
+    public function testRemoveActionWithSession()
+    {
+        $this->_requireCustomerWithTwoProducts();
+
+        $this->dispatch('catalog/product_compare/remove/product/1');
+
+        /** @var $messageManager \Magento\Framework\Message\Manager */
+        $messageManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Message\Manager');
+        $this->assertInstanceOf(
+            'Magento\Framework\Message\Success',
+            $messageManager->getMessages()->getLastAddedMessage()
+        );
+        $this->assertContains('Simple Product 1 Name',
+            (string)$messageManager->getMessages()->getLastAddedMessage()->getText());
+
+        $this->assertRedirect();
+
+        $this->_assertCompareListEquals(array(2));
+    }
+
     public function testIndexActionDisplay()
     {
         $this->_requireVisitorWithTwoProducts();
+
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
+        $layout->setIsCacheable(false);
 
         $this->dispatch('catalog/product_compare/index');
 
@@ -93,9 +124,13 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->dispatch('catalog/product_compare/clear');
 
-        /** @var $messageManager \Magento\Message\Manager */
-        $messageManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Message\Manager');
-        $this->assertInstanceOf('Magento\Message\Success', $messageManager->getMessages()->getLastAddedMessage());
+        /** @var $messageManager \Magento\Framework\Message\Manager */
+        $messageManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Message\Manager');
+        $this->assertInstanceOf(
+            'Magento\Framework\Message\Success',
+            $messageManager->getMessages()->getLastAddedMessage()
+        );
 
         $this->assertRedirect();
 
@@ -109,8 +144,9 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->_prepareCompareListWithProductNameXss();
         $this->dispatch('catalog/product_compare/remove/product/1?nocookie=1');
-        $messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Message\Manager')->getMessages()->getItems();
+        $messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\Message\Manager'
+        )->getMessages()->getItems();
         $isProductNamePresent = false;
         foreach ($messages as $message) {
             if (strpos($message->getText(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
@@ -124,38 +160,39 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _prepareCompareListWithProductNameXss()
     {
         /** @var $visitor \Magento\Log\Model\Visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Log\Model\Visitor');
-        /** @var \Magento\Stdlib\DateTime $dateTime */
-        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
-        $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt($dateTime->now())
-            ->save();
+        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Log\Model\Visitor');
+        /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Stdlib\DateTime');
+        $visitor->setSessionId(md5(time()) . md5(microtime()))->setLastVisitAt($dateTime->now())->save();
         /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
-        $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Compare\Item');
-        $item->setVisitorId($visitor->getId())
-            ->setProductId(1)
-            ->save();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor')
-            ->load($visitor->getId());
+        $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product\Compare\Item'
+        );
+        $item->setVisitorId($visitor->getId())->setProductId(1)->save();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Log\Model\Visitor'
+        )->load(
+            $visitor->getId()
+        );
     }
 
     protected function _requireVisitorWithNoProducts()
     {
         /** @var $visitor \Magento\Log\Model\Visitor */
-        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Log\Model\Visitor');
+        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Log\Model\Visitor');
 
-        /** @var \Magento\Stdlib\DateTime $dateTime */
-        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Stdlib\DateTime');
 
-        $visitor->setSessionId(md5(time()) . md5(microtime()))
-            ->setLastVisitAt($dateTime->now())
-            ->save();
+        $visitor->setSessionId(md5(time()) . md5(microtime()))->setLastVisitAt($dateTime->now())->save();
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor')
-            ->load($visitor->getId());
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Log\Model\Visitor'
+        )->load(
+            $visitor->getId()
+        );
 
         $this->_assertCompareListEquals(array());
     }
@@ -163,10 +200,67 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _requireVisitorWithTwoProducts()
     {
         /** @var $visitor \Magento\Log\Model\Visitor */
+        $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Log\Model\Visitor');
+        /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Stdlib\DateTime');
+        $visitor->setSessionId(md5(time()) . md5(microtime()))->setLastVisitAt($dateTime->now())->save();
+
+        /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
+        $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product\Compare\Item'
+        );
+        $item->setVisitorId($visitor->getId())->setProductId(1)->save();
+
+        /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
+        $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product\Compare\Item'
+        );
+        $item->setVisitorId($visitor->getId())->setProductId(2)->save();
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Log\Model\Visitor'
+        )->load(
+            $visitor->getId()
+        );
+
+        $this->_assertCompareListEquals(array(1, 2));
+    }
+
+    protected function _requireCustomerWithTwoProducts()
+    {
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer
+            ->setWebsiteId(1)
+            ->setId(1)
+            ->setEntityTypeId(1)
+            ->setAttributeSetId(1)
+            ->setEmail('customer@example.com')
+            ->setPassword('password')
+            ->setGroupId(1)
+            ->setStoreId(1)
+            ->setIsActive(1)
+            ->setFirstname('Firstname')
+            ->setLastname('Lastname')
+            ->setDefaultBilling(1)
+            ->setDefaultShipping(1)
+        ;
+        $customer->isObjectNew(true);
+        $customer->save();
+
+        /** @var $session \Magento\Customer\Model\Session */
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\Session');
+        $session->setCustomerId(1);
+
+        /** @var $visitor \Magento\Log\Model\Visitor */
         $visitor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Log\Model\Visitor');
-        /** @var \Magento\Stdlib\DateTime $dateTime */
-        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Stdlib\DateTime');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt($dateTime->now())
             ->save();
@@ -175,6 +269,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
+            ->setCustomerId(1)
             ->setProductId(1)
             ->save();
 
@@ -199,9 +294,11 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _assertCompareListEquals(array $expectedProductIds)
     {
         /** @var $compareItems \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
-        $compareItems = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
-        $compareItems->useProductItem(true); // important
+        $compareItems = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Product\Compare\Item\Collection'
+        );
+        $compareItems->useProductItem(true);
+        // important
         $compareItems->setVisitorId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Log\Model\Visitor')->getId()
         );

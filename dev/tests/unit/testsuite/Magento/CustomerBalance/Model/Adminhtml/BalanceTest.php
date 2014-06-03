@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Model\Adminhtml;
 
 /**
@@ -30,7 +26,7 @@ class BalanceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWebsiteIdWithException()
     {
-        $this->setExpectedException('Magento\Core\Exception', __('A website ID must be set.'));
+        $this->setExpectedException('Magento\Framework\Model\Exception', __('A website ID must be set.'));
         $this->_model->getWebsiteId();
     }
 

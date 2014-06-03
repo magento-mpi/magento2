@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftCardAccount\Model\System\Config\Backend;
 
-class Pool extends \Magento\Core\Model\Config\Value
+class Pool extends \Magento\Framework\App\Config\Value
 {
     /**
      * Gift card account pool
@@ -19,27 +17,25 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected $_giftCardAccountPool = null;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftCardAccountPool = $giftCardAccountPool;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -48,8 +44,8 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
-            if (!$this->_coreRegistry->registry('giftcardaccount_code_length_check')) {
-                $this->_coreRegistry->register('giftcardaccount_code_length_check', 1);
+            if (!$this->_registry->registry('giftcardaccount_code_length_check')) {
+                $this->_registry->register('giftcardaccount_code_length_check', 1);
                 $this->_checkMaxLength();
             }
         }
@@ -71,7 +67,7 @@ class Pool extends \Magento\Core\Model\Config\Value
      * Check Max Length
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _checkMaxLength()
     {
@@ -83,7 +79,7 @@ class Pool extends \Magento\Core\Model\Config\Value
         $len = 0;
         $codeLen = 0;
         if (isset($fields['code_length']['value'])) {
-            $codeLen = (int) $fields['code_length']['value'];
+            $codeLen = (int)$fields['code_length']['value'];
             $len += $codeLen;
         }
         if (isset($fields['code_suffix']['value'])) {
@@ -96,12 +92,14 @@ class Pool extends \Magento\Core\Model\Config\Value
             $v = (int)$fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
                 $sep = $this->_giftCardAccountPool->getCodeSeparator();
-                $len += (ceil($codeLen / $v) * strlen($sep)) - 1;
+                $len += ceil($codeLen / $v) * strlen($sep) - 1;
             }
         }
 
         if ($len > 255) {
-            throw new \Magento\Core\Exception(__('Maximum generated code length is 255. Please correct your settings.'));
+            throw new \Magento\Framework\Model\Exception(
+                __('Maximum generated code length is 255. Please correct your settings.')
+            );
         }
     }
 }

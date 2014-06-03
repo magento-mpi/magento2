@@ -12,7 +12,7 @@ namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -22,13 +22,11 @@ class Factory
     protected $_deserializers;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $deserializers
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        array $deserializers = array()
-    ) {
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, array $deserializers = array())
+    {
         $this->_objectManager = $objectManager;
         $this->_deserializers = $deserializers;
     }
@@ -55,13 +53,15 @@ class Factory
 
         if (!isset($deserializerClass) || empty($deserializerClass)) {
             throw new \Magento\Webapi\Exception(
-                'Server cannot understand Content-Type HTTP header media type ' . $contentType);
+                'Server cannot understand Content-Type HTTP header media type ' . $contentType
+            );
         }
 
         $deserializer = $this->_objectManager->get($deserializerClass);
         if (!$deserializer instanceof \Magento\Webapi\Controller\Rest\Request\DeserializerInterface) {
             throw new \LogicException(
-                'The deserializer must implement "Magento\Webapi\Controller\Rest\Request\DeserializerInterface".');
+                'The deserializer must implement "Magento\Webapi\Controller\Rest\Request\DeserializerInterface".'
+            );
         }
         return $deserializer;
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\DesignEditor\Model\Theme;
 /**
  * Design editor theme change
  */
-class Change extends \Magento\Core\Model\AbstractModel
+class Change extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Theme model initialization

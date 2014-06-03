@@ -15,12 +15,12 @@ class IndexOutdated implements \Magento\AdminNotification\Model\System\MessageIn
     protected $_indexer;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -31,13 +31,13 @@ class IndexOutdated implements \Magento\AdminNotification\Model\System\MessageIn
 
     /**
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\UrlInterface $urlBuilder
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      */
     public function __construct(
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\UrlInterface $urlBuilder,
-        \Magento\AuthorizationInterface $authorization
+        \Magento\Framework\UrlInterface $urlBuilder,
+        \Magento\Framework\AuthorizationInterface $authorization
     ) {
         $this->_indexer = $indexer;
         $this->_urlBuilder = $urlBuilder;
@@ -54,8 +54,8 @@ class IndexOutdated implements \Magento\AdminNotification\Model\System\MessageIn
             $processes = $this->_indexer->getProcessesCollection()->addEventsStats();
             /** @var $process \Magento\Index\Model\Process */
             foreach ($processes as $process) {
-                if (($process->getStatus() == \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
-                    || $process->getEvents() > 0) && $process->getIndexer()->isVisible()
+                if (($process->getStatus() == \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX ||
+                    $process->getEvents() > 0) && $process->getIndexer()->isVisible()
                 ) {
                     $this->_indexes[] = $process->getIndexer()->getName();
                 }

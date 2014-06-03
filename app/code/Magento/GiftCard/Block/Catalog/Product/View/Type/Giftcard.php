@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,57 +19,22 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
-     * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $arrayUtils,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -82,7 +45,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getAmountSettingsJson($product)
     {
-        $result = array('min'=>0, 'max'=>0);
+        $result = array('min' => 0, 'max' => 0);
         if ($product->getAllowOpenAmount()) {
             if ($v = $product->getOpenAmountMin()) {
                 $result['min'] = $v;
@@ -109,6 +72,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return bool
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable
      */
     public function isOpenAmountAvailable($product)
     {
@@ -121,6 +86,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return bool
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable
      */
     public function isAmountAvailable($product)
     {
@@ -133,6 +100,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @param Product $product
      * @return array
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts
      */
     public function getAmounts($product)
     {
@@ -146,6 +115,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @return string
+     *
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency
      */
     public function getCurrentCurrency()
     {
@@ -159,9 +130,12 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
-            return $this->_storeConfig->getConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
+            return $this->_scopeConfig->isSetFlag(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         } else {
-            return (int) $product->getAllowMessage();
+            return (int)$product->getAllowMessage();
         }
     }
 
@@ -183,7 +157,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     public function getCustomerName()
     {
         $firstName = (string)$this->_customerSession->getCustomer()->getFirstname();
-        $lastName  = (string)$this->_customerSession->getCustomer()->getLastname();
+        $lastName = (string)$this->_customerSession->getCustomer()->getLastname();
 
         if ($firstName && $lastName) {
             return $firstName . ' ' . $lastName;
@@ -205,7 +179,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getMessageMaxLength()
     {
-        return (int) $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int)$this->_scopeConfig->getValue(
+            \Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -216,7 +193,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getDefaultValue($key)
     {
-        return (string) $this->getProduct()->getPreconfiguredValues()->getData($key);
+        return (string)$this->getProduct()->getPreconfiguredValues()->getData($key);
     }
 
     /**

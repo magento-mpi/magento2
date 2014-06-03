@@ -13,7 +13,6 @@ use Magento\Integration\Model\Config\Converter;
 /**
  * Class to manage integrations installed from config file
  *
- * @package Magento\Integration\Model
  */
 class Manager
 {
@@ -81,7 +80,6 @@ class Manager
             } else {
                 $this->_integrationService->create($integrationData);
             }
-
         }
         return $integrationNames;
     }

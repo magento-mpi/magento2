@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@ namespace Magento\Tax\Model\TaxClass;
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -27,13 +25,13 @@ class Factory
      */
     protected $_types = array(
         \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER => 'Magento\Tax\Model\TaxClass\Type\Customer',
-        \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT => 'Magento\Tax\Model\TaxClass\Type\Product',
+        \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT => 'Magento\Tax\Model\TaxClass\Type\Product'
     );
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -43,13 +41,13 @@ class Factory
      *
      * @param \Magento\Tax\Model\ClassModel $taxClass
      * @return \Magento\Tax\Model\TaxClass\Type\TypeInterface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function create(\Magento\Tax\Model\ClassModel $taxClass)
     {
         $taxClassType = $taxClass->getClassType();
         if (!array_key_exists($taxClassType, $this->_types)) {
-            throw new \Magento\Core\Exception(sprintf('Invalid type of tax class "%s"', $taxClassType));
+            throw new \Magento\Framework\Model\Exception(sprintf('Invalid type of tax class "%s"', $taxClassType));
         }
         return $this->_objectManager->create(
             $this->_types[$taxClassType],

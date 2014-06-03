@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +10,6 @@
 /**
  * An extended test case implementation that adds useful helper methods
  *
- * @package     selenium
- * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *
  * @method Core_Mage_AdminUser_Helper                                                                  adminUserHelper()
@@ -1670,7 +1665,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             'Network Error',
             'Warning: ',
             '/app/code/',
-            '/lib/Magento/',
+            '/lib/internal/Magento/',
             'was not found',
             'Notice: ',
             'Whoops, our bad',

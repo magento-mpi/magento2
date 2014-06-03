@@ -9,17 +9,33 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 
 class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
 {
     /**
+     * @var ParameterBuilder
+     */
+    protected $parameterBuilder;
+
+    /**
+     * @param ParameterBuilder $parameterBuilder
+     */
+    public function __construct(ParameterBuilder $parameterBuilder)
+    {
+        $this->parameterBuilder = $parameterBuilder;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function success()
     {
-        return (new ParameterBuilder())->setName('id')->setValue('a good id')->create();
+        return $this->parameterBuilder->setName('id')->setValue('a good id')->create();
     }
 
     /**
@@ -27,7 +43,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function resourceNotFoundException()
     {
-        throw new \Magento\Service\ResourceNotFoundException('', 2345, null, array(), 'resourceNotFound', 'resourceY');
+        throw new NoSuchEntityException('Resource with ID "%resource_id" not found.', ['resource_id' => 'resourceY']);
     }
 
     /**
@@ -35,7 +51,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function serviceException()
     {
-        throw new \Magento\Service\Exception('Generic service exception', 3456);
+        throw new \Magento\Webapi\ServiceException('Generic service exception', 3456);
     }
 
     /**
@@ -47,7 +63,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
         foreach ($parameters as $parameter) {
             $details[$parameter->getName()] = $parameter->getValue();
         }
-        throw new \Magento\Service\Exception('Parameterized service exception', 1234, null, $details);
+        throw new \Magento\Webapi\ServiceException('Parameterized service exception', 1234, null, $details);
     }
 
     /**
@@ -55,7 +71,10 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function authorizationException()
     {
-        throw new \Magento\Service\AuthorizationException('', 4567, null, array(), 'authorization', 30, 'resourceN');
+        throw new AuthorizationException('Consumer ID %consumer_id is not authorized to access %resources', [
+            'consumer_id' => '30',
+            'resources'   => 'resourceN'
+        ]);
     }
 
     /**
@@ -80,5 +99,22 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
     public function returnIncompatibleDataType()
     {
         return "incompatibleDataType";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inputException($wrappedErrorParameters)
+    {
+        $exception = new InputException();
+        if ($wrappedErrorParameters) {
+            foreach ($wrappedErrorParameters as $error) {
+                $exception->addError(
+                    InputException::INVALID_FIELD_VALUE,
+                    ['fieldName' => $error->getFieldName(), 'value' => $error->getValue()]
+                );
+            }
+        }
+        throw $exception;
     }
 }

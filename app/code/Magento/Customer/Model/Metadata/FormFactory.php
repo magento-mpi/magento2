@@ -12,14 +12,14 @@ namespace Magento\Customer\Model\Metadata;
 class FormFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -38,19 +38,19 @@ class FormFactory
     public function create(
         $entityType,
         $formCode,
-        array $attributeValues = [],
+        array $attributeValues = array(),
         $isAjax = false,
         $ignoreInvisible = Form::IGNORE_INVISIBLE,
-        $filterAttributes = []
+        $filterAttributes = array()
     ) {
-        $params = [
+        $params = array(
             'entityType' => $entityType,
             'formCode' => $formCode,
             'attributeValues' => $attributeValues,
             'ignoreInvisible' => $ignoreInvisible,
             'filterAttributes' => $filterAttributes,
-            'isAjax' => $isAjax,
-        ];
+            'isAjax' => $isAjax
+        );
         return $this->_objectManager->create('Magento\Customer\Model\Metadata\Form', $params);
     }
 }

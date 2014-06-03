@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category Magento
- * @package Magento_Rma
  * @copyright {copyright}
  * @license {license_link}
  */
@@ -12,14 +10,12 @@ namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
 /**
  * Order RMA Grid
  */
-class Rma
-    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -28,7 +24,7 @@ class Rma
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -36,7 +32,7 @@ class Rma
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -71,8 +67,7 @@ class Rma
         }
         if ($orderId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = $this->_collectionFactory->create()
-                ->addFieldToFilter('order_id', $orderId);
+            $collection = $this->_collectionFactory->create()->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
         return $this;

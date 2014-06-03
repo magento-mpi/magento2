@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\Config\Source\TaxClass;
 
-class Customer implements \Magento\Option\ArrayInterface
+class Customer implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Tax\Model\TaxClass\Source\CustomerFactory

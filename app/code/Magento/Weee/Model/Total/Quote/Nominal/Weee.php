@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Weee\Model\Total\Quote\Nominal;
+
 /**
  * Nominal fixed product tax total
  */
-namespace Magento\Weee\Model\Total\Quote\Nominal;
-
 class Weee extends \Magento\Weee\Model\Total\Quote\Weee
 {
     /**

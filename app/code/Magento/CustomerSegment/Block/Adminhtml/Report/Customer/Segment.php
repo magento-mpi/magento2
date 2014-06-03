@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer;
 /**
  * Customer Segments grid container
  *
- * @category   Magento
- * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Segment
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Segment extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor
@@ -32,5 +27,4 @@ class Segment
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
 class UpSell implements \Magento\Catalog\Model\Product\CopyConstructorInterface

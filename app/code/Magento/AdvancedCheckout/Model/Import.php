@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\AdvancedCheckout\Model;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Import data from file
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
-class Import extends \Magento\Object
+class Import extends \Magento\Framework\Object
 {
     /**
      * Form field name
@@ -36,9 +32,7 @@ class Import extends \Magento\Object
      *
      * @var string[]
      */
-    protected $_allowedExtensions = array(
-        'csv'
-    );
+    protected $_allowedExtensions = array('csv');
 
     /**
      * @var \Magento\AdvancedCheckout\Helper\Data
@@ -53,7 +47,7 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $varDirectory;
 
@@ -67,19 +61,19 @@ class Import extends \Magento\Object
     /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($data);
         $this->_uploaderFactory = $uploaderFactory;
-        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -112,9 +106,7 @@ class Import extends \Magento\Object
             $result = $uploader->save($this->varDirectory->getAbsolutePath($this->uploadPath));
             $this->_uploadedFile = $this->varDirectory->getRelativePath($result['path'] . $result['file']);
         } catch (\Exception $e) {
-            throw new Exception(
-                $this->_checkoutData->getFileGeneralErrorText()
-            );
+            throw new Exception($this->_checkoutData->getFileGeneralErrorText());
         }
     }
 
@@ -129,10 +121,10 @@ class Import extends \Magento\Object
         $extension = pathinfo($this->_uploadedFile, PATHINFO_EXTENSION);
         $method = $this->_getMethodByExtension(strtolower($extension));
         if (!empty($method) && method_exists($this, $method)) {
-            return $this->$method();
+            return $this->{$method}();
         }
 
-        throw new Exception($this->_getFileTypeMessageText());
+        throw new \Magento\Framework\Model\Exception($this->_getFileTypeMessageText());
     }
 
     /**
@@ -143,10 +135,8 @@ class Import extends \Magento\Object
      */
     public function getDataFromCsv()
     {
-        if (!$this->_uploadedFile || !($this->varDirectory->isExist($this->_uploadedFile))) {
-            throw new Exception(
-                $this->_checkoutData->getFileGeneralErrorText()
-            );
+        if (!$this->_uploadedFile || !$this->varDirectory->isExist($this->_uploadedFile)) {
+            throw new Exception($this->_checkoutData->getFileGeneralErrorText());
         }
 
         $csvData = array();
@@ -168,9 +158,7 @@ class Import extends \Magento\Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        throw new Exception(
-                            $this->_checkoutData->getSkuEmptyDataMessageText()
-                        );
+                        throw new Exception($this->_checkoutData->getSkuEmptyDataMessageText());
                     }
                 }
 

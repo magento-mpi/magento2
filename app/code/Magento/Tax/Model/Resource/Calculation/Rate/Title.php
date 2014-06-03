@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Tax\Model\Resource\Calculation\Rate;
 /**
  * Tax Rate Title Collection
  *
- * @category    Magento
- * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Title extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Title extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization

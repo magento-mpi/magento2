@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
 /**
  * Theme selector tab for customized themes
  */
-class Customizations
-    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
+class Customizations extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
 {
     /**
      * Initialize tab block

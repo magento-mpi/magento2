@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Rate;
 
-class Title extends \Magento\View\Element\Template
+class Title extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array
@@ -34,19 +32,19 @@ class Title extends \Magento\View\Element\Template
     protected $_rate;
 
     /**
-     * @var \Magento\Core\Model\StoreFactory
+     * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Tax\Model\Calculation\Rate $rate,
         array $data = array()
     ) {
@@ -82,10 +80,7 @@ class Title extends \Magento\View\Element\Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = $this->_storeFactory->create()
-                ->getResourceCollection()
-                ->setLoadDefault(false)
-                ->load();
+            $stores = $this->_storeFactory->create()->getResourceCollection()->setLoadDefault(false)->load();
             $this->setData('stores', $stores);
         }
         return $stores;

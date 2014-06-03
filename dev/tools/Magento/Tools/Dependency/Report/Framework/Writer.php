@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Framework;
 
 use Magento\Tools\Dependency\Report\Writer\Csv\AbstractWriter;
@@ -23,19 +22,19 @@ class Writer extends AbstractWriter
      */
     protected function prepareData($config)
     {
-        $data[] = ['Dependencies of framework:', 'Total number'];
-        $data[] = ['', $config->getDependenciesCount()];
-        $data[] = [];
+        $data[] = array('Dependencies of framework:', 'Total number');
+        $data[] = array('', $config->getDependenciesCount());
+        $data[] = array();
 
 
         if ($config->getDependenciesCount()) {
-            $data[] = ['Dependencies for each module:', ''];
+            $data[] = array('Dependencies for each module:', '');
             foreach ($config->getModules() as $module) {
-                $data[] = [$module->getName(), $module->getDependenciesCount()];
+                $data[] = array($module->getName(), $module->getDependenciesCount());
                 foreach ($module->getDependencies() as $dependency) {
-                    $data[] = [' -- ' . $dependency->getLib(), $dependency->getCount()];
+                    $data[] = array(' -- ' . $dependency->getLib(), $dependency->getCount());
                 }
-                $data[] = [];
+                $data[] = array();
             }
         }
         array_pop($data);

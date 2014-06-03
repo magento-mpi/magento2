@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Rma;
 
 /**
  * RMA create model
  */
-class Create extends \Magento\Object
+class Create extends \Magento\Framework\Object
 {
     /**
      * Customer object, RMA's order attached to

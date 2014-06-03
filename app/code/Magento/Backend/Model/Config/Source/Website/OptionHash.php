@@ -2,16 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Website;
 
-use Magento\Core\Model\System\Store;
-use Magento\Option\ArrayInterface;
+use Magento\Store\Model\System\Store;
+use Magento\Framework\Option\ArrayInterface;
 
 class OptionHash implements ArrayInterface
 {
@@ -47,5 +44,3 @@ class OptionHash implements ArrayInterface
         return $this->_systemStore->getWebsiteOptionHash($this->_withDefaultWebsite);
     }
 }
-
-

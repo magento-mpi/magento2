@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Repository\AbstractRepository;
  * Class Customer Repository
  * Paypal buyer account
  *
- * @package Magento\Paypal\Test\Repository
  */
 class Customer extends AbstractRepository
 {
@@ -41,7 +37,7 @@ class Customer extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'login_email' => array(
-                        'value' => 'mtf_buyer@example.com'
+                        'value' => 'mtf_personal@example.com'
                     ),
                     'login_password' => array(
                         'value' => '12345678'

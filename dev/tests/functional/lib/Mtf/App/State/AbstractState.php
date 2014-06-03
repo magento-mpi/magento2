@@ -11,7 +11,6 @@ namespace Mtf\App\State;
 /**
  * Abstract class AbstractState
  *
- * @package Mtf\App\State
  */
 abstract class AbstractState implements StateInterface
 {
@@ -47,7 +46,7 @@ abstract class AbstractState implements StateInterface
         $password = (string)$config->connection->password;
         $database = (string)$config->connection->dbName;
 
-        $fileName = MTF_BP . DIRECTORY_SEPARATOR . $database . '.sql';
+        $fileName = MTF_BP . '/' . $database . '.sql';
         if (!file_exists($fileName)) {
             echo('Database dump was not found by path: ' . $fileName);
             return;

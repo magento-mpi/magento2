@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Widget;
 
-class AbstractWidget extends \Magento\View\Element\Template
+class AbstractWidget extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
@@ -22,13 +20,13 @@ class AbstractWidget extends \Magento\View\Element\Template
     protected $_addressHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
         array $data = array()
@@ -98,7 +96,7 @@ class AbstractWidget extends \Magento\View\Element\Template
     {
         try {
             return $this->_attributeMetadata->getCustomerAttributeMetadata($attributeCode);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return null;
         }
     }

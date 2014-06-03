@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,13 @@ namespace Magento\Authorizenet\Model\Authorizenet;
 class Cards
 {
     const CARDS_NAMESPACE = 'authorize_cards';
+
     const CARD_ID_KEY = 'id';
+
     const CARD_PROCESSED_AMOUNT_KEY = 'processed_amount';
+
     const CARD_CAPTURED_AMOUNT_KEY = 'captured_amount';
+
     const CARD_REFUNDED_AMOUNT_KEY = 'refunded_amount';
 
     /**
@@ -83,7 +85,7 @@ class Cards
     /**
      * Save data from card object in cards storage
      *
-     * @param \Magento\Object $card
+     * @param \Magento\Framework\Object $card
      * @return $this
      */
     public function updateCard($card)
@@ -100,12 +102,12 @@ class Cards
      * Retrieve card by ID
      *
      * @param string $cardId
-     * @return \Magento\Object|false
+     * @return \Magento\Framework\Object|false
      */
     public function getCard($cardId)
     {
         if (isset($this->_cards[$cardId])) {
-            $card = new \Magento\Object($this->_cards[$cardId]);
+            $card = new \Magento\Framework\Object($this->_cards[$cardId]);
             return $card;
         }
         return false;

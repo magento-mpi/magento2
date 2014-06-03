@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer;
 
 /**
@@ -28,10 +24,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->indexTable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogPermissions\Model\Resource\Permission\Index');
-        $this->product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $this->indexTable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogPermissions\Model\Resource\Permission\Index'
+        );
+        $this->product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
     }
 
     /**
@@ -46,16 +44,15 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getProduct();
         /** @var  $indexer \Magento\Indexer\Model\IndexerInterface */
-        $indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Indexer\Model\Indexer');
+        $indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Indexer\Model\Indexer'
+        );
         $indexer->load(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID);
         $indexer->reindexAll();
 
         $this->assertEmpty($this->indexTable->getIndexForProduct(3, 1, 1));
-        $this->assertContains(
-            $this->getProductData(),
-            $this->indexTable->getIndexForProduct($product->getId(), 1, 1)
-        );
+        $productData = array_merge(array('product_id' => $product->getId()), $this->getProductData());
+        $this->assertContains($productData, $this->indexTable->getIndexForProduct($product->getId(), 1, 1));
 
         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         $product->save();
@@ -67,11 +64,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function getProductData()
     {
-        return [
+        return array(
             'grant_catalog_category_view' => '-2',
             'grant_catalog_product_price' => '-2',
-            'grant_checkout_items' => '-2',
-        ];
+            'grant_checkout_items' => '-2'
+        );
     }
 
     /**

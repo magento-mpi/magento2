@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model;
 
 class AreaEmulatorTest extends \PHPUnit_Framework_TestCase
@@ -22,19 +21,16 @@ class AreaEmulatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
         $this->_model = new AreaEmulator($this->_objectManager);
     }
 
     public function testEmulateLayoutArea()
     {
         $configuration = array(
-            'Magento\Core\Model\Layout' => array(
+            'Magento\Framework\View\Layout' => array(
                 'arguments' => array(
-                    'area' => array(
-                        \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'string',
-                        'value' => 'test_area'
-                    )
+                    'area' => 'test_area'
                 )
             )
         );

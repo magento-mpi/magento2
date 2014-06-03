@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
 class HandlerFactory
@@ -13,14 +12,14 @@ class HandlerFactory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -38,14 +37,16 @@ class HandlerFactory
 
         if (!is_subclass_of(
             $instance,
-            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface')
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
+        )
         ) {
             throw new \InvalidArgumentException(
-                $instance . ' does not implement '
-                 . 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
+                $instance .
+                ' does not implement ' .
+                'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
             );
         }
 
         return $this->objectManager->create($instance, $arguments);
     }
-} 
+}

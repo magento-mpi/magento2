@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,14 +13,10 @@ use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 /**
  * Enterprise search collection resource model
  *
- * @category   Magento
- * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Catalog\Model\Resource\Product\Collection
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
-
     /**
      * Store search query text
      *
@@ -130,58 +124,58 @@ class Collection
     protected $_searchData;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Search\Helper\Data $searchData,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $connection = null
     ) {
         $this->_searchData = $searchData;
@@ -200,7 +194,7 @@ class Collection
             $storeManager,
             $catalogData,
             $catalogProductFlatState,
-            $coreStoreConfig,
+            $scopeConfig,
             $productOptionFactory,
             $catalogUrl,
             $localeDate,
@@ -255,7 +249,7 @@ class Collection
     /**
      * Return suggestions search result data
      *
-     *  @return array
+     * @return array
      */
     public function getSuggestionsData()
     {
@@ -403,13 +397,18 @@ class Collection
      */
     protected function _prepareBaseParams()
     {
-        $store  = $this->_storeManager->getStore();
-        $params = array(
-            'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig($this->_localeResolver->getDefaultLocalePath()),
-            'filters'       => $this->_searchQueryFilters
+        $store = $this->_storeManager->getStore();
+        $localeCode = $this->_scopeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
         );
-        $params['filters']     = $this->_searchQueryFilters;
+        $params = array(
+            'store_id' => $store->getId(),
+            'locale_code' => $localeCode,
+            'filters' => $this->_searchQueryFilters
+        );
+        $params['filters'] = $this->_searchQueryFilters;
 
         if (!empty($this->_searchQueryParams)) {
             $params['ignore_handler'] = true;
@@ -437,20 +436,20 @@ class Collection
                 $params['sort_by'] = $this->_sortBy;
             }
             if ($this->_pageSize !== false) {
-                $page              = ($this->_curPage  > 0) ? (int) $this->_curPage  : 1;
-                $rowCount          = ($this->_pageSize > 0) ? (int) $this->_pageSize : 1;
-                $params['offset']  = $rowCount * ($page - 1);
-                $params['limit']   = $rowCount;
+                $page = $this->_curPage > 0 ? (int)$this->_curPage : 1;
+                $rowCount = $this->_pageSize > 0 ? (int)$this->_pageSize : 1;
+                $params['offset'] = $rowCount * ($page - 1);
+                $params['limit'] = $rowCount;
             }
 
-            $needToLoadFacetedData = (!$this->_facetedDataIsLoaded && !empty($this->_facetedConditions));
+            $needToLoadFacetedData = !$this->_facetedDataIsLoaded && !empty($this->_facetedConditions);
             if ($needToLoadFacetedData) {
                 $params['solr_params']['facet'] = 'on';
                 $params['facet'] = $this->_facetedConditions;
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
-            $ids    = (array) $result['ids'];
+            $ids = (array)$result['ids'];
 
             if ($needToLoadFacetedData) {
                 $this->_facetedData = $result['faceted_data'];
@@ -458,7 +457,7 @@ class Collection
             }
         }
 
-        $this->_searchedEntityIds = &$ids;
+        $this->_searchedEntityIds =& $ids;
         $this->getSelect()->where('e.entity_id IN (?)', $this->_searchedEntityIds);
 
         /**
@@ -487,7 +486,7 @@ class Collection
                 $sortedItems[$id] = $this->_items[$id];
             }
         }
-        $this->_items = &$sortedItems;
+        $this->_items =& $sortedItems;
 
         /**
          * Revert page size for proper paginator ranges
@@ -509,14 +508,17 @@ class Collection
             $params['limit'] = 1;
 
             $helper = $this->_searchData;
-            $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
-                    && $helper->getSolrConfigData('server_suggestion_enabled'));
+            $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery
+                && $helper->getSolrConfigData(
+                    'server_suggestion_enabled'
+                );
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
-                $searchSuggestionsCount = (int) $helper->getSolrConfigData('server_suggestion_count');
-                $params['solr_params']['spellcheck.count']  = $searchSuggestionsCount;
-                $params['spellcheck_result_counts']         = (bool) $helper->getSolrConfigData(
-                    'server_suggestion_count_results_enabled');
+                $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');
+                $params['solr_params']['spellcheck.count'] = $searchSuggestionsCount;
+                $params['spellcheck_result_counts'] = (bool)$helper->getSolrConfigData(
+                    'server_suggestion_count_results_enabled'
+                );
             }
 
             $result = $this->_engine->getIdsByQuery($query, $params);
@@ -623,9 +625,14 @@ class Collection
      * @param string $sort
      * @return array
      */
-    public function getPriceData($lowerPrice = null, $upperPrice = null,
-        $limit = null, $offset = null, $getCount = false, $sort = 'asc')
-    {
+    public function getPriceData(
+        $lowerPrice = null,
+        $upperPrice = null,
+        $limit = null,
+        $offset = null,
+        $getCount = false,
+        $sort = 'asc'
+    ) {
         list($query, $params) = $this->_prepareBaseParams();
         $priceField = $this->_engine->getSearchEngineFieldName('price');
         $conditions = null;
@@ -660,9 +667,9 @@ class Collection
         }
         $result = array();
         foreach ($data['ids'] as $value) {
-            $result[] = (float)$value[$priceField];
+            $result[] = (double)$value[$priceField];
         }
 
-        return ($sort == 'asc') ? $result : array_reverse($result);
+        return $sort == 'asc' ? $result : array_reverse($result);
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,17 +11,17 @@
  */
 namespace Magento\Theme\Model;
 
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 
 class CopyService
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $_directory;
 
     /**
-     * @var \Magento\View\Design\Theme\FileFactory
+     * @var \Magento\Framework\View\Design\Theme\FileFactory
      */
     protected $_fileFactory;
 
@@ -38,32 +36,32 @@ class CopyService
     protected $_updateFactory;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\View\Design\Theme\Customization\Path
+     * @var \Magento\Framework\View\Design\Theme\Customization\Path
      */
     protected $_customizationPath;
 
     /**
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\Design\Theme\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\View\Design\Theme\FileFactory $fileFactory
      * @param \Magento\Core\Model\Layout\Link $link
      * @param \Magento\Core\Model\Layout\UpdateFactory $updateFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\View\Design\Theme\Customization\Path $customization
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\View\Design\Theme\Customization\Path $customization
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\Design\Theme\FileFactory $fileFactory,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\View\Design\Theme\FileFactory $fileFactory,
         \Magento\Core\Model\Layout\Link $link,
         \Magento\Core\Model\Layout\UpdateFactory $updateFactory,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\View\Design\Theme\Customization\Path $customization
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\View\Design\Theme\Customization\Path $customization
     ) {
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
         $this->_updateFactory = $updateFactory;
@@ -92,10 +90,8 @@ class CopyService
      * @param ThemeInterface $target
      * @return void
      */
-    protected function _copyDatabaseCustomization(
-        ThemeInterface $source,
-        ThemeInterface $target
-    ) {
+    protected function _copyDatabaseCustomization(ThemeInterface $source, ThemeInterface $target)
+    {
         /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($target->getCustomization()->getFiles() as $themeFile) {
             $themeFile->delete();
@@ -106,11 +102,11 @@ class CopyService
             $newThemeFile = $this->_fileFactory->create();
             $newThemeFile->setData(
                 array(
-                   'theme_id'      => $target->getId(),
-                   'file_path'     => $themeFile->getFilePath(),
-                   'file_type'     => $themeFile->getFileType(),
-                   'content'       => $themeFile->getContent(),
-                   'sort_order'    => $themeFile->getData('sort_order'),
+                    'theme_id' => $target->getId(),
+                    'file_path' => $themeFile->getFilePath(),
+                    'file_type' => $themeFile->getFileType(),
+                    'content' => $themeFile->getContent(),
+                    'sort_order' => $themeFile->getData('sort_order')
                 )
             );
             $newThemeFile->save();
@@ -124,10 +120,8 @@ class CopyService
      * @param ThemeInterface $target
      * @return void
      */
-    protected function _copyLayoutCustomization(
-        ThemeInterface $source,
-        ThemeInterface $target
-    ) {
+    protected function _copyLayoutCustomization(ThemeInterface $source, ThemeInterface $target)
+    {
         $update = $this->_updateFactory->create();
         /** @var $targetUpdates \Magento\Core\Model\Resource\Layout\Update\Collection */
         $targetUpdates = $update->getCollection();
@@ -160,10 +154,8 @@ class CopyService
      * @param ThemeInterface $target
      * @return void
      */
-    protected function _copyFilesystemCustomization(
-        ThemeInterface $source,
-        ThemeInterface $target
-    ) {
+    protected function _copyFilesystemCustomization(ThemeInterface $source, ThemeInterface $target)
+    {
         $sourcePath = $this->_customizationPath->getCustomizationPath($source);
         $targetPath = $this->_customizationPath->getCustomizationPath($target);
 

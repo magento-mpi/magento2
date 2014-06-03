@@ -2,17 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml;
 
 class Banner extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
     /**
      * Initialize banners manage page
      *

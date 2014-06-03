@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Widget Instance Collection
  *
- * @category    Magento
- * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Widget\Model\Resource\Widget\Instance;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Fields map for corellation names & real selected fields
@@ -26,7 +22,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @var array
      */
     protected $_map = array('fields' => array('type' => 'instance_type'));
-
 
     /**
      * Constructor

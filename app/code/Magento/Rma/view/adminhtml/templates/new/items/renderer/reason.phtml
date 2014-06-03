@@ -1,0 +1,34 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @see \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer\Reason
+ */
+?>
+<tr>
+    <td class="label"></td>
+    <td class="value">
+        <select id="rma_properties_reason" name="reason" class="action-select">
+            <?php
+                if ($values = $this->getElement()->getValues()) {
+
+                foreach ($values as $key => $option) {
+                    if (!isset($option['title'])) {
+                        $option['title'] = $option['label'];
+                    }
+                    ?>
+                        <option value="<?php echo $this->escapeHtml($option['value']) ?>" title="<?php echo $this->escapeHtml($option['title']) ?>">
+                            <?php echo $this->escapeHtml($option['label']) ?>
+                        </option>
+                    <?php }
+                }
+            ?>
+        </select>
+    </td>
+</tr>

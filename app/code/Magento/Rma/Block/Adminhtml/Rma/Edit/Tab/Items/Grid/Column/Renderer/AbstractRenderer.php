@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 /**
  * Grid column widget for rendering action grid cells depending on item status
  */
-class AbstractRenderer
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class AbstractRenderer extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Rma item status
@@ -41,10 +38,10 @@ class AbstractRenderer
      *
      * Render column depending on row status value, which define whether cell is editable
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $this->_itemStatus->setStatus($row->getStatus());
         $this->setStatusManager($this->_itemStatus);
@@ -61,10 +58,10 @@ class AbstractRenderer
      *
      * Must be overwritten in child classes
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getEditableView(\Magento\Object $row)
+    protected function _getEditableView(\Magento\Framework\Object $row)
     {
         return parent::render($row);
     }
@@ -74,10 +71,10 @@ class AbstractRenderer
      *
      * Must be overwritten in child classes
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getNonEditableView(\Magento\Object $row)
+    protected function _getNonEditableView(\Magento\Framework\Object $row)
     {
         return parent::render($row);
     }

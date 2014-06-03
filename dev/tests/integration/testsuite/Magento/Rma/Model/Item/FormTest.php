@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Item;
 
 class FormTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +16,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Rma\Model\Item\Form');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Rma\Model\Item\Form'
+        );
         $this->_model->setFormCode('default');
     }
 

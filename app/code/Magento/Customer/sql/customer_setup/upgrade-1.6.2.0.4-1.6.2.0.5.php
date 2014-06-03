@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,5 +17,5 @@ $connection->addIndex(
     $installer->getTable('customer_entity'),
     $installer->getIdxName('customer_entity', array('email', 'website_id')),
     array('email', 'website_id'),
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );

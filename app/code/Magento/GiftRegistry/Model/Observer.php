@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -50,13 +48,13 @@ class Observer
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -64,7 +62,7 @@ class Observer
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
@@ -102,7 +100,7 @@ class Observer
      * Customer address data object before load processing
      * Set gift registry item id flag
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function addressDataBeforeLoad($observer)
@@ -123,7 +121,7 @@ class Observer
      * Customer address data object after load
      * Check gift registry item id flag and set shipping address data to object
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function addressDataAfterLoad($observer)
@@ -131,12 +129,9 @@ class Observer
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = $this->entityFactory->create()
-                ->loadByEntityItem($registryItemId);
+            $model = $this->entityFactory->create()->loadByEntityItem($registryItemId);
             if ($model->getId()) {
-                $object->setId(
-                    $this->_giftRegistryData->getAddressIdPrefix() . $model->getId()
-                );
+                $object->setId($this->_giftRegistryData->getAddressIdPrefix() . $model->getId());
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
             }
@@ -147,7 +142,7 @@ class Observer
     /**
      * Hide customer address on the frontend if it is gift registry shipping address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function addressFormatFront($observer)
@@ -159,12 +154,12 @@ class Observer
     /**
      * Hide customer address in admin panel if it is gift registry shipping address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function addressFormatAdmin($observer)
     {
-        if ($this->_design->getArea() == \Magento\Core\Model\App\Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == \Magento\Framework\App\Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -173,7 +168,7 @@ class Observer
     /**
      * Hide customer address if it is gift registry shipping address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     protected function _addressFormat($observer)
@@ -195,7 +190,7 @@ class Observer
     /**
      * After place order processing, update gift registry items fulfilled qty
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function orderPlaced($observer)
@@ -235,10 +230,10 @@ class Observer
     /**
      * Save page body to cache storage
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function addGiftRegistryQuoteFlag(\Magento\Event\Observer $observer)
+    public function addGiftRegistryQuoteFlag(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->isGiftregistryEnabled()) {
             return $this;
@@ -261,10 +256,10 @@ class Observer
     /**
      * Clean up gift registry items that belongs to the product.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function deleteProduct(\Magento\Event\Observer $observer)
+    public function deleteProduct(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
@@ -280,7 +275,7 @@ class Observer
         /** @var $collection \Magento\GiftRegistry\Model\Resource\Item\Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
-        foreach($collection->getItems() as $item) {
+        foreach ($collection->getItems() as $item) {
             $item->delete();
         }
 
@@ -289,13 +284,13 @@ class Observer
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
         $itemsArray = array();
-        foreach($optionCollection->getItems() as $optionItem) {
-            $itemsArray[$optionItem->getItemId()]  = $optionItem->getItemId();
+        foreach ($optionCollection->getItems() as $optionItem) {
+            $itemsArray[$optionItem->getItemId()] = $optionItem->getItemId();
         }
 
         $collection = $grItem->getCollection()->addItemFilter(array_keys($itemsArray));
 
-        foreach($collection->getItems() as $item) {
+        foreach ($collection->getItems() as $item) {
             $item->delete();
         }
 
@@ -305,12 +300,12 @@ class Observer
     /**
      * Assign a flag to HTML head block signaling whether GiftRegistry is enabled or not
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function assignHtmlHeadRenderingFlag(\Magento\Event\Observer $observer)
+    public function assignHtmlHeadRenderingFlag(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var $layout \Magento\View\LayoutInterface */
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = $observer->getEvent()->getLayout();
         /** @var $blockHead \Magento\Theme\Block\Html\Head */
         $blockHead = $layout->getBlock('head');

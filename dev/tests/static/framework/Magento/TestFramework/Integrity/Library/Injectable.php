@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Integrity\Library;
 
 use Zend\Code\Reflection\ClassReflection;
@@ -13,7 +12,6 @@ use Zend\Code\Reflection\FileReflection;
 use Zend\Code\Reflection\ParameterReflection;
 
 /**
- * @package Magento\TestFramework
  */
 class Injectable
 {

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page_types>
+<page_types xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Core/etc/page_types.xsd">
     <type id="magento_invitation_customer_account_create" label="Customer Account Registration by Invitation Form"/>
     <type id="magento_invitation_index_index" label="Customer My Account Invitations List"/>
     <type id="magento_invitation_index_send" label="Customer My Account Invitations Form"/>

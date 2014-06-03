@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="head">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-iphone-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/iphone.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-widgets-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/widgets.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-custom-css">
+            <arguments>
+                <argument name="file" xsi:type="string">css/custom.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="js-iphone-js">
+            <arguments>
+                <argument name="file" xsi:type="string">js/iphone.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="js-dnd-js">
+            <arguments>
+                <argument name="file" xsi:type="string">dnd.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="js-modernizr-js">
+            <arguments>
+                <argument name="file" xsi:type="string">modernizr/modernizr.2.0.6.js</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</layout>

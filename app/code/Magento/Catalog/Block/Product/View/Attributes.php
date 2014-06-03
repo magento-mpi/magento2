@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +10,13 @@
 /**
  * Product description block
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Product\View;
 
 use Magento\Catalog\Model\Product;
 
-class Attributes extends \Magento\View\Element\Template
+class Attributes extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var Product
@@ -30,18 +26,18 @@ class Attributes extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -51,7 +47,7 @@ class Attributes extends \Magento\View\Element\Template
     /**
      * @return Product
      */
-    function getProduct()
+    public function getProduct()
     {
         if (!$this->_product) {
             $this->_product = $this->_coreRegistry->registry('product');
@@ -87,7 +83,7 @@ class Attributes extends \Magento\View\Element\Template
                     $data[$attribute->getAttributeCode()] = array(
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'code'  => $attribute->getAttributeCode()
+                        'code' => $attribute->getAttributeCode()
                     );
                 }
             }

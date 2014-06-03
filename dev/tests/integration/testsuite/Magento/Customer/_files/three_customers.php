@@ -5,11 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
 /** @var Magento\Customer\Model\Customer $customer */
-$customer
-    ->setWebsiteId(1)
+$customer->setWebsiteId(1)
     ->setId(1)
     ->setEntityTypeId(1)
     ->setAttributeSetId(1)
@@ -22,15 +20,12 @@ $customer
     ->setLastname('Lastname')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1)
-    ->setCreatedAt('2014-02-28 15:52:26')
-;
+    ->setCreatedAt('2014-02-28 15:52:26');
 $customer->isObjectNew(true);
 
 $customer->save();
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
-$customer
-    ->setWebsiteId(1)
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -41,16 +36,14 @@ $customer
     ->setIsActive(1)
     ->setFirstname('Firstname2')
     ->setLastname('Lastname2')
-    ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
+    ->setDefaultBilling(2)
+    ->setDefaultShipping(2)
     ->setCreatedAt('2010-02-28 15:52:26');
 $customer->isObjectNew(true);
 $customer->save();
 
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Customer');
-$customer
-    ->setWebsiteId(1)
+$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+$customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -61,8 +54,8 @@ $customer
     ->setIsActive(1)
     ->setFirstname('Firstname3')
     ->setLastname('Lastname3')
-    ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
+    ->setDefaultBilling(3)
+    ->setDefaultShipping(3)
     ->setCreatedAt('2012-02-28 15:52:26');
 $customer->isObjectNew(true);
 $customer->save();

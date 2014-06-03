@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Backend\Model\Search;
 /**
  * Search Catalog Model
  */
-class Catalog extends \Magento\Object
+class Catalog extends \Magento\Framework\Object
 {
     /**
      * Catalog search data
@@ -24,7 +22,7 @@ class Catalog extends \Magento\Object
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -37,12 +35,12 @@ class Catalog extends \Magento\Object
 
     /**
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {
         $this->_adminhtmlData = $adminhtmlData;
@@ -63,22 +61,26 @@ class Catalog extends \Magento\Object
             return $this;
         }
 
-        $collection = $this->_catalogSearchData->getQuery()->getSearchCollection()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSelect('description')
-            ->addSearchFilter($this->getQuery())
-            ->setCurPage($this->getStart())
-            ->setPageSize($this->getLimit())
-            ->load();
+        $collection = $this->_catalogSearchData->getQuery()->getSearchCollection()->addAttributeToSelect(
+            'name'
+        )->addAttributeToSelect(
+            'description'
+        )->addSearchFilter(
+            $this->getQuery()
+        )->setCurPage(
+            $this->getStart()
+        )->setPageSize(
+            $this->getLimit()
+        )->load();
 
         foreach ($collection as $product) {
             $description = strip_tags($product->getDescription());
             $result[] = array(
-                'id'            => 'product/1/'.$product->getId(),
-                'type'          => __('Product'),
-                'name'          => $product->getName(),
-                'description'   => $this->string->substr($description, 0, 30),
-                'url' => $this->_adminhtmlData->getUrl('catalog/product/edit', array('id' => $product->getId())),
+                'id' => 'product/1/' . $product->getId(),
+                'type' => __('Product'),
+                'name' => $product->getName(),
+                'description' => $this->string->substr($description, 0, 30),
+                'url' => $this->_adminhtmlData->getUrl('catalog/product/edit', array('id' => $product->getId()))
             );
         }
 

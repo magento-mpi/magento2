@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,12 @@
 /**
  * Adminhtml system templates page content block
  *
- * @category   Magento
- * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Email\Block\Adminhtml;
 
 class Template extends \Magento\Backend\Block\Template
 {
-
     /**
      * Template list
      *
@@ -30,15 +25,19 @@ class Template extends \Magento\Backend\Block\Template
     /**
      * Create add button and grid blocks
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Add New Template'),
-            'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
-            'class'     => 'add'
-        ));
+        $this->getToolbar()->addChild(
+            'add_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add New Template'),
+                'onclick' => "window.location='" . $this->getCreateUrl() . "'",
+                'class' => 'add primary add-template'
+            )
+        );
 
         return parent::_prepareLayout();
     }

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/VersionsCms/etc/menu_hierarchy.xsd">
     <menuLayout name="name_one" label="Label Name" handle="handle_name" isDefault="true" />
     <menuLayout name="name_two" handle="node_one_two">
         <pageLayout handle="node_one_two" />

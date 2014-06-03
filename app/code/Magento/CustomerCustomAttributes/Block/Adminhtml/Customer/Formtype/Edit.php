@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,26 +10,24 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 /**
  * Create New Form Type Block
  *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -55,7 +51,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected function _construct()
     {
-        $this->_objectId   = 'type_id';
+        $this->_objectId = 'type_id';
         $this->_blockGroup = 'Magento_CustomerCustomAttributes';
         $this->_controller = 'adminhtml_customer_formtype';
 
@@ -65,11 +61,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($editMode == 'edit') {
             $this->_updateButton('save', 'onclick', 'formType.save(false)');
             $this->_updateButton('save', 'data_attribute', null);
-            $this->_addButton('save_and_edit_button', array(
-                'label'     => __('Save and Continue Edit'),
-                'onclick'   => 'formType.save(true)',
-                'class'     => 'save'
-            ));
+            $this->_addButton(
+                'save_and_edit_button',
+                array('label' => __('Save and Continue Edit'), 'onclick' => 'formType.save(true)', 'class' => 'save')
+            );
 
             if ($this->_getFormType()->getIsSystem()) {
                 $this->_removeButton('delete');

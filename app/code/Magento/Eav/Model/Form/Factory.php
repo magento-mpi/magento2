@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,14 +13,14 @@ namespace Magento\Eav\Model\Form;
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -38,10 +36,8 @@ class Factory
     public function create($form, array $data = array())
     {
         $formInstance = $this->_objectManager->create($form, $data);
-        if (false == ($formInstance instanceof \Magento\Eav\Model\Form)) {
-            throw new \InvalidArgumentException(
-                $form . ' is not instance of \Magento\Eav\Model\Form'
-            );
+        if (false == $formInstance instanceof \Magento\Eav\Model\Form) {
+            throw new \InvalidArgumentException($form . ' is not instance of \Magento\Eav\Model\Form');
         }
         return $formInstance;
     }

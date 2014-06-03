@@ -2,16 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Rule\Block;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
-class Actions implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Actions implements \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * @param AbstractElement $element

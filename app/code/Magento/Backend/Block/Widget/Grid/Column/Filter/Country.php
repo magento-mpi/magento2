@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 /**
  * Country grid filter
  */
-class Country
-    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
+class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     /**
      * @var \Magento\Directory\Model\Resource\Country\CollectionFactory
@@ -22,13 +19,13 @@ class Country
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $directoriesFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $directoriesFactory,
         array $data = array()
     ) {

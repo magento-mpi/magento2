@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Sendfriend\Model\Resource;
 /**
  * SendFriend Log Resource Model
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Sendfriend extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and table
@@ -40,16 +36,15 @@ class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getSendCount($object, $ip, $startTime, $websiteId = null)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getMainTable(), array('count' => new \Zend_Db_Expr('count(*)')))
-            ->where('ip=:ip
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            array('count' => new \Zend_Db_Expr('count(*)'))
+        )->where(
+            'ip=:ip
                 AND  time>=:time
-                AND  website_id=:website_id');
-        $bind = array(
-            'ip'      => $ip,
-            'time'    => $startTime,
-            'website_id' => (int)$websiteId,
+                AND  website_id=:website_id'
         );
+        $bind = array('ip' => $ip, 'time' => $startTime, 'website_id' => (int)$websiteId);
 
         $row = $adapter->fetchRow($select, $bind);
         return $row['count'];
@@ -67,11 +62,7 @@ class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->insert(
             $this->getMainTable(),
-            array(
-                'ip'         => $ip,
-                'time'       => $startTime,
-                'website_id' => $websiteId
-             )
+            array('ip' => $ip, 'time' => $startTime, 'website_id' => $websiteId)
         );
         return $this;
     }

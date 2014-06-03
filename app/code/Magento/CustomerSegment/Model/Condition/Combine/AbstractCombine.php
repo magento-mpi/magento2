@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -124,7 +122,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -142,7 +140,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getValue() == 1);
+        return $this->getValue() == 1;
     }
 
     /**
@@ -170,17 +168,17 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param Customer|\Zend_Db_Select|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
         /**
          * Build base SQL
          */
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         /**
@@ -195,7 +193,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
                 } else {
                     $sqlOperator = $operator;
                 }
-                $conditions[] = "($isnull {$sqlOperator} 1)";
+                $conditions[] = "({$isnull} {$sqlOperator} 1)";
             }
         }
 
@@ -247,9 +245,15 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {
-        $storeTable = $this->getResource()->getTable('core_store');
-        $select->join(array('store'=> $storeTable), $storeIdField.'=store.store_id', array())
-            ->where('store.website_id IN (?)', $website);
+        $storeTable = $this->getResource()->getTable('store');
+        $select->join(
+            array('store' => $storeTable),
+            $storeIdField . '=store.store_id',
+            array()
+        )->where(
+            'store.website_id IN (?)',
+            $website
+        );
         return $this;
     }
 }

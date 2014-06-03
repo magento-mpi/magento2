@@ -33,7 +33,7 @@ class CategoryResource
      * @param null|int $afterCategoryId
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeChangeParent(
@@ -46,10 +46,9 @@ class CategoryResource
             /** @var $categoryItem \Magento\Catalog\Model\Category */
             foreach (array($newParent, $category) as $categoryItem) {
                 if (!$this->_role->hasExclusiveCategoryAccess($categoryItem->getData('path'))) {
-                    throw new \Magento\Core\Exception(__('You need more permissions to save this item.'));
+                    throw new \Magento\Framework\Model\Exception(__('You need more permissions to save this item.'));
                 }
             }
         }
     }
 }
-

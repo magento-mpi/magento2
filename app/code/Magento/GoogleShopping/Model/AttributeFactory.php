@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Model;
 /**
  * Attributes Factory
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class AttributeFactory
@@ -21,7 +17,7 @@ class AttributeFactory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -33,19 +29,19 @@ class AttributeFactory
     protected $_gsData;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_string;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\GoogleShopping\Helper\Data $gsData
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\GoogleShopping\Helper\Data $gsData,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_objectManager = $objectManager;
         $this->_gsData = $gsData;
@@ -60,18 +56,19 @@ class AttributeFactory
      */
     public function createAttribute($name)
     {
-        $modelName = 'Magento\GoogleShopping\Model\Attribute\\'
-            . $this->_string->upperCaseWords($this->_gsData->normalizeName($name));
+        $modelName = 'Magento\GoogleShopping\Model\Attribute\\' . $this->_string->upperCaseWords(
+            $this->_gsData->normalizeName($name)
+        );
         try {
             /** @var \Magento\GoogleShopping\Model\Attribute\DefaultAttribute $attributeModel */
             $attributeModel = $this->_objectManager->create($modelName);
             if (!$attributeModel) {
-                $attributeModel = $this->_objectManager
-                    ->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
+                $attributeModel = $this->_objectManager->create(
+                    'Magento\GoogleShopping\Model\Attribute\DefaultAttribute'
+                );
             }
         } catch (\Exception $e) {
-            $attributeModel = $this->_objectManager
-                ->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
+            $attributeModel = $this->_objectManager->create('Magento\GoogleShopping\Model\Attribute\DefaultAttribute');
         }
 
         $attributeModel->setName($name);

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Form for adding products by SKU
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku;
 
-class Errors
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
+class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
      * @var \Magento\Backend\Model\Session\Quote
@@ -67,7 +62,7 @@ class Errors
     /**
      * Returns current store model
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

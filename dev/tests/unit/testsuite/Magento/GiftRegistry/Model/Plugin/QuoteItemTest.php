@@ -101,9 +101,6 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
 
     public function registryIdProvider()
     {
-        return array(
-            array(false),
-            array(2)
-        );
+        return array(array(false), array(2));
     }
 }

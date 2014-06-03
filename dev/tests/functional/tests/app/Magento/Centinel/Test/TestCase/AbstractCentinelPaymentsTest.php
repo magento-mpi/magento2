@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,10 +16,19 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class CentinelPaymentsTestAbstract
  * Test for 3D Secure card validation
  *
- * @package Magento\Centinel
  */
 abstract class AbstractCentinelPaymentsTest extends Functional
 {
+    /**
+     * Ensure shopping cart is empty
+     */
+    protected function clearShoppingCart()
+    {
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+    }
+
     /**
      * Add products to cart
      *
@@ -30,18 +36,13 @@ abstract class AbstractCentinelPaymentsTest extends Functional
      */
     protected function _addProducts(Checkout $fixture)
     {
-        //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->open();
-        $checkoutCartPage->getCartBlock()->clearShoppingCart();
-
         $products = $fixture->getProducts();
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
     }
 
@@ -177,15 +178,13 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         $topLinks = $homePage->getLinksBlock();
         $topLinks->openLink('Register');
 
-        $createPage->getCreateForm()->create($customer);
+        $createPage->getRegisterForm()->registerCustomer($customer);
 
         //Set Billing Address
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
         $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
 
         //Log Out
-        $customerMenu = $homePage->getCustomerMenuBlock();
-        $customerMenu->toggle();
-        $customerMenu->openLink('Log Out');
+        $homePage->getLinksBlock()->openLink('Log Out');
     }
 }

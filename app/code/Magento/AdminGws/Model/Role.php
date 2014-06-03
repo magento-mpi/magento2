@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@ namespace Magento\AdminGws\Model;
  * Permissions checker
  *
  */
-class Role extends \Magento\Object
+class Role extends \Magento\Framework\Object
 {
     /**
      * Store ACL role model instance
@@ -27,27 +25,27 @@ class Role extends \Magento\Object
      *
      * @var array
      */
-    protected $_disallowedWebsiteIds = array();
+    protected $_disallowedWebsiteIds = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStores = array();
+    protected $_disallowedStores = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStoreIds = array();
+    protected $_disallowedStoreIds = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStoreGroupIds = array();
+    protected $_disallowedStoreGroupIds = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStoreGroups = array();
+    protected $_disallowedStoreGroups = [];
 
     /**
      * Storage for categories which are used in allowed store groups
@@ -69,7 +67,7 @@ class Role extends \Magento\Object
      * using category path as key
      * @var array
      */
-    protected $_exclusiveAccessToCategory = array();
+    protected $_exclusiveAccessToCategory = [];
 
     /**
      * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
@@ -77,19 +75,19 @@ class Role extends \Magento\Object
     protected $_categoryCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -177,10 +175,11 @@ class Role extends \Magento\Object
     public function getStoreIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsStores();
+            $gwsStores = $this->_adminRole->getGwsStores();
+            return is_array($gwsStores) ? $gwsStores : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -208,10 +207,11 @@ class Role extends \Magento\Object
     public function getStoreGroupIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsStoreGroups();
+            $gwsStoreGroups = $this->_adminRole->getGwsStoreGroups();
+            return is_array($gwsStoreGroups) ? $gwsStoreGroups : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -239,10 +239,11 @@ class Role extends \Magento\Object
     public function getWebsiteIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsWebsites();
+            $gwsWebsites = $this->_adminRole->getGwsWebsites();
+            return is_array($gwsWebsites) ? $gwsWebsites : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -253,10 +254,11 @@ class Role extends \Magento\Object
     public function getRelevantWebsiteIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsRelevantWebsites();
+            $websiteIds = $this->_adminRole->getGwsRelevantWebsites();
+            return is_array($websiteIds) ? $websiteIds : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -276,7 +278,7 @@ class Role extends \Magento\Object
      */
     public function getDisallowedStoreIds()
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->_disallowedStores as $store) {
             $result[] = $store->getId();
@@ -302,17 +304,16 @@ class Role extends \Magento\Object
      */
     public function getAllowedRootCategories()
     {
-        if ((!$this->getIsAll()) && (null === $this->_allowedRootCategories)) {
-            $this->_allowedRootCategories = array();
+        if (!$this->getIsAll() && null === $this->_allowedRootCategories) {
+            $this->_allowedRootCategories = [];
 
-            $categoryIds = array();
+            $categoryIds = [];
             foreach ($this->getStoreGroupIds() as $groupId) {
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = $this->_categoryCollectionFactory->create()
-                ->addIdFilter($categoryIds);
-            foreach ($categories  as $category) {
+            $categories = $this->_categoryCollectionFactory->create()->addIdFilter($categoryIds);
+            foreach ($categories as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();
             }
         }
@@ -326,13 +327,13 @@ class Role extends \Magento\Object
      */
     public function getExclusiveRootCategories()
     {
-        if ((!$this->getIsAll()) && (null === $this->_exclusiveRootCategories)) {
+        if (!$this->getIsAll() && null === $this->_exclusiveRootCategories) {
             $this->_exclusiveRootCategories = $this->getAllowedRootCategories();
             foreach ($this->_disallowedStoreGroups as $group) {
                 $_catId = $group->getRootCategoryId();
 
                 $pos = array_search($_catId, array_keys($this->_exclusiveRootCategories));
-                if ($pos !== FALSE) {
+                if ($pos !== false) {
                     unset($this->_exclusiveRootCategories[$_catId]);
                 }
             }
@@ -360,12 +361,11 @@ class Role extends \Magento\Object
                     //not grand access if category is root
                     $result = false;
                 } else {
-                    if (count(array_intersect(
-                            $categoryPathArray,
-                            array_keys($this->getExclusiveRootCategories())
-                        )) == 0) {
+                    if (count(
+                        array_intersect($categoryPathArray, array_keys($this->getExclusiveRootCategories()))
+                    ) == 0
+                    ) {
                         $result = false;
-
                     }
                 }
             }
@@ -430,9 +430,11 @@ class Role extends \Magento\Object
      */
     public function hasExclusiveAccess($websiteIds)
     {
-        return $this->getIsAll() ||
-            (count(array_intersect($this->getWebsiteIds(), $websiteIds)) === count($websiteIds) &&
-                $this->getIsWebsiteLevel());
+        return $this->getIsAll() || count(
+            array_intersect($this->getWebsiteIds(), $websiteIds)
+        ) === count(
+            $websiteIds
+        ) && $this->getIsWebsiteLevel();
     }
 
     /**
@@ -443,8 +445,7 @@ class Role extends \Magento\Object
      */
     public function hasExclusiveStoreAccess($storeIds)
     {
-        return $this->getIsAll() ||
-               (count(array_intersect($this->getStoreIds(), $storeIds)) === count($storeIds));
+        return $this->getIsAll() || count(array_intersect($this->getStoreIds(), $storeIds)) === count($storeIds);
     }
 
     /**
@@ -453,11 +454,11 @@ class Role extends \Magento\Object
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return \Magento\Core\Model\Store\Group|null
+     * @return \Magento\Store\Model\Group|null
      */
     public function getGroup($findGroupId)
     {
-        foreach ($this->_storeManager->getGroups() as $groupId =>$group) {
+        foreach ($this->_storeManager->getGroups() as $groupId => $group) {
             if ($findGroupId == $groupId) {
                 return $group;
             }

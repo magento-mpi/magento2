@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PricePermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\PricePermissions\Helper;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Path to edit_product_price node in ACL
@@ -45,28 +43,28 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Authorization interface
      *
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * Configuration interface
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\AuthorizationInterface $authorization
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\AuthorizationInterface $authorization,
-        \Magento\App\ConfigInterface $coreConfig
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\AuthorizationInterface $authorization,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -80,7 +78,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminReadProductPrice()
     {
-        return (boolean) $this->_authorization->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::READ_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -90,7 +88,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditProductPrice()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PRODUCT_PRICE_ACL_PATH);
     }
 
     /**
@@ -100,7 +98,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditProductStatus()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PRODUCT_STATUS_ACL_PATH);
     }
 
     /**
@@ -110,6 +108,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultProductPriceString()
     {
-        return (string) $this->_coreConfig->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
+        return (string)$this->_coreConfig->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
     }
 }

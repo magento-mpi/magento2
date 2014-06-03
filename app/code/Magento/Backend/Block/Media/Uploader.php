@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@ namespace Magento\Backend\Block\Media;
 class Uploader extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_config;
 
@@ -25,18 +23,18 @@ class Uploader extends \Magento\Backend\Block\Widget
     protected $_template = 'Magento_Backend::media/uploader.phtml';
 
     /**
-     * @var \Magento\File\Size
+     * @var \Magento\Framework\File\Size
      */
     protected $_fileSizeService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Framework\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\File\Size $fileSize,
+        \Magento\Framework\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_fileSizeService = $fileSize;
@@ -56,26 +54,25 @@ class Uploader extends \Magento\Backend\Block\Widget
         $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
-        $this->getConfig()->setFilters(array(
-            'images' => array(
-                'label' => __('Images (.gif, .jpg, .png)'),
-                'files' => array('*.gif', '*.jpg', '*.png')
-            ),
-            'media' => array(
-                'label' => __('Media (.avi, .flv, .swf)'),
-                'files' => array('*.avi', '*.flv', '*.swf')
-            ),
-            'all' => array(
-                'label' => __('All Files'),
-                'files' => array('*.*')
+        $this->getConfig()->setFilters(
+            array(
+                'images' => array(
+                    'label' => __('Images (.gif, .jpg, .png)'),
+                    'files' => array('*.gif', '*.jpg', '*.png')
+                ),
+                'media' => array(
+                    'label' => __('Media (.avi, .flv, .swf)'),
+                    'files' => array('*.avi', '*.flv', '*.swf')
+                ),
+                'all' => array('label' => __('All Files'), 'files' => array('*.*'))
             )
-        ));
+        );
     }
 
     /**
      * Get file size
      *
-     * @return \Magento\File\Size
+     * @return \Magento\Framework\File\Size
      */
     public function getFileSizeService()
     {
@@ -94,9 +91,7 @@ class Uploader extends \Magento\Backend\Block\Widget
             $head->addChild(
                 'jquery-fileUploader-css-jquery-fileupload-ui-css',
                 'Magento\Theme\Block\Html\Head\Css',
-                array(
-                    'file' => 'jquery/fileUploader/css/jquery.fileupload-ui.css'
-                )
+                array('file' => 'jquery/fileUploader/css/jquery.fileupload-ui.css')
             );
         }
         return parent::_prepareLayout();
@@ -125,12 +120,12 @@ class Uploader extends \Magento\Backend\Block\Widget
     /**
      * Retrieve config object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
         if (null === $this->_config) {
-            $this->_config = new \Magento\Object();
+            $this->_config = new \Magento\Framework\Object();
         }
 
         return $this->_config;
@@ -146,6 +141,6 @@ class Uploader extends \Magento\Backend\Block\Widget
      */
     public function getUploaderUrl($url)
     {
-        return $this->_viewUrl->getViewFileUrl($url);
+        return $this->_assetRepo->getUrl($url);
     }
 }

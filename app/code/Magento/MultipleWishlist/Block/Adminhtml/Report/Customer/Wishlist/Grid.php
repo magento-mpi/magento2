@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Customer wishlist item grid
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block\Adminhtml\Report\Customer\Wishlist;
 
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * @return $this

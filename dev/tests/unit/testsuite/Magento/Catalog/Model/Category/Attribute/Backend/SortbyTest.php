@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Category\Attribute\Backend;
 
 class SortbyTest extends \PHPUnit_Framework_TestCase
@@ -25,11 +24,10 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
-            array(
-                'coreStoreConfig' => $coreStoreConfig
-            )
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_model = $this->_objectHelper->getObject(
+            'Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
+            array('scopeConfig' => $scopeConfig)
         );
         $attribute = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
@@ -40,9 +38,7 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
             true,
             array('getName', '__wakeup')
         );
-        $attribute->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue(self::DEFAULT_ATTRIBUTE_CODE));
+        $attribute->expects($this->any())->method('getName')->will($this->returnValue(self::DEFAULT_ATTRIBUTE_CODE));
         $this->_model->setAttribute($attribute);
     }
 
@@ -58,7 +54,7 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($data, $expected)
     {
-        $object = new \Magento\Object($data);
+        $object = new \Magento\Framework\Object($data);
         $this->_model->beforeSave($object);
         $this->assertTrue($object->hasData(self::DEFAULT_ATTRIBUTE_CODE));
         $this->assertSame($expected, $object->getData(self::DEFAULT_ATTRIBUTE_CODE));
@@ -69,16 +65,10 @@ class SortbyTest extends \PHPUnit_Framework_TestCase
         return array(
             'attribute with specified value' => array(
                 array(self::DEFAULT_ATTRIBUTE_CODE => 'test_value'),
-                'test_value',
+                'test_value'
             ),
-            'attribute with default value' => array(
-                array(self::DEFAULT_ATTRIBUTE_CODE => null),
-                null,
-            ),
-            'attribute does not exist' => array(
-                array(),
-                false,
-            ),
+            'attribute with default value' => array(array(self::DEFAULT_ATTRIBUTE_CODE => null), null),
+            'attribute does not exist' => array(array(), false)
         );
     }
 }

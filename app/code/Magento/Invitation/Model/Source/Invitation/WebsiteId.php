@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,27 +9,23 @@
 /**
  * Invitation websites options source
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class WebsiteId implements \Magento\Option\ArrayInterface
-
+class WebsiteId implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      */
-    function __construct(
-            \Magento\Core\Model\System\Store $store
-    ) {
+    public function __construct(\Magento\Store\Model\System\Store $store)
+    {
         $this->_store = $store;
     }
 
@@ -42,6 +36,6 @@ class WebsiteId implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return  $this->_store->getWebsiteOptionHash();
+        return $this->_store->getWebsiteOptionHash();
     }
 }

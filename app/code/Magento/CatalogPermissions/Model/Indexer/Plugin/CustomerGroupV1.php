@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
 class CustomerGroupV1
@@ -66,9 +65,8 @@ class CustomerGroupV1
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteGroup(
-        \Magento\Customer\Service\V1\CustomerGroupService $subject
-    ) {
+    public function afterDeleteGroup(\Magento\Customer\Service\V1\CustomerGroupService $subject)
+    {
         if ($this->appConfig->isEnabled()) {
             $this->getIndexer()->invalidate();
         }

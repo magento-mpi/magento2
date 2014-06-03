@@ -10,7 +10,7 @@ namespace Magento\Customer\Helper;
 /**
  * Customer helper for view.
  */
-class View extends \Magento\App\Helper\AbstractHelper
+class View extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
@@ -20,11 +20,11 @@ class View extends \Magento\App\Helper\AbstractHelper
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
     ) {
         $this->_customerMetadataService = $customerMetadataService;
@@ -52,7 +52,7 @@ class View extends \Magento\App\Helper\AbstractHelper
             $name .= ' ' . $customerData->getMiddlename();
         }
 
-        $name .=  ' ' . $customerData->getLastname();
+        $name .= ' ' . $customerData->getLastname();
 
         $suffixMetadata = $this->_customerMetadataService->getAttributeMetadata('customer', 'suffix');
         if ($suffixMetadata->isVisible() && $customerData->getSuffix()) {

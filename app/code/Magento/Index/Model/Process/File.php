@@ -2,16 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Model\Process;
 
-use Magento\Filesystem\FilesystemException;
-use Magento\Filesystem\File\WriteInterface;
+use Magento\Framework\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\File\WriteInterface;
 
 /**
  * Process file entity
@@ -64,7 +61,7 @@ class File
         }
         try {
             $this->_streamHandler->lock($lockMode);
-            $this->_streamLocked  = true;
+            $this->_streamLocked = true;
         } catch (FilesystemException $e) {
             $this->_streamLocked = false;
         }

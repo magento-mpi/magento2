@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Reward admin customer controller
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Controller\Adminhtml\Customer;
@@ -23,13 +19,14 @@ class Reward extends \Magento\Backend\App\Action
     /**
      * Check if module functionality enabled
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
-            && $request->getActionName() != 'noroute'
+        if (!$this->_objectManager->get(
+            'Magento\Reward\Helper\Data'
+        )->isEnabled() && $request->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
         }
@@ -69,8 +66,11 @@ class Reward extends \Magento\Backend\App\Action
         $customerId = $this->getRequest()->getParam('id', 0);
         if ($customerId) {
             try {
-                $this->_objectManager->create('Magento\Reward\Model\Reward')
-                    ->deleteOrphanPointsByCustomer($customerId);
+                $this->_objectManager->create(
+                    'Magento\Reward\Model\Reward'
+                )->deleteOrphanPointsByCustomer(
+                    $customerId
+                );
                 $this->messageManager->addSuccess(__('You removed the orphan points.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

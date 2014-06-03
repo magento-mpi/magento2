@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,11 +22,9 @@ namespace Magento\Eav\Model\Form;
  * @method int getStoreId()
  * @method \Magento\Eav\Model\Form\Type setStoreId(int $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Prefix of model events names
@@ -48,21 +44,21 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $_elementFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Form\ElementFactory $elementFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
         \Magento\Eav\Model\Form\ElementFactory $elementFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -149,24 +145,25 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     public function createFromSkeleton(\Magento\Eav\Model\Form\Type $skeleton)
     {
-        $fieldsetCollection = $this->_fieldsetFactory->create()
-            ->getCollection()
-            ->addTypeFilter($skeleton)
-            ->setSortOrder();
-        $elementCollection = $this->_elementFactory->create()
-            ->getCollection()
-            ->addTypeFilter($skeleton)
-            ->setSortOrder();
+        $fieldsetCollection = $this->_fieldsetFactory->create()->getCollection()->addTypeFilter(
+            $skeleton
+        )->setSortOrder();
+        $elementCollection = $this->_elementFactory->create()->getCollection()->addTypeFilter(
+            $skeleton
+        )->setSortOrder();
 
         // copy fieldsets
         $fieldsetMap = array();
         foreach ($fieldsetCollection as $skeletonFieldset) {
-            $this->_fieldsetFactory->create()
-                ->setTypeId($this->getId())
-                ->setCode($skeletonFieldset->getCode())
-                ->setLabels($skeletonFieldset->getLabels())
-                ->setSortOrder($skeletonFieldset->getSortOrder())
-                ->save();
+            $this->_fieldsetFactory->create()->setTypeId(
+                $this->getId()
+            )->setCode(
+                $skeletonFieldset->getCode()
+            )->setLabels(
+                $skeletonFieldset->getLabels()
+            )->setSortOrder(
+                $skeletonFieldset->getSortOrder()
+            )->save();
             $fieldsetMap[$skeletonFieldset->getId()] = $this->_fieldsetFactory->create()->getId();
         }
 
@@ -176,11 +173,15 @@ class Type extends \Magento\Core\Model\AbstractModel
             if ($skeletonElement->getFieldsetId()) {
                 $fieldsetId = $fieldsetMap[$skeletonElement->getFieldsetId()];
             }
-            $this->_elementFactory->create()
-                ->setTypeId($this->getId())
-                ->setFieldsetId($fieldsetId)
-                ->setAttributeId($skeletonElement->getAttributeId())
-                ->setSortOrder($skeletonElement->getSortOrder());
+            $this->_elementFactory->create()->setTypeId(
+                $this->getId()
+            )->setFieldsetId(
+                $fieldsetId
+            )->setAttributeId(
+                $skeletonElement->getAttributeId()
+            )->setSortOrder(
+                $skeletonElement->getSortOrder()
+            );
         }
 
         return $this;

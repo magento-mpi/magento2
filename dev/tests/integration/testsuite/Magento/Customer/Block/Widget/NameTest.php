@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -21,9 +20,12 @@ class NameTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-        $this->_block = $objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Customer\Block\Widget\Name');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
+        $this->_block = $objectManager->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Widget\Name'
+        );
     }
 
     public function testToHtmlSimpleName()
@@ -52,11 +54,17 @@ class NameTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
         $customerBuilder = Bootstrap::getObjectManager()->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $customerBuilder->setPrefix('Dr.')
-            ->setFirstname('Jane')
-            ->setMiddlename('Roe')
-            ->setLastname('Doe')
-            ->setSuffix('Ph.D.');
+        $customerBuilder->setPrefix(
+            'Dr.'
+        )->setFirstname(
+            'Jane'
+        )->setMiddlename(
+            'Roe'
+        )->setLastname(
+            'Doe'
+        )->setSuffix(
+            'Ph.D.'
+        );
         $this->_block->setObject($customerBuilder->create());
 
         $html = $this->_block->toHtml();

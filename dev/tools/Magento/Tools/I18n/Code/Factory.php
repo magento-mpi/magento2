@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code;
 
 use Magento\Tools\I18n\Code\Dictionary;

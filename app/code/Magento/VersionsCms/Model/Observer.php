@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\VersionsCms\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -27,7 +25,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -37,35 +35,35 @@ class Observer
     protected $_hierarchyNodeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_coreUrl;
 
     /**
-     * @var \Magento\App\ViewInterface
+     * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
 
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $coreUrl
-     * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\UrlInterface $coreUrl
+     * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $coreUrl,
-        \Magento\App\ViewInterface $view
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\UrlInterface $coreUrl,
+        \Magento\Framework\App\ViewInterface $view
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -83,8 +81,9 @@ class Observer
      */
     public function affectCmsPageRender(EventObserver $observer)
     {
-        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
-            || !$this->_cmsHierarchy->isEnabled()
+        if (!is_object(
+            $this->_coreRegistry->registry('current_cms_hierarchy_node')
+        ) || !$this->_cmsHierarchy->isEnabled()
         ) {
             return $this;
         }
@@ -92,7 +91,7 @@ class Observer
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
-        /* @var $action \Magento\App\Action\Action */
+        /* @var $action \Magento\Framework\App\Action\Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page
@@ -126,22 +125,23 @@ class Observer
     public function addCmsToTopmenuItems(EventObserver $observer)
     {
         /**
-         * @var $topMenuRootNode \Magento\Data\Tree\Node
+         * @var $topMenuRootNode \Magento\Framework\Data\Tree\Node
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = $this->_hierarchyNodeFactory->create(array(
-            'data' => array(
-                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
-                'scope_id' => $this->_storeManager->getStore()->getId(),
-            )))->getHeritage();
+        $hierarchyModel = $this->_hierarchyNodeFactory->create(
+            array(
+                'data' => array(
+                    'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
+                    'scope_id' => $this->_storeManager->getStore()->getId()
+                )
+            )
+        )->getHeritage();
 
         $nodes = $hierarchyModel->getNodesData();
         $tree = $topMenuRootNode->getTree();
 
-        $nodesFlatList = array(
-            $topMenuRootNode->getId() => $topMenuRootNode
-        );
+        $nodesFlatList = array($topMenuRootNode->getId() => $topMenuRootNode);
 
         $nodeModel = $this->_hierarchyNodeFactory->create();
 
@@ -149,9 +149,10 @@ class Observer
 
             $nodeData = $nodeModel->load($node['node_id']);
 
-            if (!$nodeData || ($nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility())
-                || ($nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded())
-                || ($nodeData->getPageId() && !$nodeData->getPageIsActive())
+            if (!$nodeData ||
+                $nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility() ||
+                $nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded() ||
+                $nodeData->getPageId() && !$nodeData->getPageIsActive()
             ) {
                 continue;
             }
@@ -164,15 +165,16 @@ class Observer
                 'is_active' => $this->_isCmsNodeActive($nodeData)
             );
 
-            $parentNodeId = !isset($node['parent_node_id']) ? $topMenuRootNode->getId()
-                : 'cms-hierarchy-node-' . $node['parent_node_id'];
+            $parentNodeId = !isset(
+                $node['parent_node_id']
+            ) ? $topMenuRootNode->getId() : 'cms-hierarchy-node-' . $node['parent_node_id'];
             $parentNode = isset($nodesFlatList[$parentNodeId]) ? $nodesFlatList[$parentNodeId] : null;
 
             if (!$parentNode) {
                 continue;
             }
 
-            $menuNode = new \Magento\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
+            $menuNode = new \Magento\Framework\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
             $nodesFlatList[$menuNodeId] = $menuNode;
@@ -197,11 +199,14 @@ class Observer
          * Validate Request and modify router match condition
          */
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-        $node = $this->_hierarchyNodeFactory->create(array(
-            'data' => array(
-                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
-                'scope_id' => $this->_storeManager->getStore()->getId(),
-            )))->getHeritage();
+        $node = $this->_hierarchyNodeFactory->create(
+            array(
+                'data' => array(
+                    'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
+                    'scope_id' => $this->_storeManager->getStore()->getId()
+                )
+            )
+        )->getHeritage();
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
@@ -216,7 +221,6 @@ class Observer
                         break;
                     }
                 }
-
             }
         }
         if (!$node->getId()) {
@@ -225,16 +229,14 @@ class Observer
 
         if (!$node->getPageId()) {
             /* @var $child \Magento\VersionsCms\Model\Hierarchy\Node */
-            $child = $this->_hierarchyNodeFactory->create(array(
-                'data' => array(
-                    'scope' => $node->getScope(),
-                    'scope_id' => $node->getScopeId(),
-                )));
+            $child = $this->_hierarchyNodeFactory->create(
+                array('data' => array('scope' => $node->getScope(), 'scope_id' => $node->getScopeId()))
+            );
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
             }
-            $url   = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
+            $url = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
             $condition->setRedirectUrl($url);
         } else {
             if (!$node->getPageIsActive()) {

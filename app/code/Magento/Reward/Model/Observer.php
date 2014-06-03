@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +33,7 @@ class Observer
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,9 +47,9 @@ class Observer
     /**
      * Core model store configuration
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * Reward history collection
@@ -83,32 +81,39 @@ class Observer
     protected $_customerConverter;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param RewardFactory $rewardFactory
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
-     * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
-     * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
-     * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param Resource\Reward\History\CollectionFactory $historyCollectionFactory
+     * @param Resource\Reward\HistoryFactory $historyItemFactory
+     * @param Resource\RewardFactory $rewardResourceFactory
+     * @param Reward\RateFactory $rateFactory
      * @param Converter $customerConverter
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        Converter $customerConverter
+        Converter $customerConverter,
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -116,18 +121,19 @@ class Observer
         $this->_rewardFactory = $rewardFactory;
         $this->_logger = $logger;
         $this->_invitationFactory = $invitationFactory;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_historyCollectionFactory = $historyCollectionFactory;
         $this->_historyItemFactory = $historyItemFactory;
         $this->_rewardResourceFactory = $rewardResourceFactory;
         $this->_rateFactory = $rateFactory;
         $this->_customerConverter = $customerConverter;
+        $this->eventManager = $eventManager;
     }
 
     /**
      * Update reward points for customer, send notification
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this|void
      */
     public function saveRewardPoints($observer)
@@ -152,14 +158,18 @@ class Observer
             $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_getRewardModel();
-            $reward->setCustomer($customerModel)
-                ->setWebsiteId($this->_storeManager->getStore($data['store_id'])->getWebsiteId())
-                ->loadByCustomer();
+            $reward->setCustomer(
+                $customerModel
+            )->setWebsiteId(
+                $this->_storeManager->getStore($data['store_id'])->getWebsiteId()
+            )->loadByCustomer();
 
             $reward->addData($data);
-            $reward->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
-                ->setActionEntity($customerModel)
-                ->updateRewardPoints();
+            $reward->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN
+            )->setActionEntity(
+                $customerModel
+            )->updateRewardPoints();
         }
         return $this;
     }
@@ -167,7 +177,7 @@ class Observer
     /**
      * Update reward notifications for customer
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function saveRewardNotifications($observer)
@@ -192,16 +202,22 @@ class Observer
         $data = $request->getPost('reward');
         // If new customer
         if (!$customer->getId()) {
-            $subscribeByDefault = (int)$this->_rewardData
-                ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
-            $data['reward_update_notification']  = $subscribeByDefault;
+            $subscribeByDefault = (int)$this->_rewardData->getNotificationConfig(
+                'subscribe_by_default',
+                (int)$customer->getWebsiteId()
+            );
+            $data['reward_update_notification'] = $subscribeByDefault;
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customerBuilder->setCustomAttribute('reward_update_notification',
-            (empty($data['reward_update_notification']) ? 0 : 1));
-        $customerBuilder->setCustomAttribute('reward_warning_notification',
-            (empty($data['reward_warning_notification']) ? 0 : 1));
+        $customerBuilder->setCustomAttribute(
+            'reward_update_notification',
+            empty($data['reward_update_notification']) ? 0 : 1
+        );
+        $customerBuilder->setCustomAttribute(
+            'reward_warning_notification',
+            empty($data['reward_warning_notification']) ? 0 : 1
+        );
 
         return $this;
     }
@@ -209,7 +225,7 @@ class Observer
     /**
      * Update reward points after customer register
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function customerRegister($observer)
@@ -222,17 +238,25 @@ class Observer
         $customerOrigData = $customer->getOrigData();
         if (empty($customerOrigData)) {
             try {
-                $subscribeByDefault = $this->_rewardData
-                    ->getNotificationConfig('subscribe_by_default', $this->_storeManager->getStore()->getWebsiteId());
-                $reward = $this->_getRewardModel()
-                    ->setCustomer($customer)
-                    ->setActionEntity($customer)
-                    ->setStore($this->_storeManager->getStore()->getId())
-                    ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REGISTER)
-                    ->updateRewardPoints();
+                $subscribeByDefault = $this->_rewardData->getNotificationConfig(
+                    'subscribe_by_default',
+                    $this->_storeManager->getStore()->getWebsiteId()
+                );
+                $reward = $this->_getRewardModel()->setCustomer(
+                    $customer
+                )->setActionEntity(
+                    $customer
+                )->setStore(
+                    $this->_storeManager->getStore()->getId()
+                )->setAction(
+                    \Magento\Reward\Model\Reward::REWARD_ACTION_REGISTER
+                )->updateRewardPoints();
 
-                    $customer->setRewardUpdateNotification((int)$subscribeByDefault)
-                    ->setRewardWarningNotification((int)$subscribeByDefault);
+                $customer->setRewardUpdateNotification(
+                    (int)$subscribeByDefault
+                )->setRewardWarningNotification(
+                    (int)$subscribeByDefault
+                );
                 $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
                 $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
             } catch (\Exception $e) {
@@ -246,7 +270,7 @@ class Observer
     /**
      * Update points balance after review submit
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function reviewSubmit($observer)
@@ -259,12 +283,15 @@ class Observer
         }
         if ($review->isApproved() && $review->getCustomerId()) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_getRewardModel()
-                ->setCustomerId($review->getCustomerId())
-                ->setStore($review->getStoreId())
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW)
-                ->setActionEntity($review)
-                ->updateRewardPoints();
+            $reward = $this->_getRewardModel()->setCustomerId(
+                $review->getCustomerId()
+            )->setStore(
+                $review->getStoreId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_REVIEW
+            )->setActionEntity(
+                $review
+            )->updateRewardPoints();
         }
         return $this;
     }
@@ -272,7 +299,7 @@ class Observer
     /**
      * Update points balance after first successful subscribtion
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function customerSubscribed($observer)
@@ -288,12 +315,15 @@ class Observer
             return $this;
         }
 
-        $reward = $this->_getRewardModel()
-            ->setCustomerId($subscriber->getCustomerId())
-            ->setStore($subscriber->getStoreId())
-            ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_NEWSLETTER)
-            ->setActionEntity($subscriber)
-            ->updateRewardPoints();
+        $reward = $this->_getRewardModel()->setCustomerId(
+            $subscriber->getCustomerId()
+        )->setStore(
+            $subscriber->getStoreId()
+        )->setAction(
+            \Magento\Reward\Model\Reward::REWARD_ACTION_NEWSLETTER
+        )->setActionEntity(
+            $subscriber
+        )->updateRewardPoints();
 
         return $this;
     }
@@ -301,7 +331,7 @@ class Observer
     /**
      * Update points balance after customer registered by invitation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function invitationToCustomer($observer)
@@ -314,12 +344,15 @@ class Observer
         }
 
         if ($invitation->getCustomerId() && $invitation->getReferralId()) {
-            $this->_getRewardModel()
-                ->setCustomerId($invitation->getCustomerId())
-                ->setWebsiteId($websiteId)
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_INVITATION_CUSTOMER)
-                ->setActionEntity($invitation)
-                ->updateRewardPoints();
+            $this->_getRewardModel()->setCustomerId(
+                $invitation->getCustomerId()
+            )->setWebsiteId(
+                $websiteId
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_INVITATION_CUSTOMER
+            )->setActionEntity(
+                $invitation
+            )->updateRewardPoints();
         }
 
         return $this;
@@ -328,33 +361,34 @@ class Observer
     /**
      * Update points balance after order becomes completed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function orderCompleted($observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
-        if ($order->getCustomerIsGuest()
-            || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())
+        if ($order->getCustomerIsGuest() || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())
         ) {
             return $this;
         }
 
         if ($order->getCustomerId() && $this->_isOrderPaidNow($order)) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_getRewardModel()
-                ->setActionEntity($order)
-                ->setCustomerId($order->getCustomerId())
-                ->setWebsiteId($order->getStore()->getWebsiteId())
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ORDER_EXTRA)
-                ->updateRewardPoints();
+            $reward = $this->_getRewardModel()->setActionEntity(
+                $order
+            )->setCustomerId(
+                $order->getCustomerId()
+            )->setWebsiteId(
+                $order->getStore()->getWebsiteId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_ORDER_EXTRA
+            )->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
                     __(
                         'The customer earned %1 for this order.',
-                        $this->_rewardData->formatReward($reward->getPointsDelta()
-                        )
+                        $this->_rewardData->formatReward($reward->getPointsDelta())
                     )
                 )->save();
             }
@@ -372,21 +406,27 @@ class Observer
      */
     protected function _isOrderPaidNow($order)
     {
-        $isOrderPaid = (float)$order->getBaseTotalPaid() > 0
-            && ($order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled() - $order->getBaseTotalPaid()) < 0.0001;
+        $isOrderPaid = (double)$order->getBaseTotalPaid() > 0 &&
+            $order->getBaseGrandTotal() - $order->getBaseSubtotalCanceled() - $order->getBaseTotalPaid() < 0.0001;
 
-        if (!$order->getOrigData('base_grand_total')) {//New order with "Sale" payment action
+        if (!$order->getOrigData('base_grand_total')) {
+            //New order with "Sale" payment action
             return $isOrderPaid;
         }
 
-        return $isOrderPaid && ($order->getOrigData('base_grand_total') - $order->getOrigData('base_subtotal_canceled')
-            - $order->getOrigData('base_total_paid')) >= 0.0001;
+        return $isOrderPaid && $order->getOrigData(
+            'base_grand_total'
+        ) - $order->getOrigData(
+            'base_subtotal_canceled'
+        ) - $order->getOrigData(
+            'base_total_paid'
+        ) >= 0.0001;
     }
 
     /**
      * Update invitation points balance after referral's order completed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     protected function _invitationToOrder($observer)
@@ -403,12 +443,15 @@ class Observer
             if (!$invitation->getId() || !$invitation->getCustomerId()) {
                 return $this;
             }
-            $this->_getRewardModel()
-                ->setActionEntity($invitation)
-                ->setCustomerId($invitation->getCustomerId())
-                ->setStore($order->getStoreId())
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_INVITATION_ORDER)
-                ->updateRewardPoints();
+            $this->_getRewardModel()->setActionEntity(
+                $invitation
+            )->setCustomerId(
+                $invitation->getCustomerId()
+            )->setStore(
+                $order->getStoreId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_INVITATION_ORDER
+            )->updateRewardPoints();
         }
 
         return $this;
@@ -417,10 +460,10 @@ class Observer
     /**
      * Set flag to reset reward points totals
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setRewardPointsTotalReseted(false);
@@ -430,7 +473,7 @@ class Observer
     /**
      * Set use reward points flag to new quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function quoteMergeAfter($observer)
@@ -447,10 +490,10 @@ class Observer
     /**
      * Payment data import in checkout process
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function paymentDataImport(\Magento\Event\Observer $observer)
+    public function paymentDataImport(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
@@ -466,7 +509,7 @@ class Observer
      * Enable Zero Subtotal Checkout payment method
      * if customer has enough points to cover grand total
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function preparePaymentMethod($observer)
@@ -498,10 +541,10 @@ class Observer
     /**
      * Payment data import in admin order create process
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function processOrderCreationData(\Magento\Event\Observer $observer)
+    public function processOrderCreationData(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
@@ -520,26 +563,29 @@ class Observer
      * set zero subtotal checkout payment if need
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param bool $useRewardPoints
      * @return $this
      */
     protected function _paymentDataImport($quote, $payment, $useRewardPoints)
     {
-        if (!$quote || !$quote->getCustomerId()
-            || $quote->getBaseGrandTotal() + $quote->getBaseRewardCurrencyAmount() <= 0
+        if (!$quote ||
+            !$quote->getCustomerId() ||
+            $quote->getBaseGrandTotal() + $quote->getBaseRewardCurrencyAmount() <= 0
         ) {
             return $this;
         }
         $quote->setUseRewardPoints((bool)$useRewardPoints);
         if ($quote->getUseRewardPoints()) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_getRewardModel()
-                ->setCustomer($quote->getCustomer())
-                ->setWebsiteId($quote->getStore()->getWebsiteId())
-                ->loadByCustomer();
-            $minPointsBalance = (int)$this->_storeConfig->getConfig(
+            $reward = $this->_getRewardModel()->setCustomer(
+                $quote->getCustomer()
+            )->setWebsiteId(
+                $quote->getStore()->getWebsiteId()
+            )->loadByCustomer();
+            $minPointsBalance = (int)$this->_scopeConfig->getValue(
                 \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $quote->getStoreId()
             );
 
@@ -566,13 +612,17 @@ class Observer
         if (!$order->getCustomerId()) {
             return $this;
         }
-        $this->_getRewardModel()
-            ->setCustomerId($order->getCustomerId())
-            ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
-            ->setPointsDelta($order->getRewardPointsBalance())
-            ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REVERT)
-            ->setActionEntity($order)
-            ->updateRewardPoints();
+        $this->_getRewardModel()->setCustomerId(
+            $order->getCustomerId()
+        )->setWebsiteId(
+            $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
+        )->setPointsDelta(
+            $order->getRewardPointsBalance()
+        )->setAction(
+            \Magento\Reward\Model\Reward::REWARD_ACTION_REVERT
+        )->setActionEntity(
+            $order
+        )->updateRewardPoints();
 
         return $this;
     }
@@ -580,10 +630,10 @@ class Observer
     /**
      * Revert reward points if order was not placed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function revertRewardPoints(\Magento\Event\Observer $observer)
+    public function revertRewardPoints(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
@@ -597,10 +647,10 @@ class Observer
     /**
      * Revert authorized reward points amounts for all orders
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function revertRewardPointsForAllOrders(\Magento\Event\Observer $observer)
+    public function revertRewardPointsForAllOrders(\Magento\Framework\Event\Observer $observer)
     {
         $orders = $observer->getEvent()->getOrders();
 
@@ -614,21 +664,20 @@ class Observer
     /**
      * Set forced can creditmemo flag if refunded amount less then invoiced amount of reward points
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function orderLoadAfter(\Magento\Event\Observer $observer)
+    public function orderLoadAfter(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
         if ($order->canUnhold()) {
             return $this;
         }
-        if ($order->isCanceled() ||
-            $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED ) {
+        if ($order->isCanceled() || $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
             return $this;
         }
-        if (($order->getBaseRwrdCrrncyAmtInvoiced() - $order->getBaseRwrdCrrncyAmntRefnded()) > 0) {
+        if ($order->getBaseRwrdCrrncyAmtInvoiced() - $order->getBaseRwrdCrrncyAmntRefnded() > 0) {
             $order->setForcedCanCreditmemo(true);
         }
         return $this;
@@ -637,10 +686,10 @@ class Observer
     /**
      * Set invoiced reward amount to order after invoice register
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function invoiceRegister(\Magento\Event\Observer $observer)
+    public function invoiceRegister(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
         $invoice = $observer->getEvent()->getInvoice();
@@ -660,10 +709,10 @@ class Observer
     /**
      * Update inviter balance if possible
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function invoicePay(\Magento\Event\Observer $observer)
+    public function invoicePay(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
         $invoice = $observer->getEvent()->getInvoice();
@@ -677,10 +726,10 @@ class Observer
     /**
      * Set reward points balance to refund before creditmemo register
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function setRewardPointsBalanceToRefund(\Magento\Event\Observer $observer)
+    public function setRewardPointsBalanceToRefund(\Magento\Framework\Event\Observer $observer)
     {
         $input = $observer->getEvent()->getRequest()->getParam('creditmemo');
         $creditmemo = $observer->getEvent()->getCreditmemo();
@@ -698,16 +747,17 @@ class Observer
     /**
      * Clear forced can creditmemo if whole reward amount was refunded
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function creditmemoRefund(\Magento\Event\Observer $observer)
+    public function creditmemoRefund(\Magento\Framework\Event\Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getCreditmemo()->getOrder();
-        $refundedAmount = (float)($order->getBaseRwrdCrrncyAmntRefnded() + $creditmemo->getBaseRewardCurrencyAmount());
-        $rewardAmount = (float)$order->getBaseRwrdCrrncyAmtInvoiced();
+        $refundedAmount = (double)($order->getBaseRwrdCrrncyAmntRefnded() +
+            $creditmemo->getBaseRewardCurrencyAmount());
+        $rewardAmount = (double)$order->getBaseRwrdCrrncyAmtInvoiced();
         if ($rewardAmount > 0 && $rewardAmount == $refundedAmount) {
             $order->setForcedCanCreditmemo(false);
         }
@@ -717,24 +767,25 @@ class Observer
     /**
      * Set refunded reward amount order and update reward points balance if need
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function creditmemoSaveAfter(\Magento\Event\Observer $observer)
+    public function creditmemoSaveAfter(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
+        $allowRewardPointsRefund = true;
         if ($creditmemo->getAutomaticallyCreated()) {
             if ($this->_rewardData->isAutoRefundEnabled()) {
                 $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
             } else {
-                return $this;
+                $allowRewardPointsRefund = false;
             }
         }
 
-        if ($creditmemo->getBaseRewardCurrencyAmount()) {
+        if ($creditmemo->getBaseRewardCurrencyAmount() && $allowRewardPointsRefund) {
             $order->setRewardPointsBalanceRefunded(
                 $order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance()
             );
@@ -749,15 +800,121 @@ class Observer
             );
 
             if ((int)$creditmemo->getRewardPointsBalanceRefund() > 0) {
-                $this->_getRewardModel()
-                    ->setCustomerId($order->getCustomerId())
-                    ->setStore($order->getStoreId())
-                    ->setPointsDelta((int)$creditmemo->getRewardPointsBalanceRefund())
-                    ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO)
-                    ->setActionEntity($order)
-                    ->save();
+                $this->_getRewardModel()->setCustomerId(
+                    $order->getCustomerId()
+                )->setStore(
+                    $order->getStoreId()
+                )->setPointsDelta(
+                    (int)$creditmemo->getRewardPointsBalanceRefund()
+                )->setAction(
+                    \Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO
+                )->setActionEntity(
+                    $order
+                )->save();
             }
         }
+
+        // Void reward points granted for refunded amount if there was any
+        $customerId = $order->getCustomerId();
+        $websiteId = $order->getStore()->getWebsiteId();
+
+        $rewardHistoryCollection = $this->_historyCollectionFactory->create()
+            ->addCustomerFilter($customerId)
+            ->addWebsiteFilter($websiteId)
+            // nothing to void if reward points are expired already
+            ->addFilter('main_table.is_expired', 0)
+            // void points acquired for purchase only
+            ->addFilter('main_table.action', \Magento\Reward\Model\Reward::REWARD_ACTION_ORDER_EXTRA);
+
+        $isOrderRewardedWithPoints = false;
+        foreach ($rewardHistoryCollection as $rewardHistoryRecord) {
+            $additionalData = $rewardHistoryRecord->getAdditionalData();
+            if (isset($additionalData['increment_id'])
+                && $additionalData['increment_id'] == $order->getIncrementId()
+                && isset($additionalData['rate']['direction'])
+                && $additionalData['rate']['direction'] ==
+                    \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
+                && isset($additionalData['rate']['points'])
+                && isset($additionalData['rate']['currency_amount'])
+            ) {
+                $isOrderRewardedWithPoints = true;
+                break;
+            }
+        }
+        unset($rewardHistoryCollection);
+
+        if ($isOrderRewardedWithPoints) {
+            /* Calculating amount of funds from total refunded amount for which reward points were acquired */
+            $rewardedAmountForWholeOrder = $order->getBaseGrandTotal() - $order->getBaseTaxAmount()
+                - $order->getBaseShippingAmount();
+            $rewardedAmountRefunded = $order->getBaseTotalRefunded() - $order->getBaseTaxRefunded()
+                - $order->getBaseShippingRefunded();
+            $rewardedAmountAfterRefund = $rewardedAmountForWholeOrder - $rewardedAmountRefunded;
+
+            /* Modify amount for which reward points should not be voided at refund */
+            $creditmemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);
+            $this->eventManager->dispatch(
+                'rewarded_amount_after_refund_calculation',
+                array('creditmemo' => $creditmemo)
+            );
+            $rewardedAmountAfterRefund = $creditmemo->getRewardedAmountAfterRefund();
+
+            /* Calculating amount of points to void considering reward points exchange rate when they were granted */
+            $estimatedRewardPointsAfterRefund = (int)((string)$rewardedAmountAfterRefund /
+                    (string)$additionalData['rate']['currency_amount']) * $additionalData['rate']['points'];
+            $rewardPointsVoided = $rewardHistoryRecord->getPointsVoided();
+            $acquiredRewardPointsAvailableForVoid = $rewardHistoryRecord->getPointsDelta() - $rewardPointsVoided;
+
+            /*
+             * It's not allowed to void more points then were granted per this order.
+             * Used points at current history record are not taken into consideration -
+             * allowed to void from total amount if it's needed to void more then left at selected history record.
+             */
+            if ($acquiredRewardPointsAvailableForVoid > $estimatedRewardPointsAfterRefund) {
+                $rewardPointsAmountToVoid = $acquiredRewardPointsAvailableForVoid - $estimatedRewardPointsAfterRefund;
+            } else {
+                $rewardPointsAmountToVoid = 0;
+            }
+
+            if ($rewardPointsAmountToVoid > 0) {
+
+                $reward = $this->_getRewardModel()
+                    ->setWebsiteId($websiteId)
+                    ->setCustomerId($customerId)
+                    ->loadByCustomer();
+
+                $rewardPointsBalance = $reward->getPointsBalance();
+                if ($rewardPointsBalance > 0) {
+
+                    // It's not allowed to void more points then is available for current customer
+                    if ($rewardPointsAmountToVoid > $rewardPointsBalance) {
+                        $rewardPointsAmountToVoid = $rewardPointsBalance;
+                    }
+                    if ($this->_rewardData->getGeneralConfig('deduct_automatically')) {
+                        $reward->setPointsDelta(-$rewardPointsAmountToVoid)
+                            ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO_VOID)
+                            ->setActionEntity($order)
+                            ->updateRewardPoints();
+
+                        if ($reward->getRewardPointsUpdated()) {
+                            $order->addStatusHistoryComment(__(
+                                '%1 was deducted because of refund.',
+                                $this->_rewardData->formatReward($rewardPointsAmountToVoid)
+                            ));
+                        }
+                    }
+
+                    /*
+                     * Config option deduct_automatically is not considered here because points for refunded amount that
+                     * were not been voided automatically need to be counted in possible future automatic deductions.
+                     */
+                    $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, array(
+                        'points_voided' => $rewardPointsVoided + $rewardPointsAmountToVoid
+                    ));
+                }
+            }
+        }
+
         return $this;
     }
 
@@ -780,18 +937,21 @@ class Observer
             if (!$inDays) {
                 continue;
             }
-            $collection = $this->_historyCollectionFactory->create()
-                ->setExpiryConfig($this->_rewardData->getExpiryConfig())
-                ->loadExpiredSoonPoints($website->getId(), true)
-                ->addNotificationSentFlag(false)
-                ->addCustomerInfo()
-                ->setPageSize(20) // limit queues for each website
-                ->setCurPage(1)
-                ->load();
+            $collection = $this->_historyCollectionFactory->create()->setExpiryConfig(
+                $this->_rewardData->getExpiryConfig()
+            )->loadExpiredSoonPoints(
+                $website->getId(),
+                true
+            )->addNotificationSentFlag(
+                false
+            )->addCustomerInfo()->setPageSize(
+                20
+            )->setCurPage(
+                1
+            )->load();
 
             foreach ($collection as $item) {
-                $this->_getRewardModel()
-                    ->sendBalanceWarningNotification($item, $website->getId());
+                $this->_getRewardModel()->sendBalanceWarningNotification($item, $website->getId());
             }
 
             // mark records as sent
@@ -816,8 +976,7 @@ class Observer
             if (!$this->_rewardData->isEnabledOnFront($website->getId())) {
                 continue;
             }
-            $expiryType = $this->_rewardData
-                ->getGeneralConfig('expiry_calculation', $website->getId());
+            $expiryType = $this->_rewardData->getGeneralConfig('expiry_calculation', $website->getId());
             $this->_historyItemFactory->create()->expirePoints($website->getId(), $expiryType, 100);
         }
 
@@ -827,46 +986,50 @@ class Observer
     /**
      * Prepare orphan points of customers after website was deleted
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function prepareCustomerOrphanPoints(\Magento\Event\Observer $observer)
+    public function prepareCustomerOrphanPoints(\Magento\Framework\Event\Observer $observer)
     {
-        /* @var $website \Magento\Core\Model\Website */
+        /* @var $website \Magento\Store\Model\Website */
         $website = $observer->getEvent()->getWebsite();
-        $this->_getRewardModel()
-            ->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
+        $this->_getRewardModel()->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());
         return $this;
     }
 
     /**
      * Prepare salesrule form. Add field to specify reward points delta
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function prepareSalesruleForm(\Magento\Event\Observer $observer)
+    public function prepareSalesruleForm(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
         $form = $observer->getEvent()->getForm();
         $fieldset = $form->getElement('action_fieldset');
-        $fieldset->addField('reward_points_delta', 'text', array(
-            'name'  => 'reward_points_delta',
-            'label' => __('Add Reward Points'),
-            'title' => __('Add Reward Points')
-        ), 'stop_rules_processing');
+        $fieldset->addField(
+            'reward_points_delta',
+            'text',
+            array(
+                'name' => 'reward_points_delta',
+                'label' => __('Add Reward Points'),
+                'title' => __('Add Reward Points')
+            ),
+            'stop_rules_processing'
+        );
         return $this;
     }
 
     /**
      * Set reward points delta to salesrule model after it loaded
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function loadRewardSalesruleData(\Magento\Event\Observer $observer)
+    public function loadRewardSalesruleData(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabled()) {
             return $this;
@@ -874,8 +1037,7 @@ class Observer
         /* @var $salesRule \Magento\SalesRule\Model\Rule */
         $salesRule = $observer->getEvent()->getRule();
         if ($salesRule->getId()) {
-            $data = $this->_rewardResourceFactory->create()
-                ->getRewardSalesrule($salesRule->getId());
+            $data = $this->_rewardResourceFactory->create()->getRewardSalesrule($salesRule->getId());
             if (isset($data['points_delta'])) {
                 $salesRule->setRewardPointsDelta($data['points_delta']);
             }
@@ -886,45 +1048,59 @@ class Observer
     /**
      * Save reward points delta for salesrule
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function saveRewardSalesruleData(\Magento\Event\Observer $observer)
+    public function saveRewardSalesruleData(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabled()) {
             return $this;
         }
         /* @var $salesRule \Magento\SalesRule\Model\Rule */
         $salesRule = $observer->getEvent()->getRule();
-        $this->_rewardResourceFactory->create()
-            ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
+        $this->_rewardResourceFactory->create()->saveRewardSalesrule(
+            $salesRule->getId(),
+            (int)$salesRule->getRewardPointsDelta()
+        );
         return $this;
     }
 
     /**
      * Update customer reward points balance by points from applied sales rules
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function applyRewardSalesrulePoints(\Magento\Event\Observer $observer)
+    public function applyRewardSalesrulePoints(\Magento\Framework\Event\Observer $observer)
     {
+        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+        $invoice = $observer->getEvent()->getInvoice();
         /* @var $order \Magento\Sales\Model\Order */
-        $order = $observer->getEvent()->getInvoice()->getOrder();
-        if (!$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())) {
+        $order = $invoice->getOrder();
+        //when invoice is updated(commented) we don't apply reward points
+        if ($invoice->hasDataChanges()
+            || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())
+        ) {
             return $this;
         }
         if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
-            $reward = $this->_getRewardModel()
-                ->setCustomerId($order->getCustomerId())
-                ->setWebsiteId($order->getStore()->getWebsiteId())
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_SALESRULE)
-                ->setActionEntity($order)
-                ->setPointsDelta($order->getRewardSalesrulePoints())
-                ->updateRewardPoints();
+            $reward = $this->_getRewardModel()->setCustomerId(
+                $order->getCustomerId()
+            )->setWebsiteId(
+                $order->getStore()->getWebsiteId()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_SALESRULE
+            )->setActionEntity(
+                $order
+            )->setPointsDelta(
+                $order->getRewardSalesrulePoints()
+            )->updateRewardPoints();
             if ($reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    __('Customer earned promotion extra %1.', $this->_rewardData->formatReward($reward->getPointsDelta()))
+                    __(
+                        'Customer earned promotion extra %1.',
+                        $this->_rewardData->formatReward($reward->getPointsDelta())
+                    )
                 )->save();
             }
         }
@@ -934,28 +1110,29 @@ class Observer
     /**
      * If not all rates found, we should disable reward points on frontend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function checkRates(\Magento\Event\Observer $observer)
+    public function checkRates(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
         }
 
-        $groupId    = $observer->getEvent()->getCustomerSession()->getCustomerGroupId();
-        $websiteId  = $this->_storeManager->getStore()->getWebsiteId();
+        $groupId = $observer->getEvent()->getCustomerSession()->getCustomerGroupId();
+        $websiteId = $this->_storeManager->getStore()->getWebsiteId();
 
         $rate = $this->_rateFactory->create();
 
         $hasRates = $rate->fetch(
-            $groupId, $websiteId, \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
-        )->getId() &&
-            $rate->reset()->fetch(
-                $groupId,
-                $websiteId,
-                \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
-            )->getId();
+            $groupId,
+            $websiteId,
+            \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
+        )->getId() && $rate->reset()->fetch(
+            $groupId,
+            $websiteId,
+            \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
+        )->getId();
 
         $this->_rewardData->setHasRates($hasRates);
 
@@ -965,39 +1142,43 @@ class Observer
     /**
      * Add reward amount to payment discount total
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addPaymentRewardItem(\Magento\Event\Observer $observer)
+    public function addPaymentRewardItem(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
         $salesEntity = $cart->getSalesModel();
         $discount = abs($salesEntity->getDataUsingMethod('base_reward_currency_amount'));
         if ($discount > 0.0001) {
-            $cart->addDiscount((float)$discount);
+            $cart->addDiscount((double)$discount);
         }
     }
 
     /**
      * Return reward points
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function returnRewardPoints(\Magento\Event\Observer $observer)
+    public function returnRewardPoints(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getRewardPointsBalance() > 0) {
-            $this->_getRewardModel()
-                ->setCustomerId($order->getCustomerId())
-                ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
-                ->setPointsDelta($order->getRewardPointsBalance())
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REVERT)
-                ->setActionEntity($order)
-                ->updateRewardPoints();
+            $this->_getRewardModel()->setCustomerId(
+                $order->getCustomerId()
+            )->setWebsiteId(
+                $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
+            )->setPointsDelta(
+                $order->getRewardPointsBalance()
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_REVERT
+            )->setActionEntity(
+                $order
+            )->updateRewardPoints();
         }
 
         return $this;

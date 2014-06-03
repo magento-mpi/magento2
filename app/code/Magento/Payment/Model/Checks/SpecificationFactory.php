@@ -15,7 +15,7 @@ class SpecificationFactory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -25,10 +25,10 @@ class SpecificationFactory
     /**
      * Construct
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param array $mapping
      */
-    public function __construct(\Magento\ObjectManager $objectManager, array $mapping)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, array $mapping)
     {
         $this->objectManager = $objectManager;
         $this->mapping = $mapping;
@@ -39,11 +39,14 @@ class SpecificationFactory
      *
      * @param array $data
      * @return SpecificationInterface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function create($data)
     {
         $specifications = array_intersect_key($this->mapping, array_flip((array)$data));
-        return $this->objectManager->create('Magento\Payment\Model\Checks\Composite', ['list' => $specifications]);
+        return $this->objectManager->create(
+            'Magento\Payment\Model\Checks\Composite',
+            array('list' => $specifications)
+        );
     }
 }

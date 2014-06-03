@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Usps\Model\Source;
 
 /**
@@ -20,7 +19,7 @@ class Freemethod extends Method
     {
         $options = parent::toOptionArray();
 
-        array_unshift($options, ['value' => '', 'label' => __('None')]);
+        array_unshift($options, array('value' => '', 'label' => __('None')));
         return $options;
     }
 }

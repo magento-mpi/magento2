@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Backend\Block\Widget\Grid\Column;
 /**
  * Accordion grid for catalog salable products
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Products extends AbstractAccordion
@@ -41,16 +37,16 @@ class Products extends AbstractAccordion
     protected $_catalogStockStatus;
 
     /**
-     * @var \Magento\Json\DecoderInterface
+     * @var \Magento\Framework\Json\DecoderInterface
      */
     protected $_jsonDecoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Json\DecoderInterface $jsonDecoder
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Json\DecoderInterface $jsonDecoder
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -62,9 +58,9 @@ class Products extends AbstractAccordion
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
-        \Magento\Json\DecoderInterface $jsonDecoder,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Json\DecoderInterface $jsonDecoder,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Model\Config $salesConfig,
@@ -107,19 +103,27 @@ class Products extends AbstractAccordion
     /**
      * Return items collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $attributes = $this->_catalogConfig->getProductAttributes();
-            $collection = $this->_productFactory->create()->getCollection()
-                ->setStore($this->_getStore())
-                ->addAttributeToSelect($attributes)
-                ->addAttributeToSelect('sku')
-                ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                ->addStoreFilter($this->_getStore());
+            $collection = $this->_productFactory->create()->getCollection()->setStore(
+                $this->_getStore()
+            )->addAttributeToSelect(
+                $attributes
+            )->addAttributeToSelect(
+                'sku'
+            )->addAttributeToFilter(
+                'type_id',
+                $this->_salesConfig->getAvailableProductTypes()
+            )->addAttributeToFilter(
+                'status',
+                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+            )->addStoreFilter(
+                $this->_getStore()
+            );
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
@@ -133,34 +137,34 @@ class Products extends AbstractAccordion
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id', array(
-            'header'    => __('ID'),
-            'sortable'  => true,
-            'width'     => '60',
-            'index'     => 'entity_id'
-        ));
+        $this->addColumn(
+            'entity_id',
+            array('header' => __('ID'), 'sortable' => true, 'width' => '60', 'index' => 'entity_id')
+        );
 
-        $this->addColumn('name', array(
-            'header'    => __('Product'),
-            'renderer'  => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product',
-            'index'     => 'name'
-        ));
+        $this->addColumn(
+            'name',
+            array(
+                'header' => __('Product'),
+                'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product',
+                'index' => 'name'
+            )
+        );
 
-        $this->addColumn('sku', array(
-            'header'    => __('SKU'),
-            'width'     => '80',
-            'index'     => 'sku'
-        ));
+        $this->addColumn('sku', array('header' => __('SKU'), 'width' => '80', 'index' => 'sku'));
 
-        $this->addColumn('price', array(
-            'header'    => __('Price'),
-            'type'      => 'currency',
-            'column_css_class' => 'price',
-            'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
-            'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
-            'index'     => 'price',
-            'renderer'  => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price'
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'type' => 'currency',
+                'column_css_class' => 'price',
+                'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
+                'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
+                'index' => 'price',
+                'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price'
+            )
+        );
 
         $this->_addControlColumns();
 
@@ -196,7 +200,7 @@ class Products extends AbstractAccordion
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
             } elseif ($productIds) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
             }
         } else {
             parent::_addColumnFilterToCollection($column);
@@ -227,7 +231,7 @@ class Products extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/products', array('_current'=>true));
+        return $this->getUrl('checkout/*/products', array('_current' => true));
     }
 
     /**

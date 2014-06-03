@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +12,8 @@
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Yesnocustom implements \Magento\Option\ArrayInterface
+class Yesnocustom implements \Magento\Framework\Option\ArrayInterface
 {
-
     /**
      * Options getter
      *
@@ -25,10 +22,9 @@ class Yesnocustom implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value' => 1, 'label'=>__('Yes')),
-            array('value' => 0, 'label'=>__('No')),
-            array('value' => 2, 'label'=>__('Specified'))
+            array('value' => 1, 'label' => __('Yes')),
+            array('value' => 0, 'label' => __('No')),
+            array('value' => 2, 'label' => __('Specified'))
         );
     }
-
 }

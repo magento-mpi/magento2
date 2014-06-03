@@ -2,21 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Reminder\Model\Rule\Condition\Combine;
 
 use Magento\Customer\Model\Customer;
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Root rule condition (top level condition)
  */
-class Root
-    extends \Magento\Reminder\Model\Rule\Condition\Combine
+class Root extends \Magento\Reminder\Model\Rule\Condition\Combine
 {
     /**
      * Config
@@ -82,16 +79,16 @@ class Root
      */
     public function getConditionsSql($customer, $website)
     {
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {
             $sql = $condition->getConditionsSql($customer, $website);
             if ($sql) {
-                $conditions[] =  '(' . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
+                $conditions[] = '(' . $select->getAdapter()->getIfNullSql("(" . $sql . ")", 0) . " {$operator} 1)";
             }
         }
 

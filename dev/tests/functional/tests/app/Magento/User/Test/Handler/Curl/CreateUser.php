@@ -18,7 +18,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for persisting Magento user
  *
- * @package Magento\Core\Test\Handler\Curl
  */
 class CreateUser extends Curl
 {
@@ -53,8 +52,11 @@ class CreateUser extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
         $curl->close();
-        preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
-        . $data['username'] . '/siu', $response, $matches);
+        preg_match(
+            '/class=\"\scol\-id col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?' . $data['username'] . '/siu',
+            $response,
+            $matches
+        );
         if (empty($matches)) {
             throw new \Exception('Cannot find user id');
         }
@@ -92,4 +94,3 @@ class CreateUser extends Curl
 
     }
 }
-

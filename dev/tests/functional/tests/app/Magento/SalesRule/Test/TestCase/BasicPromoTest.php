@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\SalesRule\Test\Repository\SalesRule as Repository;
 /**
  * Class BasicPromoTest
  *
- * @package Magento\SalesRule\Test\TestCase
  */
 class BasicPromoTest extends Functional
 {
@@ -48,7 +44,7 @@ class BasicPromoTest extends Functional
         $salesRulePage = Factory::getPageFactory()->getSalesRulePromoQuote();
         $salesRulePage->open();
         // Click on Plus Sign
-        $salesRulePage->getPromoQuoteGrid()->clickAddNew();
+        $salesRulePage->getActionsBlock()->addNew();
         $salesRulePageNew = Factory::getPageFactory()->getSalesRulePromoQuoteNew();
         $newSalesRuleForm = $salesRulePageNew->getPromoQuoteForm();
         // Use fixture to populate
@@ -62,11 +58,11 @@ class BasicPromoTest extends Functional
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
         $conditionsFixture->switchData(Repository::ACTIONS);
         $salesRulePageNew->getPromoQuoteForm()->fill($conditionsFixture);
-        $newSalesRuleForm->save();
+        $salesRulePageNew->getPageActionsBlock()->save();
         // Verify success message
         $this->assertContains(
             'The rule has been saved.',
-            $salesRulePageNew->getMessageBlock()->getSuccessMessages(),
+            $salesRulePageNew->getMessagesBlock()->getSuccessMessages(),
             'Cart Price Rule Not Saved!'
         );
         // Verify it is in the grid

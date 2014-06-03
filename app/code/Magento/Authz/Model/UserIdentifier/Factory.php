@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Model\UserIdentifier;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Authz\Model\UserIdentifier;
 
 /**
@@ -17,7 +16,7 @@ use Magento\Authz\Model\UserIdentifier;
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

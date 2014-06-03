@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,20 +10,20 @@ namespace Magento\Payment\Block;
 /**
  * Payment method form base block
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Retrieve payment method model
      *
      * @return \Magento\Payment\Model\MethodInterface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getMethod()
     {
         $method = $this->getData('method');
 
-        if (!($method instanceof \Magento\Payment\Model\MethodInterface)) {
-            throw new \Magento\Core\Exception(__('We cannot retrieve the payment method model object.'));
+        if (!$method instanceof \Magento\Payment\Model\MethodInterface) {
+            throw new \Magento\Framework\Model\Exception(__('We cannot retrieve the payment method model object.'));
         }
         return $method;
     }

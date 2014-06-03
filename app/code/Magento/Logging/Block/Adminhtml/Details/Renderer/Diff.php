@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,16 +12,15 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Details\Renderer;
 
-class Diff
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Diff extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $html = '-';
         $columnData = $row->getData($this->getColumn()->getIndex());
@@ -32,8 +29,7 @@ class Diff
             $dataArray = unserialize($columnData);
             if (is_bool($dataArray)) {
                 $html = $dataArray ? 'true' : 'false';
-            }
-            elseif (is_array($dataArray)) {
+            } elseif (is_array($dataArray)) {
                 if (isset($dataArray['__no_changes'])) {
                     $html = __('No changes');
                     $specialFlag = true;
@@ -50,14 +46,16 @@ class Diff
                 if (!$specialFlag) {
                     $html = '<dl class="list-parameters">';
                     foreach ($dataArray as $key => $value) {
-                        $html .= '<dt class="parameter">' . $key . '</dt><dd class="value">' . $this->escapeHtml($value) . '</dd>';
+                        $html .= '<dt class="parameter">' . $key . '</dt><dd class="value">' . $this->escapeHtml(
+                            $value
+                        ) . '</dd>';
                     }
                     $html .= '</dl>';
                 }
             } else {
                 $html = $columnData;
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $html = $columnData;
         }
         return $html;

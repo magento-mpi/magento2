@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Layout;
 
 class TranslatorTest extends \PHPUnit_Framework_TestCase
@@ -49,7 +45,7 @@ class TranslatorTest extends \PHPUnit_Framework_TestCase
 </layout>
 XML;
 
-        $this->_xmlDocument = simplexml_load_string($string, 'Magento\Simplexml\Element');
+        $this->_xmlDocument = simplexml_load_string($string, 'Magento\Framework\Simplexml\Element');
 
         $this->_object = new \Magento\Core\Model\Layout\Translator();
     }
@@ -83,7 +79,7 @@ XML;
     public function testTranslateActionParametersWithHierarchyTranslatedArgumentAndNonStringParam()
     {
         $args = array('one' => array('some', 'data'), 'two' => array('value' => 'test'), 'three' => 'test');
-        $expected = array('one' =>  array('some', 'data'), 'two' => array('value' => __('test')), 'three' => 'test');
+        $expected = array('one' => array('some', 'data'), 'two' => array('value' => __('test')), 'three' => 'test');
 
         $this->_object->translateActionParameters($this->_xmlDocument->action_three, $args);
         $this->assertEquals($expected, $args);

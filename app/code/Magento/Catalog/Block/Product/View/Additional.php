@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Product additional info block
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Product\View;
 
-class Additional extends \Magento\View\Element\Template
+class Additional extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array
@@ -29,7 +25,6 @@ class Additional extends \Magento\View\Element\Template
      * @var string
      */
     protected $_template = 'product/view/additional.phtml';
-
 
     /**
      * @return array
@@ -45,5 +40,4 @@ class Additional extends \Magento\View\Element\Template
         }
         return $this->_list;
     }
-
 }

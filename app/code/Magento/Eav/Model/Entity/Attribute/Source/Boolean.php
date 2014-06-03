@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,8 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Option values
      */
     const VALUE_YES = 1;
-    const VALUE_NO = 0;
 
+    const VALUE_NO = 0;
 
     /**
      * Core data
@@ -51,14 +49,8 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         if (is_null($this->_options)) {
             $this->_options = array(
-                array(
-                    'label' => __('Yes'),
-                    'value' => self::VALUE_YES
-                ),
-                array(
-                    'label' => __('No'),
-                    'value' => self::VALUE_NO
-                ),
+                array('label' => __('Yes'), 'value' => self::VALUE_YES),
+                array('label' => __('No'), 'value' => self::VALUE_NO)
             );
         }
         return $this->_options;
@@ -103,15 +95,11 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getFlatColums()
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
-        $column = array(
-            'unsigned'  => false,
-            'default'   => null,
-            'extra'     => null
-        );
-        $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
-        $column['length']   = 1;
+        $column = array('unsigned' => false, 'default' => null, 'extra' => null);
+        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT;
+        $column['length'] = 1;
         $column['nullable'] = true;
-        $column['comment']  = $attributeCode . ' column';
+        $column['comment'] = $attributeCode . ' column';
 
         return array($attributeCode => $column);
     }
@@ -126,10 +114,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $indexes = array();
 
         $index = 'IDX_' . strtoupper($this->getAttribute()->getAttributeCode());
-        $indexes[$index] = array(
-            'type'      => 'index',
-            'fields'    => array($this->getAttribute()->getAttributeCode())
-        );
+        $indexes[$index] = array('type' => 'index', 'fields' => array($this->getAttribute()->getAttributeCode()));
 
         return $indexes;
     }
@@ -138,7 +123,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

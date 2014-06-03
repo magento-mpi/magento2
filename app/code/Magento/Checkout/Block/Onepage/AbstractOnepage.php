@@ -10,7 +10,7 @@ namespace Magento\Checkout\Block\Onepage;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Directory\Model\Resource\Country\Collection;
 use Magento\Directory\Model\Resource\Region\Collection as RegionCollection;
 use Magento\Sales\Model\Quote;
@@ -18,10 +18,10 @@ use Magento\Sales\Model\Quote;
 /**
  * One page common functionality block
  */
-abstract class AbstractOnepage extends \Magento\View\Element\Template
+abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -79,15 +79,21 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @var CustomerAddressService
      */
     protected $_customerAddressService;
+
     /**
      * @var \Magento\Customer\Model\Address\Config
      */
     private $_addressConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
@@ -95,12 +101,13 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @param CustomerAccountService $customerAccountService
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
@@ -108,6 +115,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         CustomerAccountService $customerAccountService,
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -116,6 +124,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         $this->_checkoutSession = $resourceSession;
         $this->_countryCollectionFactory = $countryCollectionFactory;
         $this->_regionCollectionFactory = $regionCollectionFactory;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
         $this->_customerAccountService = $customerAccountService;
@@ -131,7 +140,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -175,7 +184,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      */
     public function isCustomerLoggedIn()
     {
-        return $this->_customerSession->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
     /**
@@ -195,9 +204,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = $this->_regionCollectionFactory->create()
-                ->addCountryFilter($this->getAddress()->getCountryId())
-                ->load();
+            $this->_regionCollection = $this->_regionCollectionFactory->create()->addCountryFilter(
+                $this->getAddress()->getCountryId()
+            )->load();
         }
         return $this->_regionCollection;
     }
@@ -222,25 +231,23 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     {
         if ($this->isCustomerLoggedIn()) {
             $customerId = $this->_getCustomerData()->getId();
-            $options = [];
+            $options = array();
 
             try {
                 $addresses = $this->_customerAddressService->getAddresses($customerId);
             } catch (NoSuchEntityException $e) {
-                $addresses = [];
+                $addresses = array();
             }
 
             foreach ($addresses as $address) {
                 /** @var \Magento\Customer\Service\V1\Data\Address $address */
-                $label = $this->_addressConfig
-                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
-                    ->getRenderer()
-                    ->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address));
+                $label = $this->_addressConfig->getFormatByCode(
+                    AddressConfig::DEFAULT_ADDRESS_FORMAT
+                )->getRenderer()->renderArray(
+                    \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address)
+                );
 
-                $options[] = [
-                    'value' => $address->getId(),
-                    'label' => $label
-                ];
+                $options[] = array('value' => $address->getId(), 'label' => $label);
             }
 
             $addressId = $this->getAddress()->getCustomerAddressId();
@@ -251,14 +258,15 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
                     } else {
                         $address = $this->_customerAddressService->getDefaultShippingAddress($customerId);
                     }
-
-                    $addressId = $address->getId();
+                    if ($address) {
+                        $addressId = $address->getId();
+                    }
                 } catch (NoSuchEntityException $e) {
                     // Do nothing
                 }
             }
 
-            $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
                 ->setName($type . '_address_id')
                 ->setId($type . '-address-select')
                 ->setClass('address-select')
@@ -284,16 +292,23 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         if (is_null($countryId)) {
             $countryId = $this->_coreData->getDefaultCountry();
         }
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName($type.'[country_id]')
-            ->setId($type.':country_id')
-            ->setTitle(__('Country'))
-            ->setClass('validate-select')
-            ->setValue($countryId)
-            ->setOptions($this->getCountryOptions());
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setName(
+            $type . '[country_id]'
+        )->setId(
+            $type . ':country_id'
+        )->setTitle(
+            __('Country')
+        )->setClass(
+            'validate-select'
+        )->setValue(
+            $countryId
+        )->setOptions(
+            $this->getCountryOptions()
+        );
         return $select->getHtml();
     }
-
 
     /**
      * @param string $type
@@ -301,13 +316,21 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      */
     public function getRegionHtmlSelect($type)
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName($type.'[region]')
-            ->setId($type.':region')
-            ->setTitle(__('State/Province'))
-            ->setClass('required-entry validate-state')
-            ->setValue($this->getAddress()->getRegionId())
-            ->setOptions($this->getRegionCollection()->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setName(
+            $type . '[region]'
+        )->setId(
+            $type . ':region'
+        )->setTitle(
+            __('State/Province')
+        )->setClass(
+            'required-entry validate-state'
+        )->setValue(
+            $this->getAddress()->getRegionId()
+        )->setOptions(
+            $this->getRegionCollection()->toOptionArray()
+        );
 
         return $select->getHtml();
     }

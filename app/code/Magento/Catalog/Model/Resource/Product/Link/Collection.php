@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Catalog\Model\Resource\Product\Link;
 /**
  * Catalog product links collection
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Product object
@@ -141,8 +137,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             $aliasInCondition = $adapter->quoteColumnAs($alias, null);
             $this->getSelect()->joinLeft(
                 array($alias => $table),
-                $aliasInCondition . '.link_id = main_table.link_id AND '
-                    . $aliasInCondition . '.product_link_attribute_id = ' . (int) $attribute['id'],
+                $aliasInCondition .
+                '.link_id = main_table.link_id AND ' .
+                $aliasInCondition .
+                '.product_link_attribute_id = ' .
+                (int)$attribute['id'],
                 array($attribute['code'] => 'value')
             );
         }

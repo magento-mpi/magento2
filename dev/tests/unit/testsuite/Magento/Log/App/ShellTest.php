@@ -33,17 +33,22 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_responseMock = $this->getMock('Magento\App\Console\Response', array(), array(), '', false);
+        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
         $this->_model = new \Magento\Log\App\Shell('shell.php', $this->_shellFactoryMock, $this->_responseMock);
     }
 
     public function testProcessRequest()
     {
         $shellMock = $this->getMock('Magento\Log\App\Shell', array('run'), array(), '', false);
-        $this->_shellFactoryMock->expects($this->once())
-            ->method('create')
-            ->with(array('entryPoint' => 'shell.php'))
-            ->will($this->returnValue($shellMock));
+        $this->_shellFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            array('entryPoint' => 'shell.php')
+        )->will(
+            $this->returnValue($shellMock)
+        );
         $shellMock->expects($this->once())->method('run');
         $this->assertEquals($this->_responseMock, $this->_model->launch());
     }

@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1\Data\Eav;
 /**
  * Class AttributeMetadataBuilder
  */
-class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class AttributeMetadataBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Option builder
@@ -27,20 +27,20 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     protected $_validationRuleBuilder;
 
     /**
-     * Initializes builder.
-     *
-     * @param \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder
-     * @param \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param OptionBuilder $optionBuilder
+     * @param ValidationRuleBuilder $validationRuleBuilder
      */
     public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder,
         \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
     ) {
-        parent::__construct();
+        parent::__construct($objectFactory);
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
-        $this->_data[AttributeMetadata::OPTIONS] = [];
-        $this->_data[AttributeMetadata::VALIDATION_RULES] = [];
+        $this->_data[AttributeMetadata::OPTIONS] = array();
+        $this->_data[AttributeMetadata::VALIDATION_RULES] = array();
     }
 
     /**
@@ -130,7 +130,6 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     {
         return $this->_set(AttributeMetadata::REQUIRED, $required);
     }
-
 
     /**
      * Set multiline count
@@ -235,13 +234,13 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     protected function _setDataValues(array $data)
     {
         if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
-            $options = [];
+            $options = array();
             if (is_array($data[AttributeMetadata::OPTIONS])) {
                 foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
                     $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
                 }
             }
-            $validationRules = [];
+            $validationRules = array();
             if (is_array($data[AttributeMetadata::VALIDATION_RULES])) {
                 foreach ($data[AttributeMetadata::VALIDATION_RULES] as $key => $value) {
                     $validationRules[$key] = $this->_validationRuleBuilder->populateWithArray($value)->create();

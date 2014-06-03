@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adapter\Solr;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +14,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSearchEngineFieldName()
     {
-        $sku = new \Magento\Object(array('attribute_code' => 'sku'));
+        $sku = new \Magento\Framework\Object(array('attribute_code' => 'sku'));
         /** @var $model \Magento\Search\Model\Adapter\Solr\AbstractSolr */
         $model = $this->getMockForAbstractClass('Magento\Search\Model\Adapter\Solr\AbstractSolr', array(), '', false);
         $this->assertEquals('sku', $model->getSearchEngineFieldName($sku, 'sku'));

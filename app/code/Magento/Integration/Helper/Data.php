@@ -9,7 +9,7 @@ namespace Magento\Integration\Helper;
 
 use Magento\Integration\Model\Integration as IntegrationModel;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Make ACL resource array compatible with jQuery jsTree component.
@@ -42,7 +42,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isConfigType($integrationData)
     {
-        return isset($integrationData[IntegrationModel::SETUP_TYPE])
-                    && $integrationData[IntegrationModel::SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
+        return isset(
+            $integrationData[IntegrationModel::SETUP_TYPE]
+        ) && $integrationData[IntegrationModel::SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
     }
 }

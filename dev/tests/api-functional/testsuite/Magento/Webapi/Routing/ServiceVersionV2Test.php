@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Routing;
 
 class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
@@ -14,7 +13,7 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
     {
         $this->_version = 'V2';
         $this->_soapService = 'testModule1AllSoapAndRestV2';
-        $this->_restResourcePath = "/$this->_version/testmodule1/";
+        $this->_restResourcePath = "/{$this->_version}/testmodule1/";
     }
 
     /**
@@ -28,10 +27,7 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Item'
-            )
+            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Item')
         );
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -45,20 +41,39 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
     public function testItems()
     {
         $itemArr = array(
-            array(
-                'id' => 1,
-                'name' => 'testProduct1',
-                'price' => '1',
-            ),
-            array(
-                'id' => 2,
-                'name' => 'testProduct2',
-                'price' => '2',
-            )
+            array('id' => 1, 'name' => 'testProduct1', 'price' => '1'),
+            array('id' => 2, 'name' => 'testProduct2', 'price' => '2')
         );
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Items')
+        );
+        $item = $this->_webApiCall($serviceInfo);
+        $this->assertEquals($itemArr, $item, 'Items were not retrieved');
+    }
+
+    /**
+     * Test fetching items when filters are applied
+     *
+     * @param string[] $filters
+     * @param array $expectedResult
+     * @dataProvider itemsWithFiltersDataProvider
+     */
+    public function testItemsWithFilters($filters, $expectedResult)
+    {
+        $restFilter = '';
+        foreach ($filters as $filterItemKey => $filterMetadata) {
+            foreach ($filterMetadata as $filterMetaKey => $filterMetaValue) {
+                $paramsDelimiter = empty($restFilter) ? '?' : '&';
+                $restFilter .= "{$paramsDelimiter}filters[{$filterItemKey}][{$filterMetaKey}]={$filterMetaValue}";
+            }
+        }
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath . $restFilter,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ),
             'soap' => array(
@@ -66,8 +81,31 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Items'
             )
         );
-        $item = $this->_webApiCall($serviceInfo);
-        $this->assertEquals($itemArr, $item, 'Items were not retrieved');
+        $requestData = [];
+        if (!empty($filters)) {
+            $requestData['filters'] = $filters;
+        }
+        $item = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($expectedResult, $item, 'Filtration does not seem to work correctly.');
+    }
+
+    public function itemsWithFiltersDataProvider()
+    {
+
+        $firstItem = ['id' => 1, 'name' => 'testProduct1', 'price' => 1];
+        $secondItem = ['id' => 2, 'name' => 'testProduct2', 'price' => 2];
+        return [
+            'Both items filter' => [
+                [
+                    ['field' => 'id', 'conditionType' => 'eq','value' => 1],
+                    ['field' => 'id', 'conditionType' => 'eq','value' => 2]
+                ],
+                [$firstItem, $secondItem]
+            ],
+            'First item filter' => [[['field' => 'id', 'conditionType' => 'eq','value' => 1]], [$firstItem]],
+            'Second item filter' => [[['field' => 'id', 'conditionType' => 'eq','value' => 2]], [$secondItem]],
+            'Empty filter' => [[], [$firstItem, $secondItem]],
+        ];
     }
 
     /**
@@ -81,12 +119,9 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Update'
-            )
+            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Update')
         );
-        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName', 'price' => '4']];
+        $requestData = array('item' => array('id' => $itemId, 'name' => 'testName', 'price' => '4'));
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
@@ -102,10 +137,7 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Delete'
-            )
+            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete')
         );
         $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);

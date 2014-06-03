@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
 
 class FrontendTest extends \PHPUnit_Framework_TestCase
@@ -23,9 +22,7 @@ class FrontendTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = $this->getMock('Magento\Reward\Helper\Data', array(), array(), '', false);
-        $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Frontend(
-            $this->_helper
-        );
+        $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Frontend($this->_helper);
     }
 
     public function testIsAllowed()

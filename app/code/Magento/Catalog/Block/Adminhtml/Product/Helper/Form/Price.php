@@ -2,29 +2,23 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Product form price field helper
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
-class Price extends \Magento\Data\Form\Element\Text
+/**
+ * Product form price field helper
+ */
+class Price extends \Magento\Framework\Data\Form\Element\Text
 {
     /**
      * Tax data
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_taxData = null;
+    protected $_taxData;
 
     /**
      * @var Magneto_Core_Model_StoreManager
@@ -32,25 +26,25 @@ class Price extends \Magento\Data\Form\Element\Text
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
@@ -84,12 +78,15 @@ class Price extends \Magento\Data\Form\Element\Text
                 $storeId = $this->getForm()->getDataObject()->getStoreId();
             }
             $store = $this->_storeManager->getStore($storeId);
-            $html .= '<strong>' . $this->_localeCurrency->getCurrency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
+            $html .= '<strong>' . $this->_localeCurrency->getCurrency(
+                $store->getBaseCurrencyCode()
+            )->getSymbol() . '</strong>';
             if ($this->_taxData->priceIncludesTax($store)) {
-                if ($attribute->getAttributeCode()!=='cost') {
+                if ($attribute->getAttributeCode() !== 'cost') {
                     $addJsObserver = true;
-                    $html .= ' <strong>[' . __('Inc. Tax') . '<span id="dynamic-tax-'
-                        . $attribute->getAttributeCode() . '"></span>]</strong>';
+                    $html .= ' <strong>[' . __(
+                        'Inc. Tax'
+                    ) . '<span id="dynamic-tax-' . $attribute->getAttributeCode() . '"></span>]</strong>';
                 }
             }
         }
@@ -106,9 +103,8 @@ class Price extends \Magento\Data\Form\Element\Text
      */
     protected function _getTaxObservingCode($attribute)
     {
-        $spanId = "dynamic-tax-{$attribute->getAttributeCode()}";
-
-        $html = "<script type='text/javascript'>if (dynamicTaxes == undefined) var dynamicTaxes = new Array(); dynamicTaxes[dynamicTaxes.length]='{$attribute->getAttributeCode()}'</script>";
+        $html = "<script type='text/javascript'>if (dynamicTaxes == undefined) var dynamicTaxes = new Array();"
+            . " dynamicTaxes[dynamicTaxes.length]='{$attribute->getAttributeCode()}'</script>";
         return $html;
     }
 
@@ -116,7 +112,7 @@ class Price extends \Magento\Data\Form\Element\Text
      * @param null|int|string $index
      * @return null|string
      */
-    public function getEscapedValue($index=null)
+    public function getEscapedValue($index = null)
     {
         $value = $this->getValue();
 

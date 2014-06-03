@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Enterprise\Model\Observer;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Installer observer
@@ -25,9 +23,8 @@ class Install
     /**
      * @param \Magento\Install\Model\Installer $installer
      */
-    public function __construct(
-        \Magento\Install\Model\Installer $installer
-    ) {
+    public function __construct(\Magento\Install\Model\Installer $installer)
+    {
         $this->_installer = $installer;
     }
 

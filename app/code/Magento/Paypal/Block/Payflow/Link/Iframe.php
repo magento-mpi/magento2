@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +20,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
     protected $_paymentData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Paypal\Helper\Hss $hssHelper
@@ -30,7 +28,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Hss $hssHelper,
@@ -69,9 +67,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
      */
     public function getSecureToken()
     {
-        return $this->_getOrder()
-            ->getPayment()
-            ->getAdditionalInformation('secure_token');
+        return $this->_getOrder()->getPayment()->getAdditionalInformation('secure_token');
     }
 
     /**
@@ -81,9 +77,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
      */
     public function getSecureTokenId()
     {
-        return $this->_getOrder()
-            ->getPayment()
-            ->getAdditionalInformation('secure_token_id');
+        return $this->_getOrder()->getPayment()->getAdditionalInformation('secure_token_id');
     }
 
     /**
@@ -103,9 +97,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
      */
     public function isTestMode()
     {
-        $mode = $this->_paymentData
-            ->getMethodInstance($this->_paymentMethodCode)
-            ->getConfigData('sandbox_flag');
-        return (bool) $mode;
+        $mode = $this->_paymentData->getMethodInstance($this->_paymentMethodCode)->getConfigData('sandbox_flag');
+        return (bool)$mode;
     }
 }

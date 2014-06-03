@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class Store
@@ -22,22 +19,21 @@ class Store
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      */
-    public function __construct(
-        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
-    ) {
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor)
+    {
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
     }
 
     /**
      * Before save handler
      *
-     * @param \Magento\Core\Model\Resource\Store $subject
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Store\Model\Resource\Store $subject
+     * @param \Magento\Framework\Model\AbstractModel $object
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeSave(\Magento\Core\Model\Resource\Store $subject, \Magento\Core\Model\AbstractModel $object)
+    public function beforeSave(\Magento\Store\Model\Resource\Store $subject, \Magento\Framework\Model\AbstractModel $object)
     {
         if (!$object->getId() || $object->dataHasChangedFor('group_id')) {
             $this->_productFlatIndexerProcessor->markIndexerAsInvalid();

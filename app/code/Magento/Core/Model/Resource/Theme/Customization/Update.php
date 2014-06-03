@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Core\Model\Resource\Theme\Customization;
 /**
  * Theme customization link resource model
  */
-class Update extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization

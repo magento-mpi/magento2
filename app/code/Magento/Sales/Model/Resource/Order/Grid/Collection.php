@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order\Grid;
 /**
  * Flat sales order grid collection
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection
@@ -23,14 +19,14 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_grid_collection';
+    protected $_eventPrefix = 'sales_order_grid_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'order_grid_collection';
+    protected $_eventObject = 'order_grid_collection';
 
     /**
      * Customer mode flag
@@ -53,7 +49,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

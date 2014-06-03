@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,6 +17,7 @@ class Bootstrap
      * Predefined admin user credentials
      */
     const ADMIN_NAME = 'user';
+
     const ADMIN_PASSWORD = 'password1';
 
     /**
@@ -58,7 +56,7 @@ class Bootstrap
     private $_profilerBootstrap;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     private $_shell;
 
@@ -76,7 +74,7 @@ class Bootstrap
      * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
      * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
      * @param \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      * @param string $tmpDir
      */
     public function __construct(
@@ -84,7 +82,7 @@ class Bootstrap
         \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
         \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
         \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap,
-        \Magento\Shell $shell,
+        \Magento\Framework\Shell $shell,
         $tmpDir
     ) {
         $this->_settings = $settings;
@@ -96,7 +94,7 @@ class Bootstrap
         $this->_application = $this->_createApplication(
             array(
                 $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_FILE'),
-                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE'),
+                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE')
             ),
             $this->_settings->get('TESTS_GLOBAL_CONFIG_DIR'),
             $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
@@ -144,7 +142,8 @@ class Bootstrap
         }
 
         $memoryBootstrap = $this->_createMemoryBootstrap(
-            $this->_settings->get('TESTS_MEM_USAGE_LIMIT', 0), $this->_settings->get('TESTS_MEM_LEAK_LIMIT', 0)
+            $this->_settings->get('TESTS_MEM_USAGE_LIMIT', 0),
+            $this->_settings->get('TESTS_MEM_LEAK_LIMIT', 0)
         );
         $memoryBootstrap->activateStatsDisplaying();
         $memoryBootstrap->activateLimitValidation();
@@ -170,9 +169,13 @@ class Bootstrap
      */
     protected function _createMemoryBootstrap($memUsageLimit, $memLeakLimit)
     {
-        return new \Magento\TestFramework\Bootstrap\Memory(new \Magento\TestFramework\MemoryLimit(
-            $memUsageLimit, $memLeakLimit, new \Magento\TestFramework\Helper\Memory($this->_shell)
-        ));
+        return new \Magento\TestFramework\Bootstrap\Memory(
+            new \Magento\TestFramework\MemoryLimit(
+                $memUsageLimit,
+                $memLeakLimit,
+                new \Magento\TestFramework\Helper\Memory($this->_shell)
+            )
+        );
     }
 
     /**
@@ -185,7 +188,10 @@ class Bootstrap
      * @return \Magento\TestFramework\Application
      */
     protected function _createApplication(
-        array $localConfigFiles, $globalConfigDir, array $moduleConfigFiles, $appMode
+        array $localConfigFiles,
+        $globalConfigDir,
+        array $moduleConfigFiles,
+        $appMode
     ) {
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
         $dbConfig = $localConfigXml->connection;
@@ -230,15 +236,15 @@ class Bootstrap
 
     /**
      * @param array $configFiles
-     * @return \Magento\Simplexml\Element
+     * @return \Magento\Framework\Simplexml\Element
      */
     protected function _loadConfigFiles(array $configFiles)
     {
-        /** @var $result \Magento\Simplexml\Element */
-        $result = simplexml_load_string('<config/>', 'Magento\Simplexml\Element');
+        /** @var $result \Magento\Framework\Simplexml\Element */
+        $result = simplexml_load_string('<config/>', 'Magento\Framework\Simplexml\Element');
         foreach ($configFiles as $configFile) {
-            /** @var $configXml \Magento\Simplexml\Element */
-            $configXml = simplexml_load_file($configFile, 'Magento\Simplexml\Element');
+            /** @var $configXml \Magento\Framework\Simplexml\Element */
+            $configXml = simplexml_load_file($configFile, 'Magento\Framework\Simplexml\Element');
             $result->extend($configXml);
         }
         return $result;
@@ -249,7 +255,7 @@ class Bootstrap
      *
      * @param \SimpleXMLElement $dbConfig
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _determineDbVendorName(\SimpleXMLElement $dbConfig)
@@ -257,7 +263,7 @@ class Bootstrap
         $dbVendorAlias = 'mysql4';
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new \Magento\Exception("Database vendor '$dbVendorAlias' is not supported.");
+            throw new \Magento\Framework\Exception("Database vendor '{$dbVendorAlias}' is not supported.");
         }
         return $dbVendorMap[$dbVendorAlias];
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 /**
  * Grid column widget for rendering grid cells that contains mapped values
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Options
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
+class Options extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Get options from column
@@ -32,10 +27,10 @@ class Options
     /**
      * Render a grid cell as options
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string|void
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $options = $this->_getOptions();
 

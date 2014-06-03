@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Dashboard\Tab\Customers;
 /**
  * Adminhtml dashboard most active buyers
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Most extends \Magento\Backend\Block\Dashboard\Grid
@@ -55,10 +51,7 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
     {
         $collection = $this->_collectionFactory->create();
         /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
-        $collection
-            ->groupByCustomer()
-            ->addOrdersCount()
-            ->joinCustomerName();
+        $collection->groupByCustomer()->addOrdersCount()->joinCustomerName();
 
         $storeFilter = 0;
         if ($this->getParam('store')) {
@@ -72,8 +65,7 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
-        $collection->addSumAvgTotals($storeFilter)
-            ->orderByTotalAmount();
+        $collection->addSumAvgTotals($storeFilter)->orderByTotalAmount();
 
         $this->setCollection($collection);
 
@@ -85,39 +77,40 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array(
-            'header'    => __('Customer'),
-            'sortable'  => false,
-            'index'     => 'name'
-        ));
+        $this->addColumn('name', array('header' => __('Customer'), 'sortable' => false, 'index' => 'name'));
 
-        $this->addColumn('orders_count', array(
-            'header'    => __('Orders'),
-            'sortable'  => false,
-            'index'     => 'orders_count',
-            'type'      => 'number'
-        ));
+        $this->addColumn(
+            'orders_count',
+            array('header' => __('Orders'), 'sortable' => false, 'index' => 'orders_count', 'type' => 'number')
+        );
 
-        $baseCurrencyCode = (string) $this->_storeManager->getStore((int)$this->getParam('store'))
-            ->getBaseCurrencyCode();
+        $baseCurrencyCode = (string)$this->_storeManager->getStore(
+            (int)$this->getParam('store')
+        )->getBaseCurrencyCode();
 
-        $this->addColumn('orders_avg_amount', array(
-            'header'    => __('Average'),
-            'align'     => 'right',
-            'sortable'  => false,
-            'type'      => 'currency',
-            'currency_code'  => $baseCurrencyCode,
-            'index'     => 'orders_avg_amount'
-        ));
+        $this->addColumn(
+            'orders_avg_amount',
+            array(
+                'header' => __('Average'),
+                'align' => 'right',
+                'sortable' => false,
+                'type' => 'currency',
+                'currency_code' => $baseCurrencyCode,
+                'index' => 'orders_avg_amount'
+            )
+        );
 
-        $this->addColumn('orders_sum_amount', array(
-            'header'    => __('Total'),
-            'align'     => 'right',
-            'sortable'  => false,
-            'type'      => 'currency',
-            'currency_code'  => $baseCurrencyCode,
-            'index'     => 'orders_sum_amount'
-        ));
+        $this->addColumn(
+            'orders_sum_amount',
+            array(
+                'header' => __('Total'),
+                'align' => 'right',
+                'sortable' => false,
+                'type' => 'currency',
+                'currency_code' => $baseCurrencyCode,
+                'index' => 'orders_sum_amount'
+            )
+        );
 
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
@@ -130,6 +123,6 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('customer/index/edit', array('id'=>$row->getCustomerId()));
+        return $this->getUrl('customer/index/edit', array('id' => $row->getCustomerId()));
     }
 }

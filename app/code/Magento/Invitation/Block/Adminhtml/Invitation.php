@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Invitation Adminhtml Block
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Block\Adminhtml;
 
@@ -37,8 +33,8 @@ class Invitation extends \Magento\Backend\Block\Widget\Grid\Container
      *
      * @return string
      */
-    public function getHeaderCssClass() {
+    public function getHeaderCssClass()
+    {
         return 'icon-head head-invitation';
     }
-
 }

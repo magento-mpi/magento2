@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,6 +18,52 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
+
+    /**
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
+        \Magento\Framework\App\Http\Context $httpContext,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $registry,
+            $customerSession,
+            $attributeConfig,
+            $data
+        );
+        $this->httpContext = $httpContext;
+    }
 
     /**
      * Getter for entity object
@@ -59,26 +103,26 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     public function getAddressHtmlSelect($domId = 'address_type_or_id')
     {
         if ($this->isCustomerLoggedIn()) {
-            $options = array(array(
-                'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE,
-                'label' => __('None')
-            ));
+            $options = array(array('value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE, 'label' => __('None')));
             foreach ($this->getCustomer()->getAddresses() as $address) {
-                $options[] = array(
-                    'value' => $address->getId(),
-                    'label' => $address->format('oneline')
-                );
+                $options[] = array('value' => $address->getId(), 'label' => $address->format('oneline'));
             }
             $options[] = array(
                 'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NEW,
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-                ->setName('address_type_or_id')
-                ->setId($domId)
-                ->setClass('address-select')
-                ->setOptions($options);
+            $select = $this->getLayout()->createBlock(
+                'Magento\Framework\View\Element\Html\Select'
+            )->setName(
+                'address_type_or_id'
+            )->setId(
+                $domId
+            )->setClass(
+                'address-select'
+            )->setOptions(
+                $options
+            );
 
             return $select->getHtml();
         }
@@ -105,6 +149,6 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function isCustomerLoggedIn()
     {
-        return $this->customerSession->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 }

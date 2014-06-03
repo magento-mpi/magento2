@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,7 @@ use Zend_Db_Expr;
 /**
  * Order numbers condition
  */
-class Ordersnumber
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
+class Ordersnumber extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -82,9 +79,12 @@ class Ordersnumber
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Number of Orders %1 %2 while %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Number of Orders %1 %2 while %3 of these Conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -92,7 +92,7 @@ class Ordersnumber
      *
      * @param Customer|Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

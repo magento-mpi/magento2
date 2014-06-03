@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Captcha block
  *
- * @category   Core
- * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Captcha\Block;
 
-class Captcha extends \Magento\View\Element\Template
+class Captcha extends \Magento\Framework\View\Element\Template
 {
     /**
      * Captcha data
@@ -27,12 +23,12 @@ class Captcha extends \Magento\View\Element\Template
     protected $_captchaData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Captcha\Helper\Data $captchaData,
         array $data = array()
     ) {

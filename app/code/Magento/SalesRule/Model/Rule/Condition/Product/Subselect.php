@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\SalesRule\Model\Rule\Condition\Product;
 
-class Subselect
-    extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
+class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -23,8 +20,7 @@ class Subselect
         array $data = array()
     ) {
         parent::__construct($context, $ruleConditionProduct, $data);
-        $this->setType('Magento\SalesRule\Model\Rule\Condition\Product\Subselect')
-            ->setValue(null);
+        $this->setType('Magento\SalesRule\Model\Rule\Condition\Product\Subselect')->setValue(null);
     }
 
     /**
@@ -51,9 +47,16 @@ class Subselect
      */
     public function asXml($containerKey = 'conditions', $itemKey = 'condition')
     {
-        $xml = '<attribute>' . $this->getAttribute() . '</attribute>'
-            . '<operator>' . $this->getOperator() . '</operator>'
-            . parent::asXml($containerKey, $itemKey);
+        $xml = '<attribute>' .
+            $this->getAttribute() .
+            '</attribute>' .
+            '<operator>' .
+            $this->getOperator() .
+            '</operator>' .
+            parent::asXml(
+                $containerKey,
+                $itemKey
+            );
         return $xml;
     }
 
@@ -64,10 +67,7 @@ class Subselect
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
-            'qty'  => __('total quantity'),
-            'base_row_total'  => __('total amount'),
-        ));
+        $this->setAttributeOption(array('qty' => __('total quantity'), 'base_row_total' => __('total amount')));
         return $this;
     }
 
@@ -88,16 +88,18 @@ class Subselect
      */
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption(array(
-            '=='  => __('is'),
-            '!='  => __('is not'),
-            '>='  => __('equals or greater than'),
-            '<='  => __('equals or less than'),
-            '>'   => __('greater than'),
-            '<'   => __('less than'),
-            '()'  => __('is one of'),
-            '!()' => __('is not one of'),
-        ));
+        $this->setOperatorOption(
+            array(
+                '==' => __('is'),
+                '!=' => __('is not'),
+                '>=' => __('equals or greater than'),
+                '<=' => __('equals or less than'),
+                '>' => __('greater than'),
+                '<' => __('less than'),
+                '()' => __('is one of'),
+                '!()' => __('is not one of')
+            )
+        );
         return $this;
     }
 
@@ -134,10 +136,10 @@ class Subselect
     /**
      * Validate
      *
-     * @param \Magento\Object $object Quote
+     * @param \Magento\Framework\Object $object Quote
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         if (!$this->getConditions()) {
             return false;

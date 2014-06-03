@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,15 +34,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $mock->setAttributeId($code);
             $mock->setAttributeCode($code);
 
-            $mock->expects($this->once())
-                ->method('isInSet')
-                ->will($this->returnValue(false));
+            $mock->expects($this->once())->method('isInSet')->will($this->returnValue(false));
 
             $attributes[$code] = $mock;
         }
         return $attributes;
     }
-
 
     public function testWalkAttributes()
     {
@@ -54,12 +48,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $object = $this->getMock('Magento\Catalog\Model\Product', array('__wakeup'), array(), '', false);
 
-        $object->setData(array(
-            'test_attr' => 'test_attr',
-            'attribute_set_id' => $set,
-        ));
+        $object->setData(array('test_attr' => 'test_attr', 'attribute_set_id' => $set));
 
-        $entityType = new \Magento\Object();
+        $entityType = new \Magento\Framework\Object();
         $entityType->setEntityTypeCode('test');
         $entityType->setEntityTypeId(0);
         $entityType->setEntityTable('table');
@@ -76,10 +67,15 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $attribute->setAttributeId($code);
         $attribute->setAttributeCode($code);
 
-        $attribute->expects($this->once())
-            ->method('isInSet')
-            ->with($this->equalTo($set))
-            ->will($this->returnValue(false));
+        $attribute->expects(
+            $this->once()
+        )->method(
+            'isInSet'
+        )->with(
+            $this->equalTo($set)
+        )->will(
+            $this->returnValue(false)
+        );
 
         $attributes[$code] = $attribute;
 
@@ -88,21 +84,19 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Resource\AbstractResource',
             array('getAttributesByCode'),
             array(
-                $this->getMock('Magento\App\Resource', array(), array(), '', false, false),
+                $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false),
                 $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
                 $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false, false),
-                $this->getMock('Magento\Locale\FormatInterface'),
+                $this->getMock('Magento\Framework\Locale\FormatInterface'),
                 $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
-                $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false),
-                $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+                $this->getMock('Magento\Framework\Validator\UniversalFactory', array(), array(), '', false, false),
+                $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
                 $this->getMock('Magento\Catalog\Model\Factory', array(), array(), '', false),
-                array(),
+                array()
             )
         );
 
-        $model->expects($this->once())
-            ->method('getAttributesByCode')
-            ->will($this->returnValue($attributes));
+        $model->expects($this->once())->method('getAttributesByCode')->will($this->returnValue($attributes));
 
         $model->walkAttributes('backend/afterSave', array($object));
     }

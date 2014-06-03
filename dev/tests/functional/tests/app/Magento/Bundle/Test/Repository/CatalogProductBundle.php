@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class CatalogProductBundle
  *
- * @package Magento\Bundle\Test\Repository
  */
 class CatalogProductBundle extends AbstractRepository
 {

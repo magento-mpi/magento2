@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\TestCase\Category;
 
 use Mtf\Factory\Factory;
@@ -19,7 +15,6 @@ use Magento\Catalog\Test\Fixture\Product;
 /**
  * Class AssignProducts
  *
- * @package Magento\Catalog\Test\TestCase\Category
  */
 class AssignProductTest extends Functional
 {
@@ -45,9 +40,11 @@ class AssignProductTest extends Functional
         $category->persist();
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
+        $catalogCategoryEditPage = Factory::getPageFactory()->getCatalogCategoryEditId();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
         $formBlock = $catalogCategoryPage->getFormBlock();
-        $messageBlock = $catalogCategoryPage->getMessageBlock();
+        $messagesBlock = $catalogCategoryPage->getMessagesBlock();
+        $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
@@ -56,11 +53,11 @@ class AssignProductTest extends Functional
         $categoryProductsGrid = $formBlock->getCategoryProductsGrid();
         $products = [$simple, $configurable, $bundle];
         /** @var Product $product */
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
         }
-        $formBlock->save($category);
-        $messageBlock->assertSuccessMessage();
+        $actionsBlock->save();
+        $messagesBlock->assertSuccessMessage();
         //Clean Cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Reader;
 
 /**
@@ -23,18 +20,18 @@ class Db
     protected $_converter;
 
     /**
-     * @var \Magento\App\Config\Scope\ReaderInterface
+     * @var \Magento\Framework\App\Config\Scope\ReaderInterface
      */
     protected $_reader;
 
     /**
      * Initialize parameters
      *
-     * @param \Magento\App\Config\Scope\ReaderInterface $defaultReader
+     * @param \Magento\Framework\App\Config\Scope\ReaderInterface $defaultReader
      * @param \Magento\Cron\Model\Config\Converter\Db $converter
      */
     public function __construct(
-        \Magento\App\Config\Scope\ReaderInterface $defaultReader,
+        \Magento\Framework\App\Config\Scope\ReaderInterface $defaultReader,
         \Magento\Cron\Model\Config\Converter\Db $converter
     ) {
         $this->_reader = $defaultReader;

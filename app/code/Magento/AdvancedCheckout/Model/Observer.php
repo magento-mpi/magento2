@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Model;
 /**
  * Admin Checkout processing model
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Observer
 {
@@ -25,7 +21,7 @@ class Observer
     protected $_checkoutData;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -52,7 +48,7 @@ class Observer
     /**
      * @param \Magento\Sales\Model\Quote $quote
      * @param Cart $cart
-     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
@@ -60,7 +56,7 @@ class Observer
     public function __construct(
         \Magento\Sales\Model\Quote $quote,
         Cart $cart,
-        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory
@@ -76,30 +72,33 @@ class Observer
     /**
      * Returns cart model for backend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return Cart
      */
-    protected function _getBackendCart(\Magento\Event\Observer $observer)
+    protected function _getBackendCart(\Magento\Framework\Event\Observer $observer)
     {
         $storeId = $observer->getRequestModel()->getParam('storeId');
         if (is_null($storeId)) {
             $storeId = $observer->getRequestModel()->getParam('store_id');
         }
-        return $this->_cart
-            ->setSession($observer->getSession())
-            ->setContext(Cart::CONTEXT_ADMIN_ORDER)
-            ->setCurrentStore((int)$storeId);
+        return $this->_cart->setSession(
+            $observer->getSession()
+        )->setContext(
+            Cart::CONTEXT_ADMIN_ORDER
+        )->setCurrentStore(
+            (int)$storeId
+        );
     }
 
     /**
      * Check submitted SKU's form the form or from error grid
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addBySku(\Magento\Event\Observer $observer)
+    public function addBySku(\Magento\Framework\Event\Observer $observer)
     {
-        /* @var $request \Magento\App\RequestInterface */
+        /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getRequestModel();
         $cart = $this->_getBackendCart($observer);
 
@@ -123,13 +122,16 @@ class Observer
             return;
         }
 
-        $addBySkuItems = $request->getPost(\Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE, array());
+        $addBySkuItems = $request->getPost(
+            \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE,
+            array()
+        );
         $items = $request->getPost('item', array());
         if (!$addBySkuItems) {
             return;
         }
         foreach ($addBySkuItems as $id => $params) {
-            $sku = isset($params['sku']) ? $params['sku'] : $id;
+            $sku = (string) (isset($params['sku']) ? $params['sku'] : $id);
             $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
         }
         /* @var $orderCreateModel \Magento\Sales\Model\AdminOrder\Create */
@@ -142,16 +144,16 @@ class Observer
     /**
      * Upload and parse CSV file with SKUs
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function uploadSkuCsv(\Magento\Event\Observer $observer)
+    public function uploadSkuCsv(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_checkoutData;
-        $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
-            ? $helper->processSkuFileUploading()
-            : array();
+        $rows = $helper->isSkuFileUploaded(
+            $observer->getRequestModel()
+        ) ? $helper->processSkuFileUploading() : array();
         if (empty($rows)) {
             return;
         }
@@ -174,20 +176,24 @@ class Observer
     {
         $address = $this->_addressFactory->create();
         $address->setData($realAddress->getData());
-        $address
-            ->setId(null)
-            ->unsEntityId()
-            ->unsetData('cached_items_nominal')
-            ->unsetData('cached_items_nonnominal')
-            ->unsetData('cached_items_all')
-            ->setQuote($quote);
+        $address->setId(
+            null
+        )->unsEntityId()->unsetData(
+            'cached_items_nominal'
+        )->unsetData(
+            'cached_items_nonnominal'
+        )->unsetData(
+            'cached_items_all'
+        )->setQuote(
+            $quote
+        );
         return $address;
     }
 
     /**
      * Calculate failed items quote-related data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function collectTotalsFailedItems($observer)
@@ -207,7 +213,7 @@ class Observer
 
         foreach ($this->_checkoutData->getFailedItems(false) as $item) {
             /** @var $item \Magento\Sales\Model\Quote\Item */
-            if ((float)$item->getQty() <= 0) {
+            if ((double)$item->getQty() <= 0) {
                 $item->setSkuRequestedQty($item->getQty());
                 $item->setData('qty', 1);
             }
@@ -232,7 +238,7 @@ class Observer
     /**
      * Add link to cart in cart sidebar to view grid with failed products
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addCartLink($observer)

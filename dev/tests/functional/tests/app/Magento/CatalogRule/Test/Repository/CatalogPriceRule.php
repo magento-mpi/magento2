@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class CatalogPriceRule Repository
  *
- * @package Magento\CatalogRule\Test\Repository
  */
 class CatalogPriceRule extends AbstractRepository
 {
@@ -35,7 +31,6 @@ class CatalogPriceRule extends AbstractRepository
     const CONDITION_TYPE = 'conditions__1__new_child';
 
     const CONDITION_VALUE = 'conditions__1--1__value';
-
 
     public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {

@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $installer->getConnection()->truncateTable($installer->getTable('adminnotification_inbox'));

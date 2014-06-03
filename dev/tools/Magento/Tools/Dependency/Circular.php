@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tools\Dependency;
 
-use Magento\Data\Graph;
+use Magento\Framework\Data\Graph;
 
 /**
  * Build circular dependencies by modules map
@@ -20,19 +19,19 @@ class Circular
      *
      * @var array
      */
-    protected $dependencies = [];
+    protected $dependencies = array();
 
     /**
      * Modules circular dependencies map
      *
      * @var array
      */
-    protected $circularDependencies = [];
+    protected $circularDependencies = array();
 
     /**
      * Graph object
      *
-     * @var \Magento\Data\Graph
+     * @var \Magento\Framework\Data\Graph
      */
     protected $graph;
 
@@ -68,8 +67,8 @@ class Circular
     protected function init($dependencies)
     {
         $this->dependencies = $dependencies;
-        $this->circularDependencies = [];
-        $this->graph = new Graph(array_keys($this->dependencies), []);
+        $this->circularDependencies = array();
+        $this->graph = new Graph(array_keys($this->dependencies), array());
     }
 
     /**
@@ -79,7 +78,7 @@ class Circular
      * @param array $path nesting path
      * @return void
      */
-    protected function expandDependencies($vertex, $path = [])
+    protected function expandDependencies($vertex, $path = array())
     {
         if (!$this->dependencies[$vertex]) {
             return;
@@ -133,7 +132,7 @@ class Circular
      */
     protected function divideByModules($circularDependencies)
     {
-        $dependenciesByModule = [];
+        $dependenciesByModule = array();
         foreach ($circularDependencies as $circularDependency) {
             $module = $circularDependency[0];
             array_push($circularDependency, $module);

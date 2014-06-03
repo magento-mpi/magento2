@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Firstdata dummy payment method model
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento
  */
 namespace Magento\Pbridge\Model\Payment\Method;
@@ -30,27 +26,27 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = true;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial = false;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = true;
+    protected $_canRefund = true;
 
     /**
      * @var bool
@@ -60,31 +56,31 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canVoid                 = false;
+    protected $_canVoid = false;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
      */
-    protected $_canSaveCc               = false;
+    protected $_canSaveCc = false;
 
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -94,11 +90,11 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -111,11 +107,11 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,18 +10,8 @@
 $installer = $this;
 $installer->startSetup();
 
-$installer->updateAttribute(
-    'customer',
-    'reward_update_notification',
-    'is_required',
-    '0'
-);
+$installer->updateAttribute('customer', 'reward_update_notification', 'is_required', '0');
 
-$installer->updateAttribute(
-    'customer',
-    'reward_warning_notification',
-    'is_required',
-    '0'
-);
+$installer->updateAttribute('customer', 'reward_warning_notification', 'is_required', '0');
 
 $installer->endSetup();

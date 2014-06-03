@@ -8,19 +8,20 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Product as ModelProduct;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Catalog category helper
- *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Product extends \Magento\Core\Helper\Url
 {
-    const XML_PATH_PRODUCT_URL_SUFFIX                = 'catalog/seo/product_url_suffix';
-    const XML_PATH_PRODUCT_URL_USE_CATEGORY          = 'catalog/seo/product_use_categories';
-    const XML_PATH_USE_PRODUCT_CANONICAL_TAG         = 'catalog/seo/product_canonical_tag';
-    const XML_PATH_AUTO_GENERATE_MASK                = 'catalog/fields_masks';
+    const XML_PATH_PRODUCT_URL_SUFFIX = 'catalog/seo/product_url_suffix';
+
+    const XML_PATH_PRODUCT_URL_USE_CATEGORY = 'catalog/seo/product_use_categories';
+
+    const XML_PATH_USE_PRODUCT_CANONICAL_TAG = 'catalog/seo/product_canonical_tag';
+
+    const XML_PATH_AUTO_GENERATE_MASK = 'catalog/fields_masks';
 
     /**
      * Flag that shows if Magento has to check product to be saleable (enabled and/or inStock)
@@ -47,14 +48,14 @@ class Product extends \Magento\Core\Helper\Url
     protected $_priceBlock;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewUrl;
+    protected $_assetRepo;
 
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -71,17 +72,17 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -114,30 +115,30 @@ class Product extends \Magento\Core\Helper\Url
     protected $_reindexPriceIndexerData;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\View\Url $viewUrl,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         $typeSwitcherLabel,
         $reindexPriceIndexerData
     ) {
@@ -147,11 +148,9 @@ class Product extends \Magento\Core\Helper\Url
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreRegistry = $coreRegistry;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_viewUrl = $viewUrl;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_assetRepo = $assetRepo;
         $this->_coreConfig = $coreConfig;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
         $this->_reindexPriceIndexerData = $reindexPriceIndexerData;
         parent::__construct($context, $storeManager);
@@ -165,7 +164,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function isDataForPriceIndexerWasChanged($data)
     {
-        if ($data instanceof \Magento\Catalog\Model\Product) {
+        if ($data instanceof ModelProduct) {
             foreach ($this->_reindexPriceIndexerData['byDataResult'] as $param) {
                 if ($data->getData($param)) {
                     return true;
@@ -227,7 +226,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve base image url
      *
-     * @param ModelProduct|\Magento\Object $product
+     * @param ModelProduct|\Magento\Framework\Object $product
      * @return string|bool
      */
     public function getImageUrl($product)
@@ -235,7 +234,7 @@ class Product extends \Magento\Core\Helper\Url
         $url = false;
         $attribute = $product->getResource()->getAttribute('image');
         if (!$product->getImage()) {
-            $url = $this->_viewUrl->getViewFileUrl('Magento_Catalog::images/product/placeholder/image.jpg');
+            $url = $this->_assetRepo->getUrl('Magento_Catalog::images/product/placeholder/image.jpg');
         } elseif ($attribute) {
             $url = $attribute->getFrontend()->getUrl($product);
         }
@@ -245,7 +244,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve small image url
      *
-     * @param ModelProduct|\Magento\Object $product
+     * @param ModelProduct|\Magento\Framework\Object $product
      * @return string|bool
      */
     public function getSmallImageUrl($product)
@@ -253,7 +252,7 @@ class Product extends \Magento\Core\Helper\Url
         $url = false;
         $attribute = $product->getResource()->getAttribute('small_image');
         if (!$product->getSmallImage()) {
-            $url = $this->_viewUrl->getViewFileUrl('Magento_Catalog::images/product/placeholder/small_image.jpg');
+            $url = $this->_assetRepo->getUrl('Magento_Catalog::images/product/placeholder/small_image.jpg');
         } elseif ($attribute) {
             $url = $attribute->getFrontend()->getUrl($product);
         }
@@ -263,7 +262,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve thumbnail image url
      *
-     * @param ModelProduct|\Magento\Object $product
+     * @param ModelProduct|\Magento\Framework\Object $product
      * @return string
      */
     public function getThumbnailUrl($product)
@@ -282,10 +281,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($category) {
             $categoryId = $category->getId();
         }
-        return $this->_getUrl('sendfriend/product/send', array(
-            'id' => $product->getId(),
-            'cat_id' => $categoryId
-        ));
+        return $this->_getUrl('sendfriend/product/send', array('id' => $product->getId(), 'cat_id' => $categoryId));
     }
 
     /**
@@ -335,8 +331,10 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
-                self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId
+            $this->_productUrlSuffix[$storeId] = $this->_scopeConfig->getValue(
+                self::XML_PATH_PRODUCT_URL_SUFFIX,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
             );
         }
         return $this->_productUrlSuffix[$storeId];
@@ -350,7 +348,11 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_USE_PRODUCT_CANONICAL_TAG,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -367,18 +369,16 @@ class Product extends \Magento\Core\Helper\Url
          * @todo specify there all relations for properties depending on input type
          */
         $inputTypes = array(
-            'multiselect'   => array(
-                'backend_model'     => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
-            ),
-            'boolean'       => array(
-                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'
-            )
+            'multiselect' => array('backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'),
+            'boolean' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
         );
 
         if (is_null($inputType)) {
             return $inputTypes;
-        } else if (isset($inputTypes[$inputType])) {
-            return $inputTypes[$inputType];
+        } else {
+            if (isset($inputTypes[$inputType])) {
+                return $inputTypes[$inputType];
+            }
         }
         return array();
     }
@@ -420,8 +420,8 @@ class Product extends \Magento\Core\Helper\Url
      *     If empty (except FALSE) - will be guessed (e.g. from last visited) to load as current.
      *
      * @param int $productId
-     * @param \Magento\App\Action\Action $controller
-     * @param \Magento\Object $params
+     * @param \Magento\Framework\App\Action\Action $controller
+     * @param \Magento\Framework\Object $params
      *
      * @return false|ModelProduct
      */
@@ -429,22 +429,24 @@ class Product extends \Magento\Core\Helper\Url
     {
         // Prepare data for routine
         if (!$params) {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
         }
 
         // Init and load product
-        $this->_eventManager->dispatch('catalog_controller_product_init_before', array(
-            'controller_action' => $controller,
-            'params' => $params,
-        ));
+        $this->_eventManager->dispatch(
+            'catalog_controller_product_init_before',
+            array('controller_action' => $controller, 'params' => $params)
+        );
 
         if (!$productId) {
             return false;
         }
 
-        $product = $this->_productFactory->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->load($productId);
+        $product = $this->_productFactory->create()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->load(
+            $productId
+        );
 
         if (!$this->canShow($product)) {
             return false;
@@ -455,7 +457,7 @@ class Product extends \Magento\Core\Helper\Url
 
         // Load product current category
         $categoryId = $params->getCategoryId();
-        if (!$categoryId && ($categoryId !== false)) {
+        if (!$categoryId && $categoryId !== false) {
             $lastId = $this->_catalogSession->getLastVisitedCategoryId();
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
@@ -475,11 +477,11 @@ class Product extends \Magento\Core\Helper\Url
         $this->_coreRegistry->register('product', $product);
 
         try {
-            $this->_eventManager->dispatch('catalog_controller_product_init_after', array(
-                'product' => $product,
-                'controller_action' => $controller
-            ));
-        } catch (\Magento\Core\Exception $e) {
+            $this->_eventManager->dispatch(
+                'catalog_controller_product_init_after',
+                array('product' => $product, 'controller_action' => $controller)
+            );
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }
@@ -492,7 +494,7 @@ class Product extends \Magento\Core\Helper\Url
      * Also parses and adds product management related values - e.g. qty
      *
      * @param ModelProduct $product
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @return Product
      */
     public function prepareProductOptions($product, $buyRequest)
@@ -509,30 +511,30 @@ class Product extends \Magento\Core\Helper\Url
      * This method is used to attach additional parameters to processed buyRequest.
      *
      * $params holds parameters of what operation must be performed:
-     * - 'current_config', \Magento\Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', \Magento\Framework\Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file inputs,
      *   so they won't intersect with other submitted options
      *
-     * @param \Magento\Object|array $buyRequest
-     * @param \Magento\Object|array $params
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object|array $buyRequest
+     * @param \Magento\Framework\Object|array $params
+     * @return \Magento\Framework\Object
      */
     public function addParamsToBuyRequest($buyRequest, $params)
     {
         if (is_array($buyRequest)) {
-            $buyRequest = new \Magento\Object($buyRequest);
+            $buyRequest = new \Magento\Framework\Object($buyRequest);
         }
         if (is_array($params)) {
-            $params = new \Magento\Object($params);
+            $params = new \Magento\Framework\Object($params);
         }
 
-        // Ensure that currentConfig goes as \Magento\Object - for easier work with it later
+        // Ensure that currentConfig goes as \Magento\Framework\Object - for easier work with it later
         $currentConfig = $params->getCurrentConfig();
         if ($currentConfig) {
             if (is_array($currentConfig)) {
-                $params->setCurrentConfig(new \Magento\Object($currentConfig));
-            } else if (!($currentConfig instanceof \Magento\Object)) {
+                $params->setCurrentConfig(new \Magento\Framework\Object($currentConfig));
+            } elseif (!$currentConfig instanceof \Magento\Framework\Object) {
                 $params->unsCurrentConfig();
             }
         }
@@ -542,8 +544,8 @@ class Product extends \Magento\Core\Helper\Url
          * where '_processing_params' comes in $buyRequest as array from user input
          */
         $processingParams = $buyRequest->getData('_processing_params');
-        if (!$processingParams || !($processingParams instanceof \Magento\Object)) {
-            $processingParams = new \Magento\Object();
+        if (!$processingParams || !$processingParams instanceof \Magento\Framework\Object) {
+            $processingParams = new \Magento\Framework\Object();
             $buyRequest->setData('_processing_params', $processingParams);
         }
         $processingParams->addData($params->getData());
@@ -575,14 +577,16 @@ class Product extends \Magento\Core\Helper\Url
             $idBySku = $product->getIdBySku($productId);
             if ($idBySku) {
                 $productId = $idBySku;
-            } else if ($identifierType == 'sku') {
-                // Return empty product because it was not found by originally specified SKU identifier
-                return $product;
+            } else {
+                if ($identifierType == 'sku') {
+                    // Return empty product because it was not found by originally specified SKU identifier
+                    return $product;
+                }
             }
         }
 
         if ($productId && is_numeric($productId)) {
-            $product->load((int) $productId);
+            $product->load((int)$productId);
         }
 
         return $product;
@@ -619,8 +623,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getFieldsAutogenerationMasks()
     {
-        return $this->_coreConfig
-            ->getValue(Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
+        return $this->_coreConfig->getValue(Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 
     /**

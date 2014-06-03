@@ -30,28 +30,41 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
+     */
+    protected $currentCustomer;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
         $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -64,7 +77,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->_collection = $this->_collectionFactory->create();
         $this->_collection
             ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->addCustomerFilter($this->_customerSession->getCustomerId())
+            ->addCustomerFilter($this->currentCustomer->getCustomerId())
             ->setDateOrder();
         return $this;
     }
@@ -92,12 +105,16 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Initializes toolbar
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'customer_review_list.toolbar')
-            ->setCollection($this->getCollection());
+        $toolbar = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'customer_review_list.toolbar'
+        )->setCollection(
+            $this->getCollection()
+        );
 
         $this->setChild('toolbar', $toolbar);
         return parent::_prepareLayout();
@@ -154,19 +171,17 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
      * Add review summary
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {
-        $this->_getCollection()
-            ->load()
-            ->addReviewSummary();
+        $this->_getCollection()->load()->addReviewSummary();
         return parent::_beforeToHtml();
     }
 }

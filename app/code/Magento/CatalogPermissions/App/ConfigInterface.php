@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\App;
 
 /**
@@ -49,8 +46,11 @@ interface ConfigInterface
      * Grant modes
      */
     const GRANT_ALL = 1;
+
     const GRANT_CUSTOMER_GROUP = 2;
+
     const GRANT_NONE = 0;
+
     /**#@-*/
 
     /**

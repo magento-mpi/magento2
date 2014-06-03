@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -141,14 +139,14 @@ return array(
     'core/layout_update' => 'core_layout_update',
     'core/resource' => 'core_resource',
     'core/session' => 'core_session',
-    'core/store' => 'core_store',
-    'core/store_group' => 'core_store_group',
+    'core/store' => 'store',
+    'core/store_group' => 'store_group',
     'core/translate' => 'core_translate',
     'core/url_rewrite' => 'core_url_rewrite',
     'core/url_rewrite_tag' => 'core_url_rewrite_tag',
     'core/variable' => 'core_variable',
     'core/variable_value' => 'core_variable_value',
-    'core/website' => 'core_website',
+    'core/website' => 'store_website',
     'cron/schedule' => 'cron_schedule',
     'customer/address_entity' => 'customer_address_entity',
     'customer/customer_group' => 'customer_group',
@@ -368,5 +366,5 @@ return array(
     'widget/widget_instance_page_layout' => 'widget_instance_page_layout',
     'wishlist/item' => 'wishlist_item',
     'wishlist/item_option' => 'wishlist_item_option',
-    'wishlist/wishlist' => 'wishlist',
+    'wishlist/wishlist' => 'wishlist'
 );

@@ -2,11 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Cron\Model;
+
+use Magento\Cron\Exception;
 
 /**
  * Crontab schedule model
@@ -27,42 +29,42 @@
  * @method \Magento\Cron\Model\Schedule setExecutedAt(string $value)
  * @method string getFinishedAt()
  * @method \Magento\Cron\Model\Schedule setFinishedAt(string $value)
+ * @method array getCronExprArr()
+ * @method \Magento\Cron\Model\Schedule setCronExprArr(array $value)
  *
- * @category    Magento
- * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cron\Model;
-
-use Magento\Cron\Exception;
-
-class Schedule extends \Magento\Core\Model\AbstractModel
+class Schedule extends \Magento\Framework\Model\AbstractModel
 {
     const STATUS_PENDING = 'pending';
+
     const STATUS_RUNNING = 'running';
+
     const STATUS_SUCCESS = 'success';
+
     const STATUS_MISSED = 'missed';
+
     const STATUS_ERROR = 'error';
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_date = $date;
@@ -98,12 +100,13 @@ class Schedule extends \Magento\Core\Model\AbstractModel
      *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param int|string $time
      * @return bool
      */
-    public function trySchedule($time)
+    public function trySchedule()
     {
+        $time = $this->getScheduledAt();
         $e = $this->getCronExprArr();
+
         if (!$e || !$time) {
             return false;
         }
@@ -119,10 +122,6 @@ class Schedule extends \Magento\Core\Model\AbstractModel
             && $this->matchCronExpression($e[3], $d['mon'])
             && $this->matchCronExpression($e[4], $d['wday']);
 
-        if ($match) {
-            $this->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
-            $this->setScheduledAt(strftime('%Y-%m-%d %H:%M', $time));
-        }
         return $match;
     }
 
@@ -153,14 +152,10 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         if (strpos($expr, '/') !== false) {
             $e = explode('/', $expr);
             if (sizeof($e) !== 2) {
-                throw new Exception(
-                    "Invalid cron expression, expecting 'match/modulus': " . $expr
-                );
+                throw new Exception("Invalid cron expression, expecting 'match/modulus': " . $expr);
             }
             if (!is_numeric($e[1])) {
-                throw new Exception(
-                    "Invalid cron expression, expecting numeric modulus: " . $expr
-                );
+                throw new Exception("Invalid cron expression, expecting numeric modulus: " . $expr);
             }
             $expr = $e[0];
             $mod = $e[1];
@@ -172,19 +167,17 @@ class Schedule extends \Magento\Core\Model\AbstractModel
         if ($expr === '*') {
             $from = 0;
             $to = 60;
-            // handle range
         } elseif (strpos($expr, '-') !== false) {
+            // handle range
             $e = explode('-', $expr);
             if (sizeof($e) !== 2) {
-                throw new Exception(
-                    "Invalid cron expression, expecting 'from-to' structure: " . $expr
-                );
+                throw new Exception("Invalid cron expression, expecting 'from-to' structure: " . $expr);
             }
 
             $from = $this->getNumeric($e[0]);
             $to = $this->getNumeric($e[1]);
-            // handle regular token
         } else {
+            // handle regular token
             $from = $this->getNumeric($expr);
             $to = $from;
         }
@@ -193,7 +186,7 @@ class Schedule extends \Magento\Core\Model\AbstractModel
             throw new Exception("Invalid cron expression: " . $expr);
         }
 
-        return ($num >= $from) && ($num <= $to) && ($num % $mod === 0);
+        return $num >= $from && $num <= $to && $num % $mod === 0;
     }
 
     /**
@@ -215,14 +208,13 @@ class Schedule extends \Magento\Core\Model\AbstractModel
             'oct' => 10,
             'nov' => 11,
             'dec' => 12,
-
             'sun' => 0,
             'mon' => 1,
             'tue' => 2,
             'wed' => 3,
             'thu' => 4,
             'fri' => 5,
-            'sat' => 6,
+            'sat' => 6
         );
 
         if (is_numeric($value)) {
@@ -249,6 +241,10 @@ class Schedule extends \Magento\Core\Model\AbstractModel
      */
     public function tryLockJob()
     {
-        return $this->_getResource()->trySetJobStatusAtomic($this->getId(), self::STATUS_RUNNING,self::STATUS_PENDING);
+        return $this->_getResource()->trySetJobStatusAtomic(
+            $this->getId(),
+            self::STATUS_RUNNING,
+            self::STATUS_PENDING
+        );
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,43 +11,40 @@
  */
 namespace Magento\Directory\Block;
 
-class Currency extends \Magento\View\Element\Template
+class Currency extends \Magento\Framework\View\Element\Template
 {
-    /**
-     * Directory url
-     *
-     * @var \Magento\Directory\Helper\Url
-     */
-    protected $_directoryUrl = null;
-
     /**
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Core\Helper\PostData
+     */
+    protected $_postDataHelper;
+
+    /**
+     * @var \Magento\Framework\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Directory\Helper\Url $directoryUrl
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Core\Helper\PostData $postDataHelper
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Directory\Helper\Url $directoryUrl,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Core\Helper\PostData $postDataHelper,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
-        $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
+        $this->_postDataHelper = $postDataHelper;
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
         $this->_locale = $localeResolver->getLocale();
     }
 
@@ -75,7 +70,7 @@ class Currency extends \Magento\View\Element\Template
     {
         $currencies = $this->getData('currencies');
         if (is_null($currencies)) {
-            $currencies = array();
+            $currencies = [];
             $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes) > 1) {
                 $rates = $this->_currencyFactory->create()->getCurrencyRates(
@@ -106,14 +101,14 @@ class Currency extends \Magento\View\Element\Template
     }
 
     /**
-     * Return URL for specified currency to switch
+     * Return POST data for currency to switch
      *
-     * @param string $code Currency code
+     * @param string $code
      * @return string
      */
-    public function getSwitchCurrencyUrl($code)
+    public function getSwitchCurrencyPostData($code)
     {
-        return $this->_directoryUrl->getSwitchCurrencyUrl(array('currency' => $code));
+        return $this->_postDataHelper->getPostData($this->getSwitchUrl(), ['currency' => $code]);
     }
 
     /**

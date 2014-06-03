@@ -2,19 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Invitation\Block\Adminhtml\Invitation;
 
 /**
  * Invitation view block
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class Add extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -47,5 +42,4 @@ class Add extends \Magento\Backend\Block\Widget\Form\Container
     {
         return __('New Invitations');
     }
-
 }

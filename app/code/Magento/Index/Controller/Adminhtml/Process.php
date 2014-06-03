@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@ class Process extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -32,13 +30,13 @@ class Process extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\Index\Model\Indexer $indexer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Index\Model\ProcessFactory $processFactory,
         \Magento\Index\Model\Indexer $indexer
     ) {
@@ -100,9 +98,7 @@ class Process extends \Magento\Backend\App\Action
             $this->_view->loadLayout();
             $this->_view->renderLayout();
         } else {
-            $this->messageManager->addError(
-                __('Cannot initialize the indexer process.')
-            );
+            $this->messageManager->addError(__('Cannot initialize the indexer process.'));
             $this->_redirect('adminhtml/*/list');
         }
     }
@@ -123,21 +119,15 @@ class Process extends \Magento\Backend\App\Action
             }
             try {
                 $process->save();
-                $this->messageManager->addSuccess(
-                    __('The index has been saved.')
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addSuccess(__('The index has been saved.'));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                     __('There was a problem with saving process.')
-                );
+                $this->messageManager->addException($e, __('There was a problem with saving process.'));
             }
             $this->_redirect('adminhtml/*/list');
         } else {
-            $this->messageManager->addError(
-                __('Cannot initialize the indexer process.')
-            );
+            $this->messageManager->addError(__('Cannot initialize the indexer process.'));
             $this->_redirect('adminhtml/*/list');
         }
     }
@@ -153,24 +143,18 @@ class Process extends \Magento\Backend\App\Action
         $process = $this->_initProcess();
         if ($process) {
             try {
-                \Magento\Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
+                \Magento\Framework\Profiler::start('__INDEX_PROCESS_REINDEX_ALL__');
 
                 $process->reindexEverything();
-                \Magento\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
-                $this->messageManager->addSuccess(
-                    __('%1 index was rebuilt.', $process->getIndexer()->getName())
-                );
-            } catch (\Magento\Core\Exception $e) {
+                \Magento\Framework\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
+                $this->messageManager->addSuccess(__('%1 index was rebuilt.', $process->getIndexer()->getName()));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                     __('There was a problem with reindexing process.')
-                );
+                $this->messageManager->addException($e, __('There was a problem with reindexing process.'));
             }
         } else {
-            $this->messageManager->addError(
-                __('Cannot initialize the indexer process.')
-            );
+            $this->messageManager->addError(__('Cannot initialize the indexer process.'));
         }
 
         $this->_redirect('adminhtml/*/list');
@@ -183,7 +167,6 @@ class Process extends \Magento\Backend\App\Action
      */
     public function reindexEventsAction()
     {
-
     }
 
     /**
@@ -193,7 +176,6 @@ class Process extends \Magento\Backend\App\Action
      */
     public function reindexAllAction()
     {
-
     }
 
     /**
@@ -217,10 +199,8 @@ class Process extends \Magento\Backend\App\Action
                         $counter++;
                     }
                 }
-                $this->messageManager->addSuccess(
-                    __('Total of %1 index(es) have reindexed data.', $counter)
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addSuccess(__('Total of %1 index(es) have reindexed data.', $counter));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Cannot initialize the indexer process.'));
@@ -252,10 +232,8 @@ class Process extends \Magento\Backend\App\Action
                         $counter++;
                     }
                 }
-                $this->messageManager->addSuccess(
-                    __('Total of %1 index(es) have changed index mode.', $counter)
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addSuccess(__('Total of %1 index(es) have changed index mode.', $counter));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Cannot initialize the indexer process.'));

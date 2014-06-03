@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\DesignEditor\Model\Config\Control;
 /**
  * Controls configuration
  */
-abstract class AbstractControl extends \Magento\Config\AbstractXml
+abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
 {
     /**
      * Keys of layout params attributes
@@ -53,7 +51,7 @@ abstract class AbstractControl extends \Magento\Config\AbstractXml
             if ($components && $components->childNodes->length) {
                 $result[$controlName]['components'] = $this->_extractControls($components->childNodes);
             } else {
-                $result[$controlName] =  $this->_extractParams($control);
+                $result[$controlName] = $this->_extractParams($control);
             }
             $controlLayoutParams = $this->_extractLayoutParams($control);
             if (!empty($controlLayoutParams)) {
@@ -96,8 +94,12 @@ abstract class AbstractControl extends \Magento\Config\AbstractXml
             if (!$paramNode instanceof \DOMElement) {
                 continue;
             }
-            $param = $paramNode->childNodes->length > 1 ? $this->_extractParams($paramNode, false)
-                : trim($paramNode->nodeValue);
+            $param = $paramNode->childNodes->length > 1 ? $this->_extractParams(
+                $paramNode,
+                false
+            ) : trim(
+                $paramNode->nodeValue
+            );
             if ($useKeyIdentifier) {
                 $result[$paramNode->nodeName] = $param;
             } else {
@@ -112,12 +114,12 @@ abstract class AbstractControl extends \Magento\Config\AbstractXml
      *
      * @param string $controlName
      * @return array
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_data[$controlName])) {
-            throw new \Magento\Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Framework\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_data[$controlName];
     }

@@ -11,14 +11,14 @@ namespace Magento\Paypal\Block\Express;
 class ReviewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $request;
 
     /**
-     * @var \Magento\View\Url|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $viewUrl;
+    protected $assetRepo;
 
     /**
      * @var Review
@@ -28,11 +28,11 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->request = $this->getMock('Magento\App\Request\Http', [], [], '', false);
-        $this->viewUrl = $this->getMock('Magento\View\Url', [], [], '', false);
+        $this->request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);
         $this->model = $helper->getObject(
             'Magento\Paypal\Block\Express\Review',
-            ['request' => $this->request, 'viewUrl' => $this->viewUrl]
+            ['request' => $this->request, 'assetRepo' => $this->assetRepo]
         );
     }
 
@@ -43,8 +43,8 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
     public function testGetViewFileUrl($isSecure)
     {
         $this->request->expects($this->once())->method('isSecure')->will($this->returnValue($isSecure));
-        $this->viewUrl->expects($this->once())
-            ->method('getViewFileUrl')
+        $this->assetRepo->expects($this->once())
+            ->method('getUrlWithParams')
             ->with('some file', $this->callback(function ($value) use ($isSecure) {
                 return isset($value['_secure']) && $value['_secure'] === $isSecure;
             }))

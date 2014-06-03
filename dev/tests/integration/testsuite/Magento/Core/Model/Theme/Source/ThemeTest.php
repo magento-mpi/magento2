@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Theme\Source;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -16,7 +12,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 /**
  * Theme Test
  *
- * @package Magento\View
  */
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,8 +21,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $model = Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme\Source\Theme');
 
         /** @var $expectedCollection \Magento\Core\Model\Theme\Collection */
-        $expectedCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection = Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addFilter('area', 'frontend');
 
         $expectedItemsCount = count($expectedCollection);

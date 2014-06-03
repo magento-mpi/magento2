@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /**
  * Config helper class
  *
- * @package     selenium
- * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
@@ -127,7 +122,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $files = array('local.yml', 'config.yml');
         foreach ($files as $file) {
-            $configDir = implode(DIRECTORY_SEPARATOR, array(SELENIUM_TESTS_BASEDIR, 'config', $file));
+            $configDir = implode('/', array(SELENIUM_TESTS_BASEDIR, 'config', $file));
             $fileData = $this->getConfig()->getHelper('file')->loadYamlFile($configDir);
             if ($fileData) {
                 $this->_configData = $fileData;
@@ -570,8 +565,8 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $frameworkConfig = $this->getConfigFramework();
 
-        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path'] . DIRECTORY_SEPARATOR
-            . '_testFiles' . DIRECTORY_SEPARATOR . $fileName;
+        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path']
+            . '/_testFiles/' . $fileName;
     }
 
     /**

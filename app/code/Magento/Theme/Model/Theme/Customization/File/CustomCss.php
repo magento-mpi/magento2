@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,14 +11,15 @@
  */
 namespace Magento\Theme\Model\Theme\Customization\File;
 
-class CustomCss
-    extends \Magento\View\Design\Theme\Customization\AbstractFile
+class CustomCss extends \Magento\Framework\View\Design\Theme\Customization\AbstractFile
 {
     /**#@+
      * Custom CSS file type customization
      */
     const TYPE = 'custom_css';
+
     const CONTENT_TYPE = 'css';
+
     /**#@-*/
 
     /**
@@ -52,7 +51,7 @@ class CustomCss
     /**
      * {@inheritdoc}
      */
-    protected  function _prepareFileName(\Magento\View\Design\Theme\FileInterface $file)
+    protected function _prepareFileName(\Magento\Framework\View\Design\Theme\FileInterface $file)
     {
         if (!$file->getFileName()) {
             $file->setFileName(self::FILE_NAME);
@@ -62,7 +61,7 @@ class CustomCss
     /**
      * {@inheritdoc}
      */
-    protected function _prepareSortOrder(\Magento\View\Design\Theme\FileInterface $file)
+    protected function _prepareSortOrder(\Magento\Framework\View\Design\Theme\FileInterface $file)
     {
         $file->setData('sort_order', self::SORT_ORDER);
     }

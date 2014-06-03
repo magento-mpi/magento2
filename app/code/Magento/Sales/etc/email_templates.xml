@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Email/etc/email_templates.xsd">
     <template id="sales_email_order_template" label="New Order" file="order_new.html" type="html" module="Magento_Sales"/>
     <template id="sales_email_order_guest_template" label="New Order for Guest" file="order_new_guest.html" type="html" module="Magento_Sales"/>
     <template id="sales_email_order_comment_template" label="Order Update" file="order_update.html" type="html" module="Magento_Sales"/>

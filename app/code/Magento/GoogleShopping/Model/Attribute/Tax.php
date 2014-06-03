@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Model\Attribute;
 /**
  * Tax attribute model
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
@@ -36,8 +32,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_config;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
@@ -45,12 +41,12 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
@@ -58,7 +54,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -80,8 +76,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * Set current attribute to entry (for specified product)
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
+     * @return \Magento\Framework\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {
@@ -100,14 +96,18 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
                 $regions = $this->_parseRegions($rate['state'], $rate['postcode']);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
-                    throw new \Magento\Core\Exception(__("Google shopping only supports %1 tax rates per product", self::RATES_MAX));
+                    throw new \Magento\Framework\Model\Exception(
+                        __("Google shopping only supports %1 tax rates per product", self::RATES_MAX)
+                    );
                 }
                 foreach ($regions as $region) {
-                    $entry->addTax(array(
-                        'tax_rate' =>     $rate['value'] * 100,
-                        'tax_country' =>  empty($rate['country']) ? '*' : $rate['country'],
-                        'tax_region' =>   $region
-                    ));
+                    $entry->addTax(
+                        array(
+                            'tax_rate' => $rate['value'] * 100,
+                            'tax_country' => empty($rate['country']) ? '*' : $rate['country'],
+                            'tax_region' => $region
+                        )
+                    );
                 }
             }
         }
@@ -124,7 +124,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     protected function _parseRegions($state, $zip)
     {
-        return (!empty($zip) && $zip != '*') ? $this->_parseZip($zip) : (($state) ? array($state) : array('*'));
+        return !empty($zip) && $zip != '*' ? $this->_parseZip($zip) : ($state ? array($state) : array('*'));
     }
 
     /**

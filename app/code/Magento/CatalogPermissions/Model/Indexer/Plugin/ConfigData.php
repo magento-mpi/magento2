@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use Magento\App\CacheInterface;
+use Magento\Framework\App\CacheInterface;
 use Magento\CatalogPermissions\App\ConfigInterface;
 
 class ConfigData
@@ -33,7 +33,7 @@ class ConfigData
     protected $configLoader;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -42,14 +42,14 @@ class ConfigData
      * @param ConfigInterface $appConfig
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Backend\Model\Config\Loader $configLoader
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         CacheInterface $coreCache,
         ConfigInterface $appConfig,
         \Magento\Indexer\Model\IndexerInterface $indexer,
         \Magento\Backend\Model\Config\Loader $configLoader,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->indexer = $indexer;
         $this->appConfig = $appConfig;
@@ -79,19 +79,22 @@ class ConfigData
      */
     protected function getConfig(\Magento\Backend\Model\Config $config)
     {
-        $scope   = 'default';
+        $scope = 'default';
         $scopeId = 0;
         if ($config->getStore()) {
-            $scope   = 'stores';
+            $scope = 'stores';
             $store = $this->storeManager->getStore($config->getStore());
             $scopeId = (int)$store->getId();
         } elseif ($config->getWebsite()) {
-            $scope   = 'websites';
+            $scope = 'websites';
             $website = $this->storeManager->getWebsite($config->getWebsite());
             $scopeId = (int)$website->getId();
         }
         return $this->configLoader->getConfigByPath(
-            $config->getSection() . '/magento_catalogpermissions', $scope, $scopeId, false
+            $config->getSection() . '/magento_catalogpermissions',
+            $scope,
+            $scopeId,
+            false
         );
     }
 

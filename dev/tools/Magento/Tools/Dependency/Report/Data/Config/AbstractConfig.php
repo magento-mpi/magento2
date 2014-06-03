@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Data\Config;
 
 use Magento\Tools\Dependency\Report\Data\ConfigInterface;
@@ -27,7 +26,7 @@ abstract class AbstractConfig implements ConfigInterface
      *
      * @param array $modules
      */
-    public function __construct(array $modules = [])
+    public function __construct(array $modules = array())
     {
         $this->modules = $modules;
     }

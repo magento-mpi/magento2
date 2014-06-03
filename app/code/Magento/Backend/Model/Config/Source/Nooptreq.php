@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Nooptreq implements \Magento\Option\ArrayInterface
+class Nooptreq implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array
@@ -17,10 +15,9 @@ class Nooptreq implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value'=>'', 'label'=>__('No')),
-            array('value'=>'opt', 'label'=>__('Optional')),
-            array('value'=>'req', 'label'=>__('Required')),
+            array('value' => '', 'label' => __('No')),
+            array('value' => 'opt', 'label' => __('Optional')),
+            array('value' => 'req', 'label' => __('Required'))
         );
     }
-
 }

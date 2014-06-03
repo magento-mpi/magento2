@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,23 +11,21 @@ namespace Magento\Pci\Model\Resource\Key;
  * Encryption key changer resource model
  * The operation must be done in one transaction
  *
- * @category    Magento
- * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Encryptor interface
      *
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
      * Filesystem directory write interface
      *
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_directory;
 
@@ -41,20 +37,20 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_structure;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Backend\Model\Config\Structure $structure
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Backend\Model\Config\Structure $structure,
-        \Magento\Encryption\EncryptorInterface $encryptor
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::CONFIG_DIR);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::CONFIG_DIR);
         $this->_structure = $structure;
     }
 
@@ -89,8 +85,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($safe) {
                 $this->commit();
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             if ($safe) {
                 $this->rollBack();
             }
@@ -120,8 +115,10 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
             $key = md5(time());
         }
         $this->_encryptor->setNewKey($key);
-        $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
-            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents
+        $contents = preg_replace(
+            '/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s',
+            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>',
+            $contents
         );
 
         // update database and local.xml
@@ -132,8 +129,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_directory->writeFile($file, $contents);
             $this->commit();
             return $key;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -157,13 +153,21 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
         // walk through found data and re-encrypt it
         if ($paths) {
             $table = $this->getTable('core_config_data');
-            $values = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
-                ->from($table, array('config_id', 'value'))
-                ->where('path IN (?)', $paths)
-                ->where('value NOT LIKE ?', '')
+            $values = $this->_getReadAdapter()->fetchPairs(
+                $this->_getReadAdapter()->select()->from(
+                    $table,
+                    array('config_id', 'value')
+                )->where(
+                    'path IN (?)',
+                    $paths
+                )->where(
+                    'value NOT LIKE ?',
+                    ''
+                )
             );
             foreach ($values as $configId => $value) {
-                $this->_getWriteAdapter()->update($table,
+                $this->_getWriteAdapter()->update(
+                    $table,
                     array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
                     array('config_id = ?' => (int)$configId)
                 );
@@ -179,13 +183,13 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _reEncryptCreditCardNumbers()
     {
         $table = $this->getTable('sales_flat_order_payment');
-        $select = $this->_getWriteAdapter()->select()
-            ->from($table, array('entity_id', 'cc_number_enc'));
+        $select = $this->_getWriteAdapter()->select()->from($table, array('entity_id', 'cc_number_enc'));
 
         $attributeValues = $this->_getWriteAdapter()->fetchPairs($select);
         // save new values
         foreach ($attributeValues as $valueId => $value) {
-            $this->_getWriteAdapter()->update($table,
+            $this->_getWriteAdapter()->update(
+                $table,
                 array('cc_number_enc' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
                 array('entity_id = ?' => (int)$valueId)
             );

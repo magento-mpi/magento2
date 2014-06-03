@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,18 +20,24 @@ class Cache extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_headerText = __('Cache Storage Management');
         parent::_construct();
         $this->_removeButton('add');
-        $this->_addButton('flush_magento', array(
-            'label'     => __('Flush Magento Cache'),
-            'onclick'   => 'setLocation(\'' . $this->getFlushSystemUrl() .'\')',
-            'class'     => 'delete',
-        ));
+        $this->_addButton(
+            'flush_magento',
+            array(
+                'label' => __('Flush Magento Cache'),
+                'onclick' => 'setLocation(\'' . $this->getFlushSystemUrl() . '\')',
+                'class' => 'primary flush-cache-magento'
+            )
+        );
 
         $message = __('Cache storage may contain additional data. Are you sure that you want flush it?');
-        $this->_addButton('flush_system', array(
-            'label'     => __('Flush Cache Storage'),
-            'onclick'   => 'confirmSetLocation(\''.$message.'\', \'' . $this->getFlushStorageUrl() .'\')',
-            'class'     => 'delete',
-        ));
+        $this->_addButton(
+            'flush_system',
+            array(
+                'label' => __('Flush Cache Storage'),
+                'onclick' => 'confirmSetLocation(\'' . $message . '\', \'' . $this->getFlushStorageUrl() . '\')',
+                'class' => 'flush-cache-storage'
+            )
+        );
     }
 
     /**

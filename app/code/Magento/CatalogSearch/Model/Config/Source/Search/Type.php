@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Config\Source\Search;
 
-class Type implements \Magento\Option\ArrayInterface
+class Type implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array
@@ -17,16 +17,13 @@ class Type implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         $types = array(
-            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE     => 'Like',
+            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE => 'Like',
             \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_FULLTEXT => 'Fulltext',
-            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE  => 'Combine (Like and Fulltext)',
+            \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE => 'Combine (Like and Fulltext)'
         );
         $options = array();
         foreach ($types as $k => $v) {
-            $options[] = array(
-                'value' => $k,
-                'label' => $v
-            );
+            $options[] = array('value' => $k, 'label' => $v);
         }
         return $options;
     }

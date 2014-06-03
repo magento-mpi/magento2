@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,6 @@ namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit;
 /**
  * description
  *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -38,13 +33,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getUrl('sales_rule/promo_quote/save'),
-                'method' => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->getUrl('sales_rule/promo_quote/save'),
+                    'method' => 'post'
+                )
+            )
         );
         $form->setUseContainer(true);
         $this->setForm($form);

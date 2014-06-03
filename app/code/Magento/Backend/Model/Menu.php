@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,15 +25,15 @@ class Menu extends \ArrayObject
     protected $_path = '';
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param string $pathInMenuStructure
      */
-    public function __construct(\Magento\Logger $logger, $pathInMenuStructure = '')
+    public function __construct(\Magento\Framework\Logger $logger, $pathInMenuStructure = '')
     {
         if ($pathInMenuStructure) {
             $this->_path = $pathInMenuStructure . '/';
@@ -162,7 +160,7 @@ class Menu extends \ArrayObject
                 $this->add($item, null, $position);
                 $result = true;
                 break;
-            } else if ($item->hasChildren() && $result = $item->getChildren()->reorder($itemId, $position)) {
+            } elseif ($item->hasChildren() && $result = $item->getChildren()->reorder($itemId, $position)) {
                 break;
             }
         }

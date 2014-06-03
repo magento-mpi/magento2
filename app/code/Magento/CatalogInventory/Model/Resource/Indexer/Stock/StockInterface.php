@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CatalogInventory\Model\Resource\Indexer\Stock;
 /**
  * CatalogInventory Stock Indexer Interface
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface StockInterface
@@ -41,12 +37,11 @@ interface StockInterface
      */
     public function setTypeId($typeId);
 
-
     /**
      * Retrieve Product Type Id for indexer
      *
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getTypeId();
 }

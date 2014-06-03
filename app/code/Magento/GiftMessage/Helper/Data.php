@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,6 @@
  */
 namespace Magento\GiftMessage\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-
 }

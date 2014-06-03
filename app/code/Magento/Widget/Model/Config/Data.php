@@ -7,7 +7,7 @@
  */
 namespace Magento\Widget\Model\Config;
 
-class Data extends \Magento\Config\Data\Scoped
+class Data extends \Magento\Framework\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme
@@ -15,5 +15,4 @@ class Data extends \Magento\Config\Data\Scoped
      * @var string[]
      */
     protected $_scopePriorityScheme = array('global', 'design');
-
 }

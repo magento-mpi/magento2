@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
 /**
@@ -28,8 +27,9 @@ class EventTest extends \Magento\Backend\Utility\Controller
     public function testEditActionMultipleStore()
     {
         /** @var $event \Magento\CatalogEvent\Model\Event */
-        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogEvent\Model\Event');
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogEvent\Model\Event'
+        );
         $event->load(\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE, 'display_state');
         $this->dispatch('backend/admin/catalog_event/edit/id/' . $event->getId());
         $body = $this->getResponse()->getBody();

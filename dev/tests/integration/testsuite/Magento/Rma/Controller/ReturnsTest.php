@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category Magento
- * @package Magento_Rma
- * @subpackage integration_tests
  * @copyright {copyright}
  * @license {license_link}
  */
-
 namespace Magento\Rma\Controller;
 
 class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -21,11 +17,14 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Session', array($logger));
-        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountService');
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Session',
+            array($logger)
+        );
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\CustomerAccountService'
+        );
         $customer = $service->authenticate('customer@example.com', 'password');
         $this->_customerSession->setCustomerDataAsLoggedIn($customer);
     }
@@ -46,8 +45,7 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testIsResponseContain($uri, $content)
     {
         /** @var $rma \Magento\Rma\Model\Rma */
-        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
         $rma->setCustomerId($this->_customerSession->getCustomerId());
         $rma->save();
@@ -62,7 +60,7 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         return array(
             array('rma/returns/addlabel', '<td class="col carrier">CarrierTitle</td>'),
-            array('rma/returns/dellabel', '<td class="col carrier">CarrierTitle</td>'),
+            array('rma/returns/dellabel', '<td class="col carrier">CarrierTitle</td>')
         );
     }
 }

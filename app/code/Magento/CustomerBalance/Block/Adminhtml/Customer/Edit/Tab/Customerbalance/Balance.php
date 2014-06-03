@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -17,7 +14,7 @@ class Balance extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -29,13 +26,13 @@ class Balance extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_balanceFactory = $balanceFactory;
@@ -53,11 +50,13 @@ class Balance extends \Magento\Backend\Block\Template
         $customer = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER);
         $balance = $this->_balanceFactory->create();
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
-            return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(
+            return $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
                 array(
                     'label' => __('Delete Orphan Balances'),
                     'onclick' => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() . '\')',
-                    'class' => 'scalable delete',
+                    'class' => 'scalable delete'
                 )
             )->toHtml();
         }
@@ -73,10 +72,7 @@ class Balance extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/customerbalance/deleteOrphanBalances',
-            array(
-                '_current' => true,
-                'tab' => 'customer_info_tabs_customerbalance'
-            )
+            array('_current' => true, 'tab' => 'customer_info_tabs_customerbalance')
         );
     }
 }

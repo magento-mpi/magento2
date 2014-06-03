@@ -33,7 +33,7 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * @var array
      */
-    protected $options = [];
+    protected $options = array();
 
     /**
      * Builder constructor
@@ -41,10 +41,8 @@ abstract class AbstractBuilder implements BuilderInterface
      * @param ParserInterface $dependenciesParser
      * @param WriterInterface $reportWriter
      */
-    public function __construct(
-        ParserInterface $dependenciesParser,
-        WriterInterface $reportWriter
-    ) {
+    public function __construct(ParserInterface $dependenciesParser, WriterInterface $reportWriter)
+    {
         $this->dependenciesParser = $dependenciesParser;
         $this->reportWriter = $reportWriter;
     }

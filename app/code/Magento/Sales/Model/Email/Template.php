@@ -2,15 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 namespace Magento\Sales\Model\Email;
 
+/**
+ * Sales email template model
+ */
 class Template extends \Magento\Email\Model\Template
 {
     /**
@@ -20,7 +20,7 @@ class Template extends \Magento\Email\Model\Template
      */
     public function getInclude($template, array $variables)
     {
-        $filename = $this->_viewFileSystem->getFilename($template);
+        $filename = $this->_viewFileSystem->getTemplateFileName($template);
         if (!$filename) {
             return '';
         }

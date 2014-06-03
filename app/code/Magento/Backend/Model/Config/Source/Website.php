@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source;
 
-class Website implements \Magento\Option\ArrayInterface
+class Website implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array
@@ -18,14 +15,14 @@ class Website implements \Magento\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
     }
@@ -40,8 +37,8 @@ class Website implements \Magento\Option\ArrayInterface
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $id = $website->getId();
                 $name = $website->getName();
-                if ($id!=0) {
-                    $this->_options[] = array('value'=>$id, 'label'=>$name);
+                if ($id != 0) {
+                    $this->_options[] = array('value' => $id, 'label' => $name);
                 }
             }
         }

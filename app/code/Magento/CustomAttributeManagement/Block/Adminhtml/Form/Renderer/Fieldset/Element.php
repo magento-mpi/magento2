@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,16 +10,13 @@ namespace Magento\CustomAttributeManagement\Block\Adminhtml\Form\Renderer\Fields
 /**
  * EAV entity attribute form fieldset element renderer
  *
- * @category   Magento
- * @package    Magento_CustomAttributeManagement
  */
-class Element
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Retrieve data object related with form
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDataObject()
     {
@@ -37,8 +32,12 @@ class Element
     {
         $element = $this->getElement();
         if ($element) {
-            if ($element->getScope() != 'global' && $element->getScope() != null && $this->getDataObject()
-                && $this->getDataObject()->getId() && $this->getDataObject()->getWebsite()->getId()) {
+            if ($element->getScope() != 'global' &&
+                $element->getScope() != null &&
+                $this->getDataObject() &&
+                $this->getDataObject()->getId() &&
+                $this->getDataObject()->getWebsite()->getId()
+            ) {
                 return true;
             }
         }
@@ -57,7 +56,7 @@ class Element
             $key = 'default_value';
         }
         $storeValue = $this->getDataObject()->getData('scope_' . $key);
-        return ($storeValue === null);
+        return $storeValue === null;
     }
 
     /**

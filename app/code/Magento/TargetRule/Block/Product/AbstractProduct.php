@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Block\Product;
 /**
  * TargetRule abstract Products Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  */
 abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
@@ -81,57 +77,22 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     protected $_resourceIndex;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param array $data
-     * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -144,7 +105,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     {
         return array(
             \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED,
-            \Magento\TargetRule\Model\Rule::RULE_BASED_ONLY,
+            \Magento\TargetRule\Model\Rule::RULE_BASED_ONLY
         );
     }
 
@@ -157,7 +118,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     {
         return array(
             \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED,
-            \Magento\TargetRule\Model\Rule::SELECTED_ONLY,
+            \Magento\TargetRule\Model\Rule::SELECTED_ONLY
         );
     }
 
@@ -242,8 +203,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     /**
      * Compare two items for ordered list
      *
-     * @param \Magento\Object $item1
-     * @param \Magento\Object $item2
+     * @param \Magento\Framework\Object $item1
+     * @param \Magento\Framework\Object $item2
      * @return int
      */
     public function compareItems($item1, $item2)
@@ -274,7 +235,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         $i = 0;
         foreach ($this->_items as $id => $item) {
             ++$i;
-            if ($i > $this->getPositionLimit()) {
+            if ($i > $this->_targetRuleData->getMaxProductsListResult()) {
                 unset($this->_items[$id]);
             }
         }
@@ -290,7 +251,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     public function getItemCollection()
     {
         if (is_null($this->_items)) {
-            $behavior   = $this->getPositionBehavior();
+            $behavior = $this->getPositionBehavior();
 
             $this->_items = array();
 

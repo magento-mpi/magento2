@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\CustomerSegment\Model\Resource\Segment;
 /**
  * Enterprise CustomerSegment Model Resource Segment Collection
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
+class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -27,13 +22,13 @@ class Collection
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'magento_customersegment_website',
-            'rule_id_field'      => 'segment_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'segment_id',
+            'entity_id_field' => 'website_id'
         ),
         'event' => array(
             'associations_table' => 'magento_customersegment_event',
-            'rule_id_field'      => 'segment_id',
-            'entity_id_field'    => 'event'
+            'rule_id_field' => 'segment_id',
+            'entity_id_field' => 'event'
         )
     );
 
@@ -116,7 +111,7 @@ class Collection
      * Get SQL for get record count.
      * Reset left join, group and having parts
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -142,13 +137,13 @@ class Collection
         $this->setFlag('is_customer_count_added', true);
         $this->_customerCountAdded = true;
 
-        $this->getSelect()
-            ->joinLeft(
-                array('customer_count_table' => $this->getTable('magento_customersegment_customer')),
-                'customer_count_table.segment_id = main_table.segment_id',
-                array('customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
-            )
-            ->group('main_table.segment_id');
+        $this->getSelect()->joinLeft(
+            array('customer_count_table' => $this->getTable('magento_customersegment_customer')),
+            'customer_count_table.segment_id = main_table.segment_id',
+            array('customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
+        )->group(
+            'main_table.segment_id'
+        );
         return $this;
     }
 
@@ -161,8 +156,7 @@ class Collection
     public function addCustomerCountFilter($customerCount)
     {
         $this->addCustomerCountToSelect();
-        $this->getSelect()
-            ->having('customer_count = ?', $customerCount);
+        $this->getSelect()->having('customer_count = ?', $customerCount);
         return $this;
     }
 

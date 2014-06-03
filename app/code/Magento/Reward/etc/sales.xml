@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Sales/etc/sales.xsd">
     <section name="quote">
         <group name="totals">
-            <item name="reward" instance="Magento\Reward\Model\Total\Quote\Reward" sort_order="650">
+            <item name="reward" instance="Magento\Reward\Model\Total\Quote\Reward" sort_order="1000">
                 <renderer name="frontend" instance="Magento\Reward\Block\Checkout\Total"/>
             </item>
         </group>

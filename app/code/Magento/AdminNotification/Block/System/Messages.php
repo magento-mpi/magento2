@@ -59,8 +59,9 @@ class Messages extends \Magento\Backend\Block\Template
     public function getLastCritical()
     {
         $items = array_values($this->_messages->getItems());
-        if (isset($items[0]) && $items[0]->getSeverity()
-            == \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL
+        if (isset(
+            $items[0]
+        ) && $items[0]->getSeverity() == \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL
         ) {
             return $items[0];
         }
@@ -98,7 +99,7 @@ class Messages extends \Magento\Backend\Block\Template
      */
     public function hasMessages()
     {
-        return (bool) count($this->_messages->getItems());
+        return (bool)count($this->_messages->getItems());
     }
 
     /**
@@ -118,12 +119,14 @@ class Messages extends \Magento\Backend\Block\Template
      */
     public function getSystemMessageDialogJson()
     {
-        return $this->_coreHelper->jsonEncode(array(
-            'systemMessageDialog' => array(
-                'autoOpen' => false,
-                'width' => 600,
-                'ajaxUrl' => $this->_getMessagesUrl(),
-            ),
-        ));
+        return $this->_coreHelper->jsonEncode(
+            array(
+                'systemMessageDialog' => array(
+                    'autoOpen' => false,
+                    'width' => 600,
+                    'ajaxUrl' => $this->_getMessagesUrl()
+                )
+            )
+        );
     }
 }

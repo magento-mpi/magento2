@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Newsletter Data Helper
  *
- * @category   Magento
- * @package    Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Newsletter\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Retrieve subsription confirmation url
@@ -28,12 +24,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConfirmationUrl($subscriber)
     {
-        return $this->_urlBuilder->setScope($subscriber->getStoreId())
-            ->getUrl('newsletter/subscriber/confirm', array(
-                'id'     => $subscriber->getId(),
-                'code'   => $subscriber->getCode(),
-                '_nosid' => true,
-            ));
+        return $this->_urlBuilder->setScope(
+            $subscriber->getStoreId()
+        )->getUrl(
+            'newsletter/subscriber/confirm',
+            array('id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true)
+        );
     }
 
     /**
@@ -44,11 +40,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return $this->_urlBuilder->setScope($subscriber->getStoreId())
-            ->getUrl('newsletter/subscriber/unsubscribe', array(
-                'id'     => $subscriber->getId(),
-                'code'   => $subscriber->getCode(),
-                '_nosid' => true,
-            ));
+        return $this->_urlBuilder->setScope(
+            $subscriber->getStoreId()
+        )->getUrl(
+            'newsletter/subscriber/unsubscribe',
+            array('id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true)
+        );
     }
 }

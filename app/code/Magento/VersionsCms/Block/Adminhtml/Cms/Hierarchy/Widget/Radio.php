@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,7 +43,7 @@ class Radio extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -55,22 +53,22 @@ class Radio extends \Magento\Backend\Block\Template
     protected $_hierarchyNode;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -93,7 +91,7 @@ class Radio extends \Magento\Backend\Block\Template
                     continue;
                 }
                 if ($view['value'] == 0) {
-                    $view['value'] = array(array('label' => $view['label'],'value' => $view['value']));
+                    $view['value'] = array(array('label' => $view['label'], 'value' => $view['value']));
                 }
                 foreach ($view['value'] as $store) {
                     $this->_allStoreViews[] = $store;
@@ -119,10 +117,7 @@ class Radio extends \Magento\Backend\Block\Template
         $storeValues = $this->_systemStore->getStoreCollection();
 
         foreach ($storeValues as $store) {
-            $storeViews[] = array(
-                'label' => $store->getName(),
-                'value' => $store->getId()
-            );
+            $storeViews[] = array('label' => $store->getName(), 'value' => $store->getId());
         }
 
         return $storeViews;
@@ -136,7 +131,7 @@ class Radio extends \Magento\Backend\Block\Template
     public function getAllStoreViewIds()
     {
         $ids = array();
-        foreach($this->getAllStoreViews() as $view) {
+        foreach ($this->getAllStoreViews() as $view) {
             $ids[] = $view['value'];
         }
 
@@ -189,7 +184,7 @@ class Radio extends \Magento\Backend\Block\Template
     {
         $params = $this->getParameters();
 
-        return (isset($params[$key])) ? $params[$key] : '';
+        return isset($params[$key]) ? $params[$key] : '';
     }
 
     /**

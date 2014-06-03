@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 /**
  * CMS Hierarchy Menu source model for Layouts
  */
-class Layout implements \Magento\Option\ArrayInterface
+class Layout implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
@@ -37,14 +35,11 @@ class Layout implements \Magento\Option\ArrayInterface
     {
         $options = array();
         if ($withDefault) {
-           $options[] = array('label' => __('Use default'), 'value' => '');
+            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
         foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
-            $options[] = array(
-                'label' => $info['label'],
-                'value' => $name
-            );
+            $options[] = array('label' => $info['label'], 'value' => $name);
         }
 
         return $options;

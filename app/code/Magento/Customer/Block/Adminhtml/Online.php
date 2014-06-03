@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Block\Adminhtml;
 /**
  * Adminhtml online customers page content block
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Online extends \Magento\Backend\Block\Template
@@ -47,5 +43,4 @@ class Online extends \Magento\Backend\Block\Template
     {
         return $this->getChildBlock('filterForm')->toHtml();
     }
-
 }

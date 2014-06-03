@@ -7,8 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
-class Survey
-    implements \Magento\AdminNotification\Model\System\MessageInterface
+class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -16,12 +15,12 @@ class Survey
     protected $_authSession;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -32,14 +31,14 @@ class Survey
 
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\AuthorizationInterface $authorization
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\AdminNotification\Model\Survey $survey
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\AuthorizationInterface $authorization,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\AuthorizationInterface $authorization,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\AdminNotification\Model\Survey $survey
     ) {
         $this->_authorization = $authorization;
@@ -75,10 +74,9 @@ class Survey
      */
     public function isDisplayed()
     {
-        if ($this->_authSession->getHideSurveyQuestion()
-            || false == $this->_authorization->isAllowed(null)
-            || $this->_survey->isSurveyViewed()
-            || false == $this->_survey->isSurveyUrlValid()
+        if ($this->_authSession->getHideSurveyQuestion() || false == $this->_authorization->isAllowed(
+            null
+        ) || $this->_survey->isSurveyViewed() || false == $this->_survey->isSurveyUrlValid()
         ) {
             return false;
         }
@@ -99,11 +97,14 @@ class Survey
                 'eventData' => array(
                     'surveyUrl' => $this->_survey->getSurveyUrl(),
                     'surveyAction' => $this->_urlBuilder->getUrl('*/survey/index', array('_current' => true)),
-                    'decision' => 'yes',
-                ),
-            ),
+                    'decision' => 'yes'
+                )
+            )
         );
-        return __('We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%1>take our survey</a> and tell us about features you\'d like to see in Magento.', json_encode($params, JSON_FORCE_OBJECT));
+        return __(
+            'We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%1>take our survey</a> and tell us about features you\'d like to see in Magento.',
+            json_encode($params, JSON_FORCE_OBJECT)
+        );
     }
 
     /**

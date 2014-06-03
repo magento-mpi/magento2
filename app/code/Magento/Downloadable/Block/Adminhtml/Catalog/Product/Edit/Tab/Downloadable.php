@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,9 @@ namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab;
 /**
  * Adminhtml catalog product downloadable items tab and form
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Downloadable
-    extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Downloadable extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Reference to product objects that is being edited
@@ -28,7 +22,7 @@ class Downloadable
     protected $_product = null;
 
     /**
-     * @var \Magento\Object|null
+     * @var \Magento\Framework\Object|null
      */
     protected $_config = null;
 
@@ -47,18 +41,18 @@ class Downloadable
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -150,23 +144,33 @@ class Downloadable
      */
     protected function _toHtml()
     {
-        $accordion = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Accordion')
-            ->setId($this->accordionBlockId);
-        $accordion->addItem('samples', array(
-            'title'   => __('Samples'),
-            'content' => $this->getLayout()
-                ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples')
-                ->toHtml(),
-            'open'    => false,
-        ));
+        $accordion = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Accordion'
+        )->setId(
+            $this->accordionBlockId
+        );
+        $accordion->addItem(
+            'samples',
+            array(
+                'title' => __('Samples'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples'
+                )->toHtml(),
+                'open' => false
+            )
+        );
 
-        $accordion->addItem('links', array(
-            'title'   => __('Links'),
-            'content' => $this->getLayout()->createBlock(
-                'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
-                'catalog.product.edit.tab.downloadable.links')->toHtml(),
-            'open'    => true,
-        ));
+        $accordion->addItem(
+            'links',
+            array(
+                'title' => __('Links'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
+                    'catalog.product.edit.tab.downloadable.links'
+                )->toHtml(),
+                'open' => true
+            )
+        );
 
         $this->setChild('accordion', $accordion);
 

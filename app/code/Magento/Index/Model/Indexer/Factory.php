@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,14 +14,14 @@ namespace Magento\Index\Model\Indexer;
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager|null
+     * @var \Magento\Framework\ObjectManager|null
      */
     protected $_objectManager = null;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

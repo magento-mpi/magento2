@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reward\Model\Resource\Reward\History;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase

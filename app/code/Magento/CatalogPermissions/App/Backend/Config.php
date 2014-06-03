@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\App\Backend;
 
-use \Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\CatalogPermissions\App\ConfigInterface;
 
 /**
  * Global configs
@@ -20,16 +17,16 @@ class Config implements ConfigInterface
     /**
      * Core store config
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $coreConfig;
 
     /**
-     * @param \Magento\App\ConfigInterface $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\ConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->coreConfig = $coreStoreConfig;
+        $this->coreConfig = $scopeConfig;
     }
 
     /**
@@ -60,9 +57,10 @@ class Config implements ConfigInterface
     public function getCatalogCategoryViewGroups()
     {
         $groups = $this->coreConfig->getValue(
-            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups', 'default'
+            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
+            'default'
         );
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -83,9 +81,10 @@ class Config implements ConfigInterface
     public function getCatalogProductPriceGroups()
     {
         $groups = $this->coreConfig->getValue(
-            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups', 'default'
+            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
+            'default'
         );
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -106,7 +105,7 @@ class Config implements ConfigInterface
     public function getCheckoutItemsGroups()
     {
         $groups = $this->coreConfig->getValue(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups', 'default');
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -117,7 +116,7 @@ class Config implements ConfigInterface
     public function getCatalogSearchDenyGroups()
     {
         $groups = $this->coreConfig->getValue(ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH, 'default');
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**

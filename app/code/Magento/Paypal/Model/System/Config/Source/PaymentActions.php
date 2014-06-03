@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\Paypal\Model\System\Config\Source;
 /**
  * Source model for available payment actions
  */
-
-class PaymentActions implements \Magento\Option\ArrayInterface
+class PaymentActions implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory

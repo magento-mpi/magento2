@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule4\Service\V1;
 
 use Magento\TestModule4\Service\V1\Entity\DataObjectResponseBuilder;
@@ -15,12 +14,24 @@ use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
 class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectServiceInterface
 {
     /**
+     * @var DataObjectResponseBuilder
+     */
+    protected $responseBuilder;
+
+    /**
+     * @param DataObjectResponseBuilder $responseBuilder
+     */
+    public function __construct(DataObjectResponseBuilder $responseBuilder)
+    {
+        $this->responseBuilder = $responseBuilder;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getData($id)
     {
-        $response = new DataObjectResponseBuilder();
-        return $response->setEntityId($id)->setName("Test")->create();
+        return $this->responseBuilder->setEntityId($id)->setName("Test")->create();
     }
 
     /**
@@ -28,8 +39,7 @@ class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectSer
      */
     public function updateData($id, DataObjectRequest $request)
     {
-        $response = new DataObjectResponseBuilder();
-        return $response->setEntityId($id)->setName($request->getName())->create();
+        return $this->responseBuilder->setEntityId($id)->setName($request->getName())->create();
     }
 
     /**
@@ -37,8 +47,7 @@ class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectSer
      */
     public function nestedData($id, NestedDataObjectRequest $request)
     {
-        $response = new DataObjectResponseBuilder();
-        return $response->setEntityId($id)->setName($request->getDetails()->getName())->create();
+        return $this->responseBuilder->setEntityId($id)->setName($request->getDetails()->getName())->create();
     }
 
     /**

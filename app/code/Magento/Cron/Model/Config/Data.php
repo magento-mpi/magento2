@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,19 +11,19 @@
  */
 namespace Magento\Cron\Model\Config;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Framework\Config\Data
 {
     /**
      * Initialize parameters
      *
      * @param \Magento\Cron\Model\Config\Reader\Xml $reader
-     * @param \Magento\Config\CacheInterface        $cache
+     * @param \Magento\Framework\Config\CacheInterface        $cache
      * @param \Magento\Cron\Model\Config\Reader\Db  $dbReader
      * @param string                               $cacheId
      */
     public function __construct(
         \Magento\Cron\Model\Config\Reader\Xml $reader,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Cron\Model\Config\Reader\Db $dbReader,
         $cacheId = 'crontab_config_cache'
     ) {

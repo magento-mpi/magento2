@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Reward rate edit form
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
@@ -32,16 +28,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory,
         array $data = array()
@@ -68,48 +64,63 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getUrl('adminhtml/*/save', array('_current' => true)),
-                'method' => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->getUrl('adminhtml/*/save', array('_current' => true)),
+                    'method' => 'post'
+                )
+            )
         );
         $form->setFieldNameSuffix('rate');
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => __('Reward Exchange Rate Information')
-        ));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Reward Exchange Rate Information')));
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $field = $fieldset->addField('website_id', 'select', array(
-                'name'   => 'website_id',
-                'title'  => __('Website'),
-                'label'  => __('Website'),
-                'values' => $this->_websitesFactory->create()->toOptionArray(),
-            ));
-            $renderer = $this->getLayout()
-                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $field = $fieldset->addField(
+                'website_id',
+                'select',
+                array(
+                    'name' => 'website_id',
+                    'title' => __('Website'),
+                    'label' => __('Website'),
+                    'values' => $this->_websitesFactory->create()->toOptionArray()
+                )
+            );
+            $renderer = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
+            );
             $field->setRenderer($renderer);
         }
 
-        $fieldset->addField('customer_group_id', 'select', array(
-            'name'   => 'customer_group_id',
-            'title'  => __('Customer Group'),
-            'label'  => __('Customer Group'),
-            'values' => $this->_groupsFactory->create()->toOptionArray()
-        ));
+        $fieldset->addField(
+            'customer_group_id',
+            'select',
+            array(
+                'name' => 'customer_group_id',
+                'title' => __('Customer Group'),
+                'label' => __('Customer Group'),
+                'values' => $this->_groupsFactory->create()->toOptionArray()
+            )
+        );
 
-        $fieldset->addField('direction', 'select', array(
-            'name'   => 'direction',
-            'title'  => __('Direction'),
-            'label'  => __('Direction'),
-            'values' => $this->getRate()->getDirectionsOptionArray()
-        ));
+        $fieldset->addField(
+            'direction',
+            'select',
+            array(
+                'name' => 'direction',
+                'title' => __('Direction'),
+                'label' => __('Direction'),
+                'values' => $this->getRate()->getDirectionsOptionArray()
+            )
+        );
 
-        $rateRenderer = $this->getLayout()
-            ->createBlock('Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer\Rate')
-            ->setRate($this->getRate());
+        $rateRenderer = $this->getLayout()->createBlock(
+            'Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer\Rate'
+        )->setRate(
+            $this->getRate()
+        );
         $direction = $this->getRate()->getDirection();
         if ($direction == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
             $fromIndex = 'points';
@@ -118,12 +129,18 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $fromIndex = 'currency_amount';
             $toIndex = 'points';
         }
-        $fieldset->addField('rate_to_currency', 'note', array(
-            'title'             => __('Rate'),
-            'label'             => __('Rate'),
-            'value_index'       => $fromIndex,
-            'equal_value_index' => $toIndex
-        ))->setRenderer($rateRenderer);
+        $fieldset->addField(
+            'rate_to_currency',
+            'note',
+            array(
+                'title' => __('Rate'),
+                'label' => __('Rate'),
+                'value_index' => $fromIndex,
+                'equal_value_index' => $toIndex
+            )
+        )->setRenderer(
+            $rateRenderer
+        );
 
         $form->setUseContainer(true);
         $form->setValues($this->getRate()->getData());

@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Block\Widget\Form;
 
-use Magento\Data\Form;
+use Magento\Framework\Data\Form;
 
 /**
  * Form element widget block
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Element extends \Magento\Backend\Block\Template
@@ -31,7 +27,7 @@ class Element extends \Magento\Backend\Block\Template
     protected $_form;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_formBlock;
 
@@ -61,7 +57,7 @@ class Element extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Object $formBlock
+     * @param \Magento\Framework\Object $formBlock
      * @return $this
      */
     public function setFormBlock($formBlock)

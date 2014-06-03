@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +10,11 @@
 /**
  * Permission collection
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogPermissions\Model\Resource\Permission;
 
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection

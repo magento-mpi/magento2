@@ -21,34 +21,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         parent::setUp();
     }
 
-    public function testPerameterizedServiceException()
-    {
-        $serviceInfo = array(
-            'soap' => array(
-                'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1ParameterizedServiceException'
-            )
-        );
-        $arguments = array(
-            'parameters' => array(
-                array('name' => 'key1', 'value' => 'value1'),
-                array('name' => 'key2', 'value' => 'value2')
-            )
-        );
-        try {
-            $this->_webApiCall($serviceInfo, $arguments);
-            $this->fail("SoapFault was not raised as expected.");
-        } catch (\SoapFault $e) {
-            $this->_checkSoapFault(
-                $e,
-                'Parameterized service exception',
-                'env:Sender',
-                1234,
-                array('key1' => 'value1', 'key2' => 'value2')
-            );
-        }
-    }
-
     public function testWebapiException()
     {
         $serviceInfo = array(
@@ -64,8 +36,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $this->_checkSoapFault(
                 $e,
                 'Service not found',
-                'env:Sender',
-                5555
+                'env:Sender'
             );
         }
     }
@@ -87,8 +58,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $this->_checkSoapFault(
                     $e,
                     'Non service exception',
-                    'env:Receiver',
-                    5678
+                    'env:Receiver'
                 );
             } else {
                 $this->_checkSoapFault(
@@ -100,38 +70,104 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         }
     }
 
+    public function testEmptyInputException()
+    {
+        $parameters = [];
+        $this->_testWrappedError($parameters);
+    }
+
+    public function testSingleWrappedErrorException()
+    {
+        $parameters = [
+            ['fieldName' => 'key1', 'value' => 'value1']
+        ];
+        $this->_testWrappedError($parameters);
+    }
+
+    public function testMultipleWrappedErrorException()
+    {
+        $parameters = [
+            ['fieldName' => 'key1', 'value' => 'value1'],
+            ['fieldName' => 'key2', 'value' => 'value2']
+        ];
+        $this->_testWrappedError($parameters);
+    }
+
+    protected function _testWrappedError($parameters)
+    {
+        $serviceInfo = [
+            'soap' => [
+                'service' => 'testModule3ErrorV1',
+                'operation' => 'testModule3ErrorV1InputException'
+            ]
+        ];
+
+        $expectedException = new \Magento\Framework\Exception\InputException();
+        foreach ($parameters as $error) {
+            $expectedException->addError(\Magento\Framework\Exception\InputException::INVALID_FIELD_VALUE, $error);
+        }
+
+        $arguments = [
+            'wrappedErrorParameters' => $parameters
+        ];
+
+        $expectedErrors = [];
+        foreach ($expectedException->getErrors() as $key => $error) {
+            $expectedErrors[$key] = [
+                'message' => $error->getRawMessage(),
+                'params' => $error->getParameters()
+            ];
+        }
+
+
+        try {
+            $this->_webApiCall($serviceInfo, $arguments);
+            $this->fail("SoapFault was not raised as expected.");
+        } catch (\SoapFault $e) {
+            $this->_checkSoapFault(
+                $e,
+                $expectedException->getRawMessage(),
+                'env:Sender',
+                $expectedException->getParameters(), // expected error parameters
+                false,
+                $expectedErrors                      // expected wrapped errors
+            );
+        }
+    }
+
     /**
      * Verify that SOAP fault contains necessary information.
      *
      * @param \SoapFault $soapFault
      * @param string $expectedMessage
      * @param string $expectedFaultCode
-     * @param string $expectedErrorCode
      * @param array $expectedErrorParams
      * @param bool $isTraceExpected
+     * @param array $expectedWrappedErrors
      */
     protected function _checkSoapFault(
         $soapFault,
         $expectedMessage,
         $expectedFaultCode,
-        $expectedErrorCode = null,
         $expectedErrorParams = array(),
-        $isTraceExpected = false
+        $isTraceExpected = false,
+        $expectedWrappedErrors = array()
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        $errorDetailsNode = Fault::NODE_DETAIL_WRAPPER;
+        $errorDetailsNode = 'TestModule3ErrorV1InputExceptionMagento_Framework_Exception_InputExceptionFault';
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
-        if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
+        if (!empty($expectedErrorParams) || $isTraceExpected || !empty($expectedWrappedErrors)) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
             $this->_checkFaultParams($expectedErrorParams, $errorDetails);
+            $this->_checkWrappedErrors($expectedWrappedErrors, $errorDetails);
 
             /** Check error trace */
             $traceNode = Fault::NODE_DETAIL_TRACE;
-            $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
                 ->getMode();
-            if ($mode != \Magento\App\State::MODE_DEVELOPER) {
+            if ($mode != \Magento\Framework\App\State::MODE_DEVELOPER) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
                     $this->assertTrue(isset($errorDetails->$traceNode), "Exception trace was expected.");
@@ -139,16 +175,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                     $this->assertFalse(isset($errorDetails->$traceNode), "Exception trace was not expected.");
                 }
             }
-
-            /** Check error code if present*/
-            if ($expectedErrorCode) {
-                $this->assertEquals(
-                    $expectedErrorCode,
-                    $errorDetails->{Fault::NODE_DETAIL_CODE},
-                    "Error code in fault details is invalid."
-                );
-            }
-
         } else {
             $this->assertNull($errorDetails, "Details are not expected.");
         }
@@ -189,6 +215,53 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             );
         } else {
             $this->assertFalse(isset($errorDetails->$paramsNode), "Parameters are not expected in fault details.");
+        }
+    }
+
+    /**
+     * Check additional wrapped errors.
+     *
+     * @param array $expectedWrappedErrors
+     * @param \stdClass $errorDetails
+     */
+    protected function _checkWrappedErrors($expectedWrappedErrors, $errorDetails)
+    {
+        $wrappedErrorsNode = Fault::NODE_DETAIL_WRAPPED_ERRORS;
+        if ($expectedWrappedErrors) {
+            $wrappedErrorNode = Fault::NODE_DETAIL_WRAPPED_ERROR;
+            $wrappedErrorNodeFieldName = 'fieldName';
+            $wrappedErrorNodeValue = Fault::NODE_DETAIL_WRAPPED_ERROR_VALUE;
+            $actualWrappedErrors = array();
+            if (isset($errorDetails->$wrappedErrorsNode->$wrappedErrorNode)) {
+                if (is_array($errorDetails->$wrappedErrorsNode->$wrappedErrorNode)) {
+                    foreach ($errorDetails->$wrappedErrorsNode->$wrappedErrorNode as $error) {
+                        $actualParameters = [];
+                        foreach ($error->parameters->parameter as $parameter) {
+                            $actualParameters[$parameter->key] = $parameter->value;
+                        }
+                        $actualWrappedErrors[] = [
+                            'message' => $error->message,
+                            'params' => $actualParameters,
+                        ];
+                    }
+                } else {
+                    $error = $errorDetails->$wrappedErrorsNode->$wrappedErrorNode;
+                    $actualWrappedErrors[] = [
+                        "fieldName" => $error->$wrappedErrorNodeFieldName,
+                        "value" => $error->$wrappedErrorNodeValue
+                    ];
+                }
+            }
+            $this->assertEquals(
+                $expectedWrappedErrors,
+                $actualWrappedErrors,
+                "Wrapped errors in fault details are invalid."
+            );
+        } else {
+            $this->assertFalse(
+                isset($errorDetails->$wrappedErrorsNode),
+                "Wrapped errors are not expected in fault details."
+            );
         }
     }
 }

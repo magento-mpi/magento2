@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,12 @@
 /**
  * Widget Instance Properties tab block
  *
- * @category    Magento
- * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
-class Properties
-    extends \Magento\Widget\Block\Adminhtml\Widget\Options
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Properties extends \Magento\Widget\Block\Adminhtml\Widget\Options implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab
@@ -79,16 +74,19 @@ class Properties
      */
     protected function _preparelayout()
     {
-        $this->setWidgetType($this->getWidgetInstance()->getType())
-            ->setWidgetValues($this->getWidgetInstance()->getWidgetParameters());
+        $this->setWidgetType(
+            $this->getWidgetInstance()->getType()
+        )->setWidgetValues(
+            $this->getWidgetInstance()->getWidgetParameters()
+        );
         return parent::_prepareLayout();
     }
 
     /**
      * Add field to Options form based on option configuration
      *
-     * @param \Magento\Object $parameter
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param \Magento\Framework\Object $parameter
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)
     {

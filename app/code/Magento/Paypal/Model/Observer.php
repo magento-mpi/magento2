@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * PayPal module observer
@@ -19,7 +17,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -38,7 +36,7 @@ class Observer
     protected $_coreData;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -48,12 +46,12 @@ class Observer
     protected $_settlementFactory;
 
     /**
-     * @var \Magento\App\ViewInterface
+     * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -70,22 +68,22 @@ class Observer
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
-     * @param \Magento\App\ViewInterface $view
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\App\ViewInterface $view
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Helper\Hss $paypalHss,
-        \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
-        \Magento\App\ViewInterface $view,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\App\ViewInterface $view,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
@@ -164,17 +162,14 @@ class Observer
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && in_array($payment->getMethod(), $this->_paypalHss->getHssMethods())) {
-                /* @var $controller \Magento\App\Action\Action */
+                /* @var $controller \Magento\Framework\App\Action\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = $this->_coreData->jsonDecode($controller->getResponse()->getBody('default'));
 
                 if (empty($result['error'])) {
                     $this->_view->loadLayout('checkout_onepage_review');
                     $html = $this->_view->getLayout()->getBlock('paypal.iframe')->toHtml();
-                    $result['update_section'] = array(
-                        'name' => 'paypaliframe',
-                        'html' => $html
-                    );
+                    $result['update_section'] = array('name' => 'paypaliframe', 'html' => $html);
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
@@ -196,8 +191,10 @@ class Observer
     {
         $event = $observer->getEvent();
         $methodInstance = $event->getMethodInstance();
-        if ($methodInstance instanceof \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement
-            && false == $this->_authorization->isAllowed('Magento_Paypal::use')
+        if ($methodInstance instanceof \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement &&
+            false == $this->_authorization->isAllowed(
+                'Magento_Paypal::use'
+            )
         ) {
             $event->getResult()->isAvailable = false;
         }
@@ -248,9 +245,13 @@ class Observer
             '',
             array('checkoutSession' => $observer->getEvent()->getCheckoutSession())
         );
-        $shortcut->setIsInCatalogProduct($observer->getEvent()->getIsCatalogProduct())
-            ->setShowOrPosition($observer->getEvent()->getOrPosition())
-            ->setTemplate('express/shortcut.phtml');
+        $shortcut->setIsInCatalogProduct(
+            $observer->getEvent()->getIsCatalogProduct()
+        )->setShowOrPosition(
+            $observer->getEvent()->getOrPosition()
+        )->setTemplate(
+            'express/shortcut.phtml'
+        );
         $shortcutButtons->addShortcut($shortcut);
         // PayPal Express Checkout Payflow Edition
         $shortcut = $shortcutButtons->getLayout()->createBlock(
@@ -258,9 +259,13 @@ class Observer
             '',
             array('checkoutSession' => $observer->getEvent()->getCheckoutSession())
         );
-        $shortcut->setIsInCatalogProduct($observer->getEvent()->getIsCatalogProduct())
-            ->setShowOrPosition($observer->getEvent()->getOrPosition())
-            ->setTemplate('express/shortcut.phtml');
+        $shortcut->setIsInCatalogProduct(
+            $observer->getEvent()->getIsCatalogProduct()
+        )->setShowOrPosition(
+            $observer->getEvent()->getOrPosition()
+        )->setTemplate(
+            'express/shortcut.phtml'
+        );
         $shortcutButtons->addShortcut($shortcut);
     }
 }

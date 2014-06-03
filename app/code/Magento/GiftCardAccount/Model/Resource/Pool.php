@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftCardAccount\Model\Resource;
 /**
  * GiftCard pool resource model
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
@@ -37,10 +33,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
     public function saveCode($code)
     {
         $field = $this->getIdFieldName();
-        $this->_getWriteAdapter()->insert(
-            $this->getMainTable(),
-            array($field => $code)
-        );
+        $this->_getWriteAdapter()->insert($this->getMainTable(), array($field => $code));
     }
 
     /**

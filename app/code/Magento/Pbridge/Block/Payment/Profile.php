@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Payment Profiles Iframe block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Block\Payment;
@@ -39,10 +35,10 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         return $this->_pbridgeData->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
-                'css_url'         => $this->getCssUrl(),
-                'customer_id'     => $this->getCustomerIdentifier(),
-                'customer_name'   => $this->getCustomerName(),
-                'customer_email'  => $this->getCustomerEmail()
+                'css_url' => $this->getCssUrl(),
+                'customer_id' => $this->getCustomerIdentifier(),
+                'customer_name' => $this->getCustomerName(),
+                'customer_email' => $this->getCustomerEmail()
             )
         );
     }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +9,6 @@
 /**
  * Test for \Magento\Index\Model\Lock\Storage
  */
-
 namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
 
 /**
@@ -21,17 +17,17 @@ namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
 class CouponTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Application object
+     * Layout
      *
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Framework\View\LayoutInterface
      */
-    protected $_application;
+    protected $_layout;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\App');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\View\LayoutInterface');
     }
 
     /**
@@ -40,9 +36,8 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     public function testAfterToHtml()
     {
         /** @var $block \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon */
-        $block = $this->_application->getLayout()
-            ->createBlock('Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon');
-        $block->setFilterData(new \Magento\Object());
+        $block = $this->_layout->createBlock('Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon');
+        $block->setFilterData(new \Magento\Framework\Object());
         $html = $block->toHtml();
 
         $expectedStrings = array(

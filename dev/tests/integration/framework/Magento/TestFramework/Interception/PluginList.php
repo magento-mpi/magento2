@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Interception;
 
-class PluginList extends \Magento\Interception\PluginList\PluginList
+class PluginList extends \Magento\Framework\Interception\PluginList\PluginList
 {
     /**
      * @var array
@@ -16,33 +15,42 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
     protected $_originScopeScheme = array();
 
     /**
-     * @param \Magento\Config\ReaderInterface $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\ObjectManager\Relations $relations
-     * @param \Magento\ObjectManager\Config $omConfig
-     * @param \Magento\Interception\Definition $definitions
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\ObjectManager\Definition $classDefinitions
+     * @param \Magento\Framework\Config\ReaderInterface $reader
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
+     * @param \Magento\Framework\ObjectManager\Relations $relations
+     * @param \Magento\Framework\ObjectManager\Config $omConfig
+     * @param \Magento\Framework\Interception\Definition $definitions
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager\Definition $classDefinitions
      * @param array $scopePriorityScheme
      * @param string $cacheId
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Config\ReaderInterface $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
-        \Magento\ObjectManager\Relations $relations,
-        \Magento\ObjectManager\Config $omConfig,
-        \Magento\Interception\Definition $definitions,
-        \Magento\ObjectManager $objectManager,
-        \Magento\ObjectManager\Definition $classDefinitions,
+        \Magento\Framework\Config\ReaderInterface $reader,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
+        \Magento\Framework\ObjectManager\Relations $relations,
+        \Magento\Framework\ObjectManager\Config $omConfig,
+        \Magento\Framework\Interception\Definition $definitions,
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager\Definition $classDefinitions,
         array $scopePriorityScheme,
         $cacheId = 'plugins'
     ) {
-        parent::__construct($reader, $configScope, $cache, $relations, $omConfig,
-            $definitions, $objectManager, $classDefinitions, $scopePriorityScheme, $cacheId
+        parent::__construct(
+            $reader,
+            $configScope,
+            $cache,
+            $relations,
+            $omConfig,
+            $definitions,
+            $objectManager,
+            $classDefinitions,
+            $scopePriorityScheme,
+            $cacheId
         );
         $this->_originScopeScheme = $this->_scopePriorityScheme;
     }
@@ -56,4 +64,4 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
         $this->_data = array();
         $this->_loadedScopes = array();
     }
-} 
+}

@@ -8,5 +8,4 @@ use OAuth\Common\Exception\Exception;
  */
 class ExpiredTokenException extends \Exception
 {
-
 }

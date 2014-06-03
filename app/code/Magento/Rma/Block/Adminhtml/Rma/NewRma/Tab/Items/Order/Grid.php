@@ -2,19 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 /**
  * Admin RMA create order grid block
  */
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -42,7 +38,7 @@ class Grid
     /**
      * Registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 
@@ -71,7 +67,7 @@ class Grid
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param array $data
      */
@@ -81,7 +77,7 @@ class Grid
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         array $data = array()
     ) {
@@ -134,7 +130,7 @@ class Grid
         $orderId = $this->registry->registry('current_order')->getId();
         /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
         $resourceItem = $this->_itemFactory->create();
-        $itemsInActiveRmaArray = $resourceItem->getItemsIdsByOrder($orderId);
+        $returnableItems = $resourceItem->getReturnableItems($orderId);
 
         /** @var $resourceItem \Magento\Rma\Model\Resource\Item */
         $resourceItem = $this->_itemFactory->create();
@@ -150,10 +146,7 @@ class Grid
         $product = $this->_productFactory->create();
 
         foreach ($fullItemsCollection as $item) {
-            $allowed = true;
-            if (in_array($item->getId(), $itemsInActiveRmaArray)) {
-                $allowed = false;
-            }
+            $allowed = isset($returnableItems[$item->getId()]);
 
             if ($allowed === true) {
                 $product->reset();
@@ -169,10 +162,10 @@ class Grid
                 if (!isset($parent[$item->getParentItemId()]['child'])) {
                     $parent[$item->getParentItemId()]['child'] = false;
                 }
-                $parent[$item->getParentItemId()]['child']  = $parent[$item->getParentItemId()]['child'] || $allowed;
-                $parent[$item->getItemId()]['self']         = false;
+                $parent[$item->getParentItemId()]['child'] = $parent[$item->getParentItemId()]['child'] || $allowed;
+                $parent[$item->getItemId()]['self'] = false;
             } else {
-                $parent[$item->getItemId()]['self']         = $allowed;
+                $parent[$item->getItemId()]['self'] = $allowed;
             }
         }
 
@@ -185,8 +178,9 @@ class Grid
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-                && !isset($parent[$item->getId()]['child'])
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE && !isset(
+                $parent[$item->getId()]['child']
+                )
             ) {
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
@@ -205,54 +199,69 @@ class Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('select', array(
-            'header'   => __('Select'),
-            'type'     => 'checkbox',
-            'align'    => 'center',
-            'sortable' => false,
-            'index'    => 'item_id',
-            'values'   => $this->_getSelectedProducts(),
-            'name'     => 'in_products',
-            'header_css_class'  => 'col-select',
-            'column_css_class'  => 'col-select'
-        ));
+        $this->addColumn(
+            'select',
+            array(
+                'header' => __('Select'),
+                'type' => 'checkbox',
+                'align' => 'center',
+                'sortable' => false,
+                'index' => 'item_id',
+                'values' => $this->_getSelectedProducts(),
+                'name' => 'in_products',
+                'header_css_class' => 'col-select',
+                'column_css_class' => 'col-select'
+            )
+        );
 
-        $this->addColumn('product_name', array(
-            'header'   => __('Product'),
-            'renderer' => 'Magento\Rma\Block\Adminhtml\Product\Bundle\Product',
-            'index'    => 'name',
-            'escape'   => true,
-            'header_css_class'  => 'col-product',
-            'column_css_class'  => 'col-product'
-        ));
+        $this->addColumn(
+            'product_name',
+            array(
+                'header' => __('Product'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Product\Bundle\Product',
+                'index' => 'name',
+                'escape' => true,
+                'header_css_class' => 'col-product',
+                'column_css_class' => 'col-product'
+            )
+        );
 
-        $this->addColumn('sku', array(
-            'header' => __('SKU'),
-            'type'   => 'text',
-            'index'  => 'sku',
-            'escape' => true,
-            'header_css_class'  => 'col-sku',
-            'column_css_class'  => 'col-sku'
-        ));
+        $this->addColumn(
+            'sku',
+            array(
+                'header' => __('SKU'),
+                'type' => 'text',
+                'index' => 'sku',
+                'escape' => true,
+                'header_css_class' => 'col-sku',
+                'column_css_class' => 'col-sku'
+            )
+        );
 
-        $this->addColumn('price', array(
-            'header'=> __('Price'),
-            'type'  => 'currency',
-            'index' => 'price',
-            'header_css_class'  => 'col-price',
-            'column_css_class'  => 'col-price'
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'type' => 'currency',
+                'index' => 'price',
+                'header_css_class' => 'col-price',
+                'column_css_class' => 'col-price'
+            )
+        );
 
-        $this->addColumn('available_qty', array(
-            'header'=> __('Remaining'),
-            'type'  => 'text',
-            'index' => 'available_qty',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
-            'filter' => false,
-            'sortable' => false,
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
+        $this->addColumn(
+            'available_qty',
+            array(
+                'header' => __('Remaining'),
+                'type' => 'text',
+                'index' => 'available_qty',
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+                'filter' => false,
+                'sortable' => false,
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -332,10 +341,10 @@ class Grid
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('item_id', array('in'=>$productIds));
+                $this->getCollection()->addFieldToFilter('item_id', array('in' => $productIds));
             } else {
                 if ($productIds) {
-                    $this->getCollection()->addFieldToFilter('item_id', array('nin'=>$productIds));
+                    $this->getCollection()->addFieldToFilter('item_id', array('nin' => $productIds));
                 }
             }
         } else {

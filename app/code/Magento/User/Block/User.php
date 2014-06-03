@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\User\Block;
 /**
  * User block
  *
- * @category   Magento
- * @package    Magento_User
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class User extends \Magento\Backend\Block\Widget\Grid\Container
@@ -44,12 +40,14 @@ class User extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected function _construct()
     {
-        $this->addData(array(
-            \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'user',
-            \Magento\Backend\Block\Widget\Grid\Container::PARAM_BLOCK_GROUP => 'Magento_User',
-            \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_NEW => __('Add New User'),
-            \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => __('Users'),
-        ));
+        $this->addData(
+            array(
+                \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'user',
+                \Magento\Backend\Block\Widget\Grid\Container::PARAM_BLOCK_GROUP => 'Magento_User',
+                \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_NEW => __('Add New User'),
+                \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => __('Users')
+            )
+        );
         parent::_construct();
         $this->_addNewButton();
     }

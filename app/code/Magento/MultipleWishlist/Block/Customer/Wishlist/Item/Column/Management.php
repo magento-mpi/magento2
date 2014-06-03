@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
 
-class Management
-    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
+class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Render block
@@ -64,7 +61,7 @@ class Management
      */
     public function canCreateWishlists(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists)
     {
-        $customerId = $this->_customerSession->getCustomerId();
+        $customerId = $this->_wishlistHelper->getCustomer()->getId();
         return !$this->_wishlistHelper->isWishlistLimitReached($wishlists) && $customerId;
     }
 

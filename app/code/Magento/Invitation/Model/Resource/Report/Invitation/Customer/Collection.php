@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,35 +10,34 @@
 /**
  * Reports invitation customer report collection
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Invitation\Model\Resource\Report\Invitation\Customer;
 
-class Collection
-    extends \Magento\Reports\Model\Resource\Customer\Collection
+class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
 {
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param \Magento\Stdlib\DateTime\Date|string $fromDate
-     * @param \Magento\Stdlib\DateTime\Date|string $toDate
+     * @param \Magento\Framework\Stdlib\DateTime\Date|string $fromDate
+     * @param \Magento\Framework\Stdlib\DateTime\Date|string $toDate
      * @return $this
      */
     public function setDateRange($fromDate, $toDate)
     {
         $this->_reset();
-        $this->getSelect()
-            ->join(array('invitation' => $this->getTable('magento_invitation')),
-                'invitation.customer_id = e.entity_id',
-                array(
-                    'sent' => new \Zend_Db_Expr('COUNT(invitation.invitation_id)'),
-                    'accepted' => new \Zend_Db_Expr('COUNT(invitation.referral_id) ')
-                )
-            )->group('e.entity_id');
+        $this->getSelect()->join(
+            array('invitation' => $this->getTable('magento_invitation')),
+            'invitation.customer_id = e.entity_id',
+            array(
+                'sent' => new \Zend_Db_Expr('COUNT(invitation.invitation_id)'),
+                'accepted' => new \Zend_Db_Expr('COUNT(invitation.referral_id) ')
+            )
+        )->group(
+            'e.entity_id'
+        );
 
-        $this->_joinFields['invitation_store_id'] = array('table' =>'invitation', 'field' => 'store_id');
+        $this->_joinFields['invitation_store_id'] = array('table' => 'invitation', 'field' => 'store_id');
         $this->_joinFields['invitation_date'] = array('table' => 'invitation', 'field' => 'invitation_date');
 
         // Filter by date range

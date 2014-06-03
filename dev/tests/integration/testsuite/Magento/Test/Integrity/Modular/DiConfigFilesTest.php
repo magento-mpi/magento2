@@ -31,18 +31,18 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
     {
         //init primary configs
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $filesystem \Magento\App\Filesystem */
-        $filesystem = $objectManager->get('Magento\App\Filesystem');
-        $configDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::CONFIG_DIR);
-        $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
+        /** @var $filesystem \Magento\Framework\App\Filesystem */
+        $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
+        $configDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::CONFIG_DIR);
+        $fileIteratorFactory = $objectManager->get('Magento\Framework\Config\FileIteratorFactory');
         self::$_primaryFiles = $fileIteratorFactory->create(
             $configDirectory,
             $configDirectory->search('{*/di.xml,di.xml}')
         );
         //init module global configs
-        /** @var $modulesReader \Magento\Module\Dir\Reader */
+        /** @var $modulesReader \Magento\Framework\Module\Dir\Reader */
         $modulesReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Module\Dir\Reader');
+            ->get('Magento\Framework\Module\Dir\Reader');
         self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs
@@ -60,9 +60,10 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testDiConfigFileWithoutMerging($xml)
     {
-        /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
-        $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\ObjectManager\Config\SchemaLocator');
+        /** @var \Magento\Framework\ObjectManager\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\ObjectManager\Config\SchemaLocator'
+        );
 
         $dom = new \DOMDocument();
         $dom->loadXML($xml);
@@ -97,18 +98,22 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergedDiConfig(array $files)
     {
-        $mapperMock = $this->getMock('Magento\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
-        $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $mapperMock = $this->getMock('Magento\Framework\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
+        $fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('read')->will($this->returnValue($files));
-        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
-        $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\ObjectManager\Config\SchemaLocator');
+        /** @var \Magento\Framework\ObjectManager\Config\SchemaLocator $schemaLocator */
+        $schemaLocator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\ObjectManager\Config\SchemaLocator'
+        );
 
-        new \Magento\ObjectManager\Config\Reader\Dom(
-            $fileResolverMock, $mapperMock, $schemaLocator, $validationStateMock
+        new \Magento\Framework\ObjectManager\Config\Reader\Dom(
+            $fileResolverMock,
+            $mapperMock,
+            $schemaLocator,
+            $validationStateMock
         );
     }
 
@@ -132,7 +137,7 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
             foreach ($files->toArray() as $file) {
                 $areaFiles[] = array(array($file));
             }
-            $areaFiles["all $area config files"] = array(self::$_moduleAreaFiles[$area]->toArray());
+            $areaFiles["all {$area} config files"] = array(self::$_moduleAreaFiles[$area]->toArray());
         }
 
         return $primaryFiles + $moduleFiles + $areaFiles;

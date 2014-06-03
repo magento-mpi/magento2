@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,11 +12,9 @@ use Magento\TargetRule\Model\Index;
 /**
  * TargetRule Product List Abstract Indexer Resource Model
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Product List Type identifier
@@ -33,10 +29,10 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_product;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Resource\Product $product
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Catalog\Model\Resource\Product $product)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Catalog\Model\Resource\Product $product)
     {
         $this->_product = $product;
         parent::__construct($resource);
@@ -46,14 +42,12 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve Product List Type identifier
      *
      * @return int
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getListType()
     {
         if (is_null($this->_listType)) {
-            throw new \Magento\Core\Exception(
-                __('The product list type identifier is not defined.')
-            );
+            throw new \Magento\Framework\Model\Exception(__('The product list type identifier is not defined.'));
         }
         return $this->_listType;
     }
@@ -87,21 +81,27 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadProductIdsBySegmentId($object, $segmentId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'product_ids')
-            ->where('entity_id = :entity_id')
-            ->where('store_id = :store_id')
-            ->where('customer_group_id = :customer_group_id')
-            ->where('customer_segment_id = :customer_segment_id');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'product_ids'
+        )->where(
+            'entity_id = :entity_id'
+        )->where(
+            'store_id = :store_id'
+        )->where(
+            'customer_group_id = :customer_group_id'
+        )->where(
+            'customer_segment_id = :customer_segment_id'
+        );
         $bind = array(
             ':entity_id' => $object->getProduct()->getEntityId(),
             ':store_id' => $object->getStoreId(),
             ':customer_group_id' => $object->getCustomerGroupId(),
             ':customer_segment_id' => $segmentId
         );
-        $value  = $this->_getReadAdapter()->fetchOne($select, $bind);
+        $value = $this->_getReadAdapter()->fetchOne($select, $bind);
 
-        return (!empty($value)) ? explode(',', $value) : array();
+        return !empty($value) ? explode(',', $value) : array();
     }
 
     /**
@@ -113,17 +113,22 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadProductIds($object)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'product_ids')
-            ->where('entity_id = :entity_id')
-            ->where('store_id = :store_id')
-            ->where('customer_group_id = :customer_group_id');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'product_ids'
+        )->where(
+            'entity_id = :entity_id'
+        )->where(
+            'store_id = :store_id'
+        )->where(
+            'customer_group_id = :customer_group_id'
+        );
         $bind = array(
-            ':entity_id'         => $object->getProduct()->getEntityId(),
-            ':store_id'          => $object->getStoreId(),
+            ':entity_id' => $object->getProduct()->getEntityId(),
+            ':store_id' => $object->getStoreId(),
             ':customer_group_id' => $object->getCustomerGroupId()
         );
-        $value  = $this->_getReadAdapter()->fetchOne($select, $bind);
+        $value = $this->_getReadAdapter()->fetchOne($select, $bind);
         if (!empty($value)) {
             $productIds = explode(',', $value);
         } else {
@@ -144,12 +149,12 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function saveResultForCustomerSegments($object, $segmentId, $productIds)
     {
         $adapter = $this->_getWriteAdapter();
-        $data    = array(
+        $data = array(
             'entity_id' => $object->getProduct()->getEntityId(),
             'store_id' => $object->getStoreId(),
             'customer_group_id' => $object->getCustomerGroupId(),
             'customer_segment_id' => $segmentId,
-            'product_ids' => $productIds,
+            'product_ids' => $productIds
         );
         $adapter->insertOnDuplicate($this->getMainTable(), $data, array('product_ids'));
         return $this;
@@ -166,11 +171,11 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function saveResult($object, $value)
     {
         $adapter = $this->_getWriteAdapter();
-        $data    = array(
-            'entity_id'         => $object->getProduct()->getEntityId(),
-            'store_id'          => $object->getStoreId(),
+        $data = array(
+            'entity_id' => $object->getProduct()->getEntityId(),
+            'store_id' => $object->getStoreId(),
             'customer_group_id' => $object->getCustomerGroupId(),
-            'product_ids'       => $value
+            'product_ids' => $value
         );
 
         $adapter->insertOnDuplicate($this->getMainTable(), $data, array('product_ids'));
@@ -181,14 +186,12 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove index by product ids
      *
-     * @param \Magento\DB\Select|array $entityIds
+     * @param \Magento\Framework\DB\Select|array $entityIds
      * @return $this
      */
     public function removeIndex($entityIds)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(), array(
-            'entity_id IN(?)'   => $entityIds
-        ));
+        $this->_getWriteAdapter()->delete($this->getMainTable(), array('entity_id IN(?)' => $entityIds));
 
         return $this;
     }
@@ -196,7 +199,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove all data from index
      *
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     public function cleanIndex($store = null)
@@ -205,7 +208,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->delete($this->getMainTable());
             return $this;
         }
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
         $where = array('store_id IN(?)' => $store);

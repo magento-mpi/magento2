@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Di;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -20,7 +20,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_command;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
@@ -40,55 +40,74 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected $_tmpDir;
 
     /**
-     * @var \Magento\ObjectManager\Config\Mapper\Dom()
+     * @var \Magento\Framework\ObjectManager\Config\Mapper\Dom()
      */
     protected $_mapper;
 
     /**
-     * @var \Magento\Code\Validator
+     * @var \Magento\Framework\Code\Validator
      */
     protected $_validator;
 
     /**
      * Class arguments reader
      *
-     * @var \Magento\Interception\Code\InterfaceValidator
+     * @var \Magento\Framework\Interception\Code\InterfaceValidator
      */
     protected $pluginValidator;
 
     protected function setUp()
     {
-        $this->_shell = new \Magento\Shell(new \Magento\OSInfo());
+        $this->_shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer());
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $basePath = str_replace('\\', '/', $basePath);
 
         $this->_tmpDir = realpath(__DIR__) . '/tmp';
-        $this->_generationDir =  $this->_tmpDir . '/generation';
+        $this->_generationDir = $this->_tmpDir . '/generation';
         $this->_compilationDir = $this->_tmpDir . '/di';
 
-        \Magento\Autoload\IncludePath::addIncludePath(array(
-            $basePath . '/app/code',
-            $basePath . '/lib',
-            $this->_generationDir,
-        ));
-
-        $this->_command = 'php ' . $basePath
-            . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
-        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(
-            new \Magento\Stdlib\BooleanUtils(),
-            new \Magento\ObjectManager\Config\Mapper\ArgumentParser()
+        (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+            array($basePath . '/app/code', $basePath . '/lib/internal', $this->_generationDir)
         );
-        $this->_validator = new \Magento\Code\Validator();
-        $this->_validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
-        $this->_validator->add(new \Magento\Code\Validator\ContextAggregation());
-        $this->_validator->add(new \Magento\Code\Validator\TypeDuplication());
-        $this->_validator->add(new \Magento\Code\Validator\ArgumentSequence());
-        $this->pluginValidator = new \Magento\Interception\Code\InterfaceValidator();
+
+        $this->_command = 'php ' . $basePath . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
+
+        $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
+        $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
+        $argumentInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Composite(
+            [
+                'boolean' => new \Magento\Framework\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Framework\Data\Argument\Interpreter\String($booleanUtils),
+                'number' => new \Magento\Framework\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Framework\Data\Argument\Interpreter\NullType(),
+                'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
+                'const' => $constInterpreter,
+                'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
+            ],
+            \Magento\Framework\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
+        );
+        // Add interpreters that reference the composite
+        $argumentInterpreter->addInterpreter(
+            'array',
+            new \Magento\Framework\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
+        );
+
+        $this->_mapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom(
+            $argumentInterpreter,
+            $booleanUtils,
+            new \Magento\Framework\ObjectManager\Config\Mapper\ArgumentParser()
+        );
+        $this->_validator = new \Magento\Framework\Code\Validator();
+        $this->_validator->add(new \Magento\Framework\Code\Validator\ConstructorIntegrity());
+        $this->_validator->add(new \Magento\Framework\Code\Validator\ContextAggregation());
+        $this->_validator->add(new \Magento\Framework\Code\Validator\TypeDuplication());
+        $this->_validator->add(new \Magento\Framework\Code\Validator\ArgumentSequence());
+        $this->pluginValidator = new \Magento\Framework\Interception\Code\InterfaceValidator();
     }
 
     protected function tearDown()
     {
-        $filesystem = new \Magento\Filesystem\Driver\File();
+        $filesystem = new \Magento\Framework\Filesystem\Driver\File();
         if ($filesystem->isExists($this->_tmpDir)) {
             $filesystem->deleteDirectory($this->_tmpDir);
         }
@@ -133,8 +152,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                     unset($parameters[$parameterName]);
                 }
             }
-            $message = 'Configuration of ' . $instanceName
-                . ' contains data for non-existed parameters: ' . implode(', ', array_keys($parameters));
+            $message = 'Configuration of ' . $instanceName . ' contains data for non-existed parameters: ' . implode(
+                ', ',
+                array_keys($parameters)
+            );
             $this->assertEmpty($parameters, $message);
         }
     }
@@ -167,20 +188,26 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
 
         $basePath = str_replace('/', '\\', $basePath);
-        $libPath = $basePath . '\\lib';
+        $libPath = $basePath . '\\lib\\internal';
         $appPath = $basePath . '\\app\\code';
         $generationPathPath = str_replace('/', '\\', $this->_generationDir);
 
         $files = \Magento\TestFramework\Utility\Files::init()->getClassFiles(
-            true, false, false, false, false, true, false
+            true,
+            false,
+            false,
+            false,
+            false,
+            true,
+            false
         );
 
-        $patterns  = array(
+        $patterns = array(
             '/' . preg_quote($libPath) . '/',
             '/' . preg_quote($appPath) . '/',
             '/' . preg_quote($generationPathPath) . '/'
         );
-        $replacements  = array('', '', '');
+        $replacements = array('', '', '');
 
         /** Convert file names into class name format */
         $classes = array();
@@ -248,7 +275,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_validator->validate($className);
-        } catch (\Magento\Code\ValidationException $exceptions) {
+        } catch (\Magento\Framework\Code\ValidationException $exceptions) {
             $this->fail($exceptions->getMessage());
         } catch (\ReflectionException $exceptions) {
             $this->fail($exceptions->getMessage());
@@ -288,17 +315,21 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorIntegrity()
     {
-        $autoloader = new \Magento\Autoload\IncludePath();
-        $generatorIo = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\File(),
+        $autoloader = new \Magento\Framework\Autoload\IncludePath();
+        $generatorIo = new \Magento\Framework\Code\Generator\Io(
+            new \Magento\Framework\Filesystem\Driver\File(),
             $autoloader,
             $this->_generationDir
         );
-        $generator = new \Magento\Code\Generator($autoloader, $generatorIo, array(
-            \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
-                => 'Magento\ObjectManager\Code\Generator\Factory',
-        ));
-        $autoloader = new \Magento\Code\Generator\Autoloader($generator);
+        $generator = new \Magento\Framework\Code\Generator(
+            $autoloader,
+            $generatorIo,
+            array(
+                \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
+                => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
+            )
+        );
+        $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
         spl_autoload_register(array($autoloader, 'load'));
 
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
@@ -324,7 +355,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             if (\Magento\TestFramework\Utility\Files::init()->isModuleExists($module)) {
                 $this->pluginValidator->validate($plugin, $type);
             }
-        } catch (\Magento\Interception\Code\ValidatorException $exception) {
+        } catch (\Magento\Framework\Interception\Code\ValidatorException $exception) {
             $this->fail($exception->getMessage());
         }
     }
@@ -368,14 +399,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testCompiler()
     {
         try {
-            $this->_shell->execute(
-                $this->_command,
-                array($this->_generationDir, $this->_compilationDir)
-            );
-        } catch (\Magento\Exception $exception) {
+            $this->_shell->execute($this->_command, array($this->_generationDir, $this->_compilationDir));
+        } catch (\Magento\Framework\Exception $exception) {
             $this->fail($exception->getPrevious()->getMessage());
         }
     }
-
-
 }

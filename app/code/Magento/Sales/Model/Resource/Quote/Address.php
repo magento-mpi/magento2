@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Quote;
 /**
  * Quote address resource model
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Address extends \Magento\Sales\Model\Resource\AbstractResource
@@ -28,4 +24,3 @@ class Address extends \Magento\Sales\Model\Resource\AbstractResource
         $this->_init('sales_flat_quote_address', 'address_id');
     }
 }
-

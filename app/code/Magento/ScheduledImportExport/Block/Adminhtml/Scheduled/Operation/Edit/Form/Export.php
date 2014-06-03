@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
 /**
  * Scheduled export create/edit form
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
@@ -22,8 +18,7 @@ namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
  * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-class Export
-    extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
 {
     /**
      * @var \Magento\ImportExport\Model\Source\Export\Format
@@ -37,28 +32,28 @@ class Export
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Option\ArrayPool $optionArrayPool,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
         array $data = array()
@@ -96,28 +91,32 @@ class Export
         $operation = $this->_coreRegistry->registry('current_operation');
 
         $fieldset = $form->getElement('operation_settings');
-        $fieldset->addField('file_format', 'select', array(
-            'name'      => 'file_info[file_format]',
-            'title'     => __('File Format'),
-            'label'     => __('File Format'),
-            'required'  => true,
-            'values'    => $this->_sourceExportFormat->toOptionArray()
-        ));
+        $fieldset->addField(
+            'file_format',
+            'select',
+            array(
+                'name' => 'file_info[file_format]',
+                'title' => __('File Format'),
+                'label' => __('File Format'),
+                'required' => true,
+                'values' => $this->_sourceExportFormat->toOptionArray()
+            )
+        );
 
-        $form->getElement('email_template')
-            ->setValues($this->_templateFactory->create()
-                ->setPath('magento_scheduledimportexport_export_failed')
-                ->toOptionArray()
-            );
+        $form->getElement(
+            'email_template'
+        )->setValues(
+            $this->_templateFactory->create()->setPath('magento_scheduledimportexport_export_failed')->toOptionArray()
+        );
 
-        /** @var $element \Magento\Data\Form\Element\AbstractElement */
+        /** @var $element \Magento\Framework\Data\Form\Element\AbstractElement */
         $element = $form->getElement('entity');
         $element->setData('onchange', 'varienImportExportScheduled.getFilter();');
 
-        $fieldset = $form->addFieldset('export_filter_grid_container', array(
-            'legend' => __('Entity Attributes'),
-            'fieldset_container_id' => 'export_filter_container'
-        ));
+        $fieldset = $form->addFieldset(
+            'export_filter_grid_container',
+            array('legend' => __('Entity Attributes'), 'fieldset_container_id' => 'export_filter_container')
+        );
 
         // prepare filter grid data
         if ($operation->getId()) {
@@ -125,8 +124,8 @@ class Export
             // that's why we will not change its data to ensure that existing logic will not be affected.
             // instead we will clone existing operation object.
             $filterOperation = clone $operation;
-            if ($filterOperation->getEntityType() == 'customer_address'
-                || $filterOperation->getEntityType() == 'customer_finance'
+            if ($filterOperation->getEntityType() == 'customer_address' ||
+                $filterOperation->getEntityType() == 'customer_finance'
             ) {
                 $filterOperation->setEntityType('customer');
             }
@@ -148,9 +147,11 @@ class Export
     {
         $exportOperation = $operation->getInstance();
         /** @var $block \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
-        $block = $this->getLayout()
-            ->createBlock('Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter')
-            ->setOperation($exportOperation);
+        $block = $this->getLayout()->createBlock(
+            'Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter'
+        )->setOperation(
+            $exportOperation
+        );
 
         $exportOperation->filterAttributeCollection(
             $block->prepareCollection($exportOperation->getEntityAttributeCollection())

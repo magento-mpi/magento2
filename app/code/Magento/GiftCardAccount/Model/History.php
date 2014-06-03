@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,38 +23,41 @@ namespace Magento\GiftCardAccount\Model;
  * @method string getAdditionalInfo()
  * @method \Magento\GiftCardAccount\Model\History setAdditionalInfo(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
-    const ACTION_CREATED  = 0;
-    const ACTION_USED     = 1;
-    const ACTION_SENT     = 2;
+    const ACTION_CREATED = 0;
+
+    const ACTION_USED = 1;
+
+    const ACTION_SENT = 2;
+
     const ACTION_REDEEMED = 3;
-    const ACTION_EXPIRED  = 4;
-    const ACTION_UPDATED  = 5;
+
+    const ACTION_EXPIRED = 4;
+
+    const ACTION_UPDATED = 5;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -77,12 +78,12 @@ class History extends \Magento\Core\Model\AbstractModel
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => __('Created'),
-            self::ACTION_UPDATED  => __('Updated'),
-            self::ACTION_SENT     => __('Sent'),
-            self::ACTION_USED     => __('Used'),
+            self::ACTION_CREATED => __('Created'),
+            self::ACTION_UPDATED => __('Updated'),
+            self::ACTION_SENT => __('Sent'),
+            self::ACTION_USED => __('Used'),
             self::ACTION_REDEEMED => __('Redeemed'),
-            self::ACTION_EXPIRED  => __('Expired'),
+            self::ACTION_EXPIRED => __('Expired')
         );
     }
 
@@ -113,7 +114,6 @@ class History extends \Magento\Core\Model\AbstractModel
 
         return '';
     }
-
 
     /**
      * Get info about sent mail context
@@ -164,12 +164,12 @@ class History extends \Magento\Core\Model\AbstractModel
      * Processing object before save data
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            throw new \Magento\Core\Exception(__('Please assign a gift card account.'));
+            throw new \Magento\Framework\Model\Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -199,7 +199,7 @@ class History extends \Magento\Core\Model\AbstractModel
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Unknown history action.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown history action.'));
                 break;
         }
 

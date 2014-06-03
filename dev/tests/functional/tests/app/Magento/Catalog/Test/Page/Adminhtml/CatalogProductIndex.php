@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductIndex
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
+ * Products page on the Backend
  */
 class CatalogProductIndex extends BackendPage
 {
@@ -22,12 +21,12 @@ class CatalogProductIndex extends BackendPage
     protected $_blocks = [
         'productGrid' => [
             'name' => 'productGrid',
-            'class' => 'Magento\Catalog\Test\Block\Backend\ProductGrid',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Grid',
             'locator' => '#productGrid',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
@@ -44,10 +43,16 @@ class CatalogProductIndex extends BackendPage
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
+        'addNewSplitButtonBlock' => [
+            'name' => 'addNewSplitButtonBlock',
+            'class' => 'Magento\Catalog\Test\Block\Backend\AddNewSplitButton',
+            'locator' => '[id="add_new_product"]',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Backend\ProductGrid
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Grid
      */
     public function getProductGrid()
     {
@@ -57,9 +62,9 @@ class CatalogProductIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**
@@ -76,5 +81,13 @@ class CatalogProductIndex extends BackendPage
     public function getAccessDeniedBlock()
     {
         return $this->getBlockInstance('accessDeniedBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Backend\AddNewSplitButton
+     */
+    public function getAddNewSpliteButtonBlock()
+    {
+        return $this->getBlockInstance('addNewSplitButtonBlock');
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\GoogleShopping\Model\Source;
 /**
  * Google Content Target country Source
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Country implements \Magento\Option\ArrayInterface
+class Country implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Config
@@ -28,7 +24,7 @@ class Country implements \Magento\Option\ArrayInterface
     /**
      * @param \Magento\GoogleShopping\Model\Config $config
      */
-    function __construct(\Magento\GoogleShopping\Model\Config $config)
+    public function __construct(\Magento\GoogleShopping\Model\Config $config)
     {
         $this->_config = $config;
     }

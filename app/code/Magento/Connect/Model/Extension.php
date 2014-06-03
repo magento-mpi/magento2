@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Connect\Model;
 /**
  * Extension model
  */
-class Extension extends \Magento\Object
+class Extension extends \Magento\Framework\Object
 {
     /**
      * Cache for targets
@@ -24,17 +22,17 @@ class Extension extends \Magento\Object
     /**
      * Internal cache for package
      *
-     * @var \Magento\Connect\Package
+     * @var \Magento\Framework\Connect\Package
      */
     protected $_package;
 
     /**
-     * @var \Magento\App\Filesystem $filesystem
+     * @var \Magento\Framework\App\Filesystem $filesystem
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\Convert\ConvertArray
+     * @var \Magento\Framework\Convert\ConvertArray
      */
     protected $_convertArray;
 
@@ -46,48 +44,48 @@ class Extension extends \Magento\Object
     protected $_session;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $writeDirectory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
     /**
      * Constructor
      *
-     * @param \Magento\Convert\ConvertArray $convertArray
-     * @param \Magento\App\Filesystem           $filesystem
+     * @param \Magento\Framework\Convert\ConvertArray $convertArray
+     * @param \Magento\Framework\App\Filesystem           $filesystem
      * @param Session                       $session
-     * @param \Magento\Logger               $logger
+     * @param \Magento\Framework\Logger               $logger
      * @param array                         $data
      */
     public function __construct(
-        \Magento\Convert\ConvertArray   $convertArray,
-        \Magento\App\Filesystem             $filesystem,
-        \Magento\Connect\Model\Session  $session,
-        \Magento\Logger                 $logger,
+        \Magento\Framework\Convert\ConvertArray $convertArray,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Connect\Model\Session $session,
+        \Magento\Framework\Logger $logger,
         array $data = array()
     ) {
-        $this->_convertArray    = $convertArray;
-        $this->_session         = $session;
-        $this->filesystem       = $filesystem;
-        $this->writeDirectory   = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
-        $this->logger           = $logger;
+        $this->_convertArray = $convertArray;
+        $this->_session = $session;
+        $this->filesystem = $filesystem;
+        $this->writeDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
+        $this->logger = $logger;
         parent::__construct($data);
     }
 
     /**
      * Return package object
      *
-     * @return \Magento\Connect\Package
+     * @return \Magento\Framework\Connect\Package
      */
     protected function getPackage()
     {
-        if (!$this->_package instanceof \Magento\Connect\Package) {
-            $this->_package = new \Magento\Connect\Package();
+        if (!$this->_package instanceof \Magento\Framework\Connect\Package) {
+            $this->_package = new \Magento\Framework\Connect\Package();
         }
         return $this->_package;
     }
@@ -96,20 +94,16 @@ class Extension extends \Magento\Object
      * Set package object
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function generatePackageXml()
     {
         $this->_session->setLocalExtensionPackageFormData($this->getData());
 
-        $this->_setPackage()
-            ->_setRelease()
-            ->_setAuthors()
-            ->_setDependencies()
-            ->_setContents();
+        $this->_setPackage()->_setRelease()->_setAuthors()->_setDependencies()->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw new \Magento\Core\Exception(__($message[0]));
+            throw new \Magento\Framework\Model\Exception(__($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;
@@ -122,12 +116,18 @@ class Extension extends \Magento\Object
      */
     protected function _setPackage()
     {
-        $this->getPackage()
-            ->setName($this->getData('name'))
-            ->setChannel($this->getData('channel'))
-            ->setLicense($this->getData('license'), $this->getData('license_uri'))
-            ->setSummary($this->getData('summary'))
-            ->setDescription($this->getData('description'));
+        $this->getPackage()->setName(
+            $this->getData('name')
+        )->setChannel(
+            $this->getData('channel')
+        )->setLicense(
+            $this->getData('license'),
+            $this->getData('license_uri')
+        )->setSummary(
+            $this->getData('summary')
+        )->setDescription(
+            $this->getData('description')
+        );
         return $this;
     }
 
@@ -138,12 +138,17 @@ class Extension extends \Magento\Object
      */
     protected function _setRelease()
     {
-        $this->getPackage()
-            ->setDate(date('Y-m-d'))
-            ->setTime(date('H:i:s'))
-            ->setVersion($this->getData('version')?$this->getData('version'):$this->getData('release_version'))
-            ->setStability($this->getData('stability'))
-            ->setNotes($this->getData('notes'));
+        $this->getPackage()->setDate(
+            date('Y-m-d')
+        )->setTime(
+            date('H:i:s')
+        )->setVersion(
+            $this->getData('version') ? $this->getData('version') : $this->getData('release_version')
+        )->setStability(
+            $this->getData('stability')
+        )->setNotes(
+            $this->getData('notes')
+        );
         return $this;
     }
 
@@ -156,7 +161,7 @@ class Extension extends \Magento\Object
     {
         $authors = $this->getData('authors');
         foreach ($authors['name'] as $i => $name) {
-            $user  = $authors['user'][$i];
+            $user = $authors['user'][$i];
             $email = $authors['email'][$i];
             $this->getPackage()->addAuthor($name, $user, $email);
         }
@@ -191,9 +196,10 @@ class Extension extends \Magento\Object
      */
     protected function _setDependencies()
     {
-        $this->getPackage()
-            ->clearDependencies()
-            ->setDependencyPhpVersion($this->getData('depends_php_min'), $this->getData('depends_php_max'));
+        $this->getPackage()->clearDependencies()->setDependencyPhpVersion(
+            $this->getData('depends_php_min'),
+            $this->getData('depends_php_max')
+        );
 
         foreach ($this->getData('depends') as $depType => $deps) {
             foreach (array_keys($deps['name']) as $key) {
@@ -208,9 +214,7 @@ class Extension extends \Magento\Object
                 $packageFiles = $this->packageFilesToArray($files);
 
                 if ($depType !== 'extension') {
-                    $channel = !empty($deps['channel'][$key])
-                        ? $deps['channel'][$key]
-                        : 'connect.magentocommerce.com/core';
+                    $channel = !empty($deps['channel'][$key]) ? $deps['channel'][$key] : 'connect.magentocommerce.com/core';
                 }
                 switch ($depType) {
                     case 'package':
@@ -285,12 +289,12 @@ class Extension extends \Magento\Object
         }
 
         try {
-//            $path = $this->writeDirectory->getAbsolutePath();
-            $this->writeDirectory->writeFile(sprintf('connect/%s','package.xml'), $this->getPackageXml());
+            //            $path = $this->writeDirectory->getAbsolutePath();
+            $this->writeDirectory->writeFile(sprintf('connect/%s', 'package.xml'), $this->getPackageXml());
             $this->unsPackageXml();
             $this->unsTargets();
             $xml = $this->_convertArray->assocToXml($this->getData());
-            $xml = new \Magento\Simplexml\Element($xml->asXML());
+            $xml = new \Magento\Framework\Simplexml\Element($xml->asXML());
 
             // prepare dir to save
             $parts = explode('/', $fileName);
@@ -301,8 +305,8 @@ class Extension extends \Magento\Object
                 $this->writeDirectory->create(sprintf('connect/%s', $directoryPath));
             }
             $this->writeDirectory->writeFile(sprintf('connect/%s.xml', $fileName), $xml->asNiceXml());
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            $this->logger->addStreamLog(\Magento\Framework\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
         }
@@ -318,8 +322,8 @@ class Extension extends \Magento\Object
     {
         try {
             $this->writeDirectory->create('connect/');
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            $this->logger->addStreamLog(\Magento\Framework\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
         }
@@ -339,8 +343,8 @@ class Extension extends \Magento\Object
     {
         try {
             $this->writeDirectory->create('pear/');
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->logger->addStreamLog(\Magento\Logger::LOGGER_EXCEPTION);
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
+            $this->logger->addStreamLog(\Magento\Framework\Logger::LOGGER_EXCEPTION);
             $this->logger->log($e->getMessage());
             return false;
         }
@@ -360,10 +364,9 @@ class Extension extends \Magento\Object
     public function getLabelTargets()
     {
         if (!is_array($this->_targets)) {
-            $objectTarget = new \Magento\Connect\Package\Target();
+            $objectTarget = new \Magento\Framework\Connect\Package\Target();
             $this->_targets = $objectTarget->getLabelTargets();
         }
         return $this->_targets;
     }
-
 }

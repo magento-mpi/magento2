@@ -10,17 +10,13 @@
 /**
  * Free shipping model
  *
- * @category   Magento
- * @package    Magento_OfflineShipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\OfflineShipping\Model\Carrier;
 
-class Freeshipping
-    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Freeshipping extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
+    \Magento\Shipping\Model\Carrier\CarrierInterface
 {
-
     /**
      * @var string
      */
@@ -42,24 +38,24 @@ class Freeshipping
     protected $_rateMethodFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         array $data = array()
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
+        parent::__construct($scopeConfig, $rateErrorFactory, $logAdapterFactory, $data);
     }
 
     /**
@@ -79,8 +75,9 @@ class Freeshipping
 
         $this->_updateFreeMethodQuote($request);
 
-        if (($request->getFreeShipping())
-            || ($request->getBaseSubtotalInclTax() >= $this->getConfigData('free_shipping_subtotal'))
+        if ($request->getFreeShipping() || $request->getBaseSubtotalInclTax() >= $this->getConfigData(
+            'free_shipping_subtotal'
+        )
         ) {
             /** @var \Magento\Sales\Model\Quote\Address\RateResult\Method $method */
             $method = $this->_rateMethodFactory->create();
@@ -132,5 +129,4 @@ class Freeshipping
     {
         return array('freeshipping' => $this->getConfigData('name'));
     }
-
 }

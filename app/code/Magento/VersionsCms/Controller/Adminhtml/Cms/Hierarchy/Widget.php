@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 /**
  * Admihtml Widget Controller for Hierarchy Node Link plugin
  *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Widget extends \Magento\Backend\App\Action
 {
@@ -25,10 +21,11 @@ class Widget extends \Magento\Backend\App\Action
     public function chooserAction()
     {
         $this->getResponse()->setBody(
-            $this->_getTreeBlock()
-                ->setScope($this->getRequest()->getParam('scope'))
-                ->setScopeId((int)$this->getRequest()->getParam('scope_id'))
-                ->getTreeHtml()
+            $this->_getTreeBlock()->setScope(
+                $this->getRequest()->getParam('scope')
+            )->setScopeId(
+                (int)$this->getRequest()->getParam('scope_id')
+            )->getTreeHtml()
         );
     }
 
@@ -39,10 +36,10 @@ class Widget extends \Magento\Backend\App\Action
      */
     protected function _getTreeBlock()
     {
-        return $this->_view->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
-            'data' => array(
-                'id' => $this->getRequest()->getParam('uniq_id')
-            )
-        ));
+        return $this->_view->getLayout()->createBlock(
+            'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser',
+            '',
+            array('data' => array('id' => $this->getRequest()->getParam('uniq_id')))
+        );
     }
 }

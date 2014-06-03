@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Simple product data view
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Product\View;
 
-use Magento\Data\Collection;
+use Magento\Framework\Data\Collection;
 
 class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
 {
@@ -34,7 +30,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Retrieve gallery url
      *
-     * @param null|\Magento\Object $image
+     * @param null|\Magento\Framework\Object $image
      * @return string
      */
     public function getGalleryUrl($image = null)
@@ -49,7 +45,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Get gallery image url
      *
-     * @param \Magento\Object $image
+     * @param \Magento\Framework\Object $image
      * @param string $type
      * @param boolean $whiteBorders
      * @param null|number $width
@@ -59,9 +55,9 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     public function getImageUrl($image, $type, $whiteBorders = false, $width = null, $height = null)
     {
         $product = $this->getProduct();
-        $img  = $this->_imageHelper->init($product, $type, $image->getFile());
+        $img = $this->_imageHelper->init($product, $type, $image->getFile());
         if ($whiteBorders) {
-            $img->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE);
+            $img->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false);
         }
         if ($width || $height) {
             $img->resize($width, $height);
@@ -72,7 +68,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Is product main image
      *
-     * @param \Magento\Object $image
+     * @param \Magento\Framework\Object $image
      * @return bool
      */
     public function isMainImage($image)

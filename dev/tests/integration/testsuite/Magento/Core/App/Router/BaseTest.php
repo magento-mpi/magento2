@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\Router;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
@@ -21,8 +17,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $options = array('routerId' => 'standard');
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\App\Router\Base', $options);
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\App\Router\Base',
+            $options
+        );
     }
 
     /**
@@ -39,14 +37,19 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
 
-        $this->assertInstanceOf('Magento\App\ActionInterface', $this->_model->match($request));
+        $this->assertInstanceOf('Magento\Framework\App\ActionInterface', $this->_model->match($request));
         $request->setRequestUri('core/index/index');
-        $this->assertInstanceOf('Magento\App\ActionInterface', $this->_model->match($request));
+        $this->assertInstanceOf('Magento\Framework\App\ActionInterface', $this->_model->match($request));
 
-        $request->setPathInfo('not_exists/not_exists/not_exists')
-            ->setModuleName('not_exists')
-            ->setControllerName('not_exists')
-            ->setActionName('not_exists');
+        $request->setPathInfo(
+            'not_exists/not_exists/not_exists'
+        )->setModuleName(
+            'not_exists'
+        )->setControllerName(
+            'not_exists'
+        )->setActionName(
+            'not_exists'
+        );
         $this->assertNull($this->_model->match($request));
     }
 

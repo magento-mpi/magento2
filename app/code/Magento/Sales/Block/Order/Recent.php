@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Sales\Block\Order;
 /**
  * Sales order history block
  */
-class Recent extends \Magento\View\Element\Template
+class Recent extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
@@ -30,14 +28,14 @@ class Recent extends \Magento\View\Element\Template
     protected $_orderConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
@@ -58,15 +56,32 @@ class Recent extends \Magento\View\Element\Template
         parent::_construct();
 
         //TODO: add full name logic
-        $orders = $this->_orderCollectionFactory->create()
-            ->addAttributeToSelect('*')
-            ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
-            ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-            ->addAttributeToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
-            ->addAttributeToFilter('state', array('in' => $this->_orderConfig->getVisibleOnFrontStates()))
-            ->addAttributeToSort('created_at', 'desc')
-            ->setPageSize('5')
-            ->load();
+        $orders = $this->_orderCollectionFactory->create()->addAttributeToSelect(
+            '*'
+        )->joinAttribute(
+            'shipping_firstname',
+            'order_address/firstname',
+            'shipping_address_id',
+            null,
+            'left'
+        )->joinAttribute(
+            'shipping_lastname',
+            'order_address/lastname',
+            'shipping_address_id',
+            null,
+            'left'
+        )->addAttributeToFilter(
+            'customer_id',
+            $this->_customerSession->getCustomer()->getId()
+        )->addAttributeToFilter(
+            'status',
+            array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
+        )->addAttributeToSort(
+            'created_at',
+            'desc'
+        )->setPageSize(
+            '5'
+        )->load();
 
         $this->setOrders($orders);
     }

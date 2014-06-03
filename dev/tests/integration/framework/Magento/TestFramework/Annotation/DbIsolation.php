@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Annotation;
 
 /**
@@ -28,14 +24,15 @@ class DbIsolation
      * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function startTestTransactionRequest(
-        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
+        \PHPUnit_Framework_TestCase $test,
+        \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         $methodIsolation = $this->_getIsolation('method', $test);
         if ($this->_isIsolationActive) {
             if ($methodIsolation === false) {
                 $param->requestTransactionRollback();
             }
-        } else if ($methodIsolation || ($methodIsolation === null && $this->_getIsolation('class', $test))) {
+        } elseif ($methodIsolation || ($methodIsolation === null && $this->_getIsolation('class', $test))) {
             $param->requestTransactionStart();
         }
     }
@@ -47,7 +44,8 @@ class DbIsolation
      * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function endTestTransactionRequest(
-        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
+        \PHPUnit_Framework_TestCase $test,
+        \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         if ($this->_isIsolationActive && $this->_getIsolation('method', $test)) {
             $param->requestTransactionRollback();
@@ -84,7 +82,7 @@ class DbIsolation
      * @param string $scope 'class' or 'method'
      * @param \PHPUnit_Framework_TestCase $test
      * @return bool|null Returns NULL, if isolation is not defined for the current scope
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _getIsolation($scope, \PHPUnit_Framework_TestCase $test)
     {
@@ -92,11 +90,11 @@ class DbIsolation
         if (isset($annotations[$scope]['magentoDbIsolation'])) {
             $isolation = $annotations[$scope]['magentoDbIsolation'];
             if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
-                throw new \Magento\Exception(
+                throw new \Magento\Framework\Exception(
                     'Invalid "@magentoDbIsolation" annotation, can be "enabled" or "disabled" only.'
                 );
             }
-            return ($isolation === array('enabled'));
+            return $isolation === array('enabled');
         }
         return null;
     }

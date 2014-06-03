@@ -2,24 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Review\Block;
 
 use Magento\Catalog\Model\Product;
-use Magento\Rating\Model\Resource\Rating\Collection as RatingCollection;
+use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
 
 /**
  * Review form block
  *
- * @category   Magento
- * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Review data
@@ -45,7 +41,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * Rating model
      *
-     * @var \Magento\Rating\Model\RatingFactory
+     * @var \Magento\Review\Model\RatingFactory
      */
     protected $_ratingFactory;
 
@@ -66,30 +62,37 @@ class Form extends \Magento\View\Element\Template
     /**
      * Message manager interface
      *
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Session\Generic $reviewSession
+     * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Rating\Model\RatingFactory $ratingFactory
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Review\Model\RatingFactory $ratingFactory
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Session\Generic $reviewSession,
+        \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Rating\Model\RatingFactory $ratingFactory,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Review\Model\RatingFactory $ratingFactory,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -99,6 +102,7 @@ class Form extends \Magento\View\Element\Template
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->messageManager = $messageManager;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -113,33 +117,41 @@ class Form extends \Magento\View\Element\Template
         parent::_construct();
 
         $data = $this->_reviewSession->getFormData(true);
-        $data = new \Magento\Object((array)$data);
+        $data = new \Magento\Framework\Object((array)$data);
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {
-            $customer = $this->_customerSession->getCustomer();
+            $customer = $this->_customerSession->getCustomerDataObject();
             if ($customer && $customer->getId()) {
                 $data->setNickname($customer->getFirstname());
             }
         }
 
         $this->setAllowWriteReviewFlag(
-            $this->_customerSession->isLoggedIn() || $this->_reviewData->getIsGuestAllowToWrite()
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = $this->_coreData->urlEncode(
                 $this->getUrl('*/*/*', array('_current' => true)) . '#review-form'
             );
-            $this->setLoginLink($this->getUrl(
+            $this->setLoginLink(
+                $this->getUrl(
                     'customer/account/login/',
                     array(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }
 
-        $this->setTemplate('form.phtml')
-            ->assign('data', $data)
-            ->assign('messages', $this->messageManager->getMessages(true));
+        $this->setTemplate(
+            'form.phtml'
+        )->assign(
+            'data',
+            $data
+        )->assign(
+            'messages',
+            $this->messageManager->getMessages(true)
+        );
     }
 
     /**
@@ -171,14 +183,14 @@ class Form extends \Magento\View\Element\Template
      */
     public function getRatings()
     {
-        return $this->_ratingFactory->create()
-            ->getResourceCollection()
-            ->addEntityFilter('product')
-            ->setPositionOrder()
-            ->addRatingPerStoreName($this->_storeManager->getStore()->getId())
-            ->setStoreFilter($this->_storeManager->getStore()->getId())
-            ->setActiveFilter(true)
-            ->load()
-            ->addOptionToItems();
+        return $this->_ratingFactory->create()->getResourceCollection()->addEntityFilter(
+            'product'
+        )->setPositionOrder()->addRatingPerStoreName(
+            $this->_storeManager->getStore()->getId()
+        )->setStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->setActiveFilter(
+            true
+        )->load()->addOptionToItems();
     }
 }

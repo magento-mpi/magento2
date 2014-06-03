@@ -7,6 +7,6 @@
  * @license     {license_link}
  */
 -->
-<page_types>
+<page_types xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Core/etc/page_types.xsd">
     <type id="newsletter_manage_index" label="Customer My Account Newsletter Subscriptions"/>
 </page_types>

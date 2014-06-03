@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model;
 
 class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
@@ -30,11 +26,15 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $objectManagerMock \Magento\ObjectManager */
-        $objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $objectManagerMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnCallback(array($this, 'getModelInstance')));
+        /** @var $objectManagerMock \Magento\Framework\ObjectManager */
+        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $objectManagerMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnCallback(array($this, 'getModelInstance'))
+        );
 
         $this->_factory = new \Magento\Eav\Model\AttributeFactory($objectManagerMock);
     }
@@ -49,9 +49,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAttribute()
     {
-        $this->assertEquals($this->_className,
-            $this->_factory->createAttribute($this->_className, $this->_arguments)
-        );
+        $this->assertEquals($this->_className, $this->_factory->createAttribute($this->_className, $this->_arguments));
     }
 
     public function getModelInstance($className, $arguments)

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Gift wrapping adminhtml sales order create items
  *
- * @category   Magento
- * @package    Magento_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create;
@@ -66,8 +62,7 @@ class Link extends \Magento\Backend\Block\Template
     public function getDesign()
     {
         if ($this->getItem()->getGwId()) {
-            $wrappingModel = $this->_wrappingFactory->create()
-                ->load($this->getItem()->getGwId());
+            $wrappingModel = $this->_wrappingFactory->create()->load($this->getItem()->getGwId());
             if ($wrappingModel->getId()) {
                 return $this->escapeHtml($wrappingModel->getDesign());
             }

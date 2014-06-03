@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +20,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Resource\Store
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Resource\Store
      */
     protected $subjectMock;
 
@@ -31,19 +31,27 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store', array(), array(), '', false);
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(), '', false, false, true, array('getId', 'getState', '__wakeup')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('getId', 'getState', '__wakeup')
         );
         $this->configMock = $this->getMockForAbstractClass(
             'Magento\CatalogPermissions\App\ConfigInterface',
-            array(), '', false, false, true, array('isEnabled')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('isEnabled')
         );
-        $this->configMock->expects($this->any())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->configMock->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $this->model = new View($this->indexerMock, $this->configMock);
     }
 
@@ -51,45 +59,56 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
+        $storeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
         $closureMock = function () use ($storeMock) {
             return $this->subjectMock;
         };
-        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $storeMock));
+        $this->assertEquals(
+            $this->subjectMock,
+            $this->model->aroundSave($this->subjectMock, $closureMock, $storeMock)
+        );
     }
 
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(true));
         $closureMock = function () use ($storeMock) {
             return $this->subjectMock;
         };
-        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $storeMock));
+        $this->assertEquals(
+            $this->subjectMock,
+            $this->model->aroundSave($this->subjectMock, $closureMock, $storeMock)
+        );
     }
 
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(false));
         $closureMock = function () use ($storeMock) {
             return $this->subjectMock;
         };
-        $this->assertEquals($this->subjectMock, $this->model->aroundSave($this->subjectMock, $closureMock, $storeMock));
+        $this->assertEquals(
+            $this->subjectMock,
+            $this->model->aroundSave($this->subjectMock, $closureMock, $storeMock)
+        );
     }
 
     /**
@@ -98,25 +117,21 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function getStateMock()
     {
         $stateMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer\State', array('setStatus', 'save', '__wakeup'), array(), '', false
+            'Magento\Indexer\Model\Indexer\State',
+            array('setStatus', 'save', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $stateMock->expects($this->once())
-            ->method('setStatus')
-            ->with('invalid')
-            ->will($this->returnSelf());
-        $stateMock->expects($this->once())
-            ->method('save')
-            ->will($this->returnSelf());
+        $stateMock->expects($this->once())->method('setStatus')->with('invalid')->will($this->returnSelf());
+        $stateMock->expects($this->once())->method('save')->will($this->returnSelf());
 
         return $stateMock;
     }
 
     protected function mockIndexerMethods()
     {
-        $this->indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->indexerMock->expects($this->once())->method('invalidate');
     }
 }

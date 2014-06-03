@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rss
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,19 +10,10 @@ namespace Magento\Rss\Block;
 /**
  * Customer Shared Wishlist Rss Block
  *
- * @category   Magento
- * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
-    /**
-     * Customer instance
-     *
-     * @var \Magento\Customer\Model\Customer
-     */
-    protected $_customer;
-
     /**
      * Default MAP renderer type
      *
@@ -36,11 +25,6 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @var \Magento\Wishlist\Model\WishlistFactory
      */
     protected $_wishlistFactory;
-
-    /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
 
     /**
      * @var \Magento\Rss\Model\RssFactory
@@ -58,72 +42,34 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected $_outputHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
-     * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_outputHelper = $outputHelper;
         $this->_coreData = $coreData;
         $this->_wishlistFactory = $wishlistFactory;
-        $this->_customerFactory = $customerFactory;
         $this->_rssFactory = $rssFactory;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -135,41 +81,13 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = $this->_wishlistFactory->create();
-            $wishlistId = $this->getRequest()->getParam('wishlist_id');
-            if ($wishlistId) {
-                $this->_wishlist->load($wishlistId);
-                if ($this->_wishlist->getCustomerId() != $this->_getCustomer()->getId()) {
-                    $this->_wishlist->unsetData();
-                }
-            } else {
-                if ($this->_getCustomer()->getId()) {
-                    $this->_wishlist->loadByCustomer($this->_getCustomer());
-                }
+            $this->_wishlist = parent::_getWishlist();
+            if ($this->_wishlist->getCustomerId() != $this->_getHelper()->getCustomer()->getId()) {
+                $this->_wishlist->unsetData();
             }
         }
+
         return $this->_wishlist;
-    }
-
-    /**
-     * Retrieve Customer instance
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    protected function _getCustomer()
-    {
-        if (is_null($this->_customer)) {
-            $this->_customer = $this->_customerFactory->create();
-
-            $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
-            $data   = explode(',', $params);
-            $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == $this->_customerSession->getCustomerId()) ) {
-                $this->_customer->load($cId);
-            }
-        }
-
-        return $this->_customer;
     }
 
     /**
@@ -179,7 +97,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      */
     protected function _getTitle()
     {
-        return __('%1\'s Wishlist', $this->_getCustomer()->getName());
+        return __('%1\'s Wishlist', $this->_getHelper()->getCustomerName());
     }
 
     /**
@@ -192,20 +110,26 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         /* @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $this->_rssFactory->create();
         if ($this->_getWishlist()->getId()) {
-            $newUrl = $this->_urlBuilder->getUrl('wishlist/shared/index', array(
-                'code' => $this->_getWishlist()->getSharingCode()
-            ));
+            $newUrl = $this->_urlBuilder->getUrl(
+                'wishlist/shared/index',
+                array('code' => $this->_getWishlist()->getSharingCode())
+            );
             $title = $this->_getTitle();
-            $lang = $this->_storeConfig->getConfig('general/locale/code');
-            $rssObj->_addHeader(array(
-                'title'         => $title,
-                'description'   => $title,
-                'link'          => $newUrl,
-                'charset'       => 'UTF-8',
-                'language'      => $lang
-            ));
+            $lang = $this->_scopeConfig->getValue(
+                'general/locale/code',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+            $rssObj->_addHeader(
+                array(
+                    'title' => $title,
+                    'description' => $title,
+                    'link' => $newUrl,
+                    'charset' => 'UTF-8',
+                    'language' => $lang
+                )
+            );
 
-            /** @var $wishlistItem \Magento\Wishlist\Model\Item*/
+            /** @var $wishlistItem \Magento\Wishlist\Model\Item */
             foreach ($this->getWishlistItems() as $wishlistItem) {
                 /* @var $product \Magento\Catalog\Model\Product */
                 $product = $wishlistItem->getProduct();
@@ -223,37 +147,53 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 
                 /** @var $outputHelper \Magento\Catalog\Helper\Output */
                 $outputHelper = $this->_outputHelper;
-                $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
-                    . $this->_imageHelper->init($product, 'thumbnail')->resize(75, 75)
-                    . '" border="0" align="left" height="75" width="75"></a></td>'
-                    . '<td style="text-decoration:none;">'
-                    . $outputHelper->productAttribute($product, $product->getShortDescription(), 'short_description')
-                    . '<p>';
+                $description = '<table><tr><td><a href="' . $productUrl . '"><img src="' . $this->_imageHelper->init(
+                    $product,
+                    'thumbnail'
+                )->resize(
+                    75,
+                    75
+                ) .
+                    '" border="0" align="left" height="75" width="75"></a></td>' .
+                    '<td style="text-decoration:none;">' .
+                    $outputHelper->productAttribute(
+                        $product,
+                        $product->getShortDescription(),
+                        'short_description'
+                    ) . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
-                    $description .= $this->getPriceHtml($product, true);
+                    $description .= $this->getProductPrice($product);
                 }
                 $description .= '</p>';
 
                 if ($this->hasDescription($product)) {
-                    $description .= '<p>' . __('Comment:')
-                        . ' ' . $outputHelper->productAttribute($product, $product->getDescription(), 'description')
-                        . '<p>';
+                    $description .= '<p>' . __(
+                        'Comment:'
+                    ) . ' ' . $outputHelper->productAttribute(
+                        $product,
+                        $product->getDescription(),
+                        'description'
+                    ) . '<p>';
                 }
                 $description .= '</td></tr></table>';
-                $rssObj->_addEntry(array(
-                    'title'       => $outputHelper->productAttribute($product, $product->getName(), 'name'),
-                    'link'        => $productUrl,
-                    'description' => $description,
-                ));
+                $rssObj->_addEntry(
+                    array(
+                        'title' => $outputHelper->productAttribute($product, $product->getName(), 'name'),
+                        'link' => $productUrl,
+                        'description' => $description
+                    )
+                );
             }
         } else {
-            $rssObj->_addHeader(array(
-                'title'         => __('We cannot retrieve the wish list.'),
-                'description'   => __('We cannot retrieve the wish list.'),
-                'link'          => $this->_urlBuilder->getUrl(),
-                'charset'       => 'UTF-8',
-            ));
+            $rssObj->_addHeader(
+                array(
+                    'title' => __('We cannot retrieve the wish list.'),
+                    'description' => __('We cannot retrieve the wish list.'),
+                    'link' => $this->_urlBuilder->getUrl(),
+                    'charset' => 'UTF-8'
+                )
+            );
         }
 
         return $rssObj->createRssXml();
@@ -270,23 +210,5 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     {
         $additional['_rss'] = true;
         return parent::getProductUrl($product, $additional);
-    }
-
-    /**
-     * Adding customized price template for product type, used as action in layouts
-     *
-     * @param string $type Catalog Product Type
-     * @param string $block Block Type
-     * @param string $template Template
-     * @return void
-     */
-    public function addPriceBlockType($type, $block = '', $template = '')
-    {
-        if ($type) {
-            $this->_priceBlockTypes[$type] = array(
-                'block' => $block,
-                'template' => $template
-            );
-        }
     }
 }

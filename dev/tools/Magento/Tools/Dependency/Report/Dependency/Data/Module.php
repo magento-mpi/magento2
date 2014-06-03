@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Dependency\Data;
 
 /**
@@ -33,7 +32,7 @@ class Module
      * @param array $name
      * @param \Magento\Tools\Dependency\Report\Dependency\Data\Dependency[] $dependencies
      */
-    public function __construct($name, array $dependencies = [])
+    public function __construct($name, array $dependencies = array())
     {
         $this->name = $name;
         $this->dependencies = $dependencies;

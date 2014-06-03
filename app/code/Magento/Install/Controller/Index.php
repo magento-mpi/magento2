@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,13 +15,11 @@ namespace Magento\Install\Controller;
 class Index extends \Magento\Install\Controller\Action
 {
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Config\Scope $configScope
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Config\Scope $configScope
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Config\Scope $configScope
-    ) {
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Config\Scope $configScope)
+    {
         parent::__construct($context, $configScope);
     }
 

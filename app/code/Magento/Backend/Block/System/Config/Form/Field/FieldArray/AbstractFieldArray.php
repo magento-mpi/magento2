@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\System\Config\Form\Field\FieldArray;
 /**
  * Backend system config array field renderer
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\Form\Field
@@ -69,7 +65,6 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
             $this->_addButtonLabel = __('Add');
         }
         parent::_construct();
-
     }
 
     /**
@@ -82,13 +77,13 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     public function addColumn($name, $params)
     {
         $this->_columns[$name] = array(
-            'label'     => $this->_getParam($params, 'label', 'Column'),
-            'size'      => $this->_getParam($params, 'size', false),
-            'style'     => $this->_getParam($params, 'style'),
-            'class'     => $this->_getParam($params, 'class'),
-            'renderer'  => false,
+            'label' => $this->_getParam($params, 'label', 'Column'),
+            'size' => $this->_getParam($params, 'size', false),
+            'style' => $this->_getParam($params, 'style'),
+            'class' => $this->_getParam($params, 'class'),
+            'renderer' => false
         );
-        if ((!empty($params['renderer'])) && ($params['renderer'] instanceof \Magento\View\Element\AbstractBlock)) {
+        if (!empty($params['renderer']) && $params['renderer'] instanceof \Magento\Framework\View\Element\AbstractBlock) {
             $this->_columns[$name]['renderer'] = $params['renderer'];
         }
     }
@@ -109,25 +104,26 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Get the grid and scripts contents
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         $html = $this->_toHtml();
-        $this->_arrayRowsCache = null; // doh, the object is used as singleton!
+        $this->_arrayRowsCache = null;
+        // doh, the object is used as singleton!
         return $html;
     }
 
     /**
      * Prepare existing row data object
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _prepareArrayRow(\Magento\Object $row)
+    protected function _prepareArrayRow(\Magento\Framework\Object $row)
     {
         // override in descendants
     }
@@ -135,7 +131,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Obtain existing data from form element
      *
-     * Each row will be instance of \Magento\Object
+     * Each row will be instance of \Magento\Framework\Object
      *
      * @return array
      */
@@ -145,7 +141,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
             return $this->_arrayRowsCache;
         }
         $result = array();
-        /** @var \Magento\Data\Form\Element\AbstractElement */
+        /** @var \Magento\Framework\Data\Form\Element\AbstractElement */
         $element = $this->getElement();
         if ($element->getValue() && is_array($element->getValue())) {
             foreach ($element->getValue() as $rowId => $row) {
@@ -156,7 +152,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
                 }
                 $row['_id'] = $rowId;
                 $row['column_values'] = $rowColumnValues;
-                $result[$rowId] = new \Magento\Object($row);
+                $result[$rowId] = new \Magento\Framework\Object($row);
                 $this->_prepareArrayRow($result[$rowId]);
             }
         }
@@ -199,22 +195,40 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
         if (empty($this->_columns[$columnName])) {
             throw new \Exception('Wrong column name specified.');
         }
-        $column     = $this->_columns[$columnName];
-        $inputName  = $this->_getCellInputElementName($columnName);
+        $column = $this->_columns[$columnName];
+        $inputName = $this->_getCellInputElementName($columnName);
 
         if ($column['renderer']) {
-            return $column['renderer']->setInputName($inputName)
-                ->setInputId($this->_getCellInputElementId('#{_id}', $columnName))
-                ->setColumnName($columnName)
-                ->setColumn($column)
-                ->toHtml();
+            return $column['renderer']->setInputName(
+                $inputName
+            )->setInputId(
+                $this->_getCellInputElementId('#{_id}', $columnName)
+            )->setColumnName(
+                $columnName
+            )->setColumn(
+                $column
+            )->toHtml();
         }
 
-        return '<input type="text" id="' . $this->_getCellInputElementId('#{_id}', $columnName) .'"' .
-            ' name="' . $inputName . '" value="#{' . $columnName . '}" ' .
-            ($column['size'] ? 'size="' . $column['size'] . '"' : '') . ' class="' .
-            (isset($column['class']) ? $column['class'] : 'input-text') . '"'.
-            (isset($column['style']) ? ' style="'.$column['style'] . '"' : '') . '/>';
+        return '<input type="text" id="' . $this->_getCellInputElementId(
+            '#{_id}',
+            $columnName
+        ) .
+            '"' .
+            ' name="' .
+            $inputName .
+            '" value="#{' .
+            $columnName .
+            '}" ' .
+            ($column['size'] ? 'size="' .
+            $column['size'] .
+            '"' : '') .
+            ' class="' .
+            (isset(
+            $column['class']
+        ) ? $column['class'] : 'input-text') . '"' . (isset(
+            $column['style']
+        ) ? ' style="' . $column['style'] . '"' : '') . '/>';
     }
 
     /**

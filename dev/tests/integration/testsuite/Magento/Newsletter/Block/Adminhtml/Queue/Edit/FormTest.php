@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
 
 /**
@@ -24,25 +20,34 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $queue = $objectManager->get('Magento\Newsletter\Model\Queue');
-        /** @var \Magento\Registry $registry */
-        $registry = $objectManager->get('\Magento\Registry');
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = $objectManager->get('\Magento\Framework\Registry');
         $registry->register('current_queue', $queue);
 
-        $objectManager->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->setDefaultDesignTheme();
-        $objectManager
-            ->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $block = $objectManager
-            ->create('Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form', array(
-                'registry' => $registry,
-            ));
+        $objectManager->get(
+            'Magento\Framework\View\DesignInterface'
+        )->setArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        )->setDefaultDesignTheme();
+        $objectManager->get(
+            'Magento\Framework\Config\ScopeInterface'
+        )->setCurrentScope(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        );
+        $block = $objectManager->create(
+            'Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form',
+            array('registry' => $registry)
+        );
         $prepareFormMethod = new \ReflectionMethod(
-            'Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form', '_prepareForm');
+            'Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form',
+            '_prepareForm'
+        );
         $prepareFormMethod->setAccessible(true);
 
-        $statuses = array(\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE);
+        $statuses = array(
+            \Magento\Newsletter\Model\Queue::STATUS_NEVER,
+            \Magento\Newsletter\Model\Queue::STATUS_PAUSE
+        );
         foreach ($statuses as $status) {
             $queue->setQueueStatus($status);
             $prepareFormMethod->invoke($block);

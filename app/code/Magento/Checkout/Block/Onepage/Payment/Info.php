@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Checkout\Block\Onepage\Payment;
 /**
  * Checkout payment information data
  *
- * @category   Magento
- * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Info extends \Magento\Payment\Block\Info\AbstractContainer
@@ -24,13 +20,13 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()

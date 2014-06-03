@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**
      * @var \Magento\AdvancedCheckout\Model\Cart
@@ -64,11 +64,9 @@ class Collection extends \Magento\Data\Collection
             foreach ($parentBlock->getFailedItems() as $affectedItem) {
                 // Escape user-submitted input
                 if (isset($affectedItem['item']['qty'])) {
-                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty'])
-                        ? ''
-                        : (float)$affectedItem['item']['qty'];
+                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty']) ? '' : (double)$affectedItem['item']['qty'];
                 }
-                $item = new \Magento\Object();
+                $item = new \Magento\Framework\Object();
                 $item->setCode($affectedItem['code']);
                 if (isset($affectedItem['error'])) {
                     $item->setError($affectedItem['error']);
@@ -105,4 +103,3 @@ class Collection extends \Magento\Data\Collection
         return $this->_cart->getStore()->getWebsiteId();
     }
 }
-

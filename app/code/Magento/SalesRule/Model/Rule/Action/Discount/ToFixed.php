@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
 class ToFixed extends AbstractDiscount
@@ -25,10 +22,10 @@ class ToFixed extends AbstractDiscount
 
         $store = $item->getQuote()->getStore();
 
-        $itemPrice              = $this->validator->getItemPrice($item);
-        $baseItemPrice          = $this->validator->getItemBasePrice($item);
-        $itemOriginalPrice      = $this->validator->getItemOriginalPrice($item);
-        $baseItemOriginalPrice  = $this->validator->getItemBaseOriginalPrice($item);
+        $itemPrice = $this->validator->getItemPrice($item);
+        $baseItemPrice = $this->validator->getItemBasePrice($item);
+        $itemOriginalPrice = $this->validator->getItemOriginalPrice($item);
+        $baseItemOriginalPrice = $this->validator->getItemBaseOriginalPrice($item);
 
         $quoteAmount = $store->convertPrice($rule->getDiscountAmount());
 
@@ -38,6 +35,5 @@ class ToFixed extends AbstractDiscount
         $discountData->setBaseOriginalAmount($qty * ($baseItemOriginalPrice - $rule->getDiscountAmount()));
 
         return $discountData;
-
     }
 }

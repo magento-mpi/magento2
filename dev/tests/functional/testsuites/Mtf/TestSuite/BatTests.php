@@ -37,7 +37,7 @@ class BatTests
         $suite->addTestSuite('Magento\SalesRule\Test\TestCase\BasicPromoTest');
 
         // Stores
-        $suite->addTestSuite('Magento\Core\Test\TestCase\StoreTest');
+        $suite->addTestSuite('Magento\Store\Test\TestCase\StoreTest');
 
         return $suite;
     }

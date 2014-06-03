@@ -5,20 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Type;
 
 class AbstractTypeTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testHasOptions()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            ['getHasOptions', '__wakeup', '__sleep'],
-            [],
+            array('getHasOptions', '__wakeup', '__sleep'),
+            array(),
             '',
             false
         );

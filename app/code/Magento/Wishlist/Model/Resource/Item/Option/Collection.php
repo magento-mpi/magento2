@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Wishlist item option collection
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Model\Resource\Item\Option;
@@ -21,14 +17,14 @@ namespace Magento\Wishlist\Model\Resource\Item\Option;
 use Magento\Catalog\Model\Product;
 use Magento\Wishlist\Model\Item;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Array of option ids grouped by item id
      *
      * @var array
      */
-    protected $_optionsByItem    = array();
+    protected $_optionsByItem = array();
 
     /**
      * Array of option ids grouped by product id
@@ -57,9 +53,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         parent::_afterLoad();
 
         foreach ($this as $option) {
-            $optionId   = $option->getId();
-            $itemId     = $option->getWishlistItemId();
-            $productId  = $option->getProductId();
+            $optionId = $option->getId();
+            $itemId = $option->getWishlistItemId();
+            $productId = $option->getProductId();
             if (isset($this->_optionsByItem[$itemId])) {
                 $this->_optionsByItem[$itemId][] = $optionId;
             } else {

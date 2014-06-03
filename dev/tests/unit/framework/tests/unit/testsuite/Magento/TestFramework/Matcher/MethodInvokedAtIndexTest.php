@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Matcher;
 
-use Magento\TestFramework\Matcher\MethodInvokedAtIndex as MethodInvokedAtIndex;
+use Magento\TestFramework\Matcher\MethodInvokedAtIndex;
 
 class MethodInvokedAtIndexTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,4 +27,3 @@ class MethodInvokedAtIndexTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($matcher->matches($invocationObject));
     }
 }
- 

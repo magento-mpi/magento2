@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PersistentHistory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@
  */
 namespace Magento\PersistentHistory\Model\Adminhtml\System\Config;
 
-class Cart extends \Magento\Core\Model\Config\Value
+class Cart extends \Magento\Framework\App\Config\Value
 {
     /**
      * Prefix of model events names

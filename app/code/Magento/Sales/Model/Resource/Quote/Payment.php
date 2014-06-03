@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,9 +17,7 @@ class Payment extends \Magento\Sales\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_serializableFields   = array(
-        'additional_information' => array(null, array())
-    );
+    protected $_serializableFields = array('additional_information' => array(null, array()));
 
     /**
      * @var \Magento\Sales\Model\Payment\Method\Converter
@@ -29,13 +25,13 @@ class Payment extends \Magento\Sales\Model\Resource\AbstractResource
     protected $_paymentConverter;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
     ) {
         $this->_paymentConverter = $paymentConverter;

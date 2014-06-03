@@ -1,0 +1,25 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="checkout payment giftcardaccount">
+    <p class="note">
+        <?php $_url = $this->getUrl('checkout/cart'); ?>
+        <?php echo __('To add or remove gift cards, <a href="%1">click here</a>.', $_url); ?><br />
+
+        <?php if ((float)$this->getAppliedGiftCardAmount()): ?>
+            <?php $amount = $this->helper('Magento\Core\Helper\Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
+            <?php echo __('Gift Card amount applied to order: %1', $amount); ?>
+        <?php endif; ?>
+    </p>
+</div>
+<?php if ($this->isFullyPaidAfterApplication()): ?>
+    <script type="text/javascript">
+        jQuery('#co-payment-form').mage('paymentMethod', {});
+    </script>
+    <input id="hidden-free" type="hidden" name="payment[method]" value="free">
+<?php endif; ?>

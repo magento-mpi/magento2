@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +16,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Shipping\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Shipping\Helper\Data'
+        );
     }
 
     /**
@@ -45,7 +42,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         }
 
         $model = $objectManager->create($modelName, $constructArgs);
-        $model->$getIdMethod($entityId);
+        $model->{$getIdMethod}($entityId);
 
         if ('Magento\Sales\Model\Order' == $modelName) {
             $model->setProtectCode($code);
@@ -81,7 +78,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $shipment = $objectManager->create('Magento\Sales\Model\Order\Shipment', $shipmentArgs);
         $shipmentFactory = $this->getMock(
-            'Magento\Sales\Model\Order\ShipmentFactory', array('create'), array(), '', false
+            'Magento\Sales\Model\Order\ShipmentFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
         $shipmentFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($shipment));
         return $shipmentFactory;

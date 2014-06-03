@@ -1,0 +1,67 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_item = $this->getItem()?>
+<tr>
+    <td class="col photo"><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->escapeHtml($this->getProductName()) ?>"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
+    <td class="col product">
+        <strong class="product name">
+        <?php if ($this->hasProductUrl()):?>
+            <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
+        <?php else: ?>
+            <?php echo $this->escapeHtml($this->getProductName()) ?>
+        <?php endif; ?>
+        </strong>
+        <?php if ($_options = $this->getOptionList()):?>
+
+        <dl class="product options list">
+            <?php foreach ($_options as $_option) : ?>
+            <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
+            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="tooltip wrapper"<?php endif; ?>>
+                <?php echo $_formatedOptionValue['value'] ?>
+                <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                <div class="tooltip content">
+                    <dl class="product options list">
+                        <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                        <dd><?php echo $this->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
+                    </dl>
+                </div>
+                <?php endif; ?>
+            </dd>
+            <?php endforeach; ?>
+        </dl>
+        <?php endif;?>
+        <?php if ($messages = $this->getMessages()): ?>
+        <?php foreach ($messages as $message): ?>
+            <p class="item message <?php echo $message['type'] ?>"><?php echo $message['text'] ?></p>
+        <?php endforeach; ?>
+        <?php endif; ?>
+    </td>
+    <td class="col registered">
+        <?php echo $_item->getQty()*1 ?>
+    </td>
+    <td class="col fulfilled">
+        <?php echo $_item->getQtyFulfilled()*1 ?>
+    </td>
+    <td class="col remaining">
+        <?php echo ($_item->getRemainingQty())*1 ?>
+    </td>
+    <td class="col price">
+        <span class="cart-price">
+            <?php echo $this->getProductPriceHtml($_item->getProduct());?>
+        </span>
+    </td>
+    <td class="col qty">
+        <?php if ($_item->getRemainingQty() < 1):?>
+            <?php echo __('Fulfilled')?>
+        <?php else:?>
+            <input type="number" name="items[<?php echo $_item->getItemId() ?>][qty]" value="0" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" />
+        <?php endif;?>
+    </td>
+</tr>

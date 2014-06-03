@@ -2,36 +2,32 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testAfterLoad()
     {
-        $categoryIds = array(1,2,3,4,5);
+        $categoryIds = array(1, 2, 3, 4, 5);
 
-        $product = $this->getMock('Magento\Object', array('getCategoryIds', 'setData'));
-        $product->expects($this->once())
-            ->method('getCategoryIds')
-            ->will($this->returnValue($categoryIds));
+        $product = $this->getMock('Magento\Framework\Object', array('getCategoryIds', 'setData'));
+        $product->expects($this->once())->method('getCategoryIds')->will($this->returnValue($categoryIds));
 
-        $product->expects($this->once())
-            ->method('setData')
-            ->with('category_ids', $categoryIds);
+        $product->expects($this->once())->method('setData')->with('category_ids', $categoryIds);
 
-        $categoryAttribute = $this->getMock('Magento\Object', array('getAttributeCode'));
-        $categoryAttribute->expects($this->once())
-            ->method('getAttributeCode')
-            ->will($this->returnValue('category_ids'));
+        $categoryAttribute = $this->getMock('Magento\Framework\Object', array('getAttributeCode'));
+        $categoryAttribute->expects(
+            $this->once()
+        )->method(
+            'getAttributeCode'
+        )->will(
+            $this->returnValue('category_ids')
+        );
 
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $model = new \Magento\Catalog\Model\Product\Attribute\Backend\Category($logger);
         $model->setAttribute($categoryAttribute);
 

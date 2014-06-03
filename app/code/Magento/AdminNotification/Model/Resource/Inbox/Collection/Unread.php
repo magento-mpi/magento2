@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Collection of unread notifications
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdminNotification\Model\Resource\Inbox\Collection;
 
-class Unread
-    extends \Magento\AdminNotification\Model\Resource\Inbox\Collection
+class Unread extends \Magento\AdminNotification\Model\Resource\Inbox\Collection
 {
     /**
      * Init collection select

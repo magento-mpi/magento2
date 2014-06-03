@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
 
-class Unassigned
-    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
+class Unassigned extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
 {
     /**
      * Get list title
@@ -39,29 +36,29 @@ class Unassigned
         /** @var $removeButton \Magento\Backend\Block\Widget\Button */
         $removeButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
-        $removeButton->setData(array(
-            'label'     => __('Remove'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event' => 'delete',
-                        'target' => 'body',
-                        'eventData' => array(
-                            'url' => $this->getUrl(
-                                '*/system_design_theme/delete/',
-                                array('id' => $themeId, 'back' => true)
-                            ),
-                            'confirm' => array(
-                                'message' => __('Are you sure you want to delete this theme?'),
-                            ),
-                            'title' => __('Delete %1 Theme', $themeTitle)
+        $removeButton->setData(
+            array(
+                'label' => __('Remove'),
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array(
+                            'event' => 'delete',
+                            'target' => 'body',
+                            'eventData' => array(
+                                'url' => $this->getUrl(
+                                    '*/system_design_theme/delete/',
+                                    array('id' => $themeId, 'back' => true)
+                                ),
+                                'confirm' => array('message' => __('Are you sure you want to delete this theme?')),
+                                'title' => __('Delete %1 Theme', $themeTitle)
+                            )
                         )
-                    ),
+                    )
                 ),
-            ),
-            'class'   => 'action-delete',
-            'target'  => '_blank'
-        ));
+                'class' => 'action-delete',
+                'target' => '_blank'
+            )
+        );
 
         $themeBlock->addButton($removeButton);
         return $this;
@@ -77,8 +74,15 @@ class Unassigned
     {
         parent::_addThemeButtons($themeBlock);
 
-        $this->_addDuplicateButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock)
-            ->_addRemoveButtonHtml($themeBlock);
+        $this->_addDuplicateButtonHtml(
+            $themeBlock
+        )->_addAssignButtonHtml(
+            $themeBlock
+        )->_addEditButtonHtml(
+            $themeBlock
+        )->_addRemoveButtonHtml(
+            $themeBlock
+        );
         return $this;
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -94,5 +92,4 @@ class Wishlist extends \Magento\Backend\Block\Template
 
         return $this;
     }
-
 }

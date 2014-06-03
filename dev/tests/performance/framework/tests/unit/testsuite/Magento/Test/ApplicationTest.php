@@ -2,19 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 /**
  * Class ApplicationTest
  *
- * @package Magento\Test
  */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +19,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\Shell|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Shell|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -54,25 +49,26 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
-        $this->_fixtureConfigData = require($this->_fixtureDir . '/config_data.php');
+        $this->_fixtureConfigData = require $this->_fixtureDir . '/config_data.php';
 
         $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir//dev/shell/install.php');
 
         $this->_config = new \Magento\TestFramework\Performance\Config(
-            $this->_fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir . '/app_base_dir'
+            $this->_fixtureConfigData,
+            $this->_fixtureDir,
+            $this->_fixtureDir . '/app_base_dir'
         );
-        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
 
         $this->_object = $this->getMock(
             'Magento\TestFramework\Application',
             array('_bootstrap', '_cleanupMage', '_reindex', '_updateFilesystemPermissions'),
             array($this->_config, $this->_shell)
         );
-        $this->_object->expects($this->any())
-            ->method('_reindex')
-            ->will($this->returnValue($this->_object));
+        $this->_object->expects($this->any())->method('_reindex')->will($this->returnValue($this->_object));
 
-        $this->_object->applied = array(); // For fixture testing
+        // For fixture testing
+        $this->_object->applied = array();
     }
 
     /**
@@ -88,18 +84,20 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Constructor test
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testConstructorException()
     {
         $invalidAppDir = __DIR__;
         new \Magento\TestFramework\Application(
-            new \Magento\TestFramework\Performance\Config($this->_fixtureConfigData, $this->_fixtureDir,
-                $invalidAppDir),
+            new \Magento\TestFramework\Performance\Config(
+                $this->_fixtureConfigData,
+                $this->_fixtureDir,
+                $invalidAppDir
+            ),
             $this->_shell
         );
     }
-
 
     /**
      * Apply fixtures test
@@ -123,14 +121,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
 
         return array(
-            'empty fixtures' => array(
-                array(),
-                array()
-            ),
-            'fixtures' => array(
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                array('fixture1', 'fixture2')
-            ),
+            'empty fixtures' => array(array(), array()),
+            'fixtures' => array($this->_getFixtureFiles(array('fixture1', 'fixture2')), array('fixture1', 'fixture2'))
         );
     }
 
@@ -173,7 +165,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                 $this->_getFixtureFiles(array('fixture1', 'fixture2')),
                 $this->_getFixtureFiles(array('fixture1')),
                 array('fixture1')
-            ),
+            )
         );
     }
 
@@ -199,13 +191,23 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testApplyFixturesInstallsApplication()
     {
         // Expect uninstall and install
-        $this->_shell->expects($this->at(0))
-            ->method('execute')
-            ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
+        $this->_shell->expects(
+            $this->at(0)
+        )->method(
+            'execute'
+        )->with(
+            $this->stringContains('--uninstall'),
+            $this->contains($this->_installerScript)
+        );
 
-        $this->_shell->expects($this->at(1))
-            ->method('execute')
-            ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
+        $this->_shell->expects(
+            $this->at(1)
+        )->method(
+            'execute'
+        )->with(
+            $this->logicalNot($this->stringContains('--uninstall')),
+            $this->contains($this->_installerScript)
+        );
 
         $fixture1 = $this->_getFixtureFiles(array('fixture1'));
         $this->_object->applyFixtures($fixture1);
@@ -216,8 +218,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyFixturesSuperSetNoInstallation()
     {
-        $this->_shell->expects($this->exactly(8)) // Initial uninstall/install only
-            ->method('execute');
+        // Initial uninstall/install only
+        $this->_shell->expects($this->exactly(8))->method('execute');
 
         $fixture1 = $this->_getFixtureFiles(array('fixture1'));
         $this->_object->applyFixtures($fixture1);
@@ -230,21 +232,41 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyFixturesIncompatibleSetReinstallation()
     {
-        $this->_shell->expects($this->at(0))
-            ->method('execute')
-            ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
+        $this->_shell->expects(
+            $this->at(0)
+        )->method(
+            'execute'
+        )->with(
+            $this->stringContains('--uninstall'),
+            $this->contains($this->_installerScript)
+        );
 
-        $this->_shell->expects($this->at(1))
-            ->method('execute')
-            ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
+        $this->_shell->expects(
+            $this->at(1)
+        )->method(
+            'execute'
+        )->with(
+            $this->logicalNot($this->stringContains('--uninstall')),
+            $this->contains($this->_installerScript)
+        );
 
-        $this->_shell->expects($this->at(6))
-            ->method('execute')
-            ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
+        $this->_shell->expects(
+            $this->at(6)
+        )->method(
+            'execute'
+        )->with(
+            $this->stringContains('--uninstall'),
+            $this->contains($this->_installerScript)
+        );
 
-        $this->_shell->expects($this->at(7))
-            ->method('execute')
-            ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
+        $this->_shell->expects(
+            $this->at(7)
+        )->method(
+            'execute'
+        )->with(
+            $this->logicalNot($this->stringContains('--uninstall')),
+            $this->contains($this->_installerScript)
+        );
 
         $fixtures = $this->_getFixtureFiles(array('fixture1', 'fixture2'));
         $this->_object->applyFixtures($fixtures);

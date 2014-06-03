@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,20 +31,20 @@ class Form extends \Magento\Payment\Block\Form
     protected $_paypalConfigFactory;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_paypalConfigFactory = $paypalConfigFactory;
@@ -62,22 +60,26 @@ class Form extends \Magento\Payment\Block\Form
     protected function _construct()
     {
         $this->_config = $this->_paypalConfigFactory->create()->setMethod($this->getMethodCode());
-        /** @var $mark \Magento\View\Element\Template */
-        $mark = $this->_layout->createBlock('Magento\View\Element\Template');
-        $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
-            ->setPaymentAcceptanceMarkHref(
-                $this->_config->getPaymentMarkWhatIsPaypalUrl($this->_localeResolver)
-            )
-            ->setPaymentAcceptanceMarkSrc(
-                $this->_config->getPaymentMarkImageUrl($this->_localeResolver->getLocaleCode())
-            );
+        /** @var $mark \Magento\Framework\View\Element\Template */
+        $mark = $this->_layout->createBlock('Magento\Framework\View\Element\Template');
+        $mark->setTemplate(
+            'Magento_Paypal::payment/mark.phtml'
+        )->setPaymentAcceptanceMarkHref(
+            $this->_config->getPaymentMarkWhatIsPaypalUrl($this->_localeResolver)
+        )->setPaymentAcceptanceMarkSrc(
+            $this->_config->getPaymentMarkImageUrl($this->_localeResolver->getLocaleCode())
+        );
         // known issue: code above will render only static mark image
-        $this->setTemplate('Magento_Paypal::payment/redirect.phtml')
-            ->setRedirectMessage(
-                __('You will be redirected to the PayPal website when you place an order.')
-            )
-            ->setMethodTitle('') // Output PayPal mark, omit title
-            ->setMethodLabelAfterHtml($mark->toHtml());
+        $this->setTemplate(
+            'Magento_Paypal::payment/redirect.phtml'
+        )->setRedirectMessage(
+            __('You will be redirected to the PayPal website when you place an order.')
+        )->setMethodTitle(
+            // Output PayPal mark, omit title
+            ''
+        )->setMethodLabelAfterHtml(
+            $mark->toHtml()
+        );
         return parent::_construct();
     }
 

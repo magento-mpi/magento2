@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,8 +35,10 @@ class Giftwrapping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTota
                 continue;
             }
             $orderItem = $invoiceItem->getOrderItem();
-            if ($orderItem->getGwId() && $orderItem->getGwBasePrice()
-                && $orderItem->getGwBasePrice() != $orderItem->getGwBasePriceInvoiced()) {
+            if ($orderItem->getGwId() &&
+                $orderItem->getGwBasePrice() &&
+                $orderItem->getGwBasePrice() != $orderItem->getGwBasePriceInvoiced()
+            ) {
                 $orderItem->setGwBasePriceInvoiced($orderItem->getGwBasePrice());
                 $orderItem->setGwPriceInvoiced($orderItem->getGwPrice());
                 $baseInvoiced += $orderItem->getGwBasePrice() * $invoiceItem->getQty();
@@ -55,8 +55,10 @@ class Giftwrapping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTota
         /**
          * Wrapping for order
          */
-        if ($order->getGwId() && $order->getGwBasePrice()
-            && $order->getGwBasePrice() != $order->getGwBasePriceInvoiced()) {
+        if ($order->getGwId() &&
+            $order->getGwBasePrice() &&
+            $order->getGwBasePrice() != $order->getGwBasePriceInvoiced()
+        ) {
             $order->setGwBasePriceInvoiced($order->getGwBasePrice());
             $order->setGwPriceInvoiced($order->getGwPrice());
             $invoice->setGwBasePrice($order->getGwBasePrice());
@@ -66,8 +68,10 @@ class Giftwrapping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTota
         /**
          * Printed card
          */
-        if ($order->getGwAddCard() && $order->getGwCardBasePrice()
-            && $order->getGwCardBasePrice() != $order->getGwCardBasePriceInvoiced()) {
+        if ($order->getGwAddCard() &&
+            $order->getGwCardBasePrice() &&
+            $order->getGwCardBasePrice() != $order->getGwCardBasePriceInvoiced()
+        ) {
             $order->setGwCardBasePriceInvoiced($order->getGwCardBasePrice());
             $order->setGwCardPriceInvoiced($order->getGwCardPrice());
             $invoice->setGwCardBasePrice($order->getGwCardBasePrice());
@@ -75,16 +79,16 @@ class Giftwrapping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTota
         }
 
         $invoice->setBaseGrandTotal(
-            $invoice->getBaseGrandTotal()
-            + $invoice->getGwItemsBasePrice()
-            + $invoice->getGwBasePrice()
-            + $invoice->getGwCardBasePrice()
+            $invoice->getBaseGrandTotal() +
+            $invoice->getGwItemsBasePrice() +
+            $invoice->getGwBasePrice() +
+            $invoice->getGwCardBasePrice()
         );
         $invoice->setGrandTotal(
-            $invoice->getGrandTotal()
-            + $invoice->getGwItemsPrice()
-            + $invoice->getGwPrice()
-            + $invoice->getGwCardPrice()
+            $invoice->getGrandTotal() +
+            $invoice->getGwItemsPrice() +
+            $invoice->getGwPrice() +
+            $invoice->getGwCardPrice()
         );
         return $this;
     }

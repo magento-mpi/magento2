@@ -7,22 +7,22 @@
  */
 namespace Magento\User\Model\Acl\Loader;
 
-class Rule implements \Magento\Acl\LoaderInterface
+class Rule implements \Magento\Framework\Acl\LoaderInterface
 {
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
     /**
-     * @param \Magento\Acl\RootResource $rootResource
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\Acl\RootResource $rootResource
+     * @param \Magento\Framework\App\Resource $resource
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter):
      */
     public function __construct(
-        \Magento\Acl\RootResource $rootResource,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\Acl\RootResource $rootResource,
+        \Magento\Framework\App\Resource $resource,
         array $data = array()
     ) {
         $this->_resource = $resource;
@@ -32,17 +32,16 @@ class Rule implements \Magento\Acl\LoaderInterface
     /**
      * Populate ACL with rules from external storage
      *
-     * @param \Magento\Acl $acl
+     * @param \Magento\Framework\Acl $acl
      * @return void
      */
-    public function populateAcl(\Magento\Acl $acl)
+    public function populateAcl(\Magento\Framework\Acl $acl)
     {
         $ruleTable = $this->_resource->getTableName("admin_rule");
 
         $adapter = $this->_resource->getConnection('core_read');
 
-        $select = $adapter->select()
-            ->from(array('r' => $ruleTable));
+        $select = $adapter->select()->from(array('r' => $ruleTable));
 
         $rulesArr = $adapter->fetchAll($select);
 

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +29,9 @@ class Discount extends AbstractTotal
          */
         $baseShippingAmount = $creditmemo->getBaseShippingAmount();
         if ($baseShippingAmount) {
-            $baseShippingDiscount = $baseShippingAmount * $order->getBaseShippingDiscountAmount() / $order->getBaseShippingAmount();
+            $baseShippingDiscount = $baseShippingAmount *
+                $order->getBaseShippingDiscountAmount() /
+                $order->getBaseShippingAmount();
             $shippingDiscount = $order->getShippingAmount() * $baseShippingDiscount / $order->getBaseShippingAmount();
             $totalDiscountAmount = $totalDiscountAmount + $shippingDiscount;
             $baseTotalDiscountAmount = $baseTotalDiscountAmount + $baseShippingDiscount;
@@ -45,20 +45,20 @@ class Discount extends AbstractTotal
                 continue;
             }
 
-            $orderItemDiscount      = (float) $orderItem->getDiscountInvoiced();
-            $baseOrderItemDiscount  = (float) $orderItem->getBaseDiscountInvoiced();
-            $orderItemQty           = $orderItem->getQtyInvoiced();
+            $orderItemDiscount = (double)$orderItem->getDiscountInvoiced();
+            $baseOrderItemDiscount = (double)$orderItem->getBaseDiscountInvoiced();
+            $orderItemQty = $orderItem->getQtyInvoiced();
 
             if ($orderItemDiscount && $orderItemQty) {
                 $discount = $orderItemDiscount - $orderItem->getDiscountRefunded();
                 $baseDiscount = $baseOrderItemDiscount - $orderItem->getBaseDiscountRefunded();
                 if (!$item->isLast()) {
                     $availableQty = $orderItemQty - $orderItem->getQtyRefunded();
-                    $discount = $creditmemo->roundPrice(
-                        $discount / $availableQty * $item->getQty(), 'regular', true
-                    );
+                    $discount = $creditmemo->roundPrice($discount / $availableQty * $item->getQty(), 'regular', true);
                     $baseDiscount = $creditmemo->roundPrice(
-                        $baseDiscount / $availableQty * $item->getQty(), 'base', true
+                        $baseDiscount / $availableQty * $item->getQty(),
+                        'base',
+                        true
                     );
                 }
 
@@ -66,7 +66,7 @@ class Discount extends AbstractTotal
                 $item->setBaseDiscountAmount($baseDiscount);
 
                 $totalDiscountAmount += $discount;
-                $baseTotalDiscountAmount+= $baseDiscount;
+                $baseTotalDiscountAmount += $baseDiscount;
             }
         }
 

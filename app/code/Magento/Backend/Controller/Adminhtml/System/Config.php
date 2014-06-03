@@ -2,14 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
-
-use Magento\App\ResponseInterface;
 
 /**
  * System Configuration controller
@@ -17,26 +13,26 @@ use Magento\App\ResponseInterface;
 class Config extends AbstractConfig
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_fileFactory = $fileFactory;
@@ -56,7 +52,7 @@ class Config extends AbstractConfig
     /**
      * Edit configuration section
      *
-     * @return \Magento\App\ResponseInterface|void
+     * @return \Magento\Framework\App\ResponseInterface|void
      */
     public function editAction()
     {
@@ -64,7 +60,7 @@ class Config extends AbstractConfig
 
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
-        $store   = $this->getRequest()->getParam('store');
+        $store = $this->getRequest()->getParam('store');
 
         /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
         $section = $this->_configStructure->getElement($current);
@@ -77,11 +73,7 @@ class Config extends AbstractConfig
         $this->_setActiveMenu('Magento_Backend::system_config');
         $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
-        $this->_addBreadcrumb(
-            __('System'),
-            __('System'),
-            $this->getUrl('*\/system')
-        );
+        $this->_addBreadcrumb(__('System'), __('System'), $this->getUrl('*\/system'));
 
         $this->_view->renderLayout();
     }
@@ -93,12 +85,15 @@ class Config extends AbstractConfig
      */
     public function stateAction()
     {
-        if ($this->getRequest()->getParam('isAjax') && $this->getRequest()->getParam('container') != ''
-            && $this->getRequest()->getParam('value') != ''
+        if ($this->getRequest()->getParam(
+            'isAjax'
+        ) && $this->getRequest()->getParam(
+            'container'
+        ) != '' && $this->getRequest()->getParam(
+            'value'
+        ) != ''
         ) {
-            $configState = array(
-                $this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')
-            );
+            $configState = array($this->getRequest()->getParam('container') => $this->getRequest()->getParam('value'));
             $this->_saveState($configState);
             $this->getResponse()->setBody('success');
         }

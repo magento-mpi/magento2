@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
-class Country
-    extends \Magento\Backend\Block\Widget\Form
+class Country extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * @var \Magento\Backend\Model\Config\Source\Yesno
@@ -46,13 +42,15 @@ class Country
      */
     public function getRegionShowSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => '{{prefix}}_attribute_{{id}}_show_region',
-                'class' => 'select global-scope'
-            ))
-            ->setName('attributes[{{prefix}}][{{id}}][show_region]')
-            ->setOptions($this->sourceYesNo->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setData(
+            array('id' => '{{prefix}}_attribute_{{id}}_show_region', 'class' => 'select global-scope')
+        )->setName(
+            'attributes[{{prefix}}][{{id}}][show_region]'
+        )->setOptions(
+            $this->sourceYesNo->toOptionArray()
+        );
 
         return $select->getHtml();
     }

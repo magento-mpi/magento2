@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
  * Html page welcome block
  */
-class Welcome extends \Magento\View\Element\Template
+class Welcome extends \Magento\Framework\View\Element\Template
 {
     /**
      * Get block message

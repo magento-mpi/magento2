@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -60,7 +58,7 @@ INSTALLSCHEME;
         'admin_password' => '1234qasd',
         'use_secure' => 'no',
         'secure_base_url' => '"https://magento.local"',
-        'cleanup_database' => '',
+        'cleanup_database' => ''
     );
     echo 'Example of installation:' . PHP_EOL;
     echo '  php -f ' . $_SERVER['argv'][0] . ' --';
@@ -78,5 +76,5 @@ INSTALLSCHEME;
 define('BARE_BOOTSTRAP', 1);
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-$entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP);
+$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Magento\Install\App\Console', array('arguments' => $args));

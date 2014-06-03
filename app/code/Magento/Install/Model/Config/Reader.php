@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Config;
 
-class Reader extends \Magento\Config\Reader\Filesystem
+class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging

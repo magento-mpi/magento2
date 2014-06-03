@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -55,7 +53,10 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
      */
     public function getLinks()
     {
-        $this->_purchased = $this->_purchasedFactory->create()->load($this->getItem()->getOrder()->getId(), 'order_id');
+        $this->_purchased = $this->_purchasedFactory->create()->load(
+            $this->getItem()->getOrder()->getId(),
+            'order_id'
+        );
         $purchasedItem = $this->_itemsFactory->create()->addFieldToFilter('order_item_id', $this->getItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedItem);
         return $this->_purchased;
@@ -69,7 +70,6 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         if ($this->_purchased && $this->_purchased->getLinkSectionTitle()) {
             return $this->_purchased->getLinkSectionTitle();
         }
-        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_scopeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }
-?>

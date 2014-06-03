@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +29,7 @@ class Inventory extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -50,7 +48,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
      * @param \Magento\CatalogInventory\Model\Source\Stock $stock
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -58,7 +56,7 @@ class Inventory extends \Magento\Backend\Block\Widget
         \Magento\CatalogInventory\Model\Source\Backorders $backorders,
         \Magento\CatalogInventory\Model\Source\Stock $stock,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_stock = $stock;
@@ -124,7 +122,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -139,7 +137,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             }
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -148,7 +146,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

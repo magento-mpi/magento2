@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -19,8 +18,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddCustomerDetails()
     {
         /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
-        $billingAgreementCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Paypal\Model\Resource\Billing\Agreement\Collection');
+        $billingAgreementCollection = Bootstrap::getObjectManager()->create(
+            'Magento\Paypal\Model\Resource\Billing\Agreement\Collection'
+        );
 
         $billingAgreementCollection->addCustomerDetails();
 
@@ -28,7 +28,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $billingAgreementCollection->getFirstItem();
 
-        $expectedData = [
+        $expectedData = array(
             'customer_id' => 1,
             'method_code' => 'paypal_express',
             'reference_id' => 'REF-ID-TEST-678',
@@ -38,7 +38,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'customer_email' => 'customer@example.com',
             'customer_firstname' => 'Firstname',
             'customer_lastname' => 'Lastname'
-        ];
+        );
         foreach ($expectedData as $field => $expectedValue) {
             $this->assertEquals(
                 $expectedValue,

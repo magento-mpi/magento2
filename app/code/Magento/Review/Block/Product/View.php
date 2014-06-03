@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 /**
  * Product Reviews Page
  *
- * @category   Magento
- * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class View extends \Magento\Catalog\Block\Product\View
@@ -35,68 +31,34 @@ class View extends \Magento\Catalog\Block\Product\View
     protected $_reviewsColFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
-     * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Tax\Model\Calculation $taxCalculation,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $coreData,
             $jsonEncoder,
             $productFactory,
@@ -105,8 +67,7 @@ class View extends \Magento\Catalog\Block\Product\View
             $productHelper,
             $productTypeConfig,
             $localeFormat,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -136,15 +97,16 @@ class View extends \Magento\Catalog\Block\Product\View
         $templateType = false,
         $displayIfNoReviews = false
     ) {
-        return
-            $this->getLayout()->createBlock('Magento\Rating\Block\Entity\Detailed')
-                ->setEntityId($this->getProduct()->getId())
-                ->toHtml()
-            .
-            $this->getLayout()->getBlock('product_review_list.count')
-                ->assign('count', $this->getReviewsCollection()->getSize())
-                ->toHtml()
-            ;
+        return $this->getLayout()->createBlock(
+            'Magento\Review\Block\Rating\Entity\Detailed'
+        )->setEntityId(
+            $this->getProduct()->getId()
+        )->toHtml() . $this->getLayout()->getBlock(
+            'product_review_list.count'
+        )->assign(
+            'count',
+            $this->getReviewsCollection()->getSize()
+        )->toHtml();
     }
 
     /**
@@ -155,11 +117,14 @@ class View extends \Magento\Catalog\Block\Product\View
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsCollection = $this->_reviewsColFactory->create()
-                ->addStoreFilter($this->_storeManager->getStore()->getId())
-                ->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED)
-                ->addEntityFilter('product', $this->getProduct()->getId())
-                ->setDateOrder();
+            $this->_reviewsCollection = $this->_reviewsColFactory->create()->addStoreFilter(
+                $this->_storeManager->getStore()->getId()
+            )->addStatusFilter(
+                \Magento\Review\Model\Review::STATUS_APPROVED
+            )->addEntityFilter(
+                'product',
+                $this->getProduct()->getId()
+            )->setDateOrder();
         }
         return $this->_reviewsCollection;
     }

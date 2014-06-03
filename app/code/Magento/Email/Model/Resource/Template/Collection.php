@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Email\Model\Resource\Template;
 /**
  * Templates collection
  *
- * @category    Magento
- * @package     Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends  \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Template table name

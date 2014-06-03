@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,10 +9,8 @@ namespace Magento\Integration\Model\Resource\Oauth\Token;
 
 /**
  * OAuth token resource collection model
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection model
@@ -37,10 +33,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $select = $this->getSelect();
         $select->joinLeft(
-                    array('c' => $this->getTable('oauth_consumer')),
-                    'c.entity_id = main_table.consumer_id',
-                    'name'
-                );
+            array('c' => $this->getTable('oauth_consumer')),
+            'c.entity_id = main_table.consumer_id',
+            'name'
+        );
 
         return $this;
     }
@@ -113,7 +109,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addFilterByRevoked($flag)
     {
-        $this->addFilter('main_table.revoked', (int) $flag, 'public');
+        $this->addFilter('main_table.revoked', (int)$flag, 'public');
         return $this;
     }
 }

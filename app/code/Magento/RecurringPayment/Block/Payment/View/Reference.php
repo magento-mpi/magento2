@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -19,14 +18,14 @@ class Reference extends \Magento\RecurringPayment\Block\Payment\View
     protected $_fields;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,
         array $data = array()
     ) {
@@ -45,10 +44,12 @@ class Reference extends \Magento\RecurringPayment\Block\Payment\View
 
         $this->_shouldRenderInfo = true;
         foreach (array('method_code', 'reference_id', 'schedule_description', 'state') as $key) {
-            $this->_addInfo(array(
-                'label' => $this->_fields->getFieldLabel($key),
-                'value' => $this->_recurringPayment->renderData($key),
-            ));
+            $this->_addInfo(
+                array(
+                    'label' => $this->_fields->getFieldLabel($key),
+                    'value' => $this->_recurringPayment->renderData($key)
+                )
+            );
         }
     }
 }

@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminNotification\Model\Resource\Inbox\Collection;
 
-class Critical extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Critical extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -27,11 +27,21 @@ class Critical extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollec
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addOrder('notification_id', self::SORT_ORDER_DESC)
-            ->addFieldToFilter('is_read', array('neq' => 1))
-            ->addFieldToFilter('is_remove', array('neq' => 1))
-            ->addFieldToFilter('severity', \Magento\AdminNotification\Model\Inbox::SEVERITY_CRITICAL)
-            ->setPageSize(1);
+        $this->addOrder(
+            'notification_id',
+            self::SORT_ORDER_DESC
+        )->addFieldToFilter(
+            'is_read',
+            array('neq' => 1)
+        )->addFieldToFilter(
+            'is_remove',
+            array('neq' => 1)
+        )->addFieldToFilter(
+            'severity',
+            \Magento\AdminNotification\Model\Inbox::SEVERITY_CRITICAL
+        )->setPageSize(
+            1
+        );
         return $this;
     }
 }

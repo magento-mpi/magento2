@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,6 +34,5 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     {
         $this->addAttributeToFilter('rma_entity_id', $rmaEntityId);
         return $this;
-
     }
 }

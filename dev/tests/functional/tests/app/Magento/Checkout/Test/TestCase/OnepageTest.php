@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class OnepageTest
  * Test one page checkout with different configurations
  *
- * @package Magento\Test\TestCase\Guest
  */
 class OnepageTest extends Functional
 {
@@ -47,7 +43,7 @@ class OnepageTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
@@ -75,7 +71,7 @@ class OnepageTest extends Functional
     /**
      * @return array
      */
-    public static function dataProviderOnepageCheckout()
+    public function dataProviderOnepageCheckout()
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),

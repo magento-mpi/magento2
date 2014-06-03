@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class Review
  * One page checkout status review block
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Review extends Block
 {
@@ -58,12 +54,19 @@ class Review extends Block
     protected $tax = '//tr[normalize-space(td)="Tax"]//span';
 
     /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
+
+    /**
      * Fill billing address
      */
     public function placeOrder()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#review-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 
     /**

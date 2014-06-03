@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,13 +39,13 @@ class Magento
      * Constructor
      *
      * @param \Magento\TestFramework\EventManager $eventManager
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function __construct($eventManager = null)
     {
         $this->_eventManager = $eventManager ?: self::$_defaultEventManager;
-        if (!($this->_eventManager instanceof \Magento\TestFramework\EventManager)) {
-            throw new \Magento\Exception('Instance of the "Magento\TestFramework\EventManager" is expected.');
+        if (!$this->_eventManager instanceof \Magento\TestFramework\EventManager) {
+            throw new \Magento\Framework\Exception('Instance of the "Magento\TestFramework\EventManager" is expected.');
         }
     }
 

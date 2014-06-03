@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Index\Model;
 
-use Magento\Event\ManagerInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Index\Model\Resource\Process as ResourceProcess;
 use Magento\Index\Model\Resource\Process\Collection;
 
@@ -84,7 +82,6 @@ class Indexer
         return $this->_processesCollection;
     }
 
-
     /**
      * Get index process by specific id
      *
@@ -126,7 +123,7 @@ class Indexer
      * @return  $this
      * @throws \Exception
      */
-    public function indexEvents($entity=null, $type=null)
+    public function indexEvents($entity = null, $type = null)
     {
         $this->_eventManager->dispatch('start_index_events' . $this->_getEventTypeName($entity, $type));
         $this->_resourceProcess->beginTransaction();
@@ -168,19 +165,23 @@ class Indexer
     /**
      * Create new event log and register event in all processes
      *
-     * @param   \Magento\Object $entity
+     * @param   \Magento\Framework\Object $entity
      * @param   string $entityType
      * @param   string $eventType
      * @param   bool $doSave
      * @return  Event
      */
-    public function logEvent(\Magento\Object $entity, $entityType, $eventType, $doSave=true)
+    public function logEvent(\Magento\Framework\Object $entity, $entityType, $eventType, $doSave = true)
     {
-        $event = $this->_indexEventFactory->create()
-            ->setEntity($entityType)
-            ->setType($eventType)
-            ->setDataObject($entity)
-            ->setEntityPk($entity->getId());
+        $event = $this->_indexEventFactory->create()->setEntity(
+            $entityType
+        )->setType(
+            $eventType
+        )->setDataObject(
+            $entity
+        )->setEntityPk(
+            $entity->getId()
+        );
 
         $this->registerEvent($event);
         if ($doSave) {
@@ -193,13 +194,13 @@ class Indexer
      * Create new event log and register event in all processes.
      * Initiate events indexing procedure.
      *
-     * @param   \Magento\Object $entity
+     * @param   \Magento\Framework\Object $entity
      * @param   string $entityType
      * @param   string $eventType
      * @return  $this
      * @throws \Exception
      */
-    public function processEntityAction(\Magento\Object $entity, $entityType, $eventType)
+    public function processEntityAction(\Magento\Framework\Object $entity, $entityType, $eventType)
     {
         $event = $this->logEvent($entity, $entityType, $eventType, false);
         /**
@@ -285,7 +286,8 @@ class Indexer
                             $hasLocks = true;
                         } else {
                             call_user_func_array(array($dependProcess, $method), $args);
-                            if ($checkLocks && $dependProcess->getMode() == \Magento\Index\Model\Process::MODE_MANUAL) {
+                            if ($checkLocks && $dependProcess->getMode() == \Magento\Index\Model\Process::MODE_MANUAL
+                            ) {
                                 $hasLocks = true;
                             } else {
                                 $processed[] = $processCode;

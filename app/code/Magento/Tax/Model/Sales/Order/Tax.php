@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +33,7 @@ namespace Magento\Tax\Model\Sales\Order;
  * @method int getHidden()
  * @method \Magento\Tax\Model\Sales\Order\Tax setHidden(int $value)
  */
-class Tax extends \Magento\Core\Model\AbstractModel
+class Tax extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @return void

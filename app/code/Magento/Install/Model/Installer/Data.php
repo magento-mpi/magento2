@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +12,8 @@
  */
 namespace Magento\Install\Model\Installer;
 
-class Data extends \Magento\Object
+class Data extends \Magento\Framework\Object
 {
-
     /**
      * Errors array
      *
@@ -45,5 +42,4 @@ class Data extends \Magento\Object
     {
         return $this->_errors;
     }
-
 }

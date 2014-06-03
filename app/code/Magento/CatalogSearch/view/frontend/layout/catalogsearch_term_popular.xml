@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="page_one_column"/>
     <referenceBlock name="head">
         <action method="setTitle">
@@ -15,6 +15,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml"/>
+        <block class="Magento\CatalogSearch\Block\Term" name="seo.searchterm" template="term.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,15 +12,15 @@
  */
 namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 
-class Qtyincrements extends \Magento\Core\Model\Config\Value
+class Qtyincrements extends \Magento\Framework\App\Config\Value
 {
     /**
      * Validate data before save
      *
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {

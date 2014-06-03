@@ -7,13 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <virtualType name="Magento\Review\Model\Session\Storage" type="Magento\Session\Storage">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\Review\Model\Session\Storage" type="Magento\Framework\Session\Storage">
         <arguments>
             <argument name="namespace" xsi:type="string">review</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Review\Model\Session" type="Magento\Session\Generic">
+    <virtualType name="Magento\Review\Model\Session" type="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Review\Model\Session\Storage</argument>
             <argument name="sessionName" xsi:type="string">adminhtml</argument>
@@ -22,6 +22,11 @@
     <type name="Magento\Review\Block\Form">
         <arguments>
             <argument name="reviewSession" xsi:type="object">Magento\Review\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session</argument>
         </arguments>
     </type>
 </config>

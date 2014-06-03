@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Newsletter\Model\Resource;
 /**
  * Newsletter problem resource model
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Problem extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Problem extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

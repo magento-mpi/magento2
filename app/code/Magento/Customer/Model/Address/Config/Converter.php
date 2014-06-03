@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Address\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert customer address format configuration from dom node tree to array
@@ -27,8 +27,11 @@ class Converter implements \Magento\Config\ConverterInterface
             $formatCode = $formatConfig->attributes->getNamedItem('code')->nodeValue;
             $output[$formatCode] = array();
             for ($attributeIndex = 0; $attributeIndex < $formatConfig->attributes->length; $attributeIndex++) {
-                $output[$formatCode][$formatConfig->attributes->item($attributeIndex)->nodeName] =
-                    $formatConfig->attributes->item($attributeIndex)->nodeValue;
+                $output[$formatCode][$formatConfig->attributes->item(
+                    $attributeIndex
+                )->nodeName] = $formatConfig->attributes->item(
+                    $attributeIndex
+                )->nodeValue;
             }
         }
         return $output;

@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php $_source  = $this->getSource() ?>
+<?php $_order   = $this->getOrder() ?>
+<?php $this->setPriceDataObject($_source) ?>
+
+<?php if ((float) $_source->getDiscountAmount()): ?>
+    <tr>
+        <td class="label">
+            <?php if ($_order->getCouponCode()): ?>
+                <?php echo __('Discount (%1)', $_order->getCouponCode()) ?>
+            <?php else: ?>
+                <?php echo __('Discount') ?>
+            <?php endif; ?>
+        </td>
+        <td><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
+    </tr>
+<?php endif; ?>

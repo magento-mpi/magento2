@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,16 +11,13 @@
  */
 namespace Magento\Invitation\Model\Adminhtml\System\Config\Source\Boolean;
 
-class Registration implements \Magento\Option\ArrayInterface
+class Registration implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array
      */
     public function toOptionArray()
     {
-        return array(
-            1 => __('By Invitation Only'),
-            0 => __('Available to All')
-        );
+        return array(1 => __('By Invitation Only'), 0 => __('Available to All'));
     }
 }

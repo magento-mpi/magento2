@@ -7,9 +7,9 @@
  */
 namespace Magento\Core\Model\File\Storage;
 
-use Magento\Filesystem\Directory\WriteInterface as DirectoryWrite,
-    Magento\Filesystem\File\Write,
-    Magento\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\Directory\WriteInterface as DirectoryWrite;
+use Magento\Framework\Filesystem\File\Write;
+use Magento\Framework\Filesystem\FilesystemException;
 
 class Config
 {
@@ -36,16 +36,16 @@ class Config
 
     /**
      * @param \Magento\Core\Model\File\Storage $storage
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $cacheFile
      */
     public function __construct(
         \Magento\Core\Model\File\Storage $storage,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         $cacheFile
     ) {
         $this->config = $storage->getScriptConfig();
-        $this->pubDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_DIR);
+        $this->pubDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::PUB_DIR);
         $this->cacheFilePath = $cacheFile;
     }
 
@@ -78,7 +78,7 @@ class Config
     {
         /** @var Write $file */
         $file = $this->pubDirectory->openFile($this->pubDirectory->getRelativePath($this->cacheFilePath), 'w');
-        try{
+        try {
             $file->lock();
             $file->write(json_encode($this->config));
             $file->unlock();

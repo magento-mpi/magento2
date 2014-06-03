@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,13 +19,13 @@ class Info extends \Magento\Payment\Block\Info\Cc
     protected $_paypalInfoFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         array $data = array()
@@ -51,8 +49,8 @@ class Info extends \Magento\Payment\Block\Info\Cc
     /**
      * Prepare PayPal-specific payment information
      *
-     * @param \Magento\Object|array|null $transport
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object|array|null $transport
+     * @return \Magento\Framework\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {

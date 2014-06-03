@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 /**
  * EAV Entity Attribute Form Renderer Block for Date
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
@@ -22,6 +18,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      * Constants for borders of date-type customer attributes
      */
     const MIN_DATE_RANGE_KEY = 'date_range_min';
+
     const MAX_DATE_RANGE_KEY = 'date_range_max';
 
     /**
@@ -29,7 +26,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      *
      * @var array
      */
-    protected $_dateInputs  = array();
+    protected $_dateInputs = array();
 
     /**
      * Array of minimal and maximal date range values
@@ -39,13 +36,11 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     protected $_dateRange = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -57,7 +52,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      */
     public function getDateFormat()
     {
-        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -75,26 +70,24 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     /**
      * Sort date inputs by dateformat order of current locale
      *
+     * @param bool $stripNonInputChars
+     *
      * @return string
      */
-    public function getSortedDateInputs()
+    public function getSortedDateInputs($stripNonInputChars = true)
     {
-        $mapping = array(
-            '/[^medy]/i' => '\\1',
-            '/m{1,5}/i' => '%1$s',
-            '/e{1,5}/i' => '%2$s',
-            '/d{1,5}/i' => '%2$s',
-            '/y{1,5}/i' => '%3$s',
-        );
+        $mapping = array();
+        if ($stripNonInputChars) {
+            $mapping['/[^medy]/i'] = '\\1';
+        }
+        $mapping['/m{1,5}/i'] = '%1$s';
+        $mapping['/e{1,5}/i'] = '%2$s';
+        $mapping['/d{1,5}/i'] = '%2$s';
+        $mapping['/y{1,5}/i'] = '%3$s';
 
-        $dateFormat = preg_replace(
-            array_keys($mapping),
-            array_values($mapping),
-            $this->getDateFormat()
-        );
+        $dateFormat = preg_replace(array_keys($mapping), array_values($mapping), $this->getDateFormat());
 
-        return sprintf($dateFormat,
-            $this->_dateInputs['m'], $this->_dateInputs['d'], $this->_dateInputs['y']);
+        return sprintf($dateFormat, $this->_dateInputs['m'], $this->_dateInputs['d'], $this->_dateInputs['y']);
     }
 
     /**
@@ -104,9 +97,9 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      */
     public function getTimestamp()
     {
-        $timestamp         = $this->getData('timestamp');
+        $timestamp = $this->getData('timestamp');
         $attributeCodeThis = $this->getData('attribute_code');
-        $attributeCodeObj  = $this->getAttributeObject()->getAttributeCode();
+        $attributeCodeObj = $this->getAttributeObject()->getAttributeCode();
         if (is_null($timestamp) || $attributeCodeThis != $attributeCodeObj) {
             $value = $this->getValue();
             if ($value) {
@@ -198,7 +191,8 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     {
         $dateRange = $this->_getDateRange();
         if (isset($dateRange[$borderName])) {
-            return $dateRange[$borderName] * 1000; //miliseconds for JS
+            //milliseconds for JS
+            return $dateRange[$borderName] * 1000;
         } else {
             return null;
         }

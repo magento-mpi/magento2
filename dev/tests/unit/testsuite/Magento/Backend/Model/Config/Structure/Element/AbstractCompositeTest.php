@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class AbstractCompositeTest extends \PHPUnit_Framework_TestCase
@@ -37,17 +33,19 @@ class AbstractCompositeTest extends \PHPUnit_Framework_TestCase
         'id' => 'elementId',
         'label' => 'Element Label',
         'someAttribute' => 'Some attribute value',
-        'children' => array(
-            'someGroup' => array()
-        )
+        'children' => array('someGroup' => array())
     );
 
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento\Backend\Model\Config\Structure\Element\Iterator', array(), array(), '', false
+            'Magento\Backend\Model\Config\Structure\Element\Iterator',
+            array(),
+            array(),
+            '',
+            false
         );
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Backend\Model\Config\Structure\Element\AbstractComposite',
@@ -64,15 +62,20 @@ class AbstractCompositeTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDataInitializesChildIterator()
     {
-        $this->_iteratorMock->expects($this->once())->method('setElements')
-            ->with(array('someGroup' => array()), 'scope');
+        $this->_iteratorMock->expects(
+            $this->once()
+        )->method(
+            'setElements'
+        )->with(
+            array('someGroup' => array()),
+            'scope'
+        );
         $this->_model->setData($this->_testData, 'scope');
     }
 
     public function testSetDataInitializesChildIteratorWithEmptyArrayIfNoChildrenArePresent()
     {
-        $this->_iteratorMock->expects($this->once())->method('setElements')
-            ->with(array(), 'scope');
+        $this->_iteratorMock->expects($this->once())->method('setElements')->with(array(), 'scope');
         $this->_model->setData(array(), 'scope');
     }
 
@@ -100,10 +103,7 @@ class AbstractCompositeTest extends \PHPUnit_Framework_TestCase
     public function testIsVisibleReturnsTrueIfElementHasFrontEndModel()
     {
         $this->_storeManagerMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
-        $this->_model->setData(array(
-            'showInDefault' => 'true',
-            'frontend_model' => 'Model_Name'
-        ), 'default');
+        $this->_model->setData(array('showInDefault' => 'true', 'frontend_model' => 'Model_Name'), 'default');
         $this->assertTrue($this->_model->isVisible());
     }
 

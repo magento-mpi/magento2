@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Search\Model\Adapter;
 /**
  * Search engine abstract adapter
  *
- * @category   Magento
- * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractAdapter
@@ -39,21 +35,16 @@ abstract class AbstractAdapter
     protected $_customerSession;
 
     /**
-     * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
-     */
-    protected $_filterPrice;
-
-    /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Cache
      *
-     * @var \Magento\App\CacheInterface
+     * @var \Magento\Framework\App\CacheInterface
      */
     protected $_cache;
 
@@ -168,7 +159,7 @@ abstract class AbstractAdapter
     );
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -176,26 +167,23 @@ abstract class AbstractAdapter
      * Construct
      *
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\CacheInterface $cache
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\CacheInterface $cache
+        \Magento\Framework\Logger $logger,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\CacheInterface $cache
     ) {
         $this->_customerSession = $customerSession;
-        $this->_filterPrice = $filterPrice;
         $this->_resourceIndex = $resourceIndex;
         $this->_resourceFulltext = $resourceFulltext;
         $this->_attributeCollection = $attributeCollection;
@@ -234,7 +222,7 @@ abstract class AbstractAdapter
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = $this->_filterPrice->getCacheTag();
+        $cacheTag = \Magento\Search\Model\Layer\Category\Filter\Price::CACHE_TAG;
         $this->_cache->clean(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
@@ -378,7 +366,6 @@ abstract class AbstractAdapter
         return $result;
     }
 
-
     /**
      * Is data available in index
      *
@@ -444,9 +431,11 @@ abstract class AbstractAdapter
             $attribute->setStoreId($storeId);
             $preparedValue = '';
             // Preparing data for solr fields
-            if ($attribute->getIsSearchable() || $attribute->getIsVisibleInAdvancedSearch()
-                || $attribute->getIsFilterable() || $attribute->getIsFilterableInSearch()
-                || $attribute->getUsedForSortBy()
+            if ($attribute->getIsSearchable() ||
+                $attribute->getIsVisibleInAdvancedSearch() ||
+                $attribute->getIsFilterable() ||
+                $attribute->getIsFilterableInSearch() ||
+                $attribute->getUsedForSortBy()
             ) {
                 $backendType = $attribute->getBackendType();
                 $frontendInput = $attribute->getFrontendInput();
@@ -491,7 +480,8 @@ abstract class AbstractAdapter
                                     $preparedValue[$id] = $val;
                                 }
                             }
-                            unset($val); //clear link to value
+                            unset($val);
+                            //clear link to value
                             $preparedValue = array_unique($preparedValue);
                         } else {
                             $preparedValue[$productId] = $this->_getSolrDate($storeId, $value);
@@ -521,8 +511,9 @@ abstract class AbstractAdapter
             }
 
             // Adding data for advanced search field (without additional prefix)
-            if (($attribute->getIsVisibleInAdvancedSearch() ||  $attribute->getIsFilterable()
-                || $attribute->getIsFilterableInSearch())
+            if ($attribute->getIsVisibleInAdvancedSearch() ||
+                $attribute->getIsFilterable() ||
+                $attribute->getIsFilterableInSearch()
             ) {
                 if ($attribute->usesSource()) {
                     $fieldName = $this->getSearchEngineFieldName($attribute, 'nav');
@@ -532,9 +523,13 @@ abstract class AbstractAdapter
                 } else {
                     $fieldName = $this->getSearchEngineFieldName($attribute);
                     if ($fieldName && !empty($preparedValue)) {
-                        $productIndexData[$fieldName] = in_array($backendType, $this->_textFieldTypes)
-                            ? implode(' ', (array)$preparedValue)
-                            : $preparedValue ;
+                        $productIndexData[$fieldName] = in_array(
+                            $backendType,
+                            $this->_textFieldTypes
+                        ) ? implode(
+                            ' ',
+                            (array)$preparedValue
+                        ) : $preparedValue;
                     }
                 }
             }
@@ -543,9 +538,12 @@ abstract class AbstractAdapter
             if ($attribute->getIsSearchable() && !empty($preparedValue)) {
                 $searchWeight = $attribute->getSearchWeight();
                 if ($searchWeight) {
-                    $fulltextData[$searchWeight][] = is_array($preparedValue)
-                        ? implode(' ', $preparedValue)
-                        : $preparedValue;
+                    $fulltextData[$searchWeight][] = is_array(
+                        $preparedValue
+                    ) ? implode(
+                        ' ',
+                        $preparedValue
+                    ) : $preparedValue;
                 }
             }
 
@@ -602,7 +600,7 @@ abstract class AbstractAdapter
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
-            $doc = new $this->_clientDocObjectName;
+            $doc = new $this->_clientDocObjectName();
 
             $productIndexData = $this->_prepareIndexProductData($productIndexData, $productId, $storeId);
             if (!$productIndexData) {
@@ -695,7 +693,7 @@ abstract class AbstractAdapter
             $deleteMethod = sprintf('deleteBy%s', $_deleteBySuffix);
 
             try {
-                $this->_client->$deleteMethod($params);
+                $this->_client->{$deleteMethod}($params);
             } catch (\Exception $e) {
                 $this->rollback();
                 $this->_logger->logException($e);

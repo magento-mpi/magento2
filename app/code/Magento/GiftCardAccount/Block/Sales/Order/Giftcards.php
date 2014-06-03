@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftCardAccount\Block\Sales\Order;
 
-class Giftcards extends \Magento\View\Element\Template
+class Giftcards extends \Magento\Framework\View\Element\Template
 {
     /**
      * Gift card account data
@@ -19,12 +17,12 @@ class Giftcards extends \Magento\View\Element\Template
     protected $_giftCardAccountData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         array $data = array()
     ) {
@@ -60,15 +58,13 @@ class Giftcards extends \Magento\View\Element\Template
     {
         $result = array();
         $source = $this->getSource();
-        if (!($source instanceof \Magento\Sales\Model\Order)) {
+        if (!$source instanceof \Magento\Sales\Model\Order) {
             return $result;
         }
         $cards = $this->_giftCardAccountData->getCards($this->getOrder());
         foreach ($cards as $card) {
-            $obj = new \Magento\Object();
-            $obj->setBaseAmount($card['ba'])
-                ->setAmount($card['a'])
-                ->setCode($card['c']);
+            $obj = new \Magento\Framework\Object();
+            $obj->setBaseAmount($card['ba'])->setAmount($card['a'])->setCode($card['c']);
 
             $result[] = $obj;
         }
@@ -82,11 +78,13 @@ class Giftcards extends \Magento\View\Element\Template
      */
     public function initTotals()
     {
-        $total = new \Magento\Object(array(
-            'code'      => $this->getNameInLayout(),
-            'block_name'=> $this->getNameInLayout(),
-            'area'      => $this->getArea()
-        ));
+        $total = new \Magento\Framework\Object(
+            array(
+                'code' => $this->getNameInLayout(),
+                'block_name' => $this->getNameInLayout(),
+                'area' => $this->getArea()
+            )
+        );
         $this->getParentBlock()->addTotalBefore($total, array('customerbalance', 'grand_total'));
         return $this;
     }

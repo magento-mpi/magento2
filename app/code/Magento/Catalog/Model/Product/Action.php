@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Catalog\Model\Product;
 /**
  * Catalog Product Mass Action processing model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Action extends \Magento\Core\Model\AbstractModel
+class Action extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Index indexer
@@ -38,23 +34,23 @@ class Action extends \Magento\Core\Model\AbstractModel
     protected $categoryIndexer;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productWebsiteFactory = $productWebsiteFactory;
@@ -106,22 +102,21 @@ class Action extends \Magento\Core\Model\AbstractModel
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
-        $this->_eventManager->dispatch('catalog_product_attribute_update_before', array(
-            'attributes_data' => &$attrData,
-            'product_ids'   => &$productIds,
-            'store_id'      => &$storeId
-        ));
+        $this->_eventManager->dispatch(
+            'catalog_product_attribute_update_before',
+            array('attributes_data' => &$attrData, 'product_ids' => &$productIds, 'store_id' => &$storeId)
+        );
 
         $this->_getResource()->updateAttributes($productIds, $attrData, $storeId);
-        $this->setData(array(
-            'product_ids'       => array_unique($productIds),
-            'attributes_data'   => $attrData,
-            'store_id'          => $storeId
-        ));
+        $this->setData(
+            array('product_ids' => array_unique($productIds), 'attributes_data' => $attrData, 'store_id' => $storeId)
+        );
 
         // register mass action indexer event
         $this->_indexIndexer->processEntityAction(
-            $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
+            $this,
+            \Magento\Catalog\Model\Product::ENTITY,
+            \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
         if (!$this->getCategoryIndexer()->isScheduled()) {
             $this->getCategoryIndexer()->reindexList(array_unique($productIds));
@@ -149,15 +144,15 @@ class Action extends \Magento\Core\Model\AbstractModel
             $this->_productWebsiteFactory->create()->removeProducts($websiteIds, $productIds);
         }
 
-        $this->setData(array(
-            'product_ids' => array_unique($productIds),
-            'website_ids' => $websiteIds,
-            'action_type' => $type
-        ));
+        $this->setData(
+            array('product_ids' => array_unique($productIds), 'website_ids' => $websiteIds, 'action_type' => $type)
+        );
 
         // register mass action indexer event
         $this->_indexIndexer->processEntityAction(
-            $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
+            $this,
+            \Magento\Catalog\Model\Product::ENTITY,
+            \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
         if (!$this->getCategoryIndexer()->isScheduled()) {
             $this->getCategoryIndexer()->reindexList(array_unique($productIds));

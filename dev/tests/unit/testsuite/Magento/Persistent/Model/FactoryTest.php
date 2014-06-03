@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Persistent\Model;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -24,10 +23,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_factory = $helper->getObject('Magento\Persistent\Model\Factory', array(
-            'objectManager' => $this->_objectManagerMock,
-        ));
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $this->_factory = $helper->getObject(
+            'Magento\Persistent\Model\Factory',
+            array('objectManager' => $this->_objectManagerMock)
+        );
     }
 
     public function testCreate()
@@ -35,8 +35,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $className = 'SomeModel';
 
         $classMock = $this->getMock('SomeModel');
-        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
-            ->will($this->returnValue($classMock));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $className,
+            array()
+        )->will(
+            $this->returnValue($classMock)
+        );
 
         $this->assertEquals($classMock, $this->_factory->create($className));
     }
@@ -47,8 +55,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $data = array('param1', 'param2');
 
         $classMock = $this->getMock('SomeModel');
-        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, $data)
-            ->will($this->returnValue($classMock));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $className,
+            $data
+        )->will(
+            $this->returnValue($classMock)
+        );
 
         $this->assertEquals($classMock, $this->_factory->create($className, $data));
     }

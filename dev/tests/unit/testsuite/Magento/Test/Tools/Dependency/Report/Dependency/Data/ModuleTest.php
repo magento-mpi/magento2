@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\Dependency\Report\Dependency\Data;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -29,16 +28,26 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dependencyFirst = $this->getMock('Magento\Tools\Dependency\Report\Dependency\Data\Dependency', [], [],
-            '', false);
-        $this->dependencySecond = $this->getMock('Magento\Tools\Dependency\Report\Dependency\Data\Dependency', [], [],
-            '', false);
+        $this->dependencyFirst = $this->getMock(
+            'Magento\Tools\Dependency\Report\Dependency\Data\Dependency',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->dependencySecond = $this->getMock(
+            'Magento\Tools\Dependency\Report\Dependency\Data\Dependency',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $objectManagerHelper = new ObjectManager($this);
-        $this->module = $objectManagerHelper->getObject('Magento\Tools\Dependency\Report\Dependency\Data\Module', [
-            'name' => 'name',
-            'dependencies' => [$this->dependencyFirst, $this->dependencySecond],
-        ]);
+        $this->module = $objectManagerHelper->getObject(
+            'Magento\Tools\Dependency\Report\Dependency\Data\Module',
+            array('name' => 'name', 'dependencies' => array($this->dependencyFirst, $this->dependencySecond))
+        );
     }
 
     public function testGetName()
@@ -48,7 +57,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDependencies()
     {
-        $this->assertEquals([$this->dependencyFirst, $this->dependencySecond], $this->module->getDependencies());
+        $this->assertEquals(array($this->dependencyFirst, $this->dependencySecond), $this->module->getDependencies());
     }
 
     public function testGetDependenciesCount()

@@ -18,10 +18,11 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $productMock;
-    
+
     protected function setUp()
     {
-        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product',
+        $this->productMock = $this->getMock(
+            '\Magento\Catalog\Model\Product',
             array('getDownloadableData', 'getTypeInstance', 'setDownloadableData', 'getTypeId', '__wakeup'),
             array(),
             '',
@@ -39,8 +40,13 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleWithoutDownloadableLinks()
     {
-        $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE));
+        $this->productMock->expects(
+            $this->once()
+        )->method(
+            'getTypeId'
+        )->will(
+            $this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
+        );
         $this->productMock->expects($this->once())->method('getDownloadableData')->will($this->returnValue(array()));
 
         $this->productMock->expects($this->never())->method('setDownloadableData');
@@ -49,8 +55,13 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleWithoutDownloadableData()
     {
-        $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE));
+        $this->productMock->expects(
+            $this->once()
+        )->method(
+            'getTypeId'
+        )->will(
+            $this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
+        );
         $this->productMock->expects($this->once())->method('getDownloadableData')->will($this->returnValue(null));
 
         $this->productMock->expects($this->never())->method('setDownloadableData');
@@ -59,33 +70,44 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleWithDownloadableData()
     {
-        $linkMock = $this->getMock('\Magento\Downloadable\Model\Link',
-            array('getPrice', '__wakeup'), array(), '', false
+        $linkMock = $this->getMock(
+            '\Magento\Downloadable\Model\Link',
+            array('getPrice', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $linkMock->expects($this->any())->method('getPrice')->will($this->returnValue(100500));
-        $links = array(
-            '1' => $linkMock,
-            '2' => $linkMock,
-        );
+        $links = array('1' => $linkMock, '2' => $linkMock);
         $downloadableData = array(
             'link' => array(
                 array('link_id' => 1, 'is_delete' => false),
                 array('link_id' => 2, 'is_delete' => true),
-                array('link_id' => 3, 'is_delete' => false),
+                array('link_id' => 3, 'is_delete' => false)
             )
         );
         $expected = array(
             'link' => array(
-                array('link_id' => 1, 'is_delete' => false, 'price' => 100500,),
-                array('link_id' => 2, 'is_delete' => true, 'price' => 0,),
-                array('link_id' => 3, 'is_delete' => false, 'price' => 0,),
+                array('link_id' => 1, 'is_delete' => false, 'price' => 100500),
+                array('link_id' => 2, 'is_delete' => true, 'price' => 0),
+                array('link_id' => 3, 'is_delete' => false, 'price' => 0)
             )
         );
 
-        $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE));
-        $this->productMock->expects($this->once())->method('getDownloadableData')
-            ->will($this->returnValue($downloadableData));
+        $this->productMock->expects(
+            $this->once()
+        )->method(
+            'getTypeId'
+        )->will(
+            $this->returnValue(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
+        );
+        $this->productMock->expects(
+            $this->once()
+        )->method(
+            'getDownloadableData'
+        )->will(
+            $this->returnValue($downloadableData)
+        );
 
         $typeMock = $this->getMock('\Magento\Downloadable\Model\Product\Type', array(), array(), '', false);
         $typeMock->expects($this->once())->method('getLinks')->will($this->returnValue($links));

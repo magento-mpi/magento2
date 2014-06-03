@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Layer\Filter;
 
 /**
@@ -25,17 +21,15 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->load(4);
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('\Magento\Catalog\Model\Layer\Category');
+        $layer->setCurrentCategory($category);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Price');
-        $this->_model->setData(array(
-            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer', array(
-                'data' => array('current_category' => $category)
-            )),
-        ));
+            ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $layer));
     }
 
     /**
@@ -64,10 +58,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function getRangeItemCountsDataProvider()
     {
         return array(
-            array(1,  array(11 => 1, 46 => 1)),
-            array(10, array(2  => 1, 5  => 1)),
-            array(20, array(1  => 1, 3  => 1)),
-            array(50, array(1  => 2)),
+            array(1, array(11 => 1, 46 => 1)),
+            array(10, array(2 => 1, 5 => 1)),
+            array(20, array(1 => 1, 3 => 1)),
+            array(50, array(1 => 2))
         );
     }
 
@@ -88,8 +82,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\View\Element\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Framework\View\Element\Text'
+            )
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -105,8 +102,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $request->setParam('price', 'non-numeric');
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\View\Element\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Framework\View\Element\Text'
+            )
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -124,8 +124,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $request->setParam('price', '10-20');
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\View\Element\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Framework\View\Element\Text'
+            )
         );
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
@@ -133,7 +136,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetCustomerGroupId()
     {
-        $this->assertEquals(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
+        $this->assertEquals(
+            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            $this->_model->getCustomerGroupId()
+        );
 
         $customerGroupId = 123;
         $this->_model->setCustomerGroupId($customerGroupId);

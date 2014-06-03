@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Wishlist RSS URL to Email Block
  *
- * @category   Magento
- * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Block\Share\Email;
 
-class Rss extends \Magento\View\Element\Template
+class Rss extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string

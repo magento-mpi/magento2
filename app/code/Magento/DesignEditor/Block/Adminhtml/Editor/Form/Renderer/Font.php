@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 /**
  * Composite 'font' element renderer
  */
-class Font
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
+class Font extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
 {
     /**
      * Path to template file in theme.

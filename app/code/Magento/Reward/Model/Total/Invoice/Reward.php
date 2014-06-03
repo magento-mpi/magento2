@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Reward sales order invoice total model
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Model\Total\Invoice;
@@ -45,7 +41,7 @@ class Reward extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
                 $invoice->setBaseGrandTotal(0);
             }
             $pointValue = $order->getRewardPointsBalance() / $order->getBaseRewardCurrencyAmount();
-            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft*ceil($pointValue);
+            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft * ceil($pointValue);
             $rewardPointsBalanceLeft = $order->getRewardPointsBalance() - $order->getRewardPointsBalanceInvoiced();
             if ($rewardPointsBalance > $rewardPointsBalanceLeft) {
                 $rewardPointsBalance = $rewardPointsBalanceLeft;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Authorize.net response model for DirectPost model.
  *
- * @category   Magento
- * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Authorizenet\Model\Directpost;
 
-class Response extends \Magento\Object
+class Response extends \Magento\Framework\Object
 {
     /**
      * Generates an Md5 hash to compare against AuthNet's.
@@ -45,8 +41,14 @@ class Response extends \Magento\Object
      */
     public function isValidHash($merchantMd5, $merchantApiLogin)
     {
-        return $this->generateHash($merchantMd5, $merchantApiLogin, $this->getXAmount(), $this->getXTransId())
-            == $this->getData('x_MD5_Hash');
+        return $this->generateHash(
+            $merchantMd5,
+            $merchantApiLogin,
+            $this->getXAmount(),
+            $this->getXTransId()
+        ) == $this->getData(
+            'x_MD5_Hash'
+        );
     }
 
     /**

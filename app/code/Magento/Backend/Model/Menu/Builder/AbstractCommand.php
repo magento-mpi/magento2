@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -97,5 +95,5 @@ abstract class AbstractCommand
      * @param array $itemParams
      * @return array
      */
-    protected abstract function _execute(array $itemParams);
+    abstract protected function _execute(array $itemParams);
 }

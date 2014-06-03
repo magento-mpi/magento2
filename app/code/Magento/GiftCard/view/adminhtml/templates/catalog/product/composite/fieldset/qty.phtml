@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /* @var $this \Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Qty */ ?>
+
+<div class="field giftcard-qty-form">
+    <label class="label"><span><?php echo __('Quantity'); ?></span></label>
+    <div class="control">
+        <input id="product_composite_configure_input_qty"
+               class="input-text"
+               type="text"
+               name="qty"
+               value="<?php echo $this->getQtyValue() * 1 ?>">
+    </div>
+</div>

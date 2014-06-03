@@ -21,5 +21,10 @@ interface ClientInterface
      * @return string
      * @throws TokenResponseException
      */
-    public function retrieveResponse(UriInterface $endpoint, $requestBody, array $extraHeaders = array(), $method = 'POST');
+    public function retrieveResponse(
+        UriInterface $endpoint,
+        $requestBody,
+        array $extraHeaders = array(),
+        $method = 'POST'
+    );
 }

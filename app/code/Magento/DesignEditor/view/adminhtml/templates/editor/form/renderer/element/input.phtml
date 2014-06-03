@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive */ ?>
+<?php
+/** @var $element \Magento\Framework\Data\Form\Element\AbstractElement */
+$element = $this->getElement();
+?>
+
+<input id="<?php echo $element->getHtmlId() ?>"
+    name="<?php echo $element->getName() ?>"
+    <?php echo $this->getUiId($element->getType(), $element->getName()) ?>
+    value="<?php echo $element->getEscapedValue() ?>"
+    type="<?php echo $element->getType() ? $element->getType() : 'text' ?>"
+    <?php echo $element->serialize($element->getHtmlAttributes()) ?> />

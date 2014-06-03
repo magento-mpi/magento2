@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,17 +12,17 @@ namespace Magento\Reward\Model\Resource\Reward\History;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Expiry config
      *
      * @var array
      */
-    protected $_expiryConfig     = array();
+    protected $_expiryConfig = array();
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -38,38 +36,37 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Date time formatter
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param null $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_localeResolver = $localeResolver;
         $this->_customerFactory = $customerFactory;
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
-
 
     /**
      * Internal constructor
@@ -117,7 +114,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Getter for $_expiryConfig
      *
      * @param int $websiteId Specified Website Id
-     * @return array|\Magento\Object
+     * @return array|\Magento\Framework\Object
      */
     protected function _getExpiryConfig($websiteId = null)
     {
@@ -177,7 +174,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addWebsiteFilter($websiteId)
     {
         $this->getSelect()->where(
-            is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?', $websiteId
+            is_array($websiteId) ? 'main_table.website_id IN (?)' : 'main_table.website_id = ?',
+            $websiteId
         );
         return $this;
     }
@@ -197,46 +195,43 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
         $customer = $this->_customerFactory->create();
         /* @var $customer \Magento\Customer\Model\Customer */
-        $firstname  = $customer->getAttribute('firstname');
-        $lastname   = $customer->getAttribute('lastname');
+        $firstname = $customer->getAttribute('firstname');
+        $lastname = $customer->getAttribute('lastname');
         $warningNotification = $customer->getAttribute('reward_warning_notification');
 
         $connection = $this->getConnection();
         /* @var $connection \Zend_Db_Adapter_Abstract */
 
-        $this->getSelect()
-            ->joinInner(
-                array('ce' => $customer->getAttribute('email')->getBackend()->getTable()),
-                'ce.entity_id=reward_table.customer_id',
-                array('customer_email' => 'email')
-            )
-            ->joinInner(
-                array('cg' => $customer->getAttribute('group_id')->getBackend()->getTable()),
-                'cg.entity_id=reward_table.customer_id',
-                array('customer_group_id' => 'group_id')
-            )
-            ->joinLeft(
-                array('clt' => $lastname->getBackend()->getTable()),
-                $connection->quoteInto('clt.entity_id=reward_table.customer_id AND clt.attribute_id = ?',
-                    $lastname->getAttributeId()),
-                array('customer_lastname' => 'value')
-            )
-            ->joinLeft(
-                array('cft' => $firstname->getBackend()->getTable()),
-                $connection->quoteInto(
-                    'cft.entity_id=reward_table.customer_id AND cft.attribute_id = ?',
-                    $firstname->getAttributeId()
-                ),
-                array('customer_firstname' => 'value')
-            )
-            ->joinLeft(
-                array('warning_notification' => $warningNotification->getBackend()->getTable()),
-                $connection->quoteInto(
-                    'warning_notification.entity_id=reward_table.customer_id AND warning_notification.attribute_id = ?',
-                    $warningNotification->getAttributeId()
-                ),
-                array('reward_warning_notification' => 'value')
-            );
+        $this->getSelect()->joinInner(
+            array('ce' => $customer->getAttribute('email')->getBackend()->getTable()),
+            'ce.entity_id=reward_table.customer_id',
+            array('customer_email' => 'email')
+        )->joinInner(
+            array('cg' => $customer->getAttribute('group_id')->getBackend()->getTable()),
+            'cg.entity_id=reward_table.customer_id',
+            array('customer_group_id' => 'group_id')
+        )->joinLeft(
+            array('clt' => $lastname->getBackend()->getTable()),
+            $connection->quoteInto(
+                'clt.entity_id=reward_table.customer_id AND clt.attribute_id = ?',
+                $lastname->getAttributeId()
+            ),
+            array('customer_lastname' => 'value')
+        )->joinLeft(
+            array('cft' => $firstname->getBackend()->getTable()),
+            $connection->quoteInto(
+                'cft.entity_id=reward_table.customer_id AND cft.attribute_id = ?',
+                $firstname->getAttributeId()
+            ),
+            array('customer_firstname' => 'value')
+        )->joinLeft(
+            array('warning_notification' => $warningNotification->getBackend()->getTable()),
+            $connection->quoteInto(
+                'warning_notification.entity_id=reward_table.customer_id AND warning_notification.attribute_id = ?',
+                $warningNotification->getAttributeId()
+            ),
+            array('reward_warning_notification' => 'value')
+        );
 
         $this->setFlag('customer_added', true);
         return $this;
@@ -258,12 +253,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
 
         if ($websiteId !== null) {
-            $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
+            $field = $expiryConfig->getExpiryCalculation() == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
             $this->getSelect()->columns(array('expiration_date' => $field));
         } else {
             $cases = array();
             foreach ($expiryConfig as $wId => $config) {
-                $field = $config->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
+                $field = $config->getExpiryCalculation() == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
                 $cases[$wId] = $field;
             }
 
@@ -300,21 +295,27 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $this->_joinReward();
         $this->addWebsiteFilter($websiteId);
 
-        $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
+        $field = $expiryConfig->getExpiryCalculation() == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
         $locale = $this->_localeResolver->getLocale();
-        $expireAtLimit = new \Magento\Stdlib\DateTime\Date($locale);
+        $expireAtLimit = new \Magento\Framework\Stdlib\DateTime\Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->dateTime->formatDate($expireAtLimit);
 
-        $this->getSelect()
-            ->columns(
-                array('total_expired' => new \Zend_Db_Expr('SUM(points_delta-points_used)'))
-            )
-            ->where('points_delta-points_used > 0')
-            ->where('is_expired=0')
-            ->where("{$field} IS NOT NULL") // expire_at - BEFORE_DAYS < NOW
-            ->where("{$field} < ?", $expireAtLimit) // eq. expire_at - BEFORE_DAYS < NOW
-            ->group(array('reward_table.customer_id', 'main_table.store_id'));
+        $this->getSelect()->columns(
+            array('total_expired' => new \Zend_Db_Expr('SUM(points_delta-points_used)'))
+        )->where(
+            'points_delta-points_used > 0'
+        )->where(
+            'is_expired=0'
+        )->where(
+            "{$field} IS NOT NULL" // expire_at - BEFORE_DAYS < NOW
+        )->where(
+            // eq. expire_at - BEFORE_DAYS < NOW
+            "{$field} < ?",
+            $expireAtLimit
+        )->group(
+            array('reward_table.customer_id', 'main_table.store_id')
+        );
 
         if ($subscribedOnly) {
             $this->addCustomerInfo();
@@ -356,7 +357,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 $this->getConnection()->quoteInto('reward_table.customer_id=?', $item->getCustomerId()),
                 $this->getConnection()->quoteInto('main_table.store_id=?', $item->getStoreId())
             );
-            $additionalWhere[] = '(' . implode(' AND ', $where). ')';
+            $additionalWhere[] = '(' . implode(' AND ', $where) . ')';
         }
         if (count($additionalWhere) == 0) {
             return array();
@@ -365,12 +366,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $where = new \Zend_Db_Expr(implode(' OR ', $additionalWhere));
 
         $select = clone $this->getSelect();
-        $select->reset(\Zend_Db_Select::COLUMNS)
-            ->columns('history_id')
-            ->reset(\Zend_Db_Select::GROUP)
-            ->reset(\Zend_Db_Select::LIMIT_COUNT)
-            ->reset(\Zend_Db_Select::LIMIT_OFFSET)
-            ->where($where);
+        $select->reset(
+            \Zend_Db_Select::COLUMNS
+        )->columns(
+            'history_id'
+        )->reset(
+            \Zend_Db_Select::GROUP
+        )->reset(
+            \Zend_Db_Select::LIMIT_COUNT
+        )->reset(
+            \Zend_Db_Select::LIMIT_OFFSET
+        )->where(
+            $where
+        );
 
         return $this->getConnection()->fetchCol($select);
     }
@@ -384,8 +392,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->getSelect()->reset(\Zend_Db_Select::ORDER);
 
-        return $this
-            ->addOrder('created_at', 'DESC')
-            ->addOrder('history_id', 'DESC');
+        return $this->addOrder('created_at', 'DESC')->addOrder('history_id', 'DESC');
     }
 }

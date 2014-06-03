@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
 /**
@@ -18,7 +15,7 @@ class Tracking extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -48,7 +45,7 @@ class Tracking extends \Magento\Backend\Block\Template
      * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -56,7 +53,7 @@ class Tracking extends \Magento\Backend\Block\Template
         \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_shippingCollectionFactory = $shippingCollectionFactory;
@@ -93,30 +90,30 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getAllTracks()
     {
-        return $this->_shippingCollectionFactory->create()
-            ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
-            ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
-        ;
+        return $this->_shippingCollectionFactory->create()->addFieldToFilter(
+            'rma_entity_id',
+            $this->getRma()->getId()
+        )->addFieldToFilter(
+            'is_admin',
+            array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
+        );
     }
 
     /**
      * Prepares layout of block
      *
-     * @return \Magento\View\Element\AbstractBlock|void
+     * @return \Magento\Framework\View\Element\AbstractBlock|void
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
+        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '" . $this->getSubmitUrl() . "')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(
-                    array(
-                        'label'   => __('Add'),
-                        'class'   => 'save',
-                        'onclick' => $onclick
-                    )
-                )
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array('label' => __('Add'), 'class' => 'save', 'onclick' => $onclick)
+            )
         );
     }
 
@@ -158,10 +155,10 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('adminhtml/*/removeTrack/', array(
-            'id' => $this->getRma()->getId(),
-            'track_id' => $track->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/removeTrack/',
+            array('id' => $this->getRma()->getId(), 'track_id' => $track->getId())
+        );
     }
 
     /**

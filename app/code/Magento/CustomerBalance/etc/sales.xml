@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Sales/etc/sales.xsd">
     <section name="quote">
         <group name="totals">
             <item name="customerbalance" instance="Magento\CustomerBalance\Model\Total\Quote\Customerbalance" sort_order="750">

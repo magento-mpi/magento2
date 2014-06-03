@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +10,12 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 /**
  * Gift wrapping order create abstract block
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
-     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 
@@ -72,10 +68,11 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = $this->_wrappingCollectionFactory->create()
-                ->addStoreAttributesToResult($this->getStore()->getId())
-                ->applyStatusFilter()
-                ->applyWebsiteFilter($this->getStore()->getWebsiteId());
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()->addStoreAttributesToResult(
+                $this->getStore()->getId()
+            )->applyStatusFilter()->applyWebsiteFilter(
+                $this->getStore()->getWebsiteId()
+            );
         }
         return $this->_designCollection;
     }
@@ -83,7 +80,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
     /**
      * Return gift wrapping designs info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignsInfo()
     {
@@ -93,20 +90,23 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
                 $temp['price_incl_tax'] = $this->calculatePrice($item, $item->getBasePrice(), true);
                 $temp['price_excl_tax'] = $this->calculatePrice($item, $item->getBasePrice());
             } else {
-                $temp['price'] = $this->calculatePrice($item, $item->getBasePrice(),
-                    $this->getDisplayWrappingPriceInclTax());
+                $temp['price'] = $this->calculatePrice(
+                    $item,
+                    $item->getBasePrice(),
+                    $this->getDisplayWrappingPriceInclTax()
+                );
             }
             $temp['path'] = $item->getImageUrl();
             $temp['design'] = $item->getDesign();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Prepare and return printed card info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCardInfo()
     {
@@ -114,20 +114,23 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
         if ($this->getAllowPrintedCard()) {
             $price = $this->_giftWrappingData->getPrintedCardPrice($this->getStoreId());
             if ($this->getDisplayCardBothPrices()) {
-                 $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
-                 $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
+                $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price, true);
+                $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price);
             } else {
-                $data['price'] = $this->calculatePrice(new \Magento\Object(), $price,
-                    $this->getDisplayCardPriceInclTax());
+                $data['price'] = $this->calculatePrice(
+                    new \Magento\Framework\Object(),
+                    $price,
+                    $this->getDisplayCardPriceInclTax()
+                );
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Calculate price
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $basePrice
      * @param bool $includeTax
      * @return string
@@ -135,18 +138,12 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
     public function calculatePrice($item, $basePrice, $includeTax = false)
     {
         $shippingAddress = $this->getQuote()->getShippingAddress();
-        $billingAddress  = $this->getQuote()->getBillingAddress();
+        $billingAddress = $this->getQuote()->getBillingAddress();
 
         $taxClass = $this->_giftWrappingData->getWrappingTaxClass($this->getStoreId());
         $item->setTaxClassId($taxClass);
 
-        $price = $this->_giftWrappingData->getPrice(
-            $item,
-            $basePrice,
-            $includeTax,
-            $shippingAddress,
-            $billingAddress
-        );
+        $price = $this->_giftWrappingData->getPrice($item, $basePrice, $includeTax, $shippingAddress, $billingAddress);
         return $this->_coreData->currency($price, true, false);
     }
 
@@ -157,8 +154,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
      */
     public function getDisplayWrappingBothPrices()
     {
-        return $this->_giftWrappingData
-            ->displayCartWrappingBothPrices($this->getStoreId());
+        return $this->_giftWrappingData->displayCartWrappingBothPrices($this->getStoreId());
     }
 
     /**
@@ -168,8 +164,7 @@ class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstrac
      */
     public function getDisplayWrappingPriceInclTax()
     {
-        return $this->_giftWrappingData
-            ->displayCartWrappingIncludeTaxPrice($this->getStoreId());
+        return $this->_giftWrappingData->displayCartWrappingIncludeTaxPrice($this->getStoreId());
     }
 
     /**

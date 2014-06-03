@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,8 +19,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testSetMethodFormTemplate()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $childBlockA = $objectManagerHelper->getObject('Magento\View\Element\Template');
-        $childBlockB = $objectManagerHelper->getObject('Magento\View\Element\Template');
+        $childBlockA = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template');
+        $childBlockB = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template');
 
         $func = function ($blockName) use ($childBlockA, $childBlockB) {
             switch ($blockName) {
@@ -34,11 +31,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             }
             return null;
         };
-        $block = $this->getMock('Magento\Payment\Block\Form\Container', array('getChildBlock'),
-            array(), '', false);
-        $block->expects($this->atLeastOnce())
-            ->method('getChildBlock')
-            ->will($this->returnCallback($func));
+        $block = $this->getMock('Magento\Payment\Block\Form\Container', array('getChildBlock'), array(), '', false);
+        $block->expects($this->atLeastOnce())->method('getChildBlock')->will($this->returnCallback($func));
 
         $template = 'any_template.phtml';
         $this->assertNotEquals($template, $childBlockA->getTemplate());

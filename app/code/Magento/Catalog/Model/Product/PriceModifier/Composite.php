@@ -8,17 +8,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\PriceModifier;
 
 use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Catalog\Model\Product;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class Composite implements PriceModifierInterface
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 

@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Installer;
 
 /**
@@ -16,22 +13,21 @@ namespace Magento\Install\Model\Installer;
 class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
         $this->messageManager = $messageManager;
     }
-
 
     /**
      * @return string[]
@@ -46,7 +42,7 @@ class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
             'connect.magentocommerce.com/core/Magento_All',
             'connect.magentocommerce.com/core/Interface_Frontend_Default',
             'connect.magentocommerce.com/core/Interface_Adminhtml_Default',
-            'connect.magentocommerce.com/core/Interface_Install_Default',
+            'connect.magentocommerce.com/core/Interface_Install_Default'
         );
         return $packages;
     }
@@ -56,7 +52,7 @@ class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
      */
     public function checkDownloads()
     {
-        $pear = new \Magento\Pear;
+        $pear = new \Magento\Framework\Pear();
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($this->getPackages() as $package) {

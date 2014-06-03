@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
 $tableName = $installer->getTable('admin_rule');
 
 if ($tableName) {
-    /** @var \Magento\DB\Adapter\AdapterInterface $connection */
+    /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
     $connection = $installer->getConnection();
     $connection->delete($tableName, array('resource_id = ?' => 'Magento_Oauth::oauth'));
 }

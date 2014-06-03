@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reports\Block\Adminhtml\Sales\Bestsellers;
 
 /**
@@ -24,8 +20,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Reports\Block\Adminhtml\Sales\Bestsellers\Grid');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Reports\Block\Adminhtml\Sales\Bestsellers\Grid'
+        );
     }
 
     public function testGetResourceCollectionName()

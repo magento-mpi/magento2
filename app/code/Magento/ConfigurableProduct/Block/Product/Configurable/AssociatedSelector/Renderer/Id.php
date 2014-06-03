@@ -11,7 +11,6 @@ namespace Magento\ConfigurableProduct\Block\Product\Configurable\AssociatedSelec
 
 class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-
     /**
      * @var \Magento\Catalog\Helper\Product
      */
@@ -34,14 +33,14 @@ class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRend
     /**
      * Render grid row
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
-        $imageUrl = $row->getImage() && $row->getImage() != 'no_selection'
-            ? $this->escapeHtml($this->_productHelper->getImageUrl($row))
-            : '';
+        $imageUrl = $row->getImage() && $row->getImage() != 'no_selection' ? $this->escapeHtml(
+            $this->_productHelper->getImageUrl($row)
+        ) : '';
         return $this->_getValue($row) . '<input type="hidden" data-role="image-url" value="' . $imageUrl . '"/>';
     }
 }

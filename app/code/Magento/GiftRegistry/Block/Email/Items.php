@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\GiftRegistry\Block\Email;
 /**
  * Update email template gift registry items block
  */
-class Items extends \Magento\View\Element\Template
+class Items extends \Magento\Framework\View\Element\Template
 {
     /**
      * Return list of gift registry items

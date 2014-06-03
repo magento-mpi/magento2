@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,21 +20,22 @@ use Magento\Index\Model\Indexer;
  * @method \Magento\Index\Model\Event setCreatedAt(string $value)
  * @method \Magento\Index\Model\Event setOldData(string $value)
  * @method \Magento\Index\Model\Event setNewData(string $value)
- * @method \Magento\Object getDataObject()
+ * @method \Magento\Framework\Object getDataObject()
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Predefined event types
      */
-    const TYPE_SAVE        = 'save';
-    const TYPE_DELETE      = 'delete';
+    const TYPE_SAVE = 'save';
+
+    const TYPE_DELETE = 'delete';
+
     const TYPE_MASS_ACTION = 'mass_action';
-    const TYPE_REINDEX     = 'reindex';
+
+    const TYPE_REINDEX = 'reindex';
 
     /**
      * Array of related processes ids
@@ -64,26 +63,26 @@ class Event extends \Magento\Core\Model\AbstractModel
     protected $_indexer;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param Indexer $indexer
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         Indexer $indexer,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexer = $indexer;
@@ -222,7 +221,7 @@ class Event extends \Magento\Core\Model\AbstractModel
 
         if (!empty($data['new_data'])) {
             $previousNewData = unserialize($data['new_data']);
-            $currentNewData  = $this->getNewData(false);
+            $currentNewData = $this->getNewData(false);
             $currentNewData = $this->_mergeNewDataRecursive($previousNewData, $currentNewData);
             $this->setNewData(serialize($currentNewData));
         }

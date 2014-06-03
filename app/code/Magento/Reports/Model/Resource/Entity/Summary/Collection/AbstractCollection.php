@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Reports summary collection
  *
- * @category    Magento
- * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reports\Model\Resource\Entity\Summary\Collection;
 
-class AbstractCollection extends \Magento\Data\Collection
+class AbstractCollection extends \Magento\Framework\Data\Collection
 {
     /**
      * Entity collection for summaries
@@ -28,18 +24,16 @@ class AbstractCollection extends \Magento\Data\Collection
     protected $_entityCollection;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
-    public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Stdlib\DateTime $dateTime
-    ) {
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Framework\Stdlib\DateTime $dateTime)
+    {
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory);
     }
@@ -57,22 +51,22 @@ class AbstractCollection extends \Magento\Data\Collection
         switch ($periodType) {
             case "24h":
                 $customStart = $this->dateTime->toTimestamp(true) - 86400;
-                $customEnd   = $this->dateTime->toTimestamp(true);
+                $customEnd = $this->dateTime->toTimestamp(true);
                 break;
 
             case "7d":
                 $customStart = $this->dateTime->toTimestamp(true) - 604800;
-                $customEnd   = $this->dateTime->toTimestamp(true);
+                $customEnd = $this->dateTime->toTimestamp(true);
                 break;
 
             case "30d":
                 $customStart = $this->dateTime->toTimestamp(true) - 2592000;
-                $customEnd   = $this->dateTime->toTimestamp(true);
+                $customEnd = $this->dateTime->toTimestamp(true);
                 break;
 
             case "1y":
                 $customStart = $this->dateTime->toTimestamp(true) - 31536000;
-                $customEnd   = $this->dateTime->toTimestamp(true);
+                $customEnd = $this->dateTime->toTimestamp(true);
                 break;
 
             default:
@@ -83,7 +77,6 @@ class AbstractCollection extends \Magento\Data\Collection
                     $customEnd = strtotime($customEnd);
                 }
                 break;
-
         }
 
         return $this;

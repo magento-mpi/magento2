@@ -8,10 +8,10 @@
 namespace Magento\ConfigurableProduct\Model\Product\Validator;
 
 use Closure;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Event\Manager;
+use Magento\Framework\Event\Manager;
 use Magento\Core\Helper;
 
 /**
@@ -20,7 +20,7 @@ use Magento\Core\Helper;
 class Plugin
 {
     /**
-     * @var \Magento\Event\Manager
+     * @var \Magento\Framework\Event\Manager
      */
     protected $eventManager;
 
@@ -53,7 +53,7 @@ class Plugin
      * @param Closure $proceed
      * @param Product $product
      * @param RequestInterface $request
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -61,17 +61,21 @@ class Plugin
         \Magento\Catalog\Model\Product\Validator $subject,
         Closure $proceed,
         \Magento\Catalog\Model\Product $product,
-        \Magento\App\RequestInterface $request,
-        \Magento\Object $response
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Object $response
     ) {
         $result = $proceed($product, $request, $response);
         $variationProducts = (array)$request->getPost('variations-matrix');
         if ($variationProducts) {
             $validationResult = $this->_validateProductVariations($product, $variationProducts, $request);
             if (!empty($validationResult)) {
-                $response->setError(true)
-                    ->setMessage(__('Some product variations fields are not valid.'))
-                    ->setAttributes($validationResult);
+                $response->setError(
+                    true
+                )->setMessage(
+                    __('Some product variations fields are not valid.')
+                )->setAttributes(
+                    $validationResult
+                );
             }
         }
         return $result;
@@ -103,7 +107,7 @@ class Plugin
             $product->setAttributeSetId($parentProduct->getAttributeSetId());
             $product->addData($productData);
             $product->setCollectExceptionMessages(true);
-            $configurableAttribute = $this->coreHelper ->jsonDecode($productData['configurable_attribute']);
+            $configurableAttribute = $this->coreHelper->jsonDecode($productData['configurable_attribute']);
             $configurableAttribute = implode('-', $configurableAttribute);
 
             $errorAttributes = $product->validate();

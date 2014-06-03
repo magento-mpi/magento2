@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../VersionsCms/etc/menu_hierarchy.xsd">
     <menuLayout name="content" label="Content" handle="magento_versionscms_hierarchy_menu_content" isDefault="true" />
     <menuLayout name="left_column" label="Left Column" handle="magento_versionscms_hierarchy_menu_left_column">
         <pageLayout handle="page_two_columns_left" />

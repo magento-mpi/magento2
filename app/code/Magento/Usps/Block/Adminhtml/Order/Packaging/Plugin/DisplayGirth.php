@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Usps\Block\Adminhtml\Order\Packaging\Plugin;
 
 use Magento\Shipping\Block\Adminhtml\Order\Packaging;

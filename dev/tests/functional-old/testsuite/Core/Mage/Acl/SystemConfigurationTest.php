@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Acl
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +9,6 @@
 /**
  * ACL tests
  *
- * @package     selenium
- * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
@@ -87,7 +82,7 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
             array('stores-settings-configuration-design_section', 'general_design'),
             array('stores-settings-configuration-currency_setup_section', 'general_currency_setup'),
             array('stores-settings-configuration-store_email_addresses_section', 'general_store_email_addresses'),
-            array('stores-settings-configuration-contacts_section', 'general_contacts'),
+            array('stores-settings-configuration-contact_section', 'general_contact'),
             array('stores-settings-configuration-google_api', 'general_google_api'),
             array('stores-settings-configuration-reports', 'general_reports'),
             array('stores-settings-configuration-content_management', 'general_content_management'),

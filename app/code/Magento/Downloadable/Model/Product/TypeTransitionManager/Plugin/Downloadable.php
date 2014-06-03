@@ -8,7 +8,7 @@
 namespace Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin;
 
 use Closure;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Plugin for product type transition manager
@@ -18,16 +18,15 @@ class Downloadable
     /**
      * Request instance
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
      * @param RequestInterface $request
      */
-    public function __construct(
-        RequestInterface $request
-    ) {
+    public function __construct(RequestInterface $request)
+    {
         $this->request = $request;
     }
 
@@ -45,11 +44,14 @@ class Downloadable
         Closure $proceed,
         \Magento\Catalog\Model\Product $product
     ) {
-        $isTypeCompatible = in_array($product->getTypeId(), array(
-            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-            \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
-        ));
+        $isTypeCompatible = in_array(
+            $product->getTypeId(),
+            array(
+                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+                \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
+                \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+            )
+        );
         $hasDownloadableData = $this->request->getPost('downloadable');
         if ($isTypeCompatible && $hasDownloadableData && $product->hasIsVirtual()) {
             $product->setTypeId(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE);

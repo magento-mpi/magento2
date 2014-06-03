@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog category image attribute backend model
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Category\Attribute\Backend;
@@ -28,7 +24,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Filesystem facade
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -42,13 +38,13 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Construct
      *
-     * @param \Magento\Logger $logger
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
      */
     public function __construct(
-        \Magento\Logger $logger,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
     ) {
         $this->_filesystem = $filesystem;
@@ -59,7 +55,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Save uploaded file and set its name to category
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return \Magento\Catalog\Model\Category\Attribute\Backend\Image
      */
     public function afterSave($object)
@@ -73,17 +69,20 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
         if (is_array($value) && !empty($value['delete'])) {
             $object->setData($this->getAttribute()->getName(), '');
-            $this->getAttribute()->getEntity()
-                ->saveAttribute($object, $this->getAttribute()->getName());
+            $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
             return $this;
         }
 
-        $path = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR)->getAbsolutePath('catalog/category/');
+        $path = $this->_filesystem->getDirectoryRead(
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
+        )->getAbsolutePath(
+            'catalog/category/'
+        );
 
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */
             $uploader = $this->_fileUploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
-            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $result = $uploader->save($path);
 

@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Model\Resource\Rule\Product\Price;
 
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @return void
@@ -19,7 +15,10 @@ class Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento\CatalogRule\Model\Rule\Product\Price', 'Magento\CatalogRule\Model\Resource\Rule\Product\Price');
+        $this->_init(
+            'Magento\CatalogRule\Model\Rule\Product\Price',
+            'Magento\CatalogRule\Model\Resource\Rule\Product\Price'
+        );
     }
 
     /**

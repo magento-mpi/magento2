@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,11 @@
 /**
  * Related banners edit tab for promo catalog rule edit page
  *
- * @category   Magento
- * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab;
 
-class Banners
-extends \Magento\Backend\Block\Text\ListText
-implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Banners extends \Magento\Backend\Block\Text\ListText implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab

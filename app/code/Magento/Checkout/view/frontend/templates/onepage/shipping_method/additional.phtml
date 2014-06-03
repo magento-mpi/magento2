@@ -1,0 +1,11 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if (!$this->getQuote()->isVirtual()): ?>
+    <?php echo $this->helper('Magento\GiftMessage\Helper\Message')->getInline('onepage_checkout', $this->getQuote(), $this->getDontDisplayContainer()) ?>
+<?php endif; ?>

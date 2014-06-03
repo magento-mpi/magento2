@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +17,6 @@ use Magento\Eav\Model\Entity\Attribute\Exception;
  */
 class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
-
     /**
      * Layout update validator factory
      *
@@ -30,13 +27,11 @@ class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Abs
     /**
      * Construct the custom layout update class
      *
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param ValidatorFactory $layoutUpdateValidatorFactory
      */
-    public function __construct(
-        \Magento\Logger $logger,
-        ValidatorFactory $layoutUpdateValidatorFactory
-    ) {
+    public function __construct(\Magento\Framework\Logger $logger, ValidatorFactory $layoutUpdateValidatorFactory)
+    {
         $this->_layoutUpdateValidatorFactory = $layoutUpdateValidatorFactory;
         parent::__construct($logger);
     }
@@ -44,7 +39,7 @@ class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Abs
     /**
      * Validate the custom layout update
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      * @throws Exception
      */

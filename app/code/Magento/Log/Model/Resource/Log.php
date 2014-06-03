@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,40 +10,38 @@ namespace Magento\Log\Model\Resource;
 /**
  * Log Resource Model
  *
- * @category    Magento
- * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         $this->_date = $date;
         $this->_eventManager = $eventManager;
@@ -88,22 +84,25 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _cleanVisitors($time)
     {
-        $readAdapter    = $this->_getReadAdapter();
-        $writeAdapter   = $this->_getWriteAdapter();
+        $readAdapter = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
 
         $timeLimit = $this->dateTime->formatDate($this->_date->gmtTimestamp() - $time);
 
         while (true) {
-            $select = $readAdapter->select()
-                ->from(
-                    array('visitor_table' => $this->getTable('log_visitor')),
-                    array('visitor_id' => 'visitor_table.visitor_id'))
-                ->joinLeft(
-                    array('customer_table' => $this->getTable('log_customer')),
-                    'visitor_table.visitor_id = customer_table.visitor_id AND customer_table.log_id IS NULL',
-                    array())
-                ->where('visitor_table.last_visit_at < ?', $timeLimit)
-                ->limit(100);
+            $select = $readAdapter->select()->from(
+                array('visitor_table' => $this->getTable('log_visitor')),
+                array('visitor_id' => 'visitor_table.visitor_id')
+            )->joinLeft(
+                array('customer_table' => $this->getTable('log_customer')),
+                'visitor_table.visitor_id = customer_table.visitor_id AND customer_table.log_id IS NULL',
+                array()
+            )->where(
+                'visitor_table.last_visit_at < ?',
+                $timeLimit
+            )->limit(
+                100
+            );
 
             $visitorIds = $readAdapter->fetchCol($select);
 
@@ -137,18 +136,24 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _cleanCustomers($time)
     {
-        $readAdapter    = $this->_getReadAdapter();
-        $writeAdapter   = $this->_getWriteAdapter();
+        $readAdapter = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
 
         $timeLimit = $this->dateTime->formatDate($this->_date->gmtTimestamp() - $time);
 
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(
-            $readAdapter->select()
-                ->from($this->getTable('log_customer'), 'log_id')
-                ->where('login_at < ?', $timeLimit)
-                ->order('log_id DESC')
-                ->limit(1)
+            $readAdapter->select()->from(
+                $this->getTable('log_customer'),
+                'log_id'
+            )->where(
+                'login_at < ?',
+                $timeLimit
+            )->order(
+                'log_id DESC'
+            )->limit(
+                1
+            )
         );
 
         if (!$lastLogId) {
@@ -156,17 +161,20 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         // Order by desc log_id before grouping (within-group aggregates query pattern)
-        $select = $readAdapter->select()
-            ->from(
-                array('log_customer_main' => $this->getTable('log_customer')),
-                array('log_id'))
-            ->joinLeft(
-                array('log_customer' => $this->getTable('log_customer')),
-                'log_customer_main.customer_id = log_customer.customer_id '
-                    . 'AND log_customer_main.log_id < log_customer.log_id',
-                array())
-            ->where('log_customer.customer_id IS NULL')
-            ->where('log_customer_main.log_id < ?', $lastLogId + 1);
+        $select = $readAdapter->select()->from(
+            array('log_customer_main' => $this->getTable('log_customer')),
+            array('log_id')
+        )->joinLeft(
+            array('log_customer' => $this->getTable('log_customer')),
+            'log_customer_main.customer_id = log_customer.customer_id ' .
+            'AND log_customer_main.log_id < log_customer.log_id',
+            array()
+        )->where(
+            'log_customer.customer_id IS NULL'
+        )->where(
+            'log_customer_main.log_id < ?',
+            $lastLogId + 1
+        );
 
         $needLogIds = array();
         $query = $readAdapter->query($select);
@@ -177,14 +185,20 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $customerLogId = 0;
         while (true) {
             $visitorIds = array();
-            $select = $readAdapter->select()
-                ->from(
-                    $this->getTable('log_customer'),
-                    array('log_id', 'visitor_id'))
-                ->where('log_id > ?', $customerLogId)
-                ->where('log_id < ?', $lastLogId + 1)
-                ->order('log_id')
-                ->limit(100);
+            $select = $readAdapter->select()->from(
+                $this->getTable('log_customer'),
+                array('log_id', 'visitor_id')
+            )->where(
+                'log_id > ?',
+                $customerLogId
+            )->where(
+                'log_id < ?',
+                $lastLogId + 1
+            )->order(
+                'log_id'
+            )->limit(
+                100
+            );
 
             $query = $readAdapter->query($select);
             $count = 0;
@@ -234,20 +248,22 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _cleanUrls()
     {
-        $readAdapter    = $this->_getReadAdapter();
-        $writeAdapter   = $this->_getWriteAdapter();
+        $readAdapter = $this->_getReadAdapter();
+        $writeAdapter = $this->_getWriteAdapter();
 
         while (true) {
-            $select = $readAdapter->select()
-                ->from(
-                    array('url_info_table' => $this->getTable('log_url_info')),
-                    array('url_id'))
-                ->joinLeft(
-                    array('url_table' => $this->getTable('log_url')),
-                    'url_info_table.url_id = url_table.url_id',
-                    array())
-                ->where('url_table.url_id IS NULL')
-                ->limit(100);
+            $select = $readAdapter->select()->from(
+                array('url_info_table' => $this->getTable('log_url_info')),
+                array('url_id')
+            )->joinLeft(
+                array('url_table' => $this->getTable('log_url')),
+                'url_info_table.url_id = url_table.url_id',
+                array()
+            )->where(
+                'url_table.url_id IS NULL'
+            )->limit(
+                100
+            );
 
             $urlIds = $readAdapter->fetchCol($select);
 
@@ -255,10 +271,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
                 break;
             }
 
-            $writeAdapter->delete(
-                $this->getTable('log_url_info'),
-                array('url_id IN (?)' => $urlIds)
-            );
+            $writeAdapter->delete($this->getTable('log_url_info'), array('url_id IN (?)' => $urlIds));
         }
 
         return $this;

@@ -2,19 +2,30 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
-    protected $_possibleLocales = array('de_DE', 'en_AU', 'en_GB', 'en_US', 'es_ES', 'es_XC', 'fr_FR', 'fr_XC',
-        'it_IT', 'ja_JP', 'nl_NL', 'pl_PL', 'zh_CN', 'zh_XC', 'pt_BR');
+    protected $_possibleLocales = array(
+        'de_DE',
+        'en_AU',
+        'en_GB',
+        'en_US',
+        'es_ES',
+        'es_XC',
+        'fr_FR',
+        'fr_XC',
+        'it_IT',
+        'ja_JP',
+        'nl_NL',
+        'pl_PL',
+        'zh_CN',
+        'zh_XC',
+        'pt_BR'
+    );
 
     public function testExistingFilesDeclared()
     {
@@ -30,8 +41,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 }
             }
         }
-        $this->assertEmpty($failures,
-            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1));
+        $this->assertEmpty(
+            $failures,
+            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1)
+        );
     }
 
     public function testPaymentMethods()
@@ -49,8 +62,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     $this->assertStringStartsWith(
                         $formalModuleName . '\Model\\',
                         (string)$node,
-                        "'$node' payment method is declared in '$configFile' module, "
-                            . "but doesn't belong to '$moduleName' module"
+                        "'{$node}' payment method is declared in '{$configFile}' module, " .
+                        "but doesn't belong to '{$moduleName}' module"
                     );
                 }
             },

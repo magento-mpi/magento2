@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,17 +12,16 @@ namespace Magento\SalesRule\Model\Coupon;
  *
  * @method \Magento\SalesRule\Model\Resource\Coupon getResource()
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Massgenerator extends \Magento\Core\Model\AbstractModel
-    implements \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
+class Massgenerator extends \Magento\Framework\Model\AbstractModel implements
+    \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
 {
     /**
      * Maximum probability of guessing the coupon on the first attempt
      */
     const MAX_PROBABILITY_OF_GUESSING = 0.25;
+
     const MAX_GENERATE_ATTEMPTS = 10;
 
     /**
@@ -41,7 +38,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     protected $_salesRuleCoupon = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -51,30 +48,30 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     protected $_couponFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_salesRuleCoupon = $salesRuleCoupon;
@@ -101,23 +98,23 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      */
     public function generateCode()
     {
-        $format  = $this->getFormat();
+        $format = $this->getFormat();
         if (!$format) {
             $format = \Magento\SalesRule\Helper\Coupon::COUPON_FORMAT_ALPHANUMERIC;
         }
-        $length  = max(1, (int) $this->getLength());
-        $split   = max(0, (int) $this->getDash());
-        $suffix  = $this->getSuffix();
-        $prefix  = $this->getPrefix();
+        $length = max(1, (int)$this->getLength());
+        $split = max(0, (int)$this->getDash());
+        $suffix = $this->getSuffix();
+        $prefix = $this->getPrefix();
 
         $splitChar = $this->getDelimiter();
         $charset = $this->_salesRuleCoupon->getCharset($format);
 
         $code = '';
         $charsetSize = count($charset);
-        for ($i=0; $i<$length; $i++) {
-            $char = $charset[mt_rand(0, $charsetSize - 1)];
-            if ($split > 0 && ($i % $split) == 0 && $i != 0) {
+        for ($i = 0; $i < $length; $i++) {
+            $char = $charset[\Magento\Framework\Math\Random::getRandomNumber(0, $charsetSize - 1)];
+            if ($split > 0 && $i % $split == 0 && $i != 0) {
                 $char = $splitChar . $char;
             }
             $code .= $char;
@@ -144,7 +141,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     /**
      * Generate Coupons Pool
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function generatePool()
@@ -159,7 +156,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
         $coupon = $this->_couponFactory->create();
 
         $chars = count($this->_salesRuleCoupon->getCharset($this->getFormat()));
-        $length = (int) $this->getLength();
+        $length = (int)$this->getLength();
         $maxCodes = pow($chars, $length);
         $probability = $size / $maxCodes;
         //increase the length of Code if probability is low
@@ -178,7 +175,9 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
             $attempt = 0;
             do {
                 if ($attempt >= $maxAttempts) {
-                    throw new \Magento\Core\Exception(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
+                    throw new \Magento\Framework\Model\Exception(
+                        __('We cannot create the requested Coupon Qty. Please check your settings and try again.')
+                    );
                 }
                 $code = $this->generateCode();
                 $attempt++;
@@ -186,18 +185,26 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
 
             $expirationDate = $this->getToDate();
             if ($expirationDate instanceof \Zend_Date) {
-                $expirationDate = $expirationDate->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+                $expirationDate = $expirationDate->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             }
 
-            $coupon->setId(null)
-                ->setRuleId($this->getRuleId())
-                ->setUsageLimit($this->getUsesPerCoupon())
-                ->setUsagePerCustomer($this->getUsesPerCustomer())
-                ->setExpirationDate($expirationDate)
-                ->setCreatedAt($now)
-                ->setType(\Magento\SalesRule\Helper\Coupon::COUPON_TYPE_SPECIFIC_AUTOGENERATED)
-                ->setCode($code)
-                ->save();
+            $coupon->setId(
+                null
+            )->setRuleId(
+                $this->getRuleId()
+            )->setUsageLimit(
+                $this->getUsesPerCoupon()
+            )->setUsagePerCustomer(
+                $this->getUsesPerCustomer()
+            )->setExpirationDate(
+                $expirationDate
+            )->setCreatedAt(
+                $now
+            )->setType(
+                \Magento\SalesRule\Helper\Coupon::COUPON_TYPE_SPECIFIC_AUTOGENERATED
+            )->setCode(
+                $code
+            )->save();
 
             $this->_generatedCount++;
         }
@@ -212,10 +219,14 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      */
     public function validateData($data)
     {
-        return !empty($data) && !empty($data['qty']) && !empty($data['rule_id'])
-            && !empty($data['length']) && !empty($data['format'])
-            && (int)$data['qty'] > 0 && (int) $data['rule_id'] > 0
-            && (int) $data['length'] > 0;
+        return !empty($data) &&
+            !empty($data['qty']) &&
+            !empty($data['rule_id']) &&
+            !empty($data['length']) &&
+            !empty($data['format']) &&
+            (int)$data['qty'] > 0 &&
+            (int)$data['rule_id'] > 0 &&
+            (int)$data['length'] > 0;
     }
 
     /**

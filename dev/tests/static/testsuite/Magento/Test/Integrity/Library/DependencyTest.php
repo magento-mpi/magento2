@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Library;
 
 use Magento\TestFramework\Integrity\Library\Injectable;
@@ -17,7 +16,6 @@ use Zend\Code\Reflection\FileReflection;
 /**
  * Test check if Magento library components contain incorrect dependencies to application layer
  *
- * @package Magento\Test
  */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,17 +45,18 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function testCheckDependencies($file)
     {
         $fileReflection = new FileReflection($file);
-        $tokens   = new Tokens($fileReflection->getContents(), new ParserFactory());
+        $tokens = new Tokens($fileReflection->getContents(), new ParserFactory());
         $tokens->parseContent();
 
-        $dependencies = array_merge(
-            (new Injectable())->getDependencies($fileReflection),
-            $tokens->getDependencies()
-        );
+        $dependencies = array_merge((new Injectable())->getDependencies($fileReflection), $tokens->getDependencies());
 
         foreach ($dependencies as $dependency) {
-            if (preg_match('#^(\\\\|)' . implode('|', $this->getForbiddenNamespaces()) . '\\\\#', $dependency)
-                && !file_exists(BP . '/lib/' . str_replace('\\', '/', $dependency) . '.php')
+            if (preg_match(
+                '#^(\\\\|)' . implode('|', $this->getForbiddenNamespaces()) . '\\\\#',
+                $dependency
+            ) && !file_exists(
+                BP . '/lib/internal/' . str_replace('\\', '/', $dependency) . '.php'
+            )
             ) {
                 $this->errors[$fileReflection->getFileName()][] = $dependency;
             }
@@ -95,8 +94,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     {
         $failMessage = '';
         foreach ($this->errors as $class => $dependencies) {
-            $failMessage .= $class . ' depends for non-library '
-                . (count($dependencies) > 1 ? 'classes ' : 'class ');
+            $failMessage .= $class . ' depends for non-library ' . (count($dependencies) > 1 ? 'classes ' : 'class ');
             foreach ($dependencies as $dependency) {
                 $failMessage .= $dependency . ' ';
             }
@@ -112,8 +110,8 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     public function libraryDataProvider()
     {
-        // @TODO: remove this code when class Magento\Data\Collection will fixed
-        include_once BP . '/lib/Magento/Option/ArrayInterface.php';
+        // @TODO: remove this code when class Magento\Framework\Data\Collection will fixed
+        include_once BP . '/lib/internal/Magento/Framework/Option/ArrayInterface.php';
         $blackList = file(__DIR__ . '/_files/blacklist.txt', FILE_IGNORE_NEW_LINES);
         $dataProvider = Files::init()->getClassFiles(false, false, false, false, false, true, true);
 

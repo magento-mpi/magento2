@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,13 +15,11 @@
  * @method int getWebsiteId()
  * @method \Magento\Catalog\Model\Product\Website setWebsiteId(int $value)
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Product;
 
-class Website extends \Magento\Core\Model\AbstractModel
+class Website extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -51,16 +47,14 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param array $websiteIds
      * @param array $productIds
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function removeProducts($websiteIds, $productIds)
     {
         try {
             $this->_getResource()->removeProducts($websiteIds, $productIds);
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(
-                __('Something went wrong removing products from the websites.')
-            );
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong removing products from the websites.'));
         }
         return $this;
     }
@@ -71,16 +65,14 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param array $websiteIds
      * @param array $productIds
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addProducts($websiteIds, $productIds)
     {
         try {
             $this->_getResource()->addProducts($websiteIds, $productIds);
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception(
-                __('Something went wrong adding products to websites.')
-            );
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong adding products to websites.'));
         }
         return $this;
     }

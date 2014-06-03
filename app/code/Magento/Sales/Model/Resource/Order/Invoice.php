@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order;
 /**
  * Flat sales order invoice resource
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Invoice extends AbstractOrder
@@ -23,28 +19,28 @@ class Invoice extends AbstractOrder
      *
      * @var string
      */
-    protected $_eventPrefix                  = 'sales_order_invoice_resource';
+    protected $_eventPrefix = 'sales_order_invoice_resource';
 
     /**
      * Is grid available
      *
      * @var bool
      */
-    protected $_grid                         = true;
+    protected $_grid = true;
 
     /**
      * Flag for using of increment id
      *
      * @var bool
      */
-    protected $_useIncrementId               = true;
+    protected $_useIncrementId = true;
 
     /**
      * Entity code for increment id (Eav entity code)
      *
      * @var string
      */
-    protected $_entityTypeForIncrementId     = 'invoice';
+    protected $_entityTypeForIncrementId = 'invoice';
 
     /**
      * Model initialization
@@ -64,23 +60,21 @@ class Invoice extends AbstractOrder
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
-        $adapter          = $this->_getReadAdapter();
+        $adapter = $this->_getReadAdapter();
         $checkedFirstname = $adapter->getIfNullSql('{{table}}.firstname', $adapter->quote(''));
-        $checkedLastname  = $adapter->getIfNullSql('{{table}}.lastname', $adapter->quote(''));
-        
+        $checkedLastname = $adapter->getIfNullSql('{{table}}.lastname', $adapter->quote(''));
+
         $this->addVirtualGridColumn(
             'billing_name',
             'sales_flat_order_address',
             array('billing_address_id' => 'entity_id'),
             $adapter->getConcatSql(array($checkedFirstname, $adapter->quote(' '), $checkedLastname))
-        )
-        ->addVirtualGridColumn(
+        )->addVirtualGridColumn(
             'order_increment_id',
             'sales_flat_order',
             array('order_id' => 'entity_id'),
             'increment_id'
-        )
-        ->addVirtualGridColumn(
+        )->addVirtualGridColumn(
             'order_created_at',
             'sales_flat_order',
             array('order_id' => 'entity_id'),

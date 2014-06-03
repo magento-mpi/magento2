@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
 
-class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
+class Updater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Wishlist data
@@ -28,8 +27,8 @@ class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
     /**
      * Add filtration by customer id
      *
-     * @param \Magento\Data\Collection\Db $argument
-     * @return \Magento\Data\Collection\Db
+     * @param \Magento\Framework\Data\Collection\Db $argument
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function update($argument)
     {
@@ -40,7 +39,8 @@ class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
         );
 
         $argument->addFilterToMap(
-            'wishlist_name', $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
+            'wishlist_name',
+            $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))
         );
         return $argument;
     }

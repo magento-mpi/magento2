@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Model\Cart\SalesModel;
 
 class QuoteTest extends \Magento\Payment\Model\Cart\SalesModel\QuoteTest
@@ -18,19 +17,26 @@ class QuoteTest extends \Magento\Payment\Model\Cart\SalesModel\QuoteTest
 
     protected function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
         $this->_model = new \Magento\CustomerBalance\Model\Cart\SalesModel\Quote($this->_quoteMock);
     }
 
     public function testGetDataUsingMethod()
     {
-        $this->_quoteMock
-            ->expects($this->exactly(2))
-            ->method('getDataUsingMethod')
-            ->with($this->anything(), 'any args')
-            ->will($this->returnCallback(function ($key) {
-                return $key == 'base_customer_bal_amount_used' ? 'customer_balance_amount result' : 'some value';
-            }));
+        $this->_quoteMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getDataUsingMethod'
+        )->with(
+            $this->anything(),
+            'any args'
+        )->will(
+            $this->returnCallback(
+                function ($key) {
+                    return $key == 'base_customer_bal_amount_used' ? 'customer_balance_amount result' : 'some value';
+                }
+            )
+        );
         $this->assertEquals('some value', $this->_model->getDataUsingMethod('any key', 'any args'));
         $this->assertEquals(
             'customer_balance_amount result',

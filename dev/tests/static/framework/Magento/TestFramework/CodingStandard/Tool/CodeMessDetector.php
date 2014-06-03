@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +11,7 @@
  */
 namespace Magento\TestFramework\CodingStandard\Tool;
 
-class CodeMessDetector
-    implements \Magento\TestFramework\CodingStandard\ToolInterface
+class CodeMessDetector implements \Magento\TestFramework\CodingStandard\ToolInterface
 {
     /**
      * Ruleset directory
@@ -64,12 +60,15 @@ class CodeMessDetector
      */
     public function run(array $whiteList, array $blackList = array(), array $extensions = array())
     {
-        $commandLineArguments = array('run_file_mock', //emulate script name in console arguments
+        $commandLineArguments = array(
+            'run_file_mock', //emulate script name in console arguments
             implode(',', $whiteList),
             'xml', //report format
             $this->_rulesetFile,
-            '--exclude' , implode(',', $blackList),
-            '--reportfile' , $this->_reportFile
+            '--exclude',
+            implode(',', $blackList),
+            '--reportfile',
+            $this->_reportFile
         );
 
         $options = new \PHP_PMD_TextUI_CommandLineOptions($commandLineArguments);
@@ -78,5 +77,4 @@ class CodeMessDetector
 
         return $command->run($options, new \PHP_PMD_RuleSetFactory());
     }
-
 }

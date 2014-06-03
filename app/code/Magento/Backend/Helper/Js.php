@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Adminhtml JavaScript helper
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Helper;
 
-class Js extends \Magento\Core\Helper\Js
+class Js
 {
     /**
      * Decode serialized grid data
@@ -39,10 +35,10 @@ class Js extends \Magento\Core\Helper\Js
      */
     public function decodeGridSerializedInput($encoded)
     {
-        $isSimplified = (false === strpos($encoded, '='));
+        $isSimplified = false === strpos($encoded, '=');
         $result = array();
         parse_str($encoded, $decoded);
-        foreach($decoded as $key => $value) {
+        foreach ($decoded as $key => $value) {
             if (is_numeric($key)) {
                 if ($isSimplified) {
                     $result[] = $key;

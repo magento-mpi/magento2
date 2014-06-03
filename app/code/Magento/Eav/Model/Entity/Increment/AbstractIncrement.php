@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,8 +18,8 @@
  */
 namespace Magento\Eav\Model\Entity\Increment;
 
-abstract class AbstractIncrement extends \Magento\Object
-    implements \Magento\Eav\Model\Entity\Increment\IncrementInterface
+abstract class AbstractIncrement extends \Magento\Framework\Object implements
+    \Magento\Eav\Model\Entity\Increment\IncrementInterface
 {
     /**
      * Get pad length
@@ -60,7 +58,7 @@ abstract class AbstractIncrement extends \Magento\Object
     public function format($id)
     {
         $result = $this->getPrefix();
-        $result.= str_pad((string)$id, $this->getPadLength(), $this->getPadChar(), STR_PAD_LEFT);
+        $result .= str_pad((string)$id, $this->getPadLength(), $this->getPadChar(), STR_PAD_LEFT);
         return $result;
     }
 

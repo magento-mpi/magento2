@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -26,24 +24,24 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_userRolesFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -79,10 +77,10 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
                 $userRoles = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('role_id', array('in'=>$userRoles));
+                $this->getCollection()->addFieldToFilter('role_id', array('in' => $userRoles));
             } else {
                 if ($userRoles) {
-                    $this->getCollection()->addFieldToFilter('role_id', array('nin'=>$userRoles));
+                    $this->getCollection()->addFieldToFilter('role_id', array('nin' => $userRoles));
                 }
             }
         } else {
@@ -108,20 +106,20 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareColumns()
     {
 
-        $this->addColumn('assigned_user_role', array(
-            'header_css_class' => 'a-center',
-            'header'    => __('Assigned'),
-            'type'      => 'radio',
-            'html_name' => 'roles[]',
-            'values'    => $this->getSelectedRoles(),
-            'align'     => 'center',
-            'index'     => 'role_id'
-        ));
+        $this->addColumn(
+            'assigned_user_role',
+            array(
+                'header_css_class' => 'a-center',
+                'header' => __('Assigned'),
+                'type' => 'radio',
+                'html_name' => 'roles[]',
+                'values' => $this->getSelectedRoles(),
+                'align' => 'center',
+                'index' => 'role_id'
+            )
+        );
 
-        $this->addColumn('role_name', array(
-            'header'    => __('Role'),
-            'index'     => 'role_name'
-        ));
+        $this->addColumn('role_name', array('header' => __('Role'), 'index' => 'role_name'));
 
         return parent::_prepareColumns();
     }
@@ -139,9 +137,9 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param bool $json
      * @return array|string
      */
-    public function getSelectedRoles($json=false)
+    public function getSelectedRoles($json = false)
     {
-        if ( $this->getRequest()->getParam('user_roles') != "" ) {
+        if ($this->getRequest()->getParam('user_roles') != "") {
             return $this->getRequest()->getParam('user_roles');
         }
         /* @var $user \Magento\User\Model\User */
@@ -155,7 +153,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         }
 
         if ($json) {
-            $jsonRoles = Array();
+            $jsonRoles = array();
             foreach ($uRoles as $urid) {
                 $jsonRoles[$urid] = 0;
             }
@@ -164,5 +162,4 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
             return $uRoles;
         }
     }
-
 }

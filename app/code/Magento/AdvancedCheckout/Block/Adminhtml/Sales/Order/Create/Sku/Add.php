@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Form for adding products by SKU
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku;
 
-class Add
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
+class Add extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
 {
     /**
      * Returns JavaScript variable name of AdminCheckout or AdminOrder instance
@@ -58,8 +53,12 @@ class Add
     public function getContextSpecificJs()
     {
         return '
-            var parentAreasLoaded = ' . $this->getJsOrderObject() . '.areasLoaded;
-            ' . $this->getJsOrderObject() . '.areasLoaded = function () {
+            var parentAreasLoaded = ' .
+            $this->getJsOrderObject() .
+            '.areasLoaded;
+            ' .
+            $this->getJsOrderObject() .
+            '.areasLoaded = function () {
                 initSku();
                 parentAreasLoaded();
             };';

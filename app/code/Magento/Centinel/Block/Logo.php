@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Centinel
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,9 +11,8 @@
  */
 namespace Magento\Centinel\Block;
 
-class Logo extends \Magento\View\Element\Template
+class Logo extends \Magento\Framework\View\Element\Template
 {
-
     /**
      * @var string
      */

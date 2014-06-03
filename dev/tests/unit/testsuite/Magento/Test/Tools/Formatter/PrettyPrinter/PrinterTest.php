@@ -27,24 +27,21 @@ class PrinterTest extends TestBase
     public function dataArrays()
     {
         return array(
-            array(
-                "<?php class A1 {public \$a = array();}",
-                "<?php\nclass A1\n{\n    public \$a = array();\n}\n"
-            ),
+            array("<?php class A1 {public \$a = array();}", "<?php\nclass A1\n{\n    public \$a = array();\n}\n"),
             array(
                 "<?php class A2 {public \$a2 = array(1,2,3,4,5);}",
                 "<?php\nclass A2\n{\n    public \$a2 = array(1, 2, 3, 4, 5);\n}\n"
             ),
             array(
                 "<?php class A3 {public \$a3 = array(1=>'alpha',2=>'beta',3=>'gamma',4=>'hippopotamus',5=>'giraffe');}",
-                "<?php\nclass A3\n{\n    public \$a3 = array(1 => 'alpha', 2 => 'beta', 3 => 'gamma', ".
+                "<?php\nclass A3\n{\n    public \$a3 = array(1 => 'alpha', 2 => 'beta', 3 => 'gamma', " .
                 "4 => 'hippopotamus', 5 => 'giraffe');\n}\n"
             ),
             array(
-                "<?php class A4 {public \$a3 = array(1=>'alpha1234567890',2=>'beta1234567890',3=>'gamma1234567890',".
+                "<?php class A4 {public \$a3 = array(1=>'alpha1234567890',2=>'beta1234567890',3=>'gamma1234567890'," .
                 "4=>'hippopotamus',5=>'giraffe');}",
                 "<?php\nclass A4\n{\n    public \$a3 = array(\n        1 => 'alpha1234567890',\n" .
-                "        2 => 'beta1234567890',\n        3 => 'gamma1234567890',\n".
+                "        2 => 'beta1234567890',\n        3 => 'gamma1234567890',\n" .
                 "        4 => 'hippopotamus',\n        5 => 'giraffe'\n    );\n}\n"
             ),
             array(
@@ -57,7 +54,7 @@ class PrinterTest extends TestBase
                 "<?php\nclass A6\n{\n    public \$a = array(\n        array(" .
                 "'abcdefghijabcdefghijabcdefghij', 'abcdefghijabcdefghij')," .
                 "\n        array('abcdefghijabcdefghijabcdefghij', 'abcdefghijabcdefghij')\n    );\n}\n"
-            ),
+            )
         );
     }
 
@@ -625,7 +622,7 @@ class Foo extends \\Magento\\Test\\Bar
 }
 
 FORMATTEDCODESNIPPET15;
-            $originalCodeSnippet16 = <<<ORIGINALCODESNIPPET16
+        $originalCodeSnippet16 = <<<ORIGINALCODESNIPPET16
 <?php
   namespace Magento\\Test;
 class Foo{
@@ -721,7 +718,7 @@ FORMATTEDCODESNIPPET18;
             array($originalCodeSnippet15, $formattedCodeSnippet15),
             array($originalCodeSnippet16, $formattedCodeSnippet16),
             array($originalCodeSnippet17, $formattedCodeSnippet17),
-            array($originalCodeSnippet18, $formattedCodeSnippet18),
+            array($originalCodeSnippet18, $formattedCodeSnippet18)
         );
     }
 
@@ -749,11 +746,11 @@ FORMATTEDCODESNIPPET18;
                 "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent\n{\n}\n"
             ),
             array(
-                "<?php class JustParent extends \\Fully\\Qualified\\Parent implements ".
-                "\\Fully\\Qualified\\Long\\InterfaceName\\HelperInterface,".
+                "<?php class JustParent extends \\Fully\\Qualified\\Parent implements " .
+                "\\Fully\\Qualified\\Long\\InterfaceName\\HelperInterface," .
                 "\\Fully\\Qualified\\Long\\InterfaceName\\Iface {}",
-                "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent implements\n".
-                "    \\Fully\\Qualified\\Long\\InterfaceName\\HelperInterface,\n".
+                "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent implements\n" .
+                "    \\Fully\\Qualified\\Long\\InterfaceName\\HelperInterface,\n" .
                 "    \\Fully\\Qualified\\Long\\InterfaceName\\Iface\n{\n}\n"
             ),
             array(
@@ -783,14 +780,17 @@ FORMATTEDCODESNIPPET18;
                 "    Interface3,\n    Interface4,\n    Interface5,\n    Interface6,\n    Interface7\n{\n}\n"
             ),
             array("<?php interface NoChildren {}", "<?php\ninterface NoChildren\n{\n}\n"),
-            array("<?php interface JustParent extends Parent {}", "<?php\ninterface JustParent extends Parent\n{\n}\n"),
             array(
-                "<?php interface BigParent extends Interface1,Interface2,Interface3,Interface4,Interface5".
+                "<?php interface JustParent extends Parent {}",
+                "<?php\ninterface JustParent extends Parent\n{\n}\n"
+            ),
+            array(
+                "<?php interface BigParent extends Interface1,Interface2,Interface3,Interface4,Interface5" .
                 ",Interface6,Interface7,Interface8,Interface9 {}",
                 "<?php\ninterface BigParent extends\n    Interface1,\n    Interface2,\n    Interface3,\n" .
-                "    Interface4,\n    Interface5,\n    Interface6,\n    Interface7,\n    Interface8,\n    Interface9".
+                "    Interface4,\n    Interface5,\n    Interface6,\n    Interface7,\n    Interface8,\n    Interface9" .
                 "\n{\n}\n"
-            ),
+            )
         );
     }
 
@@ -822,7 +822,7 @@ FORMATTEDCODESNIPPET18;
             array(
                 "<?php /** filedoco */namespace LocalNs2; use SE1, SE2, SE3; class LocalC4 {}",
                 "<?php\n/** filedoco */\nnamespace LocalNs2;\n\nuse SE1;\nuse SE2;\nuse SE3;\n\nclass LocalC4\n{\n}\n"
-            ),
+            )
         );
     }
 
@@ -853,7 +853,7 @@ FORMATTEDCODESNIPPET18;
                 "<?php class Local3 {public static \$a;protected \$b;private \$c;public \$d,\$e,\$f;}",
                 "<?php\nclass Local3\n{\n    public static \$a;\n\n    protected \$b;\n\n    private \$c;\n\n" .
                 "    public \$d, \$e, \$f;\n}\n"
-            ),
+            )
         );
     }
 
@@ -936,12 +936,12 @@ FORMATTEDMETHOD1;
                 "<?php\nclass MD4\n{\n    public function alpha(TestClass \$a, TestClass \$b)\n    {\n    }\n}\n"
             ),
             array(
-                "<?php class MD5 {public function alpha(TestClass \$a,TestClass \$b,TestClass \$c,TestClass \$d,".
+                "<?php class MD5 {public function alpha(TestClass \$a,TestClass \$b,TestClass \$c,TestClass \$d," .
                 "TestClass \$e,TestClass \$f,TestClass \$g,TestClass \$h) {}}",
                 "<?php\nclass MD5\n{\n    public function alpha(\n        TestClass \$a,\n        TestClass \$b,\n" .
-                "        TestClass \$c,\n        TestClass \$d,\n        TestClass \$e,\n        TestClass \$f,\n".
+                "        TestClass \$c,\n        TestClass \$d,\n        TestClass \$e,\n        TestClass \$f,\n" .
                 "        TestClass \$g,\n        TestClass \$h\n    ) {\n    }\n}\n"
-            ),
+            )
         );
     }
 
@@ -958,34 +958,25 @@ FORMATTEDMETHOD1;
     public function dataFunctionDeclarations()
     {
         return array(
-            array(
-                "<?php function alpha() {}",
-                "<?php\nfunction alpha()\n{\n}\n"
-            ),
-            array(
-                "<?php function alpha(\$a) {}",
-                "<?php\nfunction alpha(\$a)\n{\n}\n"
-            ),
-            array(
-                "<?php function alpha(TestClass \$a) {}",
-                "<?php\nfunction alpha(TestClass \$a)\n{\n}\n"
-            ),
+            array("<?php function alpha() {}", "<?php\nfunction alpha()\n{\n}\n"),
+            array("<?php function alpha(\$a) {}", "<?php\nfunction alpha(\$a)\n{\n}\n"),
+            array("<?php function alpha(TestClass \$a) {}", "<?php\nfunction alpha(TestClass \$a)\n{\n}\n"),
             array(
                 "<?php function alpha(TestClass \$a,TestClass \$b) {}",
                 "<?php\nfunction alpha(TestClass \$a, TestClass \$b)\n{\n}\n"
             ),
             array(
-                "<?php function alpha(TestClass12345 \$a,TestClass12345 \$b,TestClass12345 \$c,TestClass12345 \$d,".
+                "<?php function alpha(TestClass12345 \$a,TestClass12345 \$b,TestClass12345 \$c,TestClass12345 \$d," .
                 "TestClass12345 \$e,TestClass12345 \$f,TestClass12345 \$g) {}",
                 "<?php\nfunction alpha(\n    TestClass12345 \$a,\n    TestClass12345 \$b,\n" .
-                "    TestClass12345 \$c,\n    TestClass12345 \$d,\n    TestClass12345 \$e,\n".
+                "    TestClass12345 \$c,\n    TestClass12345 \$d,\n    TestClass12345 \$e,\n" .
                 "    TestClass12345 \$f,\n    TestClass12345 \$g\n) {\n}\n"
             ),
             array("<?php static \$a;", "<?php\nstatic \$a;\n"),
             array(
                 "<?php static \$a;function a(){global \$a;}",
                 "<?php\nstatic \$a;\nfunction a()\n{\n    global \$a;\n}\n"
-            ),
+            )
         );
     }
 }

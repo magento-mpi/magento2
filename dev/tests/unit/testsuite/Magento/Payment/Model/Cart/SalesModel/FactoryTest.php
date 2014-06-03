@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Model\Cart\SalesModel;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -13,12 +12,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Payment\Model\Cart\SalesModel\Factory */
     protected $_model;
 
-    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMockForAbstractClass('Magento\ObjectManager');
+        $this->_objectManagerMock = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
         $this->_model = new \Magento\Payment\Model\Cart\SalesModel\Factory($this->_objectManagerMock);
     }
 
@@ -29,20 +28,26 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($salesModelClass, $expectedType)
     {
-        $salesModel = $this->getMock($salesModelClass, ['__wakeup'], [], '', false);
-        $this->_objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with($expectedType, ['salesModel' => $salesModel])
-            ->will($this->returnValue('some value'));
+        $salesModel = $this->getMock($salesModelClass, array('__wakeup'), array(), '', false);
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $expectedType,
+            array('salesModel' => $salesModel)
+        )->will(
+            $this->returnValue('some value')
+        );
         $this->assertEquals('some value', $this->_model->create($salesModel));
     }
 
     public function createDataProvider()
     {
-        return [
-            ['Magento\Sales\Model\Quote', 'Magento\Payment\Model\Cart\SalesModel\Quote'],
-            ['Magento\Sales\Model\Order', 'Magento\Payment\Model\Cart\SalesModel\Order'],
-        ];
+        return array(
+            array('Magento\Sales\Model\Quote', 'Magento\Payment\Model\Cart\SalesModel\Quote'),
+            array('Magento\Sales\Model\Order', 'Magento\Payment\Model\Cart\SalesModel\Order')
+        );
     }
 
     /**

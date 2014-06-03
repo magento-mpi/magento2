@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Service\Entity;
 
-use Magento\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 
 class SimpleData extends AbstractObject
 {

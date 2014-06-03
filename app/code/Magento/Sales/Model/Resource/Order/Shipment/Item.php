@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order\Shipment;
 /**
  * Flat sales order shipment item resource
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Sales\Model\Resource\Order\AbstractOrder
@@ -23,7 +19,7 @@ class Item extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_shipment_item_resource';
+    protected $_eventPrefix = 'sales_order_shipment_item_resource';
 
     /**
      * Model initialization

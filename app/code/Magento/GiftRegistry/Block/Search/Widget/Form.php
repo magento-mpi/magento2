@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,8 @@ namespace Magento\GiftRegistry\Block\Search\Widget;
 /**
  * Gift registry quick search widget block
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
-class Form
-    extends \Magento\GiftRegistry\Block\Search\Quick
-    implements \Magento\Widget\Block\BlockInterface
+class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * @var \Magento\GiftRegistry\Model\Source\Search
@@ -32,14 +26,14 @@ class Form
     protected $_selectOptions;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param \Magento\GiftRegistry\Model\Source\Search $sourceSearch
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
@@ -132,18 +126,20 @@ class Form
      */
     public function getSearchFormSelect()
     {
-        $options = array_merge(array(
-            array(
-                'value' => '',
-                'label' => __('Select Search Type'))
-            ),
+        $options = array_merge(
+            array(array('value' => '', 'label' => __('Select Search Type'))),
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName('search_by')
-            ->setId('search-by')
-            ->setOptions($options);
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setName(
+            'search_by'
+        )->setId(
+            'search-by'
+        )->setOptions(
+            $options
+        );
 
         return $select->getHtml();
     }
@@ -163,18 +159,15 @@ class Form
             if (in_array($codeAll, $useForms)) {
                 unset($allForms[$codeAll]);
             } else {
-                 foreach ($allForms as $type => $label) {
-                     if (!in_array($type, $useForms)) {
-                         unset($allForms[$type]);
+                foreach ($allForms as $type => $label) {
+                    if (!in_array($type, $useForms)) {
+                        unset($allForms[$type]);
                     }
                 }
             }
             $options = array();
             foreach ($allForms as $type => $label) {
-                $options[] = array(
-                    'value' => $type,
-                    'label' => $label
-                );
+                $options[] = array('value' => $type, 'label' => $label);
             }
             $this->_selectOptions = $options;
         }

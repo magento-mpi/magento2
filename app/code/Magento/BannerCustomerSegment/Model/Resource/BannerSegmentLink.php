@@ -11,7 +11,7 @@
  */
 namespace Magento\BannerCustomerSegment\Model\Resource;
 
-class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
+class BannerSegmentLink extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Setup association with a table
@@ -31,10 +31,13 @@ class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadBannerSegments($bannerId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'segment_id')
-            ->where('banner_id = ?', $bannerId)
-        ;
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'segment_id'
+        )->where(
+            'banner_id = ?',
+            $bannerId
+        );
         return $this->_getReadAdapter()->fetchCol($select);
     }
 

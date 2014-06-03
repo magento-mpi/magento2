@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu\Filter;
 
 class IteratorTest extends \PHPUnit_Framework_TestCase
@@ -45,12 +41,13 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
         $this->_items['item3']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
         $this->_items['item3']->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
-        $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
 
         $this->_menuModel = new \Magento\Backend\Model\Menu($loggerMock);
-        $this->_filterIteratorModel = new \Magento\Backend\Model\Menu\Filter\Iterator($this->_menuModel->getIterator());
+        $this->_filterIteratorModel = new \Magento\Backend\Model\Menu\Filter\Iterator(
+            $this->_menuModel->getIterator()
+        );
     }
-
 
     public function testLoopWithAllItemsDisabledDoesntIterate()
     {

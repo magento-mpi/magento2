@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Circular;
 
 use Magento\Tools\Dependency\Report\Writer\Csv\AbstractWriter;
@@ -28,18 +27,18 @@ class Writer extends AbstractWriter
      */
     protected function prepareData($config)
     {
-        $data[] = ['Circular dependencies:', 'Total number of chains'];
-        $data[] = ['', $config->getDependenciesCount()];
-        $data[] = [];
+        $data[] = array('Circular dependencies:', 'Total number of chains');
+        $data[] = array('', $config->getDependenciesCount());
+        $data[] = array();
 
         if ($config->getDependenciesCount()) {
-            $data[] = ['Circular dependencies for each module:', ''];
+            $data[] = array('Circular dependencies for each module:', '');
             foreach ($config->getModules() as $module) {
-                $data[] = [$module->getName(), $module->getChainsCount()];
+                $data[] = array($module->getName(), $module->getChainsCount());
                 foreach ($module->getChains() as $chain) {
-                    $data[] = [implode(self::MODULES_SEPARATOR, $chain->getModules())];
+                    $data[] = array(implode(self::MODULES_SEPARATOR, $chain->getModules()));
                 }
-                $data[] = [];
+                $data[] = array();
             }
         }
         array_pop($data);

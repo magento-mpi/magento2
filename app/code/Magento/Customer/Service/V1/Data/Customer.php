@@ -10,33 +10,51 @@ namespace Magento\Customer\Service\V1\Data;
 /**
  * Class Customer
  */
-class Customer extends \Magento\Service\Data\EAV\AbstractObject
+class Customer extends \Magento\Framework\Service\Data\Eav\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
      */
     const ID = 'id';
+
     const CONFIRMATION = 'confirmation';
+
     const CREATED_AT = 'created_at';
+
     const CREATED_IN = 'created_in';
+
     const DOB = 'dob';
+
     const EMAIL = 'email';
+
     const FIRSTNAME = 'firstname';
+
     const GENDER = 'gender';
+
     const GROUP_ID = 'group_id';
+
     const LASTNAME = 'lastname';
+
     const MIDDLENAME = 'middlename';
+
     const PREFIX = 'prefix';
+
     const STORE_ID = 'store_id';
+
     const SUFFIX = 'suffix';
+
     const TAXVAT = 'taxvat';
+
     const WEBSITE_ID = 'website_id';
+
     const DEFAULT_BILLING = 'default_billing';
+
     const DEFAULT_SHIPPING = 'default_shipping';
+
     /**#@-*/
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDefaultBilling()
     {
@@ -46,7 +64,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get default shipping address id
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultShipping()
     {
@@ -56,7 +74,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get confirmation
      *
-     * @return string
+     * @return string|null
      */
     public function getConfirmation()
     {
@@ -66,7 +84,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get created at time
      *
-     * @return string
+     * @return string|null
      */
     public function getCreatedAt()
     {
@@ -76,7 +94,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get created in area
      *
-     * @return string
+     * @return string|null
      */
     public function getCreatedIn()
     {
@@ -86,7 +104,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get date of birth
      *
-     * @return string
+     * @return string|null
      */
     public function getDob()
     {
@@ -116,7 +134,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get gender
      *
-     * @return string
+     * @return string|null
      */
     public function getGender()
     {
@@ -126,7 +144,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get group id
      *
-     * @return string
+     * @return string|null
      */
     public function getGroupId()
     {
@@ -136,7 +154,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get customer id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -156,7 +174,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get middle name
      *
-     * @return string
+     * @return string|null
      */
     public function getMiddlename()
     {
@@ -166,7 +184,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get prefix
      *
-     * @return string
+     * @return string|null
      */
     public function getPrefix()
     {
@@ -176,7 +194,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get store id
      *
-     * @return int
+     * @return int|null
      */
     public function getStoreId()
     {
@@ -186,7 +204,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get suffix
      *
-     * @return string
+     * @return string|null
      */
     public function getSuffix()
     {
@@ -196,7 +214,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get tax Vat.
      *
-     * @return string
+     * @return string|null
      */
     public function getTaxvat()
     {
@@ -206,7 +224,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get website id
      *
-     * @return int
+     * @return int|null
      */
     public function getWebsiteId()
     {

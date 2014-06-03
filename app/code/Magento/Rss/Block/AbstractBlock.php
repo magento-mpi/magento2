@@ -2,31 +2,29 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rss
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Rss\Block;
 
-class AbstractBlock extends \Magento\View\Element\Template
+class AbstractBlock extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Framework\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -38,7 +36,7 @@ class AbstractBlock extends \Magento\View\Element\Template
      */
     protected function _getStoreId()
     {
-        $storeId =   (int) $this->getRequest()->getParam('store_id');
+        $storeId = (int)$this->getRequest()->getParam('store_id');
         if ($storeId == null) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
@@ -54,7 +52,7 @@ class AbstractBlock extends \Magento\View\Element\Template
     {
         $customerGroupId =   (int) $this->getRequest()->getParam('cid');
         if ($customerGroupId == null) {
-            $customerGroupId = $this->_customerSession->getCustomerGroupId();
+            $customerGroupId = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP);
         }
         return $customerGroupId;
     }

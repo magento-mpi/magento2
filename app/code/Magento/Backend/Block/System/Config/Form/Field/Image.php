@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,12 @@
  */
 namespace Magento\Backend\Block\System\Config\Form\Field;
 
-class Image extends \Magento\Data\Form\Element\Image
+/**
+ * Class Image Field
+ * @method getFieldConfig()
+ * @method setFieldConfig()
+ */
+class Image extends \Magento\Framework\Data\Form\Element\Image
 {
     /**
      * Get image preview url
@@ -25,10 +28,10 @@ class Image extends \Magento\Data\Form\Element\Image
         $url = parent::_getUrl();
         $config = $this->getFieldConfig();
         /* @var $config array */
-        if (array_key_exists('base_url', $config)) {
+        if (isset($config['base_url'])) {
             $element = $config['base_url'];
             $urlType = empty($element['type']) ? 'link' : (string)$element['type'];
-            $url = $this->_urlBuilder->getBaseUrl($urlType) . $element['value'] . '/' . $url;
+            $url = $this->_urlBuilder->getBaseUrl(['_type' => $urlType]) . $element['value'] . '/' . $url;
         }
         return $url;
     }

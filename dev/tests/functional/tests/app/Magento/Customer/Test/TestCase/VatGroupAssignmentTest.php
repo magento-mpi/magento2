@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,8 +15,6 @@ use Magento\Customer\Test\Page;
 
 /**
  * Enabling automatic assignment of customers to appropriate VAT group
- *
- * @package Magento\Customer\Test\TestCase;
  */
 class VatGroupAssignmentTest extends Functional
 {
@@ -59,14 +54,14 @@ class VatGroupAssignmentTest extends Functional
 
         $customerLoginPage->open();
         $customerLoginPage->getLoginBlock()->login($this->vatFixture->getCustomer());
-        $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
+        $customerAccountIndexPage->getAccountMenuBlock()->openMenuItem('Address Book');
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
         $this->fillVatId($customerAddressEditPage, $this->vatFixture->getInvalidVatNumber());
 
         $this->checkCustomerGroup($customersPage, $this->vatFixture->getInvalidVatGroup());
 
         $customerAccountIndexPage->open();
-        $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
+        $customerAccountIndexPage->getAccountMenuBlock()->openMenuItem('Address Book');
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
         $this->fillVatId($customerAddressEditPage, $this->vatFixture->getValidVatNumber());
 
@@ -76,18 +71,22 @@ class VatGroupAssignmentTest extends Functional
     /**
      * Check customer group in grid
      *
-     * @param Page\CustomerIndex $page
+     * @param Page\Adminhtml\CustomerIndex $page
      * @param $groupName
      */
-    protected function checkCustomerGroup(Page\CustomerIndex $page, $groupName)
+    protected function checkCustomerGroup(Page\Adminhtml\CustomerIndex $page, $groupName)
     {
         $page->open();
-        $grid = $page->getGridBlock();
+        $grid = $page->getCustomerGridBlock();
         $email = $this->vatFixture->getCustomer()->getEmail();
-        $this->assertTrue($grid->isRowVisible(array(
-            'email' => $email,
-            'group' => $groupName,
-        )));
+        $this->assertTrue(
+            $grid->isRowVisible(
+                array(
+                    'email' => $email,
+                    'group' => $groupName,
+                )
+            )
+        );
     }
 
     /**

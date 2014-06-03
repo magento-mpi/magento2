@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,37 +10,35 @@ namespace Magento\CatalogSearch\Model\Resource;
 /**
  * Advanced Catalog Search resource model
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
@@ -63,20 +59,20 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Prepare response object and dispatch prepare price event
      * Return response object
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\Object
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\Object
      */
     protected function _dispatchPreparePriceEvent($select)
     {
         // prepare response object for event
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setAdditionalCalculations(array());
 
         // prepare event arguments
         $eventArgs = array(
-            'select'          => $select,
-            'table'           => 'price_index',
-            'store_id'        => $this->_storeManager->getStore()->getId(),
+            'select' => $select,
+            'table' => 'price_index',
+            'store_id' => $this->_storeManager->getStore()->getId(),
             'response_object' => $response
         );
 
@@ -98,11 +94,14 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         $condition = false;
 
         if (is_array($value)) {
-            if (!empty($value['from']) || !empty($value['to'])) { // range
+            if (!empty($value['from']) || !empty($value['to'])) {
+                // range
                 $condition = $value;
             } else if ($attribute->getBackendType() == 'varchar') { // multiselect
+                // multiselect
                 $condition = array('in_set' => $value);
             } else if (!isset($value['from']) && !isset($value['to'])) { // select
+                // select
                 $condition = array('in' => $value);
             }
         } else {
@@ -134,11 +133,17 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         $conditions = array();
         if (strlen($value['from']) > 0) {
             $conditions[] = $adapter->quoteInto(
-                'price_index.min_price %s * %s >= ?', $value['from'], \Zend_Db::FLOAT_TYPE);
+                'price_index.min_price %s * %s >= ?',
+                $value['from'],
+                \Zend_Db::FLOAT_TYPE
+            );
         }
         if (strlen($value['to']) > 0) {
             $conditions[] = $adapter->quoteInto(
-                'price_index.min_price %s * %s <= ?', $value['to'], \Zend_Db::FLOAT_TYPE);
+                'price_index.min_price %s * %s <= ?',
+                $value['to'],
+                \Zend_Db::FLOAT_TYPE
+            );
         }
 
         if (!$conditions) {
@@ -146,8 +151,8 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $collection->addPriceData();
-        $select     = $collection->getSelect();
-        $response   = $this->_dispatchPreparePriceEvent($select);
+        $select = $collection->getSelect();
+        $response = $this->_dispatchPreparePriceEvent($select);
         $additional = join('', $response->getAdditionalCalculations());
 
         foreach ($conditions as $condition) {
@@ -174,8 +179,8 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         $tableAlias = 'a_' . $attribute->getAttributeId();
-        $storeId    = $this->_storeManager->getStore()->getId();
-        $select     = $collection->getSelect();
+        $storeId = $this->_storeManager->getStore()->getId();
+        $select = $collection->getSelect();
 
         if (is_array($value)) {
             if (isset($value['from']) && isset($value['to'])) {
@@ -188,9 +193,9 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select->distinct(true);
         $select->join(
             array($tableAlias => $table),
-            "e.entity_id={$tableAlias}.entity_id "
-                . " AND {$tableAlias}.attribute_id={$attribute->getAttributeId()}"
-                . " AND {$tableAlias}.store_id={$storeId}",
+            "e.entity_id={$tableAlias}.entity_id " .
+            " AND {$tableAlias}.attribute_id={$attribute->getAttributeId()}" .
+            " AND {$tableAlias}.store_id={$storeId}",
             array()
         );
 

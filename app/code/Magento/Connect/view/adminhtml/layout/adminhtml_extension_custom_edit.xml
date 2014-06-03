@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceContainer name="content">
         <block class="Magento\Connect\Block\Adminhtml\Extension\Custom\Edit" name="connect_extension_edit"/>
     </referenceContainer>

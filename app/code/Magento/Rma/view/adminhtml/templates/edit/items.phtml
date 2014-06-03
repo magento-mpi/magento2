@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items */ ?>
+
+<div class="fieldset-wrapper">
+    <div class="fieldset-wrapper-title">
+        <span class="title <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>"><?php echo $this->getHeaderText() ?></span>
+    </div>
+    <div class="rma-items">
+        <?php echo $this->getChildHtml('', true) ?>
+    </div>
+</div>

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Matcher;
 
 class MethodInvokedAtIndex extends \PHPUnit_Framework_MockObject_Matcher_InvokedAtIndex

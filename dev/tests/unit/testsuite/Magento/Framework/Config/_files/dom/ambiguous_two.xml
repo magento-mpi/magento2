@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<root>
+    <node>
+        <subnode>Value1</subnode>
+        <subnode>Value2</subnode>
+    </node>
+</root>

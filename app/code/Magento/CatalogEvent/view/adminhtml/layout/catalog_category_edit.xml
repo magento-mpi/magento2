@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="category.edit">
         <block class="Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons" name="event.buttons">
             <action method="addButtons"/>

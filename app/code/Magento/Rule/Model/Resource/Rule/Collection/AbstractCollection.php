@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Abstract Rule entity resource collection model
  *
- * @category Magento
- * @package Magento_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rule\Model\Resource\Rule\Collection;
 
-abstract class AbstractCollection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -77,7 +72,7 @@ abstract class AbstractCollection
      */
     public function addWebsitesToResult($flag = null)
     {
-        $flag = ($flag === null) ? true : $flag;
+        $flag = $flag === null ? true : $flag;
         $this->setFlag('add_websites_to_result', $flag);
         return $this;
     }
@@ -85,7 +80,7 @@ abstract class AbstractCollection
     /**
      * Limit rules collection by specific websites
      *
-     * @param int|int[]|\Magento\Core\Model\Website $websiteId
+     * @param int|int[]|\Magento\Store\Model\Website $websiteId
      * @return $this
      */
     public function addWebsiteFilter($websiteId)
@@ -93,13 +88,17 @@ abstract class AbstractCollection
         $entityInfo = $this->_getAssociatedEntityInfo('website');
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
-            if ($websiteId instanceof \Magento\Core\Model\Website) {
+            if ($websiteId instanceof \Magento\Store\Model\Website) {
                 $websiteId = $websiteId->getId();
             }
 
-            $subSelect = $this->getConnection()->select()
-                ->from(array('website' => $this->getTable($entityInfo['associations_table'])), '')
-                ->where('website.' . $entityInfo['entity_id_field'] . ' IN (?)', $websiteId);
+            $subSelect = $this->getConnection()->select()->from(
+                array('website' => $this->getTable($entityInfo['associations_table'])),
+                ''
+            )->where(
+                'website.' . $entityInfo['entity_id_field'] . ' IN (?)',
+                $websiteId
+            );
             $this->getSelect()->exists(
                 $subSelect,
                 'main_table.' . $entityInfo['rule_id_field'] . ' = website.' . $entityInfo['rule_id_field']
@@ -146,7 +145,7 @@ abstract class AbstractCollection
      *
      * @param string $entityType
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return array
      */
     protected function _getAssociatedEntityInfo($entityType)
@@ -155,14 +154,11 @@ abstract class AbstractCollection
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        throw new \Magento\Core\Exception(
-            __('There is no information about associated entity type "%1".', $entityType), 0
+        throw new \Magento\Framework\Model\Exception(
+            __('There is no information about associated entity type "%1".', $entityType),
+            0
         );
     }
-
-
-
-
 
     /**
      * Set environment for all rules in collection
@@ -172,7 +168,7 @@ abstract class AbstractCollection
      *
      * @deprecated after 1.6.2.0
      */
-    public function setEnv( $env = null)
+    public function setEnv($env = null)
     {
         $this->_env = $env;
         return $this;

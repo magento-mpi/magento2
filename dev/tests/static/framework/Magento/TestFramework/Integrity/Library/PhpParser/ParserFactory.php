@@ -5,14 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
  * Class know how create any parser
  *
- * @package Magento\TestFramework
  */
 class ParserFactory
 {
@@ -51,9 +48,9 @@ class ParserFactory
     {
         if (empty($this->parsers)) {
             $this->parsers = array(
-                $this->uses        = new Uses(),
+                $this->uses = new Uses(),
                 $this->staticCalls = new StaticCalls($tokens),
-                $this->throws      = new Throws($tokens),
+                $this->throws = new Throws($tokens)
             );
         }
         return $this->parsers;

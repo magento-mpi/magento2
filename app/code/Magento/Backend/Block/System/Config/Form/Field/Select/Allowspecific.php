@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +10,12 @@
 /**
  * System configuration shipping methods allow all countries select
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\System\Config\Form\Field\Select;
 
-class Allowspecific extends \Magento\Data\Form\Element\Select
+class Allowspecific extends \Magento\Framework\Data\Form\Element\Select
 {
-
     /**
      * Add additional Javascript code
      *
@@ -28,13 +23,9 @@ class Allowspecific extends \Magento\Data\Form\Element\Select
      */
     public function getAfterElementHtml()
     {
-        $javaScript = "
-            <script type=\"text/javascript\">
-                Event.observe('{$this->getHtmlId()}', 'change', function(){
-                    specific=$('{$this->getHtmlId()}').value;
-                    $('{$this->_getSpecificCountryElementId()}').disabled = (!specific || specific!=1);
-                });
-            </script>";
+        $javaScript = "\n            <script type=\"text/javascript\">\n                Event.observe('{$this->getHtmlId()}', 'change', function(){\n                    specific=\$('{$this
+            ->getHtmlId()}').value;\n                    \$('{$this
+            ->_getSpecificCountryElementId()}').disabled = (!specific || specific!=1);\n                });\n            </script>";
         return $javaScript . parent::getAfterElementHtml();
     }
 
@@ -57,5 +48,4 @@ class Allowspecific extends \Magento\Data\Form\Element\Select
     {
         return substr($this->getId(), 0, strrpos($this->getId(), 'allowspecific')) . 'specificcountry';
     }
-
 }

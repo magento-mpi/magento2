@@ -2,22 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\SalesRule\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
+
 /**
  * SalesRule Resource Coupon
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor adds unique fields
@@ -27,10 +24,7 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('salesrule_coupon', 'coupon_id');
-        $this->addUniqueField(array(
-            'field' => 'code',
-            'title' => __('Coupon with the same code')
-        ));
+        $this->addUniqueField(array('field' => 'code', 'title' => __('Coupon with the same code')));
     }
 
     /**
@@ -44,7 +38,9 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (!$object->getExpirationDate()) {
             $object->setExpirationDate(null);
         } else if ($object->getExpirationDate() instanceof \Zend_Date) {
-            $object->setExpirationDate($object->getExpirationDate()->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
+            $object->setExpirationDate(
+                $object->getExpirationDate()->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+            );
         }
 
         // maintain single primary coupon per rule
@@ -71,9 +67,13 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
             $ruleId = (int)$rule;
         }
 
-        $select = $read->select()->from($this->getMainTable())
-            ->where('rule_id = :rule_id')
-            ->where('is_primary = :is_primary');
+        $select = $read->select()->from(
+            $this->getMainTable()
+        )->where(
+            'rule_id = :rule_id'
+        )->where(
+            'is_primary = :is_primary'
+        );
 
         $data = $read->fetchRow($select, array(':rule_id' => $ruleId, ':is_primary' => 1));
 
@@ -127,8 +127,8 @@ class Coupon extends \Magento\Core\Model\Resource\Db\AbstractDb
             $updateArray['usage_per_customer'] = $rule->getUsesPerCustomer();
         }
 
-        $ruleNewDate = new \Magento\Stdlib\DateTime\Date($rule->getToDate());
-        $ruleOldDate = new \Magento\Stdlib\DateTime\Date($rule->getOrigData('to_date'));
+        $ruleNewDate = new \Magento\Framework\Stdlib\DateTime\Date($rule->getToDate());
+        $ruleOldDate = new \Magento\Framework\Stdlib\DateTime\Date($rule->getOrigData('to_date'));
 
         if ($ruleNewDate->compare($ruleOldDate)) {
             $updateArray['expiration_date'] = $rule->getToDate();

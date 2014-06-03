@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +25,7 @@ class Theme extends \Magento\Backend\Block\Widget\Grid\Container
         if (is_object($this->getLayout()->getBlock('page-title'))) {
             $this->getLayout()->getBlock('page-title')->setPageTitle('Themes');
         }
-        
+
         $this->_updateButton('add', 'label', __('Add New Theme'));
     }
 

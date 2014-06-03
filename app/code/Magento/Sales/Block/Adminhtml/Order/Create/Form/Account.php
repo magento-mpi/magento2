@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
@@ -33,7 +31,7 @@ class Account extends AbstractForm
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
@@ -42,7 +40,7 @@ class Account extends AbstractForm
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
@@ -80,13 +78,10 @@ class Account extends AbstractForm
     protected function _prepareForm()
     {
         /** @var \Magento\Customer\Model\Metadata\Form $customerForm */
-        $customerForm = $this->_metadataFormFactory->create(
-            'customer',
-            'adminhtml_checkout'
-        );
+        $customerForm = $this->_metadataFormFactory->create('customer', 'adminhtml_checkout');
 
         // prepare customer attributes to show
-        $attributes = [];
+        $attributes = array();
 
         // add system required attributes
         foreach ($customerForm->getSystemAttributes() as $attribute) {
@@ -143,7 +138,7 @@ class Account extends AbstractForm
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
-        $data = isset($customer) ? \Magento\Service\DataObjectConverter::toFlatArray($customer) : [];
+        $data = isset($customer) ? \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer) : array();
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;
@@ -151,7 +146,7 @@ class Account extends AbstractForm
         }
 
         if ($this->getQuote()->getCustomerEmail()) {
-            $data['email']  = $this->getQuote()->getCustomerEmail();
+            $data['email'] = $this->getQuote()->getCustomerEmail();
         }
 
         return $data;

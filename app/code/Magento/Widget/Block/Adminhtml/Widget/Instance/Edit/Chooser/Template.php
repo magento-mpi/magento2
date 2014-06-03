@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,11 @@
 /**
  * Widget Instance template chooser
  *
- * @category    Magento
- * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
-class Template
-    extends \Magento\Backend\Block\Widget
+class Template extends \Magento\Backend\Block\Widget
 {
     /**
      * Prepare html output
@@ -34,12 +29,18 @@ class Template
             $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
             $html .= $widgetTemplate['label'];
         } else {
-            $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-                ->setName('template')
-                ->setClass('select')
-                ->setOptions($this->getWidgetTemplates())
-                ->setValue($this->getSelected())->toHtml();
+            $html = $this->getLayout()->createBlock(
+                'Magento\Framework\View\Element\Html\Select'
+            )->setName(
+                'template'
+            )->setClass(
+                'select'
+            )->setOptions(
+                $this->getWidgetTemplates()
+            )->setValue(
+                $this->getSelected()
+            )->toHtml();
         }
-        return parent::_toHtml().$html;
+        return parent::_toHtml() . $html;
     }
 }

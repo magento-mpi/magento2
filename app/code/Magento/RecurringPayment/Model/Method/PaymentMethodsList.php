@@ -7,7 +7,7 @@
  */
 namespace Magento\RecurringPayment\Model\Method;
 
-class PaymentMethodsList implements \Magento\Option\ArrayInterface
+class PaymentMethodsList implements \Magento\Framework\Option\ArrayInterface
 {
     /** @var  \Magento\Payment\Helper\Data */
     protected $paymentHelper;
@@ -37,9 +37,11 @@ class PaymentMethodsList implements \Magento\Option\ArrayInterface
         $result = array();
         foreach ($this->paymentHelper->getPaymentMethods() as $code => $data) {
             if ($this->specification->isSatisfiedBy($code)) {
-                $result[$code] =  isset($data['title'])
-                    ? $data['title']
-                    : $this->paymentHelper->getMethodInstance($code)->getTitle();
+                $result[$code] = isset(
+                    $data['title']
+                ) ? $data['title'] : $this->paymentHelper->getMethodInstance(
+                    $code
+                )->getTitle();
             }
         }
         return $result;

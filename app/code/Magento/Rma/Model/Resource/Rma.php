@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Rma\Model\Resource;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Rma extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rma extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Model;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -57,7 +56,7 @@ class UserIdentifierTest extends \PHPUnit_Framework_TestCase
             array(UserIdentifier::USER_TYPE_GUEST, 0),
             array(UserIdentifier::USER_TYPE_CUSTOMER, 1),
             array(UserIdentifier::USER_TYPE_ADMIN, 2),
-            array(UserIdentifier::USER_TYPE_INTEGRATION, 3),
+            array(UserIdentifier::USER_TYPE_INTEGRATION, 3)
         );
     }
 
@@ -71,7 +70,7 @@ class UserIdentifierTest extends \PHPUnit_Framework_TestCase
             ),
             array(UserIdentifier::USER_TYPE_CUSTOMER, -1, 'Invalid user ID: \'-1\''),
             array(UserIdentifier::USER_TYPE_ADMIN, 'InvalidUserId', 'Invalid user ID: \'InvalidUserId\''),
-            array(UserIdentifier::USER_TYPE_GUEST, 3, 'Guest user must not have user ID set.'),
+            array(UserIdentifier::USER_TYPE_GUEST, 3, 'Guest user must not have user ID set.')
         );
     }
 }

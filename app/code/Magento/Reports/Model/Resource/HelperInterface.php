@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,7 +30,7 @@ interface HelperInterface
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return \Magento\Core\Model\Resource\Helper\AbstractHelper
+     * @return \Magento\Framework\DB\Helper\AbstractHelper
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable);
 }

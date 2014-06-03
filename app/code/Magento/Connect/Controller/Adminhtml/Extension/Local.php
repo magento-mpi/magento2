@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Local Magento Connect Controller
  *
- * @category    Magento
- * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Connect\Controller\Adminhtml\Extension;
@@ -26,8 +22,13 @@ class Local extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $url = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getBaseUrl('web')
-            . 'downloader/?return=' . urlencode($this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl());
+        $url = $this->_objectManager->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore()->getBaseUrl(
+            'web'
+        ) . 'downloader/?return=' . urlencode(
+            $this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl()
+        );
         $this->getResponse()->setRedirect($url);
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,6 @@ use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 /**
  * Customer address attributes conditions combine
  */
-
 class Address extends AbstractCombine
 {
     /**
@@ -49,14 +46,14 @@ class Address extends AbstractCombine
      */
     public function getNewChildSelectOptions()
     {
-        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
+        $result = array_merge_recursive(
+            parent::getNewChildSelectOptions(),
             array(
-                'value' => $this->getType(),
-                'label' => __('Conditions Combination'),
-            ),
-            $this->_conditionFactory->create('Customer\Address\DefaultAddress')->getNewChildSelectOptions(),
-            $this->_conditionFactory->create('Customer\Address\Attributes')->getNewChildSelectOptions(),
-        ));
+                array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+                $this->_conditionFactory->create('Customer\Address\DefaultAddress')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Customer\Address\Attributes')->getNewChildSelectOptions()
+            )
+        );
         return $result;
     }
 
@@ -67,9 +64,10 @@ class Address extends AbstractCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Customer Addresses match %1 of these Conditions:', $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Customer Addresses match %1 of these Conditions:',
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -87,7 +85,7 @@ class Address extends AbstractCombine
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -101,5 +99,4 @@ class Address extends AbstractCombine
         $select->limit(1);
         return $select;
     }
-
 }

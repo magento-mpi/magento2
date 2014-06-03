@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Parser\Adapter;
 
 class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,15 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_adapterMock = $this->getMockForAbstractClass('Magento\Tools\I18n\Code\Parser\Adapter\AbstractAdapter',
-        array(), '', false, true, true, array('_parse'));
+        $this->_adapterMock = $this->getMockForAbstractClass(
+            'Magento\Tools\I18n\Code\Parser\Adapter\AbstractAdapter',
+            array(),
+            '',
+            false,
+            true,
+            true,
+            array('_parse')
+        );
     }
 
     public function testParse()

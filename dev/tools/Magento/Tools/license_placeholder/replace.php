@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category Magento
- * @package Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -42,7 +40,7 @@ foreach ($blacklist as $item) {
 $licensePlaceholder = ' * {license}' . "\n";
 $replacements = array(
     array('/\s\*\sMagento.+?NOTICE OF LICENSE.+?DISCLAIMER.+?@/s', $licensePlaceholder . " *\n * @"),
-    array('/\ \*\ \{license_notice\}\s/s', $licensePlaceholder),
+    array('/\ \*\ \{license_notice\}\s/s', $licensePlaceholder)
 );
 foreach ($files as $file) {
     $content = file_get_contents($file);

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +16,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $factoryMock = $this->getMock('Magento\Backend\Model\Config\Structure\Mapper\Factory',
+        $factoryMock = $this->getMock(
+            'Magento\Backend\Model\Config\Structure\Mapper\Factory',
             array(),
             array(),
             '',
@@ -28,7 +25,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $mapperMock = $this->getMock('Magento\Backend\Model\Config\Structure\Mapper\Dependencies',
+        $mapperMock = $this->getMock(
+            'Magento\Backend\Model\Config\Structure\Mapper\Dependencies',
             array(),
             array(),
             '',

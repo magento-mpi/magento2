@@ -7,12 +7,18 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
+use Magento\Checkout\Block\Cart\AbstractCart;
+use Magento\Framework\View\Block\IdentityInterface;
+
 /**
  * Wishlist sidebar block
  */
-class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Magento\View\Block\IdentityInterface
+class Sidebar extends AbstractCart implements IdentityInterface
 {
-    const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
+    /**
+     * Xml pah to chackout sidebar count value
+     */
+    const XML_PATH_CHECKOUT_SIDEBAR_COUNT = 'checkout/sidebar/count';
 
     /**
      * Tax data
@@ -42,12 +48,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
     protected $_checkoutHelper;
 
     /**
-     * @var \Magento\Checkout\Helper\Url
-     */
-    protected $_urlHelper;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -56,13 +57,12 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
-     * @param \Magento\Checkout\Helper\Url $urlHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -71,10 +71,8 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        \Magento\Checkout\Helper\Url $urlHelper,
         array $data = array()
     ) {
-        $this->_urlHelper = $urlHelper;
         $this->_checkoutHelper = $checkoutHelper;
         $this->_taxData = $taxData;
         $this->_catalogUrl = $catalogUrl;
@@ -93,7 +91,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = $this->_storeConfig->getConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = $this->_scopeConfig->getValue(
+                self::XML_PATH_CHECKOUT_SIDEBAR_COUNT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $this->setData('item_count', $count);
         }
         return $count;
@@ -122,12 +123,11 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
             /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products  = $this->_catalogUrl
-                    ->getRewriteByProductStore(array($productId => $item->getStoreId()));
+                $products = $this->_catalogUrl->getRewriteByProductStore(array($productId => $item->getStoreId()));
                 if (!isset($products[$productId])) {
                     continue;
                 }
-                $urlDataObject = new \Magento\Object($products[$productId]);
+                $urlDataObject = new \Magento\Framework\Object($products[$productId]);
                 $item->getProduct()->setUrlDataObject($urlDataObject);
             }
 
@@ -159,12 +159,12 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
                 } else {
                     $subtotal = $totals['subtotal']->getValueInclTax();
                 }
-            } elseif($this->_taxConfig->displayCartSubtotalInclTax()) {
+            } elseif ($this->_taxConfig->displayCartSubtotalInclTax()) {
                 $subtotal = $totals['subtotal']->getValueInclTax();
             } else {
                 $subtotal = $totals['subtotal']->getValue();
                 if (!$skipTax && isset($totals['tax'])) {
-                    $subtotal+= $totals['tax']->getValue();
+                    $subtotal += $totals['tax']->getValue();
                 }
             }
         }
@@ -192,11 +192,12 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
      * @param bool $exclShippingTax
      * @return float
      */
-    private function _addTax($price, $exclShippingTax=true) {
+    private function _addTax($price, $exclShippingTax = true)
+    {
         $totals = $this->getTotals();
         if (isset($totals['tax'])) {
             if ($exclShippingTax) {
-                $price += $totals['tax']->getValue()-$this->_getShippingTaxAmount();
+                $price += $totals['tax']->getValue() - $this->_getShippingTaxAmount();
             } else {
                 $price += $totals['tax']->getValue();
             }
@@ -237,7 +238,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
     public function getIncExcTax($flag)
     {
         $text = $this->_taxData->getIncExcText($flag);
-        return $text ? ' ('.$text.')' : '';
+        return $text ? ' (' . $text . ')' : '';
     }
 
     /**
@@ -257,7 +258,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
      */
     public function getCheckoutUrl()
     {
-        return $this->_urlHelper->getCheckoutUrl();
+        return $this->getUrl('checkout/onepage');
     }
 
     /**
@@ -267,7 +268,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool) $this->_storeManager->getStore()->getConfig('checkout/sidebar/display');
+        return (bool)$this->_scopeConfig->getValue(
+            'checkout/sidebar/display',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -318,14 +322,11 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
     protected function _serializeRenders()
     {
         $result = array();
-        foreach ($this->getLayout()->getChildBlocks($this->_getRendererList()->getNameInLayout()) as $alias => $block) {
-            /** @var $block \Magento\View\Element\Template */
-            $result[] = implode('|', array(
-                // skip $this->getNameInLayout() and '.'
-                $alias,
-                get_class($block),
-                $block->getTemplate()
-            ));
+        foreach ($this->getLayout()->getChildBlocks(
+            $this->_getRendererList()->getNameInLayout()
+        ) as $alias => $block) {
+            /** @var $block \Magento\Framework\View\Element\Template */
+            $result[] = implode('|', array($alias, get_class($block), $block->getTemplate()));
         }
         return implode('|', $result);
     }
@@ -341,7 +342,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
         if (!is_string($renders)) {
             return $this;
         }
-        $rendererList = $this->addChild('renderer.list', 'Magento\View\Element\RendererList');
+        $rendererList = $this->addChild('renderer.list', 'Magento\Framework\View\Element\RendererList');
 
         $renders = explode('|', $renders);
         while (!empty($renders)) {

@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Model;
 
-use Magento\Math\Random;
-use Magento\Encryption\CryptFactory;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Encryption\CryptFactory;
 
 class Encryption extends \Magento\Pci\Model\Encryption
 {
-
     /**
      * Constructor
      *
@@ -24,12 +20,8 @@ class Encryption extends \Magento\Pci\Model\Encryption
      * @param string $cryptKey
      * @param string $key
      */
-    public function __construct(
-        Random $randomGenerator,
-        CryptFactory $cryptFactory,
-        $cryptKey,
-        $key
-    ) {
+    public function __construct(Random $randomGenerator, CryptFactory $cryptFactory, $cryptKey, $key)
+    {
         parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
         $this->_keys = array($key);
         $this->_keyVersion = 0;

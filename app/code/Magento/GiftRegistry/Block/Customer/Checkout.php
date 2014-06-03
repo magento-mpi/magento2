@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\GiftRegistry\Block\Customer;
 /**
  * Customer gift registry checkout abstract block
  */
-class Checkout extends \Magento\View\Element\Template
+class Checkout extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\EntityFactory
@@ -32,14 +30,14 @@ class Checkout extends \Magento\View\Element\Template
     protected $customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
@@ -69,7 +67,7 @@ class Checkout extends \Magento\View\Element\Template
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -89,7 +87,7 @@ class Checkout extends \Magento\View\Element\Template
                     $model->loadByEntityItem($registryItemId);
                     $item['entity_id'] = $model->getId();
                     $item['item_id'] = $registryItemId;
-                    $item['is_address'] = ($model->getShippingAddress()) ? 1 : 0;
+                    $item['is_address'] = $model->getShippingAddress() ? 1 : 0;
                     $items[$quoteItem->getId()] = $item;
                 }
             }

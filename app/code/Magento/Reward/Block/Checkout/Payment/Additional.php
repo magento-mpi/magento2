@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Checkout reward payment block
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Block\Checkout\Payment;
 
-class Additional extends \Magento\View\Element\Template
+class Additional extends \Magento\Framework\View\Element\Template
 {
     /**
      * Reward data
@@ -43,7 +39,7 @@ class Additional extends \Magento\View\Element\Template
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
@@ -51,7 +47,7 @@ class Additional extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -94,10 +90,11 @@ class Additional extends \Magento\View\Element\Template
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = $this->_rewardFactory->create()
-                ->setCustomer($this->getCustomer())
-                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-                ->loadByCustomer();
+            $reward = $this->_rewardFactory->create()->setCustomer(
+                $this->getCustomer()
+            )->setWebsiteId(
+                $this->_storeManager->getStore()->getWebsiteId()
+            )->loadByCustomer();
             $this->setData('reward', $reward);
         }
         return $this->getData('reward');
@@ -128,8 +125,11 @@ class Additional extends \Magento\View\Element\Template
             return false;
         }
 
-        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)$this->_storeManager->getWebsite()->getId());
-        return (float)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
+        $minPointsToUse = $helper->getGeneralConfig(
+            'min_points_balance',
+            (int)$this->_storeManager->getWebsite()->getId()
+        );
+        return (double)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
     }
 
     /**

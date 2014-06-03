@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ if (version_compare(phpversion(), '5.4.0', '<') === true) {
 }
 
 
-\Magento\Autoload\Simple::register();
-require_once("lib/Magento/Autoload/Simple.php");
+\Magento\Framework\Autoload\Simple::register();
+require_once("lib/Magento/Framework/Autoload/Simple.php");
 umask(0);
 \Magento\Downloader\Controller::run();

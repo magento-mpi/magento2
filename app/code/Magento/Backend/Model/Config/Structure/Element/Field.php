@@ -4,15 +4,12 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
-class Field
-    extends \Magento\Backend\Model\Config\Structure\AbstractElement
+class Field extends \Magento\Backend\Model\Config\Structure\AbstractElement
 {
     /**
      * Default value for useEmptyValueOption for service option
@@ -49,24 +46,24 @@ class Field
     /**
      * Block factory
      *
-     * @var \Magento\View\Element\BlockFactory
+     * @var \Magento\Framework\View\Element\BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Config\BackendFactory $backendFactory
      * @param \Magento\Backend\Model\Config\SourceFactory $sourceFactory
      * @param \Magento\Backend\Model\Config\CommentFactory $commentFactory
-     * @param \Magento\View\Element\BlockFactory $blockFactory
+     * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Config\BackendFactory $backendFactory,
         \Magento\Backend\Model\Config\SourceFactory $sourceFactory,
         \Magento\Backend\Model\Config\CommentFactory $commentFactory,
-        \Magento\View\Element\BlockFactory $blockFactory,
+        \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
     ) {
         parent::__construct($storeManager);
@@ -183,7 +180,6 @@ class Field
         return $this->_getRequiredElements($fieldPrefix, 'group');
     }
 
-
     /**
      * Get required fields paths for the field
      *
@@ -218,7 +214,7 @@ class Field
     /**
      * Retrieve backend model
      *
-     * @return \Magento\App\Config\ValueInterface
+     * @return \Magento\Framework\App\Config\ValueInterface
      */
     public function getBackendModel()
     {
@@ -289,7 +285,7 @@ class Field
     /**
      * Populate form element with field data
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $formField
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $formField
      * @return void
      */
     public function populateInput($formField)
@@ -378,7 +374,7 @@ class Field
      * @param array $options
      * @return array
      */
-    protected  function _getStaticOptions(array $options)
+    protected function _getStaticOptions(array $options)
     {
         foreach (array_keys($options) as $key) {
             $options[$key]['label'] = $this->_translateLabel($options[$key]['label']);
@@ -386,7 +382,6 @@ class Field
         }
         return $options;
     }
-
 
     /**
      * Translate a label
@@ -428,15 +423,15 @@ class Field
         }
 
         $sourceModel = $this->_sourceFactory->create($sourceModel);
-        if ($sourceModel instanceof \Magento\Object) {
+        if ($sourceModel instanceof \Magento\Framework\Object) {
             $sourceModel->setPath($this->getPath());
         }
         if ($method) {
             if ($this->getType() == 'multiselect') {
-                $optionArray = $sourceModel->$method();
+                $optionArray = $sourceModel->{$method}();
             } else {
                 $optionArray = array();
-                foreach ($sourceModel->$method() as $key => $value) {
+                foreach ($sourceModel->{$method}() as $key => $value) {
                     if (is_array($value)) {
                         $optionArray[] = $value;
                     } else {

@@ -1,0 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available */ ?>
+<?php echo join("\n", $this->getListItems()) ?>
+
+<script type="text/javascript">
+    jQuery('.infinite_scroll').infinite_scroll({url :'<?php echo $this->getNextPageUrl() ?>'});
+</script>

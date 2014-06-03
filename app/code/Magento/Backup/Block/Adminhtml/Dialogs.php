@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Backup\Block\Adminhtml;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Adminhtml rollback dialogs block
@@ -28,17 +26,17 @@ class Dialogs extends \Magento\Backend\Block\Template
     /**
      * Include backup.js file in page before rendering
      *
-     * @return AbstractBlock|void
+     * @return void
      * @see AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->getBlock('head')->addChild(
+        $this->getLayout()->getBlock(
+            'head'
+        )->addChild(
             'magento-adminhtml-backup-js',
             'Magento\Theme\Block\Html\Head\Script',
-            array(
-                'file' => 'mage/adminhtml/backup.js'
-            )
+            array('file' => 'mage/adminhtml/backup.js')
         );
         parent::_prepareLayout();
     }

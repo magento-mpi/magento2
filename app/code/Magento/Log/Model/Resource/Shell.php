@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Resource model for commands, executed in shell
  *
- * @category    Magento
- * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Log\Model\Resource;
@@ -20,24 +16,24 @@ namespace Magento\Log\Model\Resource;
 class Shell
 {
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
     /**
-     * @var \Magento\Core\Model\Resource\HelperFactory
+     * @var \Magento\Log\Model\Resource\Helper
      */
-    protected $_helperPool;
+    protected $_resourceHelper;
 
     /**
-     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Log\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
-        \Magento\Core\Model\Resource\HelperPool $helperPool,
-        \Magento\App\Resource $resource
+        \Magento\Log\Model\Resource\Helper $resourceHelper,
+        \Magento\Framework\App\Resource $resource
     ) {
-        $this->_helperPool = $helperPool;
+        $this->_resourceHelper = $resourceHelper;
         $this->_resource = $resource;
     }
 
@@ -61,10 +57,9 @@ class Shell
             'catalog_compare_item'
         );
 
-        $resHelper = $this->_helperPool->get('Magento_Log');
         $result = array();
         foreach ($tables as $table) {
-            $info = $resHelper->getTableInfo($this->_resource->getTableName($table));
+            $info = $this->_resourceHelper->getTableInfo($this->_resource->getTableName($table));
             if (!$info) {
                 continue;
             }

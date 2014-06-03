@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Wishlist\Model\Config\Source;
 
-class Summary implements \Magento\Option\ArrayInterface
+class Summary implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array
@@ -17,8 +15,8 @@ class Summary implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>__('Display number of items in wish list')),
-            array('value'=>1, 'label'=>__('Display item quantities')),
+            array('value' => 0, 'label' => __('Display number of items in wish list')),
+            array('value' => 1, 'label' => __('Display item quantities'))
         );
     }
 }

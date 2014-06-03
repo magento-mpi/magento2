@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Logging helper
  *
- * @category    Magento
- * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Logging\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Logging\Model\Config
@@ -25,10 +21,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Logging\Model\Config $config
      */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\Logging\Model\Config $config)
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Logging\Model\Config $config)
     {
         $this->_config = $config;
         parent::__construct($context);

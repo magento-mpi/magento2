@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,29 +28,29 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         CustomerFactory $customerFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -112,8 +110,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return false;
         }
         if (empty($this->_customer)) {
-            $this->_customer = $this->_createCustomer()
-                ->load($this->getCustomerId());
+            $this->_customer = $this->_createCustomer()->load($this->getCustomerId());
         }
         return $this->_customer;
     }
@@ -152,9 +149,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     {
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $attributes = $this->_getResource()
-                ->loadAllAttributes($this)
-                ->getSortedAttributes();
+            $attributes = $this->_getResource()->loadAllAttributes($this)->getSortedAttributes();
             $this->setData('attributes', $attributes);
         }
         return $attributes;
@@ -210,7 +205,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function getRegionId()
     {
-        return (int) $this->getData('region_id');
+        return (int)$this->getData('region_id');
     }
 
     /**
@@ -221,7 +216,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function setRegionId($regionId)
     {
-        $this->setData('region_id', (int) $regionId);
+        $this->setData('region_id', (int)$regionId);
         return $this;
     }
 

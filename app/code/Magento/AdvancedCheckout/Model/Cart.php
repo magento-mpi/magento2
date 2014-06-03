@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\AdvancedCheckout\Model;
 
 use Magento\Catalog\Model\Product;
-use Magento\Message\MessageInterface;
+use Magento\Framework\Message\MessageInterface;
 
 /**
  * Admin Checkout processing model
@@ -19,19 +17,19 @@ use Magento\Message\MessageInterface;
  * @method string getErrorMessage()
  * @method setErrorMessage(string $message)
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
-class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
+class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
      * Context of the cart - admin order
      */
     const CONTEXT_ADMIN_ORDER = 'admin_order';
+
     /**
      * Context of the cart - admin checkout
      */
     const CONTEXT_ADMIN_CHECKOUT = 'admin_checkout';
+
     /**
      * Context of the cart - frontend
      */
@@ -89,14 +87,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Instance of current store
      *
-     * @var null|\Magento\Core\Model\Store
+     * @var null|\Magento\Store\Model\Store
      */
     protected $_currentStore = null;
-
-    /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
 
     /**
      * @var \Magento\AdvancedCheckout\Helper\Data
@@ -106,19 +99,14 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Message\Factory
+     * @var \Magento\Framework\Message\Factory
      */
     protected $messageFactory;
-
-    /**
-     * @var \Magento\Backend\Model\Session\Quote
-     */
-    protected $_sessionQuote;
 
     /**
      * Sales quote factory
@@ -156,12 +144,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_optionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -171,7 +159,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_itemFailedStatus;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -186,51 +174,52 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $productConfiguration;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
-     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
-     * @param \Magento\Message\Factory $messageFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Message\Factory $messageFactory
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param string $itemFailedStatus
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
-        \Magento\Backend\Model\Session\Quote $sessionQuote,
-        \Magento\Message\Factory $messageFactory,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Message\Factory $messageFactory,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
+        \Magento\Customer\Model\Session $customerSession,
         $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
         $this->_cart = $cart;
-        $this->_sessionQuote = $sessionQuote;
         $this->messageFactory = $messageFactory;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
-        $this->_customerData = $customerData;
         $this->_optionFactory = $optionFactory;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_wishlistFactory = $wishlistFactory;
@@ -242,6 +231,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->messageManager = $messageManager;
         $this->productTypeConfig = $productTypeConfig;
         $this->productConfiguration = $productConfiguration;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -264,7 +254,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function setCustomer($customer)
     {
-        if ($customer instanceof \Magento\Object && $customer->getId()) {
+        if ($customer instanceof \Magento\Framework\Object && $customer->getId()) {
             $this->_customer = $customer;
             $this->_quote = null;
         }
@@ -284,7 +274,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Return quote store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -305,9 +295,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_quote = $this->_quoteFactory->create();
 
         if ($this->getCustomer() !== null) {
-            $this->_quote
-                ->setSharedStoreIds($this->getQuoteSharedStoreIds())
-                ->loadByCustomer($this->getCustomer()->getId());
+            $this->_quote->setSharedStoreIds(
+                $this->getQuoteSharedStoreIds()
+            )->loadByCustomer(
+                $this->getCustomer()->getId()
+            );
         }
 
         return $this->_quote;
@@ -333,7 +325,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getActualQuote()
     {
         if (!$this->getCustomer()) {
-            $customer = $this->_customerData->getCustomer();
+            $customer = $this->customerSession->getCustomer();
             if ($customer) {
                 $this->setCustomer($customer);
             }
@@ -350,9 +342,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getQuoteSharedStoreIds()
     {
         if ($this->getStoreId()) {
-            return $this->_storeManager->getStore($this->getStoreId())
-                ->getWebsite()
-                ->getStoreIds();
+            return $this->_storeManager->getStore($this->getStoreId())->getWebsite()->getStoreIds();
         }
         if (!$this->getCustomer()) {
             return array();
@@ -372,9 +362,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function createQuote()
     {
         if (!$this->getQuote()->getId() && $this->getCustomer() !== null) {
-            $this->getQuote()
-                ->assignCustomer($this->getCustomer())
-                ->save();
+            $this->getQuote()->assignCustomer($this->getCustomer())->save();
         }
         return $this->getQuote();
     }
@@ -407,16 +395,17 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
-        $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($quote->getId() && $quote->getStoreId()) {
             $storeId = $quote->getStoreId();
         } elseif ($customer !== null && $customer->getStoreId() && $customer->getStoreId() != $defaultStoreId) {
             $storeId = $customer->getStoreId();
         } else {
-            $customerStoreIds = $this->getQuoteSharedStoreIds(); //$customer->getSharedStoreIds();
+            $customerStoreIds = $this->getQuoteSharedStoreIds();
+            //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
             if ($storeId != $defaultStoreId) {
-                $defaultStore = $this->_storeManager->getAnyStoreView();
+                $defaultStore = $this->_storeManager->getDefaultStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
                 }
@@ -436,33 +425,34 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
      * @param   Product|int $product
-     * @param   array|float|int|\Magento\Object $config
+     * @param   array|float|int|\Magento\Framework\Object $config
      * @return  $this
-     * @throws  \Magento\Core\Exception
+     * @throws  \Magento\Framework\Model\Exception
      */
     public function addProduct($product, $config = 1)
     {
-        if (is_array($config) || ($config instanceof \Magento\Object)) {
-            $config = is_array($config) ? new \Magento\Object($config) : $config;
-            $qty = (float) $config->getQty();
+        if (is_array($config) || $config instanceof \Magento\Framework\Object) {
+            $config = is_array($config) ? new \Magento\Framework\Object($config) : $config;
+            $qty = (double)$config->getQty();
             $separateSameProducts = true;
         } else {
-            $qty = (float) $config;
-            $config = new \Magento\Object();
+            $qty = (double)$config;
+            $config = new \Magento\Framework\Object();
             $config->setQty($qty);
             $separateSameProducts = false;
         }
 
-        if (!($product instanceof Product)) {
+        if (!$product instanceof Product) {
             $productId = $product;
-            $product = $this->_productFactory->create()
-                ->setStore($this->getStore())
-                ->setStoreId($this->getStore()->getId())
-                ->load($product);
+            $product = $this->_productFactory->create()->setStore(
+                $this->getStore()
+            )->setStoreId(
+                $this->getStore()->getId()
+            )->load(
+                $product
+            );
             if (!$product->getId()) {
-                throw new \Magento\Core\Exception(
-                    __('Failed to add a product to cart by id "%1".', $productId)
-                );
+                throw new \Magento\Framework\Model\Exception(__('Failed to add a product to cart by id "%1".', $productId));
             }
         }
 
@@ -484,7 +474,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         } else {
             $item = $this->getQuote()->addProduct($product, $config);
             if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
+                throw new \Magento\Framework\Model\Exception($item);
             }
             $item->checkData();
         }
@@ -499,48 +489,51 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param int|float $qty
      * @return \Magento\Sales\Model\Quote\Item
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function reorderItem(\Magento\Sales\Model\Order\Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            throw new \Magento\Core\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
 
-        $product = $this->_productFactory->create()
-            ->setStoreId($this->getStore()->getId())
-            ->load($orderItem->getProductId());
+        $product = $this->_productFactory->create()->setStoreId(
+            $this->getStore()->getId()
+        )->load(
+            $orderItem->getProductId()
+        );
 
         if ($product->getId()) {
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new \Magento\Object($info);
+            $info = new \Magento\Framework\Object($info);
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $info);
             if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
+                throw new \Magento\Framework\Model\Exception($item);
             }
 
             $item->setQty($qty);
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
-                $item->addOption(new \Magento\Object(
-                    array(
-                        'product'   => $item->getProduct(),
-                        'code'      => 'additional_options',
-                        'value'     => serialize($additionalOptions)
+                $item->addOption(
+                    new \Magento\Framework\Object(
+                        array(
+                            'product' => $item->getProduct(),
+                            'code' => 'additional_options',
+                            'value' => serialize($additionalOptions)
+                        )
                     )
-                ));
+                );
             }
 
-            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
-                'order_item' => $orderItem,
-                'quote_item' => $item,
-            ));
+            $this->_eventManager->dispatch(
+                'sales_convert_order_item_to_quote_item',
+                array('order_item' => $orderItem, 'quote_item' => $item)
+            );
 
             return $item;
-
         } else {
-            throw new \Magento\Core\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
     }
 
@@ -554,10 +547,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function addProducts(array $products)
     {
         foreach ($products as $productId => $config) {
-            $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
+            $config['qty'] = isset($config['qty']) ? (double)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 return $e;
@@ -581,22 +574,22 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         foreach ($data as $itemId => $info) {
             if (!empty($info['configured'])) {
-                $item = $this->getQuote()->updateItem($itemId, new \Magento\Object($info));
-                $itemQty = (float) $item->getQty();
+                $item = $this->getQuote()->updateItem($itemId, new \Magento\Framework\Object($info));
+                $itemQty = (double)$item->getQty();
             } else {
                 $item = $this->getQuote()->getItemById($itemId);
-                $itemQty = (float) $info['qty'];
+                $itemQty = (double)$info['qty'];
             }
 
             if ($item && $item->getProduct()->getStockItem()) {
                 if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
-                    $itemQty = (int) $itemQty;
+                    $itemQty = (int)$itemQty;
                 } else {
                     $item->setIsQtyDecimal(1);
                 }
             }
 
-            $itemQty = ($itemQty > 0) ? $itemQty : 1;
+            $itemQty = $itemQty > 0 ? $itemQty : 1;
             if (isset($info['custom_price'])) {
                 $itemPrice = $this->_parseCustomPrice($info['custom_price']);
             } else {
@@ -618,9 +611,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             }
         }
         if ($this->_needCollectCart === true) {
-            $this->getCustomerCart()
-                ->collectTotals()
-                ->save();
+            $this->getCustomerCart()->collectTotals()->save();
         }
         $this->setRecollect(true);
 
@@ -643,7 +634,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = $this->_wishlistFactory->create()->loadByCustomer($this->getCustomer(), true);
+                    $wishlist = $this->_wishlistFactory->create()
+                        ->loadByCustomerId($this->getCustomer()->getId(), true);
                 } else {
                     $wishlist = $this->_wishlistFactory->create()->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
@@ -654,8 +646,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                     $this->messageManager->addError(__("We couldn't find this wish list."));
                     return $this;
                 }
-                $wishlist->setStore($this->getStore())
-                    ->setSharedStoreIds($this->getStore()->getWebsite()->getStoreIds());
+                $wishlist->setStore(
+                    $this->getStore()
+                )->setSharedStoreIds(
+                    $this->getStore()->getWebsite()->getStoreIds()
+                );
                 if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
                     $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
                     if (is_string($wishlistItem)) {
@@ -859,9 +854,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected function _loadProductBySku($sku)
     {
         /** @var $product Product */
-        $product = $this->_productFactory->create()
-            ->setStore($this->getCurrentStore())
-            ->loadByAttribute('sku', $sku);
+        $product = $this->_productFactory->create()->setStore($this->getCurrentStore())->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
             $this->_stockItemFactory->create()->assignProduct($product);
         }
@@ -940,13 +933,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $this->_successOptions = array();
 
             /** @var $option \Magento\Catalog\Model\Product\Option */
-            $option = $this->_optionFactory->create()
-                ->setAddRequiredFilter(true)
-                ->setAddRequiredFilterValue(true);
+            $option = $this->_optionFactory->create()->setAddRequiredFilter(true)->setAddRequiredFilterValue(true);
 
             foreach ($option->getProductOptionCollection($product) as $requiredOption) {
-                $missedRequiredOption = !$this->_processProductOption($skuParts, $requiredOption)
-                    || $missedRequiredOption;
+                $missedRequiredOption = !$this->_processProductOption(
+                    $skuParts,
+                    $requiredOption
+                ) || $missedRequiredOption;
             }
 
             $option->setAddRequiredFilterValue(false);
@@ -994,8 +987,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected function _addSuccessOption($option, $value)
     {
         if ($this->_isOptionMultiple($option)) {
-            if (isset($this->_successOptions[$option->getOptionId()])
-                && is_array($this->_successOptions[$option->getOptionId()])
+            if (isset(
+                $this->_successOptions[$option->getOptionId()]
+            ) && is_array(
+                $this->_successOptions[$option->getOptionId()]
+            )
             ) {
                 $this->_successOptions[$option->getOptionId()][] = $value->getOptionTypeId();
             } else {
@@ -1082,7 +1078,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             }
 
             if ($this->_isFrontend() && true === $product->getDisableAddToCart()) {
-                return $this->_updateItem($item, \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS);
+                return $this->_updateItem(
+                    $item,
+                    \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_PERMISSIONS
+                );
             }
 
             $productWebsiteValidationResult = $this->_validateProductWebsite($product);
@@ -1093,12 +1092,15 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
             if ($this->_isCheckout() && $this->_isProductOutOfStock($product)) {
                 $item['is_configure_disabled'] = true;
-                return $this->_updateItem($item, \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK);
+                return $this->_updateItem(
+                    $item,
+                    \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
+                );
             }
 
             if ($this->_shouldBeConfigured($product)) {
                 if (!$this->productConfiguration->isProductConfigured($product, $config)) {
-                    $failCode = (!$this->_isFrontend() || $product->isVisibleInSiteVisibility())
+                    $failCode = !$this->_isFrontend() || $product->isVisibleInSiteVisibility()
                         ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE
                         : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
                     return $this->_updateItem($item, $failCode);
@@ -1156,7 +1158,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected function _getValidatedItem($sku, $qty)
     {
         $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS;
-        if ($sku == '') {
+        if ($sku === '') {
             $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_EMPTY;
         } else {
             if (!\Zend_Validate::is($qty, 'Float')) {
@@ -1194,8 +1196,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
-                    if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
-                        && !$childProduct->isDisabled()
+                    if ($childProduct->hasStockItem() &&
+                        $childProduct->getStockItem()->getIsInStock() &&
+                        !$childProduct->isDisabled()
                     ) {
                         return false;
                     }
@@ -1219,8 +1222,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     protected function _shouldBeConfigured($product)
     {
-        if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
-            && !$product->getLinksPurchasedSeparately()
+        if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE &&
+            !$product->getLinksPurchasedSeparately()
         ) {
             return false;
         }
@@ -1247,7 +1250,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function setAffectedItemConfig($sku, $config)
     {
-        if (!empty($sku) && !empty($config) && is_array($config)) {
+        if ($sku !== "" && !empty($config) && is_array($config)) {
             $this->_affectedItemsConfig[$sku] = $config;
         }
         return $this;
@@ -1298,8 +1301,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param bool $suppressSuperMode
      * @return $this
      */
-    protected function _safeAddProduct(&$item, \Magento\Checkout\Model\Cart\CartInterface $cart, $suppressSuperMode = false)
-    {
+    protected function _safeAddProduct(
+        &$item,
+        \Magento\Checkout\Model\Cart\CartInterface $cart,
+        $suppressSuperMode = false
+    ) {
         $quote = $cart->getQuote();
 
         // copy data to temporary quote
@@ -1327,8 +1333,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         $cart->setQuote($temporaryQuote);
         $success = true;
-        $skipCheckQty = !$suppressSuperMode && $this->_isCheckout() && !$this->_isFrontend()
-            && empty($item['item']['is_qty_disabled']) && !$cart->getQuote()->getIsSuperMode();
+        $skipCheckQty = !$suppressSuperMode &&
+            $this->_isCheckout() &&
+            !$this->_isFrontend() &&
+            empty($item['item']['is_qty_disabled']) &&
+            !$cart->getQuote()->getIsSuperMode();
         if ($skipCheckQty) {
             $cart->getQuote()->setIsSuperMode(true);
         }
@@ -1342,7 +1351,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 $config = $item['item']['qty'];
             }
             $cart->addProduct($item['item']['id'], $config);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
@@ -1405,12 +1414,14 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function getAffectedItems($storeId = null)
     {
-        $storeId = (is_null($storeId)) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
+        $storeId = is_null($storeId) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
         $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
 
-        return (isset($affectedItems[$storeId]) && is_array($affectedItems[$storeId]))
-                ? $affectedItems[$storeId]
-                : array();
+        return isset(
+            $affectedItems[$storeId]
+        ) && is_array(
+            $affectedItems[$storeId]
+        ) ? $affectedItems[$storeId] : array();
     }
 
     /**
@@ -1438,7 +1449,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function setAffectedItems($items, $storeId = null)
     {
-        $storeId = (is_null($storeId)) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
+        $storeId = is_null($storeId) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
         $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
         if (!is_array($affectedItems)) {
             $affectedItems = array();
@@ -1457,12 +1468,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getMessages()
     {
         $affectedItems = $this->getAffectedItems();
-        $currentlyAffectedItemsCount  = count($this->_currentlyAffectedItems);
+        $currentlyAffectedItemsCount = count($this->_currentlyAffectedItems);
         $currentlyFailedItemsCount = 0;
 
         foreach ($this->_currentlyAffectedItems as $sku) {
-            if (isset($affectedItems[$sku])
-                && $affectedItems[$sku]['code'] != \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS
+            if (isset(
+                $affectedItems[$sku]
+            ) && $affectedItems[$sku]['code'] != \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS
             ) {
                 $currentlyFailedItemsCount++;
             }
@@ -1473,15 +1485,23 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $failedItemsCount = count($this->getFailedItems());
         $messages = array();
         if ($addedItemsCount) {
-            $message = ($addedItemsCount == 1)
-                    ? __('You added %1 product to your shopping cart.', $addedItemsCount)
-                    : __('You added %1 products to your shopping cart.', $addedItemsCount);
+            $message = $addedItemsCount == 1 ? __(
+                'You added %1 product to your shopping cart.',
+                $addedItemsCount
+            ) : __(
+                'You added %1 products to your shopping cart.',
+                $addedItemsCount
+            );
             $messages[] = $this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message);
         }
         if ($failedItemsCount) {
-            $warning = ($failedItemsCount == 1)
-                    ? __('%1 product requires your attention.', $failedItemsCount)
-                    : __('%1 products require your attention.', $failedItemsCount);
+            $warning = $failedItemsCount == 1 ? __(
+                '%1 product requires your attention.',
+                $failedItemsCount
+            ) : __(
+                '%1 products require your attention.',
+                $failedItemsCount
+            );
             $messages[] = $this->messageFactory->create(MessageInterface::TYPE_ERROR, $warning);
         }
         return $messages;
@@ -1609,10 +1629,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Sets session where data is going to be stored
      *
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @return $this
      */
-    public function setSession(\Magento\Session\SessionManagerInterface $session)
+    public function setSession(\Magento\Framework\Session\SessionManagerInterface $session)
     {
         $this->_getHelper()->setSession($session);
         return $this;
@@ -1621,7 +1641,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Returns current session used to store data about affected items
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {
@@ -1631,7 +1651,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Retrieve instance of current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {

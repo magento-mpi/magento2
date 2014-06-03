@@ -26,23 +26,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->encryptorMock = $this->getMockBuilder('\Magento\Pci\Model\Encryption')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->encryptorMock->expects($this->any())
-            ->method('validateHashByVersion')
-            ->will(
-                $this->returnCallback(
-                    function ($arg1, $arg2) {
-                        return $arg1 == $arg2;
-                    }
-                )
-            );
+        $this->encryptorMock = $this->getMockBuilder(
+            '\Magento\Pci\Model\Encryption'
+        )->disableOriginalConstructor()->getMock();
+        $this->encryptorMock->expects($this->any())->method('validateHashByVersion')->will(
+            $this->returnCallback(
+                function ($arg1, $arg2) {
+                    return $arg1 == $arg2;
+                }
+            )
+        );
         $this->observer = new \Magento\Pci\Model\Observer($this->encryptorMock);
-        $this->customerMock = $this->getMockBuilder('\Magento\Customer\Model\Customer')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getPasswordHash', 'changePassword', '__wakeup'))
-            ->getMock();
+        $this->customerMock = $this->getMockBuilder(
+            '\Magento\Customer\Model\Customer'
+        )->disableOriginalConstructor()->setMethods(
+            array('getPasswordHash', 'changePassword', '__wakeup')
+        )->getMock();
     }
 
     /**
@@ -50,23 +49,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      *
      * @param $password
      * @param $passwordHash
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function getObserverMock($password, $passwordHash)
     {
-        $this->customerMock->expects($this->once())
-            ->method('getPasswordHash')
-            ->will($this->returnValue($passwordHash));
-
-        $event = new \Magento\Object();
-        $event->setData(
-            array(
-                'password' => $password,
-                'model' => $this->customerMock
-            )
+        $this->customerMock->expects(
+            $this->once()
+        )->method(
+            'getPasswordHash'
+        )->will(
+            $this->returnValue($passwordHash)
         );
 
-        $observerMock = new \Magento\Object();
+        $event = new \Magento\Framework\Object();
+        $event->setData(array('password' => $password, 'model' => $this->customerMock));
+
+        $observerMock = new \Magento\Framework\Object();
         $observerMock->setData('event', $event);
 
         return $observerMock;
@@ -77,9 +75,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpgradeCustomerPassword()
     {
-        $this->customerMock->expects($this->once())
-            ->method('changePassword')
-            ->will($this->returnSelf());
+        $this->customerMock->expects($this->once())->method('changePassword')->will($this->returnSelf());
         $this->observer->upgradeCustomerPassword($this->getObserverMock('different password', 'old password'));
     }
 
@@ -88,8 +84,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpgradeCustomerPasswordNotChanged()
     {
-        $this->customerMock->expects($this->never())
-            ->method('changePassword');
+        $this->customerMock->expects($this->never())->method('changePassword');
         $this->observer->upgradeCustomerPassword($this->getObserverMock('same password', 'same password'));
     }
 }

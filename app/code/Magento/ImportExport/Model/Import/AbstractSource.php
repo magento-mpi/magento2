@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -131,7 +129,6 @@ abstract class AbstractSource implements \SeekableIterator
     {
         return -1 !== $this->_key;
     }
-
 
     /**
      * Rewind the \Iterator to the first element (\Iterator interface)

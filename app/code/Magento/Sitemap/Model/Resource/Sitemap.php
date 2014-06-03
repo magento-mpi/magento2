@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@ namespace Magento\Sitemap\Model\Resource;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Sitemap extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Sitemap extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Init resource model

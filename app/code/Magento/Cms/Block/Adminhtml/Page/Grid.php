@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Block\Adminhtml\Page;
 /**
  * Adminhtml cms pages grid
  *
- * @category   Magento
- * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -90,67 +86,81 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $baseUrl = $this->getUrl();
 
-        $this->addColumn('title', array(
-            'header'    => __('Title'),
-            'align'     => 'left',
-            'index'     => 'title',
-        ));
+        $this->addColumn('title', array('header' => __('Title'), 'index' => 'title'));
 
-        $this->addColumn('identifier', array(
-            'header'    => __('URL Key'),
-            'align'     => 'left',
-            'index'     => 'identifier'
-        ));
+        $this->addColumn('identifier', array('header' => __('URL Key'), 'index' => 'identifier'));
 
-        $this->addColumn('root_template', array(
-            'header'    => __('Layout'),
-            'index'     => 'root_template',
-            'type'      => 'options',
-            'options'   => $this->_pageLayout->getOptions(),
-        ));
+        $this->addColumn(
+            'root_template',
+            array(
+                'header' => __('Layout'),
+                'index' => 'root_template',
+                'type' => 'options',
+                'options' => $this->_pageLayout->getOptions()
+            )
+        );
 
         /**
          * Check is single store mode
          */
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
-                'header'        => __('Store View'),
-                'index'         => 'store_id',
-                'type'          => 'store',
-                'store_all'     => true,
-                'store_view'    => true,
-                'sortable'      => false,
-                'filter_condition_callback'
-                                => array($this, '_filterStoreCondition'),
-            ));
+            $this->addColumn(
+                'store_id',
+                array(
+                    'header' => __('Store View'),
+                    'index' => 'store_id',
+                    'type' => 'store',
+                    'store_all' => true,
+                    'store_view' => true,
+                    'sortable' => false,
+                    'filter_condition_callback' => array($this, '_filterStoreCondition')
+                )
+            );
         }
 
-        $this->addColumn('is_active', array(
-            'header'    => __('Status'),
-            'index'     => 'is_active',
-            'type'      => 'options',
-            'options'   => $this->_cmsPage->getAvailableStatuses()
-        ));
+        $this->addColumn(
+            'is_active',
+            array(
+                'header' => __('Status'),
+                'index' => 'is_active',
+                'type' => 'options',
+                'options' => $this->_cmsPage->getAvailableStatuses()
+            )
+        );
 
-        $this->addColumn('creation_time', array(
-            'header'    => __('Created'),
-            'index'     => 'creation_time',
-            'type'      => 'datetime',
-        ));
+        $this->addColumn(
+            'creation_time',
+            array(
+                'header' => __('Created'),
+                'index' => 'creation_time',
+                'type' => 'datetime',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
+            )
+        );
 
-        $this->addColumn('update_time', array(
-            'header'    => __('Modified'),
-            'index'     => 'update_time',
-            'type'      => 'datetime',
-        ));
+        $this->addColumn(
+            'update_time',
+            array(
+                'header' => __('Modified'),
+                'index' => 'update_time',
+                'type' => 'datetime',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
+            )
+        );
 
-        $this->addColumn('page_actions', array(
-            'header'    => __('Action'),
-            'width'     => 10,
-            'sortable'  => false,
-            'filter'    => false,
-            'renderer'  => 'Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action',
-        ));
+        $this->addColumn(
+            'page_actions',
+            array(
+                'header' => __('Action'),
+                'sortable' => false,
+                'filter' => false,
+                'renderer' => 'Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action',
+                'header_css_class' => 'col-action',
+                'column_css_class' => 'col-action'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -169,13 +179,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Filter store condition
      *
-     * @param \Magento\Data\Collection $collection
-     * @param \Magento\Object $column
+     * @param \Magento\Framework\Data\Collection $collection
+     * @param \Magento\Framework\Object $column
      * @return void
      */
-    protected function _filterStoreCondition($collection, \Magento\Object $column)
+    protected function _filterStoreCondition($collection, \Magento\Framework\Object $column)
     {
-        if (!$value = $column->getFilter()->getValue()) {
+        if (!($value = $column->getFilter()->getValue())) {
             return;
         }
 
@@ -185,7 +195,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Row click url
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

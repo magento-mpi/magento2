@@ -10,45 +10,45 @@ namespace Magento\User\Model\Resource;
 /**
  * Admin rule resource model
  */
-class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Root ACL resource
      *
-     * @var \Magento\Acl\RootResource
+     * @var \Magento\Framework\Acl\RootResource
      */
     protected $_rootResource;
 
     /**
      * Acl object cache
      *
-     * @var \Magento\Acl\CacheInterface
+     * @var \Magento\Framework\Acl\CacheInterface
      */
     protected $_aclCache;
 
     /**
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Acl\Builder $aclBuilder
-     * @param \Magento\Logger $logger
-     * @param \Magento\Acl\RootResource $rootResource
-     * @param \Magento\Acl\CacheInterface $aclCache
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Acl\Builder $aclBuilder
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Acl\RootResource $rootResource
+     * @param \Magento\Framework\Acl\CacheInterface $aclCache
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Acl\Builder $aclBuilder,
-        \Magento\Logger $logger,
-        \Magento\Acl\RootResource $rootResource,
-        \Magento\Acl\CacheInterface $aclCache
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Acl\Builder $aclBuilder,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Acl\RootResource $rootResource,
+        \Magento\Framework\Acl\CacheInterface $aclCache
     ) {
         $this->_aclBuilder = $aclBuilder;
         parent::__construct($resource);
@@ -72,7 +72,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\User\Model\Rules $rule
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveRel(\Magento\User\Model\Rules $rule)
     {
@@ -81,9 +81,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             $adapter->beginTransaction();
             $roleId = $rule->getRoleId();
 
-            $condition = array(
-                'role_id = ?' => (int) $roleId,
-            );
+            $condition = array('role_id = ?' => (int)$roleId);
 
             $adapter->delete($this->getMainTable(), $condition);
 
@@ -91,24 +89,24 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($postedResources) {
                 $row = array(
                     'resource_id' => $this->_rootResource->getId(),
-                    'privileges'  => '', // not used yet
-                    'role_id'     => $roleId,
-                    'permission'  => 'allow'
+                    'privileges' => '', // not used yet
+                    'role_id' => $roleId,
+                    'permission' => 'allow'
                 );
 
                 // If all was selected save it only and nothing else.
                 if ($postedResources === array($this->_rootResource->getId())) {
-                    $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
+                    $insertData = $this->_prepareDataForTable(new \Magento\Framework\Object($row), $this->getMainTable());
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
                     $acl = $this->_aclBuilder->getAcl();
-                    /** @var $resource \Magento\Acl\Resource */
+                    /** @var $resource \Magento\Framework\Acl\Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
                         $row['resource_id'] = $resourceId;
 
-                        $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
+                        $insertData = $this->_prepareDataForTable(new \Magento\Framework\Object($row), $this->getMainTable());
                         $adapter->insert($this->getMainTable(), $insertData);
                     }
                 }
@@ -116,10 +114,10 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $adapter->commit();
             $this->_aclCache->clean();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $adapter->rollBack();
             throw $e;
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $adapter->rollBack();
             $this->_logger->logException($e);
         }

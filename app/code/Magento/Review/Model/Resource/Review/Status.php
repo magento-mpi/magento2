@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +12,8 @@ namespace Magento\Review\Model\Resource\Review;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
-
     /**
      * Resource status model initialization
      *

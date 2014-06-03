@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Model\Authorizenet\Source;
 
 class PaymentActionTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +16,7 @@ class PaymentActionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= new \Magento\Pbridge\Model\Authorizenet\Source\PaymentAction();
+        $this->_model = new \Magento\Pbridge\Model\Authorizenet\Source\PaymentAction();
     }
 
     /**
@@ -46,7 +42,7 @@ class PaymentActionTest extends \PHPUnit_Framework_TestCase
             array(
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
-            ),
+            )
         );
         $this->assertEquals($options, $expected);
     }

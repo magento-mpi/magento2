@@ -2,19 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Model;
 
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
-use \Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Sales\Model\Quote;
 
-class Session extends \Magento\Session\SessionManager
+class Session extends \Magento\Framework\Session\SessionManager
 {
     /**
      * Checkout state begin
@@ -34,13 +31,6 @@ class Session extends \Magento\Session\SessionManager
      * @var null|CustomerDataObject
      */
     protected $_customer;
-
-    /**
-     * Customer Data Object  builder
-     *
-     * @var CustomerBuilder
-     */
-    protected $_customerBuilder;
 
     /**
      * Whether load only active quote
@@ -72,50 +62,48 @@ class Session extends \Magento\Session\SessionManager
     protected $_quoteFactory;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Session\SaveHandlerInterface $saveHandler
-     * @param \Magento\Session\ValidatorInterface $validator
-     * @param \Magento\Session\StorageInterface $storage
+     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
+     * @param \Magento\Framework\Session\ValidatorInterface $validator
+     * @param \Magento\Framework\Session\StorageInterface $storage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param CustomerBuilder $customerBuilder
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param null $sessionName
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
-        \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Session\SaveHandlerInterface $saveHandler,
-        \Magento\Session\ValidatorInterface $validator,
-        \Magento\Session\StorageInterface $storage,
+        \Magento\Framework\App\Request\Http $request,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
+        \Magento\Framework\Session\ValidatorInterface $validator,
+        \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        CustomerBuilder $customerBuilder,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $sessionName = null
     ) {
         $this->_orderFactory = $orderFactory;
@@ -124,30 +112,8 @@ class Session extends \Magento\Session\SessionManager
         $this->_remoteAddress = $remoteAddress;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
-        $this->_customerBuilder = $customerBuilder;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
-    }
-
-    /**
-     * Set customer instance
-     *
-     * TODO: Remove after elimination of dependencies from \Magento\Persistent\Model\Observer
-     *
-     * @param \Magento\Customer\Model\Customer|null $customer
-     * @return $this
-     * @deprecated Use \Magento\Checkout\Model\Session::setCustomerData() instead
-     */
-    public function setCustomer($customer)
-    {
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
-            $this->_customerBuilder->populateWithArray($customer->getData());
-            $this->_customerBuilder->setId($customer->getId());
-            $this->_customer = $this->_customerBuilder->create();
-        } else {
-            $this->_customer = $customer;
-        }
-        return $this;
     }
 
     /**
@@ -225,14 +191,16 @@ class Session extends \Magento\Session\SessionManager
 
             if (!$this->getQuoteId()) {
                 if ($this->_customerSession->isLoggedIn() || $this->_customer) {
-                    $customerId = $this->_customer
-                        ? $this->_customer->getId()
-                        : $this->_customerSession->getCustomerId();
+                    $customerId = $this->_customer ? $this
+                        ->_customer
+                        ->getId() : $this
+                        ->_customerSession
+                        ->getCustomerId();
                     $quote->loadByCustomer($customerId);
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    $this->_eventManager->dispatch('checkout_quote_init', array('quote'=>$quote));
+                    $this->_eventManager->dispatch('checkout_quote_init', array('quote' => $quote));
                 }
             }
 
@@ -294,15 +262,15 @@ class Session extends \Magento\Session\SessionManager
 
         $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = $this->_quoteFactory->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->loadByCustomer($this->_customerSession->getCustomerId());
+        $customerQuote = $this->_quoteFactory->create()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->loadByCustomer(
+            $this->_customerSession->getCustomerId()
+        );
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
-                $customerQuote->merge($this->getQuote())
-                    ->collectTotals()
-                    ->save();
+                $customerQuote->merge($this->getQuote())->collectTotals()->save();
             }
 
             $this->setQuoteId($customerQuote->getId());
@@ -314,10 +282,11 @@ class Session extends \Magento\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomerData($this->_customerSession->getCustomerDataObject())
-                ->setTotalsCollectedFlag(false)
-                ->collectTotals()
-                ->save();
+            $this->getQuote()->setCustomerData(
+                $this->_customerSession->getCustomerDataObject()
+            )->setTotalsCollectedFlag(
+                false
+            )->collectTotals()->save();
         }
         return $this;
     }
@@ -328,7 +297,7 @@ class Session extends \Magento\Session\SessionManager
      * @param bool|string|null $value
      * @return $this
      */
-    public function setStepData($step, $data, $value=null)
+    public function setStepData($step, $data, $value = null)
     {
         $steps = $this->getSteps();
         if (is_null($value)) {
@@ -353,7 +322,7 @@ class Session extends \Magento\Session\SessionManager
      * @param string|null $data
      * @return array|string|bool
      */
-    public function getStepData($step=null, $data=null)
+    public function getStepData($step = null, $data = null)
     {
         $steps = $this->getSteps();
         if (is_null($step)) {
@@ -405,10 +374,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function clearHelperData()
     {
-        $this->setRedirectUrl(null)
-            ->setLastOrderId(null)
-            ->setLastRealOrderId(null)
-            ->setAdditionalMessages(null);
+        $this->setRedirectUrl(null)->setLastOrderId(null)->setLastRealOrderId(null)->setAdditionalMessages(null);
     }
 
     /**
@@ -462,18 +428,9 @@ class Session extends \Magento\Session\SessionManager
             /** @var \Magento\Sales\Model\Quote $quote */
             $quote = $this->_quoteFactory->create()->load($order->getQuoteId());
             if ($quote->getId()) {
-                $quote->setIsActive(1)
-                    ->setReservedOrderId(null)
-                    ->save();
-                $this->replaceQuote($quote)
-                    ->unsLastRealOrderId();
-                $this->_eventManager->dispatch(
-                    'restore_quote',
-                    array(
-                        'order' => $order,
-                        'quote' => $quote
-                    )
-                );
+                $quote->setIsActive(1)->setReservedOrderId(null)->save();
+                $this->replaceQuote($quote)->unsLastRealOrderId();
+                $this->_eventManager->dispatch('restore_quote', array('order' => $order, 'quote' => $quote));
                 return true;
             }
         }

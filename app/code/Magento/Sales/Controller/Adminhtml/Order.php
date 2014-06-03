@@ -2,21 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 /**
  * Adminhtml sales orders controller
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Order extends \Magento\Backend\App\Action
@@ -31,31 +27,31 @@ class Order extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Translate\InlineInterface $translateInline
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\Translate\InlineInterface $translateInline
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -71,9 +67,15 @@ class Order extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_order')
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Orders'), __('Orders'));
+        $this->_setActiveMenu(
+            'Magento_Sales::sales_order'
+        )->_addBreadcrumb(
+            __('Sales'),
+            __('Sales')
+        )->_addBreadcrumb(
+            __('Orders'),
+            __('Orders')
+        );
         return $this;
     }
 
@@ -134,12 +136,12 @@ class Order extends \Magento\Backend\App\Action
         if ($order) {
             try {
                 $this->_initAction();
-            } catch (\Magento\App\Action\Exception $e) {
+            } catch (\Magento\Framework\App\Action\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('sales/order/index');
                 return;
-            } catch(\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Exception occurred during order load'));
                 $this->_redirect('sales/order/index');
                 return;
@@ -160,18 +162,22 @@ class Order extends \Magento\Backend\App\Action
         if ($order) {
             try {
                 $order->sendNewOrderEmail();
-                $historyItem = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
-                    ->getUnnotifiedForInstance($order, \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME);
+                $historyItem = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Status\History\Collection'
+                )->getUnnotifiedForInstance(
+                    $order,
+                    \Magento\Sales\Model\Order::HISTORY_ENTITY_NAME
+                );
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
                 $this->messageManager->addSuccess(__('You sent the order email.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We couldn\'t send the email order.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
@@ -187,16 +193,13 @@ class Order extends \Magento\Backend\App\Action
         $order = $this->_initOrder();
         if ($order) {
             try {
-                $order->cancel()
-                    ->save();
-                $this->messageManager->addSuccess(
-                    __('You canceled the order.')
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $order->cancel()->save();
+                $this->messageManager->addSuccess(__('You canceled the order.'));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not canceled the item.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
         }
@@ -212,12 +215,9 @@ class Order extends \Magento\Backend\App\Action
         $order = $this->_initOrder();
         if ($order) {
             try {
-                $order->hold()
-                    ->save();
-                $this->messageManager->addSuccess(
-                    __('You put the order on hold.')
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $order->hold()->save();
+                $this->messageManager->addSuccess(__('You put the order on hold.'));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not put the order on hold.'));
@@ -236,12 +236,9 @@ class Order extends \Magento\Backend\App\Action
         $order = $this->_initOrder();
         if ($order) {
             try {
-                $order->unhold()
-                    ->save();
-                $this->messageManager->addSuccess(
-                    __('You released the order from holding status.')
-                );
-            } catch (\Magento\Core\Exception $e) {
+                $order->unhold()->save();
+                $this->messageManager->addSuccess(__('You released the order from holding status.'));
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('The order was not on hold.'));
@@ -275,8 +272,10 @@ class Order extends \Magento\Backend\App\Action
                     $message = __('The payment has been denied.');
                     break;
                 case 'update':
-                    $order->getPayment()
-                        ->registerPaymentReviewAction(\Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE, true);
+                    $order->getPayment()->registerPaymentReviewAction(
+                        \Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE,
+                        true
+                    );
                     $message = __('The payment update has been made.');
                     break;
                 default:
@@ -284,11 +283,11 @@ class Order extends \Magento\Backend\App\Action
             }
             $order->save();
             $this->messageManager->addSuccess($message);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
     }
@@ -305,8 +304,8 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
-                if (empty($data['comment']) && ($data['status'] == $order->getDataByKey('status'))) {
-                    throw new \Magento\Core\Exception(__('Comment text cannot be empty.'));
+                if (empty($data['comment']) && $data['status'] == $order->getDataByKey('status')) {
+                    throw new \Magento\Framework\Model\Exception(__('Comment text cannot be empty.'));
                 }
 
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
@@ -324,16 +323,10 @@ class Order extends \Magento\Backend\App\Action
 
                 $this->_view->loadLayout('empty');
                 $this->_view->renderLayout();
-            } catch (\Magento\Core\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $e->getMessage(),
-                );
+            } catch (\Magento\Framework\Model\Exception $e) {
+                $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => __('We cannot add order history.')
-                );
+                $response = array('error' => true, 'message' => __('We cannot add order history.'));
             }
             if (is_array($response)) {
                 $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
@@ -350,9 +343,8 @@ class Order extends \Magento\Backend\App\Action
     public function invoicesAction()
     {
         $this->_initOrder();
-        $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Invoices')->toHtml()
-        );
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -363,9 +355,8 @@ class Order extends \Magento\Backend\App\Action
     public function shipmentsAction()
     {
         $this->_initOrder();
-        $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments')->toHtml()
-        );
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -376,9 +367,8 @@ class Order extends \Magento\Backend\App\Action
     public function creditmemosAction()
     {
         $this->_initOrder();
-        $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\Creditmemos')->toHtml()
-        );
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -389,11 +379,13 @@ class Order extends \Magento\Backend\App\Action
     public function commentsHistoryAction()
     {
         $this->_initOrder();
-        $html = $this->_view->getLayout()
-            ->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
-        if ($this->_translateInline->isAllowed()) {
-            $this->_translateInline->processResponseBody($html);
-        }
+
+        $html = $this->_view->getLayout()->createBlock(
+            'Magento\Sales\Block\Adminhtml\Order\View\Tab\History'
+        )->toHtml();
+
+        $this->_translateInline->processResponseBody($html);
+
         $this->getResponse()->setBody($html);
     }
 
@@ -410,8 +402,7 @@ class Order extends \Magento\Backend\App\Action
         foreach ($orderIds as $orderId) {
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if ($order->canCancel()) {
-                $order->cancel()
-                    ->save();
+                $order->cancel()->save();
                 $countCancelOrder++;
             } else {
                 $countNonCancelOrder++;
@@ -443,8 +434,7 @@ class Order extends \Magento\Backend\App\Action
         foreach ($orderIds as $orderId) {
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if ($order->canHold()) {
-                $order->hold()
-                    ->save();
+                $order->hold()->save();
                 $countHoldOrder++;
             }
         }
@@ -479,8 +469,7 @@ class Order extends \Magento\Backend\App\Action
         foreach ($orderIds as $orderId) {
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if ($order->canUnhold()) {
-                $order->unhold()
-                    ->save();
+                $order->unhold()->save();
                 $countUnHoldOrder++;
             } else {
                 $countNonUnHoldOrder++;
@@ -510,7 +499,6 @@ class Order extends \Magento\Backend\App\Action
      */
     public function massStatusAction()
     {
-
     }
 
     /**
@@ -520,7 +508,6 @@ class Order extends \Magento\Backend\App\Action
      */
     public function massPrintAction()
     {
-
     }
 
     /**
@@ -534,30 +521,42 @@ class Order extends \Magento\Backend\App\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Invoice\Collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
+                $invoices = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Invoice\Collection'
+                )->setOrderFilter(
+                    $orderId
+                )->load();
                 if ($invoices->getSize() > 0) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
+                        $pdf = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Invoice'
+                        )->getPdf(
+                            $invoices
+                        );
                     } else {
-                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
-                        $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+                        $pages = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Invoice'
+                        )->getPdf(
+                            $invoices
+                        );
+                        $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'invoice' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
+                    'invoice' . $this->_objectManager->get(
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
+                    )->date(
+                        'Y-m-d_H-i-s'
+                    ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
-                $this->messageManager->addError(
-                    __('There are no printable documents related to selected orders.')
-                );
+                $this->messageManager->addError(__('There are no printable documents related to selected orders.'));
                 $this->_redirect('sales/*/');
             }
         }
@@ -575,30 +574,42 @@ class Order extends \Magento\Backend\App\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
+                $shipments = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Shipment\Collection'
+                )->setOrderFilter(
+                    $orderId
+                )->load();
                 if ($shipments->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                        $pdf = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Shipment'
+                        )->getPdf(
+                            $shipments
+                        );
                     } else {
-                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
-                        $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+                        $pages = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Shipment'
+                        )->getPdf(
+                            $shipments
+                        );
+                        $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'packingslip' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
+                    'packingslip' . $this->_objectManager->get(
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
+                    )->date(
+                        'Y-m-d_H-i-s'
+                    ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
-                $this->messageManager->addError(
-                    __('There are no printable documents related to selected orders.')
-                );
+                $this->messageManager->addError(__('There are no printable documents related to selected orders.'));
                 $this->_redirect('sales/*/');
             }
         }
@@ -616,30 +627,42 @@ class Order extends \Magento\Backend\App\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $creditmemos = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
+                $creditmemos = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Creditmemo\Collection'
+                )->setOrderFilter(
+                    $orderId
+                )->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pdf = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Creditmemo'
+                        )->getPdf(
+                            $creditmemos
+                        );
                     } else {
-                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pages = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Creditmemo'
+                        )->getPdf(
+                            $creditmemos
+                        );
                         $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'creditmemo' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
+                    'creditmemo' . $this->_objectManager->get(
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
+                    )->date(
+                        'Y-m-d_H-i-s'
+                    ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
-                $this->messageManager->addError(
-                    __('There are no printable documents related to selected orders.')
-                );
+                $this->messageManager->addError(__('There are no printable documents related to selected orders.'));
                 $this->_redirect('sales/*/');
             }
         }
@@ -657,56 +680,88 @@ class Order extends \Magento\Backend\App\Action
         $flag = false;
         if (!empty($orderIds)) {
             foreach ($orderIds as $orderId) {
-                $invoices = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Invoice\Collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
+                $invoices = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Invoice\Collection'
+                )->setOrderFilter(
+                    $orderId
+                )->load();
                 if ($invoices->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
+                        $pdf = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Invoice'
+                        )->getPdf(
+                            $invoices
+                        );
                     } else {
-                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
-                        $pdf->pages = array_merge ($pdf->pages, $pages->pages);
-                    }
-                }
-
-                $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
-                if ($shipments->getSize()) {
-                    $flag = true;
-                    if (!isset($pdf)) {
-                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
-                    } else {
-                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
+                        $pages = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Invoice'
+                        )->getPdf(
+                            $invoices
+                        );
                         $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
 
-                $creditmemos = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
+                $shipments = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Shipment\Collection'
+                )->setOrderFilter(
+                    $orderId
+                )->load();
+                if ($shipments->getSize()) {
+                    $flag = true;
+                    if (!isset($pdf)) {
+                        $pdf = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Shipment'
+                        )->getPdf(
+                            $shipments
+                        );
+                    } else {
+                        $pages = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Shipment'
+                        )->getPdf(
+                            $shipments
+                        );
+                        $pdf->pages = array_merge($pdf->pages, $pages->pages);
+                    }
+                }
+
+                $creditmemos = $this->_objectManager->create(
+                    'Magento\Sales\Model\Resource\Order\Creditmemo\Collection'
+                )->setOrderFilter(
+                    $orderId
+                )->load();
                 if ($creditmemos->getSize()) {
                     $flag = true;
                     if (!isset($pdf)) {
-                        $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
+                        $pdf = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Creditmemo'
+                        )->getPdf(
+                            $creditmemos
+                        );
                     } else {
-                        $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')->getPdf($creditmemos);
-                        $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+                        $pages = $this->_objectManager->create(
+                            'Magento\Sales\Model\Order\Pdf\Creditmemo'
+                        )->getPdf(
+                            $creditmemos
+                        );
+                        $pdf->pages = array_merge($pdf->pages, $pages->pages);
                     }
                 }
             }
             if ($flag) {
                 return $this->_fileFactory->create(
-                    'docs' . $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s') . '.pdf',
+                    'docs' . $this->_objectManager->get(
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
+                    )->date(
+                        'Y-m-d_H-i-s'
+                    ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
-                $this->messageManager->addError(
-                    __('There are no printable documents related to selected orders.')
-                );
+                $this->messageManager->addError(__('There are no printable documents related to selected orders.'));
                 $this->_redirect('sales/*/');
             }
         }
@@ -720,20 +775,18 @@ class Order extends \Magento\Backend\App\Action
      */
     public function voidPaymentAction()
     {
-        if (!$order = $this->_initOrder()) {
+        if (!($order = $this->_initOrder())) {
             return;
         }
         try {
-            $order->getPayment()->void(
-                new \Magento\Object() // workaround for backwards compatibility
-            );
+            $order->getPayment()->void(new \Magento\Framework\Object()); // workaround for backwards compatibility
             $order->save();
             $this->messageManager->addSuccess(__('The payment has been voided.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t void the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('sales/*/view', array('order_id' => $order->getId()));
     }
@@ -793,7 +846,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -810,7 +863,7 @@ class Order extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -857,9 +910,9 @@ class Order extends \Magento\Backend\App\Action
      */
     public function addressSaveAction()
     {
-        $addressId  = $this->getRequest()->getParam('address_id');
-        $address    = $this->_objectManager->create('Magento\Sales\Model\Order\Address')->load($addressId);
-        $data       = $this->getRequest()->getPost();
+        $addressId = $this->getRequest()->getParam('address_id');
+        $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address')->load($addressId);
+        $data = $this->getRequest()->getPost();
         if ($data && $address->getId()) {
             $address->addData($data);
             try {
@@ -867,13 +920,10 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You updated the order address.'));
                 $this->_redirect('sales/*/view', array('order_id' => $address->getParentId()));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException(
-                    $e,
-                    __('Something went wrong updating the order address.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong updating the order address.'));
             }
             $this->_redirect('sales/*/address', array('address_id' => $address->getId()));
         } else {

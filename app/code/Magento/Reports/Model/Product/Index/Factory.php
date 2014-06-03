@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,6 +10,7 @@ namespace Magento\Reports\Model\Product\Index;
 class Factory
 {
     const TYPE_COMPARED = 'compared';
+
     const TYPE_VIEWED = 'viewed';
 
     /**
@@ -28,9 +27,9 @@ class Factory
     protected $_instances;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

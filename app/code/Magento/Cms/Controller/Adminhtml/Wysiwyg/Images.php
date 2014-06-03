@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
 /**
  * Images manage controller for Cms WYSIWYG editor
  *
- * @category    Magento
- * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Images extends \Magento\Backend\App\Action
@@ -21,18 +17,16 @@ class Images extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -81,8 +75,9 @@ class Images extends \Magento\Backend\App\Action
         try {
             $this->_initAction();
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
-                    ->getTreeJson()
+                $this->_view->getLayout()->createBlock(
+                    'Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree'
+                )->getTreeJson()
             );
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -150,7 +145,7 @@ class Images extends \Magento\Backend\App\Action
     {
         try {
             if (!$this->getRequest()->isPost()) {
-                throw new \Exception ('Wrong request.');
+                throw new \Exception('Wrong request.');
             }
             $files = $this->getRequest()->getParam('files');
 
@@ -159,9 +154,9 @@ class Images extends \Magento\Backend\App\Action
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
-                /** @var \Magento\App\Filesystem $filesystem */
-                $filesystem = $this->_objectManager->get('Magento\App\Filesystem');
-                $dir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+                /** @var \Magento\Framework\App\Filesystem $filesystem */
+                $filesystem = $this->_objectManager->get('Magento\Framework\App\Filesystem');
+                $dir = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
                 $filePath = $path . '/' . $file;
                 if ($dir->isFile($dir->getRelativePath($filePath))) {
                     $this->getStorage()->deleteFile($filePath);
@@ -188,7 +183,6 @@ class Images extends \Magento\Backend\App\Action
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
-
     }
 
     /**
@@ -223,12 +217,12 @@ class Images extends \Magento\Backend\App\Action
         $file = $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->idDecode($file);
         $thumb = $this->getStorage()->resizeOnTheFly($file);
         if ($thumb !== false) {
-            /** @var \Magento\Image\Adapter\AdapterInterface $image */
-            $image = $this->_objectManager->get('Magento\Image\AdapterFactory')->create();
+            /** @var \Magento\Framework\Image\Adapter\AdapterInterface $image */
+            $image = $this->_objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
             $image->open($thumb);
             $this->getResponse()->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
         } else {
-            // todo: genearte some placeholder
+            // todo: generate some placeholder
         }
     }
 
@@ -253,9 +247,9 @@ class Images extends \Magento\Backend\App\Action
      */
     protected function _saveSessionCurrentPath()
     {
-        $this->getStorage()
-            ->getSession()
-            ->setCurrentPath($this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath());
+        $this->getStorage()->getSession()->setCurrentPath(
+            $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath()
+        );
         return $this;
     }
 

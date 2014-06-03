@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Test\Fixture;
 
 use Mtf\Factory\Factory;
@@ -19,7 +15,6 @@ use Mtf\Factory\Factory;
  * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
  *
  * @ZephyrId MAGETWO-12415
- * @package Magento\Sales\Test\Fixture
  */
 class PaypalExpressOrder extends OrderCheckout
 {
@@ -43,10 +38,8 @@ class PaypalExpressOrder extends OrderCheckout
     public function persist()
     {
         $this->checkoutFixture->persist();
-        if(!is_null($this->additionalProducts))
-        {
-            foreach($this->additionalProducts as $product)
-            {
+        if (!is_null($this->additionalProducts)) {
+            foreach ($this->additionalProducts as $product) {
                 $this->checkoutFixture->addProduct($product);
             }
         }

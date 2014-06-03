@@ -2,22 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Block\Product;
 
 /**
  * Product send to friend block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @module     Catalog
  */
-namespace Magento\Catalog\Block\Product;
-
 class Send extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -28,54 +20,29 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param array $data
-     * @param array $priceBlockTypes
+     * Customer view helper
      *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerView;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Helper\View $customerView
+     * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        \Magento\Customer\Helper\View $customerView,
+        array $data = array()
     ) {
         $this->_customerSession = $customerSession;
+        $this->_customerView = $customerView;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -87,7 +54,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getUserName()
     {
-        return $this->_customerSession->getCustomer()->getName();
+        return $this->_customerView->getCustomerName($this->_customerSession->getCustomerDataObject());
     }
 
     /**
@@ -95,7 +62,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getEmail()
     {
-        return (string)$this->_customerSession->getCustomer()->getEmail();
+        return (string)$this->_customerSession->getCustomerDataObject()->getEmail();
     }
 
     /**

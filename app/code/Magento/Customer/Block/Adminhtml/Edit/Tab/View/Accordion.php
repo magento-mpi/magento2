@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**
@@ -20,7 +20,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -47,7 +47,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
@@ -57,7 +57,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
@@ -79,13 +79,16 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     {
         $this->setId('customerViewAccordion');
 
-        $this->addItem('lastOrders', array(
-            'title'       => __('Recent Orders'),
-            'ajax'        => true,
-            'content_url' => $this->getUrl('customer/*/lastOrders', array('_current' => true)),
-        ));
+        $this->addItem(
+            'lastOrders',
+            array(
+                'title' => __('Recent Orders'),
+                'ajax' => true,
+                'content_url' => $this->getUrl('customer/*/lastOrders', array('_current' => true))
+            )
+        );
 
-        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);    
+        $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
         $customer = $this->getCustomer($customerId);
         $websiteIds = $this->_shareConfig->getSharedWebsiteIds($customer->getWebsiteId());
         // add shopping cart block of each website
@@ -93,11 +96,16 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             $website = $this->_storeManager->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = $this->_quoteFactory->create()
-                ->setWebsite($website)->loadByCustomer($customerId)
-                ->getItemsCollection(false)
-                ->addFieldToFilter('parent_item_id', array('null' => true))
-                ->getSize();
+            $cartItemsCount = $this->_quoteFactory->create()->setWebsite(
+                $website
+            )->loadByCustomer(
+                $customerId
+            )->getItemsCollection(
+                false
+            )->addFieldToFilter(
+                'parent_item_id',
+                array('null' => true)
+            )->getSize();
             // prepare title for cart
             $title = __('Shopping Cart - %1 item(s)', $cartItemsCount);
             if (count($websiteIds) > 1) {
@@ -105,25 +113,30 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             }
 
             // add cart ajax accordion
-            $this->addItem('shopingCart' . $websiteId, array(
-                'title'   => $title,
-                'ajax'    => true,
-                'content_url' => $this->getUrl('customer/*/viewCart',
-                        array('_current' => true, 'website_id' => $websiteId)),
-            ));
+            $this->addItem(
+                'shopingCart' . $websiteId,
+                array(
+                    'title' => $title,
+                    'ajax' => true,
+                    'content_url' => $this->getUrl(
+                        'customer/*/viewCart',
+                        array('_current' => true, 'website_id' => $websiteId)
+                    )
+                )
+            );
         }
 
         // count wishlist items
-        $wishlistCount = $this->_itemsFactory->create()
-            ->addCustomerIdFilter($customerId)
-            ->addStoreData()
-            ->getSize();
+        $wishlistCount = $this->_itemsFactory->create()->addCustomerIdFilter($customerId)->addStoreData()->getSize();
         // add wishlist ajax accordion
-        $this->addItem('wishlist', array(
-            'title' => __('Wishlist - %1 item(s)', $wishlistCount),
-            'ajax'  => true,
-            'content_url' => $this->getUrl('customer/*/viewWishlist', array('_current' => true)),
-        ));
+        $this->addItem(
+            'wishlist',
+            array(
+                'title' => __('Wishlist - %1 item(s)', $wishlistCount),
+                'ajax' => true,
+                'content_url' => $this->getUrl('customer/*/viewWishlist', array('_current' => true))
+            )
+        );
     }
 
     /**

@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage.js
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -109,7 +107,7 @@ TranslateInlineTest.prototype.testDestroy = function() {
                 data:{
                     id: 'translate-form-id'
                 }
-            },
+            }
         },
         translateInline = jQuery('[data-role="translate-dialog"]').translateInline(options),
         editTrigger = jQuery('#edit-trigger-id').editTrigger(),

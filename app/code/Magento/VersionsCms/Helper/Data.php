@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\VersionsCms\Helper;
 /**
  * Base helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Array of admin users in system
@@ -27,11 +25,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_userCollectionFactory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory
     ) {
         $this->_userCollectionFactory = $userCollectionFactory;
@@ -80,7 +78,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * and add to each element new onChange method.
      * Element will be skipped if its type passed in $excludeTypes parameter.
      *
-     * @param \Magento\Data\Form\AbstractForm $container
+     * @param \Magento\Framework\Data\Form\AbstractForm $container
      * @param string $onChange
      * @param string|array $excludeTypes
      * @return void
@@ -91,7 +89,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $excludeTypes = array($excludeTypes);
         }
 
-        foreach ($container->getElements()as $element) {
+        foreach ($container->getElements() as $element) {
             if ($element->getType() == 'fieldset') {
                 $this->addOnChangeToFormElements($element, $onChange, $excludeTypes);
             } else {

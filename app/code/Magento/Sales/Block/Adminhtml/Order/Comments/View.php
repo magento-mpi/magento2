@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Comments;
 /**
  * Invoice view  comments form
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class View extends \Magento\Backend\Block\Template
@@ -43,12 +39,12 @@ class View extends \Magento\Backend\Block\Template
      * Retrieve required options from parent
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new \Magento\Core\Exception(__('Please correct the parent block for this block.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the parent block for this block.'));
         }
         $this->setEntity($this->getParentBlock()->getSource());
         parent::_beforeToHtml();
@@ -61,11 +57,11 @@ class View extends \Magento\Backend\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addChild('submit_button', 'Magento\Backend\Block\Widget\Button', array(
-            'id'      => 'submit_comment_button',
-            'label'   => __('Submit Comment'),
-            'class'   => 'save'
-        ));
+        $this->addChild(
+            'submit_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('id' => 'submit_comment_button', 'label' => __('Submit Comment'), 'class' => 'save')
+        );
         return parent::_prepareLayout();
     }
 
@@ -86,14 +82,17 @@ class View extends \Magento\Backend\Block\Template
     {
         switch ($this->getParentType()) {
             case 'invoice':
-                return $this->_salesData
-                    ->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $this->_salesData->canSendInvoiceCommentEmail(
+                    $this->getEntity()->getOrder()->getStore()->getId()
+                );
             case 'shipment':
-                return $this->_salesData
-                    ->canSendShipmentCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $this->_salesData->canSendShipmentCommentEmail(
+                    $this->getEntity()->getOrder()->getStore()->getId()
+                );
             case 'creditmemo':
-                return $this->_salesData
-                    ->canSendCreditmemoCommentEmail($this->getEntity()->getOrder()->getStore()->getId());
+                return $this->_salesData->canSendCreditmemoCommentEmail(
+                    $this->getEntity()->getOrder()->getStore()->getId()
+                );
         }
         return true;
     }

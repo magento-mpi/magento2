@@ -2,22 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Review\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Customer reviews controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Customer extends \Magento\App\Action\Action
+class Customer extends \Magento\Framework\App\Action\Action
 {
     /**
      * Customer session model
@@ -27,13 +24,11 @@ class Customer extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession
-    ) {
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Customer\Model\Session $customerSession)
+    {
         $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
@@ -42,7 +37,7 @@ class Customer extends \Magento\App\Action\Action
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

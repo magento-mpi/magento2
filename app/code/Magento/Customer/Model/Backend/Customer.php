@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +16,7 @@ class Customer extends \Magento\Customer\Model\Customer
      */
     public function getStoreId()
     {
-        if (($this->getWebsiteId() * 1)) {
+        if ($this->getWebsiteId() * 1) {
             return $this->_getWebsiteStoreId();
         }
         return parent::getStoreId();

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\GoogleShopping\Model\Resource\Attribute;
 /**
  * GoogleShopping Attributes collection
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether to join attribute_set_id to attributes or not
@@ -88,11 +84,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _joinAttributeSet()
     {
-        $this->getSelect()
-            ->joinInner(
-                array('types'=>$this->getTable('googleshopping_types')),
-                'main_table.type_id=types.type_id',
-                array('attribute_set_id' => 'types.attribute_set_id', 'target_country' => 'types.target_country'));
+        $this->getSelect()->joinInner(
+            array('types' => $this->getTable('googleshopping_types')),
+            'main_table.type_id=types.type_id',
+            array('attribute_set_id' => 'types.attribute_set_id', 'target_country' => 'types.target_country')
+        );
         return $this;
     }
 

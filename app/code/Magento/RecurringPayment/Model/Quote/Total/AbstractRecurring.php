@@ -10,8 +10,7 @@ namespace Magento\RecurringPayment\Model\Quote\Total;
 /**
  * Total model for recurring payments
  */
-abstract class AbstractRecurring
-    extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
+abstract class AbstractRecurring extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Don't add amounts to address

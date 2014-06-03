@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,18 +12,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -46,27 +44,35 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         if ($this->_coreRegistry->registry('current_giftregistry_type')) {
             $this->_updateButton('save', 'label', __('Save'));
-            $this->_updateButton('save', 'data_attribute', array(
-                'mage-init' => array(
-                    'button' => array('event' => 'save', 'target' => '#edit_form'),
-                )
-            ));
+            $this->_updateButton(
+                'save',
+                'data_attribute',
+                array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
+            );
 
-            $confirmMessage = __("If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?");
+            $confirmMessage = __(
+                "If you delete this gift registry type, you also delete customer registries that use this type. Do you want to continue?"
+            );
             $this->_updateButton('delete', 'label', __('Delete'));
-            $this->_updateButton('delete', 'onclick',
+            $this->_updateButton(
+                'delete',
+                'onclick',
                 'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
 
-            $this->_addButton('save_and_continue_edit', array(
-                'class'   => 'save',
-                'label'   => __('Save and Continue Edit'),
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                    ),
+            $this->_addButton(
+                'save_and_continue_edit',
+                array(
+                    'class' => 'save',
+                    'label' => __('Save and Continue Edit'),
+                    'data_attribute' => array(
+                        'mage-init' => array(
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
+                        )
+                    )
                 ),
-            ), 3);
+                3
+            );
         }
     }
 

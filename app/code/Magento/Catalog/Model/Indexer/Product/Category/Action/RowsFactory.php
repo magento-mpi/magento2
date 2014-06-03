@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Category\Action;
 
 /**
@@ -16,11 +15,11 @@ class RowsFactory extends \Magento\Catalog\Model\Indexer\Category\Product\Action
     /**
      * Factory constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\Catalog\Model\Indexer\Product\Category\Action\Rows'
     ) {
         parent::__construct($objectManager, $instanceName);

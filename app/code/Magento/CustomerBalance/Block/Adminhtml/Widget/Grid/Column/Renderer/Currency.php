@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +20,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     /**
      * Get currency code by row data
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -33,8 +31,9 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
             return $orphanCurrency;
         }
         if (!isset($this->_websiteBaseCurrencyCodes[$websiteId])) {
-            $this->_websiteBaseCurrencyCodes[$websiteId] = $this->_storeManager->getWebsite($websiteId)
-                ->getBaseCurrencyCode();
+            $this->_websiteBaseCurrencyCodes[$websiteId] = $this->_storeManager->getWebsite(
+                $websiteId
+            )->getBaseCurrencyCode();
         }
         return $this->_websiteBaseCurrencyCodes[$websiteId];
     }
@@ -42,7 +41,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     /**
      * Stub getter for exchange rate
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return int
      */
     protected function _getRate($row)

@@ -2,29 +2,27 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper\Product;
+
+use Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface;
+use Magento\Framework\App\Helper\AbstractHelper;
 
 /**
  * Helper for fetching properties by product configurational item
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Configuration extends \Magento\App\Helper\AbstractHelper
-    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends AbstractHelper implements ConfigurationInterface
 {
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filter;
-
 
     /**
      * Product option factory
@@ -36,21 +34,21 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
-     * @param \Magento\Filter\FilterManager $filter
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Filter\FilterManager $filter
+     * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
-        \Magento\Filter\FilterManager $filter,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Filter\FilterManager $filter,
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_productOptionFactory = $productOptionFactory;
         $this->filter = $filter;
@@ -75,6 +73,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
                 $option = $product->getOptionById($optionId);
                 if ($option) {
                     $itemOption = $item->getOptionByCode('option_' . $option->getId());
+                    /** @var $group \Magento\Catalog\Model\Product\Option\Type\DefaultType */
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)
                         ->setConfigurationItem($item)
@@ -203,7 +202,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
 
         $result = array('value' => $truncatedValue);
 
-        if ($maxLength && ($this->string->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && $this->string->strlen($optionValue) > $maxLength) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

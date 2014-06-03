@@ -1,0 +1,14 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="product-options-bottom">
+    <?php if ($this->hasRequiredOptions()):?>
+        <p class="required"><?php echo __('* Required Fields') ?></p>
+    <?php endif;?>
+    <?php echo $this->getChildHtml('', true);?>
+</div>

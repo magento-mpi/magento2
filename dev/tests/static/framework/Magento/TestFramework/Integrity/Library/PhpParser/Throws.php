@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
  * Parse throws and collect dependencies for it
  *
- * @package Magento\TestFramework
  */
 class Throws implements Parser, DependenciesCollector
 {
@@ -61,9 +59,11 @@ class Throws implements Parser, DependenciesCollector
             $class = '';
             if ($this->tokens->getTokenCodeByKey($throw + 2) == T_NEW) {
                 $step = 4;
-                while ($this->tokens->getTokenCodeByKey($throw+$step) == T_STRING
-                    || $this->tokens->getTokenCodeByKey($throw+$step) == T_NS_SEPARATOR
-                ) {
+                while ($this->tokens->getTokenCodeByKey(
+                    $throw + $step
+                ) == T_STRING || $this->tokens->getTokenCodeByKey(
+                    $throw + $step
+                ) == T_NS_SEPARATOR) {
                     $class .= trim($this->tokens->getTokenValueByKey($throw + $step));
                     $step++;
                 }

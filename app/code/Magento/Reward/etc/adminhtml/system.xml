@@ -3,13 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
         <section id="magento_reward" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Reward Points</label>
@@ -52,6 +50,10 @@
                 </field>
                 <field id="refund_automatically" translate="label" type="select" sortOrder="65" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Refund Reward Points Automatically</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="deduct_automatically" translate="label" type="select" sortOrder="67" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Deduct Reward Points from Refund Amount Automatically</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="landing_page" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">

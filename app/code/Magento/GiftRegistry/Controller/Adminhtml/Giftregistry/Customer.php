@@ -2,21 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\GiftRegistry\Model\Entity;
 
 /**
  * Gift Registry controller
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Customer extends \Magento\Backend\App\Action
@@ -24,29 +20,29 @@ class Customer extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
@@ -92,7 +88,11 @@ class Customer extends \Magento\Backend\App\Action
     {
         try {
             $model = $this->_initEntity();
-            $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($model->getCustomerId());
+            $customer = $this->_objectManager->create(
+                'Magento\Customer\Model\Customer'
+            )->load(
+                $model->getCustomerId()
+            );
 
             $this->_title->add(__('Customers'));
             $this->_title->add(__('Customers'));
@@ -102,17 +102,17 @@ class Customer extends \Magento\Backend\App\Action
             $this->_view->loadLayout()->renderLayout();
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('customer/index/edit', array(
-                'id'         => $this->getRequest()->getParam('customer'),
-                'active_tab' => 'giftregistry'
-            ));
+            $this->_redirect(
+                'customer/index/edit',
+                array('id' => $this->getRequest()->getParam('customer'), 'active_tab' => 'giftregistry')
+            );
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Something went wrong while editing the gift registry.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_redirect('customer/index/edit', array(
-                'id'         => $this->getRequest()->getParam('customer'),
-                'active_tab' => 'giftregistry'
-            ));
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
+            $this->_redirect(
+                'customer/index/edit',
+                array('id' => $this->getRequest()->getParam('customer'), 'active_tab' => 'giftregistry')
+            );
         }
     }
 
@@ -141,7 +141,7 @@ class Customer extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Failed to add shopping cart items to gift registry.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
@@ -184,7 +184,7 @@ class Customer extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't update these gift registry items."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $entity->getId()));
@@ -211,15 +211,11 @@ class Customer extends \Magento\Backend\App\Action
             $model->setStoreId($storeId);
 
             try {
-                $sentCount   = 0;
+                $sentCount = 0;
                 $failedCount = 0;
                 foreach ($emails as $email) {
                     if (!empty($email)) {
-                        if ($model->sendShareRegistryEmail(
-                            $email,
-                            $storeId,
-                            $this->getRequest()->getParam('message')
-                        )
+                        if ($model->sendShareRegistryEmail($email, $storeId, $this->getRequest()->getParam('message'))
                         ) {
                             $sentCount++;
                         } else {
@@ -265,7 +261,7 @@ class Customer extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't delete this gift registry entity."));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }

@@ -1,0 +1,23 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox */ ?>
+<?php
+/** @var $element \Magento\Framework\Data\Form\Element\Checkbox */
+$element = $this->getElement();
+?>
+
+
+<?php if ($element->getNoSpan() !== true): ?>
+<span class="field-row">
+<?php endif; ?>
+    <?php echo $element->getLabelHtml() ?>
+    <?php echo $this->getHtml() ?>
+<?php if ($element->getNoSpan() !== true): ?>
+</span>
+<?php endif?>

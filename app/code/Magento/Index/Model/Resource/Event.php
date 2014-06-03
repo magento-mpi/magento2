@@ -2,24 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Index\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Index\Model\Process as ProcessModel;
 
 /**
  * Index Event Resource Model
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @return void
@@ -41,10 +37,15 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
          * Check if event already exist and merge previous data
          */
         if (!$object->getId()) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable())
-                ->where('type=?', $object->getType())
-                ->where('entity=?', $object->getEntity());
+            $select = $this->_getReadAdapter()->select()->from(
+                $this->getMainTable()
+            )->where(
+                'type=?',
+                $object->getType()
+            )->where(
+                'entity=?',
+                $object->getEntity()
+            );
             if ($object->hasEntityPk()) {
                 $select->where('entity_pk=?', $object->getEntityPk());
             }
@@ -60,7 +61,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save assigned processes
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterSave(AbstractModel $object)
@@ -73,16 +74,16 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
             } else {
                 foreach ($processIds as $processId => $processStatus) {
                     if (is_null($processStatus) || $processStatus == ProcessModel::EVENT_STATUS_DONE) {
-                        $this->_getWriteAdapter()->delete($processTable, array(
-                            'process_id = ?' => $processId,
-                            'event_id = ?'   => $object->getId(),
-                        ));
+                        $this->_getWriteAdapter()->delete(
+                            $processTable,
+                            array('process_id = ?' => $processId, 'event_id = ?' => $object->getId())
+                        );
                         continue;
                     }
                     $data = array(
                         'process_id' => $processId,
-                        'event_id'   => $object->getId(),
-                        'status'     => $processStatus
+                        'event_id' => $object->getId(),
+                        'status' => $processStatus
                     );
                     $this->_getWriteAdapter()->insertOnDuplicate($processTable, $data, array('status'));
                 }

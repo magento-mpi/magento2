@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,31 +10,28 @@ namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
 /**
  * Giftcard Amount Backend Model
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Amount extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
     }
-
 
     /**
      * Define main table and primary key
@@ -58,17 +53,15 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadProductData($product, $attribute)
     {
         $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getMainTable(), array(
-                'website_id',
-                'value'
-            ))
-            ->where('entity_id=:product_id')
-            ->where('attribute_id=:attribute_id');
-        $bind = array(
-            'product_id'   => $product->getId(),
-            'attribute_id' => $attribute->getId()
+        $select = $read->select()->from(
+            $this->getMainTable(),
+            array('website_id', 'value')
+        )->where(
+            'entity_id=:product_id'
+        )->where(
+            'attribute_id=:attribute_id'
         );
+        $bind = array('product_id' => $product->getId(), 'attribute_id' => $attribute->getId());
         if ($attribute->isScopeGlobal()) {
             $select->where('website_id=0');
         } else {
@@ -97,7 +90,7 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
         }
 
-        $condition['entity_id=?']    = $product->getId();
+        $condition['entity_id=?'] = $product->getId();
         $condition['attribute_id=?'] = $attribute->getId();
 
         $this->_getWriteAdapter()->delete($this->getMainTable(), $condition);

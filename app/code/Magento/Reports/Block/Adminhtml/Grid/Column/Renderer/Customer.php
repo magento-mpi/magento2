@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,25 +12,25 @@ namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Customer
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Customer extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders grid column
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
-        $id   = $row->getCustomerId();
+        $id = $row->getCustomerId();
 
         if (!$id) {
             return __('Show Reviews');
         }
 
-        return sprintf('<a href="%s">%s</a>',
-            $this->getUrl('catalog/product_review/', array('customerId' => $id)),
+        return sprintf(
+            '<a href="%s">%s</a>',
+            $this->getUrl('review/product/', array('customerId' => $id)),
             __('Show Reviews')
         );
     }

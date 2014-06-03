@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Model\Config\Source;
 
 use Magento\Shipping\Model\Carrier\Source\GenericInterface;

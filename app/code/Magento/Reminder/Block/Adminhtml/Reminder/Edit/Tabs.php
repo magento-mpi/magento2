@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
 
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Reminder rules edit tabs block
  */
-class Tabs
-    extends \Magento\Backend\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
-
     /**
      * Core registry
      *
@@ -29,14 +25,14 @@ class Tabs
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         Registry $registry,
         array $data = array()
@@ -65,37 +61,49 @@ class Tabs
      */
     protected function _beforeToHtml()
     {
-        $this->addTab('general_section', array(
-            'label'   => __('Rule Information'),
-            'content' => $this->getLayout()->createBlock(
-                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General',
-                'adminhtml_reminder_edit_tab_general'
-            )->toHtml(),
-        ));
+        $this->addTab(
+            'general_section',
+            array(
+                'label' => __('Rule Information'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General',
+                    'adminhtml_reminder_edit_tab_general'
+                )->toHtml()
+            )
+        );
 
-        $this->addTab('conditions_section', array(
-            'label'   => __('Conditions'),
-            'content' => $this->getLayout()->createBlock(
-                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions',
-                'adminhtml_reminder_edit_tab_conditions'
-            )->toHtml()
-        ));
+        $this->addTab(
+            'conditions_section',
+            array(
+                'label' => __('Conditions'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions',
+                    'adminhtml_reminder_edit_tab_conditions'
+                )->toHtml()
+            )
+        );
 
-        $this->addTab('template_section', array(
-            'label'   => __('Emails and Labels'),
-            'content' => $this->getLayout()->createBlock(
-                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates',
-                'adminhtml_reminder_edit_tab_templates'
-            )->toHtml()
-        ));
+        $this->addTab(
+            'template_section',
+            array(
+                'label' => __('Emails and Labels'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates',
+                    'adminhtml_reminder_edit_tab_templates'
+                )->toHtml()
+            )
+        );
 
         $rule = $this->_coreRegistry->registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
-            $this->addTab('matched_customers', array(
-                'label' => __('Matched Customers'),
-                'url'   => $this->getUrl('adminhtml/*/customerGrid', array('rule_id' => $rule->getId())),
-                'class' => 'ajax'
-            ));
+            $this->addTab(
+                'matched_customers',
+                array(
+                    'label' => __('Matched Customers'),
+                    'url' => $this->getUrl('adminhtml/*/customerGrid', array('rule_id' => $rule->getId())),
+                    'class' => 'ajax'
+                )
+            );
         }
 
         return parent::_beforeToHtml();

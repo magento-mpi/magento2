@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -24,7 +20,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     public function testGetButtonHtml()
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Layout',
+            'Magento\Framework\View\Layout',
             array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
         $layout->getUpdate()->load();
@@ -46,7 +42,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Layout',
+            'Magento\Framework\View\Layout',
             array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
         $layout->getUpdate()->load();

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@
  *
  * @method setTitle(string $title)
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\System\Config;
@@ -120,4 +116,3 @@ class Tabs extends \Magento\Backend\Block\Widget
         return $section->getId() == $this->_currentSectionId;
     }
 }
-

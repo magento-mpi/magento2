@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class Catalog
  * Backend catalog price rule grid
  *
- * @package Magento\CatalogRule\Test\Block\Backend
  */
 class Catalog extends Grid
 {
@@ -29,23 +25,46 @@ class Catalog extends Grid
      *
      * @var string
      */
-    protected $addNewCatalogRule = "../*[@class='page-actions']//*[@id='add']";
+    protected $addNewCatalogRule = "//*[@class='page-actions']//*[@id='add']";
 
     /**
      * 'Apply Rules' button
      *
      * @var string
      */
-    protected $applyCatalogRules = "../*[@class='page-actions']//*[@id='apply_rules']";
+    protected $applyCatalogRules = "//*[@class='page-actions']//*[@id='apply_rules']";
 
     /**
-     * {@inheritdoc}
+     * An element locator which allows to select first entity in grid
+     *
+     * @var string
      */
-    protected $filters = array(
-        'name' => array(
-            'selector' => '#promo_catalog_grid_filter_name'
-        )
-    );
+    protected $editLink = '#promo_catalog_grid_table tbody tr:first-child td';
+
+    /**
+     * Filters array mapping
+     *
+     * @var array
+     */
+    protected $filters = [
+        'name' => [
+            'selector' => '#promo_catalog_grid_filter_name',
+        ],
+        'from_date' => [
+            'selector' => '[data-ui-id="widget-grid-column-filter-date-filter-from-date-from"]',
+        ],
+        'to_date' => [
+            'selector' => '[data-ui-id="widget-grid-column-filter-date-1-filter-to-date-from"]',
+        ],
+        'is_active' => [
+            'selector' => '#promo_catalog_grid_filter_is_active',
+            'input' => 'select',
+        ],
+        'rule_website' => [
+            'selector' => '#promo_catalog_grid_filter_rule_website',
+            'input' => 'select',
+        ],
+    ];
 
     /**
      * Add new catalog rule
@@ -94,5 +113,18 @@ class Catalog extends Grid
     public function isRuleVisible($ruleName)
     {
         return parent::isRowVisible(array('name' => $ruleName));
+    }
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
+     * @return bool
+     */
+    public function isRowVisible(array $filter, $isSearchable = false)
+    {
+        $this->search(array('name' => $filter['name']));
+        return parent::isRowVisible($filter, $isSearchable);
     }
 }

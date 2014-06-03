@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +12,7 @@ namespace Magento\User\Block\Role\Tab;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Info
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Info extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @return string
@@ -65,37 +61,26 @@ class Info
      */
     protected function _initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset(
-            'base_fieldset',
-            array('legend'=>__('Role Information'))
-        );
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Role Information')));
 
-        $fieldset->addField('role_name', 'text',
+        $fieldset->addField(
+            'role_name',
+            'text',
             array(
-                'name'  => 'rolename',
+                'name' => 'rolename',
                 'label' => __('Role Name'),
-                'id'    => 'role_name',
+                'id' => 'role_name',
                 'class' => 'required-entry',
-                'required' => true,
+                'required' => true
             )
         );
 
-        $fieldset->addField('role_id', 'hidden',
-            array(
-                'name'  => 'role_id',
-                'id'    => 'role_id',
-            )
-        );
+        $fieldset->addField('role_id', 'hidden', array('name' => 'role_id', 'id' => 'role_id'));
 
-        $fieldset->addField('in_role_user', 'hidden',
-            array(
-                'name'  => 'in_role_user',
-                'id'    => 'in_role_userz',
-            )
-        );
+        $fieldset->addField('in_role_user', 'hidden', array('name' => 'in_role_user', 'id' => 'in_role_userz'));
 
         $fieldset->addField('in_role_user_old', 'hidden', array('name' => 'in_role_user_old'));
 

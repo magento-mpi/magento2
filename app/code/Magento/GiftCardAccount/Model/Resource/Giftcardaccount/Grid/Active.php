@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +10,11 @@
 /**
  * GiftCardAccount Resource Collection
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid;
 
-class Active
-        implements \Magento\Option\ArrayInterface
+class Active implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return options
@@ -29,10 +24,8 @@ class Active
     public function toOptionArray()
     {
         return array(
-            \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED =>
-            __('Yes'),
-            \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED =>
-            __('No'),
+            \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED => __('Yes'),
+            \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED => __('No')
         );
     }
 }

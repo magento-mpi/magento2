@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Billing
  * One page checkout status billing block
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Billing extends Form
 {
@@ -37,6 +33,13 @@ class Billing extends Form
      * @var string
      */
     protected $useForShipping = '[id="billing:use_for_shipping_no"]';
+
+    /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
 
     /**
      * Fill billing address
@@ -61,6 +64,6 @@ class Billing extends Form
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#billing-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

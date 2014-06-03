@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adminhtml\System\Config\Source;
 
 /**
@@ -24,8 +20,9 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Search\Model\Adminhtml\System\Config\Source\Engine');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Search\Model\Adminhtml\System\Config\Source\Engine'
+        );
     }
 
     public function testToOptionArray()

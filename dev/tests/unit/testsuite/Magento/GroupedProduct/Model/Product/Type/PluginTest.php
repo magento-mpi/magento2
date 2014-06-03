@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product\Type;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +27,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->moduleManagerMock = $this->getMock('\Magento\Module\Manager', array(), array(), '', false);
+        $this->moduleManagerMock = $this->getMock('\Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
         $this->object = new \Magento\GroupedProduct\Model\Product\Type\Plugin($this->moduleManagerMock);
     }
@@ -36,8 +35,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetOptionArray()
     {
         $this->moduleManagerMock->expects($this->any())->method('isOutputEnabled')->will($this->returnValue(false));
-        $this->assertEquals(array(),
+        $this->assertEquals(
+            array(),
             $this->object->afterGetOptionArray($this->subjectMock, array('grouped' => 'test'))
         );
     }
-} 
+}

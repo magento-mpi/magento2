@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,36 +9,36 @@
 /**
  * Invitation config model, used for retrieve data from configuration
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Model;
 
 class Config
 {
     const XML_PATH_ENABLED = 'magento_invitation/general/enabled';
+
     const XML_PATH_ENABLED_ON_FRONT = 'magento_invitation/general/enabled_on_front';
 
     const XML_PATH_USE_INVITATION_MESSAGE = 'magento_invitation/general/allow_customer_message';
+
     const XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND = 'magento_invitation/general/max_invitation_amount_per_send';
 
     const XML_PATH_REGISTRATION_REQUIRED_INVITATION = 'magento_invitation/general/registration_required_invitation';
+
     const XML_PATH_REGISTRATION_USE_INVITER_GROUP = 'magento_invitation/general/registration_use_inviter_group';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
+    {
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -51,8 +49,12 @@ class Config
      */
     public function getMaxInvitationsPerSend($storeId = null)
     {
-        $max = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $storeId);
-        return ($max < 1 ? 1 : $max);
+        $max = (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        return $max < 1 ? 1 : $max;
     }
 
     /**
@@ -63,7 +65,11 @@ class Config
      */
     public function getInvitationRequired($storeId = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, $storeId);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_REGISTRATION_REQUIRED_INVITATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -74,7 +80,11 @@ class Config
      */
     public function getUseInviterGroup($storeId = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, $storeId);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_REGISTRATION_USE_INVITER_GROUP,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -85,7 +95,11 @@ class Config
      */
     public function isInvitationMessageAllowed($storeId = null)
     {
-        return (bool) $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
+        return (bool)$this->_scopeConfig->isSetFlag(
+            self::XML_PATH_USE_INVITATION_MESSAGE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -97,7 +111,11 @@ class Config
      */
     public function isEnabled($storeId = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $storeId);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -110,7 +128,11 @@ class Config
     public function isEnabledOnFront($storeId = null)
     {
         if ($this->isEnabled($storeId)) {
-            return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED_ON_FRONT, $storeId);
+            return $this->_scopeConfig->isSetFlag(
+                self::XML_PATH_ENABLED_ON_FRONT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         }
 
         return false;

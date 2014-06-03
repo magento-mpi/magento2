@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Theme;
 
 /**
  * Data model for themes
  *
- * @method \Magento\View\Design\ThemeInterface setArea(string $area)
+ * @method \Magento\Framework\View\Design\ThemeInterface setArea(string $area)
  */
 class Data extends \Magento\Core\Model\Theme
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,13 +13,11 @@
  * @method string getItemUrl()
  * @method string getItemName()
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\Urlrewrite;
 
-class Link extends \Magento\View\Element\AbstractBlock
+class Link extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
      * Render output
@@ -30,7 +26,8 @@ class Link extends \Magento\View\Element\AbstractBlock
      */
     protected function _toHtml()
     {
-        return '<p>' . $this->getLabel() . ' <a href="' . $this->getItemUrl() . '">'
-            . $this->escapeHtml($this->getItemName()) . '</a></p>';
+        return '<p>' . $this->getLabel() . ' <a href="' . $this->getItemUrl() . '">' . $this->escapeHtml(
+            $this->getItemName()
+        ) . '</a></p>';
     }
 }

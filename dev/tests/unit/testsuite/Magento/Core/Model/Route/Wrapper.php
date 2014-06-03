@@ -11,7 +11,7 @@
  */
 namespace Magento\Core\Model\Route;
 
-class Wrapper extends \PHPUnit_Framework_TestCase implements \Magento\Config\CacheInterface
+class Wrapper extends \PHPUnit_Framework_TestCase implements \Magento\Framework\Config\CacheInterface
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -20,7 +20,7 @@ class Wrapper extends \PHPUnit_Framework_TestCase implements \Magento\Config\Cac
 
     public function __construct()
     {
-         $this->_mock = $this->getMock('SomeClass', array('get', 'put'));
+        $this->_mock = $this->getMock('SomeClass', array('get', 'put'));
     }
 
     public function getRealMock()

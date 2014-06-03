@@ -29,17 +29,18 @@ class HelloTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
 
         $this->customerSession = $objectManager->get('Magento\Customer\Model\Session');
-        $this->block = $objectManager
-            ->get('Magento\View\LayoutInterface')
-            ->createBlock(
-                'Magento\Customer\Block\Account\Dashboard\Hello',
-                '',
-                ['customerSession' => $this->customerSession]
-            )
-            ->setTemplate('account/dashboard/hello.phtml');
+        $this->block = $objectManager->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Account\Dashboard\Hello',
+            '',
+            array('customerSession' => $this->customerSession)
+        )->setTemplate(
+            'account/dashboard/hello.phtml'
+        );
     }
 
     /**

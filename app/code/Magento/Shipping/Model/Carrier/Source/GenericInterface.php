@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model\Carrier\Source;
 
-use Magento\Data\OptionSourceInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Interface GenericInterface

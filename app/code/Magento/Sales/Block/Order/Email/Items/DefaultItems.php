@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Sales\Block\Order\Email\Items;
 /**
  * Sales Order Email items default renderer
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class DefaultItems extends \Magento\View\Element\Template
+class DefaultItems extends \Magento\Framework\View\Element\Template
 {
     /**
      * Retrieve current order model instance
@@ -56,8 +52,14 @@ class DefaultItems extends \Magento\View\Element\Template
     public function getValueHtml($value)
     {
         if (is_array($value)) {
-            return sprintf('%d', $value['qty']) . ' x ' . $this->escapeHtml($value['title']) . " "
-                . $this->getItem()->getOrder()->formatPrice($value['price']);
+            return sprintf(
+                '%d',
+                $value['qty']
+            ) . ' x ' . $this->escapeHtml(
+                $value['title']
+            ) . " " . $this->getItem()->getOrder()->formatPrice(
+                $value['price']
+            );
         } else {
             return $this->escapeHtml($value);
         }
@@ -79,7 +81,7 @@ class DefaultItems extends \Magento\View\Element\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

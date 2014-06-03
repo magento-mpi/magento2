@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +26,7 @@ class Giftcard extends \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcar
     /**
      * Get current currency code
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId $storeId
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId $storeId
      * @return string
      */
     public function getCurrentCurrencyCode($storeId)

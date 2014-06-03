@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * RMA Adminhtml Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml;
@@ -30,7 +26,20 @@ class Rma extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_blockGroup = 'Magento_Rma';
         $this->_headerText = __('Returns');
         $this->_addButtonLabel = __('New Returns Request');
+
         parent::_construct();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _prepareLayout()
+    {
+        $parent = $this->getParentBlock();
+        if ($parent instanceof Customer\Edit\Tab\Rma || $parent instanceof Order\View\Tab\Rma) {
+            $this->removeButton('add');
+        }
+        return parent::_prepareLayout();
     }
 
     /**
@@ -42,5 +51,4 @@ class Rma extends \Magento\Backend\Block\Widget\Grid\Container
     {
         return $this->getUrl('adminhtml/*/new');
     }
-
 }

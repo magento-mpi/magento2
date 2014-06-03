@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\DesignEditor\Model\Config\Control;
 
-use Magento\Module\Dir\Reader;
+use Magento\Framework\Module\Dir\Reader;
 
 /**
  * Quick styles configuration
@@ -36,10 +34,8 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
      * @param array $configFiles
      * @param Reader $moduleReader
      */
-    public function __construct(
-        $configFiles,
-        Reader $moduleReader
-    ) {
+    public function __construct($configFiles, Reader $moduleReader)
+    {
         $this->_moduleReader = $moduleReader;
         parent::__construct($configFiles);
     }

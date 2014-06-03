@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -17,25 +14,25 @@ class Js extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Registry $registry,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -66,14 +63,12 @@ class Js extends \Magento\Backend\Block\Template
             );
 
             foreach ($website->getGroups() as $groupId => $group) {
-                $result[$websiteId]['groups'][$groupId] = array(
-                    'name' => $group->getName()
-                );
+                $result[$websiteId]['groups'][$groupId] = array('name' => $group->getName());
 
                 foreach ($group->getStores() as $storeId => $store) {
                     $result[$websiteId]['groups'][$groupId]['stores'][] = array(
                         'name' => $store->getName(),
-                        'store_id' => $storeId,
+                        'store_id' => $storeId
                     );
                 }
             }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,33 +23,37 @@ use Magento\Index\Model\Resource\Event\Collection;
  * @method string getMode()
  * @method \Magento\Index\Model\Process setMode(string $value)
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Process extends \Magento\Core\Model\AbstractModel
+class Process extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Process statuses
      */
-    const STATUS_RUNNING            = 'working';
-    const STATUS_PENDING            = 'pending';
-    const STATUS_REQUIRE_REINDEX    = 'require_reindex';
+    const STATUS_RUNNING = 'working';
+
+    const STATUS_PENDING = 'pending';
+
+    const STATUS_REQUIRE_REINDEX = 'require_reindex';
 
     /**
      * Process event statuses
      */
-    const EVENT_STATUS_NEW          = 'new';
-    const EVENT_STATUS_DONE         = 'done';
-    const EVENT_STATUS_ERROR        = 'error';
-    const EVENT_STATUS_WORKING      = 'working';
+    const EVENT_STATUS_NEW = 'new';
+
+    const EVENT_STATUS_DONE = 'done';
+
+    const EVENT_STATUS_ERROR = 'error';
+
+    const EVENT_STATUS_WORKING = 'working';
 
     /**
      * Process modes
      * Process mode allow disable automatic process events processing
      */
-    const MODE_MANUAL              = 'manual';
-    const MODE_REAL_TIME           = 'real_time';
+    const MODE_MANUAL = 'manual';
+
+    const MODE_REAL_TIME = 'real_time';
 
     /**
      * Indexer stategy object
@@ -102,29 +104,29 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_indexerConfig;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Index\Model\Resource\Event $resourceEvent
      * @param \Magento\Index\Model\Indexer\Factory $indexerFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Index\Model\Resource\Event $resourceEvent,
         \Magento\Index\Model\Indexer\Factory $indexerFactory,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -191,7 +193,6 @@ class Process extends \Magento\Core\Model\AbstractModel
             }
         }
         return $this;
-
     }
 
     /**
@@ -224,15 +225,17 @@ class Process extends \Magento\Core\Model\AbstractModel
      * Reindex all data what this process responsible is
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @throws \Exception
      */
     public function reindexAll()
     {
         if ($this->isLocked()) {
-            throw new \Magento\Core\Exception(
-                __('%1 Index process is not working now. Please try running this process later.',
-                    $this->getIndexer()->getName())
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    '%1 Index process is not working now. Please try running this process later.',
+                    $this->getIndexer()->getName()
+                )
             );
         }
 
@@ -242,8 +245,8 @@ class Process extends \Magento\Core\Model\AbstractModel
         $this->lock();
         try {
             $eventsCollection = $this->_eventRepository->getUnprocessed($this);
-            if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0
-                || $this->getForcePartialReindex()
+            if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0 ||
+                $this->getForcePartialReindex()
             ) {
                 $this->_getResource()->beginTransaction();
                 try {
@@ -341,7 +344,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Get Indexer strategy object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Index\Model\IndexerInterface
      */
     public function getIndexer()
@@ -349,17 +352,19 @@ class Process extends \Magento\Core\Model\AbstractModel
         if ($this->_currentIndexer === null) {
             $name = $this->_getData('indexer_code');
             if (!$name) {
-                throw new \Magento\Core\Exception(__('Indexer name is not defined.'));
+                throw new \Magento\Framework\Model\Exception(__('Indexer name is not defined.'));
             }
             $indexerConfiguration = $this->_indexerConfig->getIndexer($name);
             if (!$indexerConfiguration || empty($indexerConfiguration['instance'])) {
-                throw new \Magento\Core\Exception(__('Indexer model is not defined.'));
+                throw new \Magento\Framework\Model\Exception(__('Indexer model is not defined.'));
             }
             $indexerModel = $this->_indexerFactory->create($indexerConfiguration['instance']);
             if ($indexerModel instanceof \Magento\Index\Model\Indexer\AbstractIndexer) {
                 $this->_currentIndexer = $indexerModel;
             } else {
-                throw new \Magento\Core\Exception(__('Indexer model should extend \Magento\Index\Model\Indexer\Abstract.'));
+                throw new \Magento\Framework\Model\Exception(
+                    __('Indexer model should extend \Magento\Index\Model\Indexer\Abstract.')
+                );
             }
         }
         return $this->_currentIndexer;
@@ -421,10 +426,8 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @param bool $skipUnmatched
      * @return $this
      */
-    protected function _processEventsCollection(
-        Collection $eventsCollection,
-        $skipUnmatched = true
-    ) {
+    protected function _processEventsCollection(Collection $eventsCollection, $skipUnmatched = true)
+    {
         // We can't reload the collection because of transaction
         /** @var $event \Magento\Index\Model\Event */
         while (true == ($event = $eventsCollection->fetchItem())) {
@@ -525,10 +528,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      */
     public function changeStatus($status)
     {
-        $this->_eventManager->dispatch('index_process_change_status', array(
-            'process' => $this,
-            'status' => $status
-        ));
+        $this->_eventManager->dispatch('index_process_change_status', array('process' => $this, 'status' => $status));
         $this->_getResource()->updateStatus($this, $status);
         return $this;
     }
@@ -540,10 +540,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      */
     public function getModesOptions()
     {
-        return array(
-            self::MODE_REAL_TIME => __('Update on Save'),
-            self::MODE_MANUAL => __('Manual Update')
-        );
+        return array(self::MODE_REAL_TIME => __('Update on Save'), self::MODE_MANUAL => __('Manual Update'));
     }
 
     /**
@@ -554,9 +551,9 @@ class Process extends \Magento\Core\Model\AbstractModel
     public function getStatusesOptions()
     {
         return array(
-            self::STATUS_PENDING            => __('Ready'),
-            self::STATUS_RUNNING            => __('Processing'),
-            self::STATUS_REQUIRE_REINDEX    => __('Reindex Required'),
+            self::STATUS_PENDING => __('Ready'),
+            self::STATUS_RUNNING => __('Processing'),
+            self::STATUS_REQUIRE_REINDEX => __('Reindex Required')
         );
     }
 
@@ -567,10 +564,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      */
     public function getUpdateRequiredOptions()
     {
-        return array(
-            0 => __('No'),
-            1 => __('Yes'),
-        );
+        return array(0 => __('No'), 1 => __('Yes'));
     }
 
     /**

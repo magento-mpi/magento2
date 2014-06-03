@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,23 +12,21 @@ namespace Magento\Authorizenet\Controller\Directpost;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Payment extends \Magento\App\Action\Action
+class Payment extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -100,18 +96,20 @@ class Payment extends \Magento\App\Action\Action
             }
             $paymentMethod->process($data);
             $result['success'] = 1;
-        } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = __('We couldn\'t process your order right now. Please try again later.');
         }
 
-        if (!empty($data['controller_action_name'])
-            && strpos($data['controller_action_name'], 'sales_order_') === false
+        if (!empty($data['controller_action_name']) && strpos(
+            $data['controller_action_name'],
+            'sales_order_'
+        ) === false
         ) {
             if (!empty($data['key'])) {
                 $result['key'] = $data['key'];
@@ -135,21 +133,30 @@ class Payment extends \Magento\App\Action\Action
     {
         $redirectParams = $this->getRequest()->getParams();
         $params = array();
-        if (!empty($redirectParams['success'])
-            && isset($redirectParams['x_invoice_num'])
-            && isset($redirectParams['controller_action_name'])
+        if (!empty($redirectParams['success']) && isset(
+            $redirectParams['x_invoice_num']
+        ) && isset(
+            $redirectParams['controller_action_name']
+        )
         ) {
             $this->_getDirectPostSession()->unsetData('quote_id');
-            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\HelperInterface')
-                ->getSuccessOrderUrl($redirectParams);
+            $params['redirect_parent'] = $this->_objectManager->get(
+                'Magento\Authorizenet\Helper\HelperInterface'
+            )->getSuccessOrderUrl(
+                $redirectParams
+            );
         }
         if (!empty($redirectParams['error_msg'])) {
             $cancelOrder = empty($redirectParams['x_invoice_num']);
             $this->_returnCustomerQuote($cancelOrder, $redirectParams['error_msg']);
         }
 
-        if (isset($redirectParams['controller_action_name'])
-            && strpos($redirectParams['controller_action_name'], 'sales_order_') !== false
+        if (isset(
+            $redirectParams['controller_action_name']
+        ) && strpos(
+            $redirectParams['controller_action_name'],
+            'sales_order_'
+        ) !== false
         ) {
             unset($redirectParams['controller_action_name']);
             unset($params['redirect_parent']);
@@ -170,8 +177,11 @@ class Payment extends \Magento\App\Action\Action
         $paymentParam = $this->getRequest()->getParam('payment');
         $controller = $this->getRequest()->getParam('controller');
         if (isset($paymentParam['method'])) {
-            $params = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
-                ->getSaveOrderUrlParams($controller);
+            $params = $this->_objectManager->get(
+                'Magento\Authorizenet\Helper\Data'
+            )->getSaveOrderUrlParams(
+                $controller
+            );
             $this->_getDirectPostSession()->setQuoteId($this->_getCheckout()->getQuote()->getId());
             $this->_forward(
                 $params['action'],
@@ -180,10 +190,7 @@ class Payment extends \Magento\App\Action\Action
                 $this->getRequest()->getParams()
             );
         } else {
-            $result = array(
-                'error_messages' => __('Please choose a payment method.'),
-                'goto_section'   => 'payment'
-            );
+            $result = array('error_messages' => __('Please choose a payment method.'), 'goto_section' => 'payment');
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
@@ -196,8 +203,9 @@ class Payment extends \Magento\App\Action\Action
     public function returnQuoteAction()
     {
         $this->_returnCustomerQuote();
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')
-            ->jsonEncode(array('success' => 1)));
+        $this->getResponse()->setBody(
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array('success' => 1))
+        );
     }
 
     /**
@@ -214,12 +222,9 @@ class Payment extends \Magento\App\Action\Action
             /* @var $order \Magento\Sales\Model\Order */
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
-                    ->load($order->getQuoteId());
+                $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load($order->getQuoteId());
                 if ($quote->getId()) {
-                    $quote->setIsActive(1)
-                        ->setReservedOrderId(NULL)
-                        ->save();
+                    $quote->setIsActive(1)->setReservedOrderId(null)->save();
                     $this->_getCheckout()->replaceQuote($quote);
                 }
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($incrementId);

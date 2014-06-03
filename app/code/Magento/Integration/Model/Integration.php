@@ -28,54 +28,66 @@ namespace Magento\Integration\Model;
  * @method \string getUpdatedAt()
  * @method Integration setUpdatedAt(\string $createdAt)
  */
-class Integration extends \Magento\Core\Model\AbstractModel
+class Integration extends \Magento\Framework\Model\AbstractModel
 {
     /**#@+
      * Integration Status values
      */
     const STATUS_INACTIVE = 0;
+
     const STATUS_ACTIVE = 1;
+
     /**#@-*/
 
     /**#@+
      * Integration setup type
      */
     const TYPE_MANUAL = 0;
+
     const TYPE_CONFIG = 1;
+
     /**#@-*/
 
     /**#@+
      * Integration data key constants.
      */
     const ID = 'integration_id';
+
     const NAME = 'name';
+
     const EMAIL = 'email';
+
     const ENDPOINT = 'endpoint';
+
     const IDENTITY_LINK_URL = 'identity_link_url';
+
     const SETUP_TYPE = 'setup_type';
+
     const CONSUMER_ID = 'consumer_id';
+
     const STATUS = 'status';
+
     /**#@-*/
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_dateTime = $dateTime;

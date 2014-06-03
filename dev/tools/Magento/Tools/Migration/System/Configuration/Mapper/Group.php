@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
-class Group
-    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
+class Group extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
      * @var Tools_Migration_System_Configuration_Mapper_Field
@@ -73,5 +69,4 @@ class Group
         }
         return $element;
     }
-
 }

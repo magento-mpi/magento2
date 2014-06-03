@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Helper;
 
 /**
@@ -44,13 +43,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function getCodeDataProvider()
     {
-        return [
-            [false],
-            [false, 'not-exist-type'],
-            [false, 'not-exist-type', 'not-exist-code'],
-            [false, 'action'],
-            [['single' => '3', 'all' => '4'], 'action', ''],
-            ['3', 'action', 'single'],
-        ];
+        return array(
+            array(false),
+            array(false, 'not-exist-type'),
+            array(false, 'not-exist-type', 'not-exist-code'),
+            array(false, 'action'),
+            array(array('single' => '3', 'all' => '4'), 'action', ''),
+            array('3', 'action', 'single')
+        );
     }
 }

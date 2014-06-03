@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Paypal\Model\Resource\Report;
 /**
  * Report settlement resource model
  */
-class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Settlement extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Table name
@@ -22,15 +20,15 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_rowsTable;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime\DateTime $coreDate)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Stdlib\DateTime\DateTime $coreDate)
     {
         $this->_coreDate = $coreDate;
         parent::__construct($resource);
@@ -50,14 +48,14 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save report rows collected in settlement model
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Paypal\Model\Report\Settlement $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Paypal\Model\Report\Settlement $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $rows = $object->getRows();
         if (is_array($rows)) {
-            $adapter  = $this->_getWriteAdapter();
+            $adapter = $this->_getWriteAdapter();
             $reportId = (int)$object->getId();
             try {
                 $adapter->beginTransaction();
@@ -69,16 +67,20 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
                     /**
                      * Converting dates
                      */
-                    $completionDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_completion_date']);
-                    $rows[$key]['transaction_completion_date'] = $this->_coreDate
-                        ->date(null, $completionDate->getTimestamp());
-                    $initiationDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_initiation_date']);
-                    $rows[$key]['transaction_initiation_date'] = $this->_coreDate
-                        ->date(null, $initiationDate->getTimestamp());
+                    $completionDate = new \Magento\Framework\Stdlib\DateTime\Date($rows[$key]['transaction_completion_date']);
+                    $rows[$key]['transaction_completion_date'] = $this->_coreDate->date(
+                        null,
+                        $completionDate->getTimestamp()
+                    );
+                    $initiationDate = new \Magento\Framework\Stdlib\DateTime\Date($rows[$key]['transaction_initiation_date']);
+                    $rows[$key]['transaction_initiation_date'] = $this->_coreDate->date(
+                        null,
+                        $initiationDate->getTimestamp()
+                    );
                     /*
                      * Converting numeric
                      */
-                    $rows[$key]['fee_amount'] = (float)$rows[$key]['fee_amount'];
+                    $rows[$key]['fee_amount'] = (double)$rows[$key]['fee_amount'];
                     /*
                      * Setting reportId
                      */
@@ -107,10 +109,13 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadByAccountAndDate(\Magento\Paypal\Model\Report\Settlement $report, $accountId, $reportDate)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('account_id = :account_id')
-            ->where('report_date = :report_date');
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'account_id = :account_id'
+        )->where(
+            'report_date = :report_date'
+        );
 
         $data = $adapter->fetchRow($select, array(':account_id' => $accountId, ':report_date' => $reportDate));
         if ($data) {

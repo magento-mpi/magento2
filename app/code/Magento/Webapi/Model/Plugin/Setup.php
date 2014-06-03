@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -13,7 +12,7 @@ use Magento\Integration\Model\Integration;
 use Magento\Webapi\Model\IntegrationConfig;
 
 /**
- * Plugin for Magento\Core\Model\Resource\Setup model to manage resource permissions of
+ * Plugin for Magento\Framework\Module\Setup model to manage resource permissions of
  * integration installed from config file
  */
 class Setup
@@ -45,7 +44,6 @@ class Setup
      * @var \Magento\Authz\Model\UserIdentifier\Factory
      */
     protected $_userIdentifierFactory;
-
 
     /**
      * Construct Setup plugin instance
@@ -93,10 +91,7 @@ class Setup
                         UserIdentifier::USER_TYPE_INTEGRATION,
                         $integration->getId()
                     );
-                    $this->_authzService->grantPermissions(
-                        $userIdentifier,
-                        $integrations[$name]['resources']
-                    );
+                    $this->_authzService->grantPermissions($userIdentifier, $integrations[$name]['resources']);
                 }
             }
         }

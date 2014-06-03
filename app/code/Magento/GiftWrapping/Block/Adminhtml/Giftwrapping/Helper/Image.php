@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,10 @@
 /**
  * Gift Wrapping Image Helper
  *
- * @category   Magento
- * @package    Magento_GiftWrapping
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper;
 
-class Image extends \Magento\Data\Form\Element\Image
+class Image extends \Magento\Framework\Data\Form\Element\Image
 {
     /**
      * Get gift wrapping image url
@@ -47,5 +43,4 @@ class Image extends \Magento\Data\Form\Element\Image
         }
         return $name;
     }
-
 }

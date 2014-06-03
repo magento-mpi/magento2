@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+function setSettings(urlTemplate, codeElement, themeElement) {
+    if (!jQuery('#edit_form').valid()) {
+        return false;
+    }
+    codeElement = $F(codeElement);
+    themeElement = $F(themeElement);
+
+    setLocation(new Template(urlTemplate, /(^|.|\r|\n)({{(\w+)}})/).evaluate({
+        'code': codeElement,
+        'theme_id': themeElement
+    }));
+}
+//]]>
+</script>

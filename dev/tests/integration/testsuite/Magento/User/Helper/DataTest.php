@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Helper;
 
 /**
@@ -45,12 +41,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetResetPasswordLinkExpirationPeriod()
     {
         /** @var $configModel \Magento\Backend\App\ConfigInterface */
-        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\App\ConfigInterface');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\App\ConfigInterface'
+        );
         $this->assertEquals(
             1,
-            (int) $configModel->getValue(
+            (int)$configModel->getValue(
                 \Magento\User\Helper\Data::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD
-        ));
+            )
+        );
     }
 }

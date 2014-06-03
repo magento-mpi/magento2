@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Sales\Model\Quote\Address\Total;
  * Msrp items total
  * Collects flag if MSRP price is in use
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
@@ -29,9 +25,8 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
-    public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData
-    ) {
+    public function __construct(\Magento\Catalog\Helper\Data $catalogData)
+    {
         $this->_catalogData = $catalogData;
     }
 
@@ -56,7 +51,8 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $item->getProductId(),
                 \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM,
                 true
-            )) {
+            )
+            ) {
                 $canApplyMsrp = true;
                 break;
             }

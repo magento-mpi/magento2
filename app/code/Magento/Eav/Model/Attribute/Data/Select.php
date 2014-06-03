@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * EAV Entity Attribute Select Data Model
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Select extends \Magento\Eav\Model\Attribute\Data\AbstractData
@@ -40,9 +36,9 @@ class Select extends \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     public function validateValue($value)
     {
-        $errors     = array();
-        $attribute  = $this->getAttribute();
-        $label      = __($attribute->getStoreLabel());
+        $errors = array();
+        $attribute = $this->getAttribute();
+        $label = __($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Directory\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Config value that lists ISO2 country codes which have optional Zip/Postal pre-configured
@@ -66,7 +64,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_optZipCountries = null;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -81,7 +79,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,29 +89,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollectionFactory,
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Country\Collection $countryCollection,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollectionFactory,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\App\ConfigInterface $config
+        \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -134,8 +132,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if (!$this->_regionCollection) {
             $this->_regionCollection = $this->_regCollectionFactory->create();
-            $this->_regionCollection->addCountryFilter($this->getAddress()->getCountryId())
-                ->load();
+            $this->_regionCollection->addCountryFilter($this->getAddress()->getCountryId())->load();
         }
         return $this->_regionCollection;
     }
@@ -160,7 +157,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRegionJson()
     {
-        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
@@ -170,8 +167,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     $countryIds[] = $country->getCountryId();
                 }
                 $collection = $this->_regCollectionFactory->create();
-                $collection->addCountryFilter($countryIds)
-                    ->load();
+                $collection->addCountryFilter($countryIds)->load();
                 $regions = array(
                     'config' => array(
                         'show_all_regions' => $this->isShowNonRequiredState(),
@@ -195,7 +191,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_regionJson = $json;
         }
 
-        \Magento\Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Framework\Profiler::stop('TEST: ' . __METHOD__);
         return $this->_regionJson;
     }
 
@@ -229,7 +225,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getCountriesWithOptionalZip($asJson = false)
     {
         if (null === $this->_optZipCountries) {
-            $value = trim($this->_storeManager->getStore()->getConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH));
+            $value = trim(
+                $this->_config->getValue(
+                    self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            );
             $this->_optZipCountries = preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
@@ -258,8 +259,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCountriesWithStatesRequired($asJson = false)
     {
-        $value = trim($this->_storeManager->getStore()->getConfig(self::XML_PATH_STATES_REQUIRED));
-        $countryList =  preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
+        $value = trim(
+            $this->_config->getValue(self::XML_PATH_STATES_REQUIRED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+        );
+        $countryList = preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
         if ($asJson) {
             return $this->_coreHelper->jsonEncode($countryList);
         }
@@ -273,7 +276,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isShowNonRequiredState()
     {
-        return (boolean)$this->_storeManager->getStore()->getConfig(self::XML_PATH_DISPLAY_ALL_STATES);
+        return (bool)$this->_config->getValue(
+            self::XML_PATH_DISPLAY_ALL_STATES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

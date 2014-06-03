@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -53,4 +51,3 @@ class File extends \Magento\Tools\Migration\Acl\Db\AbstractLogger
         file_put_contents($this->_file, (string)$this);
     }
 }
-

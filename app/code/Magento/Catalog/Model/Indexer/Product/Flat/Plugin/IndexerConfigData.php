@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class IndexerConfigData
@@ -20,9 +17,8 @@ class IndexerConfigData
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $state
      */
-    public function __construct(
-        \Magento\Catalog\Model\Indexer\Product\Flat\State $state
-    ) {
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Flat\State $state)
+    {
         $this->_state = $state;
     }
 

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product\Cart\Configuration\Plugin;
 
 class Grouped
@@ -35,4 +34,4 @@ class Grouped
 
         return $proceed($product, $config);
     }
-} 
+}

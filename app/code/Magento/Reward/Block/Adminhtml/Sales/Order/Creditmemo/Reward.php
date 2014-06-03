@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,33 +10,38 @@
 /**
  * Reward points refund block in creditmemo
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Block\Adminhtml\Sales\Order\Creditmemo;
 
-class Reward
-    extends \Magento\Backend\Block\Template
+class Reward extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $rewardData;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
+        \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->rewardData = $rewardData;
         parent::__construct($context, $data);
     }
 
@@ -76,5 +79,15 @@ class Reward
     public function getRefundRewardPointsBalance()
     {
         return (int)$this->getCreditmemo()->getRewardPointsBalance();
+    }
+
+    /**
+     * Return automatic refund of reward points option value
+     *
+     * @return bool
+     */
+    public function isAutoRefundEnabled()
+    {
+        return $this->rewardData->isAutoRefundEnabled();
     }
 }

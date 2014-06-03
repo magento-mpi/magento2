@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Dashboard\Tab\Customers;
 /**
  * Adminhtml dashboard most recent customers grid
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Newest extends \Magento\Backend\Block\Dashboard\Grid
@@ -53,8 +49,7 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->create()
-            ->addCustomerName();
+        $collection = $this->_collectionFactory->create()->addCustomerName();
 
         $storeFilter = 0;
         if ($this->getParam('store')) {
@@ -68,8 +63,7 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
-        $collection->addOrdersStatistics($storeFilter)
-            ->orderByCustomerRegistration();
+        $collection->addOrdersStatistics($storeFilter)->orderByCustomerRegistration();
 
         $this->setCollection($collection);
 
@@ -81,41 +75,42 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array(
-            'header'    => __('Customer'),
-            'sortable'  => false,
-            'index'     => 'name'
-        ));
+        $this->addColumn('name', array('header' => __('Customer'), 'sortable' => false, 'index' => 'name'));
 
-        $this->addColumn('orders_count', array(
-            'header'    => __('Orders'),
-            'sortable'  => false,
-            'index'     => 'orders_count',
-            'type'      => 'number'
-        ));
+        $this->addColumn(
+            'orders_count',
+            array('header' => __('Orders'), 'sortable' => false, 'index' => 'orders_count', 'type' => 'number')
+        );
 
-        $baseCurrencyCode = (string) $this->_storeManager->getStore((int)$this->getParam('store'))
-            ->getBaseCurrencyCode();
+        $baseCurrencyCode = (string)$this->_storeManager->getStore(
+            (int)$this->getParam('store')
+        )->getBaseCurrencyCode();
 
-        $this->addColumn('orders_avg_amount', array(
-            'header'    => __('Average'),
-            'align'     => 'right',
-            'sortable'  => false,
-            'type'      => 'currency',
-            'currency_code'  => $baseCurrencyCode,
-            'index'     => 'orders_avg_amount',
-            'renderer'  =>'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
-        ));
+        $this->addColumn(
+            'orders_avg_amount',
+            array(
+                'header' => __('Average'),
+                'align' => 'right',
+                'sortable' => false,
+                'type' => 'currency',
+                'currency_code' => $baseCurrencyCode,
+                'index' => 'orders_avg_amount',
+                'renderer' => 'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
+            )
+        );
 
-        $this->addColumn('orders_sum_amount', array(
-            'header'    => __('Total'),
-            'align'     => 'right',
-            'sortable'  => false,
-            'type'      => 'currency',
-            'currency_code'  => $baseCurrencyCode,
-            'index'     => 'orders_sum_amount',
-            'renderer'  =>'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
-        ));
+        $this->addColumn(
+            'orders_sum_amount',
+            array(
+                'header' => __('Total'),
+                'align' => 'right',
+                'sortable' => false,
+                'type' => 'currency',
+                'currency_code' => $baseCurrencyCode,
+                'index' => 'orders_sum_amount',
+                'renderer' => 'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
+            )
+        );
 
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
@@ -128,6 +123,6 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('customer/index/edit', array('id'=>$row->getId()));
+        return $this->getUrl('customer/index/edit', array('id' => $row->getId()));
     }
 }

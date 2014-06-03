@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -51,7 +49,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
         $pointsDelta = 0;
         if ($this->_quote) {
             // known issue: no support for multishipping quote // copied  comment, not checked
-            if ($this->_quote->getAppliedRuleIds()) { 
+            if ($this->_quote->getAppliedRuleIds()) {
                 $ruleIds = explode(',', $this->_quote->getAppliedRuleIds());
                 $ruleIds = array_unique($ruleIds);
                 $data = $this->_rewardFactory->create()->getRewardSalesrule($ruleIds);
@@ -100,15 +98,13 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return $this
      */
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'increment_id' => $this->getEntity()->getIncrementId()
-        ));
+        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
         return $this;
     }
 }

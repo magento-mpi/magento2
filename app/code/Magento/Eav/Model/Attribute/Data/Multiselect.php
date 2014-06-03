@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * EAV Entity Attribute Multiply select Data Model
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
@@ -66,7 +62,7 @@ class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
             case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
             case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
-            // fall-through intentional
+                // fall-through intentional
             default:
                 $output = array();
                 foreach ($values as $value) {

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="customer_edit_tabs">
         <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward" name="customer_edit_tab_reward" template="customer/reward.phtml">
             <block class="Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management" name="reward_management"/>

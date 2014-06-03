@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,7 +37,7 @@ class Settings
     public function __construct($baseDir, array $settings)
     {
         if (!is_dir($baseDir)) {
-            throw new \InvalidArgumentException("Base path '$baseDir' has to be an existing directory.");
+            throw new \InvalidArgumentException("Base path '{$baseDir}' has to be an existing directory.");
         }
         $this->_baseDir = realpath($baseDir);
         $this->_settings = $settings;
@@ -55,7 +52,7 @@ class Settings
      */
     public function get($settingName, $defaultValue = null)
     {
-        return (array_key_exists($settingName, $this->_settings) ? $this->_settings[$settingName] : $defaultValue);
+        return array_key_exists($settingName, $this->_settings) ? $this->_settings[$settingName] : $defaultValue;
     }
 
     /**
@@ -67,7 +64,7 @@ class Settings
      */
     public function getAsBoolean($settingName)
     {
-        return ($this->get($settingName) === 'enabled');
+        return $this->get($settingName) === 'enabled';
     }
 
     /**
@@ -91,7 +88,7 @@ class Settings
      *
      * @param string $settingName
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getAsConfigFile($settingName)
     {
@@ -104,7 +101,7 @@ class Settings
                 return $result;
             }
         }
-        throw new \Magento\Exception("Setting '$settingName' specifies the non-existing file '$result'.");
+        throw new \Magento\Framework\Exception("Setting '{$settingName}' specifies the non-existing file '{$result}'.");
     }
 
     /**

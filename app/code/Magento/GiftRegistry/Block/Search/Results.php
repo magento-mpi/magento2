@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +10,8 @@ namespace Magento\GiftRegistry\Block\Search;
 /**
  * Gift registry search results
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
-class Results extends \Magento\View\Element\Template
+class Results extends \Magento\Framework\View\Element\Template
 {
     /**
      * Set search results and create html pager block
@@ -26,8 +22,14 @@ class Results extends \Magento\View\Element\Template
     public function setSearchResults($results)
     {
         $this->setData('search_results', $results);
-        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'giftregistry.search.pager')
-            ->setCollection($results)->setIsOutputRequired(false);
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'giftregistry.search.pager'
+        )->setCollection(
+            $results
+        )->setIsOutputRequired(
+            false
+        );
         $this->setChild('pager', $pager);
     }
 
@@ -51,7 +53,10 @@ class Results extends \Magento\View\Element\Template
     public function getFormattedDate($item)
     {
         if ($item->getEventDate()) {
-            return $this->formatDate($item->getEventDate(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate(
+                $item->getEventDate(),
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            );
         }
     }
 }

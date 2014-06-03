@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Tools
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,15 +16,15 @@ if (isset($argv[1])) {
 }
 
 if (!$path) {
-    echo "Please specify directory for scan: php -f FsGenerator.php path/to/code";
+    echo "Please specify directory for scan: php -f fs_generator.php path/to/code";
     exit;
 }
 
 
 $basePath = realpath(__DIR__ . '/../../../') . '/';
-$directory  = new RecursiveDirectoryIterator($path);
-$iterator   = new RecursiveIteratorIterator($directory);
-$regex      = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+$directory = new RecursiveDirectoryIterator($path);
+$iterator = new RecursiveIteratorIterator($directory);
+$regex = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
 
 
 $map = array();
@@ -39,8 +37,8 @@ foreach ($regex as $file) {
     $code = file_get_contents($file[0]);
     $tokens = token_get_all($code);
 
-    $count    = count($tokens);
-    $i        = 0;
+    $count = count($tokens);
+    $i = 0;
     while ($i < $count) {
         $token = $tokens[$i];
 

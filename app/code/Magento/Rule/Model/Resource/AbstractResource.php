@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Abstract Rule entity resource model
  *
- * @category Magento
- * @package Magento_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rule\Model\Resource;
 
-abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Store associated with rule entities information map
@@ -44,21 +40,21 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Prepare rule's active "from" and "to" dates
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $fromDate = $object->getFromDate();
         if ($fromDate instanceof \Zend_Date) {
-            $object->setFromDate($fromDate->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
+            $object->setFromDate($fromDate->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         } elseif (!is_string($fromDate) || empty($fromDate)) {
             $object->setFromDate(null);
         }
 
         $toDate = $object->getToDate();
         if ($toDate instanceof \Zend_Date) {
-            $object->setToDate($toDate->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
+            $object->setToDate($toDate->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
         } elseif (!is_string($toDate) || empty($toDate)) {
             $object->setToDate(null);
         }
@@ -81,17 +77,17 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
         if (empty($ruleIds) || empty($entityIds)) {
             return $this;
         }
-        $adapter    = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
         if (!is_array($ruleIds)) {
-            $ruleIds = array((int) $ruleIds);
+            $ruleIds = array((int)$ruleIds);
         }
         if (!is_array($entityIds)) {
-            $entityIds = array((int) $entityIds);
+            $entityIds = array((int)$entityIds);
         }
 
-        $data  = array();
+        $data = array();
         $count = 0;
 
         $adapter->beginTransaction();
@@ -104,7 +100,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
                         $entityInfo['rule_id_field'] => $ruleId
                     );
                     $count++;
-                    if (($count % 1000) == 0) {
+                    if ($count % 1000 == 0) {
                         $adapter->insertOnDuplicate(
                             $this->getTable($entityInfo['associations_table']),
                             $data,
@@ -122,9 +118,15 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
                 );
             }
 
-            $adapter->delete($this->getTable($entityInfo['associations_table']),
-                $adapter->quoteInto($entityInfo['rule_id_field']   . ' IN (?) AND ', $ruleIds) .
-                $adapter->quoteInto($entityInfo['entity_id_field'] . ' NOT IN (?)', $entityIds)
+            $adapter->delete(
+                $this->getTable($entityInfo['associations_table']),
+                $adapter->quoteInto(
+                    $entityInfo['rule_id_field'] . ' IN (?) AND ',
+                    $ruleIds
+                ) . $adapter->quoteInto(
+                    $entityInfo['entity_id_field'] . ' NOT IN (?)',
+                    $entityIds
+                )
             );
         } catch (\Exception $e) {
             $adapter->rollback();
@@ -147,13 +149,13 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     public function unbindRuleFromEntity($ruleIds, $entityIds, $entityType)
     {
         $writeAdapter = $this->_getWriteAdapter();
-        $entityInfo   = $this->_getAssociatedEntityInfo($entityType);
+        $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
         if (!is_array($entityIds)) {
-            $entityIds = array((int) $entityIds);
+            $entityIds = array((int)$entityIds);
         }
         if (!is_array($ruleIds)) {
-            $ruleIds = array((int) $ruleIds);
+            $ruleIds = array((int)$ruleIds);
         }
 
         $where = array();
@@ -180,9 +182,13 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     {
         $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable($entityInfo['associations_table']), array($entityInfo['entity_id_field']))
-            ->where($entityInfo['rule_id_field'] . ' = ?', $ruleId);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable($entityInfo['associations_table']),
+            array($entityInfo['entity_id_field'])
+        )->where(
+            $entityInfo['rule_id_field'] . ' = ?',
+            $ruleId
+        );
 
         return $this->_getReadAdapter()->fetchCol($select);
     }
@@ -215,7 +221,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      *
      * @param string $entityType
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getAssociatedEntityInfo($entityType)
     {
@@ -223,8 +229,9 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        throw new \Magento\Core\Exception(
-            __('There is no information about associated entity type "%1".', $entityType), 0
+        throw new \Magento\Framework\Model\Exception(
+            __('There is no information about associated entity type "%1".', $entityType),
+            0
         );
     }
 }

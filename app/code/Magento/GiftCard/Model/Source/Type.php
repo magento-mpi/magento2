@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,10 +44,7 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         $result = array();
         foreach ($this->_getValues() as $k => $v) {
-            $result[] = array(
-                'value' => $k,
-                'label' => $v,
-            );
+            $result[] = array('value' => $k, 'label' => $v);
         }
 
         return $result;
@@ -78,9 +73,9 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     protected function _getValues()
     {
         return array(
-            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL => __('Virtual'),
             \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
-            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined')
         );
     }
 
@@ -92,15 +87,11 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getFlatColums()
     {
         $attributeCode = $this->getAttribute()->getAttributeCode();
-        $column = array(
-            'unsigned'  => true,
-            'default'   => null,
-            'extra'     => null
-        );
+        $column = array('unsigned' => true, 'default' => null, 'extra' => null);
 
-        $column['type']     = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
+        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT;
         $column['nullable'] = true;
-        $column['comment']  = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
+        $column['comment'] = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
 
         return array($attributeCode => $column);
     }
@@ -109,7 +100,7 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category   dev
- * @package    build
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -72,7 +70,6 @@
         <copy file="${dir.build_directory}/${enterprise-edition.file}.dist" tofile="${dir.build_directory}/${enterprise-edition.file}"/>
 
         <replace file="${dir.build_directory}/downloader/config.ini" token="community" value="enterprise"/>
-        <replace file="${dir.build_directory}/app/code/Magento/Core/Model/App.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>
     </target>
 
     <!-- deploy and run functional tests -->

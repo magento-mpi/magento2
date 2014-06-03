@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Invitation\Model\Adminhtml\System\Config\Source\Boolean;
 
-class Group implements \Magento\Option\ArrayInterface
+class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return the option array
@@ -22,9 +20,6 @@ class Group implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            1 => __('Same as Inviter'),
-            0 => __('Default Customer Group from System Configuration')
-        );
+        return array(1 => __('Same as Inviter'), 0 => __('Default Customer Group from System Configuration'));
     }
 }

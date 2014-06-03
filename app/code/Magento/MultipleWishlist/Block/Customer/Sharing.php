@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Wishlist sidebar block
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block\Customer;
@@ -27,16 +23,16 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
     protected $_wishlistData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Session\Generic $wishlistSession
+     * @param \Magento\Framework\Session\Generic $wishlistSession
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\Session\Generic $wishlistSession,
+        \Magento\Framework\Session\Generic $wishlistSession,
         \Magento\Wishlist\Helper\Data $wishlistData,
         array $data = array()
     ) {

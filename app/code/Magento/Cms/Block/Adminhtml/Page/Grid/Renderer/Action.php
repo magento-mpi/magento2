@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer;
 
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
@@ -34,10 +31,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * Render action
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $href = $this->actionUrlBuilder->getUrl(
             $row->getIdentifier(),

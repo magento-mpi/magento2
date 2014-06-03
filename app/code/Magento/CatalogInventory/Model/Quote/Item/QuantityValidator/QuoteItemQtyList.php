@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator;
 
 class QuoteItemQtyList
@@ -24,21 +23,27 @@ class QuoteItemQtyList
      *
      * @param int   $productId
      * @param int   $quoteItemId
+     * @param int   $quoteId
      * @param float $itemQty
      *
      * @return int
      */
-    public function getQty($productId, $quoteItemId, $itemQty)
+    public function getQty($productId, $quoteItemId, $quoteId, $itemQty)
     {
         $qty = $itemQty;
-        if (isset($this->_checkedQuoteItems[$productId]['qty']) &&
-            !in_array($quoteItemId, $this->_checkedQuoteItems[$productId]['items'])) {
-            $qty += $this->_checkedQuoteItems[$productId]['qty'];
+        if (isset(
+            $this->_checkedQuoteItems[$quoteId][$productId]['qty']
+        ) && !in_array(
+            $quoteItemId,
+            $this->_checkedQuoteItems[$quoteId][$productId]['items']
+        )
+        ) {
+            $qty += $this->_checkedQuoteItems[$quoteId][$productId]['qty'];
         }
 
-        $this->_checkedQuoteItems[$productId]['qty'] = $qty;
-        $this->_checkedQuoteItems[$productId]['items'][] = $quoteItemId;
+        $this->_checkedQuoteItems[$quoteId][$productId]['qty'] = $qty;
+        $this->_checkedQuoteItems[$quoteId][$productId]['items'][] = $quoteItemId;
 
         return $qty;
     }
-} 
+}

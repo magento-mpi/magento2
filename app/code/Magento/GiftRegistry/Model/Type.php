@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftRegistry\Model;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Gift registry types processing model
@@ -21,11 +19,9 @@ use Magento\Core\Model\Store;
  * @method string getMetaXml()
  * @method \Magento\GiftRegistry\Model\Type setMetaXml(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var Store
@@ -48,12 +44,12 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $processorFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -68,25 +64,25 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
-        \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -147,7 +143,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected function _sortAttributes($a, $b)
     {
         if ($a['sort_order'] != $b['sort_order']) {
-            return ($a['sort_order'] > $b['sort_order']) ? 1 : -1;
+            return $a['sort_order'] > $b['sort_order'] ? 1 : -1;
         }
         return 0;
     }
@@ -241,7 +237,9 @@ class Type extends \Magento\Core\Model\AbstractModel
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
                                     $this->_getResource()->deleteAttributeStoreData(
-                                        $this->getId(), $attribute['code'], $option['code']
+                                        $this->getId(),
+                                        $attribute['code'],
+                                        $option['code']
                                     );
                                 } else {
                                     $optionsToSave[] = $option;
@@ -441,16 +439,16 @@ class Type extends \Magento\Core\Model\AbstractModel
         $type = $data['type'];
         $this->setCode($type['code']);
 
-        $attributes = (isset($data['attributes'])) ? $data['attributes'] : null;
+        $attributes = isset($data['attributes']) ? $data['attributes'] : null;
         $this->setAttributes($attributes);
 
-        $label = (isset($type['label'])) ? $type['label'] : null;
+        $label = isset($type['label']) ? $type['label'] : null;
         $this->setLabel($label);
 
-        $sortOrder = (isset($type['sort_order'])) ? $type['sort_order'] : null;
+        $sortOrder = isset($type['sort_order']) ? $type['sort_order'] : null;
         $this->setSortOrder($sortOrder);
 
-        $isListed = (isset($type['is_listed'])) ? $type['is_listed'] : null;
+        $isListed = isset($type['is_listed']) ? $type['is_listed'] : null;
         $this->setIsListed($isListed);
 
         return $this;

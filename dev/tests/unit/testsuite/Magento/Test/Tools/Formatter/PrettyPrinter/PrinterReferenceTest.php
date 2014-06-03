@@ -38,10 +38,10 @@ class PrinterReferenceTest extends TestBase
             array("<?php \$newobj=new \\Blah();", "<?php\n\$newobj = new \\Blah();\n"),
             array("<?php \$newobj=new \\Blah(1);", "<?php\n\$newobj = new \\Blah(1);\n"),
             array(
-                "<?php \$newobj=new \\Blah(123456,123456,123456,123456,123456,123456,123456,123456,123456,123456,".
+                "<?php \$newobj=new \\Blah(123456,123456,123456,123456,123456,123456,123456,123456,123456,123456," .
                 "123456,123456,123456,123456);",
                 "<?php\n\$newobj = new \\Blah(\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n" .
-                "    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,".
+                "    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n    123456,\n    123456," .
                 "\n    123456,\n    123456\n);\n"
             ),
             array("<?php empty(\$a);", "<?php\nempty(\$a);\n"),
@@ -65,7 +65,7 @@ class PrinterReferenceTest extends TestBase
             array(
                 "<?php if ( !self::\$_instance ){self::\$_instance=null;}",
                 "<?php\nif (!self::\$_instance) {\n    self::\$_instance = null;\n}\n"
-            ),
+            )
         );
     }
 }

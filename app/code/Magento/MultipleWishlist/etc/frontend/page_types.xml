@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page_types>
+<page_types xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Core/etc/page_types.xsd">
     <type id="wishlist_search_index" label="Wishlist Search Form"/>
     <type id="wishlist_search_results" label="Wishlist Search Results"/>
     <type id="wishlist_search_view" label="Wishlist View (From Search)"/>

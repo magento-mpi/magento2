@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdminNotification\Block;
 /**
  * Toolbar entry that shows latest notifications
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class ToolbarEntry extends \Magento\Backend\Block\Template
@@ -68,8 +64,12 @@ class ToolbarEntry extends \Magento\Backend\Block\Template
     public function formatNotificationDate($dateString)
     {
         if (date('Ymd') == date('Ymd', strtotime($dateString))) {
-            return $this->formatTime($dateString, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, false);
+            return $this->formatTime(
+                $dateString,
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+                false
+            );
         }
-        return $this->formatDate($dateString, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($dateString, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
     }
 }

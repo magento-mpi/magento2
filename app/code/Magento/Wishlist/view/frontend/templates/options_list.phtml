@@ -1,0 +1,31 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this \Magento\Wishlist\Block\Customer\Wishlist\Item\Options */
+?>
+
+<?php $options = $this->getOptionList(); ?>
+<?php if ($options): ?>
+<div class="tooltip wrapper">
+  <span class="action details tooltip toggle"><?php echo __('View Details') ?></span>
+  <div class="tooltip content">
+      <strong class="subtitle"><?php echo __('Options Details'); ?></strong>
+      <dl>
+          <?php foreach ($options as $option): ?>
+          <dt class="label"><?php echo $this->escapeHtml($option['label']) ?></dt>
+          <dd class="values">
+              <?php if (is_array($option['value'])): ?>
+              <?php echo nl2br(implode("\n", $option['value'])) ?>
+              <?php else: ?>
+              <?php echo $option['value'] ?>
+              <?php endif; ?>
+          </dd>
+          <?php endforeach; ?>
+      </dl>
+  </div>
+</div>
+<?php endif ?>

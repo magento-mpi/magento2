@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote;
 /**
  * Customer Quote Address resource model
  */
-class Address
-    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
+class Address extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
     /**
      * Main entity resource model
@@ -23,11 +20,11 @@ class Address
     protected $_parentResourceModel;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Sales\Model\Resource\Quote\Address $parentResourceModel
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Sales\Model\Resource\Quote\Address $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;

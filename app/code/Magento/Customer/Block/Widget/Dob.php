@@ -2,12 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Widget;
+
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class Dob extends AbstractWidget
 {
@@ -15,6 +15,7 @@ class Dob extends AbstractWidget
      * Constants for borders of date-type customer attributes
      */
     const MIN_DATE_RANGE_KEY = 'date_range_min';
+
     const MAX_DATE_RANGE_KEY = 'date_range_max';
 
     /**
@@ -93,7 +94,7 @@ class Dob extends AbstractWidget
      */
     public function getDateFormat()
     {
-        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -111,26 +112,24 @@ class Dob extends AbstractWidget
     /**
      * Sort date inputs by dateformat order of current locale
      *
+     * @param bool $stripNonInputChars
+     *
      * @return string
      */
-    public function getSortedDateInputs()
+    public function getSortedDateInputs($stripNonInputChars = true)
     {
-        $mapping = array(
-            '/[^medy]/i' => '\\1',
-            '/m{1,5}/i' => '%1$s',
-            '/e{1,5}/i' => '%2$s',
-            '/d{1,5}/i' => '%2$s',
-            '/y{1,5}/i' => '%3$s',
-        );
+        $mapping = array();
+        if ($stripNonInputChars) {
+            $mapping['/[^medy]/i'] = '\\1';
+        }
+        $mapping['/m{1,5}/i'] = '%1$s';
+        $mapping['/e{1,5}/i'] = '%2$s';
+        $mapping['/d{1,5}/i'] = '%2$s';
+        $mapping['/y{1,5}/i'] = '%3$s';
 
-        $dateFormat = preg_replace(
-            array_keys($mapping),
-            array_values($mapping),
-            $this->getDateFormat()
-        );
+        $dateFormat = preg_replace(array_keys($mapping), array_values($mapping), $this->getDateFormat());
 
-        return sprintf($dateFormat,
-            $this->_dateInputs['m'], $this->_dateInputs['d'], $this->_dateInputs['y']);
+        return sprintf($dateFormat, $this->_dateInputs['m'], $this->_dateInputs['d'], $this->_dateInputs['y']);
     }
 
     /**

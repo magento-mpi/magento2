@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\ProductOptions\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -37,7 +37,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 $data['types'][$inputTypeName] = array(
                     'name' => $inputTypeName,
                     'label' => $this->_getAttributeValue($childNode, 'label'),
-                    'disabled' => 'true' == $this->_getAttributeValue($childNode, 'disabled', 'false') ? true : false,
+                    'disabled' => 'true' == $this->_getAttributeValue($childNode, 'disabled', 'false') ? true : false
                 );
             }
             $output[$optionName] = $data;

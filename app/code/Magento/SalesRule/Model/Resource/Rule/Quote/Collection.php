@@ -16,7 +16,6 @@ class Collection extends \Magento\SalesRule\Model\Resource\Rule\Collection
      *
      * @return $this
      */
-
     public function _initSelect()
     {
         parent::_initSelect();

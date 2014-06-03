@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalogsearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,14 +14,14 @@ namespace Magento\CatalogSearch\Model\Resource;
 class EngineFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -40,7 +38,7 @@ class EngineFactory
     {
         $engine = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($engine instanceof \Magento\CatalogSearch\Model\Resource\EngineInterface)) {
+        if (false === $engine instanceof \Magento\CatalogSearch\Model\Resource\EngineInterface) {
             throw new \LogicException(
                 $className . ' doesn\'t implement \Magento\CatalogSearch\Model\Resource\EngineInterface'
             );

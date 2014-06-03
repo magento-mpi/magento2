@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
-class Logo
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite
+class Logo extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite
 {
     /**
      * Control type
@@ -29,17 +26,15 @@ class Logo
     protected function _addFields()
     {
         $uploaderData = $this->getComponent('logo-uploader');
-        $uploaderTitle = $this->_escape(sprintf('%s {%s: url(%s)}',
-            $uploaderData['selector'],
-            $uploaderData['attribute'],
-            $uploaderData['value']
-        ));
+        $uploaderTitle = $this->_escape(
+            sprintf('%s {%s: url(%s)}', $uploaderData['selector'], $uploaderData['attribute'], $uploaderData['value'])
+        );
         $uploaderId = $this->getComponentId('logo-uploader');
-        $this->addField($uploaderId, 'logo-uploader', array(
-            'name'     => $uploaderId,
-            'title'    => $uploaderTitle,
-            'label'    => null
-        ));
+        $this->addField(
+            $uploaderId,
+            'logo-uploader',
+            array('name' => $uploaderId, 'title' => $uploaderTitle, 'label' => null)
+        );
 
         return $this;
     }

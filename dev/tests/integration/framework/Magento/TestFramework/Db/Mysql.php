@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,10 +26,10 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
      * @param string $password
      * @param string $schema
      * @param string $varPath
-     * @param \Magento\Shell $shell
-     * @throws \Magento\Exception
+     * @param \Magento\Framework\Shell $shell
+     * @throws \Magento\Framework\Exception
      */
-    public function __construct($host, $user, $password, $schema, $varPath, \Magento\Shell $shell)
+    public function __construct($host, $user, $password, $schema, $varPath, \Magento\Framework\Shell $shell)
     {
         parent::__construct($host, $user, $password, $schema, $varPath, $shell);
         $this->_createDefaultsExtra();
@@ -103,7 +100,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
      */
     protected function _getDefaultsExtraFileName()
     {
-        return rtrim($this->_varPath, '\\/') . DIRECTORY_SEPARATOR . self::DEFAULTS_EXTRA_FILE_NAME;
+        return rtrim($this->_varPath, '\\/') . '/' . self::DEFAULTS_EXTRA_FILE_NAME;
     }
 
     /**
@@ -111,11 +108,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
      */
     protected function _createDefaultsExtra()
     {
-        $extraConfig = array(
-            '[client]',
-            'user=' . $this->_user,
-            'password="' . $this->_password . '"'
-        );
+        $extraConfig = array('[client]', 'user=' . $this->_user, 'password="' . $this->_password . '"');
         file_put_contents($this->_getDefaultsExtraFileName(), implode(PHP_EOL, $extraConfig));
         chmod($this->_getDefaultsExtraFileName(), 0644);
     }

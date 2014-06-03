@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Order;
 /**
  * Adminhtml order abstract block
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class AbstractOrder extends \Magento\Backend\Block\Widget
@@ -23,7 +19,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,13 +32,13 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
     ) {
@@ -55,7 +51,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      * Retrieve available order
      *
      * @return Order
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getOrder()
     {
@@ -68,7 +64,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         if ($this->_coreRegistry->registry('order')) {
             return $this->_coreRegistry->registry('order');
         }
-        throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
+        throw new \Magento\Framework\Model\Exception(__('We cannot get the order instance.'));
     }
 
     /**
@@ -109,7 +105,13 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      */
     public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
     {
-        return $this->_adminHelper->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
+        return $this->_adminHelper->displayPrices(
+            $this->getPriceDataObject(),
+            $basePrice,
+            $price,
+            $strong,
+            $separator
+        );
     }
 
     /**
@@ -135,7 +137,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
     /**
      * Retrieve subtotal price include tax html formated content
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function displayShippingPriceInclTax($order)
@@ -144,8 +146,8 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         if ($shipping) {
             $baseShipping = $order->getBaseShippingInclTax();
         } else {
-            $shipping       = $order->getShippingAmount()+$order->getShippingTaxAmount();
-            $baseShipping   = $order->getBaseShippingAmount()+$order->getBaseShippingTaxAmount();
+            $shipping = $order->getShippingAmount() + $order->getShippingTaxAmount();
+            $baseShipping = $order->getBaseShippingAmount() + $order->getBaseShippingTaxAmount();
         }
         return $this->displayPrices($baseShipping, $shipping, false, ' ');
     }

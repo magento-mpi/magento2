@@ -1,0 +1,58 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php 
+    $_items = $this->getReviewsCollection()->getItems();
+    $format = $this->getDateFormat() ?: 'short';
+?>
+<?php if (count($_items)):?>
+<div class="block reviews list" id="customer-reviews">
+    <div class="title">
+        <strong><?php echo __('Customer Reviews') ?></strong>
+    </div>
+    <div class="content">
+        <div class="toolbar products">
+            <?php echo $this->getChildHtml('toolbar') ?>
+        </div>
+    <ol class="reviews items">
+    <?php foreach ($_items as $_review):?>
+        <li class="item review">
+            <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+            <div class="rating summary item">
+                <span class="label"><span><?php echo $this->escapeHtml($_vote->getRatingCode()) ?>:</span></span>
+                <div class="rating result" title="<?php echo $_vote->getPercent() ?>%">
+                    <span style="width:<?php echo $_vote->getPercent() ?>%">
+                        <span><?php echo $_vote->getPercent() ?>%</span>
+                    </span>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <div class="review details">
+                <p class="author">
+                    <span><?php echo __('Review by')?></span>
+                    <strong class="nickname"><?php echo $this->escapeHtml($_review->getNickname()) ?></strong>
+                </p>
+                <p class="review date">
+                    <span><?php echo __('Posted on') ?></span>
+                    <time class="date"><?php echo $this->formatDate($_review->getCreatedAt(), $format) ?></time>
+                </p>
+            </div>
+            <div class="review title"><?php echo $this->escapeHtml($_review->getTitle()) ?></div>
+            <div class="review content">
+                <?php echo nl2br($this->escapeHtml($_review->getDetail())) ?>
+            </div>
+        </li>
+    <?php endforeach; ?>
+    </ol>
+        <div class="toolbar products">
+            <?php echo $this->getChildHtml('toolbar') ?>
+        </div>
+    </div>
+</div>
+<?php endif;?>

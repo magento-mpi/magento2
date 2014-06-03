@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Controller\Adminhtml\System\Config;
 /**
  * VAT validation controller
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Validatevat extends \Magento\Backend\App\Action
@@ -21,15 +17,16 @@ class Validatevat extends \Magento\Backend\App\Action
     /**
      * Perform customer VAT ID validation
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _validate()
     {
-        return $this->_objectManager->get('Magento\Customer\Helper\Data')
-            ->checkVatNumber(
-                $this->getRequest()->getParam('country'),
-                $this->getRequest()->getParam('vat')
-            );
+        return $this->_objectManager->get(
+            'Magento\Customer\Helper\Data'
+        )->checkVatNumber(
+            $this->getRequest()->getParam('country'),
+            $this->getRequest()->getParam('vat')
+        );
     }
 
     /**
@@ -63,16 +60,15 @@ class Validatevat extends \Magento\Backend\App\Action
             $storeId = (int)$storeId;
         }
 
-        $groupId = $this->_objectManager->get('Magento\Customer\Helper\Data')
-            ->getCustomerGroupIdBasedOnVatNumber(
-                $this->getRequest()->getParam('country'), $result, $storeId
-            );
+        $groupId = $this->_objectManager->get(
+            'Magento\Customer\Helper\Data'
+        )->getCustomerGroupIdBasedOnVatNumber(
+            $this->getRequest()->getParam('country'),
+            $result,
+            $storeId
+        );
 
-        $body = $coreHelper->jsonEncode(array(
-            'valid' => $valid,
-            'group' => $groupId,
-            'success' => $success
-        ));
+        $body = $coreHelper->jsonEncode(array('valid' => $valid, 'group' => $groupId, 'success' => $success));
         $this->getResponse()->setBody($body);
     }
 }

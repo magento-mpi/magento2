@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 /**
  * EAV entity Attribute Form Renderer Block for Multiply line
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Multiline extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
@@ -51,8 +47,8 @@ class Multiline extends \Magento\CustomAttributeManagement\Block\Form\Renderer\A
      */
     protected function _getValidateClasses($withRequired = true)
     {
-        $classes    = parent::_getValidateClasses($withRequired);
-        $rules      = $this->getAttributeObject()->getValidateRules();
+        $classes = parent::_getValidateClasses($withRequired);
+        $rules = $this->getAttributeObject()->getValidateRules();
         if (!empty($rules['min_text_length'])) {
             $classes[] = 'validate-length';
             $classes[] = 'minimum-length-' . $rules['min_text_length'];

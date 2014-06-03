@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  */
 namespace Magento\Core\Block;
 
-class RequireCookie extends \Magento\View\Element\Template
+class RequireCookie extends \Magento\Framework\View\Element\Template
 {
     /**
      * Retrieve script options encoded to json
@@ -22,10 +20,7 @@ class RequireCookie extends \Magento\View\Element\Template
      */
     public function getScriptOptions()
     {
-        $params = array(
-            'noCookieUrl' => $this->getUrl('core/index/noCookies/'),
-            'triggers' => $this->getTriggers()
-        );
+        $params = array('noCookieUrl' => $this->getUrl('core/index/noCookies/'), 'triggers' => $this->getTriggers());
         return json_encode($params);
     }
 }

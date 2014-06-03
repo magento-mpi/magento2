@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,6 @@
  */
 namespace Magento\Pci\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-
 }

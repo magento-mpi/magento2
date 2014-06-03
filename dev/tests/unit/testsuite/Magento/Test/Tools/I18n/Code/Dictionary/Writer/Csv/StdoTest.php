@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Dictionary\Writer\Csv;
 
 class StdoTest extends \PHPUnit_Framework_TestCase

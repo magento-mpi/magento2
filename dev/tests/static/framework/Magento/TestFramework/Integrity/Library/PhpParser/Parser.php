@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
 /**
  * Parser for each token type
  *
- * @package Magento\TestFramework
  */
 interface Parser
 {

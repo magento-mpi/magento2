@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,10 +43,11 @@ class Observer
         $this->_paymentConfig = $paymentConfig;
         $this->_resourceConfig = $resourceConfig;
     }
+
     /**
      * Set forced canCreditmemo flag
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function salesOrderBeforeSave($observer)
@@ -76,10 +75,10 @@ class Observer
     }
 
     /**
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
+    public function updateOrderStatusForPaymentMethods(\Magento\Framework\Event\Observer $observer)
     {
         if ($observer->getEvent()->getState() !== \Magento\Sales\Model\Order::STATE_NEW) {
             return;
@@ -90,7 +89,10 @@ class Observer
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {
                 $this->_resourceConfig->saveConfig(
-                    'payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0
+                    'payment/' . $method->getCode() . '/order_status',
+                    $defaultStatus,
+                    'default',
+                    0
                 );
             }
         }

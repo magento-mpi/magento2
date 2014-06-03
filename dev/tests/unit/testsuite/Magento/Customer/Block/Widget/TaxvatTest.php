@@ -7,12 +7,13 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class TaxvatTest extends \PHPUnit_Framework_TestCase
 {
     /** Constants used in the unit tests */
     const CUSTOMER_ENTITY_TYPE = 'customer';
+
     const TAXVAT_ATTRIBUTE_CODE = 'taxvat';
 
     /**
@@ -28,19 +29,32 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_attribute =
-            $this->getMock('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
+        $this->_attribute = $this->getMock(
+            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+            [],
+            [],
+            '',
+            false
+        );
 
-        $this->_attributeMetadata =
-            $this->getMockForAbstractClass(
-                'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
-            );
-        $this->_attributeMetadata->expects($this->any())->method('getCustomerAttributeMetadata')
-            ->with(self::TAXVAT_ATTRIBUTE_CODE)
-            ->will($this->returnValue($this->_attribute));
+        $this->_attributeMetadata = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
+            [],
+            '',
+            false
+        );
+        $this->_attributeMetadata->expects(
+            $this->any()
+        )->method(
+            'getCustomerAttributeMetadata'
+        )->with(
+            self::TAXVAT_ATTRIBUTE_CODE
+        )->will(
+            $this->returnValue($this->_attribute)
+        );
 
         $this->_block = new Taxvat(
-            $this->getMock('Magento\View\Element\Template\Context', [], [], '', false),
+            $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false),
             $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
             $this->_attributeMetadata
         );
@@ -64,18 +78,22 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     public function isEnabledDataProvider()
     {
-        return [
-            [true, true],
-            [false, false]
-        ];
+        return [[true, true], [false, false]];
     }
 
     public function testIsEnabledWithException()
     {
-        $this->_attributeMetadata
-            ->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->_attributeMetadata->expects(
+            $this->any()
+        )->method(
+            'getAttributeMetadata'
+        )->will(
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
+        );
         $this->assertSame(false, $this->_block->isEnabled());
     }
 
@@ -97,18 +115,22 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     public function isRequiredDataProvider()
     {
-        return [
-            [true, true],
-            [false, false]
-        ];
+        return [[true, true], [false, false]];
     }
 
     public function testIsRequiredWithException()
     {
-        $this->_attributeMetadata
-            ->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->_attributeMetadata->expects(
+            $this->any()
+        )->method(
+            'getAttributeMetadata'
+        )->will(
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
+        );
         $this->assertSame(false, $this->_block->isRequired());
     }
 }

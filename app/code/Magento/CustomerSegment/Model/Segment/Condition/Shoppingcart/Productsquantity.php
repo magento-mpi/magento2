@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -54,9 +52,11 @@ class Productsquantity extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
+        return array(
+            'value' => $this->getType(),
             'label' => __('Products Quantity'),
-            'available_in_guest_mode' => true);
+            'available_in_guest_mode' => true
+        );
     }
 
     /**
@@ -66,9 +66,11 @@ class Productsquantity extends AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping Cart Products Qty %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping Cart Products Qty %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -76,7 +78,7 @@ class Productsquantity extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

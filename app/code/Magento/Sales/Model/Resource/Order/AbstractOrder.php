@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,61 +17,61 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      *
      * @var bool
      */
-    protected $_grid                         = false;
+    protected $_grid = false;
 
     /**
      * Use additional is object new check for this resource
      *
      * @var bool
      */
-    protected $_useIsObjectNew               = true;
+    protected $_useIsObjectNew = true;
 
     /**
      * Flag for using of increment id
      *
      * @var bool
      */
-    protected $_useIncrementId               = false;
+    protected $_useIncrementId = false;
 
     /**
      * Entity code for increment id (Eav entity code)
      *
      * @var string
      */
-    protected $_entityTypeForIncrementId     = '';
+    protected $_entityTypeForIncrementId = '';
 
     /**
      * Grid virtual columns
      *
      * @var array|null
      */
-    protected $_virtualGridColumns           = null;
+    protected $_virtualGridColumns = null;
 
     /**
      * Grid columns
      *
      * @var array|null
      */
-    protected $_gridColumns                  = null;
+    protected $_gridColumns = null;
 
     /**
      * Event prefix
      *
      * @var string
      */
-    protected $_eventPrefix                  = 'sales_resource';
+    protected $_eventPrefix = 'sales_resource';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject                  = 'resource';
+    protected $_eventObject = 'resource';
 
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -83,15 +81,15 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     protected $_eavEntityTypeFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
     ) {
         $this->_eventManager = $eventManager;
@@ -107,21 +105,19 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $joinCondition
      * @param string $column
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addVirtualGridColumn($alias, $table, $joinCondition, $column)
     {
         $table = $this->getTable($table);
 
         if (!in_array($alias, $this->getGridColumns())) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Please specify a valid grid column alias name that exists in the grid table.')
             );
         }
 
-        $this->_virtualGridColumns[$alias] = array(
-            $table, $joinCondition, $column
-        );
+        $this->_virtualGridColumns[$alias] = array($table, $joinCondition, $column);
 
         return $this;
     }
@@ -149,9 +145,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     {
         $this->_virtualGridColumns = array();
         if ($this->_eventPrefix && $this->_eventObject) {
-            $this->_eventManager->dispatch($this->_eventPrefix . '_init_virtual_grid_columns', array(
-                $this->_eventObject => $this
-            ));
+            $this->_eventManager->dispatch(
+                $this->_eventPrefix . '_init_virtual_grid_columns',
+                array($this->_eventObject => $this)
+            );
         }
         return $this;
     }
@@ -170,15 +167,15 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             }
 
             if ($this->_eventPrefix && $this->_eventObject) {
-                $proxy = new \Magento\Object();
-                $proxy->setIds($ids)
-                    ->setData($this->_eventObject, $this);
+                $proxy = new \Magento\Framework\Object();
+                $proxy->setIds($ids)->setData($this->_eventObject, $this);
 
                 $this->_eventManager->dispatch($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
                 $ids = $proxy->getIds();
             }
 
-            if (empty($ids)) { // If nothing to update
+            if (empty($ids)) {
+                // If nothing to update
                 return $this;
             }
             $columnsToSelect = array();
@@ -196,15 +193,11 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $ids
      * @param array &$flatColumnsToSelect
      * @param array|null $gridColumns
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getUpdateGridRecordsSelect($ids, &$flatColumnsToSelect, $gridColumns = null)
     {
-        $flatColumns = array_keys($this->_getReadAdapter()
-            ->describeTable(
-                $this->getMainTable()
-            )
-        );
+        $flatColumns = array_keys($this->_getReadAdapter()->describeTable($this->getMainTable()));
 
         if ($gridColumns === null) {
             $gridColumns = $this->getGridColumns();
@@ -212,9 +205,13 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
 
         $flatColumnsToSelect = array_intersect($flatColumns, $gridColumns);
 
-        $select = $this->_getWriteAdapter()->select()
-                ->from(array('main_table' => $this->getMainTable()), $flatColumnsToSelect)
-                ->where('main_table.' . $this->getIdFieldName() . ' IN(?)', $ids);
+        $select = $this->_getWriteAdapter()->select()->from(
+            array('main_table' => $this->getMainTable()),
+            $flatColumnsToSelect
+        )->where(
+            'main_table.' . $this->getIdFieldName() . ' IN(?)',
+            $ids
+        );
 
         $this->joinVirtualGridColumnsToSelect('main_table', $select, $flatColumnsToSelect);
 
@@ -237,18 +234,14 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             $tableAlias = 'table_' . $alias;
 
             $joinConditionExpr = array();
-            foreach ($joinCondition as $fkField=>$pkField) {
-                $pkField = $adapter->quoteIdentifier(
-                    $tableAlias . '.' . $pkField
-                );
-                $fkField = $adapter->quoteIdentifier(
-                    $mainTableAlias . '.' . $fkField
-                );
+            foreach ($joinCondition as $fkField => $pkField) {
+                $pkField = $adapter->quoteIdentifier($tableAlias . '.' . $pkField);
+                $fkField = $adapter->quoteIdentifier($mainTableAlias . '.' . $fkField);
                 $joinConditionExpr[] = $fkField . '=' . $pkField;
             }
 
             $select->joinLeft(
-                array($tableAlias=> $table),
+                array($tableAlias => $table),
                 implode(' AND ', $joinConditionExpr),
                 array($alias => str_replace('{{table}}', $tableAlias, $column))
             );
@@ -268,9 +261,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     {
         if ($this->_gridColumns === null) {
             if ($this->_grid) {
-                $this->_gridColumns = array_keys(
-                    $this->_getReadAdapter()->describeTable($this->getGridTable())
-                );
+                $this->_gridColumns = array_keys($this->_getReadAdapter()->describeTable($this->getGridTable()));
             } else {
                 $this->_gridColumns = array();
             }
@@ -295,18 +286,17 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Before save object attribute
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      */
-    protected function _beforeSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
+    protected function _beforeSaveAttribute(\Magento\Framework\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
-            $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_before', array(
-                $this->_eventObject => $this,
-                'object' => $object,
-                'attribute' => $attribute
-            ));
+            $this->_eventManager->dispatch(
+                $this->_eventPrefix . '_save_attribute_before',
+                array($this->_eventObject => $this, 'object' => $object, 'attribute' => $attribute)
+            );
         }
         return $this;
     }
@@ -314,18 +304,17 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * After save object attribute
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      */
-    protected function _afterSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
+    protected function _afterSaveAttribute(\Magento\Framework\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
-            $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_after', array(
-                $this->_eventObject => $this,
-                'object' => $object,
-                'attribute' => $attribute
-            ));
+            $this->_eventManager->dispatch(
+                $this->_eventPrefix . '_save_attribute_after',
+                array($this->_eventObject => $this, 'object' => $object, 'attribute' => $attribute)
+            );
         }
         return $this;
     }
@@ -333,12 +322,12 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      * @throws \Exception
      */
-    public function saveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
+    public function saveAttribute(\Magento\Framework\Model\AbstractModel $object, $attribute)
     {
         if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
             $attribute = $attribute->getAttributeCode();
@@ -352,15 +341,16 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             $this->beginTransaction();
             try {
                 $this->_beforeSaveAttribute($object, $attribute);
-                $data = new \Magento\Object();
+                $data = new \Magento\Framework\Object();
                 foreach ($attribute as $code) {
                     $data->setData($code, $object->getData($code));
                 }
 
                 $updateArray = $this->_prepareDataForTable($data, $this->getMainTable());
                 $this->_postSaveFieldsUpdate($object, $updateArray);
-                if (!$object->getForceUpdateGridRecords()
-                    && count(array_intersect($this->getGridColumns(), $attribute)) > 0
+                if (!$object->getForceUpdateGridRecords() && count(
+                    array_intersect($this->getGridColumns(), $attribute)
+                ) > 0
                 ) {
                     $this->updateGridRecords($object->getId());
                 }
@@ -378,10 +368,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType \Magento\Eav\Model\Entity\Type */
@@ -395,7 +385,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Update field in table if model have been already saved
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param array $data
      * @return $this
      */
@@ -403,7 +393,9 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     {
         if ($object->getId() && !empty($data)) {
             $table = $this->getMainTable();
-            $this->_getWriteAdapter()->update($table, $data,
+            $this->_getWriteAdapter()->update(
+                $table,
+                $data,
                 array($this->getIdFieldName() . '=?' => (int)$object->getId())
             );
             $object->addData($data);
@@ -427,10 +419,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Save object data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    public function save(\Magento\Core\Model\AbstractModel $object)
+    public function save(\Magento\Framework\Model\AbstractModel $object)
     {
         if (!$object->getForceObjectSave()) {
             parent::save($object);
@@ -450,9 +442,13 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     {
         $adapter = $this->_getWriteAdapter();
         $column = array();
-        $select = $adapter->select()
-            ->from(array('main_table' => $this->getMainTable()), $column)
-            ->where('main_table.' . $field .' = ?', $entityId);
+        $select = $adapter->select()->from(
+            array('main_table' => $this->getMainTable()),
+            $column
+        )->where(
+            'main_table.' . $field . ' = ?',
+            $entityId
+        );
         $this->joinVirtualGridColumnsToSelect('main_table', $select, $column);
         $fieldsToUpdate = $adapter->fetchRow($select);
         if ($fieldsToUpdate) {
@@ -465,4 +461,3 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
         return $this;
     }
 }
-

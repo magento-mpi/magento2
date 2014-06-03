@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,7 +27,7 @@ class Daterange extends AbstractCondition
     /**
      * Value form element
      *
-     * @var \Magento\Data\Form\Element\Text
+     * @var \Magento\Framework\Data\Form\Element\Text
      */
     private $_valueElement = null;
 
@@ -66,10 +64,7 @@ class Daterange extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Date Range'),
-        );
+        return array('value' => $this->getType(), 'label' => __('Date Range'));
     }
 
     /**
@@ -109,10 +104,12 @@ class Daterange extends AbstractCondition
      */
     public function getValueAfterElementHtml()
     {
-        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
-            . '" alt="" class="v-middle rule-chooser-trigger"'
-            . 'title="' . __('Open Chooser') . '" /></a>';
+        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' .
+            $this->_assetRepo->getUrl(
+                'images/rule_chooser_trigger.gif'
+            ) . '" alt="" class="v-middle rule-chooser-trigger"' . 'title="' . __(
+                'Open Chooser'
+            ) . '" /></a>';
     }
 
     /**
@@ -122,9 +119,10 @@ class Daterange extends AbstractCondition
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('customersegment/index/chooserDaterange', array(
-            'value_element_id' => $this->_valueElement->getId(),
-        ));
+        return $this->_adminhtmlData->getUrl(
+            'customersegment/index/chooserDaterange',
+            array('value_element_id' => $this->_valueElement->getId())
+        );
     }
 
     /**
@@ -137,10 +135,15 @@ class Daterange extends AbstractCondition
     public function asHtml()
     {
         $this->_valueElement = $this->getValueElement();
-        return $this->getTypeElementHtml()
-            . __('Date Range %1 within %2', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
-            . $this->getRemoveLinkHtml()
-            . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
+        return $this->getTypeElementHtml() . __(
+            'Date Range %1 within %2',
+            $this->getOperatorElementHtml(),
+            $this->_valueElement->getHtml()
+        ) .
+            $this->getRemoveLinkHtml() .
+            '<div class="rule-chooser no-split" url="' .
+            $this->getValueElementChooserUrl() .
+            '"></div>';
     }
 
     /**
@@ -180,7 +183,7 @@ class Daterange extends AbstractCondition
             return false;
         }
 
-        $inOperator = (($requireValid && $this->getOperator() == '==') ? 'BETWEEN' : 'NOT BETWEEN');
+        $inOperator = $requireValid && $this->getOperator() == '==' ? 'BETWEEN' : 'NOT BETWEEN';
         return sprintf("%s %s '%s' AND '%s'", $fieldName, $inOperator, $start, $end);
     }
 }

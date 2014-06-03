@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
 interface HandlerInterface
@@ -15,4 +14,4 @@ interface HandlerInterface
      * @return void
      */
     public function handle(\Magento\Catalog\Model\Product $product);
-} 
+}

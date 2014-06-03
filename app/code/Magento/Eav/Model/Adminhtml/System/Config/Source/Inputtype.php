@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Eav\Model\Adminhtml\System\Config\Source;
 
-class Inputtype implements \Magento\Option\ArrayInterface
+class Inputtype implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return array of options

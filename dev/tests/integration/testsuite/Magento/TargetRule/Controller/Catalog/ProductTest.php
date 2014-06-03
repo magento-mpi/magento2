@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Controller\Catalog;
 
 class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -24,7 +20,7 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
-        $this->assertContains('<div class="block related">', $content);
+        $this->assertContains('<div class="block related"', $content);
         $this->assertContains('Simple Product 2 Name', $content);
     }
 

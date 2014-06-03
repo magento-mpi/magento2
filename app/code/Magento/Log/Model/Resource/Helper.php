@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Resource helper for specific requests to MySQL DB
  *
- * @category    Magento
- * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Log\Model\Resource;
 
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
      * Returns information about table in DB

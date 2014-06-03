@@ -2,25 +2,23 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CustomerBalance\Controller;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Customerbalance controller for My Account
  */
-class Info extends \Magento\App\Action\Action
+class Info extends \Magento\Framework\App\Action\Action
 {
     /**
      * Authenticate customer
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

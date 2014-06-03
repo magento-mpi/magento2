@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -117,13 +114,13 @@ class Transaction
      * Retrieve database adapter instance
      *
      * @param string $connectionName 'read' or 'write'
-     * @return \Magento\DB\Adapter\AdapterInterface|\Magento\TestFramework\Db\Adapter\TransactionInterface
-     * @throws \Magento\Exception
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|\Magento\TestFramework\Db\Adapter\TransactionInterface
+     * @throws \Magento\Framework\Exception
      */
     protected function _getAdapter($connectionName = 'core_write')
     {
-        /** @var $resource \Magento\App\Resource */
-        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Resource');
+        /** @var $resource \Magento\Framework\App\Resource */
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
         return $resource->getConnection($connectionName);
     }
 

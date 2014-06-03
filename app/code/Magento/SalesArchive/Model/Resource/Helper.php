@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,20 +10,16 @@ namespace Magento\SalesArchive\Model\Resource;
 /**
  * Enterprise SalesArchive Mysql resource helper model
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\Framework\DB\Helper
 {
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix = 'SalesArchive'
-    ) {
+    public function __construct(\Magento\Framework\App\Resource $resource, $modulePrefix = 'SalesArchive')
+    {
         parent::__construct($resource, $modulePrefix);
     }
 
@@ -52,20 +46,22 @@ class Helper extends \Magento\Core\Model\Resource\Helper
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            throw new \Magento\Core\Exception(__("We can't find the table."));
+            throw new \Magento\Framework\Model\Exception(__("We can't find the table."));
         }
 
         $columns = array();
         $adapter = $this->_getWriteAdapter();
         $description = $adapter->describeTable($table);
         foreach ($description as $columnDescription) {
-            $columns[$columnDescription['COLUMN_NAME']] = $adapter->getColumnDefinitionFromDescribe($columnDescription);
+            $columns[$columnDescription['COLUMN_NAME']] = $adapter->getColumnDefinitionFromDescribe(
+                $columnDescription
+            );
         }
 
         if (!isset($columns[$column])) {
-            throw new \Magento\Core\Exception(__('Column not found'));
+            throw new \Magento\Framework\Model\Exception(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            throw new \Magento\Core\Exception(__('Positioning column not found'));
+            throw new \Magento\Framework\Model\Exception(__('Positioning column not found'));
         }
 
         if ($after) {

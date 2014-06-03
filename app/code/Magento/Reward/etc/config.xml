@@ -3,13 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
     <default>
         <magento_reward>
             <general>
@@ -17,6 +15,7 @@
                 <is_enabled_on_front>1</is_enabled_on_front>
                 <publish_history>1</publish_history>
                 <expiry_calculation>static</expiry_calculation>
+                <deduct_automatically>1</deduct_automatically>
                 <landing_page>reward-points</landing_page>
             </general>
             <notification>

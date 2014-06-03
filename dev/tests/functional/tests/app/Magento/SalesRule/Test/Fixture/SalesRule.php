@@ -17,7 +17,6 @@ use Magento\Catalog\Test\Fixture\Product;
 /**
  * Class SalesRule
  *
- * @package Magento\SalesRule\Test\Fixture
  */
 class SalesRule extends DataFixture
 {
@@ -67,15 +66,15 @@ class SalesRule extends DataFixture
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
         // Edit Customer just created
         $customerGridPage->open();
-        $customerGrid = $customerGridPage->getGridBlock();
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
         $customerGrid->searchAndOpen(array('email' => $this->customerFixture->getEmail()));
-        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
-        $editCustomerForm = $customerEditPage->getEditCustomerForm();
+        $customerEditPage = Factory::getPageFactory()->getCustomerIndexEdit();
+        $editCustomerForm = $customerEditPage->getCustomerForm();
         // Set group to Retailer
         $editCustomerForm->openTab('account_information');
-        $editCustomerForm->fill($this->customerFixture);
+        $editCustomerForm->fillCustomer($this->customerFixture);
         // Save Customer Edit
-        $editCustomerForm->save();
+        $customerEditPage->getPageActionsBlock()->save();
         // Create a product
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->productFixture->persist();

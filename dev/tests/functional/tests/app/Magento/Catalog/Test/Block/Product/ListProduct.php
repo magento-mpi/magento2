@@ -2,25 +2,20 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SearchResultsList
  * Product list
- *
- * @package Magento\Catalog\Test\Block\Product
  */
 class ListProduct extends Block
 {
@@ -57,14 +52,21 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $clickForPrice = "//div[contains(@class, 'product details') and ('%s')]//a[contains(@id, 'msrp-click')]";
+    protected $clickForPrice = "//div[contains(@class, 'product details') and ('%s')]//a[contains(@id, 'msrp-popup')]";
 
     /**
      * Minimum Advertised Price on category page
      *
      * @var string
      */
-    protected $oldPrice = "[id*=product-price]";
+    protected $oldPrice = ".old-price .price";
+
+    /**
+     * 'Add to Card' button
+     *
+     * @var string
+     */
+    protected $addToCard = "button.action.tocart";
 
     /**
      * This method returns the price box block for the named product.
@@ -83,6 +85,7 @@ class ListProduct extends Block
      * Check if product with specified name is visible
      *
      * @param string $productName
+     *
      * @return bool
      */
     public function isProductVisible($productName)
@@ -114,6 +117,7 @@ class ListProduct extends Block
      * This method returns the element representing the product details for the named product.
      *
      * @param string $productName String containing the name of the product
+     *
      * @return Element
      */
     protected function getProductDetailsElement($productName)
@@ -128,6 +132,7 @@ class ListProduct extends Block
      * This method returns the element on the page associated with the product name.
      *
      * @param string $productName String containing the name of the product
+     *
      * @return Element
      */
     protected function getProductNameElement($productName)
@@ -143,6 +148,10 @@ class ListProduct extends Block
 
     /**
      * Open MAP block on category page
+     *
+     * @param $productName
+     *
+     * @return void
      */
     public function openMapBlockOnCategoryPage($productName)
     {
@@ -152,7 +161,7 @@ class ListProduct extends Block
     /**
      * Get Minimum Advertised Price on Category page
      *
-     * @return array|string
+     * @return string
      */
     public function getOldPriceCategoryPage()
     {
@@ -163,6 +172,7 @@ class ListProduct extends Block
      * Retrieve product price by specified Id
      *
      * @param int $productId
+     *
      * @return string
      */
     public function getPrice($productId)
@@ -171,5 +181,15 @@ class ListProduct extends Block
             '.price-box #product-price-' . $productId . ' .price',
             Locator::SELECTOR_CSS
         )->getText();
+    }
+
+    /**
+     * Check 'Add To Card' button availability
+     *
+     * @return bool
+     */
+    public function checkAddToCardButton()
+    {
+        return $this->_rootElement->find($this->addToCard, Locator::SELECTOR_CSS)->isVisible();
     }
 }

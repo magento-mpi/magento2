@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<form action="<?php echo $this->getUrl('*/*/saverole') ?>" method="post" id="role-edit-form">
+    <?php echo $this->getBlockHtml('formkey')?>
+</form>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('#role-edit-form').mage('form').mage('validation');
+    });
+</script>

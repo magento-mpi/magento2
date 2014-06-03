@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
             <arguments>
@@ -37,11 +37,6 @@
         <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-fileuploader-jquery-fileupload-fp-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-cms-js-tiny-mce-form-submit-js">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Cms::js/tiny_mce_form_submit.js</argument>
             </arguments>
         </block>
     </referenceBlock>

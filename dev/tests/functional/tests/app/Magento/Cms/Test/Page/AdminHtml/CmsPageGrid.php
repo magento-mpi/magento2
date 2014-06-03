@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\Page\Page;
  * Class CmsPageGrid
  * Cms Page backend grid page.
  *
- * @package Magento\Cms\Test\Page\AdminHtml
  */
 class CmsPageGrid extends Page
 {
@@ -71,7 +67,7 @@ class CmsPageGrid extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)

@@ -29,3 +29,7 @@ PEAR
 Magento\LibFirst
 \Magento\SomeModule\Exception
 TestSuite
+DbTest
+Model1
+Model3
+\Magento\Framework\Error\Processor

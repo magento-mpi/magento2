@@ -22,7 +22,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\AdminGws\Model\Config\Converter();
-        $this->_fixturePath = realpath(__DIR__ ) . '/_files/';
+        $this->_fixturePath = realpath(__DIR__) . '/_files/';
     }
 
     public function testConvert()
@@ -30,7 +30,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $dom = new \DOMDocument();
         $dom->load($this->_fixturePath . 'adminGws.xml');
         $actual = $this->_model->convert($dom);
-        $expected = require ($this->_fixturePath . 'adminGws.php');
+        $expected = require $this->_fixturePath . 'adminGws.php';
         $this->assertEquals($expected, $actual);
     }
 }

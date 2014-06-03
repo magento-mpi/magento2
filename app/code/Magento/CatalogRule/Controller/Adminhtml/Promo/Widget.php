@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Model\Category;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 class Widget extends Action
 {
@@ -28,10 +25,8 @@ class Widget extends Action
      * @param Context $context
      * @param Registry $coreRegistry
      */
-    public function __construct(
-        Context $context,
-        Registry $coreRegistry
-    ) {
+    public function __construct(Context $context, Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -48,16 +43,17 @@ class Widget extends Action
         switch ($request->getParam('attribute')) {
             case 'sku':
                 $block = $this->_view->getLayout()->createBlock(
-                    'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
-                    array('data' => array('js_form_object' => $request->getParam('form')),
-                ));
+                    'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku',
+                    'promo_widget_chooser_sku',
+                    array('data' => array('js_form_object' => $request->getParam('form')))
+                );
                 break;
 
             case 'category_ids':
                 $ids = $request->getParam('selected', array());
                 if (is_array($ids)) {
                     foreach ($ids as $key => &$id) {
-                        $id = (int) $id;
+                        $id = (int)$id;
                         if ($id <= 0) {
                             unset($ids[$key]);
                         }
@@ -70,11 +66,12 @@ class Widget extends Action
 
 
                 $block = $this->_view->getLayout()->createBlock(
-                        'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
-                        array('data' => array('js_form_object' => $request->getParam('form')))
-                    )
-                    ->setCategoryIds($ids)
-                ;
+                    'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree',
+                    'promo_widget_chooser_category_ids',
+                    array('data' => array('js_form_object' => $request->getParam('form')))
+                )->setCategoryIds(
+                    $ids
+                );
                 break;
 
             default:
@@ -102,16 +99,20 @@ class Widget extends Action
      */
     public function categoriesJsonAction()
     {
-        $categoryId = (int) $this->getRequest()->getPost('id');
+        $categoryId = (int)$this->getRequest()->getPost('id');
         if ($categoryId) {
             $this->getRequest()->setParam('id', $categoryId);
 
-            if (!$category = $this->_initCategory()) {
+            if (!($category = $this->_initCategory())) {
                 return;
             }
+            $block = $this->_view->getLayout()->createBlock(
+                'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree'
+            )->setCategoryIds(
+                array($categoryId)
+            );
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
-                    ->getTreeJson($category)
+                $block->getTreeJson($category)
             );
         }
     }
@@ -123,17 +124,20 @@ class Widget extends Action
      */
     protected function _initCategory()
     {
-        $categoryId = (int)$this->getRequest()->getParam('id',false);
-        $storeId    = (int)$this->getRequest()->getParam('store');
+        $categoryId = (int)$this->getRequest()->getParam('id', false);
+        $storeId = (int)$this->getRequest()->getParam('store');
 
-        $category   = $this->_objectManager->create('Magento\Catalog\Model\Category');
+        $category = $this->_objectManager->create('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = $this->_objectManager->get('Magento\Core\Model\StoreManager')
-                    ->getStore($storeId)->getRootCategoryId();
+                $rootId = $this->_objectManager->get(
+                    'Magento\Store\Model\StoreManager'
+                )->getStore(
+                    $storeId
+                )->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     $this->_redirect('catalog/*/', array('_current' => true, 'id' => null));
                     return false;

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Layer\Filter;
 
 /**
@@ -26,22 +22,25 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->load(4);
 
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Category', array(
+                'data' => array('current_category' => $category)
+            ));
+
         /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
-        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Entity\Attribute');
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Entity\Attribute'
+        );
         $attribute->loadByCode('catalog_product', 'weight');
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Decimal');
+            ->create('Magento\Catalog\Model\Layer\Filter\Decimal', array('layer' => $layer,));
         $this->_model->setData(array(
-            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer', array(
-                'data' => array('current_category' => $category)
-            )),
             'attribute_model' => $attribute,
         ));
     }
@@ -55,8 +54,11 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
         $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\View\Element\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Framework\View\Element\Text'
+            )
         );
 
         $this->assertEmpty($this->_model->getData('range'));
@@ -72,8 +74,11 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
         $request->setParam('decimal', 'non-decimal');
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\View\Element\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Framework\View\Element\Text'
+            )
         );
 
         $this->assertEmpty($this->_model->getData('range'));
@@ -88,8 +93,11 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
         $request->setParam('decimal', '1,100');
         $this->_model->apply(
             $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\View\Element\Text')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Framework\View\Element\Text'
+            )
         );
 
         $this->assertEquals(100, $this->_model->getData('range'));
@@ -113,10 +121,10 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
     public function getRangeItemCountsDataProvider()
     {
         return array(
-            array(1,  array(19 => 1, 57 => 1)),
-            array(10, array(2  => 1, 6  => 1)),
-            array(30, array(1  => 1, 2  => 1)),
-            array(60, array(1  => 2)),
+            array(1, array(19 => 1, 57 => 1)),
+            array(10, array(2 => 1, 6 => 1)),
+            array(30, array(1 => 1, 2 => 1)),
+            array(60, array(1 => 2))
         );
     }
 

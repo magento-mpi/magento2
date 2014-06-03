@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Abstract resource data model
  *
- * @category    Magento
- * @package     Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Install\Model\Installer\Db;
@@ -22,7 +18,7 @@ abstract class AbstractDb
     /**
      * Resource connection adapter factory
      *
-     * @var \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory
+     * @var \Magento\Framework\Model\Resource\Type\Db\Pdo\MysqlFactory
      */
     protected $_adapterFactory;
 
@@ -36,7 +32,7 @@ abstract class AbstractDb
     /**
      *  Adapter instance
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -57,18 +53,18 @@ abstract class AbstractDb
     /**
      * Configuration arguments
      *
-     * @var \Magento\App\Arguments
+     * @var \Magento\Framework\App\Arguments
      */
     protected $_arguments;
 
     /**
-     * @param \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
-     * @param \Magento\App\Arguments $arguments
+     * @param \Magento\Framework\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
+     * @param \Magento\Framework\App\Arguments $arguments
      * @param array $dbExtensions
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory,
-        \Magento\App\Arguments $arguments,
+        \Magento\Framework\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory,
+        \Magento\Framework\App\Arguments $arguments,
         array $dbExtensions = array()
     ) {
         $this->_adapterFactory = $adapterFactory;
@@ -85,7 +81,6 @@ abstract class AbstractDb
     {
         return $this->_configData['db_model'];
     }
-
 
     /**
      * Return the DB type from config
@@ -152,7 +147,7 @@ abstract class AbstractDb
     /**
      * Create new connection with custom config
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function _getConnection()
     {

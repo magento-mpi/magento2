@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Mtf\Util\Generate;
 
 use Mtf\Util\Protocol\CurlInterface;
@@ -16,7 +15,6 @@ use Mtf\Util\Protocol\CurlTransport;
  * TestCase Classes generator based on Jira ticket
  *
  * @api
- * @package Mtf\Util\Generate
  */
 class TestCase extends AbstractGenerate
 {
@@ -126,7 +124,7 @@ class TestCase extends AbstractGenerate
 
         // Get ticket components
         if (isset($issue['fields']['components'])) {
-            foreach($issue['fields']['components'] as $component) {
+            foreach ($issue['fields']['components'] as $component) {
                 $ticketData['components'][] = $component['name'];
             }
         }
@@ -144,6 +142,8 @@ class TestCase extends AbstractGenerate
 
     /**
      * Generate Test Cases Classes
+     *
+     * @return void
      */
     public function generateClasses()
     {
@@ -162,6 +162,7 @@ class TestCase extends AbstractGenerate
      * Generate test case class from XML source
      *
      * @param \SimpleXMLElement $item
+     * @return void
      */
     private function generateTestCaseClass(\SimpleXMLElement $item)
     {
@@ -238,9 +239,9 @@ class TestCase extends AbstractGenerate
         $content .= "    }\n";
         $content .= "}\n";
 
-        $generatedFolderPath =  MTF_TESTS_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
+        $generatedFolderPath =  MTF_TESTS_PATH . str_replace('\\', '/', $namespace);
         $newFileName = $className . '.php';
-        $newFilePath = $generatedFolderPath . DIRECTORY_SEPARATOR . $newFileName;
+        $newFilePath = $generatedFolderPath . '/' . $newFileName;
 
         if (file_exists($newFilePath)) {
             return;

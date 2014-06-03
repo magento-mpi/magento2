@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Reward admin rate controller
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rate extends \Magento\Backend\App\Action
@@ -23,18 +19,16 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -42,13 +36,14 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Check if module functionality enabled
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
-            && $request->getActionName() != 'noroute'
+        if (!$this->_objectManager->get(
+            'Magento\Reward\Helper\Data'
+        )->isEnabled() && $request->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
         }
@@ -63,11 +58,15 @@ class Rate extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Reward::customer_reward')
-            ->_addBreadcrumb(__('Customers'),
-                __('Customers'))
-            ->_addBreadcrumb(__('Manage Reward Exchange Rates'),
-                __('Manage Reward Exchange Rates'));
+        $this->_setActiveMenu(
+            'Magento_Reward::customer_reward'
+        )->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        )->_addBreadcrumb(
+            __('Manage Reward Exchange Rates'),
+            __('Manage Reward Exchange Rates')
+        );
         return $this;
     }
 
@@ -140,7 +139,7 @@ class Rate extends \Magento\Backend\App\Action
         if ($data) {
             $rate = $this->_initRate();
 
-            if ($this->getRequest()->getParam('rate_id') && ! $rate->getId()) {
+            if ($this->getRequest()->getParam('rate_id') && !$rate->getId()) {
                 return $this->_redirect('adminhtml/*/');
             }
 
@@ -150,7 +149,7 @@ class Rate extends \Magento\Backend\App\Action
                 $rate->save();
                 $this->messageManager->addSuccess(__('You saved the rate.'));
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Logger')->logException($exception);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($exception);
                 $this->messageManager->addError(__('We cannot save Rate.'));
                 return $this->_redirect('adminhtml/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
@@ -188,37 +187,48 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object(array('error' => false));
-        $post     = $this->getRequest()->getParam('rate');
-        $message  = null;
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $response = new \Magento\Framework\Object(array('error' => false));
+        $post = $this->getRequest()->getParam('rate');
+        $message = null;
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }
 
-        if (!isset($post['customer_group_id'])
-            || !isset($post['website_id'])
-            || !isset($post['direction'])
-            || !isset($post['value'])
-            || !isset($post['equal_value'])) {
+        if (!isset(
+            $post['customer_group_id']
+        ) || !isset(
+            $post['website_id']
+        ) || !isset(
+            $post['direction']
+        ) || !isset(
+            $post['value']
+        ) || !isset(
+            $post['equal_value']
+        )
+        ) {
             $message = __('Please enter all Rate information.');
-        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY
-                  && ((int) $post['value'] <= 0 || (float) $post['equal_value'] <= 0)) {
-              if ((int) $post['value'] <= 0) {
-                  $message = __('Please enter a positive integer number in the left rate field.');
-              } else {
-                  $message = __('Please enter a positive number in the right rate field.');
-              }
-        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
-                  && ((float) $post['value'] <= 0 || (int) $post['equal_value'] <= 0)) {
-              if ((int) $post['equal_value'] <= 0) {
-                  $message = __('Please enter a positive integer number in the right rate field.');
-              } else {
-                  $message = __('Please enter a positive number in the left rate field.');
-              }
+        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY &&
+            ((int)$post['value'] <= 0 ||
+            (double)$post['equal_value'] <= 0)
+        ) {
+            if ((int)$post['value'] <= 0) {
+                $message = __('Please enter a positive integer number in the left rate field.');
+            } else {
+                $message = __('Please enter a positive number in the right rate field.');
+            }
+        } elseif ($post['direction'] == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS &&
+            ((double)$post['value'] <= 0 ||
+            (int)$post['equal_value'] <= 0)
+        ) {
+            if ((int)$post['equal_value'] <= 0) {
+                $message = __('Please enter a positive integer number in the right rate field.');
+            } else {
+                $message = __('Please enter a positive number in the left rate field.');
+            }
         } else {
-            $rate       = $this->_initRate();
+            $rate = $this->_initRate();
             $isRateUnique = $rate->getIsRateUniqueToCurrent(
                 $post['website_id'],
                 $post['customer_group_id'],
@@ -226,7 +236,9 @@ class Rate extends \Magento\Backend\App\Action
             );
 
             if (!$isRateUnique) {
-                $message = __('Sorry, but a rate with the same website, customer group and direction or covering rate already exists.');
+                $message = __(
+                    'Sorry, but a rate with the same website, customer group and direction or covering rate already exists.'
+                );
             }
         }
 
@@ -234,7 +246,7 @@ class Rate extends \Magento\Backend\App\Action
             $this->messageManager->addError($message);
             $this->_view->getLayout()->initMessages();
             $response->setError(true);
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

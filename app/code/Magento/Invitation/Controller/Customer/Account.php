@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Invitation\Controller\Customer;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
@@ -22,7 +20,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * Core Registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -46,52 +44,52 @@ class Account extends \Magento\Customer\Controller\Account
     protected $_invitation;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Helper\Data $coreHelperData
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\App\State $appState
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Core\Helper\Data $coreHelperData,
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
-        \Magento\Escaper $escaper,
-        \Magento\App\State $appState,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\App\State $appState,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
@@ -106,7 +104,7 @@ class Account extends \Magento\Customer\Controller\Account
             $formKeyValidator,
             $subscriberFactory,
             $storeManager,
-            $storeConfig,
+            $scopeConfig,
             $coreHelperData,
             $escaper,
             $appState,
@@ -130,8 +128,8 @@ class Account extends \Magento\Customer\Controller\Account
      * No way to logged in customers
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -155,13 +153,13 @@ class Account extends \Magento\Customer\Controller\Account
     {
         if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = $this->_invitationFactory->create();
-            $invitation
-                ->loadByInvitationCode(
-                    $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
-                        $this->getRequest()->getParam('invitation', false)
-                    )
+            $invitation->loadByInvitationCode(
+                $this->_objectManager->get(
+                    'Magento\Core\Helper\Data'
+                )->urlDecode(
+                    $this->getRequest()->getParam('invitation', false)
                 )
-                ->makeSureCanBeAccepted();
+            )->makeSureCanBeAccepted();
             $this->_coreRegistry->register('current_invitation', $invitation);
         }
         return $this->_coreRegistry->registry('current_invitation');
@@ -180,7 +178,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
@@ -225,27 +223,28 @@ class Account extends \Magento\Customer\Controller\Account
 
             $this->_redirect('customer/account/');
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
             );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
-                $this->messageManager->addError($e->getMessage())
-                    ->setCustomerFormData($this->getRequest()->getPost());
+                $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
                 if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
-                    $this->messageManager->addError(
-                        __('Your invitation is not valid. Please create an account.')
-                    );
+                    $this->messageManager->addError(__('Your invitation is not valid. Please create an account.'));
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
                     $this->messageManager->addError(
                         __(
                             'Your invitation is not valid. Please contact us at %1.',
-                            $this->_objectManager->get('Magento\Core\Model\Store\Config')
-                                ->getConfig('trans_email/ident_support/email')
+                            $this->_objectManager->get(
+                                'Magento\Framework\App\Config\ScopeConfigInterface'
+                            )->getValue(
+                                'trans_email/ident_support/email',
+                                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                            )
                         )
                     );
                     $this->_redirect('customer/account/login');
@@ -257,10 +256,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirect(
-            'magento_invitation/customer_account/create',
-            array('_current' => true, '_secure' => true)
-        );
+        $this->_redirect('magento_invitation/customer_account/create', array('_current' => true, '_secure' => true));
     }
 
     /**
@@ -319,5 +315,4 @@ class Account extends \Magento\Customer\Controller\Account
             return;
         }
     }
-
 }

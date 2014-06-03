@@ -1,0 +1,29 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Template for filter items block
+ *
+ * @var $this \Magento\LayeredNavigation\Block\Layer\Filter\Renderer
+ */
+?>
+
+<ol class="items">
+    <?php foreach ($filterItems as $filterItem): ?>
+        <li class="item">
+            <?php if ($filterItem->getCount() > 0): ?>
+                <a href="<?php echo $this->escapeUrl($filterItem->getUrl()) ?>"><?php echo $filterItem->getLabel() ?></a>
+            <?php else: echo $filterItem->getLabel() ?>
+            <?php endif; ?>
+            <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
+                <span class="count"><?php echo $filterItem->getCount() ?></span>
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
+</ol>

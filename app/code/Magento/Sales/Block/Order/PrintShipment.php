@@ -2,27 +2,23 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Block\Order;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Order information for print
  *
- * @category   Magento
- * @package    Magento_Sales
  */
 class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -32,14 +28,14 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
     protected $_paymentHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {
@@ -56,10 +52,7 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Print Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -88,6 +81,4 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
 
         return parent::_prepareItem($renderer);
     }
-
 }
-

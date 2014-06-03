@@ -56,7 +56,7 @@ class Quote
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -66,7 +66,7 @@ class Quote
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\Resource\TransactionFactory
+     * @var \Magento\Framework\DB\TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -98,11 +98,11 @@ class Quote
     /**
      * Class constructor
      *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
+     * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
@@ -110,11 +110,11 @@ class Quote
      * @param AddressConverter $addressConverter
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Quote $quote,
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
+        \Magento\Framework\DB\TransactionFactory $transactionFactory,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         AddressBuilder $customerAddressBuilder,
@@ -172,122 +172,6 @@ class Quote
      *
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
-     * @deprecated in favor of submitOrderWithDataObject which is using Service Layer
-     */
-    public function submitOrder()
-    {
-        $this->_deleteNominalItems();
-        $this->_validate();
-        $quote = $this->_quote;
-        $isVirtual = $quote->isVirtual();
-
-        $transaction = $this->_transactionFactory->create();
-        if ($quote->getCustomerId()) {
-            $customer = $quote->getCustomer();
-            $transaction->addObject($customer);
-        }
-        $transaction->addObject($quote);
-
-        $quote->reserveOrderId();
-        if ($isVirtual) {
-            $order = $this->_convertor->addressToOrder($quote->getBillingAddress());
-        } else {
-            $order = $this->_convertor->addressToOrder($quote->getShippingAddress());
-        }
-        $order->setBillingAddress($this->_convertor->addressToOrderAddress($quote->getBillingAddress()));
-        $order->getBillingAddress()->setCustomerAddressData($quote->getBillingAddress()->getCustomerAddressData());
-        if (!$isVirtual) {
-            $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
-            $order->getShippingAddress()->setCustomerAddressData(
-                $quote->getShippingAddress()->getCustomerAddressData()
-            );
-        }
-        $order->setPayment($this->_convertor->paymentToOrderPayment($quote->getPayment()));
-
-        foreach ($this->_orderData as $key => $value) {
-            $order->setData($key, $value);
-        }
-
-        foreach ($quote->getAllItems() as $item) {
-            $orderItem = $this->_convertor->itemToOrderItem($item);
-            if ($item->getParentItem()) {
-                $orderItem->setParentItem($order->getItemByQuoteItemId($item->getParentItem()->getId()));
-            }
-            $order->addItem($orderItem);
-        }
-
-        $order->setQuote($quote);
-
-        $transaction->addObject($order);
-        $transaction->addCommitCallback(array($order, 'place'));
-        $transaction->addCommitCallback(array($order, 'save'));
-
-        /**
-         * We can use configuration data for declare new order status
-         */
-        $this->_eventManager->dispatch(
-            'checkout_type_onepage_save_order',
-            array(
-                'order' => $order,
-                'quote' => $quote
-            )
-        );
-        $this->_eventManager->dispatch(
-            'sales_model_service_quote_submit_before',
-            array(
-                'order' => $order,
-                'quote' => $quote
-            )
-        );
-        try {
-            $transaction->save();
-            $this->_inactivateQuote();
-            $this->_eventManager->dispatch(
-                'sales_model_service_quote_submit_success',
-                array(
-                    'order' => $order,
-                    'quote' => $quote
-                )
-            );
-        } catch (\Exception $e) {
-            if (!$this->_customerSession->isLoggedIn()) {
-                // reset customer ID's on exception, because customer not saved
-                $quote->getCustomer()->setId(null);
-            }
-
-            //reset order ID's on exception, because order not saved
-            $order->setId(null);
-            /** @var $item \Magento\Sales\Model\Order\Item */
-            foreach ($order->getItemsCollection() as $item) {
-                $item->setOrderId(null);
-                $item->setItemId(null);
-            }
-
-            $this->_eventManager->dispatch(
-                'sales_model_service_quote_submit_failure',
-                array(
-                    'order' => $order,
-                    'quote' => $quote
-                )
-            );
-            throw $e;
-        }
-        $this->_eventManager->dispatch(
-            'sales_model_service_quote_submit_after',
-            array(
-                'order' => $order,
-                'quote' => $quote
-            )
-        );
-        $this->_order = $order;
-        return $order;
-    }
-
-    /**
-     * Submit the quote. Quote submit process will create the order based on quote data
-     *
-     * @return \Magento\Sales\Model\Order
-     * @throws \Exception
      */
     public function submitOrderWithDataObject()
     {
@@ -302,14 +186,17 @@ class Quote
         if (!$quote->getCustomerIsGuest()) {
             $customerData = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
+            $customerDetails = $this->_customerDetailsBuilder
+                ->setCustomer($customerData)
+                ->setAddresses($addresses)
+                ->create();
             if ($customerData->getId()) {
-                $this->_customerAccountService->saveCustomer($customerData);
-                $this->_customerAddressService->saveAddresses($customerData->getId(), $addresses);
+                $this->_customerAccountService->updateCustomer($customerDetails);
             } else { //for new customers
-                $customerDetails =
-                    $this->_customerDetailsBuilder->setCustomer($customerData)->setAddresses($addresses)->create();
-                $customerData = $this->_customerAccountService->createAccount(
-                    $customerDetails);
+                $customerData = $this->_customerAccountService->createCustomerWithPasswordHash(
+                    $customerDetails,
+                    $quote->getPasswordHash()
+                );
                 $addresses = $this->_customerAddressService->getAddresses(
                     $customerData->getId()
                 );
@@ -380,27 +267,18 @@ class Quote
          */
         $this->_eventManager->dispatch(
             'checkout_type_onepage_save_order',
-            array(
-                'order' => $order,
-                'quote' => $quote
-            )
+            array('order' => $order, 'quote' => $quote)
         );
         $this->_eventManager->dispatch(
             'sales_model_service_quote_submit_before',
-            array(
-                'order' => $order,
-                'quote' => $quote
-            )
+            array('order' => $order, 'quote' => $quote)
         );
         try {
             $transaction->save();
             $this->_inactivateQuote();
             $this->_eventManager->dispatch(
                 'sales_model_service_quote_submit_success',
-                array(
-                    'order' => $order,
-                    'quote' => $quote
-                )
+                array('order' => $order, 'quote' => $quote)
             );
         } catch (\Exception $e) {
             //reset order ID's on exception, because order not saved
@@ -413,20 +291,10 @@ class Quote
 
             $this->_eventManager->dispatch(
                 'sales_model_service_quote_submit_failure',
-                array(
-                    'order' => $order,
-                    'quote' => $quote
-                )
+                array('order' => $order, 'quote' => $quote)
             );
             throw $e;
         }
-        $this->_eventManager->dispatch(
-            'sales_model_service_quote_submit_after',
-            array(
-                'order' => $order,
-                'quote' => $quote
-            )
-        );
         $this->_order = $order;
         return $order;
     }
@@ -439,37 +307,12 @@ class Quote
     public function submitNominalItems()
     {
         $this->_validate();
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_nominal_items', ['quote' => $this->_quote]);
+        $this->_eventManager->dispatch(
+            'sales_model_service_quote_submit_nominal_items',
+            array('quote' => $this->_quote)
+        );
         $this->_inactivateQuote();
         $this->_deleteNominalItems();
-    }
-
-    /**
-     * Submit all available items
-     * All created items will be set to the object
-     *
-     * @return void
-     * @throws \Exception
-     * @deprecated in favor of submitAllWithDataObject which is using Service Layer
-     */
-    public function submitAll()
-    {
-        // don't allow submitNominalItems() to inactivate quote
-        $inactivateQuoteOld = $this->_shouldInactivateQuote;
-        $this->_shouldInactivateQuote = false;
-        try {
-            $this->submitNominalItems();
-            $this->_shouldInactivateQuote = $inactivateQuoteOld;
-        } catch (\Exception $e) {
-            $this->_shouldInactivateQuote = $inactivateQuoteOld;
-            throw $e;
-        }
-        // no need to submit the order if there are no normal items remained
-        if (!$this->_quote->getAllVisibleItems()) {
-            $this->_inactivateQuote();
-            return;
-        }
-        $this->submitOrder();
     }
 
     /**
@@ -526,7 +369,7 @@ class Quote
      * Validate quote data before converting to order
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validate()
     {
@@ -534,26 +377,26 @@ class Quote
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
             $method = $address->getShippingMethod();
             $rate = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                throw new \Magento\Core\Exception(__('Please specify a shipping method.'));
+                throw new \Magento\Framework\Model\Exception(__('Please specify a shipping method.'));
             }
         }
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Please check the billing address information. %1', implode(' ', $addressValidation))
             );
         }
 
-        if (!($this->getQuote()->getPayment()->getMethod())) {
-            throw new \Magento\Core\Exception(__('Please select a valid payment method.'));
+        if (!$this->getQuote()->getPayment()->getMethod()) {
+            throw new \Magento\Framework\Model\Exception(__('Please select a valid payment method.'));
         }
 
         return $this;

@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Form\Renderer;
 
 /**
@@ -30,13 +27,13 @@ class Select extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Sele
     protected $_itemFormFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
@@ -59,9 +56,7 @@ class Select extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Sele
         $itemModel = $this->_itemFactory->create();
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
-        $itemForm->setFormCode('default')
-            ->setStore($this->getStore())
-            ->setEntity($itemModel);
+        $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($itemModel);
 
         $attribute = $itemForm->getAttribute($code);
         if ($attribute->getIsVisible()) {
@@ -70,4 +65,3 @@ class Select extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Sele
         return false;
     }
 }
-

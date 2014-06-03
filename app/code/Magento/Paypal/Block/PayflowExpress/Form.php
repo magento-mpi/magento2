@@ -5,8 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Paypal\Block\PayflowExpress;
 
 class Form extends \Magento\Paypal\Block\Express\Form

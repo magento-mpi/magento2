@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Sales\Block\Order;
 /**
  * Sales order history block
  */
-class History extends \Magento\View\Element\Template
+class History extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string
@@ -35,14 +33,14 @@ class History extends \Magento\View\Element\Template
     protected $_orderConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
@@ -62,11 +60,18 @@ class History extends \Magento\View\Element\Template
     {
         parent::_construct();
 
-        $orders = $this->_orderCollectionFactory->create()
-            ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
-            ->addFieldToFilter('state', array('in' => $this->_orderConfig->getVisibleOnFrontStates()))
-            ->setOrder('created_at', 'desc');
+        $orders = $this->_orderCollectionFactory->create()->addFieldToSelect(
+            '*'
+        )->addFieldToFilter(
+            'customer_id',
+            $this->_customerSession->getCustomer()->getId()
+        )->addFieldToFilter(
+            'status',
+            array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
+        )->setOrder(
+            'created_at',
+            'desc'
+        );
 
         $this->setOrders($orders);
 
@@ -82,8 +87,12 @@ class History extends \Magento\View\Element\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'sales.order.history.pager')
-            ->setCollection($this->getOrders());
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'sales.order.history.pager'
+        )->setCollection(
+            $this->getOrders()
+        );
         $this->setChild('pager', $pager);
         $this->getOrders()->load();
         return $this;

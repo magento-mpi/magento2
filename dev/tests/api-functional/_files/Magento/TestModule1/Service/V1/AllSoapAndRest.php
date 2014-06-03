@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V1;
 
 use Magento\TestModule1\Service\V1\Entity\Item;
@@ -14,11 +13,24 @@ use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
 class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestInterface
 {
     /**
+     * @var ItemBuilder
+     */
+    protected $itemBuilder;
+
+    /**
+     * @param ItemBuilder $itemBuilder
+     */
+    public function __construct(ItemBuilder $itemBuilder)
+    {
+        $this->itemBuilder = $itemBuilder;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function item($id)
+    public function item($itemId)
     {
-        return (new ItemBuilder())->setId($id)->setName('testProduct1')->create();
+        return $this->itemBuilder->setItemId($itemId)->setName('testProduct1')->create();
     }
 
     /**
@@ -26,9 +38,8 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
      */
     public function items()
     {
-        $result1 = (new ItemBuilder())->setId(1)->setName('testProduct1')->create();
-
-        $result2 = (new ItemBuilder())->setId(2)->setName('testProduct2')->create();
+        $result1 = $this->itemBuilder->setItemId(1)->setName('testProduct1')->create();
+        $result2 = $this->itemBuilder->setItemId(2)->setName('testProduct2')->create();
 
         return [$result1, $result2];
     }
@@ -38,7 +49,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
      */
     public function create($name)
     {
-        return (new ItemBuilder())->setId(rand())->setName($name)->create();
+        return $this->itemBuilder->setItemId(rand())->setName($name)->create();
     }
 
     /**
@@ -46,6 +57,15 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V1\AllSoapAndRestIn
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated'.$item->getName())->create();
+        return $this->itemBuilder->setItemId($item->getItemId())->setName('Updated'.$item->getName())->create();
+    }
+
+    public function testOptionalParam($name = null)
+    {
+        if (is_null($name)) {
+            return $this->itemBuilder->setItemId(3)->setName('No Name')->create();
+        } else {
+            return $this->itemBuilder->setItemId(3)->setName($name)->create();
+        }
     }
 }

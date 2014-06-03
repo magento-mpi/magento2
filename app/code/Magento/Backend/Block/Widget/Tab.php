@@ -39,7 +39,7 @@ class Tab extends \Magento\Backend\Block\Template implements TabInterface
      */
     public function canShowTab()
     {
-        return $this->hasCanShow() ? (bool) $this->getCanShow() : true;
+        return $this->hasCanShow() ? (bool)$this->getCanShow() : true;
     }
 
     /**
@@ -49,7 +49,7 @@ class Tab extends \Magento\Backend\Block\Template implements TabInterface
      */
     public function isHidden()
     {
-        return $this->hasIsHidden() ? (bool) $this->getIsHidden() : false;
+        return $this->hasIsHidden() ? (bool)$this->getIsHidden() : false;
     }
 
     /**

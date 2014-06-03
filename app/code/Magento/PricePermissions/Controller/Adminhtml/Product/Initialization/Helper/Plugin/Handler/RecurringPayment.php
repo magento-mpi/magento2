@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
@@ -24,4 +23,4 @@ class RecurringPayment implements HandlerInterface
         $originalRecurringPayment = $product->getOrigData('recurring_payment');
         $product->setRecurringPayment($originalRecurringPayment);
     }
-} 
+}

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Block for information about customer on order page
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\View
  */
 class Info extends Block
 {

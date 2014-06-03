@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\User\Block;
 /**
  * Magento_User role block
  *
- * @category   Magento
- * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Role extends \Magento\Backend\Block\Widget\Grid\Container
@@ -58,8 +54,10 @@ class Role extends \Magento\Backend\Block\Widget\Grid\Container
                 'grid',
                 $this->getLayout()->createBlock(
                     $this->_blockGroup . '\\Block\\Role\\Grid',
-                    $this->_controller . '.grid')
-                    ->setSaveParametersInSession(true)
+                    $this->_controller . '.grid'
+                )->setSaveParametersInSession(
+                    true
+                )
             );
         }
         return \Magento\Backend\Block\Widget\Container::_prepareLayout();

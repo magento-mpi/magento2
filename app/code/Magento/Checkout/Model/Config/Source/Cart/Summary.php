@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Model\Config\Source\Cart;
 
-class Summary implements \Magento\Option\ArrayInterface
+class Summary implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array
@@ -17,8 +15,8 @@ class Summary implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>__('Display number of items in cart')),
-            array('value'=>1, 'label'=>__('Display item quantities')),
+            array('value' => 0, 'label' => __('Display number of items in cart')),
+            array('value' => 1, 'label' => __('Display item quantities'))
         );
     }
 }

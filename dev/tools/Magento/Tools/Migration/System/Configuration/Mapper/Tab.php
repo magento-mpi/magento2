@@ -2,36 +2,26 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
-class Tab
-    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
+class Tab extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
      * Attribute maps
      * oldName => newName
      * @var array
      */
-    protected $_attributeMaps = array(
-        'sort_order' => 'sortOrder',
-        'frontend_type' => 'type',
-        'class' => 'class'
-    );
+    protected $_attributeMaps = array('sort_order' => 'sortOrder', 'frontend_type' => 'type', 'class' => 'class');
 
     /**
      * List of allowed filed names for tab
      *
      * @var array
      */
-    protected $_allowedFieldNames = array(
-        'label',
-    );
+    protected $_allowedFieldNames = array('label');
 
     /**
      * Transform tabs configuration

@@ -2,26 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Form Type Edit General Tab Block
  */
-class Tree
-    extends \Magento\Backend\Block\Widget\Form
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Tree extends \Magento\Backend\Block\Widget\Form implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -36,22 +32,22 @@ class Tree
     protected $_elementsFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Registry $registry,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory,
         \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory,
         array $data = array()
@@ -79,13 +75,16 @@ class Tree
     public function getTreeButtonsHtml()
     {
         $addButtonData = array(
-            'id'        => 'add_node_button',
-            'label'     => __('New Fieldset'),
-            'onclick'   => 'formType.newFieldset()',
-            'class'     => 'add',
+            'id' => 'add_node_button',
+            'label' => __('New Fieldset'),
+            'onclick' => 'formType.newFieldset()',
+            'class' => 'add'
         );
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            $addButtonData
+        )->toHtml();
     }
 
     /**
@@ -94,24 +93,36 @@ class Tree
     public function getFieldsetButtonsHtml()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
-            'id'        => 'save_node_button',
-            'label'     => __('Save'),
-            'onclick'   => 'formType.saveFieldset()',
-            'class'     => 'save',
-        ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
-            'id'        => 'delete_node_button',
-            'label'     => __('Remove'),
-            'onclick'   => 'formType.deleteFieldset()',
-            'class'     => 'delete',
-        ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
-            'id'        => 'cancel_node_button',
-            'label'     => __('Cancel'),
-            'onclick'   => 'formType.cancelFieldset()',
-            'class'     => 'cancel',
-        ))->toHtml();
+        $buttons[] = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'save_node_button',
+                'label' => __('Save'),
+                'onclick' => 'formType.saveFieldset()',
+                'class' => 'save'
+            )
+        )->toHtml();
+        $buttons[] = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'delete_node_button',
+                'label' => __('Remove'),
+                'onclick' => 'formType.deleteFieldset()',
+                'class' => 'delete'
+            )
+        )->toHtml();
+        $buttons[] = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'cancel_node_button',
+                'label' => __('Cancel'),
+                'onclick' => 'formType.cancelFieldset()',
+                'class' => 'cancel'
+            )
+        )->toHtml();
 
         return join(' ', $buttons);
     }
@@ -158,17 +169,17 @@ class Tree
         $fieldsetCollection->addTypeFilter($this->_getFormType())->setSortOrder();
 
         /** @var $elementCollection \Magento\Eav\Model\Resource\Form\Element\Collection */
-        $elementCollection  = $this->_elementsFactory->create();
+        $elementCollection = $this->_elementsFactory->create();
         $elementCollection = $elementCollection->addTypeFilter($this->_getFormType())->setSortOrder();
 
         foreach ($fieldsetCollection as $fieldset) {
             /* @var $fieldset \Magento\Eav\Model\Form\Fieldset */
             $node = array(
-                'node_id'   => $fieldset->getId(),
-                'parent'    => null,
-                'type'      => 'fieldset',
-                'code'      => $fieldset->getCode(),
-                'label'     => $fieldset->getLabel()
+                'node_id' => $fieldset->getId(),
+                'parent' => null,
+                'type' => 'fieldset',
+                'code' => $fieldset->getCode(),
+                'label' => $fieldset->getLabel()
             );
 
             foreach ($fieldset->getLabels() as $storeId => $label) {
@@ -181,11 +192,11 @@ class Tree
         foreach ($elementCollection as $element) {
             /* @var $element \Magento\Eav\Model\Form\Element */
             $nodes[] = array(
-                'node_id'   => 'a_' . $element->getId(),
-                'parent'    => $element->getFieldsetId(),
-                'type'      => 'element',
-                'code'      => $element->getAttribute()->getAttributeCode(),
-                'label'     => $element->getAttribute()->getFrontend()->getLabel()
+                'node_id' => 'a_' . $element->getId(),
+                'parent' => $element->getFieldsetId(),
+                'type' => 'element',
+                'code' => $element->getAttribute()->getAttributeCode(),
+                'label' => $element->getAttribute()->getFrontend()->getLabel()
             );
         }
 

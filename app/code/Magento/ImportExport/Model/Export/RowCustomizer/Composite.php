@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Export\RowCustomizer;
 
 use Magento\ImportExport\Model\Export\RowCustomizerInterface;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class Composite implements RowCustomizerInterface
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -86,8 +85,12 @@ class Composite implements RowCustomizerInterface
     public function getAdditionalRowsCount($additionalRowsCount, $productId)
     {
         foreach ($this->customizers as $className) {
-            $additionalRowsCount =
-                $this->objectManager->get($className)->getAdditionalRowsCount($additionalRowsCount, $productId);
+            $additionalRowsCount = $this->objectManager->get(
+                $className
+            )->getAdditionalRowsCount(
+                $additionalRowsCount,
+                $productId
+            );
         }
         return $additionalRowsCount;
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerCustomAttributes\Helper;
 /**
  * Enterprise Customer Data Helper
  *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Data extends \Magento\CustomAttributeManagement\Helper\Data
 {
@@ -32,18 +28,18 @@ class Data extends \Magento\CustomAttributeManagement\Helper\Data
     protected $_customerAddress = null;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param Address $customerAddress
      * @param Customer $customerCustomer
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         Address $customerAddress,
         Customer $customerCustomer
     ) {
@@ -56,22 +52,22 @@ class Data extends \Magento\CustomAttributeManagement\Helper\Data
      * Return available customer attribute form as select options
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getAttributeFormOptions()
     {
-        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Framework\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
      * Default attribute entity type code
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getEntityTypeCode()
     {
-        throw new \Magento\Core\Exception(__('Use helper with defined EAV entity.'));
+        throw new \Magento\Framework\Model\Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**

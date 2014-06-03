@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Model\Config\Backend\File;
 
-class RequestData
-    implements \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface
+class RequestData implements \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface
 {
     /**
      * Retrieve uploaded file tmp name by path
@@ -58,7 +53,7 @@ class RequestData
         }
         foreach ($pathParts as $groupId) {
             if (isset($groupData['groups'][$groupId])) {
-                $groupData =  $groupData['groups'][$groupId];
+                $groupData = $groupData['groups'][$groupId];
             } else {
                 return null;
             }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class AdminAuthLogin
  * Login page for backend
  *
- * @package Magento\Backend\Test\Page
  */
 class AdminAuthLogin extends Page
 {
@@ -39,14 +35,14 @@ class AdminAuthLogin extends Page
      *
      * @var string
      */
-    protected $headerBlock = '.header-panel';
+    protected $headerBlock = '.page-header';
 
     /**
      * Global messages block
      *
      * @var string
      */
-    protected $messageBlock = '#messages .messages';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Constructor
@@ -87,7 +83,7 @@ class AdminAuthLogin extends Page
      */
     public function getMessagesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messageBlock));
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messagesBlock));
     }
 
     public function waitForHeaderBlock()

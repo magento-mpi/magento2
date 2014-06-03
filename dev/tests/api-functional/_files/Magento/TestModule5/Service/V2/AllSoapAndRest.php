@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V2;
 
 use Magento\TestModule5\Service\V2\Entity\AllSoapAndRestBuilder;
@@ -14,11 +13,24 @@ use Magento\TestModule5\Service\V2\Entity\AllSoapAndRest as AllSoapAndRestEntity
 class AllSoapAndRest implements AllSoapAndRestInterface
 {
     /**
+     * @var AllSoapAndRestBuilder
+     */
+    protected $builder;
+
+    /**
+     * @param AllSoapAndRestBuilder $builder
+     */
+    public function __construct(AllSoapAndRestBuilder $builder)
+    {
+        $this->builder = $builder;
+    }
+    
+    /**
      * @inheritdoc
      */
     public function item($id)
     {
-        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($id)->setName('testItemName')->create();
+        return $this->builder->setPrice(1)->setId($id)->setName('testItemName')->create();
     }
 
     /**
@@ -26,9 +38,9 @@ class AllSoapAndRest implements AllSoapAndRestInterface
      */
     public function items()
     {
-        $allSoapAndRest1 = (new AllSoapAndRestBuilder())->setPrice(1)->setId(1)->setName('testProduct1')->create();
-        $allSoapAndRest2 = (new AllSoapAndRestBuilder())->setPrice(1)->setId(2)->setName('testProduct2')->create();
-        return [$allSoapAndRest1, $allSoapAndRest2];
+        $allSoapAndRest1 = $this->builder->setPrice(1)->setId(1)->setName('testProduct1')->create();
+        $allSoapAndRest2 = $this->builder->setPrice(1)->setId(2)->setName('testProduct2')->create();
+        return array($allSoapAndRest1, $allSoapAndRest2);
     }
 
     /**
@@ -36,7 +48,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
      */
     public function create(\Magento\TestModule5\Service\V2\Entity\AllSoapAndRest $item)
     {
-        return (new AllSoapAndRestBuilder())->populate($item)->create();
+        return $this->builder->populate($item)->create();
     }
 
     /**
@@ -45,7 +57,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
     public function update(\Magento\TestModule5\Service\V2\Entity\AllSoapAndRest $item)
     {
         $item->setName('Updated' . $item->getName());
-        return (new AllSoapAndRestBuilder())->populate($item)->create();
+        return $this->builder->populate($item)->create();
     }
 
     /**
@@ -55,6 +67,6 @@ class AllSoapAndRest implements AllSoapAndRestInterface
      */
     public function delete($id)
     {
-        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($id)->setName('testItemName')->create();
+        return $this->builder->setPrice(1)->setId($id)->setName('testItemName')->create();
     }
 }

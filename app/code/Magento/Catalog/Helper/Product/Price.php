@@ -8,16 +8,12 @@
 namespace Magento\Catalog\Helper\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\Customer\Model\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Collection of tax module calls
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Price extends \Magento\App\Helper\AbstractHelper
+class Price extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Tax\Helper\Data
@@ -33,10 +29,8 @@ class Price extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
-    public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Tax\Model\Calculation $taxCalculation
-    ) {
+    public function __construct(\Magento\Tax\Helper\Data $taxData, \Magento\Tax\Model\Calculation $taxCalculation)
+    {
         $this->taxData = $taxData;
         $this->taxCalculation = $taxCalculation;
     }
@@ -85,13 +79,13 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Get customer object
+     * Get customer data object
      *
-     * @return bool|Customer
+     * @return Customer
      */
     public function getCustomer()
     {
-        return $this->taxCalculation->getCustomer();
+        return $this->taxCalculation->getCustomerData();
     }
 
     /**
@@ -102,18 +96,18 @@ class Price extends \Magento\App\Helper\AbstractHelper
      */
     public function setCustomer(Customer $customer)
     {
-        $this->taxCalculation->setCustomer($customer);
+        $this->taxCalculation->setCustomerData($customer);
         return $this;
     }
 
     /**
      * Get request object with information necessary for getting tax rate
      *
-     * @param null|bool|\Magento\Object $shippingAddress
-     * @param null|bool||\Magento\Object $billingAddress
+     * @param null|bool|\Magento\Framework\Object $shippingAddress
+     * @param null|bool||\Magento\Framework\Object $billingAddress
      * @param null|int $customerTaxClass
      * @param null|int $store
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getRateRequest(
         $shippingAddress = null,
@@ -127,7 +121,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     /**
      * Get calculation tax rate by specific request
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return float
      */
     public function getRate($request)

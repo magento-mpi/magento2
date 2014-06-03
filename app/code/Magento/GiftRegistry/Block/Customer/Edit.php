@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@ namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer giftregistry list block
- *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Edit extends \Magento\Directory\Block\Data
 {
@@ -37,30 +32,30 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
@@ -69,7 +64,13 @@ class Edit extends \Magento\Directory\Block\Data
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
         parent::__construct(
-            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollectionFactory, $countryCollectionFactory, $data
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -128,11 +129,9 @@ class Edit extends \Magento\Directory\Block\Data
     public function getTypeList()
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $collection = $this->typeFactory->create()
-            ->getCollection()
-            ->addStoreData($storeId)
-            ->applyListedFilter()
-            ->applySortOrder();
+        $collection = $this->typeFactory->create()->getCollection()->addStoreData(
+            $storeId
+        )->applyListedFilter()->applySortOrder();
         $list = $collection->toOptionArray();
         return $list;
     }
@@ -196,12 +195,12 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function addInputTypeTemplate($type, $template)
     {
-        $params = array('_relative'=>true);
+        $params = array('_relative' => true);
         $area = $this->getArea();
         if ($area) {
             $params['area'] = $area;
         }
-        $templateName = $this->_viewFileSystem->getFilename($template, $params);
+        $templateName = $this->_viewFileSystem->getTemplateFileName($template, $params);
 
         $this->_inputTemplates[$type] = $templateName;
         return $this;

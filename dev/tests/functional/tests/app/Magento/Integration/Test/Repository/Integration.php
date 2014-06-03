@@ -28,7 +28,10 @@ class Integration extends AbstractRepository
             'data' => $defaultData
         );
         $this->_data[self::INTEGRATION_TAB] = $this->_getIntegrationTabData();
-        $this->_data[self::ALL_INTEGRATION_TABS] = array_replace_recursive($this->_getIntegrationTabData(), $this->_getApiTabData());
+        $this->_data[self::ALL_INTEGRATION_TABS] = array_replace_recursive(
+            $this->_getIntegrationTabData(),
+            $this->_getApiTabData()
+        );
     }
 
     /**

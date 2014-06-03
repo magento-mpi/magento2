@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Page;
 
 /**
@@ -17,8 +16,11 @@ class HeadTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Magento\Backend\Block\Page\Head',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\Backend\Block\Page\Head')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Backend\Block\Page\Head'
+            )
         );
     }
 }

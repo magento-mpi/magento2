@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,14 +10,11 @@
 /**
  * Gift wrapping adminhtml block for create order items
  *
- * @category   Magento
- * @package    Magento_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create;
 
-class Items
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Get order item from parent block

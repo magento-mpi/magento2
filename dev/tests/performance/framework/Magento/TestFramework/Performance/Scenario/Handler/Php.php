@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +11,10 @@
  */
 namespace Magento\TestFramework\Performance\Scenario\Handler;
 
-class Php
-    implements \Magento\TestFramework\Performance\Scenario\HandlerInterface
+class Php implements \Magento\TestFramework\Performance\Scenario\HandlerInterface
 {
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
@@ -29,10 +26,10 @@ class Php
     /**
      * Constructor
      *
-     * @param \Magento\Shell $shell
+     * @param \Magento\Framework\Shell $shell
      * @param bool $validateExecutable
      */
-    public function __construct(\Magento\Shell $shell, $validateExecutable = true)
+    public function __construct(\Magento\Framework\Shell $shell, $validateExecutable = true)
     {
         $this->_shell = $shell;
         $this->_validateExecutable = $validateExecutable;
@@ -44,7 +41,8 @@ class Php
     protected function _validateScenarioExecutable()
     {
         if ($this->_validateExecutable) {
-            $this->_validateExecutable = false; // validate only once
+            $this->_validateExecutable = false;
+            // validate only once
             $this->_shell->execute('php --version');
         }
     }
@@ -54,7 +52,7 @@ class Php
      *
      * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @throws \Magento\TestFramework\Performance\Scenario\FailureException
      *
      * @todo Implement execution in concurrent threads defined by the "users" scenario argument
@@ -74,8 +72,10 @@ class Php
         }
         $reportErrors = $this->_getReportErrors($reportRows);
         if ($reportErrors) {
-            throw new \Magento\TestFramework\Performance\Scenario\FailureException($scenario, implode(PHP_EOL,
-                $reportErrors));
+            throw new \Magento\TestFramework\Performance\Scenario\FailureException(
+                $scenario,
+                implode(PHP_EOL, $reportErrors)
+            );
         }
     }
 
@@ -89,23 +89,24 @@ class Php
     {
         list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenario);
         $result = array(
-            'title'  => $scenario->getTitle(),
+            'title' => $scenario->getTitle(),
             'timestamp' => time(),
-            'success'   => true,
-            'time'      => null,
+            'success' => true,
+            'time' => null,
             'exit_code' => 0,
-            'output'    => '',
+            'output' => ''
         );
         $executionTime = microtime(true);
         try {
             $result['output'] = $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
-        } catch (\Magento\Exception $e) {
-            $result['success']   = false;
+        } catch (\Magento\Framework\Exception $e) {
+            $result['success'] = false;
             $result['exit_code'] = $e->getPrevious()->getCode();
-            $result['output']    = $e->getPrevious()->getMessage();
+            $result['output'] = $e->getPrevious()->getMessage();
         }
-        $executionTime = (microtime(true) - $executionTime);
-        $executionTime *= 1000; // second -> millisecond
+        $executionTime = microtime(true) - $executionTime;
+        $executionTime *= 1000;
+        // second -> millisecond
         $result['time'] = (int)round($executionTime);
         return $result;
     }
@@ -122,7 +123,7 @@ class Php
         $command = 'php -f %s --';
         $arguments = array($scenario->getFile());
         foreach ($scenario->getArguments() as $paramName => $paramValue) {
-            $command .= " --$paramName %s";
+            $command .= " --{$paramName} %s";
             $arguments[] = $paramValue;
         }
         return array($command, $arguments);
@@ -141,17 +142,30 @@ class Php
         $xml[] = '<?xml version="1.0" encoding="UTF-8"?>';
         $xml[] = '<testResults version="1.2">';
         foreach ($reportRows as $index => $oneReportRow) {
-            $xml[] = '<httpSample'
-                . ' t="' . $oneReportRow['time'] . '"'
-                . ' lt="0"'
-                . ' ts="' . $oneReportRow['timestamp'] . '"'
-                . ' s="' . ($oneReportRow['success'] ? 'true' : 'false') . '"'
-                . ' lb="' . $oneReportRow['title'] . '"'
-                . ' rc="' . $oneReportRow['exit_code'] . '"'
-                . ' rm=""'
-                . ' tn="Sample ' . ($index + 1) . '"'
-                . ' dt="text"'
-                . '/>';
+            $xml[] = '<httpSample' .
+                ' t="' .
+                $oneReportRow['time'] .
+                '"' .
+                ' lt="0"' .
+                ' ts="' .
+                $oneReportRow['timestamp'] .
+                '"' .
+                ' s="' .
+                ($oneReportRow['success'] ? 'true' : 'false') .
+                '"' .
+                ' lb="' .
+                $oneReportRow['title'] .
+                '"' .
+                ' rc="' .
+                $oneReportRow['exit_code'] .
+                '"' .
+                ' rm=""' .
+                ' tn="Sample ' .
+                ($index +
+                1) .
+                '"' .
+                ' dt="text"' .
+                '/>';
         }
         $xml[] = '</testResults>';
         file_put_contents($reportFile, implode(PHP_EOL, $xml));

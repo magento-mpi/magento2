@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,21 +9,18 @@
 /**
  * Adminhtml product grid in custom options popup
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Popup;
 
 use Magento\Catalog\Model\Product;
 
-class Grid
-    extends \Magento\Catalog\Block\Adminhtml\Product\Grid
+class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 {
     /**
      * Return empty row url for disabling JS click events
      *
-     * @param Product|\Magento\Object $row
+     * @param Product|\Magento\Framework\Object $row
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -56,9 +51,7 @@ class Grid
     public function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()
-            ->setFormFieldName('product')
-            ->addItem('import', array('label' => __('Import')));
+        $this->getMassactionBlock()->setFormFieldName('product')->addItem('import', array('label' => __('Import')));
 
         return $this;
     }

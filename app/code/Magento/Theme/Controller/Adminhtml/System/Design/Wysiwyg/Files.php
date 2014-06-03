@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,27 +11,35 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Files extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Theme\Helper\Storage
+     */
+    protected $storage;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Theme\Helper\Storage $storage
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Theme\Helper\Storage $storage
     ) {
         $this->_fileFactory = $fileFactory;
+        $this->storage = $storage;
         parent::__construct($context);
     }
-    
+
     /**
      * Index action
      *
@@ -54,11 +60,14 @@ class Files extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
-                    ->getTreeJson($this->_getStorage()->getTreeArray())
+                $this->_view->getLayout()->createBlock(
+                    'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree'
+                )->getTreeJson(
+                    $this->_getStorage()->getTreeArray()
+                )
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array()));
         }
     }
@@ -72,13 +81,13 @@ class Files extends \Magento\Backend\App\Action
     {
         $name = $this->getRequest()->getPost('name');
         try {
-            $path = $this->_getSession()->getStoragePath();
+            $path = $this->storage->getCurrentPath();
             $result = $this->_getStorage()->createFolder($name, $path);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
@@ -91,7 +100,7 @@ class Files extends \Magento\Backend\App\Action
     public function deleteFolderAction()
     {
         try {
-            $path = $this->_getSession()->getStoragePath();
+            $path = $this->storage->getCurrentPath();
             $this->_getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -111,9 +120,7 @@ class Files extends \Magento\Backend\App\Action
             $this->_view->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
             $this->_view->renderLayout();
 
-            $this->_getSession()->setStoragePath(
-                $this->_objectManager->get('Magento\Theme\Helper\Storage')->getCurrentPath()
-            );
+            $this->_getSession()->setStoragePath($this->storage->getCurrentPath());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -128,7 +135,7 @@ class Files extends \Magento\Backend\App\Action
     public function uploadAction()
     {
         try {
-            $path = $this->_getSession()->getStoragePath();
+            $path = $this->storage->getCurrentPath();
             $result = $this->_getStorage()->uploadFile($path);
         } catch (\Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
@@ -149,14 +156,11 @@ class Files extends \Magento\Backend\App\Action
         try {
             return $this->_fileFactory->create(
                 $file,
-                array(
-                    'type'  => 'filename',
-                    'value' => $helper->getThumbnailPath($file)
-                ),
-                \Magento\App\Filesystem::MEDIA_DIR
+                array('type' => 'filename', 'value' => $helper->getThumbnailPath($file)),
+                \Magento\Framework\App\Filesystem::MEDIA_DIR
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('core/index/notfound');
         }
     }
@@ -173,7 +177,9 @@ class Files extends \Magento\Backend\App\Action
             if (!$this->getRequest()->isPost()) {
                 throw new \Exception('Wrong request');
             }
-            $files = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode(
+            $files = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonDecode(
                 $this->getRequest()->getParam('files')
             );
             foreach ($files as $file) {

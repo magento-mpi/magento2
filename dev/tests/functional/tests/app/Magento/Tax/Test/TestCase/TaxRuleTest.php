@@ -18,8 +18,6 @@ use Magento\Tax\Test\Fixture\TaxRule;
 /**
  * Class TaxRuleTest
  * Functional test for Tax Rule configuration
- *
- * @package Magento\Tax\Test\TestCase
  */
 class TaxRuleTest extends Functional
 {
@@ -31,17 +29,17 @@ class TaxRuleTest extends Functional
     public function testCreateTaxRule()
     {
         //Data
-        $fixture = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $fixture->switchData('us_ca_ny_rule');
+        $objectManager = Factory::getObjectManager();
+        $fixture = $objectManager->create('\Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'us_ca_ny_rule']);
         //Pages
-        $taxGridPage = Factory::getPageFactory()->getTaxRule();
+        $taxGridPage = Factory::getPageFactory()->getTaxRuleIndex();
         $newTaxRulePage = Factory::getPageFactory()->getTaxRuleNew();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $taxGridPage->open();
-        $taxGridPage->getRuleGrid()->addNewRule();
-        $newTaxRulePage->getEditBlock()->fill($fixture);
-        $newTaxRulePage->getEditBlock()->clickSaveAndContinue();
+        $taxGridPage->getGridPageActions()->addNew();
+        $newTaxRulePage->getTaxRuleForm()->fill($fixture);
+        $newTaxRulePage->getFormPageActions()->saveAndContinue();
         //Verifying
         $newTaxRulePage->getMessagesBlock()->assertSuccessMessage();
         $this->_assertOnGrid($fixture);
@@ -55,19 +53,19 @@ class TaxRuleTest extends Functional
     protected function _assertOnGrid(TaxRule $fixture)
     {
         //Data
-        $taxRates = array();
-        foreach ($fixture->getTaxRate() as $rate) {
-            $taxRates[] = $rate['code']['value'];
+        $filter = [
+            'code' => $fixture->getCode(),
+            'tax_rate' => implode(', ', $fixture->getTaxRate()),
+        ];
+        if ($fixture->getTaxCustomerClass() !== null) {
+            $filter['tax_customer_class'] = implode(', ', $fixture->getTaxCustomerClass());
         }
-        $filter = array(
-            'name' => $fixture->getTaxRuleName(),
-            'customer_tax_class' => implode(', ', $fixture->getTaxClass('customer')),
-            'product_tax_class' => implode(', ', $fixture->getTaxClass('product')),
-            'tax_rate' => implode(', ', $taxRates)
-        );
+        if ($fixture->getTaxProductClass() !== null) {
+            $filter['tax_product_class'] = implode(', ', $fixture->getTaxProductClass());
+        }
         //Verification
-        $taxGridPage = Factory::getPageFactory()->getTaxRule();
+        $taxGridPage = Factory::getPageFactory()->getTaxRuleIndex();
         $taxGridPage->open();
-        $this->assertTrue($taxGridPage->getRuleGrid()->isRowVisible($filter), 'New tax rule was not found.');
+        $this->assertTrue($taxGridPage->getTaxRuleGrid()->isRowVisible($filter), 'New tax rule was not found.');
     }
 }

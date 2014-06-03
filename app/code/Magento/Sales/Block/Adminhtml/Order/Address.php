@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,18 +15,18 @@ class Address extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -43,7 +41,7 @@ class Address extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_controller = 'adminhtml_order';
-        $this->_mode       = 'address';
+        $this->_mode = 'address';
         $this->_blockGroup = 'Magento_Sales';
         parent::_construct();
         $this->_updateButton('save', 'label', __('Save Order Address'));
@@ -75,9 +73,6 @@ class Address extends \Magento\Backend\Block\Widget\Form\Container
     public function getBackUrl()
     {
         $address = $this->_coreRegistry->registry('order_address');
-        return $this->getUrl(
-            'sales/*/view',
-            array('order_id' => $address ? $address->getOrder()->getId() : null)
-        );
+        return $this->getUrl('sales/*/view', array('order_id' => $address ? $address->getOrder()->getId() : null));
     }
 }

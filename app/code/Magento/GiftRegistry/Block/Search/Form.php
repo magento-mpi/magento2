@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +10,8 @@ namespace Magento\GiftRegistry\Block\Search;
 /**
  * Gift registry search form
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var mixed
@@ -33,13 +29,13 @@ class Form extends \Magento\View\Element\Template
     protected $typeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
@@ -84,8 +80,7 @@ class Form extends \Magento\View\Element\Template
      */
     public function getTypesCollection()
     {
-        return $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->_storeManager->getStore()->getId());
+        return $this->typeFactory->create()->getCollection()->addStoreData($this->_storeManager->getStore()->getId());
     }
 
     /**
@@ -95,13 +90,15 @@ class Form extends \Magento\View\Element\Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => 'params-type-id',
-                'class' => 'select'
-            ))
-            ->setName('params[type_id]')
-            ->setOptions($this->getTypesCollection()->toOptionArray(true));
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setData(
+            array('id' => 'params-type-id', 'class' => 'select')
+        )->setName(
+            'params[type_id]'
+        )->setOptions(
+            $this->getTypesCollection()->toOptionArray(true)
+        );
         return $select->getHtml();
     }
 

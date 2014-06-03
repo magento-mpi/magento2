@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,52 +10,49 @@ namespace Magento\Search\Helper;
 /**
  * Enterprise search helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
+class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
      *
      * @var bool|null
      */
-    protected $_useEngineInLayeredNavigation    = null;
+    protected $_useEngineInLayeredNavigation = null;
 
     /**
      * Store languag codes for local codes
      *
      * @var array
      */
-    protected $_languageCode                    = array();
+    protected $_languageCode = array();
 
     /**
      * Store result of third party search engine availability check
      *
      * @var bool|null
      */
-    protected $_isThirdPartyEngineAvailable     = null;
+    protected $_isThirdPartyEngineAvailable = null;
 
     /**
      * Show if taxes have influence on price
      *
      * @var bool|null
      */
-    protected $_taxInfluence                    = null;
+    protected $_taxInfluence = null;
 
     /**
      * Define if engine is available for layered navigation
      *
      * @var bool|null
      */
-    protected $_isEngineAvailableForNavigation  = null;
+    protected $_isEngineAvailableForNavigation = null;
 
     /**
      * Define text type fields
      *
      * @var string[]
      */
-    protected $_textFieldTypes = array(
-        'text',
-        'varchar'
-    );
+    protected $_textFieldTypes = array('text', 'varchar');
 
     /**
      * Tax data
@@ -76,31 +71,31 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Date time
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -112,30 +107,30 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_languages;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
@@ -166,52 +161,25 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getSolrSupportedLanguages()
     {
         $default = array(
-            /**
-             * SnowBall filter based
-             */
-            //Danish
             'da' => 'da_DK',
-            //Dutch
             'nl' => 'nl_NL',
-            //English
             'en' => array('en_AU', 'en_CA', 'en_NZ', 'en_GB', 'en_US'),
-            //Finnish
             'fi' => 'fi_FI',
-            //French
             'fr' => array('fr_CA', 'fr_FR'),
-            //German
-            'de' => array('de_DE','de_CH','de_AT'),
-            //Italian
-            'it' => array('it_IT','it_CH'),
-            //Norwegian
+            'de' => array('de_DE', 'de_CH', 'de_AT'),
+            'it' => array('it_IT', 'it_CH'),
             'nb' => array('nb_NO', 'nn_NO'),
-            //Portuguese
             'pt' => array('pt_BR', 'pt_PT'),
-            //Romanian
             'ro' => 'ro_RO',
-            //Russian
             'ru' => 'ru_RU',
-            //Spanish
             'es' => array('es_AR', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_VE'),
-            //Swedish
             'sv' => 'sv_SE',
-            //Turkish
             'tr' => 'tr_TR',
-
-            /**
-             * Lucene class based
-             */
-            //Czech
             'cs' => 'cs_CZ',
-            //Greek
             'el' => 'el_GR',
-            //Thai
             'th' => 'th_TH',
-            //Chinese
             'zh' => array('zh_CN', 'zh_HK', 'zh_TW'),
-            //Japanese
             'ja' => 'ja_JP',
-            //Korean
             'ko' => 'ko_KR'
         );
 
@@ -258,7 +226,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -336,16 +304,19 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      */
     public function getSearchParam($collection, $attribute, $value)
     {
-        if (empty($value)
-            || (isset($value['from']) && empty($value['from'])
-                && isset($value['to']) && empty($value['to'])
-            )
+        if (empty($value) || isset(
+            $value['from']
+        ) && empty($value['from']) && isset(
+            $value['to']
+        ) && empty($value['to'])
         ) {
             return false;
         }
 
-        $locale = $this->_storeManager->getStore()
-            ->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $locale = $this->_scopeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -353,25 +324,25 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
-            $field = 'attr_multi_'. $field;
+            $field = 'attr_multi_' . $field;
         } elseif ($backendType == 'decimal') {
-            $field = 'attr_decimal_'. $field;
+            $field = 'attr_decimal_' . $field;
         } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
-            $field = 'attr_select_'. $field;
+            $field = 'attr_select_' . $field;
         } elseif ($backendType == 'datetime') {
-            $field = 'attr_datetime_'. $field;
+            $field = 'attr_datetime_' . $field;
 
-            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {
-                        $date = new \Magento\Stdlib\DateTime\Date($val, $format);
+                        $date = new \Magento\Framework\Stdlib\DateTime\Date($val, $format);
                         $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!$this->dateTime->isEmptyDate($value)) {
-                    $date = new \Magento\Stdlib\DateTime\Date($value, $format);
+                    $date = new \Magento\Framework\Stdlib\DateTime\Date($value, $format);
                     $value = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }
@@ -405,7 +376,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function isThirdPartyEngineAvailable()
     {
         if ($this->_isThirdPartyEngineAvailable === null) {
-            $this->_isThirdPartyEngineAvailable = ($this->isThirdPartSearchEngine() && $this->isActiveEngine());
+            $this->_isThirdPartyEngineAvailable = $this->isThirdPartSearchEngine() && $this->isActiveEngine();
         }
 
         return $this->_isThirdPartyEngineAvailable;
@@ -419,7 +390,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) $this->_taxData->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool)$this->_taxData->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;
@@ -437,8 +408,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             $this->_isEngineAvailableForNavigation = false;
             if ($this->isActiveEngine()) {
                 if ($isCatalog) {
-                    if ($this->getSearchConfigData('solr_server_use_in_catalog_navigation')
-                        && !$this->getTaxInfluence()
+                    if ($this->getSearchConfigData(
+                        'solr_server_use_in_catalog_navigation'
+                    ) && !$this->getTaxInfluence()
                     ) {
                         $this->_isEngineAvailableForNavigation = true;
                     }
@@ -451,7 +423,6 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         return $this->_isEngineAvailableForNavigation;
     }
 
-
     /**
      * Return search client options
      *
@@ -462,17 +433,15 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     {
         $def_options = array(
             'hostname' => $this->getSolrConfigData('server_hostname'),
-            'login'    => $this->getSolrConfigData('server_username'),
+            'login' => $this->getSolrConfigData('server_username'),
             'password' => $this->getSolrConfigData('server_password'),
-            'port'     => $this->getSolrConfigData('server_port'),
-            'timeout'  => $this->getSolrConfigData('server_timeout'),
-            'path'     => $this->getSolrConfigData('server_path')
+            'port' => $this->getSolrConfigData('server_port'),
+            'timeout' => $this->getSolrConfigData('server_timeout'),
+            'path' => $this->getSolrConfigData('server_path')
         );
         $options = array_merge($def_options, $options);
         return $options;
     }
-
-
 
     // Deprecated methods
 

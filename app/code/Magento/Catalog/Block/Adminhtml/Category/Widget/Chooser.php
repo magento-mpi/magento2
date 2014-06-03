@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Category chooser for Wysiwyg CMS widget
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Category\Widget;
@@ -67,20 +63,30 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     /**
      * Prepare chooser element HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    public function prepareElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->mathRandom->getUniqueHash($element->getId());
-        $sourceUrl = $this->getUrl('catalog/category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
+        $sourceUrl = $this->getUrl(
+            'catalog/category_widget/chooser',
+            array('uniq_id' => $uniqId, 'use_massaction' => false)
+        );
 
-        $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
-            ->setElement($element)
-            ->setConfig($this->getConfig())
-            ->setFieldsetId($this->getFieldsetId())
-            ->setSourceUrl($sourceUrl)
-            ->setUniqId($uniqId);
+        $chooser = $this->getLayout()->createBlock(
+            'Magento\Widget\Block\Adminhtml\Widget\Chooser'
+        )->setElement(
+            $element
+        )->setConfig(
+            $this->getConfig()
+        )->setFieldsetId(
+            $this->getFieldsetId()
+        )->setSourceUrl(
+            $sourceUrl
+        )->setUniqId(
+            $uniqId
+        );
 
         if ($element->getValue()) {
             $value = explode('/', $element->getValue());
@@ -120,9 +126,15 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
             $chooserJsObject = $this->getId();
             $js = '
                 function (node, e) {
-                    '.$chooserJsObject.'.setElementValue("category/" + node.attributes.id);
-                    '.$chooserJsObject.'.setElementLabel(node.text);
-                    '.$chooserJsObject.'.close();
+                    ' .
+                $chooserJsObject .
+                '.setElementValue("category/" + node.attributes.id);
+                    ' .
+                $chooserJsObject .
+                '.setElementLabel(node.text);
+                    ' .
+                $chooserJsObject .
+                '.close();
                 }
             ';
         }
@@ -132,7 +144,7 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     /**
      * Get JSON of a tree node or an associative array
      *
-     * @param \Magento\Data\Tree\Node|array $node
+     * @param \Magento\Framework\Data\Tree\Node|array $node
      * @param int $level
      * @return string
      */
@@ -163,12 +175,11 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
      * @param bool|null $expanded
      * @return string
      */
-    public function getLoadTreeUrl($expanded=null)
+    public function getLoadTreeUrl($expanded = null)
     {
-        return $this->getUrl('catalog/category_widget/categoriesJson', array(
-            '_current'=>true,
-            'uniq_id' => $this->getId(),
-            'use_massaction' => $this->getUseMassaction()
-        ));
+        return $this->getUrl(
+            'catalog/category_widget/categoriesJson',
+            array('_current' => true, 'uniq_id' => $this->getId(), 'use_massaction' => $this->getUseMassaction())
+        );
     }
 }

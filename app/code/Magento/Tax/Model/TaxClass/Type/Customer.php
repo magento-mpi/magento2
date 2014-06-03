@@ -5,10 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\TaxClass\Type;
-
-use Magento\Customer\Service\V1\Data\CustomerGroup;
 
 /**
  * Customer Tax Class
@@ -16,22 +13,17 @@ use Magento\Customer\Service\V1\Data\CustomerGroup;
 class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 {
     /**
-     * @var \Magento\Customer\Model\Group
-     */
-    protected $_modelCustomerGroup;
-
-    /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $groupService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
      */
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
@@ -44,55 +36,36 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 
     /**
      * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
-     * @param \Magento\Customer\Model\Group $modelCustomerGroup
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Data\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
-        \Magento\Customer\Model\Group $modelCustomerGroup,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Data\FilterBuilder $filterBuilder,
-        \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
-        $this->_modelCustomerGroup = $modelCustomerGroup;
         $this->groupService = $groupService;
         $this->filterBuilder = $filterBuilder;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
-     * Get Customer Groups with this tax class
-     *
-     * @deprecated In favor of getAssignedDataObjects. This function should be removed once all the implementations of
-     * \Magento\Tax\Model\TaxClass\Type\TypeInterface::getAssignedToObjects are refactored to return Data Objects.
-     * Will be revisited in MAGETWO-21827
-     *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * {@inheritdoc}
      */
-    public function getAssignedToObjects()
+    public function isAssignedToObjects()
     {
-        return $this->_modelCustomerGroup
-            ->getCollection()
-            ->addFieldToFilter('tax_class_id', $this->getId());
-    }
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
+            [$this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()]
+        )->create();
 
-    /**
-     * Get Customer Groups Data Objects with this tax class
-     *
-     * @return CustomerGroup[]
-     */
-    public function getAssignedDataObjects()
-    {
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter($this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create())
-            ->create();
         $result = $this->groupService->searchGroups($searchCriteria);
-        return $result->getItems();
+        $items = $result->getItems();
+        return !empty($items);
     }
 
     /**

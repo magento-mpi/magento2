@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../AdminGws/etc/admingws.xsd">
     <group name="collection_load_before">
         <callback class="magento_sales_model_resource_report_bestsellers_collection" method="limitBestsellersCollection" />
         <callback class="magento_reports_model_resource_product_collection" method="limitProductReports" />
         <callback class="magento_reports_model_resource_report_product_viewed_collection" method="limitMostViewedCollection" />
-        <callback class="magento_core_model_resource_store_collection" method="limitStores" />
-        <callback class="magento_core_model_resource_website_collection" method="limitWebsites" />
-        <callback class="magento_core_model_resource_store_group_collection" method="limitStoreGroups" />
+        <callback class="magento_store_model_resource_store_collection" method="limitStores" />
+        <callback class="magento_store_model_resource_website_collection" method="limitWebsites" />
+        <callback class="magento_store_model_resource_group_collection" method="limitStoreGroups" />
         <callback class="magento_cms_model_resource_page_collection" method="addStoreFilter" />
         <callback class="magento_cms_model_resource_block_collection" method="addStoreFilter" />
         <callback class="magento_poll_model_resource_poll_collection" method="addStoreFilterNoAdmin" />
@@ -76,9 +76,9 @@
         <callback class="magento_customer_model_customer" method="customerSaveBefore" />
         <callback class="magento_customer_model_attribute" method="customerAttributeSaveBefore" />
         <callback class="magento_catalogEvent_model_event" method="catalogEventSaveBefore" />
-        <callback class="magento_core_model_website" method="coreWebsiteSaveBefore" />
-        <callback class="magento_core_model_store_group" method="coreStoreGroupSaveBefore" />
-        <callback class="magento_core_model_store" method="coreStoreGroupSaveBefore" />
+        <callback class="magento_store_model_website" method="coreWebsiteSaveBefore" />
+        <callback class="magento_store_model_group" method="coreStoreGroupSaveBefore" />
+        <callback class="magento_store_model_store" method="coreStoreGroupSaveBefore" />
         <callback class="magento_catalog_model_entity_attribute" method="catalogEntityAttributeSaveBefore" />
         <callback class="magento_eav_model_entity_attribute_set" method="eavEntityAttributeSetSaveBefore" />
         <callback class="magento_eav_model_entity_attribute_group" method="eavEntityAttributeGroupSaveBefore" />
@@ -102,9 +102,9 @@
         <callback class="magento_customer_model_customer" method="customerDeleteBefore" />
         <callback class="magento_customer_model_attribute" method="customerAttributeDeleteBefore" />
         <callback class="magento_catalogEvent_model_event" method="catalogEventDeleteBefore" />
-        <callback class="magento_core_model_website" method="coreWebsiteDeleteBefore" />
-        <callback class="magento_core_model_store_group" method="coreStoreGroupDeleteBefore" />
-        <callback class="magento_core_model_store" method="coreStoreGroupDeleteBefore" />
+        <callback class="magento_store_model_website" method="coreWebsiteDeleteBefore" />
+        <callback class="magento_store_model_group" method="coreStoreGroupDeleteBefore" />
+        <callback class="magento_store_model_store" method="coreStoreGroupDeleteBefore" />
         <callback class="magento_catalog_model_entity_attribute" method="catalogEntityAttributeDeleteBefore" />
         <callback class="magento_eav_model_entity_attribute_set" method="eavEntityAttributeSetDeleteBefore" />
         <callback class="magento_eav_model_entity_attribute_group" method="eavEntityAttributeGroupDeleteBefore" />
@@ -124,9 +124,9 @@
         <callback class="magento_sales_model_order" method="salesOrderLoadAfter" />
         <callback class="magento_sales_model_order_payment_transaction" method="salesOrderTransactionLoadAfter" />
         <callback class="magento_rule_model_abstract" method="ruleLoadAfter" />
-        <callback class="magento_core_model_website" method="coreWebsiteLoadAfter" />
-        <callback class="magento_core_model_store_group" method="coreStoreGroupLoadAfter" />
-        <callback class="magento_core_model_store" method="coreStoreGroupLoadAfter" />
+        <callback class="magento_store_model_website" method="coreWebsiteLoadAfter" />
+        <callback class="magento_store_model_group" method="coreStoreGroupLoadAfter" />
+        <callback class="magento_store_model_store" method="coreStoreGroupLoadAfter" />
         <callback class="magento_core_model_url_rewrite" method="coreUrlRewriteLoadAfter" />
         <callback class="magento_newsletter_model_queue" method="newsletterQueueLoadAfter" />
         <callback class="magento_banner_model_banner" method="bannerLoadAfter" />

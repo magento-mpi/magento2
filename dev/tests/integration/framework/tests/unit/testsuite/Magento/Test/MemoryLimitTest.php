@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 class MemoryLimitTest extends \PHPUnit_Framework_TestCase
@@ -57,7 +56,12 @@ class MemoryLimitTest extends \PHPUnit_Framework_TestCase
     protected function _createObject($memCap, $leakCap)
     {
         $helper = $this->getMock(
-            'Magento\TestFramework\Helper\Memory', array('getRealMemoryUsage'), array(), '', false);
+            'Magento\TestFramework\Helper\Memory',
+            array('getRealMemoryUsage'),
+            array(),
+            '',
+            false
+        );
         $helper->expects($this->any())->method('getRealMemoryUsage')->will($this->returnValue(1024 * 1024));
         return new \Magento\TestFramework\MemoryLimit($memCap, $leakCap, $helper);
     }

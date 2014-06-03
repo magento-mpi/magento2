@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Model\Payment;
 
 class MethodTest extends \PHPUnit_Framework_TestCase
@@ -33,35 +29,45 @@ class MethodTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $config = $this->getMockBuilder('Magento\Core\Model\Store\Config')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getConfig'))
-            ->getMock();
-        $config->expects($this->any())
-            ->method('getConfig')
-            ->with('payment/code/currency', 0)
-            ->will($this->returnValue('BTN'));
+        $config = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $config->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            'payment/code/currency',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            0
+        )->will(
+            $this->returnValue('BTN')
+        );
 
-        $paymentHelper = $this->getMockBuilder('Magento\Payment\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getMethodInstance'))
-            ->getMock();
-        $paymentHelper->expects($this->any())
-            ->method('getMethodInstance')
-            ->with('pbridge')
-            ->will($this->returnValue(new \Magento\Object()));
+        $paymentHelper = $this->getMockBuilder(
+            'Magento\Payment\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('getMethodInstance')
+        )->getMock();
+        $paymentHelper->expects(
+            $this->any()
+        )->method(
+            'getMethodInstance'
+        )->with(
+            'pbridge'
+        )->will(
+            $this->returnValue(new \Magento\Framework\Object())
+        );
 
         $this->_model = new \Magento\Pbridge\Model\Payment\Method(
-            $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
             $paymentHelper,
             $config,
-            $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),
-            $this->getMock('Magento\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Module\ModuleListInterface', array(), array(), '', false),
-            $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Module\ModuleListInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Centinel\Model\Service', array(), array(), '', false),
             $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
             'getFormBlockType',
             array()
         );
@@ -99,7 +105,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPbridgeMethodInstance()
     {
-        $this->assertInstanceOf('\Magento\Object', $this->_model->getPbridgeMethodInstance());
+        $this->assertInstanceOf('\Magento\Framework\Object', $this->_model->getPbridgeMethodInstance());
     }
 
     public function testGetOriginalCode()

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 /**
  * File uploader form element renderer
  */
-class Uploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
+class Uploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
 {
     /**
      * Set of templates to render
@@ -22,7 +19,5 @@ class Uploader
      *
      * @var string[]
      */
-    protected $_templates = array(
-        'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
-    );
+    protected $_templates = array('Magento_DesignEditor::editor/form/renderer/element/input.phtml');
 }

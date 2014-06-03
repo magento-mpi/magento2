@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php if ($this->checkProductType($this->getItem()->getProduct())): ?>
+    <div class="actions dropdown giftregisty add">
+        <span class="action toggle" data-toggle="dropdown" title=""><span><?php echo __('Add to Gift Registry');?></span></span>
+        <ul class="dropdown items">
+            <?php foreach ($this->getGiftRegistryList() as $_entity):?>
+                <li data-wishlist-to-giftregistry='{"itemId":"<?php echo $this->getItem()->getId() ?>", "entity":"<?php echo $_entity->getValue()?>", "url":"<?php echo $this->getUrl('giftregistry/index/wishlist') ?>"}' class="item" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->truncateString($_entity->getTitle(), 40)); ?></li>
+            <?php endforeach;?>
+        </ul>
+    </div>
+<?php endif;?>

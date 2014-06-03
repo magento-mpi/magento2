@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,24 +11,23 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
-class Country
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $localeLists;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -40,10 +37,10 @@ class Country
     /**
      * Render country grid column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             $name = $this->localeLists->getCountryTranslation($data);

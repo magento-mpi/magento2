@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -76,7 +74,7 @@ $map = array(
     'admin/cms/page' => 'Magento_Cms::page',
     'admin/cms/page/delete' => 'Magento_Cms::page_delete',
     'admin/cms/page/save' => 'Magento_Cms::save',
-    'admin/system/config/contacts' => 'Magento_Contacts::contacts',
+    'admin/system/config/contact' => 'Magento_Contact::contact',
     'admin/system/currency/rates' => 'Magento_CurrencySymbol::currency_rates',
     'admin/system/currency/symbols' => 'Magento_CurrencySymbol::symbols',
     'admin/system/currency' => 'Magento_CurrencySymbol::system_currency',
@@ -109,7 +107,7 @@ $map = array(
     'admin/report/salesroot/paypal_settlement_reports/view' => 'Magento_Paypal::paypal_settlement_reports_view',
     'admin/system/config/persistent' => 'Magento_Persistent::persistent',
     'admin/cms/poll' => 'Magento_Poll::poll',
-    'admin/catalog/reviews_ratings/ratings' => 'Magento_Rating::ratings',
+    'admin/catalog/reviews_ratings/ratings' => 'Magento_Review::ratings',
     'admin/report/shopcart/abandoned' => 'Magento_Reports::abandoned',
     'admin/report/customers/accounts' => 'Magento_Reports::accounts',
     'admin/report/products/bestsellers' => 'Magento_Reports::bestsellers',
@@ -202,17 +200,15 @@ $map = array(
     'admin/xmlconnect/templates' => 'Magento_XmlConnect::templates',
     'admin/xmlconnect' => 'Magento_XmlConnect::xmlconnect',
     'admin/xmlconnect/queue' => 'Magento_XmlConnect::xmlconnect_queue',
-    'admin/system/config/facebook' => 'Social_Facebook::facebook',
+    'admin/system/config/facebook' => 'Social_Facebook::facebook'
 );
 
 $tableName = $installer->getTable('admin_rule');
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 
 $select = $connection->select();
-$select->from($tableName, array())
-    ->columns(array('resource_id' => 'resource_id'))
-    ->group('resource_id');
+$select->from($tableName, array())->columns(array('resource_id' => 'resource_id'))->group('resource_id');
 
 foreach ($connection->fetchCol($select) as $oldKey) {
     /**
@@ -227,4 +223,3 @@ foreach ($connection->fetchCol($select) as $oldKey) {
     $connection->update($tableName, array('resource_id' => $map[$oldKey]), array('resource_id = ?' => $oldKey));
 }
 $installer->endSetup();
-

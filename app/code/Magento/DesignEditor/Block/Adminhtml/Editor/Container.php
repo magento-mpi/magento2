@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 /**
  * Editor toolbar
  *
- * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\View\Design\ThemeInterface $theme)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Container setTheme(\Magento\Framework\View\Design\ThemeInterface $theme)
  */
 class Container extends \Magento\Backend\Block\Widget\Container
 {
@@ -30,11 +28,14 @@ class Container extends \Magento\Backend\Block\Widget\Container
      */
     protected function _prepareLayout()
     {
-        $this->addButton('back_button', array(
-            'label'   => __('Back'),
-            'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*') . '\')',
-            'class'   => 'back'
-        ));
+        $this->addButton(
+            'back_button',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*') . '\')',
+                'class' => 'back'
+            )
+        );
 
         parent::_prepareLayout();
     }

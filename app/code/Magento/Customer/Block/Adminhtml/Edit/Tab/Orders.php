@@ -24,7 +24,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -40,7 +40,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Sales\Helper\Reorder $salesReorder
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -48,7 +48,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
         \Magento\Sales\Helper\Reorder $salesReorder,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -75,18 +75,30 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->create()
-            ->addFieldToSelect('entity_id')
-            ->addFieldToSelect('increment_id')
-            ->addFieldToSelect('customer_id')
-            ->addFieldToSelect('created_at')
-            ->addFieldToSelect('grand_total')
-            ->addFieldToSelect('order_currency_code')
-            ->addFieldToSelect('store_id')
-            ->addFieldToSelect('billing_name')
-            ->addFieldToSelect('shipping_name')
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
-            ->setIsCustomerMode(true);
+        $collection = $this->_collectionFactory->create()->addFieldToSelect(
+            'entity_id'
+        )->addFieldToSelect(
+            'increment_id'
+        )->addFieldToSelect(
+            'customer_id'
+        )->addFieldToSelect(
+            'created_at'
+        )->addFieldToSelect(
+            'grand_total'
+        )->addFieldToSelect(
+            'order_currency_code'
+        )->addFieldToSelect(
+            'store_id'
+        )->addFieldToSelect(
+            'billing_name'
+        )->addFieldToSelect(
+            'shipping_name'
+        )->addFieldToFilter(
+            'customer_id',
+            $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        )->setIsCustomerMode(
+            true
+        );
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -97,52 +109,45 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', [
-            'header'    => __('Order'),
-            'width'     => '100',
-            'index'     => 'increment_id',
-        ]);
+        $this->addColumn('increment_id', array('header' => __('Order'), 'width' => '100', 'index' => 'increment_id'));
 
-        $this->addColumn('created_at', [
-            'header'    => __('Purchase Date'),
-            'index'     => 'created_at',
-            'type'      => 'datetime',
-        ]);
+        $this->addColumn(
+            'created_at',
+            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime')
+        );
 
-        $this->addColumn('billing_name', [
-            'header'    => __('Bill-to Name'),
-            'index'     => 'billing_name',
-        ]);
+        $this->addColumn('billing_name', array('header' => __('Bill-to Name'), 'index' => 'billing_name'));
 
-        $this->addColumn('shipping_name', [
-            'header'    => __('Ship-to Name'),
-            'index'     => 'shipping_name',
-        ]);
+        $this->addColumn('shipping_name', array('header' => __('Ship-to Name'), 'index' => 'shipping_name'));
 
-        $this->addColumn('grand_total', [
-            'header'    => __('Order Total'),
-            'index'     => 'grand_total',
-            'type'      => 'currency',
-            'currency'  => 'order_currency_code',
-        ]);
+        $this->addColumn(
+            'grand_total',
+            array(
+                'header' => __('Order Total'),
+                'index' => 'grand_total',
+                'type' => 'currency',
+                'currency' => 'order_currency_code'
+            )
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store_id', [
-                'header'    => __('Purchase Point'),
-                'index'     => 'store_id',
-                'type'      => 'store',
-                'store_view' => true
-            ]);
+            $this->addColumn(
+                'store_id',
+                array('header' => __('Purchase Point'), 'index' => 'store_id', 'type' => 'store', 'store_view' => true)
+            );
         }
 
         if ($this->_salesReorder->isAllow()) {
-            $this->addColumn('action', [
-                'header'    => ' ',
-                'filter'    => false,
-                'sortable'  => false,
-                'width'     => '100px',
-                'renderer'  => 'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
-            ]);
+            $this->addColumn(
+                'action',
+                array(
+                    'header' => ' ',
+                    'filter' => false,
+                    'sortable' => false,
+                    'width' => '100px',
+                    'renderer' => 'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
+                )
+            );
         }
 
         return parent::_prepareColumns();
@@ -151,12 +156,12 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve the Url for a specified sales order row.
      *
-     * @param \Magento\Sales\Model\Order|\Magento\Object $row
+     * @param \Magento\Sales\Model\Order|\Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
+        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
     }
 
     /**
@@ -164,6 +169,6 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('customer/*/orders', ['_current' => true]);
+        return $this->getUrl('customer/*/orders', array('_current' => true));
     }
 }

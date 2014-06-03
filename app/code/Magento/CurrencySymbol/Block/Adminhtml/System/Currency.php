@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Manage currency block
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CurrencySymbol\Block\Adminhtml\System;
@@ -28,29 +24,33 @@ class Currency extends \Magento\Backend\Block\Template
     /**
      * Prepare layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', 'Magento\Backend\Block\Widget\Button', array(
+        $this->getToolbar()->addChild(
+            'save_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
                 'label' => __('Save Currency Rates'),
-                'class' => 'save',
+                'class' => 'save primary save-currency-rates',
                 'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'save', 'target' => '#rate-form'),
-        ))));
+                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#rate-form'))
+                )
+            )
+        );
 
-        $this->addChild('reset_button', 'Magento\Backend\Block\Widget\Button', array(
-                'label' => __('Reset'),
-                'onclick' => 'document.location.reload()',
-                'class' => 'reset'
-        ));
+        $this->getToolbar()->addChild(
+            'reset_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Reset'), 'onclick' => 'document.location.reload()', 'class' => 'reset')
+        );
 
-        $this->addChild('import_button', 'Magento\Backend\Block\Widget\Button', array(
-                'label' => __('Import'),
-                'class' => 'add',
-                'type' => 'submit',
-        ));
+        $this->addChild(
+            'import_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Import'), 'class' => 'add', 'type' => 'submit')
+        );
 
         $this->addChild('rates_matrix', 'Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate\Matrix');
 
@@ -128,5 +128,4 @@ class Currency extends \Magento\Backend\Block\Template
     {
         return $this->getUrl('adminhtml/*/fetchRates');
     }
-
 }

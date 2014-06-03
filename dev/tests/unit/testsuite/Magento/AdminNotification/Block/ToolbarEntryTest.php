@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,9 +34,7 @@ class ToolbarEntryTest extends \PHPUnit_Framework_TestCase
 
         $block = $objectManagerHelper->getObject(
             'Magento\AdminNotification\Block\ToolbarEntry',
-            array(
-                'notificationList' => $notificationList,
-            )
+            array('notificationList' => $notificationList)
         );
 
         return $block;

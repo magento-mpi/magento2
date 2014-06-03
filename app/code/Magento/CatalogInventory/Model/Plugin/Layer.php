@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Plugin;
 
 class Layer
@@ -22,20 +19,20 @@ class Layer
     /**
      * Store config instance
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_stockStatus = $stockStatus;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -64,6 +61,6 @@ class Layer
      */
     protected function _isEnabledShowOutOfStock()
     {
-        return $this->_storeConfig->getConfigFlag('cataloginventory/options/show_out_of_stock');
+        return $this->_scopeConfig->isSetFlag('cataloginventory/options/show_out_of_stock', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

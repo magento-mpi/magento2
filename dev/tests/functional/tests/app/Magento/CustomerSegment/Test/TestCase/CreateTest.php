@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Test\TestCase;
 
 use Mtf\Factory\Factory;
@@ -50,25 +46,25 @@ class CreateTest extends Functional
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();
         $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
-        $messagesBlock = $customerSegmentCreatePage->getMessageBlock();
+        $messagesBlock = $customerSegmentCreatePage->getMessagesBlock();
         // begin steps to add a customer segment
         $customerSegmentForm = $customerSegmentPage->getCustomerSegmentGridBlock();
         $customerSegmentPage->open();
         $customerSegmentForm->addNewSegment();
         // fill General Properties
         $newCustomerSegmentForm->fill($customerSegmentFixture);
-        $newCustomerSegmentForm->clickSaveAndContinueEdit();
+        $customerSegmentCreatePage->getActions()->saveAndContinue();
         $messagesBlock->assertSuccessMessage();
         // open conditions tab
         $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('conditions');
         // add condition
         $addWidget = $customerSegmentCreatePage->getConditions();
-        $addWidget->addCustomerGroupCondition($conditionType,$conditionValue);
+        $addWidget->addCustomerGroupCondition($conditionType, $conditionValue);
         $saveWidget = $customerSegmentCreatePage->getSave();
         $saveWidget->clickSaveAndContinue();
 
-        $conditionMessageBlock = $customerSegmentCreatePage->getMessageBlock();
-        $conditionMessageBlock->assertSuccessMessage();
+        $conditionMessagesBlock = $customerSegmentCreatePage->getMessagesBlock();
+        $conditionMessagesBlock->assertSuccessMessage();
         // open matched customers tab
         $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('matched_customers');
         // verify matched customers

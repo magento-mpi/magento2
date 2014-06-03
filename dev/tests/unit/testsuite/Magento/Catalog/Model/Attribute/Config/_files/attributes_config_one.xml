@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Catalog/etc/catalog_attributes.xsd">
     <group name="group_one">
         <attribute name="test_attribute"/>
     </group>

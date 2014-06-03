@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category Mtf
- * @package Mtf
- * @subpackage functional_tests
  * @copyright {copyright}
  * @license {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Repository\AbstractRepository;
  * Class Config Repository
  * Magento configuration settings
  *
- * @package Magento\Core\Test\Repository
  */
 class Config extends AbstractRepository
 {
@@ -452,7 +448,7 @@ class Config extends AbstractRepository
                                         'value' => 'INdxa6ug7qZ2KD7y'
                                     ),
                                     'password' => array( //Password
-                                        'value' => '4vaGsDBmeBCzvpl1S1DT1jXAB'
+                                        'value' => 'pTfh4K0nkHcHVginelU4HmJkA'
                                     ),
                                     'sandbox_mode' => array( //Sandbox Mode
                                         'value' => self::YES_VALUE
@@ -820,19 +816,19 @@ class Config extends AbstractRepository
                                                     'wpp_and_express_checkout' => array( //Payments Pro and Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( //Email Associated with PayPal
-                                                                'value' => 'mtf_bussiness_pro@example.com'
+                                                                'value' => 'mtf_bussiness_pro@example.net'
                                                             ),
                                                             'api_authentication' => array( //API Authentication Methods
                                                                 'value' => 0 //API Signature
                                                             ),
                                                             'api_username' => array( //API Username
-                                                                'value' => 'mtf_bussiness_pro_api1.example.com'
+                                                                'value' => 'mtf_bussiness_pro_api1.example.net'
                                                             ),
                                                             'api_password' => array( //API Password
-                                                                'value' => '1380260177'
+                                                                'value' => '1396336783'
                                                             ),
                                                             'api_signature' => array( //API Signature
-                                                                'value' => 'AEhCkH8sFI39Bz94iP79RT9Mt0MVAkCzF6NaWuXG2QtQFTkCUVG0z83m'
+                                                                'value' => 'Ai4aunchzf-e-FeWoRkUYBBHvZciAXN6kt7.wD1oGG-uZPAcDD1wcP4Y'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
                                                                 'value' => self::YES_VALUE
@@ -1079,7 +1075,7 @@ class Config extends AbstractRepository
                                                     'enable_express_checkout' => array( //Enable this Solution
                                                         'value' => self::YES_VALUE
                                                     )
-                                                ),
+                                                )
                                             ),
                                             'settings_ec' => array( //Basic Settings - PayPal Payments Pro
                                                 'fields' => array(
@@ -1093,9 +1089,9 @@ class Config extends AbstractRepository
                                                             'debug' => array( // Debug Mode
                                                                 'value' => self::YES_VALUE
                                                             )
-                                                        ),
+                                                        )
                                                     )
-                                                ),
+                                                )
                                             )
                                         )
                                     )
@@ -1132,19 +1128,19 @@ class Config extends AbstractRepository
                                                     'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
-                                                                'value' => 'rlus_1349181941_biz@ebay.com'
+                                                                'value' => 'mtf_payflowlink@ebay.com'
                                                             ),
                                                             'partner' => array( // Partner
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'mtfpayflowlink'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'mtfpayflowlink'
                                                             ),
                                                             'pwd' => array( // API Password
-                                                                'value' => 'Temp1234'
+                                                                'value' => '123123mtf'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => self::YES_VALUE
@@ -1169,21 +1165,21 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
                                                     )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payflow_link_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
+                                                            )
+                                                        )
+                                                    )
                                                 )
                                             ),
                                             'settings_payflow_link_express_checkout' => array( // Basic Settings - PayPal Express Checkout
                                                 'fields' => array(
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'settings_payflow_link_express_checkout_advanced' => array(
-                                                        'fields' => array(
-                                                            'debug' => array( // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            )
-                                                        )
                                                     )
                                                 )
                                             )

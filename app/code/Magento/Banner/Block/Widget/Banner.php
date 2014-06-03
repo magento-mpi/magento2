@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,10 @@ namespace Magento\Banner\Block\Widget;
 /**
  * Banner Widget Block
  *
- * @category   Magento
- * @package    Magento_Banner
  */
-class Banner
-    extends \Magento\View\Element\Template
-    implements \Magento\Widget\Block\BlockInterface, \Magento\View\Block\IdentityInterface
+class Banner extends \Magento\Framework\View\Element\Template implements
+    \Magento\Widget\Block\BlockInterface,
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Display mode "fixed" flag
@@ -74,11 +70,6 @@ class Banner
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Cms\Model\Template\FilterProvider
      */
     protected $_filterProvider;
@@ -102,29 +93,34 @@ class Banner
     protected $_renderedParams = array();
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_bannerResource = $resource;
         $this->_checkoutSession = $checkoutSession;
-        $this->_customerSession = $customerSession;
         $this->_filterProvider = $filterProvider;
-        $this->_currentStoreId  = $this->_storeManager->getStore()->getId();
-        $this->_currentWebsiteId  = $this->_storeManager->getWebsite()->getId();
+        $this->_currentStoreId = $this->_storeManager->getStore()->getId();
+        $this->_currentWebsiteId = $this->_storeManager->getWebsite()->getId();
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -168,10 +164,16 @@ class Banner
      */
     public function getRotate()
     {
-        if (!$this->_getData('rotate') || ($this->_getData('rotate') != self::BANNER_WIDGET_RORATE_RANDOM &&
-                                           $this->_getData('rotate') != self::BANNER_WIDGET_RORATE_SERIES &&
-                                           $this->_getData('rotate') != self::BANNER_WIDGET_RORATE_SHUFFLE
-                                           )) {
+        if (!$this->_getData(
+            'rotate'
+        ) || $this->_getData(
+            'rotate'
+        ) != self::BANNER_WIDGET_RORATE_RANDOM && $this->_getData(
+            'rotate'
+        ) != self::BANNER_WIDGET_RORATE_SERIES && $this->_getData(
+            'rotate'
+        ) != self::BANNER_WIDGET_RORATE_SHUFFLE
+        ) {
             $this->setData('rotate', null);
         }
         return $this->_getData('rotate');
@@ -214,16 +216,16 @@ class Banner
                 $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
-            case self::BANNER_WIDGET_DISPLAY_CATALOGRULE :
+            case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     $this->_currentWebsiteId,
-                    $this->_customerSession->getCustomerGroupId()
+                    $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP)
                 );
                 $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
-            case self::BANNER_WIDGET_DISPLAY_FIXED :
-            default :
+            case self::BANNER_WIDGET_DISPLAY_FIXED:
+            default:
                 $bannersContent = $this->_getBannersContent($this->getBannerIds());
                 break;
         }
@@ -275,8 +277,7 @@ class Banner
      */
     protected function _getBannersContent(array $bannerIds)
     {
-        $this->_setRenderedParam('bannerIds', $bannerIds)
-            ->_setRenderedParam('renderedBannerIds', array());
+        $this->_setRenderedParam('bannerIds', $bannerIds)->_setRenderedParam('renderedBannerIds', array());
 
         $content = array();
         if (!empty($bannerIds)) {
@@ -337,7 +338,7 @@ class Banner
                         $canShowIds = array_merge(array_diff($bannerIds, $bannersSequence), array());
                         if (!empty($canShowIds)) {
                             // Stil not whole serie is shown, choose the banner to show
-                            if ($suggBannerId && (array_search($suggBannerId, $canShowIds) !== false)) {
+                            if ($suggBannerId && array_search($suggBannerId, $canShowIds) !== false) {
                                 $bannerId = $suggBannerId;
                             } else {
                                 $showKey = $isShuffle ? array_rand($canShowIds, 1) : 0;
@@ -349,7 +350,7 @@ class Banner
 
                     // Start new serie (either no banners has been shown at all or whole serie has been shown)
                     if (!$bannerId) {
-                        if ($suggBannerId && (array_search($suggBannerId, $bannerIds) !== false)) {
+                        if ($suggBannerId && array_search($suggBannerId, $bannerIds) !== false) {
                             $bannerId = $suggBannerId;
                         } else {
                             $bannerKey = $isShuffle ? array_rand($bannerIds, 1) : 0;
@@ -364,8 +365,13 @@ class Banner
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
-                    $this->_setRenderedParam('renderedBannerIds', array($bannerId))
-                        ->_setRenderedParam('bannersSequence', $bannersSequence);
+                    $this->_setRenderedParam(
+                        'renderedBannerIds',
+                        array($bannerId)
+                    )->_setRenderedParam(
+                        'bannersSequence',
+                        $bannersSequence
+                    );
                     break;
 
                 default:
@@ -391,7 +397,7 @@ class Banner
             'name' => $this->getNameInLayout(),
             'types' => $this->getTypes(),
             'display_mode' => $this->getDisplayMode(),
-            'rotate' => (string) $this->getRotate(),
+            'rotate' => (string)$this->getRotate(),
             'banner_ids' => implode(',', $this->getBannerIds()),
             'unique_id' => $this->getUniqueId()
         );
@@ -458,10 +464,7 @@ class Banner
      */
     public function renderAndGetInfo()
     {
-        $result = array(
-            'html' => $this->toHtml(),
-            'params' => $this->_getRenderedParams()
-        );
+        $result = array('html' => $this->toHtml(), 'params' => $this->_getRenderedParams());
         return $result;
     }
 

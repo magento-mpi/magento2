@@ -17,7 +17,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry|null
+     * @var \Magento\Framework\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -32,14 +32,14 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -67,9 +67,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _preparePage()
     {
-        $this->getCollection()
-            ->setPageSize(5)
-            ->setCurPage(1);
+        $this->getCollection()->setPageSize(5)->setCurPage(1);
     }
 
     /**
@@ -77,9 +75,12 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->create()
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))
-            ->setIsCustomerMode(true);
+        $collection = $this->_collectionFactory->create()->addFieldToFilter(
+            'customer_id',
+            $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        )->setIsCustomerMode(
+            true
+        );
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -89,52 +90,47 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', [
-            'header'    => __('Order'),
-            'align'     => 'center',
-            'index'     => 'increment_id',
-            'width'     => '100px',
-        ]);
+        $this->addColumn(
+            'increment_id',
+            array('header' => __('Order'), 'align' => 'center', 'index' => 'increment_id', 'width' => '100px')
+        );
 
-        $this->addColumn('created_at', [
-            'header'    => __('Purchase Date'),
-            'index'     => 'created_at',
-            'type'      => 'datetime',
-        ]);
+        $this->addColumn(
+            'created_at',
+            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime')
+        );
 
-        $this->addColumn('billing_name', [
-            'header'    => __('Bill-to Name'),
-            'index'     => 'billing_name',
-        ]);
+        $this->addColumn('billing_name', array('header' => __('Bill-to Name'), 'index' => 'billing_name'));
 
-        $this->addColumn('shipping_name', [
-            'header'    => __('Shipped-to Name'),
-            'index'     => 'shipping_name',
-        ]);
+        $this->addColumn('shipping_name', array('header' => __('Shipped-to Name'), 'index' => 'shipping_name'));
 
-        $this->addColumn('grand_total', [
-            'header'    => __('Grand Total'),
-            'index'     => 'grand_total',
-            'type'      => 'currency',
-            'currency'  => 'order_currency_code',
-        ]);
+        $this->addColumn(
+            'grand_total',
+            array(
+                'header' => __('Grand Total'),
+                'index' => 'grand_total',
+                'type' => 'currency',
+                'currency' => 'order_currency_code'
+            )
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store_id', [
-                'header'    => __('Purchase Point'),
-                'index'     => 'store_id',
-                'type'      => 'store',
-                'store_view' => true,
-            ]);
+            $this->addColumn(
+                'store_id',
+                array('header' => __('Purchase Point'), 'index' => 'store_id', 'type' => 'store', 'store_view' => true)
+            );
         }
 
-        $this->addColumn('action', [
-            'header'    =>  ' ',
-            'filter'    =>  false,
-            'sortable'  =>  false,
-            'width'     => '100px',
-            'renderer'  =>  'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
-        ]);
+        $this->addColumn(
+            'action',
+            array(
+                'header' => ' ',
+                'filter' => false,
+                'sortable' => false,
+                'width' => '100px',
+                'renderer' => 'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -144,7 +140,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
+        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
     }
 
     /**
@@ -152,6 +148,6 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getHeadersVisibility()
     {
-        return ($this->getCollection()->getSize() >= 0);
+        return $this->getCollection()->getSize() >= 0;
     }
 }

@@ -10,7 +10,7 @@ namespace Magento\Backend\App;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sectionPool;
 
@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->sectionPool = $this->getMock(
-            'Magento\App\Config\ScopePool',
+            'Magento\Framework\App\Config\ScopePool',
             array('getScope', 'clean'),
             array(),
             '',
@@ -36,16 +36,25 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $expectedValue = 'some value';
         $path = 'some path';
         $configData = $this->getConfigDataMock('getValue');
-        $configData
-            ->expects($this->once())
-            ->method('getValue')
-            ->with($this->equalTo($path))
-            ->will($this->returnValue($expectedValue));
-        $this->sectionPool
-            ->expects($this->once())
-            ->method('getScope')
-            ->with($this->equalTo('default'), $this->isNull())
-            ->will($this->returnValue($configData));
+        $configData->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            $this->equalTo($path)
+        )->will(
+            $this->returnValue($expectedValue)
+        );
+        $this->sectionPool->expects(
+            $this->once()
+        )->method(
+            'getScope'
+        )->with(
+            $this->equalTo('default'),
+            $this->isNull()
+        )->will(
+            $this->returnValue($configData)
+        );
         $this->assertEquals($expectedValue, $this->model->getValue($path));
     }
 
@@ -54,22 +63,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $value = 'some value';
         $path = 'some path';
         $configData = $this->getConfigDataMock('setValue');
-        $configData
-            ->expects($this->once())
-            ->method('setValue')
-            ->with($this->equalTo($path), $this->equalTo($value));
-        $this->sectionPool
-            ->expects($this->once())
-            ->method('getScope')
-            ->with($this->equalTo('default'), $this->isNull())
-            ->will($this->returnValue($configData));
+        $configData->expects($this->once())->method('setValue')->with($this->equalTo($path), $this->equalTo($value));
+        $this->sectionPool->expects(
+            $this->once()
+        )->method(
+            'getScope'
+        )->with(
+            $this->equalTo('default'),
+            $this->isNull()
+        )->will(
+            $this->returnValue($configData)
+        );
         $this->model->setValue($path, $value);
-    }
-
-    public function testReinit()
-    {
-        $this->sectionPool->expects($this->once())->method('clean');
-        $this->model->reinit();
     }
 
     /**
@@ -81,16 +86,25 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $path = 'some path';
         $configData = $this->getConfigDataMock('getValue');
-        $configData
-            ->expects($this->once())
-            ->method('getValue')
-            ->with($this->equalTo($path))
-            ->will($this->returnValue($configValue));
-        $this->sectionPool
-            ->expects($this->once())
-            ->method('getScope')
-            ->with($this->equalTo('default'), $this->isNull())
-            ->will($this->returnValue($configData));
+        $configData->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            $this->equalTo($path)
+        )->will(
+            $this->returnValue($configValue)
+        );
+        $this->sectionPool->expects(
+            $this->once()
+        )->method(
+            'getScope'
+        )->with(
+            $this->equalTo('default'),
+            $this->isNull()
+        )->will(
+            $this->returnValue($configData)
+        );
         $this->assertEquals($expectedResult, $this->model->isSetFlag($path));
     }
 
@@ -102,7 +116,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('0', false),
             array('', false),
             array('some string', true),
-            array(1, true),
+            array(1, true)
         );
     }
 
@@ -110,10 +124,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * Get ConfigData mock
      *
      * @param $mockedMethod
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\Data
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Config\Data
      */
     protected function getConfigDataMock($mockedMethod)
     {
-        return $this->getMock('Magento\App\Config\Data', array($mockedMethod), array(), '', false);
+        return $this->getMock('Magento\Framework\App\Config\Data', array($mockedMethod), array(), '', false);
     }
 }

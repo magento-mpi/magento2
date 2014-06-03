@@ -2,33 +2,30 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price;
 
 class Observer
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -43,23 +40,23 @@ class Observer
     protected $_processor;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
     ) {
@@ -74,7 +71,7 @@ class Observer
     /**
      * Retrieve write connection instance
      *
-     * @return bool|\Magento\DB\Adapter\AdapterInterface
+     * @return bool|\Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function _getWriteConnection()
     {
@@ -102,14 +99,20 @@ class Observer
             if (date(\Zend_Date::HOUR_SHORT, $timestamp) == '00') {
                 $format = '%Y-%m-%d %H:%i:%s';
                 $this->_refreshSpecialPriceByStore(
-                    $store->getId(), 'special_from_date', $connection->getDateFormatSql($currDateExpr, $format)
+                    $store->getId(),
+                    'special_from_date',
+                    $connection->getDateFormatSql($currDateExpr, $format)
                 );
 
                 $dateTo = $connection->getDateAddSql(
-                    $currDateExpr, -1, \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
+                    $currDateExpr,
+                    -1,
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_DAY
                 );
                 $this->_refreshSpecialPriceByStore(
-                    $store->getId(), 'special_to_date', $connection->getDateFormatSql($dateTo, $format)
+                    $store->getId(),
+                    'special_to_date',
+                    $connection->getDateFormatSql($dateTo, $format)
                 );
             }
         }
@@ -130,14 +133,20 @@ class Observer
 
         $connection = $this->_getWriteConnection();
 
-        $select = $connection->select()
-            ->from($this->_resource->getTableName(array('catalog_product_entity', 'datetime')), array('entity_id'))
-            ->where('attribute_id = ?', $attributeId)
-            ->where('store_id = ?', $storeId)
-            ->where('value = ?', $attrConditionValue);
-
-        $this->_processor->getIndexer()->reindexList(
-            $connection->fetchCol($select, array('entity_id'))
+        $select = $connection->select()->from(
+            $this->_resource->getTableName(array('catalog_product_entity', 'datetime')),
+            array('entity_id')
+        )->where(
+            'attribute_id = ?',
+            $attributeId
+        )->where(
+            'store_id = ?',
+            $storeId
+        )->where(
+            'value = ?',
+            $attrConditionValue
         );
+
+        $this->_processor->getIndexer()->reindexList($connection->fetchCol($select, array('entity_id')));
     }
 }

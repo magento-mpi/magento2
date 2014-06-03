@@ -2,20 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage;
 
-use Magento\Data\Form\Element\Fieldset;
+use Magento\Framework\Data\Form\Element\Fieldset;
 
 /**
  * Adminhtml order creating gift message item form
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -53,42 +49,58 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_messageHelper;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\GiftMessage\Helper\Message $messageHelper
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
+     * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\GiftMessage\Helper\Message $messageHelper,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
+        \Magento\Customer\Helper\View $customerViewHelper,
         array $data = array()
     ) {
         $this->_messageHelper = $messageHelper;
         $this->_sessionQuote = $sessionQuote;
+        $this->_customerService = $customerService;
+        $this->_customerViewHelper = $customerViewHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
      * Set entity for form
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return $this
      */
-    public function setEntity(\Magento\Object $entity)
+    public function setEntity(\Magento\Framework\Object $entity)
     {
-        $this->_entity  = $entity;
+        $this->_entity = $entity;
         return $this;
     }
 
     /**
      * Retrieve entity for form
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getEntity()
     {
@@ -110,12 +122,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getDefaultSender()
     {
-        if(!$this->getEntity()) {
+        if (!$this->getEntity()) {
             return '';
         }
 
-        if($this->_getSession()->getCustomer()->getId()) {
-            return $this->_getSession()->getCustomer()->getName();
+        if ($this->_getSession()->hasCustomerId() && $this->_getSession()->getCustomerId()) {
+            $customerData = $this->_customerService->getCustomer($this->_getSession()->getCustomerId());
+            return $this->_customerViewHelper->getCustomerName($customerData);
         }
 
         $object = $this->getEntity();
@@ -134,7 +147,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getDefaultRecipient()
     {
-        if(!$this->getEntity()) {
+        if (!$this->getEntity()) {
             return '';
         }
 
@@ -142,15 +155,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($this->getEntity()->getOrder()) {
             $object = $this->getEntity()->getOrder();
-        }
-        else if ($this->getEntity()->getQuote()){
+        } elseif ($this->getEntity()->getQuote()) {
             $object = $this->getEntity()->getQuote();
         }
 
         if ($object->getShippingAddress()) {
             return $object->getShippingAddress()->getName();
-        }
-        else if ($object->getBillingAddress()) {
+        } elseif ($object->getBillingAddress()) {
             return $object->getBillingAddress()->getName();
         }
 
@@ -165,13 +176,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function _prepareForm()
     {
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('main', array('no_container'=>true));
+        $fieldset = $form->addFieldset('main', array('no_container' => true));
 
-        $fieldset->addField('type','hidden',
-            array(
-                'name' =>  $this->_getFieldName('type'),
-            )
-        );
+        $fieldset->addField('type', 'hidden', array('name' => $this->_getFieldName('type')));
 
         $form->setHtmlIdPrefix($this->_getFieldIdPrefix());
 
@@ -182,11 +189,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         // Set default sender and recipient from billing and shipping adresses
-        if(!$this->getMessage()->getSender()) {
+        if (!$this->getMessage()->getSender()) {
             $this->getMessage()->setSender($this->getDefaultSender());
         }
 
-        if(!$this->getMessage()->getRecipient()) {
+        if (!$this->getMessage()->getRecipient()) {
             $this->getMessage()->setRecipient($this->getDefaultRecipient());
         }
 
@@ -210,22 +217,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareHiddenFields(Fieldset $fieldset)
     {
-        $fieldset->addField('sender', 'hidden',
-            array(
-                'name' => $this->_getFieldName('sender')
-            )
-        );
-        $fieldset->addField('recipient', 'hidden',
-            array(
-                'name' => $this->_getFieldName('recipient')
-            )
-        );
+        $fieldset->addField('sender', 'hidden', array('name' => $this->_getFieldName('sender')));
+        $fieldset->addField('recipient', 'hidden', array('name' => $this->_getFieldName('recipient')));
 
-        $fieldset->addField('message', 'hidden',
-            array(
-                'name' => $this->_getFieldName('message')
-            )
-        );
+        $fieldset->addField('message', 'hidden', array('name' => $this->_getFieldName('message')));
         return $this;
     }
 
@@ -238,28 +233,29 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareVisibleFields(Fieldset $fieldset)
     {
-        $fieldset->addField('sender', 'text',
+        $fieldset->addField(
+            'sender',
+            'text',
             array(
-                'name'     => $this->_getFieldName('sender'),
-                'label'    => __('From'),
+                'name' => $this->_getFieldName('sender'),
+                'label' => __('From'),
                 'required' => $this->getMessage()->getMessage() ? true : false
             )
         );
-        $fieldset->addField('recipient', 'text',
+        $fieldset->addField(
+            'recipient',
+            'text',
             array(
-                'name'     => $this->_getFieldName('recipient'),
-                'label'    => __('To'),
+                'name' => $this->_getFieldName('recipient'),
+                'label' => __('To'),
                 'required' => $this->getMessage()->getMessage() ? true : false
             )
         );
 
-        $fieldset->addField('message', 'textarea',
-            array(
-                'name'      => $this->_getFieldName('message'),
-                'label'     => __('Message'),
-                'rows'      => '5',
-                'cols'      => '20',
-            )
+        $fieldset->addField(
+            'message',
+            'textarea',
+            array('name' => $this->_getFieldName('message'), 'label' => __('Message'), 'rows' => '5', 'cols' => '20')
         );
         return $this;
     }
@@ -271,9 +267,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->_messageHelper->getGiftMessage(
-                                   $this->getEntity()->getGiftMessageId()
-                              );
+        $this->_giftMessage = $this->_messageHelper->getGiftMessage($this->getEntity()->getGiftMessageId());
         return $this;
     }
 
@@ -284,7 +278,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getMessage()
     {
-        if(is_null($this->_giftMessage)) {
+        if (is_null($this->_giftMessage)) {
             $this->_initMessage();
         }
 
@@ -297,7 +291,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $name
      * @return string
      */
-    protected  function _getFieldName($name)
+    protected function _getFieldName($name)
     {
         return 'giftmessage[' . $this->getEntity()->getId() . '][' . $name . ']';
     }
@@ -308,7 +302,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $id
      * @return string
      */
-    protected  function _getFieldId($id)
+    protected function _getFieldId($id)
     {
         return $this->_getFieldIdPrefix() . $id;
     }
@@ -318,7 +312,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @return string
      */
-    protected  function _getFieldIdPrefix()
+    protected function _getFieldIdPrefix()
     {
         return 'giftmessage_' . $this->getEntity()->getId() . '_';
     }
@@ -330,8 +324,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _applyPostData()
     {
-        if(is_array($giftmessages = $this->getRequest()->getParam('giftmessage'))
-           && isset($giftmessages[$this->getEntity()->getId()])) {
+        if (is_array(
+            $giftmessages = $this->getRequest()->getParam('giftmessage')
+        ) && isset(
+            $giftmessages[$this->getEntity()->getId()]
+        )
+        ) {
             $this->getMessage()->addData($giftmessages[$this->getEntity()->getId()]);
         }
 

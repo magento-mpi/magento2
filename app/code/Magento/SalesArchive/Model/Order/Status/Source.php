@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +22,8 @@ class Source extends \Magento\Sales\Model\Config\Source\Order\Status
     public function toOptionArray()
     {
         $options = parent::toOptionArray();
-        array_shift($options); // Remove '--please select--' option
+        array_shift($options);
+        // Remove '--please select--' option
         return $options;
     }
 }

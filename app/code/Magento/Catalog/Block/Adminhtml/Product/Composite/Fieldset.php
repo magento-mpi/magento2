@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Adminhtml block for showing product options fieldsets
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author    Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Composite;
 
-class Fieldset extends \Magento\View\Element\Text\ListText
+class Fieldset extends \Magento\Framework\View\Element\Text\ListText
 {
     /**
      *
@@ -31,7 +27,7 @@ class Fieldset extends \Magento\View\Element\Text\ListText
         $total = count($children);
         $i = 0;
         $this->setText('');
-        /** @var $block \Magento\View\Element\AbstractBlock  */
+        /** @var $block \Magento\Framework\View\Element\AbstractBlock  */
         foreach ($children as $block) {
             $i++;
             $block->setIsLastFieldset($i == $total);

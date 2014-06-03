@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Paypal\Model\Resource\Report\Settlement\Options;
 /**
  * Transaction Events Types Options
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class TransactionEvents
-    implements \Magento\Option\ArrayInterface
+class TransactionEvents implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Paypal\Model\Report\Settlement\Row

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Fixture\FixtureInterface;
  * Class CentinelPaymentsValidCcTest
  * Tests CreditCard validation via Magento one page checkout and 3D Secure payment methods.
  *
- * @package Magento\Centinel
  */
 class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
 {
@@ -34,7 +30,7 @@ class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
     {
         //Data
         $fixture->persist();
-
+        $this->clearShoppingCart();
         //Steps
         if ($fixture->getCustomerName()) {
             $this->_createCustomer($fixture);

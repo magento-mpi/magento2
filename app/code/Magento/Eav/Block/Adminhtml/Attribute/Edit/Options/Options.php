@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,18 +9,16 @@
 /**
  * Attribute add/edit form options tab
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 
-use Magento\Core\Model\Resource\Store\Collection;
+use Magento\Store\Model\Resource\Store\Collection;
 
 class Options extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -37,22 +33,22 @@ class Options extends \Magento\Backend\Block\Template
     protected $_template = 'Magento_Catalog::catalog/product/attribute/options.phtml';
 
     /**
-     * @var \Magento\Validator\UniversalFactory $universalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory $universalFactory
      */
     protected $_universalFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -70,8 +66,9 @@ class Options extends \Magento\Backend\Block\Template
     public function canManageOptionDefaultOnly()
     {
         $attribute = $this->getAttributeObject();
-        return !$attribute->getCanManageOptionLabels() && !$attribute->getIsUserDefined()
-            && $attribute->getSourceModel();
+        return !$attribute->getCanManageOptionLabels() &&
+            !$attribute->getIsUserDefined() &&
+            $attribute->getSourceModel();
     }
 
     /**
@@ -115,8 +112,10 @@ class Options extends \Magento\Backend\Block\Template
      * @param array|\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection $optionCollection
      * @return array
      */
-    protected function _prepareOptionValues(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute, $optionCollection)
-    {
+    protected function _prepareOptionValues(
+        \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
+        $optionCollection
+    ) {
         $type = $attribute->getFrontendInput();
         if ($type === 'select' || $type === 'multiselect') {
             $defaultValues = explode(',', $attribute->getDefaultValue());
@@ -129,11 +128,17 @@ class Options extends \Magento\Backend\Block\Template
         $values = array();
         $isSystemAttribute = is_array($optionCollection);
         foreach ($optionCollection as $option) {
-            $bunch = $isSystemAttribute
-                ? $this->_prepareSystemAttributeOptionValues($option, $inputType, $defaultValues)
-                : $this->_prepareUserDefinedAttributeOptionValues($option, $inputType, $defaultValues);
+            $bunch = $isSystemAttribute ? $this->_prepareSystemAttributeOptionValues(
+                $option,
+                $inputType,
+                $defaultValues
+            ) : $this->_prepareUserDefinedAttributeOptionValues(
+                $option,
+                $inputType,
+                $defaultValues
+            );
             foreach ($bunch as $value) {
-                $values[] = new \Magento\Object($value);
+                $values[] = new \Magento\Framework\Object($value);
             }
         }
 
@@ -150,15 +155,19 @@ class Options extends \Magento\Backend\Block\Template
     protected function _getOptionValuesCollection(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
         if ($this->canManageOptionDefaultOnly()) {
-            $options = $this->_universalFactory->create($attribute->getSourceModel())
-                ->setAttribute($attribute)
-                ->getAllOptions();
+            $options = $this->_universalFactory->create(
+                $attribute->getSourceModel()
+            )->setAttribute(
+                $attribute
+            )->getAllOptions();
             return $options;
         } else {
-            return $this->_attrOptionCollectionFactory->create()
-                ->setAttributeFilter($attribute->getId())
-                ->setPositionOrder('asc', true)
-                ->load();
+            return $this->_attrOptionCollectionFactory->create()->setAttributeFilter(
+                $attribute->getId()
+            )->setPositionOrder(
+                'asc',
+                true
+            )->load();
         }
     }
 
@@ -177,7 +186,10 @@ class Options extends \Magento\Backend\Block\Template
             $values = array();
             foreach ($option['value'] as $subOption) {
                 $bunch = $this->_prepareSystemAttributeOptionValues(
-                    $subOption, $inputType, $defaultValues, $option['label'] . ' / '
+                    $subOption,
+                    $inputType,
+                    $defaultValues,
+                    $option['label'] . ' / '
                 );
                 $values[] = $bunch[0];
             }
@@ -191,9 +203,8 @@ class Options extends \Magento\Backend\Block\Template
 
         foreach ($this->getStores() as $store) {
             $storeId = $store->getId();
-            $value['store' . $storeId] = $storeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID
-                ? $valuePrefix . $this->escapeHtml($option['label'])
-                : '';
+            $value['store' . $storeId] = $storeId ==
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml($option['label']) : '';
         }
 
         return array($value);
@@ -219,9 +230,11 @@ class Options extends \Magento\Backend\Block\Template
         foreach ($this->getStores() as $store) {
             $storeId = $store->getId();
             $storeValues = $this->getStoreOptionValues($storeId);
-            $value['store' . $storeId] = isset($storeValues[$optionId])
-                ? $this->escapeHtml($storeValues[$optionId])
-                : '';
+            $value['store' . $storeId] = isset(
+                $storeValues[$optionId]
+            ) ? $this->escapeHtml(
+                $storeValues[$optionId]
+            ) : '';
         }
 
         return array($value);
@@ -235,17 +248,19 @@ class Options extends \Magento\Backend\Block\Template
      */
     public function getStoreOptionValues($storeId)
     {
-        $values = $this->getData('store_option_values_'.$storeId);
+        $values = $this->getData('store_option_values_' . $storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = $this->_attrOptionCollectionFactory->create()
-                ->setAttributeFilter($this->getAttributeObject()->getId())
-                ->setStoreFilter($storeId, false)
-                ->load();
+            $valuesCollection = $this->_attrOptionCollectionFactory->create()->setAttributeFilter(
+                $this->getAttributeObject()->getId()
+            )->setStoreFilter(
+                $storeId,
+                false
+            )->load();
             foreach ($valuesCollection as $item) {
                 $values[$item->getId()] = $item->getValue();
             }
-            $this->setData('store_option_values_'.$storeId, $values);
+            $this->setData('store_option_values_' . $storeId, $values);
         }
         return $values;
     }

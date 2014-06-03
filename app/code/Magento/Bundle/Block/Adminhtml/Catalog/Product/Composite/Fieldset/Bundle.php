@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,8 @@ namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
 
 /**
  * Adminhtml block for fieldset of bundle product
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Bundle
-    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
+class Bundle extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
 {
     /**
      * Returns string with json config for bundle product
@@ -34,7 +27,7 @@ class Bundle
             foreach ($option->getSelections() as $selection) {
                 $options[$optionId]['selections'][$selection->getSelectionId()] = array(
                     'can_change_qty' => $selection->getSelectionCanChangeQty(),
-                    'default_qty'    => $selection->getSelectionQty()
+                    'default_qty' => $selection->getSelectionQty()
                 );
             }
         }

@@ -25,8 +25,7 @@ class Memory implements TokenStorageInterface
      */
     public function retrieveAccessToken($service)
     {
-        if ($this->hasAccessToken($service))
-        {
+        if ($this->hasAccessToken($service)) {
             return $this->tokens[$service];
         }
 
@@ -45,17 +44,16 @@ class Memory implements TokenStorageInterface
     }
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function hasAccessToken($service)
     {
-        return isset($this->tokens[$service]) &&
-               $this->tokens[$service] instanceOf TokenInterface;
+        return isset($this->tokens[$service]) && $this->tokens[$service] instanceof TokenInterface;
     }
 
     /**
-    * Delete the users token. Aka, log out.
-    */
+     * Delete the users token. Aka, log out.
+     */
     public function clearToken()
     {
         $this->tokens = array();

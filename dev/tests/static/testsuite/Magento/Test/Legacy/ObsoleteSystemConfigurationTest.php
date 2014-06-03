@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,8 @@ class ObsoleteSystemConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     public function testSystemConfigurationDeclaration()
     {
-        $fileList = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('system.xml',
+        $fileList = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
+            'system.xml',
             array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
             false
         );

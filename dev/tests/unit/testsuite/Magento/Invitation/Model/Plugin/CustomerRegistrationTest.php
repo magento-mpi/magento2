@@ -42,15 +42,15 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterIsRegistrationIsAllowedRestrictsRegistrationIfInvitationIsRequired()
     {
-        $this->_invitationConfig->expects($this->any())
-            ->method('isEnabledOnFront')
-            ->will($this->returnValue(true));
-        $this->_invitationConfig->expects($this->any())
-            ->method('getInvitationRequired')
-            ->will($this->returnValue(true));
-        $this->_invitationHelper->expects($this->once())
-            ->method('isRegistrationAllowed')
-            ->with(true);
+        $this->_invitationConfig->expects($this->any())->method('isEnabledOnFront')->will($this->returnValue(true));
+        $this->_invitationConfig->expects(
+            $this->any()
+        )->method(
+            'getInvitationRequired'
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->_invitationHelper->expects($this->once())->method('isRegistrationAllowed')->with(true);
 
         $this->assertFalse($this->_model->afterIsRegistrationAllowed($this->subjectMock, true));
     }

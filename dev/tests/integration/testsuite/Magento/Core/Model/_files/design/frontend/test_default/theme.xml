@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Design
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<theme>
+<theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../lib/internal/Magento/Framework/Config/etc/theme.xsd">
     <title>Default</title>
     <version>2.0.0.0</version>
 </theme>

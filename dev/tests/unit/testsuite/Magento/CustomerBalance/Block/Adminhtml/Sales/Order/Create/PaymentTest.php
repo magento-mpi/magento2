@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,22 +36,22 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     protected $_orderCreateMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_helperMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_balanceInstance;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeMock;
 
@@ -63,7 +60,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_balanceInstance =$this->getMock(
+        $this->_balanceInstance = $this->getMock(
             'Magento\CustomerBalance\Model\Balance',
             array('setCustomerId', 'setWebsiteId', 'getAmount', 'loadByCustomer', '__wakeup'),
             array(),
@@ -71,35 +68,48 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_balanceFactoryMock = $this->getMock(
-            'Magento\CustomerBalance\Model\BalanceFactory', array('create'), array(), '', false
+            'Magento\CustomerBalance\Model\BalanceFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
-        $this->_balanceFactoryMock->expects($this->any())
-            ->method('create')
-            ->will(
-                $this->returnValue(
-                    $this->_balanceInstance
-                )
-            );
-        $this->_balanceInstance
-            ->expects($this->any())
-            ->method('setCustomerId')
-            ->will($this->returnValue($this->_balanceInstance));
-        $this->_balanceInstance
-            ->expects($this->any())
-            ->method('setWebsiteId')
-            ->will($this->returnValue($this->_balanceInstance));
-        $this->_balanceInstance
-            ->expects($this->any())
-            ->method('loadByCustomer')
-            ->will($this->returnValue($this->_balanceInstance));
-        $this->_sessionQuoteMock = $this->getMock(
-            'Magento\Backend\Model\Session\Quote', array(), array(), '', false
+        $this->_balanceFactoryMock->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_balanceInstance)
         );
-        $this->_orderCreateMock = $this->getMock(
-            'Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false
+        $this->_balanceInstance->expects(
+            $this->any()
+        )->method(
+            'setCustomerId'
+        )->will(
+            $this->returnValue($this->_balanceInstance)
         );
+        $this->_balanceInstance->expects(
+            $this->any()
+        )->method(
+            'setWebsiteId'
+        )->will(
+            $this->returnValue($this->_balanceInstance)
+        );
+        $this->_balanceInstance->expects(
+            $this->any()
+        )->method(
+            'loadByCustomer'
+        )->will(
+            $this->returnValue($this->_balanceInstance)
+        );
+        $this->_sessionQuoteMock = $this->getMock('Magento\Backend\Model\Session\Quote', array(), array(), '', false);
+        $this->_orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock(
-            'Magento\Core\Model\StoreManagerInterface', array(), array(), '', false
+            'Magento\Store\Model\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $quoteMock = $this->getMock(
@@ -114,19 +124,24 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getStoreId')->will($this->returnValue(true));
         $this->_helperMock = $this->getMock('Magento\CustomerBalance\Helper\Data', array(), array(), '', false);
 
-        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);;
-        $this->_storeManagerMock->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_storeMock));
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_storeManagerMock->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue($this->_storeMock)
+        );
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_className = $helper->getObject('Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment',
+        $this->_className = $helper->getObject(
+            'Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment',
             array(
                 'storeManager' => $this->_storeManagerMock,
                 'sessionQuote' => $this->_sessionQuoteMock,
                 'orderCreate' => $this->_orderCreateMock,
                 'balanceFactory' => $this->_balanceFactoryMock,
-                'customerBalanceHelper' => $this->_helperMock,
+                'customerBalanceHelper' => $this->_helperMock
             )
         );
     }
@@ -137,9 +152,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBalanceNotEnabled()
     {
-        $this->_helperMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(false));
+        $this->_helperMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
 
         $result = $this->_className->getBalance();
         $this->assertEquals(0.0, $result);
@@ -151,17 +164,20 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBalanceConvertPrice()
     {
-        $this->_helperMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->_helperMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $amount = rand(1, 100);
         $convertedAmount = $amount * 2;
 
         $this->_balanceInstance->expects($this->once())->method('getAmount')->will($this->returnValue($amount));
-        $this->_storeMock->expects($this->once())
-            ->method('convertPrice')
-            ->with($this->equalTo($amount))
-            ->will($this->returnValue($convertedAmount));
+        $this->_storeMock->expects(
+            $this->once()
+        )->method(
+            'convertPrice'
+        )->with(
+            $this->equalTo($amount)
+        )->will(
+            $this->returnValue($convertedAmount)
+        );
         $result = $this->_className->getBalance(true);
         $this->assertEquals($convertedAmount, $result);
     }
@@ -173,9 +189,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     public function testGetBalanceAmount()
     {
         $amount = rand(1, 1000);
-        $this->_helperMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->_helperMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->_balanceInstance->expects($this->once())->method('getAmount')->will($this->returnValue($amount));
         $result = $this->_className->getBalance();
         $this->assertEquals($amount, $result);

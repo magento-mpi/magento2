@@ -20,12 +20,12 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_dataCollectionFactory;
 
@@ -35,22 +35,27 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_quoteFactory;
 
     /**
+     * @var \Magento\Sales\Model\Quote
+     */
+    protected $quote = null;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Data\CollectionFactory $dataCollectionFactory,
-        \Magento\Registry $coreRegistry,
-        array $data = array()
+        \Magento\Framework\Data\CollectionFactory $dataCollectionFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        array $data = []
     ) {
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -79,16 +84,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $quote = $this->_quoteFactory->create();
-        // set website to quote, if any
-        if ($this->getWebsiteId()) {
-            $quote->setWebsite($this->_storeManager->getWebsite($this->getWebsiteId()));
-        }
-
-        $currentCustomerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        if (!empty($currentCustomerId)) {
-            $quote->loadByCustomer($currentCustomerId);
-        }
+        $quote = $this->getQuote();
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
@@ -107,41 +103,13 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn(
-            'product_id',
-            [
-                'header' => __('ID'),
-                'index' => 'product_id',
-                'width' => '100px',
-            ]
-        );
+        $this->addColumn('product_id', ['header' => __('ID'), 'index' => 'product_id', 'width' => '100px']);
 
-        $this->addColumn(
-            'name',
-            [
-                'header' => __('Product'),
-                'index' => 'name',
-            ]
-        );
+        $this->addColumn('name', ['header' => __('Product'), 'index' => 'name']);
 
-        $this->addColumn(
-            'sku',
-            [
-                'header' => __('SKU'),
-                'index' => 'sku',
-                'width' => '100px',
-            ]
-        );
+        $this->addColumn('sku', ['header' => __('SKU'), 'index' => 'sku', 'width' => '100px']);
 
-        $this->addColumn(
-            'qty',
-            [
-                'header' => __('Qty'),
-                'index' => 'qty',
-                'type' => 'number',
-                'width' => '60px',
-            ]
-        );
+        $this->addColumn('qty', ['header' => __('Qty'), 'index' => 'qty', 'type' => 'number', 'width' => '60px']);
 
         $this->addColumn(
             'price',
@@ -149,7 +117,8 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
-                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
+                'currency_code' => $this->getQuote()->getQuoteCurrencyCode(),
+                'rate' => $this->getQuote()->getBaseToQuoteRate(),
             ]
         );
 
@@ -159,7 +128,8 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Total'),
                 'index' => 'row_total',
                 'type' => 'currency',
-                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
+                'currency_code' => $this->getQuote()->getQuoteCurrencyCode(),
+                'rate' => 1,
             ]
         );
 
@@ -179,6 +149,25 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getHeadersVisibility()
     {
-        return ($this->getCollection()->getSize() >= 0);
+        return $this->getCollection()->getSize() >= 0;
+    }
+
+    /**
+     * Get quote
+     *
+     * @return \Magento\Sales\Model\Quote
+     */
+    protected function getQuote()
+    {
+        if (null == $this->quote) {
+            $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
+            $this->quote = $this->_quoteFactory->create()->setSharedStoreIds($storeIds);
+
+            $currentCustomerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+            if (!empty($currentCustomerId)) {
+                $this->quote->loadByCustomer($currentCustomerId);
+            }
+        }
+        return $this->quote;
     }
 }

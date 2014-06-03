@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@ class SubTotals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals
      * Count collection column sum based on column index
      *
      * @param string $index
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return float|int
      */
     protected function _countSum($index, $collection)
@@ -31,7 +29,7 @@ class SubTotals extends \Magento\Backend\Model\Widget\Grid\AbstractTotals
      * Count collection column average based on column index
      *
      * @param string $index
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return float|int
      */
     protected function _countAverage($index, $collection)

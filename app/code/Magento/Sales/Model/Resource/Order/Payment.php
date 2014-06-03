@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,16 +17,14 @@ class Payment extends AbstractOrder
      *
      * @var array
      */
-    protected $_serializableFields   = array(
-        'additional_information' => array(null, array())
-    );
+    protected $_serializableFields = array('additional_information' => array(null, array()));
 
     /**
      * Event prefix
      *
      * @var string
      */
-    protected $_eventPrefix          = 'sales_order_payment_resource';
+    protected $_eventPrefix = 'sales_order_payment_resource';
 
     /**
      * @var \Magento\Sales\Model\Payment\Method\Converter
@@ -36,16 +32,16 @@ class Payment extends AbstractOrder
     protected $_paymentConverter;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      * @param \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
         \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
     ) {

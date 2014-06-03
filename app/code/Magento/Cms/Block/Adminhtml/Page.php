@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,7 +30,6 @@ class Page extends \Magento\Backend\Block\Widget\Grid\Container
         } else {
             $this->_removeButton('add');
         }
-
     }
 
     /**

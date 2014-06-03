@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage.js
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,7 +35,7 @@ TreeSuggestTest.prototype.stub = function(instance, methodName, retVal) {
             if(retVal) {
                 return retVal;
             }
-        }
+        };
     }
     return d.promise();
 };

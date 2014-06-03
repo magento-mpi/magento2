@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -62,8 +60,7 @@ class Region extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return $this->_conditionFactory->create('Customer\Address\Attributes')
-            ->getMatchedEvents();
+        return $this->_conditionFactory->create('Customer\Address\Attributes')->getMatchedEvents();
     }
 
     /**
@@ -73,10 +70,7 @@ class Region extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(array(
-            'value' => $this->getType(),
-            'label' => __('Has State/Province')
-        ));
+        return array(array('value' => $this->getType(), 'label' => __('Has State/Province')));
     }
 
     /**
@@ -87,8 +81,10 @@ class Region extends AbstractCondition
     public function asHtml()
     {
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml() . __('If Customer Address %1 State/Province specified', $element)
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Customer Address %1 State/Province specified',
+            $element
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -108,10 +104,7 @@ class Region extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            '1' => __('has'),
-            '0' => __('does not have'),
-        ));
+        $this->setValueOption(array('1' => __('has'), '0' => __('does not have')));
         return $this;
     }
 
@@ -121,17 +114,21 @@ class Region extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
-        $inversion = ((int)$this->getValue() ? '' : ' NOT ');
+        $inversion = (int)$this->getValue() ? '' : ' NOT ';
         $attribute = $this->_eavConfig->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
         $ifNull = $this->getResource()->getReadConnection()->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
         $select->from(array('caev' => $attribute->getBackendTable()), "({$ifNull})");
-        $select->where('caev.attribute_id = ?', $attribute->getId())
-            ->where("caev.entity_id = customer_address.entity_id");
+        $select->where(
+            'caev.attribute_id = ?',
+            $attribute->getId()
+        )->where(
+            "caev.entity_id = customer_address.entity_id"
+        );
         $select->limit(1);
         return $select;
     }

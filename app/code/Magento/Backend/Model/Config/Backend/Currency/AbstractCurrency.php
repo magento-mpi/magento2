@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,53 +12,41 @@
  *
  * Allows dispatching before and after events for each controller action
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Backend\Currency;
 
-abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
+abstract class AbstractCurrency extends \Magento\Framework\App\Config\Value
 {
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Constructor
      *
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        $this->_scopeConfig = $scopeConfig;
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -72,7 +58,8 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
     {
         if ($this->getData('groups/options/fields/allow/inherit')) {
             return explode(
-                ',', (string) $this->_config->getValue('currency/options/allow', $this->getScope(), $this->getScopeId())
+                ',',
+                (string)$this->_config->getValue('currency/options/allow', $this->getScope(), $this->getScopeId())
             );
         }
         return $this->getData('groups/options/fields/allow/value');
@@ -85,7 +72,13 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      */
     protected function _getInstalledCurrencies()
     {
-        return explode(',', $this->_coreStoreConfig->getConfig('system/currency/installed'));
+        return explode(
+            ',',
+            $this->_scopeConfig->getValue(
+                'system/currency/installed',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
     }
 
     /**
@@ -95,7 +88,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      */
     protected function _getCurrencyBase()
     {
-        if (!$value = $this->getData('groups/options/fields/base/value')) {
+        if (!($value = $this->getData('groups/options/fields/base/value'))) {
             $value = $this->_config->getValue(
                 \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                 $this->getScope(),
@@ -112,7 +105,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      */
     protected function _getCurrencyDefault()
     {
-        if (!$value = $this->getData('groups/options/fields/default/value')) {
+        if (!($value = $this->getData('groups/options/fields/default/value'))) {
             $value = $this->_config->getValue(
                 \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
                 $this->getScope(),

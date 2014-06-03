@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Quote\Item;
 /**
  * Adminhtml sales order create items block
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -80,7 +76,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         // Make buttons to be rendered in opposite order of addition. This makes "Add products" the last one.
         $this->_buttons = array_reverse($this->_buttons);
         foreach ($this->_buttons as $buttonData) {
-            $html .= $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData)->toHtml();
+            $html .= $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                $buttonData
+            )->toHtml();
         }
 
         return $html;

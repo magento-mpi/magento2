@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Category;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
@@ -30,13 +29,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $categoryTag = array('catalog_category_1');
         $currentCatogoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $currentCatogoryMock->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue($categoryTag));
+        $currentCatogoryMock->expects($this->once())->method('getIdentities')->will($this->returnValue($categoryTag));
         $this->block->setCurrentCategory($currentCatogoryMock);
-        $this->assertEquals(
-            $categoryTag,
-            $this->block->getIdentities()
-        );
+        $this->assertEquals($categoryTag, $this->block->getIdentities());
     }
 }

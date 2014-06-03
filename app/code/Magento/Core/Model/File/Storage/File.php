@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage;
 
 /**
@@ -56,26 +53,26 @@ class File
     protected $_errors = array();
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $storageHelper
      * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\File $fileUtility
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $storageHelper,
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\File $fileUtility
     ) {
-        $this->_fileUtility     = $fileUtility;
-        $this->_storageHelper   = $storageHelper;
-        $this->_logger          = $logger;
-        $this->_mediaHelper     = $mediaHelper;
+        $this->_fileUtility = $fileUtility;
+        $this->_storageHelper = $storageHelper;
+        $this->_logger = $logger;
+        $this->_mediaHelper = $mediaHelper;
     }
 
     /**
@@ -143,8 +140,8 @@ class File
             return false;
         }
 
-        $offset = ((int) $offset >= 0) ? (int) $offset : 0;
-        $count  = ((int) $count >= 1) ? (int) $count : 1;
+        $offset = (int)$offset >= 0 ? (int)$offset : 0;
+        $count = (int)$count >= 1 ? (int)$count : 1;
 
         if (empty($this->_data)) {
             $this->_data = $this->getStorageData();
@@ -224,7 +221,7 @@ class File
 
         foreach ($data as $part) {
             try {
-                $this->$callback($part);
+                $this->{$callback}($part);
             } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 $this->_logger->logException($e);
@@ -272,29 +269,31 @@ class File
      *
      * @param  array $file
      * @param  bool $overwrite
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return bool
      */
     public function saveFile($file, $overwrite = true)
     {
-        if (isset($file['filename']) && !empty($file['filename'])
-            && isset($file['content']) && !empty($file['content'])
+        if (isset(
+            $file['filename']
+        ) && !empty($file['filename']) && isset(
+            $file['content']
+        ) && !empty($file['content'])
         ) {
             try {
-                $filename = (isset($file['directory']) && !empty($file['directory']))
-                    ? $file['directory'] . '/' . $file['filename']
-                    : $file['filename'];
+                $filename = isset(
+                    $file['directory']
+                ) && !empty($file['directory']) ? $file['directory'] . '/' . $file['filename'] : $file['filename'];
 
-                return $this->_fileUtility
-                    ->saveFile($filename, $file['content'], $overwrite);
+                return $this->_fileUtility->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Unable to save file "%1" at "%2"', $file['filename'], $file['directory'])
                 );
             }
         } else {
-            throw new \Magento\Core\Exception(__('Wrong file info format'));
+            throw new \Magento\Framework\Model\Exception(__('Wrong file info format'));
         }
 
         return false;

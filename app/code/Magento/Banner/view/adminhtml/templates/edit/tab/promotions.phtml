@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions
+ */
+?>
+<div class="entry-edit">
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php echo __('Related Shopping Cart Price Rules')?></span></legend>
+        <br />
+        <?php echo $this->getChildHtml('banner_salesrule_grid'); ?>
+        <?php echo $this->getChildHtml('salesrule_grid_serializer'); ?>
+    </fieldset>
+</div>
+
+<div class="entry-edit">
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php echo __('Related Catalog Price Rules')?></span></legend>
+        <br />
+        <?php echo $this->getChildHtml('banner_catalogrule_grid'); ?>
+         <?php echo $this->getChildHtml('catalogrule_grid_serializer'); ?>
+    </fieldset>
+</div>

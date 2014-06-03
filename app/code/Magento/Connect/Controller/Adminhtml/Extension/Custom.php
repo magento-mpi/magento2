@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Extension controller
  *
- * @category    Magento
- * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Connect\Controller\Adminhtml\Extension;
@@ -38,7 +34,7 @@ class Custom extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this ->_title->add(__('Extension'));
+        $this->_title->add(__('Extension'));
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Connect::system_extensions_custom');
@@ -69,13 +65,11 @@ class Custom extends \Magento\Backend\App\Action
             try {
                 $data = $this->_objectManager->get('Magento\Connect\Helper\Data')->loadLocalPackage($packageName);
                 if (!$data) {
-                    throw new \Magento\Core\Exception(__('Something went wrong loading the package data.'));
+                    throw new \Magento\Framework\Model\Exception(__('Something went wrong loading the package data.'));
                 }
                 $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
-                $this->messageManager->addSuccess(
-                    __('The package %1 data has been loaded.', $packageName)
-                );
+                $this->messageManager->addSuccess(__('The package %1 data has been loaded.', $packageName));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
@@ -118,10 +112,10 @@ class Custom extends \Magento\Backend\App\Action
             } else {
                 $this->_forward('create');
             }
-        } catch (\Magento\Core\Exception $e){
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*');
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Something went wrong saving the package.'));
             $this->_redirect('adminhtml/*');
         }
@@ -142,18 +136,18 @@ class Custom extends \Magento\Backend\App\Action
             $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
-                if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_2X, $packageVersion)) {
+                if (in_array(\Magento\Framework\Connect\Package::PACKAGE_VERSION_2X, $packageVersion)) {
                     $ext->createPackage();
                 }
-                if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_1X, $packageVersion)) {
+                if (in_array(\Magento\Framework\Connect\Package::PACKAGE_VERSION_1X, $packageVersion)) {
                     $ext->createPackageV1x();
                 }
             }
             $this->_redirect('adminhtml/*');
-        } catch(\Magento\Core\Exception $e){
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*');
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Something went wrong creating the package.'));
             $this->_redirect('adminhtml/*');
         }

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\System\Config;
@@ -61,9 +57,9 @@ class Product extends DataFixture
     {
         parent::__construct($configuration, $placeholders);
 
-        if (isset($placeholders['categories']))
+        if (isset($placeholders['categories'])) {
             $this->categories = $placeholders['categories'];
-        else {
+        } else {
             $this->_placeholders['category::getCategoryName'] = array($this, 'categoryProvider');
             $this->_placeholders['category::getCategoryId'] = array($this, 'categoryProvider');
         }
@@ -93,6 +89,8 @@ class Product extends DataFixture
 
     /**
      * Get data from repository and reassign it
+     *
+     * @return void
      */
     public function reset()
     {
@@ -293,6 +291,8 @@ class Product extends DataFixture
 
     /**
      * Create product
+     *
+     * @return void
      */
     public function persist()
     {
@@ -302,6 +302,8 @@ class Product extends DataFixture
 
     /**
      * Stab for filling product options
+     *
+     * @return void
      */
     public function getProductOptions()
     {

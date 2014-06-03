@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\TestCase\Guest\PaypalExpress;
 
 use Mtf\Factory\Factory;
@@ -20,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Tests checkout via Magento one page checkout and Paypal Express checkout.
  * Shipping method used is Flat Rate
  *
- * @package Magento\Test\TestCase\Checkout
  */
 class CheckoutOnepageTest extends Functional
 {
@@ -33,7 +28,8 @@ class CheckoutOnepageTest extends Functional
      * @dataProvider dataProviderPaymentMethod
      * @ZephyrId MAGETWO-12413, MAGETWO-14359
      */
-    public function testOnepageCheckout(Checkout $fixture) {
+    public function testOnepageCheckout(Checkout $fixture)
+    {
         //Data
         $fixture->persist();
 
@@ -65,7 +61,7 @@ class CheckoutOnepageTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
     }
 
@@ -149,6 +145,9 @@ class CheckoutOnepageTest extends Functional
             'Incorrect authorized amount value for the order #' . $orderId);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderPaymentMethod()
     {
         return array(

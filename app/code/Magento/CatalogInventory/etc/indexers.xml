@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Index/etc/indexers.xsd">
     <indexer name="cataloginventory_stock" instance="Magento\CatalogInventory\Model\Indexer\Stock" />
     <indexer name="catalog_product_attribute">
         <depends name="cataloginventory_stock" />

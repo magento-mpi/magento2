@@ -38,5 +38,4 @@ class QuoteItem
         }
         return $orderItem;
     }
-
 }

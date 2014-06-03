@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../lib/internal/Magento/Framework/Config/etc/view.xsd">
+    <vars module="One">
+        <var name="one">Value One</var>
+    </vars>
+    <vars module="Two">
+        <var name="one">Value One</var>
+    </vars>
+</view>

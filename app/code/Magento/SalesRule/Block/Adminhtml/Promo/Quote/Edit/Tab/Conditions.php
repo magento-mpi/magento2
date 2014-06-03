@@ -2,16 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
-class Conditions
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -27,16 +24,16 @@ class Conditions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Rule\Block\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
         array $data = array()
@@ -87,23 +84,36 @@ class Conditions
     {
         $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = $this->_rendererFieldset
-            ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('sales_rule/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
+        $renderer = $this->_rendererFieldset->setTemplate(
+            'Magento_CatalogRule::promo/fieldset.phtml'
+        )->setNewChildUrl(
+            $this->getUrl('sales_rule/promo_quote/newConditionHtml/form/rule_conditions_fieldset')
+        );
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>__('Apply the rule only if the following conditions are met (leave blank for all products).')
-        ))->setRenderer($renderer);
+        $fieldset = $form->addFieldset(
+            'conditions_fieldset',
+            array(
+                'legend' => __(
+                    'Apply the rule only if the following conditions are met (leave blank for all products).'
+                )
+            )
+        )->setRenderer(
+            $renderer
+        );
 
-        $fieldset->addField('conditions', 'text', array(
-            'name' => 'conditions',
-            'label' => __('Conditions'),
-            'title' => __('Conditions'),
-        ))->setRule($model)->setRenderer($this->_conditions);
+        $fieldset->addField(
+            'conditions',
+            'text',
+            array('name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'))
+        )->setRule(
+            $model
+        )->setRenderer(
+            $this->_conditions
+        );
 
         $form->setValues($model->getData());
         $this->setForm($form);

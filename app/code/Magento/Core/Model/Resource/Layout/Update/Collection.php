@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,13 @@ namespace Magento\Core\Model\Resource\Layout\Update;
 /**
  * Layout update collection model
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $dateTime;
+
     /**
      * Name prefix of events that are dispatched by model
      *
@@ -29,27 +32,22 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_eventObject = 'layout_update_collection';
 
     /**
-     * @var \Magento\Stdlib\DateTime
-     */
-    protected $dateTime;
-
-    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -75,8 +73,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addThemeFilter($themeId)
     {
         $this->_joinWithLink();
-        $this->getSelect()
-            ->where('link.theme_id = ?', $themeId);
+        $this->getSelect()->where('link.theme_id = ?', $themeId);
 
         return $this;
     }
@@ -90,8 +87,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addStoreFilter($storeId)
     {
         $this->_joinWithLink();
-        $this->getSelect()
-            ->where('link.store_id = ?', $storeId);
+        $this->getSelect()->where('link.store_id = ?', $storeId);
 
         return $this;
     }
@@ -105,12 +101,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $flagName = 'joined_with_link_table';
         if (!$this->getFlag($flagName)) {
-            $this->getSelect()
-                ->join(
-                    array('link' => $this->getTable('core_layout_link')),
-                    'link.layout_update_id = main_table.layout_update_id',
-                    array('store_id', 'theme_id')
-                );
+            $this->getSelect()->join(
+                array('link' => $this->getTable('core_layout_link')),
+                'link.layout_update_id = main_table.layout_update_id',
+                array('store_id', 'theme_id')
+            );
 
             $this->setFlag($flagName, true);
         }
@@ -128,12 +123,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $flagName = 'joined_left_with_link_table';
         if (!$this->getFlag($flagName)) {
-            $this->getSelect()
-                ->joinLeft(
-                    array('link' => $this->getTable('core_layout_link')),
-                    'link.layout_update_id = main_table.layout_update_id',
-                    array($fields)
-                );
+            $this->getSelect()->joinLeft(
+                array('link' => $this->getTable('core_layout_link')),
+                'link.layout_update_id = main_table.layout_update_id',
+                array($fields)
+            );
             $this->setFlag($flagName, true);
         }
 
@@ -153,8 +147,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $datetime->sub($storeInterval);
         $formattedDate = $this->dateTime->formatDate($datetime->getTimestamp());
 
-        $this->addFieldToFilter('main_table.updated_at', array('notnull' => true))
-            ->addFieldToFilter('main_table.updated_at', array('lt' => $formattedDate));
+        $this->addFieldToFilter(
+            'main_table.updated_at',
+            array('notnull' => true)
+        )->addFieldToFilter(
+            'main_table.updated_at',
+            array('lt' => $formattedDate)
+        );
 
         return $this;
     }

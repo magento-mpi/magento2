@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\TestCase\Functional;
  * Class LogReportTest
  * Tests admin user action are logged and available in actions report
  *
- * @package Magento\Logging\Test\TestCase
  */
 class LogReportTest extends Functional
 {
@@ -50,10 +46,11 @@ class LogReportTest extends Functional
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($configUser);
         $loginPage->getLoginBlock()->submit();
+        $loginPage->waitForHeaderBlock();
 
         //Step: Save config
         $systemConfigPage->open();
-        $configForm->save();
+        $systemConfigPage->getPageActions()->save();
         $systemConfigPage->getMessagesBlock()->assertSuccessMessage();
 
         //Step: Logout
@@ -63,6 +60,7 @@ class LogReportTest extends Functional
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($loginUser);
         $loginPage->getLoginBlock()->submit();
+        $loginPage->waitForHeaderBlock();
 
         //Step: Open logging report grid
         $logReportPage->open();

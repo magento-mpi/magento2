@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ProductAlert\Block\Email;
 /**
  * ProductAlert email back in stock grid
  *
- * @category   Magento
- * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
@@ -29,12 +25,12 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
     protected $_imageHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Image $imageHelper,
         array $data = array()
     ) {
@@ -50,8 +46,7 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'thumbnail')
-            ->resize($this->getThumbnailSize());
+        return (string)$this->_imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**

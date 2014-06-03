@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogEvent\Model\Resource\Event;
 
 /**
@@ -23,8 +19,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogEvent\Model\Resource\Event\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogEvent\Model\Resource\Event\Collection'
+        );
     }
 
     /**
@@ -45,7 +42,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\CatalogEvent\Model\Event', $actualItem);
         foreach ($expectedItemData as $filedName => $expectedValue) {
             $actualValue = $actualItem->getDataUsingMethod($filedName);
-            $this->assertEquals($expectedValue, $actualValue, "Field '{$filedName}' value doesn't match expectations.");
+            $this->assertEquals(
+                $expectedValue,
+                $actualValue,
+                "Field '{$filedName}' value doesn't match expectations."
+            );
         }
     }
 
@@ -55,35 +56,35 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'closed event' => array(
                 'index' => 0,
                 'data' => array(
-                    'category_id'   => null,
-                    'display_state' => 1/*Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE*/,
-                    'sort_order'    => 30,
-                    'status'        => 'closed'/*Magento_CatalogEvent_Model_Event::STATUS_CLOSED*/,
-                    'image'         => 'default_store_view.jpg'
-                ),
+                    'category_id' => null,
+                    'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
+                    'sort_order' => 30,
+                    'status' => \Magento\CatalogEvent\Model\Event::STATUS_CLOSED,
+                    'image' => 'default_store_view.jpg'
+                )
             ),
             'open event' => array(
                 'index' => 1,
                 'data' => array(
-                    'category_id'   => 1,
-                    'display_state' => 2/*Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE*/,
-                    'sort_order'    => 20,
-                    'status'        => 'open'/*Magento_CatalogEvent_Model_Event::STATUS_OPEN*/,
-                    'image'         => 'default_website.jpg'
-                ),
+                    'category_id' => 1,
+                    'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
+                    'sort_order' => 20,
+                    'status' => \Magento\CatalogEvent\Model\Event::STATUS_OPEN,
+                    'image' => 'default_website.jpg'
+                )
             ),
             'upcoming event' => array(
                 'index' => 2,
                 'data' => array(
-                    'category_id'   => 2,
+                    'category_id' => 2,
                     'display_state' => 3,
-                    /*Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
+                    /*\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
                         \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE*/
-                    'sort_order'    => 10,
-                    'status'        => 'upcoming'/*Magento_CatalogEvent_Model_Event::STATUS_UPCOMING*/,
-                    'image'         => 'default_store_view.jpg'
-                ),
-            ),
+                    'sort_order' => 10,
+                    'status' => \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING,
+                    'image' => 'default_store_view.jpg'
+                )
+            )
         );
     }
 
@@ -92,10 +93,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($expectedItemIndex, array $expectedItemData)
     {
-        $this->_collection
-            ->addCategoryData()
-            ->addImageData()
-        ;
+        $this->_collection->addCategoryData()->addImageData();
         $this->_assertCollectionData(3, $expectedItemIndex, $expectedItemData);
     }
 
@@ -104,7 +102,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $result = $this->loadDataProvider();
 
         unset($result['closed event']);
-        $result['open event']['index']     = 0;
+        $result['open event']['index'] = 0;
         $result['upcoming event']['index'] = 1;
 
         return $result;
@@ -115,11 +113,38 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadVisible($expectedItemIndex, array $expectedItemData)
     {
-        $this->_collection
-            ->addCategoryData()
-            ->addImageData()
-            ->addVisibilityFilter()
-        ;
+        $this->_collection->addCategoryData()->addImageData()->addVisibilityFilter();
         $this->_assertCollectionData(2, $expectedItemIndex, $expectedItemData);
+    }
+
+    /**
+     * @dataProvider addFieldToFilterDataProvider
+     */
+    public function testAddFieldToFilter($value, $expectedCount, $expectedItemData)
+    {
+        $this->_collection->addCategoryData()->addImageData()->addFieldToFilter('display_state', $value);
+        $this->_assertCollectionData($expectedCount, 0, $expectedItemData);
+    }
+
+    /**
+     * Data for testAddFieldToFilter
+     *
+     * @return array
+     */
+    public function addFieldToFilterDataProvider()
+    {
+        $data = $this->loadDataProvider();
+
+        return array(
+            array('display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
+                'expected_count' => 2,
+                'data' => $data['closed event']['data']),
+            array('display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
+                'expected_count' => 2,
+                'data' => $data['open event']['data']),
+            array('display_state' => 0,
+                'expected_count' => 3,
+                'data' => $data['closed event']['data'])
+        );
     }
 }

@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element\Iterator;
 
-class Field
-    extends \Magento\Backend\Model\Config\Structure\Element\Iterator
+class Field extends \Magento\Backend\Model\Config\Structure\Element\Iterator
 {
     /**
      * Group flyweight
@@ -51,7 +47,7 @@ class Field
         if (!isset($element[\Magento\Backend\Model\Config\Structure::TYPE_KEY])) {
             throw new \LogicException('System config structure element must contain "type" attribute');
         }
-        switch($element[\Magento\Backend\Model\Config\Structure::TYPE_KEY]) {
+        switch ($element[\Magento\Backend\Model\Config\Structure::TYPE_KEY]) {
             case 'group':
                 $this->_flyweight = $this->_groupFlyweight;
                 break;

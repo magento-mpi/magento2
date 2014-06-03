@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Observer\Frontend\Quote\Address;
 
 class CollectTotalsTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals');
+        $this->model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals'
+        );
     }
 
     /**
@@ -31,7 +31,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeQuoteCustomerGroupIdForCustomerWithDisabledAutomaticGroupChange()
     {
-        /** @var \Magento\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManager $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $customer \Magento\Customer\Model\Customer */
@@ -48,7 +48,8 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $quoteAddress = $quote->getBillingAddress();
 
-        $eventObserver = $objectManager->create('Magento\Event\Observer',
+        $eventObserver = $objectManager->create(
+            'Magento\Framework\Event\Observer',
             array('data' => array('quote_address' => $quoteAddress))
         );
         $this->model->dispatch($eventObserver);
@@ -66,7 +67,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeQuoteCustomerGroupIdForCustomerWithEnabledAutomaticGroupChange()
     {
-        /** @var \Magento\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManager $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $customer \Magento\Customer\Model\Customer */
@@ -83,7 +84,8 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $quoteAddress = $quote->getBillingAddress();
 
-        $eventObserver = $objectManager->create('Magento\Event\Observer',
+        $eventObserver = $objectManager->create(
+            'Magento\Framework\Event\Observer',
             array('data' => array('quote_address' => $quoteAddress))
         );
         $this->model->dispatch($eventObserver);

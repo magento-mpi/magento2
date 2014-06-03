@@ -5,13 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\RecurringPayment\Controller\Adminhtml;
+
+use Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment;
 
 class RecurringPaymentTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/RecurringPayment/_files/recurring_payment.php
      */
     public function testCustomerGridAction()

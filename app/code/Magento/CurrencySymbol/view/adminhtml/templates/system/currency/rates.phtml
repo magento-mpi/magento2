@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this \Magento\CurrencySymbol\Block\Adminhtml\System\Currency
+ */
+?>
+<div class="grid-actions">
+    <form action="<?php echo $this->getImportFormAction() ?>" method="post" class="import-service">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <dix class="import">
+            <?php echo $this->getServicesHtml() ?>
+            <?php echo $this->getImportButtonHtml() ?>
+        </dix>
+    </form>
+    <?php echo $this->getResetButtonHtml() ?>
+    <?php echo $this->getSaveButtonHtml() ?>
+</div>
+
+<?php echo $this->getRatesMatrixHtml() ?>

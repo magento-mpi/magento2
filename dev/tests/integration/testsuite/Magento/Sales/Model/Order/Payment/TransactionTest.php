@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order\Payment;
 
 /**
@@ -21,14 +17,13 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadByTxnId()
     {
-        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order');
+        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Order\Payment\Transaction');
-        $model->setOrderPaymentObject($order->getPayment())
-            ->loadByTxnId('invalid_transaction_id');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Order\Payment\Transaction'
+        );
+        $model->setOrderPaymentObject($order->getPayment())->loadByTxnId('invalid_transaction_id');
 
         $this->assertNull($model->getId());
 

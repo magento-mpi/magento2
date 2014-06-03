@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -34,7 +32,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -48,12 +46,12 @@ class Observer
     /**
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_customerData = $customerData;
         $this->_customerAddress = $customerAddress;
@@ -68,8 +66,9 @@ class Observer
      */
     protected function _isDefaultBilling($address)
     {
-        return ($address->getId() && $address->getId() == $address->getCustomer()->getDefaultBilling())
-            || $address->getIsPrimaryBilling() || $address->getIsDefaultBilling();
+        return $address->getId() && $address->getId() == $address->getCustomer()->getDefaultBilling() ||
+            $address->getIsPrimaryBilling() ||
+            $address->getIsDefaultBilling();
     }
 
     /**
@@ -80,8 +79,9 @@ class Observer
      */
     protected function _isDefaultShipping($address)
     {
-        return ($address->getId() && $address->getId() == $address->getCustomer()->getDefaultShipping())
-            || $address->getIsPrimaryShipping() || $address->getIsDefaultShipping();
+        return $address->getId() && $address->getId() == $address->getCustomer()->getDefaultShipping() ||
+            $address->getIsPrimaryShipping() ||
+            $address->getIsDefaultShipping();
     }
 
     /**
@@ -110,7 +110,7 @@ class Observer
     /**
      * Address before save event handler
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function beforeAddressSave($observer)
@@ -126,8 +126,9 @@ class Observer
         } else {
             $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
 
-            $forceProcess = ($configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING)
-                ? $customerAddress->getIsDefaultShipping() : $customerAddress->getIsDefaultBilling();
+            $forceProcess = $configAddressType ==
+                \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING ? $customerAddress->getIsDefaultShipping() : $customerAddress
+                    ->getIsDefaultBilling();
 
             if ($forceProcess) {
                 $customerAddress->setForceProcess(true);
@@ -140,7 +141,7 @@ class Observer
     /**
      * Address after save event handler
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function afterAddressSave($observer)
@@ -149,9 +150,13 @@ class Observer
         $customerAddress = $observer->getCustomerAddress();
         $customer = $customerAddress->getCustomer();
 
-        if (!$this->_customerAddress->isVatValidationEnabled($customer->getStore())
-            || $this->_coreRegistry->registry(self::VIV_PROCESSED_FLAG)
-            || !$this->_canProcessAddress($customerAddress)
+        if (!$this->_customerAddress->isVatValidationEnabled(
+            $customer->getStore()
+        ) || $this->_coreRegistry->registry(
+            self::VIV_PROCESSED_FLAG
+        ) || !$this->_canProcessAddress(
+            $customerAddress
+        )
         ) {
             return;
         }
@@ -162,9 +167,10 @@ class Observer
             /** @var $customerHelper \Magento\Customer\Helper\Data */
             $customerHelper = $this->_customerData;
 
-            if ($customerAddress->getVatId() == ''
-                || !$this->_customerData->isCountryInEU($customerAddress->getCountry()))
-            {
+            if ($customerAddress->getVatId() == '' || !$this->_customerData->isCountryInEU(
+                $customerAddress->getCountry()
+            )
+            ) {
                 $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 
                 if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $defaultGroupId) {
@@ -178,7 +184,9 @@ class Observer
                 );
 
                 $newGroupId = $customerHelper->getCustomerGroupIdBasedOnVatNumber(
-                    $customerAddress->getCountryId(), $result, $customer->getStore()
+                    $customerAddress->getCountryId(),
+                    $result,
+                    $customer->getStore()
                 );
 
                 if (!$customer->getDisableAutoGroupChange() && $customer->getGroupId() != $newGroupId) {
@@ -191,30 +199,5 @@ class Observer
         } catch (\Exception $e) {
             $this->_coreRegistry->register(self::VIV_PROCESSED_FLAG, false, true);
         }
-    }
-
-    /**
-     * Revert emulated customer group_id
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return void
-     */
-    public function quoteSubmitAfter($observer)
-    {
-        /** @var $customer Customer */
-        $customer = $observer->getQuote()->getCustomer();
-
-        if (!$this->_customerAddress->isVatValidationEnabled($customer->getStore())) {
-            return;
-        }
-
-        if (!$customer->getId()) {
-            return;
-        }
-
-        $customer->setGroupId(
-            (int)$customer->getOrigData('group_id')
-        );
-        $customer->save();
     }
 }

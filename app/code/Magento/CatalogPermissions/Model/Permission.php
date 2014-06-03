@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,16 +24,16 @@
  * @method int getGrantCheckoutItems()
  * @method \Magento\CatalogPermissions\Model\Permission setGrantCheckoutItems(int $value)
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogPermissions\Model;
 
-class Permission extends \Magento\Core\Model\AbstractModel
+class Permission extends \Magento\Framework\Model\AbstractModel
 {
     const PERMISSION_ALLOW = -1;
+
     const PERMISSION_DENY = -2;
+
     const PERMISSION_PARENT = 0;
 
     /**

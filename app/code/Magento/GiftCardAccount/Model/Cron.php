@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,24 +9,23 @@ namespace Magento\GiftCardAccount\Model;
 
 class Cron
 {
-
     /**
      * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
      */
     protected $_giftCAFactory = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate = null;
 
     /**
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      */
     public function __construct(
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Stdlib\DateTime\DateTime $coreDate
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_coreDate = $coreDate;
@@ -46,10 +43,16 @@ class Cron
 
         $now = $this->_coreDate->date('Y-m-d');
 
-        $collection = $model->getCollection()
-            ->addFieldToFilter('state', \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)
-            ->addFieldToFilter('date_expires', array('notnull'=>true))
-            ->addFieldToFilter('date_expires', array('lt'=>$now));
+        $collection = $model->getCollection()->addFieldToFilter(
+            'state',
+            \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE
+        )->addFieldToFilter(
+            'date_expires',
+            array('notnull' => true)
+        )->addFieldToFilter(
+            'date_expires',
+            array('lt' => $now)
+        );
 
         $ids = $collection->getAllIds();
         if ($ids) {

@@ -7,20 +7,20 @@
  */
 namespace Magento\CatalogEvent\Model;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
-use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
-use Magento\Model\Context;
-use Magento\Stdlib\DateTime\TimezoneInterface;
-use Magento\Registry;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Registry;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
-use Magento\Data\Collection\Db;
-use Magento\Stdlib\DateTime;
-use Magento\UrlInterface;
+use Magento\Framework\Data\Collection\Db;
+use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\UrlInterface;
 
 /**
  * Catalog Event model
@@ -37,16 +37,19 @@ use Magento\UrlInterface;
  * @method int getSortOrder()
  * @method Event setSortOrder(int $value)
  */
-class Event extends AbstractModel implements \Magento\Object\IdentityInterface
+class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
-    const DISPLAY_PRODUCT_PAGE  = 2;
 
-    const STATUS_UPCOMING       = 'upcoming';
-    const STATUS_OPEN           = 'open';
-    const STATUS_CLOSED         = 'closed';
+    const DISPLAY_PRODUCT_PAGE = 2;
 
-    const CACHE_TAG             = 'catalog_event';
+    const STATUS_UPCOMING = 'upcoming';
+
+    const STATUS_OPEN = 'open';
+
+    const STATUS_CLOSED = 'closed';
+
+    const CACHE_TAG = 'catalog_event';
 
     const IMAGE_PATH = 'enterprise/catalogevent';
 
@@ -77,7 +80,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     protected $_isReadonly = false;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -140,21 +143,6 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     protected function _construct()
     {
         $this->_init('Magento\CatalogEvent\Model\Resource\Event');
-    }
-
-    /**
-     * Get cache tags associated with object id.
-     * Added category id tags support
-     *
-     * @return string[]
-     */
-    public function getCacheIdTags()
-    {
-        $tags = parent::getCacheIdTags();
-        if ($this->getCategoryId()) {
-            $tags[] = Category::CACHE_TAG . '_' . $this->getCategoryId();
-        }
-        return $tags;
     }
 
     /**
@@ -223,7 +211,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function setImage($value)
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
-        if ($value instanceof \Magento\File\Uploader) {
+        if ($value instanceof \Magento\Framework\File\Uploader) {
             $value->save(
                 $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
             );
@@ -242,8 +230,9 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . '/'
-            . self::IMAGE_PATH . '/' . $this->getImage();
+            return $this->_storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . '/' . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;
@@ -262,19 +251,20 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     /**
      * Set display state of catalog event
      *
-     * @param int|int[] $state
+     * @param null|int|int[] $state
      * @return $this
      */
     public function setDisplayState($state)
     {
+        $value = 0;
         if (is_array($state)) {
-            $value = 0;
             foreach ($state as $_state) {
                 $value ^= $_state;
             }
             $this->setData('display_state', $value);
         } else {
-            $this->setData('display_state', $state);
+            $value = empty($state) ? $value : $state;
+            $this->setData('display_state', $value);
         }
         return $this;
     }
@@ -287,7 +277,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function canDisplay($state)
     {
-        return ((int) $this->getDisplayState() & $state) == $state;
+        return ((int)$this->getDisplayState() & $state) == $state;
     }
 
     /**
@@ -318,8 +308,10 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function applyStatusByDates()
     {
         if ($this->getDateStart() && $this->getDateEnd()) {
-            $timeStart = $this->dateTime->toTimestamp($this->getDateStart()); // Date already in gmt, no conversion
-            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd()); // Date already in gmt, no conversion
+            $timeStart = $this->dateTime->toTimestamp($this->getDateStart());
+            // Date already in gmt, no conversion
+            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd());
+            // Date already in gmt, no conversion
             $timeNow = gmdate('U');
             if ($timeStart <= $timeNow && $timeEnd >= $timeNow) {
                 $this->setStatus(self::STATUS_OPEN);
@@ -353,11 +345,12 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     {
         parent::_beforeSave();
         $dateChanged = false;
-        $fieldTitles = array('date_start' => __('Start Date') , 'date_end' => __('End Date'));
-        foreach (array('date_start' , 'date_end') as $dateType) {
+        $fieldTitles = array('date_start' => __('Start Date'), 'date_end' => __('End Date'));
+        foreach (array('date_start', 'date_end') as $dateType) {
             $date = $this->getData($dateType);
-            if (empty($date)) { // Date fields is required.
-                throw new Exception(__('%1 is required.', $fieldTitles[$dateType]));
+            if (empty($date)) {
+                // Date fields is required.
+                throw new \Magento\Framework\Model\Exception(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
@@ -379,12 +372,11 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function validate()
     {
         $dateStartUnixTime = strtotime($this->getData('date_start'));
-        $dateEndUnixTime   = strtotime($this->getData('date_end'));
+        $dateEndUnixTime = strtotime($this->getData('date_end'));
         $dateIsOk = $dateEndUnixTime > $dateStartUnixTime;
         if ($dateIsOk) {
             return true;
-        }
-        else {
+        } else {
             return array(__('Please make sure the end date follows the start date.'));
         }
     }
@@ -407,7 +399,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (boolean) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 
@@ -429,7 +421,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function setIsReadonly($value)
     {
-        $this->_isReadonly = (boolean) $value;
+        $this->_isReadonly = (bool)$value;
         return $this;
     }
 

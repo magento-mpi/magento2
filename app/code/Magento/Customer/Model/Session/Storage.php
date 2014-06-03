@@ -4,32 +4,28 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Session;
 
-class Storage extends \Magento\Session\Storage
+class Storage extends \Magento\Framework\Session\Storage
 {
     /**
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param string $namespace
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $namespace = 'customer',
         array $data = array()
     ) {
         if ($configShare->isWebsiteScope()) {
-            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
+            $namespace .= '_' . $storeManager->getWebsite()->getCode();
         }
         parent::__construct($namespace, $data);
     }
 }
-

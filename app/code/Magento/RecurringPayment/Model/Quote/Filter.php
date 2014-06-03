@@ -7,7 +7,7 @@
  */
 namespace Magento\RecurringPayment\Model\Quote;
 
-use \Magento\Sales\Model\Quote;
+use Magento\Sales\Model\Quote;
 
 /**
  * Class Filter

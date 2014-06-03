@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pci\Model;
 
 class EncryptionTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +16,9 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Pci\Model\Encryption');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Pci\Model\Encryption'
+        );
     }
 
     public function testEncryptDecrypt()

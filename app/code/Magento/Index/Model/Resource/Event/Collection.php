@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,11 +12,9 @@ use Magento\Index\Model\Process;
 /**
  * Index Event Collection
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -39,7 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addEntityFilter($entity)
     {
         if (is_array($entity) && !empty($entity)) {
-            $this->addFieldToFilter('entity', array('in'=>$entity));
+            $this->addFieldToFilter('entity', array('in' => $entity));
         } else {
             $this->addFieldToFilter('entity', $entity);
         }
@@ -55,7 +51,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addTypeFilter($type)
     {
         if (is_array($type) && !empty($type)) {
-            $this->addFieldToFilter('type', array('in'=>$type));
+            $this->addFieldToFilter('type', array('in' => $type));
         } else {
             $this->addFieldToFilter('type', $type);
         }
@@ -98,7 +94,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _joinProcessEventTable()
     {
         if (!$this->getFlag('process_event_table_joined')) {
-            $this->getSelect()->join(array('process_event' => $this->getTable('index_process_event')),
+            $this->getSelect()->join(
+                array('process_event' => $this->getTable('index_process_event')),
                 'process_event.event_id=main_table.event_id',
                 array('process_event_status' => 'status')
             );

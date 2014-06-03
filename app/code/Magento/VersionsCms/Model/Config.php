@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,19 +30,20 @@ class Config
             'custom_layout_update_xml',
             'custom_theme_from',
             'custom_theme_to'
-        ));
+        )
+    );
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -52,16 +51,16 @@ class Config
     protected $_backendAuthSession;
 
     /**
-     * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\AuthorizationInterface $authorization
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
-        \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\AuthorizationInterface $authorization,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_authorization = $authorization;
         $this->_backendAuthSession = $backendAuthSession;
     }
@@ -196,6 +195,6 @@ class Config
      */
     public function getDefaultVersioningStatus()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

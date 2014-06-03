@@ -10,14 +10,14 @@ namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
 class GenericFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,9 +33,12 @@ class GenericFactory
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
-        if (false == ($modelInstance instanceof \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface)) {
+        if (false ==
+            $modelInstance instanceof \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
+        ) {
             throw new \InvalidArgumentException(
-                $model . 'doesn\'t implement \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface'
+                $model .
+                'doesn\'t implement \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface'
             );
         }
         return $modelInstance;

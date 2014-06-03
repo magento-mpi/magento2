@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Model\Service;
 /**
  * Google Content Item Model
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\GoogleShopping\Model\Service
@@ -26,25 +22,25 @@ class Item extends \Magento\GoogleShopping\Model\Service
     /**
      * Date
      *
-     * @var \Magento\Stdlib\DateTime\DateTime|null
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime|null
      */
     protected $_date;
 
     /**
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\GoogleShopping\Model\Config $config
-     * @param \Magento\Gdata\Gshopping\ContentFactory $contentFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Gdata\Gshopping\ContentFactory $contentFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
     public function __construct(
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
-        \Magento\Gdata\Gshopping\ContentFactory $contentFactory,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Gdata\Gshopping\ContentFactory $contentFactory,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {
@@ -57,7 +53,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Return Store level Service Instance
      *
      * @param int $storeId
-     * @return \Magento\Gdata\Gshopping\Content
+     * @return \Magento\Framework\Gdata\Gshopping\Content
      */
     public function getService($storeId = null)
     {
@@ -83,8 +79,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
         $entry = $service->insertItem($entry);
         $published = $this->convertContentDateToTimestamp($entry->getPublished()->getText());
 
-        $item->setGcontentItemId($entry->getId())
-            ->setPublished($published);
+        $item->setGcontentItemId($entry->getId())->setPublished($published);
 
         $expires = $this->_getAttributeValue($entry, 'expiration_date');
         if ($expires) {
@@ -146,23 +141,21 @@ class Item extends \Magento\GoogleShopping\Model\Service
     /**
      * Return Google Content Item Attribute Value
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
      * @param string $name Google Content attribute name
      * @return string|null Attribute value
      */
     protected function _getAttributeValue($entry, $name)
     {
         $attribute = $entry->getContentAttributeByName($name);
-        return ($attribute instanceof \Magento\Gdata\Gshopping\Extension\Attribute)
-            ? $attribute->text
-            : null;
+        return $attribute instanceof \Magento\Framework\Gdata\Gshopping\Extension\Attribute ? $attribute->text : null;
     }
 
     /**
      * Retrieve item query for Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\Gdata\Gshopping\ItemQuery
+     * @return \Magento\Framework\Gdata\Gshopping\ItemQuery
      */
     protected function _buildItemQuery($item)
     {
@@ -172,10 +165,13 @@ class Item extends \Magento\GoogleShopping\Model\Service
         $countryInfo = $this->getConfig()->getTargetCountryInfo($storeId);
         $itemId = $this->_gsData->buildContentProductId($item->getProductId(), $item->getStoreId());
 
-        $query = $service->newItemQuery()
-            ->setId($itemId)
-            ->setTargetCountry($this->getConfig()->getTargetCountry($storeId))
-            ->setLanguage($countryInfo['language']);
+        $query = $service->newItemQuery()->setId(
+            $itemId
+        )->setTargetCountry(
+            $this->getConfig()->getTargetCountry($storeId)
+        )->setLanguage(
+            $countryInfo['language']
+        );
 
         return $query;
     }
@@ -183,14 +179,14 @@ class Item extends \Magento\GoogleShopping\Model\Service
     /**
      * Return item stats array based on Zend Gdata Entry object
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
      * @return array
      */
     protected function _getEntryStats($entry)
     {
         $result = array();
         $expirationDate = $entry->getContentAttributeByName('expiration_date');
-        if ($expirationDate instanceof \Magento\Gdata\Gshopping\Extension\Attribute) {
+        if ($expirationDate instanceof \Magento\Framework\Gdata\Gshopping\Extension\Attribute) {
             $result['expires'] = $this->convertContentDateToTimestamp($expirationDate->text);
         }
 

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,17 +10,14 @@ namespace Magento\User\Helper;
 /**
  * User data helper
  *
- * @category Magento
- * @package  Magento_User
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Configuration path to expiration period of reset password link
      */
-    const XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD
-        = 'admin/emails/password_reset_link_expiration_period';
+    const XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'admin/emails/password_reset_link_expiration_period';
 
     /**
      * @var \Magento\Backend\App\ConfigInterface
@@ -30,19 +25,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Math\Random $mathRandom
+        \Magento\Framework\Math\Random $mathRandom
     ) {
         $this->_config = $config;
         $this->mathRandom = $mathRandom;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Class Controller
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Downloader;
@@ -76,7 +72,7 @@ final class Controller
     /**
      * Connect config instance
      *
-     * @var \Magento\Connect\Config
+     * @var \Magento\Framework\Connect\Config
      */
     private $_config;
 
@@ -130,7 +126,8 @@ final class Controller
      * @param array $post post data
      * @return string FTP Url
      */
-    private function getFtpPost($post){
+    private function getFtpPost($post)
+    {
         if (empty($post['ftp_host'])) {
             $_POST['ftp'] = '';
             return '';
@@ -144,35 +141,30 @@ final class Controller
             $post['ftp_path'] = '/';
         }
 
-        $start = stripos($post['ftp_host'],'ftp://');
-        if ($start !== false){
+        $start = stripos($post['ftp_host'], 'ftp://');
+        if ($start !== false) {
             $post['ftp_proto'] = 'ftp://';
-            $post['ftp_host']  = substr($post['ftp_host'], $start + 6 - 1);
+            $post['ftp_host'] = substr($post['ftp_host'], $start + 6 - 1);
         }
-        $start = stripos($post['ftp_host'],'ftps://');
+        $start = stripos($post['ftp_host'], 'ftps://');
         if ($start !== false) {
             $post['ftp_proto'] = 'ftps://';
-            $post['ftp_host']  = substr($post['ftp_host'], $start + 7 - 1);
+            $post['ftp_host'] = substr($post['ftp_host'], $start + 7 - 1);
         }
 
         $post['ftp_host'] = trim($post['ftp_host'], '\\/');
 
-        if (!empty($post['ftp_login']) && !empty($post['ftp_password'])){
-            $ftp = sprintf("%s%s:%s@%s%s",
-                    $post['ftp_proto'],
-                    $post['ftp_login'],
-                    $post['ftp_password'],
-                    $post['ftp_host'],
-                    $post['ftp_path']
-            );
-        } elseif (!empty($post['ftp_login'])) {
+        if (!empty($post['ftp_login']) && !empty($post['ftp_password'])) {
             $ftp = sprintf(
-                "%s%s@%s%s",
+                "%s%s:%s@%s%s",
                 $post['ftp_proto'],
                 $post['ftp_login'],
+                $post['ftp_password'],
                 $post['ftp_host'],
                 $post['ftp_path']
             );
+        } elseif (!empty($post['ftp_login'])) {
+            $ftp = sprintf("%s%s@%s%s", $post['ftp_proto'], $post['ftp_login'], $post['ftp_host'], $post['ftp_path']);
         } else {
             $ftp = $post['ftp_proto'] . $post['ftp_host'] . $post['ftp_path'];
         }
@@ -226,14 +218,12 @@ final class Controller
             $this->view()->set('mage_url', dirname(dirname($_SERVER['SCRIPT_NAME'])));
             $this->view()->set(
                 'use_custom_permissions_mode',
-                $config->__get('use_custom_permissions_mode')
-                    ? $config->__get('use_custom_permissions_mode')
-                    : '0'
+                $config->__get('use_custom_permissions_mode') ? $config->__get('use_custom_permissions_mode') : '0'
             );
             $this->view()->set('mkdir_mode', decoct($config->__get('global_dir_mode')));
             $this->view()->set('chmod_file_mode', decoct($config->__get('global_file_mode')));
             $this->view()->set('protocol', $config->__get('protocol'));
-            $this->channelConfig()->setInstallView($config,$this->view());
+            $this->channelConfig()->setInstallView($config, $this->view());
 
             echo $this->view()->template('install/download.phtml');
         } elseif (!$config->sync_pear) {
@@ -251,9 +241,7 @@ final class Controller
      */
     public function emptyAction()
     {
-        $this->model('connect', true)
-            ->connect()
-            ->runHtmlConsole('Please wait, preparing for updates...');
+        $this->model('connect', true)->connect()->runHtmlConsole('Please wait, preparing for updates...');
     }
 
     /**
@@ -263,7 +251,7 @@ final class Controller
      */
     public function connectInstallAllAction()
     {
-        $p = &$_POST;
+        $p =& $_POST;
         $this->getFtpPost($p);
         $errors = $this->model('connect', true)->validateConfigPost($p);
         /* todo show errors */
@@ -277,11 +265,11 @@ final class Controller
             return;
         }
 
-        if( 1 == $p['inst_protocol']){
+        if (1 == $p['inst_protocol']) {
             $this->model('connect', true)->connect()->setRemoteConfig($this->getFtpPost($p));
         }
 
-        $this->channelConfig()->setPostData($this->config(),$p);
+        $this->channelConfig()->setPostData($this->config(), $p);
 
         $chan = $this->config()->__get('root_channel');
         $this->model('connect', true)->saveConfigPost($_POST);
@@ -342,8 +330,8 @@ final class Controller
         }
         $prepareResult = $this->model('connect', true)->prepareToInstall($_POST['install_package_id']);
 
-        $packages   = isset($prepareResult['data']) ? $prepareResult['data'] : array();
-        $errors     = isset($prepareResult['errors']) ? $prepareResult['errors'] : array();
+        $packages = isset($prepareResult['data']) ? $prepareResult['data'] : array();
+        $errors = isset($prepareResult['errors']) ? $prepareResult['errors'] : array();
 
         $this->view()->set('packages', $packages);
         $this->view()->set('errors', $errors);
@@ -378,21 +366,21 @@ final class Controller
             return;
         }
 
-        if(empty($_FILES['file'])) {
+        if (empty($_FILES['file'])) {
             echo "No file was uploaded";
             return;
         }
 
         $info =& $_FILES['file'];
 
-        if(0 !== intval($info['error'])) {
+        if (0 !== intval($info['error'])) {
             echo "File upload problem";
             return;
         }
 
         $target = $this->_mageDir . '/var/' . uniqid() . $info['name'];
         $res = move_uploaded_file($info['tmp_name'], $target);
-        if(false === $res) {
+        if (false === $res) {
             echo "Error moving uploaded file";
             return;
         }
@@ -429,11 +417,11 @@ final class Controller
 
         $this->channelConfig()->setSettingsView($this->session(), $this->view());
 
-        $fs_disabled =! $this->isWritable();
+        $fs_disabled = !$this->isWritable();
         $ftpParams = $config->__get('remote_config') ? parse_url($config->__get('remote_config')) : '';
 
         $this->view()->set('fs_disabled', $fs_disabled);
-        $this->view()->set('deployment_type', ($fs_disabled || !empty($ftpParams) ? 'ftp' : 'fs'));
+        $this->view()->set('deployment_type', $fs_disabled || !empty($ftpParams) ? 'ftp' : 'fs');
 
         if (!empty($ftpParams)) {
             $this->view()->set('ftp_host', sprintf("%s://%s", $ftpParams['scheme'], $ftpParams['host']));
@@ -517,7 +505,7 @@ final class Controller
     public static function singleton()
     {
         if (!self::$_instance) {
-            self::$_instance = new self;
+            self::$_instance = new self();
 
             if (self::$_instance->isDownloaded()) {
                 if (!class_exists('Magento', false)) {
@@ -526,11 +514,8 @@ final class Controller
                     }
                     include_once self::$_instance->getBootstrapPath();
 
-                    \Magento\App\ObjectManager::getInstance()
-                        ->get('Magento\App\State')
-                        ->setIsDownloader();
+                    \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\App\State')->setIsDownloader();
                 }
-                \Magento\App\ObjectManager::getInstance()->get('Magento\Core\Model\App');
                 if (self::isInstalled()) {
                     \Mage::getSingleton('Magento\Backend\Model\UrlInterface')->turnOffSecretKey();
                 }
@@ -570,13 +555,13 @@ final class Controller
     }
 
     /**
-     * Retrieve path for \Magento\Profiler
+     * Retrieve path for \Magento\Framework\Profiler
      *
      * @return string
      */
     public function getVarFilename()
     {
-        return $this->getMageDir() . '/lib/Magento/Profiler.php';
+        return $this->getMageDir() . '/lib/internal/Magento/Framework/Profiler.php';
     }
 
     /**
@@ -598,7 +583,7 @@ final class Controller
     public function view()
     {
         if (!$this->_view) {
-            $this->_view = new \Magento\Downloader\View;
+            $this->_view = new \Magento\Downloader\View();
         }
         return $this->_view;
     }
@@ -621,7 +606,7 @@ final class Controller
         } else {
             $class = 'Magento\Downloader\Model\\' . str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $model)));
             if (!class_exists($class, false)) {
-                include_once str_replace('_', '/', $class).'.php';
+                include_once str_replace('_', '/', $class) . '.php';
             }
         }
 
@@ -637,7 +622,7 @@ final class Controller
     /**
      * Retrieve object of config
      *
-     * @return \Magento\Connect\Config
+     * @return \Magento\Framework\Connect\Config
      */
     public function config()
     {
@@ -685,7 +670,7 @@ final class Controller
      * @param string $action
      * @return \Magento\Downloader\Controller
      */
-    public function setAction($action=null)
+    public function setAction($action = null)
     {
         if (is_null($action)) {
             if (!empty($this->_action)) {
@@ -812,7 +797,7 @@ final class Controller
             $this->_isDispatched = true;
 
             $method = $this->getActionMethod();
-            $this->$method();
+            $this->{$method}();
         }
 
         $this->processRedirect();
@@ -826,9 +811,13 @@ final class Controller
     public function isWritable()
     {
         if (is_null($this->_writable)) {
-            $this->_writable = is_writable($this->getMageDir() . '/')
-                && is_writable($this->filepath())
-                && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))));
+            $this->_writable = is_writable(
+                $this->getMageDir() . '/'
+            ) && is_writable(
+                $this->filepath()
+            ) && !file_exists(
+                $this->filepath('config.ini') || is_writable($this->filepath('config.ini'))
+            );
         }
         return $this->_writable;
     }
@@ -871,13 +860,14 @@ final class Controller
 
     /**
      * Retrieve Maintenance Flag file path
+     * Path for maintenance flag: web_root/var/maintenance.flag
      *
      * @return string
      */
     protected function _getMaintenanceFilePath()
     {
         if (is_null($this->_maintenanceFile)) {
-            $path = dirname(dirname(__DIR__)) . '/';
+            $path = dirname(dirname(__DIR__)) . '/var/';
             $this->_maintenanceFile = $path . 'maintenance.flag';
         }
         return $this->_maintenanceFile;
@@ -887,17 +877,17 @@ final class Controller
      * Begin install package(s)
      *
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function startInstall()
     {
         if ($this->_getMaintenanceFlag()) {
-            $maintenance_filename='maintenance.flag';
+            $maintenance_filename = 'var/maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() || strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new \Magento\Connect\Ftp();
+                $ftpObj = new \Magento\Framework\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
-                $tempFile = tempnam(sys_get_temp_dir(),'maintenance');
+                $tempFile = tempnam(sys_get_temp_dir(), 'maintenance');
                 @file_put_contents($tempFile, 'maintenance');
                 $ftpObj->upload($maintenance_filename, $tempFile);
                 $ftpObj->close();
@@ -913,8 +903,10 @@ final class Controller
             $isSuccess = true;
 
             if (!preg_match('/^[a-zA-Z0-9\ ]{0,50}$/', $backupName)) {
-                $connect->runHtmlConsole('Please use only letters (a-z or A-Z), numbers (0-9) or space in '
-                    . 'Backup Name field. Other characters are not allowed.');
+                $connect->runHtmlConsole(
+                    'Please use only letters (a-z or A-Z), numbers (0-9) or space in ' .
+                    'Backup Name field. Other characters are not allowed.'
+                );
                 $isSuccess = false;
             }
 
@@ -925,7 +917,7 @@ final class Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new \Magento\Exception(
+                throw new \Magento\Framework\Exception(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }
@@ -942,7 +934,7 @@ final class Controller
         //$connect
         /** @var $connect \Magento\Downloader\Model\Connect */
         $frontend = $this->model('connect', true)->connect()->getFrontend();
-        if (!($frontend instanceof \Magento\Downloader\Connect\Frontend)) {
+        if (!$frontend instanceof \Magento\Downloader\Connect\Frontend) {
             $this->cleanCache();
         }
     }
@@ -965,9 +957,8 @@ final class Controller
                 // reinit config and apply all updates
                 \Mage::app()->getConfig()->reinit();
 
-                /** @var $updater \Magento\Module\UpdaterInterface*/
-                $updater = \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Module\UpdaterInterface');
+                /** @var $updater \Magento\Framework\Module\UpdaterInterface*/
+                $updater = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Module\UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
@@ -976,15 +967,15 @@ final class Controller
             }
         } catch (\Exception $e) {
             $result = false;
-            $message = "Exception during cache and session cleaning: ".$e->getMessage();
+            $message = "Exception during cache and session cleaning: " . $e->getMessage();
             $this->session()->addMessage('error', $message);
         }
 
         if ($result && $this->_getMaintenanceFlag()) {
-            $maintenance_filename='maintenance.flag';
+            $maintenance_filename = 'var/maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() && strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new \Magento\Connect\Ftp();
+                $ftpObj = new \Magento\Framework\Connect\Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $ftpObj->delete($maintenance_filename);
                 $ftpObj->close();
@@ -1005,9 +996,8 @@ final class Controller
     {
         $i = self::getVersionInfo();
         return trim(
-            "{$i['major']}.{$i['minor']}.{$i['revision']}"
-                . ($i['patch'] != '' ? ".{$i['patch']}" : "")
-                . "-{$i['stability']}{$i['number']}",
+            "{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] !=
+            '' ? ".{$i['patch']}" : "") . "-{$i['stability']}{$i['number']}",
             '.-'
         );
     }
@@ -1021,12 +1011,12 @@ final class Controller
     public static function getVersionInfo()
     {
         return array(
-            'major'     => '1',
-            'minor'     => '5',
-            'revision'  => '0',
-            'patch'     => '0',
+            'major' => '1',
+            'minor' => '5',
+            'revision' => '0',
+            'patch' => '0',
             'stability' => 'rc',
-            'number'    => '2',
+            'number' => '2'
         );
     }
 
@@ -1037,7 +1027,8 @@ final class Controller
      * @param string $archiveName
      * @return bool
      */
-    protected function _createBackup($archiveType, $archiveName){
+    protected function _createBackup($archiveType, $archiveName)
+    {
         /** @var $connect \Magento\Downloader\Connect */
         $connect = $this->model('connect', true)->connect();
         $connect->runHtmlConsole('Creating backup...');
@@ -1047,31 +1038,38 @@ final class Controller
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
 
-            $backupManager = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Backup\Factory')
-                ->create($type)
-                ->setBackupExtension($this->_getExtensionType($type))
-                ->setTime(time())
-                ->setName($archiveName)
-                ->setBackupsDir(\Mage::getBaseDir('var') . '/backups');
+            $backupManager = \Magento\Core\Model\ObjectManager::getInstance()->get(
+                'Magento\Framework\Backup\Factory'
+            )->create(
+                $type
+            )->setBackupExtension(
+                $this->_getExtensionType($type)
+            )->setTime(
+                time()
+            )->setName(
+                $archiveName
+            )->setBackupsDir(
+                \Mage::getBaseDir('var') . '/backups'
+            );
 
-            \Magento\App\ObjectManager::getInstance()
-                ->get('Magento\Registry')
-                ->register('backup_manager', $backupManager);
+            \Magento\Framework\App\ObjectManager::getInstance()->get(
+                'Magento\Framework\Registry'
+            )->register(
+                'backup_manager',
+                $backupManager
+            );
 
-            if ($type != \Magento\Backup\Factory::TYPE_DB) {
-                $backupManager->setRootDir(\Mage::getBaseDir())
-                    ->addIgnorePaths($this->_getBackupIgnorePaths());
+            if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
+                $backupManager->setRootDir(\Mage::getBaseDir())->addIgnorePaths($this->_getBackupIgnorePaths());
             }
             $backupManager->create();
-            $connect->runHtmlConsole(
-                $this->_getCreateBackupSuccessMessageByType($type)
-            );
+            $connect->runHtmlConsole($this->_getCreateBackupSuccessMessageByType($type));
             $isSuccess = true;
-        } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
-        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
+        } catch (\Magento\Framework\Backup\Exception\NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
-        } catch (\Exception  $e) {
+        } catch (\Exception $e) {
             $connect->runHtmlConsole('An error occurred while creating the backup.');
         }
 
@@ -1085,10 +1083,10 @@ final class Controller
     protected function _getExtensionType($type)
     {
         $extensionType = array(
-            \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'tgz',
-            \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
-            \Magento\Backup\Factory::TYPE_MEDIA => 'tgz',
-            \Magento\Backup\Factory::TYPE_DB => 'gz'
+            \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'tgz',
+            \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'tgz',
+            \Magento\Framework\Backup\Factory::TYPE_MEDIA => 'tgz',
+            \Magento\Framework\Backup\Factory::TYPE_DB => 'gz'
         );
 
         return $extensionType[$type];
@@ -1102,7 +1100,7 @@ final class Controller
         return array(
             '.git',
             '.svn',
-            'maintenance.flag',
+            'var/maintenance.flag',
             \Mage::getBaseDir('var') . '/session',
             \Mage::getBaseDir('var') . '/cache',
             \Mage::getBaseDir('var') . '/full_page_cache',
@@ -1121,10 +1119,10 @@ final class Controller
     protected function _getBackupTypeByCode($code)
     {
         $typeMap = array(
-            1 => \Magento\Backup\Factory::TYPE_DB,
-            2 => \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT,
-            3 => \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA,
-            4 => \Magento\Backup\Factory::TYPE_MEDIA
+            1 => \Magento\Framework\Backup\Factory::TYPE_DB,
+            2 => \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT,
+            3 => \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+            4 => \Magento\Framework\Backup\Factory::TYPE_MEDIA
         );
 
         if (!isset($typeMap[$code])) {
@@ -1143,10 +1141,11 @@ final class Controller
     protected function _getCreateBackupSuccessMessageByType($type)
     {
         $messagesMap = array(
-            \Magento\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
-            \Magento\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
-            \Magento\Backup\Factory::TYPE_MEDIA => 'Database and media backup has been created',
-            \Magento\Backup\Factory::TYPE_DB => 'Database backup has been created'
+            \Magento\Framework\Backup\Factory::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
+            \Magento\Framework\Backup\Factory::TYPE_SNAPSHOT_WITHOUT_MEDIA =>
+                'System (excluding Media) backup has been created',
+            \Magento\Framework\Backup\Factory::TYPE_MEDIA => 'Database and media backup has been created',
+            \Magento\Framework\Backup\Factory::TYPE_DB => 'Database backup has been created'
         );
 
         if (!isset($messagesMap[$type])) {

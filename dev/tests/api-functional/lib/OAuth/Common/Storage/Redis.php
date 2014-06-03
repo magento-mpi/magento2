@@ -43,13 +43,11 @@ class Redis implements TokenStorageInterface
      */
     public function retrieveAccessToken($service)
     {
-        if (!$this->hasAccessToken($service))
-        {
+        if (!$this->hasAccessToken($service)) {
             throw new TokenNotFoundException('Token not found in redis');
         }
 
-        if (isset($this->cachedTokens[$service]))
-        {
+        if (isset($this->cachedTokens[$service])) {
             return $this->cachedTokens[$service];
         }
 
@@ -73,13 +71,11 @@ class Redis implements TokenStorageInterface
     }
 
     /**
-    * @return bool
-    */
+     * @return bool
+     */
     public function hasAccessToken($service)
     {
-        if (isset($this->cachedTokens[$service]) &&
-            $this->cachedTokens[$service] instanceof TokenInterface)
-        {
+        if (isset($this->cachedTokens[$service]) && $this->cachedTokens[$service] instanceof TokenInterface) {
             return true;
         }
 
@@ -87,8 +83,8 @@ class Redis implements TokenStorageInterface
     }
 
     /**
-    * Delete the users token. Aka, log out.
-    */
+     * Delete the users token. Aka, log out.
+     */
     public function clearToken()
     {
         // memory
@@ -96,18 +92,19 @@ class Redis implements TokenStorageInterface
 
         // redis
         $keys = $this->redis->hkeys($this->key);
-        $me = $this; // 5.3 compat
+        $me = $this;
+        // 5.3 compat
 
         // pipeline for performance
-        $this->redis->pipeline(function($pipe) use($keys, $me) {
+        $this->redis->pipeline(
+            function ($pipe) use ($keys, $me) {
 
-            foreach ($keys as $k) {
+                foreach ($keys as $k) {
 
-                $pipe->hdel($me->getKey(), $k);
-
+                    $pipe->hdel($me->getKey(), $k);
+                }
             }
-
-        });
+        );
 
         // allow chaining
         return $this;

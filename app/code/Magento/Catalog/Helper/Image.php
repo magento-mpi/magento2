@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
 
-use Magento\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\AbstractHelper;
 
 /**
  * Catalog image helper
@@ -95,16 +92,16 @@ class Image extends AbstractHelper
     protected $_placeholder;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewUrl;
+    protected $_assetRepo;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Product image factory
@@ -114,21 +111,21 @@ class Image extends AbstractHelper
     protected $_productImageFactory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
-        \Magento\View\Url $viewUrl,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_viewUrl = $viewUrl;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_assetRepo = $assetRepo;
     }
 
     /**
@@ -159,7 +156,7 @@ class Image extends AbstractHelper
      * @param string|null $imageFile
      * @return $this
      */
-    public function init(\Magento\Catalog\Model\Product $product, $attributeName, $imageFile=null)
+    public function init(\Magento\Catalog\Model\Product $product, $attributeName, $imageFile = null)
     {
         $this->_reset();
         $this->_setModel($this->_productImageFactory->create());
@@ -167,16 +164,28 @@ class Image extends AbstractHelper
         $this->setProduct($product);
 
         $this->setWatermark(
-            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image")
+            $this->_scopeConfig->getValue(
+                "design/watermark/{$this->_getModel()->getDestinationSubdir()}_image",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
         );
         $this->setWatermarkImageOpacity(
-            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity")
+            $this->_scopeConfig->getValue(
+                "design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
         );
         $this->setWatermarkPosition(
-            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position")
+            $this->_scopeConfig->getValue(
+                "design/watermark/{$this->_getModel()->getDestinationSubdir()}_position",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
         );
         $this->setWatermarkSize(
-            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size")
+            $this->_scopeConfig->getValue(
+                "design/watermark/{$this->_getModel()->getDestinationSubdir()}_size",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
         );
 
         if ($imageFile) {
@@ -327,10 +336,15 @@ class Image extends AbstractHelper
      */
     public function watermark($fileName, $position, $size = null, $imageOpacity = null)
     {
-        $this->setWatermark($fileName)
-            ->setWatermarkPosition($position)
-            ->setWatermarkSize($size)
-            ->setWatermarkImageOpacity($imageOpacity);
+        $this->setWatermark(
+            $fileName
+        )->setWatermarkPosition(
+            $position
+        )->setWatermarkSize(
+            $size
+        )->setWatermarkImageOpacity(
+            $imageOpacity
+        );
         return $this;
     }
 
@@ -404,7 +418,7 @@ class Image extends AbstractHelper
     protected function getDefaultPlaceholderUrl()
     {
         try {
-            $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
+            $url = $this->_assetRepo->getUrl($this->getPlaceholder());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
             $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
@@ -607,10 +621,7 @@ class Image extends AbstractHelper
     {
         $size = explode('x', strtolower($string));
         if (sizeof($size) == 2) {
-            return array(
-                'width' => ($size[0] > 0) ? $size[0] : null,
-                'heigth' => ($size[1] > 0) ? $size[1] : null,
-            );
+            return array('width' => $size[0] > 0 ? $size[0] : null, 'heigth' => $size[1] > 0 ? $size[1] : null);
         }
         return false;
     }
@@ -643,9 +654,6 @@ class Image extends AbstractHelper
      */
     public function getOriginalSizeArray()
     {
-        return array(
-            $this->getOriginalWidth(),
-            $this->getOriginalHeight()
-        );
+        return array($this->getOriginalWidth(), $this->getOriginalHeight());
     }
 }

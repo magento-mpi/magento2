@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Model;
 
 /**
  * Newsletter session model
  */
-class Session extends \Magento\Session\Generic
+class Session extends \Magento\Framework\Session\Generic
 {
     /**
      * Set error message

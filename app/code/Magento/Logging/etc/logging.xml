@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -137,7 +135,7 @@
         <group name="core_urlrewrites">
             <label translate="true">URL Redirects</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Url\Rewrite" />
+                <expected_model class="Magento\UrlRewrite\Model\UrlRewrite" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
@@ -165,7 +163,7 @@
         <group name="rating">
             <label translate="true">Catalog Ratings</label>
             <expected_models>
-                <expected_model class="Magento\Rating\Model\Rating" />
+                <expected_model class="Magento\Review\Model\Rating" />
             </expected_models>
             <events>
                 <event controller_action="rating_edit" action_alias="view" />
@@ -179,17 +177,17 @@
                 <expected_model class="Magento\Review\Model\Review" />
             </expected_models>
             <events>
-                <event controller_action="catalog_product_review_edit"
+                <event controller_action="review_product_edit"
                        action_alias="view" />
-                <event controller_action="catalog_product_review_save"
+                <event controller_action="review_product_save"
                        action_alias="save" />
-                <event controller_action="catalog_product_review_post"
+                <event controller_action="review_product_post"
                        action_alias="save" />
-                <event controller_action="catalog_product_review_delete"
+                <event controller_action="review_product_delete"
                        action_alias="delete" />
-                <event controller_action="catalog_product_review_massUpdateStatus"
+                <event controller_action="review_product_massUpdateStatus"
                        action_alias="massUpdate" />
-                <event controller_action="catalog_product_review_massDelete"
+                <event controller_action="review_product_massDelete"
                        action_alias="massDelete" />
             </events>
         </group>
@@ -870,7 +868,7 @@
         <group name="sales_agreement">
             <label translate="true">Checkout Terms and Conditions</label>
             <expected_models>
-                <expected_model class="Magento\Checkout\Model\Agreement" />
+                <expected_model class="Magento\CheckoutAgreements\Model\Agreement" />
             </expected_models>
             <events>
                 <event controller_action="checkout_agreement_edit"
@@ -920,15 +918,15 @@
         <group name="adminhtml_system_websites">
             <label translate="true">Manage Websites</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Website" />
+                <expected_model class="Magento\Store\Model\Website" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editWebsite"
                        action_alias="view" />
                 <event controller_action="adminhtml_system_store_save" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento\Core\Model\Store\Group" />
-                        <expected_model class="Magento\Core\Model\Store" />
+                        <expected_model class="Magento\Store\Model\Store" />
+                        <expected_model class="Magento\Store\Model\Store" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_system_store_deleteWebsitePost"
@@ -938,7 +936,7 @@
         <group name="adminhtml_system_store_groups">
             <label translate="true">Manage Stores</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Store" />
+                <expected_model class="Magento\Store\Model\Store" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editStore"
@@ -950,7 +948,7 @@
         <group name="adminhtml_system_stores">
             <label translate="true">Manage Store Views</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Store\Group" />
+                <expected_model class="Magento\Store\Model\Store" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_deleteGroupPost"

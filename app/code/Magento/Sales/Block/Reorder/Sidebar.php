@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,11 @@ namespace Magento\Sales\Block\Reorder;
 
 /**
  * Sales order view block
+ *
+ * @method Sidebar setOrders(\Magento\Sales\Model\Resource\Order\Collection $ordersCollection)
+ * @method \Magento\Sales\Model\Resource\Order\Collection|null getOrders()
  */
-class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Sidebar extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var string
@@ -35,22 +36,30 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -63,7 +72,7 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
     protected function _construct()
     {
         parent::_construct();
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             $this->initOrders();
         }
     }
@@ -75,16 +84,23 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     public function initOrders()
     {
-        $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : $this->_customerSession->getCustomer()->getId();
+        $customerId = $this->getCustomerId()
+            ? $this->getCustomerId()
+            : $this->_customerSession->getCustomerId();
 
-        $orders = $this->_orderCollectionFactory->create()
-            ->addAttributeToFilter('customer_id', $customerId)
-            ->addAttributeToFilter('state',
-                array('in' => $this->_orderConfig->getVisibleOnFrontStates())
-            )
-            ->addAttributeToSort('created_at', 'desc')
-            ->setPage(1, 1);
+        $orders = $this->_orderCollectionFactory->create()->addAttributeToFilter(
+            'customer_id',
+            $customerId
+        )->addAttributeToFilter(
+            'status',
+            array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
+        )->addAttributeToSort(
+            'created_at',
+            'desc'
+        )->setPage(
+            1,
+            1
+        );
         //TODO: add filter by current website
 
         $this->setOrders($orders);
@@ -160,7 +176,8 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     protected function _toHtml()
     {
-        return $this->_customerSession->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
+        $isValid = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH) || $this->getCustomerId();
+        return $isValid ? parent::_toHtml() : '';
     }
 
     /**

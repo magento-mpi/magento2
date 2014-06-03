@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\DataObjectSerialization;
 
 class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
@@ -24,7 +23,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     {
         $this->_markTestAsRestOnly();
         $this->_version = 'V1';
-        $this->_restResourcePath = "/$this->_version/testmodule4/";
+        $this->_restResourcePath = "/{$this->_version}/testmodule4/";
     }
 
     /**
@@ -40,7 +39,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             )
         );
-        $item = $this->_webApiCall($serviceInfo, []);
+        $item = $this->_webApiCall($serviceInfo, array());
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
@@ -58,7 +57,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             )
         );
-        $item = $this->_webApiCall($serviceInfo, ['request' => ['name' => $name]]);
+        $item = $this->_webApiCall($serviceInfo, array('request' => array('name' => $name)));
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
@@ -72,11 +71,11 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
         $name = 'Test';
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => $this->_restResourcePath . $itemId.'/nested',
+                'resourcePath' => $this->_restResourcePath . $itemId . '/nested',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             )
         );
-        $item = $this->_webApiCall($serviceInfo, ['request' => ['details' => ['name' => $name]]]);
+        $item = $this->_webApiCall($serviceInfo, array('request' => array('details' => array('name' => $name))));
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }

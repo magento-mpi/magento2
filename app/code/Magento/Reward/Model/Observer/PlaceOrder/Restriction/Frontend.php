@@ -7,8 +7,7 @@
  */
 namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
 
-class Frontend
-    implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
+class Frontend implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
 {
     /**
      * Reward data

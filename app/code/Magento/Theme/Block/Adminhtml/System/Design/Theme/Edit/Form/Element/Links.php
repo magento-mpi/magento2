@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,19 +13,18 @@
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
 
-class Links
-    extends \Magento\Data\Form\Element\AbstractElement
+class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
@@ -49,7 +46,8 @@ class Links
             }
         }
 
-        $html = sprintf('<div id="%s" %s>%s%s</div><br />%s%s',
+        $html = sprintf(
+            '<div id="%s" %s>%s%s</div><br />%s%s',
             $this->getHtmlId(),
             $this->serialize($this->getHtmlAttributes()),
             PHP_EOL,
@@ -77,7 +75,8 @@ class Links
             $attributes[] = $title . '="' . $this->_escape($value) . '"';
         }
 
-        $html = sprintf('<a %s>%s</a>%s',
+        $html = sprintf(
+            '<a %s>%s</a>%s',
             join(' ', $attributes),
             $this->_escape($option['label']),
             isset($option['delimiter']) ? $option['delimiter'] : ''
@@ -93,8 +92,27 @@ class Links
      */
     public function getHtmlAttributes()
     {
-        return array('rel', 'rev', 'accesskey', 'class', 'style', 'tabindex', 'onmouseover',
-                     'title', 'xml:lang', 'onblur', 'onclick', 'ondblclick', 'onfocus', 'onmousedown',
-                     'onmousemove', 'onmouseout', 'onmouseup', 'onkeydown', 'onkeypress', 'onkeyup');
+        return array(
+            'rel',
+            'rev',
+            'accesskey',
+            'class',
+            'style',
+            'tabindex',
+            'onmouseover',
+            'title',
+            'xml:lang',
+            'onblur',
+            'onclick',
+            'ondblclick',
+            'onfocus',
+            'onmousedown',
+            'onmousemove',
+            'onmouseout',
+            'onmouseup',
+            'onkeydown',
+            'onkeypress',
+            'onkeyup'
+        );
     }
 }

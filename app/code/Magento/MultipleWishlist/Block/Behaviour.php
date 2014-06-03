@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Behaviour block
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\MultipleWishlist\Block;
 
-class Behaviour extends \Magento\View\Element\Template
+class Behaviour extends \Magento\Framework\View\Element\Template
 {
     /**
      * Wishlist data
@@ -27,28 +23,32 @@ class Behaviour extends \Magento\View\Element\Template
     protected $_wishlistData = null;
 
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * {@inheritdoc}
+     *
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -99,7 +99,7 @@ class Behaviour extends \Magento\View\Element\Template
      */
     public function canCreateWishlists($wishlistList)
     {
-        $customerId = $this->_customerSession->getCustomerId();
+        $customerId = $this->currentCustomer->getCustomerId();
         return !$this->_wishlistData->isWishlistLimitReached($wishlistList) && $customerId;
     }
 
@@ -111,7 +111,7 @@ class Behaviour extends \Magento\View\Element\Template
     public function getWishlistShortList()
     {
         $wishlistData = array();
-        foreach($this->getWishlists() as $wishlist){
+        foreach ($this->getWishlists() as $wishlist) {
             $wishlistData[] = array('id' => $wishlist->getId(), 'name' => $wishlist->getName());
         }
         return $wishlistData;

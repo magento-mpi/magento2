@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +9,6 @@
 /**
  * UIMap helper class
  *
- * @package     selenium
- * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
@@ -83,7 +78,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         if (isset($configUimap[$baseCodePoolName])) {
             foreach ($configUimap[$baseCodePoolName] as $area => $areaFiles) {
                 foreach ($areaFiles as $file) {
-                    $explode = explode(DIRECTORY_SEPARATOR, $file);
+                    $explode = explode('/', $file);
                     $fileName = trim(end($explode), '.yml');
                     $this->_uimapFilesData[$area][$fileName][] = $file;
                     foreach ($codePoolNames as $codePoolName) {

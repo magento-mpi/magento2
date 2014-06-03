@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 /**
@@ -25,10 +21,13 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Catalog\Block\Product\ListProduct');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Catalog\Block\Product\ListProduct'
+        );
     }
 
     public function testGetLayer()
@@ -40,10 +39,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setShowRootCategory(true);
         $collection = $this->_block->getLoadedProductCollection();
-        $this->assertInstanceOf(
-            'Magento\Catalog\Model\Resource\Product\Collection',
-            $collection
-        );
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Collection', $collection);
         /* Check that root category was defined for Layer as current */
         $this->assertEquals(2, $this->_block->getLayer()->getCurrentCategory()->getId());
     }
@@ -70,7 +66,6 @@ class ListTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($parent->getToolbarHtml(), 'Toolbar HTML'); /* toolbar for one simple product */
     }
 
-
     public function testGetAdditionalHtmlEmpty()
     {
         $this->_block->setLayout($this->_getLayout());
@@ -83,7 +78,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
         /** @var $parent \Magento\Catalog\Block\Product\ListProduct */
         $parent = $layout->createBlock('Magento\Catalog\Block\Product\ListProduct');
         $childBlock = $layout->createBlock(
-            'Magento\View\Element\Text',
+            'Magento\Framework\View\Element\Text',
             'test',
             array('data' => array('text' => 'test'))
         );
@@ -107,8 +102,9 @@ class ListTest extends \PHPUnit_Framework_TestCase
     public function testPrepareSortableFieldsByCategory()
     {
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());
@@ -116,6 +112,8 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function _getLayout()
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
     }
 }

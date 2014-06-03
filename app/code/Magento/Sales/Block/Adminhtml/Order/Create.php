@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order;
 /**
  * Adminhtml sales order create
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Create extends \Magento\Backend\Block\Widget\Form\Container
@@ -55,7 +51,7 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         $this->setId('sales_order_create');
 
         $customerId = $this->_sessionQuote->getCustomerId();
-        $storeId    = $this->_sessionQuote->getStoreId();
+        $storeId = $this->_sessionQuote->getStoreId();
 
 
         $this->_updateButton('save', 'label', __('Submit Order'));
@@ -83,7 +79,11 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         $confirm = __('Are you sure you want to cancel this order?');
         $this->_updateButton('reset', 'label', __('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
-        $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
+        $this->_updateButton(
+            'reset',
+            'onclick',
+            'deleteConfirm(\'' . $confirm . '\', \'' . $this->getCancelUrl() . '\')'
+        );
 
         $pageTitle = $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\Create\Header')->toHtml();
         if (is_object($this->getLayout()->getBlock('page-title'))) {
@@ -98,9 +98,9 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderHtml()
     {
-        $out = '<div id="order-header">'
-            . $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\Create\Header')->toHtml()
-            . '</div>';
+        $out = '<div id="order-header">' . $this->getLayout()->createBlock(
+            'Magento\Sales\Block\Adminhtml\Order\Create\Header'
+        )->toHtml() . '</div>';
         return $out;
     }
 
@@ -132,9 +132,7 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
     public function getCancelUrl()
     {
         if ($this->_sessionQuote->getOrder()->getId()) {
-            $url = $this->getUrl('sales/order/view', array(
-                'order_id' => $this->_sessionQuote->getOrder()->getId()
-            ));
+            $url = $this->getUrl('sales/order/view', array('order_id' => $this->_sessionQuote->getOrder()->getId()));
         } else {
             $url = $this->getUrl('sales/*/cancel');
         }

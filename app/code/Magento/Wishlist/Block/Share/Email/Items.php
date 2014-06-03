@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Wishlist block customer items
  *
- * @category   Magento
- * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Block\Share\Email;
@@ -62,7 +58,7 @@ class Items extends \Magento\Wishlist\Block\AbstractBlock
     {
         $hasDescription = parent::hasDescription($item);
         if ($hasDescription) {
-            return ($item->getDescription() !== $this->_wishlistHelper->defaultCommentString());
+            return $item->getDescription() !== $this->_wishlistHelper->defaultCommentString();
         }
         return $hasDescription;
     }

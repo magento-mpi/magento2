@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,10 +20,8 @@ class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
-    public function __construct(
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\CustomerBalance\Helper\Data $customerBalanceData, array $data = array())
+    {
         $this->_customerBalanceData = $customerBalanceData;
         parent::__construct($data);
     }
@@ -42,7 +38,9 @@ class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
             return $this;
         }
         $order = $invoice->getOrder();
-        if ($order->getBaseCustomerBalanceAmount() && $order->getBaseCustomerBalanceInvoiced() != $order->getBaseCustomerBalanceAmount()) {
+        if ($order->getBaseCustomerBalanceAmount() &&
+            $order->getBaseCustomerBalanceInvoiced() != $order->getBaseCustomerBalanceAmount()
+        ) {
             $gcaLeft = $order->getBaseCustomerBalanceAmount() - $order->getBaseCustomerBalanceInvoiced();
             $used = 0;
             $baseUsed = 0;
@@ -56,8 +54,8 @@ class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
                 $baseUsed = $order->getBaseCustomerBalanceAmount() - $order->getBaseCustomerBalanceInvoiced();
                 $used = $order->getCustomerBalanceAmount() - $order->getCustomerBalanceInvoiced();
 
-                $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal()-$baseUsed);
-                $invoice->setGrandTotal($invoice->getGrandTotal()-$used);
+                $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() - $baseUsed);
+                $invoice->setGrandTotal($invoice->getGrandTotal() - $used);
             }
 
             $invoice->setBaseCustomerBalanceAmount($baseUsed);

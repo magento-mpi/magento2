@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +21,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
     }
 
@@ -42,14 +40,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton getter
-        $otherProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $otherProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $otherProduct->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $customTypeInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Bundle\Model\Product\Type');
+        $customTypeInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Bundle\Model\Product\Type'
+        );
         $this->_model->setTypeInstance($customTypeInstance);
         $this->assertSame($customTypeInstance, $this->_model->getTypeInstance());
     }
@@ -61,13 +61,27 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
-            ->setAttributeSetId(4)
-            ->setName('Bundle Product')->setSku(uniqid())->setPrice(10)
-            ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
-            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-            ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ;
+        $this->_model->setTypeId(
+            \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+        )->setAttributeSetId(
+            4
+        )->setName(
+            'Bundle Product'
+        )->setSku(
+            uniqid()
+        )->setPrice(
+            10
+        )->setMetaTitle(
+            'meta title'
+        )->setMetaKeyword(
+            'meta keyword'
+        )->setMetaDescription(
+            'meta description'
+        )->setVisibility(
+            \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
+        )->setStatus(
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        );
         $crud = new \Magento\TestFramework\Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
     }

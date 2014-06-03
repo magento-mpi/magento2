@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\System\Config;
 
 class PriceScopeTest extends \PHPUnit_Framework_TestCase
@@ -33,14 +29,18 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_indexerMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer', array('load', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer',
+            array('load', 'invalidate'),
+            array(),
+            '',
+            false
         );
         $this->_indexerMock->expects($this->any())->method('load')->will($this->returnValue($this->_indexerMock));
 
-        $contextMock = $this->getMock('Magento\Model\Context', array(), array(), '', false);
-        $registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
-        $configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
+        $registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
 
         $this->_model = $this->_objectManager->getObject(
@@ -50,7 +50,7 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
                 'registry' => $registryMock,
                 'storeManager' => $storeManagerMock,
                 'config' => $configMock,
-                'indexer' => $this->_indexerMock,
+                'indexer' => $this->_indexerMock
             )
         );
     }

@@ -5,8 +5,6 @@
  *
  * {license_notice}
  *
- * @category   dev
- * @package    build
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -90,8 +88,19 @@
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
+        <condition property="env.bamboo_mtf_repository" value="git://github.scm.corp.ebay.com/mtf/mtf.git">
+            <not><isset property="env.bamboo_mtf_repository"/></not>
+        </condition>
+        <condition property="env.bamboo_mtf_branch" value="develop">
+            <not><isset property="env.bamboo_mtf_branch"/></not>
+        </condition>
+        <replace file="${basedir}/dev/tests/functional/composer.json">
+            <replacefilter token="{{mtf_repository}}" value="${env.bamboo_mtf_repository}"/>
+            <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
+        </replace>
+
         <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install"/>
+            <arg line="install --prefer-source --no-interaction"/>
         </exec>
 
         <script language="javascript"><![CDATA[
@@ -197,8 +206,19 @@
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
+        <condition property="env.bamboo_mtf_repository" value="git://github.scm.corp.ebay.com/mtf/mtf.git">
+            <not><isset property="env.bamboo_mtf_repository"/></not>
+        </condition>
+        <condition property="env.bamboo_mtf_branch" value="develop">
+            <not><isset property="env.bamboo_mtf_branch"/></not>
+        </condition>
+        <replace file="${basedir}/dev/tests/functional/composer.json">
+            <replacefilter token="{{mtf_repository}}" value="${env.bamboo_mtf_repository}"/>
+            <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
+        </replace>
+
         <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install"/>
+            <arg line="install --prefer-source --no-interaction"/>
         </exec>
 
         <script language="javascript"><![CDATA[
@@ -223,6 +243,7 @@
 
         <exec executable="phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
+                --bootstrap config/bootstrap-with-cleanup-enabled.php
                  ${env.bamboo_executer_options}
                 "/>
         </exec>
@@ -232,7 +253,6 @@
         <copy todir="${dir.build_directory}/instance-${instanceIndex}" failonerror="true">
             <fileset dir="${basedir}"/>
         </copy>
-        <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/pub/cache"/>
 
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/var/logs"/>
         <mkdir dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/var/screenshots"/>
@@ -246,6 +266,10 @@
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}"/>
         </antcall>
 
+        <chmod perm="a+w">
+            <dirset file="${dir.build_directory}/instance-${instanceIndex}"/>
+        </chmod>
+
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install.php">
             <replacefilter token="{{db_model}}" value="${env.db_model}"/>
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
@@ -255,6 +279,10 @@
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
             <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
+
+        <condition property="env.bamboo_tests_configuration" value="basic">
+            <not><isset property="env.bamboo_tests_configuration"/></not>
+        </condition>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/server.yml.dist">
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
@@ -266,6 +294,7 @@
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
             <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{tests_configuration}}" value="${env.bamboo_tests_configuration}" />
         </replace>
 
         <!-- Adds the parallelized instances to the phpunit.xml -->

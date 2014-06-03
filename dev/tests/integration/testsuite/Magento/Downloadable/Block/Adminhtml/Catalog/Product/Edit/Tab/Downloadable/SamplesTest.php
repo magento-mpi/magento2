@@ -2,24 +2,23 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
-class SamplesTest
-    extends \PHPUnit_Framework_TestCase
+class SamplesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetUploadButtonsHtml()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
-        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinksTest
-            ::performUploadButtonTest($block);
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples'
+        );
+        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinksTest::performUploadButtonTest(
+            $block
+        );
     }
 
     /**
@@ -29,10 +28,17 @@ class SamplesTest
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')
-            ->register('current_product', new \Magento\Object(array('type_id' => 'simple')));
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
+        $objectManager->get(
+            'Magento\Framework\Registry'
+        )->register(
+            'current_product',
+            new \Magento\Framework\Object(array('type_id' => 'simple'))
+        );
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples'
+        );
         $this->assertEmpty($block->getSampleData());
     }
 
@@ -51,13 +57,23 @@ class SamplesTest
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_product', new \Magento\Object(array(
-            'type_id' => $productType,
-            'id' => '1',
-            'samples_title' => $samplesTitle
-        )));
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
+        $objectManager->get(
+            'Magento\Framework\Registry'
+        )->register(
+            'current_product',
+            new \Magento\Framework\Object(
+                array(
+                    'type_id' => $productType,
+                    'id' => '1',
+                    'samples_title' => $samplesTitle
+                )
+            )
+        );
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples'
+        );
         $this->assertEquals($expectedResult, $block->getSamplesTitle());
     }
 
@@ -68,7 +84,7 @@ class SamplesTest
      */
     public function productSamplesTitleDataProvider()
     {
-        return array (
+        return array(
             array('simple', null, 'Samples Title Test'),
             array('simple', 'Samples Title', 'Samples Title Test'),
             array('virtual', null, 'Samples Title Test'),

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,63 +24,28 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     protected $typeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
-     * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $coreData,
             $itemFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -105,7 +68,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }
@@ -161,33 +124,27 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         $type = $this->typeFactory->create()->load($typeId);
 
         $attributes = array_merge(
-            array(
-                'title' => __('Event'),
-                'registrants' => __('Recipient')
-            ),
+            array('title' => __('Event'), 'registrants' => __('Recipient')),
             $type->getListedAttributes(),
-            array(
-                'customer_name' => __('Registry owner'),
-                'message' => __('Message')
-            )
+            array('customer_name' => __('Registry owner'), 'message' => __('Message'))
         );
 
         $result = array();
         foreach ($attributes as $attributeCode => $attributeTitle) {
-            switch($attributeCode) {
-                case 'customer_name' :
+            switch ($attributeCode) {
+                case 'customer_name':
                     $attributeValue = $this->getEntity()->getCustomer()->getName();
                     break;
-                case 'event_date' :
+                case 'event_date':
                     $attributeValue = $this->getFormattedDate($this->getEntity()->getEventDate());
                     break;
-                 case 'event_country' :
+                case 'event_country':
                     $attributeValue = $this->getCountryName($this->getEntity()->getEventCountry());
                     break;
-                 case 'role' :
+                case 'role':
                     $attributeValue = $this->getRegistrantRoles($attributeCode, $type);
                     break;
-                default :
+                default:
                     $attributeValue = $this->getEntity()->getDataUsingMethod($attributeCode);
                     break;
             }
@@ -195,10 +152,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
             if ((string)$attributeValue == '') {
                 continue;
             }
-            $result[] = array(
-                'title' => $attributeTitle,
-                'value' => $this->escapeHtml($attributeValue)
-            );
+            $result[] = array('title' => $attributeTitle, 'value' => $this->escapeHtml($attributeValue));
         }
         return $result;
     }

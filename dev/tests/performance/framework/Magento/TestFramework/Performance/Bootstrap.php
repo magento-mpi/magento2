@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,8 +28,8 @@ class Bootstrap
      */
     public function __construct($testsBaseDir, $appBaseDir)
     {
-        $configFile = "$testsBaseDir/config.php";
-        $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
+        $configFile = "{$testsBaseDir}/config.php";
+        $configFile = file_exists($configFile) ? $configFile : "{$configFile}.dist";
         $configData = require $configFile;
         $this->_config = new \Magento\TestFramework\Performance\Config($configData, $testsBaseDir, $appBaseDir);
     }
@@ -39,19 +37,19 @@ class Bootstrap
     /**
      * Ensure reports directory exists, empty, and has write permissions
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function cleanupReports()
     {
         $reportDir = $this->_config->getReportDir();
         try {
-            $filesystemAdapter = new \Magento\Filesystem\Driver\File();
+            $filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
             if ($filesystemAdapter->isExists($reportDir)) {
                 $filesystemAdapter->deleteDirectory($reportDir);
             }
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             if (file_exists($reportDir)) {
-                throw new \Magento\Exception("Cannot cleanup reports directory '$reportDir'.");
+                throw new \Magento\Framework\Exception("Cannot cleanup reports directory '{$reportDir}'.");
             }
         }
         mkdir($reportDir, 0777, true);

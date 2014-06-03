@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,13 +11,12 @@
  */
 namespace Magento\Core\Model\Theme\Source;
 
-use Magento\View\Design\Theme\Label;
+use Magento\Framework\View\Design\Theme\Label;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 
 /**
  * Design
  *
- * @package Magento\View
  */
 class Theme extends AbstractSource
 {

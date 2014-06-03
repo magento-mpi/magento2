@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -80,5 +78,4 @@ class Result
     {
         return $this->_trackings;
     }
-
 }

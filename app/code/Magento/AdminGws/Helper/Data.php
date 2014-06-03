@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@ namespace Magento\AdminGws\Helper;
  * Admin GWS helper
  *
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Transform comma-separeated ids string into array

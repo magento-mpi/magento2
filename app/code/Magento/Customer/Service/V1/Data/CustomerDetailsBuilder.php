@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * Class CustomerDetailsBuilder
@@ -31,16 +31,16 @@ class CustomerDetailsBuilder extends AbstractObjectBuilder
     protected $_addressBuilder;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param CustomerBuilder $customerBuilder
+     * @param AddressBuilder $addressBuilder
      */
     public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
     ) {
-        parent::__construct();
+        parent::__construct($objectFactory);
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
     }
@@ -50,20 +50,20 @@ class CustomerDetailsBuilder extends AbstractObjectBuilder
      */
     protected function _setDataValues(array $data)
     {
-        $newData = [];
+        $newData = array();
         if (isset($data[CustomerDetails::KEY_CUSTOMER])) {
-            $newData[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder
-                ->populateWithArray($data[CustomerDetails::KEY_CUSTOMER])
-                ->create();
+            $newData[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->populateWithArray(
+                $data[CustomerDetails::KEY_CUSTOMER]
+            )->create();
         }
 
         if (isset($data[CustomerDetails::KEY_ADDRESSES])) {
-            $newData[CustomerDetails::KEY_ADDRESSES] = [];
+            $newData[CustomerDetails::KEY_ADDRESSES] = array();
             $addresses = $data[CustomerDetails::KEY_ADDRESSES];
             foreach ($addresses as $address) {
-                $newData[CustomerDetails::KEY_ADDRESSES][] = $this->_addressBuilder
-                    ->populateWithArray($address)
-                    ->create();
+                $newData[CustomerDetails::KEY_ADDRESSES][] = $this->_addressBuilder->populateWithArray(
+                    $address
+                )->create();
             }
         }
 

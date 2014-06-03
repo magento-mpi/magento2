@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Website;
 
-use Magento\Core\Model\System\Store;
+use Magento\Store\Model\System\Store;
 
 /**
  * Admin OptionHash will include the default store (Admin) with the OptionHash.
@@ -19,7 +16,6 @@ use Magento\Core\Model\System\Store;
  */
 class AdminOptionHash extends OptionHash
 {
-
     /**
      * @param Store $systemStore
      * @param bool $withDefaultWebsite
@@ -29,5 +25,3 @@ class AdminOptionHash extends OptionHash
         parent::__construct($systemStore, $withDefaultWebsite);
     }
 }
-
-

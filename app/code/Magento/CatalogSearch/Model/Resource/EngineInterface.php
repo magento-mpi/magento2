@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -72,14 +70,14 @@ interface EngineInterface
     /**
      * Return resource model for the full text search
      *
-     * @return \Magento\Core\Model\Resource\AbstractResource
+     * @return \Magento\Framework\Model\Resource\AbstractResource
      */
     public function getResource();
 
     /**
      * Return resource collection model for the full text search
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function getResourceCollection();
 

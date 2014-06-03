@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab;
 
-class Available
-    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
+class Available extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Tab\AbstractTab
 {
     /**
      * Return tab content, available theme list

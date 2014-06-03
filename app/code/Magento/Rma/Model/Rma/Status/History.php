@@ -2,23 +2,26 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Rma\Status;
+
+use Magento\Rma\Model\Rma;
 
 /**
  * RMA model
+ * @method \Magento\Rma\Model\Rma\Status\History setRma(\Magento\Rma\Model\Rma $value)
+ * @method \Magento\Rma\Model\Rma\Status\History setIsCustomerNotified(bool $value)
+ * @method \Magento\Rma\Model\Rma\Status\History setComment(string $comment)
+ * @method \Magento\Rma\Model\Rma\Status\History setStoreId(int $storeId)
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -37,56 +40,64 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rmaConfig;
 
     /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
-
-    /**
      * Mail transport builder
      *
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
      * Core date model
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @var \Magento\Framework\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $rmaHelper;
+
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
-     * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Rma\Helper\Data $rmaHelper
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
-        \Magento\TranslateInterface $translate,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Rma\Helper\Data $rmaHelper,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_rmaFactory = $rmaFactory;
         $this->_rmaConfig = $rmaConfig;
-        $this->_translate = $translate;
         $this->_transportBuilder = $transportBuilder;
         $this->_date = $date;
+        $this->inlineTranslation = $inlineTranslation;
+        $this->rmaHelper = $rmaHelper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -103,7 +114,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Get store object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -142,12 +153,7 @@ class History extends \Magento\Core\Model\AbstractModel
         } else {
             $customerName = $order->getCustomerName();
         }
-        $sendTo = array(
-            array(
-                'email' => $order->getCustomerEmail(),
-                'name'  => $customerName
-            )
-        );
+        $sendTo = array(array('email' => $order->getCustomerEmail(), 'name' => $customerName));
 
         return $this->_sendCommentEmail($this->_rmaConfig->getRootCommentEmail(), $sendTo, true);
     }
@@ -161,8 +167,8 @@ class History extends \Magento\Core\Model\AbstractModel
     {
         $sendTo = array(
             array(
-                'email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getStoreId()),
-                'name'  => null
+                'email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getRma()->getStoreId()),
+                'name' => null
             )
         );
         return $this->_sendCommentEmail($this->_rmaConfig->getRootCustomerCommentEmail(), $sendTo, false);
@@ -176,21 +182,21 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param bool $isGuestAvailable
      * @return $this
      */
-    public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
+    protected function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
-        $this->_rmaConfig->init($rootConfig, $this->getStoreId());
+        $rma = $this->getRma();
+
+        $this->_rmaConfig->init($rootConfig, $rma->getStoreId());
         if (!$this->_rmaConfig->isEnabled()) {
             return $this;
         }
 
-        $order = $this->getRma()->getOrder();
-        $comment = $this->getComment();
+        $this->inlineTranslation->suspend();
 
-        $this->_translate->setTranslateInline(false);
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
 
-        if ($isGuestAvailable && $order->getCustomerIsGuest()) {
+        if ($isGuestAvailable && $rma->getOrder()->getCustomerIsGuest()) {
             $template = $this->_rmaConfig->getGuestTemplate();
         } else {
             $template = $this->_rmaConfig->getTemplate();
@@ -198,10 +204,7 @@ class History extends \Magento\Core\Model\AbstractModel
 
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $sendTo[] = array(
-                    'email' => $email,
-                    'name'  => null
-                );
+                $sendTo[] = array('email' => $email, 'name' => null);
             }
         }
 
@@ -211,26 +214,26 @@ class History extends \Magento\Core\Model\AbstractModel
         }
 
         foreach ($sendTo as $recipient) {
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($template)
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $this->getStoreId()
-                ))
-                ->setTemplateVars(array(
-                    'rma'       => $this->getRma(),
-                    'order'     => $this->getRma()->getOrder(),
-                    'comment'   => $comment
-                ))
-                ->setFrom($this->_rmaConfig->getIdentity())
-                ->addTo($recipient['email'], $recipient['name'])
-                ->addBcc($bcc)
-                ->getTransport();
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $template
+            )->setTemplateOptions(
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $rma->getStoreId())
+            )->setTemplateVars(
+                array('rma' => $rma, 'order' => $rma->getOrder(), 'comment' => $this->getComment())
+            )->setFrom(
+                $this->_rmaConfig->getIdentity()
+            )->addTo(
+                $recipient['email'],
+                $recipient['name']
+            )->addBcc(
+                $bcc
+            )->getTransport();
 
             $transport->sendMessage();
         }
         $this->setEmailSent(true);
-        $this->_translate->setTranslateInline(true);
+
+        $this->inlineTranslation->resume();
 
         return $this;
     }
@@ -243,39 +246,154 @@ class History extends \Magento\Core\Model\AbstractModel
     public function saveSystemComment()
     {
         $systemComments = array(
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING =>
-                __('We placed your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED =>
-                __('We have authorized your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PARTIAL_AUTHORIZED =>
-                __('We partially authorized your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED =>
-                __('We received your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED_ON_ITEM =>
-                __('We partially received your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED_ON_ITEM =>
-                __('We partially approved your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED_ON_ITEM =>
-                __('We partially rejected your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED =>
-                __('We closed your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED =>
-                __('We processed and closed your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING => __('We placed your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED => __('We have authorized your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PARTIAL_AUTHORIZED => __(
+                'We partially authorized your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED => __('We received your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED_ON_ITEM => __(
+                'We partially received your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED_ON_ITEM => __(
+                'We partially approved your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED_ON_ITEM => __(
+                'We partially rejected your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED => __('We closed your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED => __(
+                'We processed and closed your Return request.'
+            )
         );
 
-        $rma = $this->getRma();
-        if (!($rma instanceof \Magento\Rma\Model\Rma)) {
+        $status = $this->getRma()->getStatus();
+
+        if ($status === $this->getRma()->getOrigData('status') && !isset($systemComments[$status])) {
             return;
         }
 
-        if (($rma->getStatus() !== $rma->getOrigData('status') && isset($systemComments[$rma->getStatus()]))) {
-            $this->setRmaEntityId($rma->getEntityId())
-                ->setComment($systemComments[$rma->getStatus()])
-                ->setIsVisibleOnFront(true)
-                ->setStatus($rma->getStatus())
-                ->setCreatedAt($this->_date->gmtDate())
-                ->setIsAdmin(1)
-                ->save();
+        $this->saveComment($systemComments[$status], true, true);
+    }
+
+    /**
+     * @param string $comment
+     * @param bool $visibleOnFrontend
+     * @param bool $isAdmin
+     * @return void
+     */
+    public function saveComment($comment, $visibleOnFrontend, $isAdmin = false)
+    {
+        $rma = $this->getRma();
+        $this->setRmaEntityId($rma->getId())
+            ->setComment($comment)
+            ->setIsVisibleOnFront($visibleOnFrontend)
+            ->setStatus($rma->getStatus())
+            ->setCreatedAt($this->_date->gmtDate())
+            ->setIsCustomerNotified($this->getEmailSent())
+            ->setIsAdmin($isAdmin)
+            ->save();
+    }
+
+    /**
+     * Sending email with RMA data
+     *
+     * @return $this
+     */
+    public function sendNewRmaEmail()
+    {
+        return $this->_sendRmaEmailWithItems($this->getRma(), $this->_rmaConfig->getRootRmaEmail());
+    }
+
+    /**
+     * Sending authorizing email with RMA data
+     *
+     * @return $this
+     */
+    public function sendAuthorizeEmail()
+    {
+        $rma = $this->getRma();
+        if (!$rma->getIsSendAuthEmail()) {
+            return $this;
         }
+        return $this->_sendRmaEmailWithItems($rma, $this->_rmaConfig->getRootAuthEmail());
+    }
+
+    /**
+     * Sending authorizing email with RMA data
+     *
+     * @param Rma $rma
+     * @param string $rootConfig
+     * @return $this
+     */
+    protected function _sendRmaEmailWithItems(Rma $rma, $rootConfig)
+    {
+        $storeId = $rma->getStoreId();
+        $order = $rma->getOrder();
+
+        $this->_rmaConfig->init($rootConfig, $storeId);
+        if (!$this->_rmaConfig->isEnabled()) {
+            return $this;
+        }
+
+        $this->inlineTranslation->suspend();
+
+        $copyTo = $this->_rmaConfig->getCopyTo();
+        $copyMethod = $this->_rmaConfig->getCopyMethod();
+
+        if ($order->getCustomerIsGuest()) {
+            $template = $this->_rmaConfig->getGuestTemplate();
+            $customerName = $order->getBillingAddress()->getName();
+        } else {
+            $template = $this->_rmaConfig->getTemplate();
+            $customerName = $rma->getCustomerName();
+        }
+
+        $sendTo = array(array('email' => $order->getCustomerEmail(), 'name' => $customerName));
+        if ($rma->getCustomerCustomEmail()) {
+            $sendTo[] = array('email' => $rma->getCustomerCustomEmail(), 'name' => $customerName);
+        }
+        if ($copyTo && $copyMethod == 'copy') {
+            foreach ($copyTo as $email) {
+                $sendTo[] = array('email' => $email, 'name' => null);
+            }
+        }
+
+        $returnAddress = $this->rmaHelper->getReturnAddress('html', array(), $storeId);
+
+        $bcc = array();
+        if ($copyTo && $copyMethod == 'bcc') {
+            $bcc = $copyTo;
+        }
+
+        foreach ($sendTo as $recipient) {
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $template
+            )->setTemplateOptions(
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            )->setTemplateVars(
+                array(
+                    'rma' => $this,
+                    'order' => $order,
+                    'return_address' => $returnAddress,
+                    'item_collection' => $rma->getItemsForDisplay()
+                )
+            )->setFrom(
+                $this->_rmaConfig->getIdentity()
+            )->addTo(
+                $recipient['email'],
+                $recipient['name']
+            )->addBcc(
+                $bcc
+            )->getTransport();
+
+            $transport->sendMessage();
+        }
+
+        $this->setEmailSent(true);
+
+        $this->inlineTranslation->resume();
+
+        return $this;
     }
 }

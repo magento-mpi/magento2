@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,16 +28,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Sales\Model\Resource\Order\Status\CollectionFactory $collectionFactory,
         array $data = array()
@@ -67,17 +65,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'        => 'edit_form',
-                'method'    => 'post',
-            ))
-        );
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(array('data' => array('id' => 'edit_form', 'method' => 'post')));
 
-        $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => __('Assignment Information')
-        ));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Assignment Information')));
 
         $statuses = $this->_collectionFactory->create()->toOptionArray();
         array_unshift($statuses, array('value' => '', 'label' => ''));
@@ -85,34 +76,41 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $states = $this->_orderConfig->getStates();
         $states = array_merge(array('' => ''), $states);
 
-        $fieldset->addField('status', 'select',
+        $fieldset->addField(
+            'status',
+            'select',
             array(
-                'name'      => 'status',
-                'label'     => __('Order Status'),
-                'class'     => 'required-entry',
-                'values'    => $statuses,
-                'required'  => true,
+                'name' => 'status',
+                'label' => __('Order Status'),
+                'class' => 'required-entry',
+                'values' => $statuses,
+                'required' => true
             )
         );
 
-        $fieldset->addField('state', 'select',
+        $fieldset->addField(
+            'state',
+            'select',
             array(
-                'name'      => 'state',
-                'label'     => __('Order State'),
-                'class'     => 'required-entry',
-                'values'    => $states,
-                'required'  => true,
+                'name' => 'state',
+                'label' => __('Order State'),
+                'class' => 'required-entry',
+                'values' => $states,
+                'required' => true
             )
         );
 
-        $fieldset->addField('is_default', 'checkbox',
-            array(
-                'name'      => 'is_default',
-                'label'     => __('Use Order Status As Default'),
-                'value'     => 1,
-            )
+        $fieldset->addField(
+            'is_default',
+            'checkbox',
+            array('name' => 'is_default', 'label' => __('Use Order Status As Default'), 'value' => 1)
         );
 
+        $fieldset->addField(
+            'visible_on_front',
+            'checkbox',
+            array('name' => 'visible_on_front', 'label' => __('Visible On Frontend'), 'value' => 1)
+        );
 
         $form->setAction($this->getUrl('sales/order_status/assignPost'));
         $form->setUseContainer(true);

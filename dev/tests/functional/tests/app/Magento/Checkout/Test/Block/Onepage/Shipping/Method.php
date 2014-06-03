@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Method
  * One page checkout status shipping method block
  *
- * @package Magento\Checkout\Test\Block\Onepage\Shipping
  */
 class Method extends Block
 {
@@ -36,6 +32,13 @@ class Method extends Block
      * @var string
      */
     protected $continue = '#shipping-method-buttons-container button';
+
+    /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
 
     /**
      * Select shipping method
@@ -55,6 +58,6 @@ class Method extends Block
         $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#shipping-method-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

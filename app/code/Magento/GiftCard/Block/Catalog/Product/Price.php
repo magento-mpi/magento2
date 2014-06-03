@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,8 +38,8 @@ class Price extends \Magento\Catalog\Block\Product\Price
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return bool|\Magento\Core\Model\Website
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
+     * @return bool|\Magento\Store\Model\Website
      */
     public function getWebsite($storeId)
     {

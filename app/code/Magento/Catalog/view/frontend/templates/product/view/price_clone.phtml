@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var \Magento\Catalog\Block\Product\AbstractProduct $this */ ?>
+<?php $_product = $this->getProduct() ?>
+<?php echo $this->getProductPriceHtml(
+    $_product,
+    \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+    \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW,
+    [
+        'price_id_suffix' => '_clone'
+    ]
+) ?>

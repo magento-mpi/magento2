@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="block balance">
+	<div class="title">
+		<strong><?php echo __('Balance'); ?></strong>
+	</div>
+	<?php echo __('Your current balance is:'); ?>
+
+	<?php echo $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
+</div>

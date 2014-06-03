@@ -2,14 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Test\Annotation;
 
 /**
@@ -46,7 +41,7 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testConstructorException()
     {
@@ -87,7 +82,7 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture fixture\path\must\not\contain\backslash.php
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testStartTestTransactionRequestInvalidPath()
     {
@@ -114,11 +109,7 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
 
     public function testStartTransactionClassAnnotation()
     {
-        $this->_object
-            ->expects($this->once())
-            ->method('_applyOneFixture')
-            ->with(array(__CLASS__, 'sampleFixtureOne'))
-        ;
+        $this->_object->expects($this->once())->method('_applyOneFixture')->with(array(__CLASS__, 'sampleFixtureOne'));
         $this->_object->startTransaction($this);
     }
 
@@ -128,16 +119,14 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
      */
     public function testStartTransactionMethodAnnotation()
     {
-        $this->_object
-            ->expects($this->at(0))
-            ->method('_applyOneFixture')
-            ->with(array(__CLASS__, 'sampleFixtureTwo'))
-        ;
-        $this->_object
-            ->expects($this->at(1))
-            ->method('_applyOneFixture')
-            ->with($this->stringEndsWith('path/to/fixture/script.php'))
-        ;
+        $this->_object->expects($this->at(0))->method('_applyOneFixture')->with(array(__CLASS__, 'sampleFixtureTwo'));
+        $this->_object->expects(
+            $this->at(1)
+        )->method(
+            '_applyOneFixture'
+        )->with(
+            $this->stringEndsWith('path/to/fixture/script.php')
+        );
         $this->_object->startTransaction($this);
     }
 
@@ -148,14 +137,15 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
     public function testRollbackTransactionRevertFixtureMethod()
     {
         $this->_object->startTransaction($this);
-        $this->_object
-            ->expects($this->once())
-            ->method('_applyOneFixture')
-            ->with(array(__CLASS__, 'sampleFixtureTwoRollback'))
-        ;
+        $this->_object->expects(
+            $this->once()
+        )->method(
+            '_applyOneFixture'
+        )->with(
+            array(__CLASS__, 'sampleFixtureTwoRollback')
+        );
         $this->_object->rollbackTransaction();
     }
-
 
     /**
      * @magentoDataFixture path/to/fixture/script.php
@@ -164,11 +154,13 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
     public function testRollbackTransactionRevertFixtureFile()
     {
         $this->_object->startTransaction($this);
-        $this->_object
-            ->expects($this->once())
-            ->method('_applyOneFixture')
-            ->with($this->stringEndsWith('sample_fixture_two_rollback.php'))
-        ;
+        $this->_object->expects(
+            $this->once()
+        )->method(
+            '_applyOneFixture'
+        )->with(
+            $this->stringEndsWith('sample_fixture_two_rollback.php')
+        );
         $this->_object->rollbackTransaction();
     }
 }

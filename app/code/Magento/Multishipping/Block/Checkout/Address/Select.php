@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Multishipping\Block\Checkout\Address;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Customer\Helper\Address as CustomerAddressHelper;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Multishipping checkout select billing address
@@ -32,14 +30,14 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressHelper $customerAddressHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressHelper $customerAddressHelper,
@@ -75,12 +73,12 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     {
         $addresses = $this->getData('address_collection');
         if (is_null($addresses)) {
-            try{
+            try {
                 $addresses = $this->_customerAddressService->getAddresses(
                     $this->_multishipping->getCustomer()->getId()
                 );
             } catch (NoSuchEntityException $e) {
-                return [];
+                return array();
             }
             $this->setData('address_collection', $addresses);
         }

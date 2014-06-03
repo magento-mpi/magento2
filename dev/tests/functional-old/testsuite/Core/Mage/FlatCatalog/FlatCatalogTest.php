@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_FlatCatalog
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Configure Flat Catalog in System Configuration tests
- * @package     selenium
- * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
@@ -89,7 +84,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Configure search engine optimization settings:Popular Search Terms(Enable)</p>
+     * <p>Configure Search Engine Optimization settings:Popular Search Terms(Enable)</p>
      *
      * @param string $searchTerms
      *

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Customer\Model\Resource\Group;
 /**
  * Customer group collection
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -61,7 +57,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->getSelect()->joinLeft(
             array('tax_class_table' => $this->getTable('tax_class')),
-            "main_table.tax_class_id = tax_class_table.class_id");
+            "main_table.tax_class_id = tax_class_table.class_id"
+        );
         return $this;
     }
 

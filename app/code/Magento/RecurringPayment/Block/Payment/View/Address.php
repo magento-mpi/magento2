@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -14,14 +13,14 @@ namespace Magento\RecurringPayment\Block\Payment\View;
 class Address extends \Magento\RecurringPayment\Block\Payment\View
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         array $data = array()
     ) {
@@ -50,8 +49,6 @@ class Address extends \Magento\RecurringPayment\Block\Payment\View
         }
         $this->setIsAddress(true);
         $address = $this->_addressFactory->create(array('data' => $this->_recurringPayment->getData($key)));
-        $this->_addInfo(array(
-            'value' => preg_replace('/\\n{2,}/', "\n", $address->format('text')),
-        ));
+        $this->_addInfo(array('value' => preg_replace('/\\n{2,}/', "\n", $address->format('text'))));
     }
 }

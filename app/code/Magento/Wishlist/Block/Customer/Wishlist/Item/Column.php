@@ -2,21 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
+
 /**
  * Wishlist block customer item column
  *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface getItem()
  */
-namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
-
 class Column extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
 /**
@@ -22,7 +18,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
     protected $model = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $rootDirectory;
 
@@ -37,8 +33,11 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->create('Magento\Backend\Model\Config\Backend\Admin\Robots');
         $this->model->setPath('design/search_engine_robots/custom_instructions');
         $this->model->afterLoad();
-        $this->rootDirectory = $objectManager->get('Magento\App\Filesystem')
-            ->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->rootDirectory = $objectManager->get(
+            'Magento\Framework\App\Filesystem'
+        )->getDirectoryRead(
+            \Magento\Framework\App\Filesystem::ROOT_DIR
+        );
     }
 
     /**
@@ -93,10 +92,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
     {
         $robotsTxt = "User-Agent: *\nDisallow: /checkout";
         $this->model->setValue($robotsTxt)->save();
-        $this->assertStringEqualsFile(
-            $this->rootDirectory->getAbsolutePath('robots.txt'),
-            $robotsTxt
-        );
+        $this->assertStringEqualsFile($this->rootDirectory->getAbsolutePath('robots.txt'), $robotsTxt);
     }
 
     /**

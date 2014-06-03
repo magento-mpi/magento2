@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,10 +12,9 @@
 namespace Magento\TestFramework;
 
 /**
- * @package Magento\TestFramework
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Response extends \Magento\App\Response\Http
+class Response extends \Magento\Framework\App\Response\Http
 {
     /**
      * @inherit

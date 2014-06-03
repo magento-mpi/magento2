@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,17 +36,19 @@ class BackendCustomerCreateTest extends Functional
         );
         //Pages
         $customerPage = Factory::getPageFactory()->getCustomerIndex();
-        $customerCreatePage = Factory::getPageFactory()->getCustomerNew();
+        $customerCreatePage = Factory::getPageFactory()->getCustomerIndexNew();
+
         //Steps
         $customerPage->open();
-        $customerPage->getGridBlock()->addNewCustomer();
-        $customerCreatePage->getNewCustomerForm()->fill($customerFixture);
-        $customerCreatePage->getNewCustomerForm()->clickSaveAndContinue();
-        $customerCreatePage->getMessageBlock()->assertSuccessMessage($customerFixture);
+        $customerPage->getPageActionsBlock()->addNew();
+        $customerCreatePage->getCustomerForm()->fillCustomer($customerFixture);
+        $customerCreatePage->getPageActionsBlock()->saveAndContinue();
+        $customerCreatePage->getMessagesBlock()->assertSuccessMessage();
+
         //Verifying
         $customerPage->open();
         $this->assertTrue(
-            $customerPage->getGridBlock()->isRowVisible($searchData),
+            $customerPage->getCustomerGridBlock()->isRowVisible($searchData),
             'Customer email "' . $searchData['email'] . '" not found in the grid'
         );
     }

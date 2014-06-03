@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,16 +10,15 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
 /**
  * Column renderer for gift registry item grid qty column
  */
-class Qty
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render gift registry item qty as input html element
      *
-     * @param  \Magento\Object $row
+     * @param  \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex()) * 1;
 

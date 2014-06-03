@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,8 +45,8 @@ class DocBlockTest extends \PHPUnit_Framework_TestCase
     {
         try {
             new $listenerClass();
-            $this->fail("Inability to instantiate the event listener '$listenerClass' is expected.");
-        } catch (\Magento\Exception $e) {
+            $this->fail("Inability to instantiate the event listener '{$listenerClass}' is expected.");
+        } catch (\Magento\Framework\Exception $e) {
             $this->assertEquals($expectedExceptionMsg, $e->getMessage());
         }
     }
@@ -57,9 +54,12 @@ class DocBlockTest extends \PHPUnit_Framework_TestCase
     public function testRegisterAnnotations()
     {
         $this->_expectNoListenerCreation(
-            'Magento\TestFramework\Event\PhpUnit', 'Instance of the event manager is required.');
+            'Magento\TestFramework\Event\PhpUnit',
+            'Instance of the event manager is required.'
+        );
         $this->_expectNoListenerCreation(
-            'Magento\TestFramework\Event\Magento', 'Instance of the "Magento\TestFramework\EventManager" is expected.'
+            'Magento\TestFramework\Event\Magento',
+            'Instance of the "Magento\TestFramework\EventManager" is expected.'
         );
         $this->_object->registerAnnotations($this->_application);
         new \Magento\TestFramework\Event\PhpUnit();

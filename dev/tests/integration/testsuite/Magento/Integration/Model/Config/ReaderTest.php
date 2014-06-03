@@ -6,7 +6,6 @@
  * @license     {license_link}
  *
  */
-
 namespace Magento\Integration\Model\Config;
 
 use Magento\Integration\Model\Config\Reader as ConfigReader;
@@ -25,7 +24,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $this->_fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_configReader = $objectManager->create(
             'Magento\Integration\Model\Config\Reader',
@@ -42,10 +41,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($configFiles));
 
         $expectedResult = require __DIR__ . '/_files/integration.php';
-        $this->assertEquals(
-            $expectedResult,
-            $this->_configReader->read(),
-            'Error happened during config reading.'
-        );
+        $this->assertEquals($expectedResult, $this->_configReader->read(), 'Error happened during config reading.');
     }
 }

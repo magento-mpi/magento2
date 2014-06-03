@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
-class Dependencies
-    extends \Magento\Backend\Model\Config\Structure\AbstractMapper
+class Dependencies extends \Magento\Backend\Model\Config\Structure\AbstractMapper
 {
     /**
      * Class that can convert relative paths from "depends" node to absolute

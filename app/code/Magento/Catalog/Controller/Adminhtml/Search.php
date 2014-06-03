@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
@@ -17,18 +14,16 @@ class Search extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -39,8 +34,7 @@ class Search extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_CatalogSearch::catalog_search')
-            ->_addBreadcrumb(__('Search'), __('Search'));
+        $this->_setActiveMenu('Magento_CatalogSearch::catalog_search')->_addBreadcrumb(__('Search'), __('Search'));
         return $this;
     }
 
@@ -51,9 +45,8 @@ class Search extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Search Terms'));
 
-        $this->_initAction()
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'));
-            $this->_view->renderLayout();
+        $this->_initAction()->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -76,7 +69,7 @@ class Search extends \Magento\Backend\App\Action
 
         if ($id) {
             $model->load($id);
-            if (! $model->getId()) {
+            if (!$model->getId()) {
                 $this->messageManager->addError(__('This search no longer exists.'));
                 $this->_redirect('catalog/*');
                 return;
@@ -97,8 +90,12 @@ class Search extends \Magento\Backend\App\Action
 
         $this->_view->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
-        $this->_view->getLayout()->getBlock('adminhtml.catalog.search.edit')
-            ->setData('action', $this->getUrl('catalog/search/save'));
+        $this->_view->getLayout()->getBlock(
+            'adminhtml.catalog.search.edit'
+        )->setData(
+            'action',
+            $this->getUrl('catalog/search/save')
+        );
 
         $this->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
 
@@ -112,26 +109,26 @@ class Search extends \Magento\Backend\App\Action
      */
     public function saveAction()
     {
-        $hasError   = false;
-        $data       = $this->getRequest()->getPost();
-        $queryId    = $this->getRequest()->getPost('query_id', null);
+        $hasError = false;
+        $data = $this->getRequest()->getPost();
+        $queryId = $this->getRequest()->getPost('query_id', null);
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model \Magento\CatalogSearch\Model\Query */
             $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
 
             // validate query
-            $queryText  = $this->getRequest()->getPost('query_text', false);
-            $storeId    = $this->getRequest()->getPost('store_id', false);
+            $queryText = $this->getRequest()->getPost('query_text', false);
+            $storeId = $this->getRequest()->getPost('store_id', false);
 
             try {
                 if ($queryText) {
                     $model->setStoreId($storeId);
                     $model->loadByQueryText($queryText);
                     if ($model->getId() && $model->getId() != $queryId) {
-                        throw new \Magento\Core\Exception(
+                        throw new \Magento\Framework\Model\Exception(
                             __('You already have an identical search term query.')
                         );
-                    } else if (!$model->getId() && $queryId) {
+                    } elseif (!$model->getId() && $queryId) {
                         $model->load($queryId);
                     }
                 } else if ($queryId) {
@@ -141,15 +138,11 @@ class Search extends \Magento\Backend\App\Action
                 $model->addData($data);
                 $model->setIsProcessed(0);
                 $model->save();
-
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Exception $e) {
-                $this->messageManager->addException(
-                    $e,
-                    __('Something went wrong while saving the search query.')
-                );
+                $this->messageManager->addException($e, __('Something went wrong while saving the search query.'));
                 $hasError = true;
             }
         }

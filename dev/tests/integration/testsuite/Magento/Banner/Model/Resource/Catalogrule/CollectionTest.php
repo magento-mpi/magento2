@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Model\Resource\Catalogrule;
 
 /**
@@ -32,14 +31,16 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var int
      */
-    protected $_customerGroupId = \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Banner\Model\Resource\Catalogrule\Collection');
-        $this->_banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Banner\Model\Banner');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Banner\Model\Resource\Catalogrule\Collection'
+        );
+        $this->_banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Banner\Model\Banner'
+        );
         $this->_banner->load('Test Banner', 'name');
     }
 
@@ -57,10 +58,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testBannerCatalogrule()
     {
         $this->assertCount(1, $this->_collection->getItems());
-        $this->assertEquals(
-            $this->_banner->getId(),
-            $this->_collection->getFirstItem()->getBannerId()
-        );
+        $this->assertEquals($this->_banner->getId(), $this->_collection->getFirstItem()->getBannerId());
     }
 
     public function testAddWebsiteCustomerGroupFilter()

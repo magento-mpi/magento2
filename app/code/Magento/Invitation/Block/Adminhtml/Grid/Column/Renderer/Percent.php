@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,21 +9,18 @@
 /**
  * Adminhtml grid percent column renderer
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer;
 
-class Percent
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
+class Percent extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
 {
     /**
      * Renders grid column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($this->getColumn()->getEditable()) {
             return parent::render($row);

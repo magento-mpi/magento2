@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,13 +17,11 @@
  * @method \Magento\Banner\Model\Banner setIsEnabled(int $value)
  * @method \Magento\Banner\Model\Banner setTypes(string $value)
  *
- * @category    Magento
- * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Model;
 
-class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Representation value of enabled banner
@@ -37,13 +33,13 @@ class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
      * Representation value of disabled banner
      *
      */
-    const STATUS_DISABLED  = 0;
+    const STATUS_DISABLED = 0;
 
     /**
      * Representation value of disabled banner
      *
      */
-    const CACHE_TAG  = 'banner';
+    const CACHE_TAG = 'banner';
 
     /**
      * Prefix of model events names
@@ -166,20 +162,17 @@ class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
     protected function _afterSave()
     {
         if ($this->hasStoreContents()) {
-            $this->_getResource()
-                ->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
+            $this->_getResource()->saveStoreContents(
+                $this->getId(),
+                $this->getStoreContents(),
+                $this->getStoreContentsNotUse()
+            );
         }
         if ($this->hasBannerCatalogRules()) {
-            $this->_getResource()->saveCatalogRules(
-                $this->getId(),
-                $this->getBannerCatalogRules()
-            );
+            $this->_getResource()->saveCatalogRules($this->getId(), $this->getBannerCatalogRules());
         }
         if ($this->hasBannerSalesRules()) {
-            $this->_getResource()->saveSalesRules(
-                $this->getId(),
-                $this->getBannerSalesRules()
-            );
+            $this->_getResource()->saveSalesRules($this->getId(), $this->getBannerSalesRules());
         }
         return parent::_afterSave();
     }
@@ -187,12 +180,12 @@ class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
     /**
      * Validate some data before saving
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            throw new \Magento\Core\Exception(__('Please enter a name.'));
+            throw new \Magento\Framework\Model\Exception(__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
         $error = true;
@@ -203,7 +196,7 @@ class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
             }
         }
         if ($error) {
-            throw new \Magento\Core\Exception(__('Please specify default content for at least one store view.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

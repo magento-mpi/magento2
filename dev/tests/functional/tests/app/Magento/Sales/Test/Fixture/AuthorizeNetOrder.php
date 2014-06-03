@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Factory\Factory;
  * Class AuthorizeNetOrder
  * Guest checkout using Authorize.Net
  *
- * @package Magento\Sales\Test\Fixture
  */
 class AuthorizeNetOrder extends OrderCheckout
 {

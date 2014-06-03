@@ -18,18 +18,18 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-        /**
-         * Test dependencies between handle attributes that is out of coverage by XSD
-         *
-         * @param string $layoutFile
-         */
+            /**
+             * Test dependencies between handle attributes that is out of coverage by XSD
+             *
+             * @param string $layoutFile
+             */
             function ($layoutFile) {
                 $issues = array();
                 $node = simplexml_load_file($layoutFile);
                 $label = $node['label'];
-                $design_abstraction = $node['design_abstraction'];
+                $designAbstraction = $node['design_abstraction'];
                 if (!$label) {
-                    if ($design_abstraction) {
+                    if ($designAbstraction) {
                         $issues[] = 'Attribute "design_abstraction" is defined, but "label" is not';
                     }
                 }
@@ -63,8 +63,12 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
                 }
                 if ($issues) {
                     $this->fail(
-                        'The following containers declare attribute "htmlId" and/or "htmlClass", but not "htmlTag":'
-                            . "\n" . implode("\n", $issues) . "\n"
+                        'The following containers declare attribute "htmlId" and/or "htmlClass", but not "htmlTag":' .
+                        "\n" .
+                        implode(
+                            "\n",
+                            $issues
+                        ) . "\n"
                     );
                 }
             },
@@ -83,7 +87,7 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
              */
             function ($layoutFile) {
                 $schemaFile = BP . '/app/code/Magento/Core/etc/layout_single.xsd';
-                $domLayout = new \Magento\Config\Dom(file_get_contents($layoutFile));
+                $domLayout = new \Magento\Framework\Config\Dom(file_get_contents($layoutFile));
                 $result = $domLayout->validate($schemaFile, $errors);
                 $this->assertTrue($result, print_r($errors, true));
             },

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Wishlist sidebar block
  *
- * @category   Magento
- * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Wishlist\Block\Customer;
 
-class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\View\Block\IdentityInterface
+class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Retrieve block title
@@ -38,10 +34,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
      */
     protected function _prepareCollection($collection)
     {
-        $collection->setCurPage(1)
-            ->setPageSize(3)
-            ->setInStockFilter(true)
-            ->setOrder('added_at');
+        $collection->setCurPage(1)->setPageSize(3)->setInStockFilter(true)->setOrder('added_at');
 
         return $this;
     }
@@ -68,7 +61,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
      */
     public function getCanDisplayWishlist()
     {
-        return $this->_getCustomerSession()->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
     /**
@@ -115,9 +108,11 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
     public function getIdentities()
     {
         $identities = array();
-        foreach ($this->getWishlistItems() as $item) {
-            /** @var $item \Magento\Wishlist\Model\Item */
-            $identities = array_merge($identities, $item->getProduct()->getIdentities());
+        if ($this->getItemCount()) {
+            foreach ($this->getWishlistItems() as $item) {
+                /** @var $item \Magento\Wishlist\Model\Item */
+                $identities = array_merge($identities, $item->getProduct()->getIdentities());
+            }
         }
         return $identities;
     }

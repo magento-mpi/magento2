@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\System\Config;
@@ -19,7 +15,6 @@ use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
  * Class ConfigurableProduct
  * Configurable product data
  *
- * @package Magento\Catalog\Test\Fixture
  */
 class ConfigurableProduct extends Product
 {
@@ -50,6 +45,7 @@ class ConfigurableProduct extends Product
      * Provide data to product from new attribute
      *
      * @param ProductAttribute $attribute
+     * @return void
      */
     public function provideNewAttributeData(ProductAttribute $attribute)
     {
@@ -190,6 +186,8 @@ class ConfigurableProduct extends Product
 
     /**
      * Init Data
+     *
+     * @return void
      */
     protected function _initData()
     {
@@ -371,8 +369,9 @@ class ConfigurableProduct extends Product
             foreach ($attributes as $attribute) {
                 $optionCount = 0;
                 while (isset($attribute[$optionCount])) {
-                    if ($attribute[$optionCount]['option_label']['value'] == $optionName)
+                    if ($attribute[$optionCount]['option_label']['value'] == $optionName) {
                         $price += $attribute[$optionCount]['pricing_value']['value'];
+                    }
                     ++$optionCount;
                 }
             }

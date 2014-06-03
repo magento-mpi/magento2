@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Mapper\Helper;
 
 class RelativePathConverterTest extends \PHPUnit_Framework_TestCase
@@ -58,11 +54,7 @@ class RelativePathConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertWithInvalidArgumentsDataProvider()
     {
-        return array(
-            array('', ''),
-            array('some/node', ''),
-            array('', 'some/node')
-        );
+        return array(array('', ''), array('some/node', ''), array('', 'some/node'));
     }
 
     public function testConvertDataProvider()
@@ -72,7 +64,7 @@ class RelativePathConverterTest extends \PHPUnit_Framework_TestCase
             array('current/node/path', 'relative/node/path', 'relative/node/path'),
             array('current/node', 'siblingRelativeNode', 'current/siblingRelativeNode'),
             array('current/node', '*/siblingNode', 'current/siblingNode'),
-            array('very/deep/node/hierarchy', '*/*/sourceNode', 'very/deep/sourceNode'),
+            array('very/deep/node/hierarchy', '*/*/sourceNode', 'very/deep/sourceNode')
         );
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
  *    setStorage(\Magento\Theme\Model\Wysiwyg\Storage $storage)
  * @method \Magento\Theme\Model\Wysiwyg\Storage getStorage
  */
-class Files
-    extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files
+class Files extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files
 {
     /**
      * @var \Magento\Theme\Helper\Storage
@@ -45,5 +42,4 @@ class Files
     {
         return __($this->_storageHelper->getStorageType());
     }
-
 }

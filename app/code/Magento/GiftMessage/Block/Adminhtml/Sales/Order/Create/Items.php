@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
 /**
  * Gift message adminhtml sales order create items
  *
- * @category   Magento
- * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Items extends \Magento\Backend\Block\Template
@@ -58,9 +54,7 @@ class Items extends \Magento\Backend\Block\Template
         if (!$item) {
             return false;
         }
-        return $this->_messageHelper->getIsMessagesAvailable(
-            'item', $item, $item->getStoreId()
-        );
+        return $this->_messageHelper->getIsMessagesAvailable('item', $item, $item->getStoreId());
     }
 
     /**
@@ -70,10 +64,13 @@ class Items extends \Magento\Backend\Block\Template
      */
     public function getFormHtml()
     {
-        return $this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form')
-            ->setEntity($this->getItem())
-            ->setEntityType('item')
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage\Form'
+        )->setEntity(
+            $this->getItem()
+        )->setEntityType(
+            'item'
+        )->toHtml();
     }
 
     /**

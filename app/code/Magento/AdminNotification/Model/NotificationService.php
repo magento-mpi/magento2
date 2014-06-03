@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdminNotification\Model;
 /**
  * Notification service model
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class NotificationService
@@ -26,9 +22,8 @@ class NotificationService
     /**
      * @param \Magento\AdminNotification\Model\InboxFactory $notificationFactory
      */
-    public function __construct(
-        \Magento\AdminNotification\Model\InboxFactory $notificationFactory
-    ) {
+    public function __construct(\Magento\AdminNotification\Model\InboxFactory $notificationFactory)
+    {
         $this->_notificationFactory = $notificationFactory;
     }
 
@@ -37,14 +32,14 @@ class NotificationService
      *
      * @param int $notificationId
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function markAsRead($notificationId)
     {
         $notification = $this->_notificationFactory->create();
         $notification->load($notificationId);
         if (!$notification->getId()) {
-            throw new \Magento\Core\Exception('Wrong notification ID specified.');
+            throw new \Magento\Framework\Model\Exception('Wrong notification ID specified.');
         }
         $notification->setIsRead(1);
         $notification->save();

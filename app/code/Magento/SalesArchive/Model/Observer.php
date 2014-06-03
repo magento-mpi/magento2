@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\SalesArchive\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Order archive observer model
@@ -109,13 +107,9 @@ class Observer
         $object->setIsArchived(!empty($ids));
 
         if ($object->getIsArchived()) {
-            $object->setBackUrl(
-                $this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
-            );
+            $object->setBackUrl($this->_backendData->getUrl('sales/archive/' . $archiveEntity . 's'));
         } elseif ($object->getIsMoveable() !== false) {
-            $object->setIsMoveable(
-                in_array($object->getStatus(), $this->_config->getArchiveOrderStatuses())
-            );
+            $object->setIsMoveable(in_array($object->getStatus(), $this->_config->getArchiveOrderStatuses()));
         }
         return $this;
     }
@@ -170,8 +164,9 @@ class Observer
     public function appendGridCollection(EventObserver $observer)
     {
         $collection = $observer->getEvent()->getOrderGridCollection();
-        if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection
-            || !$collection->getIsCustomerMode()) {
+        if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection ||
+            !$collection->getIsCustomerMode()
+        ) {
             return $this;
         }
 
@@ -202,11 +197,11 @@ class Observer
          */
         $controller = $observer->getControllerAction();
         /**
-         * @var \Magento\App\ResponseInterface $response
+         * @var \Magento\Framework\App\ResponseInterface $response
          */
         $response = $controller->getResponse();
         /**
-         * @var \Magento\App\RequestInterface $request
+         * @var \Magento\Framework\App\RequestInterface $request
          */
         $request = $controller->getRequest();
 
@@ -218,9 +213,9 @@ class Observer
         $createdFromOrders = !empty($ids);
 
         if ($createdFromOrders) {
-            $response->setRedirect($controller->getUrl('adminhtml/sales_archive/orders'));
+            $response->setRedirect($controller->getUrl('sales/archive/orders'));
         } else {
-            $response->setRedirect($controller->getUrl('adminhtml/sales_archive/shipments'));
+            $response->setRedirect($controller->getUrl('sales/archive/shipments'));
         }
     }
 }

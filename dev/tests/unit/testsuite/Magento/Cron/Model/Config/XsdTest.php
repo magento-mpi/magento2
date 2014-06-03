@@ -2,18 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Framework
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config;
 
 class XsdTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $_xsdFile;
 
     public function setUp()
@@ -40,10 +35,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function validXmlFileDataProvider()
     {
-        return array(
-            array('crontab_valid.xml'),
-            array('crontab_valid_without_schedule.xml'),
-        );
+        return array(array('crontab_valid.xml'), array('crontab_valid_without_schedule.xml'));
     }
 
     /**
@@ -83,12 +75,15 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "Element 'job': The attribute 'name' is required but missing.\n",
                     "Element 'job': The attribute 'instance' is required but missing.\n",
                     "Element 'job': The attribute 'method' is required but missing.\n",
-                    "Element 'wrongSchedule': This element is not expected. Expected is ( schedule ).\n",
+                    "Element 'wrongSchedule': This element is not expected." .
+                        " Expected is one of ( schedule, config_path ).\n"
                 )
             ),
             array(
                 'crontab_invalid_duplicates.xml',
-                array("Element 'job': Duplicate key-sequence ['job1'] in unique identity-constraint 'uniqueJobName'.\n")
+                array(
+                    "Element 'job': Duplicate key-sequence ['job1'] in unique identity-constraint 'uniqueJobName'.\n"
+                )
             ),
             array(
                 'crontab_invalid_without_name.xml',

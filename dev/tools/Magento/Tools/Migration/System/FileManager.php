@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -20,7 +18,6 @@ class FileManager
      * @var \Magento\Tools\Migration\System\WriterInterface
      */
     protected $_writer;
-
 
     /**
      * @param \Magento\Tools\Migration\System\FileReader $reader

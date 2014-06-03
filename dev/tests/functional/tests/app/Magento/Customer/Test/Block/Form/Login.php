@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,13 +11,11 @@ namespace Magento\Customer\Test\Block\Form;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Fixture\Customer;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Login
  * Form for frontend login
- *
- * @package Magento\Customer\Test\Block\Form
  */
 class Login extends Form
 {
@@ -41,12 +36,13 @@ class Login extends Form
     /**
      * Login customer in the Frontend
      *
-     * @param Customer $fixture
+     * @param FixtureInterface $customer
      */
-    public function login(Customer $fixture)
+    public function login(FixtureInterface $customer)
     {
-        $this->fill($fixture);
+        $this->fill($customer);
         $this->submit();
+        $this->waitForElementNotVisible($this->loginButton, Locator::SELECTOR_CSS);
     }
 
     /**

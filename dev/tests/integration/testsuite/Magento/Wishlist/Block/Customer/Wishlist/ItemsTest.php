@@ -2,27 +2,34 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Wishlist\Block\Customer\Wishlist;
 
 class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetColumns()
     {
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $layout = $objectManager->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $block = $layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Items', 'test');
-        $child = $this->getMock('Magento\View\Element\Text', array('isEnabled'),
-            array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Element\Context')));
-        $child->expects($this->any())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $child = $this->getMock(
+            'Magento\Wishlist\Block\Customer\Wishlist\Item\Column',
+            array('isEnabled'),
+            array($objectManager->get('Magento\Framework\View\Element\Context')),
+            '',
+            false
+        );
+        $child->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $layout->addBlock($child, 'child', 'test');
-        $this->assertSame(array($child), $block->getColumns());
+        $expected = $child->getType();
+        $columns = $block->getColumns();
+        $this->assertNotEmpty($columns);
+        foreach ($columns as $column) {
+            $this->assertSame($expected, $column->getType());
+        }
     }
 }

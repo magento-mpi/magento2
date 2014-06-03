@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
-class Sorting
-    extends \Magento\Backend\Model\Config\Structure\AbstractMapper
+class Sorting extends \Magento\Backend\Model\Config\Structure\AbstractMapper
 {
     /**
      * Apply map
@@ -45,7 +42,6 @@ class Sorting
         return $data;
     }
 
-
     /**
      * Compare elements
      *
@@ -68,6 +64,6 @@ class Sorting
             return 0;
         }
 
-        return ($sortIndexA < $sortIndexB) ? -1 : 1;
+        return $sortIndexA < $sortIndexB ? -1 : 1;
     }
 }

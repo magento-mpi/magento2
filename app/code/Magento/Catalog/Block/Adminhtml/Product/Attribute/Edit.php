@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,18 +22,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -58,11 +56,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 $this->_addButton(
                     'save_in_new_set',
                     array(
-                        'label'     => __('Save in New Attribute Set'),
-                        'class'     => 'save',
-                        'onclick'   => 'saveAttributeInNewSet(\''
-                            . __('Enter Name for New Attribute Set')
-                            . '\')',
+                        'label' => __('Save in New Attribute Set'),
+                        'class' => 'save',
+                        'onclick' => 'saveAttributeInNewSet(\'' . __('Enter Name for New Attribute Set') . '\')'
                     )
                 );
             }
@@ -70,13 +66,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->_addButton(
                 'save_and_edit_button',
                 array(
-                    'label'     => __('Save and Continue Edit'),
-                    'class'     => 'save',
-                    'data_attribute'  => array(
+                    'label' => __('Save and Continue Edit'),
+                    'class' => 'save',
+                    'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                        ),
-                    ),
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
+                        )
+                    )
                 ),
                 100
             );
@@ -84,11 +80,11 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->_updateButton('save', 'label', __('Save Attribute'));
         $this->_updateButton('save', 'class', 'save primary');
-        $this->_updateButton('save', 'data_attribute', array(
-            'mage-init' => array(
-                'button' => array('event' => 'save', 'target' => '#edit_form'),
-            ),
-        ));
+        $this->_updateButton(
+            'save',
+            'data_attribute',
+            array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
+        );
 
         $entityAttribute = $this->_coreRegistry->registry('entity_attribute');
         if (!$entityAttribute || !$entityAttribute->getIsUserDefined()) {
@@ -96,6 +92,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         } else {
             $this->_updateButton('delete', 'label', __('Delete Attribute'));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _addButton($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
+    {
+        if ($this->getRequest()->getParam('popup')) {
+            $region = 'header';
+        }
+        parent::_addButton($buttonId, $data, $level, $sortOrder, $region);
     }
 
     /**
@@ -122,7 +129,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('catalog/*/validate', array('_current'=>true));
+        return $this->getUrl('catalog/*/validate', array('_current' => true));
     }
 
     /**
@@ -132,10 +139,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('catalog/product_attribute/save', array(
-            '_current' => true,
-            'back' => null,
-            'product_tab' => $this->getRequest()->getParam('product_tab')
-        ));
+        return $this->getUrl(
+            'catalog/product_attribute/save',
+            array('_current' => true, 'back' => null, 'product_tab' => $this->getRequest()->getParam('product_tab'))
+        );
     }
 }

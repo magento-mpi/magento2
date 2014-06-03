@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -44,7 +42,8 @@ class Writer
      */
     public function update($oldKey, $newKey)
     {
-        $this->_adapter->update($this->_tableName,
+        $this->_adapter->update(
+            $this->_tableName,
             array('resource_id' => $newKey),
             array('resource_id = ?' => $oldKey)
         );

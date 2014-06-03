@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Downloadable products price model
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Downloadable\Model\Product;
@@ -40,8 +36,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         if ($product->getLinksPurchasedSeparately()) {
             if ($linksIds = $product->getCustomOption('downloadable_link_ids')) {
                 $linkPrice = 0;
-                $links = $product->getTypeInstance()
-                    ->getLinks($product);
+                $links = $product->getTypeInstance()->getLinks($product);
                 foreach (explode(',', $linksIds->getValue()) as $linkId) {
                     if (isset($links[$linkId])) {
                         $linkPrice += $links[$linkId]->getPrice();

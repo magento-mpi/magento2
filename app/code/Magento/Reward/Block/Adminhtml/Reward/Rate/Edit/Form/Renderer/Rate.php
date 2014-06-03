@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +10,11 @@
 /**
  * Reward rate form field (element) renderer
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer;
 
-class Rate
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Rate extends \Magento\Backend\Block\Template implements \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Reward rate template
@@ -32,10 +26,10 @@ class Rate
     /**
      * Return HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();

@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller;
 
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
@@ -31,10 +30,8 @@ class ServiceArgsSerializer
      * @param TypeProcessor $typeProcessor
      * @param ObjectManager $objectManager
      */
-    public function __construct(
-        TypeProcessor $typeProcessor,
-        ObjectManager $objectManager
-    ) {
+    public function __construct(TypeProcessor $typeProcessor, ObjectManager $objectManager)
+    {
         $this->_typeProcessor = $typeProcessor;
         $this->_objectManager = $objectManager;
     }
@@ -66,20 +63,20 @@ class ServiceArgsSerializer
         $inputData = [];
         foreach ($params as $param) {
             $paramName = $param->getName();
-            if (isset($inputArray[$paramName])) {
+            $snakeCaseParamName = strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $paramName));
+            if (isset($inputArray[$paramName]) || isset($inputArray[$snakeCaseParamName])) {
+                $paramValue = isset($inputArray[$paramName])
+                    ? $inputArray[$paramName]
+                    : $inputArray[$snakeCaseParamName];
+
                 if ($this->_isArrayParam($param)) {
                     $paramType = "{$param->getType()}[]";
-                    /** Eliminate 'item' node if present. It is wrapping all data, declared in WSDL as array */
-                    $paramValue = isset($inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME])
-                        ? $inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME]
-                        : $inputArray[$paramName];
                 } else {
                     $paramType = $param->getType();
-                    $paramValue = $inputArray[$paramName];
                 }
                 $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
-                $inputData[] = $param->getDefaultValue();                   // not set, so use default
+                $inputData[] = $param->getDefaultValue(); // not set, so use default
             }
         }
 
@@ -124,13 +121,14 @@ class ServiceArgsSerializer
         $class = new ClassReflection($className);
         foreach ($data as $propertyName => $value) {
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
+            // This use case is for REST only. SOAP request data is already camel cased
             $camelCaseProperty = str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
             $methodName = $this->_processGetterMethod($class, $camelCaseProperty);
             $methodReflection = $class->getMethod($methodName);
             if ($methodReflection->isPublic()) {
                 $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
                 $setterName = 'set' . $camelCaseProperty;
-                $builder->$setterName($this->_convertValue($value, $returnType));
+                $builder->{$setterName}($this->_convertValue($value, $returnType));
             }
         }
         return $builder->create();
@@ -148,9 +146,12 @@ class ServiceArgsSerializer
         if ($this->_typeProcessor->isTypeSimple($type)) {
             $result = $this->_typeProcessor->processSimpleType($value, $type);
         } elseif ($this->_typeProcessor->isArrayType($type)) {
-            $itemType = $this->_typeProcessor->getArrayItemType($type);
+            if (isset($value['item'])) {
+                $value = $this->_removeSoapItemNode($value['item']);
+            }
             // Initializing the result for array type else it will return null for empty array
             $result = is_array($value) ? [] : null;
+            $itemType = $this->_typeProcessor->getArrayItemType($type);
             foreach ($value as $key => $item) {
                 $result[$key] = $this->_createFromArray($itemType, $item);
             }
@@ -177,12 +178,31 @@ class ServiceArgsSerializer
         } elseif ($class->hasMethod($boolGetterName)) {
             $methodName = $boolGetterName;
         } else {
-            throw new \Exception(sprintf(
-                'Property :"%s" does not exist in the Data Object class: "%s".',
-                $camelCaseProperty,
-                $class->getName()
-            ));
+            throw new \Exception(
+                sprintf(
+                    'Property :"%s" does not exist in the Data Object class: "%s".',
+                    $camelCaseProperty,
+                    $class->getName()
+                )
+            );
         }
         return $methodName;
+    }
+
+    /**
+     * Remove item node added by the SOAP server for array types
+     *
+     * @param array|mixed $value
+     * @return array
+     */
+    protected function _removeSoapItemNode($value)
+    {
+        /**
+         * In case when only one Data object value is passed, it will not be wrapped into a subarray
+         * within item node. If several Data object values are passed, they will be wrapped into
+         * an indexed array within item node.
+         */
+        $isAssociative = array_keys($value) !== range(0, count($value) - 1);
+        return $isAssociative ? [$value] : $value;
     }
 }

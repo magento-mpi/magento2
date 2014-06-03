@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,52 +20,52 @@ class Grid extends \Magento\Backend\Block\Widget
      *
      * @var string
      */
-    protected $_varNameLimit    = 'limit';
+    protected $_varNameLimit = 'limit';
 
     /**
      * @var string
      */
-    protected $_varNamePage     = 'page';
+    protected $_varNamePage = 'page';
 
     /**
      * @var string
      */
-    protected $_varNameSort     = 'sort';
+    protected $_varNameSort = 'sort';
 
     /**
      * @var string
      */
-    protected $_varNameDir      = 'dir';
+    protected $_varNameDir = 'dir';
 
     /**
      * @var string
      */
-    protected $_varNameFilter   = 'filter';
+    protected $_varNameFilter = 'filter';
 
     /**
      * @var int
      */
-    protected $_defaultLimit    = 20;
+    protected $_defaultLimit = 20;
 
     /**
      * @var int
      */
-    protected $_defaultPage     = 1;
+    protected $_defaultPage = 1;
 
     /**
      * @var bool|string
      */
-    protected $_defaultSort     = false;
+    protected $_defaultSort = false;
 
     /**
      * @var string
      */
-    protected $_defaultDir      = 'desc';
+    protected $_defaultDir = 'desc';
 
     /**
      * @var array
      */
-    protected $_defaultFilter   = array();
+    protected $_defaultFilter = array();
 
     /**
      * Empty grid text
@@ -81,7 +79,7 @@ class Grid extends \Magento\Backend\Block\Widget
      *
      * @var string|null
      */
-    protected $_emptyTextCss    = 'a-center';
+    protected $_emptyTextCss = 'empty-text';
 
     /**
      * Pager visibility
@@ -114,14 +112,14 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Totals
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_varTotals;
 
     /**
      * RSS list
      *
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected $_rssLists = array();
 
@@ -182,12 +180,11 @@ class Grid extends \Magento\Backend\Block\Widget
             $this->setSaveParametersInSession($this->getData('save_parameters_in_session'));
         }
 
-        $this->setPagerVisibility($this->hasData('pager_visibility')? (bool) $this->getData('pager_visibility') : true);
-
-        $this->setData(
-            'use_ajax',
-            $this->hasData('use_ajax') ? (bool) $this->getData('use_ajax') : false
+        $this->setPagerVisibility(
+            $this->hasData('pager_visibility') ? (bool)$this->getData('pager_visibility') : true
         );
+
+        $this->setData('use_ajax', $this->hasData('use_ajax') ? (bool)$this->getData('use_ajax') : false);
 
         if ($this->hasData('rssList') && is_array($this->getData('rssList'))) {
             foreach ($this->getData('rssList') as $item) {
@@ -199,7 +196,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Set collection object
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return void
      */
     public function setCollection($collection)
@@ -210,7 +207,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get collection object
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {
@@ -230,13 +227,13 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve export block
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
      */
     public function getExportBlock()
     {
         if (!$this->getChildBlock('grid.export')) {
-            throw new \Magento\Core\Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
+            throw new \Magento\Framework\Model\Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
         }
         return $this->getChildBlock('grid.export');
     }
@@ -265,7 +262,7 @@ class Grid extends \Magento\Backend\Block\Widget
      * Retrieve column by id
      *
      * @param string $columnId
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
      */
     public function getColumn($columnId)
     {
@@ -281,9 +278,13 @@ class Grid extends \Magento\Backend\Block\Widget
     protected function _setFilterValues($data)
     {
         foreach ($this->getColumns() as $columnId => $column) {
-            if (isset($data[$columnId])
-                && ((is_array($data[$columnId]) && !empty($data[$columnId])) || strlen($data[$columnId]) > 0)
-                && $column->getFilter()
+            if (isset(
+                $data[$columnId]
+            ) && (is_array(
+                $data[$columnId]
+            ) && !empty($data[$columnId]) || strlen(
+                $data[$columnId]
+            ) > 0) && $column->getFilter()
             ) {
                 $column->getFilter()->setValue($data[$columnId]);
                 $this->_addColumnFilterToCollection($column);
@@ -301,7 +302,7 @@ class Grid extends \Magento\Backend\Block\Widget
     protected function _addColumnFilterToCollection($column)
     {
         if ($this->getCollection()) {
-            $field = ( $column->getFilterIndex() ) ? $column->getFilterIndex() : $column->getIndex();
+            $field = $column->getFilterIndex() ? $column->getFilterIndex() : $column->getIndex();
             if ($column->getFilterConditionCallback()) {
                 call_user_func($column->getFilterConditionCallback(), $this->getCollection(), $column);
             } else {
@@ -324,8 +325,7 @@ class Grid extends \Magento\Backend\Block\Widget
     {
         $collection = $this->getCollection();
         if ($collection) {
-            $columnIndex = $column->getFilterIndex() ?
-                $column->getFilterIndex() : $column->getIndex();
+            $columnIndex = $column->getFilterIndex() ? $column->getFilterIndex() : $column->getIndex();
             $collection->setOrder($columnIndex, strtoupper($column->getDir()));
         }
         return $this;
@@ -334,7 +334,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get prepared collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getPreparedCollection()
     {
@@ -354,8 +354,8 @@ class Grid extends \Magento\Backend\Block\Widget
             $this->_preparePage();
 
             $columnId = $this->getParam($this->getVarNameSort(), $this->_defaultSort);
-            $dir      = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
-            $filter   = $this->getParam($this->getVarNameFilter(), null);
+            $dir = $this->getParam($this->getVarNameDir(), $this->_defaultDir);
+            $filter = $this->getParam($this->getVarNameFilter(), null);
 
             if (is_null($filter)) {
                 $filter = $this->_defaultFilter;
@@ -372,7 +372,7 @@ class Grid extends \Magento\Backend\Block\Widget
             }
 
             if ($this->getColumn($columnId) && $this->getColumn($columnId)->getIndex()) {
-                $dir = (strtolower($dir)=='desc') ? 'desc' : 'asc';
+                $dir = strtolower($dir) == 'desc' ? 'desc' : 'asc';
                 $this->getColumn($columnId)->setDir($dir);
                 $this->_setCollectionOrder($this->getColumn($columnId));
             }
@@ -399,8 +399,8 @@ class Grid extends \Magento\Backend\Block\Widget
      */
     protected function _preparePage()
     {
-        $this->getCollection()->setPageSize((int) $this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-        $this->getCollection()->setCurPage((int) $this->getParam($this->getVarNamePage(), $this->_defaultPage));
+        $this->getCollection()->setPageSize((int)$this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
+        $this->getCollection()->setCurPage((int)$this->getParam($this->getVarNamePage(), $this->_defaultPage));
     }
 
     /**
@@ -432,7 +432,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get massaction block
      *
-     * @return bool|\Magento\View\Element\AbstractBlock
+     * @return bool|\Magento\Framework\View\Element\AbstractBlock
      */
     public function getMassactionBlock()
     {
@@ -446,20 +446,25 @@ class Grid extends \Magento\Backend\Block\Widget
      */
     protected function _prepareFilterButtons()
     {
-        $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(array(
-                'label'     => __('Reset Filter'),
-                'onclick'   => $this->getJsObjectName().'.resetFilter()',
-            ))
+        $this->setChild(
+            'reset_filter_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array('label' => __('Reset Filter'), 'onclick' => $this->getJsObjectName() . '.resetFilter()', 'class' => 'action-reset')
+            )
         );
-        $this->setChild('search_button',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(array(
-                'label'     => __('Search'),
-                'onclick'   => $this->getJsObjectName().'.doFilter()',
-                'class'   => 'task'
-            ))
+        $this->setChild(
+            'search_button',
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Search'),
+                    'onclick' => $this->getJsObjectName() . '.doFilter()',
+                    'class' => 'task'
+                )
+            )
         );
     }
 
@@ -690,7 +695,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve rss lists types
      *
-     * @return \Magento\Object[]|false
+     * @return \Magento\Framework\Object[]|false
      */
     public function getRssLists()
     {
@@ -706,11 +711,8 @@ class Grid extends \Magento\Backend\Block\Widget
      */
     public function addRssList($url, $label)
     {
-        $this->_rssLists[] = new \Magento\Object(
-            array(
-                'url'   => $this->getUrl($url, array('_nosecret' => true)),
-                'label' => $label
-            )
+        $this->_rssLists[] = new \Magento\Framework\Object(
+            array('url' => $this->getUrl($url, array('_nosecret' => true)), 'label' => $label)
         );
         return $this;
     }
@@ -831,10 +833,10 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Set totals
      *
-     * @param \Magento\Object $totals
+     * @param \Magento\Framework\Object $totals
      * @return void
      */
-    public function setTotals(\Magento\Object $totals)
+    public function setTotals(\Magento\Framework\Object $totals)
     {
         $this->_varTotals = $totals;
     }
@@ -842,7 +844,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve totals
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {
@@ -858,8 +860,8 @@ class Grid extends \Magento\Backend\Block\Widget
     {
         $html = '';
         if ($this->getColumnSet()->isFilterVisible()) {
-            $html.= $this->getResetFilterButtonHtml();
-            $html.= $this->getSearchButtonHtml();
+            $html .= $this->getResetFilterButtonHtml();
+            $html .= $this->getSearchButtonHtml();
         }
         return $html;
     }

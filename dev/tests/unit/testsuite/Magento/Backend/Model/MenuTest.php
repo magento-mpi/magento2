@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 class MenuTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +15,7 @@ class MenuTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -39,7 +35,7 @@ class MenuTest extends \PHPUnit_Framework_TestCase
         $this->_items['item3'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $this->_items['item3']->expects($this->any())->method('getId')->will($this->returnValue('item3'));
 
-        $this->_logger = $this->getMock('Magento\Logger', array('log'), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Framework\Logger', array('log'), array(), '', false);
 
         $this->_model = new \Magento\Backend\Model\Menu($this->_logger);
     }
@@ -54,8 +50,13 @@ class MenuTest extends \PHPUnit_Framework_TestCase
 
     public function testAddDoLogAddAction()
     {
-        $this->_logger->expects($this->once())->method('log')
-            ->with($this->equalTo(sprintf('Add of item with id %s was processed', $this->_items['item1']->getId())));
+        $this->_logger->expects(
+            $this->once()
+        )->method(
+            'log'
+        )->with(
+            $this->equalTo(sprintf('Add of item with id %s was processed', $this->_items['item1']->getId()))
+        );
 
         $this->_model->add($this->_items['item1']);
     }
@@ -63,13 +64,9 @@ class MenuTest extends \PHPUnit_Framework_TestCase
     public function testAddToItem()
     {
         $subMenu = $this->getMock("Magento\Backend\Model\Menu", array(), array($this->_logger));
-        $subMenu->expects($this->once())
-            ->method("add")
-            ->with($this->_items['item2']);
+        $subMenu->expects($this->once())->method("add")->with($this->_items['item2']);
 
-        $this->_items['item1']->expects($this->once())
-            ->method("getChildren")
-            ->will($this->returnValue($subMenu));
+        $this->_items['item1']->expects($this->once())->method("getChildren")->will($this->returnValue($subMenu));
 
         $this->_model->add($this->_items['item1']);
         $this->_model->add($this->_items['item2'], 'item1');
@@ -140,13 +137,9 @@ class MenuTest extends \PHPUnit_Framework_TestCase
         $this->_model->add($this->_items['item3']);
 
         $subMenu = $this->getMock("Magento\Backend\Model\Menu", array(), array(), '', false);
-        $subMenu->expects($this->once())
-            ->method("add")
-            ->with($this->_items['item3']);
+        $subMenu->expects($this->once())->method("add")->with($this->_items['item3']);
 
-        $this->_items['item1']->expects($this->once())
-            ->method("getChildren")
-            ->will($this->returnValue($subMenu));
+        $this->_items['item1']->expects($this->once())->method("getChildren")->will($this->returnValue($subMenu));
 
         $this->_model->move('item3', 'item1');
 
@@ -193,9 +186,7 @@ class MenuTest extends \PHPUnit_Framework_TestCase
     public function testRemoveRemovesMenuItemRecursively()
     {
         $menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
-        $menuMock->expects($this->once())
-            ->method('remove')
-            ->with($this->equalTo('item2'));
+        $menuMock->expects($this->once())->method('remove')->with($this->equalTo('item2'));
 
         $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menuMock));
@@ -208,8 +199,13 @@ class MenuTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->add($this->_items['item1']);
 
-        $this->_logger->expects($this->once())->method('log')
-            ->with($this->equalTo(sprintf('Remove on item with id %s was processed', $this->_items['item1']->getId())));
+        $this->_logger->expects(
+            $this->once()
+        )->method(
+            'log'
+        )->with(
+            $this->equalTo(sprintf('Remove on item with id %s was processed', $this->_items['item1']->getId()))
+        );
 
         $this->_model->remove('item1');
     }
@@ -231,13 +227,9 @@ class MenuTest extends \PHPUnit_Framework_TestCase
 
         $subMenu = new \Magento\Backend\Model\Menu($this->_logger);
 
-        $this->_items['item1']->expects($this->any())
-            ->method("hasChildren")
-            ->will($this->returnValue(true));
+        $this->_items['item1']->expects($this->any())->method("hasChildren")->will($this->returnValue(true));
 
-        $this->_items['item1']->expects($this->any())
-            ->method("getChildren")
-            ->will($this->returnValue($subMenu));
+        $this->_items['item1']->expects($this->any())->method("getChildren")->will($this->returnValue($subMenu));
 
         $this->_model->add($this->_items['item1']);
         $this->_model->add($this->_items['item2'], 'item1', 10);
@@ -323,7 +315,7 @@ class MenuTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'item1' => array('item1', 'item2', 'item3'),
             'item2' => array('item1', 'item2', 'item3'),
-            'item3' => array('item1', 'item2', 'item3'),
+            'item3' => array('item1', 'item2', 'item3')
         );
         $actual = array();
         foreach ($this->_model as $valLoop1) {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Product stock qty default block
  *
- * @category   Magento
- * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Block\Stockqty;
 
-class DefaultStockqty extends AbstractStockqty implements \Magento\View\Block\IdentityInterface
+class DefaultStockqty extends AbstractStockqty implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Render block HTML

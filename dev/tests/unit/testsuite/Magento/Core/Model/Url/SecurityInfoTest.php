@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
 class SecurityInfoTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +12,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \Magento\Core\Model\Url\SecurityInfo
@@ -22,23 +21,13 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeMock = $this->getMock(
-            'Magento\Core\Model\Store',
-            array('getConfig', '__wakeup'),
-            array(),
-            '',
-            false
-        );
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
-        $this->_model = new \Magento\Core\Model\Url\SecurityInfo(
-            $storeManagerMock, array('/account', '/cart')
-        );
+        $this->_scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_model = new \Magento\Core\Model\Url\SecurityInfo($this->_scopeConfigMock, array('/account', '/cart'));
     }
 
     public function testIsSecureReturnsFalseIfDisabledInConfig()
     {
-        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(false));
+        $this->_scopeConfigMock->expects($this->once())->method('getValue')->will($this->returnValue(false));
         $this->assertFalse($this->_model->isSecure('http://example.com/account'));
     }
 
@@ -49,7 +38,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSecureChecksIfUrlIsInSecureList($url, $expected)
     {
-        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(true));
+        $this->_scopeConfigMock->expects($this->once())->method('getValue')->will($this->returnValue(true));
         $this->assertEquals($expected, $this->_model->isSecure($url));
     }
 
@@ -60,7 +49,7 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
             array('/product', false),
             array('/product/12312', false),
             array('/cart', true),
-            array('/cart/add', true),
+            array('/cart/add', true)
         );
     }
 }

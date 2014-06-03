@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +36,7 @@ class WordsTest extends \PHPUnit_Framework_TestCase
             function ($file) {
                 $words = self::$_wordsFinder->findWords($file);
                 if ($words) {
-                    $this->fail("Found words: '" . implode("', '", $words) . "' in '$file' file");
+                    $this->fail("Found words: '" . implode("', '", $words) . "' in '{$file}' file");
                 }
             },
             \Magento\TestFramework\Utility\Files::init()->getAllFiles()

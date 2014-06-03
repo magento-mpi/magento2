@@ -10,10 +10,10 @@ namespace Magento\Logging\Model\Resource;
 /**
  * Logging event resource model
  */
-class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directory;
 
@@ -25,27 +25,27 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_archiveFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * Class constructor
      *
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 
@@ -62,10 +62,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Convert data before save ip
      *
-     * @param \Magento\Core\Model\AbstractModel $event
-     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $event
+     * @return $this|\Magento\Framework\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->dateTime->formatDate($event->getTime()));
@@ -80,17 +80,23 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function rotate($lifetime)
     {
-        $readAdapter  = $this->_getReadAdapter();
+        $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
 
         // get the latest log entry required to the moment
         $clearBefore = $this->dateTime->formatDate(time() - $lifetime);
 
-        $select = $readAdapter->select()
-            ->from($this->getMainTable(), 'log_id')
-            ->where('time < ?', $clearBefore)
-            ->order('log_id DESC')
-            ->limit(1);
+        $select = $readAdapter->select()->from(
+            $this->getMainTable(),
+            'log_id'
+        )->where(
+            'time < ?',
+            $clearBefore
+        )->order(
+            'log_id DESC'
+        )->limit(
+            1
+        );
         $latestLogEntry = $readAdapter->fetchOne($select);
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
@@ -99,10 +105,14 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
             $archive->createNew();
 
             $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
-            $select = $readAdapter->select()
-                ->from($this->getMainTable())
-                ->where('log_id <= ?', $latestLogEntry)
-                ->columns($expr);
+            $select = $readAdapter->select()->from(
+                $this->getMainTable()
+            )->where(
+                'log_id <= ?',
+                $latestLogEntry
+            )->columns(
+                $expr
+            );
 
             $rows = $readAdapter->fetchAll($select);
 
@@ -128,9 +138,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getAllFieldValues($field, $order = true)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->distinct(true)
-            ->from($this->getMainTable(), $field);
+        $select = $adapter->select()->distinct(true)->from($this->getMainTable(), $field);
         if (!is_null($order)) {
             $select->order($field . ($order ? '' : ' DESC'));
         }
@@ -146,13 +154,13 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getUserNames()
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->distinct()
-            ->from(array('admins' => $this->getTable('admin_user')), 'username')
-            ->joinInner(
-                array('events' => $this->getTable('magento_logging_event')),
-                'admins.username = events.' . $adapter->quoteIdentifier('user'),
-                array()
+        $select = $adapter->select()->distinct()->from(
+            array('admins' => $this->getTable('admin_user')),
+            'username'
+        )->joinInner(
+            array('events' => $this->getTable('magento_logging_event')),
+            'admins.username = events.' . $adapter->quoteIdentifier('user'),
+            array()
         );
         return $adapter->fetchCol($select);
     }
@@ -166,9 +174,13 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getEventChangeIds($eventId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('magento_logging_event_changes'), array('id'))
-            ->where('event_id = ?', $eventId);
+        $select = $adapter->select()->from(
+            $this->getTable('magento_logging_event_changes'),
+            array('id')
+        )->where(
+            'event_id = ?',
+            $eventId
+        );
         return $adapter->fetchCol($select);
     }
 }

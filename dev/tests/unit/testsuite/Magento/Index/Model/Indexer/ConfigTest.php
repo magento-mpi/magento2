@@ -32,8 +32,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento\Index\Model\Indexer\Config\Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $this->_model = new \Magento\Index\Model\Indexer\Config(
             $this->_readerMock,
             $this->_configScopeMock,
@@ -47,12 +47,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexer()
     {
         $indexerConfig = array('indexerName' => 'indexerConfig');
-        $this->_configScopeMock->expects($this->once())
-            ->method('getCurrentScope')
-            ->will($this->returnValue('global'));
-        $this->_cacheMock->expects($this->once())
-            ->method('load')->with('global::indexerConfigCache')
-            ->will($this->returnValue(serialize($indexerConfig)));
+        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue('global'));
+        $this->_cacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            'global::indexerConfigCache'
+        )->will(
+            $this->returnValue(serialize($indexerConfig))
+        );
         $this->assertEquals('indexerConfig', $this->_model->getIndexer('indexerName'));
     }
 
@@ -62,10 +66,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetAll()
     {
         $indexerConfig = array('indexerName' => 'indexerConfig');
-        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')
-            ->will($this->returnValue('global'));
-        $this->_cacheMock->expects($this->once())->method('load')->with('global::indexerConfigCache')
-            ->will($this->returnValue(serialize($indexerConfig)));
+        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue('global'));
+        $this->_cacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            'global::indexerConfigCache'
+        )->will(
+            $this->returnValue(serialize($indexerConfig))
+        );
         $this->assertEquals($indexerConfig, $this->_model->getAll());
     }
 }

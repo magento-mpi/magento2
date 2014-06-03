@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
@@ -31,45 +30,59 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->productTypeConfig = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $this->view = $helper->getObject('Magento\Catalog\Block\Product\View', array(
-                'productTypeConfig' => $this->productTypeConfig,
-                'registry' => $this->registryMock
-            )
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->view = $helper->getObject(
+            'Magento\Catalog\Block\Product\View',
+            array('productTypeConfig' => $this->productTypeConfig, 'registry' => $this->registryMock)
         );
     }
 
     public function testShouldRenderQuantity()
     {
         $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $this->registryMock
-            ->expects($this->any())
-            ->method('registry')
-            ->with('product')
-            ->will($this->returnValue($productMock));
+        $this->registryMock->expects(
+            $this->any()
+        )->method(
+            'registry'
+        )->with(
+            'product'
+        )->will(
+            $this->returnValue($productMock)
+        );
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue('id'));
-        $this->productTypeConfig
-            ->expects($this->once())
-            ->method('isProductSet')
-            ->with('id')
-            ->will($this->returnValue(true));
+        $this->productTypeConfig->expects(
+            $this->once()
+        )->method(
+            'isProductSet'
+        )->with(
+            'id'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertEquals(false, $this->view->shouldRenderQuantity());
     }
 
     public function testGetIdentities()
     {
         $productTags = array('catalog_product_1');
-        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $category = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+
         $product->expects($this->once())
             ->method('getIdentities')
             ->will($this->returnValue($productTags));
+        $category->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(1));
         $this->registryMock->expects($this->any())
             ->method('registry')
-            ->with('product')
-            ->will($this->returnValue($product));
-        $this->assertEquals(
-            $productTags,
-            $this->view->getIdentities()
+            ->will($this->returnValueMap(
+                [
+                    ['product', $product],
+                    ['current_category', $category]
+                ]
+            )
         );
+        $this->assertEquals(array('catalog_product_1', 'catalog_category_product_1'), $this->view->getIdentities());
     }
 }

@@ -52,10 +52,10 @@ class CollectTotals
     /**
      * Handle customer VAT number if needed on collect_totals_before event of quote address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function dispatch(\Magento\Event\Observer $observer)
+    public function dispatch(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Sales\Model\Quote\Address $quoteAddress */
         $quoteAddress = $observer->getQuoteAddress();
@@ -64,7 +64,8 @@ class CollectTotals
         $customerData = $quote->getCustomerData();
         $storeId = $customerData->getStoreId();
 
-        if ($customerData->getCustomAttribute('disable_auto_group_change')
+        if (($customerData->getCustomAttribute('disable_auto_group_change')
+                && $customerData->getCustomAttribute('disable_auto_group_change')->getValue())
             || false == $this->vatValidator->isEnabled($quoteAddress, $storeId)
         ) {
             return;
@@ -74,9 +75,9 @@ class CollectTotals
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
         if (empty($customerVatNumber) || false == $this->customerHelper->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerData->getId()
-                ? $this->customerHelper->getDefaultCustomerGroupId($storeId)
-                : \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+            $groupId = $customerData->getId() ? $this->customerHelper->getDefaultCustomerGroupId(
+                $storeId
+            ) : \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
         } else {
             // Magento always has to emulate group even if customer uses default billing/shipping address
             $groupId = $this->customerHelper->getCustomerGroupIdBasedOnVatNumber(
@@ -89,7 +90,10 @@ class CollectTotals
         if ($groupId) {
             $quoteAddress->setPrevQuoteCustomerGroupId($quote->getCustomerGroupId());
             $quote->setCustomerGroupId($groupId);
-            $customerData = $this->customerBuilder->mergeDataObjectWithArray($customerData, ['group_id' => $groupId]);
+            $customerData = $this->customerBuilder->mergeDataObjectWithArray(
+                $customerData,
+                array('group_id' => $groupId)
+            );
             $quote->setCustomerData($customerData);
         }
     }

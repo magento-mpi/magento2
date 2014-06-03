@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 /**
  * Design tab with cms page attributes and some modifications to CE version
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Design
-    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
+class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
 {
     /**
      * Cms data
@@ -28,19 +23,19 @@ class Design
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
-     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
-        \Magento\View\Design\Theme\LabelFactory $labelFactory,
+        \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -47,13 +45,13 @@ class Product extends AbstractResource
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Factory $modelFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param Category $catalogCategory
@@ -62,13 +60,13 @@ class Product extends AbstractResource
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Factory $modelFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         Category $catalogCategory,
@@ -118,9 +116,13 @@ class Product extends AbstractResource
             $productId = $product;
         }
 
-        $select = $adapter->select()
-            ->from($this->_productWebsiteTable, 'website_id')
-            ->where('product_id = ?', (int)$productId);
+        $select = $adapter->select()->from(
+            $this->_productWebsiteTable,
+            'website_id'
+        )->where(
+            'product_id = ?',
+            (int)$productId
+        );
 
         return $adapter->fetchCol($select);
     }
@@ -133,9 +135,13 @@ class Product extends AbstractResource
      */
     public function getWebsiteIdsByProductIds($productIds)
     {
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->_productWebsiteTable, array('product_id', 'website_id'))
-            ->where('product_id IN (?)', $productIds);
+        $select = $this->_getWriteAdapter()->select()->from(
+            $this->_productWebsiteTable,
+            array('product_id', 'website_id')
+        )->where(
+            'product_id IN (?)',
+            $productIds
+        );
         $productsWebsites = array();
         foreach ($this->_getWriteAdapter()->fetchAll($select) as $productInfo) {
             $productId = $productInfo['product_id'];
@@ -143,7 +149,6 @@ class Product extends AbstractResource
                 $productsWebsites[$productId] = array();
             }
             $productsWebsites[$productId][] = $productInfo['website_id'];
-
         }
 
         return $productsWebsites;
@@ -159,9 +164,13 @@ class Product extends AbstractResource
     {
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from($this->_productCategoryTable, 'category_id')
-            ->where('product_id = ?', (int)$product->getId());
+        $select = $adapter->select()->from(
+            $this->_productCategoryTable,
+            'category_id'
+        )->where(
+            'product_id = ?',
+            (int)$product->getId()
+        );
 
         return $adapter->fetchCol($select);
     }
@@ -176,9 +185,7 @@ class Product extends AbstractResource
     {
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from($this->getEntityTable(), 'entity_id')
-            ->where('sku = :sku');
+        $select = $adapter->select()->from($this->getEntityTable(), 'entity_id')->where('sku = :sku');
 
         $bind = array(':sku' => (string)$sku);
 
@@ -188,18 +195,16 @@ class Product extends AbstractResource
     /**
      * Process product data before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Object $object)
+    protected function _beforeSave(\Magento\Framework\Object $object)
     {
         /**
          * Check if declared category ids in object data.
          */
         if ($object->hasCategoryIds()) {
-            $categoryIds = $this->_catalogCategory->verifyIds(
-                $object->getCategoryIds()
-            );
+            $categoryIds = $this->_catalogCategory->verifyIds($object->getCategoryIds());
             $object->setCategoryIds($categoryIds);
         }
 
@@ -216,13 +221,12 @@ class Product extends AbstractResource
     /**
      * Save data related with product
      *
-     * @param \Magento\Object $product
+     * @param \Magento\Framework\Object $product
      * @return $this
      */
-    protected function _afterSave(\Magento\Object $product)
+    protected function _afterSave(\Magento\Framework\Object $product)
     {
-        $this->_saveWebsiteIds($product)
-            ->_saveCategories($product);
+        $this->_saveWebsiteIds($product)->_saveCategories($product);
         return parent::_afterSave($product);
     }
 
@@ -249,20 +253,14 @@ class Product extends AbstractResource
         if (!empty($insert)) {
             $data = array();
             foreach ($insert as $websiteId) {
-                $data[] = array(
-                    'product_id' => (int)$product->getId(),
-                    'website_id' => (int)$websiteId
-                );
+                $data[] = array('product_id' => (int)$product->getId(), 'website_id' => (int)$websiteId);
             }
             $adapter->insertMultiple($this->_productWebsiteTable, $data);
         }
 
         if (!empty($delete)) {
             foreach ($delete as $websiteId) {
-                $condition = array(
-                    'product_id = ?' => (int)$product->getId(),
-                    'website_id = ?' => (int)$websiteId,
-                );
+                $condition = array('product_id = ?' => (int)$product->getId(), 'website_id = ?' => (int)$websiteId);
 
                 $adapter->delete($this->_productWebsiteTable, $condition);
             }
@@ -278,10 +276,10 @@ class Product extends AbstractResource
     /**
      * Save product category relations
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _saveCategories(\Magento\Object $object)
+    protected function _saveCategories(\Magento\Framework\Object $object)
     {
         /**
          * If category ids data is not declared we haven't do manipulations
@@ -306,8 +304,8 @@ class Product extends AbstractResource
                 }
                 $data[] = array(
                     'category_id' => (int)$categoryId,
-                    'product_id'  => (int)$object->getId(),
-                    'position'    => 1
+                    'product_id' => (int)$object->getId(),
+                    'position' => 1
                 );
             }
             if ($data) {
@@ -317,10 +315,7 @@ class Product extends AbstractResource
 
         if (!empty($delete)) {
             foreach ($delete as $categoryId) {
-                $where = array(
-                    'product_id = ?'  => (int)$object->getId(),
-                    'category_id = ?' => (int)$categoryId,
-                );
+                $where = array('product_id = ?' => (int)$object->getId(), 'category_id = ?' => (int)$categoryId);
 
                 $write->delete($this->_productCategoryTable, $where);
             }
@@ -344,12 +339,16 @@ class Product extends AbstractResource
     {
         /** @var \Magento\Catalog\Model\Resource\Category\Collection $collection */
         $collection = $this->_categoryCollectionFactory->create();
-        $collection->joinField('product_id',
-                'catalog_category_product',
-                'product_id',
-                'category_id = entity_id',
-                null)
-            ->addFieldToFilter('product_id', (int)$product->getId());
+        $collection->joinField(
+            'product_id',
+            'catalog_category_product',
+            'product_id',
+            'category_id = entity_id',
+            null
+        )->addFieldToFilter(
+            'product_id',
+            (int)$product->getId()
+        );
         return $collection;
     }
 
@@ -363,10 +362,16 @@ class Product extends AbstractResource
     {
         // is_parent=1 ensures that we'll get only category IDs those are direct parents of the product, instead of
         // fetching all parent IDs, including those are higher on the tree
-        $select = $this->_getReadAdapter()->select()->distinct()
-            ->from($this->getTable('catalog_category_product_index'), array('category_id'))
-            ->where('product_id = ? AND is_parent = 1', (int)$object->getEntityId())
-            ->where('visibility != ?', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
+        $select = $this->_getReadAdapter()->select()->distinct()->from(
+            $this->getTable('catalog_category_product_index'),
+            array('category_id')
+        )->where(
+            'product_id = ? AND is_parent = 1',
+            (int)$object->getEntityId()
+        )->where(
+            'visibility != ?',
+            \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE
+        );
 
         return $this->_getReadAdapter()->fetchCol($select);
     }
@@ -390,10 +395,16 @@ class Product extends AbstractResource
      */
     public function canBeShowInCategory($product, $categoryId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog_category_product_index'), 'product_id')
-            ->where('product_id = ?', (int)$product->getId())
-            ->where('category_id = ?', (int)$categoryId);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('catalog_category_product_index'),
+            'product_id'
+        )->where(
+            'product_id = ?',
+            (int)$product->getId()
+        )->where(
+            'category_id = ?',
+            (int)$categoryId
+        );
 
         return $this->_getReadAdapter()->fetchOne($select);
     }
@@ -416,38 +427,40 @@ class Product extends AbstractResource
         foreach ($eavTables as $suffix) {
             $tableName = $this->getTable(array('catalog_product_entity', $suffix));
 
-            $select = $adapter->select()
-                ->from($tableName, array(
-                    'entity_type_id',
-                    'attribute_id',
-                    'store_id',
-                    'entity_id' => new \Zend_Db_Expr($adapter->quote($newId)),
-                    'value'
-                ))
-                ->where('entity_id = ?', $oldId)
-                ->where('store_id > ?', 0);
-
-            $adapter->query($adapter->insertFromSelect(
-                $select,
+            $select = $adapter->select()->from(
                 $tableName,
                 array(
                     'entity_type_id',
                     'attribute_id',
                     'store_id',
-                    'entity_id',
+                    'entity_id' => new \Zend_Db_Expr($adapter->quote($newId)),
                     'value'
-                ),
-                \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
-            ));
+                )
+            )->where(
+                'entity_id = ?',
+                $oldId
+            )->where(
+                'store_id > ?',
+                0
+            );
+
+            $adapter->query(
+                $adapter->insertFromSelect(
+                    $select,
+                    $tableName,
+                    array('entity_type_id', 'attribute_id', 'store_id', 'entity_id', 'value'),
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                )
+            );
         }
 
         // set status as disabled
-        $statusAttribute      = $this->getAttribute('status');
-        $statusAttributeId    = $statusAttribute->getAttributeId();
+        $statusAttribute = $this->getAttribute('status');
+        $statusAttributeId = $statusAttribute->getAttributeId();
         $statusAttributeTable = $statusAttribute->getBackend()->getTable();
-        $updateCond[]         = 'store_id > 0';
-        $updateCond[]         = $adapter->quoteInto('entity_id = ?', $newId);
-        $updateCond[]         = $adapter->quoteInto('attribute_id = ?', $statusAttributeId);
+        $updateCond[] = 'store_id > 0';
+        $updateCond[] = $adapter->quoteInto('entity_id = ?', $newId);
+        $updateCond[] = $adapter->quoteInto('attribute_id = ?', $statusAttributeId);
         $adapter->update(
             $statusAttributeTable,
             array('value' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED),
@@ -465,10 +478,37 @@ class Product extends AbstractResource
      */
     public function getProductsSku(array $productIds)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('catalog_product_entity'), array('entity_id', 'sku'))
-            ->where('entity_id IN (?)', $productIds);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('catalog_product_entity'),
+            array('entity_id', 'sku')
+        )->where(
+            'entity_id IN (?)',
+            $productIds
+        );
         return $this->_getReadAdapter()->fetchAll($select);
+    }
+
+    /**
+     * Get product ids by their sku
+     *
+     * @param  array $productSkuList
+     * @return array
+     */
+    public function getProductsIdsBySkus(array $productSkuList)
+    {
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('catalog_product_entity'),
+            array('sku', 'entity_id')
+        )->where(
+            'sku IN (?)',
+            $productSkuList
+        );
+
+        $result = array();
+        foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
+            $result[$row['sku']] = $row['entity_id'];
+        }
+        return $result;
     }
 
     /**
@@ -487,8 +527,7 @@ class Product extends AbstractResource
         }
 
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('catalog_product_entity'), $columns);
+        $select = $adapter->select()->from($this->getTable('catalog_product_entity'), $columns);
 
         return $adapter->fetchAll($select);
     }
@@ -507,23 +546,25 @@ class Product extends AbstractResource
             $storeIds = array($storeIds);
         }
 
-        $mainTable = $product->getResource()->getAttribute('image')
-            ->getBackend()
-            ->getTable();
-        $read      = $this->_getReadAdapter();
-        $select    = $read->select()
-            ->from(
-                array('images' => $mainTable),
-                array('value as filepath', 'store_id')
-            )
-            ->joinLeft(
-                array('attr' => $this->getTable('eav_attribute')),
-                'images.attribute_id = attr.attribute_id',
-                array('attribute_code')
-            )
-            ->where('entity_id = ?', $product->getId())
-            ->where('store_id IN (?)', $storeIds)
-            ->where('attribute_code IN (?)', array('small_image', 'thumbnail', 'image'));
+        $mainTable = $product->getResource()->getAttribute('image')->getBackend()->getTable();
+        $read = $this->_getReadAdapter();
+        $select = $read->select()->from(
+            array('images' => $mainTable),
+            array('value as filepath', 'store_id')
+        )->joinLeft(
+            array('attr' => $this->getTable('eav_attribute')),
+            'images.attribute_id = attr.attribute_id',
+            array('attribute_code')
+        )->where(
+            'entity_id = ?',
+            $product->getId()
+        )->where(
+            'store_id IN (?)',
+            $storeIds
+        )->where(
+            'attribute_code IN (?)',
+            array('small_image', 'thumbnail', 'image')
+        );
 
         $images = $read->fetchAll($select);
         return $images;

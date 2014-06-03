@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,6 @@
  * Class to test composed JsHint test.
  * Used to ensure, that Magento coding standard rules (sniffs) really do what they are intended to do.
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  */
 namespace Magento\Test\Js\Exemplar;
 
@@ -28,7 +23,7 @@ class JsHintTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $reportFile = __DIR__ . '/../../../tmp/js_report.txt';
-        $fileName = BP . '/pub/lib/mage/mage.js';
+        $fileName = BP . '/lib/web/mage/mage.js';
         self::$_cmd = new \Magento\TestFramework\Inspection\JsHint\Command($fileName, $reportFile);
     }
 

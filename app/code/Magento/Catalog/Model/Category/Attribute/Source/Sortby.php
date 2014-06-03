@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Catalog\Model\Category\Attribute\Source;
 /**
  * Catalog Category *_sort_by Attributes Source Model
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Sortby
-    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class Sortby extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Catalog config
@@ -31,9 +26,8 @@ class Sortby
      *
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
-    public function __construct(
-        \Magento\Catalog\Model\Config $catalogConfig
-    ) {
+    public function __construct(\Magento\Catalog\Model\Config $catalogConfig)
+    {
         $this->_catalogConfig = $catalogConfig;
     }
 
@@ -53,10 +47,7 @@ class Sortby
     public function getAllOptions()
     {
         if (is_null($this->_options)) {
-            $this->_options = array(array(
-                'label' => __('Position'),
-                'value' => 'position'
-            ));
+            $this->_options = array(array('label' => __('Position'), 'value' => 'position'));
             foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
                 $this->_options[] = array(
                     'label' => __($attribute['frontend_label']),

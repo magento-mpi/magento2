@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Config backend model for "Custom Admin Path" option
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
-class Custompath extends \Magento\Core\Model\Config\Value
+class Custompath extends \Magento\Framework\App\Config\Value
 {
     /**
      * Check whether redirect should be set
@@ -27,7 +23,7 @@ class Custompath extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         if ($this->getOldValue() != $this->getValue()) {
-            $this->_coreRegistry->register('custom_admin_path_redirect', true, true);
+            $this->_registry->register('custom_admin_path_redirect', true, true);
         }
         return $this;
     }

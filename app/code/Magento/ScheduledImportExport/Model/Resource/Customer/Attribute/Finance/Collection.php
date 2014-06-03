@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,25 +10,26 @@ namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Financ
 /**
  * Export customer finance entity model
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**#@+
      * Customer entity finance attribute ids
      */
     const CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE = 1;
-    const CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS    = 2;
+
+    const CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS = 2;
+
     /**#@-*/
 
     /**#@+
      * Column names
      */
     const COLUMN_CUSTOMER_BALANCE = 'store_credit';
-    const COLUMN_REWARD_POINTS    = 'reward_points';
+
+    const COLUMN_REWARD_POINTS = 'reward_points';
+
     /**#@-*/
 
     /**
@@ -66,11 +65,11 @@ class Collection
 
         if ($this->_importExportData->isCustomerBalanceEnabled()) {
             $storeCreditData = array(
-                'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
+                'attribute_id' => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
                 'frontend_label' => __('Store Credit'),
-                'backend_type'   => 'decimal',
-                'is_required'    => false,
+                'backend_type' => 'decimal',
+                'is_required' => false
             );
             $this->addItem(
                 $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $storeCreditData)
@@ -79,11 +78,11 @@ class Collection
 
         if ($this->_importExportData->isRewardPointsEnabled()) {
             $rewardPointsData = array(
-                'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
+                'attribute_id' => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,
                 'frontend_label' => __('Reward Points'),
-                'backend_type'   => 'int',
-                'is_required'    => false,
+                'backend_type' => 'int',
+                'is_required' => false
             );
             $this->addItem(
                 $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $rewardPointsData)
@@ -113,11 +112,11 @@ class Collection
     /**
      * Compare two collection items
      *
-     * @param \Magento\Object $a
-     * @param \Magento\Object $b
+     * @param \Magento\Framework\Object $a
+     * @param \Magento\Framework\Object $b
      * @return int
      */
-    public function compareAttributes(\Magento\Object $a, \Magento\Object $b)
+    public function compareAttributes(\Magento\Framework\Object $a, \Magento\Framework\Object $b)
     {
         return strnatcmp($a->getData($this->_orderField), $b->getData($this->_orderField));
     }

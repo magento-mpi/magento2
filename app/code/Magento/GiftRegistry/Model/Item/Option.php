@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,10 @@ namespace Magento\GiftRegistry\Model\Item;
 /**
  * Gift registry item option model
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends \Magento\Core\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
+class Option extends \Magento\Framework\Model\AbstractModel implements
+    \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     /**
      * Related gift registry item

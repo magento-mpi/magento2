@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Fedex\Model\Source;
 
-class Generic implements \Magento\Option\ArrayInterface
+class Generic implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Fedex\Model\Carrier

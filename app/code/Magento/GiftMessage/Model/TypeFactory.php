@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,11 +18,11 @@ class TypeFactory
      * @var array
      */
     protected $_allowedEntityTypes = array(
-        'order'         => 'Magento\Sales\Model\Order',
-        'order_item'    => 'Magento\Sales\Model\Order\Item',
+        'order' => 'Magento\Sales\Model\Order',
+        'order_item' => 'Magento\Sales\Model\Order\Item',
         'order_address' => 'Magento\Sales\Model\Order\Address',
-        'quote'         => 'Magento\Sales\Model\Quote',
-        'quote_item'    => 'Magento\Sales\Model\Quote\Item',
+        'quote' => 'Magento\Sales\Model\Quote',
+        'quote_item' => 'Magento\Sales\Model\Quote\Item',
         'quote_address' => 'Magento\Sales\Model\Quote\Address',
         'quote_address_item' => 'Magento\Sales\Model\Quote\Address\Item'
     );
@@ -32,14 +30,14 @@ class TypeFactory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -49,13 +47,13 @@ class TypeFactory
      *
      * @param string $eavType
      * @return mixed
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function createType($eavType)
     {
         $types = $this->_allowedEntityTypes;
         if (!isset($types[$eavType])) {
-            throw new \Magento\Core\Exception(__('Unknown entity type'));
+            throw new \Magento\Framework\Model\Exception(__('Unknown entity type'));
         }
         return $this->_objectManager->create($types[$eavType]);
     }

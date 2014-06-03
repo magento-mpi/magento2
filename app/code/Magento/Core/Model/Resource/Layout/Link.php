@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@ namespace Magento\Core\Model\Resource\Layout;
 /**
  * Layout Link resource model
  */
-class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

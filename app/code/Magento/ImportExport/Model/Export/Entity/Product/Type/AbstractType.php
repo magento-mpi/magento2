@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Catalog\Model\Resource\Eav\Attribute;
 /**
  * Export entity product type abstract model
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractType
@@ -83,7 +79,7 @@ abstract class AbstractType
             $data = $this->_attributeOverrides[$attribute->getAttributeCode()];
 
             if (isset($data['options_method']) && method_exists($this, $data['options_method'])) {
-                $data['filter_options'] = $this->$data['options_method']();
+                $data['filter_options'] = $this->{$data['options_method']}();
             }
             $attribute->addData($data);
 

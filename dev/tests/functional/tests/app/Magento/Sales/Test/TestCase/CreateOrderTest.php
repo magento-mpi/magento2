@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Sales\Test\Fixture\Order;
  * Class CreateOrderTest
  * Tests for creating order on backend
  *
- * @package Magento\Sales\Test\TestCase
  */
 class CreateOrderTest extends Functional
 {
@@ -47,9 +43,10 @@ class CreateOrderTest extends Functional
         $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         //Steps
         $orderGridPage->open();
-        $orderGridPage->getOrderGridBlock()->addNewOrder();
+        $orderCreatePage->getActionsBlock()->addNew();
         $orderCreatePage->getCustomerBlock()->selectCustomer($fixture);
         $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
+
         $orderCreatePage->getCreateBlock()->addProducts($fixture);
         $orderCreatePage->getCreateBlock()->fillAddresses($fixture);
         $orderCreatePage->getCreateBlock()->selectShippingMethod($fixture);
@@ -92,9 +89,9 @@ class CreateOrderTest extends Functional
     {
         //Pages
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
-        $customerViewPage = Factory::getPageFactory()->getCustomerEdit();
+        $customerViewPage = Factory::getPageFactory()->getCustomerIndexEdit();
         //Block
-        $customerGrid = $customerGridPage->getGridBlock();
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
 
         //Test flow - customer saved check
         $customerGridPage->open();

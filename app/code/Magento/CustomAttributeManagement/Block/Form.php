@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\CustomAttributeManagement\Block;
 /**
  * EAV Dynamic attributes Form Block
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Name of the block in layout update xml file
@@ -63,7 +59,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_entity;
 
@@ -72,7 +68,7 @@ class Form extends \Magento\View\Element\Template
      *
      * @var string
      */
-    protected $_fieldIdFormat   = '%1$s';
+    protected $_fieldIdFormat = '%1$s';
 
     /**
      * Format for HTML elements name attribute
@@ -97,14 +93,14 @@ class Form extends \Magento\View\Element\Template
     protected $_eavConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -121,15 +117,15 @@ class Form extends \Magento\View\Element\Template
      * Get Attribute renderers from it, and add to self
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            throw new \Magento\Core\Exception(__('The current module XML block name is undefined.'));
+            throw new \Magento\Framework\Model\Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            throw new \Magento\Core\Exception(__('The current module form model pathname is undefined.'));
+            throw new \Magento\Framework\Model\Exception(__('The current module form model pathname is undefined.'));
         }
 
         return parent::_prepareLayout();
@@ -149,10 +145,10 @@ class Form extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Framework\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -185,7 +181,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getEntity()
     {
@@ -229,9 +225,13 @@ class Form extends \Magento\View\Element\Template
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = $this->_formFactory->create($this->_formModelPath)
-                ->setFormCode($this->_formCode)
-                ->setEntity($this->getEntity());
+            $this->_form = $this->_formFactory->create(
+                $this->_formModelPath
+            )->setFormCode(
+                $this->_formCode
+            )->setEntity(
+                $this->getEntity()
+            );
             if ($this->_entityType) {
                 $this->_form->setEntityType($this->_entityType);
             }
@@ -259,7 +259,8 @@ class Form extends \Magento\View\Element\Template
     {
         $attributes = array();
         foreach ($this->getForm()->getUserAttributes() as $attribute) {
-            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))) {
+            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))
+            ) {
                 continue;
             }
             if ($attribute->getIsVisible()) {
@@ -277,13 +278,18 @@ class Form extends \Magento\View\Element\Template
      */
     public function getAttributeHtml(\Magento\Eav\Model\Attribute $attribute)
     {
-        $type   = $attribute->getFrontendInput();
-        $block  = $this->getRenderer($type);
+        $type = $attribute->getFrontendInput();
+        $block = $this->getRenderer($type);
         if ($block) {
-            $block->setAttributeObject($attribute)
-                ->setEntity($this->getEntity())
-                ->setFieldIdFormat($this->_fieldIdFormat)
-                ->setFieldNameFormat($this->_fieldNameFormat);
+            $block->setAttributeObject(
+                $attribute
+            )->setEntity(
+                $this->getEntity()
+            )->setFieldIdFormat(
+                $this->_fieldIdFormat
+            )->setFieldNameFormat(
+                $this->_fieldNameFormat
+            );
             return $block->toHtml();
         }
         return false;

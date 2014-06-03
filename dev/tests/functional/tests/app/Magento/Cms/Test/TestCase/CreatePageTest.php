@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class CreatePageTest
  *
- * @package Magento\Cms\Test\TestCase
  */
 class CreatePageTest extends Functional
 {
@@ -39,7 +35,6 @@ class CreatePageTest extends Functional
      */
     public function testCreateCmsPage()
     {
-        $this->markTestSkipped('MAGETWO-20210');
         // Fixture, pages and blocks
         $cmsPageFixture = Factory::getFixtureFactory()->getMagentoCmsPage();
         $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPage();
@@ -51,7 +46,7 @@ class CreatePageTest extends Functional
         $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
         $cmsPageNewForm->fill($cmsPageFixture);
         $cmsPageNewForm->save();
-        $message = $cmsPageGrid->getMessageBlock();
+        $message = $cmsPageGrid->getMessagesBlock();
         $message->assertSuccessMessage();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
         $cmsPageGridBlock->search(array('title' => $cmsPageFixture->getPageTitle()));

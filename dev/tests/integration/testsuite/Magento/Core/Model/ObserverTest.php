@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,7 @@ namespace Magento\Core\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_eventObserver;
 
@@ -48,14 +45,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Theme\Registration',
             array('register'),
             array(
-                $this->_objectManager->create('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-                $this->_objectManager->create('Magento\Core\Model\Theme\Collection'),
-                $this->_objectManager->create('Magento\App\Filesystem')
+                $this->_objectManager->create('Magento\Core\Model\Resource\Theme\Data\CollectionFactory'),
+                $this->_objectManager->create('Magento\Core\Model\Theme\Data\Collection'),
+                $this->_objectManager->create('Magento\Framework\App\Filesystem')
             )
         );
-        $themeRegistration->expects($this->once())
-            ->method('register')
-            ->with($this->equalTo($pattern));
+        $themeRegistration->expects($this->once())->method('register')->with($this->equalTo($pattern));
         $this->_objectManager->addSharedInstance($themeRegistration, 'Magento\Core\Model\Theme\Registration');
 
         /** @var $observer \Magento\Core\Model\Observer */
@@ -66,14 +61,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * Create event observer for theme registration
      *
-     * @return \Magento\Event\Observer
+     * @return \Magento\Framework\Event\Observer
      */
     protected function _createEventObserverForThemeRegistration()
     {
-        $response = $this->_objectManager->create('Magento\Object', array(
-            'data' => array('additional_options' => array())
-        ));
-        $event = $this->_objectManager->create('Magento\Event', array('data' => array('response_object' => $response)));
-        return $this->_objectManager->create('Magento\Event\Observer', array('data' => array('event' => $event)));
+        $response = $this->_objectManager->create(
+            'Magento\Framework\Object',
+            array('data' => array('additional_options' => array()))
+        );
+        $event = $this->_objectManager->create(
+            'Magento\Framework\Event',
+            array('data' => array('response_object' => $response))
+        );
+        return $this->_objectManager->create(
+            'Magento\Framework\Event\Observer',
+            array('data' => array('event' => $event))
+        );
     }
 }

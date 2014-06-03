@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Helper;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
@@ -15,8 +14,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Helper\Address');
+        $this->helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Helper\Address'
+        );
     }
 
     /**
@@ -30,16 +30,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getAttributeValidationClass()
     {
-        return [
-            ['bad-code', ''],
-            ['city', ' required-entry'],
-            ['company', ''],
-            ['country_id', ' required-entry'],
-            ['fax', ''],
-            ['firstname', 'required-entry'],
-            ['lastname', 'required-entry'],
-            ['middlename', ''],
-            ['postcode', ' required-entry'],
-        ];
+        return array(
+            array('bad-code', ''),
+            array('city', ' required-entry'),
+            array('company', ''),
+            array('country_id', ' required-entry'),
+            array('fax', ''),
+            array('firstname', 'required-entry'),
+            array('lastname', 'required-entry'),
+            array('middlename', ''),
+            array('postcode', ' required-entry')
+        );
     }
 }

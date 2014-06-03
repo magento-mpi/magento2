@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * EAV Form Attribute Resource Model
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Eav\Model\Resource\Form;
 
-abstract class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Return form attribute IDs by form code
@@ -28,10 +24,13 @@ abstract class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getFormAttributeIds($formCode)
     {
-        $bind   = array('form_code' => $formCode);
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'attribute_id')
-            ->where('form_code = :form_code');
+        $bind = array('form_code' => $formCode);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'attribute_id'
+        )->where(
+            'form_code = :form_code'
+        );
 
         return $this->_getReadAdapter()->fetchCol($select, $bind);
     }

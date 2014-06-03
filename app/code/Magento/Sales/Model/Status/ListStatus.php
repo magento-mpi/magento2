@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\Sales\Model\Status;
  * additional data. The model helps to keep track and manipulate statuses, that different modules want to set
  * to owner object of this model.
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class ListStatus
@@ -33,7 +29,7 @@ class ListStatus
      * @param string|null $origin Usually a name of module, that adds this status
      * @param int|null $code Code of status, unique for origin, that sets it
      * @param string|null $message Status message
-     * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
+     * @param \Magento\Framework\Object|null $additionalData Any additional data, that caller would like to store
      * @return $this
      */
     public function addItem($origin = null, $code = null, $message = null, $additionalData = null)

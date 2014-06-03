@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Test\Fixture;
 
 use Magento\Banner\Test\Repository\Banner as Repository;
@@ -18,13 +14,14 @@ use Mtf\Fixture\DataFixture;
 /**
  * Class Banner
  *
- * @package Magento\Banner\Test\Fixture
  */
 
 class Banner extends DataFixture
 {
     /**
      * Banner Id
+     *
+     * @var int
      */
     private $id = null;
 
@@ -38,8 +35,7 @@ class Banner extends DataFixture
         if ($this->id === null) {
             $this->id = Factory::getApp()->magentoBannerCreateBanner($this);
             $this->_data['fields']['banner_id']['value'] = $this->id;
-        }
-        else {
+        } else {
             Factory::getApp()->magentoBannerUpdateBanner($this);
         }
         return $this;
@@ -47,6 +43,9 @@ class Banner extends DataFixture
 
     /**
      * Associate this banner with catalog price rule
+     *
+     * @param int $catalogPriceRuleId
+     * @return void
      */
     public function relateCatalogPriceRule($catalogPriceRuleId)
     {
@@ -56,6 +55,8 @@ class Banner extends DataFixture
 
     /**
      * Init data
+     *
+     * @return void
      */
     protected function _initData()
     {

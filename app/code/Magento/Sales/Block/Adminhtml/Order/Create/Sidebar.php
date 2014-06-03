@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 /**
  * Adminhtml sales order create sidebar
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Sidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -26,12 +22,16 @@ class Sidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected function _prepareLayout()
     {
         if ($this->getCustomerId()) {
-            $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
-                'label' => __('Update Changes'),
-                'onclick' => 'order.sidebarApplyChanges()',
-                'before_html' => '<div class="actions">',
-                'after_html' => '</div>'
-            ));
+            $button = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Update Changes'),
+                    'onclick' => 'order.sidebarApplyChanges()',
+                    'before_html' => '<div class="actions">',
+                    'after_html' => '</div>'
+                )
+            );
             $this->setChild('top_button', $button);
         }
 
@@ -46,7 +46,7 @@ class Sidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Check if can display
      *
-     * @param \Magento\Object $child
+     * @param \Magento\Framework\Object $child
      * @return true
      */
     public function canDisplay($child)

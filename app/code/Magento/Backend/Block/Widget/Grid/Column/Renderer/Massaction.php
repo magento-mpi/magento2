@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 /**
  * Grid widget column renderer massaction
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Massaction
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
+class Massaction extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     /**
      * @var int
@@ -50,10 +45,10 @@ class Massaction
     /**
      * Returns HTML of the object
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($this->getColumn()->getGrid()->getMassactionIdFieldOnlyIndexValue()) {
             $this->setNoObjectId(true);
@@ -74,5 +69,4 @@ class Massaction
         $html .= 'value="' . $this->escapeHtml($value) . '" class="massaction-checkbox"' . $checked . '/>';
         return $html;
     }
-
 }

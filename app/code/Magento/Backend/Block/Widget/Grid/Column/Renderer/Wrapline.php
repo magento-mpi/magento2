@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
@@ -25,18 +22,18 @@ class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         array $data = array()
     ) {
         $this->string = $string;
@@ -46,19 +43,20 @@ class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Renders grid column
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $line = parent::_getValue($row);
         $wrappedLine = '';
-        $lineLength = $this->getColumn()->getData('lineLength')
-            ? $this->getColumn()->getData('lineLength')
-            : $this->_defaultMaxLineLength;
-        for ($i = 0, $n = floor($this->string->strlen($line) / $lineLength); $i <= $n; $i++) {
-            $wrappedLine .= $this->string->substr($line, ($lineLength * $i), $lineLength)
-                . "<br />";
+        $lineLength = $this->getColumn()->getData(
+            'lineLength'
+        ) ? $this->getColumn()->getData(
+            'lineLength'
+        ) : $this->_defaultMaxLineLength;
+        for ($i = 0,$n = floor($this->string->strlen($line) / $lineLength); $i <= $n; $i++) {
+            $wrappedLine .= $this->string->substr($line, $lineLength * $i, $lineLength) . "<br />";
         }
         return $wrappedLine;
     }

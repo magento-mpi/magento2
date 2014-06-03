@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +9,10 @@
 /**
  * Invitation status option source
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class Options
-    implements \Magento\Option\ArrayInterface
-
+class Options implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Invitation Status
@@ -30,9 +24,8 @@ class Options
     /**
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
-    function __construct(
-        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
-    ) {
+    public function __construct(\Magento\Invitation\Model\Source\Invitation\Status $invitationStatus)
+    {
         $this->_invitationStatus = $invitationStatus;
     }
 

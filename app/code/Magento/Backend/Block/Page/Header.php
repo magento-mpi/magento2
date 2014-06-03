@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Page;
 /**
  * Adminhtml header block
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Header extends \Magento\Backend\Block\Template
@@ -83,6 +79,6 @@ class Header extends \Magento\Backend\Block\Template
      */
     public function displayNoscriptNotice()
     {
-        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
+        return $this->_scopeConfig->getValue('web/browser_capabilities/javascript', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

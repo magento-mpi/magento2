@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +10,7 @@ require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
 /** @var $quote \Magento\Sales\Model\Quote */
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-$quote->setStoreId(1)
-    ->setIsActive(false)
-    ->setIsMultiShipping(false)
-    ->addProduct($product->load($product->getId()), 2);
+$quote->setStoreId(1)->setIsActive(false)->setIsMultiShipping(false)->addProduct($product->load($product->getId()), 2);
 
 $quote->getPayment()->setMethod('checkmo');
 

@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
-class Form
-    extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -30,20 +27,20 @@ class Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory,
         array $data = array()
@@ -64,10 +61,11 @@ class Form
         $this->addChild('entity_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Items');
         $this->addChild('cart_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart');
         $this->addChild('sharing_form', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Sharing');
-        $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Update Items and Qty\'s'),
-            'type'  => 'submit'
-        ));
+        $this->addChild(
+            'update_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Update Items and Qty\'s'), 'type' => 'submit')
+        );
 
         return parent::_prepareLayout();
     }
@@ -89,8 +87,7 @@ class Form
      */
     public function getOwnerName()
     {
-        $customer = $this->customerFactory->create()
-            ->load($this->getEntity()->getCustomerId());
+        $customer = $this->customerFactory->create()->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
     }
@@ -112,8 +109,7 @@ class Form
      */
     public function getTypeName()
     {
-        $type = $this->giftRegistryTypeFactory->create()
-            ->load($this->getEntity()->getTypeId());
+        $type = $this->giftRegistryTypeFactory->create()->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());
     }
@@ -175,8 +171,10 @@ class Form
      */
     public function getCreatedAt()
     {
-        return $this->formatDate($this->getEntity()->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true
+        return $this->formatDate(
+            $this->getEntity()->getCreatedAt(),
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            true
         );
     }
 

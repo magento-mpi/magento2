@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Helper;
 
 /**
@@ -23,14 +22,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Core store config mock
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $coreStoreConfigMock;
+    protected $scopeConfigMock;
 
     /**
      * Context mock
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Helper\Context
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Helper\Context
      */
     protected $contextMock;
 
@@ -50,8 +49,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->contextMock = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
-        $this->coreStoreConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->contextMock = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->checkoutSessionMock = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
 
@@ -60,8 +59,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Multishipping\Helper\Data',
             array(
                 'context' => $this->contextMock,
-                'coreStoreConfig' => $this->coreStoreConfigMock,
-                'checkoutSession' => $this->checkoutSessionMock,
+                'scopeConfig' => $this->scopeConfigMock,
+                'checkoutSession' => $this->checkoutSessionMock
             )
         );
     }
@@ -69,9 +68,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetMaximumQty()
     {
         $maximumQty = 10;
-        $this->coreStoreConfigMock->expects($this->once())->method('getConfig')
-            ->with(\Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY)
-            ->will($this->returnValue($maximumQty));
+        $this->scopeConfigMock->expects(
+            $this->once()
+        )->method(
+            'getValue'
+        )->with(
+            \Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY
+        )->will(
+            $this->returnValue($maximumQty)
+        );
 
         $this->assertEquals($maximumQty, $this->helper->getMaximumQty());
     }
@@ -88,28 +93,74 @@ class DataTest extends \PHPUnit_Framework_TestCase
      * @param bool $hasNominalItems
      * @dataProvider isMultishippingCheckoutAvailableDataProvider
      */
-    public function testIsMultishippingCheckoutAvailable($result, $quoteHasItems, $isMultiShipping,
-        $hasItemsWithDecimalQty, $validateMinimumAmount, $itemsSummaryQty, $itemVirtualQty, $maximumQty,
+    public function testIsMultishippingCheckoutAvailable(
+        $result,
+        $quoteHasItems,
+        $isMultiShipping,
+        $hasItemsWithDecimalQty,
+        $validateMinimumAmount,
+        $itemsSummaryQty,
+        $itemVirtualQty,
+        $maximumQty,
         $hasNominalItems
     ) {
-        $this->coreStoreConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(\Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE)
-            ->will($this->returnValue($isMultiShipping));
-        $this->checkoutSessionMock->expects($this->once())->method('getQuote')
-            ->will($this->returnValue($this->quoteMock));
+        $this->scopeConfigMock->expects(
+            $this->once()
+        )->method(
+            'isSetFlag'
+        )->with(
+            \Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE
+        )->will(
+            $this->returnValue($isMultiShipping)
+        );
+        $this->checkoutSessionMock->expects(
+            $this->once()
+        )->method(
+            'getQuote'
+        )->will(
+            $this->returnValue($this->quoteMock)
+        );
         $this->quoteMock->expects($this->once())->method('hasItems')->will($this->returnValue($quoteHasItems));
 
-        $this->quoteMock->expects($this->any())->method('hasItemsWithDecimalQty')
-            ->will($this->returnValue($hasItemsWithDecimalQty));
-        $this->quoteMock->expects($this->any())->method('validateMinimumAmount')->with(true)
-            ->will($this->returnValue($validateMinimumAmount));
-        $this->quoteMock->expects($this->any())->method('getItemsSummaryQty')
-            ->will($this->returnValue($itemsSummaryQty));
-        $this->quoteMock->expects($this->any())->method('getItemVirtualQty')
-            ->will($this->returnValue($itemVirtualQty));
-        $this->coreStoreConfigMock->expects($this->any())->method('getConfig')
-            ->with(\Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY)
-            ->will($this->returnValue($maximumQty));
+        $this->quoteMock->expects(
+            $this->any()
+        )->method(
+            'hasItemsWithDecimalQty'
+        )->will(
+            $this->returnValue($hasItemsWithDecimalQty)
+        );
+        $this->quoteMock->expects(
+            $this->any()
+        )->method(
+            'validateMinimumAmount'
+        )->with(
+            true
+        )->will(
+            $this->returnValue($validateMinimumAmount)
+        );
+        $this->quoteMock->expects(
+            $this->any()
+        )->method(
+            'getItemsSummaryQty'
+        )->will(
+            $this->returnValue($itemsSummaryQty)
+        );
+        $this->quoteMock->expects(
+            $this->any()
+        )->method(
+            'getItemVirtualQty'
+        )->will(
+            $this->returnValue($itemVirtualQty)
+        );
+        $this->scopeConfigMock->expects(
+            $this->any()
+        )->method(
+            'getValue'
+        )->with(
+            \Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY
+        )->will(
+            $this->returnValue($maximumQty)
+        );
         $this->quoteMock->expects($this->any())->method('hasNominalItems')->will($this->returnValue($hasNominalItems));
 
         $this->assertEquals($result, $this->helper->isMultishippingCheckoutAvailable());
@@ -131,7 +182,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(false, true, true, false, true, 1, 2, null, null),
             array(false, true, true, false, true, 2, 1, 1, null),
             array(true, true, true, false, true, 2, 1, 3, false),
-            array(false, true, true, false, true, 2, 1, 3, true),
+            array(false, true, true, false, true, 2, 1, 3, true)
         );
     }
 }

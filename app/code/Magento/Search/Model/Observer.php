@@ -2,14 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Search\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
+
 /**
  * Enterprise search model observer
  */
@@ -21,20 +20,6 @@ class Observer
      * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
-
-    /**
-     * Search catalog layer
-     *
-     * @var \Magento\Search\Model\Catalog\Layer
-     */
-    protected $_searchCatalogLayer = null;
-
-    /**
-     * Search search layer
-     *
-     * @var \Magento\Search\Model\Search\Layer
-     */
-    protected $_searchSearchLayer = null;
 
     /**
      * Search recommendations factory
@@ -60,7 +45,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -81,40 +66,32 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * Construct
-     *
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
-     * @param \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Search\Model\Search\Layer $searchSearchLayer
-     * @param \Magento\Search\Model\Catalog\Layer $searchCatalogLayer
+     * @param Resource\RecommendationsFactory $searchRecommendationsFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Search\Model\Source\Weight $sourceWeight
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param Source\Weight $sourceWeight
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Search\Model\Search\Layer $searchSearchLayer,
-        \Magento\Search\Model\Catalog\Layer $searchCatalogLayer,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Search\Model\Source\Weight $sourceWeight,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
-        $this->_searchSearchLayer = $searchSearchLayer;
-        $this->_searchCatalogLayer = $searchCatalogLayer;
         $this->_indexer = $indexer;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
@@ -136,15 +113,20 @@ class Observer
             return;
         }
 
-        $form      = $observer->getEvent()->getForm();
+        $form = $observer->getEvent()->getForm();
         $attribute = $observer->getEvent()->getAttribute();
-        $fieldset  = $form->getElement('front_fieldset');
+        $fieldset = $form->getElement('front_fieldset');
 
-        $fieldset->addField('search_weight', 'select', array(
-            'name'        => 'search_weight',
-            'label'       => __('Search Weight'),
-            'values'      => $this->_sourceWeight->getOptions(),
-        ), 'is_searchable');
+        $fieldset->addField(
+            'search_weight',
+            'select',
+            array(
+                'name' => 'search_weight',
+                'label' => __('Search Weight'),
+                'values' => $this->_sourceWeight->getOptions()
+            ),
+            'is_searchable'
+        );
         /**
          * Disable default search fields
          */
@@ -164,8 +146,8 @@ class Observer
     public function searchQueryEditFormAfterSave(EventObserver $observer)
     {
         $searchQuryModel = $observer->getEvent()->getDataObject();
-        $queryId         = $searchQuryModel->getId();
-        $relatedQueries  = $searchQuryModel->getSelectedQueriesGrid();
+        $queryId = $searchQuryModel->getId();
+        $relatedQueries = $searchQuryModel->getSelectedQueriesGrid();
 
         if (strlen($relatedQueries) == 0) {
             $relatedQueries = array();
@@ -173,8 +155,7 @@ class Observer
             $relatedQueries = explode('&', $relatedQueries);
         }
 
-        $this->_searchRecommendationsFactory->create()
-            ->saveRelatedQueries($queryId, $relatedQueries);
+        $this->_searchRecommendationsFactory->create()->saveRelatedQueries($queryId, $relatedQueries);
     }
 
     /**
@@ -193,8 +174,11 @@ class Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            $this->_indexer->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+            $this->_indexer->getProcessByCode(
+                'catalogsearch_fulltext'
+            )->changeStatus(
+                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
+            );
         }
     }
 
@@ -206,7 +190,7 @@ class Observer
      */
     public function storeSearchableAttributes(EventObserver $observer)
     {
-        $engine     = $observer->getEvent()->getEngine();
+        $engine = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
         if (!$engine || !$attributes || !$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -217,10 +201,12 @@ class Observer
                 continue;
             }
 
-            $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()
-                ->setAttributeFilter($attribute->getAttributeId())
-                ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
-                ->load();
+            $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()->setAttributeFilter(
+                $attribute->getAttributeId()
+            )->setPositionOrder(
+                \Magento\Framework\DB\Select::SQL_ASC,
+                true
+            )->load();
 
             $optionsOrder = array();
             foreach ($optionCollection as $option) {
@@ -260,11 +246,9 @@ class Observer
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof \Magento\Core\Model\Website
-            || $object instanceof \Magento\Core\Model\Store\Group
-        ) {
+        if ($object instanceof \Magento\Store\Model\Website || $object instanceof \Magento\Store\Model\Group) {
             $storeIds = $object->getStoreIds();
-        } elseif ($object instanceof \Magento\Core\Model\Store) {
+        } elseif ($object instanceof \Magento\Store\Model\Store) {
             $storeIds = $object->getId();
         } else {
             $storeIds = array();
@@ -272,32 +256,6 @@ class Observer
 
         if (!empty($storeIds)) {
             $this->_engineProvider->get()->cleanIndex($storeIds);
-        }
-    }
-
-    /**
-     * Reset search engine if it is enabled for catalog navigation
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function resetCurrentCatalogLayer(EventObserver $observer)
-    {
-        if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            $this->_coreRegistry->register('current_layer', $this->_searchCatalogLayer);
-        }
-    }
-
-    /**
-     * Reset search engine if it is enabled for search navigation
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function resetCurrentSearchLayer(EventObserver $observer)
-    {
-        if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            $this->_coreRegistry->register('current_layer', $this->_searchSearchLayer);
         }
     }
 

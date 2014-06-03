@@ -13,7 +13,6 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 /**
  * This class is used to test the tree functions.
  * Class TreeTest
- * @package Magento\Test\Tools\Formatter\Tree
  */
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
@@ -99,8 +98,22 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         // check results
         $this->compareTree(
             $tree,
-            "A" . PHP_EOL . ".B" . PHP_EOL . ".B'" . PHP_EOL . ".C" . PHP_EOL . ".C'" . PHP_EOL . "A''" . PHP_EOL .
-            "A'''" . PHP_EOL . "A'" . PHP_EOL
+            "A" .
+            PHP_EOL .
+            ".B" .
+            PHP_EOL .
+            ".B'" .
+            PHP_EOL .
+            ".C" .
+            PHP_EOL .
+            ".C'" .
+            PHP_EOL .
+            "A''" .
+            PHP_EOL .
+            "A'''" .
+            PHP_EOL .
+            "A'" .
+            PHP_EOL
         );
     }
 
@@ -121,6 +134,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         // check results
         $this->compareTree($tree, "A" . PHP_EOL . ".B1" . PHP_EOL . ".B2" . PHP_EOL . ".B3" . PHP_EOL);
     }
+
     /**
      * This method dumps the tree and compares it to the passed in value.
      * @param Tree $tree

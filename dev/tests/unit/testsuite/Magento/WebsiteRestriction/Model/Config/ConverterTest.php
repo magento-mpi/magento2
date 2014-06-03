@@ -30,7 +30,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $dom = new \DOMDocument();
         $dom->load($this->_filePath . 'webrestrictions.xml');
         $actual = $this->_model->convert($dom);
-        $expected = require($this->_filePath . 'webrestrictions.php');
+        $expected = require $this->_filePath . 'webrestrictions.php';
         $this->assertEquals($expected, $actual);
     }
 }

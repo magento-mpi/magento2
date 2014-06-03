@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,13 +10,11 @@
 /**
  * Collections limiter resource model
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdminGws\Model\Resource;
 
-class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Admin gws data
@@ -28,10 +24,10 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_adminGwsData = null;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\AdminGws\Helper\Data $adminGwsData)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\AdminGws\Helper\Data $adminGwsData)
     {
         $this->_adminGwsData = $adminGwsData;
         parent::__construct($resource);
@@ -62,12 +58,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
             $select = $this->_getReadAdapter()->select();
             $select->from(
                 $this->getTable('admin_role'),
-                array(
-                    'role_id',
-                    'gws_is_all',
-                    'gws_websites',
-                    'gws_store_groups'
-                )
+                array('role_id', 'gws_is_all', 'gws_websites', 'gws_store_groups')
             );
             $select->where('parent_id = ?', 0);
             $roles = $this->_getReadAdapter()->fetchAll($select);
@@ -76,7 +67,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $roleStoreGroups = $this->_adminGwsData->explodeIds($role['gws_store_groups']);
                 $roleWebsites = $this->_adminGwsData->explodeIds($role['gws_websites']);
 
-                $hasAllPermissions = ($role['gws_is_all'] == 1);
+                $hasAllPermissions = $role['gws_is_all'] == 1;
 
                 if ($hasAllPermissions) {
                     $result[] = $role['role_id'];
@@ -127,8 +118,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
         $limitedRoles = $this->getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups);
         if ($limitedRoles) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('admin_role'), array('user_id'))
-                ->where('parent_id IN (?)', $limitedRoles);
+            $select->from($this->getTable('admin_role'), array('user_id'))->where('parent_id IN (?)', $limitedRoles);
 
             $users = $this->_getReadAdapter()->fetchCol($select);
 

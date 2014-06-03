@@ -6,5 +6,4 @@ namespace OAuth\Common\Storage\Exception;
  */
 class TokenNotFoundException extends StorageException
 {
-
 }

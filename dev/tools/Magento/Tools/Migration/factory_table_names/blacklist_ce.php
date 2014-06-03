@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Mage
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -17,21 +15,21 @@
  */
 
 return array(
-        'c',
-        'l',
-        'sc',
-        'cat_pro',
-        'table_name',
-        'rule_customer',
-        'sales_flat_',
-        'catalog_product_link_attribute_',
-        'catalog_category_flat_',
-        'catalog_category_entity_',
-        'catalog_product_flat_',
-        'catalog_product_entity_',
-        'price_index',
-        'invitation',
-        'entity_attribute',
-        'directory_currency',
-        'sales_bestsellers_aggregated_'
-    );
+    'c',
+    'l',
+    'sc',
+    'cat_pro',
+    'table_name',
+    'rule_customer',
+    'sales_flat_',
+    'catalog_product_link_attribute_',
+    'catalog_category_flat_',
+    'catalog_category_entity_',
+    'catalog_product_flat_',
+    'catalog_product_entity_',
+    'price_index',
+    'invitation',
+    'entity_attribute',
+    'directory_currency',
+    'sales_bestsellers_aggregated_'
+);

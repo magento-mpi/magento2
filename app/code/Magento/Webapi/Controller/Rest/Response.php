@@ -17,24 +17,26 @@ class Response extends \Magento\Webapi\Controller\Response
     /** @var \Magento\Webapi\Controller\Rest\Response\RendererInterface */
     protected $_renderer;
 
-    /** @var \Magento\Core\Model\App */
-    protected $_app;
+    /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $_appState;
 
     /**
      * Initialize dependencies.
      *
      * @param \Magento\Webapi\Controller\Rest\Response\Renderer\Factory $rendererFactory
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Response\Renderer\Factory $rendererFactory,
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
-        \Magento\Core\Model\App $app
+        \Magento\Framework\App\State $appState
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
-        $this->_app = $app;
+        $this->_appState = $appState;
     }
 
     /**
@@ -52,9 +54,10 @@ class Response extends \Magento\Webapi\Controller\Response
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Webapi\Exception) {
                 // If the server does not support all MIME types accepted by the client it SHOULD send 406.
-                $httpCode = $e->getHttpCode() == \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
-                    ? \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
-                    : \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
+                $httpCode = $e->getHttpCode() ==
+                    \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE ?
+                    \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE :
+                    \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
             } else {
                 $httpCode = \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
             }
@@ -71,31 +74,36 @@ class Response extends \Magento\Webapi\Controller\Response
      */
     protected function _renderMessages()
     {
-        $formattedMessages = $this->getMessages();
         $responseHttpCode = null;
         /** @var \Exception $exception */
         foreach ($this->getException() as $exception) {
             $maskedException = $this->_errorProcessor->maskException($exception);
             $messageData = array(
                 'message' => $maskedException->getMessage(),
-                'http_code' => $maskedException->getHttpCode()
             );
+            if ($maskedException->getErrors()) {
+                $messageData['errors'] = [];
+                foreach ($maskedException->getErrors() as $errorMessage) {
+                    $errorData['message'] = $errorMessage->getRawMessage();
+                    $errorData['parameters'] = $errorMessage->getParameters();
+                    $messageData['errors'][] = $errorData;
+                }
+            }
             if ($maskedException->getCode()) {
                 $messageData['code'] = $maskedException->getCode();
             }
             if ($maskedException->getDetails()) {
                 $messageData['parameters'] = $maskedException->getDetails();
             }
-            if ($this->_app->isDeveloperMode()) {
+            if ($this->_appState->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
-            $formattedMessages['errors'][] = $messageData;
             $responseHttpCode = $maskedException->getHttpCode();
         }
         // set HTTP code of the last error, Content-Type, and all rendered error messages to body
         $this->setHttpResponseCode($responseHttpCode);
         $this->setMimeType($this->_renderer->getMimeType());
-        $this->setBody($this->_renderer->render($formattedMessages));
+        $this->setBody($this->_renderer->render($messageData));
         return $this;
     }
 
@@ -110,7 +118,7 @@ class Response extends \Magento\Webapi\Controller\Response
         $this->_render($outputData);
         if ($this->getMessages()) {
             $this->_render(array('messages' => $this->getMessages()));
-        };
+        }
         return $this;
     }
 

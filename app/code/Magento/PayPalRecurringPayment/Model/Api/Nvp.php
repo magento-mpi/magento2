@@ -18,9 +18,26 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * @var string[]
      */
     protected $_createRecurringPaymentRequest = array(
-        'TOKEN', 'SUBSCRIBERNAME', 'PROFILESTARTDATE', 'PROFILEREFERENCE', 'DESC', 'MAXFAILEDPAYMENTS', 'AUTOBILLAMT',
-        'BILLINGPERIOD', 'BILLINGFREQUENCY', 'TOTALBILLINGCYCLES', 'AMT', 'TRIALBILLINGPERIOD', 'TRIALBILLINGFREQUENCY',
-        'TRIALTOTALBILLINGCYCLES', 'TRIALAMT', 'CURRENCYCODE', 'SHIPPINGAMT', 'TAXAMT', 'INITAMT', 'FAILEDINITAMTACTION'
+        'TOKEN',
+        'SUBSCRIBERNAME',
+        'PROFILESTARTDATE',
+        'PROFILEREFERENCE',
+        'DESC',
+        'MAXFAILEDPAYMENTS',
+        'AUTOBILLAMT',
+        'BILLINGPERIOD',
+        'BILLINGFREQUENCY',
+        'TOTALBILLINGCYCLES',
+        'AMT',
+        'TRIALBILLINGPERIOD',
+        'TRIALBILLINGFREQUENCY',
+        'TRIALTOTALBILLINGCYCLES',
+        'TRIALAMT',
+        'CURRENCYCODE',
+        'SHIPPINGAMT',
+        'TAXAMT',
+        'INITAMT',
+        'FAILEDINITAMTACTION'
     );
 
     /**
@@ -28,9 +45,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      *
      * @var string[]
      */
-    protected $_createRecurringPaymentResponse = array(
-        'PROFILEID', 'PROFILESTATUS'
-    );
+    protected $_createRecurringPaymentResponse = array('PROFILEID', 'PROFILESTATUS');
 
     /**
      * Request/response for ManageRecurringPaymentStatus map
@@ -60,20 +75,20 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param \Magento\Logger $logger
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\RecurringPayment\Model\QuoteImporter $quoteImporter
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Logger $logger,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\RecurringPayment\Model\QuoteImporter $quoteImporter,
         array $data = array()
@@ -94,7 +109,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * SetExpressCheckout call
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
      * TODO: put together style and giropay settings
      */
@@ -109,10 +124,13 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         if ($this->getAddress()) {
             $request = $this->_importAddresses($request);
             $request['ADDROVERRIDE'] = 1;
-        } elseif ($options && (count($options) <= 10)) { // doesn't support more than 10 shipping options
+        } elseif ($options && count($options) <= 10) {
+            // doesn't support more than 10 shipping options
             $request['CALLBACK'] = $this->getShippingOptionsCallbackUrl();
-            $request['CALLBACKTIMEOUT'] = 6; // max value
-            $request['MAXAMT'] = $request['AMT'] + 999.00; // it is impossible to calculate max amount
+            $request['CALLBACKTIMEOUT'] = 6;
+            // max value
+            $request['MAXAMT'] = $request['AMT'] + 999.00;
+            // it is impossible to calculate max amount
             $this->_exportShippingOptions($request);
         }
 
@@ -122,7 +140,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
             foreach ($payments as $payment) {
                 $payment->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
                 if (!$payment->isValid()) {
-                    throw new \Magento\Core\Exception($payment->getValidationErrors());
+                    throw new \Magento\Framework\Model\Exception($payment->getValidationErrors());
                 }
                 $request["L_BILLINGTYPE{$i}"] = 'RecurringPayments';
                 $request["L_BILLINGAGREEMENTDESCRIPTION{$i}"] = $payment->getScheduleDescription();
@@ -140,7 +158,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * @return void
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetExpressCheckoutDetails
      */
-    function callGetExpressCheckoutDetails()
+    public function callGetExpressCheckoutDetails()
     {
         $this->_prepareExpressCheckoutCallRequest($this->_getExpressCheckoutDetailsRequest);
         $request = $this->_exportToRequest($this->_getExpressCheckoutDetailsRequest);
@@ -189,7 +207,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * ManageRecurringPaymentStatus call
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function callManageRecurringPaymentStatus()
     {
@@ -199,12 +217,19 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         }
         try {
             $this->call('ManageRecurringPaymentsProfileStatus', $request);
-        } catch (\Magento\Core\Exception $e) {
-            if ((in_array(11556, $this->_callErrors) && 'Cancel' === $request['ACTION'])
-                || (in_array(11557, $this->_callErrors) && 'Suspend' === $request['ACTION'])
-                || (in_array(11558, $this->_callErrors) && 'Reactivate' === $request['ACTION'])
+        } catch (\Magento\Framework\Model\Exception $e) {
+            if (in_array(
+                11556,
+                $this->_callErrors
+            ) && 'Cancel' === $request['ACTION'] || in_array(
+                11557,
+                $this->_callErrors
+            ) && 'Suspend' === $request['ACTION'] || in_array(
+                11558,
+                $this->_callErrors
+            ) && 'Reactivate' === $request['ACTION']
             ) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('We can\'t change the status because the current status doesn\'t match the real status.')
                 );
             }
@@ -215,10 +240,10 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * GetRecurringPaymentDetails call
      *
-     * @param \Magento\Object $result
+     * @param \Magento\Framework\Object $result
      * @return void
      */
-    public function callGetRecurringPaymentDetails(\Magento\Object $result)
+    public function callGetRecurringPaymentDetails(\Magento\Framework\Object $result)
     {
         $request = $this->_exportToRequest($this->_getRecurringPaymentDetailsRequest);
         $response = $this->call('GetRecurringPaymentsProfileDetails', $request);
@@ -250,10 +275,10 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * Check the obtained RP status in NVP format and specify the payment state
      *
      * @param string $value
-     * @param \Magento\Object $result
+     * @param \Magento\Framework\Object $result
      * @return void
      */
-    protected function _analyzeRecurringPaymentStatus($value, \Magento\Object $result)
+    protected function _analyzeRecurringPaymentStatus($value, \Magento\Framework\Object $result)
     {
         switch ($value) {
             case 'ActiveProfile':
@@ -272,7 +297,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
                 $result->setIsProfileSuspended(true);
                 break;
             case 'ExpiredProfile':
-            case 'Expired': // ??
+            case 'Expired':
+                // ??
                 $result->setIsProfileExpired(true);
                 break;
             default:

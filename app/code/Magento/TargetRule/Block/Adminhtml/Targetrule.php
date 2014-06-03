@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Block\Adminhtml;
 
 class Targetrule extends \Magento\Backend\Block\Widget\Grid\Container
@@ -25,5 +22,4 @@ class Targetrule extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_addButtonLabel = __('Add Rule');
         parent::_construct();
     }
-
 }

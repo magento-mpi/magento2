@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +10,9 @@ namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 /**
  * Bundle selection renderer
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Selection
-    extends \Magento\Backend\Block\Widget
+class Selection extends \Magento\Backend\Block\Widget
 {
     /**
      * @var string
@@ -34,7 +29,7 @@ class Selection
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -53,7 +48,7 @@ class Selection
      * @param \Magento\Backend\Model\Config\Source\Yesno $yesno
      * @param \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -61,7 +56,7 @@ class Selection
         \Magento\Backend\Model\Config\Source\Yesno $yesno,
         \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
@@ -110,11 +105,11 @@ class Selection
      */
     protected function _prepareLayout()
     {
-        $this->addChild('selection_delete_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Delete'),
-            'class' => 'delete icon-btn',
-            'on_click' => 'bSelection.remove(event)'
-        ));
+        $this->addChild(
+            'selection_delete_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Delete'), 'class' => 'delete icon-btn', 'on_click' => 'bSelection.remove(event)')
+        );
         return parent::_prepareLayout();
     }
 
@@ -135,13 +130,18 @@ class Selection
      */
     public function getPriceTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => $this->getFieldId() . '_{{index}}_price_type',
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setData(
+            array(
+                'id' => $this->getFieldId() . '_{{index}}_price_type',
                 'class' => 'select select-product-option-type required-option-select'
-            ))
-            ->setName($this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]')
-            ->setOptions($this->_priceType->toOptionArray());
+            )
+        )->setName(
+            $this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]'
+        )->setOptions(
+            $this->_priceType->toOptionArray()
+        );
         if ($this->getCanEditPrice() === false) {
             $select->setExtraParams('disabled="disabled"');
         }
@@ -155,13 +155,15 @@ class Selection
      */
     public function getQtyTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id' => $this->getFieldId().'_{{index}}_can_change_qty',
-                'class' => 'select'
-            ))
-            ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_can_change_qty]')
-            ->setOptions($this->_yesno->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setData(
+            array('id' => $this->getFieldId() . '_{{index}}_can_change_qty', 'class' => 'select')
+        )->setName(
+            $this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_can_change_qty]'
+        )->setOptions(
+            $this->_yesno->toOptionArray()
+        );
 
         return $select->getHtml();
     }
@@ -200,9 +202,16 @@ class Selection
             $name = $this->getFieldName() . '[{{parentIndex}}][{{index}}][default_price_scope]';
             $class = 'bundle-option-price-scope-checkbox';
             $label = __('Use Default Value');
-            $disabled = ($this->getCanEditPrice() === false) ? ' disabled="disabled"' : '';
-            $checkboxHtml = '<input type="checkbox" id="' . $fieldsId . '" class="' . $class . '" name="' . $name
-                . '"' . $disabled . ' value="1" />';
+            $disabled = $this->getCanEditPrice() === false ? ' disabled="disabled"' : '';
+            $checkboxHtml = '<input type="checkbox" id="' .
+                $fieldsId .
+                '" class="' .
+                $class .
+                '" name="' .
+                $name .
+                '"' .
+                $disabled .
+                ' value="1" />';
             $checkboxHtml .= '<label class="normal" for="' . $fieldsId . '">' . $label . '</label>';
         }
         return $checkboxHtml;

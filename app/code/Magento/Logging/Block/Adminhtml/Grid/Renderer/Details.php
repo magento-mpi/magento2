@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,16 +12,15 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Grid\Renderer;
 
-class Details
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Details extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $html = '-';
         $columnData = $row->getData($this->getColumn()->getIndex());
@@ -31,8 +28,7 @@ class Details
             $dataArray = unserialize($columnData);
             if (is_bool($dataArray)) {
                 $html = $dataArray ? 'true' : 'false';
-            }
-            elseif (is_array($dataArray)) {
+            } elseif (is_array($dataArray)) {
                 if (isset($dataArray['general'])) {
                     if (!is_array($dataArray['general'])) {
                         $dataArray['general'] = array($dataArray['general']);

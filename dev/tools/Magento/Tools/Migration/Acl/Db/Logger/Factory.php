@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -23,10 +21,7 @@ class Factory
      */
     public function __construct()
     {
-        $this->_allowedLoggerTypes = array(
-            'console',
-            'file',
-        );
+        $this->_allowedLoggerTypes = array('console', 'file');
     }
 
     /**

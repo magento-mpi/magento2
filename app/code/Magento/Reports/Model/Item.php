@@ -2,19 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Reports\Model;
 
-class Item extends \Magento\Object
+class Item extends \Magento\Framework\Object
 {
     /**
      * @var bool
      */
-    protected $_isEmpty  = false;
+    protected $_isEmpty = false;
 
     /**
      * @var array
@@ -47,7 +45,8 @@ class Item extends \Magento\Object
      * @return void
      */
     public function hasIsEmpty()
-    {}
+    {
+    }
 
     /**
      * Get children
@@ -78,7 +77,7 @@ class Item extends \Magento\Object
      */
     public function hasChildren()
     {
-        return (count($this->_children) > 0) ? true : false;
+        return count($this->_children) > 0 ? true : false;
     }
 
     /**

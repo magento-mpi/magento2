@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,13 +9,11 @@
 /**
  * Captcha image model
  *
- * @category   Magento
- * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Captcha\Model\Config;
 
-class Font implements \Magento\Option\ArrayInterface
+class Font implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Captcha data
@@ -29,9 +25,8 @@ class Font implements \Magento\Option\ArrayInterface
     /**
      * @param \Magento\Captcha\Helper\Data $captchaData
      */
-    public function __construct(
-        \Magento\Captcha\Helper\Data $captchaData
-    ) {
+    public function __construct(\Magento\Captcha\Helper\Data $captchaData)
+    {
         $this->_captchaData = $captchaData;
     }
 

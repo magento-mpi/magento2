@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,7 +33,7 @@ class WorkingDirectoryTest extends \PHPUnit_Framework_TestCase
         $oldWorkingDir = getcwd();
         $newWorkingDir = __DIR__;
         if ($oldWorkingDir == $newWorkingDir) {
-            $this->markTestSkipped("Test requires the current working directory to differ from '$oldWorkingDir'.");
+            $this->markTestSkipped("Test requires the current working directory to differ from '{$oldWorkingDir}'.");
         }
         $this->_object->startTest($this);
         chdir($newWorkingDir);

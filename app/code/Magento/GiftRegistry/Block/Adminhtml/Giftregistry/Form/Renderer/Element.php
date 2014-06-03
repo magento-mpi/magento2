@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,8 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
 /**
  * Gift registry form fieldset element renderer
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
-class Element
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * @var string
@@ -26,7 +21,7 @@ class Element
     /**
      * Retrieve data object related with form
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDataObject()
     {
@@ -41,11 +36,12 @@ class Element
     public function canDisplayUseDefault()
     {
         if ($element = $this->getElement()) {
-            if ($element->getScope() != 'global'
-                && $element->getScope() != null
-                && $this->getDataObject()
-                && $this->getDataObject()->getId()
-                && $this->getDataObject()->getStoreId()) {
+            if ($element->getScope() != 'global' &&
+                $element->getScope() != null &&
+                $this->getDataObject() &&
+                $this->getDataObject()->getId() &&
+                $this->getDataObject()->getStoreId()
+            ) {
                 return true;
             }
         }

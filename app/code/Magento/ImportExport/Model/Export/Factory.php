@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,21 +16,21 @@ class Factory
     /**
      * Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param string $className
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      * @throws \InvalidArgumentException
      */
     public function create($className)
@@ -43,10 +41,13 @@ class Factory
 
         $attributeCollection = $this->_objectManager->create($className);
 
-        if (!$attributeCollection instanceof \Magento\Data\Collection) {
-            throw new \InvalidArgumentException(sprintf(
-                "Attribute factory class \"%s\" must implement \Magento\Data\Collection.", get_class($attributeCollection)
-            ));
+        if (!$attributeCollection instanceof \Magento\Framework\Data\Collection) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Attribute factory class \"%s\" must implement \Magento\Framework\Data\Collection.",
+                    get_class($attributeCollection)
+                )
+            );
         }
         return $attributeCollection;
     }

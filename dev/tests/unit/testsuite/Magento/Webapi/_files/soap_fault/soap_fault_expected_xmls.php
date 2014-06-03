@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 return array(
-    'expectedResultArrayDataDetails' =>
-    '<?xml version="1.0" encoding="utf-8" ?>
+    'expectedResultArrayDataDetails' => '<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{wsdl_url}">
         <env:Body>
             <env:Fault>
@@ -31,15 +30,13 @@ return array(
                                 <m:value>value2</m:value>
                             </m:GenericFaultParameter>
                         </m:Parameters>
-                        <m:Code>333</m:Code>
                         <m:Trace>Trace</m:Trace>
                     </m:GenericFault>
                 </env:Detail>
             </env:Fault>
         </env:Body>
     </env:Envelope>',
-    'expectedResultEmptyArrayDetails' =>
-    '<?xml version="1.0" encoding="utf-8" ?>
+    'expectedResultEmptyArrayDetails' => '<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
         <env:Body>
             <env:Fault>
@@ -52,8 +49,7 @@ return array(
             </env:Fault>
         </env:Body>
     </env:Envelope>',
-    'expectedResultObjectDetails' =>
-    '<?xml version="1.0" encoding="utf-8" ?>
+    'expectedResultObjectDetails' => '<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
         <env:Body>
             <env:Fault>
@@ -66,8 +62,7 @@ return array(
             </env:Fault>
         </env:Body>
     </env:Envelope>',
-    'expectedResultIndexArrayDetails' =>
-    '<?xml version = "1.0" encoding = "utf-8" ?>
+    'expectedResultIndexArrayDetails' => '<?xml version = "1.0" encoding = "utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
         <env:Body>
             <env:Fault>
@@ -80,8 +75,7 @@ return array(
             </env:Fault>
         </env:Body>
     </env:Envelope>',
-    'expectedResultComplexDataDetails' =>
-    '<?xml version = "1.0" encoding = "utf-8" ?>
+    'expectedResultComplexDataDetails' => '<?xml version = "1.0" encoding = "utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
         <env:Body>
             <env:Fault>

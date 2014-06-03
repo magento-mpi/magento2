@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\Calculation;
 
 /**
  * Tax Rule Model
@@ -20,40 +19,8 @@
  * @method int getPosition()
  * @method \Magento\Tax\Model\Calculation\Rule setPosition(int $value)
  */
-namespace Magento\Tax\Model\Calculation;
-
-class Rule extends \Magento\Core\Model\AbstractModel
+class Rule extends \Magento\Framework\Model\AbstractModel
 {
-    /**
-     * @var mixed
-     */
-    protected $_ctcs = null;
-
-    /**
-     * @var mixed
-     */
-    protected $_ptcs = null;
-
-    /**
-     * @var mixed
-     */
-    protected $_rates = null;
-
-    /**
-     * @var mixed
-     */
-    protected $_ctcModel = null;
-
-    /**
-     * @var mixed
-     */
-    protected $_ptcModel = null;
-
-    /**
-     * @var mixed
-     */
-    protected $_rateModel = null;
-
     /**
      * Prefix of model events names
      *
@@ -81,23 +48,23 @@ class Rule extends \Magento\Core\Model\AbstractModel
     protected $_calculation;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Tax\Model\ClassModel $taxClass
      * @param \Magento\Tax\Model\Calculation $calculation
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\ClassModel $taxClass,
         \Magento\Tax\Model\Calculation $calculation,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_calculation = $calculation;
@@ -111,7 +78,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
 
     /**
      * After save rule
-     * Redeclared for populate rate calculations
+     * Re-declared for populate rate calculations
      *
      * @return $this
      */
@@ -125,7 +92,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
 
     /**
      * After rule delete
-     * re-declared for dispatch tax_settings_change_after event
+     * Re-declared for dispatch tax_settings_change_after event
      *
      * @return $this
      */
@@ -149,10 +116,10 @@ class Rule extends \Magento\Core\Model\AbstractModel
             foreach ($ptc as $p) {
                 foreach ($rates as $r) {
                     $dataArray = array(
-                        'tax_calculation_rule_id'   =>$this->getId(),
-                        'tax_calculation_rate_id'   =>$r,
-                        'customer_tax_class_id'     =>$c,
-                        'product_tax_class_id'      =>$p,
+                        'tax_calculation_rule_id' => $this->getId(),
+                        'tax_calculation_rate_id' => $r,
+                        'customer_tax_class_id' => $c,
+                        'product_tax_class_id' => $p
                     );
                     $this->_calculation->setData($dataArray)->save();
                 }
@@ -242,12 +209,22 @@ class Rule extends \Magento\Core\Model\AbstractModel
      */
     public function getAllOptionsForClass($classFilter)
     {
-        $classes = $this->_taxClass
-            ->getCollection()
-            ->setClassTypeFilter($classFilter)
-            ->toOptionArray();
+        $classes = $this->_taxClass->getCollection()->setClassTypeFilter($classFilter)->toOptionArray();
 
         return $classes;
     }
-}
 
+    /**
+     * Fetches rules by rate, customer tax class and product tax class
+     * and product tax class combination
+     *
+     * @param array $rateId
+     * @param array $customerTaxClassIds
+     * @param array $productTaxClassIds
+     * @return array
+     */
+    public function fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds)
+    {
+        return $this->getResource()->fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds);
+    }
+}

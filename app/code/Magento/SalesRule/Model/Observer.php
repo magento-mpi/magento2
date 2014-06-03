@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\SalesRule\Model;
 
 use Magento\Cron\Model\Schedule;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -40,7 +38,7 @@ class Observer
     protected $_reportRule;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -50,12 +48,12 @@ class Observer
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -65,10 +63,10 @@ class Observer
      * @param \Magento\SalesRule\Model\Coupon $coupon
      * @param \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage
      * @param \Magento\SalesRule\Model\Resource\Report\Rule $reportRule
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
-     * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\SalesRule\Model\RuleFactory $ruleFactory,
@@ -76,10 +74,10 @@ class Observer
         \Magento\SalesRule\Model\Coupon $coupon,
         \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage,
         \Magento\SalesRule\Model\Resource\Report\Rule $reportRule,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
-        \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_ruleCustomerFactory = $ruleCustomerFactory;
@@ -129,11 +127,9 @@ class Observer
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
                     if ($ruleCustomer->getId()) {
-                        $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+                        $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed() + 1);
                     } else {
-                        $ruleCustomer->setCustomerId($customerId)
-                            ->setRuleId($ruleId)
-                            ->setTimesUsed(1);
+                        $ruleCustomer->setCustomerId($customerId)->setRuleId($ruleId)->setTimesUsed(1);
                     }
                     $ruleCustomer->save();
                 }
@@ -192,11 +188,13 @@ class Observer
         }
 
         if ($disabledRulesCount) {
-            $this->messageManager->addWarning(__(
-                '%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.',
-                $disabledRulesCount,
-                $attributeCode
-            ));
+            $this->messageManager->addWarning(
+                __(
+                    '%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.',
+                    $disabledRulesCount,
+                    $attributeCode
+                )
+            );
         }
 
         return $this;
@@ -287,4 +285,3 @@ class Observer
         return $this;
     }
 }
-

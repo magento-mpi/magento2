@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 /**
  * Adminhtml sales order create abstract block
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget
@@ -92,7 +88,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     /**
      * Retrieve store model object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -127,7 +123,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      * @param bool $format
      * @return float
      */
-    public function convertPrice($value, $format=true)
+    public function convertPrice($value, $format = true)
     {
         return $this->getStore()->convertPrice($value, $format);
     }

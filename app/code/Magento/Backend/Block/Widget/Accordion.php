@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Widget;
 /**
  * Magento_Backend accordion widget
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Accordion extends \Magento\Backend\Block\Widget
@@ -43,16 +39,18 @@ class Accordion extends \Magento\Backend\Block\Widget
      */
     public function addItem($itemId, $config)
     {
-        $this->_items[$itemId] = $this->getLayout()
-            ->createBlock(
-                'Magento\Backend\Block\Widget\Accordion\Item',
-                $this->getNameInLayout() . '-' . $itemId
-            )
-            ->setData($config)
-            ->setAccordion($this)
-            ->setId($itemId);
-        if (isset($config['content']) && $config['content'] instanceof \Magento\View\Element\AbstractBlock) {
-            $this->_items[$itemId]->setChild($itemId.'_content', $config['content']);
+        $this->_items[$itemId] = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Accordion\Item',
+            $this->getNameInLayout() . '-' . $itemId
+        )->setData(
+            $config
+        )->setAccordion(
+            $this
+        )->setId(
+            $itemId
+        );
+        if (isset($config['content']) && $config['content'] instanceof \Magento\Framework\View\Element\AbstractBlock) {
+            $this->_items[$itemId]->setChild($itemId . '_content', $config['content']);
         }
 
         $this->setChild($itemId, $this->_items[$itemId]);

@@ -2,22 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Controller;
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Search extends \Magento\App\Action\Action
+class Search extends \Magento\Framework\App\Action\Action
 {
     /**
      * Localization filter
@@ -29,12 +27,12 @@ class Search extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -97,8 +95,8 @@ class Search extends \Magento\App\Action\Action
     /**
      * Construct
      *
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\MultipleWishlist\Model\SearchFactory $searchFactory
@@ -107,11 +105,11 @@ class Search extends \Magento\App\Action\Action
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\MultipleWishlist\Model\SearchFactory $searchFactory,
@@ -120,7 +118,7 @@ class Search extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
@@ -159,8 +157,8 @@ class Search extends \Magento\App\Action\Action
      * Check if multiple wishlist is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -190,7 +188,7 @@ class Search extends \Magento\App\Action\Action
      * Wishlist search action
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function resultsAction()
     {
@@ -199,8 +197,8 @@ class Search extends \Magento\App\Action\Action
         try {
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
-                throw new \Magento\Core\Exception(__('Please specify correct search options.'));
-            };
+                throw new \Magento\Framework\Model\Exception(__('Please specify correct search options.'));
+            }
 
             $strategy = null;
             switch ($params['search']) {
@@ -211,7 +209,7 @@ class Search extends \Magento\App\Action\Action
                     $strategy = $this->_strategyEmailFactory->create();
                     break;
                 default:
-                    throw new \Magento\Core\Exception(__('Please specify correct search options.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please specify correct search options.'));
             }
 
             $strategy->setSearchParams($params);
@@ -221,7 +219,7 @@ class Search extends \Magento\App\Action\Action
             $this->_customerSession->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
             $this->messageManager->addNotice($e->getMessage());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not perform the search.'));
@@ -251,8 +249,9 @@ class Search extends \Magento\App\Action\Action
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
-        if (!$wishlist->getId()
-            || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId())) {
+        if (!$wishlist->getId() ||
+            !$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId()
+        ) {
             throw new NotFoundException();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
@@ -273,7 +272,7 @@ class Search extends \Magento\App\Action\Action
      */
     public function addtocartAction()
     {
-        $messages   = array();
+        $messages = array();
         $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
@@ -296,7 +295,7 @@ class Search extends \Magento\App\Action\Action
                     if ($item->addToCart($cart, false)) {
                         $addedItems[] = $item->getProduct();
                     }
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
                     } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
@@ -305,7 +304,7 @@ class Search extends \Magento\App\Action\Action
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
                 } catch (\Exception $e) {
-                    $this->_objectManager->get('Magento\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $messages[] = __('We could not add the item to shopping cart.');
                 }
             }
@@ -330,11 +329,14 @@ class Search extends \Magento\App\Action\Action
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = __('Product(s) %1 have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = __(
+                'Product(s) %1 have required options. Each product can only be added individually.',
+                join(', ', $products)
+            );
         }
 
         if ($messages) {
-            if ((count($messages) == 1) && count($hasOptions) == 1) {
+            if (count($messages) == 1 && count($hasOptions) == 1) {
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {

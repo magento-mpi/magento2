@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Tax\Model\Resource;
 /**
  * Tax class resource
  *
- * @category    Magento
- * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class TaxClass extends \Magento\Core\Model\Resource\Db\AbstractDb
+class TaxClass extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -35,10 +31,14 @@ class TaxClass extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => array('class_type', 'class_name'),
-            'title' => __('Something went wrong saving this tax class because a class with the same name already exists.'),
-        ));
+        $this->_uniqueFields = array(
+            array(
+                'field' => array('class_type', 'class_name'),
+                'title' => __(
+                    'Something went wrong saving this tax class because a class with the same name already exists.'
+                )
+            )
+        );
         return $this;
     }
 }

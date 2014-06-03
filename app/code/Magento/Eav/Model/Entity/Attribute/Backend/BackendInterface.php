@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -50,31 +48,31 @@ interface BackendInterface
     public function getValueId();
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterLoad($object);
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object);
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterSave($object);
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeDelete($object);
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterDelete($object);
@@ -82,7 +80,7 @@ interface BackendInterface
     /**
      * Get entity value id
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return int
      */
     public function getEntityValueId($entity);
@@ -90,7 +88,7 @@ interface BackendInterface
     /**
      * Set entity value id
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @param int $valueId
      * @return $this
      */

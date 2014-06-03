@@ -2,18 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Downloader;
 
+
 error_reporting(E_ALL & ~E_NOTICE);
 
 // add Magento lib in include_path if needed
 $_includePath = get_include_path();
-$_libDir = dirname(__DIR__) . '/lib';
+$_libDir = dirname(__DIR__) . '/lib/internal';
 if (strpos($_includePath, $_libDir) === false) {
     if (substr($_includePath, 0, 2) === '.' . PATH_SEPARATOR) {
         $_includePath = '.' . PATH_SEPARATOR . $_libDir . PATH_SEPARATOR . substr($_includePath, 2);
@@ -22,36 +21,32 @@ if (strpos($_includePath, $_libDir) === false) {
     }
     set_include_path($_includePath);
 }
-
 /**
  * Class for connect
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Connect
 {
-
     /**
      * Object of config
      *
-     * @var \Magento\Connect\Config
+     * @var \Magento\Framework\Connect\Config
      */
     protected $_config;
 
     /**
      * Object of single config
      *
-     * @var \Magento\Connect\Singleconfig
+     * @var \Magento\Framework\Connect\Singleconfig
      */
     protected $_sconfig;
 
     /**
-    * Object of frontend
-    *
-    * @var \Magento\Connect\Frontend
-    */
+     * Object of frontend
+     *
+     * @var \Magento\Framework\Connect\Frontend
+     */
     protected $_frontend;
 
     /**
@@ -73,7 +68,7 @@ class Connect
      *
      * @var \Magento\Downloader\Connect
      */
-    static protected $_instance;
+    protected static $_instance;
 
     /**
      * Constructor loads Config, Cache Config and initializes Frontend
@@ -103,55 +98,56 @@ class Connect
     public static function getInstance()
     {
         if (!self::$_instance) {
-            self::$_instance = new self;
+            self::$_instance = new self();
         }
         return self::$_instance;
     }
 
     /**
-     * Retrieve object of config and set it to \Magento\Connect\Command
+     * Retrieve object of config and set it to \Magento\Framework\Connect\Command
      *
-     * @return \Magento\Connect\Config
+     * @return \Magento\Framework\Connect\Config
      */
     public function getConfig()
     {
         if (!$this->_config) {
-            $this->_config = new \Magento\Connect\Config();
-            $ftp=$this->_config->__get('remote_config');
-            if(!empty($ftp)){
-                $packager = new \Magento\Connect\Packager();
+            $this->_config = new \Magento\Framework\Connect\Config();
+            $ftp = $this->_config->__get('remote_config');
+            if (!empty($ftp)) {
+                $packager = new \Magento\Framework\Connect\Packager();
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
-                $this->_config=$config;
-                $this->_sconfig=$cache;
+                $this->_config = $config;
+                $this->_sconfig = $cache;
             }
             $this->_config->magento_root = dirname(__DIR__) . '/..';
-            \Magento\Connect\Command::setConfigObject($this->_config);
+            \Magento\Framework\Connect\Command::setConfigObject($this->_config);
         }
         return $this->_config;
     }
 
     /**
-     * Retrieve object of single config and set it to \Magento\Connect\Command
+     * Retrieve object of single config and set it to \Magento\Framework\Connect\Command
      *
      * @param bool $reload
-     * @return \Magento\Connect\Singleconfig
+     * @return \Magento\Framework\Connect\Singleconfig
      */
     public function getSingleConfig($reload = false)
     {
-        if(!$this->_sconfig || $reload) {
-            $this->_sconfig = new \Magento\Connect\Singleconfig(
-                $this->getConfig()->magento_root . '/'
-                . $this->getConfig()->downloader_path . '/'
-                . \Magento\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
+        if (!$this->_sconfig || $reload) {
+            $this->_sconfig = new \Magento\Framework\Connect\Singleconfig(
+                $this->getConfig()->magento_root .
+                '/' .
+                $this->getConfig()->downloader_path .
+                '/' .
+                \Magento\Framework\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }
-        \Magento\Connect\Command::setSconfig($this->_sconfig);
+        \Magento\Framework\Connect\Command::setSconfig($this->_sconfig);
         return $this->_sconfig;
-
     }
 
     /**
-     * Retrieve object of frontend and set it to \Magento\Connect\Command
+     * Retrieve object of frontend and set it to \Magento\Framework\Connect\Command
      *
      * @return \Magento\Downloader\Connect\Frontend
      */
@@ -159,7 +155,7 @@ class Connect
     {
         if (!$this->_frontend) {
             $this->_frontend = new \Magento\Downloader\Connect\Frontend();
-            \Magento\Connect\Command::setFrontendObject($this->_frontend);
+            \Magento\Framework\Connect\Command::setFrontendObject($this->_frontend);
         }
         return $this->_frontend;
     }
@@ -201,7 +197,8 @@ class Connect
      * @param string $path
      * @return \Magento\Downloader\Connect
      */
-    public function delTree($path) {
+    public function delTree($path)
+    {
         if (@is_dir($path)) {
             $entries = @scandir($path);
             foreach ($entries as $entry) {
@@ -217,37 +214,37 @@ class Connect
     }
 
     /**
-     * Run commands from \Magento\Connect\Command
+     * Run commands from \Magento\Framework\Connect\Command
      *
      * @param string $command
      * @param array $options
      * @param array $params
-     * @return boolean|\Magento\Connect\Error
+     * @return boolean|\Magento\Framework\Connect\Error
      */
-    public function run($command, $options=array(), $params=array())
+    public function run($command, $options = array(), $params = array())
     {
         @set_time_limit(0);
-        @ini_set('memory_limit', '2048M');
+        @ini_set('memory_limit', '256M');
 
         if (empty($this->_cmdCache[$command])) {
-            \Magento\Connect\Command::getCommands();
+            \Magento\Framework\Connect\Command::getCommands();
             /**
-            * @var $cmd \Magento\Connect\Command
-            */
-            $cmd = \Magento\Connect\Command::getInstance($command);
-            if ($cmd instanceof \Magento\Connect\Error) {
+             * @var $cmd \Magento\Framework\Connect\Command
+             */
+            $cmd = \Magento\Framework\Connect\Command::getInstance($command);
+            if ($cmd instanceof \Magento\Framework\Connect\Error) {
                 return $cmd;
             }
             $this->_cmdCache[$command] = $cmd;
         } else {
             /**
-            * @var $cmd \Magento\Connect\Command
-            */
+             * @var $cmd \Magento\Framework\Connect\Command
+             */
             $cmd = $this->_cmdCache[$command];
         }
-        $ftp=$this->getConfig()->remote_config;
-        if(strlen($ftp)>0){
-            $options=array_merge($options, array('ftp'=>$ftp));
+        $ftp = $this->getConfig()->remote_config;
+        if (strlen($ftp) > 0) {
+            $options = array_merge($options, array('ftp' => $ftp));
         }
         $cmd->run($command, $options, $params);
         if ($cmd->ui()->hasErrors()) {
@@ -265,7 +262,7 @@ class Connect
      */
     public function setRemoteConfig($uri)
     {
-        $this->getConfig()->remote_config=$uri;
+        $this->getConfig()->remote_config = $uri;
         return $this;
     }
 
@@ -292,11 +289,12 @@ class Connect
     }
 
     /**
-     * Run \Magento\Connect\Command with html output console style
+     * Run \Magento\Framework\Connect\Command with html output console style
      *
      * @throws \Magento\Downloader\Exception
-     * @param array|string|\Magento\Downloader\Model $runParams command, options, params, comment, success_callback, failure_callback
-     * @return bool|\Magento\Connect\Error
+     * @param array|string|\Magento\Downloader\Model $runParams
+     *   command, options, params, comment, success_callback, failure_callback
+     * @return bool|\Magento\Framework\Connect\Error
      */
     public function runHtmlConsole($runParams)
     {
@@ -305,7 +303,9 @@ class Connect
         }
         @ini_set('zlib.output_compression', 0);
         @ini_set('implicit_flush', 1);
-        for ($i = 0; $i < ob_get_level(); $i++) { ob_end_flush(); }
+        for ($i = 0; $i < ob_get_level(); $i++) {
+            ob_end_flush();
+        }
         ob_implicit_flush();
 
         $fe = $this->getFrontend();
@@ -317,15 +317,15 @@ class Connect
         } elseif (is_array($runParams)) {
             $run = new \Magento\Downloader\Model\Connect\Request($runParams);
         } elseif (is_string($runParams)) {
-            $run = new \Magento\Downloader\Model\Connect\Request(array('comment'=>$runParams));
+            $run = new \Magento\Downloader\Model\Connect\Request(array('comment' => $runParams));
         } else {
-            throw \Magento\Downloader\Exception("Invalid run parameters");
+            throw new \Magento\Downloader\Exception("Invalid run parameters");
         }
 
         if (!$run->get('no-header')) {
             $this->_consoleHeader();
         }
-        echo htmlspecialchars($run->get('comment')).'<br/>';
+        echo htmlspecialchars($run->get('comment')) . '<br/>';
 
         if ($command = $run->get('command')) {
             $result = $this->run($command, $run->get('options'), $run->get('params'));
@@ -373,104 +373,105 @@ class Connect
      *
      * @return void
      */
-    protected function _consoleHeader() {
+    protected function _consoleHeader()
+    {
         if (!$this->_consoleStarted) {
-?>
-<html><head><style type="text/css">
-body { margin:0px;
-    padding:3px;
-    background:black;
-    color:#2EC029;
-    font:normal 11px Lucida Console, Courier New, serif;
-    }
-</style></head><body>
-<script type="text/javascript">
-if (parent && parent.disableInputs) {
-    parent.disableInputs(true);
-}
-if (typeof auto_scroll=='undefined') {
-    var auto_scroll = window.setInterval(console_scroll, 10);
-}
-function console_scroll()
-{
-    if (typeof top.$ != 'function') {
-        return;
-    }
-    if (top.$('connect_iframe_scroll').checked) {
-        document.body.scrollTop+=3;
-    }
-}
-function show_message(message, newline)
-{
-    var bodyElement = document.getElementsByTagName('body')[0];
-    if (typeof newline == 'undefined') {
-        newline = true
-    }
-    if (newline) {
-        bodyElement.innerHTML += '<br/>';
-    }
-    bodyElement.innerHTML += message;
-}
-function clear_cache(callbacks)
-{
-    if (typeof top.Ajax != 'object') {
-        return;
-    }
-    var message = 'Exception during cache and session cleaning';
-    var url = window.location.href.split('?')[0] + '?A=cleanCache';
-    var intervalID = setInterval(function() {show_message('.', false); }, 500);
-    var clean = 0;
-    var maintenance = 0;
-    if (window.location.href.indexOf('clean_sessions') >= 0) {
-        clean = 1;
-    }
-    if (window.location.href.indexOf('maintenance') >= 0) {
-        maintenance = 1;
-    }
+            ?>
+            <html><head><style type="text/css">
+            body { margin:0px;
+                padding:3px;
+                background:black;
+                color:#2EC029;
+                font:normal 11px Lucida Console, Courier New, serif;
+                }
+            </style></head><body>
+            <script type="text/javascript">
+            if (parent && parent.disableInputs) {
+                parent.disableInputs(true);
+            }
+            if (typeof auto_scroll=='undefined') {
+                var auto_scroll = window.setInterval(console_scroll, 10);
+            }
+            function console_scroll()
+            {
+                if (typeof top.$ != 'function') {
+                    return;
+                }
+                if (top.$('connect_iframe_scroll').checked) {
+                    document.body.scrollTop+=3;
+                }
+            }
+            function show_message(message, newline)
+            {
+                var bodyElement = document.getElementsByTagName('body')[0];
+                if (typeof newline == 'undefined') {
+                    newline = true
+                }
+                if (newline) {
+                    bodyElement.innerHTML += '<br/>';
+                }
+                bodyElement.innerHTML += message;
+            }
+            function clear_cache(callbacks)
+            {
+                if (typeof top.Ajax != 'object') {
+                    return;
+                }
+                var message = 'Exception during cache and session cleaning';
+                var url = window.location.href.split('?')[0] + '?A=cleanCache';
+                var intervalID = setInterval(function() {show_message('.', false); }, 500);
+                var clean = 0;
+                var maintenance = 0;
+                if (window.location.href.indexOf('clean_sessions') >= 0) {
+                    clean = 1;
+                }
+                if (window.location.href.indexOf('maintenance') >= 0) {
+                    maintenance = 1;
+                }
 
-    new top.Ajax.Request(url, {
-        method: 'post',
-        parameters: {clean_sessions:clean, maintenance:maintenance},
-        onCreate: function() {
-            show_message('Cleaning cache');
-            show_message('');
-        },
-        onSuccess: function(transport, json) {
-            var result = true;
-            try{
-                var response = eval('(' + transport.responseText + ')');
-                if (typeof response.result != 'undefined') {
-                    result = response.result;
-                } else {
-                    result = false;
-                }
-                if (typeof response.message != 'undefined') {
-                    if (response.message.length > 0) {
-                        message = response.message;
-                    } else {
-                        message = 'Cache cleaned successfully';
+                new top.Ajax.Request(url, {
+                    method: 'post',
+                    parameters: {clean_sessions:clean, maintenance:maintenance},
+                    onCreate: function() {
+                        show_message('Cleaning cache');
+                        show_message('');
+                    },
+                    onSuccess: function(transport, json) {
+                        var result = true;
+                        try{
+                            var response = eval('(' + transport.responseText + ')');
+                            if (typeof response.result != 'undefined') {
+                                result = response.result;
+                            } else {
+                                result = false;
+                            }
+                            if (typeof response.message != 'undefined') {
+                                if (response.message.length > 0) {
+                                    message = response.message;
+                                } else {
+                                    message = 'Cache cleaned successfully';
+                                }
+                            }
+                        } catch (ex){
+                            result = false;
+                        }
+                        if (result) {
+                            callbacks.success();
+                        } else {
+                            callbacks.fail();
+                        }
+                    },
+                    onFailure: function() {
+                        callbacks.fail();
+                    },
+                    onComplete: function(transport) {
+                        clearInterval(intervalID);
+                        show_message(message);
                     }
-                }
-            } catch (ex){
-                result = false;
+                });
             }
-            if (result) {
-                callbacks.success();
-            } else {
-                callbacks.fail();
-            }
-        },
-        onFailure: function() {
-            callbacks.fail();
-        },
-        onComplete: function(transport) {
-            clearInterval(intervalID);
-            show_message(message);
-        }
-    });
-}
-</script>
-<?php
+            </script>
+            <?php
             $this->_consoleStarted = true;
         }
     }
@@ -480,16 +481,17 @@ function clear_cache(callbacks)
      *
      * @return void
      */
-    protected function _consoleFooter() {
+    protected function _consoleFooter()
+    {
         if ($this->_consoleStarted) {
-?>
-<script type="text/javascript">
-if (parent && parent.disableInputs) {
-    parent.disableInputs(false);
-}
-</script>
-</body></html>
-<?php
+            ?>
+            <script type="text/javascript">
+            if (parent && parent.disableInputs) {
+                parent.disableInputs(false);
+            }
+            </script>
+            </body></html>
+            <?php
             $this->_consoleStarted = false;
         }
     }

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer  = $this;
+$installer = $this;
 $connection = $installer->getConnection();
 
 $connection->addIndex(
@@ -37,45 +35,30 @@ $connection->addIndex(
 
 $connection->addIndex(
     $installer->getTable('catalog_category_anc_products_index_idx'),
-    $installer->getIdxName(
-        'catalog_category_anc_products_index_idx',
-        array('category_id', 'product_id', 'position')
-    ),
+    $installer->getIdxName('catalog_category_anc_products_index_idx', array('category_id', 'product_id', 'position')),
     array('category_id', 'product_id', 'position')
 );
 
 $connection->addIndex(
     $installer->getTable('catalog_category_anc_products_index_tmp'),
-    $installer->getIdxName(
-        'catalog_category_anc_products_index_tmp',
-        array('category_id', 'product_id', 'position')
-    ),
+    $installer->getIdxName('catalog_category_anc_products_index_tmp', array('category_id', 'product_id', 'position')),
     array('category_id', 'product_id', 'position')
 );
 
 $connection->addIndex(
     $installer->getTable('catalog_category_anc_categs_index_idx'),
-    $installer->getIdxName(
-        'catalog_category_anc_categs_index_idx',
-        array('path', 'category_id')
-    ),
+    $installer->getIdxName('catalog_category_anc_categs_index_idx', array('path', 'category_id')),
     array('path', 'category_id')
 );
 
 $connection->addIndex(
     $installer->getTable('catalog_category_anc_categs_index_tmp'),
-    $installer->getIdxName(
-        'catalog_category_anc_categs_index_tmp',
-        array('path', 'category_id')
-    ),
+    $installer->getIdxName('catalog_category_anc_categs_index_tmp', array('path', 'category_id')),
     array('path', 'category_id')
 );
 
 $connection->addIndex(
     $installer->getTable('catalog_category_entity'),
-    $installer->getIdxName(
-        'catalog_category_entity',
-        array('path', 'entity_id')
-    ),
+    $installer->getIdxName('catalog_category_entity', array('path', 'entity_id')),
     array('path', 'entity_id')
 );

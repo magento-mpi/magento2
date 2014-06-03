@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Controller;
 
 use Magento\Checkout\Model\Cart as CustomerCart;
@@ -15,14 +12,12 @@ use Magento\Checkout\Model\Cart as CustomerCart;
 /**
  * Shopping cart controller
  */
-class Cart
-    extends \Magento\App\Action\Action
-    implements \Magento\Catalog\Controller\Product\View\ViewInterface
+class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Checkout\Model\Session
@@ -30,7 +25,7 @@ class Cart
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -45,23 +40,23 @@ class Cart
     protected $cart;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param CustomerCart $cart
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         CustomerCart $cart
     ) {
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
         $this->cart = $cart;
@@ -79,13 +74,16 @@ class Cart
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
             $this->messageManager->getMessages()->clear();
             $this->getResponse()->setRedirect($returnUrl);
-        } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
-            && !$this->getRequest()->getParam('in_cart')
-            && $backUrl = $this->_redirect->getRefererUrl()
+        } elseif (!$this->_scopeConfig->getValue(
+            'checkout/cart/redirect_to_cart',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && !$this->getRequest()->getParam(
+            'in_cart'
+        ) && ($backUrl = $this->_redirect->getRefererUrl())
         ) {
             $this->getResponse()->setRedirect($backUrl);
         } else {
-            if (($this->getRequest()->getActionName() == 'add') && !$this->getRequest()->getParam('in_cart')) {
+            if ($this->getRequest()->getActionName() == 'add' && !$this->getRequest()->getParam('in_cart')) {
                 $this->_checkoutSession->setContinueShoppingUrl($this->_redirect->getRefererUrl());
             }
             $this->_redirect('checkout/cart');
@@ -100,12 +98,16 @@ class Cart
      */
     protected function _initProduct()
     {
-        $productId = (int) $this->getRequest()->getParam('product');
+        $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
-            $storeId = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
-            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
-                ->setStoreId($storeId)
-                ->load($productId);
+            $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
+            $product = $this->_objectManager->create(
+                'Magento\Catalog\Model\Product'
+            )->setStoreId(
+                $storeId
+            )->load(
+                $productId
+            );
             if ($product->getId()) {
                 return $product;
             }
@@ -125,15 +127,30 @@ class Cart
             $this->cart->save();
 
             if (!$this->cart->getQuote()->validateMinimumAmount()) {
-                $currencyCode = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()
-                    ->getCurrentCurrencyCode();
-                $minimumAmount = $this->_objectManager->get('Magento\Locale\CurrencyInterface')
-                    ->getCurrency($currencyCode)
-                    ->toCurrency($this->_storeConfig->getConfig('sales/minimum_order/amount'));
+                $currencyCode = $this->_objectManager->get(
+                    'Magento\Store\Model\StoreManagerInterface'
+                )->getStore()->getCurrentCurrencyCode();
+                $minimumAmount = $this->_objectManager->get(
+                    'Magento\Framework\Locale\CurrencyInterface'
+                )->getCurrency(
+                    $currencyCode
+                )->toCurrency(
+                    $this->_scopeConfig->getValue(
+                        'sales/minimum_order/amount',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
+                );
 
-                $warning = $this->_storeConfig->getConfig('sales/minimum_order/description')
-                    ? $this->_storeConfig->getConfig('sales/minimum_order/description')
-                    : __('Minimum order amount is %1', $minimumAmount);
+                $warning = $this->_scopeConfig->getValue(
+                    'sales/minimum_order/description',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) ? $this->_scopeConfig->getValue(
+                    'sales/minimum_order/description',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ) : __(
+                    'Minimum order amount is %1',
+                    $minimumAmount
+                );
 
                 $this->messageManager->addNotice($warning);
             }
@@ -141,11 +158,11 @@ class Cart
 
         // Compose array of messages to add
         $messages = array();
-        /** @var \Magento\Message\MessageInterface $message  */
+        /** @var \Magento\Framework\Message\MessageInterface $message  */
         foreach ($this->cart->getQuote()->getMessages() as $message) {
             if ($message) {
                 // Escape HTML entities in quote message to prevent XSS
-                $message->setText($this->_objectManager->get('Magento\Escaper')->escapeHtml($message->getText()));
+                $message->setText($this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($message->getText()));
                 $messages[] = $message;
             }
         }
@@ -157,14 +174,14 @@ class Cart
          */
         $this->_checkoutSession->setCartWasUpdated(true);
 
-        \Magento\Profiler::start(__METHOD__ . 'cart_display');
+        \Magento\Framework\Profiler::start(__METHOD__ . 'cart_display');
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->_view->renderLayout();
-        \Magento\Profiler::stop(__METHOD__ . 'cart_display');
+        \Magento\Framework\Profiler::stop(__METHOD__ . 'cart_display');
     }
 
     /**
@@ -178,7 +195,7 @@ class Cart
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -206,27 +223,31 @@ class Cart
             /**
              * @todo remove wishlist observer processAddToCart
              */
-            $this->_eventManager->dispatch('checkout_cart_add_product_complete',
+            $this->_eventManager->dispatch(
+                'checkout_cart_add_product_complete',
                 array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
             );
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
-                if (!$this->cart->getQuote()->getHasError()){
-                    $message = __('You added %1 to your shopping cart.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()));
+                if (!$this->cart->getQuote()->getHasError()) {
+                    $message = __(
+                        'You added %1 to your shopping cart.',
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName())
+                    );
                     $this->messageManager->addSuccess($message);
                 }
                 $this->_goBack();
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
                 $this->messageManager->addNotice(
-                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
+                    $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($e->getMessage())
                 );
             } else {
                 $messages = array_unique(explode("\n", $e->getMessage()));
                 foreach ($messages as $message) {
                     $this->messageManager->addError(
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($message)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($message)
                     );
                 }
             }
@@ -240,7 +261,7 @@ class Cart
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot add this item to your shopping cart'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_goBack();
         }
     }
@@ -252,15 +273,16 @@ class Cart
     {
         $orderItemIds = $this->getRequest()->getParam('order_items', array());
         if (is_array($orderItemIds)) {
-            $itemsCollection = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
-                ->getCollection()
-                ->addIdFilter($orderItemIds)
-                ->load();
+            $itemsCollection = $this->_objectManager->create(
+                'Magento\Sales\Model\Order\Item'
+            )->getCollection()->addIdFilter(
+                $orderItemIds
+            )->load();
             /* @var $itemsCollection \Magento\Sales\Model\Resource\Order\Item\Collection */
             foreach ($itemsCollection as $item) {
                 try {
                     $this->cart->addOrderItem($item, 1);
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     if ($this->_checkoutSession->getUseNotice(true)) {
                         $this->messageManager->addNotice($e->getMessage());
                     } else {
@@ -268,7 +290,7 @@ class Cart
                     }
                 } catch (\Exception $e) {
                     $this->messageManager->addException($e, __('We cannot add this item to your shopping cart'));
-                    $this->_objectManager->get('Magento\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $this->_goBack();
                 }
             }
@@ -286,7 +308,7 @@ class Cart
     public function configureAction()
     {
         // Extract item and product to configure
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         $quoteItem = null;
         if ($id) {
             $quoteItem = $this->cart->getQuote()->getItemById($id);
@@ -299,17 +321,21 @@ class Cart
         }
 
         try {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
 
-            $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender(
-                $quoteItem->getProduct()->getId(), $this, $params
+            $this->_objectManager->get(
+                'Magento\Catalog\Helper\Product\View'
+            )->prepareAndRender(
+                $quoteItem->getProduct()->getId(),
+                $this,
+                $params
             );
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We cannot configure the product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_goBack();
             return;
         }
@@ -322,7 +348,7 @@ class Cart
      */
     public function updateItemOptionsAction()
     {
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         $params = $this->getRequest()->getParams();
 
         if (!isset($params['options'])) {
@@ -331,22 +357,22 @@ class Cart
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
 
             $quoteItem = $this->cart->getQuote()->getItemById($id);
             if (!$quoteItem) {
-                throw new \Magento\Core\Exception(__("We can't find the quote item."));
+                throw new \Magento\Framework\Model\Exception(__("We can't find the quote item."));
             }
 
-            $item = $this->cart->updateItem($id, new \Magento\Object($params));
+            $item = $this->cart->updateItem($id, new \Magento\Framework\Object($params));
             if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
+                throw new \Magento\Framework\Model\Exception($item);
             }
             if ($item->getHasError()) {
-                throw new \Magento\Core\Exception($item->getMessage());
+                throw new \Magento\Framework\Model\Exception($item->getMessage());
             }
 
             $related = $this->getRequest()->getParam('related_product');
@@ -358,20 +384,21 @@ class Cart
 
             $this->_checkoutSession->setCartWasUpdated(true);
 
-            $this->_eventManager->dispatch('checkout_cart_update_item_complete',
+            $this->_eventManager->dispatch(
+                'checkout_cart_update_item_complete',
                 array('item' => $item, 'request' => $this->getRequest(), 'response' => $this->getResponse())
             );
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
-                if (!$this->cart->getQuote()->getHasError()){
+                if (!$this->cart->getQuote()->getHasError()) {
                     $message = __(
                         '%1 was updated in your shopping cart.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($item->getProduct()->getName())
                     );
                     $this->messageManager->addSuccess($message);
                 }
                 $this->_goBack();
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
                 $this->messageManager->addNotice($e->getMessage());
             } else {
@@ -390,7 +417,7 @@ class Cart
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot update the item.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_goBack();
         }
         $this->_redirect('*/*');
@@ -435,32 +462,28 @@ class Cart
             $cartData = $this->getRequest()->getParam('cart');
             if (is_array($cartData)) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Locale\ResolverInterface')->getLocaleCode())
+                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
                 );
                 foreach ($cartData as $index => $data) {
                     if (isset($data['qty'])) {
                         $cartData[$index]['qty'] = $filter->filter(trim($data['qty']));
                     }
                 }
-                if (!$this->cart->getCustomerSession()->getCustomerId()
-                    && $this->cart->getQuote()->getCustomerId()
-                ) {
+                if (!$this->cart->getCustomerSession()->getCustomerId() && $this->cart->getQuote()->getCustomerId()) {
                     $this->cart->getQuote()->setCustomerId(null);
                 }
 
                 $cartData = $this->cart->suggestItemsQty($cartData);
-                $this->cart
-                    ->updateItems($cartData)
-                    ->save();
+                $this->cart->updateItems($cartData)->save();
             }
             $this->_checkoutSession->setCartWasUpdated(true);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(
-                $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
+                $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($e->getMessage())
             );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot update the shopping cart.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 
@@ -474,7 +497,7 @@ class Cart
         try {
             $this->cart->truncate()->save();
             $this->_checkoutSession->setCartWasUpdated(true);
-        } catch (\Magento\Core\Exception $exception) {
+        } catch (\Magento\Framework\Model\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
         } catch (\Exception $exception) {
             $this->messageManager->addException($exception, __('We cannot update the shopping cart.'));
@@ -488,17 +511,16 @@ class Cart
      */
     public function deleteAction()
     {
-        $id = (int) $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
             try {
-                $this->cart->removeItem($id)
-                  ->save();
+                $this->cart->removeItem($id)->save();
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We cannot remove the item.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
-        $defaultUrl = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*');
+        $defaultUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*');
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($defaultUrl));
     }
 
@@ -509,19 +531,25 @@ class Cart
      */
     public function estimatePostAction()
     {
-        $country    = (string) $this->getRequest()->getParam('country_id');
-        $postcode   = (string) $this->getRequest()->getParam('estimate_postcode');
-        $city       = (string) $this->getRequest()->getParam('estimate_city');
-        $regionId   = (string) $this->getRequest()->getParam('region_id');
-        $region     = (string) $this->getRequest()->getParam('region');
+        $country = (string)$this->getRequest()->getParam('country_id');
+        $postcode = (string)$this->getRequest()->getParam('estimate_postcode');
+        $city = (string)$this->getRequest()->getParam('estimate_city');
+        $regionId = (string)$this->getRequest()->getParam('region_id');
+        $region = (string)$this->getRequest()->getParam('region');
 
-        $this->cart->getQuote()->getShippingAddress()
-            ->setCountryId($country)
-            ->setCity($city)
-            ->setPostcode($postcode)
-            ->setRegionId($regionId)
-            ->setRegion($region)
-            ->setCollectShippingRates(true);
+        $this->cart->getQuote()->getShippingAddress()->setCountryId(
+            $country
+        )->setCity(
+            $city
+        )->setPostcode(
+            $postcode
+        )->setRegionId(
+            $regionId
+        )->setRegion(
+            $region
+        )->setCollectShippingRates(
+            true
+        );
         $this->cart->getQuote()->save();
         $this->_goBack();
     }
@@ -531,9 +559,9 @@ class Cart
      */
     public function estimateUpdatePostAction()
     {
-        $code = (string) $this->getRequest()->getParam('estimate_method');
+        $code = (string)$this->getRequest()->getParam('estimate_method');
         if (!empty($code)) {
-            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)/*->collectTotals()*/->save();
+            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)->save();
         }
         $this->_goBack();
     }
@@ -553,9 +581,11 @@ class Cart
             return;
         }
 
-        $couponCode = $this->getRequest()->getParam('remove') == 1
-            ? ''
-            : trim($this->getRequest()->getParam('coupon_code'));
+        $couponCode = $this->getRequest()->getParam(
+            'remove'
+        ) == 1 ? '' : trim(
+            $this->getRequest()->getParam('coupon_code')
+        );
         $oldCouponCode = $this->cart->getQuote()->getCouponCode();
 
         if (!strlen($couponCode) && !strlen($oldCouponCode)) {
@@ -568,35 +598,32 @@ class Cart
             $isCodeLengthValid = $codeLength && $codeLength <= \Magento\Checkout\Helper\Cart::COUPON_CODE_MAX_LENGTH;
 
             $this->cart->getQuote()->getShippingAddress()->setCollectShippingRates(true);
-            $this->cart->getQuote()->setCouponCode($isCodeLengthValid ? $couponCode : '')
-                ->collectTotals()
-                ->save();
+            $this->cart->getQuote()->setCouponCode($isCodeLengthValid ? $couponCode : '')->collectTotals()->save();
 
             if ($codeLength) {
                 if ($isCodeLengthValid && $couponCode == $this->cart->getQuote()->getCouponCode()) {
                     $this->messageManager->addSuccess(
                         __(
                             'The coupon code "%1" was applied.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($couponCode)
                         )
                     );
                 } else {
                     $this->messageManager->addError(
                         __(
                             'The coupon code "%1" is not valid.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($couponCode)
                         )
                     );
                 }
             } else {
                 $this->messageManager->addSuccess(__('The coupon code was canceled.'));
             }
-
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We cannot apply the coupon code.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_goBack();
@@ -617,10 +644,10 @@ class Cart
         /**
          * Url must start from base secure or base unsecure url
          */
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = $this->_storeManager->getStore();
-        $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
-        $secure = (strpos($url, $store->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)) === 0);
+        $unsecure = strpos($url, $store->getBaseUrl()) === 0;
+        $secure = strpos($url, $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)) === 0;
         return $unsecure || $secure;
     }
 }

@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Source;
 
-class Format extends \Magento\Core\Model\AbstractModel implements \Magento\Option\ArrayInterface
+class Format extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return list of gift card account code formats
@@ -20,12 +17,9 @@ class Format extends \Magento\Core\Model\AbstractModel implements \Magento\Optio
     public function getOptions()
     {
         return array(
-            \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_ALPHANUM
-                => __('Alphanumeric'),
-            \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_ALPHA
-                => __('Alphabetical'),
-            \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_NUM
-                => __('Numeric'),
+            \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_ALPHANUM => __('Alphanumeric'),
+            \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_ALPHA => __('Alphabetical'),
+            \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_NUM => __('Numeric')
         );
     }
 
@@ -41,13 +35,11 @@ class Format extends \Magento\Core\Model\AbstractModel implements \Magento\Optio
         $result = array();
 
         if ($addEmpty) {
-            $result[] = array('value' => '',
-                              'label' => '');
+            $result[] = array('value' => '', 'label' => '');
         }
 
-        foreach ($this->getOptions() as $value=>$label) {
-            $result[] = array('value' => $value,
-                              'label' => $label);
+        foreach ($this->getOptions() as $value => $label) {
+            $result[] = array('value' => $value, 'label' => $label);
         }
 
         return $result;

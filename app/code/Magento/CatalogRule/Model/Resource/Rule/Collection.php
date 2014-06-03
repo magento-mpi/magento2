@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Model\Resource\Rule;
 
 class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
@@ -20,8 +17,8 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'catalogrule_website',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'website_id'
         )
     );
 

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,8 @@ class Cost extends AbstractTotal
     {
         $baseInvoiceTotalCost = 0;
         foreach ($invoice->getAllItems() as $item) {
-            if (!$item->getHasChildren()){
-                $baseInvoiceTotalCost += $item->getBaseCost()*$item->getQty();
+            if (!$item->getHasChildren()) {
+                $baseInvoiceTotalCost += $item->getBaseCost() * $item->getQty();
             }
         }
         $invoice->setBaseCost($baseInvoiceTotalCost);

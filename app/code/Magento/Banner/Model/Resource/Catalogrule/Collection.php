@@ -11,7 +11,7 @@
  */
 namespace Magento\Banner\Model\Resource\Catalogrule;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -30,26 +30,25 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\Object', 'Magento\CatalogRule\Model\Resource\Rule');
+        $this->_init('Magento\Framework\Object', 'Magento\CatalogRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_catalogrule');
     }
 
     /**
      * Filter out disabled banners
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->join(
-                array('banner' => $this->getTable('magento_banner')),
-                'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-                array()
-            )
-            ->group('main_table.banner_id')
-        ;
+        $this->getSelect()->join(
+            array('banner' => $this->getTable('magento_banner')),
+            'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
+            array()
+        )->group(
+            'main_table.banner_id'
+        );
         return $this;
     }
 
@@ -62,15 +61,17 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)
     {
-        $this->getSelect()
-            ->join(
-                array('rule_group_website' => $this->getTable('catalogrule_group_website')),
-                'rule_group_website.rule_id = main_table.rule_id',
-                array()
-            )
-            ->where('rule_group_website.customer_group_id = ?', $customerGroupId)
-            ->where('rule_group_website.website_id = ?', $websiteId)
-        ;
+        $this->getSelect()->join(
+            array('rule_group_website' => $this->getTable('catalogrule_group_website')),
+            'rule_group_website.rule_id = main_table.rule_id',
+            array()
+        )->where(
+            'rule_group_website.customer_group_id = ?',
+            $customerGroupId
+        )->where(
+            'rule_group_website.website_id = ?',
+            $websiteId
+        );
         return $this;
     }
 }

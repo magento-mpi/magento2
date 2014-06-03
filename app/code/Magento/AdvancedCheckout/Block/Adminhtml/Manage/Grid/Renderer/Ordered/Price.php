@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,16 +11,15 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered;
 
-class Price
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price
+class Price extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price
 {
     /**
      * Render price for last ordered item
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         // Show base price of product - the real price will be shown when user will configure product (if needed)
         $priceInitial = $row->getProduct()->getPrice() * 1;

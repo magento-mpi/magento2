@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-class Response extends \Zend_Controller_Response_Http implements \Magento\App\ResponseInterface
+class Response extends \Zend_Controller_Response_Http implements \Magento\Framework\App\Response\HttpInterface
 {
     /**
      * Character set which must be used in response.
@@ -20,14 +20,18 @@ class Response extends \Zend_Controller_Response_Http implements \Magento\App\Re
      * Default message types.
      */
     const MESSAGE_TYPE_SUCCESS = 'success';
+
     const MESSAGE_TYPE_ERROR = 'error';
+
     const MESSAGE_TYPE_WARNING = 'warning';
+
     /**#@- */
 
     /**#@+
      * Success HTTP response codes.
      */
     const HTTP_OK = 200;
+
     /**#@-*/
 
     /**

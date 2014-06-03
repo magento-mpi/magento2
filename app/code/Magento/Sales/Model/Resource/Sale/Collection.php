@@ -8,28 +8,23 @@
 namespace Magento\Sales\Model\Resource\Sale;
 
 use Magento\Core\Model\EntityFactory;
-use Magento\Core\Model\StoreManagerInterface;
-use Magento\Data\Collection\Db\FetchStrategyInterface;
-use Magento\Event\ManagerInterface;
-use Magento\Logger;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Logger;
 use Magento\Sales\Model\Resource\Order;
 
 /**
  * Sales Collection
  */
-class Collection extends \Magento\Data\Collection\Db
+class Collection extends \Magento\Framework\Data\Collection\Db
 {
     /**
      * Totals data
      *
      * @var array
      */
-    protected $_totals = array(
-        'lifetime' => 0,
-        'base_lifetime' => 0,
-        'base_avgsale' => 0,
-        'num_orders' => 0
-    );
+    protected $_totals = array('lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0);
 
     /**
      * Customer Id
@@ -65,7 +60,7 @@ class Collection extends \Magento\Data\Collection\Db
     protected $_orderResource;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollectionFactory;
 
@@ -74,14 +69,13 @@ class Collection extends \Magento\Data\Collection\Db
      */
     protected $_storeManager;
 
-
     /**
      * @param EntityFactory $entityFactory
      * @param Logger $logger
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
      * @param Order $resource
-     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -90,7 +84,7 @@ class Collection extends \Magento\Data\Collection\Db
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
         Order $resource,
-        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
+        \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
@@ -132,8 +126,8 @@ class Collection extends \Magento\Data\Collection\Db
      */
     public function setOrderStateFilter($state, $exclude = false)
     {
-        $this->_orderStateCondition = ($exclude) ? 'NOT IN' : 'IN';
-        $this->_state = (!is_array($state)) ? array($state) : $state;
+        $this->_orderStateCondition = $exclude ? 'NOT IN' : 'IN';
+        $this->_state = !is_array($state) ? array($state) : $state;
         return $this;
     }
 
@@ -144,19 +138,19 @@ class Collection extends \Magento\Data\Collection\Db
      */
     protected function _beforeLoad()
     {
-        $this->getSelect()
-            ->from(
-                array('sales' => $this->_orderResource->getMainTable()),
-                array(
-                    'store_id',
-                    'lifetime'      => new \Zend_Db_Expr('SUM(sales.base_grand_total)'),
-                    'base_lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
-                    'avgsale'       => new \Zend_Db_Expr('AVG(sales.base_grand_total)'),
-                    'base_avgsale'  => new \Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
-                    'num_orders'    => new \Zend_Db_Expr('COUNT(sales.base_grand_total)')
-                )
+        $this->getSelect()->from(
+            array('sales' => $this->_orderResource->getMainTable()),
+            array(
+                'store_id',
+                'lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total)'),
+                'base_lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
+                'avgsale' => new \Zend_Db_Expr('AVG(sales.base_grand_total)'),
+                'base_avgsale' => new \Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
+                'num_orders' => new \Zend_Db_Expr('COUNT(sales.base_grand_total)')
             )
-            ->group('sales.store_id');
+        )->group(
+            'sales.store_id'
+        );
 
         if ($this->_customerId) {
             $this->addFieldToFilter('sales.customer_id', $this->_customerId);
@@ -165,10 +159,10 @@ class Collection extends \Magento\Data\Collection\Db
         if (!is_null($this->_state)) {
             $condition = '';
             switch ($this->_orderStateCondition) {
-                case 'IN' :
+                case 'IN':
                     $condition = 'in';
                     break;
-                case 'NOT IN' :
+                case 'NOT IN':
                     $condition = 'nin';
                     break;
             }
@@ -194,27 +188,26 @@ class Collection extends \Magento\Data\Collection\Db
 
         $this->_beforeLoad();
 
-        $this->_renderFilters()
-             ->_renderOrders()
-             ->_renderLimit();
+        $this->_renderFilters()->_renderOrders()->_renderLimit();
 
         $this->printLogQuery($printQuery, $logQuery);
 
         $data = $this->getData();
         $this->resetData();
 
-        $stores = $this->_storeCollectionFactory->create()
-            ->setWithoutDefaultFilter()
-            ->load()
-            ->toOptionHash();
+        $stores = $this->_storeCollectionFactory->create()->setWithoutDefaultFilter()->load()->toOptionHash();
         $this->_items = array();
         foreach ($data as $v) {
-            $storeObject = new \Magento\Object($v);
-            $storeId     = $v['store_id'];
-            $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
-            $storeObject->setStoreName($storeName)
-                ->setWebsiteId($this->_storeManager->getStore($storeId)->getWebsiteId())
-                ->setAvgNormalized($v['avgsale'] * $v['num_orders']);
+            $storeObject = new \Magento\Framework\Object($v);
+            $storeId = $v['store_id'];
+            $storeName = isset($stores[$storeId]) ? $stores[$storeId] : null;
+            $storeObject->setStoreName(
+                $storeName
+            )->setWebsiteId(
+                $this->_storeManager->getStore($storeId)->getWebsiteId()
+            )->setAvgNormalized(
+                $v['avgsale'] * $v['num_orders']
+            );
             $this->_items[$storeId] = $storeObject;
             foreach (array_keys($this->_totals) as $key) {
                 $this->_totals[$key] += $storeObject->getData($key);
@@ -231,12 +224,12 @@ class Collection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retrieve totals data converted into \Magento\Object
+     * Retrieve totals data converted into \Magento\Framework\Object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {
-        return new \Magento\Object($this->_totals);
+        return new \Magento\Framework\Object($this->_totals);
     }
 }

@@ -2,21 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Template;
 
 /**
  * EAV Entity Attribute Form Renderer Block for File
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
@@ -31,11 +27,8 @@ class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      * @param Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        array $data = array()
-    ) {
+    public function __construct(Template\Context $context, \Magento\Core\Helper\Data $coreData, array $data = array())
+    {
         $this->_coreData = $coreData;
         parent::__construct($context, $data);
     }

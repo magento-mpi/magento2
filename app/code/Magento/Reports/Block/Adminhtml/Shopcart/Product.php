@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,5 +25,4 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

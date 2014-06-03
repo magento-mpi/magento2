@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Controller;
 
 class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -30,8 +26,6 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function listActionDesignDataProvider()
     {
-        return array(
-            'custom product design' => array(2, 'magento_blank'),
-        );
+        return array('custom product design' => array(2, 'Magento/blank'));
     }
 }

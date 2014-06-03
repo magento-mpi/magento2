@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,18 +9,16 @@
 /**
  * Filter item model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Layer\Filter;
 
-class Item extends \Magento\Object
+class Item extends \Magento\Framework\Object
 {
     /**
      * Url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -36,12 +32,12 @@ class Item extends \Magento\Object
     /**
      * Construct
      *
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Theme\Block\Html\Pager $htmlPagerBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Theme\Block\Html\Pager $htmlPagerBlock,
         array $data = array()
     ) {
@@ -54,15 +50,13 @@ class Item extends \Magento\Object
      * Get filter instance
      *
      * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getFilter()
     {
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
-            throw new \Magento\Core\Exception(
-                __('The filter must be an object. Please set correct filter.')
-            );
+            throw new \Magento\Framework\Model\Exception(__('The filter must be an object. Please set correct filter.'));
         }
         return $filter;
     }
@@ -75,10 +69,11 @@ class Item extends \Magento\Object
     public function getUrl()
     {
         $query = array(
-            $this->getFilter()->getRequestVar()=>$this->getValue(),
-            $this->_htmlPagerBlock->getPageVarName() => null // exclude current page from urls
+            $this->getFilter()->getRequestVar() => $this->getValue(),
+            // exclude current page from urls
+            $this->_htmlPagerBlock->getPageVarName() => null
         );
-        return $this->_url->getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
+        return $this->_url->getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_query' => $query));
     }
 
     /**
@@ -88,11 +83,11 @@ class Item extends \Magento\Object
      */
     public function getRemoveUrl()
     {
-        $query = array($this->getFilter()->getRequestVar()=>$this->getFilter()->getResetValue());
-        $params['_current']     = true;
+        $query = array($this->getFilter()->getRequestVar() => $this->getFilter()->getResetValue());
+        $params['_current'] = true;
         $params['_use_rewrite'] = true;
-        $params['_query']       = $query;
-        $params['_escape']      = true;
+        $params['_query'] = $query;
+        $params['_escape'] = true;
         return $this->_url->getUrl('*/*/*', $params);
     }
 
@@ -112,7 +107,7 @@ class Item extends \Magento\Object
             '_current' => true,
             '_use_rewrite' => true,
             '_query' => array($this->getFilter()->getRequestVar() => null),
-            '_escape' => true,
+            '_escape' => true
         );
         return $this->_url->getUrl('*/*/*', $urlParams);
     }

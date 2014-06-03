@@ -14,7 +14,9 @@ define('GIT_USERNAME', 'mage2-team');
 define('GIT_EMAIL', 'mage2-team@magento.com');
 
 // get CLI options, define variables
-define('SYNOPSIS', <<<SYNOPSIS
+define(
+    'SYNOPSIS',
+<<<SYNOPSIS
 php -f publish.php --
     --source="<repository>" --source-point="<branch name or commit ID>"
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
@@ -84,6 +86,17 @@ try {
 
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
 
+    // composer.json
+    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
+    execVerbose("$gitCmd add composer.json");
+
+    // Travis CI config
+    copy(__DIR__ . '/travis/.travis.yml', $targetDir . '/.travis.yml');
+    execVerbose("$gitCmd add .travis.yml");
+    $integrationTestsLocalConfig = 'dev/tests/integration/etc/local-mysql.travis.xml.dist';
+    copy(__DIR__ . "/travis/$integrationTestsLocalConfig", $targetDir . "/$integrationTestsLocalConfig");
+    execVerbose("$gitCmd add $integrationTestsLocalConfig");
+
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
     execVerbose(
@@ -91,10 +104,6 @@ try {
         "$licenseToolDir/license-tool.php",
         $targetDir
     );
-
-    // composer.json
-    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
-    execVerbose("$gitCmd add composer.json");
 
     // commit and push
     execVerbose("$gitCmd add --update");

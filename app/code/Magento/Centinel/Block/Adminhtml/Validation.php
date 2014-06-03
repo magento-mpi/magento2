@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Centinel
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -54,14 +52,13 @@ class Validation extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCre
     protected function _toHtml()
     {
         $payment = $this->getQuote()->getPayment();
-        if (!$payment->getMethod()
-            || !$payment->getMethodInstance()
-            || $payment->getMethodInstance()->getIsDummy()
-            || !$payment->getMethodInstance()->getIsCentinelValidationEnabled())
-        {
+        if (!$payment->getMethod() ||
+            !$payment->getMethodInstance() ||
+            $payment->getMethodInstance()->getIsDummy() ||
+            !$payment->getMethodInstance()->getIsCentinelValidationEnabled()
+        ) {
             return '';
         }
         return parent::_toHtml();
     }
 }
-

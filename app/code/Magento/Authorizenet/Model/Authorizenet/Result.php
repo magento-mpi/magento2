@@ -2,16 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Authorizenet
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Authorizenet\Model\Authorizenet;
 
-class Result extends \Magento\Object
+class Result extends \Magento\Framework\Object
 {
-    
 }

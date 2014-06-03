@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model\Carrier;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Sales\Model\Quote\Address\RateResult\Error;
 use Magento\Shipping\Model\Shipment\Request;
@@ -19,8 +18,11 @@ use Magento\Shipping\Model\Shipment\Request;
 abstract class AbstractCarrierOnline extends AbstractCarrier
 {
     const USA_COUNTRY_ID = 'US';
+
     const PUERTORICO_COUNTRY_ID = 'PR';
+
     const GUAM_COUNTRY_ID = 'GU';
+
     const GUAM_REGION_CODE = 'GU';
 
     /**
@@ -59,7 +61,6 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      */
     protected $_rateMethodFactory;
 
-
     /**
      * @var \Magento\Shipping\Model\Tracking\ResultFactory
      */
@@ -91,9 +92,16 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected $_currencyFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * Raw rate request data
+     *
+     * @var \Magento\Framework\Object|null
+     */
+    protected $_rawRequest = null;
+
+    /**
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -109,9 +117,9 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -134,7 +142,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
         $this->_countryFactory = $countryFactory;
         $this->_currencyFactory = $currencyFactory;
         $this->_directoryData = $directoryData;
-        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
+        parent::__construct($scopeConfig, $rateErrorFactory, $logAdapterFactory, $data);
     }
 
     /**
@@ -273,17 +281,17 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             return $this;
         }
 
-        $maxAllowedWeight   = (float) $this->getConfigData('max_package_weight');
-        $errorMsg           = '';
-        $configErrorMsg     = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg    = __('The shipping module is not available.');
-        $showMethod         = $this->getConfigData('showmethod');
+        $maxAllowedWeight = (double)$this->getConfigData('max_package_weight');
+        $errorMsg = '';
+        $configErrorMsg = $this->getConfigData('specificerrmsg');
+        $defaultErrorMsg = __('The shipping module is not available.');
+        $showMethod = $this->getConfigData('showmethod');
 
         foreach ($this->getAllItems($request) as $item) {
             if ($item->getProduct() && $item->getProduct()->getId()) {
-                $weight         = $item->getProduct()->getWeight();
-                $stockItem      = $item->getProduct()->getStockItem();
-                $doValidation   = true;
+                $weight = $item->getProduct()->getWeight();
+                $stockItem = $item->getProduct()->getStockItem();
+                $doValidation = true;
 
                 if ($stockItem->getIsQtyDecimal() && $stockItem->getIsDecimalDivided()) {
                     if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -296,7 +304,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
                 }
 
                 if ($doValidation && $weight > $maxAllowedWeight) {
-                    $errorMsg = ($configErrorMsg) ? $configErrorMsg : $defaultErrorMsg;
+                    $errorMsg = $configErrorMsg ? $configErrorMsg : $defaultErrorMsg;
                     break;
                 }
             }
@@ -327,10 +335,9 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected function _getQuotesCacheKey($requestParams)
     {
         if (is_array($requestParams)) {
-            $requestParams = implode(',', array_merge(
-                array($this->getCarrierCode()),
-                array_keys($requestParams),
-                $requestParams)
+            $requestParams = implode(
+                ',',
+                array_merge(array($this->getCarrierCode()), array_keys($requestParams), $requestParams)
             );
         }
         return crc32($requestParams);
@@ -382,10 +389,10 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * Prepare shipment request.
      * Validate and correct request information
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return void
      */
-    protected function _prepareShipmentRequest(\Magento\Object $request)
+    protected function _prepareShipmentRequest(\Magento\Framework\Object $request)
     {
         $phonePattern = '/[\s\_\-\(\)]+/';
         $phoneNumber = $request->getShipperContactPhoneNumber();
@@ -400,8 +407,8 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * Do request to shipment
      *
      * @param Request $request
-     * @return \Magento\Object
-     * @throws Exception
+     * @return \Magento\Framework\Object
+     * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment($request)
     {
@@ -417,7 +424,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             $request->setPackageId($packageId);
             $request->setPackagingType($package['params']['container']);
             $request->setPackageWeight($package['params']['weight']);
-            $request->setPackageParams(new \Magento\Object($package['params']));
+            $request->setPackageParams(new \Magento\Framework\Object($package['params']));
             $request->setPackageItems($package['items']);
             $result = $this->_doShipmentRequest($request);
 
@@ -427,7 +434,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             } else {
                 $data[] = array(
                     'tracking_number' => $result->getTrackingNumber(),
-                    'label_content'   => $result->getShippingLabelContent()
+                    'label_content' => $result->getShippingLabelContent()
                 );
             }
             if (!isset($isFirstRequest)) {
@@ -436,9 +443,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             }
         }
 
-        $response = new \Magento\Object(array(
-            'info'   => $data
-        ));
+        $response = new \Magento\Framework\Object(array('info' => $data));
         if ($result->getErrors()) {
             $response->setErrors($result->getErrors());
         }
@@ -449,8 +454,8 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * Do request to RMA shipment
      *
      * @param Request $request
-     * @return \Magento\Object
-     * @throws Exception
+     * @return \Magento\Framework\Object
+     * @throws \Magento\Framework\Model\Exception
      */
     public function returnOfShipment($request)
     {
@@ -467,7 +472,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             $request->setPackageId($packageId);
             $request->setPackagingType($package['params']['container']);
             $request->setPackageWeight($package['params']['weight']);
-            $request->setPackageParams(new \Magento\Object($package['params']));
+            $request->setPackageParams(new \Magento\Framework\Object($package['params']));
             $request->setPackageItems($package['items']);
             $result = $this->_doShipmentRequest($request);
 
@@ -477,7 +482,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             } else {
                 $data[] = array(
                     'tracking_number' => $result->getTrackingNumber(),
-                    'label_content'   => $result->getShippingLabelContent()
+                    'label_content' => $result->getShippingLabelContent()
                 );
             }
             if (!isset($isFirstRequest)) {
@@ -486,9 +491,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             }
         }
 
-        $response = new \Magento\Object(array(
-            'info'   => $data
-        ));
+        $response = new \Magento\Framework\Object(array('info' => $data));
         if ($result->getErrors()) {
             $response->setErrors($result->getErrors());
         }
@@ -512,10 +515,10 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $request
+     * @return \Magento\Framework\Object
      */
-    abstract protected function _doShipmentRequest(\Magento\Object $request);
+    abstract protected function _doShipmentRequest(\Magento\Framework\Object $request);
 
     /**
      * Check is Country U.S. Possessions and Trust Territories
@@ -526,13 +529,20 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected function _isUSCountry($countyId)
     {
         switch ($countyId) {
-            case 'AS': // Samoa American
-            case 'GU': // Guam
-            case 'MP': // Northern Mariana Islands
-            case 'PW': // Palau
-            case 'PR': // Puerto Rico
-            case 'VI': // Virgin Islands US
-            case 'US'; // United States
+            case 'AS':
+                // Samoa American
+            case 'GU':
+                // Guam
+            case 'MP':
+                // Northern Mariana Islands
+            case 'PW':
+                // Palau
+            case 'PR':
+                // Puerto Rico
+            case 'VI':
+                // Virgin Islands US
+            case 'US':
+                // United States
                 return true;
         }
 
@@ -548,5 +558,35 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     public function isGirthAllowed($countyDest = null)
     {
         return false;
+    }
+
+    /**
+     * @param \Magento\Framework\Object|null $request
+     * @return $this
+     */
+    public function setRawRequest($request)
+    {
+        $this->_rawRequest = $request;
+        return $this;
+    }
+
+    /**
+     * Calculate price considering free shipping and handling fee
+     *
+     * @param string $cost
+     * @param string $method
+     * @return float|string
+     */
+    public function getMethodPrice($cost, $method = '')
+    {
+        return $method == $this->getConfigData(
+            $this->_freeMethod
+        ) && $this->getConfigFlag(
+            'free_shipping_enable'
+        ) && $this->getConfigData(
+            'free_shipping_subtotal'
+        ) <= $this->_rawRequest->getBaseSubtotalInclTax() ? '0.00' : $this->getFinalPriceWithHandlingFee(
+            $cost
+        );
     }
 }

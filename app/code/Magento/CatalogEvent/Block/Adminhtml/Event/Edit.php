@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@ namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Form\Container;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 class Edit extends Container
 {
@@ -47,11 +45,8 @@ class Edit extends Container
      * @param Registry $registry
      * @param array $data
      */
-    public function __construct(
-        Context $context,
-        Registry $registry,
-        array $data = array()
-    ) {
+    public function __construct(Context $context, Registry $registry, array $data = array())
+    {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
@@ -72,25 +67,29 @@ class Edit extends Container
                 array(
                     'label' => __('Save and Continue Edit'),
                     'class' => 'save',
-                    'data_attribute'  => array(
+                    'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                        ),
-                    ),
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
+                        )
+                    )
                 ),
                 1
             );
         }
 
-        parent::_prepareLayout();
-
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild(
                 'form',
-                $this->getLayout()->createBlock(str_replace('_', '\\', $this->_blockGroup)
-                    . '\\Block\\'
-                    . str_replace(' ', '\\', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-                    . '\Category',
+                $this->getLayout()->createBlock(
+                    str_replace(
+                        '_',
+                        '\\',
+                        $this->_blockGroup
+                    ) . '\\Block\\' . str_replace(
+                        ' ',
+                        '\\',
+                        ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode))
+                    ) . '\Category',
                     $this->getNameInLayout() . 'catalog_event_form'
                 )
             );
@@ -110,9 +109,10 @@ class Edit extends Container
             $this->_removeButton('delete');
         }
 
+        parent::_prepareLayout();
+
         return $this;
     }
-
 
     /**
      * Retrieve form back url
@@ -127,15 +127,11 @@ class Edit extends Container
                 array('clear' => 1, 'id' => $this->getEvent()->getCategoryId())
             );
         } elseif ($this->getEvent() && !$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {
-            return $this->getUrl(
-                '*/*/new',
-                array('_current' => true, 'category_id' => null)
-            );
+            return $this->getUrl('*/*/new', array('_current' => true, 'category_id' => null));
         }
 
         return parent::getBackUrl();
     }
-
 
     /**
      * Retrieve form container header

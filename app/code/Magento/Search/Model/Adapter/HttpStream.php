@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,8 @@ namespace Magento\Search\Model\Adapter;
  * Solr search engine adapter that perform raw queries to Solr server based on Conduit solr client library
  * and basic solr adapter
  */
-class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
-    implements \Magento\Search\Model\AdapterInterface
+class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr implements
+    \Magento\Search\Model\AdapterInterface
 {
     /**
      * Object name used to create solr document object
@@ -32,21 +30,20 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
      *
@@ -54,29 +51,41 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\Logger $logger,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         array $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;
         parent::__construct(
-            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
-            $coreStoreConfig, $dateTime, $localeResolver, $localeDate, $options
+            $customerSession,
+            $resourceIndex,
+            $resourceFulltext,
+            $attributeCollection,
+            $logger,
+            $storeManager,
+            $cache,
+            $eavConfig,
+            $searchFactory,
+            $clientHelper,
+            $registry,
+            $scopeConfig,
+            $dateTime,
+            $localeResolver,
+            $localeDate,
+            $options
         );
     }
 
@@ -111,13 +120,13 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
             $_params = array_intersect_key($params, $_params) + array_diff_key($_params, $params);
         }
 
-        $offset = (isset($_params['offset'])) ? (int) $_params['offset'] : 0;
-        $limit  = (isset($_params['limit']))
-            ? (int) $_params['limit']
-            : \Magento\Search\Model\Adapter\Solr\AbstractSolr::DEFAULT_ROWS_LIMIT;
+        $offset = isset($_params['offset']) ? (int)$_params['offset'] : 0;
+        $limit = isset(
+            $_params['limit']
+        ) ? (int)$_params['limit'] : \Magento\Search\Model\Adapter\Solr\AbstractSolr::DEFAULT_ROWS_LIMIT;
 
         $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
-        $searchParams   = array();
+        $searchParams = array();
 
         if (!is_array($_params['fields'])) {
             $_params['fields'] = array($_params['fields']);
@@ -154,7 +163,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         /**
          * Facets search
          */
-        $useFacetSearch = (isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on');
+        $useFacetSearch = isset($params['solr_params']['facet']) && $params['solr_params']['facet'] == 'on';
         if ($useFacetSearch) {
             $searchParams += $this->_prepareFacetConditions($params['facet']);
         }
@@ -162,23 +171,25 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         /**
          * Suggestions search
          */
-        $useSpellcheckSearch = isset($params['solr_params']['spellcheck'])
-            && $params['solr_params']['spellcheck'] == 'true';
+        $useSpellcheckSearch = isset(
+            $params['solr_params']['spellcheck']
+        ) && $params['solr_params']['spellcheck'] == 'true';
 
         if ($useSpellcheckSearch) {
-            if (isset($params['solr_params']['spellcheck.count'])
-                && (int) $params['solr_params']['spellcheck.count'] > 0
+            if (isset(
+                $params['solr_params']['spellcheck.count']
+            ) && (int)$params['solr_params']['spellcheck.count'] > 0
             ) {
-                $spellcheckCount = (int) $params['solr_params']['spellcheck.count'];
+                $spellcheckCount = (int)$params['solr_params']['spellcheck.count'];
             } else {
                 $spellcheckCount = self::DEFAULT_SPELLCHECK_COUNT;
             }
 
             $_params['solr_params'] += array(
-                'spellcheck.collate'         => 'true',
-                'spellcheck.dictionary'      => 'magento_spell' . $languageSuffix,
+                'spellcheck.collate' => 'true',
+                'spellcheck.dictionary' => 'magento_spell' . $languageSuffix,
                 'spellcheck.extendedResults' => 'true',
-                'spellcheck.count'           => $spellcheckCount
+                'spellcheck.count' => $spellcheckCount
             );
         }
 
@@ -208,7 +219,11 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         try {
             $this->ping();
             $response = $this->_client->search(
-                $searchConditions, $offset, $limit, $searchParams, \Apache_Solr_Service::METHOD_POST
+                $searchConditions,
+                $offset,
+                $limit,
+                $searchParams,
+                \Apache_Solr_Service::METHOD_POST
             );
             $data = json_decode($response->getRawResponse());
 
@@ -230,9 +245,11 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
                 if ($useSpellcheckSearch) {
                     $resultSuggestions = $this->_prepareSuggestionsQueryResponse($data);
                     /* Calc results count for each suggestion */
-                    if (isset($params['spellcheck_result_counts']) && $params['spellcheck_result_counts']
-                        && count($resultSuggestions)
-                        && $spellcheckCount > 0
+                    if (isset(
+                        $params['spellcheck_result_counts']
+                    ) && $params['spellcheck_result_counts'] && count(
+                        $resultSuggestions
+                    ) && $spellcheckCount > 0
                     ) {
                         /* Temporary store value for main search query */
                         $tmpLastNumFound = $this->_lastNumFound;

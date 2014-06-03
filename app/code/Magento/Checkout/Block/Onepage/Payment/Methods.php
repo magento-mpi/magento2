@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@
 /**
  * One page checkout status
  *
- * @category   Magento
- * @category   Magento
- * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Checkout\Block\Onepage\Payment;
@@ -26,14 +21,14 @@ class Methods extends \Magento\Payment\Block\Form\Container
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -85,7 +80,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
      */
     public function getPaymentMethodFormHtml(\Magento\Payment\Model\MethodInterface $method)
     {
-         return $this->getChildHtml('payment.method.' . $method->getCode());
+        return $this->getChildHtml('payment.method.' . $method->getCode());
     }
 
     /**

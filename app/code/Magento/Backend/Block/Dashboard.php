@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 class Dashboard extends \Magento\Backend\Block\Template
@@ -37,12 +34,16 @@ class Dashboard extends \Magento\Backend\Block\Template
 
         $this->addChild('topSearches', 'Magento\Backend\Block\Dashboard\Searches\Top');
 
-        if ($this->_storeConfig->getConfig(self::XML_PATH_ENABLE_CHARTS)) {
+        if ($this->_scopeConfig->getValue(self::XML_PATH_ENABLE_CHARTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $block = $this->getLayout()->createBlock('Magento\Backend\Block\Dashboard\Diagrams');
         } else {
-            $block = $this->getLayout()->createBlock('Magento\Backend\Block\Template')
-                ->setTemplate('dashboard/graph/disabled.phtml')
-                ->setConfigUrl($this->getUrl('adminhtml/system_config/edit', array('section'=>'admin')));
+            $block = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Template'
+            )->setTemplate(
+                'dashboard/graph/disabled.phtml'
+            )->setConfigUrl(
+                $this->getUrl('adminhtml/system_config/edit', array('section' => 'admin'))
+            );
         }
         $this->setChild('diagrams', $block);
 
@@ -59,6 +60,6 @@ class Dashboard extends \Magento\Backend\Block\Template
         if ($url = $this->getData('switch_url')) {
             return $url;
         }
-        return $this->getUrl('adminhtml/*/*', array('_current'=>true, 'period'=>null));
+        return $this->getUrl('adminhtml/*/*', array('_current' => true, 'period' => null));
     }
 }

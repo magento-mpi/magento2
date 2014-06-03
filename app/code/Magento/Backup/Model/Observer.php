@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,16 +9,18 @@
 /**
  * Backup Observer
  *
- * @category   Magento
- * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Model;
 
+use Magento\Store\Model\ScopeInterface;
+
 class Observer
 {
-    const XML_PATH_BACKUP_ENABLED          = 'system/backup/enabled';
-    const XML_PATH_BACKUP_TYPE             = 'system/backup/type';
+    const XML_PATH_BACKUP_ENABLED = 'system/backup/enabled';
+
+    const XML_PATH_BACKUP_TYPE = 'system/backup/type';
+
     const XML_PATH_BACKUP_MAINTENANCE_MODE = 'system/backup/maintenance';
 
     /**
@@ -40,56 +40,64 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Filesystem facade
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\Backup\Factory
+     * @var \Magento\Framework\Backup\Factory
      */
     protected $_backupFactory;
 
     /**
+     * @var \Magento\Framework\App\State\MaintenanceMode
+     */
+    protected $maintenanceMode;
+
+    /**
      * @param \Magento\Backup\Helper\Data $backupData
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Backup\Factory $backupFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Backup\Factory $backupFactory
+     * @param \Magento\Framework\App\State\MaintenanceMode $maintenanceMode
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
-        \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Backup\Factory $backupFactory
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Backup\Factory $backupFactory,
+        \Magento\Framework\App\State\MaintenanceMode $maintenanceMode
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
         $this->_logger = $logger;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_filesystem = $filesystem;
         $this->_backupFactory = $backupFactory;
+        $this->maintenanceMode = $maintenanceMode;
     }
 
     /**
@@ -99,28 +107,36 @@ class Observer
      */
     public function scheduledBackup()
     {
-        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_ENABLED)) {
+        if (!$this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_ENABLED, ScopeInterface::SCOPE_STORE)) {
             return $this;
         }
 
-        if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
-            $this->_backupData->turnOnMaintenanceMode();
+        if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
+            $this->maintenanceMode->turnOn();
         }
 
-        $type = $this->_coreStoreConfig->getConfig(self::XML_PATH_BACKUP_TYPE);
+        $type = $this->_scopeConfig->getValue(self::XML_PATH_BACKUP_TYPE, ScopeInterface::SCOPE_STORE);
 
         $this->_errors = array();
         try {
-            $backupManager = $this->_backupFactory->create($type)
-                ->setBackupExtension($this->_backupData->getExtensionByType($type))
-                ->setTime(time())
-                ->setBackupsDir($this->_backupData->getBackupsDir());
+            $backupManager = $this->_backupFactory->create(
+                $type
+            )->setBackupExtension(
+                $this->_backupData->getExtensionByType($type)
+            )->setTime(
+                time()
+            )->setBackupsDir(
+                $this->_backupData->getBackupsDir()
+            );
 
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
-            if ($type != \Magento\Backup\Factory::TYPE_DB) {
-                $backupManager->setRootDir($this->_filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR))
-                    ->addIgnorePaths($this->_backupData->getBackupIgnorePaths());
+            if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
+                $backupManager->setRootDir(
+                    $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR)
+                )->addIgnorePaths(
+                    $this->_backupData->getBackupIgnorePaths()
+                );
             }
 
             $backupManager->create();
@@ -133,8 +149,8 @@ class Observer
             $this->_logger->logException($e);
         }
 
-        if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
-            $this->_backupData->turnOffMaintenanceMode();
+        if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
+            $this->maintenanceMode->turnOff();
         }
 
         return $this;

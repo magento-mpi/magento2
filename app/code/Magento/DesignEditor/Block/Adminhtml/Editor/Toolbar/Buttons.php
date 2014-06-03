@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons setVirtualThemeId(int $id)
  * @method int getVirtualThemeId()
  */
-class Buttons
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock
+class Buttons extends \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock
 {
     /**
      * Current theme used for preview

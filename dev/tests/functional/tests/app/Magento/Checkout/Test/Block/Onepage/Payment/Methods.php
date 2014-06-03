@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Methods
  * One page checkout status payment method block
  *
- * @package Magento\Checkout\Test\Block\Onepage\Payment
  */
 class Methods extends Form
 {
@@ -42,7 +38,7 @@ class Methods extends Form
      *
      * @var string
      */
-    protected $waitElement = '.please-wait';
+    protected $waitElement = '.loading-mask';
 
     /**
      * Select payment method
@@ -61,6 +57,7 @@ class Methods extends Form
             /** @var $formBlock \Magento\Payment\Test\Block\Form\Cc */
             $formBlock = new $paymentFormClass(
                 $this->_rootElement->find('#payment_form_' . $paymentCode),
+                $this->blockFactory,
                 $this->mapper
             );
             $formBlock->fill($fixture);

@@ -1,15 +1,14 @@
 <?php
 namespace Magento\Sniffs\Annotations;
 
-use \PHP_CodeSniffer_Standards_AbstractVariableSniff;
-use \PHP_CodeSniffer_CommentParser_ClassCommentParser;
-use \PHP_CodeSniffer_File;
-use \PHP_CodeSniffer_CommentParser_MemberCommentParser;
-use \PHP_CodeSniffer_CommentParser_ParserException;
-use \PHP_CodeSniffer_CommentParser_CommentElement;
+use PHP_CodeSniffer_Standards_AbstractVariableSniff;
+use PHP_CodeSniffer_CommentParser_ClassCommentParser;
+use PHP_CodeSniffer_File;
+use PHP_CodeSniffer_CommentParser_MemberCommentParser;
+use PHP_CodeSniffer_CommentParser_ParserException;
+use PHP_CodeSniffer_CommentParser_CommentElement;
 
 include_once 'Helper.php';
-
 /**
  * Parses and verifies the variable doc comment.
  *
@@ -22,8 +21,6 @@ include_once 'Helper.php';
  *  <li>Check the order, indentation and content of each tag.</li>
  * </ul>
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
@@ -62,30 +59,19 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
         $commentEnd = $this->helper->getCurrentFile()->findPrevious($commentToken, $stackPtr - 3);
         $break = false;
         if ($commentEnd !== false && $tokens[$commentEnd]['code'] === T_COMMENT) {
-            $this->helper->addMessage(
-                $stackPtr,
-                Helper::WRONG_STYLE,
-                array('variable')
-            );
+            $this->helper->addMessage($stackPtr, Helper::WRONG_STYLE, array('variable'));
             $break = true;
         } elseif ($commentEnd === false || $tokens[$commentEnd]['code'] !== T_DOC_COMMENT) {
-            $this->helper->addMessage(
-                $stackPtr,
-                Helper::MISSING,
-                array('variable')
-            );
+            $this->helper->addMessage($stackPtr, Helper::MISSING, array('variable'));
             $break = true;
         } else {
             // Make sure the comment we have found belongs to us.
             $commentFor = $this->helper->getCurrentFile()->findNext(
-                array(T_VARIABLE, T_CLASS, T_INTERFACE), $commentEnd + 1
+                array(T_VARIABLE, T_CLASS, T_INTERFACE),
+                $commentEnd + 1
             );
             if ($commentFor !== $stackPtr) {
-                $this->helper->addMessage(
-                    $stackPtr,
-                    Helper::MISSING,
-                    array('variable')
-                );
+                $this->helper->addMessage($stackPtr, Helper::MISSING, array('variable'));
                 $break = true;
             }
         }
@@ -111,11 +97,7 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
             // No extra newline before short description.
             $newlineSpan = strspn($short, $this->helper->getEolChar());
             if ($short !== '' && $newlineSpan > 0) {
-                $this->helper->addMessage(
-                    $commentStart + 1,
-                    Helper::SPACING_BEFORE_SHORT,
-                    array('variable')
-                );
+                $this->helper->addMessage($commentStart + 1, Helper::SPACING_BEFORE_SHORT, array('variable'));
             }
 
             $newlineCount = substr_count($short, $this->helper->getEolChar()) + 1;
@@ -149,27 +131,15 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
             $testShort = trim($short);
             $lastChar = $testShort[strlen($testShort) - 1];
             if (substr_count($testShort, $this->helper->getEolChar()) !== 0) {
-                $this->helper->addMessage(
-                    $commentStart + 1,
-                    Helper::SHORT_SINGLE_LINE,
-                    array('Variable')
-                );
+                $this->helper->addMessage($commentStart + 1, Helper::SHORT_SINGLE_LINE, array('Variable'));
             }
 
             if (preg_match('|\p{Lu}|u', $testShort[0]) === 0) {
-                $this->helper->addMessage(
-                    $commentStart + 1,
-                    Helper::SHORT_NOT_CAPITAL,
-                    array('Variable')
-                );
+                $this->helper->addMessage($commentStart + 1, Helper::SHORT_NOT_CAPITAL, array('Variable'));
             }
 
             if ($lastChar !== '.') {
-                $this->helper->addMessage(
-                    $commentStart + 1,
-                    Helper::SHORT_FULL_STOP,
-                    array('Variable')
-                );
+                $this->helper->addMessage($commentStart + 1, Helper::SHORT_FULL_STOP, array('Variable'));
             }
         }
         // Exactly one blank line before tags.
@@ -251,11 +221,7 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
         foreach ($unknownTags as $errorTag) {
             // Unknown tags are not parsed, do not process further.
             $data = array($errorTag['tag']);
-            $this->helper->addMessage(
-                $commentStart + $errorTag['line'],
-                Helper::TAG_NOT_ALLOWED,
-                $data
-            );
+            $this->helper->addMessage($commentStart + $errorTag['line'], Helper::TAG_NOT_ALLOWED, $data);
         }
 
         // Check each tag.
@@ -313,19 +279,11 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
                 $suggestedType = $this->helper->suggestType($content);
                 if ($content !== $suggestedType) {
                     $data = array($suggestedType, $content);
-                    $this->helper->addMessage(
-                        $errorPos,
-                        Helper::INCORRECT_VAR_TYPE,
-                        $data
-                    );
+                    $this->helper->addMessage($errorPos, Helper::INCORRECT_VAR_TYPE, $data);
                 } elseif ($this->helper->isAmbiguous($content, $matches)) {
                     // Warn about ambiguous types ie array or mixed
-                    $data = array($matches[1],'@var');
-                    $this->helper->addMessage(
-                        $errorPos,
-                        Helper::AMBIGUOUS_TYPE,
-                        $data
-                    );
+                    $data = array($matches[1], '@var');
+                    $this->helper->addMessage($errorPos, Helper::AMBIGUOUS_TYPE, $data);
                 }
             }
 

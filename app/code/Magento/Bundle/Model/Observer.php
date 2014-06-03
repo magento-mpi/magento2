@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Bundle\Model;
 /**
  * Bundle Products Observer
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Observer
@@ -71,7 +67,7 @@ class Observer
     /**
      * Append bundles in upsell list for current product
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function appendUpsellProducts($observer)
@@ -88,7 +84,7 @@ class Observer
 
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
         $collection = $observer->getEvent()->getCollection();
-        $limit      = $observer->getEvent()->getLimit();
+        $limit = $observer->getEvent()->getLimit();
         if (is_array($limit)) {
             if (isset($limit['upsell'])) {
                 $limit = $limit['upsell'];
@@ -98,7 +94,7 @@ class Observer
         }
 
         /* @var $resource \Magento\Bundle\Model\Resource\Selection */
-        $resource   = $this->_bundleSelection;
+        $resource = $this->_bundleSelection;
 
         $productIds = array_keys($collection->getItems());
         if (!is_null($limit) && $limit <= count($productIds)) {
@@ -106,34 +102,37 @@ class Observer
         }
 
         // retrieve bundle product ids
-        $bundleIds  = $resource->getParentIdsByChild($product->getId());
+        $bundleIds = $resource->getParentIdsByChild($product->getId());
         // exclude up-sell product ids
-        $bundleIds  = array_diff($bundleIds, $productIds);
+        $bundleIds = array_diff($bundleIds, $productIds);
 
         if (!$bundleIds) {
             return $this;
         }
 
         /* @var $bundleCollection \Magento\Catalog\Model\Resource\Product\Collection */
-        $bundleCollection = $product->getCollection()
-            ->addAttributeToSelect($this->_config->getProductAttributes())
-            ->addStoreFilter()
-            ->addMinimalPrice()
-            ->addFinalPrice()
-            ->addTaxPercents()
-            ->setVisibility($this->_productVisibility->getVisibleInCatalogIds());
+        $bundleCollection = $product->getCollection()->addAttributeToSelect(
+            $this->_config->getProductAttributes()
+        )->addStoreFilter()->addMinimalPrice()->addFinalPrice()->addTaxPercents()->setVisibility(
+            $this->_productVisibility->getVisibleInCatalogIds()
+        );
 
         if (!is_null($limit)) {
             $bundleCollection->setPageSize($limit);
         }
-        $bundleCollection->addFieldToFilter('entity_id', array('in' => $bundleIds))
-            ->setFlag('do_not_use_category_id', true);
+        $bundleCollection->addFieldToFilter(
+            'entity_id',
+            array('in' => $bundleIds)
+        )->setFlag(
+            'do_not_use_category_id',
+            true
+        );
 
-        if ($collection instanceof \Magento\Data\Collection) {
+        if ($collection instanceof \Magento\Framework\Data\Collection) {
             foreach ($bundleCollection as $item) {
                 $collection->addItem($item);
             }
-        } elseif ($collection instanceof \Magento\Object) {
+        } elseif ($collection instanceof \Magento\Framework\Object) {
             $items = $collection->getItems();
             foreach ($bundleCollection as $item) {
                 $items[$item->getEntityId()] = $item;
@@ -148,7 +147,7 @@ class Observer
      * Add price index data for catalog product collection
      * only for front end
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function loadProductOptions($observer)
@@ -163,15 +162,16 @@ class Observer
     /**
      * Setting attribute tab block for bundle
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function setAttributeTabBlock($observer)
     {
         $product = $observer->getEvent()->getProduct();
         if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            $this->_helperCatalog
-                ->setAttributeTabBlock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes');
+            $this->_helperCatalog->setAttributeTabBlock(
+                'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes'
+            );
         }
         return $this;
     }
@@ -179,10 +179,10 @@ class Observer
     /**
      * Initialize product options renderer with bundle specific params
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function initOptionRenderer(\Magento\Event\Observer $observer)
+    public function initOptionRenderer(\Magento\Framework\Event\Observer $observer)
     {
         $block = $observer->getBlock();
         $block->addOptionsRenderCfg('bundle', 'Magento\Bundle\Helper\Catalog\Product\Configuration');

@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Design\Edit\Tab;
 
 /**
@@ -23,15 +19,22 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForm()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->setDefaultDesignTheme();
-        $objectManager->get('Magento\Registry')
-            ->register('design', $objectManager ->create('Magento\Core\Model\Design'));
-        $layout = $objectManager ->create('Magento\Core\Model\Layout');
+        $objectManager->get(
+            'Magento\Framework\View\DesignInterface'
+        )->setArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        )->setDefaultDesignTheme();
+        $objectManager->get(
+            'Magento\Framework\Registry'
+        )->register(
+            'design',
+            $objectManager->create('Magento\Framework\App\DesignInterface')
+        );
+        $layout = $objectManager->create('Magento\Framework\View\Layout');
         $block = $layout->addBlock('Magento\Backend\Block\System\Design\Edit\Tab\General');
         $prepareFormMethod = new \ReflectionMethod(
-            'Magento\Backend\Block\System\Design\Edit\Tab\General', '_prepareForm'
+            'Magento\Backend\Block\System\Design\Edit\Tab\General',
+            '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

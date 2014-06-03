@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order\Item;
 /**
  * Flat sales order payment collection
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
@@ -23,21 +19,21 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_item_collection';
+    protected $_eventPrefix = 'sales_order_item_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'order_item_collection';
+    protected $_eventObject = 'order_item_collection';
 
     /**
      * Order field for setOrderFilter
      *
      * @var string
      */
-    protected $_orderField     = 'order_id';
+    protected $_orderField = 'order_id';
 
     /**
      * Model initialization
@@ -88,7 +84,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     public function addIdFilter($item)
     {
         if (is_array($item)) {
-            $this->addFieldToFilter('item_id', array('in'=>$item));
+            $this->addFieldToFilter('item_id', array('in' => $item));
         } elseif ($item instanceof \Magento\Sales\Model\Order\Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {

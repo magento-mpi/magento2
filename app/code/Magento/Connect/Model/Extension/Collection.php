@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,24 +10,21 @@ namespace Magento\Connect\Model\Extension;
 /**
  * Extension packages files collection
  *
- * @category    Magento
- * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Collection extends \Magento\Data\Collection\Filesystem
+class Collection extends \Magento\Framework\Data\Collection\Filesystem
 {
     /**
      * Files and folders regexsp
      *
      * @var string
      */
-    protected $_allowedDirsMask     = '/^[a-z0-9\.\-]+$/i';
+    protected $_allowedDirsMask = '/^[a-z0-9\.\-]+$/i';
 
     /**
      * @var string
      */
-    protected $_allowedFilesMask    = '/^[a-z0-9\.\-\_]+\.(xml|ser)$/i';
+    protected $_allowedFilesMask = '/^[a-z0-9\.\-\_]+\.(xml|ser)$/i';
 
     /**
      * @var string
@@ -37,12 +32,12 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected $_disallowedFilesMask = '/^package\.xml$/i';
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $connectDirectory;
 
@@ -50,13 +45,13 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * Set base dir
      *
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\App\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Framework\App\Filesystem $filesystem)
     {
         parent::__construct($entityFactory);
         $this->filesystem = $filesystem;
-        $this->connectDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->connectDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->connectDirectory->create('connect');
         $this->addTargetDir($this->connectDirectory->getAbsolutePath('connect'));
     }
@@ -70,8 +65,11 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $row['package'] = preg_replace('/\.(xml|ser)$/', '',
-            str_replace($this->connectDirectory->getAbsolutePath('connect/'), '', $filename));
+        $row['package'] = preg_replace(
+            '/\.(xml|ser)$/',
+            '',
+            str_replace($this->connectDirectory->getAbsolutePath('connect/'), '', $filename)
+        );
         $row['filename_id'] = $row['package'];
         $folder = explode('/', $row['package']);
         array_pop($folder);
@@ -103,5 +101,4 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $this->setCollectFiles($collectFiles)->setCollectDirs($collectDirs);
         return $result;
     }
-
 }

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="All Three-Column Layout Pages" design_abstraction="page_layout">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd" label="All Three-Column Layout Pages" design_abstraction="page_layout">
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">3columns.phtml</argument>

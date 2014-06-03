@@ -10,7 +10,7 @@ namespace Magento\Dhl\Model\Source;
 /**
  * Source model for DHL Content Type
  */
-class Contenttype implements \Magento\Option\ArrayInterface
+class Contenttype implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
@@ -18,10 +18,8 @@ class Contenttype implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('label' => __('Documents'),
-                'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_DOC),
-            array('label' => __('Non documents'),
-                'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_NON_DOC),
+            array('label' => __('Documents'), 'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_DOC),
+            array('label' => __('Non documents'), 'value' => \Magento\Dhl\Model\Carrier::DHL_CONTENT_TYPE_NON_DOC)
         );
     }
 }

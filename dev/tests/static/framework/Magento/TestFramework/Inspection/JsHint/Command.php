@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,11 +12,11 @@ namespace Magento\TestFramework\Inspection\JsHint;
 
 class Command extends \Magento\TestFramework\Inspection\AbstractCommand
 {
-
     /**
      * @var string
      */
     protected $_fileName;
+
     /**
      * @var string
      */
@@ -78,10 +75,17 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
      */
     protected function _buildShellCmd($whiteList, $blackList)
     {
-        return $this->_getHostScript(true) . ' '
-            . '"' . $this->_getJsHintPath() . '" '
-            . '"' . $this->getFileName() . '" '
-            . $this->_getJsHintOptions();
+        return $this->_getHostScript(
+            true
+        ) .
+            ' ' .
+            '"' .
+            $this->_getJsHintPath() .
+            '" ' .
+            '"' .
+            $this->getFileName() .
+            '" ' .
+            $this->_getJsHintOptions();
     }
 
     /**
@@ -118,11 +122,11 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
         $jsHintOptions = null;
         if ($this->_isOsWin()) {
             foreach ($jsHintOptionsArray as $key => $value) {
-                $jsHintOptions .= "/$key:$value ";
+                $jsHintOptions .= "/{$key}:{$value} ";
             }
         } else {
             foreach ($jsHintOptionsArray as $key => $value) {
-                $jsHintOptions .= "$key=$value,";
+                $jsHintOptions .= "{$key}={$value},";
             }
         }
         return trim(rtrim($jsHintOptions, ","));
@@ -145,10 +149,10 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
         if ($this->_isOsWin()) {
             $output = array_slice($retArray[0], 2);
         }
-        $output[] = ''; //empty line to separate each file output
+        $output[] = '';
+        //empty line to separate each file output
         file_put_contents($this->_reportFile, $this->_lastOutput, FILE_APPEND);
         return false;
-
     }
 
     /**
@@ -200,5 +204,4 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
         }
         return true;
     }
-
 }

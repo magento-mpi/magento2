@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,10 +12,10 @@ $installer->getConnection()->modifyColumn(
     $installer->getTable('catalog_category_product_index'),
     'position',
     array(
-        'type'      => \Magento\DB\Ddl\Table::TYPE_INTEGER,
-        'unsigned'  => false,
-        'nullable'  => true,
-        'default'   => null,
-        'comment'   => 'Position'
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        'unsigned' => false,
+        'nullable' => true,
+        'default' => null,
+        'comment' => 'Position'
     )
 );

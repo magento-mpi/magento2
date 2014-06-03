@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,11 +11,11 @@ use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\GridPageActions;
 
 /**
  * Class SalesRule
  *
- * @package Magento\SalesRule\Test\Page
  */
 class SalesRule extends Page
 {
@@ -31,6 +28,13 @@ class SalesRule extends Page
      * @var string
      */
     protected $promoQuoteGridSelector = 'page:main-container';
+
+    /**
+     * Grid page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * {@inheritDoc}
@@ -49,6 +53,18 @@ class SalesRule extends Page
     {
         return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuote(
             $this->_browser->find($this->promoQuoteGridSelector, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get Grid page actions block
+     *
+     * @return GridPageActions
+     */
+    public function getActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendGridPageActions(
+            $this->_browser->find($this->pageActionsBlock)
         );
     }
 }

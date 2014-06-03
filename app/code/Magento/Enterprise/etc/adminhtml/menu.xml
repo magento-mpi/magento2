@@ -3,13 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
         <add id="Magento_Enterprise::private_sales" title="Private Sales" module="Magento_Enterprise" sortOrder="10" parent="Magento_Backend::marketing" resource="Magento_Enterprise::marketing_private_sales" />
     </menu>

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,8 +29,6 @@ namespace Magento\Sales\Model\Order\Shipment;
  * @method string getUpdatedAt()
  * @method \Magento\Sales\Model\Order\Shipment\Track setUpdatedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Track extends \Magento\Sales\Model\AbstractModel
@@ -58,7 +54,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
     protected $_eventObject = 'track';
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -68,36 +64,28 @@ class Track extends \Magento\Sales\Model\AbstractModel
     protected $_shipmentFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $localeDate,
-            $dateTime,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $localeDate, $dateTime, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
         $this->_shipmentFactory = $shipmentFactory;
     }
@@ -126,7 +114,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      * Tracking number setter
      *
      * @param string $number
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setNumber($number)
     {
@@ -152,7 +140,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      */
     public function getShipment()
     {
-        if (!($this->_shipment instanceof \Magento\Sales\Model\Order\Shipment)) {
+        if (!$this->_shipment instanceof \Magento\Sales\Model\Order\Shipment) {
             $this->_shipment = $this->_shipmentFactory->create()->load($this->getParentId());
         }
 
@@ -182,7 +170,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
     /**
      * Get store object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

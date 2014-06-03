@@ -6,8 +6,9 @@
  * @license   {license_link}
  */
 namespace Magento\Tools\Di\Compiler;
-use \Zend\Code\Scanner\FileScanner,
-    Magento\Tools\Di\Compiler\Log\Log;
+
+use Zend\Code\Scanner\FileScanner;
+use Magento\Tools\Di\Compiler\Log\Log;
 
 class Directory
 {
@@ -37,15 +38,15 @@ class Directory
     protected $_relations;
 
     /**
-     * @var  \Magento\Code\Validator
+     * @var  \Magento\Framework\Code\Validator
      */
     protected $_validator;
 
     /**
      * @param Log $log
-     * @param \Magento\Code\Validator $validator
+     * @param \Magento\Framework\Code\Validator $validator
      */
-    public function __construct(Log $log, \Magento\Code\Validator $validator)
+    public function __construct(Log $log, \Magento\Framework\Code\Validator $validator)
     {
         $this->_log = $log;
         $this->_validator = $validator;
@@ -88,10 +89,10 @@ class Directory
                         if ($validate) {
                             $this->_validator->validate($className);
                         }
-                        $signatureReader = new \Magento\Code\Reader\ClassReader();
+                        $signatureReader = new \Magento\Framework\Code\Reader\ClassReader();
                         $this->_definitions[$className] = $signatureReader->getConstructor($className);
                         $this->_relations[$className] = $signatureReader->getParents($className);
-                    } catch (\Magento\Code\ValidationException $exception) {
+                    } catch (\Magento\Framework\Code\ValidationException $exception) {
                         $this->_log->add(Log::COMPILATION_ERROR, $className, $exception->getMessage());
                     } catch (\ReflectionException $e) {
                         $this->_log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());

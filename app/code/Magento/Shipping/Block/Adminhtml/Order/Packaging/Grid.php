@@ -17,7 +17,7 @@ class Grid extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -29,13 +29,13 @@ class Grid extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_shipmentItemFactory = $shipmentItemFactory;
@@ -51,8 +51,9 @@ class Grid extends \Magento\Backend\Block\Template
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = $this->_shipmentItemFactory->create()->getCollection()
-                    ->setShipmentFilter($this->getShipment()->getId());
+            $collection = $this->_shipmentItemFactory->create()->getCollection()->setShipmentFilter(
+                $this->getShipment()->getId()
+            );
         } else {
             $collection = $this->getShipment()->getAllItems();
         }
@@ -79,8 +80,9 @@ class Grid extends \Magento\Backend\Block\Template
         $storeId = $this->getShipment()->getStoreId();
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = $this->_storeConfig->getConfig(
+        $shipperAddressCountryCode = $this->_scopeConfig->getValue(
             \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();

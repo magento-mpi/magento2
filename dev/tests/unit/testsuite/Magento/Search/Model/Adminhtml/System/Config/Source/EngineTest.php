@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adminhtml\System\Config\Source;
 
 class EngineTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +16,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= new \Magento\Search\Model\Adminhtml\System\Config\Source\Engine();
+        $this->_model = new \Magento\Search\Model\Adminhtml\System\Config\Source\Engine();
     }
 
     /**

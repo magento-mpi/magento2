@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Tools
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,7 +28,7 @@ foreach ($files as $file) {
 
 sort($classes);
 $baseDir = realpath(__DIR__ . '/../../../../../') . '/';
-$sources = array('app/code', 'lib',);
+$sources = array('app/code', 'lib/internal');
 
 $map = array();
 foreach ($classes as $class) {

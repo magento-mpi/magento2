@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Eav\Model\Entity\Attribute;
 /**
  * EAV entity attribute exception
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Exception extends \Exception
@@ -51,7 +47,8 @@ class Exception extends \Exception
      * @param string $part
      * @return $this
      */
-    public function setPart($part) {
+    public function setPart($part)
+    {
         $this->_part = $part;
         return $this;
     }

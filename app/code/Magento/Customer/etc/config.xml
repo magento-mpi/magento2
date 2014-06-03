@@ -3,13 +3,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
     <default>
         <customer>
             <account_share>
@@ -89,5 +87,11 @@ T: {{var telephone}}
 {{depend vat_id}}<br/>VAT: {{var vat_id}}{{/depend}}|]]></pdf>
             </address_templates>
         </customer>
+        <export>
+            <customer_page_size>
+                <customer>10000</customer>
+                <address>5000</address>
+            </customer_page_size>
+        </export>
     </default>
 </config>

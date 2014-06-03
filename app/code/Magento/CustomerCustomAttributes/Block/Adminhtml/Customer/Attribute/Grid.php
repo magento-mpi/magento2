@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,7 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
 /**
  * Customer Attributes Grid Block
  */
-class Grid
-    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
+class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
      * @var \Magento\Customer\Model\Resource\Attribute\CollectionFactory
@@ -71,24 +68,21 @@ class Grid
     {
         parent::_prepareColumns();
 
-        $this->addColumn('is_visible', array(
-            'header'    => __('Visible to Customer'),
-            'sortable'  => true,
-            'index'     => 'is_visible',
-            'type'      => 'options',
-            'options'   => array(
-                '0' => __('No'),
-                '1' => __('Yes'),
-            ),
-            'align'     => 'center',
-        ));
+        $this->addColumn(
+            'is_visible',
+            array(
+                'header' => __('Visible to Customer'),
+                'sortable' => true,
+                'index' => 'is_visible',
+                'type' => 'options',
+                'options' => array('0' => __('No'), '1' => __('Yes'))
+            )
+        );
 
-        $this->addColumn('sort_order', array(
-            'header'    => __('Sort Order'),
-            'sortable'  => true,
-            'align'     => 'center',
-            'index'     => 'sort_order'
-        ));
+        $this->addColumn(
+            'sort_order',
+            array('header' => __('Sort Order'), 'sortable' => true, 'index' => 'sort_order')
+        );
 
         return $this;
     }

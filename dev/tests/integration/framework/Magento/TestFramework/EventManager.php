@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -47,7 +44,7 @@ class EventManager
      */
     public function fireEvent($eventName, array $parameters = array(), $reverseOrder = false)
     {
-        $subscribers = ($reverseOrder ? array_reverse($this->_subscribers) : $this->_subscribers);
+        $subscribers = $reverseOrder ? array_reverse($this->_subscribers) : $this->_subscribers;
         foreach ($subscribers as $subscriberInstance) {
             $callback = array($subscriberInstance, $eventName);
             if (is_callable($callback)) {

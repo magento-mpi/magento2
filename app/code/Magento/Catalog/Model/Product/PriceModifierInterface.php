@@ -21,4 +21,4 @@ interface PriceModifierInterface
      * @return mixed
      */
     public function modifyPrice($price, Product $product);
-} 
+}

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 /**
  * Accordion grid for products in wishlist
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Wishlist extends AbstractAccordion
@@ -48,16 +44,16 @@ class Wishlist extends AbstractAccordion
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
@@ -77,9 +73,7 @@ class Wishlist extends AbstractAccordion
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Wish List (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Wish List (%1)', $this->getItemsCount()));
         }
     }
 
@@ -111,12 +105,11 @@ class Wishlist extends AbstractAccordion
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = $this->_createItemsCollection()
-                ->addCustomerIdFilter($this->_getCustomer()->getId())
-                ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
-                ->setVisibilityFilter()
-                ->setSalableFilter()
-                ->resetSortOrder();
+            $collection = $this->_createItemsCollection()->addCustomerIdFilter(
+                $this->_getCustomer()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getWebsite()->getStoreIds()
+            )->setVisibilityFilter()->setSalableFilter()->resetSortOrder();
 
             foreach ($collection as $item) {
                 $product = $item->getProduct();
@@ -129,7 +122,6 @@ class Wishlist extends AbstractAccordion
                         $item->setPrice($product->getPrice());
                     }
                 }
-
             }
             $this->setData('items_collection', $collection);
         }
@@ -143,7 +135,7 @@ class Wishlist extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewWishlist', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewWishlist', array('_current' => true));
     }
 
     /**
@@ -155,9 +147,11 @@ class Wishlist extends AbstractAccordion
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
-        $this->getColumn('qty')->addData(array(
-            'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
-        ));
+        $this->getColumn(
+            'qty'
+        )->addData(
+            array('renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty')
+        );
 
         return $this;
     }

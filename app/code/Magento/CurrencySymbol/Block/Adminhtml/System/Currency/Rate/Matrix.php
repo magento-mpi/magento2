@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Manage currency block
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate;
@@ -46,7 +42,7 @@ class Matrix extends \Magento\Backend\Block\Template
     /**
      * Prepare layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -72,10 +68,15 @@ class Matrix extends \Magento\Backend\Block\Template
 
         sort($currencies);
 
-        $this->setAllowedCurrencies($currencies)
-            ->setDefaultCurrencies($defaultCurrencies)
-            ->setOldRates($oldCurrencies)
-            ->setNewRates($this->_prepareRates($newRates));
+        $this->setAllowedCurrencies(
+            $currencies
+        )->setDefaultCurrencies(
+            $defaultCurrencies
+        )->setOldRates(
+            $oldCurrencies
+        )->setNewRates(
+            $this->_prepareRates($newRates)
+        );
 
         return parent::_prepareLayout();
     }

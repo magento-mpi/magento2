@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
-use \Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Model\Integration as IntegrationModel;
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
 
 /**

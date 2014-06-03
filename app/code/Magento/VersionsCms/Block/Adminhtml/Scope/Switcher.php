@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,6 +9,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Scope;
 
 /**
  * Store switcher block
+ * @deprecated
  */
 class Switcher extends \Magento\Backend\Block\System\Config\Switcher
 {
@@ -23,12 +22,12 @@ class Switcher extends \Magento\Backend\Block\System\Config\Switcher
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         parent::__construct($context, $systemStore, $data);

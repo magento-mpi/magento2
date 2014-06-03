@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 /**
  * Adminhtml sales order create search block
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Search extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
@@ -49,9 +45,13 @@ class Search extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         $addButtonData = array(
             'label' => __('Add Selected Product(s) to Order'),
             'onclick' => 'order.productGridAddSelected()',
-            'class' => 'action-add',
+            'class' => 'action-add'
         );
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            $addButtonData
+        )->toHtml();
     }
 
     /**

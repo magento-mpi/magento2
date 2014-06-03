@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 
 class Js extends \Magento\Backend\Block\Template
@@ -15,18 +12,18 @@ class Js extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -50,9 +47,10 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadAttributesUrl()
     {
-        return $this->getUrl('adminhtml/*/loadNewAttributes', array(
-            'order_id' => $this->_coreRegistry->registry('current_order')->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/loadNewAttributes',
+            array('order_id' => $this->_coreRegistry->registry('current_order')->getId())
+        );
     }
 
     /**

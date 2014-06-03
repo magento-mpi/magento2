@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-define('SYNOPSIS', <<<SYNOPSIS
+define(
+    'SYNOPSIS',
+<<<SYNOPSIS
 php -f install.php -- --build_properties_file "<path_to_file>"
 
 SYNOPSIS
@@ -63,7 +65,7 @@ if ($installOptions) {
 /* Initialize Magento application */
 require_once __DIR__ . '/../../../app/bootstrap.php';
 
-$entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, array());
+$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, array());
 $entryPoint->run('Magento\Indexer\App\Indexer', array(
     'reportDir' => $reportDir
 ));

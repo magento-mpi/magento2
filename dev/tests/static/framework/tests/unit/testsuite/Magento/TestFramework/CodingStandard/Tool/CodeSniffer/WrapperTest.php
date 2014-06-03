@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\CodingStandard\Tool\CodeSniffer;
 
 class WrapperTest extends \PHPUnit_Framework_TestCase

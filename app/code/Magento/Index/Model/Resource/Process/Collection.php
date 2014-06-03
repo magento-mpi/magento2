@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Index\Model\Resource\Process;
 /**
  * Index Process Collection
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
@@ -35,19 +31,26 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addEventsStats()
     {
-        $countsSelect = $this->getConnection()
-            ->select()
-            ->from($this->getTable('index_process_event'), array('process_id', 'events' => 'COUNT(*)'))
-            ->where('status=?', \Magento\Index\Model\Process::EVENT_STATUS_NEW)
-            ->group('process_id');
-        $this->getSelect()
-            ->joinLeft(
-                array('e' => $countsSelect),
-                'e.process_id=main_table.process_id',
-                array('events' => $this->getConnection()->getCheckSql(
-                    $this->getConnection()->prepareSqlCondition('e.events', array('null' => null)), 0, 'e.events'
-                ))
-            );
+        $countsSelect = $this->getConnection()->select()->from(
+            $this->getTable('index_process_event'),
+            array('process_id', 'events' => 'COUNT(*)')
+        )->where(
+            'status=?',
+            \Magento\Index\Model\Process::EVENT_STATUS_NEW
+        )->group(
+            'process_id'
+        );
+        $this->getSelect()->joinLeft(
+            array('e' => $countsSelect),
+            'e.process_id=main_table.process_id',
+            array(
+                'events' => $this->getConnection()->getCheckSql(
+                    $this->getConnection()->prepareSqlCondition('e.events', array('null' => null)),
+                    0,
+                    'e.events'
+                )
+            )
+        );
         return $this;
     }
 }

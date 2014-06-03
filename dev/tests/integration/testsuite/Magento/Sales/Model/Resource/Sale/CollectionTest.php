@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource\Sale;
 
 use Magento\TestFramework\Helper\Bootstrap;

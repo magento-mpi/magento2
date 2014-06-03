@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,11 +30,10 @@ class Refunded extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
 
         $this->_removeButton('add');
-        $this->addButton('filter_form_submit', array(
-            'label'     => __('Show Report'),
-            'onclick'   => 'filterFormSubmit()',
-            'class'     => 'primary'
-        ));
+        $this->addButton(
+            'filter_form_submit',
+            array('label' => __('Show Report'), 'onclick' => 'filterFormSubmit()', 'class' => 'primary')
+        );
     }
 
     /**

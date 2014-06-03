@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Service\AuthorizationV1Test;
 
 use Magento\Authz\Model\UserLocatorInterface;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Controller\Adminhtml\Product;
 /**
  * Catalog Product widgets controller for CMS WYSIWYG
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Widget extends \Magento\Backend\App\Action
@@ -34,10 +30,10 @@ class Widget extends \Magento\Backend\App\Action
             '',
             array(
                 'data' => array(
-                    'id'              => $uniqId,
-                    'use_massaction'  => $massAction,
+                    'id' => $uniqId,
+                    'use_massaction' => $massAction,
                     'product_type_id' => $productTypeId,
-                    'category_id'     => $this->getRequest()->getParam('category_id')
+                    'category_id' => $this->getRequest()->getParam('category_id')
                 )
             )
         );
@@ -50,17 +46,20 @@ class Widget extends \Magento\Backend\App\Action
                 '',
                 array(
                     'data' => array(
-                        'id'                  => $uniqId . 'Tree',
+                        'id' => $uniqId . 'Tree',
                         'node_click_listener' => $productsGrid->getCategoryClickListenerJs(),
-                        'with_empty_node'     => true
+                        'with_empty_node' => true
                     )
                 )
             );
 
-            $html = $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser\Container')
-                ->setTreeHtml($categoriesTree->toHtml())
-                ->setGridHtml($html)
-                ->toHtml();
+            $html = $this->_view->getLayout()->createBlock(
+                'Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser\Container'
+            )->setTreeHtml(
+                $categoriesTree->toHtml()
+            )->setGridHtml(
+                $html
+            )->toHtml();
         }
 
         $this->getResponse()->setBody($html);

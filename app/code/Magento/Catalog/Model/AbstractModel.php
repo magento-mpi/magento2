@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +10,9 @@ namespace Magento\Catalog\Model;
 /**
  * Abstract model for catalog entities
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Attribute default values
@@ -56,28 +52,27 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     protected $_isReadonly = false;
 
-
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -165,7 +160,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      *
      * @param string|array $key
      * @param mixed $value
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setData($key, $value = null)
     {
@@ -198,8 +193,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function unsetData($key = null)
     {
-        if ((!is_null($key) && $this->isLockedAttribute($key)) ||
-            $this->isReadonly()) {
+        if (!is_null($key) && $this->isLockedAttribute($key) || $this->isReadonly()) {
             return $this;
         }
 
@@ -213,8 +207,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function getResourceCollection()
     {
-        $collection = parent::getResourceCollection()
-            ->setStoreId($this->getStoreId());
+        $collection = parent::getResourceCollection()->setStoreId($this->getStoreId());
         return $collection;
     }
 
@@ -228,10 +221,15 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function loadByAttribute($attribute, $value, $additionalAttributes = '*')
     {
-        $collection = $this->getResourceCollection()
-            ->addAttributeToSelect($additionalAttributes)
-            ->addAttributeToFilter($attribute, $value)
-            ->setPage(1, 1);
+        $collection = $this->getResourceCollection()->addAttributeToSelect(
+            $additionalAttributes
+        )->addAttributeToFilter(
+            $attribute,
+            $value
+        )->setPage(
+            1,
+            1
+        );
 
         foreach ($collection as $object) {
             return $object;
@@ -242,7 +240,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve sore object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -338,7 +336,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (bool) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 

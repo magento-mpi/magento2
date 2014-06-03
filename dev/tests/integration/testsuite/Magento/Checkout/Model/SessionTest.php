@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -35,8 +34,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         /** Preconditions */
         $customerIdFromFixture = 1;
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customerService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $customer = $customerService->getCustomer($customerIdFromFixture);
         $this->_checkoutSession->setCustomerData($customer);
 
@@ -58,8 +58,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         /** Preconditions */
         $customerIdFromFixture = 1;
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customerService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $customer = $customerService->getCustomer($customerIdFromFixture);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
@@ -92,8 +93,9 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($quote->getCustomerEmail(), 'Precondition failed: Customer data must not be set to quote');
 
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customerService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $customer = $customerService->getCustomer($customerIdFromFixture);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');

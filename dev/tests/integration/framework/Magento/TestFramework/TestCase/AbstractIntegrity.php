@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Test
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -66,9 +63,10 @@ abstract class AbstractIntegrity extends \PHPUnit_Framework_TestCase
     {
         $themeItems = array();
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
-        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Theme\Collection'
+        );
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             $themeItems[$theme->getId()] = $theme;
         }

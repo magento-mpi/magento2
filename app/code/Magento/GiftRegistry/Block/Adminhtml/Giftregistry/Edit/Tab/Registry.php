@@ -2,15 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab;
 
-class Registry
-    extends \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute
+class Registry extends \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute
 {
     /**
      * @return void

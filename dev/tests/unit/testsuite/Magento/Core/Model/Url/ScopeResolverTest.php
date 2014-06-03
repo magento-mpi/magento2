@@ -5,9 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Core\Model\Url;
-
 
 class ScopeResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,10 +22,10 @@ class ScopeResolverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
-            ->getMock();
-        $this->_object = $objectManager->getObject('Magento\Core\Model\Url\ScopeResolver', array(
-            'storeManager' => $this->_storeManagerMock)
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')->getMock();
+        $this->_object = $objectManager->getObject(
+            'Magento\Core\Model\Url\ScopeResolver',
+            array('storeManager' => $this->_storeManagerMock)
         );
     }
 
@@ -37,16 +35,21 @@ class ScopeResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScope($scopeId)
     {
-        $scopeMock = $this->getMockBuilder('\Magento\Url\ScopeInterface')->getMock();
-        $this->_storeManagerMock->expects($this->at(0))
-            ->method('getStore')
-            ->with($scopeId)
-            ->will($this->returnValue($scopeMock));
+        $scopeMock = $this->getMockBuilder('\Magento\Framework\Url\ScopeInterface')->getMock();
+        $this->_storeManagerMock->expects(
+            $this->at(0)
+        )->method(
+            'getStore'
+        )->with(
+            $scopeId
+        )->will(
+            $this->returnValue($scopeMock)
+        );
         $this->_object->getScope($scopeId);
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Invalid scope object
      */
     public function testGetScopeException()
@@ -59,16 +62,12 @@ class ScopeResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function getScopeDataProvider()
     {
-        return array(
-            array(null),
-            array(1),
-        );
+        return array(array(null), array(1));
     }
 
     public function testGetScopes()
     {
-        $this->_storeManagerMock->expects($this->once())
-            ->method('getStores');
+        $this->_storeManagerMock->expects($this->once())->method('getStores');
         $this->_object->getScopes();
     }
 }
