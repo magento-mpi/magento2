@@ -16,21 +16,21 @@ interface ProductServiceInterface
     /**
      * Get product info
      *
-     * @param  string $sku
+     * @param  string $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @return \Magento\Catalog\Service\V1\Data\Product $product
      */
-    public function get($sku);
+    public function get($id);
 
     /**
      * Delete product
      *
-     * @param  string $sku
+     * @param  string $id
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      */
-    public function delete($sku);
+    public function delete($id);
 
     /**
      * Save product process
@@ -39,21 +39,21 @@ interface ProductServiceInterface
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return string sku
+     * @return string id
      */
     public function create(\Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * Update product process
      *
-     * @param  string $sku
+     * @param  string $id
      * @param  \Magento\Catalog\Service\V1\Data\Product $product
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
      * @throws \Magento\Framework\Model\Exception If something goes wrong during save
-     * @return string sku
+     * @return string id
      */
-    public function update($sku, \Magento\Catalog\Service\V1\Data\Product $product);
+    public function update($id, \Magento\Catalog\Service\V1\Data\Product $product);
 
     /**
      * get product list product

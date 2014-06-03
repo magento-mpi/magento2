@@ -81,13 +81,13 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['sku' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['id' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
         $this->assertTrue($response);
     }
 
     public function testDeleteNoSuchEntityException()
     {
-        $invalidSku = '';
+        $invalidSku = '(nonExistingSku)';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invalidSku,
@@ -104,7 +104,7 @@ class ProductServiceTest extends WebapiAbstract
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, [Product::SKU => $invalidSku]);
+                $this->_webApiCall($serviceInfo, ['id' => $invalidSku]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }
@@ -331,7 +331,7 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $requestData = [
-            Product::SKU => $productSku,
+            'id' => $productSku,
             'product' => [
                 Product::NAME => uniqid('name-', true),
             ]
@@ -359,7 +359,7 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['sku' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['id' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
         foreach ([Product::SKU, Product::NAME, Product::PRICE, Product::STATUS, Product::VISIBILITY] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
@@ -367,7 +367,7 @@ class ProductServiceTest extends WebapiAbstract
 
     public function testGetNoSuchEntityException()
     {
-        $invalidSku = '';
+        $invalidSku = '(nonExistingSku)';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invalidSku,
@@ -384,7 +384,7 @@ class ProductServiceTest extends WebapiAbstract
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, [Product::SKU => $invalidSku]);
+                $this->_webApiCall($serviceInfo, ['id' => $invalidSku]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }
@@ -398,7 +398,6 @@ class ProductServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
-            $this->assertEquals(['fieldName' => Product::SKU, 'fieldValue' => $invalidSku], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }

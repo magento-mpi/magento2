@@ -108,7 +108,7 @@ class ProductService implements ProductServiceInterface
                 $exception
             );
         }
-        if (!$productModel->getSku()) {
+        if (!$productModel->getId()) {
             throw new \Magento\Framework\Exception\StateException('Unable to save product');
         }
         return $productModel->getSku();
@@ -117,9 +117,9 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function update($sku, \Magento\Catalog\Service\V1\Data\Product $product)
+    public function update($id, \Magento\Catalog\Service\V1\Data\Product $product)
     {
-        $productModel = $this->productLoader->load($sku);
+        $productModel = $this->productLoader->load($id);
         try {
             $this->productMapper->toModel($product, $productModel);
             $this->initializationHelper->initialize($productModel);
@@ -139,9 +139,9 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function delete($sku)
+    public function delete($id)
     {
-        $product = $this->productLoader->load($sku);
+        $product = $this->productLoader->load($id);
         $product->delete();
         return true;
     }
@@ -149,9 +149,9 @@ class ProductService implements ProductServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function get($sku)
+    public function get($id)
     {
-        return $this->converter->createProductDataFromModel($this->productLoader->load($sku));
+        return $this->converter->createProductDataFromModel($this->productLoader->load($id));
     }
 
     /**

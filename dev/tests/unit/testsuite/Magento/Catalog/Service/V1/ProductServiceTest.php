@@ -22,11 +22,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
     protected $_productLoaderMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactoryMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Model\Product
      */
     protected $_productMock;
@@ -69,11 +64,11 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_productFactoryMock = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
+        $productFactoryMock = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $this->_productFactoryMock
+        $productFactoryMock
             ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_productMock));
@@ -81,7 +76,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $this->_productLoaderMock = $this->_objectManager
             ->getObject(
                 'Magento\Catalog\Service\V1\Product\ProductLoader',
-                ['productFactory' => $this->_productFactoryMock]
+                ['productFactory' => $productFactoryMock]
             );
 
         $this->productCollection = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\CollectionFactory')
@@ -216,7 +211,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productService = $this->_objectManager->getObject(
             'Magento\Catalog\Service\V1\ProductService',
             [
-                'productFactory' => $this->_productFactoryMock,
+                'productLoader' => $this->_productLoaderMock,
                 'productCollection' => $this->productCollection,
                 'searchResultsBuilder' => $this->searchResultsBuilderMock,
                 'metadataService' => $this->metadataServiceMock,
@@ -296,11 +291,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $productFactory = $this
-            ->getMockBuilder('Magento\Catalog\Model\ProductFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         /** @var \Magento\Catalog\Service\V1\ProductService $productService */
         $productService = $this->_objectManager->getObject(
             'Magento\Catalog\Service\V1\ProductService',
@@ -308,7 +298,7 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
                 'initializationHelper' => $initializationHelper,
                 'productMapper' => $productMapper,
                 'productTypeManager' => $productTypeManager,
-                'productFactory' => $productFactory,
+                'productLoader' => $this->_productLoaderMock,
             ]
         );
 
@@ -329,7 +319,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productModel->expects($this->once())->method('save');
 
         $productSku = 'sku-001';
-        $productModel->expects($this->any())->method('getSku')->will($this->returnValue($productSku));
+        $productModel->expects($this->once())->method('getId')->will($this->returnValue(100));
+        $productModel->expects($this->once())->method('getSku')->will($this->returnValue($productSku));
 
         $this->assertEquals($productSku, $productService->create($product));
     }
