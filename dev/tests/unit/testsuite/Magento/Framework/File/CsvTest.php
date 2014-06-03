@@ -62,8 +62,3 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $this->_model->getData($file);
     }
 }
-
-function file_exists($fname)
-{
-    return ($fname == 'FileExists') ? true : false;
-}
