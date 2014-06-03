@@ -82,7 +82,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $differences = array_diff($this::$allAllowedLocales, $retrievedLocales);
 
-        $this->assertEquals([], $differences);
+        $this->assertEmpty($differences);
 
         foreach($this::$sampleAbsentLocales as $absentLocale)
         {
@@ -108,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $retrievedLocalesWithAdditions
         );
 
-        $this->assertEquals([], $differences);
+        $this->assertEmpty($differences);
 
         foreach($this::$sampleAbsentLocales as $absentLocale)
         {
@@ -134,7 +134,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $retrievedLocalesWithRedundencies
         );
 
-        $this->assertEquals([], $differences);
+        $this->assertEmpty($differences);
 
         foreach($this::$sampleAbsentLocales as $absentLocale)
         {
@@ -151,7 +151,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $differences = array_diff($this::$allAllowedCurrencies, $retrievedCurrencies);
 
-        $this->assertEquals([], $differences);
+        $this->assertEmpty($differences);
 
         foreach($this::$sampleAbsentCurrencies as $absentCurrency)
         {
@@ -177,7 +177,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $retrievedCurrenciesWithAdditions
         );
 
-        $this->assertEquals([], $differences);
+        $this->assertEmpty($differences);
 
         foreach($this::$sampleAbsentCurrencies as $absentCurrency)
         {
@@ -204,7 +204,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $retrievedCurrenciesWithRedundencies
         );
 
-        $this->assertEquals([], $differences);
+        $this->assertEmpty($differences);
 
         foreach($this::$sampleAbsentCurrencies as $absentCurrency)
         {
