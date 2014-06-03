@@ -25,3 +25,4 @@ $installer->getConnection()->addColumn(
         'COMMENT' => 'Qty of returned items'
     )
 );
+$installer->endSetup();
