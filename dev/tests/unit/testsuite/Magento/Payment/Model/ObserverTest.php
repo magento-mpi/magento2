@@ -61,16 +61,25 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testSalesOrderBeforeSaveMethodNotFree()
     {
         $this->_prepareEventMockWithMethods(['getOrder']);
-        $this->eventMock->expects($this->once())->method('getOrder')->will(
-            $this->returnValue($this->_getPreparedOrderMethod('not_free'))
+        $neverInvokedMethods = ['canUnhold', 'isCanceled', 'getState', 'hasForcedCanCreditMemo'];
+        $order = $this->_getPreparedOrderMethod(
+            'not_free',
+            $neverInvokedMethods
         );
+        $this->_prepareNeverInvokedOrderMethods($order, $neverInvokedMethods);
+        $this->eventMock->expects($this->once())->method('getOrder')->will(
+            $this->returnValue($order)
+        );
+
         $this->observer->salesOrderBeforeSave($this->observerMock);
     }
 
     public function testSalesOrderBeforeSaveCantUnhold()
     {
         $this->_prepareEventMockWithMethods(['getOrder']);
-        $order = $this->_getPreparedOrderMethod('free', ['canUnhold']);
+        $neverInvokedMethods = ['isCanceled', 'getState', 'hasForcedCanCreditMemo'];
+        $order = $this->_getPreparedOrderMethod('free', ['canUnhold'] + $neverInvokedMethods);
+        $this->_prepareNeverInvokedOrderMethods($order, $neverInvokedMethods);
         $this->eventMock->expects($this->once())->method('getOrder')->will(
             $this->returnValue($order)
         );
@@ -82,13 +91,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         // check first canceled state
         $this->_prepareEventMockWithMethods(['getOrder']);
-        $order = $this->_getPreparedOrderMethod('free', ['canUnhold', 'isCanceled']);
+        $neverInvokedMethods = ['getState', 'hasForcedCanCreditMemo'];
+        $order = $this->_getPreparedOrderMethod('free', ['canUnhold', 'isCanceled'] + $neverInvokedMethods);
+        $this->_prepareNeverInvokedOrderMethods($order, $neverInvokedMethods);
         $this->eventMock->expects($this->once())->method('getOrder')->will(
             $this->returnValue($order)
         );
         $order->expects($this->once())->method('canUnhold')->will($this->returnValue(false));
 
         $order->expects($this->once())->method('isCanceled')->will($this->returnValue(true));
+
         $this->observer->salesOrderBeforeSave($this->observerMock);
     }
 
@@ -96,7 +108,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         // check closed state at second
         $this->_prepareEventMockWithMethods(['getOrder']);
-        $order = $this->_getPreparedOrderMethod('free', ['canUnhold', 'isCanceled', 'getState']);
+        $neverInvokedMethods = ['hasForcedCanCreditMemo'];
+        $order = $this->_getPreparedOrderMethod('free', ['canUnhold', 'isCanceled', 'getState'] + $neverInvokedMethods);
+        $this->_prepareNeverInvokedOrderMethods($order, $neverInvokedMethods);
         $this->eventMock->expects($this->once())->method('getOrder')->will(
             $this->returnValue($order)
         );
@@ -230,5 +244,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         return [$method1, $method2];
+    }
+
+    /**
+     * Sets never expectation for order methods listed in $method
+     *
+     * @param \PHPUnit_Framework_MockObject_MockObject $order
+     * @param array $methods
+     */
+    private function _prepareNeverInvokedOrderMethods(\PHPUnit_Framework_MockObject_MockObject $order, $methods = [])
+    {
+        foreach ($methods as $method) {
+            $order->expects($this->never())->method($method);
+        }
     }
 }
