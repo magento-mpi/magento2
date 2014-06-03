@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-
 class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
