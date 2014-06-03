@@ -1,0 +1,46 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $this \Magento\LayeredNavigation\Block\Navigation
+ */
+?>
+
+<?php if($this->canShowBlock()): ?>
+    <div class="block filter">
+        <div class="title">
+            <strong><?php echo __('Shop By') ?></strong>
+        </div>
+
+        <div class="content">
+            <?php echo $this->getChildHtml('state') ?>
+
+            <?php if ($this->getLayer()->getState()->getFilters()): ?>
+                <div class="actions">
+                    <a href="<?php echo $this->getClearUrl() ?>" class="action clear"><span><?php echo __('Clear All') ?></span></a>
+                </div>
+            <?php endif; ?>
+
+            <strong class="subtitle"><?php echo __('Shopping Options') ?></strong>
+
+            <ul class="options items" id="narrow-by-list">
+                <?php foreach ($this->getFilters() as $filter): ?>
+                    <?php if ($filter->getItemsCount()): ?>
+                        <li class="item" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
+                            <div class="title" data-role="title"><?php echo __($filter->getName()) ?></div>
+                            <div class="content" data-role="content"><?php echo $this->getChildBlock('renderer')->render($filter); ?></div>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>
