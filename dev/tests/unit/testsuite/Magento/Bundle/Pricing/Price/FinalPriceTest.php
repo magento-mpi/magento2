@@ -30,10 +30,10 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $bundleCalculatorMock;
 
-    /** @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\PriceInfo\Base |\PHPUnit_Framework_MockObject_MockObject */
     protected $priceInfoMock;
 
-    /** @var \Magento\Bundle\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject */
     protected $basePriceMock;
 
     /** @var BundleOptionPrice|\PHPUnit_Framework_MockObject_MockObject */
@@ -47,7 +47,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
         $this->saleableInterfaceMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->bundleCalculatorMock = $this->getMock('Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface');
 
-        $this->basePriceMock = $this->getMock('Magento\Bundle\Pricing\Price\BasePrice', [], [], '', false);
+        $this->basePriceMock = $this->getMock('Magento\Catalog\Pricing\Price\BasePrice', [], [], '', false);
         $this->basePriceMock->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue($this->baseAmount));
@@ -56,13 +56,13 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->priceInfoMock = $this->getMock('\Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
 
         $this->priceInfoMock->expects($this->atLeastOnce())
             ->method('getPrice')
             ->will($this->returnValueMap([
                 [\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE, $this->basePriceMock],
-                [BundleOptionPrice::PRICE_CODE, $this->quantity, $this->bundleOptionMock]
+                [BundleOptionPrice::PRICE_CODE, $this->bundleOptionMock]
             ]));
 
         $this->saleableInterfaceMock->expects($this->once())
@@ -80,18 +80,13 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getValueDataProvider
      */
-    public function testGetValue($baseAmount, $discountValue, $result)
+    public function testGetValue($baseAmount, $optionsValue, $result)
     {
         $this->baseAmount = $baseAmount;
-        $optionsValue = rand(1, 10);
         $this->prepareMock();
         $this->bundleOptionMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($optionsValue));
-
-        $this->basePriceMock->expects($this->once())->method('calculateBaseValue')
-            ->with($this->equalTo($optionsValue))
-            ->will($this->returnValue($discountValue));
 
         $this->assertSame($result, $this->finalPrice->getValue());
     }

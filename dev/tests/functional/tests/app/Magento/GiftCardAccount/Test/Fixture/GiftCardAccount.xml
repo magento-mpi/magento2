@@ -78,4 +78,6 @@
             <input></input>
         </is_redeemable>
     </fields>
+    <repository_class>Magento\GiftCardAccount\Test\Repository\GiftCardAccount</repository_class>
+    <handler_interface>Magento\GiftCardAccount\Test\Handler\GiftCardAccount\GiftCardAccountInterface</handler_interface>
 </fixture>

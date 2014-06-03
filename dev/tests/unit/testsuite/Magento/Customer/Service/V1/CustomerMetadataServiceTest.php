@@ -42,6 +42,11 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     /** @var array */
     private $_validateRules = array();
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    private $objectManager;
+
     public function setUp()
     {
         $this->_eavConfigMock = $this->getMockBuilder(
@@ -87,6 +92,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 'getFrontend' => $frontendMock
             )
         );
+
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testGetAttributeMetadata()
@@ -122,12 +129,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(
@@ -161,12 +169,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(
@@ -216,12 +225,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(
@@ -259,12 +269,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(
@@ -294,12 +305,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(
@@ -333,12 +345,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(
@@ -381,12 +394,13 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->getMock();
 
-        $optionBuilder = new \Magento\Customer\Service\V1\Data\Eav\OptionBuilder();
-        $validationRuleBuilder = new \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder();
+        $optionBuilder = $this->objectManager->getObject('\Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
+        $validationRuleBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
 
-        $attributeMetadataBuilder = new \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder(
-            $optionBuilder,
-            $validationRuleBuilder
+        $attributeMetadataBuilder = $this->objectManager->getObject(
+            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         );
 
         $service = new CustomerMetadataService(

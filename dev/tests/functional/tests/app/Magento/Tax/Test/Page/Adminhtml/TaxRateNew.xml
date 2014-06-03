@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="tax/rate/add" >
+    <block>
+        <name>formPageActions</name>
+        <class>Magento\Tax\Test\Block\Adminhtml\Rate\Edit\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>taxRateForm</name>
+        <class>Magento\Tax\Test\Block\Adminhtml\Rate\Edit\Form</class>
+        <locator>#rate-form</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

@@ -126,9 +126,12 @@ class AssertProductForm extends AbstractConstraint
             } elseif ($value != $formData[$key]) {
                 $fixtureValue = empty($value) ? '<empty-value>' : $value;
                 $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
-                $errors = array_merge($errors, [
-                    "- error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'."
-                ]);
+                $errors = array_merge(
+                    $errors,
+                    [
+                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
+                    ]
+                );
             }
         }
 
