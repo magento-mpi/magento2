@@ -199,13 +199,13 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
         $storeNames = array();
 
         // Will enable in future work
-//        $storeCollection = $this->storeManager->getStores(true);
-//        foreach ($storeCollection as $store) {
-//            if ($this->weeeData->validateCatalogPricesAndFptConfiguration($store)) {
-//                $website = $store->getWebsite();
-//                $storeNames[] = $website->getName() . '(' . $store->getName() . ')';
-//            }
-//        }
+        //$storeCollection = $this->storeManager->getStores(true);
+        //foreach ($storeCollection as $store) {
+        //    if ($this->weeeData->validateCatalogPricesAndFptConfiguration($store)) {
+        //        $website = $store->getWebsite();
+        //        $storeNames[] = $website->getName() . '(' . $store->getName() . ')';
+        //    }
+        //}
 
         return $storeNames;
     }
@@ -222,8 +222,8 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
     public function isDisplayed()
     {
         // Check if we are ignoring all notifications
-        if ($this->taxConfig->isWrongDisplaySettingsIgnored() && $this->taxConfig->isWrongDiscountSettingsIgnored() &&
-            $this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
+        if ($this->taxConfig->isWrongDisplaySettingsIgnored() && $this->taxConfig->isWrongDiscountSettingsIgnored()
+            && $this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored()) {
             return false;
         }
 
@@ -232,9 +232,10 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
         $this->storesWithConflictingFPTSettings = $this->getStoresWithConflictingFptTaxConfigurationSettings();
 
         // Check if we have valid tax notifications
-        if ((!empty($this->storesWithInvalidDisplaySettings) && !$this->taxConfig->isWrongDisplaySettingsIgnored()) ||
-            (!empty($this->storesWithInvalidDiscountSettings) && !$this->taxConfig->isWrongDiscountSettingsIgnored()) ||
-            (!empty($this->storesWithConflictingFPTSettings) && !$this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored())) {
+        if ((!empty($this->storesWithInvalidDisplaySettings) && !$this->taxConfig->isWrongDisplaySettingsIgnored())
+            || (!empty($this->storesWithInvalidDiscountSettings) && !$this->taxConfig->isWrongDiscountSettingsIgnored())
+            || (!empty($this->storesWithConflictingFPTSettings)
+                && !$this->taxConfig->isConflictingFptTaxConfigurationSettingsIgnored())) {
             return true;
         }
 
