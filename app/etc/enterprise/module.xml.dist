@@ -25,7 +25,6 @@
     <module name="Magento_GiftCardAccount" active="true" />
     <module name="Magento_GiftRegistry" active="true" />
     <module name="Magento_GiftWrapping" active="true" />
-    <module name="Magento_CustomerFinance" active="true" />
     <module name="Magento_Invitation" active="true" />
     <module name="Magento_Logging" active="true" />
     <module name="Magento_Pbridge" active="true" />
@@ -37,6 +36,7 @@
     <module name="Magento_Reward" active="true" />
     <module name="Magento_Rma" active="true" />
     <module name="Magento_SalesArchive" active="true" />
+    <module name="Magento_ScheduledImportExport" active="true" />
     <module name="Magento_Search" active="true" />
     <module name="Magento_TargetRule" active="true" />
     <module name="Magento_WebsiteRestriction" active="true" />
