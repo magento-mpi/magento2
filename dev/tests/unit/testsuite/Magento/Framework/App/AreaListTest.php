@@ -45,12 +45,12 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->_resolverFactory->expects(
             $this->any()
         )->method(
-            'create'
-        )->with(
-            'testValue'
-        )->will(
-            $this->returnValue($resolverMock)
-        );
+                'create'
+            )->with(
+                'testValue'
+            )->will(
+                $this->returnValue($resolverMock)
+            );
 
         $actual = $this->_model->getCodeByFrontName('testFrontName');
         $this->assertEquals($expected, $actual);
@@ -62,7 +62,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Framework\App\AreaList(
             $this->objectManagerMock,
             $this->_resolverFactory,
-            array('testArea'=>array('frontName' => 'testFrontName')),
+            array('testArea' => array('frontName' => 'testFrontName')),
             $expected
         );
 
