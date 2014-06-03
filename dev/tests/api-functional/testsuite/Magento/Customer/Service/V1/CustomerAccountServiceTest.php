@@ -9,7 +9,6 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Model\CustomerRegistry;
@@ -101,11 +100,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function tearDown()
     {
         unset($this->customerAccountService);
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $model = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Attribute');
         $model->load('address_user_attribute', 'attribute_code')
             ->delete();
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $model = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Attribute');
         $model->load('user_attribute', 'attribute_code')
             ->delete();
@@ -787,8 +786,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomers()
     {
-        $customerData = $this->_createSampleCustomer();
-        $filter = (new FilterBuilder())
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $customerData = $this->customerHelper->createSampleCustomer();
+        $filter = $builder
             ->setField(Customer::EMAIL)
             ->setValue($customerData[Customer::EMAIL])
             ->create();
@@ -817,8 +817,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testSearchCustomersMultipleFiltersWithSort()
     {
         $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
-        $customerData1 = $this->_createSampleCustomer();
-        $customerData2 = $this->_createSampleCustomer();
+        $customerData1 = $this->customerHelper->createSampleCustomer();
+        $customerData2 = $this->customerHelper->createSampleCustomer();
         $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
@@ -857,8 +857,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
     public function testSearchCustomersNonExistentMultipleFilters()
     {
         $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
-        $customerData1 = $this->_createSampleCustomer();
-        $customerData2 = $this->_createSampleCustomer();
+        $customerData1 = $this->customerHelper->createSampleCustomer();
+        $customerData2 = $this->customerHelper->createSampleCustomer();
         $filter1 = $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();

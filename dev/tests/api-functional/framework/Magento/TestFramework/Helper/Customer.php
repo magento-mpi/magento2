@@ -11,7 +11,6 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\Customer as CustomerService;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
@@ -101,7 +100,7 @@ class Customer extends WebapiAbstract
             ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion(
-                (new RegionBuilder())
+                Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\RegionBuilder')
                     ->setRegionCode(self::ADDRESS_REGION_CODE1)
                     ->setRegion('Alabama')
                     ->setRegionId(1)
@@ -120,7 +119,7 @@ class Customer extends WebapiAbstract
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion(
-                (new RegionBuilder())
+                Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\RegionBuilder')
                     ->setRegionCode(self::ADDRESS_REGION_CODE2)
                     ->setRegion('Alabama')
                     ->setRegionId(1)
