@@ -65,8 +65,9 @@ $rule->setData(
     )
 )->save();
 
-$beforeYesterday = date('Y-m-d 03:00:00', strtotime('-2 day', time()));
-$adapter = $rule->getResource()->getReadConnection();
-$adapter->query("UPDATE sales_flat_quote SET updated_at = '$beforeYesterday'");
-$adapter->query("INSERT INTO magento_reminder_rule_log (`rule_id`, `customer_id`, `sent_at`)
+$beforeYesterday = date('Y-m-d h:00:00', strtotime('-2 day', time()));
+$resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
+$adapter = $resource->getConnection('core_write');
+$adapter->query("UPDATE {$resource->getTableName('sales_flat_quote')} SET updated_at = '{$beforeYesterday}'");
+$adapter->query("INSERT INTO {$resource->getTableName('magento_reminder_rule_log')} (`rule_id`, `customer_id`, `sent_at`)
     VALUES ({$rule->getId()}, 1, '{$beforeYesterday}');");
