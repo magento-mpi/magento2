@@ -22,19 +22,13 @@
     </block>
     <block>
         <name>layeredNavigationBlock</name>
-        <class>Magento\Search\Test\Block\Catalog\Layer\View</class>
+        <class>Magento\LayeredNavigation\Test\Block\Navigation</class>
         <locator>.block.filter</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>toolbar</name>
         <class>\Magento\Catalog\Test\Block\Product\ProductList\Toolbar</class>
-        <locator>.pages .items</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>productPagination</name>
-        <class>Magento\Catalog\Test\Block\Category\ProductPagination</class>
         <locator>.pages .items</locator>
         <strategy>css selector</strategy>
     </block>

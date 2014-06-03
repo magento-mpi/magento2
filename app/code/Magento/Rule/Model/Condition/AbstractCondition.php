@@ -45,9 +45,9 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     protected $_arrayInputTypes = array();
 
     /**
-     * @var \Magento\Framework\View\Url
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewUrl;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
@@ -65,7 +65,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function __construct(Context $context, array $data = array())
     {
-        $this->_viewUrl = $context->getViewUrl();
+        $this->_assetRepo = $context->getAssetRepository();
         $this->_localeDate = $context->getLocaleDate();
         $this->_layout = $context->getLayout();
 
@@ -610,7 +610,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getAddLinkHtml()
     {
-        $src = $this->_viewUrl->getViewFileUrl('images/rule_component_add.gif');
+        $src = $this->_assetRepo->getUrl('images/rule_component_add.gif');
         $html = '<img src="' . $src . '" class="rule-param-add v-middle" alt="" title="' . __('Add') . '"/>';
         return $html;
     }
@@ -620,7 +620,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getRemoveLinkHtml()
     {
-        $src = $this->_viewUrl->getViewFileUrl('images/rule_component_remove.gif');
+        $src = $this->_assetRepo->getUrl('images/rule_component_remove.gif');
         $html = ' <span class="rule-param"><a href="javascript:void(0)" class="rule-param-remove" title="' . __(
             'Remove'
         ) . '"><img src="' . $src . '"  alt="" class="v-middle" /></a></span>';

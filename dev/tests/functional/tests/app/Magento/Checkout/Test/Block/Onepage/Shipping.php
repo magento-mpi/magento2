@@ -28,6 +28,13 @@ class Shipping extends Form
     protected $continue = '#shipping-buttons-container button';
 
     /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
+
+    /**
      * Fill form data. Unset 'email' field as it absent in current form
      *
      * @param array $fields
@@ -52,6 +59,6 @@ class Shipping extends Form
         }
         $this->fill($shippingAddress);
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#shipping-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }
