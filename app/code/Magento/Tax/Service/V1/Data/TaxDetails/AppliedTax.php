@@ -54,7 +54,7 @@ class AppliedTax extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get rates
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxDetails\Rate[]|null
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate[]|null
      */
     public function getRates()
     {
