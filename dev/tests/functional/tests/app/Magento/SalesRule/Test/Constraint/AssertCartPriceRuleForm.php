@@ -32,7 +32,9 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      */
     protected $skippedFields = [
         'conditions_serialized',
-        'actions_serialized'
+        'actions_serialized',
+        'from_date',
+        'to_date'
     ];
 
     /**
@@ -41,16 +43,19 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      * @param PromoQuoteIndex $promoQuoteIndex
      * @param PromoQuoteEdit $promoQuoteEdit
      * @param SalesRuleInjectable $salesRule
+     * @param SalesRuleInjectable $salesRuleOrigin
      * @return void
      */
     public function processAssert(
         PromoQuoteIndex $promoQuoteIndex,
         PromoQuoteEdit $promoQuoteEdit,
-        SalesRuleInjectable $salesRule
+        SalesRuleInjectable $salesRule,
+        SalesRuleInjectable $salesRuleOrigin
     ) {
         $filter = [
-            'name' => $salesRule->getName(),
+            'name' => $salesRule->getName() ? $salesRule->getName() : $salesRuleOrigin->getName(),
         ];
+
         $promoQuoteIndex->open();
         $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
         $formData = $promoQuoteEdit->getSalesRuleForm()->getData($salesRule);
