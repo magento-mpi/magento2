@@ -28,10 +28,12 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
                 $objectManager->getObject('Magento\Catalog\Model\Product\Attribute\Source\Inputtype')
             ));
 
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder');
         $productAttributeReadService = new ProductAttributeReadService(
             $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService'),
             $inputtypeFactoryMock,
-            new ProductAttributeTypeBuilder()
+            $attributeTypeBuilder
         );
         $types = $productAttributeReadService->types();
         $this->assertTrue(is_array($types));

@@ -219,7 +219,8 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $filterBuilder = new FilterBuilder();
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $filterBuilder = $helper->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField('price')->setValue('10.000')->setConditionType('eq')->create();
         $this->_searchBuilder->addFilter([$filter]);
         $this->_searchBuilder->addSortOrder('price', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC);

@@ -20,14 +20,16 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     /**
      * Initialize dependencies.
      *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param ProductMetadataServiceInterface $metadataService
      */
     public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         ProductMetadataServiceInterface $metadataService
     ) {
-        parent::__construct($valueBuilder);
+        parent::__construct($objectFactory, $valueBuilder);
         $this->metadataService = $metadataService;
     }
 

@@ -34,12 +34,14 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      *
      * @param OptionBuilder $optionBuilder
      * @param ValidationRuleBuilder $validationRuleBuilder
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      */
     public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         OptionBuilder $optionBuilder,
         ValidationRuleBuilder $validationRuleBuilder
     ) {
-        parent::__construct();
+        parent::__construct($objectFactory);
         $this->optionBuilder = $optionBuilder;
         $this->validationRuleBuilder = $validationRuleBuilder;
         $this->_data[AttributeMetadata::OPTIONS] = array();

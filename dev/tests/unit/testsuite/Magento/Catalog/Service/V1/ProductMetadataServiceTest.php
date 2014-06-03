@@ -43,12 +43,23 @@ class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array('getAttribute'), array(), '', false);
         $eavConfigMock->expects($this->any())->method('getAttribute')->will($this->returnValue($attributeMock));
 
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $validationRuleBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\ValidationRuleBuilder');
+        $optionBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\OptionBuilder');
+        $attrMetadataBuilder = $objectManager->getObject(
+            'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            [
+                'optionBuilder' => $optionBuilder,
+                'validationRuleBuilder' => $validationRuleBuilder
+            ]
+        );
+
         // create service
         $service = $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService',
             array(
                 'eavConfig' => $eavConfigMock,
                 'attributeMetadataBuilder'
-                    => new AttributeMetadataBuilder(new OptionBuilder(), new ValidationRuleBuilder())
+                    => $attrMetadataBuilder
             )
         );
 
