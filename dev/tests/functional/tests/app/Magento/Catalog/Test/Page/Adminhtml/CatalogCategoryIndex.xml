@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/category/index">
+    <block>
+        <name>treeCategories</name>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Category\Tree</class>
+        <locator>[id="page:left"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

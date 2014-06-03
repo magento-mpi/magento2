@@ -54,6 +54,11 @@ class HelperTest extends \PHPUnit_Framework_TestCase
      */
     protected $helper;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $jsHelperMock;
+
     protected function setUp()
     {
         $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
@@ -70,7 +75,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->productLinksMock = $this->getMock(
-            'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks',
+            'Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks',
             array(),
             array(),
             '',
@@ -112,11 +117,13 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->storeMock)
         );
 
+        $this->jsHelperMock = $this->getMock('\Magento\Backend\Helper\Js', [], [], '', false);
         $this->helper = new Helper(
             $this->requestMock,
             $this->storeManagerMock,
             $this->stockFilterMock,
-            $this->productLinksMock
+            $this->productLinksMock,
+            $this->jsHelperMock
         );
     }
 
@@ -154,7 +161,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->requestMock->expects(
-            $this->at(2)
+            $this->at(3)
         )->method(
             'getPost'
         )->with(

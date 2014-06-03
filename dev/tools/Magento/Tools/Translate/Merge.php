@@ -58,7 +58,7 @@ OPTIONAL PARAMETRS:
 ';
 
         $this->_checkArgs();
-        require_once BASE_PATH . '/lib/Magento/Framework/File/Csv.php';
+        require_once BASE_PATH . '/lib/internal/Magento/Framework/File/Csv.php';
         $this->_csv = new \Magento\Framework\File\Csv();
     }
 

@@ -42,7 +42,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
     }
 

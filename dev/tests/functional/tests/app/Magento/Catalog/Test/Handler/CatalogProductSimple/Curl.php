@@ -2,23 +2,23 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
-use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class CreateProduct
+ * Create new simple product via curl
  */
 class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 {
