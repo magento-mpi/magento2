@@ -22,6 +22,9 @@
     * Accordingly, renamed the former `lib` into `lib/internal` (!!!MAGETWO-21067!!! - may be controversial. We may want to revert this change before rolling out this release to the github)
   * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config) (MAGETWO-18001)
     * Refactored some of scripts in `Magento_ConfigurableProduct` module to be loaded via RequireJS
+  * Move Authorization service
+  * Fix Customer Model usage on session in CE modules
+  * [Mobile] Allow client to get partial response
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -53,6 +56,8 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+  * Fixed: FPC should be invalidated after applying catalog price rule (MAGETWO-24311)
   
 * JavaScript improvements:
   * Added standard validation to front-end address fields

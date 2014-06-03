@@ -9,7 +9,7 @@
  */
 namespace Magento\GroupedProduct\Model\Import\Entity\Product\Type;
 
-use Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType;
+use Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType;
 
 class Grouped extends AbstractType
 {
@@ -80,7 +80,7 @@ class Grouped extends AbstractType
     /**
      * Save product type specific data.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -133,16 +133,16 @@ class Grouped extends AbstractType
                     continue;
                 }
                 $scope = $this->_entityModel->getRowScope($rowData);
-                if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_SKU]];
+                if (\Magento\Catalog\Model\ImportExport\Import\Product::SCOPE_DEFAULT == $scope) {
+                    $productData = $newSku[$rowData[\Magento\Catalog\Model\ImportExport\Import\Product::COL_SKU]];
                 } else {
-                    $colAttrSet = \Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET;
+                    $colAttrSet = \Magento\Catalog\Model\ImportExport\Import\Product::COL_ATTR_SET;
                     $rowData[$colAttrSet] = $productData['attr_set_code'];
-                    $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE] = $productData['type_id'];
+                    $rowData[\Magento\Catalog\Model\ImportExport\Import\Product::COL_TYPE] = $productData['type_id'];
                 }
                 $productId = $productData['entity_id'];
 
-                if ($this->_type != $rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_TYPE]) {
+                if ($this->_type != $rowData[\Magento\Catalog\Model\ImportExport\Import\Product::COL_TYPE]) {
                     continue;
                 }
                 $linksData['product_ids'][$productId] = true;
