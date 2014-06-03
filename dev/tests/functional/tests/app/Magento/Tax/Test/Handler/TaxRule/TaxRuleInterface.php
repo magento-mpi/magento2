@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Test\Handler\TaxRule; 
+namespace Magento\Tax\Test\Handler\TaxRule;
 
 use Mtf\Handler\HandlerInterface;
 
@@ -15,5 +15,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface TaxRuleInterface extends HandlerInterface
 {
-   //
+    //
 }

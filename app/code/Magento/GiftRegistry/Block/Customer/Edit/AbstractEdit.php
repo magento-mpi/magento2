@@ -263,6 +263,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         return $select->getHtml();
     }
 
+
     /**
      * Reorder attributes array by group
      *
@@ -409,6 +410,11 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     }
                     $element = $this->getSelectHtml($options, $name, $id, $value, $class);
                     break;
+
+                case 'number':
+                    $element = $this->_getInputTextHtml($name, $id, $value, $class.' validate-digits');
+                    break;
+
 
                 default:
                     $element = $this->_getInputTextHtml($name, $id, $value, $class);

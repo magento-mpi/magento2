@@ -67,12 +67,18 @@ try {
 
 //reinit generator with correct generation path
 $io = new Io(new File(), null, $generationDir);
-$generator = new Generator(null, $io, [
-    Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
-    Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-    Interceptor::ENTITY_TYPE =>
-        'Magento\Framework\Interception\Code\Generator\Interceptor'
-]);
+$generator = new Generator(
+    null,
+    $io,
+    [
+        Proxy::ENTITY_TYPE =>
+            'Magento\Framework\ObjectManager\Code\Generator\Proxy',
+        Factory::ENTITY_TYPE =>
+            'Magento\Framework\ObjectManager\Code\Generator\Factory',
+        Interceptor::ENTITY_TYPE =>
+            'Magento\Framework\Interception\Code\Generator\Interceptor'
+    ]
+);
 
 try {
     if (Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {
