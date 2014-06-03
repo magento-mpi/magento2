@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Constraint; 
+namespace Magento\Customer\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountCreate;
@@ -32,9 +32,9 @@ class AssertCustomerFailRegisterMessage extends AbstractConstraint
     public function processAssert(CustomerAccountCreate $registerPage)
     {
         $errorMessage = $registerPage->getMessagesBlock()->getErrorMessages();
-        \PHPUnit_Framework_Assert::assertNotNull(
+        \PHPUnit_Framework_Assert::assertNotEmpty(
             $errorMessage,
-            'Wrong error message is displayed.'
+            'No error message is displayed.'
         );
     }
 
