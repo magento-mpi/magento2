@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <title>
+            <selector>[name="product[links_title]"]</selector>
+            <strategy>css selector</strategy>
+        </title>
+        <links_purchased_separately>
+            <selector>[name="product[links_purchased_separately]"]</selector>
+            <strategy>css selector</strategy>
+            <input>select</input>
+        </links_purchased_separately>
+    </fields>
+</mapping>
