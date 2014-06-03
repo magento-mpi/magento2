@@ -76,20 +76,9 @@ INSTALLSCHEME;
 define('BARE_BOOTSTRAP', 1);
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-$result = is_writable(BP . '/app/etc');
-if ($result === null) {
-    echo 'error: Can\'t access directory "app/etc".' . PHP_EOL;
-    exit(1);
-} elseif ($result === false) {
-    echo 'error: Path "app/etc" must be writable.' . PHP_EOL;
-    exit(1);
-}
-
-$varDir = BP . '/var';
-if (file_exists($varDir) && (!is_dir($varDir) || !is_writable($varDir))) {
-    echo 'error: Path "var" must be writable directory.' . PHP_EOL;
-    exit(1);
-}
+$_SERVER[\Magento\Framework\App\State::PARAM_MODE] = isset($_SERVER[\Magento\Framework\App\State::PARAM_MODE])
+    ? $_SERVER[\Magento\Framework\App\State::PARAM_MODE]
+    : \Magento\Framework\App\State::MODE_DEVELOPER;
 
 $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Magento\Install\App\Console', array('arguments' => $args));
