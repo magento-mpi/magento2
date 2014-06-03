@@ -92,9 +92,8 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         $adjustments = [$taxAdjustmentMock, $weeeAdjustmentMock];
 
-        $priceInfoMock = $this->getMockBuilder('\Magento\Framework\Pricing\PriceInfoInterface')
+        $priceInfoMock = $this->getMockBuilder('\Magento\Framework\Pricing\PriceInfo\Base')
             ->disableOriginalConstructor()
-            //->setMethods(['getPriceInfo'])
             ->getMock();
         $priceInfoMock->expects($this->any())
             ->method('getAdjustments')
@@ -161,9 +160,8 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         $adjustments = [$taxAdjustmentMock, $weeeAdjustmentMock];
 
-        $priceInfoMock = $this->getMockBuilder('\Magento\Framework\Pricing\PriceInfoInterface')
+        $priceInfoMock = $this->getMockBuilder('\Magento\Framework\Pricing\PriceInfo\Base')
             ->disableOriginalConstructor()
-            //->setMethods(['getPriceInfo'])
             ->getMock();
         $priceInfoMock->expects($this->any())
             ->method('getAdjustments')

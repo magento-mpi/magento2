@@ -36,10 +36,10 @@ class AssertCatalogEventSuccessCreateMessage extends AbstractConstraint
     {
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $catalogEventIndex->getMessageBlock()->getSuccessMessages(),
+            $catalogEventIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
             . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $catalogEventIndex->getMessageBlock()->getSuccessMessages()
+            . "\nActual: " . $catalogEventIndex->getMessagesBlock()->getSuccessMessages()
         );
     }
 

@@ -18,11 +18,17 @@ abstract class AbstractObjectBuilder
     protected $_data;
 
     /**
-     * Initialize internal storage
+     * @var ObjectFactory
      */
-    public function __construct()
+    protected $objectFactory;
+
+    /**
+     * @param ObjectFactory $objectFactory
+     */
+    public function __construct(ObjectFactory $objectFactory)
     {
         $this->_data = array();
+        $this->objectFactory = $objectFactory;
     }
 
     /**
@@ -136,7 +142,7 @@ abstract class AbstractObjectBuilder
     public function create()
     {
         $dataObjectType = $this->_getDataObjectType();
-        $dataObject = new $dataObjectType($this);
+        $dataObject = $this->objectFactory->create($dataObjectType, ['builder' => $this]);
         $this->_data = array();
         return $dataObject;
     }
