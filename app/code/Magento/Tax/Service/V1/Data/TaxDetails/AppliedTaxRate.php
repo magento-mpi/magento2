@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data;
+namespace Magento\Tax\Service\V1\Data\TaxDetails;
 
-class TaxRateDetails extends \Magento\Framework\Service\Data\AbstractObject
+class AppliedTaxRate extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
