@@ -7,6 +7,10 @@
  */
 namespace Magento\Rma\Controller;
 
+/**
+ * Class ReturnsTest
+ * @package Magento\Rma\Controller
+ */
 class ReturnsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,36 +39,54 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \Magento\Framework\App\View | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $view;
+    protected $url;
+
+    /**
+     * @var \Magento\Framework\App\Response\RedirectInterface  | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $redirect;
+
+    /**
+     * @var \Magento\Framework\Message\Manager | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $messageManager;
 
     protected function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
-        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
-        $this->view = $this->getMock('Magento\Framework\App\View', [], [], '', false);
         $this->response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $this->messageManager = $this->getMock('Magento\Framework\Message\Manager', [], [], '', false);
+        $this->redirect = $this->getMock('Magento\Store\App\Response\Redirect', [], [], '', false);
+        $this->url = $this->getMock('Magento\Framework\Url', [], [], '', false);
 
         $context = $this->getMock('Magento\Framework\App\Action\Context', [], [], '', false);
         $context->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($this->request));
         $context->expects($this->once())
+            ->method('getResponse')
+            ->will($this->returnValue($this->response));
+        $context->expects($this->once())
             ->method('getObjectManager')
             ->will($this->returnValue($this->objectManager));
         $context->expects($this->once())
-            ->method('getView')
-            ->will($this->returnValue($this->view));
+            ->method('getMessageManager')
+            ->will($this->returnValue($this->messageManager));
         $context->expects($this->once())
-            ->method('getResponse')
-            ->will($this->returnValue($this->response));
+            ->method('getRedirect')
+            ->will($this->returnValue($this->redirect));
+        $context->expects($this->once())
+            ->method('getUrl')
+            ->will($this->returnValue($this->url));
 
-        $this->coreRegistry = $this->getMock('Magento\Framework\Registry');
+        $this->coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
 
-        $this->controller = $objectManager->getObject(
+        $this->controller = $objectManagerHelper->getObject(
             'Magento\Rma\Controller\Returns',
             [
                 'coreRegistry' => $this->coreRegistry,
@@ -73,11 +95,11 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testReturnsAction()
+    public function testCreateAction()
     {
-        $orderId = 5;
-        $customerId = 7;
-        $visibleStatuses = ['status1', 'status2'];
+        $orderId = 2;
+        $customerId = 5;
+        $post = ['customer_custom_email' => true, 'items' => ['1', '2'], 'rma_comment' => 'comment'];
 
         $this->request->expects($this->once())
             ->method('getParam')
@@ -86,7 +108,7 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
 
         $order = $this->getMock(
             'Magento\Sales\Model\Order',
-            ['getId', 'getCustomerId', 'getStatus', '__wakeup', 'load'],
+            ['__wakeup', 'getCustomerId', 'load', 'getId'],
             [],
             '',
             false
@@ -94,57 +116,131 @@ class ReturnsTest extends \PHPUnit_Framework_TestCase
         $order->expects($this->once())
             ->method('load')
             ->with($orderId)
-            ->will($this->returnValue($order));
+            ->will($this->returnSelf());
         $order->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($orderId));
         $order->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
-        $order->expects($this->any())
-            ->method('getStatus')
-            ->will($this->returnValue($visibleStatuses[0]));
+
+        $dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
+        $rma = $this->getMock('Magento\Rma\Model\Rma', [], [], '', false);
+        $rma->expects($this->once())
+            ->method('setData')
+            ->will($this->returnSelf());
+        $rma->expects($this->once())
+            ->method('saveRma')
+            ->will($this->returnSelf());
+        $history1 = $this->getMock('Magento\Rma\Model\Rma\Status\History', [], [], '', false);
+        $history2 = $this->getMock('Magento\Rma\Model\Rma\Status\History', [], [], '', false);
         $rmaHelper = $this->getMock('Magento\Rma\Helper\Data', [], [], '', false);
         $rmaHelper->expects($this->once())
-            ->method('isEnabled')
+            ->method('canCreateRma')
+            ->with($orderId)
             ->will($this->returnValue(true));
         $session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $session->expects($this->once())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
-        $orderConfig = $this->getMock('Magento\Sales\Model\Order\Config', [], [], '', false);
-        $orderConfig->expects($this->once())
-            ->method('getVisibleOnFrontStatuses')
-            ->will($this->returnValue($visibleStatuses));
-
-        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
-        $this->view->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layout));
 
         $this->objectManager->expects($this->at(0))
-            ->method('get')
-            ->with('Magento\Customer\Model\Session')
-            ->will($this->returnValue($session));
+            ->method('create')
+            ->with('Magento\Sales\Model\Order')
+            ->will($this->returnValue($order));
         $this->objectManager->expects($this->at(1))
             ->method('get')
             ->with('Magento\Rma\Helper\Data')
             ->will($this->returnValue($rmaHelper));
         $this->objectManager->expects($this->at(2))
-            ->method('create')
-            ->with('Magento\Sales\Model\Order')
-            ->will($this->returnValue($order));
+            ->method('get')
+            ->with('Magento\Framework\Stdlib\DateTime\DateTime')
+            ->will($this->returnValue($dateTime));
         $this->objectManager->expects($this->at(3))
             ->method('get')
-            ->with('Magento\Sales\Model\Order\Config')
-            ->will($this->returnValue($orderConfig));
+            ->with('Magento\Customer\Model\Session')
+            ->will($this->returnValue($session));
+        $this->objectManager->expects($this->at(4))
+            ->method('create')
+            ->with('Magento\Rma\Model\Rma')
+            ->will($this->returnValue($rma));
+        $this->objectManager->expects($this->at(5))
+            ->method('create')
+            ->with('Magento\Rma\Model\Rma\Status\History')
+            ->will($this->returnValue($history1));
+        $this->objectManager->expects($this->at(6))
+            ->method('create')
+            ->with('Magento\Rma\Model\Rma\Status\History')
+            ->will($this->returnValue($history2));
 
-        $this->coreRegistry->expects($this->once())
-            ->method('register')
-            ->with('current_order', $order);
-        $this->view->expects($this->once())
-            ->method('renderLayout');
+        $this->request->expects($this->once())
+            ->method('getPost')
+            ->will($this->returnValue($post));
 
-        $this->controller->returnsAction();
+        $this->controller->createAction();
+    }
+
+    public function testAddCommentAction()
+    {
+        $entityId = 7;
+        $customerId = 8;
+        $comment = 'comment';
+
+        $this->request->expects($this->any())
+            ->method('getParam')
+            ->with('entity_id')
+            ->will($this->returnValue($entityId));
+        $this->request->expects($this->any())
+            ->method('getPost')
+            ->with('comment')
+            ->will($this->returnValue($comment));
+
+        $rmaHelper = $this->getMock('Magento\Rma\Helper\Data', [], [], '', false);
+        $rmaHelper->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+
+        $rma = $this->getMock('Magento\Rma\Model\Rma', ['__wakeup', 'load', 'getCustomerId', 'getId'], [], '', false);
+        $rma->expects($this->once())
+            ->method('load')
+            ->with($entityId)
+            ->will($this->returnSelf());
+        $rma->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($entityId));
+        $rma->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue($customerId));
+
+        $session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
+        $session->expects($this->once())
+            ->method('getCustomerId')
+            ->will($this->returnValue($customerId));
+
+        $history = $this->getMock('Magento\Rma\Model\Rma\Status\History', [], [], '', false);
+        $history->expects($this->once())
+            ->method('sendCustomerCommentEmail');
+        $history->expects($this->once())
+            ->method('saveComment')
+            ->with($comment, true, false);
+
+        $this->objectManager->expects($this->at(0))
+            ->method('get')
+            ->with('Magento\Rma\Helper\Data')
+            ->will($this->returnValue($rmaHelper));
+        $this->objectManager->expects($this->at(1))
+            ->method('create')
+            ->with('Magento\Rma\Model\Rma')
+            ->will($this->returnValue($rma));
+        $this->objectManager->expects($this->at(2))
+            ->method('get')
+            ->with('Magento\Customer\Model\Session')
+            ->will($this->returnValue($session));
+        $this->objectManager->expects($this->at(3))
+            ->method('create')
+            ->with('Magento\Rma\Model\Rma\Status\History')
+            ->will($this->returnValue($history));
+
+        $this->controller->addCommentAction();
     }
 }

@@ -35,6 +35,13 @@ class Billing extends Form
     protected $useForShipping = '[id="billing:use_for_shipping_no"]';
 
     /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
+
+    /**
      * Fill billing address
      *
      * @param Checkout $fixture
@@ -57,6 +64,6 @@ class Billing extends Form
     public function clickContinue()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#billing-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

@@ -96,7 +96,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $mapPopup = '#map-popup';
+    protected $mapPopup = '#map-popup-click-for-price';
 
     /**
      * Stock Availability control
@@ -337,7 +337,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**

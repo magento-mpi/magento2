@@ -39,7 +39,8 @@ abstract class Options extends Tab
      * @param Element $element
      * @return $this
      */
-    public function getDataOptions(array $fields = null, Element $element = null) {
+    public function getDataOptions(array $fields = null, Element $element = null)
+    {
         $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($fields);
         return $this->_getData($mapping, $element);

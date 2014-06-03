@@ -7,7 +7,7 @@
  */
 
 $magentoBaseDir = realpath(__DIR__ . '/../../../');
-require_once $magentoBaseDir . '/lib/Zend/Console/Getopt.php';
+require_once $magentoBaseDir . '/lib/internal/Zend/Console/Getopt.php';
 
 $shell = new Zend_Console_Getopt(array('xml=s' => 'xml', 'csv=s' => 'csv', 'logs=s' => 'logs'));
 

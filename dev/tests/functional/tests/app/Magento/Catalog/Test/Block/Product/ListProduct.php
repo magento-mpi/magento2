@@ -141,9 +141,9 @@ class ListProduct extends Block
             $this->productTitle,
             Locator::SELECTOR_CSS
         )->find(
-                '//*[@title="' . $productName . '"]',
-                Locator::SELECTOR_XPATH
-            );
+            '//*[@title="' . $productName . '"]',
+            Locator::SELECTOR_XPATH
+        );
     }
 
     /**
