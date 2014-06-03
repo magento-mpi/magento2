@@ -19,7 +19,6 @@ use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertCartPriceRuleApplying
@@ -128,10 +127,9 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
      * @param AddressInjectable $address
      * @param array $productQuantity
      * @param array $shipping
-     * @param int|null $isLoggedIn
-     * @param FixtureInterface $productForSalesRule1
-     * @param FixtureInterface|null $productForSalesRule2
-     * @return void
+     * @param null $isLoggedIn
+     * @param CatalogProductSimple $productForSalesRule1
+     * @param CatalogProductSimple $productForSalesRule2
      */
     public function processAssert(
         CheckoutCart $checkoutCart,
@@ -144,8 +142,8 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
         SalesRuleInjectable $salesRule,
         SalesRuleInjectable $salesRuleOrigin,
         AddressInjectable $address,
-        $productQuantity,
-        $shipping,
+        array $productQuantity,
+        array $shipping,
         $isLoggedIn = null,
         CatalogProductSimple $productForSalesRule1,
         CatalogProductSimple $productForSalesRule2 = null

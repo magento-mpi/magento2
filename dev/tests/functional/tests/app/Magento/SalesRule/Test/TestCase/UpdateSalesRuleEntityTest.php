@@ -57,6 +57,8 @@ class UpdateSalesRuleEntityTest extends Injectable
     protected $salesRuleName;
 
     /**
+     * Create simple product with category
+     *
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
@@ -76,6 +78,7 @@ class UpdateSalesRuleEntityTest extends Injectable
      *
      * @param PromoQuoteIndex $promoQuoteIndex
      * @param PromoQuoteEdit $promoQuoteEdit
+     * return void
      */
     public function __inject(
         PromoQuoteIndex $promoQuoteIndex,
@@ -100,8 +103,8 @@ class UpdateSalesRuleEntityTest extends Injectable
         SalesRuleInjectable $salesRule,
         SalesRuleInjectable $salesRuleOrigin,
         AddressInjectable $address,
-        $productQuantity,
-        $shipping,
+        array $productQuantity,
+        array $shipping,
         $isLoggedIn = null
     ) {
         // Preconditions

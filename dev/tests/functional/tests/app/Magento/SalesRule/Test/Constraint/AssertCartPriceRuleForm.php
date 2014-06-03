@@ -84,7 +84,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
                 $diff = array_diff($value, $formData[$key]);
                 $diff = array_merge($diff, array_diff($formData[$key], $value));
                 if (!empty($diff)) {
-                    $errorMessage[] = "Data in " . $key . " field not equal."
+                    $errorMessage[] = "Data in " . $key . " field is not equal."
                         . "\nExpected: " . implode(", ", $value)
                         . "\nActual: " . implode(", ", $formData[$key]);
                 }
