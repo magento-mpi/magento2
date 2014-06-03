@@ -1,2 +1,2 @@
 "constraint"
-"assertUrlRewriteDeletedMessage, assertUrlRewriteNotInGrid, assertNotFoundPage"
+"assertUrlRewriteDeletedMessage, assertUrlRewriteNotInGrid, assertPageByUrlRewriteIsNotFound"

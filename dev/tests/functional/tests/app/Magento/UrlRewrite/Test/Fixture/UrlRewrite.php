@@ -34,8 +34,9 @@ class UrlRewrite extends InjectableFixture
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
     ];
-    protected $rewrite_path = [
-        'attribute_code' => 'rewrite_path',
+
+    protected $id_path = [
+        'attribute_code' => 'id_path',
         'backend_type' => 'virtual',
     ];
 
@@ -69,14 +70,20 @@ class UrlRewrite extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $products = [
+        'attribute_code' => 'products',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\UrlRewrite\Test\Fixture\UrlRewrite\Products',
+    ];
+
     public function getId()
     {
         return $this->getData('id');
     }
 
-    public function getRewritePath()
+    public function getIdPath()
     {
-        return $this->getData('rewrite_path');
+        return $this->getData('id_path');
     }
 
     public function getStoreId()
@@ -97,5 +104,10 @@ class UrlRewrite extends InjectableFixture
     public function getDescription()
     {
         return $this->getData('description');
+    }
+
+    public function getProducts()
+    {
+        return $this->getData('products');
     }
 }
