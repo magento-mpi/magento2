@@ -20,7 +20,7 @@ class SystemConfig extends BackendPage
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\System\Config\PageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -39,7 +39,7 @@ class SystemConfig extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\Backend\Test\Block\System\Config\PageActions
      */
     public function getPageActions()
     {
