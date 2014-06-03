@@ -24,12 +24,14 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     /**
      * Initialize dependencies.
      *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
      */
     public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
     ) {
-        parent::__construct();
+        parent::__construct($objectFactory);
         $this->zipRangeBuilder = $zipRangeBuilder;
     }
 
