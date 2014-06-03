@@ -17,6 +17,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertUrlRewriteDeletedMessage extends AbstractConstraint
 {
+    /**
+     * Message that displayed after delete url rewrite
+     */
     const SUCCESS_MESSAGE = 'The URL Rewrite has been deleted.';
 
     /**
