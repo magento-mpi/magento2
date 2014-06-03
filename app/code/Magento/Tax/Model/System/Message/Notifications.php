@@ -60,9 +60,9 @@ class Notifications implements \Magento\AdminNotification\Model\System\MessageIn
      * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager = null,
-        \Magento\Framework\UrlInterface $urlBuilder = null,
-        \Magento\Tax\Model\Config $taxConfig = null
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\UrlInterface $urlBuilder,
+        \Magento\Tax\Model\Config $taxConfig
     ) {
         $this->storeManager = $storeManager;
         $this->urlBuilder = $urlBuilder;
