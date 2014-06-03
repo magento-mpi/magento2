@@ -19,13 +19,43 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $this->_filter = new Parameter();
     }
 
-    public function testTokenize()
+    /**
+     * @param string $string String to tokenize
+     * @param string $expectedValue
+     * @dataProvider sampleTokenizeStringProvider
+     */
+    public function testTokenize($string, $expectedValue)
     {
-        $this->assertEquals([], $this->_filter->tokenize());
+        $this->_filter->setString($string);
+        $this->assertEquals($expectedValue, $this->_filter->tokenize());
     }
 
-    public function testGetValue()
+    /**
+     * @param string $string String to get value of
+     * @param string $expectedValue
+     * @dataProvider sampleGetValueStringProvider
+     */
+    public function testGetValue($string, $expectedValue)
     {
-        $this->assertEquals('', $this->_filter->getValue());
+        $this->_filter->setString($string);
+        $this->assertEquals($expectedValue, $this->_filter->getValue());
+    }
+
+    public function sampleTokenizeStringProvider()
+    {
+        return [
+            [" direct_url='about-magento-demo-store'", ['direct_url' => 'about-magento-demo-store']],
+            [" direct_url='about-magento-demo-store\\[newDemo]", ['direct_url' => 'about-magento-demo-store[newDemo]']],
+            ["   ", []]
+        ];
+    }
+
+    public function sampleGetValueStringProvider()
+    {
+        return [
+            [" direct_url='about-magento-demo-store'", "direct_url='about-magento-demo-store'"],
+            [" direct_url='about-magento-demo-store\\[newDemo]", "direct_url='about-magento-demo-store[newDemo]"],
+            ['   ', '']
+        ];
     }
 }
