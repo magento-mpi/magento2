@@ -146,7 +146,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Framework\Exception\InputException
      */
-    public function testUpdateTaxRateMissingRequiredInfo()
+    public function testUpdateTaxRuleMissingRequiredInfo()
     {
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $taxRule = $taxRuleBuilder
