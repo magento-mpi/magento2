@@ -63,7 +63,7 @@ class AutomaticTaxApplyingTest extends Functional
         $shippingBlock = $checkoutCartPage->getShippingBlock();
         $shippingBlock->openEstimateShippingAndTax();
         $shippingBlock->fill($this->fixture->getCustomer()->getDefaultShippingAddress());
-        $shippingBlock->getQuote();
+        $shippingBlock->clickGetQuote();
         $this->verifyCartTotals();
 
         // Proceed Checkout
