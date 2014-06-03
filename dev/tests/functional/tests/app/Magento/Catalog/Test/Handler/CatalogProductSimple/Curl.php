@@ -143,9 +143,8 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'qty' => $fields['stock_data']['qty'],
             'is_in_stock' => $fields['stock_data']['is_in_stock']
         ];
-        $fields = $this->filter($fields);
 
-        return $fields;
+        return $this->filter($fields);
     }
 
     /**
