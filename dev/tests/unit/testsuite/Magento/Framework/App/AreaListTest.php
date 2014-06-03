@@ -99,11 +99,12 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCodes()
     {
+        $areas = array('area1' => 'value1', 'area2' => 'value2');
         $this->_model = new \Magento\Framework\App\AreaList(
-            $this->objectManagerMock, $this->_resolverFactory, array('area1' => 'value1', 'area2' => 'value2'), ''
+            $this->objectManagerMock, $this->_resolverFactory, $areas, ''
         );
 
-        $expected = array(0 => 'area1', 1 => 'area2');
+        $expected = array_keys($areas);
         $actual = $this->_model->getCodes();
         $this->assertEquals($expected, $actual);
     }
