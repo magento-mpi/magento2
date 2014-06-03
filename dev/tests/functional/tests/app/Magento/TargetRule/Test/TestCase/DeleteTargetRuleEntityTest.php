@@ -78,7 +78,11 @@ class DeleteTargetRuleEntityTest extends Injectable
         $targetRule->persist();
 
         // Steps
-        $filter = ['name' => $targetRule->getName()];
+        $targetRuleData = $targetRule->getData();
+        $filter = [
+            'id' => $targetRuleData['id'],
+            'name' => $targetRuleData['name'],
+        ];
         $this->targetRuleIndex->open();
         $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleEdit->getPageActions()->delete();

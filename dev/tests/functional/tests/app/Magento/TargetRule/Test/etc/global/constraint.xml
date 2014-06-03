@@ -10,6 +10,9 @@
 <constraint>
     <assertTargetRuleSuccessDeleteMessage module="Magento_TargetRule">
         <severeness>high</severeness>
+        <require>
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+        </require>
     </assertTargetRuleSuccessDeleteMessage>
     <assertTargetRuleSuccessSaveMessage module="Magento_TargetRule">
         <severeness>high</severeness>
@@ -26,6 +29,10 @@
     </assertTargetRuleInGrid>
     <assertTargetRuleIsNotPresentedInGrid module="Magento_TargetRule">
         <severeness>middle</severeness>
+        <require>
+            <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+        </require>
     </assertTargetRuleIsNotPresentedInGrid>
     <assertTargetRuleForm module="Magento_TargetRule">
         <severeness>high</severeness>
