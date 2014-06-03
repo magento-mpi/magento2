@@ -20,6 +20,7 @@ use Magento\Framework\Object\IdentityInterface;
  * @method array getAssociatedProductIds()
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
+ * @method int getPriceType
  * @method \Magento\Catalog\Model\Resource\Product\Collection getCollection()
  *
  * @SuppressWarnings(PHPMD.LongVariable)
