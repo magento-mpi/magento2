@@ -108,4 +108,15 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $actual = $this->_model->getCodes();
         $this->assertEquals($expected, $actual);
     }
+
+    public function testGetDefaultRouter()
+    {
+        $areas = array('area1' => ['router' => 'value1'], 'area2' => 'value2');
+        $this->_model = new \Magento\Framework\App\AreaList(
+            $this->objectManagerMock, $this->_resolverFactory, $areas, ''
+        );
+
+        $this->assertEquals($this->_model->getDefaultRouter('area1'), $areas['area1']['router']);
+        $this->assertNull($this->_model->getDefaultRouter('area2'));
+    }
 }
