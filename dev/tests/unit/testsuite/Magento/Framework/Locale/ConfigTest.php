@@ -84,8 +84,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($differences);
 
-        foreach($this::$sampleAbsentLocales as $absentLocale)
-        {
+        foreach ($this::$sampleAbsentLocales as $absentLocale) {
             $this->assertNotContains($absentLocale, $retrievedLocales);
         }
     }
@@ -110,8 +109,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($differences);
 
-        foreach($this::$sampleAbsentLocales as $absentLocale)
-        {
+        foreach ($this::$sampleAbsentLocales as $absentLocale) {
             $this->assertNotContains($absentLocale, $retrievedLocalesWithAdditions);
         }
     }
@@ -136,8 +134,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($differences);
 
-        foreach($this::$sampleAbsentLocales as $absentLocale)
-        {
+        foreach ($this::$sampleAbsentLocales as $absentLocale) {
             $this->assertNotContains($absentLocale, $retrievedLocalesWithRedundencies);
         }
     }
@@ -153,8 +150,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($differences);
 
-        foreach($this::$sampleAbsentCurrencies as $absentCurrency)
-        {
+        foreach ($this::$sampleAbsentCurrencies as $absentCurrency) {
             $this->assertNotContains($absentCurrency, $retrievedCurrencies);
         }
     }
@@ -179,8 +175,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($differences);
 
-        foreach($this::$sampleAbsentCurrencies as $absentCurrency)
-        {
+        foreach ($this::$sampleAbsentCurrencies as $absentCurrency) {
             $this->assertNotContains($absentCurrency, $retrievedCurrenciesWithAdditions);
         }
     }
@@ -206,8 +201,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($differences);
 
-        foreach($this::$sampleAbsentCurrencies as $absentCurrency)
-        {
+        foreach ($this::$sampleAbsentCurrencies as $absentCurrency) {
             $this->assertNotContains($absentCurrency, $retrievedCurrenciesWithRedundencies);
         }
     }
