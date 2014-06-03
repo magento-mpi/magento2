@@ -47,29 +47,21 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateTaxRule()
     {
-        $taxRuleData = [
-            TaxRule::CODE => 'code',
-            TaxRule::CUSTOMER_TAX_CLASS_IDS => [3],
-            TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
-            TaxRule::TAX_RATE_IDS => [1],
-            TaxRule::PRIORITY => 0,
-            TaxRule::SORT_ORDER => 1,
-        ];
         // Tax rule data object created
-        $taxRule = $this->taxRuleBuilder->populateWithArray($taxRuleData)->create();
+        $taxRuleDataObject = $this->createTaxRuleDataObject();
         //Tax rule service call
-        $taxRuleServiceData = $this->taxRuleService->createTaxRule($taxRule);
+        $taxRuleServiceData = $this->taxRuleService->createTaxRule($taxRuleDataObject);
 
         //Assertions
         $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRule', $taxRuleServiceData);
-        $this->assertEquals($taxRuleData[TaxRule::CODE], $taxRuleServiceData->getCode());
+        $this->assertEquals($taxRuleDataObject->getCode(), $taxRuleServiceData->getCode());
         $this->assertEquals(
-            $taxRuleData[TaxRule::CUSTOMER_TAX_CLASS_IDS],
+            $taxRuleDataObject->getCustomerTaxClassIds(),
             $taxRuleServiceData->getCustomerTaxClassIds()
         );
-        $this->assertEquals($taxRuleData[TaxRule::PRODUCT_TAX_CLASS_IDS], $taxRuleServiceData->getProductTaxClassIds());
-        $this->assertEquals($taxRuleData[TaxRule::PRIORITY], $taxRuleServiceData->getPriority());
-        $this->assertEquals($taxRuleData[TaxRule::SORT_ORDER], $taxRuleServiceData->getSortOrder());
+        $this->assertEquals($taxRuleDataObject->getProductTaxClassIds(), $taxRuleServiceData->getProductTaxClassIds());
+        $this->assertEquals($taxRuleDataObject->getPriority(), $taxRuleServiceData->getPriority());
+        $this->assertEquals($taxRuleDataObject->getSortOrder(), $taxRuleServiceData->getSortOrder());
         $this->assertNotNull($taxRuleServiceData->getId());
     }
 
@@ -159,6 +151,21 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     public function testUpdateTaxRuleNoId()
     {
         $this->taxRuleService->updateTaxRule($this->createTaxRuleDataObject());
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage code
+     */
+    public function testUpdateTaxRuleMissingRequiredFields()
+    {
+        $taxRuleServiceData = $this->taxRuleService->createTaxRule($this->createTaxRuleDataObject());
+        $updatedTaxRule = $this->taxRuleBuilder->populate($taxRuleServiceData)
+            ->setCode(null)
+            ->create();
+
+        $this->taxRuleService->updateTaxRule($updatedTaxRule);
     }
 
     /*

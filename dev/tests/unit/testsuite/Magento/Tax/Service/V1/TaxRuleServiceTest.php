@@ -97,4 +97,68 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRuleService->deleteTaxRule(1);
     }
 
+    public function testUpdateTaxRate()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setId(2)
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRuleModel')
+            ->with($taxRule)
+            ->will($this->returnValue($this->ruleModelMock));
+        $this->ruleModelMock->expects($this->once())->method('save');
+
+        $result = $this->taxRuleService->updateTaxRule($taxRule);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateTaxRuleNoId()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setCode('code')
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+
+        $this->converterMock->expects($this->once())
+            ->method('createTaxRuleModel')
+            ->with($taxRule)
+            ->will($this->throwException(new NoSuchEntityException()));
+
+        $this->taxRuleService->updateTaxRule($taxRule);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testUpdateTaxRateMissingRequiredInfo()
+    {
+        $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $taxRule = $taxRuleBuilder
+            ->setId(3)
+            ->setCode(null)
+            ->setCustomerTaxClassIds([3])
+            ->setProductTaxClassIds([2])
+            ->setTaxRateIds([2])
+            ->setPriority(0)
+            ->setSortOrder(1)
+            ->create();
+        $this->taxRuleService->updateTaxRule($taxRule);
+    }
+
 }
