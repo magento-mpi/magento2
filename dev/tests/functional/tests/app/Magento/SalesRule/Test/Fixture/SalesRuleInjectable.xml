@@ -32,11 +32,13 @@
             <attribute_code>from_date</attribute_code>
             <backend_type>date</backend_type>
             <group>rule_information</group>
+            <source>Magento\Backend\Test\Fixture\Date</source>
         </from_date>
         <to_date>
             <attribute_code>to_date</attribute_code>
             <backend_type>date</backend_type>
             <group>rule_information</group>
+            <source>Magento\Backend\Test\Fixture\Date</source>
         </to_date>
         <uses_per_customer>
             <attribute_code>uses_per_customer</attribute_code>
@@ -79,6 +81,7 @@
             <attribute_code>sort_order</attribute_code>
             <backend_type>int</backend_type>
             <default_value>0</default_value>
+            <group>rule_information</group>
         </sort_order>
         <simple_action>
             <attribute_code>simple_action</attribute_code>
@@ -165,7 +168,17 @@
             <backend_type>virtual</backend_type>
             <group>rule_information</group>
         </coupon_code>
+        <reward_points_delta>
+            <attribute_code>reward_points_delta</attribute_code>
+            <backend_type>virtual</backend_type>
+            <group>actions</group>
+        </reward_points_delta>
+        <rule>
+            <attribute_code>rule</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>l
+        </rule>
     </fields>
     <repository_class>Magento\SalesRule\Test\Repository\SalesRuleInjectable</repository_class>
-    <handler_interface>Magento\SalesRule\Test\Handler\SalesRule\SalesRuleInterface</handler_interface>
+    <handler_interface>Magento\SalesRule\Test\Handler\SalesRuleInjectable\SalesRuleInjectableInterface</handler_interface>
 </fixture>
