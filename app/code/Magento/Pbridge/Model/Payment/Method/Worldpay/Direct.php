@@ -48,9 +48,6 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
             return false;
         }
 
-//        if ($this->is3dSecureEnabled() && Mage::app()->getStore()->isAdmin()) {
-//            return false;
-//        }
         return true;
     }
 

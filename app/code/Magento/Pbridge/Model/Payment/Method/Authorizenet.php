@@ -64,9 +64,6 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      */
     public function is3dSecureEnabled()
     {
-//        if($this->_isAdmin3dSecureSeparate && Mage::app()->getStore()->isAdmin()) {
-//            return $this->getConfigData('centinel') && $this->getConfigData('centinel_backend');
-//        }
         return (bool)$this->getConfigData('centinel');
     }
 
