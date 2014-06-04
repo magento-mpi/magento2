@@ -2567,6 +2567,13 @@ return array(
         'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Button',
         'Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid'
     ],
+    ['Magento\OfflinePayments\Block\Form\Ccsave'],
+    ['Magento\OfflinePayments\Block\Info\Ccsave'],
+    ['Magento\OfflinePayments\Model\Ccsave'],
+    ['Magento\Sales\Model\Payment\Method\Converter'],
+    ['Magento\Payment\Model\Config\Source\Allowedmethods'],
+    ['Magento\Paypal\Model\PayflowDirect'],
+    ['Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Store'],
     ['Magento\Framework\View\Url', 'Magento\Framework\View\Asset\Repository'],
     ['Magento\Less\File\Source\Base', 'Magento\Framework\View\File\Collector\Base'],
     ['Magento\Less\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],

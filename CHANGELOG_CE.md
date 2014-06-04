@@ -22,7 +22,8 @@
     * Accordingly, renamed the former `lib` into `lib/internal` (!!!MAGETWO-21067!!! - may be controversial. We may want to revert this change before rolling out this release to the github)
   * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config) (MAGETWO-18001)
     * Refactored some of scripts in `Magento_ConfigurableProduct` module to be loaded via RequireJS
-  * Move Authorization service
+  * Increased unit tests coverage (MAGETWO-24243)
+  * Move Authorization service (MAGETWO-23856)
   * Fix Customer Model usage on session in CE modules
   * [Mobile] Allow client to get partial response
 * Tax calculation updates:
@@ -33,6 +34,10 @@
   * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
+* Payments Parity between M1 and M2
+  * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
+  * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
+  * Removed Saved Credit Card payment method (MAGETWO-23885)
 * Fixed bugs:
   * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
   * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
@@ -56,6 +61,7 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
+  * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)  
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
   * Fixed: FPC should be invalidated after applying catalog price rule (MAGETWO-24311)
 * GitHub requests:
