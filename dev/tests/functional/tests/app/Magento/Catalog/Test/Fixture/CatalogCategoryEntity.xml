@@ -9,7 +9,7 @@
 -->
 <fixture class="Magento\Catalog\Test\Fixture\CatalogCategoryEntity">
     <module>Magento_Catalog</module>
-    <type>flat</type>
+    <type>eav</type>
     <entity_type>catalog_category_entity</entity_type>
     <collection>Magento\Catalog\Model\Resource\Category\Collection</collection>
     <fields>

@@ -18,11 +18,24 @@ use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
 {
     /**
+     * @var ParameterBuilder
+     */
+    protected $parameterBuilder;
+
+    /**
+     * @param ParameterBuilder $parameterBuilder
+     */
+    public function __construct(ParameterBuilder $parameterBuilder)
+    {
+        $this->parameterBuilder = $parameterBuilder;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function success()
     {
-        return (new ParameterBuilder())->setName('id')->setValue('a good id')->create();
+        return $this->parameterBuilder->setName('id')->setValue('a good id')->create();
     }
 
     /**

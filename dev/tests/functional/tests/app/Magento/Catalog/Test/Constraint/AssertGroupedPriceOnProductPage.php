@@ -40,13 +40,14 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
         $groupPrice = isset($groupPrice['price_special_price'])
             ? $groupPrice['price_special_price']
             : null;
-        if(isset($fields['group_price'])){
-            foreach($fields['group_price'] as $itemGroupPrice)
-            \PHPUnit_Framework_Assert::assertEquals(
-                $itemGroupPrice['price'],
-                $groupPrice,
-                'Assert that displayed grouped price on product page NOT equals passed from fixture.'
-            );
+        if (isset($fields['group_price'])) {
+            foreach ($fields['group_price'] as $itemGroupPrice) {
+                \PHPUnit_Framework_Assert::assertEquals(
+                    $itemGroupPrice['price'],
+                    $groupPrice,
+                    'Assert that displayed grouped price on product page NOT equals passed from fixture.'
+                );
+            }
         }
     }
 

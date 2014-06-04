@@ -54,6 +54,10 @@
         <severeness>low</severeness>
         <require/>
     </assertTaxRateIsInCorrectRange>
+    <assertTaxRateInTaxRule module="Magento_Tax">
+        <severeness>low</severeness>
+        <require/>
+    </assertTaxRateInTaxRule>
     <assertTaxRuleIsApplied module="Magento_Tax">
         <severeness>high</severeness>
         <require />

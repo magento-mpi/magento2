@@ -492,6 +492,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings',
     ];
 
     protected $url_path = [
@@ -547,6 +548,12 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'group' => 'customer-options',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
     ];
 
     public function getCategoryIds()
@@ -832,5 +839,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }
