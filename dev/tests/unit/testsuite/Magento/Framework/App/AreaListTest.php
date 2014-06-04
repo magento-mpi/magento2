@@ -124,14 +124,12 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Framework\ObjectManager $objectManagerMock */
         $objectManagerMock = $this->getObjectManagerMockGetArea();
-        var_dump($objectManagerMock);
         $areas = array('area1' => ['router' => 'value1'], 'area2' => 'value2');
         $this->_model = new AreaList(
             $objectManagerMock, $this->_resolverFactory, $areas, ''
         );
 
         $this->assertEquals($this->_model->getArea('testArea'), 'ok');
-        $this->assertNull($this->_model->getArea('nullArea'));
     }
 
     /**
@@ -145,18 +143,9 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\App\AreaInterface'),
-                $this->logicalOr(
-                    $this->equalTo(array('areaCode' => 'testArea')),
-                    $this->equalTo(array('areaCode' => 'nullArea'))
-                )
+                $this->equalTo(array('areaCode' => 'testArea'))
             )
-            ->will($this->returnCallback(function ($interface, $areas) {
-                $returnValue = null;
-                if($areas['areaCode'] == 'testArea') {
-                    $returnValue = 'ok';
-                }
-                return $returnValue;
-            }));
+            ->will($this->returnValue('ok'));
 
         return $objectManagerMock;
     }
