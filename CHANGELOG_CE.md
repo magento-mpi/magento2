@@ -59,6 +59,7 @@
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
   * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
+  * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
