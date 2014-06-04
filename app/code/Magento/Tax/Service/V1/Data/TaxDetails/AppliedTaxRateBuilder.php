@@ -22,7 +22,7 @@ class AppliedTaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setCode($code)
     {
-        return $this->_set(Rate::KEY_CODE, $code);
+        return $this->_set(AppliedTaxRate::KEY_CODE, $code);
     }
 
     /**
@@ -33,7 +33,7 @@ class AppliedTaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setTitle($title)
     {
-        return $this->_set(Rate::KEY_TITLE, $title);
+        return $this->_set(AppliedTaxRate::KEY_TITLE, $title);
     }
 
     /**
@@ -44,6 +44,6 @@ class AppliedTaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setPercent($percent)
     {
-        return $this->_set(Rate::KEY_PERCENT, $percent);
+        return $this->_set(AppliedTaxRate::KEY_PERCENT, $percent);
     }
 }
