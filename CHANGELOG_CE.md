@@ -1,4 +1,9 @@
 * Framework improvements:
+  * Created Service API for Magento_Catalog Module:
+    * AttributeSet Service (MAGETWO-23316)
+    * AttributeSetGroup Service (MAGETWO-23317)
+    * ProductLinks Service (MAGETWO-23318)
+    * ProductType Service (MAGETWO-23310)
   * Completely revisited subsystem of static view files preprocessing (MAGETWO-18001):
     * Transforming LESS into CSS is now just a particular case of a more general interface of preprocessors, so a custom preprocessor can be registered
     * Refactored implementation of view files "fallback" and "collecting" (layout XML files, LESS files for `@magento_import`) mechanisms for better abstraction
@@ -17,6 +22,7 @@
     * Accordingly, renamed the former `lib` into `lib/internal` (!!!MAGETWO-21067!!! - may be controversial. We may want to revert this change before rolling out this release to the github)
   * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config) (MAGETWO-18001)
     * Refactored some of scripts in `Magento_ConfigurableProduct` module to be loaded via RequireJS
+  * Increased unit tests coverage (MAGETWO-24243)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -25,7 +31,15 @@
   * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
+* Payments Parity between M1 and M2
+  * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
+  * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
+  * Removed Saved Credit Card payment method (MAGETWO-23885)
 * Fixed bugs:
+  * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
+  * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
+  * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
+  * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
   * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
   * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
@@ -44,7 +58,13 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
-  
+  * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
+* GitHub requests:
+  * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
+  * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
+  * [#256] (https://github.com/magento/magento2/issues/256) Unused file app\code\core\Mage\Backend\view\adminhtml\store\switcher\enhanced.phtml
+  * [#561] (https://github.com/magento/magento2/pull/561) Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getForeignKeys()
+  * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
 * JavaScript improvements:
   * Added standard validation to front-end address fields
   * Implemented wishlist widget
@@ -118,6 +138,14 @@
   * Catalog Price Rule Creation
   * Category Url Rewrite Creation
   * Admin User Role Deletion
+  * Delete Admin User
+  * Delete Backend Customer
+  * Delete Product UrlRewrite
+  * Downloadable Product Creation
+  * Update Simple Product
+  * Update Tax Rule
+  * Update Tax Rate
+  * Suggest Searching Result
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity

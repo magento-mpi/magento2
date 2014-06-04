@@ -52,6 +52,7 @@ class Observer
      */
     public function salesOrderBeforeSave($observer)
     {
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getPayment()->getMethodInstance()->getCode() != 'free') {
@@ -62,7 +63,7 @@ class Observer
             return $this;
         }
 
-        if ($order->isCanceled() || $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
+        if ($order->isCanceled() || $order->getState() == \Magento\Sales\Model\Order::STATE_CLOSED) {
             return $this;
         }
         /**
@@ -80,7 +81,7 @@ class Observer
      */
     public function updateOrderStatusForPaymentMethods(\Magento\Framework\Event\Observer $observer)
     {
-        if ($observer->getEvent()->getState() !== \Magento\Sales\Model\Order::STATE_NEW) {
+        if ($observer->getEvent()->getState() != \Magento\Sales\Model\Order::STATE_NEW) {
             return;
         }
         $status = $observer->getEvent()->getStatus();

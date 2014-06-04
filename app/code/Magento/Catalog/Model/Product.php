@@ -20,6 +20,7 @@ use Magento\Framework\Object\IdentityInterface;
  * @method array getAssociatedProductIds()
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
+ * @method int getPriceType
  * @method \Magento\Catalog\Model\Resource\Product\Collection getCollection()
  *
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -1929,7 +1930,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _clearData()
     {
         foreach ($this->_data as $data) {
-            if (is_object($data) && method_exists($data, 'reset')) {
+            if (is_object($data) && method_exists($data, 'reset') && is_callable([$data, 'reset'])) {
                 $data->reset();
             }
         }
