@@ -33,7 +33,8 @@ use Mtf\Client\Driver\Selenium\Element as AbstractElement;
  * {Products subselection|total amount|greater than|135|ANY:[[Price in cart|is|100][Quantity in cart|is|100]]}
  * {Conditions combination:[
  *     [Subtotal|is|100]
- *     {Product attribute combination|NOT FOUND|ANY:[[Attribute Set|is|Default][Attribute Set|is|Default]]}]}
+ *     {Product attribute combination|NOT FOUND|ANY:[[Attribute Set|is|Default][Attribute Set|is|Default]]}
+ * ]}
  */
 class ConditionsElement extends AbstractElement
 {
@@ -52,7 +53,7 @@ class ConditionsElement extends AbstractElement
     protected $addNew = './/*[contains(@class,"rule-param-new-child")]/a';
 
     /**
-     * Button remote condition
+     * Button remove condition
      *
      * @var string
      */
@@ -63,7 +64,7 @@ class ConditionsElement extends AbstractElement
      *
      * @var string
      */
-    protected $new = './ul/li/span[contains(@class,"rule-param-new-child")]/..';
+    protected $newCondition = './ul/li/span[contains(@class,"rule-param-new-child")]/..';
 
     /**
      * Type of new condition
@@ -91,7 +92,14 @@ class ConditionsElement extends AbstractElement
      *
      * @var string
      */
-    protected $param = './span[@class="rule-param"]/span/*[contains(@id,"__%s")]/../..';
+    protected $param = './span[@class="rule-param"]/span/*[substring(@id,(string-length(@id)-%d+1))="%s"]/../..';
+
+    /**
+     * Key of last find param
+     *
+     * @var int
+     */
+    protected $findKeyParam = 0;
 
     /**
      * Map of parameters
@@ -99,10 +107,37 @@ class ConditionsElement extends AbstractElement
      * @var array
      */
     protected $mapParams = [
-        '0' => 'attribute',
-        '1' => 'operator',
-        '2' => 'value',
-        '3' => 'aggregator',
+        'attribute',
+        'operator',
+        'value_type',
+        'value',
+        'aggregator',
+    ];
+
+    /**
+     * Map encode special chars
+     *
+     * @var array
+     */
+    protected $encodeChars = [
+        '\{' => '&lbrace;',
+        '\}' => '&rbrace;',
+        '\[' => '&lbracket;',
+        '\]' => '&rbracket;',
+        '\:' => '&colon;',
+    ];
+
+    /**
+     * Map decode special chars
+     *
+     * @var array
+     */
+    protected $decodeChars = [
+        '&lbrace;' => '{',
+        '&rbrace;' => '}',
+        '&lbracket;' => '[',
+        '&rbracket;' => ']',
+        '&colon;' => ':',
     ];
 
     /**
@@ -116,13 +151,14 @@ class ConditionsElement extends AbstractElement
      * Set value to conditions
      *
      * @param string $value
+     * @return void
      */
     public function setValue($value)
     {
         $conditions = $this->decodeValue($value);
         $context = $this->find($this->mainCondition, Locator::SELECTOR_XPATH);
         $this->clear();
-        $this->addConditions($conditions, $context);
+        $this->addMultipleCondition($conditions, $context);
     }
 
     /**
@@ -135,7 +171,7 @@ class ConditionsElement extends AbstractElement
     protected function addConditionsCombination($condition, Element $context)
     {
         $condition = $this->parseCondition($condition);
-        $newCondition = $context->find($this->new, Locator::SELECTOR_XPATH);
+        $newCondition = $context->find($this->newCondition, Locator::SELECTOR_XPATH);
         $newCondition->find($this->addNew, Locator::SELECTOR_XPATH)->click();
         $typeNewCondition = $newCondition->find($this->typeNew, Locator::SELECTOR_XPATH, 'select');
         $typeNewCondition->setValue($condition['type']);
@@ -153,15 +189,16 @@ class ConditionsElement extends AbstractElement
      *
      * @param array $conditions
      * @param Element $context
+     * @return void
      */
-    protected function addConditions(array $conditions, Element $context)
+    protected function addMultipleCondition(array $conditions, Element $context)
     {
         foreach ($conditions as $key => $condition) {
             $elementContext = is_numeric($key) ? $context : $this->addConditionsCombination($key, $context);
             if (is_string($condition)) {
-                $this->addCondition($condition, $elementContext);
+                $this->addSingleCondition($condition, $elementContext);
             } else {
-                $this->addConditions($condition, $elementContext);
+                $this->addMultipleCondition($condition, $elementContext);
             }
         }
     }
@@ -171,13 +208,13 @@ class ConditionsElement extends AbstractElement
      *
      * @param string $condition
      * @param Element $context
-     * @throws \Exception
+     * @return void
      */
-    protected function addCondition($condition, Element $context)
+    protected function addSingleCondition($condition, Element $context)
     {
         $condition = $this->parseCondition($condition);
 
-        $newCondition = $context->find($this->new, Locator::SELECTOR_XPATH);
+        $newCondition = $context->find($this->newCondition, Locator::SELECTOR_XPATH);
         $newCondition->find($this->addNew, Locator::SELECTOR_XPATH)->click();
         $newCondition->find($this->typeNew, Locator::SELECTOR_XPATH, 'select')->setValue($condition['type']);
         $this->waitLoader();
@@ -186,22 +223,19 @@ class ConditionsElement extends AbstractElement
         $this->fillCondition($condition['rules'], $createdCondition);
     }
 
-
     /**
      * Fill single condition
      *
      * @param array $rules
      * @param Element $element
+     * @return void
      * @throws \Exception
      */
     protected function fillCondition(array $rules, Element $element)
     {
-        $mapParams = $this->getMapParams($element);
-        foreach ($rules as $key => $rule) {
-            $param = $element->find(
-                sprintf($this->param, $mapParams[$key]),
-                Locator::SELECTOR_XPATH
-            );
+        $this->resetKeyParam();
+        foreach ($rules as $rule) {
+            $param = $this->findNextParam($element);
             $param->find('a')->click();
 
             $value = $param->find('select', Locator::SELECTOR_CSS, 'select');
@@ -232,22 +266,12 @@ class ConditionsElement extends AbstractElement
      */
     protected function decodeValue($value)
     {
-        $value = str_replace('\{', '&lbrace;', $value);
-        $value = str_replace('\}', '&rbrace;', $value);
-        $value = str_replace('\[', '&lbracket;', $value);
-        $value = str_replace('\]', '&rbracket;', $value);
-        $value = str_replace('\:', '&colon;', $value);
-
+        $value = str_replace(array_keys($this->encodeChars), $this->encodeChars, $value);
         $value = preg_replace('/(\]|})({|\[)/', '$1,$2', $value);
         $value = preg_replace('/{([^:]+):/', '{"$1":', $value);
         $value = preg_replace('/\[([^\[{])/', '"$1', $value);
         $value = preg_replace('/([^\]}])\]/', '$1"', $value);
-
-        $value = str_replace('&lbrace;', '{', $value);
-        $value = str_replace('&rbrace;', '}', $value);
-        $value = str_replace('&lbracket;', '[', $value);
-        $value = str_replace('&rbracket;', ']',$value);
-        $value = str_replace('&colon;', ':', $value);
+        $value = str_replace(array_keys($this->decodeChars), $this->decodeChars, $value);
 
         $value = "[{$value}]";
         $value = json_decode($value, true);
@@ -280,25 +304,40 @@ class ConditionsElement extends AbstractElement
     }
 
     /**
-     * Get map of parameters for element
+     * Find next param of condition for fill
      *
-     * @param Element $element
-     * @return array
+     * @param Element $context
+     * @return Element
      * @throws \Exception
      */
-    protected function getMapParams(Element $element)
+    protected function findNextParam(Element $context)
     {
-        foreach ($this->mapParams as $key => $value) {
-            $param = $element->find(sprintf($this->param, $value), Locator::SELECTOR_XPATH);
-            if ($param->isVisible()) {
-                return array_slice($this->mapParams, $key);
+        do {
+            if (!isset($this->mapParams[$this->findKeyParam])) {
+                throw new \Exception("Empty map of params");
             }
-        }
-        throw new \Exception("Can't find parameters for element");
+            $param = $this->mapParams[$this->findKeyParam];
+            $element = $context->find(sprintf($this->param, strlen($param), $param), Locator::SELECTOR_XPATH);
+            $this->findKeyParam += 1;
+        } while (!$element->isVisible());
+
+        return $element;
+    }
+
+    /**
+     * Reset key of last find param
+     *
+     * @return void
+     */
+    protected function resetKeyParam()
+    {
+        $this->findKeyParam = 0;
     }
 
     /**
      * Wait loader
+     *
+     * @return void
      */
     protected function waitLoader()
     {
@@ -314,6 +353,8 @@ class ConditionsElement extends AbstractElement
 
     /**
      * Clear conditions
+     *
+     * @return void
      */
     protected function clear()
     {

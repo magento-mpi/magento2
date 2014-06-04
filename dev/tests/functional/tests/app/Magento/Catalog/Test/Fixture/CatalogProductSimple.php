@@ -548,6 +548,12 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -831,5 +837,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }
