@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\ProductAttributeType;
-
 /**
  * Class ProductAttributeReadServiceInterface
  * @package Magento\Catalog\Service\V1

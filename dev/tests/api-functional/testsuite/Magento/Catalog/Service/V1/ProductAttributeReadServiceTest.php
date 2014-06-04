@@ -9,7 +9,6 @@ namespace Magento\Catalog\Service\V1;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
 
 /**
  * Class ProductAttributeReadServiceTest
