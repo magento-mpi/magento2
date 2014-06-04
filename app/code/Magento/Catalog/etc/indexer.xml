@@ -28,4 +28,8 @@
         <title translate="true">Product Price</title>
         <description translate="true">Index product prices</description>
     </indexer>
+    <indexer id="catalog_product_stock" view_id="catalog_product_stock" class="Magento\Catalog\Model\Indexer\Product\Stock">
+        <title translate="true">Product Stock</title>
+        <description translate="true">Index product stock</description>
+    </indexer>
 </config>
