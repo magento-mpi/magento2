@@ -143,7 +143,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      */
     protected function calculatePriceInclTax($storePriceInclTax, $storeRate, $customerRate)
     {
-
+        $storeTax = $this->calculator->calcTaxAmount($storePriceInclTax, $storeRate, true, false);
+        $priceExclTax = $storePriceInclTax - $storeTax;
+        $customerTax = $this->calculator->calcTaxAmount($priceExclTax, $customerRate, false, false);
+        $customerPriceInclTax = $this->calculator->round($priceExclTax + $customerTax);
+        return $customerPriceInclTax;
     }
 
 }
