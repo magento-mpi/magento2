@@ -36,6 +36,13 @@ class Checkout
     const PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT = 'paypal_ec_create_ba';
 
     /**
+     * Flag which says that was used PayPal Express Checkout button for checkout
+     * Uses additional_information as storage
+     * @var string
+     */
+    const PAYMENT_INFO_BUTTON = 'button';
+
+    /**
      * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
@@ -563,18 +570,6 @@ class Checkout
 
         $this->_ignoreAddressValidation();
 
-        // import billing address
-        $billingAddress = $quote->getBillingAddress();
-        $exportedBillingAddress = $this->_api->getExportedBillingAddress();
-        $quote->setCustomerEmail($billingAddress->getEmail());
-        $quote->setCustomerPrefix($billingAddress->getPrefix());
-        $quote->setCustomerFirstname($billingAddress->getFirstname());
-        $quote->setCustomerMiddlename($billingAddress->getMiddlename());
-        $quote->setCustomerLastname($billingAddress->getLastname());
-        $quote->setCustomerSuffix($billingAddress->getSuffix());
-        $quote->setCustomerNote($exportedBillingAddress->getData('note'));
-        $this->_setExportedAddressData($billingAddress, $exportedBillingAddress);
-
         // import shipping address
         $exportedShippingAddress = $this->_api->getExportedShippingAddress();
         if (!$quote->getIsVirtual()) {
@@ -601,6 +596,33 @@ class Checkout
                 );
             }
         }
+
+        // import billing address
+        $portBillingFromShipping = $quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_BUTTON) == 1
+            && $this->_config->getConfigValue(
+                'requireBillingAddress'
+            ) != \Magento\Paypal\Model\Config::REQUIRE_BILLING_ADDRESS_ALL
+            && !$quote->isVirtual();
+        if ($portBillingFromShipping) {
+            $billingAddress = clone $shippingAddress;
+            $billingAddress->unsAddressId()
+                ->unsAddressType();
+            $data = $billingAddress->getData();
+            $data['save_in_address_book'] = 0;
+            $quote->getBillingAddress()->addData($data);
+            $quote->getShippingAddress()->setSameAsBilling(1);
+        } else {
+            $billingAddress = $quote->getBillingAddress();
+        }
+        $exportedBillingAddress = $this->_api->getExportedBillingAddress();
+        $quote->setCustomerEmail($billingAddress->getEmail());
+        $quote->setCustomerPrefix($billingAddress->getPrefix());
+        $quote->setCustomerFirstname($billingAddress->getFirstname());
+        $quote->setCustomerMiddlename($billingAddress->getMiddlename());
+        $quote->setCustomerLastname($billingAddress->getLastname());
+        $quote->setCustomerSuffix($billingAddress->getSuffix());
+        $quote->setCustomerNote($exportedBillingAddress->getData('note'));
+        $this->_setExportedAddressData($billingAddress, $exportedBillingAddress);
 
         // import payment info
         $payment = $quote->getPayment();
@@ -687,41 +709,9 @@ class Checkout
             if ($methodCode != $shippingAddress->getShippingMethod()) {
                 $this->_ignoreAddressValidation();
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
-                $this->_quote->collectTotals();
+                $this->_quote->collectTotals()->save();
             }
         }
-    }
-
-    /**
-     * Update order data
-     *
-     * @param array $data
-     * @return void
-     */
-    public function updateOrder($data)
-    {
-        /** @var $checkout \Magento\Checkout\Model\Type\Onepage */
-        $checkout = $this->_checkoutOnepageFactory->create();
-
-        $this->_quote->setTotalsCollectedFlag(true);
-        $checkout->setQuote($this->_quote);
-        if (isset($data['billing'])) {
-            if (isset($data['customer-email'])) {
-                $data['billing']['email'] = $data['customer-email'];
-            }
-            $checkout->saveBilling($data['billing'], 0);
-        }
-        if (!$this->_quote->getIsVirtual() && isset($data['shipping'])) {
-            $checkout->saveShipping($data['shipping'], 0);
-        }
-
-        if (isset($data['shipping_method'])) {
-            $this->updateShippingMethod($data['shipping_method']);
-        }
-        $this->_quote->setTotalsCollectedFlag(false);
-        $this->_quote->collectTotals();
-        $this->_quote->setDataChanges(true);
-        $this->_quote->save();
     }
 
     /**
