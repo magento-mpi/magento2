@@ -20,4 +20,10 @@
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>treeCategories</name>
+        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock</class>
+        <locator>#tree-div</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

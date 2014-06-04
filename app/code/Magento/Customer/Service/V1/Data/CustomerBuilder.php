@@ -27,16 +27,16 @@ class CustomerBuilder extends AbstractObjectBuilder
     protected $_metadataService;
 
     /**
-     * Initialize dependencies.
-     *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param AttributeValueBuilder $valueBuilder
      * @param CustomerMetadataServiceInterface $metadataService
      */
     public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         CustomerMetadataServiceInterface $metadataService
     ) {
-        parent::__construct($valueBuilder);
+        parent::__construct($objectFactory, $valueBuilder);
         $this->_metadataService = $metadataService;
     }
 
