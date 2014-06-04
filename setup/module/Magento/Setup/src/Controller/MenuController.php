@@ -8,10 +8,12 @@
 namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
 class MenuController extends AbstractActionController
 {
+    /**
+     * @return array|\Zend\Stdlib\ResponseInterface
+     */
     public function indexAction()
     {
         $items = array(
@@ -72,6 +74,10 @@ class MenuController extends AbstractActionController
         return $response;
     }
 
+    /**
+     * @param array $arguments
+     * @return \stdClass
+     */
     protected function getItemObject($arguments)
     {
         $item = new \stdClass();

@@ -22,10 +22,4 @@ return [
             'setup' => __DIR__ . '/../view',
         ],
     ],
-    'service_manager' => [
-        'factories' => [
-            'ControllerLoader' => 'Magento\Setup\Service\ControllerLoaderFactory',
-            'DiStrictAbstractServiceFactory' => 'Magento\Setup\Service\DiStrictAbstractServiceFactoryFactory',
-        ],
-    ],
 ];

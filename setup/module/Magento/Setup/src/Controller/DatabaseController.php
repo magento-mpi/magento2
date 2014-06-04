@@ -12,11 +12,26 @@ use Zend\View\Model\ViewModel;
 
 class DatabaseController extends AbstractActionController
 {
+    /**
+     * @var \Zend\View\Model\ViewModel
+     */
+    protected $view;
+
+    /**
+     * @param ViewModel $view
+     */
+    public function __construct(ViewModel $view)
+    {
+        $this->view = $view;
+    }
+
+    /**
+     * @return array|ViewModel
+     */
     public function indexAction()
     {
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true);
+        $this->view->setTerminal(true);
 
-        return $viewModel;
+        return $this->view;
     }
 }
