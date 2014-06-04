@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\Review\Test\Page\Adminhtml\RatingNew</class>
     </ratingNew>
+    <ratingEdit>
+        <mca>review/rating/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Review\Test\Page\Adminhtml\RatingEdit</class>
+    </ratingEdit>
 </page>

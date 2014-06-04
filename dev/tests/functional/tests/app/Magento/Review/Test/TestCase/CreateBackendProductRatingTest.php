@@ -10,6 +10,7 @@ namespace Magento\Review\Test\TestCase;
 
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\RatingNew;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Review\Test\Fixture\Rating;
 use Mtf\TestCase\Injectable;
@@ -36,17 +37,51 @@ use Mtf\TestCase\Injectable;
 class CreateBackendProductRatingTest extends Injectable
 {
     /**
-     * Run create backend Product Rating test
+     * @var Rating
+     */
+    protected $productRating;
+
+    /**
+     * @var RatingIndex
+     */
+    protected $ratingIndex;
+
+    /**
+     * @var RatingNew
+     */
+    protected $ratingNew;
+
+    /**
+     * @var RatingEdit
+     */
+    protected $ratingEdit;
+
+    /**
+     * Injection data
      *
      * @param RatingIndex $ratingIndex
      * @param RatingNew $ratingNew
+     * @param RatingEdit $ratingEdit
+     * @return void
+     */
+    public function __inject(
+        RatingIndex $ratingIndex,
+        RatingNew $ratingNew,
+        RatingEdit $ratingEdit
+    ) {
+        $this->ratingIndex = $ratingIndex;
+        $this->ratingNew = $ratingNew;
+        $this->ratingEdit = $ratingEdit;
+    }
+
+    /**
+     * Run create backend Product Rating test
+     *
      * @param CatalogProductSimple $product
      * @param Rating $productRating
      * @return void
      */
     public function testCreateBackendProductRating(
-        RatingIndex $ratingIndex,
-        RatingNew $ratingNew,
         CatalogProductSimple $product,
         Rating $productRating
     ) {
@@ -54,9 +89,25 @@ class CreateBackendProductRatingTest extends Injectable
         $product->persist();
 
         // Steps
-        $ratingIndex->open();
-        $ratingIndex->getGridPageActions()->addNew();
-        $ratingNew->getRatingForm()->fill($productRating);
-        $ratingNew->getPageActions()->save();
+        $this->ratingIndex->open();
+        $this->ratingIndex->getGridPageActions()->addNew();
+        $this->ratingNew->getRatingForm()->fill($productRating);
+        $this->ratingNew->getPageActions()->save();
+
+        // Prepare data for tear down
+        $this->productRating = $productRating;
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $filter = ['rating_code' => $this->productRating->getRatingCode()];
+        $this->ratingIndex->open();
+        $this->ratingIndex->getRatingGrid()->searchAndOpen($filter);
+        $this->ratingEdit->getPageActions()->delete();
     }
 }
