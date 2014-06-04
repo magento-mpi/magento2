@@ -304,7 +304,7 @@ class TestIfCase{
             $files = array_merge($files,glob($this->_path . '/*.php', GLOB_NOSORT),
                 glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                 self::getFiles(array("{$this->_path}/downloader"), '*.php'),
-                self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+                self::getFiles(array("{$this->_path}/lib/internal/{Mage,Magento,Varien}"), '*.php')
             );
         }}}
 ORIGINALCODESNIPPET;
@@ -320,7 +320,7 @@ class TestIfCase
                 glob($this->_path . '/*.php', GLOB_NOSORT),
                 glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                 self::getFiles(array("{$this->_path}/downloader"), '*.php'),
-                self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+                self::getFiles(array("{$this->_path}/lib/internal/{Mage,Magento,Varien}"), '*.php')
             );
         }
     }

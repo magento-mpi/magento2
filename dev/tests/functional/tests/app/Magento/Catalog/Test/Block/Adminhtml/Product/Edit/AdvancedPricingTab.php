@@ -50,8 +50,8 @@ class AdvancedPricingTab extends Tab
                     ++$key;
                     $optionsForm->fillOptions(
                         $option,
-                        $this->_rootElement->find('#attribute-' .
-                            $fieldName . '-container tbody tr:nth-child(' . $key . ')'
+                        $this->_rootElement->find(
+                            '#attribute-' . $fieldName . '-container tbody tr:nth-child(' . $key . ')'
                         )
                     );
                 }
@@ -86,8 +86,8 @@ class AdvancedPricingTab extends Tab
                 foreach ($field['value'] as $key => $option) {
                     $formData[$fieldName][$key++] = $optionsForm->getDataOptions(
                         $option,
-                        $this->_rootElement->find('#attribute-' .
-                            $fieldName . '-container tbody tr:nth-child(' . $key . ')'
+                        $this->_rootElement->find(
+                            '#attribute-' . $fieldName . '-container tbody tr:nth-child(' . $key . ')'
                         )
                     );
                 }

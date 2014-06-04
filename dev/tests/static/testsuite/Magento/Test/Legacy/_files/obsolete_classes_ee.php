@@ -121,4 +121,8 @@ return array(
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid'),
     array('Magento\TargetRule\Model\Resource\Setup'),
     array('Magento\Enterprise\Model\Resource\Setup\Migration'),
+    ['Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PayflowDirect'],
+    ['Magento\PbridgePaypal\Block\Checkout\Payment\PayflowDirect'],
+    ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect'],
+    ['Magento\PbridgePaypal\Model\Payment\Method\Payflow']
 );

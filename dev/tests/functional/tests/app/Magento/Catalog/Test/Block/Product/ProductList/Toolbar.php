@@ -11,7 +11,7 @@ namespace Magento\Catalog\Test\Block\Product\ProductList;
 use Mtf\Block\Block;
 
 /**
- * Class ProductPagination
+ * Class Toolbar
  * Toolbar the product list page
  */
 class Toolbar extends Block
@@ -38,4 +38,4 @@ class Toolbar extends Block
 
         return false;
     }
-} 
+}

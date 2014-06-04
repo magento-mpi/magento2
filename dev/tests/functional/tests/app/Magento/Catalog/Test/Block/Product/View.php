@@ -222,8 +222,9 @@ class View extends Block
      */
     public function getProductPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\Price',
+            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
         );
     }
 
@@ -336,7 +337,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**
