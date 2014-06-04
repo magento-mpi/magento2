@@ -146,14 +146,6 @@ class CatalogProductView extends AbstractCatalogProductView
     }
 
     /**
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\Links
-     */
-    public function getDownloadableLinksSelector()
-    {
-        return $this->getBlockInstance('downloadableLinksSelector');
-    }
-
-    /**
      * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
      */
     public function getCustomOptions()
