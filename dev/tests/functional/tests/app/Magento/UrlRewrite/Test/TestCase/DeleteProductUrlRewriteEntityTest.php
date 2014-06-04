@@ -33,7 +33,7 @@ use Mtf\TestCase\Injectable;
  * @group URL_Rewrites_(PS)
  * @ZephyrId  MAGETWO-23287
  */
-class DeleteProductUrlRewritesEntityTest extends Injectable
+class DeleteProductUrlRewriteEntityTest extends Injectable
 {
     /**
      * Url rewrite index page
@@ -87,7 +87,7 @@ class DeleteProductUrlRewritesEntityTest extends Injectable
      * @param UrlRewrite $productRedirect
      * @return void
      */
-    public function testDeleteProductUrlRewrites(UrlRewrite $productRedirect)
+    public function testDeleteProductUrlRewrite(UrlRewrite $productRedirect)
     {
         $this->urlRewriteIndex->open();
         $filter = ['request_path' => $productRedirect->getRequestPath()];

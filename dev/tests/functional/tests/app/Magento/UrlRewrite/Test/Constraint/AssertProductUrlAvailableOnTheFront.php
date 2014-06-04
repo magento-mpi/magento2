@@ -42,9 +42,9 @@ class AssertProductUrlAvailableOnTheFront extends AbstractConstraint
         $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());
         \PHPUnit_Framework_Assert::assertEquals(
             $catalogProductView->getTitleBlock()->getTitle(),
-            $urlRewrite->getProducts()[0]['name'],
+            $urlRewrite->getDataFieldConfig('product_id')['source']->getProduct()->getName(),
             'URL rewrite product redirect false.'
-            . "\nExpected: " . $urlRewrite->getProducts()[0]['name']
+            . "\nExpected: " . $urlRewrite->getDataFieldConfig('product_id')['source']->getProduct()->getName()
             . "\nActual: " . $catalogProductView->getTitleBlock()->getTitle()
         );
     }

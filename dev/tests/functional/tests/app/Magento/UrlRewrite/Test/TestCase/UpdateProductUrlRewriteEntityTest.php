@@ -34,7 +34,7 @@ use Mtf\Fixture\FixtureFactory;
  * @group URL_Rewrites_(PS)
  * @ZephyrId MAGETWO-24819
  */
-class UpdateProductUrlRewritesEntityTest extends Injectable
+class UpdateProductUrlRewriteEntityTest extends Injectable
 {
     /**
      * Url rewrite index page
@@ -72,7 +72,7 @@ class UpdateProductUrlRewritesEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @return void
      */
-    public function testUpdateProductUrlRewrites(
+    public function testUpdateProductUrlRewrite(
         UrlRewrite $urlRewrite,
         FixtureFactory $fixtureFactory
     ) {
@@ -81,7 +81,7 @@ class UpdateProductUrlRewritesEntityTest extends Injectable
             'urlRewrite',
             [
                 'dataSet' => 'default',
-                'data' => ['id_path' => 'product/' . $urlRewrite->getProducts()[0]['id']]
+                'data' => ['id_path' => 'product/' . $urlRewrite->getProductId()]
             ]
         );
         $productRedirect->persist();
