@@ -72,12 +72,12 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set quantity
      *
-     * @param int $qty
+     * @param int $quantity
      * @return $this
      */
-    public function setQty($qty)
+    public function setQuantity($quantity)
     {
-        return $this->_set(Item::KEY_QTY, $qty);
+        return $this->_set(Item::KEY_QUANTITY, $quantity);
     }
 
     /**
