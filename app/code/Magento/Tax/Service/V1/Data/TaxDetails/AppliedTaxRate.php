@@ -33,7 +33,7 @@ class AppliedTaxRate extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get Title
      *
-     * @return int|null
+     * @return string|null
      */
     public function getTitle()
     {
