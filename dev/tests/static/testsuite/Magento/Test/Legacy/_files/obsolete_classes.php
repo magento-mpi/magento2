@@ -2597,6 +2597,7 @@ return array(
         'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css\Group',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'
     ],
+    ['Magento\Framework\Filter\GridArray\Grid'],
     ['Magento\Css\PreProcessor\Composite'],
     ['Magento\Css\PreProcessor\UrlResolver', 'Magento\Framework\View\Asset\PreProcessor\ModuleNotation'],
     ['Magento\Less\PreProcessor\File\FileList'],
