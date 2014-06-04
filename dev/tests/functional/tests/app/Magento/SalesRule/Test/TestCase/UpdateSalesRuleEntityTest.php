@@ -78,7 +78,7 @@ class UpdateSalesRuleEntityTest extends Injectable
      *
      * @param PromoQuoteIndex $promoQuoteIndex
      * @param PromoQuoteEdit $promoQuoteEdit
-     * return void
+     * @return void
      */
     public function __inject(
         PromoQuoteIndex $promoQuoteIndex,
