@@ -40,10 +40,10 @@ class Advanced extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        if ($this->_rootElement->find($this->propertiesTabActive)->isVisible()) {
-            return parent::fillFormTab($fields);
+        if (!$this->_rootElement->find($this->propertiesTabActive)->isVisible()) {
+            $this->_rootElement->find($this->propertiesTab)->click();
         }
-        $this->_rootElement->find($this->propertiesTab)->click();
+
         return parent::fillFormTab($fields);
     }
 }
