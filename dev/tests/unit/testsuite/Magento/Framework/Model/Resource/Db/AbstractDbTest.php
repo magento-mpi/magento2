@@ -279,8 +279,9 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
             true,
             ['__wakeup', 'getId']
         );
-        $this->_resourcesMock->expects($this->any())->method('getConnection')->will(
-            $this->returnValue($adapterInterfaceMock)
+        $this->_resourcesMock->expects($this->any())
+            ->method('getConnection')
+            ->will($this->returnValue($adapterInterfaceMock)
         );
         $data = 'tableName';
         $this->_resourcesMock->expects($this->any())->method('getTableName')->with($data)->will(
@@ -300,12 +301,13 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
         $idFieldNameReflection->setValue($this->_model, 'idFieldName');
         $adapterInterfaceMock->expects($this->any())->method('delete')->with('tableName', 'idFieldName');
         $adapterInterfaceMock->expects($this->any())->method('quoteInto')->will($this->returnValue('idFieldName'));
-
-        $this->assertInstanceOf('Magento\Framework\Model\Resource\Db\AbstractDb',
-            $this->_model->delete($abstractModelMock));
+        $this->assertInstanceOf(
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
+            $this->_model->delete($abstractModelMock)
+        );
     }
 
-    public function testGetDataChangedNegative()
+    public function testHasDataChangedNegative()
     {
         $contextMock = $this->getMock('\Magento\Framework\Model\Context', [], [], '', false);
         $registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
@@ -351,8 +353,7 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
         $this->_resourcesMock->expects($this->once())
             ->method('getTableName')
             ->with('table')
-            ->will(
-                $this->returnValue('tableName')
+            ->will($this->returnValue('tableName')
             );
         $abstractModelMock->expects($this->at(0))->method('getOrigData')->will($this->returnValue(true));
         $abstractModelMock->expects($this->at(1))->method('getOrigData')->will($this->returnValue($getOriginData));
@@ -365,12 +366,8 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
     public function hasDataChangedDataProvider()
     {
         return [
-            [
-                true, true
-            ],
-            [
-                null, false
-            ]
+            [true, true],
+            [null, false]
         ];
     }
 }
