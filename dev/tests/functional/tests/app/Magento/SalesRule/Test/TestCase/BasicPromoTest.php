@@ -41,12 +41,12 @@ class BasicPromoTest extends Functional
         $customerSegmentConditionFixture->switchData('retailer_condition_curl');
         Factory::getApp()->magentoCustomerSegmentCustomerSegmentCondition($customerSegmentConditionFixture);
         // Open the backend page to create a sales rule
-        $salesRulePage = Factory::getPageFactory()->getSalesRulePromoQuote();
+        $salesRulePage = Factory::getPageFactory()->getSalesRulePromoQuoteIndex();
         $salesRulePage->open();
         // Click on Plus Sign
-        $salesRulePage->getActionsBlock()->addNew();
+        $salesRulePage->getGridPageActions()->addNew();
         $salesRulePageNew = Factory::getPageFactory()->getSalesRulePromoQuoteNew();
-        $newSalesRuleForm = $salesRulePageNew->getPromoQuoteForm();
+        $newSalesRuleForm = $salesRulePageNew->getSalesRuleForm();
         // Use fixture to populate
         $newSalesRuleForm->fill($fixture);
         // Setup Condition open tab
@@ -57,8 +57,8 @@ class BasicPromoTest extends Functional
         $newSalesRuleForm->openTab('actions');
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
         $conditionsFixture->switchData(Repository::ACTIONS);
-        $salesRulePageNew->getPromoQuoteForm()->fill($conditionsFixture);
-        $salesRulePageNew->getPageActionsBlock()->save();
+        $salesRulePageNew->getSalesRuleForm()->fill($conditionsFixture);
+        $salesRulePageNew->getFormPageActions()->save();
         // Verify success message
         $this->assertContains(
             'The rule has been saved.',
