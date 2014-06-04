@@ -35,6 +35,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => '100_dollar_product%isolation%',
             'type_id' => 'simple',
             'attribute_set_id' => 'Default',
+            'quantity_and_stock_status' => 'In Stock',
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
         ];
@@ -44,6 +45,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => '40_dollar_product',
             'type_id' => 'simple',
             'attribute_set_id' => 'Default',
+            'quantity_and_stock_status' => 'In Stock',
             'price' => ['value' => 40, 'preset' => '-'],
             'id' => '2',
             'mtf_dataset_name' => '40_dollar_product',
@@ -55,6 +57,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'simple_with_category',
             'type_id' => 'simple',
             'attribute_set_id' => 'Default',
+            'quantity_and_stock_status' => 'In Stock',
             'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
             'id' => '3',
             'category_ids' => ['presets' => 'default'],
@@ -75,7 +78,8 @@ class CatalogProductSimple extends AbstractRepository
 
         $this->_data['simple_for_salesrule_1'] = [
             'type_id' => 'simple',
-            'attribute_set_id' => '4',
+            'attribute_set_id' => 'Default',
+            'quantity_and_stock_status' => 'In Stock',
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
             'price' => ['value' => 100, 'preset' => ''],
