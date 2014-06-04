@@ -5,16 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\SalesRule\Test\Block\Adminhtml\Promo;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Quote
- *
+ * Class Grid
+ * Backend sales rule grid
  */
-class Quote extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Id of a row selector
@@ -22,16 +23,29 @@ class Quote extends Grid
      * @var string
      */
     protected $rowIdSelector = 'td.col-rule_id';
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $filters = array('name' => array('selector' => '#promo_quote_grid_filter_name'));
-
+    
     /**
      * @var string
      */
     protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
+    
+    /**
+     * Filters array mapping
+     *
+     * @var array
+     */
+    protected $filters = [
+        'name' => [
+            'selector' => '#promo_quote_grid_filter_name',
+        ]
+    ];
+
+    /**
+     * Locator value for link in sales rule name column
+     *
+     * @var string
+     */
+    protected $editLink = 'td[class*=col-name]';
 
     /**
      * Return the id of the row that matched the search filter

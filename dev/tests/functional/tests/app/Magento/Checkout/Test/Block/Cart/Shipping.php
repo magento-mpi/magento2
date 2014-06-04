@@ -11,6 +11,7 @@ namespace Magento\Checkout\Test\Block\Cart;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class Shipping
@@ -51,7 +52,7 @@ class Shipping extends Form
      *
      * @var string
      */
-    protected $shippingMethodSelector = '//span[text()="%s"]/following::*[contains(text(), "%s")]';
+    protected $shippingMethod = '//span[text()="%s"]/following::*//*[contains(text(), "%s")]';
 
     /**
      * From with shipping available shipping methods
@@ -85,19 +86,30 @@ class Shipping extends Form
     /**
      * Select shipping method
      *
-     * @param $shipping
+     * @param array $shipping
      * @return void
      */
-    public function selectShippingMethod($shipping)
+    public function selectShippingMethod(array $shipping)
     {
-        $shippingMethod = $this->_rootElement->find(
-            sprintf($this->shippingMethodSelector, $shipping['carrier'], $shipping['method']),
-            Locator::SELECTOR_XPATH
-        );
-        if ($shippingMethod->isVisible()) {
-            $shippingMethod->click();
-            $this->_rootElement->find($this->updateTotalSelector, Locator::SELECTOR_CSS)->click();
+        $selector = sprintf($this->shippingMethod, $shipping['carrier'], $shipping['method']);
+        if (!$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible()) {
+            $this->openEstimateShippingAndTax();
         }
+        $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->updateTotalSelector, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Fill shipping and tax form
+     *
+     * @param AddressInjectable $address
+     * @return void
+     */
+    public function fillEstimateShippingAndTax(AddressInjectable $address)
+    {
+        $this->openEstimateShippingAndTax();
+        $this->fill($address);
+        $this->clickGetQuote();
     }
 
     /**
@@ -115,9 +127,7 @@ class Shipping extends Form
                 return $shippingMethodForm->isVisible() ? true : null;
             }
         );
-        return $this->_rootElement->find(
-            sprintf($this->shippingMethodSelector, $carrier, $method),
-            Locator::SELECTOR_XPATH
-        )->isVisible();
+        $selector = sprintf($this->shippingMethod, $carrier, $method);
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
