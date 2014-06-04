@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-
 /**
  * Class ProductAttributeServiceInterface
  * @package Magento\Catalog\Service\V1

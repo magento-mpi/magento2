@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-
 /**
  * Class ProductAttributeService
  * @package Magento\Catalog\Service\V1
@@ -18,7 +17,6 @@ class ProductAttributeService implements ProductAttributeServiceInterface
      * @var ProductMetadataServiceInterface
      */
     private $metadataService;
-
 
     /**
      * @param ProductMetadataServiceInterface $metadataService

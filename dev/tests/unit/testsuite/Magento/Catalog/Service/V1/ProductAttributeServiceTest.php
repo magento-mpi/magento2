@@ -21,14 +21,16 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
 
         $attributeCode = 'attr_code';
         $metadataServiceMock = $this->getMock(
-            'Magento\Catalog\Service\V1\ProductMetadataService', array('getAttributeMetadata'),
+            'Magento\Catalog\Service\V1\ProductMetadataService',
+            array('getAttributeMetadata'),
             array(),
             '',
             false
         );
 
         $mock = $this->getMock(
-            'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata', array('getOptions'),
+            'Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata',
+            array('getOptions'),
             array(),
             '',
             false
@@ -44,9 +46,7 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
                 ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
                 $attributeCode
             )
-        ->will($this->returnValue($mock));
-
-
+            ->will($this->returnValue($mock));
 
         /** @var \Magento\Catalog\Service\V1\ProductAttributeServiceInterface $service */
         $service = $objectManager->getObject(
