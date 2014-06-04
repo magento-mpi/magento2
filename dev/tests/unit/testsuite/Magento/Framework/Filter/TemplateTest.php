@@ -17,8 +17,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $templateFilter = $objectManager->getObject('Magento\Framework\Filter\Template');
         $templateFilter->setVariables(
             [
-                'firstname' => 'Felicia',
-                'lastname' => 'Henry',
+                'customer' => new \Magento\Framework\Object(['firstname' => 'Felicia', 'lastname' => 'Henry']),
                 'company' => 'A. L. Price',
                 'street1' => '687 Vernon Street',
                 'city' => 'Parker Dam',
@@ -29,7 +28,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         $template = <<<TEMPLATE
-{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}
+{{var customer.firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var customer.getLastname()}}
 {{depend company}}{{var company}}{{/depend}}
 {{if street1}}{{var street1}}
 {{/if}}
