@@ -69,7 +69,7 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->getData()['dataMerged'];
         $item = $data[QuoteDetails::KEY_ITEMS];
-        $data[QuoteDetails::KEY_ITEMS];
+        unset($data[QuoteDetails::KEY_ITEMS]);
 
         return [
             'withEmptyData' => [[],[]],
