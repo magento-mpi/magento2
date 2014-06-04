@@ -35,7 +35,13 @@
     max-width: @_layout-max-width;
 }
 
-#layout-columns() when (@use-flex = false)  {
+#layout-columns() {
+    & when (@use-flex = true) {
+        .box-sizing();
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    };
     &:after {
         content: " ";
         display: block;
@@ -44,16 +50,6 @@
         overlow: hidden;
         visibility: hidden;
     }
-}
-
-#layout-columns() {
-    & when (@use-flex = true) {
-        .box-sizing();
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    };
-
     .main() {
         .@{layout-class-1column} & {
             .layout-column(1, 2, 100%);
@@ -118,14 +114,14 @@
     }
 }
 
-.flex-degradation(@_total-columns, @_order) when (@use-flex = false) and (@_order = 1) {
+.flex-degradation(@_total-columns, @_order) when (@_order = 1) {
     float: left;
 }
 
-.flex-degradation(@_total-columns, @_order) when (@use-flex = false) and (@_order = @_total-columns) {
+.flex-degradation(@_total-columns, @_order) when (@_order = @_total-columns) {
     float: right;
 }
 
-.flex-degradation(@_total-columns, @_order) when (@use-flex = false) and (@_total-columns = 3) and (@_order = 2) {
+.flex-degradation(@_total-columns, @_order) when (@_total-columns = 3) and (@_order = 2) {
     display: inline-block;
 }

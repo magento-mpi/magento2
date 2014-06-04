@@ -6,8 +6,8 @@
 //  * @license     {license_link}
 //  */
 
-@layout-column-left-offset: 2%;
-@layout-column-right-offset: @layout-column-left-offset;
+@layout-column-main-sidebar-offset: 2%;
+@layout-column-additional-sidebar-offset: @layout-column-main-sidebar-offset;
 
 .navigation > ul,
 .breadcrumbs,
@@ -39,12 +39,24 @@
 
 .columns {
     #layout-columns();
-    > .column {
-        &:extend(.add-box-sizing all);
-        .css(padding-bottom, @indent-xl-base);
-    }
     .column.main {
+        &:extend(.add-box-sizing all);
+        flex-basis: 100%;
+        .css(padding-bottom, @indent-xl-base);
         min-height: 300px;
+        order: 1;
+    }
+    .sidebar-main {
+        &:extend(.add-box-sizing all);
+        flex-basis: 100%;
+        .css(padding-bottom, @indent-xl-base);
+        order: 0;
+    }
+    .sidebar-additional {
+        &:extend(.add-box-sizing all);
+        flex-basis: 100%;
+        .css(padding-bottom, @indent-xl-base);
+        order: 2;
     }
 }
 
@@ -83,19 +95,42 @@
         max-width: @layout-max-width;
     }
 
+    .columns {
+        display: block;
+    }
+
     .column.main {
         #layout-columns > .main();
+        &:extend(.add-box-sizing-desktop all);
     }
 
-    .column.left {
+    .sidebar-main {
         #layout-columns > .left();
-        padding-right: @layout-column-left-offset;
+        padding-right: @layout-column-main-sidebar-offset;
+        &:extend(.add-box-sizing-desktop all);
     }
 
-    .column.right {
-        #layout-columns > .right();
-        padding-left: @layout-column-right-offset;
+    .layout-2-right .sidebar-main {
+        padding-right: 0;
+        padding-left: @layout-column-main-sidebar-offset;
     }
+
+    .sidebar-additional {
+        #layout-columns > .right();
+        padding-left: @layout-column-additional-sidebar-offset;
+        clear: right;
+        &:extend(.add-box-sizing-desktop all);
+    }
+
+    .layout-2-left {
+        .sidebar-additional {
+            padding-right: @layout-column-additional-sidebar-offset;
+            padding-left: 0;
+            clear: left;
+            float: left;
+        }
+    }
+
     .page.header {
         .panel.wrapper {
             position: relative;

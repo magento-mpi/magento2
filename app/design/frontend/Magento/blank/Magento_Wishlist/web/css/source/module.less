@@ -103,7 +103,10 @@
         font-size: 12px;
         white-space: nowrap;
     }
-    .column.sidebar & .subtitle {
-        display: none;
+    .sidebar-main &,
+    .sidebar-additional & {
+        .subtitle {
+            display: none;
+        }
     }
 }

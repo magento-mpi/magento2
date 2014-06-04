@@ -41,7 +41,8 @@
     }
     form {
         .actions.toolbar {
-            .column:not(.sidebar) & {
+            .column:not(.sidebar-main) &,
+            .column:not(.sidebar-additional) & {
                 &:extend(.margin-for-forms-desktop all);
             }
         }
