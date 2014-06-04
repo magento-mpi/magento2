@@ -66,7 +66,7 @@ class Config extends Tab
      * @param string $attributeName
      * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Attribute
      */
-    protected function getAttributeBlock($attributeName)
+    public function getAttributeBlock($attributeName)
     {
         $attributeSelector = sprintf($this->attribute, $attributeName);
         $this->waitForElementVisible($attributeSelector, Locator::SELECTOR_XPATH);
@@ -116,7 +116,7 @@ class Config extends Tab
         }
         $this->fillAttributeOptions($attributes);
         $this->generateVariations();
-        if(isset($fields['variations-matrix']['value'])) {
+        if (isset($fields['variations-matrix']['value'])) {
             $this->fillVariationsMatrix($fields['variations-matrix']['value']);
         }
 

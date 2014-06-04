@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\ConfigurableProduct\Test\Constraint;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
@@ -72,12 +72,9 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
         $productBlockForm = $newProductPage->getForm();
         $productBlockForm->fill($productConfigurable);
 
-        \PHPUnit_Framework_Assert::assertEquals(
-            $this->attributeFrontendLabel,
-            $newProductPage->getForm()->findAttribute(),
-            'Product attribute not found.'
-            . "\nExpected: " . $this->attributeFrontendLabel
-            . "\nActual: " . $newProductPage->getForm()->findAttribute()
+        \PHPUnit_Framework_Assert::assertTrue(
+            $newProductPage->getForm()->findAttribute($this->attributeFrontendLabel),
+            "Product Attribute is absent on Product page."
         );
     }
 
