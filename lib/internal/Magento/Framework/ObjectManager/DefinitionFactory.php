@@ -15,6 +15,7 @@ use Magento\Framework\ObjectManager\Definition\Runtime;
 use Magento\Framework\ObjectManager\Relations;
 use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
+use Magento\Framework\ObjectManager\Profiler\Code\Generator as ProfilerGenerator;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -107,7 +108,10 @@ class DefinitionFactory
                 array(
                     Generator\Factory::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
                     Generator\Proxy::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor'
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE
+                        => '\Magento\Framework\Interception\Code\Generator\Interceptor',
+                    ProfilerGenerator\Logger::ENTITY_TYPE
+                        => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
