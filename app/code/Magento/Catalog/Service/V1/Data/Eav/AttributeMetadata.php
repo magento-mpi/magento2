@@ -101,6 +101,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Retrieve is system attribute flag
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsSystem()
     {
@@ -131,6 +132,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether attribute is visible on frontend.
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsVisible()
     {
@@ -141,6 +143,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether attribute is required.
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsRequired()
     {
@@ -161,6 +164,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether current attribute has been defined by a user.
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsUserDefined()
     {
@@ -331,6 +335,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Enable WYSIWYG flag
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsWysiwygEnabled()
     {
@@ -341,6 +346,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether the HTML tags are allowed on the frontend
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsHtmlAllowedOnFront()
     {
@@ -351,6 +357,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether it is used for sorting in product listing
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getUsedForSortBy()
     {
@@ -361,6 +368,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether it used in layered navigation
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsFilterable()
     {
@@ -371,6 +379,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether it is used in search results layered navigation
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.MethodNamingConventions)
      */
     public function getIsFilterableInSearch()
     {

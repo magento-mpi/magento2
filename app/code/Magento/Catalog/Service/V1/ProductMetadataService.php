@@ -154,9 +154,9 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             )
         );
         if (is_array($attribute->getStoreLabels())) {
-            foreach ($attribute->getStoreLabels() as $store_id => $label) {
+            foreach ($attribute->getStoreLabels() as $storeId => $label) {
                 $data[AttributeMetadata::FRONTEND_LABEL][] = array(
-                    'store_id' => $store_id,
+                    'store_id' => $storeId,
                     'label' => $label
                 );
             }

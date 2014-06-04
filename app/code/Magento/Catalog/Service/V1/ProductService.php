@@ -18,6 +18,7 @@ use Magento\Catalog\Model\Resource\Product\Collection;
 /**
  * Class ProductService
  * @package Magento\Catalog\Service\V1
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ProductService implements ProductServiceInterface
 {
