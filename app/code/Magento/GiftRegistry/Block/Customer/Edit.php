@@ -9,7 +9,6 @@ namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer giftregistry list block
- *
  */
 class Edit extends \Magento\Directory\Block\Data
 {
@@ -201,7 +200,7 @@ class Edit extends \Magento\Directory\Block\Data
         if ($area) {
             $params['area'] = $area;
         }
-        $templateName = $this->_viewFileSystem->getFilename($template, $params);
+        $templateName = $this->_viewFileSystem->getTemplateFileName($template, $params);
 
         $this->_inputTemplates[$type] = $templateName;
         return $this;

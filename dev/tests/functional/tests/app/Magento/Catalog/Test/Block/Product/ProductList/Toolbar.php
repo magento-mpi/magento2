@@ -38,4 +38,4 @@ class Toolbar extends Block
 
         return false;
     }
-} 
+}

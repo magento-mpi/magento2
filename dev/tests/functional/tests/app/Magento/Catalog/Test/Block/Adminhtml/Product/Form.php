@@ -155,11 +155,18 @@ class Form extends FormTabs
         }
 
         $category = $this->_rootElement->find(
-            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
+            str_replace(
+                '%categoryName%',
+                $categoryName,
+                $this->categoryName
+            ),
+            Locator::SELECTOR_XPATH
         );
         if (!$category->isVisible()) {
             $this->fillCategoryField(
-                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
+                $categoryName,
+                'category_ids-suggest',
+                '//*[@id="attribute-category_ids-container"]'
             );
         }
     }

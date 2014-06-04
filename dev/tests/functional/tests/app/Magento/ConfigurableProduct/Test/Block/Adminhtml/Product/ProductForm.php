@@ -16,7 +16,6 @@ use Mtf\Util\XmlConverter;
 use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Form;
 use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 
@@ -27,19 +26,12 @@ use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 class ProductForm extends Form
 {
     /**
-     * 'Save' split button
-     *
-     * @var string
-     */
-    protected $saveButton = '#save-split-button-button';
-
-    /**
      * New attribute selector
      *
      * @var string
      */
     protected $newAttribute = 'body';
-
+//
     /**
      * New attribute frame selector
      *
@@ -52,77 +44,7 @@ class ProductForm extends Form
      *
      * @var string
      */
-    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
-
-    /**
-     * Variations tab selector
-     *
-     * @var string
-     */
     protected $productDetailsTab = '#product_info_tabs_product-details';
-
-    /**
-     * Variations wrapper selector
-     *
-     * @var string
-     */
-    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
-
-    /**
-     * New variation set button selector
-     *
-     * @var string
-     */
-    protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
-
-    /**
-     * Choose affected attribute set dialog popup window
-     *
-     * @var string
-     */
-    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
-
-    /**
-     * Category name selector
-     *
-     * @var string
-     */
-    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
-
-    /**
-     * 'Advanced Settings' tab
-     *
-     * @var string
-     */
-    protected $advancedSettings = '#ui-accordion-product_info_tabs-advanced-header-0[aria-selected="false"]';
-
-    /**
-     * Advanced tab list
-     *
-     * @var string
-     */
-    protected $advancedTabList = '#product_info_tabs-advanced[role="tablist"]';
-
-    /**
-     * Advanced tab panel
-     *
-     * @var string
-     */
-    protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
-
-    /**
-     * Category fixture
-     *
-     * @var Category
-     */
-    protected $category;
-
-    /**
-     * Client Browser
-     *
-     * @var Browser
-     */
-    protected $browser;
 
     /**
      * @param Element $element
@@ -257,14 +179,15 @@ class ProductForm extends Form
     }
 
     /**
-     * Find Attribute tittle Product page
+     * Find Attribute on Product page
      *
-     * @return string
+     * @param string $attributeName
+     * @return bool
      */
-    public function findAttribute()
+    public function findAttribute($attributeName)
     {
-        $this->_rootElement->find('#product_info_tabs_product-details')->click();
+        $this->openTab('product-details');
 
-        return $this->_rootElement->find('#configurable-attributes-container')->getText();
+        return $this->getVariationsBlock()->getAttributeBlock($attributeName)->isVisible();
     }
 }
