@@ -264,4 +264,113 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
             $this->_model->load($abstractModelMock, $value, $idFieldName)
         );
     }
+
+    public function testDelete()
+    {
+        $adapterInterfaceMock = $this->getMock('\Magento\Framework\DB\Adapter\AdapterInterface', [], [], '', false);
+        $contextMock = $this->getMock('\Magento\Framework\Model\Context', [], [], '', false);
+        $registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
+        $abstractModelMock = $this->getMockForAbstractClass(
+            '\Magento\Framework\Model\AbstractModel',
+            [$contextMock, $registryMock],
+            '',
+            false,
+            true,
+            true,
+            ['__wakeup', 'getId']
+        );
+        $this->_resourcesMock->expects($this->any())->method('getConnection')->will(
+            $this->returnValue($adapterInterfaceMock)
+        );
+        $data = 'tableName';
+        $this->_resourcesMock->expects($this->any())->method('getTableName')->with($data)->will(
+            $this->returnValue('tableName')
+        );
+        $mainTableReflection = new \ReflectionProperty(
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
+            '_mainTable'
+        );
+        $mainTableReflection->setAccessible(true);
+        $mainTableReflection->setValue($this->_model, 'tableName');
+        $idFieldNameReflection = new \ReflectionProperty(
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
+            '_idFieldName'
+        );
+        $idFieldNameReflection->setAccessible(true);
+        $idFieldNameReflection->setValue($this->_model, 'idFieldName');
+        $adapterInterfaceMock->expects($this->any())->method('delete')->with('tableName', 'idFieldName');
+        $adapterInterfaceMock->expects($this->any())->method('quoteInto')->will($this->returnValue('idFieldName'));
+
+        $this->assertInstanceOf('Magento\Framework\Model\Resource\Db\AbstractDb',
+            $this->_model->delete($abstractModelMock));
+    }
+
+    public function testGetDataChangedNegative()
+    {
+        $contextMock = $this->getMock('\Magento\Framework\Model\Context', [], [], '', false);
+        $registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
+        $abstractModelMock = $this->getMockForAbstractClass(
+            '\Magento\Framework\Model\AbstractModel',
+            [$contextMock, $registryMock],
+            '',
+            false,
+            true,
+            true,
+            ['__wakeup', 'getOrigData']
+        );
+        $abstractModelMock->expects($this->any())->method('getOrigData')->will($this->returnValue(false));
+        $this->assertTrue($this->_model->hasDataChanged($abstractModelMock));
+    }
+
+    /**
+     * @dataProvider hasDataChangedDataProvider
+     * @param string $getOriginData
+     * @param bool $expected
+     */
+    public function testGetDataChanged($getOriginData, $expected)
+    {
+        $adapterInterfaceMock = $this->getMock('\Magento\Framework\DB\Adapter\AdapterInterface', [], [], '', false);
+        $this->_resourcesMock->expects($this->any())->method('getConnection')->will(
+            $this->returnValue($adapterInterfaceMock)
+        );
+        $contextMock = $this->getMock('\Magento\Framework\Model\Context', [], [], '', false);
+        $registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
+        $abstractModelMock = $this->getMockForAbstractClass(
+            '\Magento\Framework\Model\AbstractModel',
+            [$contextMock, $registryMock],
+            '',
+            false,
+            true,
+            true,
+            ['__wakeup', 'getOrigData', 'getData']
+        );
+        $mainTableProperty = new \ReflectionProperty('Magento\Framework\Model\Resource\Db\AbstractDb', '_mainTable');
+        $mainTableProperty->setAccessible(true);
+        $mainTableProperty->setValue($this->_model, 'table');
+
+        $this->_resourcesMock->expects($this->once())
+            ->method('getTableName')
+            ->with('table')
+            ->will(
+                $this->returnValue('tableName')
+            );
+        $abstractModelMock->expects($this->at(0))->method('getOrigData')->will($this->returnValue(true));
+        $abstractModelMock->expects($this->at(1))->method('getOrigData')->will($this->returnValue($getOriginData));
+        $adapterInterfaceMock->expects($this->any())->method('describeTable')->with('tableName')->will(
+            $this->returnValue(['tableName'])
+        );
+        $this->assertEquals($expected, $this->_model->hasDataChanged($abstractModelMock));
+    }
+
+    public function hasDataChangedDataProvider()
+    {
+        return [
+            [
+                true, true
+            ],
+            [
+                null, false
+            ]
+        ];
+    }
 }
