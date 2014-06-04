@@ -38,7 +38,7 @@ class Methods extends Form
      *
      * @var string
      */
-    protected $waitElement = '.please-wait';
+    protected $waitElement = '.loading-mask';
 
     /**
      * Select payment method
@@ -57,6 +57,7 @@ class Methods extends Form
             /** @var $formBlock \Magento\Payment\Test\Block\Form\Cc */
             $formBlock = new $paymentFormClass(
                 $this->_rootElement->find('#payment_form_' . $paymentCode),
+                $this->blockFactory,
                 $this->mapper
             );
             $formBlock->fill($fixture);

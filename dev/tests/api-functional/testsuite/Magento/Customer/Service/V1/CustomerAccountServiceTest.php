@@ -802,9 +802,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomers()
     {
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData = $this->_createSampleCustomer();
-        $filter = (new FilterBuilder())
-            ->setField(Customer::EMAIL)
+        $filter = $builder->setField(Customer::EMAIL)
             ->setValue($customerData[Customer::EMAIL])
             ->create();
         $this->searchCriteriaBuilder->addFilter([$filter]);
@@ -831,18 +831,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersMultipleFiltersWithSort()
     {
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
-        $filter1 = (new FilterBuilder())
-            ->setField(Customer::EMAIL)
+        $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
-        $filter2 = (new FilterBuilder())
-            ->setField(Customer::EMAIL)
+        $filter2 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData2[Customer::EMAIL])
             ->create();
-        $filter3 = (new FilterBuilder())
-            ->setField(Customer::LASTNAME)
+        $filter3 = $builder->setField(Customer::LASTNAME)
             ->setValue($customerData1[Customer::LASTNAME])
             ->create();
         $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
@@ -873,18 +871,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersNonExistentMultipleFilters()
     {
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
-        $filter1 = (new FilterBuilder())
-            ->setField(Customer::EMAIL)
+        $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
-        $filter2 = (new FilterBuilder())
-            ->setField(Customer::EMAIL)
+        $filter2 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData2[Customer::EMAIL])
             ->create();
-        $filter3 = (new FilterBuilder())
-            ->setField(Customer::LASTNAME)
+        $filter3 = $builder->setField(Customer::LASTNAME)
             ->setValue('INVALID')
             ->create();
         $this->searchCriteriaBuilder->addFilter([$filter1, $filter2]);
@@ -1105,20 +1101,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
     {
         $customerData1 = $this->_createSampleCustomer();
 
-        $filter1 = (new FilterBuilder())
-            ->setField(Customer::EMAIL)
+        /** @var \Magento\Framework\Service\V1\Data\FilterBuilder $builder */
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
-        $filter2 = (new FilterBuilder())
-            ->setField(Customer::MIDDLENAME)
+        $filter2 = $builder->setField(Customer::MIDDLENAME)
             ->setValue($customerData1[Customer::MIDDLENAME])
             ->create();
-        $filter3 = (new FilterBuilder())
-            ->setField(Customer::MIDDLENAME)
+        $filter3 = $builder->setField(Customer::MIDDLENAME)
             ->setValue('invalid')
             ->create();
-        $filter4 = (new FilterBuilder())
-            ->setField(Customer::LASTNAME)
+        $filter4 = $builder->setField(Customer::LASTNAME)
             ->setValue($customerData1[Customer::LASTNAME])
             ->create();
 
@@ -1144,8 +1138,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
 
         // Add an invalid And-ed data with multiple groups to yield no result
-        $filter4 = (new FilterBuilder())
-            ->setField(Customer::LASTNAME)
+        $filter4 = $builder->setField(Customer::LASTNAME)
             ->setValue('invalid')
             ->create();
 
@@ -1223,12 +1216,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     private function _createSampleCustomerDetailsData()
     {
+        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
         $this->addressBuilder
             ->setCountryId('US')
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion((new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
+            ->setRegion($builder->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
@@ -1241,7 +1235,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion((new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
+            ->setRegion($builder->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
             ->setStreet(['Black str, 48', 'Building D'])
             ->setCity('CityX')
             ->setTelephone('3234676')

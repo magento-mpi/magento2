@@ -48,12 +48,12 @@ class AutomaticTaxApplying extends Checkout
         // Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '$17.00',
+                'grand_total' => '17.00',
             ],
             'cart_totals' => [
-                'grand_total' => '$12.00',
-                'subtotal' => '$10.00',
-                'tax' => '$2.00',
+                'grand_total' => '12.00',
+                'subtotal' => '10.00',
+                'tax' => '2.00',
             ],
         ];
     }
@@ -79,8 +79,8 @@ class AutomaticTaxApplying extends Checkout
 
         // Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('uk_full_tax_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('\Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'uk_full_tax_rule']);
         $taxRule->persist();
 
         // Simple Products
