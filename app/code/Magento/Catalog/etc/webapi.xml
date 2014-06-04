@@ -123,4 +123,10 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/media/types/:attributeSetId" method="GET">
+        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="getTypes"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
 </routes>
