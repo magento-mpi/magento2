@@ -47,7 +47,9 @@ class Router
                 $matched[] = $route;
             }
         }
-        return array_pop($matched);
+        if (!empty($matched)) {
+            return array_pop($matched);
+        }
         throw new \Magento\Webapi\Exception(
             __('Request does not match any route.'),
             0,

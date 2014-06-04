@@ -210,8 +210,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      *  - 'configurable',
      *  - 'virtual',
      *  - 'bundle',
-     *  - 'downloadable',
-     *  - 'giftcard'
+     *  - 'downloadable'
      *
      * @param  array|string|null $applyTo
      * @return $this

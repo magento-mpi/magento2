@@ -231,8 +231,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *  - 'configurable',
      *  - 'virtual',
      *  - 'bundle',
-     *  - 'downloadable',
-     *  - 'giftcard'
+     *  - 'downloadable'
      *
      * @return string[]
      */
