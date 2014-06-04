@@ -10,6 +10,7 @@ namespace Magento\Paypal\Controller\Express;
 use Magento\Checkout\Model\Type\Onepage;
 use Magento\Framework\App\Action\Action as AppAction;
 use Magento\Checkout\Controller\Express\RedirectLoginInterface;
+use Magento\Paypal\Model\Api\ProcessableException as ApiProcessableException;
 
 /**
  * Abstract Express Checkout Controller
@@ -251,7 +252,14 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      */
     public function returnAction()
     {
+        if ($this->getRequest()->getParam('retry_authorization') == 'true'
+            && is_array($this->_getCheckoutSession()->getPaypalTransactionData())
+        ) {
+            $this->_forward('placeOrder');
+            return;
+        }
         try {
+            $this->_getCheckoutSession()->unsPaypalTransactionData();
             $this->_initCheckout();
             $this->_checkout->returnFromPaypal($this->_initToken());
             $this->_redirect('*/*/review');
@@ -462,13 +470,72 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->_initToken(false); // no need in token anymore
             $this->_redirect('checkout/onepage/success');
             return;
+        } catch (ApiProcessableException $e) {
+            $this->_processPaypalApiError($e);
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
+            $this->_redirect('*/*/review');
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t place the order.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
+            $this->_redirect('*/*/review');
         }
-        $this->_redirect('*/*/review');
+    }
+
+    /**
+     * Process PayPal API's processable errors
+     *
+     * @param \Magento\Paypal\Model\Api\ProcessableException $exception
+     * @throws \Magento\Paypal\Model\Api\ProcessableException $exception
+     */
+    protected function _processPaypalApiError($exception)
+    {
+        switch ($exception->getCode()) {
+            case ApiProcessableException::API_MAX_PAYMENT_ATTEMPTS_EXCEEDED:
+            case ApiProcessableException::API_TRANSACTION_EXPIRED:
+                $this->getResponse()->setRedirect(
+                    $this->_getQuote()->getPayment()->getCheckoutRedirectUrl()
+                );
+                break;
+            case ApiProcessableException::API_DO_EXPRESS_CHECKOUT_FAIL:
+                $this->_redirectSameToken();
+                break;
+            case ApiProcessableException::API_UNABLE_TRANSACTION_COMPLETE:
+                if ($this->_config->getPaymentAction() == \Magento\Payment\Model\Method\AbstractMethod::ACTION_ORDER) {
+                    $paypalTransactionData = $this->_getCheckoutSession()->getPaypalTransactionData();
+                    $this->getResponse()->setRedirect(
+                        $this->_config->getExpressCheckoutOrderUrl($paypalTransactionData['transaction_id'])
+                    );
+                } else {
+                    $this->_redirectSameToken();
+                }
+                break;
+            default:
+                $this->_redirectToCartAndShowError($exception->getUserMessage());
+                break;
+        }
+    }
+
+    /**
+     * Redirect customer back to PayPal with the same token
+     */
+    protected function _redirectSameToken()
+    {
+        $token = $this->_initToken();
+        $this->getResponse()->setRedirect(
+            $this->_config->getExpressCheckoutStartUrl($token)
+        );
+    }
+
+    /**
+     * Redirect customer to shopping cart and show error message
+     *
+     * @param string $errorMessage
+     */
+    protected function _redirectToCartAndShowError($errorMessage)
+    {
+        $this->messageManager->addError($errorMessage);
+        $this->_redirect('checkout/cart');
     }
 
     /**

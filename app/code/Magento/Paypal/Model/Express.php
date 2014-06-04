@@ -9,6 +9,7 @@ namespace Magento\Paypal\Model;
 
 use Magento\Paypal\Model\Express\Checkout as ExpressCheckout;
 use Magento\Paypal\Model\Api\Nvp;
+use Magento\Paypal\Model\Api\ProcessableException as ApiProcessableException;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use Magento\Sales\Model\Quote;
@@ -154,6 +155,11 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_cartFactory;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -162,6 +168,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
@@ -173,12 +180,14 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->_storeManager = $storeManager;
         $this->_urlBuilder = $urlBuilder;
         $this->_cartFactory = $cartFactory;
+        $this->_checkoutSession = $checkoutSession;
 
         $proInstance = array_shift($data);
         if ($proInstance && $proInstance instanceof \Magento\Paypal\Model\Pro) {
@@ -187,6 +196,28 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             $this->_pro = $proFactory->create();
         }
         $this->_pro->setMethod($this->_code);
+        $this->_setApiProcessableErrors();
+    }
+
+    /**
+     * Set processable error codes to API model
+     *
+     * @return \Magento\Paypal\Model\Api\Nvp
+     */
+    protected function _setApiProcessableErrors()
+    {
+        return $this->_pro->getApi()->setProcessableErrors(
+            array(
+                ApiProcessableException::API_INTERNAL_ERROR,
+                ApiProcessableException::API_UNABLE_PROCESS_PAYMENT_ERROR_CODE,
+                ApiProcessableException::API_DO_EXPRESS_CHECKOUT_FAIL,
+                ApiProcessableException::API_UNABLE_TRANSACTION_COMPLETE,
+                ApiProcessableException::API_TRANSACTION_EXPIRED,
+                ApiProcessableException::API_MAX_PAYMENT_ATTEMPTS_EXCEEDED,
+                ApiProcessableException::API_COUNTRY_FILTER_DECLINE,
+                ApiProcessableException::API_MAXIMUM_AMOUNT_FILTER_DECLINE,
+                ApiProcessableException::API_OTHER_FILTER_DECLINE
+            ));
     }
 
     /**
@@ -282,7 +313,12 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function order(\Magento\Framework\Object $payment, $amount)
     {
-        $this->_placeOrder($payment, $amount);
+        $paypalTransactionData = $this->_checkoutSession->getPaypalTransactionData();
+        if (!is_array($paypalTransactionData)) {
+            $this->_placeOrder($payment, $amount);
+        } else {
+            $this->_importToPayment($this->_pro->getApi()->setData($paypalTransactionData), $payment);
+        }
 
         $payment->setAdditionalInformation($this->_isOrderPaymentActionKey, true);
 
@@ -293,7 +329,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $order = $payment->getOrder();
         $orderTransactionId = $payment->getTransactionId();
 
-        $api = $this->_callDoAuthorize($amount, $payment, $payment->getTransactionId());
+        $api = $this->_callDoAuthorize($amount, $payment, $orderTransactionId);
 
         $state = \Magento\Sales\Model\Order::STATE_PROCESSING;
         $status = true;
@@ -712,13 +748,19 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function _callDoAuthorize($amount, $payment, $parentTransactionId)
     {
-        $api = $this->_pro->resetApi()->getApi()->setAmount(
-            $amount
-        )->setCurrencyCode(
-            $payment->getOrder()->getBaseCurrencyCode()
-        )->setTransactionId(
-            $parentTransactionId
-        )->callDoAuthorization();
+        $apiData = $this->_pro->getApi()->getData();
+        foreach ($apiData as $k => $v) {
+            if (is_object($v)) {
+                unset($apiData[$k]);
+            }
+        }
+        $this->_checkoutSession->setPaypalTransactionData($apiData);
+        $this->_pro->resetApi();
+        $api = $this->_setApiProcessableErrors()
+            ->setAmount($amount)
+            ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
+            ->setTransactionId($parentTransactionId)
+            ->callDoAuthorization();
 
         $payment->setAdditionalInformation(
             $this->_authorizationCountKey,

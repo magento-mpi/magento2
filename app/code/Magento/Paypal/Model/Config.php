@@ -950,6 +950,17 @@ class Config
     }
 
     /**
+     * Get url for dispatching customer to checkout retrial
+     *
+     * @param string $orderId
+     * @return string
+     */
+    public function getExpressCheckoutOrderUrl($orderId)
+    {
+        return $this->getPaypalUrl(array('cmd'   => '_express-checkout', 'order_id' => $orderId));
+    }
+
+    /**
      * Get url that allows to edit checkout details on paypal side
      *
      * @param \Magento\Paypal\Controller\Express|string $token
