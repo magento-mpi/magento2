@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Service;
+namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Oauth\Token;
 
 /**
  * Integration oAuth Service Interface
  */
-interface OauthV1Interface
+interface OauthInterface
 {
     /**
      * Create a new consumer account.

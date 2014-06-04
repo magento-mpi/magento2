@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Integration\Service\IntegrationV1
+ * Test for \Magento\Integration\Service\V1\Integration
  *
  * {license_notice}
  *
@@ -36,7 +36,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_emptyIntegrationMock;
 
-    /** @var \Magento\Integration\Service\IntegrationV1 */
+    /** @var \Magento\Integration\Service\V1\Integration */
     private $_service;
 
     /** @var array */
@@ -82,7 +82,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             'Magento\Authz\Model\UserIdentifier\Factory'
         )->disableOriginalConstructor()->getMock();
         $oauthConsumerHelper = $this->getMockBuilder(
-            'Magento\Integration\Service\OauthV1'
+            'Magento\Integration\Service\V1\Oauth'
         )->disableOriginalConstructor()->getMock();
         $oauthConsumer = $this->getMockBuilder(
             'Magento\Integration\Model\Oauth\Consumer'
@@ -100,7 +100,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $userIdentifierFactory->expects($this->any())->method('create')->will($this->returnValue($userIdentifier));
 
-        $this->_service = new \Magento\Integration\Service\IntegrationV1(
+        $this->_service = new \Magento\Integration\Service\V1\Integration(
             $this->_integrationFactory,
             $oauthConsumerHelper
         );

@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Service;
+namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 use Magento\Integration\Model\Integration as IntegrationModel;
-use Magento\Integration\Service\OauthV1Interface as IntegrationOauthService;
+use Magento\Integration\Service\V1\OauthInterface as IntegrationOauthService;
 
 /**
  * Integration Service.
  *
  * This service is used to interact with integrations.
  */
-class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interface
+class Integration implements \Magento\Integration\Service\V1\IntegrationInterface
 {
     /**
      * @var IntegrationFactory

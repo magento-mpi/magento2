@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Service;
+namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Integration Service Interface
  */
-interface IntegrationV1Interface
+interface IntegrationInterface
 {
     /**
      * Create a new Integration

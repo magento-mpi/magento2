@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Integration\Service;
+namespace Magento\Integration\Service\V1;
 
 use Magento\Framework\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
@@ -22,7 +22,7 @@ use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
  * TODO: Fix coupling between objects
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class OauthV1 implements OauthV1Interface
+class Oauth implements OauthInterface
 {
     /**
      * @var  \Magento\Store\Model\StoreManagerInterface

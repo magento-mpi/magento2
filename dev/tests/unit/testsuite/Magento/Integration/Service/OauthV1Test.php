@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Integration\Service\OauthV1
+ * Test for \Magento\Integration\Service\V1\Oauth
  *
  * {license_notice}
  *
@@ -38,7 +38,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
      */
     private $_tokenMock;
 
-    /** @var \Magento\Integration\Service\OauthV1 */
+    /** @var \Magento\Integration\Service\V1\Oauth */
     private $_service;
 
     /** @var array */
@@ -92,7 +92,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_consumerMock)
         );
 
-        $this->_service = new \Magento\Integration\Service\OauthV1(
+        $this->_service = new \Magento\Integration\Service\V1\Oauth(
             $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
             $this->_consumerFactory,
             $this->_tokenFactoryMock,
