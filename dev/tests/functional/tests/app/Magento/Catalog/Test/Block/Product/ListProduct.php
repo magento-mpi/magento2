@@ -92,7 +92,6 @@ class ListProduct extends Block
      * Check if product with specified name is visible
      *
      * @param string $productName
-     *
      * @return bool
      */
     public function isProductVisible($productName)
@@ -114,6 +113,7 @@ class ListProduct extends Block
      * Open product view page by clicking on product name
      *
      * @param string $productName
+     * @return void
      */
     public function openProductViewPage($productName)
     {
@@ -148,7 +148,7 @@ class ListProduct extends Block
     /**
      * Open MAP block on category page
      *
-     * @param $productName
+     * @param string $productName
      * @return void
      */
     public function openMapBlockOnCategoryPage($productName)

@@ -105,5 +105,54 @@ class CatalogProductSimple extends AbstractRepository
             'category_ids' => ['presets' => 'default_subcategory'],
             'website_ids' => ['Main Website'],
         ];
+
+        $this->_data['adc_123_simple_for_advancedsearch'] = [
+            'name' => 'adc_123',
+            'sku' => 'adc_123',
+            'price' => ['value' => 100.00, 'preset' => '-'],
+            'tax_class_id' => 'None',
+            'quantity_and_stock_status' => [
+                'qty' => 666,
+                'is_in_stock' => 'Yes',
+            ],
+            'weight' => 1.0000,
+            'description' => '<p>dfj_full</p>',
+            'status' => 'Product online',
+            'website_ids' => [
+                0 => 'Main Website',
+            ],
+            'stock_data' => [
+                'manage_stock' => 'Yes',
+                'original_inventory_qty' => 666,
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'visibility' => 'Catalog, Search',
+        ];
+
+        $this->_data['abc_dfj_simple_for_advancedsearch'] = [
+            'name' => 'abc_dfj',
+            'sku' => 'abc_dfj',
+            'price' => ['value' => 50.00, 'preset' => '-'],
+            'tax_class_id' => 'Taxable Goods',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'weight' => 1.0000,
+            'description' => '<p>adc_Full</p>',
+            'status' => 'Product online',
+            'short_description' => '<p>abc_short</p>',
+            'website_ids' => [
+                0 => 'Main Website',
+            ],
+            'stock_data' => [
+                'manage_stock' => 'Yes',
+                'original_inventory_qty' => 666,
+                'qty' => 666.0000,
+                'is_in_stock' => 'Yes',
+            ],
+            'visibility' => 'Catalog, Search',
+        ];
     }
 }
