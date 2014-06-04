@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Filter;
 
-class SprintTest extends \PHPUnit_Framework_TestCase
+class SprintfTest extends \PHPUnit_Framework_TestCase
 {
     public function testFilter()
     {
