@@ -53,7 +53,10 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
-  
+* GitHub requests:
+  * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
+  * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
+
 * JavaScript improvements:
   * Added standard validation to front-end address fields
   * Implemented wishlist widget
