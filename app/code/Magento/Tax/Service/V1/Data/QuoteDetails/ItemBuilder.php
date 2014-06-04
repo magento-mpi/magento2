@@ -114,13 +114,13 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * Set related code
+     * Set child codes
      *
-     * @param string $code
+     * @param string[] $codes
      * @return $this
      */
-    public function setRelatedCode($code)
+    public function setChildCodes($codes)
     {
-        return $this->_set(Item::KEY_RELATED_CODE, $code);
+        return $this->_set(Item::KEY_CHILD_CODES, $codes);
     }
 }
