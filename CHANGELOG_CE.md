@@ -1,4 +1,9 @@
 * Framework improvements:
+  * Created Service API for Magento_Catalog Module:
+    * AttributeSet Service (MAGETWO-23316)
+    * AttributeSetGroup Service (MAGETWO-23317)
+    * ProductLinks Service (MAGETWO-23318)
+    * ProductType Service (MAGETWO-23310)
   * Completely revisited subsystem of static view files preprocessing (MAGETWO-18001):
     * Transforming LESS into CSS is now just a particular case of a more general interface of preprocessors, so a custom preprocessor can be registered
     * Refactored implementation of view files "fallback" and "collecting" (layout XML files, LESS files for `@magento_import`) mechanisms for better abstraction
@@ -31,6 +36,10 @@
   * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
   * Removed Saved Credit Card payment method (MAGETWO-23885)
 * Fixed bugs:
+  * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
+  * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
+  * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
+  * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
   * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
   * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
@@ -124,6 +133,14 @@
   * Catalog Price Rule Creation
   * Category Url Rewrite Creation
   * Admin User Role Deletion
+  * Delete Admin User
+  * Delete Backend Customer
+  * Delete Product UrlRewrite
+  * Downloadable Product Creation
+  * Update Simple Product
+  * Update Tax Rule
+  * Update Tax Rate
+  * Suggest Searching Result
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity

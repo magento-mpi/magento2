@@ -46,5 +46,9 @@ return array(
     array('_groupCollectionFactory', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
     array('_catalogPermData', 'Magento\CatalogPermissions\Model\Resource\Permission\Index', 'helper'),
     array('_matchedEntities', 'Magento\CatalogPermissions\Model\Permission\Index'),
-    array('_isVisible', 'Magento\CatalogPermissions\Model\Permission\Index')
+    array('_isVisible', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    ['_transportBuilder', 'Magento\Rma\Model\Rma'],
+    ['_rmaConfig', 'Magento\Rma\Model\Rma'],
+    ['_historyFactory', 'Magento\Rma\Model\Rma'],
+    ['_inlineTranslation', 'Magento\Rma\Model\Rma']
 );

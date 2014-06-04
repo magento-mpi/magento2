@@ -93,6 +93,8 @@ class Config extends AbstractRepository
         // Startup Page
         $this->_data['startup_page_dashboard'] = $this->_getStartupPage('Magento_Backend::dashboard');
         $this->_data['startup_page_products'] = $this->_getStartupPage('Magento_Catalog::catalog_products');
+        // Application state1 configuration. Content Management
+        $this->_data['app_state1_configuration'] = $this->_getAppState1Configuration();
     }
 
     /**
@@ -2137,6 +2139,35 @@ class Config extends AbstractRepository
                                 'fields' => array(
                                     'menu_item_id' => array(
                                         'value' => $page
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Configuration settings for Application State Profile #1
+     *
+     * @return array
+     */
+    protected function _getAppState1Configuration()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'cms' => array(
+                        'section' => 'cms',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'wysiwyg' => array(
+                                'fields' => array(
+                                    'enabled' => array(
+                                        'value' => 'disabled'
                                     )
                                 )
                             )
