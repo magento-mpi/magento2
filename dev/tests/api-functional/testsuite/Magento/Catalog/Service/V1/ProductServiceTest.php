@@ -136,11 +136,15 @@ class ProductServiceTest extends WebapiAbstract
         $searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
+        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        $filterBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\FilterBuilder'
+        );
         foreach ($filterGroups as $filterGroup) {
             $group = array();
             foreach ($filterGroup as $filter) {
                 list($filterKey, $filterValue) = $filter;
-                $group[] = (new FilterBuilder())
+                $group[] = $filterBuilder
                     ->setField($filterKey)
                     ->setValue($filterValue)
                     ->create();
