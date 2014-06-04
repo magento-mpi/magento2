@@ -86,7 +86,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get quantity
      *
-     * @return int
+     * @return float
      */
     public function getQuantity()
     {

@@ -72,7 +72,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     /**
      * Set quantity
      *
-     * @param int $quantity
+     * @param float $quantity
      * @return $this
      */
     public function setQuantity($quantity)
