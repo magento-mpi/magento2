@@ -349,7 +349,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 true
             ],
             [
-                'displaySalestDiscountExclTax',
+                'displaySalesDiscountExclTax',
                 Config::XML_PATH_DISPLAY_SALES_DISCOUNT,
                 Config::DISPLAY_TYPE_EXCLUDING_TAX,
                 true
