@@ -36,9 +36,10 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $options = array();
         $mock->expects($this->once())
             ->method('getOptions')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue($options));
 
         $metadataServiceMock->expects($this->once())
             ->method('getAttributeMetadata')
@@ -55,6 +56,6 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
                 'metadataService' => $metadataServiceMock
             )
         );
-        $service->options($attributeCode);
+        $this->assertEquals($options, $service->options($attributeCode));
     }
 }
