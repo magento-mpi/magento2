@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Catalog
  * Backend catalog price rule grid
- *
  */
 class Catalog extends Grid
 {
@@ -47,6 +45,9 @@ class Catalog extends Grid
      * @var array
      */
     protected $filters = [
+        'rule_id' => [
+            'selector' => '#promo_catalog_grid_filter_rule_id'
+        ],
         'name' => [
             'selector' => '#promo_catalog_grid_filter_name',
         ],
@@ -68,6 +69,8 @@ class Catalog extends Grid
 
     /**
      * Add new catalog rule
+     *
+     * @return void
      */
     public function addNewCatalogRule()
     {
@@ -76,6 +79,8 @@ class Catalog extends Grid
 
     /**
      * Click "Apply Rule" button
+     *
+     * @return void
      */
     public function applyRules()
     {
@@ -102,17 +107,6 @@ class Catalog extends Grid
     public function getCatalogPriceId($ruleName)
     {
         return $this->getGridRow($ruleName)->find('//td[@data-column="rule_id"]', Locator::SELECTOR_XPATH)->getText();
-    }
-
-    /**
-     * Check if row exists in grid with given name
-     *
-     * @param string $ruleName
-     * @return bool
-     */
-    public function isRuleVisible($ruleName)
-    {
-        return parent::isRowVisible(array('name' => $ruleName));
     }
 
     /**

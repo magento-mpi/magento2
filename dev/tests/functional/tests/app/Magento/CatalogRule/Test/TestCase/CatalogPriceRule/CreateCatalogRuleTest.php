@@ -12,39 +12,48 @@ use Mtf\TestCase\Injectable;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Fixture;
+use Magento\Backend\Test\Page\AdminCache;
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
  * Test Coverage for Create Catalog Rule
- *
  *
  * @ticketId MAGETWO-
  */
 class CreateCatalogRuleTest extends Injectable
 {
     /**
+     * Page CatalogRuleNew
+     *
      * @var CatalogRuleNew
      */
     protected $catalogRuleNew;
 
     /**
+     * Page CatalogRuleIndex
+     *
      * @var CatalogRuleIndex
      */
     protected $catalogRuleGrid;
 
     /**
-     * @var \Magento\Backend\Test\Page\AdminCache
+     * Page AdminCache
+     *
+     * @var AdminCache
      */
     protected $adminCache;
 
     /**
+     * Injection data
+     *
      * @param CatalogRuleIndex $catalogRuleGrid
      * @param CatalogRuleNew $catalogRuleNew
-     * @param \Magento\Backend\Test\Page\AdminCache $adminCache
+     * @param AdminCache $adminCache
      */
     public function __inject(
         CatalogRuleIndex $catalogRuleGrid,
         CatalogRuleNew $catalogRuleNew,
-        \Magento\Backend\Test\Page\AdminCache $adminCache
+        AdminCache $adminCache
     ) {
         $this->catalogRuleGrid = $catalogRuleGrid;
         $this->catalogRuleNew = $catalogRuleNew;
@@ -52,11 +61,12 @@ class CreateCatalogRuleTest extends Injectable
     }
 
     /**
-     * @param Fixture\CatalogRule $catalogRule
+     * Create Catalog Price Rule
+     *
+     * @param CatalogRule $catalogRule
      */
-    public function testCreate(
-        Fixture\CatalogRule $catalogRule
-    ) {
+    public function testCreate(CatalogRule $catalogRule)
+    {
         // Open Catalog Price Rule page
         $this->catalogRuleGrid->open();
 
