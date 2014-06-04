@@ -22,7 +22,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_UNIT_PRICE = 'unit_price';
 
-    const KEY_QTY = 'qty';
+    const KEY_QUANTITY = 'quantity';
 
     const KEY_TAX_INCLUDED = 'tax_included';
 
@@ -88,9 +88,9 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return int
      */
-    public function getQty()
+    public function getQuantity()
     {
-        return $this->_get(self::KEY_QTY);
+        return $this->_get(self::KEY_QUANTITY);
     }
 
     /**
