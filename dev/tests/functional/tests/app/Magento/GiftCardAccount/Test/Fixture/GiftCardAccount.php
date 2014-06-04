@@ -12,11 +12,20 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class GiftCardAccount
- *
- * @package Magento\GiftCardAccount\Test\Fixture
+ * Gift card account fixture
  */
 class GiftCardAccount extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\GiftCardAccount\Test\Repository\GiftCardAccount';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\GiftCardAccount\Test\Handler\GiftCardAccount\GiftCardAccountInterface';
+
     protected $defaultDataSet = [
         'balance' => 0,
         'website_id' => 'Main Website',
