@@ -23,7 +23,7 @@ class UrlRewrite extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'request_path' => 'test-test-test.html',
+            'request_path' => 'test-test-test%isolation%.html',
             'options' => 'No',
             'store_id' => 'Default Store View'
         ];

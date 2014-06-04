@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Category; 
+namespace Magento\Catalog\Test\Page\Category;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
@@ -33,7 +33,7 @@ class CatalogCategoryView extends FrontendPage
         ],
         'layeredNavigationBlock' => [
             'name' => 'layeredNavigationBlock',
-            'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
+            'class' => 'Magento\LayeredNavigation\Test\Block\Navigation',
             'locator' => '.block.filter',
             'strategy' => 'css selector',
         ],
@@ -54,7 +54,7 @@ class CatalogCategoryView extends FrontendPage
             'class' => 'Magento\Catalog\Test\Block\Category\View',
             'locator' => '.category.view',
             'strategy' => 'css selector',
-        ],
+        ]
     ];
 
     /**
@@ -74,7 +74,7 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Search\Test\Block\Catalog\Layer\View
+     * @return \Magento\LayeredNavigation\Test\Block\Navigation
      */
     public function getLayeredNavigationBlock()
     {

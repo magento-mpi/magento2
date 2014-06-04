@@ -38,7 +38,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'Relocated to pub/errors' => array('errors'),
             'Eliminated with Magento_Compiler' => array('includes'),
             'Eliminated with Magento_GoogleCheckout' => array('lib/googlecheckout'),
-            'Relocated to pub/lib' => array('js'),
+            'Relocated to lib/web' => array('js'),
             'Relocated to pub/media' => array('media'),
             'Eliminated as not needed' => array('pkginfo'),
             'Dissolved into themes under app/design ' => array('skin'),
@@ -52,7 +52,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             ),
             'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
                 'app/code/community'
-            )
+            ),
+            'Eliminated Magento/plushe theme' => ['app/design/frontend/Magento/plushe'],
         );
     }
 
@@ -78,6 +79,57 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
         if ($msg) {
             $this->fail(implode(PHP_EOL, $msg));
+        }
+    }
+
+    public function testObsoleteViewPaths()
+    {
+        $pathsToCheck = [
+            'app/code/*/*/view/frontend/*'  => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+            'app/code/*/*/view/adminhtml/*' => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+            'app/code/*/*/view/base/*'      => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+            'app/design/*/*/*/*'            => [
+                'allowed_files' => ['requirejs-config.js', 'theme.xml'],
+                'allowed_dirs'  => ['layout', 'templates', 'web', 'etc', 'i18n', 'media', '\w+_\w+'],
+            ],
+            'app/design/*/*/*/*_*/*'        => [
+                'allowed_files' => ['requirejs-config.js'],
+                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            ],
+        ];
+        $errors = [];
+        foreach ($pathsToCheck as $path => $allowed) {
+            $allowedFiles = $allowed['allowed_files'];
+            $allowedDirs = $allowed['allowed_dirs'];
+            $foundFiles = glob(BP . '/' . $path);
+            foreach ($foundFiles as $file) {
+                $baseName = basename($file);
+                if (is_dir($file)) {
+                    foreach ($allowedDirs as $allowedDir) {
+                        if (preg_match("#^$allowedDir$#", $baseName)) {
+                            continue 2;
+                        }
+                    }
+                }
+                if (in_array($baseName, $allowedFiles)) {
+                    continue;
+                }
+                $errors[] = "Wrong location of view file/dir: '$file'. "
+                    . "Please, put template files inside 'templates' sub-dir, "
+                    . "static view files inside 'web' sub-dir and layout updates inside 'layout' sub-dir";
+            }
+        }
+        if (!empty($errors)) {
+            $this->fail(implode(PHP_EOL, $errors));
         }
     }
 }

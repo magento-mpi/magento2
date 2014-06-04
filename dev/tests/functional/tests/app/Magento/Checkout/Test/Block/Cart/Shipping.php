@@ -11,10 +11,11 @@ namespace Magento\Checkout\Test\Block\Cart;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
+ * Class Shipping
  * Cart shipping block
- *
  */
 class Shipping extends Form
 {
@@ -40,12 +41,18 @@ class Shipping extends Form
     protected $getQuote = '.action.quote';
 
     /**
+     * Update total selector
+     *
+     * @var string
+     */
+    protected $updateTotalSelector = '.action.update';
+
+    /**
      * Selector to access the shipping carrier method
      *
      * @var string
      */
-    protected $shippingCarrierMethodSelector =
-        '//span[text()="%s"]/following::*/div[@class="field choice item"]//*[contains(text(), "%s")]';
+    protected $shippingMethod = '//span[text()="%s"]/following::*//*[contains(text(), "%s")]';
 
     /**
      * From with shipping available shipping methods
@@ -56,6 +63,8 @@ class Shipping extends Form
 
     /**
      * Open estimate shipping and tax form
+     *
+     * @return void
      */
     public function openEstimateShippingAndTax()
     {
@@ -65,11 +74,42 @@ class Shipping extends Form
     }
 
     /**
-     * Get quote
+     * Click Get quote button
+     *
+     * @return void
      */
-    public function getQuote()
+    public function clickGetQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
+    }
+
+    /**
+     * Select shipping method
+     *
+     * @param array $shipping
+     * @return void
+     */
+    public function selectShippingMethod(array $shipping)
+    {
+        $selector = sprintf($this->shippingMethod, $shipping['carrier'], $shipping['method']);
+        if (!$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible()) {
+            $this->openEstimateShippingAndTax();
+        }
+        $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->updateTotalSelector, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Fill shipping and tax form
+     *
+     * @param AddressInjectable $address
+     * @return void
+     */
+    public function fillEstimateShippingAndTax(AddressInjectable $address)
+    {
+        $this->openEstimateShippingAndTax();
+        $this->fill($address);
+        $this->clickGetQuote();
     }
 
     /**
@@ -87,7 +127,7 @@ class Shipping extends Form
                 return $shippingMethodForm->isVisible() ? true : null;
             }
         );
-        $selector = sprintf($this->shippingCarrierMethodSelector, $carrier, $method);
+        $selector = sprintf($this->shippingMethod, $carrier, $method);
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }

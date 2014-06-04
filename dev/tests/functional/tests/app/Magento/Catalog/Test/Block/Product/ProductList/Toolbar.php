@@ -11,7 +11,7 @@ namespace Magento\Catalog\Test\Block\Product\ProductList;
 use Mtf\Block\Block;
 
 /**
- * Class ProductPagination
+ * Class Toolbar
  * Toolbar the product list page
  */
 class Toolbar extends Block
@@ -66,4 +66,4 @@ class Toolbar extends Block
         $content = str_replace("\r", '', $this->_rootElement->find($this->sorter)->getText());
         return explode("\n", $content);
     }
-} 
+}

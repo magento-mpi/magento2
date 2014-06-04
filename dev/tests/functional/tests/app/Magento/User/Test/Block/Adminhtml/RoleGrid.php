@@ -13,6 +13,8 @@ use Magento\Backend\Test\Block\Widget\Grid;
 /**
  * Class RoleGrid
  * Role grid on role index page
+ *
+ * @package Magento\User\Test\Block\Adminhtml
  */
 class RoleGrid extends Grid
 {
