@@ -8,7 +8,7 @@
  */
 
 require __DIR__ . '/../../app/autoload.php';
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../lib');
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../lib/internal');
 
 define(
     'USAGE',

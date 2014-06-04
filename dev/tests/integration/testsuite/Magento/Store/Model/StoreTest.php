@@ -152,14 +152,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Framework\UrlInterface::URL_TYPE_STATIC, false, true, 'http://localhost/pub/static/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_STATIC, true, false, 'http://localhost/pub/static/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_STATIC, true, true, 'http://localhost/pub/static/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_CACHE, false, false, 'http://localhost/pub/cache/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_CACHE, false, true, 'http://localhost/pub/cache/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_CACHE, true, false, 'http://localhost/pub/cache/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_CACHE, true, true, 'http://localhost/pub/cache/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_LIB, false, true, 'http://localhost/pub/lib/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_LIB, true, false, 'http://localhost/pub/lib/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_LIB, true, true, 'http://localhost/pub/lib/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA, false, false, 'http://localhost/pub/media/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA, false, true, 'http://localhost/pub/media/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA, true, false, 'http://localhost/pub/media/'),
@@ -185,10 +177,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             'http://localhost/pub/static/',
             $this->_model->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_STATIC)
-        );
-        $this->assertEquals(
-            'http://localhost/pub/lib/',
-            $this->_model->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LIB)
         );
         $this->assertEquals(
             'http://localhost/pub/media/',
@@ -304,6 +292,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
+     * @magentoDbIsolation enabled
      */
     public function testCRUD()
     {
@@ -317,9 +306,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 'is_active' => 1
             )
         );
-
-        /* emulate admin store */
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
+        $crud = new \Magento\TestFramework\Entity(
+            $this->_model, array('name' => 'new name'), 'Magento\Store\Model\Store'
+        );
         $crud->testCrud();
     }
 
@@ -328,6 +317,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Model\Exception
      */
@@ -342,10 +332,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'is_active' => 1
         );
         $data = array_merge($normalStoreData, $badStoreData);
-
         $this->_model->setData($data);
-
-        /* emulate admin store */
         $this->_model->save();
     }
 

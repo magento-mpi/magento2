@@ -298,3 +298,4 @@ $table = $this->getConnection()->newTable(
 $this->getConnection()->createTable($table);
 
 $this->installEntities();
+$this->endSetup();
