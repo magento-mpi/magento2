@@ -70,7 +70,7 @@ class TaxDetails extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get applied taxes
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax [] | null
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] | null
      */
     public function getAppliedTaxes()
     {
@@ -80,7 +80,7 @@ class TaxDetails extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get TaxDetails items
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxDetails\Item []|null
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\Item[] | null
      */
     public function getItems()
     {
