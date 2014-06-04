@@ -51,7 +51,7 @@ class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return int|null
      */
-    public function getCustomerTaxClassId()
+    public function getTaxClassId()
     {
         return $this->_get(self::KEY_TAX_CLASS_ID);
     }
@@ -79,7 +79,7 @@ class QuoteDetails extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get quote items
      *
-     * @return \Magento\Tax\Service\V1\Data\QuoteDetails\Item []|null
+     * @return \Magento\Tax\Service\V1\Data\QuoteDetails\Item[]|null
      */
     public function getItems()
     {
