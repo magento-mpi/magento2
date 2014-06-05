@@ -171,4 +171,10 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
+    <route url="/V1/products/attributes/:id/add-option" method="POST">
+        <service class="Magento\Catalog\Service\V1\ProductAttributeServiceInterface" method="addOption" />
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
 </routes>

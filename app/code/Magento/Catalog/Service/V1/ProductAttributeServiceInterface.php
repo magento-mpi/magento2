@@ -7,9 +7,10 @@
  */
 namespace Magento\Catalog\Service\V1;
 
+use Magento\Catalog\Service\V1\Data\ProductAttributeType;
+
 /**
  * Class ProductAttributeServiceInterface
- * @package Magento\Catalog\Service\V1
  */
 interface ProductAttributeServiceInterface
 {
@@ -22,4 +23,13 @@ interface ProductAttributeServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function options($id);
+
+    /**
+     * Add option to attribute
+     *
+     * @param string $id
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Option $option
+     * @return int
+     */
+    public function addOption($id, \Magento\Catalog\Service\V1\Data\Eav\Option $option);
 }
