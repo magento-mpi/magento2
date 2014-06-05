@@ -60,7 +60,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * is default
      *
-     * @return bool
+     * @return bool|null
      */
     public function isDefault()
     {
@@ -70,7 +70,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Set option label for store scopes
      *
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Option\Label[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option\Label[]|null
      */
     public function getStoreLabels()
     {

@@ -33,7 +33,7 @@ class Label extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get store id
      *
-     * @return string
+     * @return int
      */
     public function getStoreId()
     {

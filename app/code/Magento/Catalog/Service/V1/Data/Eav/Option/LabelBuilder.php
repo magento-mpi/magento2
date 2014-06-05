@@ -24,7 +24,7 @@ class LabelBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * Get option order
+     * Set store id
      *
      * @param int $value
      * @return $this
