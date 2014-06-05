@@ -11,7 +11,7 @@ namespace Magento\UrlRewrite\Test\Constraint;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class AssertUrlRewriteCategoryRedirect
@@ -30,13 +30,13 @@ class AssertUrlRewriteCategoryRedirect extends AbstractConstraint
      * Assert check URL rewrite category redirect
      *
      * @param UrlRewrite $urlRewrite
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @param Browser $browser
      * @return void
      */
     public function processAssert(
         UrlRewrite $urlRewrite,
-        CatalogCategoryEntity $category,
+        CatalogCategory $category,
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());

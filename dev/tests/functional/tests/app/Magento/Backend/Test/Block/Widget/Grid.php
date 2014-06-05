@@ -311,5 +311,6 @@ abstract class Grid extends Block
             $sortBlock->click();
             $this->getTemplateBlock()->waitLoader();
         }
+        $this->reinitRootElement();
     }
 }

@@ -16,31 +16,22 @@ use Mtf\Util\XmlConverter;
 use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\Category;
-use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Form;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 
 /**
  * Class ProductForm
  * Product creation form
  */
-class ProductForm extends FormTabs
+class ProductForm extends Form
 {
-    /**
-     * 'Save' split button
-     *
-     * @var string
-     */
-    protected $saveButton = '#save-split-button-button';
-
     /**
      * New attribute selector
      *
      * @var string
      */
     protected $newAttribute = 'body';
-
+//
     /**
      * New attribute frame selector
      *
@@ -53,77 +44,7 @@ class ProductForm extends FormTabs
      *
      * @var string
      */
-    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
-
-    /**
-     * Variations tab selector
-     *
-     * @var string
-     */
     protected $productDetailsTab = '#product_info_tabs_product-details';
-
-    /**
-     * Variations wrapper selector
-     *
-     * @var string
-     */
-    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
-
-    /**
-     * New variation set button selector
-     *
-     * @var string
-     */
-    protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
-
-    /**
-     * Choose affected attribute set dialog popup window
-     *
-     * @var string
-     */
-    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
-
-    /**
-     * Category name selector
-     *
-     * @var string
-     */
-    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
-
-    /**
-     * 'Advanced Settings' tab
-     *
-     * @var string
-     */
-    protected $advancedSettings = '#ui-accordion-product_info_tabs-advanced-header-0[aria-selected="false"]';
-
-    /**
-     * Advanced tab list
-     *
-     * @var string
-     */
-    protected $advancedTabList = '#product_info_tabs-advanced[role="tablist"]';
-
-    /**
-     * Advanced tab panel
-     *
-     * @var string
-     */
-    protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
-
-    /**
-     * Category fixture
-     *
-     * @var Category
-     */
-    protected $category;
-
-    /**
-     * Client Browser
-     *
-     * @var Browser
-     */
-    protected $browser;
 
     /**
      * @param Element $element
@@ -171,10 +92,10 @@ class ProductForm extends FormTabs
     /**
      * Initialization categories before use in the form of
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return void
      */
-    public function setCategory(Category $category)
+    public function setCategory(CatalogCategoryEntity $category)
     {
         $this->category = $category;
     }
@@ -198,38 +119,9 @@ class ProductForm extends FormTabs
         }
         if ($fixture->getConfigurableOptions()) {
             $this->browser->switchToFrame();
-            $this->fillVariations($fixture->getConfigurableOptions());
+            $this->variationsFill($fixture->getConfigurableOptions());
         }
 
-    }
-
-    /**
-     * Select category
-     *
-     * @param FixtureInterface $fixture
-     * @return void
-     */
-    protected function fillCategory(FixtureInterface $fixture)
-    {
-        // TODO should be removed after suggest widget implementation as typified element
-        $categoryName = $this->category
-            ? $this->category->getCategoryName()
-            : ($fixture->getCategoryName() ? $fixture->getCategoryName() : '');
-
-        if (!$categoryName) {
-            return;
-        }
-        $category = $this->_rootElement->find(
-            str_replace('%categoryName%', $categoryName, $this->categoryName),
-            Locator::SELECTOR_XPATH
-        );
-        if (!$category->isVisible()) {
-            $this->fillCategoryField(
-                $categoryName,
-                'category_ids-suggest',
-                '//*[@id="attribute-category_ids-container"]'
-            );
-        }
     }
 
     /**
@@ -244,24 +136,6 @@ class ProductForm extends FormTabs
         if ($this->getAffectedAttributeSetBlock()->isVisible()) {
             $this->getAffectedAttributeSetBlock()->chooseAttributeSet($fixture);
         }
-    }
-
-    /**
-     * Save new category
-     *
-     * @param Product $fixture
-     */
-    public function addNewCategory(Product $fixture)
-    {
-        $this->openNewCategoryDialog();
-        $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
-            ->setValue($fixture->getNewCategoryName());
-
-        $this->clearCategorySelect();
-        $this->selectParentCategory();
-
-        $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
-        $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
     }
 
     /**
@@ -281,7 +155,7 @@ class ProductForm extends FormTabs
      *
      * @param array $variations
      */
-    public function fillVariations($variations)
+    public function variationsFill(array $variations)
     {
         $variationsBlock = $this->getVariationsBlock();
         $variationsBlock->fillAttributeOptions($variations);
@@ -305,102 +179,15 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Clear category field
-     */
-    public function clearCategorySelect()
-    {
-        $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
-        if ($this->_rootElement->find($selectedCategory)->isVisible()) {
-            $this->_rootElement->find($selectedCategory)->click();
-        }
-    }
-
-    /**
-     * Select parent category for new one
-     */
-    protected function selectParentCategory()
-    {
-        // TODO should be removed after suggest widget implementation as typified element
-        $this->fillCategoryField(
-            'Default Category',
-            'new_category_parent-suggest',
-            '//*[@id="new_category_form_fieldset"]'
-        );
-    }
-
-    /**
-     * Fills select category field
+     * Find Attribute on Product page
      *
-     * @param string $name
-     * @param string $elementId
-     * @param string $parentLocation
+     * @param string $attributeName
+     * @return bool
      */
-    protected function fillCategoryField($name, $elementId, $parentLocation)
+    public function findAttribute($attributeName)
     {
-        // TODO should be removed after suggest widget implementation as typified element
-        $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
-        //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
-        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
-        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
-        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
-        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
-    }
+        $this->openTab('product-details');
 
-    /**
-     * Open new category dialog
-     */
-    protected function openNewCategoryDialog()
-    {
-        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
-        $this->waitForElementVisible('input#new_category_name');
-    }
-
-    /**
-     * Open tab
-     *
-     * @param string $tabName
-     * @return Tab|bool
-     */
-    public function openTab($tabName)
-    {
-        $rootElement = $this->_rootElement;
-        $selector = $this->tabs[$tabName]['selector'];
-        $strategy = isset($this->tabs[$tabName]['strategy'])
-            ? $this->tabs[$tabName]['strategy']
-            : Locator::SELECTOR_CSS;
-        $advancedTabList = $this->advancedTabList;
-        $tab = $this->_rootElement->find($selector, $strategy);
-        $advancedSettings = $this->_rootElement->find($this->advancedSettings);
-
-        // Wait until all tabs will load
-        $this->_rootElement->waitUntil(
-            function () use ($rootElement, $advancedTabList) {
-                return $rootElement->find($advancedTabList)->isVisible();
-            }
-        );
-
-        if ($tab->isVisible()) {
-            $tab->click();
-        } elseif ($advancedSettings->isVisible()) {
-            $advancedSettings->click();
-            // Wait for open tab animation
-            $tabPanel = $this->advancedTabPanel;
-            $this->_rootElement->waitUntil(
-                function () use ($rootElement, $tabPanel) {
-                    return $rootElement->find($tabPanel)->isVisible();
-                }
-            );
-            // Wait until needed tab will appear
-            $this->_rootElement->waitUntil(
-                function () use ($rootElement, $selector, $strategy) {
-                    return $rootElement->find($selector, $strategy)->isVisible();
-                }
-            );
-            $tab->click();
-        } else {
-            return false;
-        }
-
-        return $this;
+        return $this->getVariationsBlock()->getAttributeBlock($attributeName)->isVisible();
     }
 }

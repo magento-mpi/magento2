@@ -64,9 +64,10 @@ class Grid extends AbstractGrid
      *
      * @param array $filter
      * @param bool $isSearchable
+     * @param bool $isStrict
      * @return Element
      */
-    protected function getRow(array $filter, $isSearchable = true)
+    protected function getRow(array $filter, $isSearchable = true, $isStrict = true)
     {
         if ($isSearchable) {
             $this->search($filter);

@@ -8,6 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -32,18 +33,18 @@ class AssertConfigurableInCategory extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param CatalogProductConfigurable $configurable
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         CatalogProductConfigurable $configurable,
-        Category $category
+        CatalogCategoryEntity $category
     ) {
         //Open category view page
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
 
         //process asserts
         $this->assertPrice($configurable, $catalogCategoryView);
