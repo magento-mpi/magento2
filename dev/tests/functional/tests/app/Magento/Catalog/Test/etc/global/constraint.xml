@@ -277,37 +277,21 @@
     <assertProductAttributeIsGlobal module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductAttributeIsGlobal>
-    <assertCrossSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-    <assertProductAttributeIsConfigurable module="Magento_Catalog">
-        <severeness>high</severeness>
-        <require>
-            <productAttribute class="Magento\Catalog\Test\Fixture\CatalogAttributeEntity" />
-            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
-            <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
-        </require>
-    </assertProductAttributeIsConfigurable>
-
-
     <assertSuccessDeletedAttribute module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
         </require>
     </assertSuccessDeletedAttribute>
-
-
     <assertAbsenceProductAttributeInGrid module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
         </require>
     </assertAbsenceProductAttributeInGrid>
-
-
     <assertAbsenceInAddAttributeSearch module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
         </require>
-    </assertUpSellsProductsSection>
+    </assertAbsenceInAddAttributeSearch>
     <assertCategorySaveMessage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategorySaveMessage>
@@ -317,8 +301,6 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
-    </assertAbsenceInAddAttributeSearch>
-
     <assertAbsenceProductAttributeForExport module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
