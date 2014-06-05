@@ -35,6 +35,8 @@ class Conditions implements FixtureInterface
     protected $params;
 
     /**
+     * Constructor for preparing conditions data from repository
+     *
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param string $data
@@ -82,8 +84,8 @@ class Conditions implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
-     * @return mixed
+     * @param null $key
+     * @return array|mixed
      */
     public function getData($key = null)
     {

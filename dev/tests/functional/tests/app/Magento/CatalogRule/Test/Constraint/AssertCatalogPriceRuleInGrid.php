@@ -47,7 +47,7 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
         //add rule_website to filter if there is one
         if ($catalogPriceRule->getWebsiteIds() != null) {
             $rule_website = $catalogPriceRule->getWebsiteIds();
-            $rule_website = reset($rule_website);
+            $rule_website = is_array($rule_website) ? reset($rule_website) : $rule_website;
             $filter['rule_website'] = $rule_website;
         }
         //add from_date & to_date to filter if there are ones

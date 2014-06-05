@@ -9,11 +9,8 @@
 namespace Magento\CatalogRule\Test\TestCase;
 
 use Mtf\Fixture\FixtureFactory;
-use Mtf\TestCase\Injectable;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
-use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 
 /**
  * Test Creation for UpdateCatalogPriceRuleEntity
@@ -33,36 +30,8 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
  * @group Catalog_Price_Rules_(MX)
  * @ZephyrId MAGETWO-20616
  */
-class UpdateCatalogPriceRuleEntityTest extends Injectable
+class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
 {
-    /**
-     * Page CatalogRuleIndex
-     *
-     * @var CatalogRuleIndex
-     */
-    protected $catalogRuleIndex;
-
-    /**
-     * Page CatalogRuleNew
-     *
-     * @var CatalogRuleNew
-     */
-    protected $catalogRuleNew;
-
-    /**
-     * Injection data
-     *
-     * @param CatalogRuleIndex $catalogRuleIndex
-     * @param CatalogRuleNew $catalogRuleNew
-     */
-    public function __inject(
-        CatalogRuleIndex $catalogRuleIndex,
-        CatalogRuleNew $catalogRuleNew
-    ) {
-        $this->catalogRuleIndex = $catalogRuleIndex;
-        $this->catalogRuleNew = $catalogRuleNew;
-    }
-
     /**
      * Create simple product with category
      *
@@ -84,26 +53,22 @@ class UpdateCatalogPriceRuleEntityTest extends Injectable
      * @param CatalogRule $catalogPriceRule
      * @param CatalogRule $catalogPriceRuleOriginal
      * @param CatalogProductSimple $product
-     * @param string $is_applied
+     * @param string $saveAction
      * @return void
      */
     public function testUpdateCatalogPriceRule(
         CatalogRule $catalogPriceRule,
         CatalogRule $catalogPriceRuleOriginal,
         CatalogProductSimple $product,
-        $is_applied
+        $saveAction
     ) {
         // Preconditions
         $catalogPriceRuleOriginal->persist();
 
         //Prepare data
-        $replace = [
-            'conditions' => [
-                'conditions' => [
-                    '%category_1%' => $product->getCategoryIds()[0]['id'],
-                ],
-            ],
-        ];
+        $replace = $saveAction == 'saveAndApply'
+            ? ['conditions' => ['conditions' => ['%category_1%' => $product->getCategoryIds()[0]['id']]]]
+            : [];
         $filter = [
             'name' => $catalogPriceRuleOriginal->getName(),
             'rule_id' => $catalogPriceRuleOriginal->getId()
@@ -112,12 +77,10 @@ class UpdateCatalogPriceRuleEntityTest extends Injectable
         // Steps
         $this->catalogRuleIndex->open();
         $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
-        if ($is_applied == 'No') {
-            $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule);
-            $this->catalogRuleNew->getFormPageActions()->save();
-        } else {
-            $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule, null, $replace);
-            $this->catalogRuleNew->getFormPageActions()->saveAndApply();
-        }
+        $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule, null, $replace);
+        $this->catalogRuleNew->getFormPageActions()->$saveAction();
+
+        // Prepare data for tear down
+        $this->prepareTearDown($catalogPriceRule);
     }
 }

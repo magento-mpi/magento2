@@ -101,6 +101,8 @@ class FormPageActions extends PageActions
 
     /**
      * Click on "Save and Apply" button
+     *
+     * @return void
      */
     public function saveAndApply()
     {

@@ -12,6 +12,7 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
 
 /**
  * Class AssertCatalogPriceRuleAppliedProductPage
@@ -26,20 +27,21 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that Catalog Price Rule is applied for product(s) on Product page according to Priority
+     * Assert that Catalog Price Rule is applied & it impacts on product's discount price on Product page
      *
      * @param CatalogRule $catalogPriceRule
      * @param CatalogProductSimple $product
      * @param CatalogProductView $pageCatalogProductView
+     * @param Browser $browser
      * @return void
      */
     public function processAssert(
         CatalogRule $catalogPriceRule,
         CatalogProductSimple $product,
-        CatalogProductView $pageCatalogProductView
+        CatalogProductView $pageCatalogProductView,
+        Browser $browser
     ) {
-        $pageCatalogProductView->init($product);
-        $pageCatalogProductView->open();
+        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $productPrice = $product->getPrice();
         $discountAmount = $catalogPriceRule->getDiscountAmount();
         $expectedSpecialPrice = $productPrice - $discountAmount;
