@@ -33,7 +33,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      *
      * @var string
      */
-    protected $_startAction = 'paypal/express/start';
+    protected $_startAction = 'paypal/express/start/button/1';
 
     /**
      * Express checkout model factory name

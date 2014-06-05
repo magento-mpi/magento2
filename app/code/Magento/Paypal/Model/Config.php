@@ -153,6 +153,11 @@ class Config
     /**#@-*/
 
     /**
+     * Config path for enabling/disabling order review step in express checkout
+     */
+    const XML_PATH_PAYPAL_EXPRESS_SKIP_ORDER_REVIEW_STEP_FLAG = 'payment/paypal_express/skip_order_review_step';
+
+    /**
      * Default URL for centinel API (PayPal Direct)
      *
      * @var string
@@ -762,8 +767,6 @@ class Config
                 $this->_storeId
             );
             $value = $this->_prepareValue($underscored, $value);
-            $this->{$key} = $value;
-            $this->{$underscored} = $value;
             return $value;
         }
         return null;
@@ -936,6 +939,40 @@ class Config
             return $countryMethods;
         }
         return isset($countryMethods[$countryCode]) ? $countryMethods[$countryCode] : $countryMethods['other'];
+    }
+
+    /**
+     * Return start url for PayPal Basic
+     *
+     * @param string $token
+     * @return string
+     */
+    public function getPayPalBasicStartUrl($token)
+    {
+        $params = array(
+            'cmd'   => '_express-checkout',
+            'token' => $token,
+        );
+
+        if ($this->isOrderReviewStepDisabled()) {
+            $params['useraction'] = 'commit';
+        }
+
+        return $this->getPaypalUrl($params);
+    }
+
+    /**
+     * Check whether order review step enabled in configuration
+     *
+     * @return bool
+     */
+    public function isOrderReviewStepDisabled()
+    {
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_PAYPAL_EXPRESS_SKIP_ORDER_REVIEW_STEP_FLAG,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
     }
 
     /**

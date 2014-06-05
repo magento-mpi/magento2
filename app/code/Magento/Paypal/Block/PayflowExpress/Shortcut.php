@@ -25,7 +25,7 @@ class Shortcut extends \Magento\Paypal\Block\Express\Shortcut
      *
      * @var string
      */
-    protected $_startAction = 'paypal/payflowexpress/start';
+    protected $_startAction = 'paypal/payflowexpress/start/button/1';
 
     /**
      * Express checkout model factory name

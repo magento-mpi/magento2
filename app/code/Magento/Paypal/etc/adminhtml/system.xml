@@ -234,6 +234,7 @@
                         <field id="solution_type" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/solution_type"/>
                         <field id="require_billing_address" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/require_billing_address"/>
                         <field id="allow_ba_signup" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup"/>
+                        <field id="skip_order_review_step" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/skip_order_review_step"/>
                     </group>
                 </group>
             </group>
@@ -988,6 +989,12 @@
                             <source_model>Magento\Paypal\Model\Config::getExpressCheckoutBASignupOptions</source_model>
                             <attribute type="shared">1</attribute>
                         </field>
+                        <field id="skip_order_review_step" translate="label" type="select" sortOrder="95" showInDefault="1" showInWebsite="1">
+                            <label>Skip Order Review Step</label>
+                            <config_path>payment/paypal_express/skip_order_review_step</config_path>
+                            <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <group id="express_checkout_billing_agreement" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                             <label>PayPal Billing Agreement Settings</label>
                             <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
@@ -1640,6 +1647,7 @@
                                 <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
+                            <field id="skip_order_review_step" sortOrder="50" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/skip_order_review_step"/>
                         </group>
                     </group>
                 </group>
@@ -1729,6 +1737,7 @@
                             <field id="solution_type" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/solution_type" />
                             <field id="require_billing_address" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/require_billing_address" />
                             <field id="allow_ba_signup" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup" />
+                            <field id="skip_order_review_step" extends="payment_all_paypal/express_checkout/settings_ec/settings_ec_advanced/skip_order_review_step" />
                         </group>
                     </group>
                 </group>

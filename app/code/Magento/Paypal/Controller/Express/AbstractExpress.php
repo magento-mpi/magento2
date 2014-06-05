@@ -172,9 +172,11 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
                 $this->_url->getUrl('checkout/onepage/success')
             );
 
+            $button = (bool)$this->getRequest()->getParam(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_BUTTON);
             $token = $this->_checkout->start(
                 $this->_url->getUrl('*/*/return'),
-                $this->_url->getUrl('*/*/cancel')
+                $this->_url->getUrl('*/*/cancel'),
+                $button
             );
             $url = $this->_checkout->getRedirectUrl();
             if ($token && $url) {
@@ -254,7 +256,11 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         try {
             $this->_initCheckout();
             $this->_checkout->returnFromPaypal($this->_initToken());
-            $this->_redirect('*/*/review');
+            if ($this->_checkout->canSkipOrderReviewStep()) {
+                $this->_forward('placeOrder');
+            } else {
+                $this->_redirect('*/*/review');
+            }
             return;
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
@@ -474,10 +480,10 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     /**
      * Instantiate quote and checkout
      *
-     * @return void
+     * @return \Magento\Paypal\Model\Express\Checkout
      * @throws \Magento\Framework\Model\Exception
      */
-    private function _initCheckout()
+    protected function _initCheckout()
     {
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
@@ -495,6 +501,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
                 ->create($this->_checkoutType, $parameters);
         }
         $this->_checkout = $this->_checkoutTypes[$this->_checkoutType];
+        return $this->_checkout;
     }
 
     /**

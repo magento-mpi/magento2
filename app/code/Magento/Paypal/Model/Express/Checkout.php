@@ -36,6 +36,13 @@ class Checkout
     const PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT = 'paypal_ec_create_ba';
 
     /**
+     * Flag which says that was used PayPal Express Checkout button for checkout
+     * Uses additional_information as storage
+     * @var string
+     */
+    const PAYMENT_INFO_BUTTON = 'button';
+
+    /**
      * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
@@ -310,7 +317,6 @@ class Checkout
         $this->_customerData = $customerData;
         $this->_taxData = $taxData;
         $this->_checkoutData = $checkoutData;
-        $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
         $this->_logger = $logger;
         $this->_localeResolver = $localeResolver;
@@ -331,6 +337,8 @@ class Checkout
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_encryptor = $encryptor;
         $this->_messageManager = $messageManager;
+        $this->_customerSession = isset($params['session'])
+            && $params['session'] instanceof \Magento\Customer\Model\Session ? $params['session'] : $customerSession;
 
         if (isset($params['config']) && $params['config'] instanceof PaypalConfig) {
             $this->_config = $params['config'];
@@ -443,10 +451,11 @@ class Checkout
      *
      * @param string $returnUrl
      * @param string $cancelUrl
+     * @param bool|null $button
      * @return string
      * @throws \Magento\Framework\Model\Exception
      */
-    public function start($returnUrl, $cancelUrl)
+    public function start($returnUrl, $cancelUrl, $button = null)
     {
         $this->_quote->collectTotals();
 
@@ -539,10 +548,29 @@ class Checkout
         $this->_api->callSetExpressCheckout();
 
         $token = $this->_api->getToken();
-        $this->_redirectUrl = $this->_config->getExpressCheckoutStartUrl($token);
+        $this->_redirectUrl = $button ? $this->_config->getExpressCheckoutStartUrl($token)
+            : $this->_config->getPayPalBasicStartUrl($token);
 
         $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT)->save();
+
+        // Set flag that we came from Express Checkout button
+        if (!empty($button)) {
+            $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_BUTTON, 1);
+        } elseif ($this->_quote->getPayment()->hasAdditionalInformation(self::PAYMENT_INFO_BUTTON)) {
+            $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_BUTTON);
+        }
         return $token;
+    }
+
+    /**
+     * Check whether system can skip order review page before placing order
+     *
+     * @return bool
+     */
+    public function canSkipOrderReviewStep()
+    {
+        $isOnepageCheckout = !$this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_BUTTON);
+        return $this->_config->isOrderReviewStepDisabled() && $isOnepageCheckout;
     }
 
     /**
@@ -870,20 +898,31 @@ class Checkout
      */
     protected function _setExportedAddressData($address, $exportedAddress)
     {
-        foreach ($exportedAddress->getExportedKeys() as $key) {
-            $oldData = $address->getDataUsingMethod($key);
-            $isEmpty = null;
-            if (is_array($oldData)) {
-                foreach ($oldData as $val) {
-                    if (!empty($val)) {
-                        $isEmpty = false;
-                        break;
+        // Exported data is more priority if we came from Express Checkout button
+        $isButton  = (bool)$this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_BUTTON);
+        if (!$isButton) {
+            foreach ($exportedAddress->getExportedKeys() as $key) {
+                $oldData = $address->getDataUsingMethod($key);
+                $isEmpty = null;
+                if (is_array($oldData)) {
+                    foreach ($oldData as $val) {
+                        if (!empty($val)) {
+                            $isEmpty = false;
+                            break;
+                        }
+                        $isEmpty = true;
                     }
-                    $isEmpty = true;
+                }
+                if (empty($oldData) || $isEmpty === true) {
+                    $address->setDataUsingMethod($key, $exportedAddress->getData($key));
                 }
             }
-            if (empty($oldData) || $isEmpty === true) {
-                $address->setDataUsingMethod($key, $exportedAddress->getData($key));
+        } else {
+            foreach ($exportedAddress->getExportedKeys() as $key) {
+                $data = $exportedAddress->getData($key);
+                if (!empty($data)) {
+                    $address->setDataUsingMethod($key, $data);
+                }
             }
         }
     }

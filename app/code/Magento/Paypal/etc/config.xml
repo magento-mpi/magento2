@@ -45,6 +45,7 @@
                 <order_valid_period>29</order_valid_period>
                 <child_authorization_number>1</child_authorization_number>
                 <verify_peer>1</verify_peer>
+                <skip_order_review_step>1</skip_order_review_step>
             </paypal_express>
             <paypal_direct>
                 <model>Magento\Paypal\Model\Direct</model>
