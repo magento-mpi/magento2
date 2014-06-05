@@ -1,4 +1,23 @@
 * Framework improvements:
+  * Covered Magento application components with unit tests:
+      * `SalesRule/Model/Observer`
+      * `SalesRule/Helper/*`
+      * `SalesRule/Model/Plugin/*`
+      * `SalesRule/Model/System/Config*`
+      * `Sales/Model/Config.php`
+      * `Sales/Model/Download.php`
+      * `Sales/Model/Quote.php`
+  * Covered Magento lib form elements with unit tests:
+      * `lib/Magento/Framework/Flag.php`
+      * `lib/Magento/Framework/Escaper`
+      * `lib/Magento/Framework/Event`
+      * `lib/Magento/Framework/Logger`
+      * `lib/Magento/Framework/Util`
+      * `lib/Magento/Framework/Registry.php`
+      * `lib/Magento/Framework/Backup/Media`
+      * `lib/Magento/Framework/Backup/NoMedia`
+      * `lib/Magento/Framework/Archive`
+      * `lib/Magento/Framework/Translate.php`
   * Created Service API for Magento_Catalog Module:
      * AttributeSet Service (MAGETWO-23316)
      * AttributeSetGroup Service (MAGETWO-23317)

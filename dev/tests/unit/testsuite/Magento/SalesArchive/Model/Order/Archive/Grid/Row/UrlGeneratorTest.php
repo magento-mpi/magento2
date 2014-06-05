@@ -26,45 +26,39 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped('Bug with phpunit 3.7: PHPUnit_Framework_Exception: Class "%s" already exists');
         $this->_authorizationMock = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')->getMock();
 
         $this->_urlModelMock = $this->getMock(
             'Magento\Backend\Model\Url',
-            array(),
-            array(),
-            'Magento\Backend\Model\UrlProxy',
+            [],
+            [],
+            '',
             false
         );
 
-        $urlMap = array(
-            array(
+        $urlMap = [
+            [
                 'sales/order/view',
-                array('order_id' => null),
+                ['order_id' => null],
                 'http://localhost/backend/sales/order/view/order_id/'
-            ),
-            array('sales/order/view', array('order_id' => 1), 'http://localhost/backend/sales/order/view/order_id/1')
-        );
+            ],
+            ['sales/order/view', ['order_id' => 1], 'http://localhost/backend/sales/order/view/order_id/1']
+        ];
         $this->_urlModelMock->expects($this->any())->method('getUrl')->will($this->returnValueMap($urlMap));
 
         $this->_model = new \Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator(
             $this->_urlModelMock,
             $this->_authorizationMock,
-            array('path' => '*/sales_order/view', 'extraParamsTemplate' => array('order_id' => 'getId'))
+            ['path' => 'sales/order/view', 'extraParamsTemplate' => ['order_id' => 'getId']]
         );
     }
 
     public function testAuthNotAllowed()
     {
-        $this->_authorizationMock->expects(
-            $this->once()
-        )->method(
-            'isAllowed'
-        )->with(
-            'Magento_SalesArchive::orders'
-        )->will(
-            $this->returnValue(false)
-        );
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Magento_SalesArchive::orders')
+            ->will($this->returnValue(false));
 
         $this->assertFalse($this->_model->getUrl(new \Magento\Framework\Object()));
     }
@@ -76,27 +70,23 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testAuthAllowed($item, $expectedUrl)
     {
-        $this->_authorizationMock->expects(
-            $this->any()
-        )->method(
-            'isAllowed'
-        )->with(
-            'Magento_SalesArchive::orders'
-        )->will(
-            $this->returnValue(true)
-        );
+        $this->_authorizationMock->expects($this->any())
+            ->method('isAllowed')
+            ->with('Magento_SalesArchive::orders')
+            ->will($this->returnValue(true));
+        $result = $this->_model->getUrl($item);
 
-        $this->assertEquals($expectedUrl, $this->_model->getUrl($item));
+        $this->assertEquals($expectedUrl, $result);
     }
 
     public function itemsDataProvider()
     {
-        return array(
-            array(new \Magento\Framework\Object(), 'http://localhost/backend/admin/sales_order/view/order_id/'),
-            array(
+        return [
+            [new \Magento\Framework\Object(), 'http://localhost/backend/sales/order/view/order_id/'],
+            [
                 new \Magento\Framework\Object(array('id' => 1)),
-                'http://localhost/backend/admin/sales_order/view/order_id/1'
-            )
-        );
+                'http://localhost/backend/sales/order/view/order_id/1'
+            ]
+        ];
     }
 }
