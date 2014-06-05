@@ -112,7 +112,7 @@ class FormPageActions extends PageActions
     }
 
     /**
-     * Check 'Delete Attribute' button availability
+     * Check 'Delete' button availability
      *
      * @return bool
      */
