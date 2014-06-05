@@ -16,7 +16,7 @@
             entry: function() {
                 (function() {
 
-                    var productInfoMain = $('.product.info.main'),
+                    var productInfoMain = $('.product-info-main'),
                         productInfoAdditional = $("#product-info-additional");
 
                     if(productInfoAdditional.length) {

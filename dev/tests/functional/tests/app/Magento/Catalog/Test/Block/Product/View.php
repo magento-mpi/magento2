@@ -139,7 +139,7 @@ class View extends Block
     protected function getPriceBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find('.product.info.main .price-box')
+            $this->_rootElement->find('.product-info-main .price-box')
         );
     }
 

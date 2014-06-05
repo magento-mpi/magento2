@@ -37,7 +37,7 @@
     </referenceBlock>
     <update handle="page_calendar"/>
     <referenceContainer name="content">
-        <container name="product.info.main" label="invisible" htmlTag="div" htmlClass="product info main" before="-">
+        <container name="product.info.main" label="invisible" htmlTag="div" htmlClass="product-info-main" before="-">
             <container name="product.info.type" label="invisible" before="-"/>
             <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.sku" template="product/view/attribute.phtml" after="product.info.type">
                 <arguments>

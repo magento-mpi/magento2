@@ -555,7 +555,7 @@
     }
 }
 
-.minicart.wrapper {
+.minicart-wrapper {
     .dropdown(
         @_toggle-selector: ~".action.showcart",
         @_options-selector: ~".block.minicart",
@@ -571,9 +571,6 @@
         @_icon-font-color-active: @color-primary
     );
     float: right;
-    margin-left: 30px;
-    right: 15px;
-    position: absolute;
     .block.minicart {
         right: -15px;
         width: 320px;
@@ -652,6 +649,9 @@
         );
         white-space: nowrap;
         .counter.qty {
+            &.empty {
+               display: none;
+            }
             background: @color-active;
             border-radius: 2px;
             color: #fff;
@@ -710,10 +710,8 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .minicart.wrapper {
-        position: relative;
+    .minicart-wrapper {
         margin-left: 13px;
-        right: inherit;
         .block.minicart {
             width: 380px;
         }

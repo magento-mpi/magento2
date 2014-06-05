@@ -13,7 +13,6 @@
 @autocomplete-item-amount-color: #999;
 
 .block.search {
-    position: relative;
     .title {
         display: none;
     }
@@ -37,7 +36,7 @@
     .control {
         border-top: 1px solid @border-color-base;
         clear: both;
-        margin: 0 -90px -1px -20px;
+        margin: 0 -20px -1px;
         padding: 0 20px;
     }
 
@@ -141,6 +140,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .block.search {
+        position: relative;
         float: right;
         padding-left: 15px;
         width: 250px;
