@@ -12,4 +12,5 @@
     <preference for="Magento\Catalog\Test\Handler\CatalogCategoryEntity\CatalogCategoryEntityInterface" type="\Magento\Catalog\Test\Handler\CatalogCategoryEntity\Curl" />
     <preference for="Magento\Catalog\Test\Handler\CatalogProductAttribute\CatalogProductAttributeInterface" type="\Magento\Catalog\Test\Handler\CatalogProductAttribute\Curl" />
     <preference for="Magento\Catalog\Test\Handler\CatalogProductTemplate\CatalogProductTemplateInterface" type="\Magento\Catalog\Test\Handler\CatalogProductTemplate\Curl" />
+    <preference for="Magento\Catalog\Test\Handler\CatalogCategory\CatalogCategoryInterface" type="\Magento\Catalog\Test\Handler\CatalogCategory\Curl" />
 </config>

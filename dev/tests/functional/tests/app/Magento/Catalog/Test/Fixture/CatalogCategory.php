@@ -11,20 +11,20 @@ namespace Magento\Catalog\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class CatalogCategoryEntity
+ * Class CatalogCategory
  * Category fixture
  */
-class CatalogCategoryEntity extends InjectableFixture
+class CatalogCategory extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogCategoryEntity';
+    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogCategory';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogCategoryEntity\CatalogCategoryEntityInterface';
+    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogCategory\CatalogCategoryInterface';
 
     protected $defaultDataSet = [
         'name' => 'Category%isolation%',
@@ -57,6 +57,14 @@ class CatalogCategoryEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
+    ];
+
+    protected $description = [
+        'attribute_code' => 'description',
+        'backend_type' => 'text',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'textarea',
     ];
 
     protected $parent_id = [
@@ -115,6 +123,50 @@ class CatalogCategoryEntity extends InjectableFixture
         'input' => '',
     ];
 
+    protected $available_product_listing_config = [
+        'attribute_code' => 'available_product_listing_config',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '',
+        'group' => 'display_setting',
+        'input' => 'checkbox',
+    ];
+
+    protected $available_sort_by = [
+        'attribute_code' => 'available_sort_by',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '',
+        'group' => 'display_setting',
+        'input' => 'multiselect',
+    ];
+
+    protected $default_product_listing_config = [
+        'attribute_code' => 'default_product_listing_config',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '',
+        'group' => 'display_setting',
+        'input' => 'checkbox',
+    ];
+
+    protected $default_sort_by = [
+        'attribute_code' => 'default_sort_by',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '',
+        'group' => 'display_setting',
+        'input' => 'select',
+    ];
+
+    protected $meta_title = [
+        'attribute_code' => 'meta_title',
+        'backend_type' => 'text',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
@@ -155,6 +207,11 @@ class CatalogCategoryEntity extends InjectableFixture
         return $this->getData('attribute_set_id');
     }
 
+    public function getDescription()
+    {
+        return $this->getData('description');
+    }
+
     public function getParentId()
     {
         return $this->getData('parent_id');
@@ -188,6 +245,31 @@ class CatalogCategoryEntity extends InjectableFixture
     public function getChildrenCount()
     {
         return $this->getData('children_count');
+    }
+
+    public function getAvailableProductListingConfig()
+    {
+        return $this->getData('available_product_listing_config');
+    }
+
+    public function getAvailableSortBy()
+    {
+        return $this->getData('available_sort_by');
+    }
+
+    public function getDefaultProductListingConfig()
+    {
+        return $this->getData('default_product_listing_config');
+    }
+
+    public function getDefaultSortBy()
+    {
+        return $this->getData('default_sort_by');
+    }
+
+    public function getMetaTitle()
+    {
+        return $this->getData('meta_title');
     }
 
     public function getId()

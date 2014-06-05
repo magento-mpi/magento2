@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Catalog\Test\Fixture\CatalogCategoryEntity">
+<fixture class="Magento\Catalog\Test\Fixture\CatalogCategory">
     <module>Magento_Catalog</module>
-    <type>flat</type>
+    <type>eav</type>
     <entity_type>catalog_category_entity</entity_type>
     <collection>Magento\Catalog\Model\Resource\Category\Collection</collection>
     <fields>
@@ -34,6 +34,13 @@
             <default_value>0</default_value>
             <input></input>
         </attribute_set_id>
+        <description>
+            <attribute_code>description</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>textarea</input>
+        </description>
         <parent_id>
             <attribute_code>parent_id</attribute_code>
             <backend_type>int</backend_type>
@@ -83,6 +90,41 @@
             <default_value></default_value>
             <input></input>
         </children_count>
+        <available_product_listing_config>
+            <attribute_code>available_product_listing_config</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>checkbox</input>
+        </available_product_listing_config>
+        <available_sort_by>
+            <attribute_code>available_sort_by</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>multiselect</input>
+        </available_sort_by>
+        <default_product_listing_config>
+            <attribute_code>default_product_listing_config</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>checkbox</input>
+        </default_product_listing_config>
+        <default_sort_by>
+            <attribute_code>default_sort_by</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>select</input>
+        </default_sort_by>
+        <meta_title>
+            <attribute_code>meta_title</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </meta_title>
         <id>
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>
@@ -104,6 +146,6 @@
             <backend_type>virtual</backend_type>
         </include_in_menu>
     </fields>
-    <repository_class>Magento\Catalog\Test\Repository\CatalogCategoryEntity</repository_class>
-    <handler_interface>Magento\Catalog\Test\Handler\CatalogCategoryEntity\CatalogCategoryEntityInterface</handler_interface>
+    <repository_class>Magento\Catalog\Test\Repository\CatalogCategory</repository_class>
+    <handler_interface>Magento\Catalog\Test\Handler\CatalogCategory\CatalogCategoryInterface</handler_interface>
 </fixture>

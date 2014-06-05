@@ -34,7 +34,7 @@ use Mtf\TestCase\Injectable;
  * @group URL_Rewrites_(MX)
  * @ZephyrId MAGETWO-24280
  */
-class CreateCategoryRewritesEntityTest extends Injectable
+class CreateCategoryRewriteEntityTest extends Injectable
 {
     /**
      * Page of url rewrite edit category
@@ -80,7 +80,7 @@ class CreateCategoryRewritesEntityTest extends Injectable
      * @param CatalogCategoryEntity $category
      * @return void
      */
-    public function testCreateCategoryRewrites(UrlRewrite $urlRewrite, CatalogCategoryEntity $category)
+    public function testCreateCategoryRewrite(UrlRewrite $urlRewrite, CatalogCategoryEntity $category)
     {
         //Steps
         $this->urlRewriteIndex->open();
