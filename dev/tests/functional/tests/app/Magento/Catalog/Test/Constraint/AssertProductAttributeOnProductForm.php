@@ -8,19 +8,18 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\System\Config;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Catalog\Test\Fixture\CatalogProductTemplate;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
-use Mtf\System\Config;
-use Mtf\Handler\Curl;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Class AssertProductAttributeOnProductForm

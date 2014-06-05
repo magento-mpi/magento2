@@ -16,6 +16,12 @@ use Mtf\Repository\AbstractRepository;
  */
 class CatalogProductTemplate extends AbstractRepository
 {
+    /**
+     * Construct
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
