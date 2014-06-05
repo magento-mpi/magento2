@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase\Product;
+namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogAttributeEntity;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 
 /**
@@ -30,18 +30,18 @@ class DeleteSystemProductAttributeTest extends Injectable
     /**
      * Run delete system product attribute test
      *
-     * @param CatalogAttributeEntity $productAttribute
+     * @param CatalogProductAttribute $productAttribute
      * @param CatalogProductAttributeIndex $attributeIndex
      * @return void
      */
     public function testDeleteSystemProductAttribute(
-        CatalogAttributeEntity $productAttribute,
+        CatalogProductAttribute $productAttribute,
         CatalogProductAttributeIndex $attributeIndex
     ) {
         $filter = $productAttribute->getData();
 
         // Steps
         $attributeIndex->open();
-        $attributeIndex->getBlockAttributeGrid()->searchAndOpen($filter);
+        $attributeIndex->getGrid()->searchAndOpen($filter);
     }
 }

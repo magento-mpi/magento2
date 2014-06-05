@@ -110,4 +110,14 @@ class FormPageActions extends PageActions
         $this->_rootElement->find($this->deleteButton)->click();
         $this->_rootElement->acceptAlert();
     }
+
+    /**
+     * Check 'Delete Attribute' button availability
+     *
+     * @return bool
+     */
+    public function checkDeleteAttributeButton()
+    {
+        return $this->_rootElement->find($this->deleteButton)->isVisible();
+    }
 }

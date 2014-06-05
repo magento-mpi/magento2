@@ -57,7 +57,7 @@ class CatalogProductAttributeIndex extends BackendPage
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Grid
      */
-    public function getBlockAttributeGrid()
+    public function getGrid()
     {
         return $this->getBlockInstance('grid');
     }

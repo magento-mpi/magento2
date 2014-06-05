@@ -20,7 +20,7 @@ class CatalogProductAttributeNew extends BackendPage
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -33,7 +33,7 @@ class CatalogProductAttributeNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions
+     * @return \Magento\Backend\Test\Block\FormPageActions
      */
     public function getPageActions()
     {

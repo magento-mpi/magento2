@@ -21,7 +21,7 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>grid</name>
+        <name>blockAttributeGrid</name>
         <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Grid</class>
         <locator>.grid</locator>
         <strategy>css selector</strategy>
