@@ -35,9 +35,8 @@ class AssertTaxRuleNotInGrid extends AbstractConstraint
         TaxRuleIndex $taxRuleIndex,
         TaxRule $taxRule
     ) {
-        $taxRuleCode = $taxRule->getCode();
         $filter = [
-            'code' => $taxRuleCode,
+            'code' => $taxRule->getCode(),
         ];
 
         $taxRuleIndex->open();

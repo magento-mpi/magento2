@@ -16,7 +16,7 @@ use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
  */
 class AssertTaxRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The tax rule has been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'The tax rule has been deleted.';
 
     /**
      * Constraint severeness
@@ -35,10 +35,10 @@ class AssertTaxRuleSuccessDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $taxRuleIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success delete message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

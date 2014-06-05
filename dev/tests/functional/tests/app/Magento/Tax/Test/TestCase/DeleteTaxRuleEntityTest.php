@@ -81,12 +81,12 @@ class DeleteTaxRuleEntityTest extends Injectable
      *
      * @param TaxRule $taxRule
      * @param AddressInjectable $address
-     * @param $shipping
+     * @param array $shipping
      */
     public function testDeleteTaxRule(
         TaxRule $taxRule,
         AddressInjectable $address,
-        $shipping
+        array $shipping
     ) {
         // Precondition
         $taxRule->persist();
