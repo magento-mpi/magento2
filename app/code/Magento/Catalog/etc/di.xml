@@ -27,6 +27,7 @@
     <preference for="Magento\Catalog\Service\V1\Product\Link\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Link\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface" type="Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapper\Composite" />
     <preference for="Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface" type="Magento\Catalog\Service\V1\Product\GroupPriceService" />
+    <preference for="Magento\Catalog\Service\V1\Product\TierPriceServiceInterface" type="Magento\Catalog\Service\V1\Product\TierPriceService" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>

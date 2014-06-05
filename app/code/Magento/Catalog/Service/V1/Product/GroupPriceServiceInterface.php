@@ -11,29 +11,28 @@ namespace Magento\Catalog\Service\V1\Product;
 interface GroupPriceServiceInterface
 {
     /**
+     * Set group price for product
+     *
      * @param string $productSku
-     * @param string $customerGroupId
-     * @param double $price
-     * @param double $qty
+     * @param \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price
+     * @return \Magento\Catalog\Service\V1\Data\Product\GroupPrice
      */
-    public function create($productSku, $customerGroupId, $price, $qty = null);
+    public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price);
 
     /**
+     * Remove group price from product
+     *
      * @param string $productSku
      * @param string $customerGroupId
-     * @param double $qty
+     * @return boolean
      */
-    public function delete($productSku, $customerGroupId, $qty = null);
+    public function delete($productSku, $customerGroupId);
 
     /**
+     * Retrieve list of product prices
+     *
      * @param string $productSku
+     * @return \Magento\Catalog\Service\V1\Data\Product\GroupPrice[]
      */
     public function getList($productSku);
-
-    /**
-     * @param string $productSku
-     * @param string $customerGroupId
-     * @param double $qty
-     */
-    public function get($productSku, $customerGroupId, $qty = null);
 }

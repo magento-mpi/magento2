@@ -8,7 +8,11 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
+use Magento\Catalog\Model\ProductFactory;
+use Magento\Catalog\Model\ProductRepository;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Service\V1\Data\Product;
 
 class GroupPriceService implements GroupPriceServiceInterface
 {
@@ -17,60 +21,119 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     protected $productFactory;
 
-    public function __construct(\Magento\Catalog\Model\ProductFactory $productFactory)
-    {
+    /**
+     * @var \Magento\Catalog\Model\ProductRepository
+     */
+    protected $productRepository;
+
+    /**
+     * @var \Magento\Catalog\Service\V1\Data\Product\GroupPriceBuilder
+     */
+    protected $groupPriceBuilder;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @param ProductFactory $productFactory
+     * @param ProductRepository $productRepository
+     * @param Product\GroupPriceBuilder $groupPriceBuilder
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        ProductFactory $productFactory,
+        ProductRepository $productRepository,
+        Product\GroupPriceBuilder $groupPriceBuilder,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+    ) {
         $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
+        $this->groupPriceBuilder = $groupPriceBuilder;
+        $this->storeManager = $storeManager;
+        $this->customerGroupService = $customerGroupService;
     }
 
-    public function create($productSku, $customerGroupId, $price, $qty = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price)
     {
+        try {
+            $product = $this->productRepository->get($productSku);
+            $customerGroup = $this->customerGroupService->getGroup($price->getCustomerGroupId());
+        } catch (NoSuchEntityException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new NoSuchEntityException("Such product doesn't exist");
+        }
 
+        $groupPrices = $product->getData('group_price');
+        $websiteId = $this->storeManager->getWebsite()->getId();
+
+        $found = false;
+        foreach ($groupPrices as &$currentPrice) {
+            if (intval($currentPrice['cust_group']) === $price->getCustomerGroupId()
+                && $currentPrice['website_id'] === $websiteId
+            ) {
+                $currentPrice['price'] = $price->getValue();
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $groupPrices[] = array(
+                'cust_group' => $customerGroup->getId(),
+                'price' => $price->getValue(),
+                'website_price' => $price->getValue(),
+                'website_id' => $websiteId,
+            );
+        }
+
+        $product->setData('group_price', $groupPrices);
+        $errors = $product->validate();
+        if (is_array($errors) && count($errors)) {
+            $errorAttributeCodes = implode(', ', array_keys($errors));
+            throw new CouldNotSaveException(
+                sprintf('Values of following attributes are invalid: %s', $errorAttributeCodes)
+            );
+        }
+        try {
+            $product->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save group price');
+        }
+        return true;
     }
 
-    public function delete($productSku, $customerGroupId, $qty = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($productSku, $customerGroupId)
     {
-
+        // TODO: Implement delete() method.
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getList($productSku)
     {
-        $product = $this->productFactory->create();
-        $product->loadByAttribute('sku', $productSku);
-        if (!$product->getId()) {
+        try {
+            $product = $this->productRepository->get($productSku);
+        } catch (\Exception $e) {
             throw new NoSuchEntityException("Such product doesn't exist");
         }
 
-    }
-
-    public function get($productSku, $customerGroupId, $qty = null)
-    {
-        $product = $this->productFactory->create();
-        $product->load($productSku, 'sku');
-        if (!$product->getId()) {
-            throw new NoSuchEntityException("Such product doesn't exist");
+        $prices = array();
+        foreach ($product->getData('group_price') as $price) {
+            $prices[] = $this->groupPriceBuilder->populateWithArray(array(
+                Product\GroupPrice::CUSTOMER_GROUP_ID => $price['all_groups'] ? 'all' : $price['cust_group'],
+                Product\GroupPrice::VALUE => $price['website_price'],
+            ))->create();
         }
-        $attributeCode = $qty ? 'group_price' : 'tier_price';
-        $groupPrices = $product->getData($attributeCode);
-
-        if (!is_array($groupPrices)) {
-            return array();
-        }
-
-        $result = array();
-
-        foreach ($groupPrices as $tierPrice) {
-            $row = array();
-            $row['customer_group_id'] = (empty($tierPrice['all_groups']) ? $tierPrice['cust_group'] : 'all' );
-            $row['website']           = ($tierPrice['website_id'] ?
-                Mage::app()->getWebsite($tierPrice['website_id'])->getCode() :
-                'all'
-            );
-            $row['qty']               = $tierPrice['price_qty'];
-            $row['price']             = $tierPrice['price'];
-
-            $result[] = $row;
-        }
-
-        return $result;
+        return $prices;
     }
 }
