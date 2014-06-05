@@ -46,4 +46,44 @@ class PriceModifier
             throw new CouldNotSaveException("Invalid data provided for group price");
         }
     }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @param int|string $customerGroupId
+     * @param int $qty
+     * @param int $websiteId
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function removeTierPrice(\Magento\Catalog\Model\Product $product, $customerGroupId, $qty, $websiteId)
+    {
+        $prices = $product->getData('tier_price');
+        // verify if price exist
+        if (is_null($prices)) {
+            throw new NoSuchEntityException("This product doesn't have tier price");
+        }
+        $tierPricesQty = count($prices);
+
+        foreach ($prices as $key => $tierPrice) {
+            if ($customerGroupId == 'all' &&  $tierPrice['price_qty'] == $qty
+                && $tierPrice['all_groups'] == 1 && intval($tierPrice['website_id']) === $websiteId) {
+                unset ($prices[$key]);
+            } elseif ($tierPrice['price_qty'] == $qty && $tierPrice['cust_group'] == $customerGroupId
+                && intval($tierPrice['website_id']) === $websiteId)
+            {
+                unset ($prices[$key]);
+            }
+        }
+
+        if ($tierPricesQty == count($prices)) {
+            throw new NoSuchEntityException("For current  customerGroupId = '$customerGroupId'
+                with 'qty' = $qty any tier price exist'.");
+        }
+        $product->setData('tier_price', $prices);
+        try {
+            $product->save();
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException("Invalid data provided for tier_price");
+        }
+    }
 }

@@ -55,4 +55,35 @@ class TierPriceServiceTest extends WebapiAbstract
             array('all', 2, 8, 2),
         );
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     * @dataProvider deleteDataProvider
+     */
+    public function testDelete($customerGroupId, $qty)
+    {
+        $productSku = 'simple';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => "/V1/products/$productSku/group-prices/$customerGroupId/tiers/$qty",
+                'httpMethod' => 'DELETE',
+            ),
+            'soap' => array(
+                'service' => 'catalogProductTierPriceServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductTierPriceServiceV1Delete',
+            ),
+        );
+        $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId, 'qty' => $qty);
+        $this->assertEquals(true, $this->_webApiCall($serviceInfo, $requestData));
+    }
+
+
+    public function deleteDataProvider()
+    {
+        return array(
+            'delete_tier_price_for_specific_customer_group' => array(0, 3),
+            'delete_tier_price_for_all_customer_group' => array('all', 5)
+        );
+    }
 } 

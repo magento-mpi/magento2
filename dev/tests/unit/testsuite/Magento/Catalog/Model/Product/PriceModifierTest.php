@@ -88,4 +88,62 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->never())->method('setData');
         $this->priceModifier->removeGroupPrice($this->productMock, 10, 1);
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedMessage This product doesn't have tier price
+     */
+    public function testRemoveWhenTierPricesNotExists()
+    {
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('tier_price')
+            ->will($this->returnValue(array()));
+        $this->productMock->expects($this->never())->method('setData');
+        $this->priceModifier->removeTierPrice($this->productMock, 1, 3, 1);
+    }
+
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedMessage For current  customerGroupId = '10' with 'qty' = 15 any tier price exist'.
+     */
+    public function testRemoveTierPriceForNonExistingCustomerGroup()
+    {
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('tier_price')
+            ->will($this->returnValue($this->prices));
+        $this->productMock->expects($this->never())->method('setData');
+        $this->priceModifier->removeTierPrice($this->productMock, 10, 15, 1);
+    }
+
+
+
+    public function testSuccessfullyRemoveTierPriceSpecifiedForAllGroups()
+    {
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('tier_price')
+            ->will($this->returnValue($this->prices));
+        $expectedPrices = array($this->prices[0]);
+        $this->productMock->expects($this->once())->method('setData')->with('tier_price', $expectedPrices);
+        $this->priceModifier->removeTierPrice($this->productMock, 'all', 10, 1);
+    }
+
+
+    public function testSuccessfullyRemoveTierPriceSpecifiedForSpecificGroups()
+    {
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('tier_price')
+            ->will($this->returnValue($this->prices));
+        $expectedPrices = array(1 => $this->prices[1]);
+        $this->productMock->expects($this->once())->method('setData')->with('tier_price', $expectedPrices);
+        $this->priceModifier->removeTierPrice($this->productMock, 1, 15, 1);
+    }
 }

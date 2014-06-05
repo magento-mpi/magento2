@@ -37,21 +37,37 @@ class TierPriceService implements TierPriceServiceInterface
     protected $storeManager;
 
     /**
+     * @var \Magento\Catalog\Model\Product\PriceModifier
+     */
+    protected $priceModifier;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $config;
+
+    /**
      * @param ProductFactory $productFactory
      * @param ProductRepository $productRepository
      * @param Product\TierPriceBuilder $priceBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         ProductFactory $productFactory,
         ProductRepository $productRepository,
         Product\TierPriceBuilder $priceBuilder,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->priceBuilder = $priceBuilder;
         $this->storeManager = $storeManager;
+        $this->priceModifier = $priceModifier;
+        $this->config = $config;
     }
 
     /**
@@ -67,7 +83,20 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function delete($productSku, $customerGroupId, $qty)
     {
-        // TODO: Implement delete() method.
+        $product = $this->productFactory->create();
+        $productId = $product->getIdBySku($productSku);
+
+        if (!$productId) {
+            throw new NoSuchEntityException("Such product doesn't exist");
+        }
+        $product->load($productId);
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
+            $websiteId = 0;
+        } else {
+            $websiteId = $this->storeManager->getWebsite()->getId();
+        }
+        $this->priceModifier->removeTierPrice($product, $customerGroupId, $qty, $websiteId);
+        return true;
     }
 
     /**
