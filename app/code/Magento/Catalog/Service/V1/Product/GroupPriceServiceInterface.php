@@ -25,6 +25,8 @@ interface GroupPriceServiceInterface
      * @param string $productSku
      * @param string $customerGroupId
      * @return boolean
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function delete($productSku, $customerGroupId);
 

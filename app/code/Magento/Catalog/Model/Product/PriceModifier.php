@@ -15,8 +15,8 @@ class PriceModifier
 {
     /**
      * @param \Magento\Catalog\Model\Product $product
-     * @param null $customerGroupId
-     * @param $websiteId
+     * @param int $customerGroupId
+     * @param int $websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
