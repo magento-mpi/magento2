@@ -10,7 +10,6 @@ namespace Magento\CatalogEvent\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
@@ -86,21 +85,17 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
      *
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $product
-     * @param CatalogCategoryEntity $catalogCategoryEntity
      *
      * @return void
      */
     public function testCreateCatalogEvent(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $product,
-        CatalogCategoryEntity $catalogCategoryEntity
+        CatalogProductSimple $product
     ) {
         //Steps
         $this->catalogCategoryIndex->open();
-        $this->catalogCategoryIndex->getTreeCategories()
-            ->selectCategory(
-                $catalogCategoryEntity->getPath() . '/' . $product->getCategoryIds()[0]['name']
-            );
+        $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
+        $this->catalogCategoryIndex->getTreeCategories()->selectCategory($category->getPath() . '/' . $category->getName());
         $this->catalogCategoryIndex->getPageActionsEvent()->addCatalogEvent();
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);
         $this->catalogEventNew->getPageActions()->save();
