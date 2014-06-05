@@ -131,7 +131,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      */
     protected function getAddressTaxRequest(QuoteDetails $quoteDetails, $storeId)
     {
-
+        return $this->calculator->getRateRequest(
+            $quoteDetails->getShippingAddress() ? $quoteDetails->getShippingAddress() : false,
+            $quoteDetails->getBillingAddress() ? $quoteDetails->getBillingAddress() : false,
+            $quoteDetails->getCustomerTaxClassId() ? $quoteDetails->getCustomerTaxClassId() : false,
+            $storeId
+        );
     }
 
     /**
