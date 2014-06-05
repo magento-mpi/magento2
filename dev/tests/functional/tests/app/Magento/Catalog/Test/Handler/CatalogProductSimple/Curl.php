@@ -78,30 +78,21 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         // @todo remove "if" when fixtures refactored
         if ($fixture instanceof InjectableFixture) {
-            $fields = $fixture->getData();
-            // Apply a placeholder for data
-            array_walk_recursive(
-                $fields,
-                function (&$item, $key, $placeholder) {
-                    $item = isset($placeholder[$key][$item]) ? $placeholder[$key][$item] : $item;
-                },
-                $this->placeholderData
-            );
-
+            $fields = $this->replacePlaceholder($fixture->getData(), $this->placeholderData);
             $fields = $this->prepareStockData($fields);
-
-            if ($prefix) {
-                $data[$prefix] = $fields;
-            } else {
-                $data = $fields;
+            if (!empty($fields['category_ids'])) {
+                $categoryIds = [];
+                foreach ($fields['category_ids'] as $categoryData ) {
+                    $categoryIds[] = $categoryData['id'];
+                }
+                $fields['category_ids'] = $categoryIds;
             }
+
+            $data = $prefix ? [$prefix => $fields] : $fields;
         } else {
             $data = $this->_prepareData($fixture->getData('fields'), $prefix);
         }
 
-        if ($fixture->getData('category_id')) {
-            $data['product']['category_ids'] = $fixture->getData('category_id');
-        }
         $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
@@ -115,6 +106,45 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['id' => $id];
+    }
+
+    /**
+     * Replace placeholder data in fixture data
+     *
+     * @param array $data
+     * @param array $placeholders
+     * @return array
+     */
+    private function replacePlaceholder(array $data, array $placeholders)
+    {
+        foreach ($data as $key => $value) {
+            if (!isset($placeholders[$key])) {
+                continue;
+            }
+            if (is_array($value)) {
+                $data[$key] = $this->replacePlaceholderValues($value, $placeholders[$key]);
+            } else {
+                $data[$key] = isset($placeholders[$key][$value]) ? $placeholders[$key][$value] : $value;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Replace placeholder data in fixture values
+     *
+     * @param array $data
+     * @param array $placeholders
+     * @return array
+     */
+    private function replacePlaceholderValues(array $data, array $placeholders)
+    {
+        foreach ($data as $key => $value) {
+            if (isset($placeholders[$value])) {
+                $data[$key] = $placeholders[$value];
+            }
+        }
+        return $data;
     }
 
     /**
@@ -144,7 +174,25 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'is_in_stock' => $fields['stock_data']['is_in_stock']
         ];
 
-        return $fields;
+        return $this->filter($fields);
+    }
+
+    /**
+     * Remove items from a null
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function filter(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if ($value === null) {
+                unset($data[$key]);
+            } elseif (is_array($data[$key])) {
+                $data[$key] = $this->filter($data[$key]);
+            }
+        }
+        return $data;
     }
 
     /**

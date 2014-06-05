@@ -115,6 +115,32 @@ class ConditionsElement extends AbstractElement
     ];
 
     /**
+     * Map encode special chars
+     *
+     * @var array
+     */
+    protected $encodeChars = [
+        '\{' => '&lbrace;',
+        '\}' => '&rbrace;',
+        '\[' => '&lbracket;',
+        '\]' => '&rbracket;',
+        '\:' => '&colon;',
+    ];
+
+    /**
+     * Map decode special chars
+     *
+     * @var array
+     */
+    protected $decodeChars = [
+        '&lbrace;' => '{',
+        '&rbrace;' => '}',
+        '&lbracket;' => '[',
+        '&rbracket;' => ']',
+        '&colon;' => ':',
+    ];
+
+    /**
      * Magento varienLoader.js loader
      *
      * @var string
@@ -197,7 +223,6 @@ class ConditionsElement extends AbstractElement
         $this->fillCondition($condition['rules'], $createdCondition);
     }
 
-
     /**
      * Fill single condition
      *
@@ -209,7 +234,7 @@ class ConditionsElement extends AbstractElement
     protected function fillCondition(array $rules, Element $element)
     {
         $this->resetKeyParam();
-        foreach ($rules as $key => $rule) {
+        foreach ($rules as $rule) {
             $param = $this->findNextParam($element);
             $param->find('a')->click();
 
@@ -241,22 +266,12 @@ class ConditionsElement extends AbstractElement
      */
     protected function decodeValue($value)
     {
-        $value = str_replace('\{', '&lbrace;', $value);
-        $value = str_replace('\}', '&rbrace;', $value);
-        $value = str_replace('\[', '&lbracket;', $value);
-        $value = str_replace('\]', '&rbracket;', $value);
-        $value = str_replace('\:', '&colon;', $value);
-
+        $value = str_replace(array_keys($this->encodeChars), $this->encodeChars, $value);
         $value = preg_replace('/(\]|})({|\[)/', '$1,$2', $value);
         $value = preg_replace('/{([^:]+):/', '{"$1":', $value);
         $value = preg_replace('/\[([^\[{])/', '"$1', $value);
         $value = preg_replace('/([^\]}])\]/', '$1"', $value);
-
-        $value = str_replace('&lbrace;', '{', $value);
-        $value = str_replace('&rbrace;', '}', $value);
-        $value = str_replace('&lbracket;', '[', $value);
-        $value = str_replace('&rbracket;', ']', $value);
-        $value = str_replace('&colon;', ':', $value);
+        $value = str_replace(array_keys($this->decodeChars), $this->decodeChars, $value);
 
         $value = "[{$value}]";
         $value = json_decode($value, true);

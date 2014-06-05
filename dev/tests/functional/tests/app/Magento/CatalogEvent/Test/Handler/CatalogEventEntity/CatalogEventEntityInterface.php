@@ -11,7 +11,7 @@ namespace Magento\CatalogEvent\Test\Handler\CatalogEventEntity;
 use Mtf\Handler\HandlerInterface;
 
 /**
- * Interface CatalogCategoryEntityInterface
+ * Interface CatalogEventEntityInterface
  */
 interface CatalogEventEntityInterface extends HandlerInterface
 {

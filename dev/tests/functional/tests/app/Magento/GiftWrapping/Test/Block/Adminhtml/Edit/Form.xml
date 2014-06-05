@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>wrapping</wrapper>
+    <fields>
+        <design />
+        <base_price />
+        <status>
+            <input>select</input>
+        </status>
+        <website_ids>
+            <input>multiselect</input>
+            <selector>#website_ids</selector>
+        </website_ids>
+    </fields>
+</mapping>

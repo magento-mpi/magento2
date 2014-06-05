@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Category; 
+namespace Magento\Catalog\Test\Page\Category;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
@@ -33,22 +33,28 @@ class CatalogCategoryView extends FrontendPage
         ],
         'layeredNavigationBlock' => [
             'name' => 'layeredNavigationBlock',
-            'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
+            'class' => 'Magento\LayeredNavigation\Test\Block\Navigation',
             'locator' => '.block.filter',
             'strategy' => 'css selector',
         ],
         'toolbar' => [
             'name' => 'toolbar',
             'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
-            'locator' => '.pages .items',
+            'locator' => '.toolbar.products',
             'strategy' => 'css selector',
         ],
-        'productPagination' => [
-            'name' => 'productPagination',
-            'class' => 'Magento\Catalog\Test\Block\Category\ProductPagination',
-            'locator' => '.pages .items',
+        'titleBlock' => [
+            'name' => 'titleBlock',
+            'class' => 'Magento\Theme\Test\Block\Html\Title',
+            'locator' => '.page.title h1.title',
             'strategy' => 'css selector',
         ],
+        'viewBlock' => [
+            'name' => 'descriptionBlock',
+            'class' => 'Magento\Catalog\Test\Block\Category\View',
+            'locator' => '.category.view',
+            'strategy' => 'css selector',
+        ]
     ];
 
     /**
@@ -68,7 +74,7 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Search\Test\Block\Catalog\Layer\View
+     * @return \Magento\LayeredNavigation\Test\Block\Navigation
      */
     public function getLayeredNavigationBlock()
     {
@@ -84,10 +90,18 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Category\ProductPagination
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
-    public function getProductPagination()
+    public function getTitleBlock()
     {
-        return $this->getBlockInstance('productPagination');
+        return $this->getBlockInstance('titleBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Category\View
+     */
+    public function getViewBlock()
+    {
+        return $this->getBlockInstance('viewBlock');
     }
 }

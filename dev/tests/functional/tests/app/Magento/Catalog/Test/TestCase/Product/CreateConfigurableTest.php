@@ -116,7 +116,8 @@ class CreateConfigurableTest extends Functional
         $this->assertEquals(
             $product->getProductName(),
             $productViewBlock->getProductName(),
-            'Product name does not correspond to specified.');
+            'Product name does not correspond to specified.'
+        );
         $price = $product->getProductPrice();
         $blockPrice = $productViewBlock->getProductPrice();
         $this->assertEquals(
