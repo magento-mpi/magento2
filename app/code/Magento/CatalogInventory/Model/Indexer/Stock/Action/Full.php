@@ -8,27 +8,27 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product\Stock\Action;
+namespace Magento\CatalogInventory\Model\Indexer\Stock\Action;
 
 /**
  * Class Full reindex action
  *
- * @package Magento\Catalog\Model\Indexer\Product\Stock\Action
+ * @package Magento\CatalogInventory\Model\Indexer\Stock\Action
  */
-class Full extends \Magento\Catalog\Model\Indexer\Product\Stock\AbstractAction
+class Full extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
 {
     /**
      * Execute Full reindex
      *
      * @param null|array $ids
-     * @throws \Magento\Catalog\Exception
+     * @throws \Magento\CatalogInventory\Exception
      */
     public function execute($ids = null)
     {
         try {
             $this->_logger->log('Full reindex');
         } catch (\Exception $e) {
-            throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

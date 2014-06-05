@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Indexer/etc/indexer.xsd">
+    <indexer id="cataloginventory_stock" view_id="cataloginventory_stock" class="Magento\CatalogInventory\Model\Indexer\NewStock">
+        <title translate="true">Stock</title>
+        <description translate="true">Index stock</description>
+    </indexer>
+</config>

@@ -3,31 +3,31 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_CatalogInventory
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product\Stock\Action;
+namespace Magento\CatalogInventory\Model\Indexer\Stock\Action;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
 class RowTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Stock\Action\Rows
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Action\Rows
      */
     protected $_model;
 
     public function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Stock\Action\Row');
+        $this->_model = $objectManager->getObject('Magento\CatalogInventory\Model\Indexer\Stock\Action\Row');
     }
 
     /**
-     * @expectedException \Magento\Catalog\Exception
+     * @expectedException \Magento\CatalogInventory\Exception
      * @expectedExceptionMessage Could not rebuild index for undefined product
      */
     public function testEmptyId()

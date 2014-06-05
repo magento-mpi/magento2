@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product\Stock;
+namespace Magento\CatalogInventory\Model\Indexer\Stock;
 
 /**
  * Abstract action reindex class
  *
- * @package Magento\Catalog\Model\Indexer\Product\Stock
+ * @package Magento\CatalogInventory\Model\Indexer\Stock
  */
 abstract class AbstractAction
 {

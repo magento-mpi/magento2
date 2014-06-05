@@ -8,25 +8,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product\Stock\Action;
+namespace Magento\CatalogInventory\Model\Indexer\Stock\Action;
 
 /**
  * Class Rows reindex action for mass actions
  *
- * @package Magento\Catalog\Model\Indexer\Product\Stock\Action
+ * @package Magento\CatalogInventory\Model\Indexer\Stock\Action
  */
-class Rows extends \Magento\Catalog\Model\Indexer\Product\Stock\AbstractAction
+class Rows extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
 {
     /**
      * Execute Rows reindex
      *
      * @param array $ids
-     * @throws \Magento\Catalog\Exception
+     * @throws \Magento\CatalogInventory\Exception
      */
     public function execute($ids)
     {
         if (empty($ids)) {
-            throw new \Magento\Catalog\Exception(__('Bad value was supplied.'));
+            throw new \Magento\CatalogInventory\Exception(__('Bad value was supplied.'));
         }
         $this->_logger->log('Rows reindex for products - ' . implode(",", $ids) . '');
     }

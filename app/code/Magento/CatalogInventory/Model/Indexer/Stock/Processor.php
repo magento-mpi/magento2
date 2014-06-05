@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product\Stock;
+namespace Magento\CatalogInventory\Model\Indexer\Stock;
 
 class Processor
 {

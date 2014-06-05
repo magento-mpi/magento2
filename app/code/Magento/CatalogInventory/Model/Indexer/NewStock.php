@@ -6,22 +6,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Product;
+namespace Magento\CatalogInventory\Model\Indexer;
 
-class Stock implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
+class NewStock implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
 {
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Stock\Action\Row
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Action\Row
      */
     protected $_productStockIndexerRow;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Stock\Action\Rows
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Action\Rows
      */
     protected $_productStockIndexerRows;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Stock\Action\Full
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Action\Full
      */
     protected $_productStockIndexerFull;
 
@@ -31,9 +31,9 @@ class Stock implements \Magento\Indexer\Model\ActionInterface, \Magento\Framewor
      * @param Stock\Action\Full $productStockIndexerFull
      */
     public function __construct(
-        \Magento\Catalog\Model\Indexer\Product\Stock\Action\Row $productStockIndexerRow,
-        \Magento\Catalog\Model\Indexer\Product\Stock\Action\Rows $productStockIndexerRows,
-        \Magento\Catalog\Model\Indexer\Product\Stock\Action\Full $productStockIndexerFull
+        \Magento\CatalogInventory\Model\Indexer\Stock\Action\Row $productStockIndexerRow,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Action\Rows $productStockIndexerRows,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Action\Full $productStockIndexerFull
     ) {
         $this->_productStockIndexerRow = $productStockIndexerRow;
         $this->_productStockIndexerRows = $productStockIndexerRows;
