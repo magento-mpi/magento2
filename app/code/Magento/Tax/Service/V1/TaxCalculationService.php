@@ -82,14 +82,15 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     public function calculateTax(QuoteDetails $quoteDetails, $storeId)
     {
         // init taxDetailsBuilder
-        $taxDetailsBuilder = $this->taxDetailsBuilder->setDiscountAmount(0)
+        $taxDetails = $this->taxDetailsBuilder->setDiscountAmount(0)
             ->setSubtotal(0)
             ->setTaxableAmount(0)
-            ->setTaxAmount(0);
+            ->setTaxAmount(0)
+            ->create();
 
         $items = $quoteDetails->getItems();
         if (empty($items)) {
-            return $taxDetailsBuilder->create();
+            return $taxDetails;
         }
         $this->calculator->setCustomerData($quoteDetails->getCustomer());
 
@@ -124,11 +125,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         foreach ($items as $item) {
             $taxDetailsItem = $this->processItem($item, $addressRequest, $storeId);
             if (null != $taxDetailsItem) {
-                $taxDetailsBuilder = $this->addSubtotalAmount($taxDetailsBuilder, $taxDetailsItem);
+                $taxDetails = $this->addSubtotalAmount($taxDetails, $taxDetailsItem);
             }
         }
 
-        return $taxDetailsBuilder->create();
+        return $taxDetails;
     }
 
     /**
@@ -276,11 +277,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     }
 
     /**
-     * @param TaxDetailsBuilder $taxDetailsBuilder
+     * Add row total item amount to subtotal
+     *
+     * @param TaxDetails $taxDetails
      * @param TaxDetailsItem $item
-     * @return TaxDetailsBuilder
+     * @return TaxDetails
      */
-    protected function addSubtotalAmount(TaxDetailsBuilder $taxDetailsBuilder, TaxDetailsItem $item)
+    protected function addSubtotalAmount(TaxDetails $taxDetails, TaxDetailsItem $item)
     {
 
     }
