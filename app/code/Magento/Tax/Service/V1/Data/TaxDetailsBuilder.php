@@ -29,6 +29,13 @@ class TaxDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
      */
     protected $taxDetailsItemBuilder;
 
+    /**
+     * Initialize dependencies
+     *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param TaxDetails\AppliedTaxBuilder $appliedTaxBuilder
+     * @param TaxDetails\ItemBuilder $taxDetailsItemBuilder
+     */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder $appliedTaxBuilder,
@@ -90,7 +97,7 @@ class TaxDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     /**
      * {@inheritdoc}
      */
-    public function _setDataValues($data)
+    public function _setDataValues(array $data)
     {
         $appliedTaxDataObjects = [];
         $taxDetailItemDataObjects = [];
