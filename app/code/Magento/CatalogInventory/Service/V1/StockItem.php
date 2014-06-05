@@ -299,7 +299,7 @@ class StockItem implements StockItemInterface
 
     /**
      * @param int|null $filter
-     * @return bool
+     * @return bool|array
      */
     public function getIsQtyTypeIds($filter = null)
     {

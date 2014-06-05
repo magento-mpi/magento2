@@ -49,6 +49,9 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
      */
     protected $orderCollection;
 
+    /** @var \Magento\CatalogInventory\Service\V1\StockItem|\PHPUnit_Framework_MockObject_MockObject */
+    protected $stockItemService;
+
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
@@ -57,14 +60,13 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false, false);
-        $this->httpContext = $this->getMock('Magento\Framework\App\Http\Context', ['getValue'], [], '', false, false);
+        $this->context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
+        $this->httpContext = $this->getMock('Magento\Framework\App\Http\Context', ['getValue'], [], '', false);
         $this->orderCollectionFactory = $this->getMock(
             'Magento\Sales\Model\Resource\Order\CollectionFactory',
             ['create'],
             [],
             '',
-            false,
             false
         );
         $this->customerSession = $this->getMock(
@@ -72,7 +74,6 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ['getCustomerId'],
             [],
             '',
-            false,
             false
         );
         $this->orderConfig = $this->getMock(
@@ -80,7 +81,6 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ['getVisibleOnFrontStatuses'],
             [],
             '',
-            false,
             false
         );
         $this->orderCollection = $this->getMock(
@@ -93,7 +93,13 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ],
             [],
             '',
-            false,
+            false
+        );
+        $this->stockItemService = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItem',
+            [],
+            [],
+            '',
             false
         );
     }
@@ -103,6 +109,21 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $this->block = null;
     }
 
+    protected function createBlockObject()
+    {
+        $this->block = $this->objectManagerHelper->getObject(
+            'Magento\Sales\Block\Reorder\Sidebar',
+            [
+                'context' => $this->context,
+                'orderCollectionFactory' => $this->orderCollectionFactory,
+                'orderConfig' => $this->orderConfig,
+                'customerSession' => $this->customerSession,
+                'httpContext' => $this->httpContext,
+                'stockItemService' => $this->stockItemService,
+            ]
+        );
+    }
+
     public function testGetIdentities()
     {
         $websiteId = 1;
@@ -110,11 +131,12 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $productTags = ['catalog_product_1'];
         $limit = 5;
 
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', ['getStore'], [], '', false, false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', ['getStore'], [], '', false);
         $this->context->expects($this->once())
             ->method('getStoreManager')
             ->will($this->returnValue($storeManager));
-        $store = $this->getMock('Magento\Store\Model', ['getWebsiteId'], [], '', false, false);
+
+        $store = $this->getMock('Magento\Store\Model', ['getWebsiteId'], [], '', false);
         $store->expects($this->once())
             ->method('getWebsiteId')
             ->will($this->returnValue($websiteId));
@@ -160,15 +182,8 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($limit))
             ->will($this->returnValue([$item]));
 
-        $this->block = new \Magento\Sales\Block\Reorder\Sidebar(
-            $this->context,
-            $this->orderCollectionFactory,
-            $this->orderConfig,
-            $this->customerSession,
-            $this->httpContext,
-            []
-        );
-        $this->block->setOrders([$order]);
+        $this->createBlockObject();
+        $this->assertSame($this->block, $this->block->setOrders([$order]));
         $this->assertEquals($productTags, $this->block->getIdentities());
     }
 
@@ -214,15 +229,45 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $this->orderCollectionFactory->expects($this->atLeastOnce())
             ->method('create')
             ->will($this->returnValue($this->orderCollection));
-
-        $this->block = new \Magento\Sales\Block\Reorder\Sidebar(
-            $this->context,
-            $this->orderCollectionFactory,
-            $this->orderConfig,
-            $this->customerSession,
-            $this->httpContext,
-            []
-        );
+        $this->createBlockObject();
         $this->assertEquals($this->orderCollection, $this->block->getOrders());
+    }
+
+    /**
+     * @param int|bool $productId
+     * @param bool $result
+     * @dataProvider isItemAvailableForReorderDataProvider
+     */
+    public function testIsItemAvailableForReorder($productId, $result)
+    {
+        if ($productId) {
+            $product = $this->getMock('Magento\Catalog\Model\Product', ['getId', '__wakeup'], [], '', false);
+            $product->expects($this->once())
+                ->method('getId')
+                ->will($this->returnValue($productId));
+            $this->stockItemService->expects($this->once())
+                ->method('getIsInStock')
+                ->with($this->equalTo($productId))
+                ->will($this->returnValue($result));
+        } else {
+            $product = false;
+        }
+        $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
+        $orderItem->expects($this->any())
+            ->method('getProduct')
+            ->will($this->returnValue($product));
+        $this->createBlockObject();
+        $this->assertSame($result, $this->block->isItemAvailableForReorder($orderItem));
+    }
+
+    /**
+     * @return array
+     */
+    public function isItemAvailableForReorderDataProvider()
+    {
+        return [
+            [false, false],
+            [4, true],
+        ];
     }
 }

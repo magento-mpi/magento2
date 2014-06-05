@@ -32,8 +32,6 @@ namespace Magento\Sales\Model\Quote;
  * @method \Magento\Sales\Model\Quote\Item setName(string $value)
  * @method string getDescription()
  * @method \Magento\Sales\Model\Quote\Item setDescription(string $value)
- * @method string getAppliedRuleIds()
- * @method \Magento\Sales\Model\Quote\Item setAppliedRuleIds(string $value)
  * @method string getAdditionalData()
  * @method \Magento\Sales\Model\Quote\Item setAdditionalData(string $value)
  * @method int getFreeShipping()
@@ -47,19 +45,11 @@ namespace Magento\Sales\Model\Quote;
  * @method float getBasePrice()
  * @method \Magento\Sales\Model\Quote\Item setBasePrice(float $value)
  * @method float getCustomPrice()
- * @method float getDiscountPercent()
- * @method \Magento\Sales\Model\Quote\Item setDiscountPercent(float $value)
- * @method float getDiscountAmount()
- * @method \Magento\Sales\Model\Quote\Item setDiscountAmount(float $value)
- * @method float getBaseDiscountAmount()
- * @method \Magento\Sales\Model\Quote\Item setBaseDiscountAmount(float $value)
  * @method float getTaxPercent()
  * @method \Magento\Sales\Model\Quote\Item setTaxPercent(float $value)
  * @method \Magento\Sales\Model\Quote\Item setTaxAmount(float $value)
  * @method \Magento\Sales\Model\Quote\Item setBaseTaxAmount(float $value)
- * @method float getRowTotal()
  * @method \Magento\Sales\Model\Quote\Item setRowTotal(float $value)
- * @method float getBaseRowTotal()
  * @method \Magento\Sales\Model\Quote\Item setBaseRowTotal(float $value)
  * @method float getRowTotalWithDiscount()
  * @method \Magento\Sales\Model\Quote\Item setRowTotalWithDiscount(float $value)
@@ -76,11 +66,9 @@ namespace Magento\Sales\Model\Quote;
  * @method \Magento\Sales\Model\Quote\Item setRedirectUrl(string $value)
  * @method float getBaseCost()
  * @method \Magento\Sales\Model\Quote\Item setBaseCost(float $value)
- * @method float getPriceInclTax()
  * @method \Magento\Sales\Model\Quote\Item setPriceInclTax(float $value)
  * @method float getBasePriceInclTax()
  * @method \Magento\Sales\Model\Quote\Item setBasePriceInclTax(float $value)
- * @method float getRowTotalInclTax()
  * @method \Magento\Sales\Model\Quote\Item setRowTotalInclTax(float $value)
  * @method float getBaseRowTotalInclTax()
  * @method \Magento\Sales\Model\Quote\Item setBaseRowTotalInclTax(float $value)
@@ -162,7 +150,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Flag stating that options were successfully saved
      *
      */
-    protected $_flagOptionsSaved = null;
+    protected $_flagOptionsSaved;
 
     /**
      * Array of errors associated with this quote item
@@ -359,7 +347,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             $qtyOptions = array();
             foreach ($this->getOptions() as $option) {
                 /** @var $option \Magento\Sales\Model\Quote\Item\Option */
-                if (is_object($option->getProduct()) && $option->getProduct()->getId() != $this->getProduct()->getId()
+                if (is_object($option->getProduct())
+                    && $option->getProduct()->getId() != $this->getProduct()->getId()
                 ) {
                     $productIds[$option->getProduct()->getId()] = $option->getProduct()->getId();
                 }
@@ -401,24 +390,14 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             $product->setStoreId($this->getQuote()->getStoreId());
             $product->setCustomerGroupId($this->getQuote()->getCustomerGroupId());
         }
-        $this->setData(
-            'product',
-            $product
-        )->setProductId(
-            $product->getId()
-        )->setProductType(
-            $product->getTypeId()
-        )->setSku(
-            $this->getProduct()->getSku()
-        )->setName(
-            $product->getName()
-        )->setWeight(
-            $this->getProduct()->getWeight()
-        )->setTaxClassId(
-            $product->getTaxClassId()
-        )->setBaseCost(
-            $product->getCost()
-        );
+        $this->setData('product', $product)
+            ->setProductId($product->getId())
+            ->setProductType($product->getTypeId())
+            ->setSku($this->getProduct()->getSku())
+            ->setName($product->getName())
+            ->setWeight($this->getProduct()->getWeight())
+            ->setTaxClassId($product->getTaxClassId())
+            ->setBaseCost($product->getCost());
 
         if ($product->getStockItem()) {
             $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());
@@ -528,7 +507,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Return real product type of item
      *
-     * @return unknown
+     * @return string
      */
     public function getRealProductType()
     {

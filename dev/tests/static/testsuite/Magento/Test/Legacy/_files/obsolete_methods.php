@@ -1699,6 +1699,36 @@ return array(
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
+    [
+        '_unserializeValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::unserializeValue'
+    ],
+    [
+        '_isEncodedArrayFieldValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::isEncodedArrayFieldValue'
+    ],
+    [
+        '_serializeValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::serializeValue'
+    ],
+    [
+        '_fixQty',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::fixQty'
+    ],
+    [
+        '_encodeArrayFieldValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::encodeArrayFieldValue'
+    ],
+    [
+        '_decodeArrayFieldValue',
+        'Magento\CatalogInventory\Helper\Minsaleqty',
+        'Magento\CatalogInventory\Helper\Minsaleqty::decodeArrayFieldValue'
+    ],
     ['changeItemStatus', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getWebsiteDefaultStoreId', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getProductData', 'Magento\CatalogInventory\Model\Stock\Status'],

@@ -11,7 +11,6 @@ use Magento\Sales\Model\Order\Item;
 
 /**
  * Adminhtml sales order item renderer
- *
  */
 class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
@@ -30,8 +29,15 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     protected $_checkoutHelper;
 
     /**
+     * Giftmessage object
+     *
+     * @var \Magento\GiftMessage\Model\Message
+     */
+    protected $_giftMessage = array();
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftMessage\Helper\Message $messageHelper
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
@@ -39,7 +45,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         \Magento\Framework\Registry $registry,
         \Magento\GiftMessage\Helper\Message $messageHelper,
         \Magento\Checkout\Helper\Data $checkoutHelper,
@@ -47,7 +53,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     ) {
         $this->_checkoutHelper = $checkoutHelper;
         $this->_messageHelper = $messageHelper;
-        parent::__construct($context, $productFactory, $registry, $data);
+        parent::__construct($context, $stockItemService, $registry, $data);
     }
 
     /**
@@ -92,13 +98,6 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     }
 
     /**
-     * Giftmessage object
-     *
-     * @var \Magento\GiftMessage\Model\Message
-     */
-    protected $_giftMessage = array();
-
-    /**
      * Retrieve default value for giftmessage sender
      *
      * @return string
@@ -130,14 +129,14 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         if ($this->getItem()->getOrder()) {
             if ($this->getItem()->getOrder()->getShippingAddress()) {
                 return $this->getItem()->getOrder()->getShippingAddress()->getName();
-            } else if ($this->getItem()->getOrder()->getBillingAddress()) {
+            } elseif ($this->getItem()->getOrder()->getBillingAddress()) {
                 return $this->getItem()->getOrder()->getBillingAddress()->getName();
             }
         }
 
         if ($this->getItem()->getShippingAddress()) {
             return $this->getItem()->getShippingAddress()->getName();
-        } else if ($this->getItem()->getBillingAddress()) {
+        } elseif ($this->getItem()->getBillingAddress()) {
             return $this->getItem()->getBillingAddress()->getName();
         }
 

@@ -709,7 +709,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Get Data Object addresses of the customer
      *
-     * TODO: Refactor to use addressDataObject property is used insead of customer model MAGETWO-19930
+     * TODO: Refactor to use addressDataObject property is used instead of customer model MAGETWO-19930
      *
      * @return AddressDataObject[]
      */
@@ -1263,7 +1263,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $request = new \Magento\Framework\Object(array('qty' => $request));
         }
         if (!$request instanceof \Magento\Framework\Object) {
-            throw new \Magento\Framework\Model\Exception(__('We found an invalid request for adding product to quote.'));
+            throw new \Magento\Framework\Model\Exception(
+                __('We found an invalid request for adding product to quote.')
+            );
         }
 
         $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
@@ -1411,7 +1413,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            throw new \Magento\Framework\Model\Exception(__('This is the wrong quote item id to update configuration.'));
+            throw new \Magento\Framework\Model\Exception(
+                __('This is the wrong quote item id to update configuration.')
+            );
         }
         $productId = $item->getProduct()->getId();
 
@@ -1657,18 +1661,18 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
             $address->collectTotals();
 
-            $this->setSubtotal((double)$this->getSubtotal() + $address->getSubtotal());
-            $this->setBaseSubtotal((double)$this->getBaseSubtotal() + $address->getBaseSubtotal());
+            $this->setSubtotal((float)$this->getSubtotal() + $address->getSubtotal());
+            $this->setBaseSubtotal((float)$this->getBaseSubtotal() + $address->getBaseSubtotal());
 
             $this->setSubtotalWithDiscount(
-                (double)$this->getSubtotalWithDiscount() + $address->getSubtotalWithDiscount()
+                (float)$this->getSubtotalWithDiscount() + $address->getSubtotalWithDiscount()
             );
             $this->setBaseSubtotalWithDiscount(
-                (double)$this->getBaseSubtotalWithDiscount() + $address->getBaseSubtotalWithDiscount()
+                (float)$this->getBaseSubtotalWithDiscount() + $address->getBaseSubtotalWithDiscount()
             );
 
-            $this->setGrandTotal((double)$this->getGrandTotal() + $address->getGrandTotal());
-            $this->setBaseGrandTotal((double)$this->getBaseGrandTotal() + $address->getBaseGrandTotal());
+            $this->setGrandTotal((float)$this->getGrandTotal() + $address->getGrandTotal());
+            $this->setBaseGrandTotal((float)$this->getBaseGrandTotal() + $address->getBaseGrandTotal());
         }
 
         $this->_salesData->checkQuoteAmount($this, $this->getGrandTotal());
@@ -1715,7 +1719,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 $this->setVirtualItemsQty($this->getVirtualItemsQty() + $item->getQty());
             }
             $this->setItemsCount($this->getItemsCount() + 1);
-            $this->setItemsQty((double)$this->getItemsQty() + $item->getQty());
+            $this->setItemsQty((float)$this->getItemsQty() + $item->getQty());
         }
 
         return $this;

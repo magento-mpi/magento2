@@ -7,14 +7,21 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
+use Magento\Framework\View\Block\IdentityInterface;
+
 /**
  * Sales order view block
  *
  * @method Sidebar setOrders(\Magento\Sales\Model\Resource\Order\Collection $ordersCollection)
  * @method \Magento\Sales\Model\Resource\Order\Collection|null getOrders()
  */
-class Sidebar extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
+class Sidebar extends \Magento\Framework\View\Element\Template implements IdentityInterface
 {
+    /**
+     * Limit of orders in side bar
+     */
+    const SIDEBAR_ORDER_LIMIT = 5;
+
     /**
      * @var string
      */
@@ -41,11 +48,17 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements \Magen
     protected $httpContext;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -54,12 +67,14 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements \Magen
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_customerSession = $customerSession;
         $this->httpContext = $httpContext;
+        $this->stockItemService = $stockItemService;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -84,25 +99,14 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements \Magen
      */
     public function initOrders()
     {
-        $customerId = $this->getCustomerId()
-            ? $this->getCustomerId()
-            : $this->_customerSession->getCustomerId();
+        $customerId = $this->getCustomerId() ? $this->getCustomerId() : $this->_customerSession->getCustomerId();
 
-        $orders = $this->_orderCollectionFactory->create()->addAttributeToFilter(
-            'customer_id',
-            $customerId
-        )->addAttributeToFilter(
-            'status',
-            array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
-        )->addAttributeToSort(
-            'created_at',
-            'desc'
-        )->setPage(
-            1,
-            1
-        );
+        $orders = $this->_orderCollectionFactory->create()
+            ->addAttributeToFilter('customer_id', $customerId)
+            ->addAttributeToFilter('status', array('in' => $this->_orderConfig->getVisibleOnFrontStatuses()))
+            ->addAttributeToSort('created_at', 'desc')
+            ->setPage(1, 1);
         //TODO: add filter by current website
-
         $this->setOrders($orders);
     }
 
@@ -115,7 +119,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements \Magen
     {
         $items = array();
         $order = $this->getLastOrder();
-        $limit = 5;
+        $limit = self::SIDEBAR_ORDER_LIMIT;
 
         if ($order) {
             $website = $this->_storeManager->getStore()->getWebsiteId();
@@ -138,7 +142,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements \Magen
     public function isItemAvailableForReorder(\Magento\Sales\Model\Order\Item $orderItem)
     {
         if ($orderItem->getProduct()) {
-            return $orderItem->getProduct()->getStockItem()->getIsInStock();
+            return $this->stockItemService->getIsInStock($orderItem->getProduct()->getId());
         }
         return false;
     }
@@ -161,12 +165,12 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements \Magen
      */
     public function getLastOrder()
     {
-        if ($this->getOrders()) {
-            foreach ($this->getOrders() as $order) {
-                return $order;
-            }
+        if (!$this->getOrders()) {
+            return false;
         }
-        return false;
+        foreach ($this->getOrders() as $order) {
+            return $order;
+        }
     }
 
     /**
