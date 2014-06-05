@@ -76,9 +76,11 @@ class CatalogProductSimple extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test simple product %isolation%',
         'sku' => 'test_simple_sku_%isolation%',
+        'attribute_set_id' => 'Default',
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10
+        'qty' => 10,
+        'quantity_and_stock_status' => 'In Stock',
     ];
 
     protected $category_ids = [
@@ -546,6 +548,12 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -829,5 +837,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }

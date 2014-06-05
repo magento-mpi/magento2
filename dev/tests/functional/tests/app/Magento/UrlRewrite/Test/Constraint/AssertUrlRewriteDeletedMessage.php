@@ -17,7 +17,10 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertUrlRewriteDeletedMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The URL Rewrite has been deleted.';
+    /**
+     * Message that displayed after delete url rewrite
+     */
+    const SUCCESS_DELETE_MESSAGE = 'The URL Rewrite has been deleted.';
 
     /**
      * Constraint severeness
@@ -36,10 +39,10 @@ class AssertUrlRewriteDeletedMessage extends AbstractConstraint
     {
         $actualMessage = $index->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }
