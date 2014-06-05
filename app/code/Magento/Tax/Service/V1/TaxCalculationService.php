@@ -10,7 +10,9 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Tax\Model\Calculation;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
+use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails;
+use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetailsBuilder;
 
 /**
@@ -34,17 +36,37 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected $config = null;
 
     /**
+     * Tax Details builder
+     *
+     * @var Data\TaxDetailsBuilder
+     */
+    protected $taxDetailsBuilder;
+
+    /**
+     * Tax helper
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $helper;
+
+    /**
      * Constructor
      *
      * @param Calculation $calculation
      * @param \Magento\Tax\Model\Config $config
+     * @param \Magento\Tax\Helper\Data $helper
+     * @param Data\TaxDetailsBuilder $taxDetailsBuilder
      */
     public function __construct(
         Calculation $calculation,
-        \Magento\Tax\Model\Config $config
+        \Magento\Tax\Model\Config $config,
+        \Magento\Tax\Helper\Data $helper,
+        TaxDetailsBuilder $taxDetailsBuilder
     ) {
         $this->calculator = $calculation;
         $this->config = $config;
+        $this->helper = $helper;
+        $this->taxDetailsBuilder = $taxDetailsBuilder;
     }
 
     /**
@@ -52,7 +74,52 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      */
     public function calculateTax(QuoteDetails $quoteDetails, $storeId)
     {
+        // init taxDetailsBuilder
+        $taxDetailsBuilder = $this->taxDetailsBuilder->setDiscountAmount(0)
+            ->setSubtotal(0)
+            ->setTaxableAmount(0)
+            ->setTaxAmount(0);
 
+        $items = $quoteDetails->getItems();
+        if (empty($items)) {
+            return $taxDetailsBuilder->create();
+        }
+        $this->calculator->setCustomerData($quoteDetails->getCustomer());
+
+        $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId);
+        $storeRequest = $this->getStoreTaxRequest($quoteDetails, $storeId);
+        if ($this->config->priceIncludesTax($storeId)) {
+            $classIds = [];
+            foreach ($items as $item) {
+                if ($item->getTaxClassId()) {
+                    $classIds[] = $item->getTaxClassId();
+                }
+            }
+            $classIds = array_unique($classIds);
+            $addressRequest->setProductClassId($classIds);
+            $storeRequest->setProductClassId($classIds);
+            if ($this->helper->isCrossBorderTradeEnabled($storeId)) {
+                $addressRequest->setSameRateAsStore(true);
+            } else {
+                $addressRequest->setSameRateAsStore(
+                    $this->calculator->compareRequests($storeRequest, $request)
+                );
+            }
+        } else {
+            // Check current request individually
+            $rate = $this->calculator->getRate($request);
+            $storeRate = $this->calculator->getStoreRate($request, $storeId);
+            $addressRequest->setSameRateAsStore($rate == $storeRate);
+        }
+
+        foreach ($items as $item) {
+            $taxDetailsItem = $this->processItem($item, $storeId);
+            if (null != $taxDetailsItem) {
+                $taxDetailsBuilder = $this->addSubtotalAmount($taxDetailsBuilder, $taxDetailsItem);
+            }
+        }
+
+        return $taxDetailsBuilder->create();
     }
 
     /**
@@ -82,13 +149,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Calculate item price and row total with customized rounding level
      *
-     * @param QuoteDetails\Item $item
+     * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @return TaxDetails\Item|null
+     * @return TaxDetailsItem|null
      */
     protected function processItem(
-        QuoteDetails\Item $item,
+        QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
@@ -107,13 +174,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Calculate item price and row total including/excluding tax based on unit price rounding level
      *
-     * @param QuoteDetails\Item $item
+     * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @return TaxDetails\Item
+     * @return TaxDetailsItem
      */
     protected function unitBaseCalculation(
-        QuoteDetails\Item $item,
+        QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
@@ -123,13 +190,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Calculate item price and row total including/excluding tax based on row total price rounding level
      *
-     * @param QuoteDetails\Item $item
+     * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @return TaxDetails\Item
+     * @return TaxDetailsItem
      */
     protected function rowBaseCalculation(
-        QuoteDetails\Item $item,
+        QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
@@ -139,13 +206,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Calculate item price and row total including/excluding tax based on total price rounding level
      *
-     * @param QuoteDetails\Item $item
+     * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @return TaxDetails\Item
+     * @return TaxDetailsItem
      */
     protected function totalBaseCalculation(
-        QuoteDetails\Item $item,
+        QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
@@ -172,10 +239,10 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
     /**
      * @param TaxDetailsBuilder $taxDetailsBuilder
-     * @param TaxDetails\Item $item
+     * @param TaxDetailsItem $item
      * @return TaxDetailsBuilder
      */
-    protected function addSubtotalAmount(TaxDetailsBuilder $taxDetailsBuilder, TaxDetails\Item $item)
+    protected function addSubtotalAmount(TaxDetailsBuilder $taxDetailsBuilder, TaxDetailsItem $item)
     {
 
     }
