@@ -344,7 +344,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_catalogData = null;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -454,7 +454,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ImportExport\Model\Import\Config $importConfig
      * @param \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory
@@ -485,7 +485,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
         \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory,

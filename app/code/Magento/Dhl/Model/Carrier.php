@@ -184,7 +184,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_httpClientFactory;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -211,7 +211,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -237,7 +237,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);

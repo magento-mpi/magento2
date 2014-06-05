@@ -16,7 +16,7 @@ use Magento\Catalog\Model\ProductTypes\ConfigInterface;
 class StockItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var StockItem
+     * @var StockItemService
      */
     protected $model;
 
@@ -49,7 +49,7 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
             'Magento\CatalogInventory\Service\V1\Data\StockItemBuilder'
         )->disableOriginalConstructor()->getMock();
 
-        $this->model = new StockItem($this->stockItemRegistry, $this->config, $this->stockItemBuilder);
+        $this->model = new StockItemService($this->stockItemRegistry, $this->config, $this->stockItemBuilder);
     }
 
     public function testGetStockItem()

@@ -14,7 +14,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected $block;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\CatalogInventory\Service\V1\StockItem */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\CatalogInventory\Service\V1\StockItemService */
     protected $stockItemService;
 
     /**
@@ -52,7 +52,13 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $taxConfig = $this->getMockBuilder('Magento\Tax\Model\Config')->disableOriginalConstructor()->getMock();
-        $this->stockItemService = $this->getMock('Magento\CatalogInventory\Service\V1\StockItem', [], [], '', false);
+        $this->stockItemService = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
+            [],
+            '',
+            false
+        );
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $helper->getObject(

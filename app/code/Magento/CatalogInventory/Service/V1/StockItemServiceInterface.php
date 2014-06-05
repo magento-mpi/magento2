@@ -10,7 +10,7 @@ namespace Magento\CatalogInventory\Service\V1;
 /**
  * Stock item interface
  */
-interface StockItemInterface
+interface StockItemServiceInterface
 {
     /**
      * @param int $productId

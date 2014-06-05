@@ -48,7 +48,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
     protected $httpContext;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -58,7 +58,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -67,7 +67,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;

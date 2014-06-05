@@ -59,7 +59,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_messageHelper;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -72,7 +72,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\GiftMessage\Helper\Message $messageHelper
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -84,7 +84,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\GiftMessage\Helper\Message $messageHelper,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->_messageHelper = $messageHelper;

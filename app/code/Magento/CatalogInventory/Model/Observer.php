@@ -96,6 +96,11 @@ class Observer
     protected $_priceIndexer;
 
     /**
+     * @var \Magento\CatalogInventory\Model\Stock\ItemRegistry
+     */
+    protected $stockItemRegistry;
+
+    /**
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
      * @param Resource\Indexer\Stock $resourceIndexerStock
      * @param Resource\Stock $resourceStock
@@ -104,8 +109,7 @@ class Observer
      * @param Stock\Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param Stock\ItemFactory $stockItemFactory
-     * @param StockFactory $stockFactory
-     * @param Stock\StatusFactory $stockStatusFactory
+     * @param Stock\ItemRegistry $stockItemRegistry
      */
     public function __construct(
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
@@ -116,8 +120,7 @@ class Observer
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        StockFactory $stockFactory,
-        \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
+        \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
     ) {
         $this->_priceIndexer = $priceIndexer;
         $this->_resourceIndexerStock = $resourceIndexerStock;
@@ -127,8 +130,7 @@ class Observer
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_stockItemFactory = $stockItemFactory;
-        $this->_stockFactory = $stockFactory;
-        $this->_stockStatusFactory = $stockStatusFactory;
+        $this->stockItemRegistry = $stockItemRegistry;
     }
 
     /**
@@ -141,30 +143,8 @@ class Observer
     {
         $product = $observer->getEvent()->getProduct();
         if ($product instanceof \Magento\Catalog\Model\Product) {
-            $productId = intval($product->getId());
-            if (!isset($this->_stockItemsArray[$productId])) {
-                $this->_stockItemsArray[$productId] = $this->_stockItemFactory->create();
-            }
-            $productStockItem = $this->_stockItemsArray[$productId];
-            $productStockItem->assignProduct($product);
-        }
-        return $this;
-    }
-
-    /**
-     * Remove stock information from static variable
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function removeInventoryData($observer)
-    {
-        $product = $observer->getEvent()->getProduct();
-        if ($product instanceof \Magento\Catalog\Model\Product
-            && $product->getId()
-            && isset($this->_stockItemsArray[$product->getId()])
-        ) {
-            unset($this->_stockItemsArray[$product->getId()]);
+            $stockItem = $this->stockItemRegistry->retrieve($product->getId());
+            $this->_stockStatus->assignProduct($product, $stockItem->getStockId(), $product->getStockStatus());
         }
         return $this;
     }
@@ -182,7 +162,7 @@ class Observer
         if ($productCollection->hasFlag('require_stock_items')) {
             $this->_stockFactory->create()->addItemsToProducts($productCollection);
         } else {
-            $this->_stockStatusFactory->create()->addStockStatusToProducts($productCollection);
+            $this->_stockStatus->addStockStatusToProducts($productCollection);
         }
         return $this;
     }

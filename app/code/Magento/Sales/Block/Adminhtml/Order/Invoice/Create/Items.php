@@ -28,14 +28,14 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         array $data = array()

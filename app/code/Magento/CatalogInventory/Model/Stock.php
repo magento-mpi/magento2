@@ -33,9 +33,14 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     const DEFAULT_STOCK_ID = 1;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
+
+    /**
+     * @var Stock\Status
+     */
+    protected $stockStatus;
 
     /**
      * Store model manager
@@ -60,7 +65,8 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param Resource\Stock\Item\CollectionFactory $collectionFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param Stock\Status $stockStatus
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Stock\ItemFactory $stockItemFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -71,7 +77,8 @@ class Stock extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -82,6 +89,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
 
         $this->_collectionFactory = $collectionFactory;
         $this->stockItemService = $stockItemService;
+        $this->stockStatus = $stockStatus;
         $this->_storeManager = $storeManager;
         $this->_stockItemFactory = $stockItemFactory;
     }
@@ -112,18 +120,20 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     public function addItemsToProducts($productCollection)
     {
-        $items = $this->getItemCollection()->addProductsFilter(
-            $productCollection
-        )->joinStockStatus(
-            $productCollection->getStoreId()
-        )->load();
+        $items = $this->getItemCollection()->addProductsFilter($productCollection)
+            ->joinStockStatus($productCollection->getStoreId())
+            ->load();
         $stockItems = array();
         foreach ($items as $item) {
             $stockItems[$item->getProductId()] = $item;
         }
         foreach ($productCollection as $product) {
             if (isset($stockItems[$product->getId()])) {
-                $stockItems[$product->getId()]->assignProduct($product);
+                $this->stockStatus->assignProduct(
+                    $product,
+                    $stockItems[$product->getId()]->getStockId(),
+                    $product->getStockStatus()
+                );
             }
         }
         return $this;

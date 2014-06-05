@@ -21,7 +21,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Block\Template\Context|\PHPUnit_Framework_MockObject_MockObject */
     protected $contextMock;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemMock;
 
     /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
@@ -33,7 +33,13 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->contextMock = $this->getMock('Magento\Backend\Block\Template\Context', [], [], '', false);
-        $this->stockItemMock = $this->getMock('Magento\CatalogInventory\Service\V1\StockItem', [], [], '', false);
+        $this->stockItemMock = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [],
+            [],
+            '',
+            false
+        );
         $this->registryMock = $this->getMock('Magento\Framework\Registry');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->contextMock->expects($this->once())

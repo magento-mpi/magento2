@@ -49,7 +49,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
      */
     protected $orderCollection;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemService;
 
     /**
@@ -96,7 +96,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockItemService = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItem',
+            'Magento\CatalogInventory\Service\V1\StockItemService',
             [],
             [],
             '',

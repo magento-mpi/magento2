@@ -163,7 +163,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_catalogInventoryMinsaleqty;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
@@ -222,7 +222,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Status $stockStatus
-     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -240,7 +240,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Index\Model\Indexer $indexer,
         Status $stockStatus,
-        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -377,26 +377,6 @@ class Item extends \Magento\Framework\Model\AbstractModel
             $this->setData('store_id', $storeId);
         }
         return $storeId;
-    }
-
-    /**
-     * Adding stock data to product
-     *
-     * @param Product $product
-     * @return $this
-     */
-    public function assignProduct(Product $product)
-    {
-        if (!$this->getId() || !$this->getProductId()) {
-            $this->_getResource()->loadByProductId($this, $product->getId());
-            $this->setOrigData();
-        }
-
-        $this->setProduct($product);
-        $product->setStockItem($this);
-        $product->setIsInStock($this->getIsInStock());
-        $this->_stockStatus->assignProduct($product, $this->getStockId(), $this->getStockStatus());
-        return $this;
     }
 
     /**

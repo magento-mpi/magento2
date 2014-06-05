@@ -10,7 +10,7 @@ namespace Magento\CatalogInventory\Service\V1;
 /**
  * Stock item service
  */
-class StockItem implements StockItemInterface
+class StockItemService implements StockItemServiceInterface
 {
     /**
      * @var \Magento\CatalogInventory\Model\Stock\ItemRegistry

@@ -35,4 +35,21 @@ class StockStatusService implements StockStatusServiceInterface
     {
         return $this->stockStatus->getProductStockStatus($productIds, $websiteId, $stockId);
     }
+
+    /**
+     * Assign Stock Status to Product
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param int $stockId
+     * @param int $stockStatus
+     * @return $this
+     */
+    public function assignProduct(
+        \Magento\Catalog\Model\Product $product,
+        $stockId = Stock::DEFAULT_STOCK_ID,
+        $stockStatus = null
+    ) {
+        $this->stockStatus->assignProduct($product, $stockId, $stockStatus);
+        return $this;
+    }
 }

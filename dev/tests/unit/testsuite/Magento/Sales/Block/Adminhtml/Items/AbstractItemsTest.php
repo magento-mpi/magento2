@@ -186,7 +186,7 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($orderItem));
             if ($productId) {
                 $stockItemService = $this->getMock(
-                    'Magento\CatalogInventory\Service\V1\StockItem',
+                    'Magento\CatalogInventory\Service\V1\StockItemService',
                     [],
                     [],
                     '',
