@@ -264,6 +264,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
             $countryFactory,
             $currencyFactory,
             $directoryData,
+            $stockItemService,
             $data
         );
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {

@@ -76,6 +76,11 @@ class Shipping implements RateCollectorInterface
     protected $mathDivision;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -84,6 +89,7 @@ class Shipping implements RateCollectorInterface
      * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Math\Division $mathDivision
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -93,7 +99,8 @@ class Shipping implements RateCollectorInterface
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Framework\Math\Division $mathDivision
+        \Magento\Framework\Math\Division $mathDivision,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_shippingConfig = $shippingConfig;
@@ -103,6 +110,7 @@ class Shipping implements RateCollectorInterface
         $this->_shipmentRequestFactory = $shipmentRequestFactory;
         $this->_regionFactory = $regionFactory;
         $this->mathDivision = $mathDivision;
+        $this->stockItemService = $stockItemService;
     }
 
     /**
@@ -312,9 +320,10 @@ class Shipping implements RateCollectorInterface
 
         $maxWeight = (double)$carrier->getConfigData('max_package_weight');
 
+        /** @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($allItems as $item) {
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE &&
-                $item->getProduct()->getShipmentType()
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+                && $item->getProduct()->getShipmentType()
             ) {
                 continue;
             }
@@ -328,17 +337,22 @@ class Shipping implements RateCollectorInterface
                 if (!$item->getParentItem()->getProduct()->getShipmentType()) {
                     continue;
                 }
-                $qty = $item->getIsQtyDecimal() ? $item->getParentItem()->getQty() : $item->getParentItem()->getQty() *
-                    $item->getQty();
+                $qty = $item->getIsQtyDecimal()
+                    ? $item->getParentItem()->getQty()
+                    : $item->getParentItem()->getQty() * $item->getQty();
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            if ($item->getIsQtyDecimal()
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
-                $stockItem = $item->getProduct()->getStockItem();
-                if ($stockItem->getIsDecimalDivided()) {
-                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
-                        $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
+                $productId = $item->getProduct()->getId();
+
+                if ($this->stockItemService->getStockItem($productId)->getIsDecimalDivided()) {
+                    if ($this->stockItemService->getEnableQtyIncrements($productId)
+                        && $this->stockItemService->getQtyIncrements($productId)
+                    ) {
+                        $itemWeight = $itemWeight * $this->stockItemService->getQtyIncrements($productId);
                         $qty = round($item->getWeight() / $itemWeight * $qty);
                         $changeQty = false;
                     } else {
@@ -364,10 +378,10 @@ class Shipping implements RateCollectorInterface
                 return array();
             }
 
-            if ($changeQty &&
-                !$item->getParentItem() &&
-                $item->getIsQtyDecimal() &&
-                $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            if ($changeQty
+                && !$item->getParentItem()
+                && $item->getIsQtyDecimal()
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
