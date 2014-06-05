@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Page;
+namespace Magento\Cms\Test\Page; 
 
-use Mtf\Page\FrontendPage;
+use Mtf\Page\FrontendPage; 
 
 /**
  * Class CmsIndex
@@ -54,6 +54,12 @@ class CmsIndex extends FrontendPage
             'name' => 'storeSwitcherBlock',
             'class' => 'Magento\Store\Test\Block\Switcher',
             'locator' => '[data-ui-id="language-switcher"]',
+            'strategy' => 'css selector',
+        ],
+        'miniCartBlock' => [
+            'name' => 'miniCartBlock',
+            'class' => 'Magento\Checkout\Test\Block\MiniCart',
+            'locator' => '[data-block="minicart"]',
             'strategy' => 'css selector',
         ],
     ];
@@ -104,5 +110,13 @@ class CmsIndex extends FrontendPage
     public function getStoreSwitcherBlock()
     {
         return $this->getBlockInstance('storeSwitcherBlock');
+    }
+
+    /**
+     * @return \Magento\Checkout\Test\Block\MiniCart
+     */
+    public function getMiniCartBlock()
+    {
+        return $this->getBlockInstance('miniCartBlock');
     }
 }

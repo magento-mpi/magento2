@@ -58,6 +58,20 @@ class Cart extends Block
     protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
 
     /**
+     * 'Update Shopping Cart' button
+     *
+     * @var string
+     */
+    protected $updateShoppingCart = '.action.update';
+
+    /**
+     * Quantity input selector
+     *
+     * @var string
+     */
+    protected $qty = '.control.qty > .qty';
+
+    /**
      * Get sub-total for the specified item in the cart
      *
      * @param SimpleProduct $product
@@ -253,5 +267,39 @@ class Cart extends Block
     {
         $priceSelector = sprintf($this->cartProductPrice, $productName);
         return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Update shopping cart
+     *
+     * @return void
+     */
+    public function updateShoppingCart()
+    {
+        $updateShoppingCart = $this->_rootElement->find($this->updateShoppingCart);
+        if ($updateShoppingCart->isVisible()) {
+            $updateShoppingCart->click();
+        }
+    }
+
+    /**
+     * Set product quantity
+     *
+     * @param int $qty
+     * @return void
+     */
+    public function setProductQty($qty)
+    {
+        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->setValue($qty);
+    }
+
+    /**
+     * Get product quantity
+     *
+     * @return int
+     */
+    public function getProductQty()
+    {
+        return $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->getValue();
     }
 }

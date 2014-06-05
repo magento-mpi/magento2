@@ -44,4 +44,10 @@
         <locator>//*[@data-ui-id="language-switcher"]</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>miniCartBlock</name>
+        <class>Magento\Checkout\Test\Block\MiniCart</class>
+        <locator>[data-block="minicart"]</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>
