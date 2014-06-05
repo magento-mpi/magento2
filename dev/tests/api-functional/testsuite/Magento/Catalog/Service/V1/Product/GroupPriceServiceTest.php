@@ -22,7 +22,7 @@ class GroupPriceServiceTest extends WebapiAbstract
         $productSku = 'simple_with_group_price';
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/products/' . $productSku . '/grouped-prices',
+                'resourcePath' => '/V1/products/' . $productSku . '/group-prices',
                 'httpMethod' => 'GET',
             ),
             'soap' => array(
@@ -41,5 +41,28 @@ class GroupPriceServiceTest extends WebapiAbstract
         $this->assertCount(2, $groupPriceList);
         $this->assertEquals(9, $groupPriceList[0]['value']);
         $this->assertEquals(7, $groupPriceList[1]['value']);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_group_prices.php
+     */
+    public function testDelete()
+    {
+        $productSku = 'simple_with_group_price';
+        $customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => "/V1/products/$productSku/group-prices/$customerGroupId",
+                'httpMethod' => 'DELETE',
+            ),
+            'soap' => array(
+                'service' => 'catalogProductGroupPriceServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductGroupPriceServiceV1Delete',
+            ),
+        );
+        $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId);
+        $this->assertEquals(true, $this->_webApiCall($serviceInfo, $requestData));
+
     }
 } 

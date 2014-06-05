@@ -37,23 +37,40 @@ class GroupPriceService implements GroupPriceServiceInterface
     protected $storeManager;
 
     /**
+     * @var \Magento\Catalog\Model\Product\PriceModifier
+     */
+    protected $priceModifier;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $config;
+
+    /**
      * @param ProductFactory $productFactory
      * @param ProductRepository $productRepository
      * @param Product\GroupPriceBuilder $groupPriceBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         ProductFactory $productFactory,
         ProductRepository $productRepository,
         Product\GroupPriceBuilder $groupPriceBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
         $this->storeManager = $storeManager;
         $this->customerGroupService = $customerGroupService;
+        $this->priceModifier = $priceModifier;
+        $this->config = $config;
     }
 
     /**
@@ -113,7 +130,20 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function delete($productSku, $customerGroupId)
     {
-        // TODO: Implement delete() method.
+        $product = $this->productFactory->create();
+        $productId = $product->getIdBySku($productSku);
+
+        if (!$productId) {
+            throw new NoSuchEntityException("Such product doesn't exist");
+        }
+        $product->load($productId);
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
+            $websiteId = 0;
+        } else {
+            $websiteId = $this->storeManager->getWebsite()->getId();
+        }
+        $this->priceModifier->removeGroupPrice($product, $customerGroupId, $websiteId);
+        return true;
     }
 
     /**
