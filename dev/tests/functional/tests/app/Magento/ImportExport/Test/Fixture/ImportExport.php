@@ -12,8 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class ImportExport
- *
- * @package Magento\ImportExport\Test\Fixture
+ * Export fixture
  */
 class ImportExport extends InjectableFixture
 {

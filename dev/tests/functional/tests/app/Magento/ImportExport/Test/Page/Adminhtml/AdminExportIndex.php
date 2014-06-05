@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class AdminExportIndex
- *
- * @package Magento\ImportExport\Test\Page\Adminhtml
+ * Export page
  */
 class AdminExportIndex extends BackendPage
 {

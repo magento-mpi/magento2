@@ -11,6 +11,10 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 use Mtf\Client\Element;
 use Mtf\Block\Form as AbstractForm;
 
+/**
+ * Class FormAttributeSearch
+ * Form Attribute Search on Product page
+ */
 class FormAttributeSearch extends AbstractForm {
 
     /**
