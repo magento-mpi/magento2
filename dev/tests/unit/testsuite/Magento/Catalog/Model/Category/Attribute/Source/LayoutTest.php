@@ -1,11 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: aohorodnyk
- * Date: 05.06.14
- * Time: 14:15
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Category\Attribute\Source;
 
 use Magento\TestFramework\Helper\ObjectManager;
