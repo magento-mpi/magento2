@@ -141,6 +141,12 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers" method="POST">
+        <service class="Magento\Catalog\Service\V1\Product\TierPriceServiceInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
     <route url="/V1/products/:productSku/group-prices/:customerGroupId" method="DELETE">
         <service class="Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface" method="delete"/>
         <resources>

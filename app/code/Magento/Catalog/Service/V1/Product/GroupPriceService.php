@@ -37,6 +37,11 @@ class GroupPriceService implements GroupPriceServiceInterface
     protected $storeManager;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     */
+    protected $customerGroupService;
+
+    /**
      * @var \Magento\Catalog\Model\Product\PriceModifier
      */
     protected $priceModifier;

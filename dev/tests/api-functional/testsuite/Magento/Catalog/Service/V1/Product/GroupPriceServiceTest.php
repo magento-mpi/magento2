@@ -64,4 +64,4 @@ class GroupPriceServiceTest extends WebapiAbstract
         $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId);
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
-} 
+}

@@ -6,9 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Service\V1\Product;
-
 
 class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -165,4 +163,4 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(true, $this->service->delete('product_sku', 4));
     }
-} 
+}

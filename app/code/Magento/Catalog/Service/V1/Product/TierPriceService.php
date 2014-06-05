@@ -46,12 +46,18 @@ class TierPriceService implements TierPriceServiceInterface
     protected $config;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     */
+    protected $customerGroupService;
+
+    /**
      * @param ProductFactory $productFactory
      * @param ProductRepository $productRepository
      * @param Product\TierPriceBuilder $priceBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      */
     public function __construct(
         ProductFactory $productFactory,
@@ -59,7 +65,9 @@ class TierPriceService implements TierPriceServiceInterface
         Product\TierPriceBuilder $priceBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
-        \Magento\Framework\App\Config\ScopeConfigInterface $config
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
     ) {
         $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
@@ -67,14 +75,60 @@ class TierPriceService implements TierPriceServiceInterface
         $this->storeManager = $storeManager;
         $this->priceModifier = $priceModifier;
         $this->config = $config;
+        $this->customerGroupService = $customerGroupService;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function create($productSku, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price)
+    public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price)
     {
-        // TODO: Implement create() method.
+        try {
+            $product = $this->productRepository->get($productSku);
+            $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
+        } catch (NoSuchEntityException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new NoSuchEntityException("Such product doesn't exist");
+        }
+
+        $tierPrices = $product->getData('tier_price');
+        $websiteId = $this->storeManager->getWebsite()->getId();
+
+        $found = false;
+        foreach ($tierPrices as &$currentPrice) {
+            if (intval($currentPrice['cust_group']) === $price->getCustomerGroupId()
+                && $currentPrice['website_id'] === $websiteId
+            ) {
+                $currentPrice['price'] = $price->getValue();
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $tierPrices[] = array(
+                'cust_group' => $customerGroup->getId(),
+                'price' => $price->getValue(),
+                'website_price' => $price->getValue(),
+                'website_id' => $websiteId,
+                'price_qty' => $price->getQty()
+            );
+        }
+
+        $product->setData('group_price', $tierPrices);
+        $errors = $product->validate();
+        if (is_array($errors) && count($errors)) {
+            $errorAttributeCodes = implode(', ', array_keys($errors));
+            throw new CouldNotSaveException(
+                sprintf('Values of following attributes are invalid: %s', $errorAttributeCodes)
+            );
+        }
+        try {
+            $product->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save group price');
+        }
+        return true;
     }
 
     /**
@@ -96,14 +150,6 @@ class TierPriceService implements TierPriceServiceInterface
         }
         $this->priceModifier->removeTierPrice($product, $customerGroupId, $qty, $websiteId);
         return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($productSku, $customerGroupId, $qty)
-    {
-        // TODO: Implement get() method.
     }
 
     /**

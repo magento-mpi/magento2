@@ -36,17 +36,6 @@ interface TierPriceServiceInterface
      *
      * @param string $productSku
      * @param string $customerGroupId
-     * @param double $qty
-     * @return \Magento\Catalog\Service\V1\Data\Product\TierPrice
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function get($productSku, $customerGroupId, $qty);
-
-    /**
-     * Retrieve list of product tire prices
-     *
-     * @param string $productSku
-     * @param string $customerGroupId
      * @return \Magento\Catalog\Service\V1\Data\Product\TierPrice[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
