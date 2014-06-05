@@ -15,6 +15,7 @@ use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
 use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
+use Magento\Integration\Service\V1\OauthInterface as OauthInterfaceV1;
 
 /**
  * Integration oAuth service.
@@ -22,7 +23,7 @@ use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
  * TODO: Fix coupling between objects
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Oauth implements OauthInterface
+class Oauth implements OauthInterfaceV1
 {
     /**
      * @var  \Magento\Store\Model\StoreManagerInterface
