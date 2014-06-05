@@ -350,6 +350,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      * Whether it is used for sorting in product listing
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getUsedForSortBy()
     {
