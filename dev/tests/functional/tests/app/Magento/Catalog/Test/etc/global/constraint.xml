@@ -40,7 +40,7 @@
         <require>
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <category class="Magento\Catalog\Test\Fixture\CatalogCategoryEntity" />
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertProductVisibleInCategory>
@@ -58,7 +58,7 @@
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <product class="Mtf\Fixture\FixtureInterface" />
-            <category class="Magento\Catalog\Test\Fixture\CatalogCategoryEntity" />
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
         </require>
     </assertProductInCategory>
     <assertProductInCart module="Magento_Catalog">
@@ -123,7 +123,7 @@
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <product class="Mtf\Fixture\FixtureInterface" />
-            <category class="Magento\Catalog\Test\Fixture\CatalogCategoryEntity" />
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
             <catalogSearchResult class="Magento\CatalogSearch\Test\Page\CatalogsearchResult" />
         </require>
@@ -142,6 +142,15 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertGroupedPriceOnProductPage>
+    <assertCategorySaveMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategorySaveMessage>
+    <assertCategoryForm module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryForm>
+    <assertCategoryPage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryPage>
     <assertCrossSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
         <require>

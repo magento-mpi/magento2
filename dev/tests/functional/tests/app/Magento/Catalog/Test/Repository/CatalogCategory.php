@@ -11,10 +11,10 @@ namespace Magento\Catalog\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogCategoryEntity
+ * Class CatalogCategory
  * Data for creation Category
  */
-class CatalogCategoryEntity extends AbstractRepository
+class CatalogCategory extends AbstractRepository
 {
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
