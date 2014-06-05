@@ -1,4 +1,23 @@
 * Framework improvements:
+  * Covered Magento application components with unit tests:
+      * `SalesRule/Model/Observer`
+      * `SalesRule/Helper/*`
+      * `SalesRule/Model/Plugin/*`
+      * `SalesRule/Model/System/Config*`
+      * `Sales/Model/Config.php`
+      * `Sales/Model/Download.php`
+      * `Sales/Model/Quote.php`
+  * Covered Magento lib form elements with unit tests:
+      * `lib/Magento/Framework/Flag.php`
+      * `lib/Magento/Framework/Escaper`
+      * `lib/Magento/Framework/Event`
+      * `lib/Magento/Framework/Logger`
+      * `lib/Magento/Framework/Util`
+      * `lib/Magento/Framework/Registry.php`
+      * `lib/Magento/Framework/Backup/Media`
+      * `lib/Magento/Framework/Backup/NoMedia`
+      * `lib/Magento/Framework/Archive`
+      * `lib/Magento/Framework/Translate.php`
   * Created Service API for Magento_Catalog Module:
      * AttributeSet Service (MAGETWO-23316)
      * AttributeSetGroup Service (MAGETWO-23317)
@@ -15,7 +34,7 @@
   * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
   * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
-* Fixed: Adding Customer Review: error in system.log (MAGETWO-3674)
+  * Fixed: Adding Customer Review: error in system.log (MAGETWO-3674)
   * Fixed: 'Manage Stock' is reset to 'No' if 'Stock Availability' option has been changed (MAGETWO-10610)
   * Fixed: 'Recurring Profile' section isn't updated after changing product template (MAGETWO-10727)
   * Fixed: Fatal error appears on attempt to add product to the cart when FPT is enabled in specific case (MAGETWO-14725)
