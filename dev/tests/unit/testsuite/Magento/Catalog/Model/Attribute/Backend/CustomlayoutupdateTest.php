@@ -9,10 +9,15 @@ namespace Magento\Catalog\Model\Attribute\Backend;
 
 use Magento\Framework\Object;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Core\Model\Layout\Update\Validator;
 
 class CustomlayoutupdateTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var string
+     */
     private $attributeName = 'private';
+
     /**
      * @var \Magento\Catalog\Model\Attribute\Backend\Customlayoutupdate
      */
@@ -41,6 +46,9 @@ class CustomlayoutupdateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->model->validate($object));
     }
 
+    /**
+     * @return array
+     */
     public function validateProvider()
     {
         return [[''], ['xml']];
@@ -49,7 +57,6 @@ class CustomlayoutupdateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new ObjectManager($this);
-        /** @var \Magento\Catalog\Model\Attribute\Backend\Customlayoutupdate $model */
         $this->model = $helper->getObject(
             '\Magento\Catalog\Model\Attribute\Backend\Customlayoutupdate',
             [
@@ -88,6 +95,10 @@ class CustomlayoutupdateTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('isValid')
             ->will(
+                /**
+                 * @param string $xml
+                 * $return bool
+                 */
                 $this->returnCallback(
                     function ($xml) {
                         if ($xml == 'exception') {
