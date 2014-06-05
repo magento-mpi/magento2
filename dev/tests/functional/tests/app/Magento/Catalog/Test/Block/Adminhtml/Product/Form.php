@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\InjectableFixture;
 
 /**
@@ -25,20 +25,6 @@ use Mtf\Fixture\InjectableFixture;
  */
 class Form extends FormTabs
 {
-    /**
-     * Variations tab selector
-     *
-     * @var string
-     */
-    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
-
-    /**
-     * Variations wrapper selector
-     *
-     * @var string
-     */
-    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
-
     /**
      * New variation set button selector
      *
@@ -84,7 +70,7 @@ class Form extends FormTabs
     /**
      * Category fixture
      *
-     * @var CatalogCategoryEntity
+     * @var CatalogCategory
      */
     protected $category;
 
@@ -92,13 +78,13 @@ class Form extends FormTabs
      * Fill the product form
      *
      * @param FixtureInterface $fixture
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @param Element $element
      * @return $this
      */
     public function fillProduct(
         FixtureInterface $fixture,
-        CatalogCategoryEntity $category = null,
+        CatalogCategory $category = null,
         Element $element = null
     ) {
         $this->category = $category;

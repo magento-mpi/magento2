@@ -43,6 +43,11 @@
         <area>adminhtml</area>
         <class>Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew</class>
     </catalogProductAttributeNew>
+    <catalogCategoryEdit>
+        <mca>catalog/category/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit</class>
+    </catalogCategoryEdit>
     <catalogProductSetIndex>
         <mca>catalog/product_set/index</mca>
         <area>adminhtml</area>

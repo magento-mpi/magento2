@@ -9,7 +9,7 @@
 namespace Magento\ConfigurableProduct\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
@@ -32,7 +32,7 @@ class CreateConfigurableEntityTest extends Injectable
     /**
      * Category fixture
      *
-     * @var CatalogCategoryEntity
+     * @var CatalogCategory
      */
     protected $category;
 
@@ -51,10 +51,10 @@ class CreateConfigurableEntityTest extends Injectable
     protected $newProductPage;
 
     /**
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return array
      */
-    public function __prepare(CatalogCategoryEntity $category)
+    public function __prepare(CatalogCategory $category)
     {
         $category->persist();
 
@@ -64,12 +64,12 @@ class CreateConfigurableEntityTest extends Injectable
     }
 
     /**
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @param CatalogProductIndex $productPageGrid
      * @param CatalogProductNew $newProductPage
      */
     public function __inject(
-        CatalogCategoryEntity $category,
+        CatalogCategory $category,
         CatalogProductIndex $productPageGrid,
         CatalogProductNew $newProductPage
     ) {
@@ -82,10 +82,10 @@ class CreateConfigurableEntityTest extends Injectable
      * Run create configurable product test
      *
      * @param CatalogProductConfigurable $configurable
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return void
      */
-    public function testCreate(CatalogProductConfigurable $configurable, CatalogCategoryEntity $category)
+    public function testCreate(CatalogProductConfigurable $configurable, CatalogCategory $category)
     {
         // Steps
         $this->productPageGrid->open();
