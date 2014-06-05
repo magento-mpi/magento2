@@ -15,6 +15,9 @@
   * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
   * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
+  * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
+  * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
+  * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
