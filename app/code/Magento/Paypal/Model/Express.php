@@ -207,7 +207,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _setApiProcessableErrors()
     {
         return $this->_pro->getApi()->setProcessableErrors(
-            array(
+            [
                 ApiProcessableException::API_INTERNAL_ERROR,
                 ApiProcessableException::API_UNABLE_PROCESS_PAYMENT_ERROR_CODE,
                 ApiProcessableException::API_DO_EXPRESS_CHECKOUT_FAIL,
@@ -217,7 +217,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
                 ApiProcessableException::API_COUNTRY_FILTER_DECLINE,
                 ApiProcessableException::API_MAXIMUM_AMOUNT_FILTER_DECLINE,
                 ApiProcessableException::API_OTHER_FILTER_DECLINE
-            ));
+            ]
+        );
     }
 
     /**

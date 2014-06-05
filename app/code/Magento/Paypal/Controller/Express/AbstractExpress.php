@@ -457,7 +457,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      * Process PayPal API's processable errors
      *
      * @param \Magento\Paypal\Model\Api\ProcessableException $exception
-     * @throws \Magento\Paypal\Model\Api\ProcessableException $exception
+     * @return void
      */
     protected function _processPaypalApiError($exception)
     {
@@ -489,6 +489,8 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
 
     /**
      * Redirect customer back to PayPal with the same token
+     *
+     * @return void
      */
     protected function _redirectSameToken()
     {
@@ -502,6 +504,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      * Redirect customer to shopping cart and show error message
      *
      * @param string $errorMessage
+     * @return void
      */
     protected function _redirectToCartAndShowError($errorMessage)
     {
@@ -512,7 +515,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     /**
      * Instantiate quote and checkout
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return void
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _initCheckout()
@@ -533,7 +536,6 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
                 ->create($this->_checkoutType, $parameters);
         }
         $this->_checkout = $this->_checkoutTypes[$this->_checkoutType];
-        return $this->_checkout;
     }
 
     /**

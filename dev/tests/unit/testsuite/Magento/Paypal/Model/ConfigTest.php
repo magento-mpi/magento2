@@ -14,10 +14,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_scopeConfig;
+
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $helper->getObject('Magento\Paypal\Model\Config');
+        $this->_scopeConfig = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_model = $helper->getObject('Magento\Paypal\Model\Config', ['scopeConfig' => $this->_scopeConfig]);
     }
 
     public function testGetCountryMethods()
@@ -33,7 +39,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetBuildNotationCode()
     {
         $this->_model->setMethod('payflow_direct');
-        $this->assertEquals('Magento_Cart_WPP_some-country', $this->_model->getBuildNotationCode('some-country'));
+        $this->_model->setStoreId(123);
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('paypal/bncode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 123)
+            ->will($this->returnValue('some BN code'));
+        $this->assertEquals('some BN code', $this->_model->getBuildNotationCode());
     }
 
     public function testIsMethodActive()

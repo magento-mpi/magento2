@@ -994,7 +994,7 @@ class Config
      */
     public function getExpressCheckoutOrderUrl($orderId)
     {
-        return $this->getPaypalUrl(array('cmd'   => '_express-checkout', 'order_id' => $orderId));
+        return $this->getPaypalUrl(array('cmd' => '_express-checkout', 'order_id' => $orderId));
     }
 
     /**

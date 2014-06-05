@@ -554,14 +554,16 @@ class Checkout
         $this->_redirectUrl = $button ? $this->_config->getExpressCheckoutStartUrl($token)
             : $this->_config->getPayPalBasicStartUrl($token);
 
-        $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT)->save();
-
+        $payment = $this->_quote->getPayment();
+        $payment->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
         // Set flag that we came from Express Checkout button
         if (!empty($button)) {
-            $this->_quote->getPayment()->setAdditionalInformation(self::PAYMENT_INFO_BUTTON, 1);
-        } elseif ($this->_quote->getPayment()->hasAdditionalInformation(self::PAYMENT_INFO_BUTTON)) {
-            $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_BUTTON);
+            $payment->setAdditionalInformation(self::PAYMENT_INFO_BUTTON, 1);
+        } elseif ($payment->hasAdditionalInformation(self::PAYMENT_INFO_BUTTON)) {
+            $payment->unsAdditionalInformation(self::PAYMENT_INFO_BUTTON);
         }
+        $payment->save();
+
         return $token;
     }
 
@@ -599,8 +601,15 @@ class Checkout
         if (!$quote->getIsVirtual()) {
             $shippingAddress = $quote->getShippingAddress();
             if ($shippingAddress) {
-                if ($exportedShippingAddress) {
+                if ($exportedShippingAddress
+                    && $quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_BUTTON) == 1
+                ) {
                     $this->_setExportedAddressData($shippingAddress, $exportedShippingAddress);
+                    // PayPal doesn't provide detailed shipping info: prefix, middlename, lastname, suffix
+                    $shippingAddress->setPrefix(null);
+                    $shippingAddress->setMiddlename(null);
+                    $shippingAddress->setLastname(null);
+                    $shippingAddress->setSuffix(null);
                     $shippingAddress->setCollectShippingRates(true);
                     $shippingAddress->setSameAsBilling(0);
                 }
@@ -629,8 +638,7 @@ class Checkout
             && !$quote->isVirtual();
         if ($portBillingFromShipping) {
             $billingAddress = clone $shippingAddress;
-            $billingAddress->unsAddressId()
-                ->unsAddressType();
+            $billingAddress->unsAddressId()->unsAddressType();
             $data = $billingAddress->getData();
             $data['save_in_address_book'] = 0;
             $quote->getBillingAddress()->addData($data);

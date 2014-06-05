@@ -43,8 +43,8 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param CartFactory $cartFactory
-     * @param InfoFactory $paypalInfoFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param InfoFactory $paypalInfoFactory
      * @param array $data
      */
     public function __construct(
@@ -56,8 +56,8 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         CartFactory $cartFactory,
-        InfoFactory $paypalInfoFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
+        InfoFactory $paypalInfoFactory,
         array $data = array()
     ) {
         parent::__construct(

@@ -46,13 +46,7 @@ class ProductPageTest extends Functional
         $paypalPage->getLoginBlock()->login($fixture->getPaypalCustomer());
         $paypalPage->getReviewBlock()->continueCheckout();
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
-        $this->assertTrue(
-            $checkoutReviewPage->getReviewBlock()->verifyOrderInformation($fixture),
-            'Order Information data on edit page not equals to passed from fixture.'
-        );
-        $checkoutReviewPage->getReviewBlock()->fillTelephone($fixture->getTelephoneNumber());
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
-
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         //Verification

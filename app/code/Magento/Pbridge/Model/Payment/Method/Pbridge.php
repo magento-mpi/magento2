@@ -160,6 +160,7 @@ class Pbridge extends AbstractMethod
      * Ability to add additional parameters to request
      *
      * @param array $params
+     * @return void
      */
     public function setAdditionalRequestParameters(array $params)
     {
