@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsUnique
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsUnique extends AbstractConstraint
 {

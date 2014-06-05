@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeIndex
- *
- * @package Magento\CustomAttributeManagement\Test\Page\Adminhtml
  */
 class CatalogProductAttributeIndex extends BackendPage
 {
@@ -26,9 +24,9 @@ class CatalogProductAttributeIndex extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'blockPageActionsAttribute' => [
+        'pageActionsBlock' => [
             'name' => 'blockPageActionsAttribute',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -49,11 +47,11 @@ class CatalogProductAttributeIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions
+     * @return \Magento\Backend\Test\Block\GridPageActions
      */
-    public function getBlockPageActionsAttribute()
+    public function getPageActionsBlock()
     {
-        return $this->getBlockInstance('blockPageActionsAttribute');
+        return $this->getBlockInstance('pageActionsBlock');
     }
 
     /**

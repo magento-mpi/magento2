@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAttributeSearchableByLabel
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertAttributeSearchableByLabel extends AbstractConstraint
 {

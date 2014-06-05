@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsUsedPromoRules
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsUsedPromoRules extends AbstractConstraint
 {

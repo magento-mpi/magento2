@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsGlobal
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsGlobal extends AbstractConstraint
 {

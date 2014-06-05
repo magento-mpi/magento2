@@ -11,7 +11,7 @@ namespace Magento\Catalog\Test\Block\Product\ProductList;
 use Mtf\Block\Block;
 
 /**
- * Class ProductPagination
+ * Class Toolbar
  * Toolbar the product list page
  */
 class Toolbar extends Block
@@ -22,6 +22,13 @@ class Toolbar extends Block
      * @var string
      */
     protected $nextPageSelector = '.item.current + .item a';
+
+    /**
+     * Selector for "sort by" element
+     *
+     * @var string
+     */
+    protected $sorter = '#sorter';
 
     /**
      * Go to the next page
@@ -38,4 +45,25 @@ class Toolbar extends Block
 
         return false;
     }
-} 
+
+    /**
+     * Get method of sorting product
+     *
+     * @return array|string
+     */
+    public function getSelectSortType()
+    {
+        return $this->_rootElement->find($this->sorter)->getValue();
+    }
+
+    /**
+     * Get all available method of sorting product
+     *
+     * @return array|string
+     */
+    public function getSortType()
+    {
+        $content = str_replace("\r", '', $this->_rootElement->find($this->sorter)->getText());
+        return explode("\n", $content);
+    }
+}

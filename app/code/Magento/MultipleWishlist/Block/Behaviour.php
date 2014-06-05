@@ -28,6 +28,13 @@ class Behaviour extends \Magento\Framework\View\Element\Template
     protected $currentCustomer;
 
     /**
+     * {@inheritdoc}
+     *
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
@@ -42,7 +49,6 @@ class Behaviour extends \Magento\Framework\View\Element\Template
         $this->_wishlistData = $wishlistData;
         $this->currentCustomer = $currentCustomer;
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**

@@ -6,6 +6,7 @@ dev/tests/static/testsuite/Magento/Test/{Legacy,Integrity}/Magento/AdminGws
 dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/AdminGws
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/AdvancedCheckout
+app/design/adminhtml/Magento/backend/Magento_AdvancedCheckout
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Banner
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/BannerCustomerSegment
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CacheInvalidate
@@ -72,7 +73,6 @@ app/design/install/Magento/enterprise
 app/etc/enterprise
 
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
-dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/view_files_ee.php
 
 dev/tests/integration/testsuite/Magento/ToolkitFramework/_files/tax_rates.csv
 dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
@@ -96,7 +96,7 @@ downloader/template/enterprise
 
 dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php
-lib/Apache
+lib/internal/Apache
 pub/errors/enterprise
 dev/tools/performance_toolkit
 
@@ -145,6 +145,7 @@ dev/tests/functional/tests/app/Magento/Customer/Test/Fixture/VatGroup.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Repository/CustomerConfig.php
 dev/tests/functional/tests/app/Magento/Customer/Test/Repository/VatGroup.php
 dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/VatGroupAssignmentTest.php
+dev/tests/functional/tests/app/Magento/CustomerBalance
 dev/tests/functional/tests/app/Magento/CustomerSegment
 dev/tests/functional/tests/app/Magento/Directory
 dev/tests/functional/tests/app/Magento/GiftCard

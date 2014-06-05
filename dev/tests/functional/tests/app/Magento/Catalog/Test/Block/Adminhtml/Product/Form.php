@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\InjectableFixture;
 
 /**
@@ -25,20 +25,6 @@ use Mtf\Fixture\InjectableFixture;
  */
 class Form extends FormTabs
 {
-    /**
-     * Variations tab selector
-     *
-     * @var string
-     */
-    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
-
-    /**
-     * Variations wrapper selector
-     *
-     * @var string
-     */
-    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
-
     /**
      * New variation set button selector
      *
@@ -72,19 +58,19 @@ class Form extends FormTabs
      *
      * @var string
      */
-    protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
+    protected $advancedTabPanel = './/*[role="tablist"]//ul[!contains(@style,"overflow")]';
 
     /**
-     * Locator status of products
+     * CSS locator button status of the product
      *
      * @var string
      */
-    protected $onlineSwitcher = '#product-online-switcher + [for="product-online-switcher"]';
+    protected $onlineSwitcher = '#product-online-switcher%s + [for="product-online-switcher"]';
 
     /**
      * Category fixture
      *
-     * @var CatalogCategoryEntity
+     * @var CatalogCategory
      */
     protected $category;
 
@@ -92,17 +78,29 @@ class Form extends FormTabs
      * Fill the product form
      *
      * @param FixtureInterface $fixture
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @param Element $element
      * @return $this
      */
-    public function fillProduct(FixtureInterface $fixture, CatalogCategoryEntity $category = null, Element $element = null)
-    {
+    public function fillProduct(
+        FixtureInterface $fixture,
+        CatalogCategory $category = null,
+        Element $element = null
+    ) {
         $this->category = $category;
         $this->fillCategory($fixture);
-        if ($fixture instanceof InjectableFixture && $fixture->getStatus() === 'Product offline') {
-            $this->_rootElement->find($this->onlineSwitcher)->click();
+
+        if ($fixture instanceof InjectableFixture) {
+            $status = $fixture->getStatus();
+            if (($status === 'Product offline'
+                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible())
+                || ($status === 'Product online'
+                && $this->_rootElement->find(sprintf($this->onlineSwitcher, ':not(:checked)'))->isVisible())
+            ) {
+                $this->_rootElement->find(sprintf($this->onlineSwitcher, ''))->click();
+            }
         }
+
         return parent::fill($fixture, $element);
     }
 
@@ -136,18 +134,25 @@ class Form extends FormTabs
             $categoryName = $this->category->getName();
         }
         if (empty($categoryName) && !($fixture instanceof InjectableFixture)) {
-                $categoryName = $fixture->getCategoryName();
+            $categoryName = $fixture->getCategoryName();
         }
         if (empty($categoryName)) {
             return;
         }
 
         $category = $this->_rootElement->find(
-            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
+            str_replace(
+                '%categoryName%',
+                $categoryName,
+                $this->categoryName
+            ),
+            Locator::SELECTOR_XPATH
         );
         if (!$category->isVisible()) {
             $this->fillCategoryField(
-                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
+                $categoryName,
+                'category_ids-suggest',
+                '//*[@id="attribute-category_ids-container"]'
             );
         }
     }
@@ -245,11 +250,11 @@ class Form extends FormTabs
         $strategy = isset($this->tabs[$tabName]['strategy'])
             ? $this->tabs[$tabName]['strategy']
             : Locator::SELECTOR_CSS;
-        $advancedTabList = $this->advancedTabList;
         $tab = $this->_rootElement->find($selector, $strategy);
         $advancedSettings = $this->_rootElement->find($this->advancedSettings);
 
         // Wait until all tabs will load
+        $advancedTabList = $this->advancedTabList;
         $this->_rootElement->waitUntil(
             function () use ($rootElement, $advancedTabList) {
                 return $rootElement->find($advancedTabList)->isVisible();
@@ -264,12 +269,17 @@ class Form extends FormTabs
             $tabPanel = $this->advancedTabPanel;
             $this->_rootElement->waitUntil(
                 function () use ($rootElement, $tabPanel) {
-                    return $rootElement->find($tabPanel)->isVisible();
+                    return $rootElement->find($tabPanel, Locator::SELECTOR_XPATH)->isVisible();
                 }
             );
             // Wait until needed tab will appear
             $this->_rootElement->waitUntil(
-                function () use ($rootElement, $selector, $strategy) {
+                function () use ($rootElement, $selector, $strategy, $tabPanel) {
+                    $this->_rootElement->waitUntil(
+                        function () use ($rootElement, $tabPanel) {
+                            return $rootElement->find($tabPanel, Locator::SELECTOR_XPATH)->isVisible();
+                        }
+                    );
                     return $rootElement->find($selector, $strategy)->isVisible();
                 }
             );
@@ -279,15 +289,5 @@ class Form extends FormTabs
         }
 
         return $this;
-    }
-
-    /**
-     * Click 'Add AttributeButton' on the Product page
-     *
-     * @return void
-     */
-    public function clickAddAttribute()
-    {
-        $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
     }
 }

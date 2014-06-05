@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeUsedSortOnFrontend
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeUsedSortOnFrontend extends AbstractConstraint
 {

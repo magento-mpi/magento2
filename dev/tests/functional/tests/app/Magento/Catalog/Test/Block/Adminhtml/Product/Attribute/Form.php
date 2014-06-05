@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**

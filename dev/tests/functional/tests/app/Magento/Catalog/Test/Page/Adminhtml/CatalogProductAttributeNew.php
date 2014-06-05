@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeNew
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductAttributeNew extends BackendPage
 {

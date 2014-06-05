@@ -12,8 +12,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductAttributeIsFilterable
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductAttributeIsFilterable extends AbstractConstraint
 {

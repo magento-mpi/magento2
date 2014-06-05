@@ -102,10 +102,23 @@ class FormTabs extends Form
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
+        return $this->fillTabs($tabs, $element);
+    }
+
+    /**
+     * Fill specified form with tabs
+     *
+     * @param array $tabs
+     * @param Element|null $element
+     * @return FormTabs
+     */
+    protected  function fillTabs(array $tabs, Element $element = null)
+    {
+        $context = ($element === null) ? $this->_rootElement : $element;
         foreach ($tabs as $tabName => $tabFields) {
             $tabElement = $this->getTabElement($tabName);
             $this->openTab($tabName);
-            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
+            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $context);
             $this->updateUnassignedFields($tabElement);
         }
         if (!empty($this->unassignedFields)) {
@@ -174,10 +187,9 @@ class FormTabs extends Form
         } else {
             $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
             $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
-            foreach ($this->tabs as $tabName => $tab) {
+            foreach ($tabsFields as $tabName => $fields) {
                 $this->openTab($tabName);
-                $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : [];
-                $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab($fields, $this->_rootElement);
                 $data = array_merge($data, $tabData);
             }
         }
@@ -273,7 +285,7 @@ class FormTabs extends Form
     protected function getTabElement($tabName)
     {
         $tabClass = $this->tabs[$tabName]['class'];
-        /** @var $tabElement Tab */
+        /** @var Tab $tabElement */
         $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');

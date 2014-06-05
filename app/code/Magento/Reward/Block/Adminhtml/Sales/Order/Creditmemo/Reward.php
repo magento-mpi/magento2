@@ -24,16 +24,24 @@ class Reward extends \Magento\Backend\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $rewardData;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->rewardData = $rewardData;
         parent::__construct($context, $data);
     }
 
@@ -71,5 +79,15 @@ class Reward extends \Magento\Backend\Block\Template
     public function getRefundRewardPointsBalance()
     {
         return (int)$this->getCreditmemo()->getRewardPointsBalance();
+    }
+
+    /**
+     * Return automatic refund of reward points option value
+     *
+     * @return bool
+     */
+    public function isAutoRefundEnabled()
+    {
+        return $this->rewardData->isAutoRefundEnabled();
     }
 }
