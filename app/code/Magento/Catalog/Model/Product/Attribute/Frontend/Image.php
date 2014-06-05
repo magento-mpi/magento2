@@ -42,14 +42,13 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFronten
     public function getUrl($product)
     {
         $image = $product->getData($this->getAttribute()->getAttributeCode());
-        if ($image) {
+        $url = false;
+        if (!empty($image)) {
             $url = $this->_storeManager->getStore(
                 $product->getStore()
             )->getBaseUrl(
                 \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
             ) . 'catalog/product/' . $image;
-        } else {
-            $url = false;
         }
         return $url;
     }
