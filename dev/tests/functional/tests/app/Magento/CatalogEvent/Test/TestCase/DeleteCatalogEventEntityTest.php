@@ -96,7 +96,7 @@ class DeleteCatalogEventEntityTest extends Injectable
 
         //Steps
         $this->catalogEventIndex->open();
-        $this->catalogEventIndex->getBlockEventGrid()->searchAndOpen($filter);
+        $this->catalogEventIndex->getEventGrid()->searchAndOpen($filter);
         $this->catalogEventNew->getPageActions()->delete();
     }
 }

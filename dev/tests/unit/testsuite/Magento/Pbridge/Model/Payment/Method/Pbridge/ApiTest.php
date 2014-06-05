@@ -16,14 +16,9 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         \Magento\Framework\Profiler::reset();
     }
 
-    protected function setUp()
-    {
-        $this->markTestSkipped('Api tests were skipped');
-    }
-
     /**
      * @param array $data
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Pbridge\Model\Payment\Method\Pbridge\Api
+     * @return \PHPUnit_Framework_MockObject_MockObject|Api
      */
     protected function _getApiMock(array $data)
     {
