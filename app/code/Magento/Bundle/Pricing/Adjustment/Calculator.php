@@ -263,7 +263,7 @@ class Calculator implements BundleCalculatorInterface
     {
         $priceList = [];
         /* @var $selection \Magento\Bundle\Model\Selection|\Magento\Catalog\Model\Product */
-        foreach ($option->getSelections() as $selection) {
+        foreach ((array)$option->getSelections() as $selection) {
             if (!$selection->isSalable()) {
                 // @todo CatalogInventory Show out of stock Products
                 continue;
