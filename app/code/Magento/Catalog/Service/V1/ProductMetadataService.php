@@ -139,9 +139,6 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             ? $attribute->getSource()->getAllOptions() : array();
         $data[AttributeMetadata::VALIDATION_RULES] = $attribute->getValidateRules();
 
-        //fill isSystem filed
-        $data[AttributeMetadata::IS_SYSTEM] = $attribute->getIsSystem();
-
         // fill scope
         $data[AttributeMetadata::SCOPE] = $attribute->isScopeGlobal()
             ? 'global' : ($attribute->isScopeWebsite() ? 'website' : 'store');
