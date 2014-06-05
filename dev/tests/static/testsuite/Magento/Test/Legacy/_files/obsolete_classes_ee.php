@@ -121,5 +121,5 @@ return array(
     array('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid'),
     array('Magento\TargetRule\Model\Resource\Setup'),
     array('Magento\Enterprise\Model\Resource\Setup\Migration'),
-    array('Magento\SalesRule\Helper'),
+    array('Magento\SalesRule\Helper\Data'),
 );

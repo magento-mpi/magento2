@@ -8,8 +8,6 @@
 
 namespace Magento\Review\Controller\Adminhtml;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
-
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
@@ -25,10 +23,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManagerHelper;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_contextMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -99,25 +93,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_prepareMockObjects();
-        $this->_contextMock->expects($this->any())->method('getRequest')
-            ->will($this->returnValue($this->_requestMock));
-        $this->_contextMock->expects($this->any())->method('getResponse')
-            ->will($this->returnValue($this->_responseMock));
-        $this->_contextMock->expects($this->any())->method('getObjectManager')
-            ->will($this->returnValue($this->_objectManagerMock));
-        $this->_contextMock->expects($this->any())->method('getMessageManager')
-            ->will($this->returnValue($this->_messageManagerMock));
-        $this->_contextMock->expects($this->any())->method('getHelper')
-            ->will($this->returnValue($this->_helperMock));
 
-        $this->_objectManagerHelper = new ObjectManagerHelper($this);
-        $this->_model = $this->_objectManagerHelper->getObject(
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $this->_model = $objectManagerHelper->getObject(
             'Magento\Review\Controller\Adminhtml\Product',
             [
-                'context' => $this->_contextMock,
                 'coreRegistry' => $this->_registryMock,
                 'reviewFactory' => $this->_reviewFactoryMock,
-                'ratingFactory' => $this->_ratingFactoryMock
+                'ratingFactory' => $this->_ratingFactoryMock,
+                'request' => $this->_requestMock,
+                'response' => $this->_responseMock,
+                'objectManager' => $this->_objectManagerMock,
+                'messageManager' => $this->_messageManagerMock,
+                'helper' => $this->_helperMock
             ]
         );
 
@@ -128,13 +117,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareMockObjects()
     {
-        $contextMethods = array(
-            'getRequest',
-            'getResponse',
-            'getObjectManager',
-            'getMessageManager',
-            'getHelper'
-        );
         $requestMethods = array(
             'getPost',
             'getModuleName',
@@ -143,13 +125,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'setActionName',
             'getParam'
         );
-        $this->_contextMock = $this->getMock('Magento\Backend\App\Action\Context', $contextMethods, array(), '', false);
         $this->_registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_requestMock = $this->getMock(
-            '\Magento\Framework\App\RequestInterface', $requestMethods, array(), '', false
+            '\Magento\Framework\App\RequestInterface', $requestMethods
         );
         $this->_responseMock = $this->getMock(
-            '\Magento\Framework\App\ResponseInterface', array('setRedirect', 'sendResponse'), array(), '', false
+            '\Magento\Framework\App\ResponseInterface', array('setRedirect', 'sendResponse')
         );
         $this->_objectManagerMock = $this->getMock(
             '\Magento\Framework\ObjectManager', array('get', 'create', 'configure'), array(), '', false

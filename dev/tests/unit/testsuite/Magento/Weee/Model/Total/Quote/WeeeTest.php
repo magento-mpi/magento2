@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -114,13 +111,6 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initializeMockObjects()
     {
-        $weeeDataMethods = [
-            'isEnabled',
-            'isDiscounted',
-            'isTaxable',
-            'includeInSubtotal',
-            'addItemDiscountPrices',
-        ];
         $quoteItemMethods = [
             '__wakeup',
             'getProduct',
@@ -135,8 +125,18 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'getQuote'
         ];
 
-        $this->_weeeDataMock = $this->getMock('\Magento\Weee\Helper\Data', $weeeDataMethods,
-            $this->_prepareWeeeDataConstruct(), '');
+        $this->_storeManagerInterfaceMock = $this->getMock(
+            'Magento\Store\Model\StoreManagerInterface', [], [], '', false
+        );
+        $this->_weeeTaxMock = $this->getMock(
+            '\Magento\Weee\Model\Tax', ['__wakeup', 'getProductWeeeAttributes'], [], '', false
+        );
+        $this->_taxHelperMock = $this->getMock('\Magento\Tax\Helper\Data', [], [], '', false);
+        $this->_registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
+        $this->_scopeConfigInterfaceMock = $this->getMock(
+            '\Magento\Framework\App\Config\ScopeConfigInterface', ['isSetFlag', 'getValue'], [], '', false
+        );
+        $this->_weeeDataMock = $this->getMock('\Magento\Weee\Helper\Data', array(), array(), '', false);
         $this->_configMock = $this->getMock('\Magento\Tax\Model\Config', ['priceIncludesTax'], [], '', false);
         $this->_objectMock = $this->getMock('\Magento\Framework\Object', [], [], '', false);
         $this->_storeMock = $this->getMock('\Magento\Store\Model\Store', ['__wakeup', 'convertPrice'], [], '', false);
@@ -153,36 +153,6 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'getAllNonNominalItems',
             'getPrice'
         ], [], '', false);
-    }
-
-    /**
-     * Prepare constructor data for \Magento\Weee\Helper\Data
-     * return array
-     */
-    protected function _prepareWeeeDataConstruct()
-    {
-        $this->_contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
-        $this->_storeManagerInterfaceMock = $this->getMock(
-            'Magento\Store\Model\StoreManagerInterface', [], [], '', false
-        );
-        $this->_weeeTaxMock = $this->getMock(
-            '\Magento\Weee\Model\Tax', ['__wakeup', 'getProductWeeeAttributes'], [], '', false
-        );
-        $this->_taxHelperMock = $this->getMock('\Magento\Tax\Helper\Data', [], [], '', false);
-        $this->_registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
-        $this->_scopeConfigInterfaceMock = $this->getMock(
-            '\Magento\Framework\App\Config\ScopeConfigInterface', ['isSetFlag', 'getValue'], [], '', false
-        );
-        $weeeDataArgs = [
-            'context'       => $this->_contextMock,
-            'storeManage'   => $this->_storeManagerInterfaceMock,
-            'weeeTax'        => $this->_weeeTaxMock,
-            'taxData'       => $this->_taxHelperMock,
-            'coreRegistry'  => $this->_registryMock,
-            'scopeConfig'   => $this->_scopeConfigInterfaceMock,
-        ];
-
-        return $weeeDataArgs;
     }
 
     /**
@@ -210,6 +180,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->_weeeTaxMock->expects($this->any())->method('getProductWeeeAttributes')
             ->will($this->returnValue(array($this->_objectMock)));
+        $this->_weeeDataMock->expects($this->any())->method('getProductWeeeAttributes')
+            ->will($this->returnValue(array($this->_objectMock)));
+        $this->_weeeDataMock->expects($this->any())->method('getApplied')
+            ->will($this->returnValue(array()));
         $this->_storeMock->expects($this->any())->method('convertPrice')
             ->will($this->returnValue(1));
     }

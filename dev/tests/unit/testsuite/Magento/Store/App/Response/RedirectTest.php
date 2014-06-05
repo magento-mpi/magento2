@@ -57,18 +57,9 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
                 'getActionName',
                 'setActionName',
                 'getParam'
-            ),
-            array(),
-            '',
-            false
+            )
         );
-        $this->_storeManagerMock = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->_urlCoderMock = $this->getMock(
             '\Magento\Framework\Encryption\UrlCoder',
             array(),
@@ -76,27 +67,9 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_sessionMock = $this->getMock(
-            '\Magento\Framework\Session\SessionManagerInterface',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $this->_sidResolverMock = $this->getMock(
-            '\Magento\Framework\Session\SidResolverInterface',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $this->_urlBuilderMock = $this->getMock(
-            '\Magento\Framework\UrlInterface',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->_sessionMock = $this->getMock('\Magento\Framework\Session\SessionManagerInterface');
+        $this->_sidResolverMock = $this->getMock('\Magento\Framework\Session\SidResolverInterface');
+        $this->_urlBuilderMock = $this->getMock('\Magento\Framework\UrlInterface');
 
         $this->_model = new \Magento\Store\App\Response\Redirect(
             $this->_requestMock,

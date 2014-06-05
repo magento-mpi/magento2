@@ -104,13 +104,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array('setRedirect', 'sendResponse')
         )->getMock();
 
-        $managerInterfaceMock = $this->getMock(
-            'Magento\Framework\Message\ManagerInterface',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $managerInterfaceMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
         $sessionMock = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
         $actionFlagMock = $this->getMock('Magento\Framework\App\ActionFlag', array(), array(), '', false);
         $helperDataMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);

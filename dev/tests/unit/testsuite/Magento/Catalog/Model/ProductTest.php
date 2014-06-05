@@ -51,13 +51,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->categoryIndexerMock = $this->getMockForAbstractClass(
-            '\Magento\Indexer\Model\IndexerInterface',
-            array(),
-            '',
-            false,
-            false
-        );
+        $this->categoryIndexerMock = $this->getMockForAbstractClass('\Magento\Indexer\Model\IndexerInterface');
 
         $this->productFlatProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
@@ -82,7 +76,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('getAreaCode')
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
-        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction',
             [],
@@ -91,7 +85,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             false
         );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
+        $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface');
 
         $contextMock = $this->getMock(
             '\Magento\Framework\Model\Context',
