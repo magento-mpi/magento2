@@ -26,20 +26,6 @@ use Mtf\Fixture\InjectableFixture;
 class Form extends FormTabs
 {
     /**
-     * Variations tab selector
-     *
-     * @var string
-     */
-    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
-
-    /**
-     * Variations wrapper selector
-     *
-     * @var string
-     */
-    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
-
-    /**
      * New variation set button selector
      *
      * @var string
