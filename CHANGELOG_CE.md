@@ -34,7 +34,7 @@
   * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
   * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
-* Fixed: Adding Customer Review: error in system.log (MAGETWO-3674)
+  * Fixed: Adding Customer Review: error in system.log (MAGETWO-3674)
   * Fixed: 'Manage Stock' is reset to 'No' if 'Stock Availability' option has been changed (MAGETWO-10610)
   * Fixed: 'Recurring Profile' section isn't updated after changing product template (MAGETWO-10727)
   * Fixed: Fatal error appears on attempt to add product to the cart when FPT is enabled in specific case (MAGETWO-14725)
