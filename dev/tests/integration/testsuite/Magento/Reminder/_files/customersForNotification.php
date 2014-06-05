@@ -62,7 +62,7 @@ $rule->setData(
     )
 )->save();
 
-$beforeYesterday = date('Y-m-d h:00:00', strtotime('-2 day', time()));
+$beforeYesterday = date('Y-m-d 3:00:00', strtotime('-2 day', time()));
 $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
 $adapter = $resource->getConnection('core_write');
 $adapter->query("UPDATE {$resource->getTableName('sales_flat_quote')} SET updated_at = '{$beforeYesterday}'");
