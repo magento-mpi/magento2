@@ -38,7 +38,7 @@ class Methods extends Form
      *
      * @var string
      */
-    protected $waitElement = '.please-wait';
+    protected $waitElement = '.loading-mask';
 
     /**
      * Select payment method

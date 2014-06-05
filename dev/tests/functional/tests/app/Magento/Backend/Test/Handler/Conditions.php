@@ -35,7 +35,7 @@ use Mtf\Handler\Curl;
  *     {Product attribute combination|NOT FOUND|ANY:[[Attribute Set|is|Default][Attribute Set|is|Default]]}
  * ]}
  */
-class Conditions extends Curl
+abstract class Conditions extends Curl
 {
     /**
      * Map of type parameter
@@ -139,10 +139,7 @@ class Conditions extends Curl
      * @param FixtureInterface $fixture [optional]
      * @return mixed
      */
-    public function persist(FixtureInterface $fixture = null)
-    {
-
-    }
+    abstract public function persist(FixtureInterface $fixture = null);
 
     /**
      * Prepare conditions to array for send by post request

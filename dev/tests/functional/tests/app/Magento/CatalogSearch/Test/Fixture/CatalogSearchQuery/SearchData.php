@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace  Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
+namespace Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;

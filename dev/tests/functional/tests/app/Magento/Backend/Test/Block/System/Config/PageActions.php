@@ -7,32 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Backend\Test\Block\System\Config;
 
 use Mtf\Client\Element\Locator;
-use \Magento\Backend\Test\Block\PageActions as AbstractPageActions;
+use Magento\Backend\Test\Block\FormPageActions as AbstractPageActions;
 
+/**
+ * Class PageActions
+ * System config page action
+ */
 class PageActions extends AbstractPageActions
 {
     /**
-     * Save button
+     * Scope CSS selector
      *
      * @var string
      */
-    protected $saveButton = '#save';
-
-    /**
-     * @var string
-     */
     protected $scopeSelector = '.actions.dropdown';
-
-    /**
-     * Click "Save" button
-     */
-    public function save()
-    {
-        $this->_rootElement->find($this->saveButton)->click();
-    }
 
     /**
      * Select store

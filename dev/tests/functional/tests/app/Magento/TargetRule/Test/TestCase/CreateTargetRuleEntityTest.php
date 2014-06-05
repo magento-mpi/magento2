@@ -11,8 +11,6 @@ namespace Magento\TargetRule\Test\TestCase;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
 
 /**
  * Test Creation for CreateTargetRuleEntity
@@ -36,35 +34,6 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
  */
 class CreateTargetRuleEntityTest extends TargetRuleEntityTest
 {
-    /**
-     * @var TargetRuleIndex
-     */
-    protected $targetRuleIndex;
-
-    /**
-     * @var TargetRuleNew
-     */
-    protected $targetRuleNew;
-
-    /**
-     * @var TargetRule
-     */
-    protected $targetRule;
-
-    /**
-     * Injection data
-     *
-     * @param TargetRuleIndex $targetRuleIndex
-     * @param TargetRuleNew $targetRuleNew
-     */
-    public function __inject(
-        TargetRuleIndex $targetRuleIndex,
-        TargetRuleNew $targetRuleNew
-    ) {
-        $this->targetRuleIndex = $targetRuleIndex;
-        $this->targetRuleNew = $targetRuleNew;
-    }
-
     /**
      * Run create TargetRule entity test
      *
@@ -96,38 +65,5 @@ class CreateTargetRuleEntityTest extends TargetRuleEntityTest
 
         // Prepare data for tear down
         $this->prepareTearDown($targetRule);
-    }
-
-    /**
-     * Get data for replace in variations
-     *
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
-     * @param CustomerSegment|null $customerSegment
-     * @return array
-     */
-    protected function getReplaceData(
-        CatalogProductSimple $product1,
-        CatalogProductSimple $product2,
-        CustomerSegment $customerSegment = null
-    ) {
-        $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
-        return [
-            'rule_information' => [
-                'customer_segment_ids' => [
-                    '%customer_segment%' => $customerSegmentName,
-                ],
-            ],
-            'products_to_match' => [
-                'conditions_serialized' => [
-                    '%category_1%' => $product1->getCategoryIds()[0]['id'],
-                ],
-            ],
-            'products_to_display' => [
-                'actions_serialized' => [
-                    '%category_2%' => $product2->getCategoryIds()[0]['id'],
-                ],
-            ],
-        ];
     }
 }

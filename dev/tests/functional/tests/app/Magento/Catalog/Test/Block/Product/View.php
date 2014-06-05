@@ -78,6 +78,13 @@ class View extends Block
     protected $productPrice = '.price-box .price';
 
     /**
+     * Bundle options block
+     *
+     * @var string
+     */
+    protected $bundleBlock = '#product-options-wrapper';
+
+    /**
      * Click for Price link on Product page
      *
      * @var string
@@ -89,7 +96,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $mapPopup = '#map-popup';
+    protected $mapPopup = '#map-popup-click-for-price';
 
     /**
      * Stock Availability control
@@ -111,6 +118,18 @@ class View extends Block
      * @var string
      */
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
+
+    /**
+     * Get bundle options block
+     *
+     * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
+     */
+    public function getBundleBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
+            $this->_rootElement->find($this->bundleBlock)
+        );
+    }
 
     /**
      * Get block price
@@ -205,7 +224,7 @@ class View extends Block
     {
         return $this->blockFactory->create(
             'Magento\Catalog\Test\Block\Product\Price',
-            array('element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME))
+            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
         );
     }
 

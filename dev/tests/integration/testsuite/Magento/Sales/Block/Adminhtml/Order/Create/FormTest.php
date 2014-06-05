@@ -91,6 +91,9 @@ ORDER_DATA_JSON;
 
     private function setUpMockAddress()
     {
+        $regionBuilder1 = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
+        $regionBuilder2 = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
+
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
@@ -110,7 +113,7 @@ ORDER_DATA_JSON;
             '75477'
         )->setRegion(
             new V1\Data\Region(
-                (new V1\Data\RegionBuilder())->populateWithArray(
+                $regionBuilder1->populateWithArray(
                     array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
                 )
             )
@@ -140,7 +143,7 @@ ORDER_DATA_JSON;
             '47676'
         )->setRegion(
             new V1\Data\Region(
-                (new V1\Data\RegionBuilder())->populateWithArray(
+                $regionBuilder2->populateWithArray(
                     array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
                 )
             )

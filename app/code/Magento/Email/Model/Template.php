@@ -124,9 +124,9 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_filesystem;
 
     /**
-     * @var \Magento\Framework\View\Url
+     * @var \Magento\Framework\View\Asset\Repository
      */
-    protected $_viewUrl;
+    protected $_assetRepo;
 
     /**
      * @var \Magento\Framework\View\FileSystem
@@ -161,7 +161,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Template\FilterFactory $emailFilterFactory
@@ -177,7 +177,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         \Magento\Core\Model\App\Emulation $appEmulation,
         StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
@@ -186,7 +186,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_filesystem = $filesystem;
-        $this->_viewUrl = $viewUrl;
+        $this->_assetRepo = $assetRepo;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_emailFilterFactory = $emailFilterFactory;
         $this->_emailConfig = $emailConfig;
@@ -236,7 +236,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      */
     public function getDefaultEmailLogo()
     {
-        return $this->_viewUrl->getViewFileUrl(
+        return $this->_assetRepo->getUrlWithParams(
             'Magento_Email::logo_email.gif',
             array('area' => \Magento\Framework\App\Area::AREA_FRONTEND)
         );
