@@ -26,20 +26,6 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 class Form extends FormTabs
 {
     /**
-     * Variations tab selector
-     *
-     * @var string
-     */
-    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
-
-    /**
-     * Variations wrapper selector
-     *
-     * @var string
-     */
-    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
-
-    /**
      * New variation set button selector
      *
      * @var string
@@ -96,8 +82,11 @@ class Form extends FormTabs
      * @param Element $element
      * @return $this
      */
-    public function fillProduct(FixtureInterface $fixture, CatalogCategory $category = null, Element $element = null)
-    {
+    public function fillProduct(
+        FixtureInterface $fixture,
+        CatalogCategory $category = null,
+        Element $element = null
+    ) {
         $this->category = $category;
         $this->fillCategory($fixture);
 

@@ -55,37 +55,42 @@ class AssertCategoryPage extends AbstractConstraint
                 ]
             ]
         );
+        $categoryData = array_merge($initialCategory->getData(), $category->getData());
         $product->persist();
         $url = $_ENV['app_frontend_url'] . strtolower($category->getUrlKey()) . '.html';
         $browser->open($url);
         \PHPUnit_Framework_Assert::assertEquals(
             $url,
             $browser->getUrl(),
-            'Wrong success message is displayed.'
+            'Wrong page URL.'
             . "\nExpected: " . $url
             . "\nActual: " . $browser->getUrl()
         );
-        $title = $categoryView->getTitleBlock()->getTitle();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $category->getName(),
-            $title,
-            'Wrong page title.'
-            . "\nExpected: " . $category->getName()
-            . "\nActual: " . $title
-        );
-        $categoryDescription = $category->getDescription();
-        if ($categoryDescription) {
+
+        if (isset($categoryData['name'])) {
+            $title = $categoryView->getTitleBlock()->getTitle();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $categoryData['name'],
+                $title,
+                'Wrong page title.'
+                . "\nExpected: " . $categoryData['name']
+                . "\nActual: " . $title
+            );
+        }
+
+        if (isset($categoryData['description'])) {
             $description = $categoryView->getViewBlock()->getDescription();
             \PHPUnit_Framework_Assert::assertEquals(
-                $categoryDescription,
+                $categoryData['description'],
                 $description,
                 'Wrong category description.'
-                . "\nExpected: " . $categoryDescription
+                . "\nExpected: " . $categoryData['description']
                 . "\nActual: " . $description
             );
         }
-        $sortBy = strtolower($category->getDefaultSortBy());
-        if ($sortBy) {
+
+        if (isset($categoryData['default_sort_by'])) {
+            $sortBy = strtolower($categoryData['default_sort_by']);
             $sortType = $categoryView->getToolbar()->getSelectSortType();
             \PHPUnit_Framework_Assert::assertEquals(
                 $sortBy,
@@ -95,22 +100,25 @@ class AssertCategoryPage extends AbstractConstraint
                 . "\nActual: " . $sortType
             );
         }
-        $availableSortType = array_filter(
-            $category->getAvailableSortBy(),
-            function (&$value) {
-                return $value !== '-' && ucfirst($value);
-            }
-        );
-        if ($availableSortType) {
-            $availableSortType = array_values($availableSortType);
-            $availableSortTypeOnPage = $categoryView->getToolbar()->getSortType();
-            \PHPUnit_Framework_Assert::assertEquals(
-                $availableSortType,
-                $availableSortTypeOnPage,
-                'Wrong available sorting type.'
-                . "\nExpected: " . implode(PHP_EOL, $availableSortType)
-                . "\nActual: " . implode(PHP_EOL, $availableSortTypeOnPage)
+
+        if (isset($categoryData['available_sort_by'])) {
+            $availableSortType = array_filter(
+                $categoryData['available_sort_by'],
+                function (&$value) {
+                    return $value !== '-' && ucfirst($value);
+                }
             );
+            if ($availableSortType) {
+                $availableSortType = array_values($availableSortType);
+                $availableSortTypeOnPage = $categoryView->getToolbar()->getSortType();
+                \PHPUnit_Framework_Assert::assertEquals(
+                    $availableSortType,
+                    $availableSortTypeOnPage,
+                    'Wrong available sorting type.'
+                    . "\nExpected: " . implode(PHP_EOL, $availableSortType)
+                    . "\nActual: " . implode(PHP_EOL, $availableSortTypeOnPage)
+                );
+            }
         }
     }
 

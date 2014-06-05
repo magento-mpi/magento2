@@ -31,7 +31,7 @@ class ProductForm extends Form
      * @var string
      */
     protected $newAttribute = 'body';
-//
+
     /**
      * New attribute frame selector
      *
@@ -45,6 +45,27 @@ class ProductForm extends Form
      * @var string
      */
     protected $productDetailsTab = '#product_info_tabs_product-details';
+
+    /**
+     * Choose affected attribute set dialog popup window
+     *
+     * @var string
+     */
+    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
+
+    /**
+     * Variations tab selector
+     *
+     * @var string
+     */
+    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
+
+    /**
+     * Variations wrapper selector
+     *
+     * @var string
+     */
+    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
 
     /**
      * @param Element $element
