@@ -8,38 +8,42 @@
 
 namespace Magento\Tools\Composer\Parser;
 
-use \Magento\Tools\Composer\Model\ArrayAndObjectAccess;
-
+/**
+ * Xml Parser for Language Packs
+ */
 class LanguagePackXmlParser extends AbstractXmlParser
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSubPath()
     {
         return '/language.xml';
     }
 
     /**
-     * @throws \ErrorException
-     * @return ArrayAndObjectAccess
+     * {@inheritdoc}
      */
     protected function _parseMappings()
     {
-        /** @var $package SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
-        $moduleDefinitions = new ArrayAndObjectAccess();
+        $moduleDefinitions = array();
 
         if (isset($package)) {
             $map = array();
-            $moduleDefinitions->name = (string)$package->xpath('language/@name')[0];
-            $moduleDefinitions->version = (string)$package->xpath('language/@version')[0];
-            $moduleDefinitions->location = $this->getComponentDir();
             foreach ($package->xpath('language/depends/framework') as $framework) {
                 $map['Magento/Framework'] = "Magento/Framework";
             }
             foreach ($package->xpath('language/depends/language/@name') as $depends) {
-                    $map[(string)$depends] =  (string)$depends;
+                $map[(string)$depends] =  (string)$depends;
             }
-            $moduleDefinitions->dependencies = $map;
+            $moduleDefinitions = $this->createDefinition(
+                (string)$package->xpath('language/@name')[0],
+                (string)$package->xpath('language/@version')[0],
+                $this->getComponentDir(),
+                $map
+            );
         }
         return $moduleDefinitions;
     }

@@ -19,6 +19,11 @@ use \Magento\Tools\Composer\Extractor\LibraryExtractor;
 use \Magento\Tools\Composer\Helper\Zip;
 use \Magento\Tools\Composer\Helper\Converter;
 
+/**
+ * Composer Archiver Tool
+ *
+ * This tool creates archive (zip) packages for each component in Magento, as well as the skeleton package.
+ */
 try {
     $opt = new \Zend_Console_Getopt(
         array(

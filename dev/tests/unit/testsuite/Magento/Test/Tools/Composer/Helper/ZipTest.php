@@ -4,22 +4,44 @@ namespace Magento\Test\Tools\Composer\Helper;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-class ZipTest extends \PHPUnit_Framework_TestCase {
+/**
+ * Class ZipTest
+ * @package Magento\Test\Tools\Composer\Helper
+ */
+class ZipTest extends \PHPUnit_Framework_TestCase
+{
+
+    /**
+     * Zip
+     *
+     * @var \Magento\Tools\Composer\Helper\Zip
+     */
     protected $zip;
 
+    /**
+     * Intial Setup
+     * @return void
+     */
     protected function setUp()
     {
-        $objectManagerHelper = new ObjectManager($this);$this->zip = $objectManagerHelper->getObject('\Magento\Tools\Composer\Helper\Zip');
+        $objectManagerHelper = new ObjectManager($this);
+        $this->zip = $objectManagerHelper->getObject('\Magento\Tools\Composer\Helper\Zip');
     }
 
-    public function testZip(){
+    /**
+     * Test Zip
+     * @return void
+     */
+    public function testZip()
+    {
         $source = __DIR__ . '/../_files/lib';
         $destination = __DIR__ . '/../_files/_packages';
         try {
             if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
+                    mkdir($destination, 0777, true);
             }
-            } catch(\Exception $ex){
+        }
+        catch (\Exception $ex) {
         }
 
         $noOfZips = $this->zip->Zip($source, $destination . "/" . "library.zip");

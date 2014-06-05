@@ -8,9 +8,19 @@
 
 namespace Magento\Tools\Composer\Helper;
 
+/**
+ * Class for Zipping Components
+ */
 class Zip
 {
 
+    /**
+     * Zip Components
+     *
+     * @param string $source
+     * @param string $destination
+     * @return int
+     */
     public static function Zip($source, $destination)
     {
         $noOfZips = 0;

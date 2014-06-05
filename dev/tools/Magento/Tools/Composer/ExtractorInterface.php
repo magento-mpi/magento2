@@ -8,21 +8,58 @@
 
 namespace Magento\Tools\Composer;
 
-use \Magento\Tools\Composer\Model\ArrayAndObjectAccess;
-
+/**
+ * Interface ExtractorInterface
+ */
 interface ExtractorInterface
 {
 
-    public function extract($collection = array(), &$count = 0);
+    /**
+     * Extract and Create Components
+     *
+     * @param array $collection
+     * @param int &$count
+     * @return array
+     */
+    public function extract(array $collection = array(), &$count = 0);
 
-    public function create(ArrayAndObjectAccess $definition);
+    /**
+     * Creates Package based on given configuration
+     *
+     * @param array $definition
+     * @return \Magento\Tools\Composer\Model\Package
+     */
+    public function create(array $definition);
 
-    public function setValues(&$component, ArrayAndObjectAccess $definition);
+    /**
+     * Sets configuration information to a Package
+     *
+     * @param \Magento\Tools\Composer\Model\Package &$component
+     * @param array $definition
+     * @return \Magento\Tools\Composer\Model\Package
+     */
+    public function setValues(\Magento\Tools\Composer\Model\Package &$component, array $definition);
 
+    /**
+     * Retrieve Type of Composer Package
+     *
+     * @return string|null
+     */
     public function getType();
 
+    /**
+     * Retrieve Location of Component
+     *
+     * @return string|null
+     */
     public function getPath();
 
+    /**
+     * Retrieves Parser for Parsing Component
+     *
+     * @param string $filename
+     * @return \Magento\Tools\Composer\ParserInterface
+     */
     public function getParser($filename);
 
 

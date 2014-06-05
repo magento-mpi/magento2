@@ -8,21 +8,49 @@
 
 namespace Magento\Tools\Composer\Helper;
 
+/**
+ * Helper class for Removing composer.json files
+ */
 class ComposerCleaner
 {
 
+    /**
+     * Collection of Components
+     *
+     * @var string
+     */
     private $_components;
+
+    /**
+     * Application Logger
+     *
+     * @var \Zend_Log
+     */
     private $_logger;
 
-    public function __construct($components, \Zend_Log $logger)
+    /**
+     * Composer Cleaner Construct
+     *
+     * @param array $components
+     * @param \Zend_Log $logger
+     */
+    public function __construct(array $components, \Zend_Log $logger)
     {
         $this->_components = $components;
         $this->_logger = $logger;
     }
 
+    /**
+     * Cleans all composer.json for each component
+     *
+     * @return int
+     */
     public function clean()
     {
-        foreach ($this->_components as $component) {
+        /**
+         * @var $component \Magento\Tools\Composer\Model\Package
+         */
+        foreach ($this->_components as  $component) {
             $fileLocation = $component->getLocation() . "/composer.json";
             if (file_exists($fileLocation)) {
                 unlink($fileLocation);

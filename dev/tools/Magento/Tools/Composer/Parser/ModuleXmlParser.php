@@ -8,35 +8,41 @@
 
 namespace Magento\Tools\Composer\Parser;
 
-use \Magento\Tools\Composer\Model\ArrayAndObjectAccess;
-
+/**
+ * Xml Parser for Modules
+ */
 class ModuleXmlParser extends AbstractXmlParser
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSubPath()
     {
         return '/etc/module.xml';
     }
 
     /**
-     * @throws \ErrorException
-     * @return ArrayAndObjectAccess
+     * {@inheritdoc}
      */
     protected function _parseMappings()
     {
         /** @var $package \SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
 
-        $moduleDefinitions = new ArrayAndObjectAccess();
+        $moduleDefinitions = array();
+
         if (isset($package)) {
             $map = array();
-            $moduleDefinitions->name = (string)$package->xpath('module/@name')[0];
-            $moduleDefinitions->version = (string)$package->xpath('module/@version')[0];
-            $moduleDefinitions->location = $this->getComponentDir();
             foreach ($package->xpath('module/depends/module/@name') as $depends) {
                     $map[(string)$depends] =  (string)$depends;
             }
-            $moduleDefinitions->dependencies = $map;
+            $moduleDefinitions = $this->createDefinition(
+                (string)$package->xpath('module/@name')[0],
+                (string)$package->xpath('module/@version')[0],
+                $this->getComponentDir(),
+                $map
+            );
         }
         return $moduleDefinitions;
     }

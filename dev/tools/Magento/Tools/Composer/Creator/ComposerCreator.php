@@ -11,18 +11,41 @@ namespace Magento\Tools\Composer\Creator;
 use \Magento\Tools\Composer\CreatorInterface;
 use \Magento\Tools\Composer\Model\Package;
 
+/**
+ * Create Composer Class
+ */
 class ComposerCreator implements CreatorInterface
 {
 
+    /**
+     * List of Components
+     *
+     * @var array
+     */
     private $_components;
+
+    /**
+     * Application Logger
+     *
+     * @var \Zend_Log
+     */
     private $_logger;
 
+    /**
+     * Composer Creator Constructor
+     *
+     * @param array $components
+     * @param \Zend_Log $logger
+     */
     public function __construct($components, \Zend_Log $logger)
     {
         $this->_components = $components;
         $this->_logger = $logger;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function create()
     {
         $counter = 0;
@@ -53,6 +76,11 @@ class ComposerCreator implements CreatorInterface
         return $counter;
     }
 
+    /**
+     * Adds version and type information to composer.json file
+     *
+     * @param Package $component
+     */
     public function addVersionandTypeInfo(Package $component)
     {
         if ($component->getVersion() != null && $component->getVersion() != "") {

@@ -8,10 +8,15 @@
 
 namespace Magento\Tools\Composer;
 
+/**
+ * Interface CreatorInterface
+ */
 interface CreatorInterface
 {
 
-    public function __construct($components, \Zend_Log $logger);
-
+    /**
+     * Creates composer.json files for components
+     * @return int
+     */
     public function create();
 }

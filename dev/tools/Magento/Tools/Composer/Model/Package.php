@@ -10,26 +10,26 @@ namespace Magento\Tools\Composer\Model;
 
 /**
  * Package model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Package
 {
-
     /**
      * Name of package
+     *
      * @var string
      */
     private $_name;
 
     /**
      * Version of package
+     *
      * @var string
      */
     private $_version;
 
     /**
      * Location of Package
+     *
      * @var string
      */
     private  $_location;
@@ -48,6 +48,7 @@ class Package
 
     /**
      * Package Constructor
+     *
      * @param string $name
      * @param string|null $version
      * @param string|null $location
@@ -74,7 +75,7 @@ class Package
     }
 
     /**
-     * Returns Type of Package
+     * Get type of package
      * @return string
      */
     public function getType()
@@ -83,7 +84,7 @@ class Package
     }
 
     /**
-     * Returns Name of Package
+     * Get name of package
      * @return string
      */
     public function getName()
@@ -121,7 +122,7 @@ class Package
     }
 
     /**
-     * Sets Location of Package
+     * Set location of package
      * @param string $location
      * @return $this
      */

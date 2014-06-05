@@ -8,15 +8,28 @@
 
 namespace Magento\Tools\Composer\Extractor;
 
+/**
+ * Extractor for Library
+ */
 class LibraryExtractor extends  FrameworkExtractor
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSubPath()
     {
         return '/lib/';
     }
 
-    public function extract($collection = array(), &$count = 0)
+    /**
+     * Iterate through one location instead of multiple locations
+     *
+     * @param array $collection
+     * @param int &$count
+     * @return array
+     */
+    public function extract(array $collection = array(), &$count = 0)
     {
         $this->_counter = &$count;
         $this->_counter = 0;
@@ -27,6 +40,9 @@ class LibraryExtractor extends  FrameworkExtractor
         return $this->_collection;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getType()
     {
         return "magento2-library";

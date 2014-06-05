@@ -6,6 +6,12 @@
  * @license    {license_link}
  */
 
+/**
+ * Composer Packager Tool
+ *
+ * This tool create composer.json identifier file for Composer compatibility.
+ * The result of this tool execution would be composer.json file at each component folders in Magento.
+ */
 require __DIR__ . '/../../../bootstrap.php';
 
 use Magento\Tools\Composer\Extractor\ModuleExtractor;
@@ -69,7 +75,7 @@ try {
     $frameworkExtractor = new FrameworkExtractor(BP, $logger);
     $languagePackExtractor = new LanguagePackExtractor(BP, $logger);
 
-    $components = $moduleExtractor->extract(null, $moduleCount);
+    $components = $moduleExtractor->extract(array(), $moduleCount);
     $logger->debug(sprintf("Read %3d modules.", $moduleCount));
     $components = $adminThemeExtractor->extract($components, $adminThemeCount);
     $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));

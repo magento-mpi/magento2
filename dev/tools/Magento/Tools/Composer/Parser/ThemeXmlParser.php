@@ -8,40 +8,45 @@
 
 namespace Magento\Tools\Composer\Parser;
 
-use \Magento\Tools\Composer\Model\ArrayAndObjectAccess;
-
+/**
+ * XML Parser for Themes
+ */
 class ThemeXmlParser extends AbstractXmlParser
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSubPath()
     {
         return '/theme.xml';
     }
 
     /**
-     * @throws \ErrorException
-     * @return ArrayAndObjectAccess
+     * {@inheritdoc}
      */
     protected function _parseMappings()
     {
         /** @var $package \SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
 
-        $themeDefinitions = new ArrayAndObjectAccess();
+        $themeDefinitions = array();
         if (isset($package)) {
             $map = array();
             $name = (string)$package->xpath('name')[0];
-            $themeDefinitions->name = (string)$name . "-Theme";
-            $themeDefinitions->version = (string)$package->xpath('version')[0];
-            $themeDefinitions->location = $this->getComponentDir();
             //Dependencies
             $dependency = $package->xpath("parent");
 
             if (!empty($dependency)) {
                 $depName = (String)$dependency[0] . "-Theme";
                 $map[$depName] = $depName;
-                $themeDefinitions->dependencies = $map;
             }
+            $themeDefinitions = $this->createDefinition(
+                (string)$name . "-Theme",
+                (string)$package->xpath('version')[0],
+                $this->getComponentDir(),
+                $map
+            );
         }
 
         return $themeDefinitions;

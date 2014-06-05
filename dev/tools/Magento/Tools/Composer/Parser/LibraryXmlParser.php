@@ -8,35 +8,39 @@
 
 namespace Magento\Tools\Composer\Parser;
 
-use \Magento\Tools\Composer\Model\ArrayAndObjectAccess;
-
+/**
+ * XML Parser for Library Files
+ */
 class LibraryXmlParser extends AbstractXmlParser
 {
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSubPath()
     {
         return '/library.xml';
     }
 
     /**
-     * @throws \ErrorException
-     * @return ArrayAndObjectAccess
+     * {@inheritdoc}
      */
     protected function _parseMappings()
     {
-        /** @var $package |SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
-        $libraryDefinitions = new ArrayAndObjectAccess();
+        $libraryDefinitions = array();
 
         if (isset($package)) {
             $map = array();
-            $libraryDefinitions->name = (string)$package->xpath('library/@name')[0];
-            $libraryDefinitions->version = (string)$package->xpath('library/@version')[0];
-            $libraryDefinitions->location = $this->getComponentDir();
             foreach ($package->xpath('library/depends/library/@name') as $depends) {
                         $map[(string)$depends] =  (string)$depends;
             }
-            $libraryDefinitions->dependencies = $map;
+            $libraryDefinitions = $this->createDefinition(
+                (string)$package->xpath('library/@name')[0],
+                (string)$package->xpath('library/@version')[0],
+                $this->getComponentDir(),
+                $map
+            );
         }
         return $libraryDefinitions;
     }

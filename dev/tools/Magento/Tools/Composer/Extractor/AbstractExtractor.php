@@ -10,40 +10,93 @@ namespace Magento\Tools\Composer\Extractor;
 
 use \Magento\Tools\Composer\ExtractorInterface;
 use \Magento\Tools\Composer\Helper\Converter;
-use \Magento\Tools\Composer\Model\ArrayAndObjectAccess;
 use \Magento\Tools\Composer\Model\Package;
 
+/**
+ * Abstract Extractor For Composer Packages
+ */
 abstract class AbstractExtractor implements  ExtractorInterface
 {
 
+    /**
+     * Collection of Packages
+     *
+     * @var array
+     */
     protected  $_collection = array();
+
+    /**
+     * Application Logger
+     *
+     * @var \Zend_Log
+     */
     private $_logger;
+
+    /**
+     * Counter for created components
+     *
+     * @var int
+     */
     protected  $_counter;
+
+    /**
+     * Location of component
+     *
+     * @var string
+     */
     protected  $_path;
 
+    /**
+     * Extractor Constructor
+     *
+     * @param string $rootDir
+     * @param \Zend_Log $logger
+     */
     public function __construct($rootDir, \Zend_Log $logger)
     {
         $this->_logger = $logger;
         $this->setPath($rootDir. $this->getSubPath());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPath()
     {
         return $this->_path;
     }
 
+    /**
+     * Set Location of Component
+     *
+     * @param string $path
+     * @return $this
+     */
     public function setPath($path)
     {
         $this->_path = $path;
+        return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public abstract function getType();
 
+    /**
+     * {@inheritdoc}
+     */
     public abstract function getSubPath();
 
+    /**
+     * {@inheritdoc}
+     */
     public abstract function getParser($filename);
 
-    public function extract($collection = array(), &$count = 0)
+    /**
+     * {@inheritdoc}
+     */
+    public function extract(array $collection = array(), &$count = 0)
     {
         $this->_counter = &$count;
         $this->_counter = 0;
@@ -62,23 +115,31 @@ abstract class AbstractExtractor implements  ExtractorInterface
         return $this->_collection;
     }
 
+    /**
+     * Merges Packages to Collection
+     *
+     * @param array $collection
+     */
     public function addToCollection($collection)
     {
         if (!is_null($collection) && sizeof($collection) > 0) {
             $this->_collection = array_merge($this->_collection, $collection);
-            }
+        }
     }
 
-    public function create(ArrayAndObjectAccess $definition)
+    /**
+     * {@inheritdoc}
+     */
+    public function create(array $definition)
     {
-        $name = Converter::nametoVendorPackage($definition->name);
+        $name = Converter::nametoVendorPackage($definition['name']);
         $component = $this->checkAndCreate($name);
         $this->setValues($component, $definition);
         $this->_collection[$name] = $component;
         $this->_counter++;
 
-        if (isset($definition->dependencies) && !empty($definition->dependencies)) {
-            foreach ($definition->dependencies as $dependency) {
+        if (isset($definition['dependencies']) && !empty($definition['dependencies'])) {
+            foreach ($definition['dependencies'] as $dependency) {
                 $dependentComponentName = Converter::nametoVendorPackage($dependency);
                 $dependentComponent = $this->checkAndCreate($dependentComponentName);
                 $this->_collection[$dependentComponentName] = $dependentComponent;
@@ -90,14 +151,23 @@ abstract class AbstractExtractor implements  ExtractorInterface
         return $component;
     }
 
-    public function setValues(&$component, ArrayAndObjectAccess $definition)
+    /**
+     * {@inheritdoc}
+     */
+    public function setValues(Package &$component, array $definition)
     {
-        $component->setVersion($definition->version);
-        $component->setLocation($definition->location);
+        $component->setVersion($definition['version']);
+        $component->setLocation($definition['location']);
         $component->setType($this->getType());
         return $component;
     }
 
+    /**
+     * Creates or Retrieves Package from Collection
+     *
+     * @param string $componentName
+     * @return Package
+     */
     public function checkAndCreate($componentName)
     {
         //Check if module already exists.
