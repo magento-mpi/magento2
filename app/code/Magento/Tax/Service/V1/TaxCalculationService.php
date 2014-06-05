@@ -54,7 +54,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      *
      * @var array
      */
-    protected $roundingDeltas = [];
+    protected $roundingDeltas;
 
     /**
      * Constructor
@@ -120,15 +120,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         }
 
         // init rounding deltas for this quote
-        $quoteId = uniqid();
-        $this->roundingDeltas[$quoteId] = [];
+        $this->roundingDeltas = [];
         foreach ($items as $item) {
-            $taxDetailsItem = $this->processItem($item, $addressRequest, $storeId, $quoteId);
+            $taxDetailsItem = $this->processItem($item, $addressRequest, $storeId);
             if (null != $taxDetailsItem) {
                 $taxDetailsBuilder = $this->addSubtotalAmount($taxDetailsBuilder, $taxDetailsItem);
             }
         }
-        unset($this->roundingDeltas[$quoteId]);
 
         return $taxDetailsBuilder->create();
     }
@@ -167,22 +165,20 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @param string $quoteId
      * @return TaxDetailsItem|null
      */
     protected function processItem(
         QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
-        $storeId,
-        $quoteId
+        $storeId
     ) {
         switch ($this->config->getAlgorithm($storeId)) {
             case Calculation::CALC_UNIT_BASE:
-                return $this->unitBaseCalculation($item, $taxRequest, $storeId, $quoteId);
+                return $this->unitBaseCalculation($item, $taxRequest, $storeId);
             case Calculation::CALC_ROW_BASE:
-                return $this->rowBaseCalculation($item, $taxRequest, $storeId, $quoteId);
+                return $this->rowBaseCalculation($item, $taxRequest, $storeId);
             case Calculation::CALC_TOTAL_BASE:
-                return $this->totalBaseCalculation($item, $taxRequest, $storeId, $quoteId);
+                return $this->totalBaseCalculation($item, $taxRequest, $storeId);
             default:
                 return null;
         }
@@ -194,14 +190,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @param string $quoteId
      * @return TaxDetailsItem
      */
     protected function unitBaseCalculation(
         QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
-        $storeId,
-        $quoteId
+        $storeId
     ) {
 
     }
@@ -212,14 +206,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @param string $quoteId
      * @return TaxDetailsItem
      */
     protected function rowBaseCalculation(
         QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
-        $storeId,
-        $quoteId
+        $storeId
     ) {
 
     }
@@ -230,14 +222,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param QuoteDetailsItem $item
      * @param \Magento\Framework\Object $taxRequest
      * @param int $storeId
-     * @param string $quoteId
      * @return TaxDetailsItem
      */
     protected function totalBaseCalculation(
         QuoteDetailsItem $item,
         \Magento\Framework\Object $taxRequest,
-        $storeId,
-        $quoteId
+        $storeId
     ) {
 
     }
@@ -245,24 +235,23 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Round price based on previous rounding operation delta
      *
-     * @param string $quoteId
      * @param float $price
      * @param string $rate
      * @param bool $direction
      * @param string $type
      * @return float
      */
-    protected function deltaRound($quoteId, $price, $rate, $direction, $type = 'regular')
+    protected function deltaRound($price, $rate, $direction, $type = 'regular')
     {
         if ($price) {
             $rate = (string)$rate;
             $type = $type . $direction;
             // initialize the delta to a small number to avoid non-deterministic behavior with rounding of 0.5
-            $delta = isset($this->roundingDeltas[$quoteId][$type][$rate]) ?
-                $this->roundingDeltas[$quoteId][$type][$rate] :
+            $delta = isset($this->roundingDeltas[$type][$rate]) ?
+                $this->roundingDeltas[$type][$rate] :
                 0.000001;
             $price += $delta;
-            $this->roundingDeltas[$quoteId][$type][$rate] = $price - $this->calculator->round($price);
+            $this->roundingDeltas[$type][$rate] = $price - $this->calculator->round($price);
             $price = $this->calculator->round($price);
         }
         return $price;
