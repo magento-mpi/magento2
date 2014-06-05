@@ -30,11 +30,7 @@ class AssertProductSearchableBySku extends AbstractConstraint
      *
      * @var string
      */
-<<<<<<< HEAD
     protected $errorMessage = 'The product has not been found by SKU';
-=======
-    protected  $errorMessage = 'The product has not been found by SKU.';
->>>>>>> remotes/magento2/develop
 
     /**
      * Message for passing test
