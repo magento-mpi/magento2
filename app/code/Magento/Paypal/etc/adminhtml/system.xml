@@ -1646,6 +1646,7 @@
             </group>
             <group id="paypal_alternative_payment_methods">
                 <group id="express_checkout_us">
+                    <attribute type="activity_path">payment/paypal_express/active</attribute>
                     <attribute type="activity_path">payment/payflow_express/active</attribute>
                 </group>
             </group>
@@ -1742,7 +1743,13 @@
                 <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Group</frontend_model>
                 <comment>Add another payment method to your existing solution or as a stand-alone option.</comment>
                 <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup&amp;subTab=newlineup</help_url>
-                <group id="express_checkout_de" extends="payment_all_paypal/express_checkout"/>
+                <group id="express_checkout_de" extends="payment_all_paypal/express_checkout">
+                    <group id="settings_ec">
+                        <group id="settings_ec_advanced">
+                            <field id="solution_type" showInDefault="0" showInWebsite="0"/>
+                        </group>
+                    </group>
+                </group>
             </group>
         </section>
         <section id="payment_other" extends="payment" showInDefault="0" showInWebsite="0" showInStore="0">
@@ -1761,6 +1768,7 @@
             <group id="paypal_payment_solutions">
                 <group id="wps_other" sortOrder="20"/>
                 <group id="express_checkout_other" sortOrder="50">
+                    <attribute type="activity_path">payment/paypal_express/active</attribute>
                     <attribute type="activity_path">payment/payflow_express/active</attribute>
                 </group>
                 <group id="wpp_ca" extends="payment_all_paypal/wpp" sortOrder="10"/>

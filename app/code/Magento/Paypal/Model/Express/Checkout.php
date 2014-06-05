@@ -462,12 +462,15 @@ class Checkout
         $this->_quote->reserveOrderId()->save();
         // prepare API
         $this->_getApi();
+        $solutionType = $this->_config->getMerchantCountry() == 'DE'
+            ? \Magento\Paypal\Model\Config::EC_SOLUTION_TYPE_MARK
+            : $this->_config->getConfigValue('solutionType');
         $this->_api->setAmount($this->_quote->getBaseGrandTotal())
             ->setCurrencyCode($this->_quote->getBaseCurrencyCode())
             ->setInvNum($this->_quote->getReservedOrderId())
             ->setReturnUrl($returnUrl)
             ->setCancelUrl($cancelUrl)
-            ->setSolutionType($this->_config->getConfigValue('solutionType'))
+            ->setSolutionType($solutionType)
             ->setPaymentAction($this->_config->getConfigValue('paymentAction'))
         ;
         if ($this->_giropayUrls) {
