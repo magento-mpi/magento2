@@ -34,7 +34,7 @@ abstract class AbstractAction
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-         \Magento\Framework\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_logger = $logger;
