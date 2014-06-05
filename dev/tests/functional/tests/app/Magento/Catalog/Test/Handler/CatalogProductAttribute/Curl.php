@@ -25,7 +25,7 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
      * Post request for creating Product Attribute
      *
      * @param FixtureInterface $fixture [optional]
-     * @return mixed|string
+     * @return array
      */
     public function persist(FixtureInterface $fixture = null)
     {

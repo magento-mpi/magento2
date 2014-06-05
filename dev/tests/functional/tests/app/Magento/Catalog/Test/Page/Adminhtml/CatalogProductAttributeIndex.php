@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Adminhtml; 
+namespace Magento\Catalog\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeIndex
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
+ * Product Attribute page
  */
 class CatalogProductAttributeIndex extends BackendPage
 {

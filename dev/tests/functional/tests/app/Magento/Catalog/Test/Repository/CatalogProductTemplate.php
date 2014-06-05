@@ -20,12 +20,7 @@ class CatalogProductTemplate extends AbstractRepository
     {
         $this->_data['default'] = [
             'attribute_set_name' => 'product_template_default_%isolation%',
-            'skeleton_set' => 'Default',
-            'attributes' =>
-                [
-                    'attributes' => '<%All Attributes%>',
-                    'groups' => '<%All Groups%>'
-                ]
+            'skeleton_set' => 'Default'
         ];
     }
 }

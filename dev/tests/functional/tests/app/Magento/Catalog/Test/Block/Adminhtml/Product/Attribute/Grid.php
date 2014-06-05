@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**

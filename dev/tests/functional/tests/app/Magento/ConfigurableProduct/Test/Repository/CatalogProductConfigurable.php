@@ -157,6 +157,5 @@ class CatalogProductConfigurable extends AbstractRepository
             'affect_configurable_product_attributes' => '1',
             'new-variations-attribute-set-id' => 'Default',
         ];
-
     }
 }

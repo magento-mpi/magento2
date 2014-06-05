@@ -12,8 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogProductTemplate
- *
- * @package Magento\Catalog\Test\Fixture
+ * Product Template fixture
  */
 class CatalogProductTemplate extends InjectableFixture
 {

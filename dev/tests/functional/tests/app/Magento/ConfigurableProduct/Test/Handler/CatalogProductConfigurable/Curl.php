@@ -35,7 +35,7 @@ class Curl extends ProductSimpleCurl implements CatalogProductConfigurableInterf
             $fields = $fixture->getData();
             if ($prefix) {
                 $data[$prefix] = $fields;
-                foreach($data[$prefix]['configurable_attributes_data'] as $key => $attributeInfo){
+                foreach ($data[$prefix]['configurable_attributes_data'] as $key => $attributeInfo) {
                     $data['attributes'][] = $key;
                 }
             } else {
