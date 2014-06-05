@@ -71,6 +71,13 @@ class Pbridge extends AbstractMethod
     );
 
     /**
+     * Array of additional parameters, which need to be included in Pbridge request
+     *
+     * @var array
+     */
+    protected $_additionalRequestParameters = array();
+
+    /**
      * Pbridge data
      *
      * @var \Magento\Pbridge\Helper\Data
@@ -147,6 +154,16 @@ class Pbridge extends AbstractMethod
         $this->_pbridgeApiFactory = $pbridgeApiFactory;
         $this->_requestHttp = $requestHttp;
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
+    }
+
+    /**
+     * Ability to add additional parameters to request
+     *
+     * @param array $params
+     */
+    public function setAdditionalRequestParameters(array $params)
+    {
+        $this->_additionalRequestParameters = $params;
     }
 
     /**
@@ -332,13 +349,15 @@ class Pbridge extends AbstractMethod
      */
     public function authorize(\Magento\Framework\Object $payment, $amount)
     {
-        //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
         $request = $this->_getApiRequest();
 
         $request->setData(
             'magento_payment_action',
             $this->getOriginalMethodInstance()->getConfigPaymentAction()
+        )->setData(
+            'additional_params',
+            $this->_additionalRequestParameters
         )->setData(
             'client_ip',
             $this->_requestHttp->getClientIp(false)
@@ -420,8 +439,6 @@ class Pbridge extends AbstractMethod
      */
     public function capture(\Magento\Framework\Object $payment, $amount)
     {
-        //parent::capture($payment, $amount);
-
         $authTransactionId = $payment->getParentTransactionId();
 
         if (!$authTransactionId) {
@@ -432,6 +449,9 @@ class Pbridge extends AbstractMethod
         $request->setData(
             'transaction_id',
             $authTransactionId
+        )->setData(
+            'additional_params',
+            $this->_additionalRequestParameters
         )->setData(
             'is_capture_complete',
             (int)$payment->getShouldCloseParentTransaction()
@@ -471,8 +491,6 @@ class Pbridge extends AbstractMethod
      */
     public function refund(\Magento\Framework\Object $payment, $amount)
     {
-        //parent::refund($payment, $amount);
-
         $captureTxnId = $payment->getParentTransactionId();
         if ($captureTxnId) {
             $order = $payment->getOrder();
@@ -481,6 +499,9 @@ class Pbridge extends AbstractMethod
             $request->setData(
                 'transaction_id',
                 $captureTxnId
+            )->setData(
+                'additional_params',
+                $this->_additionalRequestParameters
             )->setData(
                 'amount',
                 $amount
@@ -528,8 +549,12 @@ class Pbridge extends AbstractMethod
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = $this->_getApiRequest();
-            $request->setData('transaction_id', $authTransactionId);
-
+            $request->addData(
+                array(
+                    'transaction_id' => $authTransactionId,
+                    'additional_params' => $this->_additionalRequestParameters
+                )
+            );
             $this->_getApi()->doVoid($request);
         } else {
             throw new Exception(__('You need an authorization transaction to void.'));
@@ -611,6 +636,7 @@ class Pbridge extends AbstractMethod
         $request = new \Magento\Framework\Object();
         $request->setCountryCode($this->_scopeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
+        $request->setData('additional_params', $this->_additionalRequestParameters);
 
         return $request;
     }

@@ -987,6 +987,17 @@ class Config
     }
 
     /**
+     * Get url for dispatching customer to checkout retrial
+     *
+     * @param string $orderId
+     * @return string
+     */
+    public function getExpressCheckoutOrderUrl($orderId)
+    {
+        return $this->getPaypalUrl(array('cmd'   => '_express-checkout', 'order_id' => $orderId));
+    }
+
+    /**
      * Get url that allows to edit checkout details on paypal side
      *
      * @param \Magento\Paypal\Controller\Express|string $token
@@ -1240,22 +1251,15 @@ class Config
     /**
      * BN code getter
      *
-     * @param string|null $countryCode ISO 3166-1
      * @return string
      */
-    public function getBuildNotationCode($countryCode = null)
+    public function getBuildNotationCode()
     {
-        $product = 'WPP';
-        if ($this->_methodCode && isset($this->_buildNotationPPMap[$this->_methodCode])) {
-            $product = $this->_buildNotationPPMap[$this->_methodCode];
-        }
-        if (null === $countryCode) {
-            $countryCode = $this->_matchBnCountryCode($this->getMerchantCountry());
-        }
-        if ($countryCode) {
-            $countryCode = '_' . $countryCode;
-        }
-        return sprintf('Magento_Cart_%s%s', $product, $countryCode);
+        return $this->_scopeConfig->getValue(
+            'paypal/bncode',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
     }
 
     /**
