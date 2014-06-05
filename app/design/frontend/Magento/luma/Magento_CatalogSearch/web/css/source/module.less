@@ -55,14 +55,12 @@
 }
 
 .search.autocomplete {
+    display: none;
     position: absolute;
     z-index: 3;
     overflow: hidden;
-    display: none;
-    &:extend(.add-box-sizing all);
-    top: 100%;
     margin-top: -15px;
-    left: 0;
+    &:extend(.add-box-sizing all);
     ul {
         &:not(:empty) {
             background: @autocomplete-background;
@@ -80,7 +78,7 @@
             &:first-child {
                 border-top: none;
             }
-            &:hover {
+            &:hover, &.selected {
                 background: @autocomplete-item-hover;
             }
             .amount {
@@ -180,8 +178,6 @@
         }
     }
     .search.autocomplete {
-        top: 100%;
-        left: 15px;
         margin-top: 0;
     }
 }
