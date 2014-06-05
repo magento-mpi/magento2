@@ -30,17 +30,17 @@ class AssertProductSearchableBySku extends AbstractConstraint
      *
      * @var string
      */
-    protected  $errorMessage = 'The product has not been found by SKU';
+    protected $errorMessage = 'The product has not been found by SKU';
 
     /**
      * Message for passing test
      *
      * @var string
      */
-    protected $successfulMessage = 'Product successfully found by SKU';
+    protected $successfulMessage = 'Product successfully found by SKU.';
 
     /**
-     * Assert that product can be searched via Quick Search using searchable product attributes (Search by SKU).
+     * Assert that product can be searched via Quick Search using searchable product attributes (Search by SKU)
      *
      * @param CatalogsearchResult $catalogSearchResult
      * @param CmsIndex $cmsIndex
@@ -57,8 +57,8 @@ class AssertProductSearchableBySku extends AbstractConstraint
 
         if ($product->getVisibility() === 'Catalog' || $product->getQuantityAndStockStatus() === 'Out of Stock') {
             $isVisible = !($catalogSearchResult->getListProductBlock()->isProductVisible($product->getName()));
-            $this->errorMessage = 'Product successfully found by SKU';
-            $this->successfulMessage = 'The product has not been found by SKU';
+            $this->errorMessage = 'Product successfully found by SKU.';
+            $this->successfulMessage = 'The product has not been found by SKU.';
         } else {
             $isVisible = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
         }

@@ -13,11 +13,24 @@ use Magento\TestModule2\Service\V1\Entity\Item;
 class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterface
 {
     /**
+     * @var ItemBuilder
+     */
+    protected $itemBuilder;
+
+    /**
+     * @param ItemBuilder $itemBuilder
+     */
+    public function __construct(ItemBuilder $itemBuilder)
+    {
+        $this->itemBuilder = $itemBuilder;
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function item($id)
     {
-        return (new ItemBuilder())->setId($id)->setName('testProduct1')->create();
+        return $this->itemBuilder->setId($id)->setName('testProduct1')->create();
     }
 
     /**
@@ -25,9 +38,9 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
      */
     public function items()
     {
-        $result1 = (new ItemBuilder())->setId(1)->setName('testProduct1')->create();
+        $result1 = $this->itemBuilder->setId(1)->setName('testProduct1')->create();
 
-        $result2 = (new ItemBuilder())->setId(2)->setName('testProduct2')->create();
+        $result2 = $this->itemBuilder->setId(2)->setName('testProduct2')->create();
 
         return array($result1, $result2);
     }
@@ -37,7 +50,7 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
      */
     public function create($name)
     {
-        return (new ItemBuilder())->setId(rand())->setName($name)->create();
+        return $this->itemBuilder->setId(rand())->setName($name)->create();
     }
 
     /**
@@ -45,6 +58,6 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated' . $item->getName())->create();
+        return $this->itemBuilder->setId($item->getId())->setName('Updated' . $item->getName())->create();
     }
 }

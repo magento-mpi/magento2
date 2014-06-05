@@ -20,7 +20,11 @@
     * `lib/Magento/Framework/Backup/NoMedia`
     * `lib/Magento/Framework/Archive`
     * `lib/Magento/Framework/Translate.php`
-* Framework improvements:
+  * Created Service API for Magento_Catalog Module:
+     * AttributeSet Service (MAGETWO-23316)
+     * AttributeSetGroup Service (MAGETWO-23317)
+     * ProductLinks Service (MAGETWO-23318)
+     * ProductType Service (MAGETWO-23310)  
   * Completely revisited subsystem of static view files preprocessing (MAGETWO-18001):
     * Transforming LESS into CSS is now just a particular case of a more general interface of preprocessors, so a custom preprocessor can be registered
     * Refactored implementation of view files "fallback" and "collecting" (layout XML files, LESS files for `@magento_import`) mechanisms for better abstraction
@@ -39,15 +43,17 @@
     * Accordingly, renamed the former `lib` into `lib/internal` (!!!MAGETWO-21067!!! - may be controversial. We may want to revert this change before rolling out this release to the github)
   * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config) (MAGETWO-18001)
     * Refactored some of scripts in `Magento_ConfigurableProduct` module to be loaded via RequireJS
-* Tax calculation updates:
-  * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
-  * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
-  * Fixed tax calculation errors when customer tax rate is different from store tax rate (MAGETWO-24163)
-  * Added support to round tax at individual tax rate (MAGETWO-24163)
-  * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
-  * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
-  * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
+  * Increased unit tests coverage (MAGETWO-24243)
+* Payments Parity between M1 and M2
+  * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
+  * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
+  * Removed Saved Credit Card payment method (MAGETWO-23885)
 * Fixed bugs:
+  * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
+  * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
+  * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
+  * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
+  * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
   * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
   * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
   * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
@@ -119,15 +125,73 @@
   * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
   * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
   * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
+* GitHub requests:
+  * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
+  * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
+  * [#256] (https://github.com/magento/magento2/issues/256) Unused file app\code\core\Mage\Backend\view\adminhtml\store\switcher\enhanced.phtml
+  * [#561] (https://github.com/magento/magento2/pull/561) Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getForeignKeys()
+  * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
+
+2.0.0.0-dev80
+=============
+* Framework improvements:
+  * Reworked subsystem of static view files preprocessing
+     * Refactored implementation of the view files "fallback" and "collecting" (layout XML files, LESS files for @magento_import) mechanisms for better abstraction
+     * Used the concept of "view asset" in client code of the View library across the board
+     * Refactored and simplified LESS preprocessing library, mechanisms of merging and minifying static view files
+     * Reworked the way how links to static view files are generated and served):
+         * Changed the strategy of generating unique URL for view static files
+         * Separated the view files publication process from the page generation
+         * Added a separate entry point (pub/static.php) for file materialization
+     * View files deployment tool changes:
+         * Renamed CLI script from generator.php to deploy.php
+         * Fixed the known limitation of view files deployment tool of being unable to materialize files per languages. Now the list of intended languages can be provided as a CLI parameter
+         * Expanded the tool parameters
+     * Improved security and reliability of view files structure:
+         * Restructured the module view folder by file type: "web" – view static files, "templates" – module template files, and "layout" – module layout files
+         * Reworked the theme module folder to repeat the same structure as in the module
+         * Added “web” folder to a theme root which contains static view files
+         * Renamed the pub/lib to lib/web. Currently there are no static files that are publicly accessible by default. All static view files may be subject of preprocessing
+         * Renamed the former lib to lib/internal
+  * Support of RequireJS:
+     * Adopted RequireJS library and implemented ability for modules or themes to introduce RequireJS configuration (aka shim-config)
+     * Refactored scripts in the Magento_ConfigurableProduct module to be loaded via RequireJS
+* Tax calculation updates:
+  * Fixed tax calculation rounding issues when discount is applied
+  * Fixed extra penny problem when exact tax amount ends with 0.5 cent
+  * Fixed tax calculation errors when customer tax rate is different from store tax rate
+  * Added support to round tax at individual tax rate
+  * Fixed price inconsistencies between catalog and shopping cart
+  * Added support to maintain consistent price including tax for customers with different tax rates
+  * Added support to allow tax rules with different priorities to be applied to subtotal only
+* Fixed bugs:
+  * Fixed an issue where it was impossible to place an order with Zero Subtotal Checkout using checkout with multiple addresses
+  * Fixed an issue where an irrelevant  confirmation window appeared when placing an order with Zero Subtotal Checkout in the backend
+  * Fixed an issue where it was impossible to create an order for a new customer in the backend if gift options were  enabled
+  * Fixed an issue where a wrong message about backordered items in cart was displayed in the backend
+  * Fixed an issue where it was impossible to perform a checkout with multiple addresses when the  Validate Each Address Separately option in Multi-address Checkout was enabled
+  * Fixed an issue where the Minimum Order Amount option was applied to the orders
+  * Fixed an issue where the duplicated element  caused  problems when attempting to customize styling  of the section
+  * Fixed an issue where a user was redirected to Dashboard when clicking the Search  and Reset buttons on the Recurring Profile page
+  * Fixed an issue where the Enabled for RMA option was available for online shipping method in Magento 2 CE
+  * Fixed an issue when free shipping was applied even if the Free Shipping with Minimum Order Amount option was disabled
+  * Fixed an issue with not displaying a downloadable product with the Links can be purchased separately option enabled on the grouped product page
+  * Fixed an issue of not generating product price variations during configurable product creation
+  * Fixed an issue with incorrect work of category pager
+  * Fixed an issue with file permissions change after the system backup was run
+  * Fixed an issue with inconsistency between the REST request and response format
+  * Fixed an issue with the Magento Contact Us form not submitted if secure_base_url doesn't contain "https"
+  * Fixed an issue with incorrect display of the Price as configured field which didn’t count product options cost
+  * Fixed an issue with incorrect redirect when clicking the product URL in Pending Review Rss
   
 * JavaScript improvements:
-  * Added standard validation to front-end address fields
-  * Implemented wishlist widget
-  * Implemented tabs widget
-  * Implemented collapsible widget
-  * Implemented accordion widget
-  * Implemented tooltip widget
-  * Standardized widgets on one page checkout
+  * Added standard validation to the front-end address fields
+  * Implemented the wishlist widget
+  * Implemented the tabs widget
+  * Implemented the collapsible widget
+  * Implemented the accordion widget
+  * Implemented the tooltip widget
+  * Standardized widgets used on one page checkout
 
 2.0.0.0-dev79
 =============
@@ -193,6 +257,14 @@
   * Catalog Price Rule Creation
   * Category Url Rewrite Creation
   * Admin User Role Deletion
+  * Delete Admin User
+  * Delete Backend Customer
+  * Delete Product UrlRewrite
+  * Downloadable Product Creation
+  * Update Simple Product
+  * Update Tax Rule
+  * Update Tax Rate
+  * Suggest Searching Result
 * Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity
