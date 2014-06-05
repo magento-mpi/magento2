@@ -176,8 +176,8 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         }
         if (array_key_exists(QuoteDetails::KEY_ITEMS, $dataArray)) {
             $items = [];
-            foreach ($dataArray[QuoteDetails::KEY_ITEMS] as $ItemsArray) {
-                $items[] = $this->itemBuilder->populateWithArray($ItemsArray)->create();
+            foreach ($dataArray[QuoteDetails::KEY_ITEMS] as $itemsArray) {
+                $items[] = $this->itemBuilder->populateWithArray($itemsArray)->create();
             }
             $this->builder->setItems($items);
         }
