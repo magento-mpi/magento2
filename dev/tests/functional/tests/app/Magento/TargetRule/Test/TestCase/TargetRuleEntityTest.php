@@ -12,6 +12,8 @@ use Mtf\TestCase\Injectable;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 
 /**
@@ -46,6 +48,7 @@ abstract class TargetRuleEntityTest extends Injectable
      * @param TargetRuleIndex $targetRuleIndex
      * @param TargetRuleNew $targetRuleNew
      * @param TargetRuleEdit $targetRuleEdit
+     * @return void
      */
     public function __inject(
         TargetRuleIndex $targetRuleIndex,
@@ -63,9 +66,8 @@ abstract class TargetRuleEntityTest extends Injectable
      * @param TargetRule $targetRule
      * @return void
      */
-    public function prepareTearDown(
-        TargetRule $targetRule
-    ) {
+    public function prepareTearDown(TargetRule $targetRule)
+    {
         $this->targetRule = $targetRule;
     }
 
@@ -83,5 +85,38 @@ abstract class TargetRuleEntityTest extends Injectable
         $this->targetRuleIndex->open();
         $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleEdit->getPageActions()->delete();
+    }
+
+    /**
+     * Get data for replace in variations
+     *
+     * @param CatalogProductSimple $product1
+     * @param CatalogProductSimple $product2
+     * @param CustomerSegment|null $customerSegment
+     * @return array
+     */
+    protected function getReplaceData(
+        CatalogProductSimple $product1,
+        CatalogProductSimple $product2,
+        CustomerSegment $customerSegment = null
+    ) {
+        $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
+        return [
+            'rule_information' => [
+                'customer_segment_ids' => [
+                    '%customer_segment%' => $customerSegmentName,
+                ],
+            ],
+            'products_to_match' => [
+                'conditions_serialized' => [
+                    '%category_1%' => $product1->getCategoryIds()[0]['id'],
+                ],
+            ],
+            'products_to_display' => [
+                'actions_serialized' => [
+                    '%category_2%' => $product2->getCategoryIds()[0]['id'],
+                ],
+            ],
+        ];
     }
 }
