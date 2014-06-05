@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
+    <!--<route url="/V1/stockItem/:sku" method="GET">-->
+        <!--<service class="Magento\CatalogInventory\Service\V1\StockItemInterface" method="getProductTypes"/>-->
+        <!--<resources>-->
+            <!--<resource ref="Magento_Catalog::products"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+    <!--<route url="/V1/products/attribute-sets/:attributeSetId" method="DELETE">-->
+        <!--<service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="remove"/>-->
+        <!--<resources>-->
+            <!--<resource ref="Magento_Catalog::sets"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+    <!--<route url="/V1/products/attribute-sets" method="POST">-->
+        <!--<service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="create"/>-->
+        <!--<resources>-->
+            <!--<resource ref="Magento_Catalog::sets"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+    <!--<route url="/V1/products/attribute-sets" method="PUT">-->
+        <!--<service class="Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface" method="update"/>-->
+        <!--<resources>-->
+            <!--<resource ref="Magento_Catalog::sets"/>-->
+        <!--</resources>-->
+    <!--</route>-->
+</routes>

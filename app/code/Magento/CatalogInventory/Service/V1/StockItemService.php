@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
+use Magento\Catalog\Service\V1\Product\Link\ProductLoader;
+
 /**
  * Stock item service
  */
@@ -35,18 +37,26 @@ class StockItemService implements StockItemServiceInterface
     protected $stockItemBuilder;
 
     /**
+     * @var ProductLoader
+     */
+    protected $productLoader;
+
+    /**
      * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param Data\StockItemBuilder $stockItemBuilder
+     * @param ProductLoader $productLoader
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
-        Data\StockItemBuilder $stockItemBuilder
+        Data\StockItemBuilder $stockItemBuilder,
+        ProductLoader $productLoader
     ) {
         $this->stockItemRegistry = $stockItemRegistry;
         $this->config = $config;
         $this->stockItemBuilder = $stockItemBuilder;
+        $this->productLoader = $productLoader;
     }
 
     /**
@@ -56,6 +66,18 @@ class StockItemService implements StockItemServiceInterface
     public function getStockItem($productId)
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
+        $this->stockItemBuilder->populateWithArray($stockItem->getData());
+        return $this->stockItemBuilder->create();
+    }
+
+    /**
+     * @param string $productSku
+     * @return \Magento\Framework\Service\Data\AbstractObject
+     */
+    public function getStockItemBySku($productSku)
+    {
+        $product = $this->productLoader->load($productSku);
+        $stockItem = $this->stockItemRegistry->retrieve($product->getId());
         $this->stockItemBuilder->populateWithArray($stockItem->getData());
         return $this->stockItemBuilder->create();
     }
