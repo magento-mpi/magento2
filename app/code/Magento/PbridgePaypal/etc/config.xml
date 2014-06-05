@@ -14,13 +14,9 @@
                 <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\PaypalDirect</model>
                 <active>1</active>
             </pbridge_paypal_direct>
-            <pbridge_payflow_direct>
-                <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\PayflowDirect</model>
-                <active>1</active>
-            </pbridge_payflow_direct>
             <pbridge_payflowpro>
                 <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\Payflowpro</model>
-                <enabled>1</enabled>
+                <active>1</active>
             </pbridge_payflowpro>
         </payment>
     </default>

@@ -234,7 +234,7 @@ class Ipn
     protected function _verifyOrder(Order $order)
     {
         // verify merchant email intended to receive notification
-        $merchantEmail = $this->_config->businessAccount;
+        $merchantEmail = $this->_config->getConfigValue('businessAccount');
         if ($merchantEmail) {
             $receiverEmail = $this->getIpnFormData('business');
             if (!$receiverEmail) {
