@@ -1,0 +1,116 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.block.filter {
+    margin-bottom: 40px;
+    > .title {
+        display: none;
+    }
+    .subtitle {
+        display: block;
+        padding: @indent-xs-base 14px;
+        background: @filter-title-bg;
+        text-transform: uppercase;
+        font-weight: @font-weight-semibold;
+        margin-bottom: @indent-s-base;
+    }
+    .options {
+        margin: 0;
+        .title {
+            cursor: pointer;
+            font-weight: @font-weight-semibold;
+            margin: 0;
+            overflow: hidden;
+            padding: 10px 15px 5px 0;
+            position: relative;
+            text-transform: uppercase;
+            .icon-font(
+                @_icon-font-content: @icon-down,
+                @_icon-font-size: 30px,
+                @_icon-font-position: after,
+                @_icon-font-display: block
+            );
+            &:after {
+                position: absolute;
+                right: -7px;
+                top: -2px;
+            }
+            &:hover {
+                color: @filter-link-hover;
+            }
+            span {
+                display: inline-block;
+                overflow: hidden;
+                width: 100%;
+            }
+        }
+        .active {
+            .title {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+            }
+        }
+        .content {
+            padding: 5px 0 6px;
+        }
+        .item {
+            margin: 0 0 7px;
+        }
+        > .item {
+            border-bottom: @border-width-base solid @border-color-base;
+            margin: 0;
+            padding: 0 5px 0 14px;
+            a {
+                color: @filter-link;
+                &:hover {
+                    color: @filter-link-hover;
+                    text-decoration: none;
+                }
+            }
+        }
+        .count {
+            color: @filter-quantity;
+            &:before {
+                content: "(";
+            }
+            &:after {
+                content: ")";
+            }
+        }
+    }
+    .items {
+        &:extend(.reset-list all);
+    }
+    .filtered {
+        .items {
+            margin: 15px 0;
+            padding: 0 20px 0 14px;
+        }
+        .item {
+            position: relative;
+            margin: 0 0 7px;
+            .label {
+                font-weight: @font-weight-bold;
+            }
+            .value {
+                color: @filter-quantity;
+            }
+            .action.remove {
+                &:extend(.remove-button-for-blocks all);
+                position: absolute;
+                right: -20px;
+                top: 0;
+            }
+        }
+        & + .actions {
+            margin: 0 0 25px 14px;
+        }
+    }
+}
