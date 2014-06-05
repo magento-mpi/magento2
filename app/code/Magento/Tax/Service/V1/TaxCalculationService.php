@@ -87,7 +87,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->calculator->setCustomerData($quoteDetails->getCustomer());
 
         $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId);
-        $storeRequest = $this->getStoreTaxRequest($quoteDetails, $storeId);
+        $storeRequest = $this->getStoreTaxRequest($storeId);
         if ($this->config->priceIncludesTax($storeId)) {
             $classIds = [];
             foreach ($items as $item) {
@@ -142,13 +142,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Get request for fetching store tax rate
      *
-     * @param QuoteDetails $quoteDetails
      * @param int $storeId
      * @return \Magento\Framework\Object
      */
-    protected function getStoreTaxRequest(QuoteDetails $quoteDetails, $storeId)
+    protected function getStoreTaxRequest($storeId)
     {
-
+        return $this->calculator->getRateOriginRequest($storeId);
     }
 
     /**
