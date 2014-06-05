@@ -192,6 +192,14 @@
     <assertProductAttributeOnProductForm module="Magento_Catalog">
         <severeness>low</severeness>
         <require>
+            <productTemplate class="Magento\Catalog\Test\Fixture\CatalogProductTemplate" />
+            <attribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+            <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+            <productEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
+            <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+            <productSetEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit" />
+            <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+            <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
         </require>
     </assertProductAttributeOnProductForm>
     <assertProductAttributeIsRequired module="Magento_Catalog">

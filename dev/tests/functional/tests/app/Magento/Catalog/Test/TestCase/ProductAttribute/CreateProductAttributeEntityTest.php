@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
+use Magento\Catalog\Test\Fixture\CatalogProductTemplate;
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
@@ -32,20 +33,27 @@ class CreateProductAttributeEntityTest extends Injectable
     /**
      * Run CreateProductAttributeEntity test
      *
-     * @param CatalogProductAttribute $productAttribute
+     * @param CatalogProductAttribute $attribute
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
+     * @param CatalogProductTemplate $productTemplate
+     * @param string $product
      * @return void
      */
     public function testCreateProductAttribute(
-        CatalogProductAttribute $productAttribute,
+        CatalogProductAttribute $attribute,
         CatalogProductAttributeIndex $attributeIndex,
-        CatalogProductAttributeNew $attributeNew
+        CatalogProductAttributeNew $attributeNew,
+        CatalogProductTemplate $productTemplate,
+        $product
     ) {
+        //Precondition
+        $productTemplate->persist();
+
         //Steps
         $attributeIndex->open();
         $attributeIndex->getPageActionsBlock()->addNew();
-        $attributeNew->getAttributeForm()->fill($productAttribute);
+        $attributeNew->getAttributeForm()->fill($attribute);
         $attributeNew->getPageActions()->save();
     }
 }

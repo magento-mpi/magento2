@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Adminhtml; 
+namespace Magento\Catalog\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductAttributeIndex
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
+ * Product Attribute page
  */
 class CatalogProductAttributeIndex extends BackendPage
 {
@@ -29,7 +28,7 @@ class CatalogProductAttributeIndex extends BackendPage
         'pageActionsBlock' => [
             'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
-            'locator' => '#page-main-actions',
+            'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'blockAttributeGrid' => [

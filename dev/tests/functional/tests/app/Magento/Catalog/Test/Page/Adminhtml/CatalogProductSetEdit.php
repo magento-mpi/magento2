@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Adminhtml; 
+namespace Magento\Catalog\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductSetEdit
+ * Product Set edit page
  *
- * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductSetEdit extends BackendPage
 {

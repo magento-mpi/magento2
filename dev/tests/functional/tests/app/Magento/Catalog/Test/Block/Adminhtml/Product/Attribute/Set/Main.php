@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: oonoshko
- * Date: 02.06.14
- * Time: 12:58
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set;
@@ -21,6 +21,7 @@ class Main extends Block
      */
     public function moveAttribute($attributeLabel)
     {
+        $attributeLabel = strtolower($attributeLabel);
         $target = $this->_rootElement->find(
             ".//*[contains(@class,'x-tree-root-node')]//li[@class='x-tree-node']/div/a/span[text()='Product Details']",
             Locator::SELECTOR_XPATH

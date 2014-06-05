@@ -37,7 +37,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
  */
 class UpdateProductAttributeEntityTest extends Injectable
 {
-
     /**
      * Run UpdateProductAttributeEntity test
      *
@@ -46,7 +45,7 @@ class UpdateProductAttributeEntityTest extends Injectable
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
      * @param CatalogProductAttribute $productAttribute
-     * @param $product
+     * @param string $product
      * @return void
      */
     public function testUpdateProductAttribute(
