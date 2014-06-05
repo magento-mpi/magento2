@@ -34,7 +34,6 @@ class GalleryEntry extends AbstractObject
     /**
      * Retrieve store ID
      *
-     * @todo maybe remove this
      * @return int|null
      */
     public function getStoreId()
@@ -86,7 +85,7 @@ class GalleryEntry extends AbstractObject
     /**
      * Get file path
      *
-     * @return string
+     * @return string|null
      */
     public function getFile()
     {
