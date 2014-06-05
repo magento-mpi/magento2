@@ -19,30 +19,15 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     /* @var QuoteDetails\ItemBuilder */
     private $itemBuilder;
 
-    /* @var QuoteDetails\Item */
-    private $item;
-
-    /* @var \Magento\Customer\Service\V1\Data\Address */
-    private $address;
-
-    /** @var \Magento\Customer\Service\V1\Data\Customer */
-    private $customer;
-
-    /**  @var \Magento\Customer\Service\V1\Data\Customer */
-    private $customerGroup;
+    /* @var \Magento\Customer\Service\V1\Data\AddressBuilder */
+    private $addressBuilder;
 
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->builder = $this->objectManager->create('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
         $this->itemBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder');
-        $this->item = $this->itemBuilder->create();
-        $addressBuilder = $this->objectManager->create('\Magento\Customer\Service\V1\Data\AddressBuilder');
-        $this->address = $addressBuilder->create();
-        $customerBuilder = $this->objectManager->create('\Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $this->customer = $customerBuilder->create();
-        $customerGroup = $this->objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
-        $this->customerGroup = $customerGroup->create();
+        $this->addressBuilder = $this->objectManager->create('\Magento\Customer\Service\V1\Data\AddressBuilder');
     }
 
     /**
@@ -57,6 +42,7 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         }
         $taxRate = $this->builder->populateWithArray($dataArray)->create();
         $taxRate2 = $this->generateQuoteDetailsWithSetters($dataArray);
+
         $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\QuoteDetails', $taxRate);
         $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\QuoteDetails', $taxRate2);
         $this->assertEquals($taxRate2, $taxRate);
@@ -81,19 +67,15 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function createDataProvider()
     {
-        $data = [
-            QuoteDetails::KEY_BILLING_ADDRESS => $this->address,
-            QuoteDetails::KEY_SHIPPING_ADDRESS => $this->address,
-            QuoteDetails::KEY_TAX_CLASS_ID => 1,
-            QuoteDetails::KEY_CUSTOMER => $this->customer,
-            QuoteDetails::KEY_CUSTOMER_GROUP => $this->customerGroup,
-        ];
+        $data = $this->getData()['dataMerged'];
+        $items = $data[QuoteDetails::KEY_ITEMS];
+        unset($data[QuoteDetails::KEY_ITEMS]);
 
         return [
-            'withEmptyData' => [[], [[]]],
+            'withEmptyData' => [[],[]],
             'withEmptyQuoteItems' => [$data],
-            'withQuoteItems' => [[], [$this->item]],
-            'withQuoteDetailsAndItems' => [$data, [$this->item]]
+            'withQuoteItems' => [[], $items],
+            'withQuoteDetailsAndItems' => [$data, $items]
         ];
     }
 
@@ -122,24 +104,54 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     protected function getData()
     {
+        $addressData = [
+            'id' => 14,
+            'default_shipping' => true,
+            'default_billing' => true,
+            'company' => 'Company Name',
+            'fax' => '(555) 555-5555',
+            'middlename' => 'Mid',
+            'prefix' => 'Mr.',
+            'suffix' => 'Esq.',
+            'vat_id' => 'S45',
+            'firstname' => 'Jane',
+            'lastname' => 'Doe',
+            'street' => ['7700 W Parmer Ln'],
+            'city' => 'Austin',
+            'country_id' => 'US',
+            'postcode' => '78620',
+            'telephone' => '5125125125',
+            'region' => ['region_id' => 0, 'region' => 'Texas']
+        ];
+
+        $items = [
+            [
+                'code' => 'item code',
+                'type' => 'shipping',
+                'row_total' => 14.85,
+                'discount_amount' => 2.6
+            ],
+            [
+                'code' => 'another code',
+                'type' => 'product',
+                'row_total' => 10,
+                'discount_amount' => 5
+            ]
+        ];
         $data = [
             'data1' => [
-                QuoteDetails::KEY_BILLING_ADDRESS => $this->address,
-                QuoteDetails::KEY_TAX_CLASS_ID => 1,
-                QuoteDetails::KEY_CUSTOMER_GROUP => $this->customerGroup,
+                QuoteDetails::KEY_BILLING_ADDRESS => $addressData,
+                QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID => 1,
             ],
             'data2' => [
-                QuoteDetails::KEY_SHIPPING_ADDRESS => $this->address,
-                QuoteDetails::KEY_CUSTOMER => $this->customer,
-                QuoteDetails::KEY_ITEMS => [$this->item]
+                QuoteDetails::KEY_SHIPPING_ADDRESS => $addressData,
+                QuoteDetails::KEY_ITEMS => $items
             ],
             'dataMerged' => [
-                QuoteDetails::KEY_BILLING_ADDRESS => $this->address,
-                QuoteDetails::KEY_SHIPPING_ADDRESS => $this->address,
-                QuoteDetails::KEY_TAX_CLASS_ID => 1,
-                QuoteDetails::KEY_CUSTOMER => $this->customer,
-                QuoteDetails::KEY_CUSTOMER_GROUP => $this->customerGroup,
-                QuoteDetails::KEY_ITEMS => [$this->item]
+                QuoteDetails::KEY_BILLING_ADDRESS => $addressData,
+                QuoteDetails::KEY_SHIPPING_ADDRESS => $addressData,
+                QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID => 1,
+                QuoteDetails::KEY_ITEMS => $items
             ]
         ];
 
@@ -153,23 +165,29 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     protected function generateQuoteDetailsWithSetters($dataArray)
     {
         $this->builder->populateWithArray([]);
+        if (array_key_exists(QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID, $dataArray)) {
+            $this->builder->setCustomerTaxClassId($dataArray[QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID]);
+        }
         if (array_key_exists(QuoteDetails::KEY_BILLING_ADDRESS, $dataArray)) {
-            $this->builder->setBillingAddress($dataArray[QuoteDetails::KEY_BILLING_ADDRESS]);
+            $this->builder->setShippingAddress(
+                $this->addressBuilder->populateWithArray(
+                    $dataArray[QuoteDetails::KEY_BILLING_ADDRESS]
+                )->create()
+            );
         }
         if (array_key_exists(QuoteDetails::KEY_SHIPPING_ADDRESS, $dataArray)) {
-            $this->builder->setShippingAddress($dataArray[QuoteDetails::KEY_SHIPPING_ADDRESS]);
-        }
-        if (array_key_exists(QuoteDetails::KEY_TAX_CLASS_ID, $dataArray)) {
-            $this->builder->setTaxClassId($dataArray[QuoteDetails::KEY_TAX_CLASS_ID]);
-        }
-        if (array_key_exists(QuoteDetails::KEY_CUSTOMER, $dataArray)) {
-            $this->builder->setCustomer($dataArray[QuoteDetails::KEY_CUSTOMER]);
-        }
-        if (array_key_exists(QuoteDetails::KEY_CUSTOMER_GROUP, $dataArray)) {
-            $this->builder->setCustomerGroup($dataArray[QuoteDetails::KEY_CUSTOMER_GROUP]);
+            $this->builder->setBillingAddress(
+                $this->addressBuilder->populateWithArray(
+                    $dataArray[QuoteDetails::KEY_SHIPPING_ADDRESS]
+                )->create()
+            );
         }
         if (array_key_exists(QuoteDetails::KEY_ITEMS, $dataArray)) {
-            $this->builder->setItems($dataArray[QuoteDetails::KEY_ITEMS]);
+            $items = [];
+            foreach ($dataArray[QuoteDetails::KEY_ITEMS] as $itemsArray) {
+                $items[] = $this->itemBuilder->populateWithArray($itemsArray)->create();
+            }
+            $this->builder->setItems($items);
         }
         return $this->builder->create();
     }

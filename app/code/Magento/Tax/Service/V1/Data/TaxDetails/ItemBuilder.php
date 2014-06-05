@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Tax\Service\V1\Data\TaxDetails;
+
 use Magento\Tax\Service\V1\Data\TaxDetails;
 
 /**
@@ -23,6 +24,12 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     protected $appliedTaxBuilder;
 
+    /**
+     * Initialize dependencies
+     *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AppliedTaxBuilder $appliedTaxBuilder
+     */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder $appliedTaxBuilder
