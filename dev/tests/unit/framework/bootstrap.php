@@ -32,15 +32,6 @@ mkdir(TESTS_TEMP_DIR);
 
 function tool_autoloader($className)
 {
-    //Adding ability for Composer Tool
-    if(strpos($className, 'Magento\\Composer\\') !== false){
-         $filePath = str_replace('\\', '/', $className);
-        $composerPath = BP. '/dev/tools/composer-packager/'.$filePath.'.php';
-        if (file_exists($composerPath)) {
-            include_once $composerPath;
-
-        }
-    }
     if (strpos($className, 'Magento\\Tools\\') === false) {
         return false;
     }
