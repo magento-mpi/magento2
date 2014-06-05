@@ -14,6 +14,8 @@
 @font-family-serif: Georgia, 'Times New Roman', Times, serif;
 @font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
 @font-path: "../../fonts/";
+@icon-font-path: "@{baseDir}fonts/Blank-Theme-Icons/Blank-Theme-Icons";
+@icon-font-name: 'icons-blank-theme';
 
 @color-primary: #333;
 @color-primary-dark: darken(@color-primary, 35%);
@@ -604,7 +606,7 @@
 @icon-sprite-position-y: 0;
 @icon-sprite-grid: 26px;
 
-@icon-font: 'icons-blank-theme'; // Also used in: @button-icon-font, @rating-icon-font, @pager-icon-font
+@icon-font: @icon-font-name; // Also used in: @button-icon-font, @rating-icon-font, @pager-icon-font
 @icon-font-position: @icon-position;
 @icon-font-text-hide: @icon-text-hide;
 @icon-font-margin: @icon-margin;

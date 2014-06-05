@@ -16,6 +16,8 @@
 @font-family-monospace: Menlo, Monaco, Consolas, 'Courier New', monospace;
 @font-path: "../../fonts/";
 @font-family-base: 'Open Sans', @font-family-sans-serif;
+@icon-font-path: '@{baseDir}fonts/Luma-Icons';
+@icon-font-name: 'luma-icons';
 
 @color-primary: #333;
 @color-primary-dark: darken(@color-primary, 35%);
@@ -132,7 +134,7 @@
 @h3-font-size: ceil((@font-size-base * 1.28)); // 18px
 @h3-font-color: @heading-color-base;
 @h3-font-family: @heading-font-family-base;
-@h3-font-weight: @heading-font-weight-base;
+@h3-font-weight: @font-weight-semibold;
 @h3-font-style: @heading-font-style-base;
 @h3-line-height: @heading-line-height-base;
 @h3-margin-top: @indent-base * 0.75;
@@ -398,8 +400,6 @@
 @submenu-desktop-item-color-active: '';
 @submenu-desktop-item-text-decoration-active: '';
 
-
-
 //
 //    Sections variables
 //--------------------------------------
@@ -493,7 +493,6 @@
 @accordion-content-border: false;
 
 @accordion-content-margin: 0;
-
 @accordion-content-padding: 10px 10px 30px;
 
 //
@@ -605,7 +604,7 @@
 @icon-sprite-position-y: 0;
 @icon-sprite-grid: 26px;
 
-@icon-font: 'icons-blank-theme'; // Also used in: @button-icon-font, @rating-icon-font, @pager-icon-font
+@icon-font: @icon-font-name; // Also used in: @button-icon-font, @rating-icon-font, @pager-icon-font
 @icon-font-position: @icon-position;
 @icon-font-text-hide: @icon-text-hide;
 @icon-font-margin: @icon-margin;
@@ -619,7 +618,6 @@
 
 // Variables for icons-blank-theme
 @icon-wishlist-full: '\e600';
-@icon-wishlist-empty: '\e601';
 @icon-warning: '\e602';
 @icon-update: '\e603';
 @icon-trash: '\e604';
@@ -632,7 +630,6 @@
 @icon-list: '\e60b';
 @icon-info: '\e60c';
 @icon-grid: '\e60d';
-@icon-comment-reflected: '\e60e';
 @icon-collapse: '\e60f';
 @icon-checkmark: '\e610';
 @icon-cart: '\e611';
@@ -649,15 +646,13 @@
 @icon-expand: '\e61c';
 @icon-envelope: '\e61d';
 @icon-compare-full: '\e61e';
-@icon-compare-empty: '\e61f';
 @icon-comment: '\e620';
 @icon-up: '\e621';
 @icon-down: '\e622';
-@icon-arrow-up-thin: '\e623';
-@icon-arrow-right-thin: '\e624';
-@icon-arrow-left-thin: '\e625';
-@icon-arrow-down-thin: '\e626';
 @icon-account: '\e627';
+@icon-success: '\e60e';
+@icon-error: '\e61f';
+@icon-edit: '\e601';
 
 //
 //    Messages variables
@@ -1275,10 +1270,10 @@
 @breadcrumbs-icon-use: true;
 @breadcrumbs-icon-font-content: @icon-next;
 @breadcrumbs-icon-font: @icon-font;
-@breadcrumbs-icon-font-size: 24px;
+@breadcrumbs-icon-font-size: 10px;
 @breadcrumbs-icon-font-line-height: 18px;
 @breadcrumbs-icon-font-color: false;
-@breadcrumbs-icon-font-margin: 0;
+@breadcrumbs-icon-font-margin: 0 10px;
 @breadcrumbs-icon-font-vertical-align: top;
 
 @breadcrumbs-display: false;

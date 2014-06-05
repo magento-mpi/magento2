@@ -172,7 +172,7 @@
         .action {
             &.towishlist {
                 .icon-font(
-                    @icon-wishlist-empty,
+                    @icon-wishlist-full,
                     @_icon-font-size: 29px,
                     @_icon-font-color: @text-color-muted,
                     @_icon-font-text-hide: true,
@@ -182,7 +182,7 @@
             }
             &.tocompare {
                 .icon-font(
-                    @icon-compare-empty,
+                    @icon-compare-full,
                     @_icon-font-size: 29px,
                     @_icon-font-color: @text-color-muted,
                     @_icon-font-text-hide: true,
@@ -486,14 +486,15 @@
     .action.tocompare {
         color: @addto-color;
         display: inline-block;
-        line-height: 44px;
-        margin-left: -13px;
+        line-height: 26px;
+        margin-left: -8px;
         text-transform: uppercase;
         .icon-font(
             @_icon-font-content: @icon-compare-full,
-            @_icon-font-size: 44px,
-            @_icon-font-line-height: 44px,
-            @_icon-font-vertical-align: top
+            @_icon-font-size: 26px,
+            @_icon-font-line-height: 26px,
+            @_icon-font-margin: -2px 5px 0 0,
+            @_icon-font-vertical-align: middle
         );
         &:hover {
             color: @addto-hover-color;
