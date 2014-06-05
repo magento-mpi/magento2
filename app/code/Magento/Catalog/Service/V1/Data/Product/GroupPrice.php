@@ -15,8 +15,6 @@ class GroupPrice extends AbstractObject
     const CUSTOMER_GROUP_ID = 'customer_group_id';
     const VALUE = 'value';
 
-
-
     /**
      * Retrieve customer group id
      *
@@ -36,5 +34,4 @@ class GroupPrice extends AbstractObject
     {
         return $this->_get(self::VALUE);
     }
-
 }

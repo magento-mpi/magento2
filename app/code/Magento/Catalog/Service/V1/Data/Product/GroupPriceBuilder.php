@@ -27,7 +27,7 @@ class GroupPriceBuilder extends AbstractObjectBuilder
     /**
      * Set price value
      *
-     * @param string $value
+     * @param double $value
      * @return $this
      */
     public function setValue($value)
