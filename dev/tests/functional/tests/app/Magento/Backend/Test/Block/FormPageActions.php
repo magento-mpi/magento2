@@ -116,7 +116,7 @@ class FormPageActions extends PageActions
      *
      * @return bool
      */
-    public function checkDeleteAttributeButton()
+    public function checkDeleteButton()
     {
         return $this->_rootElement->find($this->deleteButton)->isVisible();
     }

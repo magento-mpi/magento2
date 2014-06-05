@@ -142,46 +142,6 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertGroupedPriceOnProductPage>
-    <assertCategorySaveMessage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCategorySaveMessage>
-    <assertCategoryForm module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCategoryForm>
-    <assertCategoryPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCategoryPage>
-    <assertCrossSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
-        </require>
-    </assertCrossSellsProductsSection>
-    <assertRelatedProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertRelatedProductsSection>
-    <assertUpSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertUpSellsProductsSection>
     <assertProductAttributeSaveMessage module="Magento_Catalog">
         <severeness>high</severeness>
         <require>

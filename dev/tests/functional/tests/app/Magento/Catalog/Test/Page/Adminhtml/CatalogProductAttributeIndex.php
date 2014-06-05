@@ -25,7 +25,7 @@ class CatalogProductAttributeIndex extends BackendPage
             'strategy' => 'css selector',
         ],
         'pageActionsBlock' => [
-            'name' => 'blockPageActionsAttribute',
+            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
