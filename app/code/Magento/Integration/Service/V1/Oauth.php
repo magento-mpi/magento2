@@ -7,7 +7,6 @@
  */
 namespace Magento\Integration\Service\V1;
 
-use Magento\Framework\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
 use Magento\Integration\Model\Oauth\Token;
 use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
@@ -15,7 +14,6 @@ use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
 use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
-use Magento\Integration\Service\V1\OauthInterface as OauthInterfaceV1;
 
 /**
  * Integration oAuth service.
@@ -23,7 +21,7 @@ use Magento\Integration\Service\V1\OauthInterface as OauthInterfaceV1;
  * TODO: Fix coupling between objects
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Oauth implements OauthInterfaceV1
+class Oauth implements OauthInterface
 {
     /**
      * @var  \Magento\Store\Model\StoreManagerInterface
@@ -200,7 +198,7 @@ class Oauth implements OauthInterfaceV1
             if (!$consumer->getId()) {
                 throw new \Magento\Framework\Oauth\Exception(
                     __('A consumer with ID %1 does not exist', $consumerId),
-                    OauthInterface::ERR_PARAMETER_REJECTED
+                    \Magento\Framework\Oauth\OauthInterface::ERR_PARAMETER_REJECTED
                 );
             }
             $consumerData = $consumer->getData();
