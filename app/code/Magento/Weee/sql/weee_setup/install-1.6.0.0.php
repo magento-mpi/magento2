@@ -8,6 +8,7 @@
 
 /** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
+$installer->startSetup();
 /**
  * Create table 'weee_tax'
  */

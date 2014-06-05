@@ -42,9 +42,9 @@ class NavigationMode extends \Magento\Framework\Url
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver
-     * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $scopeType
+     * @param \Magento\DesignEditor\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
