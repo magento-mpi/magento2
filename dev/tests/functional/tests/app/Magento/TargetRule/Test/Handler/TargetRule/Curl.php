@@ -23,6 +23,21 @@ use Mtf\System\Config;
 class Curl extends Conditions implements TargetRuleInterface
 {
     /**
+     * Map of type parameter
+     *
+     * @var array
+     */
+    protected $mapTypeParams = [
+        'Attribute Set' => [
+            'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+            'attribute' => 'attribute_set_id'
+        ],
+        'Price (percentage)' => [
+            'type' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
+        ]
+    ];
+
+    /**
      * Mapping values for data.
      *
      * @var array

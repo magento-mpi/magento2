@@ -42,53 +42,14 @@ abstract class Conditions extends Curl
      *
      * @var array
      */
-    private $mapTypeParams = [
-        'Attribute Set' => [
-            'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
-            'attribute' => 'attribute_set_id'
-        ],
-        'Category' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
-            'attribute' => 'category_ids'
-        ],
-        'Conditions combination' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Combine',
-        ],
-        'Price (percentage)' => [
-            'type' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
-        ],
-        'Subtotal' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'base_subtotal'
-        ],
-        'Total Weight' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'weight'
-        ],
-        'Shipping Method' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'shipping_method'
-        ],
-        'Shipping Postcode' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'postcode'
-        ],
-        'Shipping State/Province' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'region_id'
-        ],
-        'Shipping Country' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'country_id'
-        ],
-    ];
+    protected $mapTypeParams = [];
 
     /**
      * Map of rule parameters
      *
      * @var array
      */
-    private $mapRuleParams = [
+    protected $mapRuleParams = [
         'operator' => [
             'is' => '==',
             'is not' => '!=',
@@ -132,14 +93,6 @@ abstract class Conditions extends Curl
         '&rbracket;' => ']',
         '&colon;' => ':',
     ];
-
-    /**
-     * Persist Fixture
-     *
-     * @param FixtureInterface $fixture [optional]
-     * @return mixed
-     */
-    abstract public function persist(FixtureInterface $fixture = null);
 
     /**
      * Prepare conditions to array for send by post request
