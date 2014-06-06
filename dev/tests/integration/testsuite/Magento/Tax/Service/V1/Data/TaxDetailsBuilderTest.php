@@ -133,6 +133,7 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'row_total' => 19.99,
             'row_total_incl_tax' => 21.64,
             'tax_amount' => 1.65,
+            'taxable_amount' => 19.99,
             'discount_amount' => 0.00,
             'discount_tax_compensation_amount' => 0.00,
             'applied_taxes' => [
@@ -217,6 +218,7 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'row_total' => 19.99,
             'row_total_incl_tax' => 21.84,
             'tax_amount' => 1.85,
+            'taxable_amount' => 19.99,
             'discount_amount' => 0.00,
             'discount_tax_compensation_amount' => 0.00,
             'applied_taxes' => [
