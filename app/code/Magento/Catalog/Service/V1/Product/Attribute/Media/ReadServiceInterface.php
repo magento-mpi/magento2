@@ -19,4 +19,14 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImage[]
      */
     public function getTypes($attributeSetId);
+
+    /**
+     * Return information about gallery entity
+     *
+     * @param string $productSku
+     * @param int $imageId
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry
+     */
+    public function info($productSku, $imageId);
 }

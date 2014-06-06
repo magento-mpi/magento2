@@ -78,4 +78,15 @@ class GalleryEntryBuilder extends AbstractObjectBuilder
     {
         return $this->_set(GalleryEntry::ROLES, $roles);
     }
+
+    /**
+     * Set file path
+     *
+     * @param string $file
+     * @return $this
+     */
+    public function setFile($file)
+    {
+        return $this->_set(GalleryEntry::FILE, $file);
+    }
 }

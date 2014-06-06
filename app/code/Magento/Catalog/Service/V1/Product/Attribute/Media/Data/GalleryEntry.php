@@ -19,6 +19,7 @@ class GalleryEntry extends AbstractObject
     const POSITION = 'position';
     const DISABLED = 'disabled';
     const ROLES = 'roles';
+    const FILE = 'file';
 
     /**
      * Retrieve gallery entry ID
@@ -80,5 +81,15 @@ class GalleryEntry extends AbstractObject
     {
         // @todo maybe change the name
         return $this->_get(self::ROLES);
+    }
+
+    /**
+     * Get file path
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->_get(self::FILE);
     }
 }

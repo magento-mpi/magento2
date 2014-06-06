@@ -129,4 +129,10 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/:productSku/media/:imageId" method="GET">
+        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="info"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
 </routes>
