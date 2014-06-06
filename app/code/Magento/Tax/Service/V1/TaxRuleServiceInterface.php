@@ -51,13 +51,6 @@ interface TaxRuleServiceInterface
     public function getTaxRule($ruleId);
 
     /**
-     * Flag to indicate whether tax rate should be applied to subtotal only
-     *
-     * @return bool
-     */
-    public function getCalculateOffSubtotalOnly();
-
-    /**
      * Search TaxRules
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria

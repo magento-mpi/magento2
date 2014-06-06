@@ -95,14 +95,6 @@ class TaxRuleService implements TaxRuleServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getCalculateOffSubtotalOnly()
-    {
-        // TODO: Implement getCalculateOffSubtotalOnly() method.
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function searchTaxRules(SearchCriteria $searchCriteria)
     {
         // TODO: Implement searchTaxRules() method.
