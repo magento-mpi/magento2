@@ -27,4 +27,6 @@
     <type name="Magento\Integration\Service\IntegrationV1">
         <plugin name="webapiIntegrationServiceV1" type="Magento\Webapi\Model\Plugin\IntegrationServiceV1"/>
     </type>
+    <preference for="Magento\Webapi\Service\V1\LoginServiceInterface"
+                type="Magento\Webapi\Service\V1\LoginService" />
 </config>
