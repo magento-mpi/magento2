@@ -1699,4 +1699,6 @@ return array(
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
+    ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
+    ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
 );
