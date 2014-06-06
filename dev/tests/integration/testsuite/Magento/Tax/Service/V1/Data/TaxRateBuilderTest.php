@@ -55,6 +55,21 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($dataArray, $taxRate->__toArray());
     }
 
+    /**
+     * @param array $dataArray
+     * @param array $zipRangeArray
+     * @dataProvider createDataProvider
+     */
+    public function testPopulate($dataArray, $zipRangeArray = [])
+    {
+        if (!empty($zipRangeArray)) {
+            $dataArray[TaxRate::KEY_ZIP_RANGE] = $zipRangeArray;
+        }
+        $taxRateFromArray = $this->builder->populateWithArray($dataArray)->create();
+        $taxRate = $this->builder->populate($taxRateFromArray)->create();
+        $this->assertEquals($taxRateFromArray, $taxRate);
+    }
+
     public function createDataProvider()
     {
 
@@ -78,26 +93,11 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $dataArray
-     * @param array $zipRangeArray
-     * @dataProvider createDataProvider
-     */
-    public function testPopulate($dataArray, $zipRangeArray = [])
-    {
-        if (!empty($zipRangeArray)) {
-            $dataArray[TaxRate::KEY_ZIP_RANGE] = $zipRangeArray;
-        }
-        $taxRateFromArray = $this->builder->populateWithArray($dataArray);
-        $taxRate = $this->builder->populate($taxRateFromArray)->create();
-        $this->assertEquals($taxRateFromArray, $taxRate);
-    }
-
-    /**
      * @dataProvider mergeDataProvider
      */
     public function testMergeDataObjects($firstRateArray, $secondRateArray, $expectedResultsArray)
     {
-        $expectedTaxRate = $this->builder->populateWithArray($expectedResults)->create();
+        $expectedTaxRate = $this->builder->populateWithArray($expectedResultsArray)->create();
         $taxRate1 = $this->builder->populateWithArray($firstRateArray)->create();
         $taxRate2 = $this->builder->populateWithArray($secondRateArray)->create();
         $taxRateMerged = $this->builder->mergeDataObjects($taxRate1, $taxRate2);
@@ -123,7 +123,7 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
                 'postcode' => [
                     'id' => 1,
                     'country_id' => 'US',
-                    'region_id' => 8,
+                    'region_id' => 7,
                     'postcode' => '78729',
                     'percentage_rate' => 8.25,
                     'code' => 'US-CA-*-Rate 1',
@@ -138,9 +138,9 @@ class TaxRateBuilderTest extends \PHPUnit_Framework_TestCase
                 'merged' => [
                     'id' => 1,
                     'country_id' => 'US',
-                    'region_id' => 8,
+                    'region_id' => 7,
                     'postcode' => '78729',
-                    'percentage_rate' => 8.25,
+                    'percentage_rate' => 8.0,
                     'code' => 'US-CA-*-Rate 1',
                     'zip_range' => ['from' => 78701, 'to' => 78780]
                 ],
