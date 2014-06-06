@@ -51,6 +51,8 @@
   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
+  * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
+  * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
