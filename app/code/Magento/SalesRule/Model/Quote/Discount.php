@@ -10,6 +10,13 @@ namespace Magento\SalesRule\Model\Quote;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Sales\Model\Quote\Item\AbstractItem;
 
+/**
+ * Discount calculation model
+ *
+ * @package Magento\SalesRule\Model\Quote
+ *          
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -32,19 +39,29 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_storeManager;
 
     /**
+     * @var \Magento\Weee\Helper\Data
+     */
+    protected $_weeHelper;
+
+    /**
+     * Initialize discount collector
+     * 
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\Validator $validator
+     * @param \Magento\Weee\Helper\Data $weeeHelper
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\SalesRule\Model\Validator $validator
+        \Magento\SalesRule\Model\Validator $validator,
+        \Magento\Weee\Helper\Data $weeeHelper
     ) {
         $this->_eventManager = $eventManager;
         $this->setCode('discount');
-        $this->_calculator = $validator;
         $this->_storeManager = $storeManager;
+        $this->_calculator = $validator;
+        $this->_weeHelper = $weeeHelper;
     }
 
     /**
@@ -113,7 +130,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 }
             }
         }
-
+        
         /**
          * Process shipping amount discount
          */
