@@ -45,11 +45,19 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->stockItemBuilder = $this->getMockBuilder(
-            'Magento\CatalogInventory\Service\V1\Data\StockItemBuilder'
-        )->disableOriginalConstructor()->getMock();
+        $this->stockItemBuilder = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\Data\StockItemBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->model = new StockItemService($this->stockItemRegistry, $this->config, $this->stockItemBuilder);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManagerHelper->getObject(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            [
+                'stockItemRegistry' => $this->stockItemRegistry,
+                'config' => $this->config,
+                'stockItemBuilder' => $this->stockItemBuilder
+            ]
+        );
     }
 
     public function testGetStockItem()
