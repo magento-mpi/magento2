@@ -57,6 +57,8 @@ class TierPriceServiceTest extends WebapiAbstract
     }
 
     /**
+     * @param string|int $customerGroupId
+     * @param int $qty
      * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider deleteDataProvider
      */
@@ -75,7 +77,7 @@ class TierPriceServiceTest extends WebapiAbstract
             ),
         );
         $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId, 'qty' => $qty);
-        $this->assertEquals(true, $this->_webApiCall($serviceInfo, $requestData));
+        $this->assertTrue( $this->_webApiCall($serviceInfo, $requestData));
     }
 
 

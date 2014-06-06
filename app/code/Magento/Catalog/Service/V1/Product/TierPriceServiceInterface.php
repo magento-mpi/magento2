@@ -22,6 +22,8 @@ interface TierPriceServiceInterface
      * @param string $customerGroupId
      * @param double $qty
      * @return boolean
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function delete($productSku, $customerGroupId, $qty);
 

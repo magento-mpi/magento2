@@ -104,7 +104,6 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
         $this->priceModifier->removeTierPrice($this->productMock, 1, 3, 1);
     }
 
-
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedMessage For current  customerGroupId = '10' with 'qty' = 15 any tier price exist'.
@@ -120,8 +119,6 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
         $this->priceModifier->removeTierPrice($this->productMock, 10, 15, 1);
     }
 
-
-
     public function testSuccessfullyRemoveTierPriceSpecifiedForAllGroups()
     {
         $this->productMock
@@ -133,7 +130,6 @@ class PriceModifierTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('setData')->with('tier_price', $expectedPrices);
         $this->priceModifier->removeTierPrice($this->productMock, 'all', 10, 1);
     }
-
 
     public function testSuccessfullyRemoveTierPriceSpecifiedForSpecificGroups()
     {
