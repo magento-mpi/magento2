@@ -16,6 +16,7 @@ use Mtf\Repository\AbstractRepository;
 class AdminUserRole extends AbstractRepository
 {
     /**
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
      */

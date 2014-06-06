@@ -13,8 +13,8 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
+ * Class Shipping
  * Cart shipping block
- *
  */
 class Shipping extends Form
 {
@@ -40,12 +40,18 @@ class Shipping extends Form
     protected $getQuote = '.action.quote';
 
     /**
+     * Update total selector
+     *
+     * @var string
+     */
+    protected $updateTotalSelector = '.action.update';
+
+    /**
      * Selector to access the shipping carrier method
      *
      * @var string
      */
-    protected $shippingCarrierMethodSelector =
-        '//span[text()="%s"]/following::*/div[@class="field choice item"]//*[contains(text(), "%s")]';
+    protected $shippingMethodSelector = '//span[text()="%s"]/following::*[contains(text(), "%s")]';
 
     /**
      * From with shipping available shipping methods
@@ -56,6 +62,8 @@ class Shipping extends Form
 
     /**
      * Open estimate shipping and tax form
+     *
+     * @return void
      */
     public function openEstimateShippingAndTax()
     {
@@ -65,11 +73,31 @@ class Shipping extends Form
     }
 
     /**
-     * Get quote
+     * Click Get quote button
+     *
+     * @return void
      */
-    public function getQuote()
+    public function clickGetQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
+    }
+
+    /**
+     * Select shipping method
+     *
+     * @param $shipping
+     * @return void
+     */
+    public function selectShippingMethod($shipping)
+    {
+        $shippingMethod = $this->_rootElement->find(
+            sprintf($this->shippingMethodSelector, $shipping['carrier'], $shipping['method']),
+            Locator::SELECTOR_XPATH
+        );
+        if ($shippingMethod->isVisible()) {
+            $shippingMethod->click();
+            $this->_rootElement->find($this->updateTotalSelector, Locator::SELECTOR_CSS)->click();
+        }
     }
 
     /**
@@ -87,7 +115,9 @@ class Shipping extends Form
                 return $shippingMethodForm->isVisible() ? true : null;
             }
         );
-        $selector = sprintf($this->shippingCarrierMethodSelector, $carrier, $method);
-        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(
+            sprintf($this->shippingMethodSelector, $carrier, $method),
+            Locator::SELECTOR_XPATH
+        )->isVisible();
     }
 }

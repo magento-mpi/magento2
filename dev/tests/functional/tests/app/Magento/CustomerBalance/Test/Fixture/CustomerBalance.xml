@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\CustomerBalance\Test\Fixture\CustomerBalance">
+    <module>Magento_CustomerBalance</module>
+    <type>flat</type>
+    <entity_type>magento_customerbalance</entity_type>
+    <collection>Magento\CustomerBalance\Model\Resource\Balance\Collection</collection>
+    <identifier>balance_id</identifier>
+    <fields>
+        <balance_id>
+            <attribute_code>balance_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </balance_id>
+        <customer_id>
+            <attribute_code>customer_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </customer_id>
+        <website_id>
+            <attribute_code>website_id</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <group>store_credit</group>
+            <input></input>
+        </website_id>
+        <amount>
+            <attribute_code>amount</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required></is_required>
+            <default_value>0.0000</default_value>
+            <input></input>
+        </amount>
+        <base_currency_code>
+            <attribute_code>base_currency_code</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </base_currency_code>
+        <balance_delta>
+            <attribute_code>balance_delta</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required></is_required>
+            <default_value>0.0000</default_value>
+            <group>store_credit</group>
+            <input></input>
+        </balance_delta>
+        <additional_info>
+            <attribute_code>additional_info</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <group>store_credit</group>
+            <input></input>
+        </additional_info>
+        <is_customer_notified>
+            <attribute_code>is_customer_notified</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <group>store_credit</group>
+            <input></input>
+        </is_customer_notified>
+    </fields>
+</fixture>
