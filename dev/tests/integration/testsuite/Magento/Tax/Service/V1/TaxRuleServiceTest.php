@@ -196,8 +196,8 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $retrievedRule = $this->taxRuleService->getTaxRule($taxRuleServiceData->getId());
 
         //Assertion
-        $this->assertEquals($retrievedRule->__toArray(), $updatedTaxRule->__toArray());
-        $this->assertNotEquals($retrievedRule->__toArray(), $taxRule->__toArray());
+        $this->assertEquals($updatedTaxRule->__toArray(), $retrievedRule->__toArray());
+        $this->assertNotEquals($taxRule->__toArray(), $retrievedRule->__toArray());
     }
 
     /**

@@ -25,7 +25,7 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     protected $taxRuleBuilder;
 
-    /*
+    /**
      * @var TaxRuleConverter
      */
     protected $converter;
