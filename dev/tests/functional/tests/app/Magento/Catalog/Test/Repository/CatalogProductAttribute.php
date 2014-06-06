@@ -16,6 +16,12 @@ use Mtf\Repository\AbstractRepository;
  */
 class CatalogProductAttribute extends AbstractRepository
 {
+    /**
+     * Construct
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['attribute_type_text_field'] = [

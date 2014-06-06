@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Catalog\Test\Fixture\CatalogProductTemplate">
+<fixture class="Magento\Catalog\Test\Fixture\CatalogAttributeSet">
     <module>Magento_Catalog</module>
     <type>flat</type>
     <entity_type>eav_attribute_set</entity_type>
@@ -42,6 +42,6 @@
             <input></input>
         </sort_order>
     </fields>
-    <repository_class>Magento\Catalog\Test\Repository\CatalogProductTemplate</repository_class>
-    <handler_interface>Magento\Catalog\Test\Handler\CatalogProductTemplate\CatalogProductTemplateInterface</handler_interface>
+    <repository_class>Magento\Catalog\Test\Repository\CatalogAttributeSet</repository_class>
+    <handler_interface>Magento\Catalog\Test\Handler\CatalogAttributeSet\CatalogAttributeSetInterface</handler_interface>
 </fixture>

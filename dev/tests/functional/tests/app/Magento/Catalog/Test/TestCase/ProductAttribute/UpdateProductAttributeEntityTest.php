@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\CatalogProductTemplate;
+use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
@@ -41,7 +41,7 @@ class UpdateProductAttributeEntityTest extends Injectable
      * Run UpdateProductAttributeEntity test
      *
      * @param CatalogProductAttribute $attribute
-     * @param CatalogProductTemplate $productTemplate
+     * @param CatalogAttributeSet $productTemplate
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
      * @param CatalogProductAttribute $productAttribute
@@ -50,7 +50,7 @@ class UpdateProductAttributeEntityTest extends Injectable
      */
     public function testUpdateProductAttribute(
         CatalogProductAttribute $attribute,
-        CatalogProductTemplate $productTemplate,
+        CatalogAttributeSet $productTemplate,
         CatalogProductAttributeIndex $attributeIndex,
         CatalogProductAttributeNew $attributeNew,
         CatalogProductAttribute $productAttribute,

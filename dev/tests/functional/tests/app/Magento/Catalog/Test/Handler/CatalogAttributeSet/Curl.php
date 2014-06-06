@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Handler\CatalogProductTemplate;
+namespace Magento\Catalog\Test\Handler\CatalogAttributeSet;
 
 use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +19,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
  * Class Curl
  * Create new Attribute Set via curl
  */
-class Curl extends AbstractCurl implements CatalogProductTemplateInterface
+class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 {
     /**
      * Post request for creating Attribute Set
