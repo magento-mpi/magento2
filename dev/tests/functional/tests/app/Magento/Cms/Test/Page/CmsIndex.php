@@ -12,8 +12,6 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CmsIndex
- *
- * @package Magento\Cms\Test\Page
  */
 class CmsIndex extends FrontendPage
 {
@@ -53,12 +51,12 @@ class CmsIndex extends FrontendPage
         'storeSwitcherBlock' => [
             'name' => 'storeSwitcherBlock',
             'class' => 'Magento\Store\Test\Block\Switcher',
-            'locator' => '[data-ui-id="language-switcher"]',
+            'locator' => '//*[@data-ui-id="language-switcher"]',
             'strategy' => 'css selector',
         ],
-        'miniCartBlock' => [
-            'name' => 'miniCartBlock',
-            'class' => 'Magento\Checkout\Test\Block\MiniCart',
+        'cartSidebarBlock' => [
+            'name' => 'cartSidebarBlock',
+            'class' => 'Magento\Checkout\Test\Block\Cart\Sidebar',
             'locator' => '[data-block="minicart"]',
             'strategy' => 'css selector',
         ],
@@ -113,10 +111,10 @@ class CmsIndex extends FrontendPage
     }
 
     /**
-     * @return \Magento\Checkout\Test\Block\MiniCart
+     * @return \Magento\Checkout\Test\Block\Cart\Sidebar
      */
-    public function getMiniCartBlock()
+    public function getCartSidebarBlock()
     {
-        return $this->getBlockInstance('miniCartBlock');
+        return $this->getBlockInstance('cartSidebarBlock');
     }
 }

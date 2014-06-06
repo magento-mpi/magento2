@@ -116,14 +116,14 @@ class UpdateShoppingCartTest extends Injectable
      * Update Shopping Cart
      *
      * @param Cart $cart
+     * @param string $productName
      * @return void
      */
-    public function testUpdateShoppingCart(Cart $cart)
+    public function testUpdateShoppingCart(Cart $cart, $productName)
     {
         // Preconditions
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
         $categoryName = $this->productForUpdateShoppingCart->getCategoryIds()[0]['name'];
-        $productName = $this->productForUpdateShoppingCart->getName();
 
         // Steps
         $this->cmsIndex->open();

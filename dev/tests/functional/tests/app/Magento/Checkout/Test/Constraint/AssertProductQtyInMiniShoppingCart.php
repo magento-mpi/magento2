@@ -35,7 +35,7 @@ class AssertProductQtyInMiniShoppingCart extends AbstractConstraint
         CmsIndex $cmsIndex,
         Cart $cart
     ) {
-        $productQtyInMiniCart = $cmsIndex->open()->getMiniCartBlock()->getProductQty();
+        $productQtyInMiniCart = $cmsIndex->open()->getCartSidebarBlock()->getProductQty();
         \PHPUnit_Framework_Assert::assertEquals(
             $productQtyInMiniCart,
             $cart->getQty(),

@@ -25,13 +25,13 @@ class AssertPriceInShoppingCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
- * Assert that price in the shopping cart is equals to expected price from data set
- *
- * @param CheckoutCart $checkoutCart
- * @param Cart $cart
- * @param string $productName
- * @return void
- */
+     * Assert that price in the shopping cart is equals to expected price from data set
+     *
+     * @param CheckoutCart $checkoutCart
+     * @param Cart $cart
+     * @param string $productName
+     * @return void
+     */
     public function processAssert(
         CheckoutCart $checkoutCart,
         Cart $cart,

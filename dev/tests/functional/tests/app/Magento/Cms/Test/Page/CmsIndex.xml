@@ -45,8 +45,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>miniCartBlock</name>
-        <class>Magento\Checkout\Test\Block\MiniCart</class>
+        <name>cartSidebarBlock</name>
+        <class>Magento\Checkout\Test\Block\Cart\Sidebar</class>
         <locator>[data-block="minicart"]</locator>
         <strategy>css selector</strategy>
     </block>

@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Cart
- *
- * @package Magento\Checkout\Test\Fixture
  */
 class Cart extends InjectableFixture
 {

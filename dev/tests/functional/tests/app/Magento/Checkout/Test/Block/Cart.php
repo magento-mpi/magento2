@@ -296,7 +296,7 @@ class Cart extends Block
     /**
      * Get product quantity
      *
-     * @return int
+     * @return string
      */
     public function getProductQty()
     {

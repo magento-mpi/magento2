@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Checkout\Test\Block;
+namespace Magento\Checkout\Test\Block\Cart;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class MiniCartCart
+ * Class Sidebar
  * Mini shopping cart block
  */
-class MiniCart extends Block
+class Sidebar extends Block
 {
     /**
      * Quantity input selector
@@ -43,7 +43,7 @@ class MiniCart extends Block
     /**
      * Get product quantity
      *
-     * @return int
+     * @return string
      */
     public function getProductQty()
     {
