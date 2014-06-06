@@ -11,6 +11,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Catalog\Service\V1\Data\Eav\Attribute;
 
 /**
  * Class ProductAttributeReadServiceTest
@@ -75,7 +76,7 @@ class ProductAttributeWriteServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
-            $this->assertEquals(['fieldName' => 'id', 'fieldValue' => $invalidId], $errorObj['parameters']);
+            $this->assertEquals(['fieldName' => 'attribute_id', 'fieldValue' => $invalidId], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
@@ -84,6 +85,36 @@ class ProductAttributeWriteServiceTest extends WebapiAbstract
     {
         return array();
     }
+
+    /**
+     * @dataProvider createDataProvider
+     */
+    public function testCreate($data)
+    {
+        $serviceInfo = [
+            'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'create'
+            ],
+        ];
+        $requestData = ['attribute' => $data];
+        $this->assertGreaterThan(0, $this->_webApiCall($serviceInfo, $requestData));
+    }
+
+    public function createDataProvider()
+    {
+        $data = [
+            Attribute::CODE => 'test_code',
+            Attribute::DEFAULT_VALUE => 'default value',
+            Attribute::IS_REQUIRED => true,
+            Attribute::IS_USER_DEFINED => true,
+            Attribute::LABEL => 'Front Label',
+        ];
+        return array([$data]);
+    }
+
 
     protected function createAttribute(array $data)
     {

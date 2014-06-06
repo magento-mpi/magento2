@@ -23,4 +23,14 @@ interface ProductAttributeWriteServiceInterface
      * @return bool True if the entity was deleted (always true)
      */
     public function remove($id);
+
+    /**
+     * Create attribute from data
+     *
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Attribute $attribute
+     * @return int
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Eav\Exception from validate()
+     */
+    public function create(\Magento\Catalog\Service\V1\Data\Eav\Attribute $attribute);
 }

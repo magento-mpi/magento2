@@ -43,4 +43,12 @@ class ProductAttributeWriteService implements ProductAttributeWriteServiceInterf
         $model->delete();
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create(\Magento\Catalog\Service\V1\Data\Eav\Attribute $attribute)
+    {
+       return 1;
+    }
 }
