@@ -25,10 +25,10 @@ class Row extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
      */
     public function execute($id = null)
     {
+        if (!isset($id) || empty($id)) {
+            throw new \Magento\CatalogInventory\Exception(__('Could not rebuild index for undefined product'));
+        }
         try {
-            if (!isset($id) || empty($id)) {
-                throw new \Magento\CatalogInventory\Exception(__('Could not rebuild index for undefined product'));
-            }
             $this->_logger->log('Row reindex for product - ' . $id . '');
         } catch (\Exception $e) {
             throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
