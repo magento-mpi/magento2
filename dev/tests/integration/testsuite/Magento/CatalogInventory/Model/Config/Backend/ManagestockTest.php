@@ -21,8 +21,8 @@ class ManagestockTest extends \PHPUnit_Framework_TestCase
     public function saveAndRebuildIndexDataProvider()
     {
         return [
-            [1, $this->once()],
-            [0, $this->never()]
+            [1, 1],
+            [0, 0],
         ];
     }
 
@@ -36,11 +36,11 @@ class ManagestockTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture default/cataloginventory/item_options/manage_stock 0
      *
      * @param int $newStockValue new value for stock status
-     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $expectedMatcher count matcher
+     * @param int $callCount count matcher
      */
-    public function testSaveAndRebuildIndex($newStockValue, $expectedMatcher)
+    public function testSaveAndRebuildIndex($newStockValue, $callCount)
     {
-        /** @var  \Magento\CatalogInventory\Model\Stock\Status */
+        /** @var \Magento\CatalogInventory\Model\Stock\Status */
         $stockStatus = $this->getMock(
             '\Magento\CatalogInventory\Model\Stock\Status',
             ['rebuild'],
@@ -49,7 +49,7 @@ class ManagestockTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $stockStatus->expects($expectedMatcher)
+        $stockStatus->expects($this->exactly($callCount))
             ->method('rebuild')
             ->will($this->returnValue($stockStatus));
 
