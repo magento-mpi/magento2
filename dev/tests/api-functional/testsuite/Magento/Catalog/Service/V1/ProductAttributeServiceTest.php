@@ -11,6 +11,8 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 /**
  * Class ProductAttributeServiceTest
  * @package Magento\Catalog\Service\V1
@@ -55,5 +57,43 @@ class ProductAttributeServiceTest extends WebapiAbstract
 
         $this->assertTrue(is_array($response));
         $this->assertEquals($expectedOptions, $response);
+    }
+
+    public function testAddOption()
+    {
+        $objectManager = Bootstrap::getObjectManager();
+        $testAttributeCode = 'color';
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/addOption',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'addOption'
+            ],
+        ];
+
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\OptionBuilder $optionBuilder */
+        $optionBuilder = $objectManager->get('\Magento\Catalog\Service\V1\Data\Eav\OptionBuilder');
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\Option\LabelBuilder $labelBuilder */
+        $labelBuilder = $objectManager->get('\Magento\Catalog\Service\V1\Data\Eav\Option\LabelBuilder');
+
+        $optionBuilder->setLabel('new color');
+        $optionBuilder->setDefault(true);
+        $optionBuilder->setStoreLabels([
+            $labelBuilder->populateWithArray(['label' => 'DE label', 'store_id' => 1])->create(),
+        ]);
+
+        $response = $this->_webApiCall(
+            $serviceInfo,
+            [
+                'id' => $testAttributeCode,
+                'option' => $optionBuilder->create()->__toArray(),
+            ]
+        );
+
+        $this->assertTrue($response);
     }
 }

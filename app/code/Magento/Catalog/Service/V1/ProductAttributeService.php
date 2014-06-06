@@ -68,7 +68,7 @@ class ProductAttributeService implements ProductAttributeServiceInterface
             throw new \Magento\Framework\Exception\StateException('Attribute don\'t have any options');
         }
 
-        $key = $option->getValue() ?: 'new_option';
+        $key = 'new_option';
 
         $options = [];
         $options['value'][$key][0] = $option->getLabel();
