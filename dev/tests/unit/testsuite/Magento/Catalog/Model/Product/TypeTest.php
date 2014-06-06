@@ -41,15 +41,15 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOptionArray()
     {
-        $this->assertEquals($this->_getOptions(), $this->_model->getOptionArray());
+        $this->assertEquals($this->getOptionArray(), $this->_model->getOptionArray());
     }
 
     /**
      * @return array
      */
-    protected function _getOptions()
+    protected function getOptionArray()
     {
-        $options = array();
+        $options = [];
         foreach ($this->_productTypes as $typeId => $type) {
             $options[$typeId] = __($type['label']);
         }
@@ -59,22 +59,31 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testGetAllOptions()
     {
         $res[] = array('value' => '', 'label' => '');
-        foreach ($this->_getOptions() as $index => $value) {
+        foreach ($this->getOptionArray() as $index => $value) {
             $res[] = array('value' => $index, 'label' => $value);
         }
         $this->assertEquals($res, $this->_model->getAllOptions());
     }
 
+    public function testGetOptions()
+    {
+        $res = [];
+        foreach ($this->getOptionArray() as $index => $value) {
+            $res[] = ['value' => $index, 'label' => $value];
+        }
+        $this->assertEquals($res, $this->_model->getOptions());
+    }
+
     public function testGetAllOption()
     {
-        $options = $this->_getOptions();
+        $options = $this->getOptionArray();
         array_unshift($options, array('value' => '', 'label' => ''));
         $this->assertEquals($options, $this->_model->getAllOption());
     }
 
     public function testGetOptionText()
     {
-        $options = $this->_getOptions();
+        $options = $this->getOptionArray();
         $this->assertEquals($options['type_id_3'], $this->_model->getOptionText('type_id_3'));
         $this->assertEquals($options['type_id_1'], $this->_model->getOptionText('type_id_1'));
         $this->assertNotEquals($options['type_id_1'], $this->_model->getOptionText('type_id_4'));
