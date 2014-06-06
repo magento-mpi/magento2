@@ -116,6 +116,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
     const ENTITY = 'cataloginventory_stock_item';
 
     /**
+     * Default stock id
+     */
+    const DEFAULT_STOCK_ID = 1;
+
+    /**
      * @var array
      */
     private $_minSaleQtyCache = array();
@@ -285,7 +290,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      */
     public function getStockId()
     {
-        return 1;
+        return self::DEFAULT_STOCK_ID;
     }
 
     /**
@@ -866,11 +871,10 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        // see if quantity is defined for this item type
-        $typeId = $this->getTypeId();
-        if ($productTypeId = $this->getProductTypeId()) {
-            $typeId = $productTypeId;
-        }
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $this->productFactory->create();
+        $product->load($this->getProductId());
+        $typeId = $product->getTypeId() ? $product->getTypeId() : $this->getTypeId();
 
         $isQty = $this->stockItemService->isQty($typeId);
 

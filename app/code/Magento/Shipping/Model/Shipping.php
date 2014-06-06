@@ -76,7 +76,7 @@ class Shipping implements RateCollectorInterface
     protected $mathDivision;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 

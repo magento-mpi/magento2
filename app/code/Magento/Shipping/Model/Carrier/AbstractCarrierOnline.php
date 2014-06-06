@@ -92,7 +92,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
      */
     protected $stockItemService;
 
