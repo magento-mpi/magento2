@@ -57,13 +57,13 @@ class TaxRuleConverter
             $this->taxRuleDataObjectBuilder->setCode($ruleModel->getCode());
         }
         if (!is_null($ruleModel->getCustomerTaxClasses())) {
-            $this->taxRuleDataObjectBuilder->setCustomerTaxClassIds($ruleModel->getCustomerTaxClasses());
+            $this->taxRuleDataObjectBuilder->setCustomerTaxClassIds(array_unique($ruleModel->getCustomerTaxClasses()));
         }
         if (!is_null($ruleModel->getProductTaxClasses())) {
-            $this->taxRuleDataObjectBuilder->setProductTaxClassIds($ruleModel->getProductTaxClasses());
+            $this->taxRuleDataObjectBuilder->setProductTaxClassIds(array_unique($ruleModel->getProductTaxClasses()));
         }
         if (!is_null($ruleModel->getRates())) {
-            $this->taxRuleDataObjectBuilder->setTaxRateIds($ruleModel->getRates());
+            $this->taxRuleDataObjectBuilder->setTaxRateIds(array_unique($ruleModel->getRates()));
         }
         if (!is_null($ruleModel->getPriority())) {
             $this->taxRuleDataObjectBuilder->setPriority($ruleModel->getPriority());
