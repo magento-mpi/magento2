@@ -14,6 +14,8 @@ interface ReadServiceInterface
      * Return all media attributes for pointed attribute set
      *
      * @param int $attributeSetId
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException
      * @return \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImage[]
      */
     public function getTypes($attributeSetId);

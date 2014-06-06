@@ -35,6 +35,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     protected $setMock;
 
     /**
+     * @var int attribute set id to use in tests
+     */
+    protected $attributeSetId = 100123;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $attributeCollectionMock;
@@ -99,17 +104,15 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTypesForAbsentId()
     {
-        $attributeSetId = 100123;
-
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
 
         $this->setMock->expects($this->once())
             ->method('load')
-            ->with($attributeSetId)
+            ->with($this->attributeSetId)
             ->will($this->returnSelf());
 
         $this->setMock->expects($this->once())->method('getId')->will($this->returnValue(null));
-        $this->service->getTypes($attributeSetId);
+        $this->service->getTypes($this->attributeSetId);
     }
 
     /**
@@ -117,13 +120,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTypesForWrongEntityType()
     {
-        $attributeSetId = 100123;
-
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
 
         $this->setMock->expects($this->once())
             ->method('load')
-            ->with($attributeSetId)
+            ->with($this->attributeSetId)
             ->will($this->returnSelf());
 
         $this->setMock->expects($this->once())->method('getId')->will($this->returnValue(1));
@@ -135,18 +136,16 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->eavConfigMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->setMock->expects($this->once())->method('getEntityTypeId')->will($this->returnValue(4));
 
-        $this->service->getTypes($attributeSetId);
+        $this->service->getTypes($this->attributeSetId);
     }
 
     public function testGetTypesPositive()
     {
-        $attributeSetId = 100123;
-
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
 
         $this->setMock->expects($this->once())
             ->method('load')
-            ->with($attributeSetId)
+            ->with($this->attributeSetId)
             ->will($this->returnSelf());
 
         $this->setMock->expects($this->once())->method('getId')->will($this->returnValue(1));
@@ -161,7 +160,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->attributeCollectionMock));
-        $this->attributeCollectionMock->expects($this->once())->method('setAttributeSetFilter')->with($attributeSetId);
+        $this->attributeCollectionMock->expects($this->once())->method('setAttributeSetFilter')->with($this->attributeSetId);
         $this->attributeCollectionMock->expects($this->once())
             ->method('setFrontendInputTypeFilter')
             ->with('media_image');
@@ -183,7 +182,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->will($this->returnValue($items));
 
-        $attributes = $this->service->getTypes($attributeSetId);
+        $attributes = $this->service->getTypes($this->attributeSetId);
         $this->assertEquals(1, count($attributes));
         /** @var \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImage $resultAttribute */
         $resultAttribute = reset($attributes);

@@ -41,6 +41,8 @@ class MediaImage extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * Frontend label for attribute
+     *
      * @return string
      */
     public function getFrontendLabel()
@@ -49,6 +51,8 @@ class MediaImage extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
+     * User defined or system attribute
+     *
      * @return bool
      */
     public function getIsUserDefined()

@@ -26,7 +26,7 @@ class ReadService implements ReadServiceInterface
      */
     protected $setFactory;
 
-    /** @var MediaImageBuilder */
+    /** @var \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImageBuilder */
     protected $builder;
 
     /**
@@ -65,19 +65,14 @@ class ReadService implements ReadServiceInterface
             $this->builder->setFrontendLabel($attribute->getFrontendLabel());
             $this->builder->setCode($attribute->getData('attribute_code'));
             $this->builder->setIsUserDefined($attribute->getData('is_user_defined'));
-            switch(true) {
-                case $attribute->getIsGlobal():
-                    $scope = 'Global';
-                    break;
-                case $attribute->isScopeWebsite():
-                    $scope = 'Website';
-                    break;
-                case $attribute->isScopeStore():
-                    $scope = 'Store View';
-                    break;
-                default:
-                    throw new StateException('Attribute has invalid scope. Id = ' . $attribute->getId());
-                    break;
+            if($attribute->getIsGlobal()) {
+                $scope = 'Global';
+            } elseif($attribute->isScopeWebsite()) {
+                $scope = 'Website';
+            } elseif($attribute->isScopeStore()) {
+                $scope = 'Store View';
+            } else {
+                throw new StateException('Attribute has invalid scope. Id = ' . $attribute->getId());
             }
             $this->builder->setScope($scope);
             $data[] = $this->builder->create();

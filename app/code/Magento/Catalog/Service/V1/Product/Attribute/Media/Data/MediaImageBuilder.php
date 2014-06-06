@@ -12,21 +12,45 @@ namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
  */
 class MediaImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
+    /**
+     * Set attribute code
+     *
+     * @param $code
+     * @return $this
+     */
     public function setCode($code)
     {
         return $this->_set(MediaImage::CODE, $code);
     }
 
+    /**
+     * Set attribute frontend label
+     *
+     * @param $label
+     * @return $this
+     */
     public function setFrontendLabel($label)
     {
         return $this->_set(MediaImage::LABEL, $label);
     }
 
+    /**
+     * Set attribute scope. Valid values are 'Global', 'Website' and 'Store View'
+     *
+     * @param $scope
+     * @return $this
+     */
     public function setScope($scope)
     {
         return $this->_set(MediaImage::SCOPE, $scope);
     }
 
+    /**
+     * Set true for user attributes or false for system attributes
+     *
+     * @param $isUserDefined
+     * @return $this
+     */
     public function setIsUserDefined($isUserDefined)
     {
         return $this->_set(MediaImage::IS_USER_DEFINED, $isUserDefined);
