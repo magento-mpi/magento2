@@ -25,8 +25,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const OPTIONS = 'options';
 
-    const SYSTEM = 'system';
-
     const VISIBLE = 'visible';
 
     const REQUIRED = 'required';
@@ -95,16 +93,6 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getAttributeCode()
     {
         return $this->_get(self::ATTRIBUTE_CODE);
-    }
-
-    /**
-     * Retrieve is system attribute flag
-     *
-     * @return bool
-     */
-    public function isSystem()
-    {
-        return $this->_get(self::SYSTEM);
     }
 
     /**

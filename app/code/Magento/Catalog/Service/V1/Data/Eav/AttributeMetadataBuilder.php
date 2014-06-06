@@ -71,17 +71,6 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set attribute as system
-     *
-     * @param  bool $isSystem
-     * @return $this
-     */
-    public function setSystem($isSystem)
-    {
-        return $this->_set(AttributeMetadata::SYSTEM, $isSystem);
-    }
-
-    /**
      * Set front end input
      *
      * @param  string $frontendInput

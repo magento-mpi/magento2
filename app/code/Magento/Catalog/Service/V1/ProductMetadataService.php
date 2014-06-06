@@ -132,7 +132,7 @@ class ProductMetadataService implements ProductMetadataServiceInterface
      */
     private function createMetadataAttribute($attribute)
     {
-        $data = $attribute->getData();
+        $data = $this->booleanPrefixMapper($attribute->getData());
 
         // fill options and validate rules
         $data[AttributeMetadata::OPTIONS] = $attribute->usesSource()
@@ -159,5 +159,27 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             }
         }
         return $this->attributeMetadataBuilder->populateWithArray($data)->create();
+    }
+
+    /**
+     * Remove 'is_' prefixes for Attribute fields to make DTO interface more natural
+     *
+     * @param array $attributeFields
+     * @return array
+     */
+    private function booleanPrefixMapper(array $attributeFields)
+    {
+        $prefix = 'is_';
+        foreach ($attributeFields as $key => $value) {
+            if (strpos($key, $prefix) !== 0) {
+                continue;
+            }
+            $postfix = substr($key, strlen($prefix));
+            if (!isset($attributeFields[$postfix])) {
+                $attributeFields[$postfix] = $value;
+                unset($attributeFields[$key]);
+            }
+        }
+        return $attributeFields;
     }
 }

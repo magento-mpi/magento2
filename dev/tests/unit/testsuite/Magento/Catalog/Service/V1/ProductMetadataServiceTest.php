@@ -31,11 +31,10 @@ class ProductMetadataServiceTest extends \PHPUnit_Framework_TestCase
         //attributeMock
         $attributeMock = $this->getMock(
             'Magento\Framework\Object',
-            array('usesSource', 'getSource', 'isScopeGlobal', 'isSystem'),
+            array('usesSource', 'getSource', 'isScopeGlobal'),
             array('data' => $data)
         );
         $attributeMock->expects($this->any())->method('isScopeGlobal')->will($this->returnValue(true));
-        $attributeMock->expects($this->any())->method('isSystem')->will($this->returnValue(true));
         $attributeMock->expects($this->any())->method('usesSource')->will($this->returnValue(true));
         $attributeMock->expects($this->any())->method('getSource')
             ->will($this->returnValue(new \Magento\Framework\Object()));

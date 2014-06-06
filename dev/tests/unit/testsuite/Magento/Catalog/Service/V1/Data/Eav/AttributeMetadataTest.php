@@ -57,7 +57,6 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
             ['getAttributeCode', AttributeMetadata::ATTRIBUTE_CODE, 'code'],
             ['getFrontendInput', AttributeMetadata::FRONTEND_INPUT, '<br>'],
             ['getValidationRules', AttributeMetadata::VALIDATION_RULES, $this->validationRules],
-            ['isSystem', AttributeMetadata::SYSTEM, true],
             ['isVisible', AttributeMetadata::VISIBLE, true],
             ['isRequired', AttributeMetadata::REQUIRED, true],
             ['getOptions', AttributeMetadata::OPTIONS, $this->optionRules],

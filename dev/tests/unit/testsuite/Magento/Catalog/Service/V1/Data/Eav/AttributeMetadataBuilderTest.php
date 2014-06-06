@@ -70,7 +70,6 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
             ['setAttributeCode', 'code', 'getAttributeCode'],
             ['setFrontendInput', '<br>', 'getFrontendInput'],
             ['setValidationRules', $this->validationRules, 'getValidationRules'],
-            ['setSystem', true, 'isSystem'],
             ['setVisible', true, 'isVisible'],
             ['setRequired', true, 'isRequired'],
             ['setOptions', $this->optionRules, 'getOptions'],
