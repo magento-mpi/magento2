@@ -50,25 +50,25 @@ class TaxRuleConverter
     public function createTaxRuleDataObjectFromModel(TaxRuleModel $ruleModel)
     {
         $this->taxRuleDataObjectBuilder->populateWithArray([]);
-        if ($ruleModel->getId()) {
+        if (!is_null($ruleModel->getId())) {
             $this->taxRuleDataObjectBuilder->setId($ruleModel->getId());
         }
-        if ($ruleModel->getCode()) {
+        if (!is_null($ruleModel->getCode())) {
             $this->taxRuleDataObjectBuilder->setCode($ruleModel->getCode());
         }
-        if ($ruleModel->getTaxCustomerClass()) {
-            $this->taxRuleDataObjectBuilder->setCustomerTaxClassIds($ruleModel->getTaxCustomerClass());
+        if (!is_null($ruleModel->getCustomerTaxClasses())) {
+            $this->taxRuleDataObjectBuilder->setCustomerTaxClassIds($ruleModel->getCustomerTaxClasses());
         }
-        if ($ruleModel->getTaxProductClass()) {
-            $this->taxRuleDataObjectBuilder->setProductTaxClassIds($ruleModel->getTaxProductClass());
+        if (!is_null($ruleModel->getProductTaxClasses())) {
+            $this->taxRuleDataObjectBuilder->setProductTaxClassIds($ruleModel->getProductTaxClasses());
         }
-        if ($ruleModel->getTaxRate()) {
-            $this->taxRuleDataObjectBuilder->setTaxRateIds($ruleModel->getTaxRate());
+        if (!is_null($ruleModel->getRates())) {
+            $this->taxRuleDataObjectBuilder->setTaxRateIds($ruleModel->getRates());
         }
-        if ($ruleModel->getPriority()) {
-            $this->taxRuleDataObjectBuilder->setPrioritiy($ruleModel->getPriority());
+        if (!is_null($ruleModel->getPriority())) {
+            $this->taxRuleDataObjectBuilder->setPriority($ruleModel->getPriority());
         }
-        if ($ruleModel->getPosition()) {
+        if (!is_null($ruleModel->getPosition())) {
             $this->taxRuleDataObjectBuilder->setSortOrder($ruleModel->getPosition());
         }
         return $this->taxRuleDataObjectBuilder->create();
@@ -91,7 +91,7 @@ class TaxRuleConverter
         $taxRuleModel->setTaxProductClass($taxRuleDataObject->getProductTaxClassIds());
         $taxRuleModel->setTaxRate($taxRuleDataObject->getTaxRateIds());
         $taxRuleModel->setCode($taxRuleDataObject->getCode());
-        $taxRuleModel->setPrioritiy($taxRuleDataObject->getPriority());
+        $taxRuleModel->setPriority($taxRuleDataObject->getPriority());
         $taxRuleModel->setPosition($taxRuleDataObject->getSortOrder());
         return $taxRuleModel;
     }

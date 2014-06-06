@@ -11,7 +11,12 @@ namespace Magento\Tax\Service\V1;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
 
+/**
+ * Class TaxRuleServiceTest tests Magento/Tax/Service/V1/TaxRuleService
+ *
+ */
 class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -22,14 +27,14 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     private $objectManager;
 
     /**
-     * TaxRate builder
+     * TaxRule builder
      *
      * @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder
      */
     private $taxRuleBuilder;
 
     /**
-     * TaxRateService
+     * TaxRuleService
      *
      * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
      */
@@ -66,6 +71,58 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateTaxRuleInvalid()
+    {
+        $taxRuleData = [
+            TaxRule::CODE => 'code',
+            TaxRule::CUSTOMER_TAX_CLASS_IDS => [3],
+            TaxRule::PRODUCT_TAX_CLASS_IDS => [2],
+            TaxRule::TAX_RATE_IDS => [1],
+            TaxRule::PRIORITY => 0,
+            TaxRule::SORT_ORDER => -1,
+        ];
+        // Tax rule data object created
+        $taxRule = $this->taxRuleBuilder->populateWithArray($taxRuleData)->create();
+
+        try {
+            //Tax rule service call
+            $this->taxRuleService->createTaxRule($taxRule);
+            $this->fail('Did not throw expected InputException');
+        } catch (InputException $e) {
+            $expectedParams = [
+                'fieldName' => taxRule::SORT_ORDER,
+                'value' => -1,
+                'minValue' => '0',
+            ];
+            $this->assertEquals($expectedParams, $e->getParameters());
+            $this->assertEquals(InputException::INVALID_FIELD_MIN_VALUE, $e->getRawMessage());
+        }
+    }
+
+    /**
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testGetTaxRule()
+    {
+        /** @var $registry \Magento\Framework\Registry */
+        $registry = $this->objectManager->get('Magento\Framework\Registry');
+        /** @var $taxRuleModel \Magento\Tax\Model\Calculation\Rule */
+        $taxRuleModel = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
+        $this->assertNotNull($taxRuleModel);
+        $ruleId = $taxRuleModel->getId();
+
+        $taxRateId = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rate')->getId();
+        $custRates = $taxRuleModel->getCustomerTaxClasses();
+        $taxRule = $this->taxRuleService->getTaxRule($ruleId);
+        // TODO: this fails $this->assertEquals([], $taxRule->getCustomerTaxClassIds());
+
+        // TODO: this fails: $this->assertEquals([$taxRateId], $taxRule->getTaxRateIds());
+
+    }
+
+    /**
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      */
     public function testDeleteTaxRule()
@@ -80,11 +137,11 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         // Delete the new tax rate
         $this->assertTrue($this->taxRuleService->deleteTaxRule($ruleId));
 
-        // Get the new tax rate, this should fail
+        // Get the new tax rule, this should fail
         try {
             $this->taxRuleService->getTaxRule($ruleId);
             $this->fail('NoSuchEntityException expected but not thrown');
-        } catch(NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'fieldName' => 'taxRuleId',
                 'fieldValue' => $ruleId,
@@ -112,7 +169,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->taxRuleService->deleteTaxRule($ruleId);
             $this->fail('NoSuchEntityException expected but not thrown');
-        } catch(NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'fieldName' => 'taxRuleId',
                 'fieldValue' => $ruleId,

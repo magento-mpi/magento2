@@ -138,7 +138,44 @@ class TaxRuleService implements TaxRuleServiceInterface
     private function validate(TaxRule $taxRule)
     {
         $exception = new InputException();
-        // TODO: validation
+
+        // SortOrder is required and must be 0 or greater
+        if (!\Zend_Validate::is(trim($taxRule->getSortOrder()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::SORT_ORDER]);
+        }
+        if (!\Zend_Validate::is(trim($taxRule->getSortOrder()), 'GreaterThan', [-1])) {
+            $exception->addError(
+                InputException::INVALID_FIELD_MIN_VALUE,
+                ['fieldName' => TaxRule::SORT_ORDER, 'value' => $taxRule->getSortOrder(), 'minValue' => 0]
+            );
+        }
+
+        // Priority is required and must be 0 or greater
+        if (!\Zend_Validate::is(trim($taxRule->getPriority()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRIORITY]);
+        }
+        if (!\Zend_Validate::is(trim($taxRule->getPriority()), 'GreaterThan', [-1])) {
+            $exception->addError(InputException::INVALID_FIELD_MIN_VALUE, ['fieldName' => TaxRule::PRIORITY]);
+        }
+
+        // Code is required
+        if (!\Zend_Validate::is(trim($taxRule->getCode()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::CODE]);
+        }
+        // customer tax class ids is required
+        if (($taxRule->getCustomerTaxClassIds() === null) || !$taxRule->getCustomerTaxClassIds()) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::CUSTOMER_TAX_CLASS_IDS]);
+        }
+        // product tax class ids is required
+        if (($taxRule->getProductTaxClassIds() === null) || !$taxRule->getProductTaxClassIds()) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRODUCT_TAX_CLASS_IDS]);
+        }
+        // tax rate ids is required
+        if (($taxRule->getTaxRateIds() === null) || !$taxRule->getTaxRateIds()) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::TAX_RATE_IDS]);
+        }
+
+        // throw exception if errors were found
         if ($exception->wasErrorAdded()) {
             throw $exception;
         }
