@@ -720,7 +720,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         /**
          * Product Options
          */
-        $this->getOptionInstance()->setProduct($this)->saveOptions();
+        if (!$this->getIsDuplicate()) {
+            $this->getOptionInstance()->setProduct($this)->saveOptions();
+        }
 
         $result = parent::_afterSave();
 
