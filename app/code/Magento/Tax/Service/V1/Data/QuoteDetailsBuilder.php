@@ -94,8 +94,8 @@ class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObject
         }
         if (array_key_exists(QuoteDetails::KEY_ITEMS, $data)) {
             $items = [];
-            foreach ($data[QuoteDetails::KEY_ITEMS] as $ItemsArray) {
-                $items[] = $this->itemBuilder->populateWithArray($ItemsArray)->create();
+            foreach ($data[QuoteDetails::KEY_ITEMS] as $itemArray) {
+                $items[] = $this->itemBuilder->populateWithArray($itemArray)->create();
             }
             $data[QuoteDetails::KEY_ITEMS] = $items;
         }

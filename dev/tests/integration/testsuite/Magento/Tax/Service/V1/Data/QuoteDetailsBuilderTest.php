@@ -41,13 +41,9 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             $dataArray[QuoteDetails::KEY_ITEMS] = $items;
         }
         $taxRate = $this->builder->populateWithArray($dataArray)->create();
-        $taxRate2 = $this->generateQuoteDetailsWithSetters($dataArray);
 
         $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\QuoteDetails', $taxRate);
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\QuoteDetails', $taxRate2);
-        $this->assertEquals($taxRate2, $taxRate);
         $this->assertEquals($dataArray, $taxRate->__toArray());
-        $this->assertEquals($dataArray, $taxRate2->__toArray());
     }
 
     /**
@@ -60,22 +56,23 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         if (!empty($items)) {
             $dataArray[QuoteDetails::KEY_ITEMS] = $items;
         }
-        $taxRate = $this->generateQuoteDetailsWithSetters($dataArray);
+        $taxRate = $this->builder->populateWithArray($dataArray)->create();
         $taxRate2 = $this->builder->populate($taxRate)->create();
+
         $this->assertEquals($taxRate, $taxRate2);
     }
 
     public function createDataProvider()
     {
         $data = $this->getData()['dataMerged'];
-        $item = $data[QuoteDetails::KEY_ITEMS];
+        $items = $data[QuoteDetails::KEY_ITEMS];
         unset($data[QuoteDetails::KEY_ITEMS]);
 
         return [
             'withEmptyData' => [[],[]],
             'withEmptyQuoteItems' => [$data],
-            'withQuoteItems' => [[], $item],
-            'withQuoteDetailsAndItems' => [$data, $item]
+            'withQuoteItems' => [[], $items],
+            'withQuoteDetailsAndItems' => [$data, $items]
         ];
     }
 
@@ -125,10 +122,18 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         ];
 
         $items = [
-            'code' => 'item code',
-            'type' => 'shipping',
-            'row_total' => 14.85,
-            'discount_amount' => 2.6
+            [
+                'code' => 'item code',
+                'type' => 'shipping',
+                'row_total' => 14.85,
+                'discount_amount' => 2.6
+            ],
+            [
+                'code' => 'another code',
+                'type' => 'product',
+                'row_total' => 10,
+                'discount_amount' => 5
+            ]
         ];
         $data = [
             'data1' => [
@@ -137,50 +142,16 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ],
             'data2' => [
                 QuoteDetails::KEY_SHIPPING_ADDRESS => $addressData,
-                QuoteDetails::KEY_ITEMS => [$items]
+                QuoteDetails::KEY_ITEMS => $items
             ],
             'dataMerged' => [
                 QuoteDetails::KEY_BILLING_ADDRESS => $addressData,
                 QuoteDetails::KEY_SHIPPING_ADDRESS => $addressData,
                 QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID => 1,
-                QuoteDetails::KEY_ITEMS => [$items]
+                QuoteDetails::KEY_ITEMS => $items
             ]
         ];
 
         return $data;
-    }
-
-    /**
-     * @param array $dataArray
-     * @return QuoteDetails
-     */
-    protected function generateQuoteDetailsWithSetters($dataArray)
-    {
-        $this->builder->populateWithArray([]);
-        if (array_key_exists(QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID, $dataArray)) {
-            $this->builder->setCustomerTaxClassId($dataArray[QuoteDetails::KEY_CUSTOMER_TAX_CLASS_ID]);
-        }
-        if (array_key_exists(QuoteDetails::KEY_BILLING_ADDRESS, $dataArray)) {
-            $this->builder->setShippingAddress(
-                $this->addressBuilder->populateWithArray(
-                    $dataArray[QuoteDetails::KEY_BILLING_ADDRESS]
-                )->create()
-            );
-        }
-        if (array_key_exists(QuoteDetails::KEY_SHIPPING_ADDRESS, $dataArray)) {
-            $this->builder->setBillingAddress(
-                $this->addressBuilder->populateWithArray(
-                    $dataArray[QuoteDetails::KEY_SHIPPING_ADDRESS]
-                )->create()
-            );
-        }
-        if (array_key_exists(QuoteDetails::KEY_ITEMS, $dataArray)) {
-            $items = [];
-            foreach ($dataArray[QuoteDetails::KEY_ITEMS] as $itemsArray) {
-                $items[] = $this->itemBuilder->populateWithArray($itemsArray)->create();
-            }
-            $this->builder->setItems($items);
-        }
-        return $this->builder->create();
     }
 }
