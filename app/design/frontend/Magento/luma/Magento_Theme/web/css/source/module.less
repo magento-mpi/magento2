@@ -141,8 +141,8 @@ body {
 @footer-links-color-hover: #333;
 
 .page-footer {
-        margin-top: 25px;
-    }
+    margin-top: 25px;
+}
 
 .footer {
     &.content {
@@ -204,7 +204,7 @@ body {
                 @_dropdown-toggle-icon-content: @icon-down,
                 @_dropdown-toggle-active-icon-content: @icon-up,
                 @_icon-font-text-hide: true,
-                @_icon-font-size: 22px,
+                @_icon-font-size: 10px,
                 @_icon-font-line-height: 22px,
                 @_dropdown-list-min-width: 160px
             );
@@ -252,6 +252,7 @@ body {
         margin-bottom: 0;
         .panel.wrapper {
             border-bottom: 1px solid @color-secondary;
+            .css(background-color, @header-panel-bg-color);
         }
         .header.panel {
             padding-top: 10px;
@@ -288,7 +289,7 @@ body {
             @_dropdown-toggle-icon-content: @icon-down,
             @_dropdown-toggle-active-icon-content: @icon-up,
             @_icon-font-text-hide: true,
-            @_icon-font-size: 22px,
+            @_icon-font-size: 10px,
             @_icon-font-line-height: 22px
         );
         .action.switch {

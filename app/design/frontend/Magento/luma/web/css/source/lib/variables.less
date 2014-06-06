@@ -657,19 +657,19 @@
 //
 //    Messages variables
 //--------------------------------------
-@message-padding: @indent-s-base @indent-base;
+@message-padding: 12px @indent-base;
 @message-margin: 0 0 @indent-s-base;
 
 @message-color: false; // Each message type has its own message color
-@message-font-size: 13px;
+@message-font-size: false;
 @message-font-family: false;
 @message-font-style: false;
 @message-font-weight: false;
-@message-line-height: 1.2em;
+@message-line-height: false;
 
-@message-icon-font-size: ceil(@message-font-size * 2 + 2);
+@message-icon-font-size: 26px;
 @message-icon-font-line-height: @message-icon-font-size;
-@message-icon-inner-padding-left: 40px;
+@message-icon-inner-padding-left: 45px;
 @message-icon-lateral-width: 30px;
 @message-icon-lateral-arrow-size: 5px;
 
@@ -709,7 +709,7 @@
 @message-error-link-color-hover: @link-color-hover;
 @message-error-link-color-active: @link-color-hover;
 @message-error-border-color: @message-border-color;
-@message-error-icon: @icon-warning;
+@message-error-icon: @icon-error;
 @message-error-icon-color-inner: #b30000;
 @message-error-icon-color-lateral: #fff;
 @message-error-icon-background: #b30000;
@@ -721,7 +721,7 @@
 @message-success-link-color-hover: @link-color-hover;
 @message-success-link-color-active: @link-color-hover;
 @message-success-border-color: @message-border-color;
-@message-success-icon: @icon-checkmark;
+@message-success-icon: @icon-success;
 @message-success-icon-color-inner: #006400;
 @message-success-icon-color-lateral: #fff;
 @message-success-icon-background: #006400;
@@ -983,7 +983,8 @@
 @form-field-column: false;
 @form-field-column-padding: 0 12px 0 0;
 @form-field-column-number: 2;
-@form-field-vertical-indent: 20px;
+@form-field-vertical-indent: 25px;
+@form-field-additional-vertical-indent: 10px;
 @form-field-type-block-margin: 0 0 @form-field-vertical-indent;
 @form-field-type-inline-margin: 0 0 @form-field-vertical-indent;
 // form field label
@@ -998,7 +999,7 @@
 @form-field-type-inline-label-padding: 6px 15px 0 0;
 @form-field-type-inline-label-width: 25.8%;
 @form-field-type-inline-label-align: right;
-@form-field-type-block-label-margin: 0 0 5px;
+@form-field-type-block-label-margin: 0 0 8px;
 @form-field-type-block-label-padding: false;
 @form-field-type-block-label-align: @form-field-label-align;
 // form field control

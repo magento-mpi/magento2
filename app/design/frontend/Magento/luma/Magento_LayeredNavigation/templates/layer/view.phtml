@@ -35,7 +35,7 @@
                 <?php foreach ($this->getFilters() as $filter): ?>
                     <?php if ($filter->getItemsCount()): ?>
                         <li class="item" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
-                            <div class="title" data-role="title"><?php echo __($filter->getName()) ?></div>
+                            <div class="title" data-role="title"><span><?php echo __($filter->getName()) ?></span></div>
                             <div class="content" data-role="content"><?php echo $this->getChildBlock('renderer')->render($filter); ?></div>
                         </li>
                     <?php endif; ?>
