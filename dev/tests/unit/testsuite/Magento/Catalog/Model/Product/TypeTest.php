@@ -78,6 +78,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($res, $this->_model->getAllOptions());
     }
 
+    public function testGetAllOption()
+    {
+        $options = $this->_getOptions();
+        array_unshift($options, array('value' => '', 'label' => ''));
+        $this->assertEquals($options, $this->_model->getAllOption());
+    }
+
     public function testGetOptionText()
     {
         $options = $this->_getOptions();
