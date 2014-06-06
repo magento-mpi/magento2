@@ -102,9 +102,28 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
+     */
+    public function testGetTaxRuleCreatedFromService()
+    {
+        // Tax rule data object created
+        $taxRuleDataObject = $this->createTaxRuleDataObject();
+        //Tax rule service call to create rule
+        $ruleId = $this->taxRuleService->createTaxRule($taxRuleDataObject)->getId();
+
+        // Call getTaxRule and verify
+        $taxRule = $this->taxRuleService->getTaxRule($ruleId);
+        $this->assertEquals('code', $taxRule->getCode());
+        $this->assertEquals([3], $taxRule->getCustomerTaxClassIds());
+        $this->assertEquals([2], $taxRule->getProductTaxClassIds());
+        $this->assertEquals([2], $taxRule->getTaxRateIds());
+        $this->assertEquals(0, $taxRule->getPriority());
+        $this->assertEquals(1, $taxRule->getSortOrder());
+    }
+    /**
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      */
-    public function testGetTaxRule()
+    public function testGetTaxRuleCreatedFromModel()
     {
         /** @var $registry \Magento\Framework\Registry */
         $registry = $this->objectManager->get('Magento\Framework\Registry');
@@ -114,12 +133,12 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $ruleId = $taxRuleModel->getId();
 
         $taxRateId = $registry->registry('_fixture/Magento_Tax_Model_Calculation_Rate')->getId();
-        $custRates = $taxRuleModel->getCustomerTaxClasses();
+        $customerTaxClassIds = array_unique($taxRuleModel->getCustomerTaxClasses());
+
+        // Call getTaxRule and verify
         $taxRule = $this->taxRuleService->getTaxRule($ruleId);
-        // TODO: this fails $this->assertEquals([], $taxRule->getCustomerTaxClassIds());
-
-        // TODO: this fails: $this->assertEquals([$taxRateId], $taxRule->getTaxRateIds());
-
+        $this->assertEquals($customerTaxClassIds, $taxRule->getCustomerTaxClassIds());
+        $this->assertEquals([$taxRateId], $taxRule->getTaxRateIds());
     }
 
     /**
