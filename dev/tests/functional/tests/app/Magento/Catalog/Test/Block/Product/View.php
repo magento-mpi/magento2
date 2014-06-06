@@ -29,6 +29,13 @@ class View extends Block
     protected $addToCart = '#product-addtocart-button';
 
     /**
+     * Quantity input id
+     *
+     * @var string
+     */
+    protected $qty = '#qty';
+
+    /**
      * 'Check out with PayPal' button
      *
      * @var string
@@ -96,7 +103,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $mapPopup = '#map-popup';
+    protected $mapPopup = '#map-popup-click-for-price';
 
     /**
      * Stock Availability control
@@ -173,6 +180,18 @@ class View extends Block
     public function clickAddToCart()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Set quantity and click add to cart
+     *
+     * @param int $qty
+     * @return void
+     */
+    public function setQtyAndClickAddToCart($qty)
+    {
+        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->setValue($qty);
+        $this->clickAddToCart();
     }
 
     /**
@@ -337,7 +356,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**

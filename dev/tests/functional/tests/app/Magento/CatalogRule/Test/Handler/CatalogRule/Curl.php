@@ -95,6 +95,13 @@ class Curl extends AbstractCurl implements CatalogRuleInterface
                 $data['simple_action'] = 'to_fixed';
                 break;
         }
+
+        $data['limit'] = 20;
+        $data['page'] = 1;
+        $data['rule']['conditions'][1]['aggregator'] = 'all';
+        $data['rule']['conditions'][1]['type'] = 'Magento\CatalogRule\Model\Rule\Condition\Combine';
+        $data['rule']['conditions'][1]['value']= 1;
+
         return $data;
     }
 

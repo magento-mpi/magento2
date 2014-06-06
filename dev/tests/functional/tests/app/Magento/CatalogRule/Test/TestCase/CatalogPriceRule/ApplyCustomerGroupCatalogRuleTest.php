@@ -30,7 +30,6 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      */
     public function testApplyCustomerGroupCatalogRule()
     {
-        //$this->markTestSkipped('MAGETWO-22504');
         // Create Customer
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_customer');
@@ -68,7 +67,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Add Customer Group Catalog Price Rule
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
         $catalogRulePage->open();
-        $catalogRuleGrid = $catalogRulePage->getCatalogRuleGrid();
+        $catalogRuleGrid = $catalogRulePage->getGridPageActions();
         $catalogRuleGrid->addNewCatalogRule();
 
         // Fill and Save the Form

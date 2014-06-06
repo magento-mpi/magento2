@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
@@ -46,9 +46,9 @@ class CategoryIds implements FixtureInterface
 
         if (!empty($data['category'])
             && empty($data['presets'])
-            && $data['category'] instanceof CatalogCategoryEntity
+            && $data['category'] instanceof CatalogCategory
         ) {
-            /** @var CatalogCategoryEntity $category */
+            /** @var CatalogCategory $category */
             $category = $data['category'];
             $this->data[] = [
                 'id' => $category->getId(),
@@ -56,12 +56,13 @@ class CategoryIds implements FixtureInterface
             ];
             $this->category[] = $category;
         } elseif (isset($data['presets']) && $data['presets'] !== '-') {
+
             $presets = explode(',', $data['presets']);
             foreach ($presets as $preset) {
-                $category = $fixtureFactory->createByCode('catalogCategoryEntity', ['dataSet' => $preset]);
+                $category = $fixtureFactory->createByCode('catalogCategory', ['dataSet' => $preset]);
                 $category->persist();
 
-                /** @var CatalogCategoryEntity $category */
+                /** @var CatalogCategory $category */
                 $this->data[] = [
                     'id' => $category->getId(),
                     'name' => $category->getName(),

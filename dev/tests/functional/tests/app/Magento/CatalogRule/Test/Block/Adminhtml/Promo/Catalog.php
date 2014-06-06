@@ -19,20 +19,6 @@ use Mtf\Client\Element\Locator;
 class Catalog extends Grid
 {
     /**
-     * 'Add New' catalog rule button
-     *
-     * @var string
-     */
-    protected $addNewCatalogRule = "//*[@class='page-actions']//*[@id='add']";
-
-    /**
-     * 'Apply Rules' button
-     *
-     * @var string
-     */
-    protected $applyCatalogRules = "//*[@class='page-actions']//*[@id='apply_rules']";
-
-    /**
      * An element locator which allows to select first entity in grid
      *
      * @var string
@@ -68,26 +54,6 @@ class Catalog extends Grid
     ];
 
     /**
-     * Add new catalog rule
-     *
-     * @return void
-     */
-    public function addNewCatalogRule()
-    {
-        $this->_rootElement->find($this->addNewCatalogRule, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Click "Apply Rule" button
-     *
-     * @return void
-     */
-    public function applyRules()
-    {
-        $this->_rootElement->find($this->applyCatalogRules, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
      * Return row with given catalog price rule name
      *
      * @param string $ruleName
@@ -114,11 +80,12 @@ class Catalog extends Grid
      *
      * @param array $filter
      * @param bool $isSearchable
+     * @param bool $isStrict
      * @return bool
      */
-    public function isRowVisible(array $filter, $isSearchable = false)
+    public function isRowVisible(array $filter, $isSearchable = true, $isStrict = true)
     {
         $this->search(array('name' => $filter['name']));
-        return parent::isRowVisible($filter, $isSearchable);
+        return parent::isRowVisible($filter, $isSearchable, $isStrict);
     }
 }

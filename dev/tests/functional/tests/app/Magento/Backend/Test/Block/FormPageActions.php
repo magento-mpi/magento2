@@ -101,6 +101,8 @@ class FormPageActions extends PageActions
 
     /**
      * Click on "Save and Apply" button
+     *
+     * @return void
      */
     public function saveAndApply()
     {
@@ -115,8 +117,8 @@ class FormPageActions extends PageActions
     public function save()
     {
         $this->_rootElement->find($this->saveButton)->click();
-        $this->waitForElementNotVisible($this->loader,Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld,Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 
     /**

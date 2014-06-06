@@ -91,6 +91,7 @@
                 <selector>#short_description</selector>
                 <input>textarea</input>
             </short_description>
+            <url_key></url_key>
         </fields>
     </autosettings>
     <variations>

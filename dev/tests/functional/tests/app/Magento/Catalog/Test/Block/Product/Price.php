@@ -71,7 +71,7 @@ class Price extends Block
      *
      * @var string
      */
-    protected $closeMap = '#map-popup-close';
+    protected $closeMap = '//section[@class="page main"]//div[@class="ui-dialog-buttonset"]//button';
 
     /**
      * Price from selector
@@ -238,7 +238,8 @@ class Price extends Block
      */
     public function closeMapBlock()
     {
-        $this->_rootElement->find($this->closeMap, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->closeMap, Locator::SELECTOR_XPATH)->click();
+        $this->waitForElementNotVisible($this->closeMap, Locator::SELECTOR_XPATH);
     }
 
     /**

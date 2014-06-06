@@ -32,17 +32,7 @@ class Edit extends FormTabs
         if ($replace) {
             $tabs = $this->prepareData($tabs, $replace);
         }
-        foreach ($tabs as $tabName => $tabFields) {
-            $tabElement = $this->getTabElement($tabName);
-            $this->openTab($tabName);
-            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
-            $this->updateUnassignedFields($tabElement);
-        }
-        if (!empty($this->unassignedFields)) {
-            $this->fillMissedFields($tabs);
-        }
-
-        return $this;
+        $this->fillTabs($tabs, $element);
     }
 
     /**
