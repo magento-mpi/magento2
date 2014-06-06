@@ -24,7 +24,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     protected $_productTypes = array(
         'type_id_1' => array('label' => 'label_1'),
         'type_id_2' => array('label' => 'label_2'),
-        'type_id_3' => array('label' => 'label_3', 'model' => 'some_model', 'composite' => 'some_type'),
+        'type_id_3' => array(
+            'label' => 'label_3',
+            'model' => 'some_model',
+            'composite' => 'some_type',
+            'price_model' => 'some_model'
+        ),
         'simple' => array('label' => 'label_4', 'composite' => false)
     );
 
@@ -44,18 +49,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testGetOptionArray()
     {
         $this->assertEquals($this->getOptionArray(), $this->_model->getOptionArray());
-    }
-
-    /**
-     * @return array
-     */
-    protected function getOptionArray()
-    {
-        $options = [];
-        foreach ($this->_productTypes as $typeId => $type) {
-            $options[$typeId] = __($type['label']);
-        }
-        return $options;
     }
 
     public function testGetAllOptions()
@@ -124,21 +117,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($expectedResult, $this->_model->getPriceInfo($mockedProduct));
     }
 
-    /**
-     * @return \Magento\Catalog\Model\Product
-     */
-    private function getMockedProduct()
-    {
-        $mockBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor();
-        $mock = $mockBuilder->getMock();
-
-        return $mock;
-    }
-
     public function testFactory()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject $mockedProduct */
         $mockedProduct = $this->getMockedProduct();
 
         $mockedProduct->expects($this->at(0))
@@ -158,21 +138,63 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testPriceFactory()
+    {
+        $this->assertInstanceOf(
+            '\Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price',
+            $this->_model->priceFactory('type_id_3')
+        );
+        $this->assertInstanceOf(
+            '\Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price',
+            $this->_model->priceFactory('type_id_3')
+        );
+        $this->assertInstanceOf(
+            '\Magento\Catalog\Model\Product\Type\Price',
+            $this->_model->priceFactory('type_id_1')
+        );
+    }
+
     protected function setUp()
     {
         $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $mockedPriceInfoFactory = $this->getMockedPriceInfoFactory();
         $mockedProductTypePool = $this->getMockedProductTypePool();
         $mockedConfig = $this->getMockedConfig();
+        $mockedTypePriceFactory = $this->getMockedTypePriceFactory();
 
         $this->_model = $this->_objectHelper->getObject(
             'Magento\Catalog\Model\Product\Type',
             [
                 'config' => $mockedConfig,
                 'priceInfoFactory' => $mockedPriceInfoFactory,
-                'productTypePool' => $mockedProductTypePool
+                'productTypePool' => $mockedProductTypePool,
+                'priceFactory' => $mockedTypePriceFactory
             ]
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOptionArray()
+    {
+        $options = [];
+        foreach ($this->_productTypes as $typeId => $type) {
+            $options[$typeId] = __($type['label']);
+        }
+        return $options;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product
+     */
+    private function getMockedProduct()
+    {
+        $mockBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor();
+        $mock = $mockBuilder->getMock();
+
+        return $mock;
     }
 
     /**
@@ -275,6 +297,56 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->any())
             ->method('getAll')
             ->will($this->returnValue($this->_productTypes));
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product\Type\Price\Factory
+     */
+    private function getMockedTypePriceFactory()
+    {
+        $mockedProductTypePrice = $this->getMockedProductTypePrice();
+
+        $mockBuild = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\Price\Factory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create']);
+        $mock = $mockBuild->getMockForAbstractClass();
+
+        $mock->expects($this->any())
+            ->method('create')
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['some_model', [], $this->getMockedProductTypeConfigurablePrice()],
+                        ['Magento\Catalog\Model\Product\Type\Price', [], $this->getMockedProductTypePrice()]
+                    ]
+                )
+            );
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product\Type\Price
+     */
+    private function getMockedProductTypePrice()
+    {
+        $mockBuild = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\Price')
+            ->disableOriginalConstructor();
+        $mock = $mockBuild->getMock();
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price
+     */
+    private function getMockedProductTypeConfigurablePrice()
+    {
+        $mockBuild = $this->getMockBuilder('\Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price')
+            ->disableOriginalConstructor();
+        $mock = $mockBuild->getMock();
 
         return $mock;
     }
