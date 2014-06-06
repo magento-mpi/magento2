@@ -135,6 +135,18 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set taxable amount
+     *
+     * @param float $taxableAmount
+     * @return $this
+     */
+    public function setTaxableAmount($taxableAmount)
+    {
+        $this->_set(Item::KEY_TAXABLE_AMOUNT, $taxableAmount);
+        return $this;
+    }
+
+    /**
      * Set discount amount
      *
      * @param float $discountAmount
