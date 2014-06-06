@@ -40,6 +40,18 @@
   * [#256] (https://github.com/magento/magento2/issues/256) Unused file app\code\core\Mage\Backend\view\adminhtml\store\switcher\enhanced.phtml
   * [#561] (https://github.com/magento/magento2/pull/561) Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getForeignKeys()
   * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
+* Functional test:
+  * Advanced Search
+  * Existing Customer Creation
+  * Product Attribute Creation
+  * Product Rating Creation
+  * Sales Rule Creation
+  * System Product Attribute Deletion
+  * Tax Rate Creation
+  * Tax Rule Deletion
+  * Update Category
+  * Update Category Url Rewrite
+  * Update Product Url Rewrite
 
 2.0.0.0-dev80
 =============
