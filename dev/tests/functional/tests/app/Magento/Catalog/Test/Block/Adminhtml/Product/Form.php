@@ -290,4 +290,24 @@ class Form extends FormTabs
 
         return $this;
     }
+
+    /**
+     * Get data of the tabs
+     *
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
+     */
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
+    {
+        $data = parent::getData($fixture);
+        if ($fixture->hasData('status')) {
+            $data['status'] = 'Product offline';
+            if ($this->_rootElement->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible()) {
+                $data['status'] = 'Product online';
+            }
+        }
+
+        return $data;
+    }
 }

@@ -158,5 +158,16 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'visibility' => 'Catalog, Search',
         ];
+
+        $this->_data['100_dollar_product_for_tax_rule'] = [
+            'sku' => '100_dollar_product%isolation%',
+            'name' => '100_dollar_product%isolation%',
+            'type_id' => 'simple',
+            'attribute_set_id' => 'Default',
+            'quantity_and_stock_status' => 'In Stock',
+            'qty' => 25,
+            'price' => ['value' => 100, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
+        ];
     }
 }

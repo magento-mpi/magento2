@@ -9,32 +9,30 @@
 namespace Magento\Tax\Test\TestCase;
 
 use Magento\Customer\Test\Fixture\AddressInjectable;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Tax\Test\Fixture\TaxRule;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for Update TaxRuleEntity
+ * Test Creation for Delete TaxRuleEntity
  *
  * Test Flow:
  * Preconditions:
- * 1. 1 simple product is created.
- * 2. Tax Rule is created.
+ * 1. Tax Rule is created
  *
  * Steps:
- * 1. Login to backend
- * 2. Navigate to Stores > Tax Rules
- * 3. Click Tax Rule from grid
- * 4. Edit test value(s) according to dataset.
- * 5. Click 'Save' button.
- * 6. Perform all asserts.
+ * 1. Log in as default admin user.
+ * 2. Go to Sales > Tax Rules
+ * 3. Select required tax rule from preconditions
+ * 4. Click on the "Delete Rule" button
+ * 5. Perform all assertions
  *
  * @group Tax_(CS)
- * @ZephyrId MAGETWO-20996
+ * @ZephyrId MAGETWO-20924
  */
-class UpdateTaxRuleEntityTest extends Injectable
+class DeleteTaxRuleEntityTest extends Injectable
 {
     /**
      * Tax Rule grid page
@@ -51,7 +49,7 @@ class UpdateTaxRuleEntityTest extends Injectable
     protected $taxRuleNewPage;
 
     /**
-     * Prepare data
+     * Preparing data
      *
      * @param FixtureFactory $fixtureFactory
      * @return array
@@ -69,7 +67,6 @@ class UpdateTaxRuleEntityTest extends Injectable
      *
      * @param TaxRuleIndex $taxRuleIndexPage
      * @param TaxRuleNew $taxRuleNewPage
-     * @return void
      */
     public function __inject(
         TaxRuleIndex $taxRuleIndexPage,
@@ -80,30 +77,26 @@ class UpdateTaxRuleEntityTest extends Injectable
     }
 
     /**
-     * Update Tax Rule Entity test
+     * Delete Tax Rule Entity test
      *
-     * @param TaxRule $initialTaxRule
      * @param TaxRule $taxRule
      * @param AddressInjectable $address
      * @param array $shipping
-     * @return void
      */
-    public function testUpdateTaxRule(
-        TaxRule $initialTaxRule,
+    public function testDeleteTaxRule(
         TaxRule $taxRule,
         AddressInjectable $address,
         array $shipping
     ) {
         // Precondition
-        $initialTaxRule->persist();
+        $taxRule->persist();
 
         // Steps
         $filters = [
-            'code' => $initialTaxRule->getCode(),
+            'code' => $taxRule->getCode(),
         ];
         $this->taxRuleIndexPage->open();
         $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen($filters);
-        $this->taxRuleNewPage->getTaxRuleForm()->fill($taxRule);
-        $this->taxRuleNewPage->getFormPageActions()->save();
+        $this->taxRuleNewPage->getFormPageActions()->delete();
     }
 }
