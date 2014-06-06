@@ -48,6 +48,7 @@
   * Fixed: Impossible to create customer from backend in single store mode (MAGETWO-22468)
   * Fixed: Review from backend is created with status "Guest" (MAGETWO-24066)
   * Fixed: There is ability to add image for variation(configurable product) during editing (MAGETWO-24158)
+  * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
@@ -127,7 +128,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-  
+
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
