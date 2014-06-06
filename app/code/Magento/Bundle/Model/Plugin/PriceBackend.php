@@ -19,6 +19,7 @@ class PriceBackend
      * @param Closure $proceed
      * @param \Magento\Catalog\Model\Product $product
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundValidate(
         \Magento\Catalog\Model\Product\Attribute\Backend\Price $subject,
@@ -31,4 +32,4 @@ class PriceBackend
             return $proceed($product);
         }
     }
-} 
+}

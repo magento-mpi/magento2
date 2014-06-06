@@ -25,13 +25,13 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const OPTIONS = 'options';
 
-    const IS_SYSTEM = 'is_system';
+    const SYSTEM = 'system';
 
-    const IS_VISIBLE = 'is_visible';
+    const VISIBLE = 'visible';
 
-    const IS_REQUIRED = 'is_required';
+    const REQUIRED = 'required';
 
-    const IS_USER_DEFINED = 'is_user_defined';
+    const USER_DEFINED = 'user_defined';
 
     const FRONTEND_LABEL = 'frontend_label';
 
@@ -41,38 +41,38 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
 
     const DEFAULT_VALUE = 'default_value';
 
-    const IS_UNIQUE = 'is_unique';
+    const UNIQUE = 'unique';
 
     const APPLY_TO = 'apply_to';
 
-    const IS_CONFIGURABLE = 'is_configurable';
+    const CONFIGURABLE = 'configurable';
 
-    const IS_SEARCHABLE = 'is_searchable';
+    const SEARCHABLE = 'searchable';
 
-    const IS_VISIBLE_IN_ADVANCED_SEARCH = 'is_visible_in_advanced_search';
+    const VISIBLE_IN_ADVANCED_SEARCH = 'visible_in_advanced_search';
 
-    const IS_COMPARABLE = 'is_comparable';
+    const COMPARABLE = 'comparable';
 
-    const IS_USED_FOR_PROMO_RULES = 'is_used_for_promo_rules';
+    const USED_FOR_PROMO_RULES = 'used_for_promo_rules';
 
-    const IS_VISIBLE_ON_FRONT = 'is_visible_on_front';
+    const VISIBLE_ON_FRONT = 'visible_on_front';
 
     const USED_IN_PRODUCT_LISTING = 'used_in_product_listing';
 
     const SCOPE = 'scope';
 
     // additional fields
-    const IS_WYSIWYG_ENABLED = 'is_wysiwyg_enabled';
+    const WYSIWYG_ENABLED = 'wysiwyg_enabled';
 
-    const IS_HTML_ALLOWED_ON_FRONT = 'is_html_allowed_on_front';
+    const HTML_ALLOWED_ON_FRONT = 'html_allowed_on_front';
 
     const FRONTEND_CLASS = 'frontend_class';
 
     const USED_FOR_SORT_BY = 'used_for_sort_by';
 
-    const IS_FILTERABLE = 'is_filterable';
+    const FILTERABLE = 'filterable';
 
-    const IS_FILTERABLE_IN_SEARCH = 'is_filterable_in_search';
+    const FILTERABLE_IN_SEARCH = 'filterable_in_search';
 
     const POSITION = 'position';
     /**#@-*/
@@ -102,9 +102,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsSystem()
+    public function isSystem()
     {
-        return $this->_get(self::IS_SYSTEM);
+        return $this->_get(self::SYSTEM);
     }
 
     /**
@@ -132,9 +132,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsVisible()
+    public function isVisible()
     {
-        return $this->_get(self::IS_VISIBLE);
+        return $this->_get(self::VISIBLE);
     }
 
     /**
@@ -142,9 +142,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsRequired()
+    public function isRequired()
     {
-        return $this->_get(self::IS_REQUIRED);
+        return $this->_get(self::REQUIRED);
     }
 
     /**
@@ -162,9 +162,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsUserDefined()
+    public function isUserDefined()
     {
-        return $this->_get(self::IS_USER_DEFINED);
+        return $this->_get(self::USER_DEFINED);
     }
 
     /**
@@ -212,9 +212,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsUnique()
+    public function isUnique()
     {
-        return $this->_get(self::IS_UNIQUE);
+        return $this->_get(self::UNIQUE);
     }
 
     /**
@@ -227,8 +227,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *  - 'configurable',
      *  - 'virtual',
      *  - 'bundle',
-     *  - 'downloadable',
-     *  - 'giftcard'
+     *  - 'downloadable'
      *
      * @return string[]
      */
@@ -242,9 +241,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsConfigurable()
+    public function isConfigurable()
     {
-        return $this->_get(self::IS_CONFIGURABLE);
+        return $this->_get(self::CONFIGURABLE);
     }
 
     /**
@@ -252,9 +251,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsSearchable()
+    public function isSearchable()
     {
-        return $this->_get(self::IS_SEARCHABLE);
+        return $this->_get(self::SEARCHABLE);
     }
 
     /**
@@ -262,9 +261,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsVisibleInAdvancedSearch()
+    public function isVisibleInAdvancedSearch()
     {
-        return $this->_get(self::IS_VISIBLE_IN_ADVANCED_SEARCH);
+        return $this->_get(self::VISIBLE_IN_ADVANCED_SEARCH);
     }
 
     /**
@@ -272,9 +271,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsComparable()
+    public function isComparable()
     {
-        return $this->_get(self::IS_COMPARABLE);
+        return $this->_get(self::COMPARABLE);
     }
 
     /**
@@ -282,9 +281,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsUsedForPromoRules()
+    public function isUsedForPromoRules()
     {
-        return $this->_get(self::IS_USED_FOR_PROMO_RULES);
+        return $this->_get(self::USED_FOR_PROMO_RULES);
     }
 
     /**
@@ -292,9 +291,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getIsVisibleOnFront()
+    public function isVisibleOnFront()
     {
-        return $this->_get(self::IS_VISIBLE_ON_FRONT);
+        return $this->_get(self::VISIBLE_ON_FRONT);
     }
 
     /**
@@ -332,9 +331,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsWysiwygEnabled()
+    public function isWysiwygEnabled()
     {
-        return (bool)$this->_get(self::IS_WYSIWYG_ENABLED);
+        return (bool)$this->_get(self::WYSIWYG_ENABLED);
     }
 
     /**
@@ -342,15 +341,16 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsHtmlAllowedOnFront()
+    public function isHtmlAllowedOnFront()
     {
-        return (bool)$this->_get(self::IS_HTML_ALLOWED_ON_FRONT);
+        return (bool)$this->_get(self::HTML_ALLOWED_ON_FRONT);
     }
 
     /**
      * Whether it is used for sorting in product listing
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getUsedForSortBy()
     {
@@ -362,9 +362,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsFilterable()
+    public function isFilterable()
     {
-        return (bool)$this->_get(self::IS_FILTERABLE);
+        return (bool)$this->_get(self::FILTERABLE);
     }
 
     /**
@@ -372,9 +372,9 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return bool
      */
-    public function getIsFilterableInSearch()
+    public function isFilterableInSearch()
     {
-        return (bool)$this->_get(self::IS_FILTERABLE_IN_SEARCH);
+        return (bool)$this->_get(self::FILTERABLE_IN_SEARCH);
     }
 
     /**

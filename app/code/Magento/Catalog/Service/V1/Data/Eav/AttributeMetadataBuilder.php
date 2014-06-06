@@ -76,9 +76,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isSystem
      * @return $this
      */
-    public function setIsSystem($isSystem)
+    public function setSystem($isSystem)
     {
-        return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
+        return $this->_set(AttributeMetadata::SYSTEM, $isSystem);
     }
 
     /**
@@ -120,9 +120,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $visible
      * @return $this
      */
-    public function setIsVisible($visible)
+    public function setVisible($visible)
     {
-        return $this->_set(AttributeMetadata::IS_VISIBLE, $visible);
+        return $this->_set(AttributeMetadata::VISIBLE, $visible);
     }
 
     /**
@@ -131,9 +131,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $required
      * @return $this
      */
-    public function setIsRequired($required)
+    public function setRequired($required)
     {
-        return $this->_set(AttributeMetadata::IS_REQUIRED, $required);
+        return $this->_set(AttributeMetadata::REQUIRED, $required);
     }
 
     /**
@@ -142,9 +142,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isUserDefined
      * @return $this
      */
-    public function setIsUserDefined($isUserDefined)
+    public function setUserDefined($isUserDefined)
     {
-        return $this->_set(AttributeMetadata::IS_USER_DEFINED, $isUserDefined);
+        return $this->_set(AttributeMetadata::USER_DEFINED, $isUserDefined);
     }
 
     /**
@@ -195,9 +195,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isUnique
      * @return $this
      */
-    public function setIsUnique($isUnique)
+    public function setUnique($isUnique)
     {
-        return $this->_set(AttributeMetadata::IS_UNIQUE, $isUnique);
+        return $this->_set(AttributeMetadata::UNIQUE, $isUnique);
     }
 
     /**
@@ -210,8 +210,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      *  - 'configurable',
      *  - 'virtual',
      *  - 'bundle',
-     *  - 'downloadable',
-     *  - 'giftcard'
+     *  - 'downloadable'
      *
      * @param  array|string|null $applyTo
      * @return $this
@@ -246,9 +245,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isConfigurable
      * @return $this
      */
-    public function setIsConfigurable($isConfigurable)
+    public function setConfigurable($isConfigurable)
     {
-        return $this->_set(AttributeMetadata::IS_CONFIGURABLE, $isConfigurable);
+        return $this->_set(AttributeMetadata::CONFIGURABLE, $isConfigurable);
     }
 
     /**
@@ -257,9 +256,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isSearchable
      * @return $this
      */
-    public function setIsSearchable($isSearchable)
+    public function setSearchable($isSearchable)
     {
-        return $this->_set(AttributeMetadata::IS_SEARCHABLE, $isSearchable);
+        return $this->_set(AttributeMetadata::SEARCHABLE, $isSearchable);
     }
 
     /**
@@ -268,9 +267,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isVisibleInAdvancedSearch
      * @return $this
      */
-    public function setIsVisibleInAdvancedSearch($isVisibleInAdvancedSearch)
+    public function setVisibleInAdvancedSearch($isVisibleInAdvancedSearch)
     {
-        return $this->_set(AttributeMetadata::IS_VISIBLE_IN_ADVANCED_SEARCH, $isVisibleInAdvancedSearch);
+        return $this->_set(AttributeMetadata::VISIBLE_IN_ADVANCED_SEARCH, $isVisibleInAdvancedSearch);
     }
 
     /**
@@ -279,9 +278,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isComparable
      * @return $this
      */
-    public function setIsComparable($isComparable)
+    public function setComparable($isComparable)
     {
-        return $this->_set(AttributeMetadata::IS_COMPARABLE, $isComparable);
+        return $this->_set(AttributeMetadata::COMPARABLE, $isComparable);
     }
 
     /**
@@ -290,9 +289,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isUsedForPromoRules
      * @return $this
      */
-    public function setIsUsedForPromoRules($isUsedForPromoRules)
+    public function setUsedForPromoRules($isUsedForPromoRules)
     {
-        return $this->_set(AttributeMetadata::IS_USED_FOR_PROMO_RULES, $isUsedForPromoRules);
+        return $this->_set(AttributeMetadata::USED_FOR_PROMO_RULES, $isUsedForPromoRules);
     }
 
     /**
@@ -301,9 +300,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isVisibleOnFront
      * @return $this
      */
-    public function setIsVisibleOnFront($isVisibleOnFront)
+    public function setVisibleOnFront($isVisibleOnFront)
     {
-        return $this->_set(AttributeMetadata::IS_VISIBLE_ON_FRONT, $isVisibleOnFront);
+        return $this->_set(AttributeMetadata::VISIBLE_ON_FRONT, $isVisibleOnFront);
     }
 
     /**
@@ -345,9 +344,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isFilterable
      * @return $this
      */
-    public function setIsFilterable($isFilterable)
+    public function setFilterable($isFilterable)
     {
-        return $this->_set(AttributeMetadata::IS_FILTERABLE, (bool)$isFilterable);
+        return $this->_set(AttributeMetadata::FILTERABLE, (bool)$isFilterable);
     }
 
     /**
@@ -356,9 +355,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isFilterableInSearch
      * @return $this
      */
-    public function setIsFilterableInSearch($isFilterableInSearch)
+    public function setFilterableInSearch($isFilterableInSearch)
     {
-        return $this->_set(AttributeMetadata::IS_FILTERABLE_IN_SEARCH, (bool)$isFilterableInSearch);
+        return $this->_set(AttributeMetadata::FILTERABLE_IN_SEARCH, (bool)$isFilterableInSearch);
     }
 
     /**
@@ -378,9 +377,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isWysiwygEnabled
      * @return $this
      */
-    public function setIsWysiwygEnabled($isWysiwygEnabled)
+    public function setWysiwygEnabled($isWysiwygEnabled)
     {
-        return $this->_set(AttributeMetadata::IS_WYSIWYG_ENABLED, (bool)$isWysiwygEnabled);
+        return $this->_set(AttributeMetadata::WYSIWYG_ENABLED, (bool)$isWysiwygEnabled);
     }
 
     /**
@@ -389,9 +388,9 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
      * @param  bool $isHtmlAllowedOnFront
      * @return $this
      */
-    public function setIsHtmlAllowedOnFront($isHtmlAllowedOnFront)
+    public function setHtmlAllowedOnFront($isHtmlAllowedOnFront)
     {
-        return $this->_set(AttributeMetadata::IS_HTML_ALLOWED_ON_FRONT, (bool)$isHtmlAllowedOnFront);
+        return $this->_set(AttributeMetadata::HTML_ALLOWED_ON_FRONT, (bool)$isHtmlAllowedOnFront);
     }
 
     /**

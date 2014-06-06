@@ -24,6 +24,11 @@ class ProductServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products';
 
+    private $productData = [
+        [Product::SKU => 'sku1', Product::NAME => 'name1', Product::TYPE_ID => 'simple', Product::PRICE => 3.62],
+        [Product::SKU => 'sku2', Product::NAME => 'name2', Product::TYPE_ID => 'simple', Product::PRICE => 3.62],
+    ];
+
     /**
      * @return array
      */
@@ -68,20 +73,7 @@ class ProductServiceTest extends WebapiAbstract
     public function testDelete()
     {
         $productData = $this->_createProduct($this->getSimpleProductData());
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[Product::SKU],
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'delete'
-            ]
-        ];
-
-        $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productData[Product::SKU]]) : $this->_webApiCall($serviceInfo);
+        $response = $this->_deleteProduct($productData[Product::SKU]);
         $this->assertTrue($response);
     }
 
@@ -125,9 +117,12 @@ class ProductServiceTest extends WebapiAbstract
     /**
      * @dataProvider searchDataProvider
      * @depends      testCreate
+     * @depends      testDelete
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
+        $this->_createProduct($this->getSimpleProductData($this->productData[0]));
+        $this->_createProduct($this->getSimpleProductData($this->productData[1]));
         list($sortField, $sortValue) = $sortData;
         if ($sortValue === SearchCriteria::SORT_DESC && TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $this->markTestSkipped('Sorting doesn\'t work in SOAP');
@@ -136,11 +131,15 @@ class ProductServiceTest extends WebapiAbstract
         $searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
+        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        $filterBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Service\V1\Data\FilterBuilder'
+        );
         foreach ($filterGroups as $filterGroup) {
             $group = array();
             foreach ($filterGroup as $filter) {
                 list($filterKey, $filterValue) = $filter;
-                $group[] = (new FilterBuilder())
+                $group[] = $filterBuilder
                     ->setField($filterKey)
                     ->setValue($filterValue)
                     ->create();
@@ -171,6 +170,8 @@ class ProductServiceTest extends WebapiAbstract
         foreach ($expected as $key => $productSku) {
             $this->assertEquals($productSku, $searchResults['items'][$key][Product::SKU]);
         }
+        $this->_deleteProduct($this->productData[0][Product::SKU]);
+        $this->_deleteProduct($this->productData[1][Product::SKU]);
     }
 
     /**
@@ -180,81 +181,70 @@ class ProductServiceTest extends WebapiAbstract
      */
     public function searchDataProvider()
     {
-        $product1 = $this->_createProduct($this->getSimpleProductData());
-        $product2 = $this->_createProduct($this->getSimpleProductData());
         return array(
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Product::SKU, $product1[Product::SKU]] //Filters(OR)
+                        [Product::SKU, $this->productData[0][Product::SKU]] //Filters(OR)
                     ],
                 ],
-                [0 => $product1[Product::SKU]],
+                [0 => $this->productData[0][Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Product::SKU, $product1[Product::SKU]],
+                        [Product::SKU, $this->productData[0][Product::SKU]],
                     ],
                     [
-                        [Product::NAME, $product1[Product::NAME]],
+                        [Product::NAME, $this->productData[0][Product::NAME]],
                     ],
                     [
-                        [Product::VISIBILITY, $product1[Product::VISIBILITY]],
+                        [Product::TYPE_ID, $this->productData[0][Product::TYPE_ID]],
                     ],
                     [
-                        [Product::TYPE_ID, $product1[Product::TYPE_ID]],
+                        [Product::PRICE, $this->productData[0][Product::PRICE]],
                     ],
-                    [
-                        [Product::PRICE, $product1[Product::PRICE]],
-                    ],
-                    [
-                        [Product::STATUS, $product1[Product::STATUS]],
-                    ],
-                    [
-                        [Product::TYPE_ID, $product1[Product::TYPE_ID]],
-                    ]
                 ],
-                [0 => $product1[Product::SKU]],
+                [0 => $this->productData[0][Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [
                     [
-                        [Product::SKU, $product1[Product::SKU]],
-                        [Product::SKU, $product2[Product::SKU]]
+                        [Product::SKU, $this->productData[0][Product::SKU]],
+                        [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                 ],
-                [0 => $product2[Product::SKU], 1 => $product1[Product::SKU]],
+                [0 => $this->productData[1][Product::SKU], 1 => $this->productData[0][Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_DESC]
             ),
             array(
                 [
                     [
-                        [Product::SKU, $product1[Product::SKU]],
-                        [Product::SKU, $product2[Product::SKU]]
+                        [Product::SKU, $this->productData[0][Product::SKU]],
+                        [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                 ],
-                [0 => $product1[Product::SKU], 1 => $product2[Product::SKU]],
+                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [
                     [
-                        [Product::SKU, $product1[Product::SKU]],
-                        [Product::SKU, $product2[Product::SKU]],
+                        [Product::SKU, $this->productData[0][Product::SKU]],
+                        [Product::SKU, $this->productData[1][Product::SKU]],
                         [Product::SKU, 'N']
                     ],
                 ],
-                [0 => $product1[Product::SKU], 1 => $product2[Product::SKU]],
+                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]],
                 [Product::ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Product::SKU, $product1[Product::SKU]], //Filters(OR)
-                        [Product::SKU, $product2[Product::SKU]]
+                        [Product::SKU, $this->productData[0][Product::SKU]], //Filters(OR)
+                        [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                     [
                         [Product::SKU, 'N']
@@ -266,11 +256,17 @@ class ProductServiceTest extends WebapiAbstract
         );
     }
 
-    protected function getSimpleProductData()
+    /**
+     * Get Simple Product Data
+     *
+     * @param array $productData
+     * @return array
+     */
+    protected function getSimpleProductData($productData = array())
     {
         return array(
-            Product::SKU => uniqid('sku-', true),
-            Product::NAME => uniqid('name-', true),
+            Product::SKU => isset($productData[Product::SKU]) ? $productData[Product::SKU] : uniqid('sku-', true),
+            Product::NAME => isset($productData[Product::NAME]) ? $productData[Product::NAME] : uniqid('sku-', true),
             Product::VISIBILITY => 4,
             Product::TYPE_ID => 'simple',
             Product::PRICE => 3.62,
@@ -292,6 +288,30 @@ class ProductServiceTest extends WebapiAbstract
         $requestData = ['product' => $product];
         $product[Product::SKU] = $this->_webApiCall($serviceInfo, $requestData);
         return $product;
+    }
+
+    /**
+     * Delete Product
+     *
+     * @param string $sku
+     * @return boolean
+     */
+    protected function _deleteProduct($sku)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'delete'
+            ]
+        ];
+
+        return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
+            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
     }
 
     /**

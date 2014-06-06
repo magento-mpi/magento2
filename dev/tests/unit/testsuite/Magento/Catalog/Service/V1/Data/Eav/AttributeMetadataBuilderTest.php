@@ -70,11 +70,11 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
             ['setAttributeCode', 'code', 'getAttributeCode'],
             ['setFrontendInput', '<br>', 'getFrontendInput'],
             ['setValidationRules', $this->validationRules, 'getValidationRules'],
-            ['setIsSystem', true, 'getIsSystem'],
-            ['setIsVisible', true, 'getIsVisible'],
-            ['setIsRequired', true, 'getIsRequired'],
+            ['setSystem', true, 'isSystem'],
+            ['setVisible', true, 'isVisible'],
+            ['setRequired', true, 'isRequired'],
             ['setOptions', $this->optionRules, 'getOptions'],
-            ['setIsUserDefined', false, 'getIsUserDefined'],
+            ['setUserDefined', false, 'isUserDefined'],
             ['setFrontendLabel', 'Label', 'getFrontendLabel'],
             ['setFrontendClass', 'Class', 'getFrontendClass'],
             ['setNote', 'Text Note', 'getNote'],
@@ -125,13 +125,13 @@ class AttributeMetadataBuilderTest extends \PHPUnit_Framework_TestCase
             AttributeMetadata::OPTIONS => $this->optionRules,
             AttributeMetadata::VALIDATION_RULES => $this->validationRules,
             'note' => $textNote = 'Text Note',
-            'is_visible' => $visible = true,
+            'visible' => $visible = true,
             'some_key' => 'some_value',
         );
 
         $attributeData = $this->attributeMetadataBuilder->populateWithArray($data)->create();
         $this->assertEquals($textNote, $attributeData->getNote());
-        $this->assertEquals($visible, $attributeData->getIsVisible());
+        $this->assertEquals($visible, $attributeData->isVisible());
         $this->assertEquals($data[AttributeMetadata::OPTIONS], $attributeData->getOptions());
         $this->assertEquals($data[AttributeMetadata::VALIDATION_RULES], $attributeData->getValidationRules());
         $this->assertArrayNotHasKey('some_key', $attributeData->__toArray());

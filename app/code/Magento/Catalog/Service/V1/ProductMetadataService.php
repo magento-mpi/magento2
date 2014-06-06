@@ -139,9 +139,6 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             ? $attribute->getSource()->getAllOptions() : array();
         $data[AttributeMetadata::VALIDATION_RULES] = $attribute->getValidateRules();
 
-        //fill isSystem filed
-        $data[AttributeMetadata::IS_SYSTEM] = $attribute->getIsSystem();
-
         // fill scope
         $data[AttributeMetadata::SCOPE] = $attribute->isScopeGlobal()
             ? 'global' : ($attribute->isScopeWebsite() ? 'website' : 'store');
@@ -154,9 +151,9 @@ class ProductMetadataService implements ProductMetadataServiceInterface
             )
         );
         if (is_array($attribute->getStoreLabels())) {
-            foreach ($attribute->getStoreLabels() as $store_id => $label) {
+            foreach ($attribute->getStoreLabels() as $storeId => $label) {
                 $data[AttributeMetadata::FRONTEND_LABEL][] = array(
-                    'store_id' => $store_id,
+                    'store_id' => $storeId,
                     'label' => $label
                 );
             }
