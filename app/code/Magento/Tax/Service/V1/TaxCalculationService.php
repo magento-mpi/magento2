@@ -280,12 +280,21 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Add row total item amount to subtotal
      *
-     * @param TaxDetails $taxDetails
+     * @param array $taxDetailsData
      * @param TaxDetailsItem $item
-     * @return TaxDetails
+     * @return array
      */
-    protected function addSubtotalAmount(TaxDetails $taxDetails, TaxDetailsItem $item)
+    protected function addSubtotalAmount($taxDetailsData, TaxDetailsItem $item)
     {
+        $taxDetailsData[TaxDetails::KEY_SUBTOTAL]
+            = $taxDetailsData[TaxDetails::KEY_SUBTOTAL] + $item->getRowTotal();
 
+        $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT]
+            = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getTaxAmount();
+
+        $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT]
+            = $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT] + $item->getDiscountAmount();
+
+        return $taxDetailsData;
     }
 }
