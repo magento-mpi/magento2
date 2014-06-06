@@ -36,8 +36,8 @@ class PriceModifier
         }
         if ($groupPriceQty == count($prices)) {
             throw new NoSuchEntityException(
-                "Product hasn't group price with such data: customerGroupId = '$customerGroupId',
-                 website = $websiteId."
+                "Product hasn't group price with such data: customerGroupId = '$customerGroupId',"
+                 . "website = $websiteId."
             );
         }
         $product->setData('group_price', $prices);
@@ -77,8 +77,8 @@ class PriceModifier
 
         if ($tierPricesQty == count($prices)) {
             throw new NoSuchEntityException(
-                "Product hasn't group price with such data: customerGroupId = '$customerGroupId',
-                 website = $websiteId, qty = $qty"
+                "Product hasn't group price with such data: customerGroupId = '$customerGroupId',"
+                 . "website = $websiteId, qty = $qty"
             );
         }
         $product->setData('tier_price', $prices);
