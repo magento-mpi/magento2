@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
-use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
 /**
  * @package Magento\Catalog\Model\Product
@@ -22,6 +22,7 @@ class Condition extends \Magento\Framework\Object implements \Magento\Catalog\Mo
 {
     /**
      * @param AbstractCollection $collection
+     *
      * @return $this
      */
     public function applyToCollection($collection)
@@ -38,6 +39,7 @@ class Condition extends \Magento\Framework\Object implements \Magento\Catalog\Mo
 
     /**
      * @param AdapterInterface $dbAdapter
+     *
      * @return Select|string
      */
     public function getIdsSelect($dbAdapter)
