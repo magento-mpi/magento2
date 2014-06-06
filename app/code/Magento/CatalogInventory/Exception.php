@@ -7,6 +7,6 @@
  */
 namespace Magento\CatalogInventory;
 
-class Exception extends \Zend_Exception
+class Exception extends \Exception
 {
 }

@@ -2,12 +2,17 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\CatalogInventory\Model\Indexer;
 
+/**
+ * @TODO rename NewStock to Stock after removing the old Stock Indexer
+ */
 class NewStock implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
 {
     /**

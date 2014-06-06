@@ -28,7 +28,7 @@ class RowsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\CatalogInventory\Exception
-     * @expectedExceptionMessage Bad value was supplied.
+     * @expectedExceptionMessage Could not rebuild index for empty products array
      */
     public function testEmptyIds()
     {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,7 @@ class Processor
     /**
      * Indexer ID
      */
-    const INDEXER_ID = 'catalog_product_stock';
+    const INDEXER_ID = 'cataloginventory_stock';
 
     /**
      * @var \Magento\Indexer\Model\IndexerInterface

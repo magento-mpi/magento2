@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,9 +25,13 @@ class Rows extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
      */
     public function execute($ids)
     {
-        if (empty($ids)) {
-            throw new \Magento\CatalogInventory\Exception(__('Bad value was supplied.'));
+        try {
+            if (empty($ids)) {
+                throw new \Magento\CatalogInventory\Exception(__('Could not rebuild index for empty products array'));
+            }
+            $this->_logger->log('Rows reindex for products - ' . implode(",", $ids) . '');
+        } catch (\Exception $e) {
+            throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
         }
-        $this->_logger->log('Rows reindex for products - ' . implode(",", $ids) . '');
     }
 }
