@@ -109,6 +109,7 @@ class Observer
      * @param Stock\Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param Stock\ItemFactory $stockItemFactory
+     * @param StockFactory $stockFactory
      * @param Stock\ItemRegistry $stockItemRegistry
      */
     public function __construct(
@@ -120,6 +121,7 @@ class Observer
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        StockFactory $stockFactory,
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
     ) {
         $this->_priceIndexer = $priceIndexer;
@@ -130,6 +132,7 @@ class Observer
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_stockItemFactory = $stockItemFactory;
+        $this->_stockFactory = $stockFactory;
         $this->stockItemRegistry = $stockItemRegistry;
     }
 
