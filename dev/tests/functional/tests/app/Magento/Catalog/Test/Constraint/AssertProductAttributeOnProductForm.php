@@ -14,7 +14,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Catalog\Test\Fixture\CatalogProductTemplate;
+use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
@@ -40,7 +40,7 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductSetIndex $productSet
      * @param CatalogProductSetEdit $productSetEdit
-     * @param CatalogProductTemplate $productTemplate
+     * @param CatalogAttributeSet $productTemplate
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductAttribute $attribute
      * @param CatalogProductEdit $productEdit
@@ -53,7 +53,7 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
         FixtureFactory $fixtureFactory,
         CatalogProductSetIndex $productSet,
         CatalogProductSetEdit $productSetEdit,
-        CatalogProductTemplate $productTemplate,
+        CatalogAttributeSet $productTemplate,
         CatalogProductIndex $productGrid,
         CatalogProductAttribute $attribute,
         CatalogProductEdit $productEdit,

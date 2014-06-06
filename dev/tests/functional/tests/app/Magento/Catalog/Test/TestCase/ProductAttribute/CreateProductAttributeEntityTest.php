@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
-use Magento\Catalog\Test\Fixture\CatalogProductTemplate;
 use Mtf\TestCase\Injectable;
+use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
@@ -36,7 +36,7 @@ class CreateProductAttributeEntityTest extends Injectable
      * @param CatalogProductAttribute $attribute
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
-     * @param CatalogProductTemplate $productTemplate
+     * @param CatalogAttributeSet $productTemplate
      * @param string $product
      * @return void
      */
@@ -44,7 +44,7 @@ class CreateProductAttributeEntityTest extends Injectable
         CatalogProductAttribute $attribute,
         CatalogProductAttributeIndex $attributeIndex,
         CatalogProductAttributeNew $attributeNew,
-        CatalogProductTemplate $productTemplate,
+        CatalogAttributeSet $productTemplate,
         $product
     ) {
         //Precondition

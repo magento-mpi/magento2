@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Handler\CatalogProductTemplate;
+namespace Magento\Catalog\Test\Handler\CatalogAttributeSet;
 
 use Mtf\Handler\HandlerInterface;
 
 /**
  * Interface CatalogCategoryEntityInterface
  */
-interface CatalogProductTemplateInterface extends HandlerInterface
+interface CatalogAttributeSetInterface extends HandlerInterface
 {
     //
 }

@@ -14,17 +14,17 @@ use Mtf\Fixture\InjectableFixture;
  * Class CatalogProductTemplate
  * Product Template fixture
  */
-class CatalogProductTemplate extends InjectableFixture
+class CatalogAttributeSet extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogProductTemplate';
+    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogAttributeSet';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogProductTemplate\CatalogProductTemplateInterface';
+    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogAttributeSet\CatalogAttributeSetInterface';
 
     protected $defaultDataSet = [
     ];

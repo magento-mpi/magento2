@@ -14,7 +14,7 @@ use Mtf\Repository\AbstractRepository;
  * Class CatalogProductTemplate
  * Data for creation Product Template
  */
-class CatalogProductTemplate extends AbstractRepository
+class CatalogAttributeSet extends AbstractRepository
 {
     /**
      * Construct
