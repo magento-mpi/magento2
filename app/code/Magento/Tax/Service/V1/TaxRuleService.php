@@ -147,7 +147,10 @@ class TaxRuleService implements TaxRuleServiceInterface
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxRule::PRIORITY]);
         }
         if (!\Zend_Validate::is(trim($taxRule->getPriority()), 'GreaterThan', [-1])) {
-            $exception->addError(InputException::INVALID_FIELD_MIN_VALUE, ['fieldName' => TaxRule::PRIORITY]);
+            $exception->addError(
+                InputException::INVALID_FIELD_MIN_VALUE,
+                ['fieldName' => TaxRule::PRIORITY, 'value' => $taxRule->getPriority(), 'minValue' => 0]
+            );
         }
 
         // Code is required
