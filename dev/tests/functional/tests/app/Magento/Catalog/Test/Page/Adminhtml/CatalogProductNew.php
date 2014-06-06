@@ -55,12 +55,6 @@ class CatalogProductNew extends BackendPage
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
-        'searchAttributeForm' => [
-            'name' => 'searchAttributeForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormAttributeSearch',
-            'locator' => '#product-attribute-search-container .action-dropdown.active .dropdown-menu',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**
@@ -139,13 +133,5 @@ class CatalogProductNew extends BackendPage
     public function switchToMainPage()
     {
         $this->_browser->switchToFrame();
-    }
-
-    /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormAttributeSearch
-     */
-    public function getSearchAttributeForm()
-    {
-        return $this->getBlockInstance('searchAttributeForm');
     }
 }
