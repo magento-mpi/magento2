@@ -124,5 +124,6 @@ return array(
     ['Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create\PayflowDirect'],
     ['Magento\PbridgePaypal\Block\Checkout\Payment\PayflowDirect'],
     ['Magento\PbridgePaypal\Model\Payment\Method\PayflowDirect'],
-    ['Magento\PbridgePaypal\Model\Payment\Method\Payflow']
+    ['Magento\PbridgePaypal\Model\Payment\Method\Payflow'],
+    array('Magento\SalesRule\Helper\Data')
 );

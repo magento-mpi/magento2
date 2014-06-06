@@ -34,6 +34,20 @@
   * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
   * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
   * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
+  * Fixed: Adding Customer Review: error in system.log (MAGETWO-3674)
+  * Fixed: 'Manage Stock' is reset to 'No' if 'Stock Availability' option has been changed (MAGETWO-10610)
+  * Fixed: 'Recurring Profile' section isn't updated after changing product template (MAGETWO-10727)
+  * Fixed: Fatal error appears on attempt to add product to the cart when FPT is enabled in specific case (MAGETWO-14725)
+  * Fixed: Back in stock product alerts emails don't show HTML correctly (MAGETWO-17265)
+  * Fixed: Redirect to frontend on refresh Statistic Page if Add Store Code to Urls = yes (MAGETWO-18797)
+  * Fixed: Price as configured doesn't include chosen bundle options on map popup (MAGETWO-19634)
+  * Fixed: Wrong allowed countries list in checkout (MAGETWO-21001)
+  * Fixed: Configurable product displays in layered navigation with disabled associated simple products (MAGETWO-21017)
+  * Fixed: Configurable product looses his variations after "Save and duplicate action" (MAGETWO-21165)
+  * Fixed: Impossible to import Product Custom Options from product page and custom options aren't duplicated correct via "Save and Duplicate" action (MAGETWO-21774)
+  * Fixed: Impossible to create customer from backend in single store mode (MAGETWO-22468)
+  * Fixed: Review from backend is created with status "Guest" (MAGETWO-24066)
+  * Fixed: There is ability to add image for variation(configurable product) during editing (MAGETWO-24158)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
