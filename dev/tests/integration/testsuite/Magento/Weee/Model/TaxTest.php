@@ -33,7 +33,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $attributeFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', [], [], '', false);
         $attributeFactory->expects($this->any())->method('create')->will($this->returnValue($attribute));
         $this->_model = Bootstrap::getObjectManager()->create(
-            'Magento\Weee\Model\Tax', ['weeeData' => $helper, 'attributeFactory' => $attributeFactory]
+            'Magento\Weee\Model\Tax',
+            ['weeeHelper' => $helper, 'attributeFactory' => $attributeFactory]
         );
     }
 
