@@ -48,5 +48,9 @@ class TaxClass extends AbstractRepository
             'class_type' => 'PRODUCT',
             'id' => '0',
         ];
+
+        $this->_data['all'] = [
+            'class_name' => 'all',
+        ];
     }
 }

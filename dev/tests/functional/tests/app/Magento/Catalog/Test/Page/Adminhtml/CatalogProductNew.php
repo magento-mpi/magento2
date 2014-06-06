@@ -66,8 +66,10 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
+     * Page initialization
      *
      * @param FixtureInterface $fixture
+     * @return void
      */
     public function init(FixtureInterface $fixture)
     {

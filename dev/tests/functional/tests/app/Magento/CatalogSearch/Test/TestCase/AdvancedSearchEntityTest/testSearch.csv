@@ -1,4 +1,4 @@
-"products/simple_1";"products/simple_2";"productSearch/data/name";"productSearch/data/sku";"productSearch/data/description";"productSearch/data/short_description";"productSearch/data/price/value/price_from";"productSearch/data/price/value/price_to";"productSearch/data/tax_class_id";"constraint"
+"products/simple_1";"products/simple_2";"productSearch/data/name";"productSearch/data/sku";"productSearch/data/description";"productSearch/data/short_description";"productSearch/data/price/value/price_from";"productSearch/data/price/value/price_to";"productSearch/data/tax_class_id/dataSet";"constraint"
 "Yes";"-";"abc_dfj";"abc_dfj";"adc_Full";"abc_short";49;500;"Taxable Goods";"assertAdvancedSearchProductsResult"
 "Yes";"-";"abc";"-";"-";"-";"-";"-";"all";"assertAdvancedSearchProductsResult"
 "-";"Yes";"adc_123";"-";"-";"-";"-";"-";"all";"assertAdvancedSearchProductsResult"

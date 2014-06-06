@@ -114,7 +114,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'adc_123',
             'sku' => 'adc_123',
             'price' => ['value' => 100.00, 'preset' => '-'],
-            'tax_class_id' => 'None',
+            'tax_class_id' => ['dataSet' => 'None'],
             'quantity_and_stock_status' => [
                 'qty' => 666,
                 'is_in_stock' => 'Yes',
@@ -138,7 +138,7 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'abc_dfj',
             'sku' => 'abc_dfj',
             'price' => ['value' => 50.00, 'preset' => '-'],
-            'tax_class_id' => 'Taxable Goods',
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'quantity_and_stock_status' => [
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
