@@ -95,8 +95,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->calculator->setCustomerData($quoteDetails->getCustomer());
 
         $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId);
-        $storeRequest = $this->getStoreTaxRequest($storeId);
         if ($this->config->priceIncludesTax($storeId)) {
+            $storeRequest = $this->getStoreTaxRequest($storeId);
             $classIds = [];
             foreach ($items as $item) {
                 if ($item->getTaxClassId()) {
@@ -110,13 +110,14 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $addressRequest->setSameRateAsStore(true);
             } else {
                 $addressRequest->setSameRateAsStore(
-                    $this->calculator->compareRequests($storeRequest, $request)
+                    $this->calculator->compareRequests($storeRequest, $addressRequest)
                 );
             }
-        } else {
+        }
+        if (!$addressRequest->getSameRateAsStore()) {
             // Check current request individually
-            $rate = $this->calculator->getRate($request);
-            $storeRate = $this->calculator->getStoreRate($request, $storeId);
+            $rate = $this->calculator->getRate($addressRequest);
+            $storeRate = $this->calculator->getStoreRate($addressRequest, $storeId);
             $addressRequest->setSameRateAsStore($rate == $storeRate);
         }
 
