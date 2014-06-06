@@ -15,13 +15,16 @@ $minProduct = $this->getSaleableItem()
     ->getPriceInfo()
     ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
     ->getMinProduct();
-$amountRender = $this->getRendererPool()
-    ->createAmountRender(
-        $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
-        $minProduct,
-        $minProduct->getPriceInfo()->getPrice('final_price'),
-        []
-    );
+
+if ($minProduct) {
+    $amountRender = $this->getRendererPool()
+        ->createAmountRender(
+            $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
+            $minProduct,
+            $minProduct->getPriceInfo()->getPrice('final_price'),
+            []
+        );
+}
 ?>
 <div class="price-box" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
     <?php if (\Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW != $this->getZone()): ?>
