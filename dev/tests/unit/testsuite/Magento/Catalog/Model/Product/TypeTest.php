@@ -31,19 +31,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    protected function setUp()
-    {
-        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
-
-        $config->expects($this->any())->method('getAll')->will($this->returnValue($this->_productTypes));
-
-        $this->_model = $this->_objectHelper->getObject(
-            'Magento\Catalog\Model\Product\Type',
-            array('config' => $config)
-        );
-    }
-
     public function testGetTypes()
     {
         $property = new \ReflectionProperty($this->_model, '_types');
@@ -117,5 +104,18 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $expected['type_id_3'] = $options['type_id_3'];
 
         $this->assertEquals($expected, $this->_model->getTypesByPriority());
+    }
+
+    protected function setUp()
+    {
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
+
+        $config->expects($this->any())->method('getAll')->will($this->returnValue($this->_productTypes));
+
+        $this->_model = $this->_objectHelper->getObject(
+            'Magento\Catalog\Model\Product\Type',
+            array('config' => $config)
+        );
     }
 }
