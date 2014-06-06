@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Framework\Object;
+
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +25,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         'type_id_1' => array('label' => 'label_1'),
         'type_id_2' => array('label' => 'label_2'),
         'type_id_3' => array('label' => 'label_3', 'model' => 'some_model', 'composite' => 'some_type'),
-        'type_id_4' => array('label' => 'label_4', 'composite' => false)
+        'simple' => array('label' => 'label_4', 'composite' => false)
     );
 
     /**
@@ -86,7 +88,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $options = $this->getOptionArray();
         $this->assertEquals($options['type_id_3'], $this->_model->getOptionText('type_id_3'));
         $this->assertEquals($options['type_id_1'], $this->_model->getOptionText('type_id_1'));
-        $this->assertNotEquals($options['type_id_1'], $this->_model->getOptionText('type_id_4'));
+        $this->assertNotEquals($options['type_id_1'], $this->_model->getOptionText('simple'));
         $this->assertNull($this->_model->getOptionText('not_exist'));
     }
 
@@ -107,7 +109,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $options[$typeId] = $type;
         }
 
-        $expected['type_id_4'] = $options['type_id_4'];
+        $expected['simple'] = $options['simple'];
         $expected['type_id_2'] = $options['type_id_2'];
         $expected['type_id_1'] = $options['type_id_1'];
         $expected['type_id_3'] = $options['type_id_3'];
@@ -115,16 +117,165 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->_model->getTypesByPriority());
     }
 
+    public function testGetPriceInfo()
+    {
+        $mockedProduct = $this->getMockedProduct();
+        $expectedResult = '\Magento\Framework\Pricing\PriceInfoInterface';
+        $this->assertInstanceOf($expectedResult, $this->_model->getPriceInfo($mockedProduct));
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product
+     */
+    private function getMockedProduct()
+    {
+        $mockBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor();
+        $mock = $mockBuilder->getMock();
+
+        return $mock;
+    }
+
+    public function testFactory()
+    {
+        /** @var \PHPUnit_Framework_MockObject_MockObject $mockedProduct */
+        $mockedProduct = $this->getMockedProduct();
+
+        $mockedProduct->expects($this->at(0))
+            ->method('getTypeId')
+            ->will($this->returnValue('type_id_1'));
+        $mockedProduct->expects($this->at(1))
+            ->method('getTypeId')
+            ->will($this->returnValue('type_id_3'));
+
+        $this->assertInstanceOf(
+            '\Magento\Catalog\Model\Product\Type\Simple',
+            $this->_model->factory($mockedProduct)
+        );
+        $this->assertInstanceOf(
+            '\Magento\Catalog\Model\Product\Type\Virtual',
+            $this->_model->factory($mockedProduct)
+        );
+    }
+
     protected function setUp()
     {
         $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
-
-        $config->expects($this->any())->method('getAll')->will($this->returnValue($this->_productTypes));
+        $mockedPriceInfoFactory = $this->getMockedPriceInfoFactory();
+        $mockedProductTypePool = $this->getMockedProductTypePool();
+        $mockedConfig = $this->getMockedConfig();
 
         $this->_model = $this->_objectHelper->getObject(
             'Magento\Catalog\Model\Product\Type',
-            array('config' => $config)
+            [
+                'config' => $mockedConfig,
+                'priceInfoFactory' => $mockedPriceInfoFactory,
+                'productTypePool' => $mockedProductTypePool
+            ]
         );
+    }
+
+    /**
+     * @return \Magento\Framework\Pricing\PriceInfo\Factory
+     */
+    private function getMockedPriceInfoFactory()
+    {
+        $mockedPriceInfoInterface = $this->getMockedPriceInfoInterface();
+
+        $mockBuilder = $this->getMockBuilder('\Magento\Framework\Pricing\PriceInfo\Factory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create']);
+        $mock = $mockBuilder->getMock();
+
+        $mock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($mockedPriceInfoInterface));
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Framework\Pricing\PriceInfoInterface
+     */
+    private function getMockedPriceInfoInterface()
+    {
+        $mockBuilder = $this->getMockBuilder('\Magento\Framework\Pricing\PriceInfoInterface')
+            ->disableOriginalConstructor();
+        $mock = $mockBuilder->getMockForAbstractClass();
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product\Type\Pool
+     */
+    private function getMockedProductTypePool()
+    {
+        $mockBuild = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\Pool')
+            ->disableOriginalConstructor()
+            ->setMethods(['get']);
+        $mock = $mockBuild->getMock();
+
+        $mock->expects($this->any())
+            ->method('get')
+            ->will(
+                $this->returnValueMap(
+                    [
+                        ['some_model', [], $this->getMockedProductTypeVirtual()],
+                        ['Magento\Catalog\Model\Product\Type\Simple', [], $this->getMockedProductTypeSimple()]
+                    ]
+                )
+            );
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product\Type\Virtual
+     */
+    private function getMockedProductTypeVirtual()
+    {
+        $mockBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\Virtual')
+            ->disableOriginalConstructor()
+            ->setMethods(['setConfig']);
+        $mock = $mockBuilder->getMock();
+
+        $mock->expects($this->any())
+            ->method('setConfig');
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\Product\Type\Simple
+     */
+    private function getMockedProductTypeSimple()
+    {
+        $mockBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\Simple')
+            ->disableOriginalConstructor()
+            ->setMethods(['setConfig']);
+        $mock = $mockBuilder->getMock();
+
+        $mock->expects($this->any())
+            ->method('setConfig');
+
+        return $mock;
+    }
+
+    /**
+     * @return \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    private function getMockedConfig()
+    {
+        $mockBuild = $this->getMockBuilder('\Magento\Catalog\Model\ProductTypes\ConfigInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getAll']);
+        $mock = $mockBuild->getMockForAbstractClass();
+
+        $mock->expects($this->any())
+            ->method('getAll')
+            ->will($this->returnValue($this->_productTypes));
+
+        return $mock;
     }
 }
