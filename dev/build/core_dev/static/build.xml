@@ -35,16 +35,20 @@
     </target>
 
     <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
+        <condition property="env.bamboo_file_formats" value="php,phtml">
+            <not><isset property="env.bamboo_file_formats"/></not>
+        </condition>
         <script language="javascript"><![CDATA[
             var currentBranch = project.getProperty('env.bamboo_repository_git_branch');
             var currentRepo = project.getProperty('env.bamboo_repository_git_repositoryUrl');
             var additionalOptions = project.getProperty('env.bamboo_additional_options');
-            var disableIncrementalBuild = project.getProperty('env.bamboo_disable_incremental_build');
+            var fileFormats = project.getProperty('env.bamboo_file_formats');
+            var incrementalBuild = project.getProperty('env.bamboo_incremental_build');
 
             var parts = currentRepo.split("/");
             var teamRepo = parts[parts.length - 2];
 
-            if (!disableIncrementalBuild && teamRepo != 'magento2') {
+            if (incrementalBuild != 'disable' && teamRepo != 'magento2') {
                 //get changelist from github
                 var get_github_changes = project.createTask('exec');
                 get_github_changes.setExecutable('php');
@@ -52,7 +56,8 @@
                 var arg = get_github_changes.createArg();
                 var command = "-f " + project.getProperty('basedir')
                         + "/dev/build/core_dev/static/get_github_changes.php -- --team-repo="
-                        + teamRepo + " --feature-branch=" + currentBranch + " " + additionalOptions;
+                        + teamRepo + " --feature-branch=" + currentBranch + " --file-formats=" + fileFormats
+                        + " " + additionalOptions;
                 arg.setLine(command);
                 get_github_changes.execute();
 
