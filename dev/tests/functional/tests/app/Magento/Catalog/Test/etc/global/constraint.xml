@@ -142,15 +142,60 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertGroupedPriceOnProductPage>
-    <assertCategorySaveMessage module="Magento_Catalog">
+    <assertProductAttributeSaveMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <attributeIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex" />
+        </require>
+    </assertProductAttributeSaveMessage>
+    <assertProductAttributeInGrid module="Magento_Catalog">
         <severeness>low</severeness>
-    </assertCategorySaveMessage>
-    <assertCategoryForm module="Magento_Catalog">
+    </assertProductAttributeInGrid>
+    <assertAttributeOnAttributeForm module="Magento_Catalog">
         <severeness>low</severeness>
-    </assertCategoryForm>
-    <assertCategoryPage module="Magento_Catalog">
+    </assertAttributeOnAttributeForm>
+    <assertProductAttributeOnProductForm module="Magento_Catalog">
         <severeness>low</severeness>
-    </assertCategoryPage>
+    </assertProductAttributeOnProductForm>
+    <assertProductAttributeIsRequired module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsRequired>
+    <assertAttributeSearchableByLabel module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertAttributeSearchableByLabel>
+    <assertProductAttributeIsUnique module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsUnique>
+    <assertProductAttributeDisplayingOnSearchForm module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeDisplayingOnSearchForm>
+    <assertProductAttributeIsComparable module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsComparable>
+    <assertProductAttributeDisplayingOnFrontend module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeDisplayingOnFrontend>
+    <assertProductAttributeIsHtmlAllowed module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsHtmlAllowed>
+    <assertProductAttributeIsFilterable module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsFilterable>
+    <assertProductAttributeIsFilterableInSearch module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsFilterableInSearch>
+    <assertAttributeOptionsOnProductForm module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertAttributeOptionsOnProductForm>
+    <assertProductAttributeIsUsedPromoRules module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsUsedPromoRules>
+    <assertProductAttributeUsedSortOnFrontend module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeUsedSortOnFrontend>
+    <assertProductAttributeIsGlobal module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertProductAttributeIsGlobal>
     <assertCrossSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
         <require>
@@ -182,90 +227,19 @@
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
         </require>
     </assertUpSellsProductsSection>
-    <assertProductAttributeSaveMessage module="Magento_Catalog">
+    <assertCategorySaveMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategorySaveMessage>
+    <assertCategoryForm module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryForm>
+    <assertCategoryPage module="Magento_Catalog">
+        <severeness>low</severeness>
+    </assertCategoryPage>
+    <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
-            <attributeIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex" />
+            <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
-    </assertProductAttributeSaveMessage>
-    <assertProductAttributeInGrid module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeInGrid>
-    <assertAttributeOnAttributeForm module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertAttributeOnAttributeForm>
-    <assertProductAttributeOnProductForm module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeOnProductForm>
-    <assertProductAttributeIsRequired module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsRequired>
-    <assertAttributeSearchableByLabel module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertAttributeSearchableByLabel>
-    <assertProductAttributeIsUnique module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsUnique>
-    <assertProductAttributeDisplayingOnSearchForm module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeDisplayingOnSearchForm>
-    <assertProductAttributeIsComparable module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsComparable>
-    <assertProductAttributeDisplayingOnFrontend module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeDisplayingOnFrontend>
-    <assertProductAttributeIsHtmlAllowed module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsHtmlAllowed>
-    <assertProductAttributeIsFilterable module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsFilterable>
-    <assertProductAttributeIsFilterableInSearch module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsFilterableInSearch>
-    <assertAttributeOptionsOnProductForm module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertAttributeOptionsOnProductForm>
-    <assertProductAttributeIsUsedPromoRules module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsUsedPromoRules>
-    <assertProductAttributeUsedSortOnFrontend module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeUsedSortOnFrontend>
-    <assertProductAttributeIsGlobal module="Magento_Catalog">
-        <severeness>low</severeness>
-        <require>
-        </require>
-    </assertProductAttributeIsGlobal>
+    </assertAbsenceDeleteAttributeButton>
 </constraint>
