@@ -18,10 +18,15 @@ class EditCmsPage extends BackendPage
 {
     const MCA = 'admin/urlrewrite/edit/cms_page';
 
+    /**
+     * Edit Cms Page URL Rewrite blocks
+     *
+     * @var array
+     */
     protected $_blocks = [
         'gridBlock' => [
             'name' => 'gridBlock',
-            'class' => 'Magento\Urlrewrite\Test\Block\Cms\Page\Grid',
+            'class' => 'Magento\UrlRewrite\Test\Block\Cms\Page\Grid',
             'locator' => '#cmsPageGrid',
             'strategy' => 'css selector',
         ],
@@ -34,7 +39,7 @@ class EditCmsPage extends BackendPage
     ];
 
     /**
-     * @return \Magento\Urlrewrite\Test\Block\Cms\Page\Grid
+     * @return \Magento\UrlRewrite\Test\Block\Cms\Page\Grid
      */
     public function getGridBlock()
     {

@@ -10,7 +10,7 @@
 <page mca="admin/urlrewrite/edit/cms_page" >
     <block>
         <name>gridBlock</name>
-        <class>Magento\Urlrewrite\Test\Block\Cms\Page\Grid</class>
+        <class>Magento\UrlRewrite\Test\Block\Cms\Page\Grid</class>
         <locator>#cmsPageGrid</locator>
         <strategy>css selector</strategy>
     </block>

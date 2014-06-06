@@ -86,7 +86,9 @@ class CreateCmsPageRewriteEntityTest extends Injectable
      */
     public function testCmsPageRewrite(CmsPage $cmsPage, UrlRewrite $urlRewrite)
     {
+        //Preconditions
         $cmsPage->persist();
+        //Steps
         $this->urlRewriteIndex->open();
         $this->urlRewriteIndex->getPageActionsBlock()->addNew();
         $this->urlRewriteEdit->getUrlRewriteTypeSelectorBlock()->selectType('For CMS page');

@@ -8,13 +8,13 @@
 
 namespace Magento\UrlRewrite\Test\Block\Cms\Page;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 
 /**
  * Class Grid
  * URL Redirect grid
  */
-class Grid extends GridInterface
+class Grid extends ParentGrid
 {
     /**
      * Locator value for link in action column
@@ -26,7 +26,7 @@ class Grid extends GridInterface
     /**
      * Filters array mapping
      *
-     * @var array $filters
+     * @var array
      */
     protected $filters = [
         'title' => [

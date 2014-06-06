@@ -41,7 +41,7 @@ class Curl extends AbstractCurl implements CmsPageInterface
      * Post request for creating cms page
      *
      * @param FixtureInterface $fixture
-     * @return mixed|void
+     * @return array
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
@@ -49,7 +49,7 @@ class Curl extends AbstractCurl implements CmsPageInterface
         $url = $_ENV['app_backend_url'] . $this->url;
         $data = $this->prepareData($fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
