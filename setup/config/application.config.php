@@ -9,6 +9,7 @@
 return [
     'modules' => [
         'Magento\Setup',
+        'Magento\Filesystem',
     ],
     'module_listener_options' => [
         'module_paths' => [
