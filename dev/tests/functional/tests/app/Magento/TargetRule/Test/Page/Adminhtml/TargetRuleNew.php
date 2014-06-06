@@ -6,12 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Page\Adminhtml; 
+namespace Magento\TargetRule\Test\Page\Adminhtml;
 
 use Mtf\Page\BackendPage; 
 
 /**
  * Class TargetRuleNew
+ * Backend new target rule page
  */
 class TargetRuleNew extends BackendPage
 {
