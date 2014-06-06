@@ -63,7 +63,7 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testTaxDetailsNoTax()
     {
-        $dataNoTax = [
+        $taxDetailsDataArray = [
             'subtotal' => 9.99,
             'tax_amount' => 0.00,
             'taxable_amount' => 0.00,
@@ -72,17 +72,25 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'items' => null,
         ];
 
-        $taxDetailsExpected = [
-            'subtotal' => 9.99,
-            'tax_amount' => 0.00,
-            'taxable_amount' => 0.00,
-            'discount_amount' => 0.00,
-            'applied_taxes' => [],
-            'items' => [],
-        ];
+        $taxDetailsDataObjectFromArray = $this->taxDetailsBuilder
+            ->populateWithArray($taxDetailsDataArray)
+            ->create();
+        $taxDetailsDataObjectFromObject = $this->taxDetailsBuilder
+            ->populate($taxDetailsDataObjectFromArray)
+            ->create();
 
-        $taxDetails = $this->taxDetailsBuilder->populateWithArray($dataNoTax)->create();
-        $this->assertEquals($taxDetails->__toArray(), $taxDetailsExpected);
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromArray->__toArray()
+        );
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromObject->__toArray()
+        );
+        $this->assertEquals(
+            $taxDetailsDataObjectFromArray,
+            $taxDetailsDataObjectFromObject
+        );
     }
 
     public function testTaxDetailsSingleTax()
@@ -95,6 +103,26 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
                 self::$travisCtyRateObjectDataArray,
             ],
         ];
+
+        $appliedTaxDataObjectFromArray = $this->appliedTaxBuilder
+            ->populateWithArray($appliedTaxDataArray)
+            ->create();
+        $appliedTaxDataObjectFromObject = $this->appliedTaxBuilder
+            ->populate($appliedTaxDataObjectFromArray)
+            ->create();
+
+        $this->assertEquals(
+            $appliedTaxDataArray,
+            $appliedTaxDataObjectFromArray->__toArray()
+        );
+        $this->assertEquals(
+            $appliedTaxDataArray,
+            $appliedTaxDataObjectFromObject->__toArray()
+        );
+        $this->assertEquals(
+            $appliedTaxDataObjectFromArray,
+            $appliedTaxDataObjectFromArray
+        );
 
         $taxDetailsItemDataArray = [
             'code' => '123123',
@@ -112,6 +140,26 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
+        $taxDetailsItemDataObjectFromArray = $this->taxDetailsItemBuilder
+            ->populateWithArray($taxDetailsItemDataArray)
+            ->create();
+        $taxDetailsItemDataObjectFromObject = $this->taxDetailsItemBuilder
+            ->populate($taxDetailsItemDataObjectFromArray)
+            ->create();
+
+        $this->assertEquals(
+            $taxDetailsItemDataArray,
+            $taxDetailsItemDataObjectFromArray->__toArray()
+        );
+        $this->assertEquals(
+            $taxDetailsItemDataArray,
+            $taxDetailsItemDataObjectFromObject->__toArray()
+        );
+        $this->assertEquals(
+            $taxDetailsItemDataObjectFromArray,
+            $taxDetailsItemDataObjectFromObject
+        );
+
         $taxDetailsDataArray = [
             'subtotal' => 19.99,
             'tax_amount' => 1.65,
@@ -125,9 +173,27 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $taxDetailsDataObject = $this->taxDetailsBuilder->populateWithArray($taxDetailsDataArray)->create();
+        $taxDetailsDataObjectFromArray = $this->taxDetailsBuilder
+            ->populateWithArray($taxDetailsDataArray)
+            ->create();
+        $taxDetailsDataObjectFromObject = $this->taxDetailsBuilder
+            ->populate($taxDetailsDataObjectFromArray)
+            ->create();
 
-        $this->assertEquals($taxDetailsDataArray, $taxDetailsDataObject->__toArray());
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromArray->__toArray()
+        );
+
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromObject->__toArray()
+        );
+
+        $this->assertEquals(
+            $taxDetailsDataObjectFromArray,
+            $taxDetailsDataObjectFromObject
+        );
     }
 
     public function testTaxDetailsMultipleTax()
@@ -171,8 +237,26 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $taxDetailsDataObject = $this->taxDetailsBuilder->populateWithArray($taxDetailsDataArray)->create();
+        $taxDetailsDataObjectFromArray = $this->taxDetailsBuilder
+            ->populateWithArray($taxDetailsDataArray)
+            ->create();
+        $taxDetailsDataObjectFromObject = $this->taxDetailsBuilder
+            ->populate($taxDetailsDataObjectFromArray)
+            ->create();
 
-        $this->assertEquals($taxDetailsDataArray, $taxDetailsDataObject->__toArray());
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromArray->__toArray()
+        );
+
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromObject->__toArray()
+        );
+
+        $this->assertEquals(
+            $taxDetailsDataObjectFromArray,
+            $taxDetailsDataObjectFromObject
+        );
     }
 }
