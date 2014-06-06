@@ -39,11 +39,12 @@
             var currentBranch = project.getProperty('env.bamboo_repository_git_branch');
             var currentRepo = project.getProperty('env.bamboo_repository_git_repositoryUrl');
             var additionalOptions = project.getProperty('env.bamboo_additional_options');
+            var disableIncrementalBuild = project.getProperty('env.bamboo_disable_incremental_build');
 
             var parts = currentRepo.split("/");
             var teamRepo = parts[parts.length - 2];
 
-            if (teamRepo != 'magento2') {
+            if (!disableIncrementalBuild && teamRepo != 'magento2') {
                 //get changelist from github
                 var get_github_changes = project.createTask('exec');
                 get_github_changes.setExecutable('php');
