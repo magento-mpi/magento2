@@ -21,16 +21,17 @@ class ByPattern implements Resolver
 
     public function __construct(
         GlobWrapper $glob,
-        $pattern,
-        $path
+        $path,
+        $pattern
     ) {
         $this->glob = $glob;
-        $this->pattern = $pattern;
         $this->path = $path;
+        $this->pattern = $pattern;
     }
 
     public function get()
     {
+        var_dump($this->path, $this->pattern);
         return $this->glob->glob($this->path . $this->pattern);
     }
 }

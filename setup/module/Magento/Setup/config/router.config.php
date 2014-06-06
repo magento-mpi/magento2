@@ -100,6 +100,19 @@ return [
                     ]
                 ],
             ],
+            'test' => [
+                'type' => 'literal',
+                'options' => [
+                    'route'    => '/test',
+                    'constraints' => [
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller' => 'Magento\Setup\Controller\TestController',
+                        'action'     => 'index',
+                    ]
+                ],
+            ],
         ],
     ],
 ];

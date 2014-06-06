@@ -8,8 +8,8 @@
 
 return [
     'modules' => [
-        'Magento\Setup',
         'Magento\Filesystem',
+        'Magento\Setup',
     ],
     'module_listener_options' => [
         'module_paths' => [
