@@ -69,7 +69,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         return $options;
     }
 
-    public function testGetAllOption()
+    public function testGetAllOptions()
     {
         $res[] = array('value' => '', 'label' => '');
         foreach ($this->_getOptions() as $index => $value) {
