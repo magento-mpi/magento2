@@ -8,22 +8,25 @@
 
 namespace Magento\UrlRewrite\Test\Block\Catalog\Category;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 
 /**
  * Class Grid
  * URL Redirect grid
  */
-class Grid extends GridInterface
+class Grid extends ParentGrid
 {
     /**
      * Filters array mapping
      *
-     * @var array $filters
+     * @var array
      */
     protected $filters = [
         'request_path' => [
             'selector' => '#urlrewriteGrid_filter_request_path'
+        ],
+        'id_path' => [
+            'selector' => '#urlrewriteGrid_filter_id_path'
         ]
     ];
 }
