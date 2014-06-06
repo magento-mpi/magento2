@@ -117,9 +117,13 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpFiles()
     {
-        $allPhpFiles = \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
+        $fileHelper = \Magento\TestFramework\Utility\Files::init();
+        $allPhpFiles = $fileHelper->getPhpFiles();
         if (isset($_ENV['INCREMENTAL_BUILD'])) {
-            $phpFiles = \Magento\TestFramework\Utility\Files::readLists(__DIR__ . '/_files/changed_files.txt');
+            $phpFiles = file(__DIR__ . '/_files/changed_files.txt', FILE_IGNORE_NEW_LINES);
+            foreach ($phpFiles as $key => $phpFile) {
+                $phpFiles[$key] = $fileHelper->getPathToSource() . '/' . $phpFile;
+            }
             $phpFiles = \Magento\TestFramework\Utility\Files::composeDataSets($phpFiles);
             $phpFiles = array_intersect_key($phpFiles, $allPhpFiles);
         } else {
