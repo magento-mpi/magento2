@@ -10,7 +10,7 @@ namespace Magento\Tax\Service\V1\Data\TaxDetails;
 /**
  * Builder for the AppliedTaxRate Service Data Object
  *
- * @method Rate create()
+ * @method AppliedTaxRate create()
  */
 class AppliedTaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
