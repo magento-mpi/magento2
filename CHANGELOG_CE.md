@@ -31,6 +31,12 @@
   * Fixed price inconsistencies between catalog and shopping cart (MAGETWO-24164)
   * Added support to maintain consistent price including tax for customers with different tax rates (MAGETWO-24165)
   * Added support to allow tax rules with different priorities to be applied to subtotal only (MAGETWO-24165)
+* Tax features port:
+  * Price consistency UX and Algorithm (MAGETWO-24582)
+  * Canadian PST (MAGETWO-24586)
+  * Bundle product price consistency changes (MAGETWO-24588)
+  * Admin tax notification messages (MAGETWO-24583)
+  * Fixed issues with regards to hidden tax (MAGETWO-24689)
 * Payments Parity between M1 and M2
   * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
   * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
