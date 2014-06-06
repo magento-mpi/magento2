@@ -112,7 +112,11 @@ class CurlClient
         $jsonData = $this->_jsonEncode($data);
 
         $curlOpts = array();
-        $curlOpts[CURLOPT_CUSTOMREQUEST] = $put ? \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT : \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
+        if ($put) {
+            $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT;
+        } else {
+            $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
+        }
         $headers[] = 'Content-Length: ' . strlen($jsonData);
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 

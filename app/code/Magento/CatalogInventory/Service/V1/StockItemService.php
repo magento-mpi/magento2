@@ -72,7 +72,7 @@ class StockItemService implements StockItemServiceInterface
 
     /**
      * @param string $productSku
-     * @return \Magento\Framework\Service\Data\AbstractObject
+     * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
      */
     public function getStockItemBySku($productSku)
     {

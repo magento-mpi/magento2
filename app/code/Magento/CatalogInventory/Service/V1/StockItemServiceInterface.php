@@ -19,6 +19,12 @@ interface StockItemServiceInterface
     public function getStockItem($productId);
 
     /**
+     * @param string $productSku
+     * @return \Magento\Framework\Service\Data\AbstractObject
+     */
+    public function getStockItemBySku($productSku);
+
+    /**
      * @param \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItem
      * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
      */
