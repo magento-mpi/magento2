@@ -48,10 +48,15 @@ class ToolbarEntry extends \Magento\Backend\Block\Template
     /**
      * Retrieve the list of latest unread notifications
      *
+     * @param int $limit
      * @return \Magento\AdminNotification\Model\Resource\Inbox\Collection
      */
-    public function getLatestUnreadNotifications()
+    public function getLatestUnreadNotifications($limit = null)
     {
+        if (!empty($limit)) {
+            $topNotes = $this->_notificationList->getItems();
+            return array_slice($topNotes, 0, $limit);
+        }
         return $this->_notificationList;
     }
 

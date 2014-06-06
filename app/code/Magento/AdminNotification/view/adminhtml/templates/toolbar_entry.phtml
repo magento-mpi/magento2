@@ -15,7 +15,7 @@
             <span class="counter qty"><?php echo $this->escapeHtml($notificationCount); ?></span>
         </a>
         <ul class="dropdown-menu notifications-list" data-mark-as-read-url="<?php echo $this->getUrl('adminhtml/notification/ajaxMarkAsRead'); ?>">
-            <?php foreach ($this->getLatestUnreadNotifications() as $notification) : ?>
+            <?php foreach ($this->getLatestUnreadNotifications(5) as $notification) : ?>
             <?php /** @var $notification \Magento\AdminNotification\Model\Inbox*/ ?>
             <li class="notifications-entry<?php if ($notification->getSeverity() == 1): ?> notifications-critical<?php endif; ?>"
                 data-notification-id="<?php echo $this->escapeHtml($notification->getId()); ?>"
