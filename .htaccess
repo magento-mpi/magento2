@@ -188,3 +188,6 @@
 ## http://developer.yahoo.com/performance/rules.html#etags
 
     #FileETag none
+
+#Magento Developer Mode
+SetEnv MAGE_MODE "developer"

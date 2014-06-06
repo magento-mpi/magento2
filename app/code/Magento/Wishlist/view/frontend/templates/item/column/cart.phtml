@@ -14,7 +14,7 @@ $product = $item->getProduct();
 <?php foreach ($this->getChildNames() as $childName): ?>
     <?php echo $this->getLayout()->renderElement($childName, false); ?>
 <?php endforeach;?>
-<div class="box tocart">
+<div class="box-tocart">
     <?php if ($item->canHaveQty() && $product->isVisibleInSiteVisibility()): ?>
         <input type="number" data-role="qty" class="input-text qty" data-validate="{required:true,'validate-greater-than-zero':true}"
                name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>">
