@@ -49,7 +49,6 @@ class TaxRuleConverter
      */
     public function createTaxRuleDataObjectFromModel(TaxRuleModel $ruleModel)
     {
-        $this->taxRuleDataObjectBuilder->populateWithArray([]);
         if (!is_null($ruleModel->getId())) {
             $this->taxRuleDataObjectBuilder->setId($ruleModel->getId());
         }
