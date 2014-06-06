@@ -14,6 +14,7 @@ use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Tax\Test\Fixture\TaxRule;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureFactory;
@@ -41,7 +42,7 @@ abstract class AssertTaxRuleApplying extends AbstractConstraint
     /**
      * Product simple
      *
-     * @var \Magento\Catalog\Test\Fixture\CatalogProductSimple
+     * @var CatalogProductSimple
      */
     protected $productSimple;
 

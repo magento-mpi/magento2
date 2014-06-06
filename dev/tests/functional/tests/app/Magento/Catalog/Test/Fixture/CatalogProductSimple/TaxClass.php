@@ -70,7 +70,7 @@ class TaxClass implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param null $key
+     * @param string|null $key
      * @return mixed
      */
     public function getData($key = null)
