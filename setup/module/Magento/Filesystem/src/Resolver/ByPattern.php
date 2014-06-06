@@ -31,7 +31,6 @@ class ByPattern implements Resolver
 
     public function get()
     {
-        var_dump($this->path, $this->pattern);
         return $this->glob->glob($this->path . $this->pattern);
     }
 }
