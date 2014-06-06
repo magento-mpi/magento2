@@ -11,6 +11,13 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
+/**
+ * @package Magento\Catalog\Model\Product
+ * @method string getPkFieldName()
+ * @method Condition setPkFieldName(string $fieldName)
+ * @method string|array getTable()
+ * @method Condition setTable($table)
+ */
 class Condition extends \Magento\Framework\Object implements \Magento\Catalog\Model\Product\Condition\ConditionInterface
 {
     /**
