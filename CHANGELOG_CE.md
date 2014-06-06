@@ -1,3 +1,5 @@
+2.0.0.0-dev81
+=============
 * Framework improvements:
   * Covered Magento application components with unit tests:
       * `SalesRule/Model/Observer`
@@ -28,6 +30,15 @@
   * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
   * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
   * Removed Saved Credit Card payment method (MAGETWO-23885)
+* Functional tests:
+  * Delete Admin User
+  * Delete Backend Customer
+  * Delete Product UrlRewrite
+  * Downloadable Product Creation
+  * Update Simple Product
+  * Update Tax Rule
+  * Update Tax Rate
+  * Suggest Searching Result
 * Fixed bugs:
   * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
   * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
@@ -161,7 +172,7 @@
   * Fixed an issue where the Links section was absent while editing downloadable products from the Wishlist
   * Fixed an issue where specified details for composite products were lost after adding to Gift Card and Downloadable products to the Wishlist
   * Fixed and issue where the Date widget was set to incorrect date when creating a new customer
-  * Fixed an issue where a customer was redirected to Dashboard if the Redirect user to dashboard after login option was set to вЂNoвЂ™
+  * Fixed an issue where a customer was redirected to Dashboard if the Redirect user to dashboard after login option was set to "No"
   * Fixed an issue where a customer was not able to register during checkout if Guest Checkout was not allowed
   * Fixed an issue where System logs were not generated properly in integration tests
   * Fixed benchmarking script
@@ -179,15 +190,7 @@
   * Catalog Price Rule Creation
   * Category Url Rewrite Creation
   * Admin User Role Deletion
-  * Delete Admin User
-  * Delete Backend Customer
-  * Delete Product UrlRewrite
-  * Downloadable Product Creation
-  * Update Simple Product
-  * Update Tax Rule
-  * Update Tax Rate
-  * Suggest Searching Result
-* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
+* Update composer.json.dist in order to download and install MTF from Public GitHub
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity
   * [#507] (https://github.com/magento/magento2/issues/507) "Insert Image" window is overlapped on menu
