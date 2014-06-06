@@ -50,7 +50,7 @@ class Managestock extends \Magento\Framework\App\Config\Value
      */
     protected function _afterSave()
     {
-        if ($this->getValue() != $this->getOldValue()) {
+        if ($this->isValueChanged()) {
             $this->_stockStatus->rebuild();
         }
 

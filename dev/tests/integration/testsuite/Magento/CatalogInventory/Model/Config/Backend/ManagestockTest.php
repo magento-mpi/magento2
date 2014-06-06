@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\CatalogInventory\Model\Config\Backend;
+
 use Magento\TestFramework\Helper\Bootstrap as Bootstrap;
 
 /**
@@ -13,75 +14,60 @@ use Magento\TestFramework\Helper\Bootstrap as Bootstrap;
  */
 class ManagestockTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \Magento\CatalogInventory\Model\Stock\Status */
-    protected $stockStatus;
-
-    protected function setUp()
+    /**
+     * Data provider for testSaveAndRebuildIndex
+     * @return array
+     */
+    public function saveAndRebuildIndexDataProvider()
     {
-        $this->stockStatus = $this->getMock(
+        return [
+            [1, $this->once()],
+            [0, $this->never()]
+        ];
+    }
+
+    /**
+     * Test rebuild stock indexer on stock status config save
+     *
+     * @dataProvider saveAndRebuildIndexDataProvider
+     *
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     * @magentoConfigFixture default/cataloginventory/item_options/manage_stock 0
+     *
+     * @param int $newStockValue new value for stock status
+     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $expectedMatcher count matcher
+     */
+    public function testSaveAndRebuildIndex($newStockValue, $expectedMatcher)
+    {
+        /** @var  \Magento\CatalogInventory\Model\Stock\Status */
+        $stockStatus = $this->getMock(
             '\Magento\CatalogInventory\Model\Stock\Status',
             ['rebuild'],
             [],
             '',
             false
         );
-    }
 
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
-     * @magentoConfigFixture default/cataloginventory/item_options/manage_stock 0
-     */
-    public function testSaveRebuildIndexPositive()
-    {
-        $this->stockStatus->expects($this->once())
+        $stockStatus->expects($expectedMatcher)
             ->method('rebuild')
-            ->will($this->returnValue($this->stockStatus));
+            ->will($this->returnValue($stockStatus));
 
         $manageStock = new Managestock(
             Bootstrap::getObjectManager()->get('\Magento\Framework\Model\Context'),
             Bootstrap::getObjectManager()->get('\Magento\Framework\Registry'),
             Bootstrap::getObjectManager()->get('\Magento\Framework\App\Config\ScopeConfigInterface'),
-            $this->stockStatus,
+            $stockStatus,
             Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource\Config')
         );
 
-        $manageStock->setPath('cataloginventory/item_options/manage_stock');
-        $manageStock->setScope('default');
-        $manageStock->setScopeId(0);
-        $manageStock->setValue(1);
+        $manageStock->setPath('cataloginventory/item_options/manage_stock')
+            ->setScope('default')
+            ->setScopeId(0);
+
+        $manageStock->setValue($newStockValue);
 
         // assert
         $manageStock->save();
-
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation enabled
-     * @magentoConfigFixture default/cataloginventory/item_options/manage_stock 0
-     */
-    public function testSaveRebuildIndexNegative()
-    {
-        $this->stockStatus->expects($this->never())
-            ->method('rebuild')
-            ->will($this->returnValue($this->stockStatus));
-
-        $manageStock = new Managestock(
-            Bootstrap::getObjectManager()->get('\Magento\Framework\Model\Context'),
-            Bootstrap::getObjectManager()->get('\Magento\Framework\Registry'),
-            Bootstrap::getObjectManager()->get('\Magento\Framework\App\Config\ScopeConfigInterface'),
-            $this->stockStatus,
-            Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource\Config')
-        );
-
-        $manageStock->setPath('cataloginventory/item_options/manage_stock');
-        $manageStock->setScope('default');
-        $manageStock->setScopeId(0);
-        $manageStock->setValue(0);
-
-        // assert
-        $manageStock->save();
-
     }
 }
