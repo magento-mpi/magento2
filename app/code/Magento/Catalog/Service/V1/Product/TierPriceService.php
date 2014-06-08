@@ -11,6 +11,7 @@ namespace Magento\Catalog\Service\V1\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Data\Product;
 
 class TierPriceService implements TierPriceServiceInterface
@@ -93,11 +94,14 @@ class TierPriceService implements TierPriceServiceInterface
         }
 
         $tierPrices = $product->getData('tier_price');
-        $websiteId = $this->storeManager->getWebsite()->getId();
+        $websiteId = 0;
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
+            $websiteId = $this->storeManager->getWebsite()->getId();
+        }
 
         $found = false;
         foreach ($tierPrices as &$currentPrice) {
-            if (intval($currentPrice['cust_group']) === $price->getCustomerGroupId()
+            if ($currentPrice['cust_group'] === $customerGroupId
                 && $currentPrice['website_id'] === $websiteId
             ) {
                 $currentPrice['price'] = $price->getValue();
@@ -115,7 +119,9 @@ class TierPriceService implements TierPriceServiceInterface
             );
         }
 
-        $product->setData('group_price', $tierPrices);
+        print_r($tierPrices);
+
+        $product->setData('tier_price', $tierPrices);
         $errors = $product->validate();
         if (is_array($errors) && count($errors)) {
             $errorAttributeCodes = implode(', ', array_keys($errors));
@@ -169,7 +175,6 @@ class TierPriceService implements TierPriceServiceInterface
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
                 $prices[] = $this->priceBuilder->populateWithArray(array(
-                    Product\TierPrice::CUSTOMER_GROUP_ID => $price['all_groups'] ? 'all' : $price['cust_group'],
                     Product\TierPrice::VALUE => $price['website_price'],
                     Product\TierPrice::QTY => $price['price_qty']
                 ))->create();

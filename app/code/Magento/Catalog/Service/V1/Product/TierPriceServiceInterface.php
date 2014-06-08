@@ -14,10 +14,13 @@ interface TierPriceServiceInterface
      * Create tire price for product
      *
      * @param string $productSku
+     * @param string $customerGroupId
      * @param \Magento\Catalog\Service\V1\Data\Product\TierPrice $price
-     * @return \Magento\Catalog\Service\V1\Data\Product\TierPrice
+     * @return boolean
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function create($productSku, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price);
+    public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price);
 
     /**
      * Remove tire price from product

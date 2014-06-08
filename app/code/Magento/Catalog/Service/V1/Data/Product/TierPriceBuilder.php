@@ -8,7 +8,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Product;
 
-class TierPriceBuilder extends GroupPriceBuilder
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+
+class TierPriceBuilder extends AbstractObjectBuilder
 {
     /**
      * Set Quantity
@@ -19,6 +21,18 @@ class TierPriceBuilder extends GroupPriceBuilder
     public function setQty($qty)
     {
         $this->_set(TierPrice::QTY, $qty);
+        return $this;
+    }
+
+    /**
+     * Set Value
+     *
+     * @param double $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->_set(TierPrice::QTY, $value);
         return $this;
     }
 }

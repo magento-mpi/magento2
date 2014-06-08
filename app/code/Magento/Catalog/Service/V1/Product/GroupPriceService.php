@@ -95,14 +95,18 @@ class GroupPriceService implements GroupPriceServiceInterface
         }
 
         $groupPrices = $product->getData('group_price');
-        $websiteId = $this->storeManager->getWebsite()->getId();
+        $websiteId = 0;
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
+            $websiteId = $this->storeManager->getWebsite()->getId();
+        }
 
         $found = false;
         foreach ($groupPrices as &$currentPrice) {
-            if (intval($currentPrice['cust_group']) === $price->getCustomerGroupId()
+            if ($currentPrice['cust_group'] === $price->getCustomerGroupId()
                 && $currentPrice['website_id'] === $websiteId
             ) {
                 $currentPrice['price'] = $price->getValue();
+                $currentPrice['website_price'] = $price->getValue();
                 $found = true;
                 break;
             }
