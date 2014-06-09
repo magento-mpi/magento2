@@ -12,6 +12,11 @@ use Magento\Store\Model\Store;
 class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 {
     /**
+     * @var \Magento\Weee\Helper\Data
+     */
+    protected $_weeeData;
+    
+    /**
      * @var \Magento\Store\Model\Store
      */
     protected $_store;
@@ -27,15 +32,16 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Tax\Model\Config $taxConfig
-     * @param \Magento\Weee\Helper\Data $weeeHelper
+     * @param \Magento\Weee\Helper\Data $_weeeData
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Tax\Model\Config $taxConfig,
-        \Magento\Weee\Helper\Data $weeeHelper
+        \Magento\Weee\Helper\Data $_weeeData
     ) {
-        parent::__construct($taxData, $calculation, $taxConfig, $weeeHelper);
+        $this->_weeeData = $_weeeData;
+        parent::__construct($taxData, $calculation, $taxConfig);
         $this->setCode('weee');
     }
 
@@ -91,11 +97,11 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _process(\Magento\Sales\Model\Quote\Address $address, $item)
     {
-        if (!$this->_weeeHelper->isEnabled($this->_store)) {
+        if (!$this->_weeeData->isEnabled($this->_store)) {
             return $this;
         }
 
-        $attributes = $this->_weeeHelper->getProductWeeeAttributes(
+        $attributes = $this->_weeeData->getProductWeeeAttributes(
             $item->getProduct(),
             $address,
             $address->getQuote()->getBillingAddress(),
@@ -140,7 +146,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $applied[] = array(
                 'id'        => $attribute->getCode(),
                 'percent'   => null,
-                'hidden'    => $this->_weeeHelper->includeInSubtotal($this->_store),
+                'hidden'    => $this->_weeeData->includeInSubtotal($this->_store),
                 'rates'     => array(array(
                     'base_real_amount'=> $baseRowValue,
                     'base_amount'   => $baseRowValue,
@@ -171,7 +177,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $baseTotalRowValue
         );
 
-        $this->_weeeHelper->setApplied($item, array_merge($this->_weeeHelper->getApplied($item), $productTaxes));
+        $this->_weeeData->setApplied($item, array_merge($this->_weeeData->getApplied($item), $productTaxes));
         if ($applied) {
             $this->_saveAppliedTaxes(
                 $address,
@@ -194,8 +200,8 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _processDiscountSettings($item, $value, $baseValue)
     {
-        if ($this->_weeeHelper->isDiscounted($this->_store)) {
-            $this->_weeeHelper->addItemDiscountPrices($item, $baseValue, $value);
+        if ($this->_weeeData->isDiscounted($this->_store)) {
+            $this->_weeeData->addItemDiscountPrices($item, $baseValue, $value);
         }
         return $this;
     }
@@ -219,8 +225,8 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
                 ->unsPriceInclTax()
                 ->unsBasePriceInclTax();
         }
-        if ($this->_weeeHelper->isTaxable($this->_store) && $rowValue) {
-            if (!$this->_weeeHelper->includeInSubtotal($this->_store)) {
+        if ($this->_weeeData->isTaxable($this->_store) && $rowValue) {
+            if (!$this->_weeeData->includeInSubtotal($this->_store)) {
                 $item->setExtraTaxableAmount($value)
                     ->setBaseExtraTaxableAmount($baseValue)
                     ->setExtraRowTaxableAmount($rowValue)
@@ -240,7 +246,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _processTotalAmount($address, $rowValue, $baseRowValue)
     {
-        if ($this->_weeeHelper->includeInSubtotal($this->_store)) {
+        if ($this->_weeeData->includeInSubtotal($this->_store)) {
             $address->addTotalAmount('subtotal', $rowValue);
             $address->addBaseTotalAmount('subtotal', $baseRowValue);
             $this->_isTaxAffected = true;
@@ -271,7 +277,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _resetItemData($item)
     {
-        $this->_weeeHelper->setApplied($item, array());
+        $this->_weeeData->setApplied($item, array());
 
         $item->setBaseWeeeTaxDisposition(0);
         $item->setWeeeTaxDisposition(0);

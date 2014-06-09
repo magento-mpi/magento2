@@ -34,7 +34,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $attributeFactory->expects($this->any())->method('create')->will($this->returnValue($attribute));
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Weee\Model\Tax',
-            ['weeeHelper' => $helper, 'attributeFactory' => $attributeFactory]
+            ['weeeData' => $helper, 'attributeFactory' => $attributeFactory]
         );
     }
 

@@ -21,11 +21,6 @@ use Magento\Sales\Model\Quote\Address;
  * @method \Magento\SalesRule\Model\Validator setWebsiteId($id)
  * @method mixed getCustomerGroupId()
  * @method \Magento\SalesRule\Model\Validator setCustomerGroupId($id)
- *
- * @SuppressWarnings(PHPMD.CyclomaticComplexity)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Validator extends \Magento\Framework\Model\AbstractModel
 {
@@ -37,15 +32,11 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     protected $_rules;
 
     /**
-     * Rounding deltas
-     * 
      * @var array
      */
     protected $_roundingDeltas = array();
 
     /**
-     * Base rounding deltas
-     * 
      * @var array
      */
     protected $_baseRoundingDeltas = array();
@@ -112,21 +103,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     protected $_stopFurtherRules = false;
 
     /**
-     * @var \Magento\Weee\Helper\Data
-     */
-    protected $_weeHelper;
-
-    /**
-     * @var \Magento\Tax\Model\Config
-     */
-    protected $_taxConfig;
-
-    /**
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_taxCalc;
-
-    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory
@@ -135,14 +111,9 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
      * @param \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory
-     * @param \Magento\Weee\Helper\Data $weeeHelper
-     * @param \Magento\Tax\Model\Config $taxConfig
-     * @param \Magento\Tax\Model\Calculation $taxCalc
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -153,9 +124,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
         \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory,
-        \Magento\Weee\Helper\Data $weeeHelper,
-        \Magento\Tax\Model\Config $taxConfig,
-        \Magento\Tax\Model\Calculation $taxCalc,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -166,9 +134,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         $this->_couponFactory = $couponFactory;
         $this->_customerFactory = $customerFactory;
         $this->calculatorFactory = $calculatorFactory;
-        $this->_weeHelper = $weeeHelper;
-        $this->_taxConfig = $taxConfig;
-        $this->_taxCalc = $taxCalc;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -214,8 +179,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\SalesRule\Model\Rule $rule
      * @param Address $address
      * @return bool
-     * 
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _canProcessRule($rule, $address)
     {
@@ -357,7 +320,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
 
         return $this;
     }
-    
+
     /**
      * Apply discounts to shipping amount
      *
@@ -905,39 +868,5 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         $item->setBaseOriginalDiscountAmount($discountData->getBaseOriginalAmount());
 
         return $this;
-    }
-
-    /**
-     * Round the amount with deltas collected
-     *
-     * @param string $key
-     * @param float $amount
-     * @param \Magento\Store\Model\Store $store
-     * @return float
-     */
-    protected function _roundWithDeltas($key, $amount, $store)
-    {
-        $delta = isset($this->_roundingDeltas[$key]) ?
-            $this->_roundingDeltas[$key] : 0;
-        $this->_roundingDeltas[$key] = $store->roundPrice($amount + $delta)
-            - $amount;
-        return $store->roundPrice($amount + $delta);
-    }
-
-    /**
-     * Round the amount with deltas collected
-     *
-     * @param string $key
-     * @param float $amount
-     * @param \Magento\Store\Model\Store $store
-     * @return float
-     */
-    protected function _roundWithDeltasForBase($key, $amount, $store)
-    {
-        $delta = isset($this->_baseRoundingDeltas[$key]) ?
-            $this->_roundingDeltas[$key] : 0;
-        $this->_baseRoundingDeltas[$key] = $store->roundPrice($amount + $delta)
-            - $amount;
-        return $store->roundPrice($amount + $delta);
     }
 }
