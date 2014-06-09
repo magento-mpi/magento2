@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Tax\Service\V1\Data;
+
 use Magento\Framework\Service\Data\ObjectFactory;
 
 /**
