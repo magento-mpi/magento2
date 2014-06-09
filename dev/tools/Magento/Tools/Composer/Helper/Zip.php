@@ -21,7 +21,7 @@ class Zip
      * @param string $destination
      * @return int
      */
-    public static function Zip($source, $destination)
+    public static function Zip($source, $destination, array $excludes)
     {
         $noOfZips = 0;
 
@@ -39,8 +39,8 @@ class Zip
         $sourceName = $splitSourcePath[count($splitSourcePath)-1];
 
         if (is_dir($source) === true) {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source),
-                \RecursiveIteratorIterator::SELF_FIRST);
+            $files = Zip::getFiles($source, $excludes);
+
             $noOfZips += sizeof($files);
 
             foreach ($files as $file) {
@@ -70,4 +70,19 @@ class Zip
         $zip->close();
         return $noOfZips;
     }
+
+    public static function getFiles($source, $excludes)
+    {
+        if (sizeof($excludes) == 0) {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source),
+                \RecursiveIteratorIterator::SELF_FIRST);
+        } else {
+            $directory = new \RecursiveDirectoryIterator($source);
+            $filtered = new ExcludeFilter($directory, $excludes);
+            $files = new \RecursiveIteratorIterator($filtered, \RecursiveIteratorIterator::SELF_FIRST);
+        }
+
+        return $files;
+    }
+
 }

@@ -6,11 +6,14 @@
  * @license     {license_link}
  */
 
+ini_set('memory_limit', '-1');
 
 require __DIR__ . '/../../../bootstrap.php';
 $generationDir = __DIR__ . '/_packages';
 
 use Magento\Tools\Composer\Extractor\ModuleExtractor;
+use \Magento\Tools\Composer\Extractor\EnterpriseExtractor;
+use \Magento\Tools\Composer\Extractor\CommunityExtractor;
 use \Magento\Tools\Composer\Extractor\AdminThemeExtractor;
 use \Magento\Tools\Composer\Extractor\FrameworkExtractor;
 use \Magento\Tools\Composer\Extractor\FrontendThemeExtractor;
@@ -27,6 +30,7 @@ use \Magento\Tools\Composer\Helper\Converter;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
+            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]',
             'verbose|v' => 'Detailed console logs',
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
         )
@@ -35,6 +39,11 @@ try {
 
     $generationDir = $opt->getOption('o') ?: $generationDir;
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
+
+    $edition = $opt->getOption('e') ?: null;
+    if (!$edition) {
+        throw new \InvalidArgumentException('Edition is required. Acceptable values [ee|enterprise] or [ce|community]');
+    }
 
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
@@ -47,6 +56,21 @@ try {
     $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
     $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
 
+    switch (strtolower($edition)) {
+        case 'enterprise':
+        case 'ee':
+            $logger->info('Your Edition: Enterprise');
+            $productExtractor = new EnterpriseExtractor(BP, $logger);
+            break;
+        case 'community':
+        case 'ce':
+            $logger->info('Your Edition: Community');
+            $productExtractor = new CommunityExtractor(BP, $logger);
+            break;
+        default:
+            throw new \InvalidArgumentException('Edition value not acceptable. Acceptable values: [ee|ce]');
+    }
+
     $moduleExtractor= new ModuleExtractor(BP, $logger);
     $adminThemeExtractor = new AdminThemeExtractor(BP, $logger);
     $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger);
@@ -54,7 +78,7 @@ try {
     $frameworkExtractor = new FrameworkExtractor(BP, $logger);
     $languagePackExtractor = new LanguagePackExtractor(BP, $logger);
 
-    $components = $moduleExtractor->extract(null, $moduleCount);
+    $components = $moduleExtractor->extract(array(), $moduleCount);
     $logger->debug(sprintf("Read %3d modules.", $moduleCount));
     $components = $adminThemeExtractor->extract($components, $adminThemeCount);
     $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
@@ -66,6 +90,8 @@ try {
     $logger->debug(sprintf("Read %3d frameworks.", $frameworkCount));
     $components = $languagePackExtractor->extract($components, $languagePackCount);
     $logger->debug(sprintf("Read %3d language packs.", $languagePackCount));
+    $components = $productExtractor->extract($components, $productCount);
+    $logger->debug(sprintf('Created %s edition project', $edition));
 
     try {
         if (!file_exists($generationDir)) {
@@ -79,9 +105,18 @@ try {
     $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
     $noOfZips = 0;
     foreach ($components as $component) {
+        $excludes = array();
+        if ($component->getType() == "project") {
+            $excludes = array(
+                realpath(BP) . "/app/design/adminhtml/Magento",
+                realpath(BP) . "/app/design/frontend/Magento",
+                realpath(BP) . "/app/code/Magento",
+                realpath(BP) . "/dev/tools/Magento/Tools/Composer/_packages"
+            );
+        }
         $name = Converter::vendorPackagetoName($component->getName());
         $noOfZips += Zip::Zip($component->getLocation(),
-            $generationDir . "/" . $name . "-". $component->getVersion() . ".zip");
+            $generationDir . "/" . $name . "-". $component->getVersion() . ".zip", $excludes);
         $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion()));
     }
     $logger->info(sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
