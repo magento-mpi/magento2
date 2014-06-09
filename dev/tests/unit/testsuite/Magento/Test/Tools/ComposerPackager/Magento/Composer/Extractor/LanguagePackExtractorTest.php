@@ -12,9 +12,9 @@ class LanguagePackExtractorTest extends \PHPUnit_Framework_TestCase {
     {
         $rootDir = __DIR__ . '/../../../_files/';
         $objectManagerHelper = new ObjectManager($this);
-       // $logWriter = $objectManagerHelper->getObject('\Magento\Composer\Log\Writer\DefaultWriter');
-        $silentLogger = $objectManagerHelper->getObject('\Magento\Composer\Log\Writer\QuietWriter');
-        $logger = $objectManagerHelper->getObject('\Magento\Composer\Log\Log' , array('logWriter' => $silentLogger, 'debugWriter' => $silentLogger));
+        $logger = $this->getMockBuilder('Zend_Log')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->extractor = $objectManagerHelper->getObject('\Magento\Composer\Extractor\LanguagePackExtractor', array('rootDir' => $rootDir, 'logger' => $logger));
         $this->framework = $objectManagerHelper->getObject('\Magento\Composer\Model\Framework', array('name'=>'Magento/Framework', 'version' => '2.1.0'));
     }

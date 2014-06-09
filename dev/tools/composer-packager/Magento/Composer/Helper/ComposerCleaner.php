@@ -7,7 +7,7 @@ class ComposerCleaner {
     private $_components;
     private $_logger;
 
-    public function __construct($components, \Magento\Composer\Log\Log $logger){
+    public function __construct($components, \Zend_Log $logger){
         $this->_components = $components;
         $this->_logger = $logger;
     }
@@ -17,9 +17,9 @@ class ComposerCleaner {
             $fileLocation = $component->getLocation() . "/composer.json";
             if(file_exists($fileLocation)){
                 unlink($fileLocation);
-                $this->_logger->debug("Cleared composer.json on %-40s", $component->getName());
+                $this->_logger->debug(sprintf("Cleared composer.json on %-40s", $component->getName()));
             } else {
-                $this->_logger->debug("Skipped. composer.json doesn't exist for %s", $component->getName());
+                $this->_logger->debug(sprintf("Skipped. composer.json doesn't exist for %s", $component->getName()));
             }
         }
         return sizeof($this->_components);

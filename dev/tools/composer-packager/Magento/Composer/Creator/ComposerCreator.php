@@ -7,7 +7,7 @@ class ComposerCreator implements \Magento\Composer\Creator{
     private $_components;
     private $_logger;
 
-    public function __construct($components, \Magento\Composer\Log\Log $logger){
+    public function __construct($components, \Zend_Log $logger){
         $this->_components = $components;
         $this->_logger = $logger;
     }
@@ -22,7 +22,6 @@ class ComposerCreator implements \Magento\Composer\Creator{
                 $command .= " --require=\"" . $dependency->getName().":".$dependency->getVersion()."\" ";
             }
             $command .= " --require=\"Magento/Package-installer:*\"";
-            //        echo $command, "\n";
             $output = array();
             exec($command, $output);
             if(sizeof($output) > 0 ){
@@ -32,7 +31,7 @@ class ComposerCreator implements \Magento\Composer\Creator{
                 //Success
                 $this->addVersionandTypeInfo($component);
                 $counter++;
-                $this->_logger->debug("Created composer.json for %-40s [%9s]", $component->getName(), $component->getVersion());
+                $this->_logger->log(sprintf("Created composer.json for %-40s [%7s]", $component->getName(), $component->getVersion()), \Zend_Log::DEBUG);
             }
 
         }

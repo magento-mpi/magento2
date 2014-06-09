@@ -8,7 +8,7 @@ abstract class BaseExtractor implements  \Magento\Composer\Extractor{
     private $_logger;
     protected  $_counter;
 
-    public function __construct(\Magento\Composer\Log\Log $logger){
+    public function __construct(\Zend_Log $logger){
         $this->_logger = $logger;
     }
 
@@ -66,7 +66,7 @@ abstract class BaseExtractor implements  \Magento\Composer\Extractor{
                 $component->addDependencies($dependentComponent);
             }
         }
-        $this->_logger->debug("Extracted Component %-40s [%9s] with %2d dependencies", $component->getName(), $component->getVersion(), sizeof($component->getDependencies()));
+        $this->_logger->log(sprintf("Extracted Component %-40s [%7s] with %2d dependencies", $component->getName(), $component->getVersion(), sizeof($component->getDependencies())), \Zend_Log::DEBUG);
         return $component;
     }
 

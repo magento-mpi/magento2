@@ -78,10 +78,6 @@ class ThemeXmlParser implements \Magento\Composer\Parser {
         $path = $this->getFile()->getPathname();
         /** @var $package SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
-        /*
-         * $packageName = basename($this->_themeDir);
-         * $vendorName = basename(dirname($this->_themeDir));
-         */
 
         if (isset($package)) {
             $map = array();

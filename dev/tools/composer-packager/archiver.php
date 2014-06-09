@@ -9,9 +9,8 @@
     require __DIR__ . '/../../../app/bootstrap.php';
     $rootDir = realpath(__DIR__ . '/../../../');
     $generationDir = __DIR__ . '/packages';
-    $logger;
 try {
-    $opt = new Zend_Console_Getopt(
+    $opt = new \Zend_Console_Getopt(
         array(
             'verbose|v' => 'Detailed console logs',
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
@@ -20,51 +19,47 @@ try {
     $opt->parse();
 
     $generationDir = $opt->getOption('o') ? $opt->getOption('o') : $generationDir;
-    $logWriter = new \Magento\Composer\Log\Writer\DefaultWriter();
-    $silentLogger = new \Magento\Composer\Log\Writer\QuietWriter();
-    $logger = $opt->getOption('v') ? new \Magento\Composer\Log\Log($logWriter, $logWriter) : new \Magento\Composer\Log\Log( $logWriter, $silentLogger);
+    $logWriter = new \Zend_Log_Writer_Stream('php://output');
 
-    $logger->debug("You selected %s. ", $generationDir);
-    $logger->debug("Your root directory: %s ", $rootDir);
+    $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+    $logger = new Zend_Log($logWriter);
+
+    $filter = $opt->getOption('v') ? new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) : new \Zend_Log_Filter_Priority(Zend_Log::INFO);
+    $logger->addFilter($filter);
+
+    $logger->info(sprintf("You selected %s. ", $generationDir));
+    $logger->info(sprintf("Your root directory: %s ", $rootDir));
 
     $moduleExtractor= new \Magento\Composer\Extractor\ModuleExtractor($rootDir, $logger);
     $adminThemeExtractor = new \Magento\Composer\Extractor\AdminThemeExtractor($rootDir, $logger);
     $frontEndThemeExtractor = new \Magento\Composer\Extractor\FrontendThemeExtractor($rootDir, $logger);
-    $libraryExtractor = new \Magento\Composer\Extractor\LibraryExtractor($rootDir, $logger);
-    $frameworkExtractor = new \Magento\Composer\Extractor\FrameworkExtractor($rootDir, $logger);
-    $languagePackExtractor = new \Magento\Composer\Extractor\LanguagePackExtractor($rootDir, $logger);
 
-    $components = $moduleExtractor->extract(null, $moduleCount);
-    $logger->debug("Read %3d modules.", $moduleCount);
-    $components = $adminThemeExtractor->extract($components, $adminThemeCount);
-    $logger->debug("Read %3d admin themes.", $adminThemeCount);
-    $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
-    $logger->debug("Read %3d frontend themes.", $frontendThemeCount);
-    $components = $libraryExtractor->extract($components , $libraryCount);
-    $logger->debug("Read %3d libraries.", $libraryCount);
-    $components = $frameworkExtractor->extract($components, $frameworkCount);
-    $logger->debug("Read %3d frameworks.", $frameworkCount);
-    $components = $languagePackExtractor->extract($components, $languagePackCount);
-    $logger->debug("Read %3d language packs.", $languagePackCount);
+    $modules = $moduleExtractor->extract();
+    $logger->debug(sprintf("Completed creating %3d modules.", sizeof($modules)));
+    $adminThemes = $adminThemeExtractor->extract();
+    $logger->debug(sprintf("Completed creating %3d admin themes.", sizeof($adminThemes)));
+    $frontendThemes = $frontEndThemeExtractor->extract();
+    $logger->debug(sprintf("Completed creating %3d frontend themes.", sizeof($frontendThemes)));
+
+    $components = array_merge( $modules, $adminThemes, $frontendThemes);
 
     try {
         if (!file_exists($generationDir)) {
             mkdir($generationDir, 0777, true);
         }
     } catch(\Exception $ex){
-        $logger->error("ERROR: Creating Directory %s failed. Message: %s", $generationDir, $ex->getMessage());
+        $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $generationDir, $ex->getMessage()));
         exit($e->getCode());
     }
-    $logger->debug("Zip Archive Location: %s", $generationDir);
-    $noOfZips = 0;
+    $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
     foreach($components as $component) {
         $name = \Magento\Composer\Helper\Converter::vendorPackagetoName($component->getName());
-        $noOfZips += \Magento\Composer\Helper\Zip::Zip($component->getLocation(), $generationDir . "/" . $name . "-". $component->getVersion() . ".zip");
-        $logger->debug("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion());
+        \Magento\Composer\Helper\Zip::Zip(realpath($component->getLocation()), $generationDir . "/" . $name . "-". $component->getVersion() . ".zip");
+        $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion()));
     }
-    $logger->log("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n", $generationDir);
+    $logger->info(sprintf("SUCCESS: Zipped all packages. You should be able to find it at %s. \n", $generationDir));
 
-} catch (Zend_Console_Getopt_Exception $e) {
+} catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
 }
 
