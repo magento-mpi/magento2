@@ -160,9 +160,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected function getAddressTaxRequest(QuoteDetails $quoteDetails, $storeId)
     {
         return $this->calculator->getRateRequest(
-            $quoteDetails->getShippingAddress() ? $quoteDetails->getShippingAddress() : false,
-            $quoteDetails->getBillingAddress() ? $quoteDetails->getBillingAddress() : false,
-            $quoteDetails->getCustomerTaxClassId() ? $quoteDetails->getCustomerTaxClassId() : false,
+            $quoteDetails->getShippingAddress(),
+            $quoteDetails->getBillingAddress(),
+            $quoteDetails->getCustomerTaxClassId(),
             $storeId
         );
     }
@@ -218,9 +218,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     ) {
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
-        if ($item->getType() === 'product') {
-            $request->setProductClassId($item->getTaxClassId());
-        }
+        $taxRequest->setProductClassId($item->getTaxClassId());
         $rate = $this->calculator->getRate($taxRequest);
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $quantity = $item->getQuantity();
@@ -233,7 +231,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $price = $price - $tax;
                 $subtotal = $price * $quantity;
                 $isPriceInclTax = true;
-                $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
             } else {
                 $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
                 $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
@@ -243,7 +240,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $taxSubtotal = $taxPrice * $quantity;
                 $subtotal = $price * $quantity;
                 $isPriceInclTax = true;
-                $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
             }
         } else {
             $taxable = $price;
@@ -258,7 +254,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $taxSubtotal = $taxPrice * $quantity;
             $isPriceInclTax = false;
         }
-
+        $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
         $this->taxDetailsItemBuilder->setRowTotal($subtotal);
