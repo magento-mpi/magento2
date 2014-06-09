@@ -10,11 +10,6 @@ namespace Magento\Tax\Model\System\Config\Source\Tax;
 class Region implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * @var array
-     */
-    protected $_options;
-
-    /**
      * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
     protected $_regionsFactory;
@@ -28,6 +23,8 @@ class Region implements \Magento\Framework\Option\ArrayInterface
     }
 
     /**
+     * Return list of country's regions as array
+     *
      * @param bool $noEmpty
      * @param string|array|null $country
      * @return array
@@ -42,9 +39,9 @@ class Region implements \Magento\Framework\Option\ArrayInterface
             unset($options[0]);
         } else {
             if ($options) {
-                $options[0]['label'] = '*';
+                $options[0] = array('value' => '0', 'label' => '*');
             } else {
-                $options = array(array('value' => '', 'label' => '*'));
+                $options = array(array('value' => '0', 'label' => '*'));
             }
         }
 

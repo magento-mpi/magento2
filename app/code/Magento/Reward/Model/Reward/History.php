@@ -28,6 +28,8 @@ namespace Magento\Reward\Model\Reward;
  * @method \Magento\Reward\Model\Reward\History setPointsDelta(int $value)
  * @method int getPointsUsed()
  * @method \Magento\Reward\Model\Reward\History setPointsUsed(int $value)
+ * @method int getPointsVoided()
+ * @method \Magento\Reward\Model\Reward\History setPointsVoided(int $value)
  * @method float getCurrencyAmount()
  * @method \Magento\Reward\Model\Reward\History setCurrencyAmount(float $value)
  * @method float getCurrencyDelta()

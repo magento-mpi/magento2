@@ -171,7 +171,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_title->add($customer->getName());
         }
         $itemsBlock = $this->_view->getLayout()->getBlock('ID');
-        if (is_object($itemsBlock) && method_exists($itemsBlock, 'getHeaderText')) {
+        if (is_object($itemsBlock) && is_callable([$itemsBlock, 'getHeaderText'])) {
             $this->_title->add($itemsBlock->getHeaderText());
         } else {
             $this->_title->add(__('Shopping Cart'));

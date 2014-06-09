@@ -9,8 +9,8 @@
 namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
@@ -33,7 +33,7 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Category fixture
      *
-     * @var Category
+     * @var CatalogCategoryEntity
      */
     protected $category;
 
@@ -54,10 +54,10 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Prepare data
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return array
      */
-    public function __prepare(Category $category)
+    public function __prepare(CatalogCategoryEntity $category)
     {
         $category->persist();
 
@@ -69,12 +69,12 @@ class CreateSimpleProductEntityTest extends Injectable
     /**
      * Injection data
      *
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductNew $newProductPage
      * @return void
      */
-    public function __inject(Category $category, CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
+    public function __inject(CatalogCategoryEntity $category, CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
     {
         $this->category = $category;
         $this->productGrid = $productGrid;
@@ -85,10 +85,10 @@ class CreateSimpleProductEntityTest extends Injectable
      * Run create product simple entity test
      *
      * @param CatalogProductSimple $product
-     * @param Category $category
+     * @param CatalogCategoryEntity $category
      * @return void
      */
-    public function testCreate(CatalogProductSimple $product, Category $category)
+    public function testCreate(CatalogProductSimple $product, CatalogCategoryEntity $category)
     {
         // Steps
         $this->productGrid->open();

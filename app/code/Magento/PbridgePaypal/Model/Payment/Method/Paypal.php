@@ -31,7 +31,7 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
     protected $_paymentData;
 
     /**
-     * @var PaypalDirect|Payflowpro|PayflowDirect
+     * @var PaypalDirect|Payflowpro
      */
     protected $_paypalMethodInstance;
 

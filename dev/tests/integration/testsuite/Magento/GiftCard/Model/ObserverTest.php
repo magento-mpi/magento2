@@ -10,22 +10,6 @@ namespace Magento\GiftCard\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * List of block injection classes
-     *
-     * @var array
-     */
-    protected $_blockInjections = array(
-        'Magento\Framework\Model\Context',
-        'Magento\Framework\Registry',
-        'Magento\Framework\App\Filesystem',
-        'Magento\Framework\View\Url',
-        'Magento\Framework\View\FileSystem',
-        'Magento\Core\Model\View\Design',
-        'Magento\Framework\App\Config\ScopeConfigInterface',
-        'Magento\Email\Model\Template\Config'
-    );
-
-    /**
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
      * @magentoDataFixture Magento/GiftCard/_files/order_with_gift_card.php
@@ -62,19 +46,5 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $options = $orderItem->getProductOptions();
         $this->assertEquals($expectedEmpty, empty($options['email_sent']));
         $this->assertEquals($expectedEmpty, empty($options['giftcard_created_codes']));
-    }
-
-    /**
-     * List of block constructor arguments
-     *
-     * @return array
-     */
-    protected function _prepareConstructorArguments()
-    {
-        $arguments = array();
-        foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($injectionClass);
-        }
-        return $arguments;
     }
 }
