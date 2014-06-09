@@ -980,9 +980,9 @@ class Tax extends AbstractTotal
             }
             $inclTax = $data['incl_tax'];
 
-            $totalTax = $this->_calculator->calcTaxAmount(array_sum($data['totals']), $rate, $inclTax, false);
+            $totalTax = $this->_calculator->calcTaxAmount(array_sum($data['totals']), $rate, $inclTax);
             $totalTax += array_sum($data['weee_tax']);
-            $baseTotalTax = $this->_calculator->calcTaxAmount(array_sum($data['base_totals']), $rate, $inclTax, false);
+            $baseTotalTax = $this->_calculator->calcTaxAmount(array_sum($data['base_totals']), $rate, $inclTax);
             $baseTotalTax += array_sum($data['base_weee_tax']);
             $this->_addAmount($totalTax);
             $this->_addBaseAmount($baseTotalTax);
