@@ -83,9 +83,7 @@ class LanguagePackXmlParser implements \Magento\Composer\Parser {
             }
             foreach ($package->xpath('language/depends/language/@name') as $depends) {
                 try {
-             //       echo $depends, "\n";
                     $map[(string)$depends] =  (string)$depends;
-                    //Get all the details and create the module object
                 }
                 catch (RuntimeException $e) {
                     // Skip invalid targets

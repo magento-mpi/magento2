@@ -11,7 +11,7 @@ class ModuleExtractorTest extends \PHPUnit_Framework_TestCase {
     {
         $rootDir = __DIR__ . '/../../../_files/';
         $objectManagerHelper = new ObjectManager($this);
-       // $logWriter = $objectManagerHelper->getObject('\Magento\Composer\Log\Writer\DefaultWriter');
+        // $logWriter = $objectManagerHelper->getObject('\Magento\Composer\Log\Writer\DefaultWriter');
         $silentLogger = $objectManagerHelper->getObject('\Magento\Composer\Log\Writer\QuietWriter');
         $logger = $objectManagerHelper->getObject('\Magento\Composer\Log\Log' , array('logWriter' => $silentLogger, 'debugWriter' => $silentLogger));
         $this->extractor = $objectManagerHelper->getObject('\Magento\Composer\Extractor\ModuleExtractor', array('rootDir' => $rootDir, 'logger' => $logger));

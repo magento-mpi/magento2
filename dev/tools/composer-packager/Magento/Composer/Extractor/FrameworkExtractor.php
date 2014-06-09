@@ -20,11 +20,11 @@ class FrameworkExtractor extends  BaseExtractor{
     }
 
     public function getParser($filename){
-        return new \Magento\Composer\Parser\FrameworkXmlParser($filename);
+        return new \Magento\Composer\Parser\LibraryXmlParser($filename);
     }
 
     public function createComponent($name){
-        return new \Magento\Composer\Model\Framework($name);
+        return new \Magento\Composer\Model\Library($name);
     }
 
     public function setValues(&$component, \Magento\Composer\Model\ArrayAndObjectAccess $definition){
