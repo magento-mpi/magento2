@@ -236,10 +236,13 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->taxRuleService->createTaxRule($taxRule);
         } catch (InputException $e) {
-            $errorMessages = array_map(function ($error) {
+            $errorMessages = array_map(
+                function ($error) {
                     /** @var ErrorMessage $error */
                     return $error->getMessage();
-                }, $e->getErrors());
+                },
+                $e->getErrors()
+            );
             $this->assertEquals($expectedMessages, $errorMessages);
             throw $e;
         }
