@@ -308,14 +308,19 @@
 }
 
 [class^=" adminhtml-giftregistry-"] {
-    .fieldset-wrapper-content .data-table td {
-        vertical-align: top;
-        select {
-            display: block;
-            width: 100%;
+    .fieldset-wrapper-content .data-table {
+        .col-sort-order {
+            width: 80px;
         }
-        #registry_attribute_1_is_required {
-            width: auto;
+        td {
+            vertical-align: top;
+            select {
+                display: block;
+                width: 100%;
+            }
+            .input-radio.global-scope {
+                margin-top: 9px;
+            }
         }
     }
 }
