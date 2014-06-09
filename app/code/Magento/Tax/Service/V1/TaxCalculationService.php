@@ -253,8 +253,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $this->roundingDeltas[$type][$rate] :
                 0.000001;
             $price += $delta;
-            $this->roundingDeltas[$type][$rate] = $price - $this->calculator->round($price);
-            $price = $this->calculator->round($price);
+            $roundPrice = $this->calculator->round($price);
+            $this->roundingDeltas[$type][$rate] = $price - $roundPrice;
+            $price = $roundPrice;
         }
         return $price;
     }
