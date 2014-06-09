@@ -38,18 +38,6 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     private $taxDetailsBuilder;
 
-    private static $travisCtyRateObjectDataArray = [
-        'code' => '9',
-        'title' => 'TX-TRAVIS',
-        'percent' => 0.0825,
-    ];
-
-    private static $utopiaCtyRateObjectDataArray = [
-        'code' => '2',
-        'title' => 'TX-UTOPIA',
-        'percent' => 0.01,
-    ];
-
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -61,38 +49,46 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ->create('\Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
     }
 
-    public function testTaxDetailsNoTax()
+    /**
+     * @param array $taxDetailsDataArray
+     *
+     * @dataProvider taxDetailsPopulateDataProvider
+     */
+    public function testTaxDetailsPopulate($taxDetailsDataArray)
     {
-        $dataNoTax = [
-            'subtotal' => 9.99,
-            'tax_amount' => 0.00,
-            'taxable_amount' => 0.00,
-            'discount_amount' => 0.00,
-            'applied_taxes' => null,
-            'items' => null,
-        ];
+        $taxDetailsDataObjectFromArray = $this->taxDetailsBuilder
+            ->populateWithArray($taxDetailsDataArray)
+            ->create();
+        $taxDetailsDataObjectFromObject = $this->taxDetailsBuilder
+            ->populate($taxDetailsDataObjectFromArray)
+            ->create();
 
-        $taxDetailsExpected = [
-            'subtotal' => 9.99,
-            'tax_amount' => 0.00,
-            'taxable_amount' => 0.00,
-            'discount_amount' => 0.00,
-            'applied_taxes' => [],
-            'items' => [],
-        ];
-
-        $taxDetails = $this->taxDetailsBuilder->populateWithArray($dataNoTax)->create();
-        $this->assertEquals($taxDetails->__toArray(), $taxDetailsExpected);
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromArray->__toArray()
+        );
+        $this->assertEquals(
+            $taxDetailsDataArray,
+            $taxDetailsDataObjectFromObject->__toArray()
+        );
+        $this->assertEquals(
+            $taxDetailsDataObjectFromArray,
+            $taxDetailsDataObjectFromObject
+        );
     }
 
-    public function testTaxDetailsSingleTax()
+    public function taxDetailsPopulateDataProvider()
     {
         $appliedTaxDataArray = [
             'tax_rate_key' => '1',
             'percent' => 0.0825,
             'amount' => 1.65,
             'rates' => [
-                self::$travisCtyRateObjectDataArray,
+                [
+                    'code' => '9',
+                    'title' => 'TX-TRAVIS',
+                    'percent' => 0.0825,
+                ]
             ],
         ];
 
@@ -105,6 +101,7 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'row_total' => 19.99,
             'row_total_incl_tax' => 21.64,
             'tax_amount' => 1.65,
+            'taxable_amount' => 19.99,
             'discount_amount' => 0.00,
             'discount_tax_compensation_amount' => 0.00,
             'applied_taxes' => [
@@ -112,67 +109,41 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $taxDetailsDataArray = [
-            'subtotal' => 19.99,
-            'tax_amount' => 1.65,
-            'taxable_amount' => 19.99,
-            'discount_amount' => 0.00,
-            'applied_taxes' => [
-                $appliedTaxDataArray,
-            ],
-            'items' => [
-                $taxDetailsItemDataArray,
-            ],
+        return [
+            'no_items' => [[
+                'subtotal' => 9.99,
+                'tax_amount' => 0.00,
+                'taxable_amount' => 0.00,
+                'discount_amount' => 0.00,
+            ]],
+            'single_item' => [[
+                'subtotal' => 19.99,
+                'tax_amount' => 1.65,
+                'taxable_amount' => 19.99,
+                'discount_amount' => 0.00,
+                'applied_taxes' => [
+                    $appliedTaxDataArray,
+                ],
+                'items' => [
+                    $taxDetailsItemDataArray,
+                ],
+            ]],
+            'multiple_items' => [[
+                'subtotal' => 19.99,
+                'tax_amount' => 1.65,
+                'taxable_amount' => 19.99,
+                'discount_amount' => 0.00,
+                'applied_taxes' => [
+                    $appliedTaxDataArray,
+                    $appliedTaxDataArray,
+                    $appliedTaxDataArray,
+                ],
+                'items' => [
+                    $taxDetailsItemDataArray,
+                    $taxDetailsItemDataArray,
+                    $taxDetailsItemDataArray,
+                ],
+            ]],
         ];
-
-        $taxDetailsDataObject = $this->taxDetailsBuilder->populateWithArray($taxDetailsDataArray)->create();
-
-        $this->assertEquals($taxDetailsDataArray, $taxDetailsDataObject->__toArray());
-    }
-
-    public function testTaxDetailsMultipleTax()
-    {
-        $appliedTaxDataArray = [
-            'tax_rate_key' => '2',
-            'percent' => 0.0925,
-            'amount' => 1.85,
-            'rates' => [
-                self::$travisCtyRateObjectDataArray,
-                self::$utopiaCtyRateObjectDataArray
-            ],
-        ];
-
-        $taxDetailsItemDataArray = [
-            'code' => '123123',
-            'type' => 'product',
-            'tax_percent' => 0.0925,
-            'price' => 19.99,
-            'price_incl_tax' => 21.84,
-            'row_total' => 19.99,
-            'row_total_incl_tax' => 21.84,
-            'tax_amount' => 1.85,
-            'discount_amount' => 0.00,
-            'discount_tax_compensation_amount' => 0.00,
-            'applied_taxes' => [
-                $appliedTaxDataArray,
-            ],
-        ];
-
-        $taxDetailsDataArray = [
-            'subtotal' => 19.99,
-            'tax_amount' => 1.85,
-            'taxable_amount' => 19.99,
-            'discount_amount' => 0.00,
-            'applied_taxes' => [
-                $appliedTaxDataArray,
-            ],
-            'items' => [
-                $taxDetailsItemDataArray,
-            ],
-        ];
-
-        $taxDetailsDataObject = $this->taxDetailsBuilder->populateWithArray($taxDetailsDataArray)->create();
-
-        $this->assertEquals($taxDetailsDataArray, $taxDetailsDataObject->__toArray());
     }
 }

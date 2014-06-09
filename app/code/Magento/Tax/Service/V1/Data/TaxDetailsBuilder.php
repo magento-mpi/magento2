@@ -95,31 +95,53 @@ class TaxDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     }
 
     /**
+     * Set applied taxes
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] | null $appliedTaxes
+     * @return $this
+     */
+    public function setAppliedTaxes($appliedTaxes)
+    {
+        $this->_set(TaxDetails::KEY_APPLIED_TAXES, $appliedTaxes);
+        return $this;
+    }
+
+    /**
+     * Set Tax Details items
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\Item[] | null $items
+     * @return $this
+     */
+    public function setItems($items)
+    {
+        $this->_set(TaxDetails::KEY_ITEMS, $items);
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function _setDataValues(array $data)
     {
-        $appliedTaxDataObjects = [];
-        $taxDetailItemDataObjects = [];
-
         if (isset($data[TaxDetails::KEY_APPLIED_TAXES])) {
+            $appliedTaxDataObjects = [];
             $appliedTaxes = $data[TaxDetails::KEY_APPLIED_TAXES];
             foreach ($appliedTaxes as $appliedTax) {
                 $appliedTaxDataObjects[] = $this->appliedTaxBuilder
                     ->populateWithArray($appliedTax)->create();
             }
+            $data[TaxDetails::KEY_APPLIED_TAXES] = $appliedTaxDataObjects;
         }
 
         if (isset($data[TaxDetails::KEY_ITEMS])) {
+            $taxDetailItemDataObjects = [];
             $taxDetailItems = $data[TaxDetails::KEY_ITEMS];
             foreach ($taxDetailItems as $taxDetailItem) {
                 $taxDetailItemDataObjects[] = $this->taxDetailsItemBuilder
                     ->populateWithArray($taxDetailItem)->create();
             }
+            $data[TaxDetails::KEY_ITEMS] = $taxDetailItemDataObjects;
         }
-
-        $data[TaxDetails::KEY_APPLIED_TAXES] = $appliedTaxDataObjects;
-        $data[TaxDetails::KEY_ITEMS] = $taxDetailItemDataObjects;
 
         return parent::_setDataValues($data);
     }
