@@ -13,6 +13,7 @@ use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
+use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetailsBuilder;
 
 /**
@@ -38,7 +39,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     /**
      * Tax Details builder
      *
-     * @var Data\TaxDetailsBuilder
+     * @var TaxDetailsBuilder
      */
     protected $taxDetailsBuilder;
 
@@ -57,23 +58,33 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected $roundingDeltas;
 
     /**
+     * Tax details item builder
+     *
+     * @var TaxDetailsBuilderItem
+     */
+    protected $taxDetailsItemBuilder;
+
+    /**
      * Constructor
      *
      * @param Calculation $calculation
      * @param \Magento\Tax\Model\Config $config
      * @param \Magento\Tax\Helper\Data $helper
-     * @param Data\TaxDetailsBuilder $taxDetailsBuilder
+     * @param TaxDetailsBuilder $taxDetailsBuilder
+     * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      */
     public function __construct(
         Calculation $calculation,
         \Magento\Tax\Model\Config $config,
         \Magento\Tax\Helper\Data $helper,
-        TaxDetailsBuilder $taxDetailsBuilder
+        TaxDetailsBuilder $taxDetailsBuilder,
+        TaxDetailsItemBuilder $taxDetailsItemBuilder
     ) {
         $this->calculator = $calculation;
         $this->config = $config;
         $this->helper = $helper;
         $this->taxDetailsBuilder = $taxDetailsBuilder;
+        $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
     }
 
     /**
@@ -199,7 +210,55 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
+        $this->taxDetailsItemBuilder->setCode($item->getCode());
+        $this->taxDetailsItemBuilder->setType($item->getType());
+        if ($item->getType() === 'product') {
+            $request->setProductClassId($item->getTaxClassId());
+        }
+        $rate = $this->calculator->getRate($taxRequest);
+        $this->taxDetailsItemBuilder->setTaxPercent($rate);
+        $quantity = $item->getQuantity();
+        $price = $taxPrice = $this->calculator->round($item->getUnitPrice());
+        $subtotal = $taxSubtotal = $this->calculator->round($item->getRowTotal());
+        if ($item->getTaxIncluded()) {
+            if ($taxRequest->getSameRateAsStore()) {
+                $taxable = $price;
+                $tax = $this->calculator->calcTaxAmount($taxable, $rate, true);
+                $price = $price - $tax;
+                $subtotal = $price * $quantity;
+                $isPriceInclTax = true;
+                $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
+            } else {
+                $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
+                $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
+                $taxable = $taxPrice;
+                $tax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $price = $taxPrice - $tax;
+                $taxSubtotal = $taxPrice * $quantity;
+                $subtotal = $price * $quantity;
+                $isPriceInclTax = true;
+                $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
+            }
+        } else {
+            $taxable = $price;
+            $appliedRates = $this->calculator->getAppliedRates($taxRequest);
+            $taxes = [];
+            foreach ($appliedRates as $appliedRate) {
+                $taxRate = $appliedRate['percent'];
+                $taxes[] = $this->calculator->calcTaxAmount($taxable, $taxRate, false);
+            }
+            $tax = array_sum($taxes);
+            $taxPrice = $price + $tax;
+            $taxSubtotal = $taxPrice * $quantity;
+            $isPriceInclTax = false;
+        }
 
+        $this->taxDetailsItemBuilder->setPrice($price);
+        $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
+        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
+        $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
+        return $this->taxDetailsItemBuilder->create();
     }
 
     /**
