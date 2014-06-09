@@ -10,17 +10,8 @@ class LibraryXmlParser implements \Magento\Composer\Parser {
 
     public function __construct($libraryDir)
     {
-        $this->setlibraryDir($libraryDir);
+        $this->_libraryDir= $libraryDir;
         $this->setFile($libraryDir.'/library.xml');
-    }
-
-    public function setLibraryDir($libraryDir){
-        // Remove trailing slash
-        if (!is_null($libraryDir)) {
-            $libraryDir = rtrim($libraryDir, '\\/');
-        }
-        $this->_libraryDir = $libraryDir;
-        return $this;
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Magento\Composer\Extractor;
 
 class FrameworkExtractor extends  BaseExtractor{
 
-    private $_path;
+    protected  $_path = 'lib/Magento/';
 
     public function __construct($rootDir, $logger){
         parent::__construct($logger);
