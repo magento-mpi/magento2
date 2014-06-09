@@ -30,7 +30,7 @@ class AssertProductSearchableBySku extends AbstractConstraint
      *
      * @var string
      */
-    protected  $errorMessage = 'The product has not been found by SKU.';
+    protected $errorMessage = 'The product has not been found by SKU';
 
     /**
      * Message for passing test
