@@ -54,6 +54,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * Rounding deltas for prices
      *
      * @var array
+     * example:
+     *  [
+     *      'type' => [
+     *          'rate' => 'rounding delta',
+     *      ],
+     *  ]
      */
     protected $roundingDeltas;
 
