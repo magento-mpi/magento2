@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertDownloadableSamplesData module="Magento_Downloadable">
+        <severeness>low</severeness>
+    </assertDownloadableSamplesData>
+    <assertDownloadableLinks module="Magento_Downloadable">
+        <severeness>low</severeness>
+    </assertDownloadableLinks>
+    <assertDownloadableProductForm module="Magento_Downloadable">
+        <severeness>low</severeness>
+    </assertDownloadableProductForm>
+</constraint>

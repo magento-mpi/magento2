@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Service\V1\Data;
 
+use Magento\Framework\Service\Data\ObjectFactory;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
 
@@ -21,14 +22,16 @@ class SearchResultsBuilder extends AbstractSearchResultsBuilder
     /**
      * Constructor
      *
+     * @param ObjectFactory $objectFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param CustomerDetailsBuilder $customerDetailsObjectBuilder
      */
     public function __construct(
+        ObjectFactory $objectFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         CustomerDetailsBuilder $customerDetailsObjectBuilder
     ) {
-        parent::__construct($searchCriteriaBuilder, $customerDetailsObjectBuilder);
+        parent::__construct($objectFactory, $searchCriteriaBuilder, $customerDetailsObjectBuilder);
     }
 
     /**

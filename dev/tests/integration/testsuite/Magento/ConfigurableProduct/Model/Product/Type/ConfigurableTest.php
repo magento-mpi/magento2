@@ -442,10 +442,10 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $productsData
-     * @dataProvider generateSimpleProductsWithoutQtyDataProvider
+     * @dataProvider generateSimpleProductsWithPartialDataDataProvider
      * @magentoDbIsolation enabled
      */
-    public function testGenerateSimpleProductsWithoutQty($productsData)
+    public function testGenerateSimpleProductsWithPartialData($productsData)
     {
         $this->_product->setNewVariationsAttributeSetId(4);
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
@@ -456,6 +456,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             );
             $product->load($productId);
             $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
+            $this->assertEquals('1', $product->getStockItem()->getData('is_in_stock'));
         }
     }
 
@@ -499,7 +500,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public static function generateSimpleProductsWithoutQtyDataProvider()
+    public static function generateSimpleProductsWithPartialDataDataProvider()
     {
         return array(
             array(

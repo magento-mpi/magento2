@@ -8,6 +8,7 @@
 namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\ObjectFactory;
 
 /**
  * Builder for the TaxRule Service Data Object
@@ -26,12 +27,14 @@ class TaxRuleBuilder extends AbstractObjectBuilder
     /**
      * Initialize dependencies.
      *
+     * @param ObjectFactory $objectFactory
      * @param TaxRateBuilder $taxRateBuilder
      */
     public function __construct(
+        ObjectFactory $objectFactory,
         TaxRateBuilder $taxRateBuilder
     ) {
-        parent::__construct();
+        parent::__construct($objectFactory);
         $this->taxRateBuilder = $taxRateBuilder;
     }
     /**

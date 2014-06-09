@@ -8,6 +8,7 @@
 namespace Magento\Rma\Controller;
 
 use Magento\Framework\App\RequestInterface;
+use Magento\Rma\Model\Rma;
 
 class Returns extends \Magento\Framework\App\Action\Action
 {
@@ -89,68 +90,59 @@ class Returns extends \Magento\Framework\App\Action\Action
 
         /** @var \Magento\Framework\Stdlib\DateTime\DateTime $coreDate */
         $coreDate = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
-        if ($this->_canViewOrder($order)) {
-            $post = $this->getRequest()->getPost();
-            if ($post && !empty($post['items'])) {
-                try {
-                    /** @var $urlModel \Magento\Framework\UrlInterface */
-                    $urlModel = $this->_objectManager->get('Magento\Framework\UrlInterface');
-                    /** @var $rmaModel \Magento\Rma\Model\Rma */
-                    $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
-                    $rmaData = array(
-                        'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
-                        'date_requested' => $coreDate->gmtDate(),
-                        'order_id' => $order->getId(),
-                        'order_increment_id' => $order->getIncrementId(),
-                        'store_id' => $order->getStoreId(),
-                        'customer_id' => $order->getCustomerId(),
-                        'order_date' => $order->getCreatedAt(),
-                        'customer_name' => $order->getCustomerName(),
-                        'customer_custom_email' => $post['customer_custom_email']
-                    );
-                    $result = $rmaModel->setData($rmaData)->saveRma($post);
-                    if (!$result) {
-                        $url = $urlModel->getUrl('*/*/create', array('order_id' => $orderId));
-                        $this->getResponse()->setRedirect($this->_redirect->error($url));
-                        return;
-                    }
-                    $result->sendNewRmaEmail();
-                    if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                        /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
-                        $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-                        $statusHistory->setRmaEntityId(
-                            $rmaModel->getId()
-                        )->setComment(
-                            $post['rma_comment']
-                        )->setIsVisibleOnFront(
-                            true
-                        )->setStatus(
-                            $rmaModel->getStatus()
-                        )->setCreatedAt(
-                            $coreDate->gmtDate()
-                        )->save();
-                    }
-                    $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
-                    $this->getResponse()->setRedirect($this->_redirect->success($urlModel->getUrl('*/*/history')));
-                    return;
-                } catch (\Exception $e) {
-                    $this->messageManager->addError(
-                        __('We cannot create a new return transaction. Please try again later.')
-                    );
-                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-                }
-            }
-            $this->_view->loadLayout();
-            $layout = $this->_view->getLayout();
-            $layout->initMessages();
-            $layout->getBlock('head')->setTitle(__('Create New Return'));
-            if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
-                $block->setRefererUrl($this->_redirect->getRefererUrl());
-            }
-            $this->_view->renderLayout();
-        } else {
+        if (!$this->_canViewOrder($order)) {
             $this->_redirect('sales/order/history');
+            return;
         }
+        $post = $this->getRequest()->getPost();
+        if ($post && !empty($post['items'])) {
+            try {
+                /** @var $rmaModel \Magento\Rma\Model\Rma */
+                $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
+                $rmaData = array(
+                    'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
+                    'date_requested' => $coreDate->gmtDate(),
+                    'order_id' => $order->getId(),
+                    'order_increment_id' => $order->getIncrementId(),
+                    'store_id' => $order->getStoreId(),
+                    'customer_id' => $order->getCustomerId(),
+                    'order_date' => $order->getCreatedAt(),
+                    'customer_name' => $order->getCustomerName(),
+                    'customer_custom_email' => $post['customer_custom_email']
+                );
+                if (!$rmaModel->setData($rmaData)->saveRma($post)) {
+                    $url = $this->_url->getUrl('*/*/create', array('order_id' => $orderId));
+                    $this->getResponse()->setRedirect($this->_redirect->error($url));
+                    return;
+                }
+                /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+                $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+                $statusHistory->setRma($rmaModel);
+                $statusHistory->sendNewRmaEmail();
+                $statusHistory->saveSystemComment();
+                if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
+                    $comment = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+                    $comment->setRma($rmaModel);
+                    $comment->saveComment($post['rma_comment'], true, false);
+                }
+                $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
+                $this->getResponse()->setRedirect($this->_redirect->success($this->_url->getUrl('*/*/history')));
+                return;
+            } catch (\Exception $e) {
+                $this->messageManager->addError(
+                    __('We cannot create a new return transaction. Please try again later.')
+                );
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
+            }
+        }
+        $this->_view->loadLayout();
+        $layout = $this->_view->getLayout();
+        $layout->initMessages();
+        $layout->getBlock('head')->setTitle(__('Create New Return'));
+        if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
+        }
+        $this->_view->renderLayout();
     }
 
     /**
@@ -162,7 +154,7 @@ class Returns extends \Magento\Framework\App\Action\Action
     protected function _canViewOrder($item)
     {
         $customerId = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomerId();
-        if ($item->getId() && $item->getCustomerId() && $item->getCustomerId() == $customerId) {
+        if ($item->getId() && $customerId && $item->getCustomerId() == $customerId) {
             return true;
         }
         return false;
@@ -176,9 +168,7 @@ class Returns extends \Magento\Framework\App\Action\Action
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (null === $entityId) {
-            $entityId = (int)$this->getRequest()->getParam('entity_id');
-        }
+        $entityId = $entityId ?: (int) $this->getRequest()->getParam('entity_id');
         if (!$entityId || !$this->_isEnabledOnFront()) {
             $this->_forward('noroute');
             return false;
@@ -262,12 +252,15 @@ class Returns extends \Magento\Framework\App\Action\Action
             return false;
         }
 
+        /** @var \Magento\Sales\Model\Order $order */
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
-        $availableStates = $this->_objectManager->get('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates();
+        $availableStatuses = $this->_objectManager
+            ->get('Magento\Sales\Model\Order\Config')
+            ->getVisibleOnFrontStatuses();
         if ($order->getId() && $order->getCustomerId() && $order->getCustomerId() == $customerId && in_array(
-            $order->getState(),
-            $availableStates,
+            $order->getStatus(),
+            $availableStatuses,
             $strict = true
         )
         ) {
@@ -294,45 +287,27 @@ class Returns extends \Magento\Framework\App\Action\Action
      */
     public function addCommentAction()
     {
-        if ($this->_loadValidRma()) {
-            try {
-                $response = false;
-                $comment = $this->getRequest()->getPost('comment');
-                $comment = trim(strip_tags($comment));
-
-                if (!empty($comment)) {
-                    /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
-                    $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
-                    /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
-                    $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-                    $result = $statusHistory->setRmaEntityId(
-                        $this->_coreRegistry->registry('current_rma')->getEntityId()
-                    )->setComment(
-                        $comment
-                    )->setIsVisibleOnFront(
-                        true
-                    )->setStatus(
-                        $this->_coreRegistry->registry('current_rma')->getStatus()
-                    )->setCreatedAt(
-                        $dateModel->gmtDate()
-                    )->save();
-                    $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
-                    $result->sendCustomerCommentEmail();
-                } else {
-                    throw new \Magento\Framework\Model\Exception(__('Please enter a valid message.'));
-                }
-            } catch (\Magento\Framework\Model\Exception $e) {
-                $response = array('error' => true, 'message' => $e->getMessage());
-            } catch (\Exception $e) {
-                $response = array('error' => true, 'message' => __('Cannot add message.'));
-            }
-            if (is_array($response)) {
-                $this->messageManager->addError($response['message']);
-            }
-            $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
+        if (!$this->_loadValidRma()) {
             return;
         }
-        return;
+        try {
+            $comment = $this->getRequest()->getPost('comment');
+            $comment = trim(strip_tags($comment));
+            if (empty($comment)) {
+                throw new \Magento\Framework\Model\Exception(__('Please enter a valid message.'));
+            }
+            /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+            $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+            $statusHistory->setRma($this->_coreRegistry->registry('current_rma'));
+            $statusHistory->setComment($comment);
+            $statusHistory->sendCustomerCommentEmail();
+            $statusHistory->saveComment($comment, true, false);
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $this->messageManager->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $this->messageManager->addError(__('Cannot add message.'));
+        }
+        $this->_redirect('*/*/view', array('entity_id' => (int) $this->getRequest()->getParam('entity_id')));
     }
 
     /**

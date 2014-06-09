@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>layeredNavigationBlock</name>
-        <class>Magento\Search\Test\Block\Catalog\Layer\View</class>
+        <class>Magento\LayeredNavigation\Test\Block\Navigation</class>
         <locator>.block.filter</locator>
         <strategy>css selector</strategy>
     </block>

@@ -116,7 +116,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_encryptorMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\UrlInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\UrlInterface
      */
     private $_urlMock;
 
@@ -1544,7 +1544,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             );
 
         $customerService = $this->_createService();
-        $filterBuilder = new FilterBuilder();
+        $filterBuilder = $this->_objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
         $this->_searchBuilder->addFilter([$filter]);
 
@@ -1614,7 +1614,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             );
 
         $customerService = $this->_createService();
-        $filterBuilder = new FilterBuilder();
+        $filterBuilder = $this->_objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
         $this->_searchBuilder->addFilter([$filter]);
 

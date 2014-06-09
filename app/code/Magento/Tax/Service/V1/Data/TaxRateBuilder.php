@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Tax\Service\V1\Data;
+use Magento\Framework\Service\Data\ObjectFactory;
 
 /**
  * Builder for the TaxRate Service Data Object
@@ -17,19 +18,21 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuild
     /**
      * ZipRange builder
      *
-     * @var \Magento\Tax\Service\V1\Data\ZipRangeBuilder
+     * @var ZipRangeBuilder
      */
     protected $zipRangeBuilder;
 
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
+     * @param ObjectFactory $objectFactory
+     * @param ZipRangeBuilder $zipRangeBuilder
      */
     public function __construct(
-        \Magento\Tax\Service\V1\Data\ZipRangeBuilder $zipRangeBuilder
+        ObjectFactory $objectFactory,
+        ZipRangeBuilder $zipRangeBuilder
     ) {
-        parent::__construct();
+        parent::__construct($objectFactory);
         $this->zipRangeBuilder = $zipRangeBuilder;
     }
 

@@ -36,7 +36,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->filterBuilder = new \Magento\Framework\Service\V1\Data\FilterBuilder();
+        $this->filterBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filterGroupBuilder = $this->objectManager
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
