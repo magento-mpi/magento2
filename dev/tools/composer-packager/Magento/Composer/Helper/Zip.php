@@ -5,46 +5,57 @@ namespace Magento\Composer\Helper;
 class Zip {
     public static function Zip($source, $destination)
     {
+        $noOfZips = 0;
+
         if (!extension_loaded('zip') || !file_exists($source)) {
-            return false;
+            return $noOfZips;
         }
 
         $zip = new \ZipArchive();
         if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
-            return false;
+            return $noOfZips;
         }
 
         $source = str_replace('\\', '/', realpath($source));
+        $splitSourcePath = explode('/', $source);
+        $sourceName = $splitSourcePath[count($splitSourcePath)-1];
 
         if (is_dir($source) === true)
         {
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
+            $noOfZips += sizeof($files);
 
             foreach ($files as $file)
             {
-                $file = str_replace('\\', '/', $file);
+                $file = str_replace('\\', '/', realpath($file));
 
                 // Ignore "." and ".." folders
                 if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
                     continue;
 
-                $file = realpath($file);
+                //Ignoring Magento Framework for lib folder
+                if (($sourceName === 'lib')&& strpos($file,'lib/Magento'))
+                    continue;
 
-                if (is_dir($file) === true)
+               if (is_dir($file) === true)
                 {
-                    $zip->addEmptyDir(str_replace($source . '/', '', $file . '/'));
+                    $str = str_replace($source . '/', '', $file . '/');
+                    $zip->addEmptyDir($str);
                 }
                 else if (is_file($file) === true)
                 {
-                    $zip->addFromString(str_replace($source . '/', '', $file), file_get_contents($file));
+                    $str = str_replace($source . '/', '', $file);
+                    $zip->addFromString($str, file_get_contents($file));
                 }
             }
         }
         else if (is_file($source) === true)
         {
             $zip->addFromString(basename($source), file_get_contents($source));
+            $noOfZips++;
         }
 
-        return $zip->close();
+        $zip->close();
+        return $noOfZips;
     }
 }
