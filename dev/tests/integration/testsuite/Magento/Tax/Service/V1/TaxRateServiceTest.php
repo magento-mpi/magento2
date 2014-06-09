@@ -281,7 +281,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->taxRateService->getTaxRate($taxRateId);
             $this->fail('NoSuchEntityException expected but not thrown');
-        } catch(NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'fieldName' => 'taxRateId',
                 'fieldValue' => $taxRateId,
@@ -314,7 +314,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->taxRateService->deleteTaxRate($taxRateId);
             $this->fail('NoSuchEntityException expected but not thrown');
-        } catch(NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'fieldName' => 'taxRateId',
                 'fieldValue' => $taxRateId,
