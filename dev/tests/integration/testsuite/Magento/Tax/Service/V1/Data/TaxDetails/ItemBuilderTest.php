@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data;
+namespace Magento\Tax\Service\V1\Data\TaxDetails;
 
 class ItemBuilderTest extends \PHPUnit_Framework_TestCase
 {
