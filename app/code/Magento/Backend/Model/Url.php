@@ -77,7 +77,7 @@ class Url extends \Magento\Framework\Url implements \Magento\Backend\Model\UrlIn
      * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\Backend\Model\Url\ScopeResolver $scopeResolver
+     * @param \Magento\Framework\Url\ScopeResolverInterface $scopeResolver
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Url\RouteParamsResolverFactory $routeParamsResolver
@@ -99,7 +99,7 @@ class Url extends \Magento\Framework\Url implements \Magento\Backend\Model\UrlIn
         \Magento\Framework\App\Route\ConfigInterface $routeConfig,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Backend\Model\Url\ScopeResolver $scopeResolver,
+        \Magento\Framework\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\Url\RouteParamsResolverFactory $routeParamsResolver,
