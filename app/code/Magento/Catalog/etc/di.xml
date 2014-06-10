@@ -289,6 +289,11 @@
             <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Search\FilterableAttributeList</argument>
         </arguments>
     </virtualType>
+    <virtualType name="advancedSearchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\AdvancedSearch\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Catalog\Model\Layer\Category\FilterableAttributeList">
         <arguments>
             <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
@@ -297,6 +302,11 @@
     <type name="Magento\Catalog\Model\Layer\Search\FilterableAttributeList">
         <arguments>
             <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\AdvancedSearch\FilterableAttributeList">
+        <arguments>
+            <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\AdvancedSearch</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Processor">
