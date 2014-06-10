@@ -187,18 +187,13 @@ abstract class AbstractAction
             $byType[$typeId][$productId] = $productId;
         }
 
-        $adapter->beginTransaction();
-        try {
-            $indexers = $this->_getTypeIndexers();
-            foreach ($indexers as $indexer) {
-                if (isset($byType[$indexer->getTypeId()])) {
-                    $indexer->reindexEntity($byType[$indexer->getTypeId()]);
-                }
+        $indexers = $this->_getTypeIndexers();
+        foreach ($indexers as $indexer) {
+            if (isset($byType[$indexer->getTypeId()])) {
+                $indexer->reindexEntity($byType[$indexer->getTypeId()]);
             }
-        } catch (\Exception $e) {
-            $adapter->rollback();
-            throw $e;
         }
+
         $adapter->commit();
 
         return $this;
