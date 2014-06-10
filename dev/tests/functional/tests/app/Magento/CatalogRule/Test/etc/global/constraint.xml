@@ -35,13 +35,6 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertCatalogRuleProductInCart>
-    <assertCatalogRuleInGrid module="Magento_CatalogRule">
-        <severeness>high</severeness>
-        <require>
-            <catalogRuleGrid class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex" />
-            <catalogRule class="Magento\CatalogRule\Test\Fixture\CatalogRule" />
-        </require>
-    </assertCatalogRuleInGrid>
     <assertCatalogRuleSaveMessage module="Magento_CatalogRule">
         <severeness>low</severeness>
         <require>

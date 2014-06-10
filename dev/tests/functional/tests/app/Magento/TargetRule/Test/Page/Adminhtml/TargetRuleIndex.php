@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TargetRuleIndex
+ * Backend target rule index page
  */
 class TargetRuleIndex extends BackendPage
 {

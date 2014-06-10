@@ -12,12 +12,12 @@ use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class ProductForm
@@ -289,5 +289,25 @@ class Form extends FormTabs
         }
 
         return $this;
+    }
+
+    /**
+     * Get data of the tabs
+     *
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
+     */
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
+    {
+        $data = parent::getData($fixture);
+        if ($fixture->hasData('status')) {
+            $data['status'] = 'Product offline';
+            if ($this->_rootElement->find(sprintf($this->onlineSwitcher, ':checked'))->isVisible()) {
+                $data['status'] = 'Product online';
+            }
+        }
+
+        return $data;
     }
 }
