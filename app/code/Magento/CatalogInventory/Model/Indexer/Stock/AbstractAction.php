@@ -41,10 +41,6 @@ abstract class AbstractAction
      */
     protected $_catalogProductType;
 
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface
@@ -60,21 +56,21 @@ abstract class AbstractAction
     protected $_indexers = array();
 
     /**
-     * @param  \Magento\Framework\Logger $logger
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory
+     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Logger $logger,
         \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory,
-        \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Catalog\Model\Product\Type $catalogProductType
     ) {
         $this->_resource = $resource;
         $this->_logger = $logger;
         $this->_indexerFactory = $indexerFactory;
         $this->_catalogProductType = $catalogProductType;
-        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -193,8 +189,6 @@ abstract class AbstractAction
                 $indexer->reindexEntity($byType[$indexer->getTypeId()]);
             }
         }
-
-        $adapter->commit();
 
         return $this;
     }
