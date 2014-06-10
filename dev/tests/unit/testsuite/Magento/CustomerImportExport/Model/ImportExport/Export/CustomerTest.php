@@ -5,16 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CustomerFinance\Model\ImportExport\Export\Customer;
+namespace Magento\CustomerImportExport\Model\ImportExport\Export;
 
-class FinanceTest extends \PHPUnit_Framework_TestCase
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
-     * Test attribute code and website specific attribute code
+     * Test attribute code
      */
     const ATTRIBUTE_CODE = 'code1';
-
-    const WEBSITE_ATTRIBUTE_CODE = 'website1_code1';
 
     /**#@-*/
 
@@ -24,6 +22,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_websites = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
+
+    /**
+     * Stores array (store id => code)
+     *
+     * @var array
+     */
+    protected $_stores = array(0 => 'admin', 1 => 'store1');
 
     /**
      * Attributes array
@@ -37,64 +42,49 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_customerData = array(
-        'website_id' => 1,
-        'email' => '@email@domain.com',
-        self::WEBSITE_ATTRIBUTE_CODE => 1
-    );
+    protected $_customerData = array('website_id' => 1, 'store_id' => 1, self::ATTRIBUTE_CODE => 1);
 
     /**
-     * Customer financial data export model
+     * Customer export model
      *
-     * @var \Magento\CustomerFinance\Model\ImportExport\Export\Customer\Finance
+     * @var Customer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $customerCollectionFactory = $this->getMock(
-            'Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory',
-            array(),
-            array(),
-            '',
-            false,
-            false
-        );
-
-        $eavCustomerFactory = $this->getMock(
-            'Magento\CustomerImportExport\Model\ImportExport\Export\CustomerFactory',
-            array(),
-            array(),
-            '',
-            false,
-            false
-        );
-
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+
         $storeManager->expects(
-            $this->exactly(2)
+            $this->any()
         )->method(
             'getWebsites'
         )->will(
             $this->returnCallback(array($this, 'getWebsites'))
         );
 
-        $this->_model = new \Magento\CustomerFinance\Model\ImportExport\Export\Customer\Finance(
-            $scopeConfig,
+        $storeManager->expects(
+            $this->any()
+        )->method(
+            'getStores'
+        )->will(
+            $this->returnCallback(array($this, 'getStores'))
+        );
+
+        $this->_model = new Customer(
+            $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
             $storeManager,
-            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
                 array(),
                 array(),
                 '',
-                false,
                 false
             ),
-            $customerCollectionFactory,
-            $eavCustomerFactory,
-            $this->getMock('Magento\CustomerFinance\Helper\Data', array(), array(), '', false, false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
+            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()
         );
     }
@@ -111,28 +101,27 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelDependencies()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection \Magento\Framework\Data\Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock(
-            'Magento\Framework\Data\Collection',
-            array('getEntityTypeCode'),
-            array($this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false))
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $attributeCollection = new \Magento\Framework\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
-                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
             );
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockBuilder(
-                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
-            )->setConstructorArgs(
-                $arguments
-            )->setMethods(
+            $attribute = $this->getMockForAbstractClass(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                $arguments,
+                '',
+                true,
+                true,
+                true,
                 array('_construct')
-            )->getMock();
+            );
             $attributeCollection->addItem($attribute);
         }
 
@@ -142,16 +131,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'page_size' => 1,
             'collection_by_pages_iterator' => 'not_used',
             'entity_type_id' => 1,
-            'customer_collection' => 'not_used',
-            'customer_entity' => 'not_used',
-            'module_helper' => 'not_used'
+            'customer_collection' => 'not_used'
         );
 
         return $data;
     }
 
     /**
-     * Get websites stub
+     * Get websites
      *
      * @param bool $withDefault
      * @return array
@@ -174,12 +161,36 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Get stores
+     *
+     * @param bool $withDefault
+     * @return array
+     */
+    public function getStores($withDefault = false)
+    {
+        $stores = array();
+        if (!$withDefault) {
+            unset($stores[0]);
+        }
+        foreach ($this->_stores as $id => $code) {
+            if (!$withDefault && $id == 0) {
+                continue;
+            }
+            $storeData = array('id' => $id, 'code' => $code);
+            $stores[$id] = new \Magento\Framework\Object($storeData);
+        }
+
+        return $stores;
+    }
+
+    /**
      * Test for method exportItem()
      *
-     * @covers \Magento\CustomerFinance\Model\ImportExport\Export\Customer\Finance::exportItem
+     * @covers \Magento\CustomerImportExport\Model\ImportExport\Export\Customer::exportItem
      */
     public function testExportItem()
     {
+        /** @var $writer \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
         $writer = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(),
@@ -200,17 +211,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass(
-            'Magento\Framework\Model\AbstractModel',
-            array(),
-            '',
-            false,
-            false,
-            true,
-            array('__wakeup')
-        );
-        /** @var $item \Magento\Framework\Model\AbstractModel */
-        $item->setData($this->_customerData);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $arguments = $objectManagerHelper->getConstructArguments('Magento\Framework\Model\AbstractModel');
+        $arguments['data'] = $this->_customerData;
+        $item = $this->getMockForAbstractClass('Magento\Framework\Model\AbstractModel', $arguments);
 
         $this->_model->exportItem($item);
     }
@@ -222,15 +226,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function validateWriteRow(array $row)
     {
-        $emailColumn = Finance::COLUMN_EMAIL;
-        $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
-
-        $websiteColumn = Finance::COLUMN_WEBSITE;
+        $websiteColumn = Customer::COLUMN_WEBSITE;
+        $storeColumn = Customer::COLUMN_STORE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
-
-        $financeWebsiteCol = Finance::COLUMN_FINANCE_WEBSITE;
-        $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
-
-        $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);
+        $this->assertEquals($this->_stores[$this->_customerData['store_id']], $row[$storeColumn]);
+        $this->assertEquals($this->_customerData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);
     }
 }

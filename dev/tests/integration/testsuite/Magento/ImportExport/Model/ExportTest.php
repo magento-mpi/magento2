@@ -55,11 +55,11 @@ class ExportTest extends \PHPUnit_Framework_TestCase
             ),
             'customer main data' => array(
                 '$entity' => 'customer',
-                '$expectedEntityType' => 'Magento\Customer\Model\ImportExport\Export\Customer'
+                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\ImportExport\Export\Customer'
             ),
             'customer address' => array(
                 '$entity' => 'customer_address',
-                '$expectedEntityType' => 'Magento\Customer\Model\ImportExport\Export\Address'
+                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\ImportExport\Export\Address'
             )
         );
     }

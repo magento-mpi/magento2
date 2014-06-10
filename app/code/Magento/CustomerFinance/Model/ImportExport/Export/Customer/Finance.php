@@ -70,7 +70,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     /**
      * Customers whose financial data is exported
      *
-     * @var \Magento\Customer\Model\ImportExport\Export\Customer
+     * @var \Magento\CustomerImportExport\Model\ImportExport\Export\Customer
      */
     protected $_customerEntity;
 
@@ -87,7 +87,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     protected $_customerCollectionFactory;
 
     /**
-     * @var \Magento\Customer\Model\ImportExport\Export\CustomerFactory
+     * @var \Magento\CustomerImportExport\Model\ImportExport\Export\CustomerFactory
      */
     protected $_eavCustomerFactory;
 
@@ -97,7 +97,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
-     * @param \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory
+     * @param \Magento\CustomerImportExport\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory
      * @param \Magento\CustomerFinance\Helper\Data $customerFinanceData
      * @param array $data
      */
@@ -107,7 +107,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
-        \Magento\Customer\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory,
+        \Magento\CustomerImportExport\Model\ImportExport\Export\CustomerFactory $eavCustomerFactory,
         \Magento\CustomerFinance\Helper\Data $customerFinanceData,
         array $data = array()
     ) {
@@ -215,7 +215,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      * Set parameters (push filters from post into export customer model)
      *
      * @param string[] $parameters
-     * @return \Magento\Customer\Model\ImportExport\Export\Address
+     * @return \Magento\CustomerImportExport\Model\ImportExport\Export\Address
      */
     public function setParameters(array $parameters)
     {

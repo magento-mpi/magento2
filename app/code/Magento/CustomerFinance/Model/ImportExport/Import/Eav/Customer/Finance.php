@@ -12,7 +12,7 @@ namespace Magento\CustomerFinance\Model\ImportExport\Import\Eav\Customer;
  *
  * @method array getData() getData()
  */
-class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustomer
+class Finance extends \Magento\CustomerImportExport\Model\ImportExport\Import\AbstractCustomer
 {
     /**
      * Attribute collection name
@@ -123,7 +123,7 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
+     * @param \Magento\CustomerImportExport\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\CustomerFinance\Helper\Data $customerFinanceData
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -141,7 +141,7 @@ class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustom
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
+        \Magento\CustomerImportExport\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\CustomerFinance\Helper\Data $customerFinanceData,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

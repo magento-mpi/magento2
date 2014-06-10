@@ -8,7 +8,7 @@
 namespace Magento\CustomerFinance\Model\ImportExport\Import\Eav\Customer;
 
 use Magento\ImportExport\Model\Import\AbstractEntity;
-use Magento\Customer\Model\ImportExport\Import\Address;
+use Magento\CustomerImportExport\Model\ImportExport\Import\Address;
 use Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection;
 
 /**
@@ -215,7 +215,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock(
-                'Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory',
+                'Magento\CustomerImportExport\Model\Resource\ImportExport\Import\Customer\StorageFactory',
                 array(),
                 array(),
                 '',
@@ -264,9 +264,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $connection = $this->getMock('stdClass');
 
-        /** @var $customerStorage \Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage */
+        /** @var $customerStorage \Magento\CustomerImportExport\Model\Resource\ImportExport\Import\Customer\Storage */
         $customerStorage = $this->getMock(
-            'Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage',
+            'Magento\CustomerImportExport\Model\Resource\ImportExport\Import\Customer\Storage',
             array('load'),
             array(),
             '',
