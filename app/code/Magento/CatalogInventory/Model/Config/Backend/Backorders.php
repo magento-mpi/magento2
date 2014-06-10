@@ -8,13 +8,13 @@
 
 
 /**
- * Catalog Inventory Manage Stock Config Backend Model
+ * Catalog Inventory Backorders Config Backend Model
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Model\Config\Backend;
 
-class Managestock extends \Magento\Framework\App\Config\Value
+class Backorders extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\CatalogInventory\Model\Stock\Status
@@ -59,7 +59,11 @@ class Managestock extends \Magento\Framework\App\Config\Value
      */
     protected function _afterSave()
     {
-        if ($this->isValueChanged()) {
+        if ($this->isValueChanged() && (
+                $this->getOldValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
+                || $this->getValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
+            )
+        ) {
             $this->_stockIndexer->invalidate();
             $this->_stockStatus->rebuild();
         }

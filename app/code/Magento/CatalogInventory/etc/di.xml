@@ -35,4 +35,10 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="invalidateStockIndexerOnImport" type="\Magento\CatalogInventory\Model\Indexer\Stock\Plugin\Import" />
+    </type>
+    <type name="Magento\Store\Model\Resource\Group">
+        <plugin name="storeGroupResourceAroundBeforeSave" type="\Magento\CatalogInventory\Model\Indexer\Stock\Plugin\StoreGroup"/>
+    </type>
 </config>
