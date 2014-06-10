@@ -322,6 +322,49 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     }
 
     /**
+     * Recalculate row information for item based on children calculation
+     *
+     * @param TaxDetailsItem $parent
+     * @param TaxDetailsItem[] $children
+     * @return TaxDetailsItem
+     */
+    protected function recalculateParent(TaxDetailsItem $parent, $children)
+    {
+        $newParent = $this->taxDetailsItemBuilder->populate($parent);
+
+        $price = 0.00;
+        $price_incl_tax = 0.00;
+        $row_total = 0.00;
+        $row_total_incl_tax = 0.00;
+        $tax_amount = 0.00;
+        $taxable_amount = 0.00;
+        $discount_amount = 0.00;
+        $discount_tax_compensation_amount = 0.00;
+
+        foreach($children as $child) {
+            $price += $child->getPrice();
+            $price_incl_tax += $child->getPriceInclTax();
+            $row_total += $child->getRowTotal();
+            $row_total_incl_tax += $child->getRowTotalInclTax();
+            $tax_amount += $child->getTaxAmount();
+            $taxable_amount += $child->getTaxableAmount();
+            $discount_amount += $child->getDiscountAmount();
+            $discount_tax_compensation_amount += $child->getDiscountTaxCompensationAmount();
+        }
+
+        $newParent->setPrice($price);
+        $newParent->setPriceInclTax($price_incl_tax);
+        $newParent->setRowTotal($row_total);
+        $newParent->setRowTotalInclTax($row_total_incl_tax);
+        $newParent->setTaxAmount($tax_amount);
+        $newParent->setTaxableAmount($taxable_amount);
+        $newParent->setDiscountAmount($discount_amount);
+        $newParent->setDiscountTaxCompensationAmount($discount_tax_compensation_amount);
+
+        return $newParent->create();
+    }
+
+    /**
      * Given a store price that includes tax at the store rate, this function will back out the store's tax, and add in
      * the customer's tax.  Returns this new price which is the customer's price including tax.
      *
