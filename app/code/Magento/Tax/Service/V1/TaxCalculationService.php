@@ -9,6 +9,7 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Tax\Model\Calculation;
+use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails;
@@ -98,16 +99,17 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      */
     public function calculateTax(QuoteDetails $quoteDetails, $storeId)
     {
-        // init taxDetailsBuilder
-        $taxDetails = $this->taxDetailsBuilder->setDiscountAmount(0)
-            ->setSubtotal(0)
-            ->setTaxableAmount(0)
-            ->setTaxAmount(0)
-            ->create();
+        // initial TaxDetails data
+        $taxDetailsData = [
+            TaxDetails::KEY_SUBTOTAL => 0,
+            TaxDetails::KEY_TAX_AMOUNT => 0,
+            TaxDetails::KEY_TAXABLE_AMOUNT => 0,
+            TaxDetails::KEY_DISCOUNT_AMOUNT => 0,
+        ];
 
         $items = $quoteDetails->getItems();
         if (empty($items)) {
-            return $taxDetails;
+            return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
         }
         $this->calculator->setCustomerData($quoteDetails->getCustomer());
 
@@ -115,10 +117,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         if ($this->config->priceIncludesTax($storeId)) {
             $storeRequest = $this->getStoreTaxRequest($storeId);
             $classIds = [];
+            $keyedItems = [];
             foreach ($items as $item) {
                 if ($item->getTaxClassId()) {
                     $classIds[] = $item->getTaxClassId();
                 }
+                $keyedItems[$item->getCode()] = $item;
             }
             $classIds = array_unique($classIds);
             $addressRequest->setProductClassId($classIds);
@@ -140,14 +144,29 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         // init rounding deltas for this quote
         $this->roundingDeltas = [];
-        foreach ($items as $item) {
-            $taxDetailsItem = $this->processItem($item, $addressRequest, $storeId);
-            if (null != $taxDetailsItem) {
-                $taxDetails = $this->addSubtotalAmount($taxDetails, $taxDetailsItem);
+        $processedItems = [];
+        /** @var QuoteDetailsItem $item */
+        foreach ($keyedItems as $key => $item) {
+            $processedItem = $this->processItem($item, $addressRequest, $storeId);;
+            if ($item->getParentCode()) {
+                $processedItems[$item->getParentCode()]['children'][$key] = $processedItem;
+            } else {
+                $processedItems[$key]['item'] = $processedItem;
             }
         }
 
-        return $taxDetails;
+        foreach ($processedItems as $key => $content) {
+            if (array_key_exists('children', $content)) {
+                $processedItem[$key]['item'] = $this->recalculateParent($content['item'], $content['children']);
+            }
+            $taxDetailsData[TaxDetails::KEY_ITEMS][] = $content['item'];
+            foreach ($content['children'] as $child) {
+                $taxDetailsData[TaxDetails::KEY_ITEMS][] = $child;
+            }
+            $taxDetailsData = $this->addSubtotalAmount($taxDetailsData, $content['item']);
+        }
+
+        return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
     }
 
     /**
@@ -409,5 +428,17 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             = $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT] + $item->getDiscountAmount();
 
         return $taxDetailsData;
+    }
+
+    /**
+     * Recalculate row information for item based on children calculation
+     *
+     * @param TaxDetailsItem $parent
+     * @param TaxDetailsItem[] $children
+     * @return TaxDetailsItem
+     */
+    protected function recalculateParent(TaxDetailsItem $parent, $children)
+    {
+
     }
 }
