@@ -12,7 +12,6 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 
 /**
- * @package Magento\Catalog\Model\Product
  * @method string getPkFieldName()
  * @method Condition setPkFieldName(string $fieldName)
  * @method string|array getTable()
