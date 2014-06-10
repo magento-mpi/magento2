@@ -245,6 +245,27 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
+    <assertCategorySuccessDeleteMessage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <categoryEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit" />
+        </require>
+    </assertCategorySuccessDeleteMessage>
+    <assertCategoryAbsentOnFrontend module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <browser class="Mtf\Client\Browser" />
+            <categoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
+        </require>
+    </assertCategoryAbsentOnFrontend>
+    <assertCategoryNotExist module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+            <category class="Magento\Catalog\Test\Fixture\CatalogCategory" />
+            <catalogCategoryIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex" />
+        </require>
+    </assertCategoryNotExist>
     <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
         <severeness>high</severeness>
         <require>

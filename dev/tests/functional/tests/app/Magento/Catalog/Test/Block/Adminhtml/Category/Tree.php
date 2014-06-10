@@ -16,7 +16,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Tree
  * Categories tree block
- *
  */
 class Tree extends Block
 {
@@ -62,6 +61,8 @@ class Tree extends Block
 
     /**
      * Press 'Add Subcategory' button
+     *
+     * @return void
      */
     public function addSubcategory()
     {
@@ -82,7 +83,53 @@ class Tree extends Block
     }
 
     /**
+     * Find category name in array
+     *
+     * @param $structure
+     * @param $category
+     * @return bool
+     */
+    protected function inTree($structure, &$category)
+    {
+        $element = array_shift($category);
+        foreach ($structure as $item) {
+            $result = strpos($item['name'], $element);
+            if ($result !== false && !empty($item['subnodes'])) {
+                return $this->inTree($item['subnodes'], $category);
+            } elseif ($result !== false && empty($category)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Find category in category tree
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function findCategory($path)
+    {
+        $category = explode('/', $path);
+        $structure = $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->getStructure();
+        $result = false;
+        $element = array_shift($category);
+        foreach ($structure as $item) {
+            $result = strpos($item['name'], $element);
+            if ($result !== false && !empty($item['subnodes'])) {
+                $result = $this->inTree($item['subnodes'], $category);
+            } elseif ($result !== false && empty($category)) {
+                $result = true;
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Expand all categories tree
+     *
+     * @return void
      */
     protected function expandAllCategories()
     {

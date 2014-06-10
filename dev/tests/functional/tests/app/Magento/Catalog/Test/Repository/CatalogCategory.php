@@ -25,5 +25,19 @@ class CatalogCategory extends AbstractRepository
             'is_active' => 'Yes',
             'include_in_menu' => 'Yes',
         ];
+
+        $this->_data['root_category'] = [
+            'name' => 'Category%isolation%',
+            'path' => '1/3',
+            'is_active' => 'Yes',
+            'include_in_menu' => 'Yes'
+        ];
+
+        $this->_data['root_subcategory'] = [
+            'name' => 'Category%isolation%',
+            'path' => '1/3/4',
+            'is_active' => 'Yes',
+            'include_in_menu' => 'Yes'
+        ];
     }
 }
