@@ -53,7 +53,6 @@ class Login extends \Magento\Framework\App\Action\Action
     public function indexAction()
     {
         $loginData = json_decode($this->getRequest()->getRawBody(), true);
-        //$loginData will mostly be null for
         if (!$loginData || $this->getRequest()->getMethod()!==\Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
             $this->getResponse()->setHttpResponseCode(HttpException::HTTP_BAD_REQUEST);
             return;
