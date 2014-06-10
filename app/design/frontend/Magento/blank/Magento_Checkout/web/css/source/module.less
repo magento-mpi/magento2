@@ -260,19 +260,21 @@
 //
 //    Checkout
 //--------------------------------------
-
-.block.progress.onepage {
-    background: @sidebar-background;
+.opc-block-progress {
+    &:extend(.add-box-sizing all);
     margin-bottom: @indent-l-base;
-    padding: 1px 15px 5px;
     > .title {
+        background: @sidebar-background;
         .heading(h3);
-        margin-bottom: 20px;
+        margin: 0;
+        padding: 15px 15px 20px;
         strong {
             font-weight: @font-weight-base;
         }
     }
     .content {
+        background: @sidebar-background;
+        padding: 0 15px 5px;
         dd.complete {
             margin: 0 0 15px;
             overflow: hidden;
@@ -290,7 +292,9 @@
     }
 }
 
-.opc.wrapper {
+.opc-wrapper {
+    &:extend(.add-box-sizing all);
+    .css(padding-bottom, @indent-xl-base);
     > .opc {
         &:extend(.reset-list all);
     }
@@ -342,7 +346,8 @@
     }
 
     //  Shipping and payment mathods
-    .items.methods {
+    .methods-shipping,
+    .methods-payment {
         .content {
             margin-left: 20px;
         }
@@ -352,18 +357,19 @@
         .field.month {
             padding-right: 10px;
         }
-        &.payment {
-            .content {
-                margin-bottom: 0;
-                .fieldset {
-                   padding: 15px 0;
-                }
-                .label {
-                    font-weight: @font-weight-base;
-                }
+    }
+    .methods-payment {
+        .content {
+            margin-bottom: 0;
+            .fieldset {
+               padding: 15px 0;
+            }
+            .label {
+                font-weight: @font-weight-base;
             }
         }
     }
+
 
     // Gift messages
     .fieldset.gift.message {
@@ -485,7 +491,7 @@
     }
 
     //  Customer login
-    .step.login.wrapper {
+    .login-wrapper {
         .block {
             > .title {
                 &:extend(.login-block-title all);
@@ -708,7 +714,35 @@
         }
     }
 
-    .step.login.wrapper {
+    .checkout-onepage-index .column.main {
+        &:extend(.add-clearfix-desktop all);
+    }
+
+    .opc-wrapper {
+        .layout-column(2, 2, @layout-column-checkout-main-width);
+        &:extend(.add-box-sizing-desktop all);
+        .step {
+            .form:not(.login) .actions.toolbar {
+                &:extend(.reset-left-margin-desktop all);
+            }
+            &.content {
+                .fieldset.login {
+                    &:after {
+                        &:extend(.margin-for-forms-desktop all);
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+
+    .opc-block-progress {
+        .layout-column(2, 1, @layout-column-checkout-left-width);
+        padding-right: @layout-column-main-sidebar-offset;
+        &:extend(.add-box-sizing-desktop all);
+    }
+
+    .login-wrapper {
         &:extend(.add-clearfix-desktop all);
         .block {
             &:extend(.blocks-2columns all);
@@ -721,22 +755,6 @@
         .fieldset.login {
             .actions {
                 &:extend(.margin-for-forms-desktop all);
-            }
-        }
-    }
-
-    .opc.wrapper {
-        .step {
-            .actions.toolbar {
-                &:extend(.reset-left-margin-desktop all);
-            }
-            &.content {
-                .fieldset.login {
-                    &:after {
-                        &:extend(.margin-for-forms-desktop all);
-                        text-align: left;
-                    }
-                }
             }
         }
     }

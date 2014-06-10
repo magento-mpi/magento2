@@ -33,7 +33,7 @@ $config = array(
 $mageConfig = json_encode($config);
 ?>
 
-<div class="opc wrapper">
+<div class="opc-wrapper">
     <ol class="opc" id="checkoutSteps">
     <?php $i=0; foreach($this->getSteps() as $_stepId => $_stepInfo): ?>
     <?php if (!$this->getChildBlock($_stepId) || !$this->getChildBlock($_stepId)->isShow()): continue; endif; $i++ ?>
