@@ -41,7 +41,6 @@ abstract class AbstractAction
      */
     protected $_catalogProductType;
 
-
     /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
@@ -104,13 +103,9 @@ abstract class AbstractAction
             foreach ($this->_catalogProductType->getTypesByPriority() as $typeId => $typeInfo) {
                 $indexerClassName = isset($typeInfo['stock_indexer']) ? $typeInfo['stock_indexer'] : '';
 
-                $indexer = $this->_indexerFactory->create(
-                    $indexerClassName
-                )->setTypeId(
-                        $typeId
-                    )->setIsComposite(
-                        !empty($typeInfo['composite'])
-                    );
+                $indexer = $this->_indexerFactory->create($indexerClassName)
+                    ->setTypeId($typeId)
+                    ->setIsComposite(!empty($typeInfo['composite']));
 
                 $this->_indexers[$typeId] = $indexer;
             }
@@ -138,13 +133,9 @@ abstract class AbstractAction
     public function getRelationsByChild($childIds)
     {
         $adapter = $this->_getConnection();
-        $select = $adapter->select()->from(
-            $this->_getTable('catalog_product_relation'),
-            'parent_id'
-        )->where(
-                'child_id IN(?)',
-                $childIds
-            );
+        $select = $adapter->select()
+            ->from($this->_getTable('catalog_product_relation'), 'parent_id')
+            ->where('child_id IN(?)', $childIds);
 
         return $adapter->fetchCol($select);
     }
@@ -162,20 +153,12 @@ abstract class AbstractAction
             $productIds = array($productIds);
         }
         $parentIds = $this->getRelationsByChild($productIds);
-        if ($parentIds) {
-            $processIds = array_merge($parentIds, $productIds);
-        } else {
-            $processIds = $productIds;
-        }
+        $processIds = $parentIds ? array_merge($parentIds, $productIds) : $productIds;
 
         // retrieve product types by processIds
-        $select = $adapter->select()->from(
-            $this->_getTable('catalog_product_entity'),
-            array('entity_id', 'type_id')
-        )->where(
-                'entity_id IN(?)',
-                $processIds
-            );
+        $select = $adapter->select()
+            ->from($this->_getTable('catalog_product_entity'), array('entity_id', 'type_id'))
+            ->where('entity_id IN(?)', $processIds);
         $pairs = $adapter->fetchPairs($select);
 
         $byType = array();
