@@ -292,7 +292,53 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
+        $taxRequest->setProductClassId($item->getTaxClassId());
+        $rate = $this->calculator->getRate($taxRequest);
+        $quantity = $item->getQuantity();
+        $price = $this->calculator->round($item->getUnitPrice());
+        $subtotal = $this->calculator->round($item->getRowTotal());
 
+        if ($item->getTaxIncluded()) {
+            if ($taxRequest->getSameRateAsStore()) {
+                $taxable = $subtotal;
+                $rowTax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $taxPrice = $price;
+                $taxSubtotal = $subtotal;
+                $subtotal = $this->calculator->round($subtotal - $rowTax);
+                $price = $this->calculator->round($subtotal / $quantity);
+            } else {
+                $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
+                $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
+                $tax = $this->calculator->calcTaxAmount($taxPrice, $rate, true, true);
+                $price = $this->calculator->round($taxPrice - $tax);
+                $taxable = $this->calculator->round($taxPrice * $quantity);
+                $taxSubtotal = $this->calculator->round($taxPrice * $quantity);
+                $rowTax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $subtotal = $this->calculator->round($taxSubtotal - $rowTax);
+            }
+        } else {
+            $taxable = $subtotal;
+            $appliedRates = $this->calculator->getAppliedRates($taxRequest);
+            $rowTaxes = [];
+            foreach ($appliedRates as $appliedRate) {
+                $taxRate = $appliedRate['percent'];
+                $rowTaxes[] = $this->calculator->calcTaxAmount($taxable, $taxRate, false, true);
+            }
+            $rowTax = array_sum($rowTaxes);
+            $taxSubtotal = $this->calculator->round($subtotal + $rowTax);
+            $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
+        }
+
+        $this->taxDetailsItemBuilder->setPrice($price);
+        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
+        $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
+        $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
+        $this->taxDetailsItemBuilder->setCode($item->getCode());
+        $this->taxDetailsItemBuilder->setType($item->getType());
+        $this->taxDetailsItemBuilder->setTaxPercent($rate);
+
+        return $this->taxDetailsItemBuilder->create();
     }
 
     /**
@@ -389,6 +435,49 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $price = $roundPrice;
         }
         return $price;
+    }
+
+    /**
+     * Recalculate row information for item based on children calculation
+     *
+     * @param TaxDetailsItem $parent
+     * @param TaxDetailsItem[] $children
+     * @return TaxDetailsItem
+     */
+    protected function recalculateParent(TaxDetailsItem $parent, $children)
+    {
+        $newParent = $this->taxDetailsItemBuilder->populate($parent);
+
+        $price = 0.00;
+        $price_incl_tax = 0.00;
+        $row_total = 0.00;
+        $row_total_incl_tax = 0.00;
+        $tax_amount = 0.00;
+        $taxable_amount = 0.00;
+        $discount_amount = 0.00;
+        $discount_tax_compensation_amount = 0.00;
+
+        foreach($children as $child) {
+            $price += $child->getPrice();
+            $price_incl_tax += $child->getPriceInclTax();
+            $row_total += $child->getRowTotal();
+            $row_total_incl_tax += $child->getRowTotalInclTax();
+            $tax_amount += $child->getTaxAmount();
+            $taxable_amount += $child->getTaxableAmount();
+            $discount_amount += $child->getDiscountAmount();
+            $discount_tax_compensation_amount += $child->getDiscountTaxCompensationAmount();
+        }
+
+        $newParent->setPrice($price);
+        $newParent->setPriceInclTax($price_incl_tax);
+        $newParent->setRowTotal($row_total);
+        $newParent->setRowTotalInclTax($row_total_incl_tax);
+        $newParent->setTaxAmount($tax_amount);
+        $newParent->setTaxableAmount($taxable_amount);
+        $newParent->setDiscountAmount($discount_amount);
+        $newParent->setDiscountTaxCompensationAmount($discount_tax_compensation_amount);
+
+        return $newParent->create();
     }
 
     /**
