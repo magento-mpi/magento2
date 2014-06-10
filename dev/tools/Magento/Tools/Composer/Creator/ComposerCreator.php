@@ -61,15 +61,17 @@ class ComposerCreator implements CreatorInterface
             $command .= " --require=\"Magento/Package-installer:*\"";
             $output = array();
             exec($command, $output);
-            if (sizeof($output) > 0 ) {
+            if (sizeof($output) > 0) {
                 //Failed
                 print_r($output);
             } else {
                 //Success
                 $this->addVersionandTypeInfo($component);
                 $counter++;
-                $this->_logger->log(sprintf("Created composer.json for %-40s [%7s]",
-                    $component->getName(), $component->getVersion()), \Zend_Log::DEBUG);
+                $this->_logger->log(
+                    sprintf("Created composer.json for %-40s [%7s]", $component->getName(), $component->getVersion()),
+                    \Zend_Log::DEBUG
+                );
             }
 
         }

@@ -13,7 +13,7 @@ use \Magento\Tools\Composer\Parser\LanguagePackXmlParser;
 /**
  * Extractor for Language Pack
  */
-class LanguagePackExtractor extends  AbstractExtractor
+class LanguagePackExtractor extends AbstractExtractor
 {
 
     /**
@@ -39,5 +39,4 @@ class LanguagePackExtractor extends  AbstractExtractor
     {
         return new LanguagePackXmlParser($filename);
     }
-
 }

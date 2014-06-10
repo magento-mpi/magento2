@@ -50,7 +50,7 @@ class ComposerCleaner
         /**
          * @var $component \Magento\Tools\Composer\Model\Package
          */
-        foreach ($this->_components as  $component) {
+        foreach ($this->_components as $component) {
             $fileLocation = $component->getLocation() . "/composer.json";
             if (file_exists($fileLocation)) {
                 unlink($fileLocation);

@@ -11,7 +11,7 @@ namespace Magento\Tools\Composer\Extractor;
 /**
  * Extractor for FrontEnd Theme
  */
-class FrontendThemeExtractor extends  AdminThemeExtractor
+class FrontendThemeExtractor extends AdminThemeExtractor
 {
     /**
      * {@inheritdoc}
@@ -28,5 +28,4 @@ class FrontendThemeExtractor extends  AdminThemeExtractor
     {
         return "magento2-theme-frontend";
     }
-
 }

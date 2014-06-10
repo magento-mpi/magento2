@@ -13,7 +13,7 @@ use \Magento\Tools\Composer\Parser\ModuleXmlParser;
 /**
  * Extractor for Modules
  */
-class ModuleExtractor extends  AbstractExtractor
+class ModuleExtractor extends AbstractExtractor
 {
 
     /**
@@ -39,5 +39,4 @@ class ModuleExtractor extends  AbstractExtractor
     {
         return new ModuleXmlParser($filename);
     }
-
 }

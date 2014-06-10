@@ -11,7 +11,7 @@ namespace Magento\Tools\Composer\Extractor;
 /**
  * Extractor for Enterprise Product
  */
-class EnterpriseExtractor extends  CommunityExtractor
+class EnterpriseExtractor extends CommunityExtractor
 {
     /**
      * Name of Package
@@ -26,5 +26,4 @@ class EnterpriseExtractor extends  CommunityExtractor
      * @var string
      */
     protected $_version = "2.1.0";
-
 }

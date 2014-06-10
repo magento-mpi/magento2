@@ -75,5 +75,4 @@ class CommunityExtractor extends AbstractExtractor
 
         return $this->_collection;
     }
-
 }

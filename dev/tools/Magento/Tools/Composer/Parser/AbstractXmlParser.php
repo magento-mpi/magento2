@@ -64,7 +64,7 @@ abstract class AbstractXmlParser implements ParserInterface
      * Retrieve Sub Path for Component
      * @return string
      */
-    public abstract function getSubPath();
+    abstract public function getSubPath();
 
     /**
      * Maps XML file information and presents back into array
@@ -72,7 +72,7 @@ abstract class AbstractXmlParser implements ParserInterface
      * @throws \ErrorException
      * @return array
      */
-    protected abstract function _parseMappings();
+    abstract protected function _parseMappings();
 
     /**
      * Retrieves Component Directory Location
@@ -123,6 +123,4 @@ abstract class AbstractXmlParser implements ParserInterface
         $map = $this->_parseMappings();
         return $map;
     }
-
-
 }

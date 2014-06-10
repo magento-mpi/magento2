@@ -13,7 +13,7 @@ use \Magento\Tools\Composer\Parser\ThemeXmlParser;
 /**
  * Extractor for Admin Theme
  */
-class AdminThemeExtractor extends  AbstractExtractor
+class AdminThemeExtractor extends AbstractExtractor
 {
 
     /**
@@ -39,5 +39,4 @@ class AdminThemeExtractor extends  AbstractExtractor
     {
         return new ThemeXmlParser($filename);
     }
-
 }

@@ -21,5 +21,4 @@ interface ParserInterface
      * @throws \ErrorException
      */
     public function getMappings();
-
 }

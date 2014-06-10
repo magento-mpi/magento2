@@ -32,7 +32,7 @@ class Package
      *
      * @var string
      */
-    private  $_location;
+    private $_location;
 
     /**
      * Array of Dependencies
@@ -44,7 +44,7 @@ class Package
      * Type of Package
      * @var string
      */
-    private  $_type;
+    private $_type;
 
     /**
      * Package Constructor
@@ -54,7 +54,7 @@ class Package
      * @param string|null $location
      * @param string|null $type
      */
-    public function __construct($name, $version = null, $location=null, $type=null)
+    public function __construct($name, $version = null, $location = null, $type = null)
     {
         $this->_name = $name;
         $this->setVersion($version);

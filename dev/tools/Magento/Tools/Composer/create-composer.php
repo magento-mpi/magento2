@@ -101,5 +101,3 @@ try {
 } catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
 }
-
-

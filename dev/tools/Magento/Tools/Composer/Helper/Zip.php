@@ -21,7 +21,7 @@ class Zip
      * @param string $destination
      * @return int
      */
-    public static function Zip($source, $destination, array $excludes)
+    public static function zip($source, $destination, array $excludes)
     {
         $noOfZips = 0;
 
@@ -47,7 +47,7 @@ class Zip
                 $file = str_replace('\\', '/', realpath($file));
 
                 // Ignore "." and ".." folders
-                if ( in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
+                if (in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
                     continue;
                 }
                 //Ignoring Magento Framework for lib folder
@@ -74,8 +74,10 @@ class Zip
     public static function getFiles($source, $excludes)
     {
         if (sizeof($excludes) == 0) {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source),
-                \RecursiveIteratorIterator::SELF_FIRST);
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($source),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
         } else {
             $directory = new \RecursiveDirectoryIterator($source);
             $filtered = new ExcludeFilter($directory, $excludes);
@@ -84,5 +86,4 @@ class Zip
 
         return $files;
     }
-
 }

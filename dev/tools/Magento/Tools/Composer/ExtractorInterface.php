@@ -61,6 +61,4 @@ interface ExtractorInterface
      * @return \Magento\Tools\Composer\ParserInterface
      */
     public function getParser($filename);
-
-
 }

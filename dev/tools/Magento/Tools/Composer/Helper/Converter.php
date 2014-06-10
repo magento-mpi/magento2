@@ -43,7 +43,7 @@ class Converter
      */
     public static function vendorPackagetoName($vendorPackage)
     {
-        if ($vendorPackage != null && sizeof($vendorPackage) > 0 ) {
+        if ($vendorPackage != null && sizeof($vendorPackage) > 0) {
             if (strpos($vendorPackage, "/") != false && substr_count($vendorPackage, "/") === 1) {
                 return str_replace("/", "_", $vendorPackage);
             } elseif (strpos($vendorPackage, "\\") != false && substr_count($vendorPackage, "\\") === 1) {

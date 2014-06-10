@@ -51,5 +51,4 @@ class ThemeXmlParser extends AbstractXmlParser
 
         return $themeDefinitions;
     }
-
 }

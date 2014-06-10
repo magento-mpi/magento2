@@ -46,5 +46,4 @@ class ModuleXmlParser extends AbstractXmlParser
         }
         return $moduleDefinitions;
     }
-
 }

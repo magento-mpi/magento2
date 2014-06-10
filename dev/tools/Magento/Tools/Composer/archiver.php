@@ -97,7 +97,7 @@ try {
         if (!file_exists($generationDir)) {
             mkdir($generationDir, 0777, true);
         }
-    } catch(\Exception $ex){
+    } catch (\Exception $ex) {
         $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $generationDir, $ex->getMessage()));
         exit($e->getCode());
     }
@@ -115,14 +115,16 @@ try {
             );
         }
         $name = Converter::vendorPackagetoName($component->getName());
-        $noOfZips += Zip::Zip($component->getLocation(),
-            $generationDir . "/" . $name . "-". $component->getVersion() . ".zip", $excludes);
+        $noOfZips += Zip::zip(
+            $component->getLocation(),
+            $generationDir . "/" . $name . "-". $component->getVersion() . ".zip", $excludes
+        );
         $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion()));
     }
-    $logger->info(sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
-        $generationDir));
+    $logger->info(
+        sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n", $generationDir)
+    );
 
 } catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
 }
-

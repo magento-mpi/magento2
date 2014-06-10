@@ -35,14 +35,14 @@ function tool_autoloader($className)
     if (strpos($className, 'Magento\\Tools\\') === false) {
         return false;
     }
-        $filePath = str_replace('\\', '/', $className);
-        $filePath = BP . '/dev/tools/' . $filePath . '.php';
+    $filePath = str_replace('\\', '/', $className);
+    $filePath = BP . '/dev/tools/' . $filePath . '.php';
 
-        if (file_exists($filePath)) {
-            include_once $filePath;
-        } else {
-            return false;
-        }
+    if (file_exists($filePath)) {
+        include_once $filePath;
+    } else {
+        return false;
+    }
 }
 spl_autoload_register('tool_autoloader');
 error_reporting(E_ALL);

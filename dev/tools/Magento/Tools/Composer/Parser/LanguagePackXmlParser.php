@@ -47,5 +47,4 @@ class LanguagePackXmlParser extends AbstractXmlParser
         }
         return $moduleDefinitions;
     }
-
 }
