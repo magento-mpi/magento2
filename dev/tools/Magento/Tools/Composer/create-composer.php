@@ -71,8 +71,6 @@ try {
     $moduleExtractor= new ModuleExtractor(BP, $logger);
     $adminThemeExtractor = new AdminThemeExtractor(BP, $logger);
     $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger);
-    $libraryExtractor = new LibraryExtractor(BP, $logger);
-    $frameworkExtractor = new FrameworkExtractor(BP, $logger);
     $languagePackExtractor = new LanguagePackExtractor(BP, $logger);
 
     $components = $moduleExtractor->extract(array(), $moduleCount);
@@ -81,10 +79,6 @@ try {
     $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
     $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
     $logger->debug(sprintf("Read %3d frontend themes.", $frontendThemeCount));
-    $components = $libraryExtractor->extract($components, $libraryCount);
-    $logger->debug(sprintf("Read %3d libraries.", $libraryCount));
-    $components = $frameworkExtractor->extract($components, $frameworkCount);
-    $logger->debug(sprintf("Read %3d frameworks.", $frameworkCount));
     $components = $languagePackExtractor->extract($components, $languagePackCount);
     $logger->debug(sprintf("Read %3d language packs.", $languagePackCount));
     $components = $productExtractor->extract($components, $productCount);

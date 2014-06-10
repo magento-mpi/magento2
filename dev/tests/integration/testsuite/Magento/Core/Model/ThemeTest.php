@@ -36,7 +36,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         return array(
             'area' => 'space_area',
             'theme_title' => 'Space theme',
-            'theme_version' => '2.0.0.0',
+            'theme_version' => '0.1.0',
             'parent_id' => null,
             'is_featured' => false,
             'theme_path' => 'default/space',

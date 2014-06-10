@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
 namespace Magento\Test\Tools\Composer\Extractor;
 
 use Magento\TestFramework\Helper\ObjectManager;

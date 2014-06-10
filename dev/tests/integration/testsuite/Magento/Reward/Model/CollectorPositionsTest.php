@@ -22,8 +22,8 @@ class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPosit
             'quote collectors' => array(
                 'reward',
                 'quote',
-                array('giftcardaccount', 'customerbalance'),
-                array('weee', 'discount', 'tax', 'tax_subtotal', 'grand_total')
+                array(),
+                array('weee', 'discount', 'tax', 'tax_subtotal', 'grand_total', 'giftcardaccount', 'customerbalance')
             ),
             'invoice collectors' => array(
                 'reward',

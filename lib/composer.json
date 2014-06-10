@@ -1,0 +1,17 @@
+{
+    "name": "Magento/Library",
+    "description": "We would be updating the description soon.",
+    "require": {
+        "Magento/Framework": "2.1.0",
+        "Magento/Package-installer": "*"
+    },
+    "authors": [
+        {
+            "name": "Magento Support",
+            "email": "support@magentocommerce.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "type": "magento2-library",
+    "version": "2.1.0"
+}

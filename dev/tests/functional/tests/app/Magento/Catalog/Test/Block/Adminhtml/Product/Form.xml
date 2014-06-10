@@ -13,25 +13,25 @@
         <selector>#product_info_tabs_product-details</selector>
         <strategy>css selector</strategy>
         <wrapper>product</wrapper>
-        <fields>
-            <tax_class_id>
-                <input>select</input>
-            </tax_class_id>
-            <is_virtual>
-                <input>checkbox</input>
-            </is_virtual>
-            <qty>
-                <selector>[name='product[quantity_and_stock_status][qty]']</selector>
-            </qty>
-            <quantity_and_stock_status>
-                <selector>[name='product[quantity_and_stock_status][is_in_stock]']</selector>
-                <input>select</input>
-            </quantity_and_stock_status>
-            <description>
-                <selector>#description</selector>
-                <input>textarea</input>
-            </description>
-        </fields>
+            <fields>
+                <tax_class_id>
+                    <input>select</input>
+                </tax_class_id>
+                <is_virtual>
+                    <input>checkbox</input>
+                </is_virtual>
+                <qty>
+                    <selector>#qty</selector>
+                </qty>
+                <quantity_and_stock_status>
+                    <selector>#quantity_and_stock_status</selector>
+                    <input>select</input>
+                </quantity_and_stock_status>
+                <description>
+                    <selector>#description</selector>
+                    <input>textarea</input>
+                </description>
+            </fields>
     </product-details>
     <websites>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
@@ -69,6 +69,13 @@
             <inventory_qty>
                 <selector>[name='product[stock_data][qty]']</selector>
             </inventory_qty>
+            <stock_data_use_config_min_qty>
+                <selector>[name='product[stock_data][use_config_min_qty]']</selector>
+                <input>checkbox</input>
+            </stock_data_use_config_min_qty>
+            <stock_data_min_qty>
+                <selector>[name='product[stock_data][min_qty]']</selector>
+            </stock_data_min_qty>
         </fields>
     </advanced-inventory>
     <autosettings>
