@@ -123,11 +123,15 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider destinationProvider
      * @param string $destinationFile
+     * @param string $extensionRequired
+     * @dataProvider destinationProvider
      */
-    public function testPackUnpackGzBz($destinationFile)
+    public function testPackUnpackGzBz($destinationFile, $extensionRequired)
     {
+        if ($extensionRequired && !extension_loaded($extensionRequired)) {
+            $this->markTestSkipped("The extension '{$extensionRequired}' is not enabled.");
+        }
         $this->packed = $this->archive->pack($this->sourceFilePath, $this->destinationDir . $destinationFile);
 
         $this->assertFileExists($this->packed);
@@ -142,21 +146,25 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     public function destinationProvider()
     {
         return [
-            ['archive.gz', false],
-            ['archive.gzip', false],
-            ['archive.bz', false],
-            ['archive.bzip', false],
-            ['archive.bzip2', false],
-            ['archive.bz2', false]
+            ['archive.gz', ''],
+            ['archive.gzip', ''],
+            ['archive.bz', 'bz2'],
+            ['archive.bzip', 'bz2'],
+            ['archive.bzip2', 'bz2'],
+            ['archive.bz2', 'bz2']
         ];
     }
 
     /**
-     * @dataProvider tarProvider
      * @param string $destinationFile
+     * @param string $extensionRequired
+     * @dataProvider tarProvider
      */
-    public function testPackUnpackTar($destinationFile)
+    public function testPackUnpackTar($destinationFile, $extensionRequired)
     {
+        if ($extensionRequired && !extension_loaded($extensionRequired)) {
+            $this->markTestSkipped("The extension '{$extensionRequired}' is not enabled.");
+        }
         $this->packed = $this->archive->pack($this->sourceFilePath, $this->destinationDir . $destinationFile);
 
         $this->assertFileExists($this->packed);
@@ -171,11 +179,15 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider tarProvider
      * @param string $destinationFile
+     * @param string $extensionRequired
+     * @dataProvider tarProvider
      */
-    public function testExtract($destinationFile)
+    public function testExtract($destinationFile, $extensionRequired)
     {
+        if ($extensionRequired && !extension_loaded($extensionRequired)) {
+            $this->markTestSkipped("The extension '{$extensionRequired}' is not enabled.");
+        }
         $this->packed = $this->archive->pack($this->sourceFilePath, $this->destinationDir . $destinationFile);
 
         $this->assertFileExists($this->packed);
@@ -191,13 +203,13 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     public function tarProvider()
     {
         return [
-            ['archive.tar', true],
-            ['archive.tgz', false],
-            ['archive.tgzip', false],
-            ['archive.tbz', false],
-            ['archive.tbzip', false],
-            ['archive.tbz2', false],
-            ['archive.tbzip2', false]
+            ['archive.tar', ''],
+            ['archive.tgz', ''],
+            ['archive.tgzip', ''],
+            ['archive.tbz', 'bz2'],
+            ['archive.tbzip', 'bz2'],
+            ['archive.tbz2', 'bz2'],
+            ['archive.tbzip2', 'bz2']
         ];
     }
 }
