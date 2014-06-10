@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
-
-namespace Magento\Catalog\Service\V1\Product\Link;
+namespace Magento\Catalog\Service\V1\Product;
 
 use \Magento\Framework\Exception\NoSuchEntityException;
 
@@ -28,7 +27,7 @@ class ProductLoader
     /**
      * Load product by SKU
      *
-     * @param string $productSku
+     * @param  string $productSku
      * @return \Magento\Catalog\Model\Product
      * @throws NoSuchEntityException
      */
