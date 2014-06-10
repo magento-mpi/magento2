@@ -16,7 +16,7 @@ class GalleryEntryBuilder extends AbstractObjectBuilder
     /**
      * Set gallery entity ID
      *
-     * @param int
+     * @param int $entityId
      * @return $this
      */
     public function setId($entityId)

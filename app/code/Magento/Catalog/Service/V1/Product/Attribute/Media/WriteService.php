@@ -22,7 +22,9 @@ use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Exception\StateException;
 use \Magento\Framework\Exception\NoSuchEntityException;
 
-
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class WriteService implements WriteServiceInterface
 {
     /**

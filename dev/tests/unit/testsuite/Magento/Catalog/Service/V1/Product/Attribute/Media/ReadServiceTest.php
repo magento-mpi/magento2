@@ -160,7 +160,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->attributeCollectionMock));
-        $this->attributeCollectionMock->expects($this->once())->method('setAttributeSetFilter')->with($this->attributeSetId);
+        $this->attributeCollectionMock->expects($this->once())->method('setAttributeSetFilter')
+            ->with($this->attributeSetId);
         $this->attributeCollectionMock->expects($this->once())
             ->method('setFrontendInputTypeFilter')
             ->with('media_image');

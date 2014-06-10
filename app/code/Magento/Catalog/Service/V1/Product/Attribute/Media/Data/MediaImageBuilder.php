@@ -15,7 +15,7 @@ class MediaImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     /**
      * Set attribute code
      *
-     * @param $code
+     * @param string $code
      * @return $this
      */
     public function setCode($code)
@@ -26,7 +26,7 @@ class MediaImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     /**
      * Set attribute frontend label
      *
-     * @param $label
+     * @param string $label
      * @return $this
      */
     public function setFrontendLabel($label)
@@ -37,7 +37,7 @@ class MediaImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     /**
      * Set attribute scope. Valid values are 'Global', 'Website' and 'Store View'
      *
-     * @param $scope
+     * @param string $scope
      * @return $this
      */
     public function setScope($scope)
@@ -48,7 +48,7 @@ class MediaImageBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     /**
      * Set true for user attributes or false for system attributes
      *
-     * @param $isUserDefined
+     * @param bool $isUserDefined
      * @return $this
      */
     public function setIsUserDefined($isUserDefined)

@@ -78,15 +78,15 @@ class ReadService implements ReadServiceInterface
     {
         $data = [];
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
-        foreach($items as $attribute) {
+        foreach ($items as $attribute) {
             $this->builder->setFrontendLabel($attribute->getFrontendLabel());
             $this->builder->setCode($attribute->getData('attribute_code'));
             $this->builder->setIsUserDefined($attribute->getData('is_user_defined'));
-            if($attribute->getIsGlobal()) {
+            if ($attribute->getIsGlobal()) {
                 $scope = 'Global';
-            } elseif($attribute->isScopeWebsite()) {
+            } elseif ($attribute->isScopeWebsite()) {
                 $scope = 'Website';
-            } elseif($attribute->isScopeStore()) {
+            } elseif ($attribute->isScopeStore()) {
                 $scope = 'Store View';
             } else {
                 throw new StateException('Attribute has invalid scope. Id = ' . $attribute->getId());
