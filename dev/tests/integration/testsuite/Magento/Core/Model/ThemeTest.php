@@ -22,7 +22,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         );
         $themeModel->setData($this->_getThemeValidData());
 
-        $crud = new \Magento\TestFramework\Entity($themeModel, array('theme_version' => '2.0.0.1'));
+        $crud = new \Magento\TestFramework\Entity($themeModel, array('theme_version' => '0.1.0'));
         $crud->testCrud();
     }
 
