@@ -276,7 +276,53 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
+        $taxRequest->setProductClassId($item->getTaxClassId());
+        $rate = $this->calculator->getRate($taxRequest);
+        $quantity = $item->getQuantity();
+        $price = $this->calculator->round($item->getUnitPrice());
+        $subtotal = $this->calculator->round($item->getRowTotal());
 
+        if ($item->getTaxIncluded()) {
+            if ($taxRequest->getSameRateAsStore()) {
+                $taxable = $subtotal;
+                $rowTax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $taxPrice = $price;
+                $taxSubtotal = $subtotal;
+                $subtotal = $this->calculator->round($subtotal - $rowTax);
+                $price = $this->calculator->round($subtotal / $quantity);
+            } else {
+                $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
+                $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
+                $tax = $this->calculator->calcTaxAmount($taxPrice, $rate, true, true);
+                $price = $this->calculator->round($taxPrice - $tax);
+                $taxable = $this->calculator->round($taxPrice * $quantity);
+                $taxSubtotal = $this->calculator->round($taxPrice * $quantity);
+                $rowTax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $subtotal = $this->calculator->round($taxSubtotal - $rowTax);
+            }
+        } else {
+            $taxable = $subtotal;
+            $appliedRates = $this->calculator->getAppliedRates($taxRequest);
+            $rowTaxes = [];
+            foreach ($appliedRates as $appliedRate) {
+                $taxRate = $appliedRate['percent'];
+                $rowTaxes[] = $this->calculator->calcTaxAmount($taxable, $taxRate, false, true);
+            }
+            $rowTax = array_sum($rowTaxes);
+            $taxSubtotal = $this->calculator->round($subtotal + $rowTax);
+            $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
+        }
+
+        $this->taxDetailsItemBuilder->setPrice($price);
+        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
+        $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
+        $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
+        $this->taxDetailsItemBuilder->setCode($item->getCode());
+        $this->taxDetailsItemBuilder->setType($item->getType());
+        $this->taxDetailsItemBuilder->setTaxPercent($rate);
+
+        return $this->taxDetailsItemBuilder->create();
     }
 
     /**
