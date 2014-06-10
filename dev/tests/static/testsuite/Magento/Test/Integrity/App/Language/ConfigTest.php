@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: amakarenko
- * Date: 6/9/14
- * Time: 3:51 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Test\Integrity\App\Language;
