@@ -217,7 +217,6 @@
 
 2.0.0.0-dev77
 =============
->>>>>>> master_develop
 * Themes update:
   * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:
