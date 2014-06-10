@@ -84,7 +84,7 @@ class Conditions implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param null $key
+     * @param string|null $key
      * @return array|mixed
      */
     public function getData($key = null)

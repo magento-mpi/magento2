@@ -98,7 +98,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Add new Catalog Price Rule
         $catalogRuleGrid = $catalogRulePage->getGridPageActions();
-        $catalogRuleGrid->addNewCatalogRule();
+        $catalogRuleGrid->addNew();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
@@ -122,7 +122,6 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Verify Catalog Price Rule in grid
         $catalogRulePage->open();
-        //$gridBlock = $catalogRulePage->getGridPageActions();
         $gridBlock = $catalogRulePage->getCatalogRuleGrid();
         $filter['name'] = $catalogRuleFixture->getRuleName();
         $this->assertTrue(

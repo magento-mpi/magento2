@@ -23,6 +23,30 @@ use Mtf\System\Config;
 class Curl extends AbstractCurl implements CatalogRuleInterface
 {
     /**
+     * Mapping for simple action
+     *
+     * @var array
+     */
+    protected $simpleAction = [
+        'by_percent' => 'By Percentage of the Original Price',
+        'by_fixed' => 'By Fixed Amount',
+        'to_percent' => 'To Percentage of the Original Price',
+        'to_fixed' => 'To Fixed Amount'
+    ];
+
+    /**
+     * Mapping for customer group ids
+     *
+     * @var array
+     */
+    protected $customerGroupIds = [
+        0 => 'NOT LOGGED IN',
+        1 => 'General',
+        2 => 'Wholesale',
+        3 => 'Retailer'
+    ];
+
+    /**
      * POST request for creating Catalog Price Rule
      *
      * @param FixtureInterface $fixture
@@ -65,41 +89,14 @@ class Curl extends AbstractCurl implements CatalogRuleInterface
         $data['is_active'] = 'Active' ? 1 : 0;
 
         foreach ($data['customer_group_ids'] as &$value) {
-            switch ($value) {
-                case 'NOT LOGGED IN':
-                    $value = 0;
-                    break;
-                case 'General':
-                    $value = 1;
-                    break;
-                case 'Wholesale':
-                    $value = 2;
-                    break;
-                case 'Retailer':
-                    $value = 3;
-                    break;
-            }
+            $value = array_search($value, $this->customerGroupIds);
         }
 
-        switch ($data['simple_action']) {
-            case 'By Percentage of the Original Price':
-                $data['simple_action'] = 'by_percent';
-                break;
-            case 'By Fixed Amount':
-                $data['simple_action'] = 'by_fixed';
-                break;
-            case 'To Percentage of the Original Price':
-                $data['simple_action'] = 'to_percent';
-                break;
-            case 'To Fixed Amount':
-                $data['simple_action'] = 'to_fixed';
-                break;
-        }
+        $data['simple_action'] = array_search($data['simple_action'], $this->simpleAction);
 
         $data['limit'] = 20;
         $data['page'] = 1;
         $data['rule']['conditions'][1]['aggregator'] = 'all';
-        $data['rule']['conditions'][1]['type'] = 'Magento\CatalogRule\Model\Rule\Condition\Combine';
         $data['rule']['conditions'][1]['value']= 1;
 
         return $data;

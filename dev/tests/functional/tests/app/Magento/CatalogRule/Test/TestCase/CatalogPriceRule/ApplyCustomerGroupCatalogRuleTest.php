@@ -68,7 +68,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
         $catalogRulePage->open();
         $catalogRuleGrid = $catalogRulePage->getGridPageActions();
-        $catalogRuleGrid->addNewCatalogRule();
+        $catalogRuleGrid->addNew();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();

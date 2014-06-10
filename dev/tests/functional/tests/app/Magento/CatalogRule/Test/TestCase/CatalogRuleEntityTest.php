@@ -84,9 +84,6 @@ abstract class CatalogRuleEntityTest extends Injectable
      */
     public function tearDown()
     {
-        if (!$this->catalogRule instanceof CatalogRule) {
-            return;
-        }
         $filter = ['name' => $this->catalogRule->getName()];
         $this->catalogRuleIndex->open();
         $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);

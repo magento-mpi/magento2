@@ -12,7 +12,8 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Client\Browser;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertCatalogPriceRuleAppliedProductPage
@@ -32,16 +33,22 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
      * @param CatalogRule $catalogPriceRule
      * @param CatalogProductSimple $product
      * @param CatalogProductView $pageCatalogProductView
-     * @param Browser $browser
+     * @param CmsIndex $cmsIndex
+     * @param CatalogCategoryView $catalogCategoryView
      * @return void
      */
     public function processAssert(
         CatalogRule $catalogPriceRule,
         CatalogProductSimple $product,
         CatalogProductView $pageCatalogProductView,
-        Browser $browser
+        CmsIndex $cmsIndex,
+        CatalogCategoryView $catalogCategoryView
     ) {
-        $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $cmsIndex->open();
+        $categoryName = $product->getCategoryIds()[0]['name'];
+        $productName = $product->getName();
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
+        $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
         $productPrice = $product->getPrice();
         $discountAmount = $catalogPriceRule->getDiscountAmount();
         $expectedSpecialPrice = $productPrice - $discountAmount;
