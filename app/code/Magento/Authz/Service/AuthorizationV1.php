@@ -218,6 +218,10 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _createRole($userIdentifier)
     {
         $userType = $userIdentifier->getUserType();
+        if ($this->_existsSystemRoleForUserType($userType)) {
+            throw new \LogicException("The role with user type '{$userType}' cannot be created since there should be "
+                . "a single system role with this user type.");
+        }
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
             case UserIdentifier::USER_TYPE_INTEGRATION:
@@ -230,17 +234,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 throw new \LogicException("Unknown user type: '{$userType}'.");
         }
         $role = $this->_roleFactory->create();
-        $role->setRoleName(
-            $roleName
-        )->setUserType(
-            $userType
-        )->setUserId(
-            $userId
-        )->setRoleType(
-            $roleType
-        )->setParentId(
-            $parentId
-        )->save();
+        $role->setRoleName($roleName)
+            ->setUserType($userType)
+            ->setUserId($userId)
+            ->setRoleType($roleType)
+            ->setParentId($parentId)
+            ->save();
         return $role;
     }
 
@@ -254,6 +253,9 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _deleteRole($userIdentifier)
     {
         $userType = $userIdentifier->getUserType();
+        if ($this->_existsSystemRoleForUserType($userType)) {
+            throw new \LogicException("The role with user type '{$userType}' is system and cannot be deleted.");
+        }
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
             case UserIdentifier::USER_TYPE_INTEGRATION:
@@ -276,9 +278,13 @@ class AuthorizationV1 implements AuthorizationV1Interface
     {
         $roleCollection = $this->_roleCollectionFactory->create();
         $userType = $userIdentifier->getUserType();
-        $userId = $userIdentifier->getUserId();
         /** @var Role $role */
-        $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
+        if ($this->_existsSystemRoleForUserType($userType)) {
+            $role = $roleCollection->setUserTypeFilter($userType)->getFirstItem();
+        } else {
+            $userId = $userIdentifier->getUserId();
+            $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
+        }
         return $role->getId() ? $role : false;
     }
 
@@ -288,11 +294,31 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param Role $role
      * @param string[] $resources
      * @return void
+     * @throws \LogicException
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {
+        if ($this->_existsSystemRoleForUserType($role->getUserType())) {
+            throw new \LogicException(
+                "Neither role with user type '{$role->getUserType()}' nor its permissions cannot be changed."
+            );
+        }
         /** @var \Magento\User\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();
         $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
+    }
+
+    /**
+     * Check if there is system role associated with the provided user type.
+     *
+     * System role cannot be changed and its permissions cannot be amended.
+     * There are two system roles: customer and guest
+     *
+     * @param string $userType
+     * @return bool
+     */
+    protected function _existsSystemRoleForUserType($userType)
+    {
+        return ($userType == UserIdentifier::USER_TYPE_CUSTOMER) || ($userType == UserIdentifier::USER_TYPE_GUEST);
     }
 }

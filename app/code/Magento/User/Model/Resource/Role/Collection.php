@@ -39,6 +39,18 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     }
 
     /**
+     * Add user type filter
+     *
+     * @param string $userType
+     * @return $this
+     */
+    public function setUserTypeFilter($userType)
+    {
+        $this->addFieldToFilter('user_type', $userType);
+        return $this;
+    }
+
+    /**
      * Set roles filter
      *
      * @return $this
