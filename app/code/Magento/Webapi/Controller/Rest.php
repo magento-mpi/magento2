@@ -162,7 +162,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $userType = $this->session->getUserType();
             $userIdentifier = null;
             $consumerId = null;
-            if ($userId && $userType) {
+            if ($userType) {
                 /** @var \Magento\Authz\Model\UserIdentifier $userIdentifier */
                 $userIdentifier = $this->_objectManager->create(
                     'Magento\Authz\Model\UserIdentifier',
