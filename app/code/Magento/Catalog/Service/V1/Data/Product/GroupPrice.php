@@ -28,7 +28,7 @@ class GroupPrice extends AbstractObject
     /**
      * Retrieve price value
      *
-     * @return double
+     * @return float
      */
     public function getValue()
     {

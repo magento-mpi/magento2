@@ -13,7 +13,7 @@ class TierPriceBuilder extends GroupPriceBuilder
     /**
      * Set Quantity
      *
-     * @param double $qty
+     * @param float $qty
      * @return $this
      */
     public function setQty($qty)

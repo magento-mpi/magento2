@@ -75,6 +75,8 @@ class GroupPriceService implements GroupPriceServiceInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price)
     {

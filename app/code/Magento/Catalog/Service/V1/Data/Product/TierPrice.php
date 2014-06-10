@@ -15,7 +15,7 @@ class TierPrice extends GroupPrice
     /**
      * Retrieve tier qty
      *
-     * @return double
+     * @return float
      */
     public function getQty()
     {
