@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\Link;
+namespace Magento\Catalog\Service\V1\Product;
 
 class ProductLoaderTest extends \PHPUnit_Framework_TestCase
 {
