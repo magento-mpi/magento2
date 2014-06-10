@@ -44,5 +44,4 @@ $attributeData = array(
 $attribute = $objectManager->create('\Magento\Catalog\Model\Entity\Attribute');
 $attribute->setData($attributeData);
 $attribute->save();
-$id = $attribute->getId();
 
