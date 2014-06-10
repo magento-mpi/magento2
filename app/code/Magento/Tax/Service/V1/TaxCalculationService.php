@@ -384,33 +384,33 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $newParent = $this->taxDetailsItemBuilder->populate($parent);
 
         $price = 0.00;
-        $price_incl_tax = 0.00;
-        $row_total = 0.00;
-        $row_total_incl_tax = 0.00;
-        $tax_amount = 0.00;
-        $taxable_amount = 0.00;
-        $discount_amount = 0.00;
-        $discount_tax_compensation_amount = 0.00;
+        $priceInclTax = 0.00;
+        $rowTotal = 0.00;
+        $rowTotalInclTax = 0.00;
+        $taxAmount = 0.00;
+        $taxableAmount = 0.00;
+        $discountAmount = 0.00;
+        $discountTaxCompensationAmount = 0.00;
 
-        foreach($children as $child) {
+        foreach ($children as $child) {
             $price += $child->getPrice();
-            $price_incl_tax += $child->getPriceInclTax();
-            $row_total += $child->getRowTotal();
-            $row_total_incl_tax += $child->getRowTotalInclTax();
-            $tax_amount += $child->getTaxAmount();
-            $taxable_amount += $child->getTaxableAmount();
-            $discount_amount += $child->getDiscountAmount();
-            $discount_tax_compensation_amount += $child->getDiscountTaxCompensationAmount();
+            $priceInclTax += $child->getPriceInclTax();
+            $rowTotal += $child->getRowTotal();
+            $rowTotalInclTax += $child->getRowTotalInclTax();
+            $taxAmount += $child->getTaxAmount();
+            $taxableAmount += $child->getTaxableAmount();
+            $discountAmount += $child->getDiscountAmount();
+            $discountTaxCompensationAmount += $child->getDiscountTaxCompensationAmount();
         }
 
         $newParent->setPrice($price);
-        $newParent->setPriceInclTax($price_incl_tax);
-        $newParent->setRowTotal($row_total);
-        $newParent->setRowTotalInclTax($row_total_incl_tax);
-        $newParent->setTaxAmount($tax_amount);
-        $newParent->setTaxableAmount($taxable_amount);
-        $newParent->setDiscountAmount($discount_amount);
-        $newParent->setDiscountTaxCompensationAmount($discount_tax_compensation_amount);
+        $newParent->setPriceInclTax($priceInclTax);
+        $newParent->setRowTotal($rowTotal);
+        $newParent->setRowTotalInclTax($rowTotalInclTax);
+        $newParent->setTaxAmount($taxAmount);
+        $newParent->setTaxableAmount($taxableAmount);
+        $newParent->setDiscountAmount($discountAmount);
+        $newParent->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
 
         return $newParent->create();
     }
