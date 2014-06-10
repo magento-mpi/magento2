@@ -11,7 +11,6 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\Catalog\Service\V1\Data\Eav\Attribute;
 
 /**
  * Class ProductAttributeReadServiceTest
@@ -23,49 +22,39 @@ class ProductAttributeWriteServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attributes';
 
+    /**
+     * @dataProvider createDataProvider
+     */
+    public function testCreate($data)
+    {
+        $this->assertGreaterThan(0, $this->createAttribute($data));
+    }
+
+    /**
+     * @dataProvider createValidateDataProvider
+     * @expectedException Exception
+     */
+    public function testCreateValidate($data)
+    {
+        $this->assertGreaterThan(0, $this->createAttribute($data));
+    }
+
+    /**
+     * @depends testCreate
+     */
     public function testRemove()
     {
-        $attributeData = $this->createAttribute($this->getAttributeData());
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $attributeData[AttributeMetadata::ATTRIBUTE_ID],
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'remove'
-            ]
-        ];
-
-        $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $attributeData[AttributeMetadata::ATTRIBUTE_ID]]) :
-            $this->_webApiCall($serviceInfo);
-        $this->assertTrue($response);
+        $attributeId = $this->createAttribute($this->getAttributeData());
+        $this->assertTrue($this->deleteAttribute($attributeId));
     }
 
     public function testRemoveNoSuchEntityException()
     {
         $invalidId = -1;
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'remove'
-            ]
-        ];
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $this->_webApiCall($serviceInfo, ['id' => $invalidId]);
-            } else {
-                $this->_webApiCall($serviceInfo);
-            }
+            $this->deleteAttribute($invalidId);
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
@@ -83,13 +72,44 @@ class ProductAttributeWriteServiceTest extends WebapiAbstract
 
     protected function getAttributeData()
     {
-        return array();
+        return array(
+            AttributeMetadata::ATTRIBUTE_CODE => uniqid('code_'),
+            AttributeMetadata::FRONTEND_LABEL => uniqid('label_'),
+            AttributeMetadata::DEFAULT_VALUE => 'default value',
+            AttributeMetadata::REQUIRED => true,
+            AttributeMetadata::FRONTEND_INPUT => 'text',
+        );
     }
 
     /**
-     * @dataProvider createDataProvider
+     * @return array
      */
-    public function testCreate($data)
+    public function createDataProvider()
+    {
+        $builder = function ($data) {
+            return array_replace_recursive($this->getAttributeData(), $data);
+        };
+        return [
+            [$builder([AttributeMetadata::ATTRIBUTE_CODE => ''])],
+            [$builder([AttributeMetadata::FRONTEND_INPUT => 'boolean', AttributeMetadata::DEFAULT_VALUE => true])],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function createValidateDataProvider()
+    {
+        $builder = function ($data) {
+            return array_replace_recursive($this->getAttributeData(), $data);
+        };
+        return [
+            [$builder([AttributeMetadata::FRONTEND_LABEL => ''])],
+            [$builder([AttributeMetadata::FRONTEND_INPUT => 'my_input_type'])],
+        ];
+    }
+
+    protected function createAttribute(array $data)
     {
         $serviceInfo = [
             'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
@@ -99,42 +119,23 @@ class ProductAttributeWriteServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'create'
             ],
         ];
-        $requestData = ['attribute' => $data];
-        $this->assertGreaterThan(0, $this->_webApiCall($serviceInfo, $requestData));
+        return $this->_webApiCall($serviceInfo, ['attributeMetadata' => $data]);
     }
 
-    public function createDataProvider()
+    protected function deleteAttribute($id)
     {
-        $data = [
-            Attribute::CODE => 'test_code',
-            Attribute::DEFAULT_VALUE => 'default value',
-            Attribute::IS_REQUIRED => true,
-            Attribute::IS_USER_DEFINED => true,
-            Attribute::LABEL => 'Front Label',
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $id,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'remove'
+            ]
         ];
-        return array([$data]);
-    }
-
-
-    protected function createAttribute(array $data)
-    {
-        //TODO: Replace with API call
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Resource\Eav\Attribute'
-        );
-        $model->setAttributeCode(
-            'test'
-        )->setEntityTypeId(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Eav\Model\Config'
-                )->getEntityType(
-                        'catalog_product'
-                    )->getId()
-            )->setFrontendLabel(
-                'test'
-            );
-        $model->save();
-        return [AttributeMetadata::ATTRIBUTE_ID => $model->getId()];
+        return $this->_webApiCall($serviceInfo, ['attributeId' => $id]);
     }
 
     /**

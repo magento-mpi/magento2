@@ -16,21 +16,21 @@ interface ProductAttributeWriteServiceInterface
     /**
      * Delete Attribute
      *
-     * @param int $id
+     * @param int $attributeId
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the entity was deleted (always true)
      */
-    public function remove($id);
+    public function remove($attributeId);
 
     /**
      * Create attribute from data
      *
-     * @param \Magento\Catalog\Service\V1\Data\Eav\Attribute $attribute
+     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata $attributeMetadata
      * @return int
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */
-    public function create(\Magento\Catalog\Service\V1\Data\Eav\Attribute $attribute);
+    public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata $attributeMetadata);
 }
