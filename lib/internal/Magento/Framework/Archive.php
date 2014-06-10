@@ -64,11 +64,8 @@ class Archive
      */
     protected function _getArchiver($extension)
     {
-        if (array_key_exists(strtolower($extension), $this->_formats)) {
-            $format = $this->_formats[$extension];
-        } else {
-            $format = self::DEFAULT_ARCHIVER;
-        }
+        $extension = strtolower($extension);
+        $format = isset($this->_formats[$extension]) ? $this->_formats[$extension] : self::DEFAULT_ARCHIVER;
         $class = '\\Magento\Framework\Archive\\' . ucfirst($format);
         $this->_archiver = new $class();
         return $this->_archiver;
@@ -83,15 +80,10 @@ class Archive
     protected function _getArchivers($source)
     {
         $ext = pathinfo($source, PATHINFO_EXTENSION);
-        if (!isset($this->_formats[$ext])) {
-            return array();
+        if (!empty($this->_formats[$ext])) {
+            return explode('.', $this->_formats[$ext]);
         }
-        $format = $this->_formats[$ext];
-        if ($format) {
-            $archivers = explode('.', $format);
-            return $archivers;
-        }
-        return array();
+        return [];
     }
 
     /**

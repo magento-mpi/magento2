@@ -13,13 +13,6 @@ namespace Magento\PbridgePaypal\Model\Payment\Method;
 class PaypalDirect extends \Magento\Paypal\Model\Direct
 {
     /**
-     * Website Payments Pro instance type
-     *
-     * @var $_proType string
-     */
-    protected $_proType = 'Magento\PbridgePaypal\Model\Payment\Method\Paypal\Pro';
-
-    /**
      * Pbridge data
      *
      * @var \Magento\Pbridge\Helper\Data
@@ -40,7 +33,7 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
-     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Paypal\Model\ProFactory $proFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\RequestInterface $requestHttp
@@ -61,7 +54,7 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Paypal\Model\ProFactory $proFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $requestHttp,
@@ -83,7 +76,7 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
             $moduleList,
             $localeDate,
             $centinelService,
-            $proTypeFactory,
+            $proFactory,
             $storeManager,
             $urlBuilder,
             $requestHttp,
