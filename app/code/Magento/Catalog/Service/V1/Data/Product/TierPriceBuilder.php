@@ -27,7 +27,7 @@ class TierPriceBuilder extends AbstractObjectBuilder
     /**
      * Set Value
      *
-     * @param double $value
+     * @param float $value
      * @return $this
      */
     public function setValue($value)
