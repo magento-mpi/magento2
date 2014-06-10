@@ -292,7 +292,61 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
+        $this->taxDetailsItemBuilder->setCode($item->getCode());
+        $this->taxDetailsItemBuilder->setType($item->getType());
+        if ($item->getType() === 'product') {
+            $taxRequest->setProductClassId($item->getTaxClassId());
+        }
+        $rate = $this->calculator->getRate($taxRequest);
+        $this->taxDetailsItemBuilder->setTaxPercent($rate);
+        $quantity = $item->getQuantity();
+        $price = $taxPrice = $this->calculator->round($item->getUnitPrice());
+        $subtotal = $taxSubtotal = $this->calculator->round($item->getRowTotal());
 
+        if ($item->getTaxIncluded()) {
+            if ($taxRequest->getSameRateAsStore()) {
+                $taxable = $price;
+                $rowTaxExact = $this->calculator->calcTaxAmount($price, $rate, true, false);
+                $rowTax = $this->deltaRound($rowTaxExact, $rate, true);
+                $subtotal = $subtotal - $rowTax;
+                $price = $this->calculator->round($subtotal / $quantity);
+
+            } else {
+                $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
+                $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
+                $taxable = $taxPrice;
+                $tax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $price = $taxPrice - $tax;
+                $taxable *= $quantity;
+                $taxSubtotal = $taxPrice * $quantity;
+                $rowTax =
+                    $this->deltaRound($this->calculator->calcTaxAmount($taxable, $rate, true, false), $rate, true);
+            }
+        } else {
+            $taxable = $subtotal;
+            $appliedRates = $this->calculator->getAppliedRates($taxRequest);
+            $rowTaxes = [];
+            foreach ($appliedRates as $appliedRate) {
+                $taxId = $appliedRate['id'];
+                $taxRate = $appliedRate['percent'];
+                $rowTaxes[] = $this->deltaRound(
+                    $this->calculator->calcTaxAmount($taxable, $taxRate, false, false),
+                    $taxId,
+                    false
+                );
+            }
+            $rowTax =  array_sum($rowTaxes);
+            $taxSubtotal = $subtotal + $rowTax;
+            $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
+        }
+
+        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
+        $this->taxDetailsItemBuilder->setPrice($price);
+        $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
+        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
+        $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
+        return $this->taxDetailsItemBuilder->create();
     }
 
     /**
