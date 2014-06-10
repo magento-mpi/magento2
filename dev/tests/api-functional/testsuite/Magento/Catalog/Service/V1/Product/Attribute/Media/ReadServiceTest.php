@@ -28,11 +28,11 @@ class ReadServiceTest extends WebapiAbstract
         $imageId = $image['value_id'];
 
         $expected = [
-            'file' => $image['file'],
+            'store_id' => $product->getStoreId(),
             'label' => $image['label'],
             'position' => $image['position'],
-            'disabled' => $image['disabled'],
-            'store_id' => $product->getStoreId()
+            'disabled' => (bool)$image['disabled'],
+            'file' => $image['file']
         ];
 
         $serviceInfo = array(
