@@ -22,7 +22,7 @@ class TierPriceServiceTest extends WebapiAbstract
         $productSku = 'simple';
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/products/' . $productSku . '/grouped-prices/' . $customerGroupId . '/tiers',
+                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/' . $customerGroupId . '/tiers',
                 'httpMethod' => 'GET',
             ),
             'soap' => array(
