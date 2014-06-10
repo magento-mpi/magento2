@@ -19,6 +19,7 @@ class PriceModifier
      * @param int $websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @return void
      */
     public function removeGroupPrice(\Magento\Catalog\Model\Product $product, $customerGroupId, $websiteId)
     {
@@ -55,6 +56,7 @@ class PriceModifier
      * @param int $websiteId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @return void
      */
     public function removeTierPrice(\Magento\Catalog\Model\Product $product, $customerGroupId, $qty, $websiteId)
     {
