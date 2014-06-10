@@ -518,16 +518,4 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         return $taxDetailsData;
     }
-
-    /**
-     * Recalculate row information for item based on children calculation
-     *
-     * @param TaxDetailsItem $parent
-     * @param TaxDetailsItem[] $children
-     * @return TaxDetailsItem
-     */
-    protected function recalculateParent(TaxDetailsItem $parent, $children)
-    {
-
-    }
 }
