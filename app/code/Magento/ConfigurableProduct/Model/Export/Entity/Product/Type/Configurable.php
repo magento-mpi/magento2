@@ -7,6 +7,6 @@
  */
 namespace Magento\ConfigurableProduct\Model\Export\Entity\Product\Type;
 
-class Configurable extends \Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType
+class Configurable extends \Magento\CatalogImportExport\Model\ImportExport\Export\Product\Type\AbstractType
 {
 }

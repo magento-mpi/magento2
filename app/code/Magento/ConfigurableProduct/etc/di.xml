@@ -45,7 +45,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\ImportExport\Export\RowCustomizer\Composite">
+    <type name="Magento\CatalogImportExport\Model\ImportExport\Export\RowCustomizer\Composite">
         <arguments>
             <argument name="customizers" xsi:type="array">
                 <item name="configurableProduct" xsi:type="string">Magento\ConfigurableProduct\Model\Export\RowCustomizer</item>

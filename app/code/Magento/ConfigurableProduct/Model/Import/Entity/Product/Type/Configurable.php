@@ -9,7 +9,7 @@
  */
 namespace Magento\ConfigurableProduct\Model\Import\Entity\Product\Type;
 
-class Configurable extends \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
+class Configurable extends \Magento\CatalogImportExport\Model\ImportExport\Import\Product\Type\AbstractType
 {
     /**
      * Error codes.
@@ -162,7 +162,7 @@ class Configurable extends \Magento\Catalog\Model\ImportExport\Import\Product\Ty
      * @param string $attrSetName Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
      * @param mixed $attribute
-     * @return \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
+     * @return \Magento\CatalogImportExport\Model\ImportExport\Import\Product\Type\AbstractType
      */
     protected function _addAttributeParams($attrSetName, array $attrParams, $attribute)
     {
@@ -394,7 +394,7 @@ class Configurable extends \Magento\Catalog\Model\ImportExport\Import\Product\Ty
      * Save product type specific data.
      *
      * @throws \Exception
-     * @return \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
+     * @return \Magento\CatalogImportExport\Model\ImportExport\Import\Product\Type\AbstractType
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -434,8 +434,8 @@ class Configurable extends \Magento\Catalog\Model\ImportExport\Import\Product\Ty
                 }
                 // remember SCOPE_DEFAULT row data
                 $scope = $this->_entityModel->getRowScope($rowData);
-                if (\Magento\Catalog\Model\ImportExport\Import\Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[\Magento\Catalog\Model\ImportExport\Import\Product::COL_SKU]];
+                if (\Magento\CatalogImportExport\Model\ImportExport\Import\Product::SCOPE_DEFAULT == $scope) {
+                    $productData = $newSku[$rowData[\Magento\CatalogImportExport\Model\ImportExport\Import\Product::COL_SKU]];
 
                     if ($this->_type != $productData['type_id']) {
                         $productData = null;

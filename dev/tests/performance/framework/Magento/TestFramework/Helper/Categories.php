@@ -56,7 +56,7 @@ class Categories
         /**
          * Preapre categories paths for import
          *
-         * @see \Magento\Catalog\Model\ImportExport\Import\Product::_initCategories()
+         * @see \Magento\CatalogImportExport\Model\ImportExport\Import\Product::_initCategories()
          */
         foreach ($categories as $key => $categoryId) {
             $category->load($categoryId);
