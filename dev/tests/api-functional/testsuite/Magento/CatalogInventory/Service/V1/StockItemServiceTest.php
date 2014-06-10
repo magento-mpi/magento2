@@ -15,7 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
  */
 class StockItemServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'stockItemServiceV1';
+    const SERVICE_NAME = 'catalogInventoryStockItemServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/stockItem';
 
@@ -58,10 +58,10 @@ class StockItemServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'stockItemServiceV1GetProduct'
+                'operation' => 'catalogInventoryStockItemServiceV1GetStockItemBySku'
             ]
         ];
-        $arguments = ['sku' => $productSku];
+        $arguments = ['productSku' => $productSku];
         $stockData = $this->_webApiCall($serviceInfo, $arguments);
         $result = [
             'product_id' => 10,
