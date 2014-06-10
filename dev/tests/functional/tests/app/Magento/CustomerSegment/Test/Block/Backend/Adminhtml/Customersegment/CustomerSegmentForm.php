@@ -13,9 +13,8 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 /**
  * Class CustomerSegmentForm
  * Form for creation of the customer segment
- *
  */
-class Edit extends FormTabs
+class CustomerSegmentForm extends FormTabs
 {
     //
 }

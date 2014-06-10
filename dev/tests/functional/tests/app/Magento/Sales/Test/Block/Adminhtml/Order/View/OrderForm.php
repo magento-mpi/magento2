@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Block\Adminhtml\Role;
+namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Edit
- * Role edit form page
+ * Class OrderForm
+ * Order view tabs
  */
-class Edit extends FormTabs
+class OrderForm extends FormTabs
 {
     //
 }

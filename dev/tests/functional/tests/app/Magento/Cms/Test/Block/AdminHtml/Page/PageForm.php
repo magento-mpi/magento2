@@ -14,11 +14,10 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Edit
+ * Class PageForm
  * Backend Cms Page edit page
- *
  */
-class Edit extends FormTabs
+class PageForm extends FormTabs
 {
     const CONTENT_TAB = 'content';
 

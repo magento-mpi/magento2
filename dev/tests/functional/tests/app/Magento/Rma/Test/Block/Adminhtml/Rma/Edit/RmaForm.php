@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Test\Block\Adminhtml\Rating\Edit;
+namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
- * Product rating form on backend product rating page
+ * Class RmaForm
+ * RMA edit page tabs
  */
-class Form extends FormTabs
+class RmaForm extends FormTabs
 {
     //
 }

@@ -13,10 +13,10 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
+ * Class TargetRuleForm
  * Target rule form on backend target rule page
  */
-class Form extends FormTabs
+class TargetRuleForm extends FormTabs
 {
     /**
      * Fill form with tabs

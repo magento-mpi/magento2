@@ -23,7 +23,7 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
  * Class ProductForm
  * Product form on backend product page
  */
-class Form extends FormTabs
+class ProductForm extends FormTabs
 {
     /**
      * New variation set button selector

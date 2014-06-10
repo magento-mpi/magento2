@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
+ * Class AttributeForm
  * Catalog Product Attribute form
  */
-class Form extends FormTabs
+class AttributeForm extends FormTabs
 {
     //
 }

@@ -8,13 +8,13 @@
 
 namespace Magento\CustomerBalance\Test\Block\Adminhtml\Edit;
 
-use Magento\Customer\Test\Block\Adminhtml\Edit\Form as ParentForm;
+use Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm as ParentForm;
 
 /**
- * Class Form
+ * Class CustomerForm
  * Form for creation store credits
  */
-class Form extends ParentForm
+class CustomerForm extends ParentForm
 {
     /**
      * Getting store credit tab object

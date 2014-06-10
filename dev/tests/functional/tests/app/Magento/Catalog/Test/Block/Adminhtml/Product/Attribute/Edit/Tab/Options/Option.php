@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Options;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab\Options;
 
 use Mtf\Block\Form;
 

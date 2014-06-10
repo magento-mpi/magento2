@@ -13,11 +13,10 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Form
+ * Class CustomerForm
  * Form for creation of the customer
- *
  */
-class Form extends FormTabs
+class CustomerForm extends FormTabs
 {
     /**
      * Fill Customer forms on tabs by customer, addresses data

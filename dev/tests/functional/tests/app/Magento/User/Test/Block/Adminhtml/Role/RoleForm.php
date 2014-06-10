@@ -6,16 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog;
+namespace Magento\User\Test\Block\Adminhtml\Role;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Edit
- * Form for creation of a Catalog Price Rule
- *
+ * Class RoleForm
+ * Role edit form page
  */
-class Edit extends FormTabs
+class RoleForm extends FormTabs
 {
     //
 }

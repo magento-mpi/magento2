@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;

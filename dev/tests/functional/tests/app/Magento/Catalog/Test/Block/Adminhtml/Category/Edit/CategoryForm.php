@@ -12,11 +12,10 @@ use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
+ * Class CategoryForm
  * Category container block
- *
  */
-class Form extends FormTabs
+class CategoryForm extends FormTabs
 {
     /**
      * Save button

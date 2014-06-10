@@ -10,10 +10,9 @@ namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
- *
+ * Class PromoQuoteForm
  */
-class Form extends FormTabs
+class PromoQuoteForm extends FormTabs
 {
     /**
      * {@inheritDoc}

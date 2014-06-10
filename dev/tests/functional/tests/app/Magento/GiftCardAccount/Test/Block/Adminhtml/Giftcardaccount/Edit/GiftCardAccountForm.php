@@ -11,10 +11,10 @@ namespace Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
+ * Class GiftCardAccountForm
  * Gift card account edit page block
  */
-class Form extends FormTabs
+class GiftCardAccountForm extends FormTabs
 {
     //
 }
