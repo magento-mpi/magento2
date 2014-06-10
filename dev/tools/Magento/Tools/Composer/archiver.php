@@ -76,7 +76,6 @@ try {
     $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger);
     $libraryExtractor = new LibraryExtractor(BP, $logger);
     $frameworkExtractor = new FrameworkExtractor(BP, $logger);
-    $languagePackExtractor = new LanguagePackExtractor(BP, $logger);
 
     $components = $moduleExtractor->extract(array(), $moduleCount);
     $logger->debug(sprintf("Read %3d modules.", $moduleCount));
@@ -88,8 +87,6 @@ try {
     $logger->debug(sprintf("Read %3d libraries.", $libraryCount));
     $components = $frameworkExtractor->extract($components, $frameworkCount);
     $logger->debug(sprintf("Read %3d frameworks.", $frameworkCount));
-    $components = $languagePackExtractor->extract($components, $languagePackCount);
-    $logger->debug(sprintf("Read %3d language packs.", $languagePackCount));
     $components = $productExtractor->extract($components, $productCount);
     $logger->debug(sprintf('Created %s edition project', $edition));
 

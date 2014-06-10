@@ -1,0 +1,8 @@
+{
+    "name": "Magento/language-nl_NL",
+    "description": "Portuguese (Brazil) language",
+    "version": "0.1.0",
+    "require": {
+        "Magento/Framework": "0.1.0"
+    }
+}

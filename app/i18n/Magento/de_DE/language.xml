@@ -7,10 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../lib/Magento/Framework/Config/etc/language.xsd">
-    <language version="0.1.0" name="Magento/de_DE">
-        <depends>
-            <framework version="2.1.0" />
-        </depends>
-    </language>
-</config>
+<language xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../lib/internal/Magento/Framework/App/Language/package.xsd">
+    <code>de_DE</code>
+    <vendor>Magento</vendor>
+</language>

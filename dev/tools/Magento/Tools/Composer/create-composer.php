@@ -79,8 +79,6 @@ try {
     $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
     $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
     $logger->debug(sprintf("Read %3d frontend themes.", $frontendThemeCount));
-    $components = $languagePackExtractor->extract($components, $languagePackCount);
-    $logger->debug(sprintf("Read %3d language packs.", $languagePackCount));
     $components = $productExtractor->extract($components, $productCount);
     $logger->debug(sprintf('Created %s edition project', $edition));
 

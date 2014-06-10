@@ -1,0 +1,8 @@
+{
+    "name": "Magento/language-de_DE",
+    "description": "German (Germany) language",
+    "version": "0.1.0",
+    "require": {
+        "Magento/Framework": "0.1.0"
+    }
+}
