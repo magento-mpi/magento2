@@ -230,7 +230,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $tax = $this->calculator->calcTaxAmount($taxable, $rate, true);
                 $price = $price - $tax;
                 $subtotal = $price * $quantity;
-                $isPriceInclTax = true;
             } else {
                 $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
                 $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
@@ -239,7 +238,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $price = $taxPrice - $tax;
                 $taxSubtotal = $taxPrice * $quantity;
                 $subtotal = $price * $quantity;
-                $isPriceInclTax = true;
             }
         } else {
             $taxable = $price;
@@ -252,7 +250,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $tax = array_sum($taxes);
             $taxPrice = $price + $tax;
             $taxSubtotal = $taxPrice * $quantity;
-            $isPriceInclTax = false;
         }
         $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
         $this->taxDetailsItemBuilder->setPrice($price);
