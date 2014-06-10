@@ -312,7 +312,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $soft = $this->_getDependencies($currentModule, self::TYPE_SOFT, self::MAP_TYPE_DECLARED);
         $hard = $this->_getDependencies($currentModule, self::TYPE_HARD, self::MAP_TYPE_DECLARED);
 
-        $declared = array_merge($soft, $hard);
+        $declared = $type == self::TYPE_SOFT ? array_merge($soft, $hard) : $hard;
         if (!in_array($module, $declared) && !in_array($nsModule, $declared) && !$this->_isFake($module)) {
             $undeclared[$type][] = $module;
         } elseif ((in_array($module, $declared) || in_array($nsModule, $declared)) && $this->_isFake($module)) {
@@ -356,12 +356,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
             foreach ($this->_getTypes() as $type) {
                 $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
                 if (count($redundant)) {
-                    // Override if there were hard dependencies found but the code may not be activated if the optional
-                    // is not activated, so they are really soft dependencies
-                    $hardDependencyCount = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_FOUND);
-                    if ($type == self::TYPE_SOFT && count($hardDependencyCount)) {
-                        continue;
-                    }
                     $result[] = sprintf(
                         "\r\nModule %s: %s [%s]",
                         $module,
