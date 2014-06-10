@@ -157,15 +157,15 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     {
         $fields['stock_data']['manage_stock'] = 0;
 
-        if (empty($fields['stock_data']['is_in_stock'])) {
+        if (!isset($fields['stock_data']['is_in_stock'])) {
             $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status'])
                 ? $fields['quantity_and_stock_status']
                 : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
         }
-        if (empty($fields['stock_data']['qty'])) {
+        if (!isset($fields['stock_data']['qty'])) {
             $fields['stock_data']['qty'] = isset($fields['qty']) ? $fields['qty'] : null;
         }
-        if (!empty($fields['stock_data']['qty']) || !empty($fields['stock_data']['is_in_stock'])) {
+        if (($fields['stock_data']['qty']) === null) {
             $fields['stock_data']['manage_stock'] = 1;
         }
 

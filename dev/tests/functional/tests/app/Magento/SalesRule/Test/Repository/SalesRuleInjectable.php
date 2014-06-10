@@ -57,7 +57,8 @@ class SalesRuleInjectable extends AbstractRepository
             'is_rss' => 'Yes',
             'rule' =>
                 [
-                    'conditions' => '[Subtotal|is|300]{Conditions combination:[[Shipping Country|is|United States][Shipping Postcode|is|123456789a]]}',
+                    'conditions' => '[Subtotal|is|300]{Conditions combination:
+                        [[Shipping Country|is|United States][Shipping Postcode|is|123456789a]]}',
                     'actions' => '[Category|is|2]',
                 ],
             'simple_action' => 'Percent of product price discount',
