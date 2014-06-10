@@ -51,6 +51,11 @@ class ReadServiceTest extends WebapiAbstract
             'imageId' => $imageId,
         ];
         $data = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($expected, (array) $data);
+        $actual = (array) $data;
+        $this->assertEquals($expected['store_id'], $actual['store_id']);
+        $this->assertEquals($expected['label'], $actual['label']);
+        $this->assertEquals($expected['position'], $actual['position']);
+        $this->assertEquals($expected['file'], $actual['file']);
+        $this->assertEquals($expected['disabled'], (bool)$actual['disabled']);
     }
 }
