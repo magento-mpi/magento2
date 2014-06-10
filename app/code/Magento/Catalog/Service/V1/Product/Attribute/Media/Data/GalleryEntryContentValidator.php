@@ -38,6 +38,8 @@ class GalleryEntryContentValidator
     }
 
     /**
+     * Check if gallery entry content is valid
+     *
      * @param GalleryEntryContent $entryContent
      * @return bool
      * @throws InputException
