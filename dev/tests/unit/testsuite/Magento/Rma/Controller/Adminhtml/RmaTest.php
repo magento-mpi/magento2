@@ -12,6 +12,7 @@ namespace Magento\Rma\Controller\Adminhtml;
  * Class RmaTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class RmaTest extends \PHPUnit_Framework_TestCase
 {
@@ -90,12 +91,18 @@ class RmaTest extends \PHPUnit_Framework_TestCase
      */
     protected $viewMock;
 
+    /**
+     * @var \Magento\Framework\App\Action\Title
+     */
+    protected $titleMock;
+
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $contextMock = $this->getMock('Magento\Backend\App\Action\Context', [], [], '', false);
         $backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
         $this->viewMock = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
+        $this->titleMock = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
         $this->initMocks();
 
         $contextMock->expects($this->once())
@@ -122,6 +129,9 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->once())
             ->method('getView')
             ->will($this->returnValue($this->viewMock));
+        $contextMock->expects($this->once())
+            ->method('getTitle')
+            ->will($this->returnValue($this->titleMock));
 
         $this->controllerMock = $objectManager->getObject(
             'Magento\Rma\Controller\Adminhtml\Rma',
@@ -201,6 +211,42 @@ class RmaTest extends \PHPUnit_Framework_TestCase
                     ]
                 )
             );
+    }
+
+    public function testIndexAction()
+    {
+        $layoutMock = $this->getMock(
+            'Magento\Framework\View\Layout',
+            ['renderLayout', 'getBlock'],
+            [],
+            '',
+            false
+        );
+        $blockMock = $this->getMock('Magento\Backend\Block\Menu', ['setActive', 'getMenuModel'], [], '', false);
+        $menuModelMock = $this->getMock('Magento\Backend\Model\Menu', [], [], '', false);
+        $this->viewMock->expects($this->once())
+            ->method('getLayout')
+            ->will($this->returnValue($layoutMock));
+        $layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with('menu')
+            ->will($this->returnValue($blockMock));
+        $blockMock->expects($this->once())
+            ->method('setActive')
+            ->with('Magento_Rma::sales_magento_rma_rma');
+        $blockMock->expects($this->once())
+            ->method('getMenuModel')
+            ->will($this->returnValue($menuModelMock));
+        $menuModelMock->expects($this->once())
+            ->method('getParentItems')
+            ->will($this->returnValue([]));
+        $this->titleMock->expects($this->once())
+            ->method('add')
+            ->with(__('Returns'));
+        $this->viewMock->expects($this->once())
+            ->method('renderLayout');
+
+        $this->assertNull($this->controllerMock->indexAction());
     }
 
     public function testSaveNewAction()
