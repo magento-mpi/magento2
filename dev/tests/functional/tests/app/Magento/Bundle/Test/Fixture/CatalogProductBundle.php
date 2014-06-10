@@ -61,6 +61,7 @@ class CatalogProductBundle extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist
