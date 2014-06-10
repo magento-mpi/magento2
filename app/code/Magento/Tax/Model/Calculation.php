@@ -467,8 +467,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      *  customer_class_id (->getCustomerClassId())
      *  store (->getStore())
      *
-     * @param   null|bool|\Magento\Framework\Object $shippingAddress
-     * @param   null|bool||\Magento\Framework\Object $billingAddress
+     * @param   null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $shippingAddress
+     * @param   null|bool|\Magento\Framework\Object|\Magento\Customer\Service\V1\Data\Address $billingAddress
      * @param   null|int $customerTaxClass
      * @param   null|int|\Magento\Store\Model\Store $store
      * @return  \Magento\Framework\Object
