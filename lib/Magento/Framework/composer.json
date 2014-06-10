@@ -1,0 +1,16 @@
+{
+    "name": "Magento/Framework",
+    "description": "We would be updating the description soon.",
+    "require": {
+        "Magento/Package-installer": "*"
+    },
+    "authors": [
+        {
+            "name": "Magento Support",
+            "email": "support@magentocommerce.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "type": "magento2-framework",
+    "version": "2.1.0"
+}
