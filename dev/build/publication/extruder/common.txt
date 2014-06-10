@@ -18,3 +18,4 @@ dev/tests/performance/regenerate_profile.php
 dev/tests/performance/benchmark_logs_merge.php
 
 dev/tools/Magento/Tools/Translate
+dev/tools/Magento/Tools/Composer
