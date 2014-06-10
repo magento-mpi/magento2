@@ -59,6 +59,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_resourceModel = $this->getMock(
@@ -162,9 +165,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->_objectManager->getObject(
             'Magento\Catalog\Model\Url',
             array(
-            'urlFactory' => $this->_urlFactory,
-            'catalogCategoryFactory' => $this->_categoryFactory,
-            'catalogCategory' => $this->_categoryHelper
+                'urlFactory' => $this->_urlFactory,
+                'catalogCategoryFactory' => $this->_categoryFactory,
+                'catalogCategory' => $this->_categoryHelper
             )
         );
 
@@ -186,7 +189,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
     }
 
-    public function te1stGenerateUniqueIdPath()
+    public function testGenerateUniqueIdPath()
     {
         $path = $this->_model->generateUniqueIdPath();
         $this->assertNotContains('.', $path);

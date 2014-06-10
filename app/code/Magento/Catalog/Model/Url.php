@@ -299,10 +299,14 @@ class Url
      * @param \Magento\Framework\Object $category
      * @param string $parentPath
      * @param bool $refreshProducts
+     * @param bool $changeRequestPath
      * @return $this
      */
     protected function _refreshCategoryRewrites(
-        \Magento\Framework\Object $category, $parentPath = null, $refreshProducts = true, $changeRequestPath = false
+        \Magento\Framework\Object $category,
+        $parentPath = null,
+        $refreshProducts = true,
+        $changeRequestPath = false
     ) {
         if ($category->getId() != $this->getStores($category->getStoreId())->getRootCategoryId()) {
             if ($category->getUrlKey() == '') {
@@ -352,7 +356,9 @@ class Url
 
         foreach ($category->getChilds() as $child) {
             $this->_refreshCategoryRewrites(
-                $child, $category->getUrlPath() . '/', $refreshProducts, $changeRequestPath
+                $child, $category->getUrlPath() . '/',
+                $refreshProducts,
+                $changeRequestPath
             );
         }
 
@@ -470,13 +476,15 @@ class Url
      * @param int $categoryId
      * @param int|null $storeId
      * @param bool $refreshProducts
-     * @param bool $changeUrkKey
+     * @param bool $changeRequestPath
      * @return $this
      */
     public function refreshCategoryRewrite(
-        $categoryId, $storeId = null, $refreshProducts = true, $changeRequestPath = false
-    )
-    {
+        $categoryId,
+        $storeId = null,
+        $refreshProducts = true,
+        $changeRequestPath = false
+    ) {
         if (is_null($storeId)) {
             foreach ($this->getStores() as $store) {
                 $this->refreshCategoryRewrite($categoryId, $store->getId(), $refreshProducts);
