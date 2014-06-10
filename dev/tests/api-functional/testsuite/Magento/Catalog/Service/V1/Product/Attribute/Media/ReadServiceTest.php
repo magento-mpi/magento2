@@ -58,4 +58,79 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertEquals($expected['file'], $actual['file']);
         $this->assertEquals($expected['disabled'], (bool)$actual['disabled']);
     }
+
+    /**
+     * Fetch attribute info set by name
+     *
+     * @param $name
+     * @return \Magento\Eav\Model\Entity\Attribute\Set
+     */
+    protected function getAttributeSetByName($name)
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $entityType = $objectManager->create('Magento\Eav\Model\Entity\Type')->loadByCode('catalog_product');
+
+        /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attributeSetCollection */
+        $attributeSetCollection = $objectManager->create('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection');
+        $attributeSetCollection->addFilter('attribute_set_name', $name);
+        $attributeSetCollection->addFilter('entity_type_id', $entityType->getId());
+        $attributeSetCollection->setOrder('attribute_set_id'); // descending by default
+        $attributeSetCollection->setPageSize(1);
+        $attributeSetCollection->load();
+
+        /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
+        $attributeSet = $attributeSetCollection->fetchItem();
+        return $attributeSet;
+    }
+
+    /**
+     * Fetch attribute to check by code
+     *
+     * @param $all
+     * @param $attributeCode
+     * @return bool
+     */
+    protected function getAttributeByCode($all, $attributeCode)
+    {
+        foreach($all as $attribute) {
+            if ($attributeCode == $attribute['code']) {
+                return $attribute;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/attribute_set_with_image_attribute.php
+     */
+    public function testGetTypes()
+    {
+        $attributeSet = $this->getAttributeSetByName('custom attribute set 531'); // from fixture
+        $this->assertNotEmpty($attributeSet, 'Fixture failed to create attribute set');
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/media/types/' . $attributeSet->getId(),
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeMediaReadServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeMediaReadServiceV1GetTypes'
+            ]
+        ];
+
+        $requestData = [
+            'attributeSetId' => $attributeSet->getId()
+        ];
+
+        $types = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertNotEmpty($types);
+        $attribute = $this->getAttributeByCode($types,  'funny_image');
+
+        $this->assertEquals('Funny image', $attribute['frontend_label']);
+        $this->assertEquals(1, $attribute['is_user_defined']);
+    }
 }
