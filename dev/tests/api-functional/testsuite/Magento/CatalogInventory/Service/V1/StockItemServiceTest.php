@@ -22,23 +22,26 @@ class StockItemServiceTest extends WebapiAbstract
     /** @var \Magento\CatalogInventory\Service\V1\StockItemServiceInterface */
     protected $stockItemService;
 
+    /** @var \Magento\Catalog\Model\Resource\Product\Collection */
+    protected $productCollection;
+
     /**
-     * Execute per test initialization.
+     * Execute per test initialization
      */
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $this->stockItemService = $objectManager->get(
-            'Magento\CatalogInventory\Service\V1\StockItemServiceInterface',
-            []
-        );
+        $this->stockItemService = $objectManager->get('Magento\CatalogInventory\Service\V1\StockItemServiceInterface');
+        $this->productCollection = $objectManager->get('Magento\Catalog\Model\Resource\Product\Collection');
     }
 
     /**
-     * Execute per test cleanup.
+     * Execute per test cleanup
      */
     public function tearDown()
     {
+        $this->productCollection->addFieldToFilter('entity_id', array('in' => array(10, 11, 12)))->delete();
+        unset($this->productCollection);
         unset($this->stockItemService);
     }
 

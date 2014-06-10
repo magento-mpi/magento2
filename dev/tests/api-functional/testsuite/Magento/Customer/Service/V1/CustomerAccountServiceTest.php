@@ -9,7 +9,6 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Model\CustomerRegistry;
@@ -17,7 +16,6 @@ use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
-use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -93,7 +91,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         $this->customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface',
-            [ 'customerRegistry' => $this->customerRegistry ]
+            ['customerRegistry' => $this->customerRegistry]
         );
         $this->addressBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\AddressBuilder'
@@ -802,7 +800,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomers()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData = $this->_createSampleCustomer();
         $filter = $builder->setField(Customer::EMAIL)
             ->setValue($customerData[Customer::EMAIL])
@@ -831,7 +829,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersMultipleFiltersWithSort()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
         $filter1 = $builder->setField(Customer::EMAIL)
@@ -871,7 +869,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testSearchCustomersNonExistentMultipleFilters()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
         $filter1 = $builder->setField(Customer::EMAIL)
@@ -1102,7 +1100,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData1 = $this->_createSampleCustomer();
 
         /** @var \Magento\Framework\Service\V1\Data\FilterBuilder $builder */
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter1 = $builder->setField(Customer::EMAIL)
             ->setValue($customerData1[Customer::EMAIL])
             ->create();
@@ -1216,7 +1214,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     private function _createSampleCustomerDetailsData()
     {
-        $builder = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\RegionBuilder');
+        $builder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\RegionBuilder');
         $this->addressBuilder
             ->setCountryId('US')
             ->setDefaultBilling(true)
