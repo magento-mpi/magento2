@@ -78,25 +78,86 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product',
             array('getData', 'getIdBySku', 'load', '__wakeup'), array(), '', false);
         $this->productFactoryMock
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->productMock));
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->priceModifierMock =
             $this->getMock('Magento\Catalog\Model\Product\PriceModifier', array(), array(), '', false);
+
         $this->service = new TierPriceService(
             $this->productFactoryMock,
             $this->repositoryMock,
             $this->priceBuilderMock,
             $this->storeManagerMock,
             $this->priceModifierMock,
-            $this->configMock
+            $this->configMock,
+            $this->groupServiceMock
         );
     }
 
-    public function testGetList()
+    /**
+     * @param $configValue
+     * @param $customerGroupId
+     * @param $groupData
+     * @param $expected
+     * @dataProvider getListDataProvider
+     */
+    public function testGetList($configValue, $customerGroupId, $groupData, $expected)
     {
-        $this->markTestIncomplete();
+        $this->repositoryMock->expects($this->once())->method('get')->with('product_sku')
+            ->will($this->returnValue($this->productMock));
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('tier_price')
+            ->will($this->returnValue(array($groupData)));
+        $this->configMock
+            ->expects($this->once())
+            ->method('getValue')
+            ->with('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE)
+            ->will($this->returnValue($configValue));
+        if ($expected) {
+            $this->priceBuilderMock
+                ->expects($this->once())
+                ->method('populateWithArray')
+                ->with($expected);
+            $this->priceBuilderMock
+                ->expects($this->once())
+                ->method('create')
+                ->will($this->returnValue('data'));
+        } else {
+            $this->priceBuilderMock->expects($this->never())->method('populateWithArray');
+        }
+        $prices = $this->service->getList('product_sku', $customerGroupId);
+        $this->assertCount($expected ? 1 : 0, $prices);
+        if ($expected) {
+            $this->assertEquals('data', $prices[0]);
+        }
+    }
+
+    public function getListDataProvider()
+    {
+        return array(
+            array(
+                1,
+                'all',
+                array('website_price' => 10, 'price' => 5, 'all_groups' => 1, 'price_qty' => 5),
+                array('value' => 10, 'qty' => 5)
+            ),
+            array(
+                0,
+                1,
+                array('website_price' => 10, 'price' => 5, 'all_groups' => 0, 'cust_group' => 1, 'price_qty' => 5),
+                array('value' => 5, 'qty' => 5)
+            ),
+            array(
+                0,
+                'all',
+                array('website_price' => 10, 'price' => 5, 'all_groups' => 0, 'cust_group' => 1, 'price_qty' => 5),
+                array()
+            )
+        );
     }
 
     public function testSuccessDeleteTierPrice()

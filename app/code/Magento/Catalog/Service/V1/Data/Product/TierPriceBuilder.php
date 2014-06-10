@@ -32,7 +32,7 @@ class TierPriceBuilder extends AbstractObjectBuilder
      */
     public function setValue($value)
     {
-        $this->_set(TierPrice::QTY, $value);
+        $this->_set(TierPrice::VALUE, $value);
         return $this;
     }
 }

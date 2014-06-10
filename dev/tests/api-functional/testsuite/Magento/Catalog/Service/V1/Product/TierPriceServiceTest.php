@@ -88,4 +88,40 @@ class TierPriceServiceTest extends WebapiAbstract
             'delete_tier_price_for_all_customer_group' => array('all', 5)
         );
     }
-} 
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
+    public function testAdd()
+    {
+        $productSku = 'simple';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/1/tiers',
+                'httpMethod' => 'POST',
+            ),
+            'soap' => array(
+                'service' => 'catalogProductTierPriceServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductTierPriceServiceV1set',
+            ),
+        );
+        $price = ['qty' => 50, 'value' => 10];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->_webApiCall(
+                $serviceInfo,
+                ['productSku' => $productSku, 'customer_group_id' => 1, 'price' => $price]
+            );
+        } else {
+            $this->_webApiCall($serviceInfo, ['price' => $price]);
+        }
+        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        /** @var \Magento\Catalog\Service\V1\Product\TierPriceServiceInterface $service */
+        $service = $objectManager->get('\Magento\Catalog\Service\V1\Product\TierPriceServiceInterface');
+        $prices = $service->getList($productSku, 1);
+        $this->assertCount(1, $prices);
+        $this->assertEquals(10, $prices[0]->getValue());
+        $this->assertEquals(50, $prices[0]->getQty());
+    }
+}

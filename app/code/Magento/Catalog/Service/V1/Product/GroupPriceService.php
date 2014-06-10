@@ -167,13 +167,18 @@ class GroupPriceService implements GroupPriceServiceInterface
         } catch (\Exception $e) {
             throw new NoSuchEntityException("Such product doesn't exist");
         }
+        $priceKey = 'website_price';
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
+            $priceKey = 'price';
+        }
 
-        $prices = array();
+            $prices = array();
         foreach ($product->getData('group_price') as $price) {
-            $prices[] = $this->groupPriceBuilder->populateWithArray(array(
+            $this->groupPriceBuilder->populateWithArray(array(
                 Product\GroupPrice::CUSTOMER_GROUP_ID => $price['all_groups'] ? 'all' : $price['cust_group'],
-                Product\GroupPrice::VALUE => $price['website_price'],
-            ))->create();
+                Product\GroupPrice::VALUE => $price[$priceKey],
+            ));
+            $prices[] = $this->groupPriceBuilder->create();
         }
         return $prices;
     }

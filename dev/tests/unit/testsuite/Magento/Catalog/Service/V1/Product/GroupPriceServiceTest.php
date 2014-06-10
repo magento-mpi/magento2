@@ -81,7 +81,7 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product',
             array('getData', 'getIdBySku', 'load', '__wakeup'), array(), '', false);
         $this->productFactoryMock
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->productMock));
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
@@ -96,9 +96,53 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetList()
+    /**
+     * @param string $configValue
+     * @param array  $groupData
+     * @param array $expected
+     * @dataProvider getListDataProvider
+     */
+    public function testGetList($configValue, $groupData, $expected)
     {
-        $this->markTestIncomplete();
+        $this->repositoryMock->expects($this->once())->method('get')->with('product_sku')
+            ->will($this->returnValue($this->productMock));
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('group_price')
+            ->will($this->returnValue(array($groupData)));
+        $this->configMock
+            ->expects($this->once())
+            ->method('getValue')
+            ->with('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE)
+            ->will($this->returnValue($configValue));
+        $this->priceBuilderMock
+            ->expects($this->once())
+            ->method('populateWithArray')
+            ->with($expected);
+        $this->priceBuilderMock
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue('data'));
+        $prices = $this->service->getList('product_sku');
+        $this->assertCount(1, $prices);
+        $this->assertEquals('data', $prices[0]);
+    }
+
+    public function getListDataProvider()
+    {
+        return array(
+            array(
+                1,
+                array('website_price' => 10, 'price' => 5, 'all_groups' => 1),
+                array('customer_group_id' => 'all', 'value' => 10)
+            ),
+            array(
+                0,
+                array('website_price' => 10, 'price' => 5, 'all_groups' => 0, 'cust_group' => 1),
+                array('customer_group_id' => 1, 'value' => 5)
+            )
+        );
     }
 
     public function testSuccessDeleteGroupPrice()

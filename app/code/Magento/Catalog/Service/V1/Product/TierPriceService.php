@@ -67,7 +67,6 @@ class TierPriceService implements TierPriceServiceInterface
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
     ) {
         $this->productFactory = $productFactory;
@@ -101,9 +100,7 @@ class TierPriceService implements TierPriceServiceInterface
 
         $found = false;
         foreach ($tierPrices as &$currentPrice) {
-            if ($currentPrice['cust_group'] === $customerGroupId
-                && $currentPrice['website_id'] === $websiteId
-            ) {
+            if ($currentPrice['cust_group'] === $customerGroupId && $currentPrice['website_id'] === $websiteId) {
                 $currentPrice['price'] = $price->getValue();
                 $found = true;
                 break;
@@ -118,8 +115,6 @@ class TierPriceService implements TierPriceServiceInterface
                 'price_qty' => $price->getQty()
             );
         }
-
-        print_r($tierPrices);
 
         $product->setData('tier_price', $tierPrices);
         $errors = $product->validate();
@@ -169,15 +164,21 @@ class TierPriceService implements TierPriceServiceInterface
             throw new NoSuchEntityException("Such product doesn't exist");
         }
 
+        $priceKey = 'website_price';
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
+            $priceKey = 'price';
+        }
+
         $prices = array();
         foreach ($product->getData('tier_price') as $price) {
             if ((is_numeric($customerGroupId) && intval($price['cust_group']) === intval($customerGroupId))
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
-                $prices[] = $this->priceBuilder->populateWithArray(array(
-                    Product\TierPrice::VALUE => $price['website_price'],
+                $this->priceBuilder->populateWithArray(array(
+                    Product\TierPrice::VALUE => $price[$priceKey],
                     Product\TierPrice::QTY => $price['price_qty']
-                ))->create();
+                ));
+                $prices[] = $this->priceBuilder->create();
             }
         }
         return $prices;

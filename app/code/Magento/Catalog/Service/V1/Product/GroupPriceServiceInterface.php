@@ -15,7 +15,7 @@ interface GroupPriceServiceInterface
      *
      * @param string $productSku
      * @param \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price
-     * @return \Magento\Catalog\Service\V1\Data\Product\GroupPrice
+     * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
