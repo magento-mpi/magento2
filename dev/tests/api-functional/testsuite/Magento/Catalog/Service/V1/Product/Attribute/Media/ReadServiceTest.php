@@ -133,4 +133,36 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertEquals('Funny image', $attribute['frontend_label']);
         $this->assertEquals(1, $attribute['is_user_defined']);
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_image.php
+     */
+    public function testGetList()
+    {
+        $productSku = 'simple'; //from fixture
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . urlencode($productSku) . '/media',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeMediaReadServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeMediaReadServiceV1GetList'
+            ]
+        ];
+
+        $requestData = [
+            'productSku' => $productSku
+        ];
+        $imageList = $this->_webApiCall($serviceInfo, $requestData);
+
+        $image = reset($imageList);
+        $this->assertEquals('/m/a/magento_image.jpg', $image['file']);
+        $this->assertNotEmpty($image['types']);
+        $imageTypes = $image['types'];
+        $this->assertContains('image', $imageTypes);
+        $this->assertContains('small_image', $imageTypes);
+        $this->assertContains('thumbnail', $imageTypes);
+    }
 }

@@ -23,6 +23,11 @@ class ReadService implements ReadServiceInterface
     protected $collectionFactory;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+    
+    /**
      * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
      */
     protected $setFactory;
@@ -44,26 +49,45 @@ class ReadService implements ReadServiceInterface
      * @var GalleryEntryBuilder
      */
     protected $galleryEntryBuilder;
+    
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
+     */
+    protected $mediaGallery;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
+     */
+    protected $attributeFactory;
 
     /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
+     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param MediaImageBuilder $builder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param GalleryEntryBuilder $galleryEntryBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
         \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery,
+        \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
         MediaImageBuilder $builder,
         \Magento\Catalog\Model\ProductRepository $productRepository,
         GalleryEntryBuilder $galleryEntryBuilder
     ) {
         $this->collectionFactory = $collectionFactory;
+        $this->productFactory = $productFactory;
         $this->setFactory = $setFactory;
         $this->eavConfig = $eavConfig;
+        $this->mediaGallery = $mediaGallery;
+        $this->attributeFactory = $attributeFactory;
         $this->builder = $builder;
         $this->productRepository = $productRepository;
         $this->galleryEntryBuilder = $galleryEntryBuilder;
@@ -117,6 +141,46 @@ class ReadService implements ReadServiceInterface
         $collection->setFrontendInputTypeFilter('media_image');
 
         return $this->prepareData($collection->getItems());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getList($productSku)
+    {
+        $result = array();
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $this->productFactory->create()->loadByAttribute('sku', $productSku);
+        if (!$product->getId()) {
+            throw NoSuchEntityException::singleField('sku', $productSku);
+        }
+
+        $galleryAttribute = $this->attributeFactory->create()->loadByCode(
+            $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY), 'media_gallery'
+        );
+
+        $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
+        $gallery = $this->mediaGallery->loadGallery($product, $container);
+
+        $attributes = $product->getMediaAttributes();
+        $imageTypes = array_keys($attributes);
+
+        $productImages = [];
+        foreach($imageTypes as $type) {
+            $productImages[$type] = $product->getData($type);
+        }
+
+        foreach($gallery as $image) {
+            $this->galleryEntryBuilder->setId($image['value_id']);
+            $this->galleryEntryBuilder->setLabel($image['label_default']);
+            $this->galleryEntryBuilder->setTypes(array_keys($productImages, $image['file']));
+            $this->galleryEntryBuilder->setDisabled($image['disabled_default']);
+            $this->galleryEntryBuilder->setPosition($image['position_default']);
+            $this->galleryEntryBuilder->setFile($image['file']);
+            $this->galleryEntryBuilder->setStoreId($product->getStoreId());
+            $result[] = $this->galleryEntryBuilder->create();
+        }
+        return $result;
     }
 
     /**

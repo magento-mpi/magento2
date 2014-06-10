@@ -121,7 +121,7 @@ class WriteService implements WriteServiceInterface
         $imageFileUri = $productMediaGallery->addImage(
             $product,
             $absoluteFilePath,
-            $entry->getRoles(),
+            $entry->getTypes(),
             true,
             $entry->isDisabled()
         );
@@ -165,7 +165,7 @@ class WriteService implements WriteServiceInterface
             'disabled' => $entry->isDisabled(),
         ));
         $productMediaGallery->clearMediaAttribute($product, array_keys($product->getMediaAttributes()));
-        $productMediaGallery->setMediaAttribute($product, $entry->getRoles(), $filePath);
+        $productMediaGallery->setMediaAttribute($product, $entry->getTypes(), $filePath);
         $product->setStoreId($storeId);
         $product->save();
         return true;

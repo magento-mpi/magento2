@@ -18,7 +18,7 @@ class GalleryEntry extends AbstractObject
     const STORE_ID = 'store_id';
     const POSITION = 'position';
     const DISABLED = 'disabled';
-    const ROLES = 'roles';
+    const TYPES = 'types';
     const FILE = 'file';
 
     /**
@@ -72,14 +72,13 @@ class GalleryEntry extends AbstractObject
     }
 
     /**
-     * Retrieve gallery entry roles (thumbnail, image, small_image etc)
+     * Retrieve gallery entry image types (thumbnail, image, small_image etc)
      *
      * @return string[]|null
      */
-    public function getRoles()
+    public function getTypes()
     {
-        // @todo maybe change the name
-        return $this->_get(self::ROLES);
+        return $this->_get(self::TYPES);
     }
 
     /**

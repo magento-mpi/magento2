@@ -21,6 +21,12 @@ interface ReadServiceInterface
     public function getTypes($attributeSetId);
 
     /**
+     * @param string $productSku
+     * @return \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry[]
+     */
+    public function getList($productSku);
+
+    /**
      * Return information about gallery entity
      *
      * @param string $productSku

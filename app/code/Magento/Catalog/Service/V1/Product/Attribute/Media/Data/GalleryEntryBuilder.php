@@ -69,14 +69,14 @@ class GalleryEntryBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set gallery entry roles (thumbnail, image, small_image etc)
+     * Set gallery entry types (thumbnail, image, small_image etc)
      *
      * @param array $roles
      * @return $this
      */
-    public function setRoles(array $roles)
+    public function setTypes(array $roles)
     {
-        return $this->_set(GalleryEntry::ROLES, $roles);
+        return $this->_set(GalleryEntry::TYPES, $roles);
     }
 
     /**
