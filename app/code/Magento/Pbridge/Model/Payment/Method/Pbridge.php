@@ -357,9 +357,6 @@ class Pbridge extends AbstractMethod
             'magento_payment_action',
             $this->getOriginalMethodInstance()->getConfigPaymentAction()
         )->setData(
-            'additional_params',
-            $this->_additionalRequestParameters
-        )->setData(
             'client_ip',
             $this->_requestHttp->getClientIp(false)
         )->setData(
@@ -451,9 +448,6 @@ class Pbridge extends AbstractMethod
             'transaction_id',
             $authTransactionId
         )->setData(
-            'additional_params',
-            $this->_additionalRequestParameters
-        )->setData(
             'is_capture_complete',
             (int)$payment->getShouldCloseParentTransaction()
         )->setData(
@@ -501,9 +495,6 @@ class Pbridge extends AbstractMethod
                 'transaction_id',
                 $captureTxnId
             )->setData(
-                'additional_params',
-                $this->_additionalRequestParameters
-            )->setData(
                 'amount',
                 $amount
             )->setData(
@@ -550,12 +541,7 @@ class Pbridge extends AbstractMethod
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = $this->_getApiRequest();
-            $request->addData(
-                array(
-                    'transaction_id' => $authTransactionId,
-                    'additional_params' => $this->_additionalRequestParameters
-                )
-            );
+            $request->setData('transaction_id', $authTransactionId);
             $this->_getApi()->doVoid($request);
         } else {
             throw new Exception(__('You need an authorization transaction to void.'));
