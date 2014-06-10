@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Service;
+namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Integration;
 
-class IntegrationV1Test extends \PHPUnit_Framework_TestCase
+class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
     const VALUE_INTEGRATION_ID = 1;
 

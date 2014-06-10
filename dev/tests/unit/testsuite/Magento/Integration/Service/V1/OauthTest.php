@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Service;
+namespace Magento\Integration\Service\V1;
 
 use Magento\Integration\Model\Integration;
 use Magento\Framework\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token;
 
-class OauthV1Test extends \PHPUnit_Framework_TestCase
+class OauthTest extends \PHPUnit_Framework_TestCase
 {
     const VALUE_CONSUMER_ID = 1;
 
