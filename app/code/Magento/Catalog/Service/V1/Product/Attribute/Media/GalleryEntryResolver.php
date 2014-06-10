@@ -28,8 +28,8 @@ class GalleryEntryResolver
         }
 
         foreach ($mediaGalleryData['images'] as $image) {
-            if ($image['value_id'] == $entryId) {
-                return $image['file'];
+            if (isset($image['value_id']) && $image['value_id'] == $entryId) {
+                return isset($image['file']) ? $image['file'] : null;
             }
         }
         return null;
@@ -50,7 +50,7 @@ class GalleryEntryResolver
         }
 
         foreach ($mediaGalleryData['images'] as $image) {
-            if ($image['file'] == $filePath) {
+            if (isset($image['file']) && $image['file'] == $filePath) {
                 return isset($image['value_id']) ? $image['value_id'] : null;
             }
         }
