@@ -173,7 +173,7 @@ class Data extends AbstractHelper
      */
     public function decodeFilter(&$value)
     {
-        $value = rawurldecode($value);
+        $value = trim(rawurldecode($value));
     }
 
     /**

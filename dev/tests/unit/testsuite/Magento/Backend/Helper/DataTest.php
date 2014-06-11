@@ -52,4 +52,23 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('custom_backend', $this->_helper->getAreaFrontName());
     }
+
+    /**
+     * @dataProvider getDecodeFilterValuesDataProvider
+     */
+    public function testDecodeFilterValues($value, $expected)
+    {
+        $this->_helper->decodeFilter($value);
+
+        $this->assertEquals($expected, $value);
+    }
+
+    public function getDecodeFilterValuesDataProvider()
+    {
+        return array(
+            'left_space_value' => array(' value', 'value'),
+            'right_space_value' => array('value ', 'value'),
+            'both_spaces_value' => array(' value ', 'value')
+        );
+    }
 }
