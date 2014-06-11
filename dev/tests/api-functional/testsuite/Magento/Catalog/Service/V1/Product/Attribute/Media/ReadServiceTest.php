@@ -104,7 +104,7 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/attribute_set_with_image_attribute.php
      */
-    public function testGetTypes()
+    public function testTypes()
     {
         $attributeSet = $this->getAttributeSetByName('custom attribute set 531'); // from fixture
         $this->assertNotEmpty($attributeSet, 'Fixture failed to create attribute set');
@@ -117,7 +117,7 @@ class ReadServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => 'catalogProductAttributeMediaReadServiceV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaReadServiceV1GetTypes'
+                'operation' => 'catalogProductAttributeMediaReadServiceV1Types'
             ]
         ];
 

@@ -112,7 +112,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->setMock->expects($this->once())->method('getId')->will($this->returnValue(null));
-        $this->service->getTypes($this->attributeSetId);
+        $this->service->types($this->attributeSetId);
     }
 
     /**
@@ -136,7 +136,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->eavConfigMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->setMock->expects($this->once())->method('getEntityTypeId')->will($this->returnValue(4));
 
-        $this->service->getTypes($this->attributeSetId);
+        $this->service->types($this->attributeSetId);
     }
 
     public function testGetTypesPositive()
@@ -183,7 +183,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->will($this->returnValue($items));
 
-        $attributes = $this->service->getTypes($this->attributeSetId);
+        $attributes = $this->service->types($this->attributeSetId);
         $this->assertEquals(1, count($attributes));
         /** @var \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImage $resultAttribute */
         $resultAttribute = reset($attributes);

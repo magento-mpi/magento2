@@ -166,7 +166,7 @@
         </resources>
     </route>
     <route url="/V1/products/media/types/:attributeSetId" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="getTypes"/>
+        <service class="Magento\Catalog\Service\V1\Product\Attribute\Media\ReadServiceInterface" method="types"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

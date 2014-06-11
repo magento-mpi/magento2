@@ -127,7 +127,7 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getTypes($attributeSetId)
+    public function types($attributeSetId)
     {
         $attributeSet = $this->setFactory->create()->load($attributeSetId);
         if (!$attributeSet->getId()) {
