@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Filesystem;
+namespace Magento\Config;
 
 
 interface Resolver

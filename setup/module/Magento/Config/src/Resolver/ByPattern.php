@@ -6,10 +6,10 @@
  * @license   {license_link}
  */
 
-namespace Magento\Filesystem\Resolver;
+namespace Magento\Config\Resolver;
 
-use Magento\Filesystem\GlobWrapper;
-use Magento\Filesystem\Resolver;
+use Magento\Config\GlobWrapper;
+use Magento\Config\Resolver;
 
 class ByPattern implements Resolver
 {

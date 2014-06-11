@@ -7,4 +7,4 @@
  */
 
 $loader = include __DIR__ . '/../../../../vendor/autoload.php';
-$loader->addPsr4('Magento\\Filesystem\\', array(__DIR__ .  '/../src/'));
+$loader->addPsr4('Magento\\Install\\', array(__DIR__ .  '/../src/'));

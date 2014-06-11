@@ -21,10 +21,10 @@ return [
         'instance' => [
             'Magento\Setup\Controller\TestController' => [
                 'parameters' => [
-                    'resolver' => new \Magento\Filesystem\Resolver\ByPattern(
-                            new \Magento\Filesystem\GlobWrapper(),
+                    'resolver' => new \Magento\Config\Resolver\ByPattern(
+                            new \Magento\Config\GlobWrapper(),
                             realpath(__DIR__ . '/../../../../../app/code'),
-                            '/*/*/sql/*/install-*.php'
+                            '/*/*/sql/*/install-*.xml'
                         ),
                 ],
             ],

@@ -7,7 +7,7 @@
  */
 namespace Magento\Setup\Controller;
 
-use Magento\Filesystem\Resolver;
+use Magento\Config\Resolver;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class TestController extends AbstractActionController
@@ -22,6 +22,10 @@ class TestController extends AbstractActionController
 
     public function indexAction()
     {
-        var_dump($this->resolver->get());die;
+        $content = file_get_contents($this->resolver->get()[0]);
+        var_dump($content);
+        $xml = new \Magento\Config\Dom($content);
+        var_dump($xml->getDom()->getElementsByTagName('create')->item(0)->attributes->item(0)->nodeValue);
+        die;
     }
 }

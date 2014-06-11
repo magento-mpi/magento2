@@ -8,7 +8,8 @@
 
 return [
     'modules' => [
-        'Magento\Filesystem',
+        'Magento\Install',
+        'Magento\Config',
         'Magento\Setup',
     ],
     'module_listener_options' => [
