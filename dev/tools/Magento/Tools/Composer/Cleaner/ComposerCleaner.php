@@ -51,7 +51,7 @@ class ComposerCleaner
         /**
          * @var $component \Magento\Tools\Composer\Model\Package
          */
-        foreach ($this->$components as  $component) {
+        foreach ($components as  $component) {
             $fileLocation = $this->_rootDir . $component->getLocation() . "/composer.json";
             if (file_exists($fileLocation)) {
                 unlink($fileLocation);
@@ -60,6 +60,6 @@ class ComposerCleaner
                 $this->_logger->debug(sprintf("Skipped. composer.json doesn't exist for %s", $component->getName()));
             }
         }
-        return sizeof($this->$components);
+        return sizeof($components);
     }
 }
