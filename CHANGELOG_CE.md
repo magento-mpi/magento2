@@ -55,6 +55,10 @@
   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
   * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
   * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
+  * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
+  * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
+  * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
+  * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
