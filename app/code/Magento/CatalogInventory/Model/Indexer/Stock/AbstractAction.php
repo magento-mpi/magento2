@@ -55,6 +55,13 @@ abstract class AbstractAction
     protected $_indexers = array();
 
     /**
+     * Flag that defines if need to use "_idx" index table suffix instead of "_tmp"
+     *
+     * @var bool
+     */
+    protected $_isNeedUseIdxTable = false;
+
+    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory
@@ -95,7 +102,7 @@ abstract class AbstractAction
     /**
      * Retrieve Stock Indexer Models per Product Type
      *
-     * @return array
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface[]
      */
     protected function _getTypeIndexers()
     {
@@ -141,6 +148,60 @@ abstract class AbstractAction
     }
 
     /**
+     * Reindex all
+     */
+    public function reindexAll()
+    {
+        $this->useIdxTable(true);
+        $this->clearTemporaryIndexTable();
+
+        foreach ($this->_getTypeIndexers() as $indexer) {
+            $indexer->reindexAll();
+        }
+
+        $this->_syncData();
+    }
+
+    /**
+     * Synchronize data between index storage and original storage
+     *
+     * @return $this
+     */
+    protected function _syncData()
+    {
+        $idxTableName = $this->_getIdxTable();
+        $tableName = $this->_getTable('cataloginventory_stock_status');
+
+        $this->_deleteOldRelations($tableName);
+
+        $columns = array_keys($this->_connection->describeTable($idxTableName));
+        $select = $this->_connection->select()->from($idxTableName, $columns);
+        $query = $select->insertFromSelect($tableName, $columns);
+        $this->_connection->query($query);
+        return $this;
+    }
+
+    /**
+     * Delete old relations
+     *
+     * @var string $tableName
+     */
+    protected function _deleteOldRelations($tableName)
+    {
+        $select = $this->_connection->select()
+            ->from(array('s' => $tableName))
+            ->joinLeft(
+                array('w' => $this->_getTable('catalog_product_website')),
+                's.product_id = w.product_id AND s.website_id = w.website_id',
+                array()
+            )
+            ->where('w.product_id IS NULL');
+
+        $sql = $select->deleteFromSelect('s');
+        $this->_connection->query($sql);
+    }
+
+    /**
      * Refresh entities index
      *
      * @param array $productIds
@@ -174,5 +235,42 @@ abstract class AbstractAction
         }
 
         return $this;
+    }
+
+    /**
+     * Set or get what either "_idx" or "_tmp" suffixed temporary index table need to use
+     *
+     * @param bool|null $value
+     * @return bool
+     */
+    public function useIdxTable($value = null)
+    {
+        if (!is_null($value)) {
+            $this->_isNeedUseIdxTable = (bool)$value;
+        }
+        return $this->_isNeedUseIdxTable;
+    }
+
+    /**
+     * Retrieve temporary index table name
+     *
+     * @return string
+     */
+    protected function _getIdxTable()
+    {
+        if ($this->useIdxTable()) {
+            return $this->_getTable('cataloginventory_stock_status_idx');
+        }
+        return $this->_getTable('cataloginventory_stock_status_tmp');
+    }
+
+    /**
+     * Clean up temporary index table
+     *
+     * @return void
+     */
+    public function clearTemporaryIndexTable()
+    {
+        $this->_getConnection()->delete($this->_getIdxTable());
     }
 }
