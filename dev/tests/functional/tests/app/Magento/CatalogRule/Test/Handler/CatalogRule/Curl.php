@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\Handler\CatalogRule; 
+namespace Magento\CatalogRule\Test\Handler\CatalogRule;
 
+use Magento\Backend\Test\Handler\Conditions;
 use Magento\CatalogRule\Test\Handler\CatalogRule;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
@@ -20,30 +20,45 @@ use Mtf\System\Config;
  * Class Curl
  * Curl that creates catalog price rule
  */
-class Curl extends AbstractCurl implements CatalogRuleInterface
+class Curl extends Conditions implements CatalogRuleInterface
 {
     /**
-     * Mapping for simple action
+     * Map of type parameter
      *
      * @var array
      */
-    protected $simpleAction = [
-        'by_percent' => 'By Percentage of the Original Price',
-        'by_fixed' => 'By Fixed Amount',
-        'to_percent' => 'To Percentage of the Original Price',
-        'to_fixed' => 'To Fixed Amount'
+    protected $mapTypeParams = [
+        'Category' => [
+            'type' => 'Magento\CatalogRule\Model\Rule\Condition\Product',
+            'attribute' => 'category_ids',
+        ]
     ];
 
     /**
-     * Mapping for customer group ids
+     * Mapping values for data.
      *
      * @var array
      */
-    protected $customerGroupIds = [
-        0 => 'NOT LOGGED IN',
-        1 => 'General',
-        2 => 'Wholesale',
-        3 => 'Retailer'
+    protected $mappingData = [
+        'simple_action' => [
+            'By Percentage of the Original Price' => 'by_percent',
+            'By Fixed Amount' => 'by_fixed',
+            'To Percentage of the Original Price' => 'to_percent',
+            'To Fixed Amount' => 'to_fixed'
+        ],
+        'customer_group_ids' => [
+            'NOT LOGGED IN' => 0,
+            'General' => 1,
+            'Wholesale' => 2,
+            'Retailer' => 3
+        ],
+        'is_active' => [
+            'Active' => 1,
+            'Inactive' => 0
+        ],
+        'website_ids' => [
+            'Main Website' => 1
+        ]
     ];
 
     /**
@@ -64,40 +79,25 @@ class Curl extends AbstractCurl implements CatalogRuleInterface
         $curl->close();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Catalog Price Rule entity creating by curl handler"
-                . " was not successful! Response: $response");
+            throw new \Exception(
+                "Catalog Price Rule entity creating by curl handler"
+                . " was not successful! Response: $response"
+            );
         }
 
         return ['id' => $this->getCategoryPriceRuleId($data)];
     }
 
     /**
-     * Convert data from text to values
+     * Prepare data from text to values
      *
      * @param FixtureInterface $fixture
-     * @return mixed
+     * @return array
      */
     protected function prepareData($fixture)
     {
-        $data = $fixture->getData();
-        foreach ($data['website_ids'] as &$value) {
-            if ($value == 'Main Website') {
-                $value = 1;
-            }
-        }
-
-        $data['is_active'] = 'Active' ? 1 : 0;
-
-        foreach ($data['customer_group_ids'] as &$value) {
-            $value = array_search($value, $this->customerGroupIds);
-        }
-
-        $data['simple_action'] = array_search($data['simple_action'], $this->simpleAction);
-
-        $data['limit'] = 20;
-        $data['page'] = 1;
-        $data['rule']['conditions'][1]['aggregator'] = 'all';
-        $data['rule']['conditions'][1]['value']= 1;
+        $data = $this->replaceMappingData($fixture->getData());
+        $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
 
         return $data;
     }

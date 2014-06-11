@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\Constraint; 
+namespace Magento\CatalogRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
