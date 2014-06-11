@@ -23,4 +23,10 @@ interface StockStatusServiceInterface
      * @return array
      */
     public function getProductStockStatus($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID);
+
+    /**
+     * @param string $sku
+     * @return Data\StockStatus
+     */
+    public function getProductStockStatusBySku($sku);
 }
