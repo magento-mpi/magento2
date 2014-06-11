@@ -1,0 +1,4 @@
+"testCreateStoreView/dataSet";"product/dataSet";"urlRewrite/data/store_id";"urlRewrite/data/request_path";"urlRewrite/data/options";"urlRewrite/data/description";"isRequired";"constraint"
+"-";"default";"Main Website/Main Website Store/Default Store View";"test_%isolation%.html";"No";"description_%isolation%";"Yes";"assertUrlRewriteSaveMessage"
+"-";"default";"Main Website/Main Website Store/Default Store View";"test_%isolation%.html";"Temporary (302)";"description_%isolation%";"Yes";"assertUrlRewriteSaveMessage, assertProductUrlAvailableOnTheFront"
+"-";"default";"Main Website/Main Website Store/Default Store View";"test_%isolation%.html";"Permanent (301)";"description_%isolation%";"Yes";"assertUrlRewriteSaveMessage, assertProductUrlAvailableOnTheFront"

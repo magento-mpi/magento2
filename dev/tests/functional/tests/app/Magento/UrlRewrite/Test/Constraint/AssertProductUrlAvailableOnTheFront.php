@@ -12,6 +12,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertProductUrlAvailableOnTheFront
@@ -31,20 +32,25 @@ class AssertProductUrlAvailableOnTheFront extends AbstractConstraint
      *
      * @param UrlRewrite $urlRewrite
      * @param CatalogProductView $catalogProductView
+     * @param InjectableFixture $product
      * @param Browser $browser
      * @return void
      */
     public function processAssert(
         UrlRewrite $urlRewrite,
         CatalogProductView $catalogProductView,
+        InjectableFixture $product,
         Browser $browser
     ) {
         $browser->open($_ENV['app_frontend_url'] . $urlRewrite->getRequestPath());
+        if (!method_exists($product, 'getName')) {
+            $product = $urlRewrite->getDataFieldConfig('product_id')['source']->getProduct();
+        }
         \PHPUnit_Framework_Assert::assertEquals(
             $catalogProductView->getTitleBlock()->getTitle(),
-            $urlRewrite->getDataFieldConfig('product_id')['source']->getProduct()->getName(),
+            $product->getName(),
             'URL rewrite product redirect false.'
-            . "\nExpected: " . $urlRewrite->getDataFieldConfig('product_id')['source']->getProduct()->getName()
+            . "\nExpected: " . $product->getName()
             . "\nActual: " . $catalogProductView->getTitleBlock()->getTitle()
         );
     }

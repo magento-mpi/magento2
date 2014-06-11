@@ -18,6 +18,20 @@ use Mtf\Client\Element\Locator;
 class Tree extends Block
 {
     /**
+     * Locator value for  skip category button
+     *
+     * @var string
+     */
+    protected $skipCategoryButton = '[data-ui-id="urlrewrite-catalog-product-edit-skip-categories"]';
+
+    /**
+     * Locator value for  edit form
+     *
+     * @var string
+     */
+    protected $editForm = '#edit_form';
+
+    /**
      * Select category by its name
      *
      * @param string $categoryName
@@ -25,5 +39,19 @@ class Tree extends Block
     public function selectCategory($categoryName)
     {
         $this->_rootElement->find("//a[contains(text(),'{$categoryName}')]", Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Skip category selection
+     *
+     * @return $this
+     */
+    public function skipCategorySelection()
+    {
+        $this->_rootElement->find($this->skipCategoryButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->waitUntil(function () {
+                return $this->_rootElement->find($this->editForm)->isVisible();
+            });
+        return $this;
     }
 }
