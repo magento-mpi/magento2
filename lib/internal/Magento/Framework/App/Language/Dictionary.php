@@ -37,7 +37,7 @@ class Dictionary
      * Takes into account inheritance between language packs
      * Returns associative array where key is phrase in the source code and value is its translation
      *
-     * @param $languageCode
+     * @param string $languageCode
      * @return array
      */
     public function getDictionary($languageCode)
@@ -67,6 +67,7 @@ class Dictionary
      *
      * @param string $vendor
      * @param string $code
+     * @return void
      */
     private function readPackDeclaration($vendor, $code)
     {
@@ -99,6 +100,7 @@ class Dictionary
      *
      * @param string $expected
      * @param \DOMElement $root
+     * @return void
      * @throws \LogicException
      */
     public static function assertVendor($expected, \DOMElement $root)
@@ -116,6 +118,7 @@ class Dictionary
      *
      * @param string $expected
      * @param \DOMElement $root
+     * @return void
      * @throws \LogicException
      */
     public static function assertCode($expected, \DOMElement $root)
@@ -170,6 +173,7 @@ class Dictionary
      * @param string $code
      * @param array $result
      * @param int $level
+     * @return void
      */
     private function getInheritedPacks($code, array &$result, $level = 0)
     {
@@ -194,6 +198,7 @@ class Dictionary
      * @param array $a
      * @param array $b
      * @return int
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      */
     private function sortInherited($a, $b)
     {
@@ -234,4 +239,4 @@ class Dictionary
         }
         return $result;
     }
-} 
+}

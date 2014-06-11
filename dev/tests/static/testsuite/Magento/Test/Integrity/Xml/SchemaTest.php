@@ -74,12 +74,16 @@ xsi:noNamespaceSchemaLocation="../../../lib/internal/Magento/Framework/etc/somet
      */
     private function _filterSpecialCases(&$files)
     {
-        foreach ($files as $key => $value) {
-            if (false !== strpos($value, 'Dhl/etc/countries.xml')) {
-                unset($files[$key]);
-            }
-            if (false !== strpos($value, 'app/etc/local.xml')) {
-                unset($files[$key]);
+        $list = [
+            '#Dhl/etc/countries.xml$#',
+            '#app/etc/local.xml$#',
+            '#app/etc/[a-z]+/module.xml$#'
+        ];
+        foreach ($list as $pattern) {
+            foreach ($files as $key => $value) {
+                if (preg_match($pattern, $value)) {
+                    unset($files[$key]);
+                }
             }
         }
     }
