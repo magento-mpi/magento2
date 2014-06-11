@@ -21,13 +21,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'Magento\Reminder\Model\Resource\Rule\Collection'
         );
         $collection->addDateFilter($dateModel->date());
-        $this->markTestIncomplete('MAGE-5166 is incomplete');
         $this->assertEquals(1, $collection->count());
         foreach ($collection as $rule) {
             $this->assertInstanceOf('Magento\Reminder\Model\Rule', $rule);
             $this->assertEquals('Rule 2', $rule->getName());
             return;
         }
-        $this->fail('Collection has not been loaded properly.');
     }
 }
