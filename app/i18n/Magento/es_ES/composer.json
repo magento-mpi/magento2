@@ -1,8 +1,9 @@
 {
-    "name": "Magento/language-es_ES",
+    "name": "magento/language-es_es",
     "description": "Spanish (Spain) language",
     "version": "0.1.0",
     "require": {
-        "Magento/Framework": "0.1.0"
-    }
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-language"
 }
