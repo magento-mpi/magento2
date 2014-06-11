@@ -48,6 +48,9 @@ class Integration extends Action
     /** @var \Magento\Integration\Helper\Data */
     protected $_integrationData;
 
+    /** @var  \Magento\Integration\Model\Resource\Integration\Collection */
+    protected $_integrationCollection;
+
     /**
      * @var \Magento\Framework\Escaper
      */
@@ -62,6 +65,7 @@ class Integration extends Action
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Integration\Model\Resource\Integration\Collection $integrationCollection
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -71,7 +75,8 @@ class Integration extends Action
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Integration\Helper\Data $integrationData,
-        \Magento\Framework\Escaper $escaper
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Integration\Model\Resource\Integration\Collection $integrationCollection
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -81,6 +86,7 @@ class Integration extends Action
         $this->_coreHelper = $coreHelper;
         $this->_integrationData = $integrationData;
         $this->escaper = $escaper;
+        $this->_integrationCollection = $integrationCollection;
         parent::__construct($context);
     }
 
@@ -91,6 +97,12 @@ class Integration extends Action
      */
     public function indexAction()
     {
+        $unsecureEndpointsCount = $this->_integrationCollection->addUnsecureEndpointFilter()->getSize();
+        if ($unsecureEndpointsCount > 0) {
+            $this->messageManager->addNotice(__('Warning! Integrations not using HTTPS are insecure and
+                     potentially expose private or personally identifiable information')
+            );
+        }
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
@@ -227,14 +239,12 @@ class Integration extends Action
                 } else {
                     $integration = $this->_integrationService->update($integrationData);
                 }
-                if (!$this->getRequest()->isXmlHttpRequest()) {
-                    $this->messageManager->addSuccess(
-                        __(
-                            'The integration \'%1\' has been saved.',
-                            $this->escaper->escapeHtml($integration->getName())
-                        )
-                    );
-                }
+                $this->messageManager->addSuccess(
+                    __(
+                        'The integration \'%1\' has been saved.',
+                        $this->escaper->escapeHtml($integration->getName())
+                    )
+                );
                 if ($this->getRequest()->isXmlHttpRequest()) {
                     $isTokenExchange = $integration->getEndpoint() && $integration->getIdentityLinkUrl() ? '1' : '0';
                     $this->getResponse()->setBody(
@@ -530,5 +540,13 @@ class Integration extends Action
             $integrationName
         );
         $this->messageManager->addNotice($msg);
+    }
+
+    public function nonHttpsNotice()
+    {
+        return __(
+            'Warning! Integrations not using HTTPS are insecure and potentially expose private or personally
+            identifiable information'
+        );
     }
 }
