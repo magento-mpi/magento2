@@ -1,0 +1,4 @@
+"customerBalance/data/balance_delta";"customerBalance/data/is_customer_notified";"customerBalance/data/additional_info";"constraint"
+100;"Yes";"added, should be 100";"assertCustomerBalanceAmount, assertCustomerBalanceHistory"
+66;"No";"-";"assertCustomerBalanceAmount, assertCustomerBalanceHistory"
+-166;"No";"removed, should be 0";"assertCustomerBalanceHistory"

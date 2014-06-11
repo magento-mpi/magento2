@@ -37,10 +37,10 @@ class AssertCatalogEventSuccessDeleteMessage extends AbstractConstraint
 
         \PHPUnit_Framework_Assert::assertEquals(
             self::DELETE_MESSAGE,
-            $catalogEventIndex->getMessageBlock()->getSuccessMessages(),
+            $catalogEventIndex->getMessagesBlock()->getSuccessMessages(),
             'Wrong message is displayed.'
             . "\nExpected: " . self::DELETE_MESSAGE
-            . "\nActual: " . $catalogEventIndex->getMessageBlock()->getSuccessMessages()
+            . "\nActual: " . $catalogEventIndex->getMessagesBlock()->getSuccessMessages()
         );
     }
 
