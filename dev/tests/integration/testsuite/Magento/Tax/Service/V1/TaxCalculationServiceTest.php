@@ -10,7 +10,7 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-class TaxCalculationServiceTest
+class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Object Manager
@@ -43,7 +43,7 @@ class TaxCalculationServiceTest
     /**
      * Tax Details Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxDetails\TaxDetailsBuilder
+     * @var \Magento\Tax\Service\V1\Data\TaxDetailsBuilder
      */
     private $taxDetailsBuilder;
 
@@ -68,13 +68,9 @@ class TaxCalculationServiceTest
             ->create('Magento\Tax\Helper\Data');
         $this->taxDetailsBuilder = $this
             ->objectManager
-            ->create('Magento\Tax\Service\V1\Data\TaxDetails\TaxDetailsBuilder');
+            ->create('Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
         $this->taxDetailsItemBuilder = $this
             ->objectManager
             ->create('Magento\Tax\Service\V1\data\TaxDetails\ItemBuilder');
     }
-
-
-
-
 }
