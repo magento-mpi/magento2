@@ -28,14 +28,12 @@ class AssertCartPriceRuleConditionIsNotApplied extends AssertCartPriceRuleApplyi
      */
     protected function assert()
     {
-        preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getSubtotal(), $subTotalMatch);
-        $subTotal = $subTotalMatch[1];
-        preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getGrandTotal(), $grandTotalMatch);
-        $grandTotal = $grandTotalMatch[1];
+        $subTotal =  $this->checkoutCart->getTotalsBlock()->getSubtotal();
+        $grandTotal =  $this->checkoutCart->getTotalsBlock()->getGrandTotal();
 
         if ($this->checkoutCart->getTotalsBlock()->isVisibleShippingPriceBlock()) {
-            preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getChippingPrice(), $shippingPriceMatch);
-            $grandTotal = number_format(($grandTotal - $shippingPriceMatch[1]), 2);
+            $shippingPrice = $this->checkoutCart->getTotalsBlock()->getShippingPrice();
+            $grandTotal = number_format(($grandTotal - $shippingPrice), 2);
         }
         \PHPUnit_Framework_Assert::assertEquals(
             $subTotal,

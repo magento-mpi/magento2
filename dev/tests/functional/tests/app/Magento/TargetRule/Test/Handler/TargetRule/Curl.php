@@ -34,6 +34,10 @@ class Curl extends Conditions implements TargetRuleInterface
         ],
         'Price (percentage)' => [
             'type' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
+        ],
+        'Category' => [
+            'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
+            'attribute' => 'category_ids'
         ]
     ];
 
