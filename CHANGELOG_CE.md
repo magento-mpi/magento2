@@ -7,6 +7,12 @@
       * `Sales/Model/Config.php`
       * `Sales/Model/Download.php`
       * `Sales/Model/Quote.php`
+      * `ConfigurableProduct/Helper/Data.php`
+      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
+      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
+      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
+      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
+      * `CatalogSearch/Helper/Data.php`
   * Covered Magento lib form elements with unit tests:
       * `lib/Magento/Framework/Flag.php`
       * `lib/Magento/Framework/Escaper`
@@ -18,6 +24,8 @@
       * `lib/Magento/Framework/Backup/NoMedia`
       * `lib/Magento/Framework/Archive`
       * `lib/Magento/Framework/Translate.php`
+      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
   * Created Service API for Magento_Catalog Module:
      * Implemented Product API (MAGETWO-23306)
      * Implemented ProductAttributeRead API (MAGETWO-23313)
@@ -67,6 +75,9 @@
   * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
   * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
   * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
+  * [#562]  Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable() (MAGETWO-24037)
+  * [#565]  Magento\CatalogSearch\Model\Query::getResultCollection() not working (MAGETWO-24162)
+  * [#557]  translation anomalies backend login page (MAGETWO-23760)
 
 2.0.0.0-dev80
 =============
