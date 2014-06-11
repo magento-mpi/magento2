@@ -23,7 +23,7 @@ class GalleryEntryResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEntryFilePathById()
     {
-        $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->any())->method('getData')->with('media_gallery')->will($this->returnValue(array(
             'images' => array(
                 array(
@@ -42,7 +42,7 @@ class GalleryEntryResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEntryIdByFilePath()
     {
-        $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->expects($this->any())->method('getData')->with('media_gallery')->will($this->returnValue(array(
             'images' => array(
                 array(
