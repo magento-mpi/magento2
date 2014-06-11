@@ -26,7 +26,7 @@ interface StockStatusServiceInterface
 
     /**
      * @param string $sku
-     * @return Data\StockStatus
+     * @return \Magento\CatalogInventory\Service\V1\Data\StockStatus
      */
     public function getProductStockStatusBySku($sku);
 }
