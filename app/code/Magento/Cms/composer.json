@@ -1,0 +1,17 @@
+{
+    "name": "magento/module-cms",
+    "description": "N/A",
+    "require": {
+        "magento/module-store": "0.1.0",
+        "magento/module-core": "0.1.0",
+        "magento/module-theme": "0.1.0",
+        "magento/module-widget": "0.1.0",
+        "magento/module-backend": "0.1.0",
+        "magento/module-catalog": "0.1.0",
+        "magento/module-email": "0.1.0",
+        "magento/module-install": "0.1.0",
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-module",
+    "version": "0.1.0"
+}

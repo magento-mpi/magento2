@@ -1,0 +1,12 @@
+{
+    "name": "magento/module-custom-attribute-management",
+    "description": "N/A",
+    "require": {
+        "magento/module-eav": "0.1.0",
+        "magento/module-core": "0.1.0",
+        "magento/module-backend": "0.1.0",
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-module",
+    "version": "0.1.0"
+}

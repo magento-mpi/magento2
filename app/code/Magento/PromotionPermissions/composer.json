@@ -1,0 +1,12 @@
+{
+    "name": "magento/module-promotion-permissions",
+    "description": "N/A",
+    "require": {
+        "magento/module-banner": "0.1.0",
+        "magento/module-reminder": "0.1.0",
+        "magento/module-catalog-rule": "0.1.0",
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-module",
+    "version": "0.1.0"
+}

@@ -1,0 +1,18 @@
+{
+    "name": "magento/module-catalog-inventory",
+    "description": "N/A",
+    "require": {
+        "magento/module-store": "0.1.0",
+        "magento/module-catalog": "0.1.0",
+        "magento/module-core": "0.1.0",
+        "magento/module-customer": "0.1.0",
+        "magento/module-backend": "0.1.0",
+        "magento/module-index": "0.1.0",
+        "magento/module-sales": "0.1.0",
+        "magento/module-catalog-search": "0.1.0",
+        "magento/module-eav": "0.1.0",
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-module",
+    "version": "0.1.0"
+}
