@@ -356,7 +356,8 @@ class Url
 
         foreach ($category->getChilds() as $child) {
             $this->_refreshCategoryRewrites(
-                $child, $category->getUrlPath() . '/',
+                $child,
+                $category->getUrlPath() . '/',
                 $refreshProducts,
                 $changeRequestPath
             );
@@ -749,7 +750,7 @@ class Url
         $storeId = $category->getStoreId();
         $idPath = $this->generatePath('id', null, $category);
         $categoryUrlSuffix = $this->getCategoryUrlSuffix($storeId);
-        $requestPathSufficx = '(\-[0-9]+)?';
+        $pathSuffix = '(\-[0-9]+)?';
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
             $existingRequestPath = $this->_rewrites[$idPath]->getRequestPath();
@@ -770,10 +771,9 @@ class Url
 
         $requestPath = $parentPath . $urlKey;
         if ($changeRequestPath) {
-            $requestPathSufficx = '';
+            $pathSuffix = '';
         }
-        $regexp = '/^' . preg_quote($requestPath, '/') . $requestPathSufficx . preg_quote($categoryUrlSuffix, '/')
-            . '$/i';
+        $regexp = '/^' . preg_quote($requestPath, '/') . $pathSuffix . preg_quote($categoryUrlSuffix, '/') . '$/i';
         if (isset($existingRequestPath) && preg_match($regexp, $existingRequestPath)) {
             return $existingRequestPath;
         }
