@@ -208,8 +208,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Store                          $store
      * @return bool|int
      */
-    public function typeOfDisplay($compareTo = null, $zone = \Magento\Framework\Pricing\Render::ZONE_DEFAULT, $store = null)
-    {
+    public function typeOfDisplay(
+        $compareTo = null,
+        $zone = \Magento\Framework\Pricing\Render::ZONE_DEFAULT,
+        $store = null
+    ) {
         if (!$this->isEnabled($store)) {
             return false;
         }
@@ -406,7 +409,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns all summed WEEE taxes with all local taxes applied
      *
-     * @param \Magento\Framework\Object[] $attributes Array of \Magento\Framework\Object, result from getProductWeeeAttributes()
+     * @param \Magento\Framework\Object[] $attributes Result from getProductWeeeAttributes()
      * @return float
      * @throws \Magento\Framework\Exception
      */
@@ -423,5 +426,37 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return (float) $amount;
+    }
+
+    /**
+     * Get the total weee tax
+     *
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return float
+     */
+    public function getWeeeTaxInclTax($item)
+    {
+        $weeeTaxAppliedAmounts = $this->getApplied($item);
+        $totalWeeeTaxIncTaxApplied = 0;
+        foreach ($weeeTaxAppliedAmounts as $weeeTaxAppliedAmount) {
+            $totalWeeeTaxIncTaxApplied += max($weeeTaxAppliedAmount['amount_incl_tax'], 0);
+        }
+        return $totalWeeeTaxIncTaxApplied;
+    }
+
+    /**
+     * Get the total base weee tax
+     *
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return float
+     */
+    public function getBaseWeeeTaxInclTax($item)
+    {
+        $weeeTaxAppliedAmounts = $this->getApplied($item);
+        $totalBaseWeeeTaxIncTaxApplied = 0;
+        foreach ($weeeTaxAppliedAmounts as $weeeTaxAppliedAmount) {
+            $totalBaseWeeeTaxIncTaxApplied += max($weeeTaxAppliedAmount['base_amount_incl_tax'], 0);
+        }
+        return $totalBaseWeeeTaxIncTaxApplied;
     }
 }
