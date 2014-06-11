@@ -17,6 +17,7 @@
             <module name="Magento_Store"/>
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_Customer"/>
+            <module name="Magento_GroupedProduct"/>
         </depends>
     </module>
 </config>

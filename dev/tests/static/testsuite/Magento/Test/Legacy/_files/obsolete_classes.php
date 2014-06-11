@@ -1948,11 +1948,19 @@ return array(
     ),
     array(
         'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
-        'Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped'
+        'Magento\CatalogImportExport\Model\Export\Entity\Product\Type\Grouped'
     ),
     array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped',
-        'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped'
+        'Magento\CatalogImportExport\Model\Import\Entity\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped',
+        'Magento\CatalogImportExport\Model\Export\Entity\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped',
+        'Magento\CatalogImportExport\Model\Import\Entity\Product\Type\Grouped'
     ),
     array('CollFactory', 'CollectionFactory'), // no need to shorten anymore
     array(
