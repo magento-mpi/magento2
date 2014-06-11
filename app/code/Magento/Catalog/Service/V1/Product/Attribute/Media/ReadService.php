@@ -15,6 +15,9 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\StateException;
 use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ReadService implements ReadServiceInterface
 {
     /**
@@ -156,7 +159,8 @@ class ReadService implements ReadServiceInterface
         }
 
         $galleryAttribute = $this->attributeFactory->create()->loadByCode(
-            $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY), 'media_gallery'
+            $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY),
+            'media_gallery'
         );
 
         $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
@@ -166,11 +170,11 @@ class ReadService implements ReadServiceInterface
         $imageTypes = array_keys($attributes);
 
         $productImages = [];
-        foreach($imageTypes as $type) {
+        foreach ($imageTypes as $type) {
             $productImages[$type] = $product->getData($type);
         }
 
-        foreach($gallery as $image) {
+        foreach ($gallery as $image) {
             $this->galleryEntryBuilder->setId($image['value_id']);
             $this->galleryEntryBuilder->setLabel($image['label_default']);
             $this->galleryEntryBuilder->setTypes(array_keys($productImages, $image['file']));

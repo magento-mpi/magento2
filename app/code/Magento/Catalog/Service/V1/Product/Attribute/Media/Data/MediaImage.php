@@ -53,10 +53,10 @@ class MediaImage extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * User defined or system attribute
      *
-     * @return bool
+     * @return int 0 or 1
      */
     public function getIsUserDefined()
     {
-        return (bool)$this->_get(self::IS_USER_DEFINED);
+        return (int)(bool)$this->_get(self::IS_USER_DEFINED);
     }
 }
