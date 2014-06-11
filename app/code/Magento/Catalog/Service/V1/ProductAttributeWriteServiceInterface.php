@@ -16,7 +16,7 @@ interface ProductAttributeWriteServiceInterface
     /**
      * Delete Attribute
      *
-     * @param int $attributeId
+     * @param string $attributeId
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
      * @throws \Exception If something goes wrong during delete
