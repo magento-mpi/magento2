@@ -21,7 +21,7 @@ class LibraryExtractor extends  FrameworkExtractor
      */
     public function getPath()
     {
-        return '/lib/internal/';
+        return '/lib/internal';
     }
 
     /**

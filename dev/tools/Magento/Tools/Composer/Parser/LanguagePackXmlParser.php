@@ -32,19 +32,12 @@ class LanguagePackXmlParser extends XmlParserAbstract
 
         if (isset($package)) {
             $map = array();
-            foreach ($package->xpath('language/depends/framework') as $framework) {
-                $map['Magento/Framework'] = "Magento/Framework";
-            }
-            if (null !== $package->xpath('language/depends/framework')
-                && is_array($package->xpath('language/depends/framework'))) {
-                $map['Magento/Framework'] = 'Magento/Framework';
-            }
-            foreach ($package->xpath('language/depends/language/@name') as $depends) {
+            foreach ($package->xpath('use') as $depends) {
                 $map[(string)$depends] =  (string)$depends;
             }
             $definitions = $this->createDefinition(
-                (string)$package->xpath('language/@name')[0],
-                (string)$package->xpath('language/@version')[0],
+                (string)$package->xpath('/language/vendor')[0] . '_' . (string)$package->xpath('/language/code')[0],
+                '0.1.0',
                 $this->getComponentDir(),
                 $map
             );

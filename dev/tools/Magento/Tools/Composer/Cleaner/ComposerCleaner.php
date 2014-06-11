@@ -29,15 +29,24 @@ class ComposerCleaner
     private $_logger;
 
     /**
+     * Root Directory Location
+     *
+     * @var string
+     */
+    private $_rootDir;
+
+    /**
      * Composer Cleaner Construct
      *
+     * @param string $rootDir
      * @param array $components
      * @param \Zend_Log $logger
      */
-    public function __construct(array $components, \Zend_Log $logger)
+    public function __construct($rootDir, array $components, \Zend_Log $logger)
     {
         $this->_components = $components;
         $this->_logger = $logger;
+        $this->_rootDir = $rootDir;
     }
 
     /**
@@ -51,7 +60,7 @@ class ComposerCleaner
          * @var $component \Magento\Tools\Composer\Model\Package
          */
         foreach ($this->_components as  $component) {
-            $fileLocation = $component->getLocation() . "/composer.json";
+            $fileLocation = $this->_rootDir . $component->getLocation() . "/composer.json";
             if (file_exists($fileLocation)) {
                 unlink($fileLocation);
                 $this->_logger->debug(sprintf("Cleared composer.json on %-40s", $component->getName()));
