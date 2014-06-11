@@ -171,9 +171,6 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Description'
 )->addIndex(
-    $installer->getIdxName('magento_reminder_template', array('rule_id')),
-    array('rule_id')
-)->addIndex(
     $installer->getIdxName('magento_reminder_template', array('template_id')),
     array('template_id')
 )->addForeignKey(
@@ -236,9 +233,6 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '1'),
     'Is Active'
-)->addIndex(
-    $installer->getIdxName('magento_reminder_rule_coupon', array('rule_id')),
-    array('rule_id')
 )->addForeignKey(
     $installer->getFkName('magento_reminder_rule_coupon', 'rule_id', 'magento_reminder_rule', 'rule_id'),
     'rule_id',
