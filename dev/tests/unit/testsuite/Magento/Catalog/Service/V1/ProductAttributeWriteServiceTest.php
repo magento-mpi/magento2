@@ -30,7 +30,7 @@ class ProductAttributeWriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $eavConfig;
 
     /**
-     * @var \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator
      */
     protected $inputValidator;
 
