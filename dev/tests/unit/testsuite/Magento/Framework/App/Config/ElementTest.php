@@ -10,7 +10,7 @@ namespace Magento\Framework\App\Config;
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Config\Element
+     * @var Element
      */
     protected $_model;
 
@@ -39,15 +39,12 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     </no_classname_test>
 </root>
 XML;
-        /**
-         * @TODO: Need to use ObjectManager instead 'new'.
-         * On this moment we have next bug MAGETWO-4274 which blocker for this key.
-         */
-        $this->_model = new \Magento\Framework\App\Config\Element($xml);
+        $this->_model = new Element($xml);
     }
 
     public function testIs()
     {
+        /** @var Element $element */
         $element = $this->_model->is_test;
         $this->assertTrue($element->is('value_key', 'value'));
         $this->assertTrue($element->is('value_sensitive_key', 'value'));
@@ -63,4 +60,4 @@ XML;
         $this->assertEquals('Magento\Catalog\Model\Observer', $this->_model->model_test->getClassName());
         $this->assertFalse($this->_model->no_classname_test->getClassName());
     }
-}
+} 
