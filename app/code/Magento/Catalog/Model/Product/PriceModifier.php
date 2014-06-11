@@ -31,7 +31,7 @@ class PriceModifier
 
         foreach ($prices as $key => $groupPrice) {
             if ($groupPrice['cust_group'] == $customerGroupId
-                && $groupPrice['website_id'] === $websiteId) {
+                && intval($groupPrice['website_id']) === intval($websiteId)) {
                 unset ($prices[$key]);
             }
         }
@@ -69,10 +69,10 @@ class PriceModifier
 
         foreach ($prices as $key => $tierPrice) {
             if ($customerGroupId == 'all' && $tierPrice['price_qty'] == $qty
-                && $tierPrice['all_groups'] == 1 && $tierPrice['website_id'] === $websiteId) {
+                && $tierPrice['all_groups'] == 1 && intval($tierPrice['website_id']) === intval($websiteId)) {
                 unset ($prices[$key]);
             } elseif ($tierPrice['price_qty'] == $qty && $tierPrice['cust_group'] == $customerGroupId
-                && intval($tierPrice['website_id']) === $websiteId) {
+                && intval($tierPrice['website_id']) === intval($websiteId)) {
                 unset ($prices[$key]);
             }
         }
