@@ -74,6 +74,7 @@
                     //replace placeholders in phpunit.legacy.xml file
                     var file = project.getProperty('basedir') + '/dev/build/core_dev/static/phpunit.legacy.xml';
                     var replace = project.createTask('replace');
+                    replace.setFailOnNoReplacements(true);
                     replace.setFile(new File(file));
                     var openingReplaceFilter = replace.createReplacefilter();
                     openingReplaceFilter.setToken('<!--incremental_build_placeholder');

@@ -117,19 +117,6 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpFiles()
     {
-        $fileHelper = \Magento\TestFramework\Utility\Files::init();
-        $allPhpFiles = $fileHelper->getPhpFiles();
-        if (isset($_ENV['INCREMENTAL_BUILD'])) {
-            $phpFiles = file(__DIR__ . '/_files/changed_files.txt', FILE_IGNORE_NEW_LINES);
-            foreach ($phpFiles as $key => $phpFile) {
-                $phpFiles[$key] = $fileHelper->getPathToSource() . '/' . $phpFile;
-            }
-            $phpFiles = \Magento\TestFramework\Utility\Files::composeDataSets($phpFiles);
-            $phpFiles = array_intersect_key($phpFiles, $allPhpFiles);
-        } else {
-            $phpFiles = $allPhpFiles;
-        }
-
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             function ($file) {
@@ -145,7 +132,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                 $this->_testObsoleteConstants($content);
                 $this->_testObsoletePropertySkipCalculate($content);
             },
-            $phpFiles
+            \Magento\TestFramework\Utility\ChangedFiles::getPhpFiles(__DIR__ . '/_files/changed_files.txt')
         );
     }
 
