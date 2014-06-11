@@ -59,18 +59,21 @@ class ComposerCreator
         foreach ($this->_components as $component) {
             /** @var Package $component */
             $command = 'cd ' . $this->_rootDir . $component->getLocation() . ' && php ' .
-                __DIR__ . '/../composer.phar init  --name "' .
-                $component->getName() . '" --description="We would be updating the description soon." ' .
-                '--author="Magento Support <support@magentocommerce.com>" --stability="dev" -n';
+                __DIR__ . '/../composer.phar init '.
+                '--name "' . strtolower($component->getName()) .
+                '" --description="We would be updating the description soon." ' .
+                //'--author="Magento Support <support@magentocommerce.com>" '.
+                //'--stability="dev" '.
+                '-n';
             //Command to include package installer.
             $dependencies = $component->getDependencies();
 
             /** @var Package  $dependency */
             foreach ($dependencies as $dependency) {
-                $command .= ' --require="' . $dependency->getName() . ':'.$dependency->getVersion() . '"';
+                $command .= ' --require="' . strtolower($dependency->getName()) . ':'.$dependency->getVersion() . '"';
             }
-            $command .= ' --require="Magento/Package-installer:*"';
-
+            //$command .= ' --require="Magento/Package-installer:*"';
+            $command .= ' --require="magento/framework:0.1.0"';
             $output = array();
             exec($command, $output);
             if (sizeof($output) > 0 ) {

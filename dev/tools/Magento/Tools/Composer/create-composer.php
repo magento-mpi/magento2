@@ -18,16 +18,12 @@ use \Magento\Tools\Composer\Extractor\ModuleExtractor;
 use \Magento\Tools\Composer\Extractor\EnterpriseExtractor;
 use \Magento\Tools\Composer\Extractor\CommunityExtractor;
 use \Magento\Tools\Composer\Extractor\AdminThemeExtractor;
-use \Magento\Tools\Composer\Extractor\FrameworkExtractor;
 use \Magento\Tools\Composer\Extractor\FrontendThemeExtractor;
-use \Magento\Tools\Composer\Extractor\LanguagePackExtractor;
-use \Magento\Tools\Composer\Extractor\LibraryExtractor;
 use \Magento\Tools\Composer\Creator\ComposerCreator;
 use \Magento\Tools\Composer\Cleaner\ComposerCleaner;
 use \Magento\Tools\Composer\Parser\ModuleXmlParser;
-use \Magento\Tools\Composer\Parser\LanguagePackXmlParser;
-use \Magento\Tools\Composer\Parser\LibraryXmlParser;
-use \Magento\Tools\Composer\Parser\ThemeXmlParser;
+use \Magento\Tools\Composer\Parser\AdminhtmlThemeXmlParser;
+use \Magento\Tools\Composer\Parser\FrontendThemeXmlParser;
 use \Magento\Tools\Composer\Parser\NullParser;
 
 try {
@@ -76,11 +72,8 @@ try {
     $logger->info(sprintf('Your Magento Installation Directory: %s ', BP));
 
     $moduleExtractor= new ModuleExtractor(BP, $logger, new ModuleXmlParser());
-    $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new ThemeXmlParser());
-    $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new ThemeXmlParser());
-    $libraryExtractor = new LibraryExtractor(BP, $logger, new LibraryXmlParser());
-    $frameworkExtractor = new FrameworkExtractor(BP, $logger, new LibraryXmlParser());
-    $languagePackExtractor = new LanguagePackExtractor(BP, $logger, new LanguagePackXmlParser());
+    $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new AdminhtmlThemeXmlParser());
+    $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new FrontendThemeXmlParser());
 
     $components = $moduleExtractor->extract(array(), $moduleCount);
     $logger->debug(sprintf("Read %3d modules.", $moduleCount));

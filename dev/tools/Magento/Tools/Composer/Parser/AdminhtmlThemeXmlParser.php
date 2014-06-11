@@ -11,7 +11,7 @@ namespace Magento\Tools\Composer\Parser;
 /**
  * XML Parser for Themes
  */
-class ThemeXmlParser extends XmlParserAbstract
+class AdminhtmlThemeXmlParser extends XmlParserAbstract
 {
 
     /**
@@ -34,16 +34,18 @@ class ThemeXmlParser extends XmlParserAbstract
         $definitions = array();
         if (isset($package)) {
             $map = array();
-            $name = (string)$vendorName . '_' . $packageName;
+            $name = (string)$vendorName . '_' . 'theme-frontend-' . $packageName;
             //Dependencies
             $dependency = $package->xpath("parent");
 
             if (!empty($dependency)) {
-                $depName = (String)$dependency[0] . "-Theme";
+                $nm = (String)$dependency[0];
+                $arr = explode('/', $nm);
+                $depName = $arr[0] . '_theme-frontend-' . $arr[1];
                 $map[$depName] = $depName;
             }
             $definitions = $this->createDefinition(
-                (string)$name . "-Theme",
+                (string)$name,
                 '0.1.0',
                 $this->getComponentDir(),
                 $map
