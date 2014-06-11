@@ -284,31 +284,30 @@
     }
     .content {
         background: @sidebar-background;
-        padding: 0 15px 5px;
-        dl {
+        padding: 0 15px;
+        .items {
             margin: 0;
         }
-        dt,
-        dd {
+        .item-title {
+            border-top: @border-width-base solid @border-color-base;
+            margin: 0;
+            padding: 15px 0 7px;
             display: none;
             &.complete {
                 display: block;
             }
-        }
-        dt {
-            border-top: @border-width-base solid @border-color-base;
-            margin-bottom: 7px;
-            padding-top: 15px;
             span {
                 .font-size(16);
                 font-weight: @font-weight-semibold;
             }
         }
-        dd.complete {
-            margin: 0 0 15px;
+        .item-content {
+            margin: 0;
+            padding: 0 0 15px;
             overflow: hidden;
-            .content {
-                margin: 0;
+            display: none;
+            &.complete {
+                display: block;
             }
         }
         .action,
@@ -453,6 +452,19 @@
 
     //  Payment mathods
     .methods-payment {
+        border-bottom: @border-width-base solid @border-color-base;
+        .item-title {
+            border-top: @border-width-base solid @border-color-base;
+            font-weight: @font-weight-base;
+            margin: 0;
+            padding: 16px 15px 15px;
+        }
+        .item-content {
+            margin: 0;
+            > .fieldset {
+                padding: 0 10px 40px;
+            }
+        }
         .content {
             margin-left: 20px;
         }
@@ -462,15 +474,38 @@
         .field.month {
             padding-right: 10px;
         }
-        &.payment {
-            .content {
-                margin-bottom: 0;
-                .fieldset {
-                   padding: 15px 0;
+
+        .field.cvv {
+            width: 30%;
+            .control {
+                position: relative;
+            }
+            .note {
+                position: absolute;
+                right: -23px;
+                &:before {
+                    display: none;
                 }
-                .label {
-                    font-weight: @font-weight-base;
+                > a {
+                    .icon-font(
+                        @_icon-font-content: @icon-help,
+                        @_icon-font-size: 16px,
+                        @_icon-font-color: @color-primary-light,
+                        @_icon-font-color-hover: @color-primary,
+                        @_icon-font-text-hide: true
+                    )
                 }
+            }
+        }
+
+        .field.month .control {
+            position: relative;
+            &:after {
+                content: "/";
+                color: @color-primary-light;
+                position: absolute;
+                right: -9px;
+                top: 5px;
             }
         }
     }
@@ -817,6 +852,7 @@
                 margin-left: 10%;
                 width: 80%;
             }
+
             .login-wrapper {
                 display: block;
                 &:extend(.add-clearfix-desktop all);
@@ -839,6 +875,7 @@
                     }
                 }
             }
+
             &.content {
                 .field.street,
                 .field.choice {
@@ -848,6 +885,32 @@
                     padding: 0;
                     width: 100%;
                 }
+            }
+
+            .payments .field {
+                &:extend(.form-field-revert-column-1 all);
+            }
+        }
+        .methods-payment {
+            .item-content > .fieldset {
+                margin: 10px 0 30px 10%;
+                padding: 0;
+                width: 46%;
+                &.redirect {
+                    margin: 10px 0 0;
+                    width: 80%;
+                    p {
+                        margin: 0 37px 20px;
+                    }
+                }
+            }
+            .field.cvv {
+                display: inline-block;
+                width: 30%;
+            }
+            .field.date {
+                display: inline-block;
+                width: 70%;
             }
         }
     }
