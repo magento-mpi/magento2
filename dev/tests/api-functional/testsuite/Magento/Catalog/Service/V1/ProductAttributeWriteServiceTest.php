@@ -27,7 +27,7 @@ class ProductAttributeWriteServiceTest extends WebapiAbstract
      */
     public function testCreate($data)
     {
-        $this->assertGreaterThan(0, $this->createAttribute($data));
+        $this->assertRegExp('$[a-z]+_[a-z0-9]+$', $this->createAttribute($data));
     }
 
     /**

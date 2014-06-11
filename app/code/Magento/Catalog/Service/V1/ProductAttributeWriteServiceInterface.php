@@ -28,7 +28,7 @@ interface ProductAttributeWriteServiceInterface
      * Create attribute from data
      *
      * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata $attributeMetadata
-     * @return int
+     * @return string
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Eav\Exception from validate()
      */

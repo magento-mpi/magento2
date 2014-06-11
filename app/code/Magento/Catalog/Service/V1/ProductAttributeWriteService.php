@@ -34,7 +34,7 @@ class ProductAttributeWriteService implements ProductAttributeWriteServiceInterf
     protected $filter;
 
     /**
-     * @var \Magento\Framework\Filter\FilterManager
+     * @var \Magento\Catalog\Helper\Product
      */
     protected $helper;
 
@@ -93,7 +93,7 @@ class ProductAttributeWriteService implements ProductAttributeWriteServiceInterf
         $model = $this->attributeFactory->create();
         $data = EavDataObjectConverter::toFlatArray($attributeMetadata);
         $data['attribute_code'] =
-            $attributeMetadata->getAttributeCode() ?: $this->generateCode($data['frontend_label']);
+            $attributeMetadata->getAttributeCode() ?: $this->generateCode($attributeMetadata->getFrontendLabel());
         $this->validateCode($data['attribute_code']);
         $this->validateFrontendInput($attributeMetadata->getFrontendInput());
 
@@ -108,7 +108,7 @@ class ProductAttributeWriteService implements ProductAttributeWriteServiceInterf
         $model->setEntityTypeId($this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId())
             ->setIsUserDefined(1);
 
-        return $model->save()->getId();
+        return $model->save()->getAttributeCode();
     }
 
     /**
@@ -130,7 +130,8 @@ class ProductAttributeWriteService implements ProductAttributeWriteServiceInterf
     /**
      * Validate attribute code
      *
-     * @param $code
+     * @param string $code
+     * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
     protected function validateCode($code)
@@ -144,7 +145,8 @@ class ProductAttributeWriteService implements ProductAttributeWriteServiceInterf
     /**
      * Validate Frontend Input Type
      *
-     * @param $frontendInput
+     * @param string $frontendInput
+     * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
     protected function validateFrontendInput($frontendInput)
