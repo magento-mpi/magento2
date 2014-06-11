@@ -42,20 +42,17 @@ class Import
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
-        if (!$this->config->isEnabled()) {
-            return;
+        if ($this->config->isEnabled()) {
+            $categoryIndex = $this->indexerFactory->create()->load(
+                \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
+            );
+            $categoryIndex->invalidate();
+
+            $productIndex = $this->indexerFactory->create()->load(
+                \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
+            );
+            $productIndex->invalidate();
         }
-
-        $categoryIndex = $this->indexerFactory->create()->load(
-            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
-        );
-        $categoryIndex->invalidate();
-
-        $productIndex = $this->indexerFactory->create()->load(
-            \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
-        );
-        $productIndex->invalidate();
-
         return $import;
     }
 }
