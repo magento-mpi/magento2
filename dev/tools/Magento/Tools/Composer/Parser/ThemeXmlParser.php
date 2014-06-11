@@ -29,11 +29,12 @@ class ThemeXmlParser extends XmlParserAbstract
     {
         /** @var $package \SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
-
+        $packageName = basename($this->_rootDir . $this->_componentDir);
+        $vendorName = basename(dirname($this->_rootDir . $this->_componentDir));
         $definitions = array();
         if (isset($package)) {
             $map = array();
-            $name = (string)$package->xpath('name')[0];
+            $name = (string)$vendorName . '_' . $packageName;
             //Dependencies
             $dependency = $package->xpath("parent");
 
@@ -43,7 +44,7 @@ class ThemeXmlParser extends XmlParserAbstract
             }
             $definitions = $this->createDefinition(
                 (string)$name . "-Theme",
-                (string)$package->xpath('version')[0],
+                '0.1.0',
                 $this->getComponentDir(),
                 $map
             );

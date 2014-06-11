@@ -56,7 +56,7 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
     {
         $moduleDefinition = $this->parser->getMappings($this->_rootDir, $this->_componentDir);
         $this->assertEquals($moduleDefinition['name'], "Magento_Sample-Theme");
-        $this->assertEquals($moduleDefinition['version'], "1.2.3.4");
+        $this->assertEquals($moduleDefinition['version'], "0.1.0");
         $this->assertEquals(sizeof($moduleDefinition['dependencies']), 1);
     }
 
