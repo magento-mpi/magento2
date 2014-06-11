@@ -44,9 +44,34 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $attributeCollectionMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productFactoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $attributeFactoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $mediaGalleryMock;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectHelper;
+
     protected function setUp()
     {
-        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->collectionFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory',
@@ -64,7 +89,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $mediaImageBuilder = $objectHelper->getObject(
+        $mediaImageBuilder = $this->objectHelper->getObject(
             '\Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImageBuilder'
         );
 
@@ -80,13 +105,45 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Eav\Model\Config', array('getEntityType', 'getId'), array(), '', false
         );
 
-        $this->service = $objectHelper->getObject(
+        $this->productFactoryMock = $this->getMock(
+            'Magento\Catalog\Model\ProductFactory',
+            array('create', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+
+        $this->attributeFactoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Eav\AttributeFactory',
+            array('create', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+
+        $this->mediaGalleryMock = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media',
+            array(),
+            array(),
+            '',
+            false
+        );
+
+        $builder = $this->objectHelper->getObject(
+            '\Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder'
+        );
+
+        $this->service = $this->objectHelper->getObject(
             '\Magento\Catalog\Service\V1\Product\Attribute\Media\ReadService',
             array(
                 'collectionFactory' => $this->collectionFactoryMock,
                 'setFactory' => $this->setFactoryMock,
                 'eavConfig' => $this->eavConfigMock,
                 'builder' => $mediaImageBuilder,
+                'productFactory' => $this->productFactoryMock,
+                'attributeFactory' => $this->attributeFactoryMock,
+                'mediaGallery' => $this->mediaGalleryMock,
+                'galleryEntryBuilder' => $builder,
             )
         );
 
@@ -97,12 +154,20 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+
+        $this->productMock = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array(),
+            array(),
+            '',
+            false
+        );
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function testGetTypesForAbsentId()
+    public function testTypesForAbsentId()
     {
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
 
@@ -118,7 +183,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Framework\Exception\InputException
      */
-    public function testGetTypesForWrongEntityType()
+    public function testTypesForWrongEntityType()
     {
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
 
@@ -139,7 +204,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->types($this->attributeSetId);
     }
 
-    public function testGetTypesPositive()
+    public function testTypesPositive()
     {
         $this->setFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->setMock));
 
@@ -191,5 +256,117 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('attribute_code', $resultAttribute->getCode());
         $this->assertEquals(true, $resultAttribute->getIsUserDefined());
         $this->assertEquals('Store View', $resultAttribute->getScope());
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testGetListForAbsentSku()
+    {
+        $sku = 'absentSku';
+
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())
+            ->method('loadByAttribute')
+            ->with('sku', $sku)
+            ->will($this->returnSelf());
+
+        $this->productMock->expects($this->once())->method('getId')->will($this->returnValue(false));
+
+        $this->service->getList($sku);
+    }
+
+    /**
+     * @dataProvider getListProvider
+     */
+    public function testGetList($gallery, $result, $productDataMap)
+    {
+        $sku = 'absentSku';
+        $productId = 100;
+        $productEntityCode = 4;
+        $attributes = [
+            'image' => 1,
+            'small_image'=> 2,
+            'thumbnail' => 3
+        ];
+
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())
+            ->method('loadByAttribute')
+            ->with('sku', $sku)
+            ->will($this->returnSelf());
+
+        $this->productMock->expects($this->once())->method('getId')->will($this->returnValue($productId));
+        $this->productMock->expects($this->any())
+            ->method('getData')->will($this->returnValueMap($productDataMap));
+
+        $attributeMock = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Eav\Attribute',
+            array(),
+            array(),
+            '',
+            false
+        );
+
+        $this->attributeFactoryMock->expects($this->once())->method('create')->will($this->returnValue($attributeMock));
+        $this->eavConfigMock->expects($this->once())
+            ->method('getEntityType')
+            ->with(\Magento\Catalog\Model\Product::ENTITY)
+            ->will($this->returnValue($productEntityCode));
+        $attributeMock->expects($this->once())->method('loadByCode')->with($productEntityCode, 'media_gallery');
+        $this->mediaGalleryMock->expects($this->once())->method('loadGallery')->will($this->returnValue($gallery));
+        $this->productMock->expects($this->once())->method('getMediaAttributes')->will($this->returnValue($attributes));
+
+        $serviceOutput = $this->service->getList($sku);
+        $this->assertEquals($result, $serviceOutput);
+    }
+
+    public function getListProvider()
+    {
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $dataObject = $objectHelper->getObject(
+            '\Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder');
+        $dataObject->populateWithArray(
+            array(
+                'id' => 26,
+                'label' => 'Image Alt Text',
+                'types' => array('image', 'small_image'),
+                'disabled' => 0,
+                'position' => 1,
+                'file' => '/m/a/magento_image.jpg',
+                'store_id' => null,
+            )
+        );
+
+        $productDataMap = [
+            ['image', null, '/m/a/magento_image.jpg'],
+            ['small_image', null, '/m/a/magento_image.jpg'],
+            ['thumbnail', null, null],
+        ];
+
+        return array(
+            'empty gallery' => [array(), array(), array()],
+            'one image' => [
+                array(
+                    0 =>
+                        array (
+                            'value_id' => '26',
+                            'file' => '/m/a/magento_image.jpg',
+                            'label_default' => 'Image Alt Text',
+                            'position_default' => '1',
+                            'disabled_default' => '0',
+                        ),
+                ),
+                array($dataObject->create()),
+                $productDataMap,
+            ],
+        );
     }
 }
