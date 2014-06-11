@@ -92,7 +92,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $adapter = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false);
 
-        $this->selectMock = $this->getMock('Zend_Db_Select', null, array($adapter), '', true);
+        $this->selectMock = $this->getMock('Zend_Db_Select', null, array($adapter));
 
         $this->connectionMock = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
@@ -173,15 +173,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitSelect($column, $value, $expected)
     {
-        $this->model = new \Magento\Customer\Model\Resource\Attribute\Collection(
-            $this->entityFactoryMock,
-            $this->loggerMock,
-            $this->fetchStrategyMock,
-            $this->eventManagerMock,
-            $this->eavConfigMock,
-            $this->storeManagerMock,
-            $this->connectionMock,
-            $this->resourceMock
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $helper->getObject('\Magento\Customer\Model\Resource\Attribute\Collection',
+            array(
+                'entityFactory' => $this->entityFactoryMock,
+                'logger' => $this->loggerMock,
+                'fetchStrategy' => $this->fetchStrategyMock,
+                'eventManager' => $this->eventManagerMock,
+                'eavConfig' => $this->eavConfigMock,
+                'storeManager' => $this->storeManagerMock,
+                'connection' => $this->connectionMock,
+                'resource' => $this->resourceMock
+            )
         );
 
         $this->model->addFieldToFilter($column, $value);
