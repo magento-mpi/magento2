@@ -450,8 +450,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             }
         }
 
-        if ($product->getStockItem()) {
-            if (!$product->getStockItem()->getIsQtyDecimal()) {
+        $stockItemDo = $this->stockItemService->getStockItem($product->getId());
+        if ($stockItemDo->getStockId()) {
+            if (!$stockItemDo->getIsQtyDecimal()) {
                 $qty = (int) $qty;
             } else {
                 $product->setIsQtyDecimal(1);
@@ -571,8 +572,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                 $itemQty = (float) $info['qty'];
             }
 
-            if ($item && $item->getProduct()->getStockItem()) {
-                if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
+            if ($item) {
+                $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
+                if ($stockItemDo->getStockId() && !$stockItemDo->getIsQtyDecimal()) {
                     $itemQty = (int) $itemQty;
                 } else {
                     $item->setIsQtyDecimal(1);

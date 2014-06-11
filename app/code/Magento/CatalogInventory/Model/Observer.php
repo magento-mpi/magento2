@@ -374,7 +374,8 @@ class Observer
         } else {
             $stockItem = null;
             if ($quoteItem->getProduct()) {
-                $stockItem = $quoteItem->getProduct()->getStockItem();
+                /** @var Item $stockItem */
+                $stockItem = $this->stockItemRegistry->retrieve($quoteItem->getProduct()->getId());
             }
             $items[$productId] = array('item' => $stockItem, 'qty' => $quoteItem->getTotalQty());
         }

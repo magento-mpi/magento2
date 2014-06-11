@@ -284,6 +284,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_addressConverter;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -291,20 +296,21 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
+     * @param Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
-     * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
+     * @param Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
+     * @param Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\Message\Factory $messageFactory
-     * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
+     * @param Status\ListFactory $statusListFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
-     * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
+     * @param Quote\PaymentFactory $quotePaymentFactory
+     * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -331,6 +337,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -354,6 +361,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_converter = $converter;
         $this->_addressService = $addressService;
         $this->_addressConverter = $addressConverter;
+        $this->stockItemService = $stockItemService;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -1095,7 +1103,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
-            if ($item->getProduct()->getStockItem() && $item->getProduct()->getStockItem()->getIsQtyDecimal()) {
+            /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo */
+            $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
+            if ($stockItemDo->getStockId() && $stockItemDo->getIsQtyDecimal()) {
                 return true;
             }
         }

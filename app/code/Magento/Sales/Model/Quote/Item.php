@@ -175,6 +175,11 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_compareHelper;
 
     /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     */
+    protected $stockItemService;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -182,6 +187,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param Item\OptionFactory $itemOptionFactory
      * @param \Magento\Sales\Helper\Quote\Item\Compare $compareHelper
+     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -196,6 +202,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Sales\Helper\Quote\Item\Compare $compareHelper,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -204,6 +211,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         $this->_localeFormat = $localeFormat;
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_compareHelper = $compareHelper;
+        $this->stockItemService = $stockItemService;
         parent::__construct($context, $registry, $productFactory, $resource, $resourceCollection, $data);
     }
 
@@ -399,8 +407,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             ->setTaxClassId($product->getTaxClassId())
             ->setBaseCost($product->getCost());
 
-        if ($product->getStockItem()) {
-            $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());
+        /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo */
+        $stockItemDo = $this->stockItemService->getStockItem($product->getId());
+        if ($stockItemDo->getStockId()) {
+            $this->setIsQtyDecimal($stockItemDo->getIsQtyDecimal());
         }
 
         $this->_eventManager->dispatch(
