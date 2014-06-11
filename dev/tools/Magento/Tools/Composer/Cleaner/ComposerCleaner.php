@@ -15,13 +15,6 @@ class ComposerCleaner
 {
 
     /**
-     * Collection of Components
-     *
-     * @var string
-     */
-    private $_components;
-
-    /**
      * Application Logger
      *
      * @var \Zend_Log
@@ -39,12 +32,10 @@ class ComposerCleaner
      * Composer Cleaner Construct
      *
      * @param string $rootDir
-     * @param array $components
      * @param \Zend_Log $logger
      */
-    public function __construct($rootDir, array $components, \Zend_Log $logger)
+    public function __construct($rootDir, \Zend_Log $logger)
     {
-        $this->_components = $components;
         $this->_logger = $logger;
         $this->_rootDir = $rootDir;
     }
@@ -52,14 +43,15 @@ class ComposerCleaner
     /**
      * Cleans all composer.json for each component
      *
+     * @param array $components
      * @return int
      */
-    public function clean()
+    public function clean(array $components)
     {
         /**
          * @var $component \Magento\Tools\Composer\Model\Package
          */
-        foreach ($this->_components as  $component) {
+        foreach ($this->$components as  $component) {
             $fileLocation = $this->_rootDir . $component->getLocation() . "/composer.json";
             if (file_exists($fileLocation)) {
                 unlink($fileLocation);
@@ -68,6 +60,6 @@ class ComposerCleaner
                 $this->_logger->debug(sprintf("Skipped. composer.json doesn't exist for %s", $component->getName()));
             }
         }
-        return sizeof($this->_components);
+        return sizeof($this->$components);
     }
 }

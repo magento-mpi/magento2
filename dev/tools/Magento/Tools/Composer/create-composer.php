@@ -71,7 +71,7 @@ try {
 
     $logger->info(sprintf('Your Magento Installation Directory: %s ', BP));
 
-    $moduleExtractor= new ModuleExtractor(BP, $logger, new ModuleXmlParser());
+    $moduleExtractor = new ModuleExtractor(BP, $logger, new ModuleXmlParser());
     $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new AdminhtmlThemeXmlParser());
     $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new FrontendThemeXmlParser());
 
@@ -87,8 +87,8 @@ try {
     $logger->info(sprintf("Starting to create composer.json for %3d components.", sizeof($components)));
 
     if ($clean) {
-        $cleaner = new ComposerCleaner(BP, $components, $logger);
-        $cleanCount = $cleaner->clean();
+        $cleaner = new ComposerCleaner(BP, $logger);
+        $cleanCount = $cleaner->clean($components);
         $logger->info(sprintf("SUCCESS: Cleaned %3d components.\n", $cleanCount));
         return;
     }
