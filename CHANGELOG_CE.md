@@ -1,3 +1,4 @@
+* Added support for MTF Reporting Tool
 * Framework improvements:
   * Covered Magento application components with unit tests:
       * `SalesRule/Model/Observer`
