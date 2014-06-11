@@ -27,7 +27,7 @@ interface TierPriceServiceInterface
      *
      * @param string $productSku
      * @param string $customerGroupId
-     * @param double $qty
+     * @param float $qty
      * @return boolean
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
