@@ -53,20 +53,39 @@ class AssertProductSearchableBySku extends AbstractConstraint
         FixtureInterface $product
     ) {
         $cmsIndex->open();
-        $cmsIndex->getSearchBlock()->search($product->getSku());
+        $this->searchBy($cmsIndex, $product);
 
-        if ($product->getVisibility() === 'Catalog' || $product->getQuantityAndStockStatus() === 'Out of Stock') {
-            $isVisible = !($catalogSearchResult->getListProductBlock()->isProductVisible($product->getName()));
+        $quantityAndStockStatus = $product->getQuantityAndStockStatus();
+        $stockStatus = isset($quantityAndStockStatus['is_in_stock'])
+            ? $quantityAndStockStatus['is_in_stock']
+            : null;
+
+        $isVisible = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
+        while (!$isVisible && $catalogSearchResult->getToolbar()->nextPage()) {
+            $isVisible = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
+        }
+
+        if ($product->getVisibility() === 'Catalog' || $stockStatus === 'Out of Stock') {
+            $isVisible = !$isVisible;
             $this->errorMessage = 'Product successfully found by SKU.';
             $this->successfulMessage = 'The product has not been found by SKU.';
-        } else {
-            $isVisible = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
         }
 
         \PHPUnit_Framework_Assert::assertTrue(
             $isVisible,
             $this->errorMessage
         );
+    }
+
+    /**
+     * Search product on frontend
+     *
+     * @param CmsIndex $cmsIndex
+     * @param FixtureInterface $product
+     */
+    protected function searchBy(CmsIndex $cmsIndex, FixtureInterface $product)
+    {
+        $cmsIndex->getSearchBlock()->search($product->getSku());
     }
 
     /**

@@ -25,6 +25,13 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Error message
+     *
+     * @var string
+     */
+    public $errMessage = 'Assert that displayed grouped price on product page NOT equals passed from fixture.';
+
+    /**
      * Assert that displayed grouped price on product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
@@ -35,19 +42,36 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
+
+        //Process assertions
+        $this->assertGroupedPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Verify product special price on product view page
+     *
+     * @param CatalogProductView $catalogProductView
+     * @param FixtureInterface $product
+     * @param string $block
+     * @return void
+     */
+    public function assertGroupedPrice(
+        FixtureInterface $product,
+        CatalogProductView $catalogProductView,
+        $block = 'View'
+    ) {
         $fields = $product->getData();
-        $groupPrice = $catalogProductView->getViewBlock()->getProductPrice();
+        $groupPrice = $catalogProductView->{'get' . $block . 'Block'}()->getProductPrice();
         $groupPrice = isset($groupPrice['price_special_price'])
             ? $groupPrice['price_special_price']
             : null;
-        if (isset($fields['group_price'])) {
-            foreach ($fields['group_price'] as $itemGroupPrice) {
-                \PHPUnit_Framework_Assert::assertEquals(
-                    $itemGroupPrice['price'],
-                    $groupPrice,
-                    'Assert that displayed grouped price on product page NOT equals passed from fixture.'
-                );
-            }
+        if(isset($fields['group_price'])){
+            foreach($fields['group_price'] as $itemGroupPrice)
+            \PHPUnit_Framework_Assert::assertEquals(
+                $itemGroupPrice['price'],
+                $groupPrice,
+                $this->errMessage
+            );
         }
     }
 

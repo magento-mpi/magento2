@@ -25,6 +25,13 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Error message
+     *
+     * @var string
+     */
+    public $errMessage = 'Assert that displayed special price on product page NOT equals passed from fixture.';
+
+    /**
      * Assert that displayed special price on product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
@@ -35,16 +42,34 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
+
+        //Process assertions
+        $this->assertSpecialPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Verify product special price on product view page
+     *
+     * @param CatalogProductView $catalogProductView
+     * @param FixtureInterface $product
+     * @param string $block
+     * @return void
+     */
+    public function assertSpecialPrice(
+        FixtureInterface $product,
+        CatalogProductView $catalogProductView,
+        $block = 'View'
+    ) {
         $fields = $product->getData();
-        $specialPrice = $catalogProductView->getViewBlock()->getProductPrice();
+        $specialPrice = $catalogProductView->{'get' . $block . 'Block'}()->getProductPrice();
         $specialPrice = (isset($specialPrice['price_special_price']))
             ? $specialPrice['price_special_price']
             : null;
         if (isset($fields['special_price'])) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $fields['special_price'],
+                number_format($fields['special_price'], 2),
                 $specialPrice,
-                'Assert that displayed special price on product page NOT equals passed from fixture.'
+                $this->errMessage
             );
         }
     }

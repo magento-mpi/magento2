@@ -6,29 +6,29 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture;
+namespace Magento\GroupedProduct\Test\Fixture;
 
+use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
 
 /**
- * Class CatalogProductSimple
- * Product Simple fixture
+ * Class CatalogProductGrouped
+ * Fixture for grouped product
  */
-class CatalogProductSimple extends InjectableFixture
+class CatalogProductGrouped extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Catalog\Test\Repository\CatalogProductSimple';
+    protected $repositoryClass = 'Magento\GroupedProduct\Test\Repository\CatalogProductGrouped';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogProductSimple\CatalogProductSimpleInterface';
+    protected $handlerInterface = 'Magento\GroupedProduct\Test\Handler\CatalogProductGrouped\CatalogProductGroupedInterface';
 
     /**
      * Constructor
@@ -60,27 +60,32 @@ class CatalogProductSimple extends InjectableFixture
             $dataSet,
             $persist
         );
+
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
         }
+
     }
 
     protected $dataConfig = [
         'create_url_params' => [
-            'type' => 'simple',
+            'type' => 'grouped',
             'set' => '4',
         ],
         'input_prefix' => 'product',
     ];
 
     protected $defaultDataSet = [
-        'name' => 'Test simple product %isolation%',
-        'sku' => 'test_simple_sku_%isolation%',
-        'attribute_set_id' => 'Default',
-        'price' => ['value' => 100.00],
-        'weight' => 12.0000,
-        'qty' => 10,
-        'quantity_and_stock_status' => 'In Stock',
+        'name' => 'GroupedProduct_%isolation%',
+        'sku' => 'GroupedProduct_%isolation%',
+        'price' => '100',
+        'tax_class' => 'Taxable Goods',
+        'description' => 'This is description for grouped product',
+        'short_description' => 'This is short description for grouped product',
+        'quantity_and_stock_status' => [
+            'qty' => '1',
+            'is_in_stock' => 'In Stock'
+        ],
     ];
 
     protected $category_ids = [
@@ -89,15 +94,6 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
-    ];
-
-    protected $color = [
-        'attribute_code' => 'color',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'select',
     ];
 
     protected $country_of_manufacture = [
@@ -122,6 +118,14 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
+    ];
+
+    protected $grouped_products = [
+        'attribute_code' => 'grouped_products',
+        'backend_type' => 'virtual',
+        'is_required' => '1',
+        'group' => 'grouped',
+        'source' => 'Magento\GroupedProduct\Test\Fixture\Grouped\ProductList',
     ];
 
     protected $custom_design_from = [
@@ -153,8 +157,8 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '0',
         'default_value' => '',
-        'input' => 'textarea',
-        'group' => 'product-details',
+        'input' => '',
+        'group' => 'product-details'
     ];
 
     protected $gallery = [
@@ -171,16 +175,6 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
-    ];
-
-    protected $group_price = [
-        'attribute_code' => 'group_price',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
-        'group' => 'advanced-pricing',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions',
     ];
 
     protected $has_options = [
@@ -207,19 +201,11 @@ class CatalogProductSimple extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $is_recurring = [
-        'attribute_code' => 'is_recurring',
-        'backend_type' => 'int',
+    protected $is_returnable = [
+        'attribute_code' => 'is_returnable',
+        'backend_type' => 'varchar',
         'is_required' => '0',
-        'default_value' => '',
-        'input' => 'select',
-    ];
-
-    protected $manufacturer = [
-        'attribute_code' => 'manufacturer',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
+        'default_value' => '2',
         'input' => 'select',
     ];
 
@@ -236,7 +222,6 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
         'input' => 'textarea',
     ];
 
@@ -245,7 +230,6 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'text',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
         'input' => 'textarea',
     ];
 
@@ -254,40 +238,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '0',
         'default_value' => '',
-        'group' => 'search-optimization',
         'input' => 'text',
-    ];
-
-    protected $minimal_price = [
-        'attribute_code' => 'minimal_price',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'price',
-    ];
-
-    protected $msrp = [
-        'attribute_code' => 'msrp',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'price',
-    ];
-
-    protected $msrp_display_actual_price_type = [
-        'attribute_code' => 'msrp_display_actual_price_type',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => 'Use config',
-        'input' => 'select',
-    ];
-
-    protected $msrp_enabled = [
-        'attribute_code' => 'msrp_enabled',
-        'backend_type' => 'varchar',
-        'is_required' => '0',
-        'default_value' => 'In Cart',
-        'input' => 'select',
     ];
 
     protected $name = [
@@ -296,7 +247,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details',
+        'group' => 'product-details'
     ];
 
     protected $news_from_date = [
@@ -327,7 +278,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'options_container',
         'backend_type' => 'varchar',
         'is_required' => '0',
-        'default_value' => 'Block after Info Column',
+        'default_value' => 'container2',
         'input' => 'select',
     ];
 
@@ -339,28 +290,27 @@ class CatalogProductSimple extends InjectableFixture
         'input' => 'select',
     ];
 
-    protected $price = [
-        'attribute_code' => 'price',
-        'backend_type' => 'decimal',
-        'is_required' => '1',
-        'default_value' => '',
-        'input' => 'price',
-        'group' => 'product-details',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
-    ];
-
     protected $quantity_and_stock_status = [
-            'attribute_code' => 'quantity_and_stock_status',
-            'backend_type' => 'array',
-            'is_required' => '0',
-            'default_value' => '',
-            'input' => '',
-            'group' => 'product-details',
+        'attribute_code' => 'quantity_and_stock_status',
+        'backend_type' => 'int',
+        'is_required' => '0',
+        'default_value' => '1',
+        'input' => 'select',
+        'group' => 'product-details'
+
     ];
 
-    protected $recurring_profile = [
-        'attribute_code' => 'recurring_profile',
-        'backend_type' => 'text',
+    protected $related_tgtr_position_behavior = [
+        'attribute_code' => 'related_tgtr_position_behavior',
+        'backend_type' => 'int',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
+    protected $related_tgtr_position_limit = [
+        'attribute_code' => 'related_tgtr_position_limit',
+        'backend_type' => 'int',
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
@@ -374,13 +324,22 @@ class CatalogProductSimple extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $short_description = [
+        'attribute_code' => 'short_description',
+        'backend_type' => 'text',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => '',
+        'group' => 'autosettings'
+    ];
+
     protected $sku = [
         'attribute_code' => 'sku',
         'backend_type' => 'static',
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details',
+        'group' => 'product-details'
     ];
 
     protected $small_image = [
@@ -399,57 +358,12 @@ class CatalogProductSimple extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $special_from_date = [
-        'attribute_code' => 'special_from_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
-    protected $short_description = [
-        'attribute_code' => 'short_description',
-        'backend_type' => 'text',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'textarea',
-        'group' => 'autosettings',
-    ];
-
-    protected $special_price = [
-        'attribute_code' => 'special_price',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'price',
-        'group' => 'advanced-pricing',
-    ];
-
-    protected $special_to_date = [
-        'attribute_code' => 'special_to_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
     protected $status = [
         'attribute_code' => 'status',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => 'Product online',
-        'input' => 'checkbox',
-        'group' => 'product-details',
-    ];
-
-    protected $tax_class_id = [
-        'attribute_code' => 'tax_class_id',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => 'Taxable Goods',
+        'default_value' => '1',
         'input' => 'select',
-        'group' => 'product-details',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -468,20 +382,26 @@ class CatalogProductSimple extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $tier_price = [
-        'attribute_code' => 'tier_price',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
-        'group' => 'advanced-pricing',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions',
-    ];
-
     protected $updated_at = [
         'attribute_code' => 'updated_at',
         'backend_type' => 'static',
         'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
+    protected $upsell_tgtr_position_behavior = [
+        'attribute_code' => 'upsell_tgtr_position_behavior',
+        'backend_type' => 'int',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
+    protected $upsell_tgtr_position_limit = [
+        'attribute_code' => 'upsell_tgtr_position_limit',
+        'backend_type' => 'int',
+        'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
     ];
@@ -492,7 +412,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'autosettings',
+        'group' => 'autosettings'
     ];
 
     protected $url_path = [
@@ -507,18 +427,8 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'visibility',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => 'Catalog, Search',
+        'default_value' => '4',
         'input' => 'select',
-        'group' => 'autosettings',
-    ];
-
-    protected $weight = [
-        'attribute_code' => 'weight',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'weight',
-        'group' => 'product-details',
     ];
 
     protected $id = [
@@ -536,28 +446,9 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $custom_options = [
-        'attribute_code' => 'custom_options',
-        'backend_type' => 'virtual',
-        'is_required' => '0',
-        'group' => 'customer-options',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
-    ];
-
-    protected $website_ids = [
-        'attribute_code' => 'website_ids',
-        'backend_type' => 'virtual',
-        'default_value' => 'Main Website',
-    ];
-
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
-    }
-
-    public function getColor()
-    {
-        return $this->getData('color');
     }
 
     public function getCountryOfManufacture()
@@ -605,11 +496,6 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('gift_message_available');
     }
 
-    public function getGroupPrice()
-    {
-        return $this->getData('group_price');
-    }
-
     public function getHasOptions()
     {
         return $this->getData('has_options');
@@ -625,14 +511,9 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('image_label');
     }
 
-    public function getIsRecurring()
+    public function getIsReturnable()
     {
-        return $this->getData('is_recurring');
-    }
-
-    public function getManufacturer()
-    {
-        return $this->getData('manufacturer');
+        return $this->getData('is_returnable');
     }
 
     public function getMediaGallery()
@@ -653,26 +534,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getMetaTitle()
     {
         return $this->getData('meta_title');
-    }
-
-    public function getMinimalPrice()
-    {
-        return $this->getData('minimal_price');
-    }
-
-    public function getMsrp()
-    {
-        return $this->getData('msrp');
-    }
-
-    public function getMsrpDisplayActualPriceType()
-    {
-        return $this->getData('msrp_display_actual_price_type');
-    }
-
-    public function getMsrpEnabled()
-    {
-        return $this->getData('msrp_enabled');
     }
 
     public function getName()
@@ -705,19 +566,19 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('page_layout');
     }
 
-    public function getPrice()
-    {
-        return $this->getData('price');
-    }
-
     public function getQuantityAndStockStatus()
     {
         return $this->getData('quantity_and_stock_status');
     }
 
-    public function getRecurringProfile()
+    public function getRelatedTgtrPositionBehavior()
     {
-        return $this->getData('recurring_profile');
+        return $this->getData('related_tgtr_position_behavior');
+    }
+
+    public function getRelatedTgtrPositionLimit()
+    {
+        return $this->getData('related_tgtr_position_limit');
     }
 
     public function getRequiredOptions()
@@ -725,9 +586,39 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('required_options');
     }
 
+    public function getShortDescription()
+    {
+        return $this->getData('short_description');
+    }
+
+    public function getPrice()
+    {
+        return $this->getData('price');
+    }
+
+    public function getSpecialPrice()
+    {
+        return $this->getData('special_price');
+    }
+
+    public function getGroupPrice()
+    {
+        return $this->getData('group_price');
+    }
+
+    public function getTierPrice()
+    {
+        return $this->getData('tier_price');
+    }
+
     public function getSku()
     {
         return $this->getData('sku');
+    }
+
+    public function getGroupedData()
+    {
+        return $this->getData('grouped_products');
     }
 
     public function getSmallImage()
@@ -740,34 +631,9 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('small_image_label');
     }
 
-    public function getSpecialFromDate()
-    {
-        return $this->getData('special_from_date');
-    }
-
-    public function getShortDescription()
-    {
-        return $this->getData('short_description');
-    }
-
-    public function getSpecialPrice()
-    {
-        return $this->getData('special_price');
-    }
-
-    public function getSpecialToDate()
-    {
-        return $this->getData('special_to_date');
-    }
-
     public function getStatus()
     {
         return $this->getData('status');
-    }
-
-    public function getTaxClassId()
-    {
-        return $this->getData('tax_class_id');
     }
 
     public function getThumbnail()
@@ -780,14 +646,19 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('thumbnail_label');
     }
 
-    public function getTierPrice()
-    {
-        return $this->getData('tier_price');
-    }
-
     public function getUpdatedAt()
     {
         return $this->getData('updated_at');
+    }
+
+    public function getUpsellTgtrPositionBehavior()
+    {
+        return $this->getData('upsell_tgtr_position_behavior');
+    }
+
+    public function getUpsellTgtrPositionLimit()
+    {
+        return $this->getData('upsell_tgtr_position_limit');
     }
 
     public function getUrlKey()
@@ -805,11 +676,6 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('visibility');
     }
 
-    public function getWeight()
-    {
-        return $this->getData('weight');
-    }
-
     public function getId()
     {
         return $this->getData('id');
@@ -823,20 +689,5 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
-    }
-
-    public function getQty()
-    {
-        return $this->getData('qty');
-    }
-
-    public function getCustomOptions()
-    {
-        return $this->getData('custom_options');
-    }
-
-    public function getWebsiteIds()
-    {
-        return $this->getData('website_ids');
     }
 }

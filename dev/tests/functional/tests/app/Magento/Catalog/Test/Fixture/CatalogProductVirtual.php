@@ -533,12 +533,6 @@ class CatalogProductVirtual extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'input' => 'input',
-        'group' => 'product-details',
-    ];
-
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',

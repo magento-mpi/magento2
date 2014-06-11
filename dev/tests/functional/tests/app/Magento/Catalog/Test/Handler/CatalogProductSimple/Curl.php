@@ -35,11 +35,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'is_virtual' => [
             'Yes' => 1
         ],
-        'inventory_manage_stock' => [
-            'Yes' => 1,
-            'No' => 0
-        ],
-        'quantity_and_stock_status' => [
+        'is_in_stock' => [
             'In Stock' => 1,
             'Out of Stock' => 0
         ],
@@ -58,6 +54,27 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         ],
         'attribute_set_id' => [
             'Default' => 4
+        ],
+    ];
+
+    /**
+     * Placeholder for price data sent Curl
+     *
+     * @var array
+     */
+    protected $priceData = [
+        'website' => [
+            'name' => 'website_id',
+            'data' => [
+                'All Websites [USD]' => 0
+            ]
+        ],
+        'customer_group' => [
+            'name' => 'cust_group',
+            'data' => [
+                'ALL GROUPS' => 32000,
+                'NOT LOGGED IN' => 0
+            ]
         ]
     ];
 
@@ -82,7 +99,12 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                     ? $this->getTaxClassId($fields['tax_class_id'])
                     : $taxClassId;
             }
-            $fields = $this->prepareStockData($fields);
+            if (isset($fields['tier_price'])) {
+                $fields['tier_price'] = $this->preparePriceData($fields['tier_price']);
+            }
+            if (isset($fields['group_price'])) {
+                $fields['group_price'] = $this->preparePriceData($fields['group_price']);
+            }
             if (!empty($fields['category_ids'])) {
                 $categoryIds = [];
                 foreach ($fields['category_ids'] as $categoryData ) {
@@ -175,36 +197,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     }
 
     /**
-     * Preparation of stock data
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function prepareStockData(array $fields)
-    {
-        $fields['stock_data']['manage_stock'] = 0;
-
-        if (empty($fields['stock_data']['is_in_stock'])) {
-            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status'])
-                ? $fields['quantity_and_stock_status']
-                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
-        }
-        if (empty($fields['stock_data']['qty'])) {
-            $fields['stock_data']['qty'] = isset($fields['qty']) ? $fields['qty'] : null;
-        }
-        if (!empty($fields['stock_data']['qty'])) {
-            $fields['stock_data']['manage_stock'] = 1;
-        }
-
-        $fields['quantity_and_stock_status'] = [
-            'qty' => $fields['stock_data']['qty'],
-            'is_in_stock' => $fields['stock_data']['is_in_stock']
-        ];
-
-        return $this->filter($fields);
-    }
-
-    /**
      * Remove items from a null
      *
      * @param array $data
@@ -247,6 +239,24 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
         }
         return $data;
+    }
+
+    /**
+     * Preparation of tier price data
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function preparePriceData(array $fields)
+    {
+        foreach ($fields as &$field) {
+            foreach ($this->priceData as $key => $data) {
+                $field[$data['name']] = $this->priceData[$key]['data'][$field[$key]];
+                unset($field[$key]);
+            }
+            $field['delete'] = '';
+        }
+        return $fields;
     }
 
     /**
