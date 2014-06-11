@@ -362,7 +362,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $rate = $this->calculator->getRate($taxRequest);
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $quantity = $item->getQuantity();
-        $price = $taxPrice = $this->calculator->round($item->getUnitPrice());
+        $price = $this->calculator->round($item->getUnitPrice());
         $subtotal = $taxSubtotal = $this->calculator->round($item->getRowTotal());
 
         if ($item->getTaxIncluded()) {
@@ -371,16 +371,15 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $rowTaxExact = $this->calculator->calcTaxAmount($price, $rate, true, false);
                 $rowTax = $this->deltaRound($rowTaxExact, $rate, true);
                 $subtotal = $subtotal - $rowTax;
+                $taxPrice = $price;
                 $price = $this->calculator->round($subtotal / $quantity);
 
             } else {
                 $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
                 $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
-                $taxable = $taxPrice;
-                $tax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
+                $tax = $this->calculator->calcTaxAmount($taxPrice, $rate, true, true);
                 $price = $taxPrice - $tax;
-                $taxable *= $quantity;
-                $taxSubtotal = $taxPrice * $quantity;
+                $taxSubtotal = $taxable = $taxPrice * $quantity;
                 $rowTax =
                     $this->deltaRound($this->calculator->calcTaxAmount($taxable, $rate, true, false), $rate, true);
             }
@@ -397,7 +396,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                     false
                 );
             }
-            $rowTax =  array_sum($rowTaxes);
+            $rowTax = array_sum($rowTaxes);
             $taxSubtotal = $subtotal + $rowTax;
             $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
         }
