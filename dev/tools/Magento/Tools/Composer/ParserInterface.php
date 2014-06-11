@@ -20,5 +20,6 @@ interface ParserInterface
      * @return array
      * @throws \ErrorException
      */
-    public function getMappings();
+    public function getMappings($rootDir, $componentDir);
+
 }

@@ -8,18 +8,18 @@
 
 namespace Magento\Tools\Composer\Extractor;
 
-use \Magento\Tools\Composer\Parser\ThemeXmlParser;
+use Magento\Tools\Composer\Model\Package;
 
 /**
  * Extractor for Admin Theme
  */
-class AdminThemeExtractor extends AbstractExtractor
+class AdminThemeExtractor extends ExtractorAbstract
 {
 
     /**
      * {@inheritdoc}
      */
-    public function getSubPath()
+    public function getPath()
     {
         return '/app/design/adminhtml/Magento/';
     }
@@ -30,13 +30,5 @@ class AdminThemeExtractor extends AbstractExtractor
     public function getType()
     {
         return "magento2-theme-adminhtml";
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParser($filename)
-    {
-        return new ThemeXmlParser($filename);
     }
 }

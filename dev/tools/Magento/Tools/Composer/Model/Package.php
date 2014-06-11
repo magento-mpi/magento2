@@ -38,7 +38,7 @@ class Package
      * Array of Dependencies
      * @var array|null
      */
-    private $_dependencies =null;
+    private $_dependencies = array();
 
     /**
      * Type of Package
@@ -60,7 +60,6 @@ class Package
         $this->setVersion($version);
         $this->setLocation($location);
         $this->setType($type);
-        $this->_dependencies = array();
     }
 
     /**

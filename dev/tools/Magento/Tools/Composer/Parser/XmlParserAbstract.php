@@ -13,7 +13,7 @@ use \Magento\Tools\Composer\ParserInterface;
 /**
  * Abstract XML Parser for magento components
  */
-abstract class AbstractXmlParser implements ParserInterface
+abstract class XmlParserAbstract implements ParserInterface
 {
 
     /**
@@ -31,15 +31,11 @@ abstract class AbstractXmlParser implements ParserInterface
     protected $_file;
 
     /**
-     * AbstractXmlParser constructor
+     * Root Directory
      *
-     * @param string $componentDir
+     * @var string
      */
-    public function __construct($componentDir)
-    {
-        $this->_componentDir = $componentDir;
-        $this->setFile($this->_componentDir.$this->getSubPath());
-    }
+    protected $_rootDir;
 
     /**
      * Create an array object with component information
@@ -64,7 +60,7 @@ abstract class AbstractXmlParser implements ParserInterface
      * Retrieve Sub Path for Component
      * @return string
      */
-    abstract public function getSubPath();
+    public abstract function getSubPath();
 
     /**
      * Maps XML file information and presents back into array
@@ -72,7 +68,7 @@ abstract class AbstractXmlParser implements ParserInterface
      * @throws \ErrorException
      * @return array
      */
-    abstract protected function _parseMappings();
+    protected abstract function parseMappings();
 
     /**
      * Retrieves Component Directory Location
@@ -106,21 +102,28 @@ abstract class AbstractXmlParser implements ParserInterface
     public function getFile()
     {
         return $this->_file;
+
     }
 
 
     /**
      * {@inheritdoc}
      */
-    public function getMappings()
+    public function getMappings($rootDir, $componentDir)
     {
+        $this->_rootDir = $rootDir;
+        $this->_componentDir = $componentDir;
+
+        $this->setFile($this->_rootDir . $this->getComponentDir() . $this->getSubPath());
         $file = $this->getFile();
 
         if (!$file->isReadable()) {
             throw new \ErrorException(sprintf('Component file "%s" not readable', $file->getPathname()));
         }
 
-        $map = $this->_parseMappings();
+        $map = $this->parseMappings();
         return $map;
     }
+
+
 }

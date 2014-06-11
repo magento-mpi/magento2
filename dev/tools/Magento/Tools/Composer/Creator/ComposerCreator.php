@@ -8,13 +8,12 @@
 
 namespace Magento\Tools\Composer\Creator;
 
-use \Magento\Tools\Composer\CreatorInterface;
 use \Magento\Tools\Composer\Model\Package;
 
 /**
  * Create Composer Class
  */
-class ComposerCreator implements CreatorInterface
+class ComposerCreator
 {
 
     /**
@@ -32,14 +31,22 @@ class ComposerCreator implements CreatorInterface
     private $_logger;
 
     /**
+     * Root Directory
+     * @var string
+     */
+    private $_rootDir;
+
+    /**
      * Composer Creator Constructor
      *
+     * @param string $rootDir
      * @param array $components
      * @param \Zend_Log $logger
      */
-    public function __construct($components, \Zend_Log $logger)
+    public function __construct($rootDir , $components, \Zend_Log $logger)
     {
         $this->_components = $components;
+        $this->_rootDir = $rootDir;
         $this->_logger = $logger;
     }
 
@@ -50,28 +57,31 @@ class ComposerCreator implements CreatorInterface
     {
         $counter = 0;
         foreach ($this->_components as $component) {
-            $command = "cd ".$component->getLocation() ." && php ".__DIR__."/../composer.phar init  --name \"".
-                        $component->getName(). "\" --description=\"We would be updating the description soon.\" ".
-                        "--author=\"Magento Support <support@magentocommerce.com>\" --stability=\"dev\" -n";
+            /** @var Package $component */
+            $command = 'cd ' . $this->_rootDir . $component->getLocation() . ' && php ' .
+                __DIR__ . '/../composer.phar init  --name "' .
+                $component->getName() . '" --description="We would be updating the description soon." ' .
+                '--author="Magento Support <support@magentocommerce.com>" --stability="dev" -n';
             //Command to include package installer.
             $dependencies = $component->getDependencies();
+
+            /** @var Package  $dependency */
             foreach ($dependencies as $dependency) {
-                 $command .= " --require=\"" . $dependency->getName().":".$dependency->getVersion()."\" ";
+                $command .= ' --require="' . $dependency->getName() . ':'.$dependency->getVersion() . '"';
             }
-            $command .= " --require=\"Magento/Package-installer:*\"";
+            $command .= ' --require="Magento/Package-installer:*"';
+
             $output = array();
             exec($command, $output);
-            if (sizeof($output) > 0) {
+            if (sizeof($output) > 0 ) {
                 //Failed
-                print_r($output);
+                $this->_logger->error(implode(". ", $output));
             } else {
                 //Success
-                $this->addVersionandTypeInfo($component);
+                $this->addAdditionalInfo($component);
                 $counter++;
-                $this->_logger->log(
-                    sprintf("Created composer.json for %-40s [%7s]", $component->getName(), $component->getVersion()),
-                    \Zend_Log::DEBUG
-                );
+                $this->_logger->debug(sprintf("Created composer.json for %-40s [%7s]",
+                    $component->getName(), $component->getVersion()));
             }
 
         }
@@ -83,19 +93,19 @@ class ComposerCreator implements CreatorInterface
      *
      * @param Package $component
      */
-    public function addVersionandTypeInfo(Package $component)
+    private function addAdditionalInfo(Package $component)
     {
         if ($component->getVersion() != null && $component->getVersion() != "") {
-            $json = file_get_contents($component->getLocation()."/composer.json");
+            $json = file_get_contents( $this->_rootDir . $component->getLocation() . '/composer.json');
             $composer = json_decode($json, true);
-            if (!array_key_exists("type", $composer)) {
-                $composer["type"] = $component->getType();
+            if (!array_key_exists('type', $composer)) {
+                $composer['type'] = $component->getType();
             }
-            if (!array_key_exists("version", $composer)) {
-                $composer["version"] = $component->getVersion();
+            if (!array_key_exists('version', $composer)) {
+                $composer['version'] = $component->getVersion();
             }
-            file_put_contents($component->getLocation()."/composer.json",
-                                json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents( $this->_rootDir . $component->getLocation() . '/composer.json',
+                json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         }
     }
 }

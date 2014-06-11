@@ -11,7 +11,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class FrontendThemeExtractorTest extends \PHPUnit_Framework_TestCase {
     protected $extractor;
-
+    protected $parser;
     protected function setUp()
     {
         $rootDir = __DIR__ . '/../_files/';
@@ -19,7 +19,8 @@ class FrontendThemeExtractorTest extends \PHPUnit_Framework_TestCase {
         $logger = $this->getMockBuilder('Zend_Log')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->extractor = $objectManagerHelper->getObject('\Magento\Tools\Composer\Extractor\FrontendThemeExtractor', array('rootDir' => $rootDir, 'logger' => $logger));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ThemeXmlParser');
+        $this->extractor = $objectManagerHelper->getObject('\Magento\Tools\Composer\Extractor\FrontendThemeExtractor', array('rootDir' => $rootDir, 'logger' => $logger, 'parser' => $this->parser));
     }
 
     public function testExtract(){

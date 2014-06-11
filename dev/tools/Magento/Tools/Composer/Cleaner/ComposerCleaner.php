@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tools\Composer\Helper;
+namespace Magento\Tools\Composer\Cleaner;
 
 /**
  * Helper class for Removing composer.json files
@@ -50,7 +50,7 @@ class ComposerCleaner
         /**
          * @var $component \Magento\Tools\Composer\Model\Package
          */
-        foreach ($this->_components as $component) {
+        foreach ($this->_components as  $component) {
             $fileLocation = $component->getLocation() . "/composer.json";
             if (file_exists($fileLocation)) {
                 unlink($fileLocation);

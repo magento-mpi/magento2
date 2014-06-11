@@ -17,12 +17,12 @@ class Converter
      * Converts Name to Vendor/Package format
      *
      * @param string $name
-     * @return string
+     * @return string Vendor/Package formatted package name
      * @throws \Exception
      */
     public static function nametoVendorPackage($name)
     {
-        if ($name != null && sizeof($name) > 0 && substr_count($name, "/") <= 1) {
+        if ($name != null && is_string($name) && sizeof($name) > 0 && substr_count($name, "/") <= 1) {
             if (strpos($name, "/") != false) {
                 return $name;
             } elseif (strpos($name, "_") != false) {
@@ -38,12 +38,12 @@ class Converter
      * Converts Vendor/Package to Name format
      *
      * @param string $vendorPackage
-     * @return string
+     * @return string Name of Package
      * @throws \Exception
      */
     public static function vendorPackagetoName($vendorPackage)
     {
-        if ($vendorPackage != null && sizeof($vendorPackage) > 0) {
+        if ($vendorPackage != null && is_string($vendorPackage) && sizeof($vendorPackage) > 0 ) {
             if (strpos($vendorPackage, "/") != false && substr_count($vendorPackage, "/") === 1) {
                 return str_replace("/", "_", $vendorPackage);
             } elseif (strpos($vendorPackage, "\\") != false && substr_count($vendorPackage, "\\") === 1) {

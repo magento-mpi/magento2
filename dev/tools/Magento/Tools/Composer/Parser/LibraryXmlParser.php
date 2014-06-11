@@ -9,9 +9,9 @@
 namespace Magento\Tools\Composer\Parser;
 
 /**
- * XML Parser for Themes
+ * XML Parser for Library Files
  */
-class ThemeXmlParser extends XmlParserAbstract
+class LibraryXmlParser extends XmlParserAbstract
 {
 
     /**
@@ -19,7 +19,7 @@ class ThemeXmlParser extends XmlParserAbstract
      */
     public function getSubPath()
     {
-        return '/theme.xml';
+        return '/library.xml';
     }
 
     /**
@@ -27,28 +27,22 @@ class ThemeXmlParser extends XmlParserAbstract
      */
     protected function parseMappings()
     {
-        /** @var $package \SimpleXMLElement */
         $package = simplexml_load_file($this->getFile()->getPathname());
-
         $definitions = array();
+
         if (isset($package)) {
             $map = array();
-            $name = (string)$package->xpath('name')[0];
-            //Dependencies
-            $dependency = $package->xpath("parent");
-
-            if (!empty($dependency)) {
-                $depName = (String)$dependency[0] . "-Theme";
-                $map[$depName] = $depName;
+            foreach ($package->xpath('library/depends/library/@name') as $depends) {
+                        $map[(string)$depends] =  (string)$depends;
             }
             $definitions = $this->createDefinition(
-                (string)$name . "-Theme",
-                (string)$package->xpath('version')[0],
+                (string)$package->xpath('library/@name')[0],
+                (string)$package->xpath('library/@version')[0],
                 $this->getComponentDir(),
                 $map
             );
         }
-
         return $definitions;
     }
+
 }

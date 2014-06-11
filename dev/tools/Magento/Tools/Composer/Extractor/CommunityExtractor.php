@@ -8,12 +8,12 @@
 
 namespace Magento\Tools\Composer\Extractor;
 
-use \Magento\Tools\Composer\Model\Package;
+use \Magento\Tools\Composer\Model\Project;
 
 /**
  * Extractor for Community Product
  */
-class CommunityExtractor extends AbstractExtractor
+class CommunityExtractor extends ExtractorAbstract
 {
     /**
      * Name of Package
@@ -32,9 +32,9 @@ class CommunityExtractor extends AbstractExtractor
     /**
      * {@inheritdoc}
      */
-    public function getSubPath()
+    public function getPath()
     {
-        return '';
+        return '/';
     }
 
     /**
@@ -46,30 +46,28 @@ class CommunityExtractor extends AbstractExtractor
     }
 
     /**
-     * Parser not required
-     * @param string $filename
-     * @return null
-     */
-    public function getParser($filename)
-    {
-        return null;
-    }
-
-
-    /**
      * Create Package directly for Magento Community
      *
      * @param array $collection
      * @param int &$count
-     * @return array
+     * @return array Collection Array
      */
     public function extract(array $collection = array(), &$count = 0)
     {
         $this->_counter = &$count;
         $this->_counter = 0;
         $this->addToCollection($collection);
-
-        $product = new Package($this->_name, $this->_version, BP, $this->getType());
+        $excludes = array(
+            realpath($this->_rootDir) . "/app/design/adminhtml/Magento",
+            realpath($this->_rootDir) . "/app/design/frontend/Magento",
+            realpath($this->_rootDir) . "/app/code/Magento",
+            realpath($this->_rootDir) . "/dev/tools/Magento/Tools/Composer/_packages",
+            realpath($this->_rootDir) . '/lib',
+            realpath($this->_rootDir) . '/.git',
+            realpath($this->_rootDir) . '/.idea',
+            realpath($this->_rootDir) . '/app/i18n'
+        );
+        $product = new Project($this->_name, $this->_version, $this->getPath(), $this->getType(), $excludes);
         $product->addDependencies($collection);
         $this->addToCollection(array($product));
 

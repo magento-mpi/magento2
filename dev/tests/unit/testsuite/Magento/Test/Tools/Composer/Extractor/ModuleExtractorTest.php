@@ -11,6 +11,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class ModuleExtractorTest extends \PHPUnit_Framework_TestCase {
     protected $extractor;
+    protected $parser;
 
     protected function setUp()
     {
@@ -19,7 +20,8 @@ class ModuleExtractorTest extends \PHPUnit_Framework_TestCase {
         $logger = $this->getMockBuilder('Zend_Log')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->extractor = $objectManagerHelper->getObject('\Magento\Tools\Composer\Extractor\ModuleExtractor', array('rootDir' => $rootDir, 'logger' => $logger));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ModuleXmlParser');
+        $this->extractor = $objectManagerHelper->getObject('\Magento\Tools\Composer\Extractor\ModuleExtractor', array('rootDir' => $rootDir, 'logger' => $logger, 'parser' => $this->parser));
     }
 
     public function testExtract(){

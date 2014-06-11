@@ -24,15 +24,28 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
     protected $parser;
 
     /**
+     * Magneto Root Directory
+     *
+     * @var string
+     */
+    private $_rootDir;
+
+    /**
+     * Component Root Directory
+     *
+     * @var string
+     */
+    private $_componentDir = '/app/design/adminhtml/Magento/Sample';
+
+    /**
      * Initial Setup
      * @return void
      */
     protected function setUp()
     {
-        $dir = __DIR__ . '/../_files/app/design/adminhtml/Magento/Sample';
+        $this->_rootDir = __DIR__ . '/../_files';
         $objectManagerHelper = new ObjectManager($this);
-        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ThemeXmlParser',
-                                                        array('componentDir' => $dir));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ThemeXmlParser');
     }
 
     /**
@@ -41,7 +54,7 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testgetMappings()
     {
-        $moduleDefinition = $this->parser->getMappings();
+        $moduleDefinition = $this->parser->getMappings($this->_rootDir, $this->_componentDir);
         $this->assertEquals($moduleDefinition['name'], "Magento_Sample-Theme");
         $this->assertEquals($moduleDefinition['version'], "1.2.3.4");
         $this->assertEquals(sizeof($moduleDefinition['dependencies']), 1);
@@ -53,6 +66,7 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeModuleDir()
     {
+        $this->parser->getMappings($this->_rootDir, $this->_componentDir);
         $this->assertTrue($this->endsWith(realpath($this->parser->getFile()->getPathname()),
                                           "/app/design/adminhtml/Magento/Sample/theme.xml"));
     }

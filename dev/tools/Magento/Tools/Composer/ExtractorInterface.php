@@ -54,11 +54,5 @@ interface ExtractorInterface
      */
     public function getPath();
 
-    /**
-     * Retrieves Parser for Parsing Component
-     *
-     * @param string $filename
-     * @return \Magento\Tools\Composer\ParserInterface
-     */
-    public function getParser($filename);
+
 }

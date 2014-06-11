@@ -1,0 +1,55 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Tools\Composer\Parser;
+
+/**
+ * Xml Parser for Language Packs
+ */
+class LanguagePackXmlParser extends XmlParserAbstract
+{
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubPath()
+    {
+        return '/language.xml';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function parseMappings()
+    {
+        $package = simplexml_load_file($this->getFile()->getPathname());
+        $definitions = array();
+
+        if (isset($package)) {
+            $map = array();
+            foreach ($package->xpath('language/depends/framework') as $framework) {
+                $map['Magento/Framework'] = "Magento/Framework";
+            }
+            if (null !== $package->xpath('language/depends/framework')
+                && is_array($package->xpath('language/depends/framework'))) {
+                $map['Magento/Framework'] = 'Magento/Framework';
+            }
+            foreach ($package->xpath('language/depends/language/@name') as $depends) {
+                $map[(string)$depends] =  (string)$depends;
+            }
+            $definitions = $this->createDefinition(
+                (string)$package->xpath('language/@name')[0],
+                (string)$package->xpath('language/@version')[0],
+                $this->getComponentDir(),
+                $map
+            );
+        }
+        return $definitions;
+    }
+
+}

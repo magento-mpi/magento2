@@ -11,11 +11,12 @@ namespace Magento\Tools\Composer\Extractor;
 use \Magento\Tools\Composer\ExtractorInterface;
 use \Magento\Tools\Composer\Helper\Converter;
 use \Magento\Tools\Composer\Model\Package;
+use \Magento\Tools\Composer\ParserInterface;
 
 /**
  * Abstract Extractor For Composer Packages
  */
-abstract class AbstractExtractor implements ExtractorInterface
+abstract class ExtractorAbstract implements  ExtractorInterface
 {
 
     /**
@@ -23,75 +24,61 @@ abstract class AbstractExtractor implements ExtractorInterface
      *
      * @var array
      */
-    protected $_collection = array();
+    protected  $_collection = array();
 
     /**
      * Application Logger
      *
      * @var \Zend_Log
      */
-    private $_logger;
+    protected $_logger;
 
     /**
      * Counter for created components
      *
      * @var int
      */
-    protected $_counter;
+    protected  $_counter;
+
+    /**
+     * Root Directory
+     *
+     * @var string
+     */
+    protected $_rootDir;
+
+    /**
+     * Parser related to each extractor
+     *
+     * @var \Magento\Tools\Composer\ParserInterface
+     */
+    protected $_parser;
 
     /**
      * Location of component
      *
      * @var string
      */
-    protected $_path;
+    protected  $_path;
 
     /**
      * Extractor Constructor
      *
      * @param string $rootDir
      * @param \Zend_Log $logger
+     * @param ParserInterface $parser
      */
-    public function __construct($rootDir, \Zend_Log $logger)
+    public function __construct($rootDir, \Zend_Log $logger, ParserInterface $parser)
     {
         $this->_logger = $logger;
-        $this->setPath($rootDir. $this->getSubPath());
+        $this->_rootDir = $rootDir;
+        $this->_parser = $parser;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPath()
-    {
-        return $this->_path;
-    }
-
-    /**
-     * Set Location of Component
-     *
-     * @param string $path
-     * @return $this
-     */
-    public function setPath($path)
-    {
-        $this->_path = $path;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getType();
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getSubPath();
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getParser($filename);
+    public abstract function getType();
 
     /**
      * {@inheritdoc}
@@ -102,13 +89,12 @@ abstract class AbstractExtractor implements ExtractorInterface
         $this->_counter = 0;
         $this->addToCollection($collection);
 
-        foreach (new \DirectoryIterator($this->getPath()) as $component) {
+        foreach (new \DirectoryIterator($this->_rootDir . $this->getPath()) as $component) {
             if ($component->isDot()) {
                 continue;
             }
             if ($component->isDir()) {
-                $parser = $this->getParser($this->getPath() . $component->getFilename());
-                $definition = $parser->getMappings();
+                $definition = $this->_parser->getMappings($this->_rootDir, $this->getPath().$component->getFilename());
                 $this->create($definition);
             }
         }
@@ -138,7 +124,7 @@ abstract class AbstractExtractor implements ExtractorInterface
         $this->_collection[$name] = $component;
         $this->_counter++;
 
-        if (isset($definition['dependencies']) && !empty($definition['dependencies'])) {
+        if (!empty($definition['dependencies'])) {
             foreach ($definition['dependencies'] as $dependency) {
                 $dependentComponentName = Converter::nametoVendorPackage($dependency);
                 $dependentComponent = $this->checkAndCreate($dependentComponentName);
@@ -146,15 +132,8 @@ abstract class AbstractExtractor implements ExtractorInterface
                 $component->addDependencies($dependentComponent);
             }
         }
-        $this->_logger->log(
-            sprintf(
-                "Extracted Component %-40s [%7s] with %2d dependencies",
-                $component->getName(),
-                $component->getVersion(),
-                sizeof($component->getDependencies())
-            ),
-            \Zend_Log::DEBUG
-        );
+        $this->_logger->log(sprintf("Extracted Component %-40s [%7s] with %2d dependencies",
+            $component->getName(), $component->getVersion(), sizeof($component->getDependencies())), \Zend_Log::DEBUG);
         return $component;
     }
 
@@ -186,4 +165,8 @@ abstract class AbstractExtractor implements ExtractorInterface
         }
         return $component;
     }
+
+
+
+
 }

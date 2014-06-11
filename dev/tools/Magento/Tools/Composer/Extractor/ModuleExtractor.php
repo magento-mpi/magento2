@@ -8,18 +8,18 @@
 
 namespace Magento\Tools\Composer\Extractor;
 
-use \Magento\Tools\Composer\Parser\ModuleXmlParser;
+use Magento\Tools\Composer\Model\Package;
 
 /**
  * Extractor for Modules
  */
-class ModuleExtractor extends AbstractExtractor
+class ModuleExtractor extends  ExtractorAbstract
 {
 
     /**
      * {@inheritdoc}
      */
-    public function getSubPath()
+    public function getPath()
     {
         return '/app/code/Magento/';
     }
@@ -32,11 +32,4 @@ class ModuleExtractor extends AbstractExtractor
         return "magento2-module";
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParser($filename)
-    {
-        return new ModuleXmlParser($filename);
-    }
 }

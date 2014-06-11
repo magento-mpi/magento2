@@ -25,15 +25,28 @@ class ModuleXmlParserTest extends \PHPUnit_Framework_TestCase
     protected $parser;
 
     /**
+     * Magneto Root Directory
+     *
+     * @var string
+     */
+    private $_rootDir;
+
+    /**
+     * Component Root Directory
+     *
+     * @var string
+     */
+    private $_componentDir  = '/app/code/Magento/SampleModule';
+
+    /**
      * Intial Setup
      * @return void
      */
     protected function setUp()
     {
-        $moduleDir = __DIR__ . '/../_files/app/code/Magento/SampleModule';
+        $this->_rootDir = __DIR__ . '/../_files';
         $objectManagerHelper = new ObjectManager($this);
-        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ModuleXmlParser',
-                                                        array('componentDir' => $moduleDir));
+        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ModuleXmlParser');
     }
 
     /**
@@ -42,7 +55,7 @@ class ModuleXmlParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testgetMappings()
     {
-        $moduleDefinition = $this->parser->getMappings();
+        $moduleDefinition = $this->parser->getMappings($this->_rootDir, $this->_componentDir);
         $this->assertEquals($moduleDefinition['name'], "Magento_SampleModule");
         $this->assertEquals($moduleDefinition['version'], "1.2.3");
         $this->assertEquals(sizeof($moduleDefinition['dependencies']), 1);
@@ -54,6 +67,7 @@ class ModuleXmlParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangeModuleDir()
     {
+        $this->parser->getMappings($this->_rootDir, $this->_componentDir);
         $this->endsWith(realpath($this->parser->getFile()->getPathname()),
                         "/app/code/Magento/SampleModule/etc/module.xml");
     }

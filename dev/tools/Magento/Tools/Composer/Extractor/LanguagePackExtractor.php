@@ -11,16 +11,17 @@ namespace Magento\Tools\Composer\Extractor;
 use Magento\Tools\Composer\Model\Package;
 
 /**
- * Extractor for FrontEnd Theme
+ * Extractor for Language Pack
  */
-class FrontendThemeExtractor extends  ExtractorAbstract
+class LanguagePackExtractor extends  ExtractorAbstract
 {
+
     /**
      * {@inheritdoc}
      */
     public function getPath()
     {
-        return '/app/design/frontend/Magento/';
+        return '/app/i18n/Magento/';
     }
 
     /**
@@ -28,7 +29,7 @@ class FrontendThemeExtractor extends  ExtractorAbstract
      */
     public function getType()
     {
-        return "magento2-theme-frontend";
+        return "magento2-language";
     }
 
 }
