@@ -25,13 +25,6 @@ abstract class AbstractAction
     protected $_resource;
 
     /**
-     * Logger instance
-     *
-     * @var  \Magento\Framework\Logger
-     */
-    protected $_logger;
-
-    /**
      * @var \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory
      */
     protected $_indexerFactory;
@@ -63,18 +56,15 @@ abstract class AbstractAction
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\Logger $logger
      * @param \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\Logger $logger,
         \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory,
         \Magento\Catalog\Model\Product\Type $catalogProductType
     ) {
         $this->_resource = $resource;
-        $this->_logger = $logger;
         $this->_indexerFactory = $indexerFactory;
         $this->_catalogProductType = $catalogProductType;
     }
