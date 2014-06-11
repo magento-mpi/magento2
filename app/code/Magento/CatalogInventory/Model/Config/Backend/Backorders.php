@@ -47,7 +47,6 @@ class Backorders extends \Magento\Framework\App\Config\Value
         array $data = array()
     ) {
         $this->_stockIndexer = $stockIndexer;
-        $this->_stockIndexer->load(\Magento\CatalogInventory\Model\Indexer\Stock\Processor::INDEXER_ID);
         $this->_stockStatus = $stockStatus;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
@@ -64,8 +63,9 @@ class Backorders extends \Magento\Framework\App\Config\Value
                 || $this->getValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
             )
         ) {
-            $this->_stockIndexer->invalidate();
             $this->_stockStatus->rebuild();
+            $this->_stockIndexer->load(\Magento\CatalogInventory\Model\Indexer\Stock\Processor::INDEXER_ID);
+            $this->_stockIndexer->invalidate();
         }
         return $this;
     }
