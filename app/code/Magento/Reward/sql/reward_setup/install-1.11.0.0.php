@@ -279,9 +279,6 @@ $table = $installer->getConnection()->newTable(
     array('website_id', 'customer_group_id', 'direction'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
-    $installer->getIdxName('magento_reward_rate', array('website_id')),
-    array('website_id')
-)->addIndex(
     $installer->getIdxName('magento_reward_rate', array('customer_group_id')),
     array('customer_group_id')
 )->addForeignKey(
