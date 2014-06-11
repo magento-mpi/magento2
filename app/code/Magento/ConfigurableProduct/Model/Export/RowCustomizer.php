@@ -7,7 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Model\Export;
 
-use Magento\CatalogImportExport\Model\ImportExport\Export\RowCustomizerInterface;
+use Magento\CatalogImportExport\Model\Export\RowCustomizerInterface;
 
 class RowCustomizer implements RowCustomizerInterface
 {

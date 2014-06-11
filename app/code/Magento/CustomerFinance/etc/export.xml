@@ -8,5 +8,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ImportExport/etc/export.xsd">
-    <entity name="customer_finance" label="Customer Finances" model="Magento\CustomerFinance\Model\ImportExport\Export\Customer\Finance" entityAttributeFilterType="customer"/>
+    <entity name="customer_finance" label="Customer Finances" model="Magento\CustomerFinance\Model\Export\Customer\Finance" entityAttributeFilterType="customer"/>
 </config>

@@ -51,15 +51,15 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         return array(
             'product' => array(
                 '$entity' => 'catalog_product',
-                '$expectedEntityType' => 'Magento\CatalogImportExport\Model\ImportExport\Export\Product'
+                '$expectedEntityType' => 'Magento\CatalogImportExport\Model\Export\Product'
             ),
             'customer main data' => array(
                 '$entity' => 'customer',
-                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\ImportExport\Export\Customer'
+                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\Export\Customer'
             ),
             'customer address' => array(
                 '$entity' => 'customer_address',
-                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\ImportExport\Export\Address'
+                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\Export\Address'
             )
         );
     }

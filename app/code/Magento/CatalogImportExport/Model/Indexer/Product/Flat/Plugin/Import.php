@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
+namespace Magento\CatalogImportExport\Model\Indexer\Product\Flat\Plugin;
 
 class Import
 {

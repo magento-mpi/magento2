@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
+namespace Magento\CatalogImportExport\Model\Indexer\Product\Price\Plugin;
 
-class Import extends AbstractPlugin
+class Import extends \Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin
 {
     /**
      * After import handler
