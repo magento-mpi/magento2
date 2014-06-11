@@ -260,7 +260,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     1
                 );
 
-                $order = array('state ' . \Magento\Framework\DB\Select::SQL_DESC, 'website_id ' . \Magento\Framework\DB\Select::SQL_DESC);
+                $order = array('state ' . \Magento\Framework\DB\Select::SQL_DESC,
+                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC);
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
@@ -283,8 +284,19 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                             $taxAmount = $this->_storeManager->getStore()->roundPrice(
                                 $value / (100 + $defaultPercent) * $currentPercent
                             );
+                            $amount = $amount - $taxAmount;
                         } else {
-                            $taxAmount = $this->_storeManager->getStore()->roundPrice($value * $defaultPercent / 100);
+                            $appliedRates = $this->_calculationFactory->create()->getAppliedRates($rateRequest);
+                            if (count($appliedRates) > 1) {
+                                $taxAmount = 0;
+                                foreach ($appliedRates as $appliedRate) {
+                                    $taxRate = $appliedRate['percent'];
+                                    $taxAmount += $this->_storeManager->getStore()->roundPrice($value * $taxRate / 100);
+                                }
+                            } else {
+                                $taxAmount = $this->_storeManager->getStore()->roundPrice(
+                                    $value * $defaultPercent / 100);
+                            }
                         }
                     }
 
