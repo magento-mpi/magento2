@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ConfigurableProduct\Model\Import\Entity\Product\Type;
+namespace Magento\CatalogImportExport\Model\Import\Product\Type;
 
 class Configurable extends \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType
 {

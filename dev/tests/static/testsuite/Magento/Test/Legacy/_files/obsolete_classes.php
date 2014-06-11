@@ -2055,11 +2055,19 @@ return array(
     ),
     array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable',
-        'Magento\ConfigurableProduct\Model\Export\Entity\Product\Type\Configurable'
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Configurable'
     ),
     array(
-        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable',
-        'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable'
+        'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Configurable',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable'
     ),
     array('Magento\Sales\Block\Adminhtml\Items\Renderer\Configurable'),
     array(
