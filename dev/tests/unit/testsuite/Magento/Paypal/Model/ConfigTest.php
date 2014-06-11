@@ -68,4 +68,33 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->_model->getConfigValue('useccv'));
         $this->assertNull($this->_model->getConfigValue('vendor'));
     }
+
+    /**
+     * @dataProvider skipOrderReviewStepDataProvider
+     */
+    public function testGetPayPalBasicStartUrl($value, $url)
+    {
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('payment/paypal_express/skip_order_review_step')
+            ->will($this->returnValue($value));
+        $this->assertEquals($url, $this->_model->getPayPalBasicStartUrl('token'));
+    }
+
+    /**
+     * @return array
+     */
+    public function skipOrderReviewStepDataProvider()
+    {
+        return [
+            [true, 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=token&useraction=commit'],
+            [false, 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=token']
+        ];
+    }
+
+    public function testGetExpressCheckoutOrderUrl()
+    {
+        $url = 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&order_id=orderId';
+        $this->assertEquals($url, $this->_model->getExpressCheckoutOrderUrl('orderId'));
+    }
 }

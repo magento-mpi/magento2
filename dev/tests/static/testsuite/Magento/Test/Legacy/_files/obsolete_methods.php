@@ -1706,5 +1706,6 @@ return array(
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
     ['updateOrderAction', 'Magento\Paypal\Controller\Express\AbstractExpress'],
-    ['updateOrder', 'Magento\Paypal\Model\Express\Checkout']
+    ['updateOrder', 'Magento\Paypal\Model\Express\Checkout'],
+    ['_matchBnCountryCode', 'Magento\Paypal\Model\Config']
 );

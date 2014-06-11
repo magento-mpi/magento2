@@ -160,6 +160,11 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Framework\Model\ExceptionFactory
+     */
+    protected $_exception;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -169,6 +174,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Framework\Model\ExceptionFactory $exception
      * @param array $data
      */
     public function __construct(
@@ -181,6 +187,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\Model\ExceptionFactory $exception,
         array $data = array()
     ) {
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
@@ -188,6 +195,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_urlBuilder = $urlBuilder;
         $this->_cartFactory = $cartFactory;
         $this->_checkoutSession = $checkoutSession;
+        $this->_exception = $exception;
 
         $proInstance = array_shift($data);
         if ($proInstance && $proInstance instanceof \Magento\Paypal\Model\Pro) {
@@ -448,7 +456,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
             if ($authorizationTransaction->getIsClosed() || $voided) {
                 if ($payment->getAdditionalInformation($this->_authorizationCountKey) > $maxAuthorizationNumber - 1) {
-                    throw new \Magento\Framework\Model\Exception(__('The maximum number of child authorizations is reached.'));
+                    $this->_exception->create(
+                        ['message' => __('The maximum number of child authorizations is reached.')]
+                    );
                 }
                 $api = $this->_callDoAuthorize($amount, $payment, $authorizationTransaction->getParentTxnId());
 
