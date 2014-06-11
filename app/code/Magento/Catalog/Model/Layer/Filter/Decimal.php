@@ -42,8 +42,8 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         array $data = array()
     ) {
         $this->_resource = $filterDecimalFactory->create();
-        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'decimal';
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
     }
 
     /**
