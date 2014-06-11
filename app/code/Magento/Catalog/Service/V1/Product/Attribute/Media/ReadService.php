@@ -194,14 +194,12 @@ class ReadService implements ReadServiceInterface
     {
         try {
             $product = $this->productRepository->get($productSku);
-        } catch (NoSuchEntityException $exception) {
-            throw $exception;
         } catch (\Exception $exception) {
             throw new NoSuchEntityException("Such product doesn't exist");
         }
 
         $output = null;
-        foreach ($product->getMediaGallery('images') as $image) {
+        foreach ((array)$product->getMediaGallery('images') as $image) {
             if (intval($image['value_id']) == intval($imageId)) {
                 $image['store_id'] = $product->getStoreId();
                 $output = $this->galleryEntryBuilder->populateWithArray($image)->create();
