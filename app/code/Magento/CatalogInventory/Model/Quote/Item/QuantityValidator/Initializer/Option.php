@@ -17,20 +17,20 @@ class Option
     protected $quoteItemQtyList;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     * @var \Magento\CatalogInventory\Model\Stock\ItemRegistry
      */
-    protected $stockItemFactory;
+    protected $stockItemRegistry;
 
     /**
      * @param QuoteItemQtyList $quoteItemQtyList
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
      */
     public function __construct(
         QuoteItemQtyList $quoteItemQtyList,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+        \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
     ) {
         $this->quoteItemQtyList = $quoteItemQtyList;
-        $this->stockItemFactory = $stockItemFactory;
+        $this->stockItemRegistry = $stockItemRegistry;
     }
 
     /**
@@ -54,7 +54,7 @@ class Option
         $increaseOptionQty = ($quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty) * $optionValue;
 
         /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-        $stockItem = $this->stockItemFactory->create()->loadByProduct($option->getProduct());
+        $stockItem = $this->stockItemRegistry->retrieve($option->getProduct());
 
         if (!$stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
             throw new \Magento\Framework\Model\Exception(__('The stock item for Product in option is not valid.'));

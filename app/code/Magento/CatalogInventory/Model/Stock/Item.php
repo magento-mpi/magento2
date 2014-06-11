@@ -173,6 +173,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $stockItemService;
 
     /**
+     * @var \Magento\CatalogInventory\Model\Stock\ItemRegistry
+     */
+    protected $stockItemRegistry;
+
+    /**
      * Core store config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -228,6 +233,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Status $stockStatus
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param ItemRegistry $stockItemRegistry
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -246,6 +252,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Index\Model\Indexer $indexer,
         Status $stockStatus,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -263,6 +270,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $this->_indexer = $indexer;
         $this->_stockStatus = $stockStatus;
         $this->stockItemService = $stockItemService;
+        $this->stockItemRegistry = $stockItemRegistry;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -1007,9 +1015,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
                 foreach ($productsByGroups as $productsInGroup) {
                     $qty = 0;
                     foreach ($productsInGroup as $childProduct) {
-                        if ($childProduct->hasStockItem()) {
-                            $qty += $childProduct->getStockItem()->getStockQty();
-                        }
+                        $qty += $this->stockItemRegistry->retrieve($childProduct->getId())->getStockQty();
                     }
                     if (null === $stockQty || $qty < $stockQty) {
                         $stockQty = $qty;
