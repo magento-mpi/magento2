@@ -27,6 +27,7 @@ class Full extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
     {
         try {
             $this->_logger->log('Full reindex');
+            $this->reindexAll();
         } catch (\Exception $e) {
             throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
         }
