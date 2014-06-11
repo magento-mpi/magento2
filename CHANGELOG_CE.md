@@ -79,17 +79,17 @@
   * [#565]  Magento\CatalogSearch\Model\Query::getResultCollection() not working (MAGETWO-24162)
   * [#557]  translation anomalies backend login page (MAGETWO-23760)
 * Functional test:
-  * Advanced Search
-  * Existing Customer Creation
-  * Product Attribute Creation
-  * Product Rating Creation
-  * Sales Rule Creation
-  * System Product Attribute Deletion
-  * Tax Rate Creation
-  * Tax Rule Deletion
-  * Update Category
-  * Update Category Url Rewrite
-  * Update Product Url Rewrite
+  * Advanced Search (MTA-93)
+  * Existing Customer Creation (MTA-319)
+  * Product Attribute Creation (MTA-26)
+  * Product Rating Creation (MTA-144)
+  * Sales Rule Creation (MTA-73)
+  * System Product Attribute Deletion (MTA-310)
+  * Tax Rate Creation (MTA-120)
+  * Tax Rule Deletion (MTA-4)
+  * Update Category (MTA-52)
+  * Update Category Url Rewrite (MTA-87)
+  * Update Product Url Rewrite (MTA-84)
 
 2.0.0.0-dev80
 =============
