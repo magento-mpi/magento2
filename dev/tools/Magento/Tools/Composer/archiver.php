@@ -9,20 +9,11 @@
 ini_set('memory_limit', '-1');
 
 require __DIR__ . '/../../../bootstrap.php';
-$rootDir = BP;
 $generationDir = __DIR__ . '/_packages';
 
-use \Magento\Tools\Composer\Extractor\ModuleExtractor;
-use \Magento\Tools\Composer\Extractor\EnterpriseExtractor;
-use \Magento\Tools\Composer\Extractor\CommunityExtractor;
-use \Magento\Tools\Composer\Extractor\AdminThemeExtractor;
-use \Magento\Tools\Composer\Extractor\FrontendThemeExtractor;
-use \Magento\Tools\Composer\Parser\ModuleXmlParser;
-use \Magento\Tools\Composer\Parser\AdminhtmlThemeXmlParser;
-use \Magento\Tools\Composer\Parser\FrontendThemeXmlParser;
-use \Magento\Tools\Composer\Parser\NullParser;
-use \Magento\Tools\Composer\Helper\Converter;
 use \Magento\Tools\Composer\Helper\Zip;
+use \Magento\Tools\Composer\Helper\Converter;
+use \Magento\Tools\Composer\Helper\JsonParser;
 
 /**
  * Composer Archiver Tool
@@ -32,7 +23,6 @@ use \Magento\Tools\Composer\Helper\Zip;
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]',
             'verbose|v' => 'Detailed console logs',
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
         )
@@ -50,44 +40,8 @@ try {
             new \Zend_Log_Filter_Priority(Zend_Log::INFO);
     $logger->addFilter($filter);
 
-
     $logger->info(sprintf("Your archives output directory: %s. ", $generationDir));
     $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
-
-    $edition = $opt->getOption('e') ?: null;
-    if (!$edition) {
-        $logger->info('Edition is required. Acceptable values [ee|enterprise] or [ce|community]');
-        exit;
-    }
-
-    switch (strtolower($edition)) {
-        case 'enterprise':
-        case 'ee':
-            $logger->info('Your Edition: Enterprise');
-            $productExtractor = new EnterpriseExtractor(BP, $logger, new NullParser());
-            break;
-        case 'community':
-        case 'ce':
-            $logger->info('Your Edition: Community');
-            $productExtractor = new CommunityExtractor(BP, $logger, new NullParser());
-            break;
-        default:
-            $logger->info('Edition value not acceptable. Acceptable values: [ee|ce]');
-            exit;
-    }
-
-    $moduleExtractor= new ModuleExtractor(BP, $logger, new ModuleXmlParser());
-    $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new AdminhtmlThemeXmlParser());
-    $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new FrontendThemeXmlParser());
-
-    $components = $moduleExtractor->extract(array(), $moduleCount);
-    $logger->debug(sprintf("Read %3d modules.", $moduleCount));
-    $components = $adminThemeExtractor->extract($components, $adminThemeCount);
-    $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
-    $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
-    $logger->debug(sprintf("Read %3d frontend themes.", $frontendThemeCount));
-    $components = $productExtractor->extract($components, $productCount);
-    $logger->debug(sprintf('Created %s edition project', $edition));
 
     try {
         if (!file_exists($generationDir)) {
@@ -99,22 +53,95 @@ try {
     }
 
     $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
+
     $noOfZips = 0;
+
+    //Creating zipped folders for all components
+    $components = array(
+        str_replace('\\', '/', realpath(BP)) . "/app/code/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/app/design/adminhtml/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/app/design/frontend/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/app/i18n/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/lib/internal/Magento"
+    );
+
+    $excludes = array();
+
     foreach ($components as $component) {
-        /** @var string $name */
-        $name = Converter::vendorPackagetoName($component->getName());
-        $excludes = array();
-        if ($component instanceof \Magento\Tools\Composer\Model\Project) {
-            $excludes = $component->getExcludes();
+        $files = new \RecursiveIteratorIterator(new
+            \RecursiveDirectoryIterator($component, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST);
+
+        $foundComposerJson = false;
+        $prevDepth = 0;
+        foreach ($files as $file) {
+            if ((!$foundComposerJson) && ($files->getDepth() === 0) && ($files->getDepth() < $prevDepth)) {
+                throw new \Exception("Did not find the composer.json file", "1");
+            }
+
+            $prevDepth = $files->getDepth();
+            if ($files->getDepth() >= 2 || $files->isDir()) {
+                continue;
+            }
+
+            if ($files->getDepth()=== 0) {
+                $foundComposerJson = false;
+            }
+
+            $file = str_replace('\\', '/', realpath($file));
+
+            if (is_file($file) === true) {
+                if (strpos(\basename($file), '.json')) {
+                    $foundComposerJson = true;
+                    $info = array(
+                        "name" => "",
+                        "version" => "",
+                    );
+                    JsonParser::parseJsonFiles($file, $info);
+                    $name = Converter::vendorPackagetoName($info["name"]);
+                    $noOfZips += Zip::Zip(\dirname($file),
+                        $generationDir . "/" . $name . "-". $info["version"] . ".zip", $excludes);
+                    $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $info["name"],
+                        $info["version"]));
+                }
+            }
         }
-        $noOfZips += Zip::Zip($rootDir . $component->getLocation(),
-            $generationDir . "/" . $name . "-". $component->getVersion() . ".zip", $excludes);
-        $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $component->getName(), $component->getVersion()));
     }
+
+    //Creating zipped folders for skeletons
+    $excludes = array(
+        str_replace('\\', '/', realpath(BP)) . "/app/code/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/app/design/adminhtml/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/app/design/frontend/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/app/i18n/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/lib/internal/Magento",
+        str_replace('\\', '/', realpath(BP)) . "/.git",
+        str_replace('\\', '/', realpath(BP)) . "/.idea",
+        str_replace('\\', '/', realpath(BP)) . "/dev/tools/Magento/Tools/Composer/_packages"
+    );
+
+    if (file_exists (str_replace('\\', '/', realpath(BP)) . "/composer.json")) {
+        $info = array(
+            "name" => "",
+            "version" => "",
+        );
+        JsonParser::parseJsonFiles(str_replace('\\', '/', realpath(BP)) . "/composer.json", $info);
+        $name = Converter::vendorPackagetoName($info["name"]);
+        $noOfZips += Zip::Zip(str_replace('\\', '/', realpath(BP)),
+            $generationDir . "/" . $name . "-". $info["version"] . ".zip", $excludes);
+        $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $info["name"], $info["version"]));
+    } else {
+        throw new \Exception("Did not find the composer.json file in ". str_replace('\\', '/', realpath(BP)), "1");
+    }
+
     $logger->info(sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
         $generationDir));
 
-} catch (\Zend_Console_Getopt_Exception $e) {
+}
+catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
+}
+catch (\Exception $e) {
+    exit($e->getMessage());
 }
 

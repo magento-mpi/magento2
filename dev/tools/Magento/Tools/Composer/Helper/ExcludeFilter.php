@@ -6,30 +6,48 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Tools\Composer\Helper;
 
+/**
+ * Class for excluding folders while zipping
+ */
 class ExcludeFilter extends \RecursiveFilterIterator
 {
+    /**
+     * Paths to be excluded (the path is full path not relative)
+     *
+     * @var array
+     */
     protected $exclude;
 
+    /**
+     * ExcludeFilter Constructor
+     *
+     * @param string RecursiveDirectoryIterator
+     * @param array $exclude
+     */
     public function __construct(\RecursiveDirectoryIterator $iterator, array $exclude)
     {
         parent::__construct($iterator);
         $this->exclude = $exclude;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function accept()
     {
-        return !($this->current()->isDir() && in_array(realpath($this->current()->getPathname()), $this->exclude));
+        return !($this->current()->isDir() && in_array(str_replace('\\', '/',
+                realpath($this->current()->getPathname())), $this->exclude));
     }
 
+    /**
+     * Getting the children of Inner Iterator
+     *
+     * @return RecursiveIteratorIterator
+     */
     public function getChildren()
     {
-        if (empty($this->ref)) {
-            $this->ref = new \ReflectionClass($this);
-        }
-
         return new ExcludeFilter(
             $this->getInnerIterator()->getChildren(),
             $this->exclude

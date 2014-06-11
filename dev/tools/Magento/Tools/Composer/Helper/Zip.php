@@ -19,9 +19,10 @@ class Zip
      *
      * @param string $source
      * @param string $destination
+     * @param string $excludes
      * @return int
      */
-    public static function zip($source, $destination, array $excludes)
+    public static function Zip($source, $destination, array $excludes)
     {
         $noOfZips = 0;
 
@@ -34,24 +35,12 @@ class Zip
             return $noOfZips;
         }
 
-        $source = str_replace('\\', '/', realpath($source));
-        $splitSourcePath = explode('/', $source);
-        $sourceName = $splitSourcePath[count($splitSourcePath)-1];
-
         if (is_dir($source) === true) {
             $files = Zip::getFiles($source, $excludes);
-
             $noOfZips += sizeof($files);
-
             foreach ($files as $file) {
                 $file = str_replace('\\', '/', realpath($file));
-
-                // Ignore "." and ".." folders
-                if (in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
-                    continue;
-                }
-                //Ignoring Magento Framework for lib folder
-                if (($sourceName === 'lib') && strpos($file, 'lib/Magento')) {
+                if ( in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
                     continue;
                 }
                 if (is_dir($file) === true) {
@@ -71,18 +60,20 @@ class Zip
         return $noOfZips;
     }
 
-    public static function getFiles($source, $excludes)
+    /**
+     * Creating the iterator for zipping
+     *
+     * @param string $source
+     * @param string $excludes
+     * @return RecursiveIteratorIterator
+     */
+    private static function getFiles($source, $excludes)
     {
-        if (sizeof($excludes) == 0) {
-            $files = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($source),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
-        } else {
-            $directory = new \RecursiveDirectoryIterator($source);
-            $filtered = new ExcludeFilter($directory, $excludes);
-            $files = new \RecursiveIteratorIterator($filtered, \RecursiveIteratorIterator::SELF_FIRST);
+        $directory = new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS);
+        if (sizeof($excludes) > 0) {
+            $directory = new ExcludeFilter($directory, $excludes);
         }
+        $files = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
 
         return $files;
     }

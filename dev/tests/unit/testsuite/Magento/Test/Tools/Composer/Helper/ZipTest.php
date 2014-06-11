@@ -49,7 +49,7 @@ class ZipTest extends \PHPUnit_Framework_TestCase
         catch (\Exception $ex) {
         }
 
-        $noOfZips = $this->zip->zip($source, $destination . "/" . "library.zip", array());
+        $noOfZips = $this->zip->Zip($source, $destination . "/" . "library.zip");
         $this->assertEquals(sizeof($noOfZips), 1);
 
     }
