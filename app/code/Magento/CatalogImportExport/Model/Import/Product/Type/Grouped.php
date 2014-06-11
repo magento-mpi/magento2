@@ -7,9 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\GroupedProduct\Model\Import\Entity\Product\Type;
-
-use Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType;
+namespace Magento\CatalogImportExport\Model\Import\Entity\Product\Type;
 
 class Grouped extends AbstractType
 {
