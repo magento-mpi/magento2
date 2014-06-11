@@ -147,7 +147,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $processedItems = [];
         /** @var QuoteDetailsItem $item */
         foreach ($keyedItems as $key => $item) {
-            $processedItem = $this->processItem($item, $addressRequest, $storeId);;
+            $processedItem = $this->processItem($item, $addressRequest, $storeId);
             if ($item->getParentCode()) {
                 $processedItems[$item->getParentCode()]['children'][$key] = $processedItem;
             } else {
