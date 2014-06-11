@@ -30,7 +30,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_DISCOUNT_AMOUNT = 'discount_amount';
 
-    const KEY_PARENT_CODE = 'parent_code';
+    const KEY_CHILD_CODES = 'child_codes';
     /**#@-*/
 
     /**
@@ -124,12 +124,12 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get parent code
+     * Get child codes
      *
-     * @return string|null
+     * @return string[]|null
      */
-    public function getParentCode()
+    public function getChildCodes()
     {
-        return $this->_get(self::KEY_PARENT_CODE);
+        return $this->_get(self::KEY_CHILD_CODES);
     }
 }

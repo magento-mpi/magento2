@@ -111,18 +111,15 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         if (empty($items)) {
             return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
         }
-        $this->calculator->setCustomerData($quoteDetails->getCustomer());
 
         $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId);
         if ($this->config->priceIncludesTax($storeId)) {
             $storeRequest = $this->getStoreTaxRequest($storeId);
             $classIds = [];
-            $keyedItems = [];
             foreach ($items as $item) {
                 if ($item->getTaxClassId()) {
                     $classIds[] = $item->getTaxClassId();
                 }
-                $keyedItems[$item->getCode()] = $item;
             }
             $classIds = array_unique($classIds);
             $addressRequest->setProductClassId($classIds);
@@ -144,29 +141,36 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         // init rounding deltas for this quote
         $this->roundingDeltas = [];
+        $keyedItems = [];
+        foreach ($items as $item) {
+            $keyedItems[$item->getCode()] = $item;
+        }
+        $calculated = [];
         $processedItems = [];
         /** @var QuoteDetailsItem $item */
         foreach ($keyedItems as $key => $item) {
-            $processedItem = $this->processItem($item, $addressRequest, $storeId);
-            if ($item->getParentCode()) {
-                $processedItems[$item->getParentCode()]['children'][$key] = $processedItem;
+            if (in_array($key, $calculated)) {
+                continue;
+            }
+
+            if ($item->getChildCodes()) {
+                $processedChildren = [];
+                foreach ($item->getChildCodes() as $childCode) {
+                    $processedChildren[] = $this->processItem($keyedItems[$childCode], $addressRequest, $storeId);
+                    $calculated[] = $childCode;
+                }
+                $processedItemBuilder = $this->calculateParent($processedChildren);
+                $processedItemBuilder->setCode($item->getCode());
+                $processedItemBuilder->setType($item->getType());
+                $processedItem = $processedItemBuilder->create();
             } else {
-                $processedItems[$key]['item'] = $processedItem;
+                $processedItem = $this->processItem($item, $addressRequest, $storeId);
             }
+            $processedItems[] = $processedItem;
+            $taxDetailsData = $this->addSubtotalAmount($taxDetailsData, $processedItem);
         }
 
-        foreach ($processedItems as $key => $content) {
-            if (array_key_exists('children', $content)) {
-                $processedItem[$key]['item'] = $this->recalculateParent($content['item'], $content['children']);
-            }
-            $taxDetailsData[TaxDetails::KEY_ITEMS][] = $content['item'];
-            foreach ($content['children'] as $child) {
-                $taxDetailsData[TaxDetails::KEY_ITEMS][] = $child;
-            }
-            $taxDetailsData = $this->addSubtotalAmount($taxDetailsData, $content['item']);
-        }
-
-        return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
+        return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->setItems($processedItems)->create();
     }
 
     /**
@@ -437,15 +441,14 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     }
 
     /**
-     * Recalculate row information for item based on children calculation
+     * Calculate row information for item based on children calculation
      *
-     * @param TaxDetailsItem $parent
      * @param TaxDetailsItem[] $children
-     * @return TaxDetailsItem
+     * @return TaxDetailsItemBuilder
      */
-    protected function recalculateParent(TaxDetailsItem $parent, $children)
+    protected function calculateParent($children)
     {
-        $newParent = $this->taxDetailsItemBuilder->populate($parent);
+        $parentBuilder = $this->taxDetailsItemBuilder->populateWithArray([]);
 
         $price = 0.00;
         $priceInclTax = 0.00;
@@ -467,16 +470,16 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $discountTaxCompensationAmount += $child->getDiscountTaxCompensationAmount();
         }
 
-        $newParent->setPrice($price);
-        $newParent->setPriceInclTax($priceInclTax);
-        $newParent->setRowTotal($rowTotal);
-        $newParent->setRowTotalInclTax($rowTotalInclTax);
-        $newParent->setTaxAmount($taxAmount);
-        $newParent->setTaxableAmount($taxableAmount);
-        $newParent->setDiscountAmount($discountAmount);
-        $newParent->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $parentBuilder->setPrice($price);
+        $parentBuilder->setPriceInclTax($priceInclTax);
+        $parentBuilder->setRowTotal($rowTotal);
+        $parentBuilder->setRowTotalInclTax($rowTotalInclTax);
+        $parentBuilder->setTaxAmount($taxAmount);
+        $parentBuilder->setTaxableAmount($taxableAmount);
+        $parentBuilder->setDiscountAmount($discountAmount);
+        $parentBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
 
-        return $newParent->create();
+        return $parentBuilder;
     }
 
     /**
