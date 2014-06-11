@@ -34,16 +34,20 @@ class ProductRepository
      * Retrieve product instance by sku
      *
      * @param string $sku
+     * @param boolean $editMode
      * @return Product
      * @throws NoSuchEntityException
      */
-    public function get($sku)
+    public function get($sku, $editMode = false)
     {
         if (!isset($this->instances[$sku])) {
             $product = $this->productFactory->create();
             $productId = $product->getIdBySku($sku);
             if (!$productId) {
-                throw new NoSuchEntityException();
+                throw new NoSuchEntityException('Requested product doesn\'t exist');
+            }
+            if ($editMode) {
+                $product->setData('_edit_mode', true);
             }
             $product->load($productId);
             $this->instances[$sku] = $product;

@@ -87,7 +87,7 @@ class TierPriceService implements TierPriceServiceInterface
     public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price)
     {
         try {
-            $product = $this->productRepository->get($productSku);
+            $product = $this->productRepository->get($productSku, true);
             $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
         } catch (NoSuchEntityException $e) {
             throw $e;
@@ -103,7 +103,11 @@ class TierPriceService implements TierPriceServiceInterface
 
         $found = false;
         foreach ($tierPrices as &$currentPrice) {
-            if ($currentPrice['cust_group'] === $customerGroupId && $currentPrice['website_id'] === $websiteId) {
+            if (
+                $currentPrice['cust_group'] === $customerGroupId
+                && $currentPrice['website_id'] === $websiteId
+                && $currentPrice['price_qty'] === $price->getQty()
+            ) {
                 $currentPrice['price'] = $price->getValue();
                 $found = true;
                 break;
@@ -162,7 +166,7 @@ class TierPriceService implements TierPriceServiceInterface
     public function getList($productSku, $customerGroupId)
     {
         try {
-            $product = $this->productRepository->get($productSku);
+            $product = $this->productRepository->get($productSku, true);
         } catch (\Exception $e) {
             throw new NoSuchEntityException("Such product doesn't exist");
         }

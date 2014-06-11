@@ -86,28 +86,20 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price)
     {
-        try {
-            $product = $this->productRepository->get($productSku);
-            $customerGroup = $this->customerGroupService->getGroup($price->getCustomerGroupId());
-        } catch (NoSuchEntityException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw new NoSuchEntityException("Such product doesn't exist");
-        }
+        $customerGroup = $this->customerGroupService->getGroup($price->getCustomerGroupId());
+        $product = $this->productRepository->get($productSku, true);
 
         $groupPrices = $product->getData('group_price');
         $websiteId = 0;
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
             $websiteId = $this->storeManager->getWebsite()->getId();
         }
-
         $found = false;
         foreach ($groupPrices as &$currentPrice) {
-            if ($currentPrice['cust_group'] === $price->getCustomerGroupId()
-                && $currentPrice['website_id'] === $websiteId
+            if (intval($currentPrice['cust_group']) === $price->getCustomerGroupId()
+                && intval($currentPrice['website_id']) === intval($websiteId)
             ) {
                 $currentPrice['price'] = $price->getValue();
-                $currentPrice['website_price'] = $price->getValue();
                 $found = true;
                 break;
             }
@@ -115,9 +107,8 @@ class GroupPriceService implements GroupPriceServiceInterface
         if (!$found) {
             $groupPrices[] = array(
                 'cust_group' => $customerGroup->getId(),
-                'price' => $price->getValue(),
-                'website_price' => $price->getValue(),
                 'website_id' => $websiteId,
+                'price' => $price->getValue(),
             );
         }
 
@@ -164,7 +155,7 @@ class GroupPriceService implements GroupPriceServiceInterface
     public function getList($productSku)
     {
         try {
-            $product = $this->productRepository->get($productSku);
+            $product = $this->productRepository->get($productSku, true);
         } catch (\Exception $e) {
             throw new NoSuchEntityException("Such product doesn't exist");
         }
@@ -173,7 +164,7 @@ class GroupPriceService implements GroupPriceServiceInterface
             $priceKey = 'price';
         }
 
-            $prices = array();
+        $prices = array();
         foreach ($product->getData('group_price') as $price) {
             $this->groupPriceBuilder->populateWithArray(array(
                 Product\GroupPrice::CUSTOMER_GROUP_ID => $price['all_groups'] ? 'all' : $price['cust_group'],

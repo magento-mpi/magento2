@@ -96,4 +96,38 @@ class GroupPriceServiceTest extends WebapiAbstract
         $this->assertEquals(10, $prices[0]->getValue());
         $this->assertEquals(1, $prices[0]->getCustomerGroupId());
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_group_prices.php
+     * @magentoApiDataFixture Magento/Store/_files/website.php
+     */
+    public function testAddForDifferentWebsite()
+    {
+        $productSku = 'simple';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/products/' . $productSku . '/group-prices',
+                'httpMethod' => 'POST',
+            ),
+            'soap' => array(
+                'service' => 'catalogProductGroupPriceServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductGroupPriceServiceV1set',
+            ),
+        );
+        $price = ['value' => 10, 'customer_group_id' => 1];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'price' => $price]);
+        } else {
+            $this->_webApiCall($serviceInfo, ['price' => $price]);
+        }
+        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        /** @var \Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface $service */
+        $service = $objectManager->get('Magento\Catalog\Service\V1\Product\GroupPriceServiceInterface');
+        $prices = $service->getList($productSku);
+        $this->assertCount(1, $prices);
+        $this->assertEquals(10, $prices[0]->getValue());
+        $this->assertEquals(1, $prices[0]->getCustomerGroupId());
+    }
 }

@@ -15,7 +15,7 @@ class GroupPriceBuilder extends AbstractObjectBuilder
     /**
      * Set customer group id
      *
-     * @param string $customerGroupId
+     * @param int $customerGroupId
      * @return $this
      */
     public function setCustomerGroupId($customerGroupId)

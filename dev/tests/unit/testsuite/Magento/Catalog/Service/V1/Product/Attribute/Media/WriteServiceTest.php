@@ -148,11 +148,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mediaDirectoryMock));
 
         $mediaDirectoryMock->expects($this->once())->method('create')->with($mediaTmpPath);
-        $mediaDirectoryMock->expects($this->once())->method('delete')->with('tmp/image.jpg');
-        $mediaDirectoryMock->expects($this->any())->method('getAbsolutePath')->with('tmp/image.jpg')
+        $mediaDirectoryMock->expects($this->once())->method('delete')->with('tmp' . DIRECTORY_SEPARATOR . 'image.jpg');
+        $mediaDirectoryMock->expects($this->any())->method('getAbsolutePath')
+            ->with('tmp' . DIRECTORY_SEPARATOR . 'image.jpg')
             ->will($this->returnValue('/i/m/image.jpg'));
 
-        $mediaDirectoryMock->expects($this->once())->method('writeFile')->with('tmp/image.jpg', 'image_content');
+        $mediaDirectoryMock->expects($this->once())->method('writeFile')
+            ->with('tmp' . DIRECTORY_SEPARATOR . 'image.jpg', 'image_content');
 
         $entryContentMock->expects($this->any())->method('getData')->will($this->returnValue($entryContent['data']));
         $entryContentMock->expects($this->any())->method('getName')->will($this->returnValue($entryContent['name']));

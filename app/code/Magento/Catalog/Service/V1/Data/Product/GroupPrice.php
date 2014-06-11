@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Product;
 
-use Magento\Framework\Service\Data\Eav\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObject;
 
 class GroupPrice extends AbstractObject
 {
@@ -18,7 +18,7 @@ class GroupPrice extends AbstractObject
     /**
      * Retrieve customer group id
      *
-     * @return string
+     * @return int
      */
     public function getCustomerGroupId()
     {
