@@ -250,7 +250,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->_converter = new Converter($this->_customerBuilder, $this->_customerFactoryMock);
+        $this->_converter = new Converter(
+            $this->_customerBuilder,
+            $this->_customerFactoryMock,
+            $this->_storeManagerMock
+        );
 
         $this->_customerRegistry = $this->getMockBuilder('\Magento\Customer\Model\CustomerRegistry')
             ->setMethods(['retrieve', 'retrieveByEmail'])
@@ -2007,7 +2011,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
 
-        $this->_setupStoreMock();
+//        $this->_setupStoreMock();
 
         $this->_storeMock->expects($this->once())
             ->method('getId')
