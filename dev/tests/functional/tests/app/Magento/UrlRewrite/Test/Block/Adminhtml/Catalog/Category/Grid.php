@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Block\Catalog\Category;
+namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 

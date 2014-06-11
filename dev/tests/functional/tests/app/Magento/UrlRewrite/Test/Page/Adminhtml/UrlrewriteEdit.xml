@@ -10,13 +10,13 @@
 <page mca="admin/urlrewrite/edit">
     <block>
         <name>treeBlock</name>
-        <class>Magento\UrlRewrite\Test\Block\Catalog\Category\Tree</class>
+        <class>Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree</class>
         <locator>[data-ui-id="category-selector"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>formBlock</name>
-        <class>Magento\UrlRewrite\Test\Block\Catalog\Edit\Form</class>
+        <class>Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit\Form</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>
@@ -40,19 +40,19 @@
     </block>
     <block>
         <name>productGridBlock</name>
-        <class>Magento\UrlRewrite\Test\Block\Catalog\Product\Grid</class>
+        <class>Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Product\Grid</class>
         <locator>[id="productGrid"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>urlRewriteTypeSelectorBlock</name>
-        <class>Magento\UrlRewrite\Test\Block\Selector</class>
+        <class>Magento\UrlRewrite\Test\Block\Adminhtml\Selector</class>
         <locator>[data-ui-id="urlrewrite-type-selector"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>urlRewriteTypeSelectorBlock</name>
-        <class>Magento\UrlRewrite\Test\Block\Selector</class>
+        <class>Magento\UrlRewrite\Test\Block\Adminhtml\Selector</class>
         <locator>[data-ui-id="urlrewrite-type-selector"]</locator>
         <strategy>css selector</strategy>
     </block>

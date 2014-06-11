@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Block\Catalog\Edit;
+namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Edit;
 
 use Magento\Backend\Test\Block\Widget\Form as FormWidget;
 

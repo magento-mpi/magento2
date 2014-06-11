@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Block\Catalog\Product;
+namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Product;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
  * Class Grid
  * Product grid
- *
  */
 class Grid extends GridInterface
 {

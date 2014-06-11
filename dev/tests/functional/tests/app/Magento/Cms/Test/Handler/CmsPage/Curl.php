@@ -26,8 +26,9 @@ class Curl extends AbstractCurl implements CmsPageInterface
      *
      * @var array
      */
-    protected $dataMapping = [
+    protected $mappingData = [
         'status' => ['Published' => 1, 'Disabled' => 0],
+        'store_id' => ['All Store Views' => 0],
     ];
 
     /**
@@ -47,7 +48,7 @@ class Curl extends AbstractCurl implements CmsPageInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . $this->url;
-        $data = $this->prepareData($fixture->getData());
+        $data = $this->replaceMappingData($fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
@@ -59,21 +60,5 @@ class Curl extends AbstractCurl implements CmsPageInterface
         preg_match("~page_id\/(\d*?)\/~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['page_id' => $id];
-    }
-
-    /**
-     * Prepare data
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function prepareData(array $data)
-    {
-        foreach ($data as $key => $value) {
-            if (isset($this->dataMapping[$key])) {
-                $data[$key] = $this->dataMapping[$key][$value];
-            }
-        }
-        return $data;
     }
 }

@@ -7,10 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\UrlRewrite\Test\Block;
+namespace Magento\UrlRewrite\Test\Block\Adminhtml;
 
 use Mtf\Block\Block;
 
+/**
+ * Class Actions
+ * Action block
+ */
 class Actions extends Block
 {
     /**

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Block\Cms\Page;
+namespace Magento\UrlRewrite\Test\Block\Adminhtml\Cms\Page;
 
 use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 

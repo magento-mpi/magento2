@@ -21,7 +21,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
  * Test Flow:
  *
  * Preconditions
- * 1. Create CMS-Page CmsPage.php
+ * 1. Create CMS-Page
  *
  * Steps
  * 1. Login to backend as Admin
@@ -53,28 +53,18 @@ class CreateCmsPageRewriteEntityTest extends Injectable
     protected $urlRewriteEdit;
 
     /**
-     * Edit Cms Page url rewrite
-     *
-     * @var EditCmsPage
-     */
-    protected $editCmsPage;
-
-    /**
      * Inject pages
      *
      * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlrewriteEdit $urlRewriteEdit
-     * @param EditCmsPage $editCmsPage
      * @return void
      */
     public function __inject(
         UrlrewriteIndex $urlRewriteIndex,
-        UrlrewriteEdit $urlRewriteEdit,
-        EditCmsPage $editCmsPage
+        UrlrewriteEdit $urlRewriteEdit
     ) {
         $this->urlRewriteIndex = $urlRewriteIndex;
         $this->urlRewriteEdit = $urlRewriteEdit;
-        $this->editCmsPage = $editCmsPage;
     }
 
     /**
@@ -93,7 +83,7 @@ class CreateCmsPageRewriteEntityTest extends Injectable
         $this->urlRewriteIndex->getPageActionsBlock()->addNew();
         $this->urlRewriteEdit->getUrlRewriteTypeSelectorBlock()->selectType('For CMS page');
         $filter = ['title' => $cmsPage->getTitle()];
-        $this->editCmsPage->getGridBlock()->searchAndOpen($filter);
+        $this->urlRewriteEdit->getCmsGridBlock()->searchAndOpen($filter);
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
     }
