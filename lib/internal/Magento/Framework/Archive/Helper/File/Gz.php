@@ -15,9 +15,13 @@ class Gz extends \Magento\Framework\Archive\Helper\File
 {
     /**
      * {@inheritdoc}
+     * @throws \RuntimeException
      */
     protected function _open($mode)
     {
+        if (!extension_loaded('zlib')) {
+            throw new \RuntimeException('PHP extension bz2 is required.');
+        }
         $this->_fileHandler = gzopen($this->_filePath, $mode);
 
         if (false === $this->_fileHandler) {

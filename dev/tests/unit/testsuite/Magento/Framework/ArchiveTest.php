@@ -146,8 +146,8 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     public function destinationProvider()
     {
         return [
-            ['archive.gz', ''],
-            ['archive.gzip', ''],
+            ['archive.gz', 'zlib'],
+            ['archive.gzip', 'zlib'],
             ['archive.bz', 'bz2'],
             ['archive.bzip', 'bz2'],
             ['archive.bzip2', 'bz2'],
@@ -204,8 +204,8 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['archive.tar', ''],
-            ['archive.tgz', ''],
-            ['archive.tgzip', ''],
+            ['archive.tgz', 'zlib'],
+            ['archive.tgzip', 'zlib'],
             ['archive.tbz', 'bz2'],
             ['archive.tbzip', 'bz2'],
             ['archive.tbz2', 'bz2'],
