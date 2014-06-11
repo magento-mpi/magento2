@@ -16,26 +16,25 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  */
 class Grid extends GridInterface
 {
+
+    /**
+     * An element locator which allows to select entities in grid
+     *
+     * @var string
+     */
+    protected $selectItem = 'tbody tr .col-entity_id';
+
     /**
      * Filters array mapping
      *
      * @var array
      */
-    protected $filters = array(
-        'id' => array(
+    protected $filters = [
+        'id' => [
             'selector' => '[id=productGrid_product_filter_entity_id]',
-        ),
-        'sku' => array(
+        ],
+        'sku' => [
             'selector' => '[id=productGrid_product_filter_sku]',
-        ),
-    );
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        $this->selectItem = 'tbody tr .col-entity_id';
-    }
+        ],
+    ];
 }

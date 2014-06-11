@@ -27,12 +27,6 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>buttonBlock</name>
-        <class>Magento\Backend\Test\Block\Widget\Form</class>
-        <locator>#messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
         <name>pageMainActions</name>
         <class>Magento\Backend\Test\Block\FormPageActions</class>
         <locator>.page-main-actions</locator>
@@ -51,9 +45,9 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>urlRewriteTypeSelectorBlock</name>
-        <class>Magento\UrlRewrite\Test\Block\Adminhtml\Selector</class>
-        <locator>[data-ui-id="urlrewrite-type-selector"]</locator>
+        <name>cmsGridBlock</name>
+        <class>Magento\UrlRewrite\Test\Block\Cms\Page\Grid</class>
+        <locator>#cmsPageGrid</locator>
         <strategy>css selector</strategy>
     </block>
 </page>
