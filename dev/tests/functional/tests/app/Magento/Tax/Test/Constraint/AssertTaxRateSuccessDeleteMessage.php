@@ -9,14 +9,14 @@
 namespace Magento\Tax\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
+use Magento\Tax\Test\Page\Adminhtml\TaxRateIndex;
 
 /**
- * Class AssertTaxRuleSuccessDeleteMessage
+ * Class AssertTaxRateSuccessDeleteMessage
  */
-class AssertTaxRuleSuccessDeleteMessage extends AbstractConstraint
+class AssertTaxRateSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'The tax rule has been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'The tax rate has been deleted.';
 
     /**
      * Constraint severeness
@@ -26,14 +26,14 @@ class AssertTaxRuleSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that success delete message is displayed after tax rule deleted
+     * Assert that success delete message is displayed after tax rate deleted
      *
-     * @param TaxRuleIndex $taxRuleIndex
+     * @param TaxRateIndex $taxRateIndex
      * @return void
      */
-    public function processAssert(TaxRuleIndex $taxRuleIndex)
+    public function processAssert(TaxRateIndex $taxRateIndex)
     {
-        $actualMessage = $taxRuleIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $taxRateIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
@@ -44,12 +44,12 @@ class AssertTaxRuleSuccessDeleteMessage extends AbstractConstraint
     }
 
     /**
-     * Text of Deleted Tax Rule Success Message assert
+     * Text of Deleted Tax Rate Success Message assert
      *
      * @return string
      */
     public function toString()
     {
-        return 'Tax rule success delete message is present.';
+        return 'Tax rate success delete message is present.';
     }
 }

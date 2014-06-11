@@ -95,7 +95,8 @@ class AutomaticTaxApplyingTest extends Functional
             $totalsBlock->getSubtotal(),
             'Subtotal is not equal to expected value'
         );
-        $this->assertContains($this->fixture->getCartGrandTotal(),
+        $this->assertContains(
+            $this->fixture->getCartGrandTotal(),
             $totalsBlock->getGrandTotal(),
             'Gran Total is not equal to expected value'
         );
