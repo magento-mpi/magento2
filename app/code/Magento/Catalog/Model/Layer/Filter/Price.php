@@ -401,7 +401,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
          * Filter must be string: $fromPrice-$toPrice
          */
         $filter = $request->getParam($this->getRequestVar());
-        if (!$filter) {
+        //is_array verification is added for LayeredNavigation on catalogsearch_advanced_result page
+        if (!$filter || is_array($filter)) {
             return $this;
         }
 
