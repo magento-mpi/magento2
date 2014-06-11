@@ -64,7 +64,7 @@ class Observer
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == \Magento\Framework\View\Publisher::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == 'js') {
                 $pageAssets->remove($assetId);
             }
         }

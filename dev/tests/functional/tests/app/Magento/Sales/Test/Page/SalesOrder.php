@@ -132,11 +132,11 @@ class SalesOrder extends Page
     /**
      * Get Order view tabs block
      *
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\Tabs
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\OrderForm
      */
     public function getFormTabsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewTabs(
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewOrderForm(
             $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }

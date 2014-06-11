@@ -8,7 +8,7 @@
  */
 namespace Magento\Cms\Test\Page\AdminHtml;
 
-use Magento\Cms\Test\Block\AdminHtml\Page\Edit;
+use Magento\Cms\Test\Block\AdminHtml\Page\PageForm;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -44,11 +44,11 @@ class CmsPageNew extends Page
     /**
      * Get new cms page form
      *
-     * @return Edit
+     * @return PageForm
      */
     public function getNewCmsPageForm()
     {
-        return Factory::getBlockFactory()->getMagentoCmsAdminHtmlPageEdit(
+        return Factory::getBlockFactory()->getMagentoCmsAdminHtmlPagePageForm(
             $this->_browser->find($this->cmsPageForm, Locator::SELECTOR_ID)
         );
     }

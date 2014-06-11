@@ -7,5 +7,5 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require_once __DIR__ . '/../lib/Magento/Framework/Autoload/IncludePath.php';
+require_once __DIR__ . '/../lib/internal/Magento/Framework/Autoload/IncludePath.php';
 spl_autoload_register([new \Magento\Framework\Autoload\IncludePath(), 'load']);
