@@ -16,14 +16,10 @@ use \Magento\Tools\Composer\Extractor\ModuleExtractor;
 use \Magento\Tools\Composer\Extractor\EnterpriseExtractor;
 use \Magento\Tools\Composer\Extractor\CommunityExtractor;
 use \Magento\Tools\Composer\Extractor\AdminThemeExtractor;
-use \Magento\Tools\Composer\Extractor\FrameworkExtractor;
 use \Magento\Tools\Composer\Extractor\FrontendThemeExtractor;
-use \Magento\Tools\Composer\Extractor\LanguagePackExtractor;
-use \Magento\Tools\Composer\Extractor\LibraryExtractor;
 use \Magento\Tools\Composer\Parser\ModuleXmlParser;
-use \Magento\Tools\Composer\Parser\LanguagePackXmlParser;
-use \Magento\Tools\Composer\Parser\LibraryXmlParser;
-use \Magento\Tools\Composer\Parser\ThemeXmlParser;
+use \Magento\Tools\Composer\Parser\AdminhtmlThemeXmlParser;
+use \Magento\Tools\Composer\Parser\FrontendThemeXmlParser;
 use \Magento\Tools\Composer\Parser\NullParser;
 use \Magento\Tools\Composer\Helper\Converter;
 use \Magento\Tools\Composer\Helper\Zip;
@@ -81,11 +77,8 @@ try {
     }
 
     $moduleExtractor= new ModuleExtractor(BP, $logger, new ModuleXmlParser());
-    $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new ThemeXmlParser());
-    $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new ThemeXmlParser());
-    $libraryExtractor = new LibraryExtractor(BP, $logger, new LibraryXmlParser());
-    $frameworkExtractor = new FrameworkExtractor(BP, $logger, new LibraryXmlParser());
-    $languagePackExtractor = new LanguagePackExtractor(BP, $logger, new LanguagePackXmlParser());
+    $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new AdminhtmlThemeXmlParser());
+    $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new FrontendThemeXmlParser());
 
     $components = $moduleExtractor->extract(array(), $moduleCount);
     $logger->debug(sprintf("Read %3d modules.", $moduleCount));
@@ -93,12 +86,6 @@ try {
     $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
     $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
     $logger->debug(sprintf("Read %3d frontend themes.", $frontendThemeCount));
-    $components = $libraryExtractor->extract($components, $libraryCount);
-    $logger->debug(sprintf("Read %3d libraries.", $libraryCount));
-    $components = $frameworkExtractor->extract($components, $frameworkCount);
-    $logger->debug(sprintf("Read %3d frameworks.", $frameworkCount));
-    $components = $languagePackExtractor->extract($components, $languagePackCount);
-    $logger->debug(sprintf("Read %3d language packs.", $languagePackCount));
     $components = $productExtractor->extract($components, $productCount);
     $logger->debug(sprintf('Created %s edition project', $edition));
 
@@ -114,7 +101,7 @@ try {
     $logger->debug(sprintf("Zip Archive Location: %s", $generationDir));
     $noOfZips = 0;
     foreach ($components as $component) {
-        /** @var \Magento\Tools\Composer\Model\Package $name */
+        /** @var string $name */
         $name = Converter::vendorPackagetoName($component->getName());
         $excludes = array();
         if ($component instanceof \Magento\Tools\Composer\Model\Project) {
