@@ -384,7 +384,7 @@
       * `lib/Magento/Framework/Data/Form/Element/Submit.php`
       * `lib/Magento/Framework/Data/Form/Element/Text.php`
       * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
-  
+
 2.0.0.0-dev75
 =============
 * Modularity improvements:
@@ -668,7 +668,7 @@
   * LESS styles library added in pub/lib/css/
   * A new Blank theme set as default
 * GitHub requests:
-  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, e, a, and other).
+  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
   * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
   * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
