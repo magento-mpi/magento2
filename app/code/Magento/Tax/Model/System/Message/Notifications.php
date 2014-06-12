@@ -9,8 +9,6 @@ namespace Magento\Tax\Model\System\Message;
 
 /**
  * Notifications class
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Notifications implements \Magento\AdminNotification\Model\System\MessageInterface
 {

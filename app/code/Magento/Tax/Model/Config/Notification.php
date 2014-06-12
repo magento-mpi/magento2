@@ -9,8 +9,6 @@ namespace Magento\Tax\Model\Config;
 
 /**
  * Tax Config Notification
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Notification extends \Magento\Framework\App\Config\Value
 {
