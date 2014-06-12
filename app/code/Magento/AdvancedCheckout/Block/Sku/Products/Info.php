@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Sku\Products;
 
+use Magento\AdvancedCheckout\Helper\Data;
 
 /**
  * SKU failed information Block
  *
- *
  * @method \Magento\Sales\Model\Quote\Item getItem()
  */
-namespace Magento\AdvancedCheckout\Block\Sku\Products;
-
 class Info extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -22,21 +21,21 @@ class Info extends \Magento\Framework\View\Element\Template
      *
      * @var \Magento\AdvancedCheckout\Helper\Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
      * Core registry
      *
      * @var \Magento\Framework\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * Product alert data
      *
      * @var \Magento\ProductAlert\Helper\Data
      */
-    protected $_productAlertData = null;
+    protected $_productAlertData;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -48,7 +47,7 @@ class Info extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\ProductAlert\Helper\Data $productAlertData,
-        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        Data $checkoutData,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -67,18 +66,15 @@ class Info extends \Magento\Framework\View\Element\Template
     public function getMessage()
     {
         switch ($this->getItem()->getCode()) {
-            case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' .
-                    $this->getItem()->getId() .
-                    '">' .
-                    $this->_checkoutData->getMessage(
-                        \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
-                    ) . '</span>';
+            case Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
+                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-'
+                    . $this->getItem()->getId()
+                    . '">'
+                    . $this->_checkoutData->getMessage(Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK)
+                    . '</span>';
                 return $message;
-            case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
-                $message = $this->_checkoutData->getMessage(
-                    \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
-                );
+            case Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
+                $message = $this->_checkoutData->getMessage(Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED);
                 $message .= '<br/>' . __(
                     "Only %1%2%3 left in stock",
                     '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">',
@@ -86,16 +82,18 @@ class Info extends \Magento\Framework\View\Element\Template
                     '</span>'
                 );
                 return $message;
-            case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
+            case Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
-                $message = $this->_checkoutData->getMessage(
-                    \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART
-                );
-                $message .= '<br/>';
+                $message = $this->_checkoutData->getMessage(Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART);
+                $message .= '<br />';
                 if ($item->getQtyMaxAllowed()) {
-                    $message .= __('The maximum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
+                    $qtyMessage = '<span class="sku-failed-qty" id="sku-stock-failed-'
+                        . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>';
+                    $message .= __('The maximum quantity allowed for purchase is %1.', $qtyMessage);
                 } elseif ($item->getQtyMinAllowed()) {
-                    $message .= __('The minimum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
+                    $qtyMessage = '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">'
+                        . ($item->getQtyMinAllowed()  * 1) . '</span>';
+                    $message .= __('The minimum quantity allowed for purchase is %1.', $qtyMessage);
                 }
                 return $message;
             default:
@@ -112,7 +110,7 @@ class Info extends \Magento\Framework\View\Element\Template
      */
     public function isItemSkuFailed()
     {
-        return $this->getItem()->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
+        return $this->getItem()->getCode() == Data::ADD_ITEM_STATUS_FAILED_SKU;
     }
 
     /**
@@ -134,7 +132,7 @@ class Info extends \Magento\Framework\View\Element\Template
     {
         $item = $this->getItem();
         switch ($item->getCode()) {
-            case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
+            case Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
                 $link = $this->getUrl(
                     'checkout/cart/configureFailed',
                     array('id' => $item->getProductId(), 'qty' => $item->getQty(), 'sku' => $item->getSku())
@@ -142,7 +140,7 @@ class Info extends \Magento\Framework\View\Element\Template
                 return '<a href="' . $link . '" class="configure-popup">' . __(
                     "Specify the product's options"
                 ) . '</a>';
-            case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
+            case Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper \Magento\ProductAlert\Helper\Data */
                 $helper = $this->_productAlertData;
 

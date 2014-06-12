@@ -120,9 +120,10 @@ class Catalog extends Grid
      *
      * @param array $filter
      * @param bool $isSearchable
+     * @param bool $isStrict
      * @return bool
      */
-    public function isRowVisible(array $filter, $isSearchable = false)
+    public function isRowVisible(array $filter, $isSearchable = false, $isStrict = true)
     {
         $this->search(array('name' => $filter['name']));
         return parent::isRowVisible($filter, $isSearchable);
