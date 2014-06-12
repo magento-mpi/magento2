@@ -106,6 +106,32 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDoMock */
+        $stockItemDoMock = $this->getMock(
+            '\Magento\CatalogInventory\Service\V1\Data\StockItem',
+            ['getStockId'],
+            [],
+            '',
+            false
+        );
+
+        $stockItemDoMock->expects($this->any())
+            ->method('getStockId')
+            ->will($this->returnValue(false));
+
+        /** @var \Magento\CatalogInventory\Service\V1\StockItemService $stockItemServiceMock */
+        $stockItemServiceMock = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\StockItemService',
+            ['getStockItem'],
+            [],
+            '',
+            false
+        );
+
+        $stockItemServiceMock->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($stockItemDoMock));
+
         $this->model = $this->objectManagerHelper->getObject(
             '\Magento\Sales\Model\Quote\Item',
             [
@@ -113,7 +139,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                 'context' => $this->modelContext,
                 'statusListFactory' => $statusListFactory,
                 'itemOptionFactory' => $this->itemOptionFactory,
-                'compareHelper' => $this->compareHelper
+                'compareHelper' => $this->compareHelper,
+                'stockItemService' => $stockItemServiceMock
             ]
         );
     }
