@@ -25,7 +25,6 @@ class Config
 
     /**
      * PayPal Bill Me Later - Express Checkout
-     * @var string
      */
     const METHOD_WPP_BML = 'paypal_express_bml';
 
@@ -909,7 +908,8 @@ class Config
                 self::METHOD_WPP_EXPRESS,
                 self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_WPP_PE_EXPRESS
+                self::METHOD_WPP_PE_EXPRESS,
+                self::METHOD_WPP_PE_BML
             ],
             'GB' => [
                 self::METHOD_WPP_DIRECT,
