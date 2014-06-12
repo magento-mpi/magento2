@@ -381,6 +381,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $taxSubtotal = $taxable = $taxPrice * $quantity;
                 $rowTax =
                     $this->deltaRound($this->calculator->calcTaxAmount($taxable, $rate, true, false), $rate, true);
+                $subtotal = $taxSubtotal - $rowTax;
             }
         } else {
             $taxable = $subtotal;
