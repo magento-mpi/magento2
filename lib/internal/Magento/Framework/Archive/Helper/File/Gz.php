@@ -20,7 +20,7 @@ class Gz extends \Magento\Framework\Archive\Helper\File
     protected function _open($mode)
     {
         if (!extension_loaded('zlib')) {
-            throw new \RuntimeException('PHP extension bz2 is required.');
+            throw new \RuntimeException('PHP extension zlib is required.');
         }
         $this->_fileHandler = gzopen($this->_filePath, $mode);
 
