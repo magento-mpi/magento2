@@ -166,10 +166,6 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertContains('thumbnail', $imageTypes);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionCode 404
-     */
     public function testGetListForAbsentSku()
     {
         $productSku = 'absent_sku_' . time();
@@ -188,6 +184,11 @@ class ReadServiceTest extends WebapiAbstract
         $requestData = [
             'productSku' => $productSku
         ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->setExpectedException('SoapFault', 'No such entity with %fieldName = %fieldValue', 0);
+        } else {
+            $this->setExpectedException('Exception', '', 404);
+        }
         $this->_webApiCall($serviceInfo, $requestData);
     }
 }
