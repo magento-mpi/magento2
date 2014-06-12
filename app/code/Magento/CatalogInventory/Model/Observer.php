@@ -59,13 +59,6 @@ class Observer
     protected $_stockStatusFactory;
 
     /**
-     * Construct
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
      * @var Stock
      */
     protected $_stock;
@@ -99,7 +92,6 @@ class Observer
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
      * @param \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer
      * @param Resource\Stock $resourceStock
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param Stock $stock
      * @param Stock\Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
@@ -111,7 +103,6 @@ class Observer
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
         \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer,
         \Magento\CatalogInventory\Model\Resource\Stock $resourceStock,
-        \Magento\Index\Model\Indexer $indexer,
         Stock $stock,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
@@ -122,7 +113,6 @@ class Observer
         $this->_priceIndexer = $priceIndexer;
         $this->_stockIndexer = $stockIndexer;
         $this->_resourceStock = $resourceStock;
-        $this->_indexer = $indexer;
         $this->_stock = $stock;
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
