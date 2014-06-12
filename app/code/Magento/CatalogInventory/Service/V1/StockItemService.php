@@ -8,6 +8,7 @@
 namespace Magento\CatalogInventory\Service\V1;
 
 use Magento\Catalog\Service\V1\Product\Link\ProductLoader;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Stock item service
@@ -73,10 +74,14 @@ class StockItemService implements StockItemServiceInterface
     /**
      * @param string $productSku
      * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getStockItemBySku($productSku)
     {
         $product = $this->productLoader->load($productSku);
+        if (!$product->getId()) {
+            throw new NoSuchEntityException("Product with SKU \"{$productSku}\" does not exist");
+        }
         $stockItem = $this->stockItemRegistry->retrieve($product->getId());
         $this->stockItemBuilder->populateWithArray($stockItem->getData());
         return $this->stockItemBuilder->create();
@@ -92,6 +97,28 @@ class StockItemService implements StockItemServiceInterface
         $stockItem->setData($stockItemDo->__toArray());
         $stockItem->save();
         return $this;
+    }
+
+    /**
+     * @param string $productSku
+     * @param \Magento\CatalogInventory\Service\V1\Data\StockItemDetails $stockItemDetailsDo
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function saveStockItemBySku($productSku, Data\StockItemDetails $stockItemDetailsDo)
+    {
+        $product = $this->productLoader->load($productSku);
+        if (!$product->getId()) {
+            throw new NoSuchEntityException("Product with SKU \"{$productSku}\" does not exist");
+        }
+
+        $stockItem = $this->stockItemRegistry->retrieve($product->getId());
+        $stockItemDo = $this->stockItemBuilder->populateWithArray($stockItem->getData())->create();
+        $dataToSave = $this->stockItemBuilder->mergeDataObjectWithArray(
+            $stockItemDo,
+            $stockItemDetailsDo->__toArray()
+        )->__toArray();
+        return $stockItem->setData($dataToSave)->save()->getId();
     }
 
     /**

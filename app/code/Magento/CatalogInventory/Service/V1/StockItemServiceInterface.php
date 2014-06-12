@@ -21,6 +21,7 @@ interface StockItemServiceInterface
     /**
      * @param string $productSku
      * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getStockItemBySku($productSku);
 
@@ -29,6 +30,14 @@ interface StockItemServiceInterface
      * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
      */
     public function saveStockItem($stockItem);
+
+    /**
+     * @param string $productSku
+     * @param \Magento\CatalogInventory\Service\V1\Data\StockItemDetails $stockItemDetailsDo
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function saveStockItemBySku($productSku, Data\StockItemDetails $stockItemDetailsDo);
 
     /**
      * @param int $productId

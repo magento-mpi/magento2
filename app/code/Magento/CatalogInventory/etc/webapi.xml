@@ -15,6 +15,12 @@
             <resource ref="Magento_CatalogInventory::cataloginventory"/>
         </resources>
     </route>
+    <route url="/V1/stockItem/:productSku" method="POST">
+        <service class="Magento\CatalogInventory\Service\V1\StockItemServiceInterface" method="saveStockItemBySku"/>
+        <resources>
+            <resource ref="Magento_CatalogInventory::cataloginventory"/>
+        </resources>
+    </route>
     <route url="/V1/stockItem/status/:sku" method="GET">
         <service class="Magento\CatalogInventory\Service\V1\StockStatusServiceInterface"
                  method="getProductStockStatusBySku"/>
