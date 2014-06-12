@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
-use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 
-class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
+class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for retrieving product attributes types
@@ -18,11 +17,11 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testTypes()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $inputtypeFactoryMock = $this->getMock(
+        $inputTypeFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory',
             array('create')
         );
-        $inputtypeFactoryMock->expects($this->once())
+        $inputTypeFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue(
                 $objectManager->getObject('Magento\Catalog\Model\Product\Attribute\Source\Inputtype')
@@ -30,10 +29,13 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder');
-        $productAttributeReadService = new ProductAttributeReadService(
-            $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService'),
-            $inputtypeFactoryMock,
-            $attributeTypeBuilder
+        $productAttributeReadService = $objectManager->getObject(
+            '\Magento\Catalog\Service\V1\Product\Attribute\ReadService',
+            [
+                'metadataService' => $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService'),
+                'inputTypeFactory' => $inputTypeFactoryMock,
+                'attributeTypeBuilder' => $attributeTypeBuilder
+            ]
         );
         $types = $productAttributeReadService->types();
         $this->assertTrue(is_array($types));
@@ -62,9 +64,9 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
                 $attributeCode
             );
 
-        /** @var \Magento\Catalog\Service\V1\ProductAttributeReadServiceInterface $service */
+        /** @var \Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface $service */
         $service = $objectManager->getObject(
-            'Magento\Catalog\Service\V1\ProductAttributeReadService',
+            'Magento\Catalog\Service\V1\Product\Attribute\ReadService',
             array(
                'metadataService' => $metadataServiceMock
             )

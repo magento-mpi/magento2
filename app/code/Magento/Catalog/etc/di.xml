@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Service\V1\ProductMetadataServiceInterface" type="Magento\Catalog\Service\V1\ProductMetadataService" />
     <preference for="Magento\Catalog\Service\V1\ProductServiceInterface" type="Magento\Catalog\Service\V1\ProductService" />
-    <preference for="Magento\Catalog\Service\V1\ProductAttributeReadServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeReadService" />
+    <preference for="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\WriteService" />
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
     <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />

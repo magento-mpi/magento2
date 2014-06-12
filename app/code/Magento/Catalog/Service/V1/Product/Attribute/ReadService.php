@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
+use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder;
 
 /**
- * Class ProductAttributeReadService
- * @package Magento\Catalog\Service\V1
+ * Class ReadService
+ * @package Magento\Catalog\Service\V1\Product\Attribute
  */
-class ProductAttributeReadService implements ProductAttributeReadServiceInterface
+class ReadService implements ReadServiceInterface
 {
     /**
      * @var ProductMetadataServiceInterface
@@ -26,19 +28,19 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
     private $inputTypeFactory;
 
     /**
-     * @var Data\Eav\Product\Attribute\TypeBuilder
+     * @var TypeBuilder
      */
     private $attributeTypeBuilder;
 
     /**
      * @param ProductMetadataServiceInterface $metadataService
      * @param InputtypeFactory $inputTypeFactory
-     * @param Data\Eav\Product\Attribute\TypeBuilder $attributeTypeBuilder
+     * @param TypeBuilder $attributeTypeBuilder
      */
     public function __construct(
         ProductMetadataServiceInterface $metadataService,
         InputtypeFactory $inputTypeFactory,
-        Data\Eav\Product\Attribute\TypeBuilder $attributeTypeBuilder
+        TypeBuilder $attributeTypeBuilder
     ) {
         $this->metadataService = $metadataService;
         $this->inputTypeFactory = $inputTypeFactory;

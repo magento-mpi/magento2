@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 /**
- * Class ProductAttributeReadServiceInterface
- * @package Magento\Catalog\Service\V1
+ * Class ReadServiceInterface
+ * @package Magento\Catalog\Service\V1\Product\Attribute
  */
-interface ProductAttributeReadServiceInterface
+interface ReadServiceInterface
 {
     /**
      * Retrieve list of product attribute types
