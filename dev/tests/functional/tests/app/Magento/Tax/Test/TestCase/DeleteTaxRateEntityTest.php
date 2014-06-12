@@ -11,7 +11,6 @@ namespace Magento\Tax\Test\TestCase;
 use Magento\Tax\Test\Fixture\TaxRate;
 use Magento\Tax\Test\Page\Adminhtml\TaxRateIndex;
 use Magento\Tax\Test\Page\Adminhtml\TaxRateNew;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -20,7 +19,6 @@ use Mtf\TestCase\Injectable;
  * Test Flow:
  * Preconditions:
  * 1. Create Tax Rate
- * 2. Create Tax Rule
  *
  * Steps:
  * 1. Log in as default admin user
@@ -49,20 +47,6 @@ class DeleteTaxRateEntityTest extends Injectable
     protected $taxRateNew;
 
     /**
-     * Prepare data
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $taxRule = $fixtureFactory->createByCode('taxRule', ['dataSet' => 'default']);
-        $taxRule->persist();
-
-        return ['taxRule' => $taxRule];
-    }
-
-    /**
      * Injection data
      *
      * @param TaxRateIndex $taxRateIndex
@@ -78,7 +62,7 @@ class DeleteTaxRateEntityTest extends Injectable
     }
 
     /**
-     * Delete Tax Rule Entity test
+     * Delete Tax Rate Entity test
      *
      * @param TaxRate $taxRate
      * @return void

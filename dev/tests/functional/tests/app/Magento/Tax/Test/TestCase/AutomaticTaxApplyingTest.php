@@ -98,7 +98,7 @@ class AutomaticTaxApplyingTest extends Functional
         $this->assertContains(
             $this->fixture->getCartGrandTotal(),
             $totalsBlock->getGrandTotal(),
-            'Gran Total is not equal to expected value'
+            'Grand Total is not equal to expected value'
         );
     }
 
