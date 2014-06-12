@@ -15,6 +15,16 @@ use Magento\CatalogInventory\Model\Stock\Status;
 class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
+    protected function setUp()
+    {
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+    }
+
+    /**
      * @param int[] $productIds
      * @param int $websiteId
      * @param int $stockId
@@ -27,7 +37,10 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
         $stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
             ->disableOriginalConstructor()
             ->getMock();
-        $model = new StockStatusService($stockStatus);
+        $model = $this->objectManager->getObject(
+            'Magento\CatalogInventory\Service\V1\StockStatusService',
+            ['stockStatus' => $stockStatus]
+        );
 
         // 2. Set expectations
         $stockStatus->expects($this->once())
