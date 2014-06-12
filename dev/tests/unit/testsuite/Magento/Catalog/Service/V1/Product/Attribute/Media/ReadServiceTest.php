@@ -47,7 +47,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productFactoryMock;
+    protected $productRepoMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -105,9 +105,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Eav\Model\Config', array('getEntityType', 'getId'), array(), '', false
         );
 
-        $this->productFactoryMock = $this->getMock(
-            'Magento\Catalog\Model\ProductFactory',
-            array('create', '__wakeup'),
+        $this->productRepoMock = $this->getMock(
+            'Magento\Catalog\Model\ProductRepository',
+            array(),
             array(),
             '',
             false
@@ -139,8 +139,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 'collectionFactory' => $this->collectionFactoryMock,
                 'setFactory' => $this->setFactoryMock,
                 'eavConfig' => $this->eavConfigMock,
-                'builder' => $mediaImageBuilder,
-                'productFactory' => $this->productFactoryMock,
+                'mediaImageBuilder' => $mediaImageBuilder,
+                'productRepository' => $this->productRepoMock,
                 'attributeFactory' => $this->attributeFactoryMock,
                 'mediaGallery' => $this->mediaGalleryMock,
                 'galleryEntryBuilder' => $builder,
@@ -265,14 +265,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $sku = 'absentSku';
 
-        $this->productFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->productMock));
-
-        $this->productMock->expects($this->once())
-            ->method('loadByAttribute')
-            ->with('sku', $sku)
-            ->will($this->returnValue(false));
+        $this->productRepoMock->expects($this->once())
+            ->method('get')
+            ->with($sku)
+            ->will($this->throwException(new \Magento\Framework\Exception\NoSuchEntityException()));
 
         $this->service->getList($sku);
     }
@@ -282,8 +278,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetList($gallery, $result, $productDataMap)
     {
-        $sku = 'absentSku';
-        $productId = 100;
+        $sku = 'anyValidSku';
         $productEntityCode = 4;
         $attributes = [
             'image' => 1,
@@ -291,14 +286,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'thumbnail' => 3
         ];
 
-        $this->productFactoryMock->expects($this->once())
-            ->method('create')
+        $this->productRepoMock->expects($this->once())
+            ->method('get')
+            ->with($sku)
             ->will($this->returnValue($this->productMock));
-
-        $this->productMock->expects($this->once())
-            ->method('loadByAttribute')
-            ->with('sku', $sku)
-            ->will($this->returnSelf());
 
         $this->productMock->expects($this->any())
             ->method('getData')->will($this->returnValueMap($productDataMap));

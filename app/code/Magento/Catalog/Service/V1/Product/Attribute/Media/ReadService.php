@@ -26,11 +26,6 @@ class ReadService implements ReadServiceInterface
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $productFactory;
-    
-    /**
      * @var \Magento\Eav\Model\Entity\Attribute\SetFactory
      */
     protected $setFactory;
@@ -65,38 +60,37 @@ class ReadService implements ReadServiceInterface
 
     /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
-     * @param MediaImageBuilder $builder
+     * @param MediaImageBuilder $mediaImageBuilder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param GalleryEntryBuilder $galleryEntryBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
-        MediaImageBuilder $builder,
+        MediaImageBuilder $mediaImageBuilder,
         \Magento\Catalog\Model\ProductRepository $productRepository,
         GalleryEntryBuilder $galleryEntryBuilder
     ) {
         $this->collectionFactory = $collectionFactory;
-        $this->productFactory = $productFactory;
         $this->setFactory = $setFactory;
         $this->eavConfig = $eavConfig;
         $this->mediaGallery = $mediaGallery;
         $this->attributeFactory = $attributeFactory;
-        $this->builder = $builder;
+        $this->builder = $mediaImageBuilder;
         $this->productRepository = $productRepository;
         $this->galleryEntryBuilder = $galleryEntryBuilder;
     }
 
     /**
+     * Convert data from array to data object
+     *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute[] $items
      * @return array|\Magento\Catalog\Model\Resource\Eav\Attribute[]
      * @throws \Magento\Framework\Exception\StateException
@@ -153,10 +147,7 @@ class ReadService implements ReadServiceInterface
     {
         $result = array();
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productFactory->create()->loadByAttribute('sku', $productSku);
-        if (!$product) {
-            throw NoSuchEntityException::singleField('sku', $productSku);
-        }
+        $product = $this->productRepository->get($productSku);
 
         $galleryAttribute = $this->attributeFactory->create()->loadByCode(
             $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY),

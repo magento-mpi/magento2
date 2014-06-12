@@ -62,7 +62,7 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * Fetch attribute info set by name
      *
-     * @param $name
+     * @param string $name
      * @return \Magento\Eav\Model\Entity\Attribute\Set
      */
     protected function getAttributeSetByName($name)
@@ -86,8 +86,8 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * Fetch attribute to check by code
      *
-     * @param $all
-     * @param $attributeCode
+     * @param array $all
+     * @param string $attributeCode
      * @return bool
      */
     protected function getAttributeByCode($all, $attributeCode)
