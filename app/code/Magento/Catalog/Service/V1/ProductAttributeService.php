@@ -61,11 +61,11 @@ class ProductAttributeService implements ProductAttributeServiceInterface
             $id
         );
         if (!$model) {
-            throw new \Magento\Framework\Exception\StateException('Attribute do not exists');
+            throw new \Magento\Framework\Exception\StateException('Attribute does no exist');
         }
 
         if (!$model->usesSource()) {
-            throw new \Magento\Framework\Exception\StateException('Attribute don\'t have any options');
+            throw new \Magento\Framework\Exception\StateException('Attribute doesn\'t have any option');
         }
 
         $key = $option->getValue() ?: 'new_option';

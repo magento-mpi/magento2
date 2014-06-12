@@ -29,7 +29,7 @@ interface ProductAttributeServiceInterface
      *
      * @param string $id
      * @param \Magento\Catalog\Service\V1\Data\Eav\Option $option
-     * @return int
+     * @return bool
      */
     public function addOption($id, \Magento\Catalog\Service\V1\Data\Eav\Option $option);
 }
