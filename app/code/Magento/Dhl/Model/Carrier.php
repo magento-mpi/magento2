@@ -228,6 +228,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
+        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Shipping\Helper\Carrier $carrierHelper,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Framework\Module\Dir\Reader $configReader,
@@ -237,7 +238,6 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         array $data = array()
     ) {
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
