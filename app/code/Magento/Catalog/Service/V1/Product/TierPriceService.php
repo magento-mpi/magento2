@@ -88,11 +88,17 @@ class TierPriceService implements TierPriceServiceInterface
         }
 
         $found = false;
+
         foreach ($tierPrices as &$currentPrice) {
+            if ('all' == $customerGroupId) {
+                $isGroupValid = ($currentPrice['cust_group'] == 0 && $currentPrice['all_groups'] == 1);
+            } else {
+                $isGroupValid = ($currentPrice['cust_group'] == $customerGroupId);
+            }
             if (
-                $currentPrice['cust_group'] === $customerGroupId
-                && $currentPrice['website_id'] === $websiteId
-                && $currentPrice['price_qty'] === $price->getQty()
+                true == $isGroupValid
+                && $currentPrice['website_id'] == $websiteId
+                && $currentPrice['price_qty'] == $price->getQty()
             ) {
                 $currentPrice['price'] = $price->getValue();
                 $found = true;
@@ -100,8 +106,12 @@ class TierPriceService implements TierPriceServiceInterface
             }
         }
         if (!$found) {
+            $mappedCustomerGroupId = 'all' == $customerGroupId
+                ? \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL
+                : $customerGroup->getId();
+
             $tierPrices[] = array(
-                'cust_group' => $customerGroup->getId(),
+                'cust_group' => $mappedCustomerGroupId,
                 'price' => $price->getValue(),
                 'website_price' => $price->getValue(),
                 'website_id' => $websiteId,
