@@ -107,6 +107,7 @@ class StockStatusService implements StockStatusServiceInterface
         ];
 
         $this->stockStatusBuilder->populateWithArray($result);
+
         return $this->stockStatusBuilder->create();
     }
 

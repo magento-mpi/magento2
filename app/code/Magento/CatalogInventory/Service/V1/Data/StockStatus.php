@@ -17,16 +17,16 @@ class StockStatus extends AbstractObject
     /**#@+
      * Stock status object data keys
      */
-    const STOCK_STATUS = 'stock_status';
+    const STOCK_STATUS = 'is_in_stock';
 
-    const STOCK_QTY = 'stock_qty';
+    const STOCK_QTY = 'qty';
 
     /**#@-*/
 
     /**
      * @return bool
      */
-    public function getStockStatus()
+    public function getIsInStock()
     {
         return $this->_get(self::STOCK_STATUS);
     }
@@ -34,7 +34,7 @@ class StockStatus extends AbstractObject
     /**
      * @return int
      */
-    public function getStockQty()
+    public function getQty()
     {
         return $this->_get(self::STOCK_QTY);
     }

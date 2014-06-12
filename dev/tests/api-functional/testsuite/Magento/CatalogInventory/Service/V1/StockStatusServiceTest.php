@@ -29,7 +29,6 @@ class StockStatusServiceTest extends WebapiAbstract
         /** @var \Magento\Catalog\Model\Product $product */
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product')->load(1);
         $expectedData = $product->getQuantityAndStockStatus();
-        $expectedData = [$expectedData['is_in_stock'], $expectedData['qty']];
 
         $serviceInfo = array(
             'rest' => array(
