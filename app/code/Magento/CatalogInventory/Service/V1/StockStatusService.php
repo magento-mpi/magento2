@@ -76,7 +76,7 @@ class StockStatusService implements StockStatusServiceInterface
      * @param \Magento\Catalog\Model\Product $product
      * @param int $stockId
      * @param int $stockStatus
-     * @return $this
+     * @return \Magento\CatalogInventory\Service\V1\StockStatusService
      */
     public function assignProduct(
         \Magento\Catalog\Model\Product $product,
