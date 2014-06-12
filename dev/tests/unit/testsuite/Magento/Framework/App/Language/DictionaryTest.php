@@ -97,7 +97,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
             ['Bar/en_US/a.csv', $this->getCsvMock([['one', '1'], ['two', '2']])],
             ['Bar/en_US/b.csv', $this->getCsvMock([['three', '3'], ['four', '4']])],
             ['Baz/en_GB/1.csv', $this->getCsvMock([['four and 5/10', '4.5']])],
-            ['Bar/en_GB/1.csv', $this->getCsvMock([['four and 75/100', '4.75']])],
+            ['Bar/en_GB/1.csv', $this->getCsvMock([['four and 75/100', '4.75'], ['four and 5/10', '4.50']])],
             ['Foo/en_AU/1.csv', $this->getCsvMock([['one', '1.0'], ['five', '5.0']])],
             ['Foo/en_AU/2.csv', $this->getCsvMock([['six', '6.0']])],
         ];
@@ -113,7 +113,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
                 'two' => '2',
                 'three' => '3',
                 'four' => '4',
-                'four and 5/10' => '4.5',
+                'four and 5/10' => '4.50',
                 'four and 75/100' => '4.75',
                 'five' => '5.0',
                 'six' => '6.0'

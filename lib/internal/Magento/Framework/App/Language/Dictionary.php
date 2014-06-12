@@ -50,7 +50,7 @@ class Dictionary
             }
         }
         $packs = [];
-        $this->getInheritedPacks($languageCode, $packs);
+        $this->collectInheritedPacks($languageCode, $packs);
         uasort($packs, [$this, 'sortInherited']);
         $result = [];
         foreach ($packs as $info) {
@@ -175,7 +175,7 @@ class Dictionary
      * @param int $level
      * @return void
      */
-    private function getInheritedPacks($code, array &$result, $level = 0)
+    private function collectInheritedPacks($code, array &$result, $level = 0)
     {
         if (isset($this->packs[$code])) {
             foreach ($this->packs[$code] as $vendor => $info) {
@@ -183,7 +183,7 @@ class Dictionary
                 $result["{$code}|{$vendor}"] = $info;
                 if (isset($info['use'])) {
                     foreach ($info['use'] as $reuse) {
-                        $this->getInheritedPacks($reuse['code'], $result, $level + 1);
+                        $this->collectInheritedPacks($reuse['code'], $result, $level + 1);
                     }
                 }
             }
