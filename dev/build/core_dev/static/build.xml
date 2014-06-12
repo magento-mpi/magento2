@@ -40,15 +40,16 @@
         </condition>
         <script language="javascript"><![CDATA[
             var currentBranch = project.getProperty('env.bamboo_repository_git_branch');
-            var currentRepo = project.getProperty('env.bamboo_repository_git_repositoryUrl');
+            var currentRepoUrl = project.getProperty('env.bamboo_repository_git_repositoryUrl');
             var additionalOptions = project.getProperty('env.bamboo_additional_options');
             var fileFormats = project.getProperty('env.bamboo_file_formats');
             var incrementalBuild = project.getProperty('env.bamboo_incremental_build');
+            var mainlineRepo = project.getProperty('env.bamboo_mainline_repo');
 
-            var parts = currentRepo.split("/");
+            var parts = currentRepoUrl.split("/");
             var teamRepo = parts[parts.length - 2];
 
-            if (incrementalBuild != 'disable' && teamRepo != 'magento2') {
+            if (incrementalBuild != 'disable' && teamRepo != mainlineRepo) {
                 //get changelist from github
                 var get_github_changes = project.createTask('exec');
                 get_github_changes.setExecutable('php');
