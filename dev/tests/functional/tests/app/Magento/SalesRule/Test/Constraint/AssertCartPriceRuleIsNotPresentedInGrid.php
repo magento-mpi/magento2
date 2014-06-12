@@ -38,7 +38,7 @@ class AssertCartPriceRuleIsNotPresentedInGrid extends AbstractConstraint
         ];
         \PHPUnit_Framework_Assert::assertFalse(
             $promoQuoteIndex->getPromoQuoteGrid()->isRowVisible($filter),
-            'Sales rule \'' . $salesRule->getName() . ' is present in cart price rules grid.'
+            'Sales rule \'' . $salesRule->getName() . '\' is present in cart price rules grid.'
         );
     }
 
