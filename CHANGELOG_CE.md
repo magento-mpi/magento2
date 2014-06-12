@@ -69,6 +69,7 @@
   * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+  * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
 * GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
@@ -163,7 +164,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-  
+
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
@@ -385,7 +386,7 @@
       * `lib/Magento/Framework/Data/Form/Element/Submit.php`
       * `lib/Magento/Framework/Data/Form/Element/Text.php`
       * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
-  
+
 2.0.0.0-dev75
 =============
 * Modularity improvements:
