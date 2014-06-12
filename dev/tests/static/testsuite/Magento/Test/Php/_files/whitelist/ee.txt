@@ -5,6 +5,7 @@ app/code/Magento/AdminGws/Model/Plugin
 app/code/Magento/AdminGws/Model/Config
 app/code/Magento/AdminGws/Model/Config.php
 app/code/Magento/AdminGws/Model/ConfigInterface.php
+app/code/Magento/CatalogEvent/Model/Category
 app/code/Magento/CustomerCustomAttributes/Block/Account
 app/code/Magento/GiftCard/Model/Plugin
 app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php

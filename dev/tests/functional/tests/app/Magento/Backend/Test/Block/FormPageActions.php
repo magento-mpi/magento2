@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class FormPageActions
  * Form page actions block
- *
  */
 class FormPageActions extends PageActions
 {
@@ -37,13 +36,6 @@ class FormPageActions extends PageActions
      * @var string
      */
     protected $saveAndContinueButton = '#save_and_continue';
-
-    /**
-     * "Save and Apply" button
-     *
-     * @var string
-     */
-    protected $saveAndApplyButton = '#save_apply';
 
     /**
      * "Save" button
@@ -97,18 +89,6 @@ class FormPageActions extends PageActions
         $this->_rootElement->find($this->saveAndContinueButton)->click();
         $this->waitForElementNotVisible('.popup popup-loading');
         $this->waitForElementNotVisible('.loader');
-    }
-
-    /**
-     * Click on "Save and Apply" button
-     *
-     * @return void
-     */
-    public function saveAndApply()
-    {
-        $this->_rootElement->find($this->saveAndApplyButton)->click();
-        $this->waitForElementNotVisible($this->loader,Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld,Locator::SELECTOR_XPATH);
     }
 
     /**

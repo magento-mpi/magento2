@@ -103,14 +103,12 @@
             <backend_type>virtual</backend_type>
             <is_required>0</is_required>
             <group>conditions</group>
-            <fixture>Magento\CatalogRule\Test\Fixture\Conditions</fixture>
         </condition_value>
         <rule>
             <attribute_code>rule</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>0</is_required>l
             <group>conditions</group>
-            <fixture>Magento\CatalogRule\Test\Fixture\CatalogRule\Conditions</fixture>
         </rule>
         <conditions>
             <attribute_code>conditions</attribute_code>

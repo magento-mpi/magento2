@@ -21,14 +21,15 @@ class CatalogRule extends AbstractRepository
             'name' => 'Active Catalog Rule',
             'description' => 'Rule Description',
             'is_active' => 'Active',
-            'website_ids' => [0 => 'Main Website'],
-            'customer_group_ids' =>
-                [
-                    0 => 'NOT LOGGED IN',
-                    1 => 'General',
-                    2 => 'Wholesale',
-                    3 => 'Retailer',
-                ],
+            'website_ids' => [
+                0 => 'Main Website'
+            ],
+            'customer_group_ids' => [
+                0 => 'NOT LOGGED IN',
+                1 => 'General',
+                2 => 'Wholesale',
+                3 => 'Retailer',
+            ],
             'from_date' => '3/25/14',
             'to_date' => '3/29/14',
             'sort_order' => '1',
@@ -39,7 +40,9 @@ class CatalogRule extends AbstractRepository
         $this->_data['inactive_catalog_price_rule'] = [
             'name' => 'Inactive Catalog Price Rule',
             'is_active' => 'Inactive',
-            'website_ids' => [0 => 'Main Website'],
+            'website_ids' => [
+                0 => 'Main Website'
+            ],
             'customer_group_ids' => [0 => 'NOT LOGGED IN'],
             'simple_action' => 'By Percentage of the Original Price',
             'discount_amount' => '50'
@@ -49,15 +52,16 @@ class CatalogRule extends AbstractRepository
             'name' => 'Active Catalog Rule with conditions %isolation%',
             'description' => 'Rule Description',
             'is_active' => 'Active',
-            'website_ids' => [0 => 'Main Website'],
-            'customer_group_ids' =>
-                [
-                    0 => 'NOT LOGGED IN',
-                    1 => 'General',
-                    2 => 'Wholesale',
-                    3 => 'Retailer',
-                ],
-            'rule' => '[Category|is|Test1]',
+            'website_ids' => [
+                0 => 'Main Website'
+            ],
+            'customer_group_ids' => [
+                0 => 'NOT LOGGED IN',
+                1 => 'General',
+                2 => 'Wholesale',
+                3 => 'Retailer',
+            ],
+            'rule' => '[Category|is|2]',
             'simple_action' => 'By Percentage of the Original Price',
             'discount_amount' => '10'
         ];
