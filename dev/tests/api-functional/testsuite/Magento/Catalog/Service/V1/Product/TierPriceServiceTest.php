@@ -128,6 +128,7 @@ class TierPriceServiceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     * @magentoAppIsolation enabled
      */
     public function testAddWithAllCustomerGrouped()
     {
@@ -160,5 +161,42 @@ class TierPriceServiceTest extends WebapiAbstract
         $this->assertCount(3, $prices);
         $this->assertEquals(20, (int)$prices[2]->getValue());
         $this->assertEquals(50, (int)$prices[2]->getQty());
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     * @magentoAppIsolation enabled
+     */
+    public function testUpdateWithAllGroups()
+    {
+        $productSku = 'simple';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/all/tiers',
+                'httpMethod' => 'POST',
+            ),
+            'soap' => array(
+                'service' => 'catalogProductTierPriceServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductTierPriceServiceV1set',
+            ),
+        );
+        $price = ['qty' => 2, 'value' => 20];
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->_webApiCall(
+                $serviceInfo,
+                ['productSku' => $productSku, 'customer_group_id' => 'all', 'price' => $price]
+            );
+        } else {
+            $this->_webApiCall($serviceInfo, ['price' => $price]);
+        }
+        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        /** @var \Magento\Catalog\Service\V1\Product\TierPriceServiceInterface $service */
+        $service = $objectManager->get('\Magento\Catalog\Service\V1\Product\TierPriceServiceInterface');
+        $prices = $service->getList($productSku, 'all');
+        $this->assertCount(2, $prices);
+        $this->assertEquals(20, (int)$prices[0]->getValue());
+        $this->assertEquals(2, (int)$prices[0]->getQty());
     }
 }

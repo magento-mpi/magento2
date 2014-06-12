@@ -91,7 +91,7 @@ class TierPriceService implements TierPriceServiceInterface
 
         foreach ($tierPrices as &$currentPrice) {
             if ('all' == $customerGroupId) {
-                $isGroupValid = ($currentPrice['cust_group'] == 0 && $currentPrice['all_groups'] == 1);
+                $isGroupValid = ($currentPrice['all_groups'] == 1);
             } else {
                 $isGroupValid = ($currentPrice['cust_group'] == $customerGroupId);
             }
