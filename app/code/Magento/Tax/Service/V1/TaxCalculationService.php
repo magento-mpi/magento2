@@ -348,8 +348,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         \Magento\Framework\Object $taxRequest,
         $storeId
     ) {
-        $this->taxDetailsItemBuilder->setCode($item->getCode());
-        $this->taxDetailsItemBuilder->setType($item->getType());
         $taxRequest->setProductClassId($item->getTaxClassId());
         $rate = $this->calculator->getRate($taxRequest);
         $quantity = $item->getQuantity();
@@ -373,6 +371,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $taxSubtotal = $taxable = $taxPrice * $quantity;
                 $rowTax =
                     $this->deltaRound($this->calculator->calcTaxAmount($taxable, $rate, true, false), $rate, true);
+                $subtotal = $taxSubtotal - $rowTax;
             }
         } else {
             $taxable = $subtotal;
