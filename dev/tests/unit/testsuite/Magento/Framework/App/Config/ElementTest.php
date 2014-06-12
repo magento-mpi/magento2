@@ -24,6 +24,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         <value_sensitive_key>vaLue</value_sensitive_key>
         <false_key>false</false_key>
         <off_key>off</off_key>
+        <on_key>on</on_key>
         <regular_cdata><![CDATA[value]]></regular_cdata>
         <empty_cdata><![CDATA[]]></empty_cdata>
         <empty_text></empty_text>
@@ -52,6 +53,7 @@ XML;
         $this->assertFalse($element->is('false_key'));
         $this->assertFalse($element->is('empty_cdata'));
         $this->assertFalse($element->is('empty_text'));
+        $this->assertTrue($element->is('on_key'));
     }
 
     public function testGetClassName()
