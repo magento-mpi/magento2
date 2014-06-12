@@ -360,11 +360,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     ) {
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
-        if ($item->getType() === 'product') {
-            $taxRequest->setProductClassId($item->getTaxClassId());
-        }
+        $taxRequest->setProductClassId($item->getTaxClassId());
         $rate = $this->calculator->getRate($taxRequest);
-        $this->taxDetailsItemBuilder->setTaxPercent($rate);
         $quantity = $item->getQuantity();
         $price = $this->calculator->round($item->getUnitPrice());
         $subtotal = $taxSubtotal = $this->calculator->round($item->getRowTotal());
@@ -411,6 +408,10 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setRowTotal($subtotal);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
+        $this->taxDetailsItemBuilder->setCode($item->getCode());
+        $this->taxDetailsItemBuilder->setType($item->getType());
+        $this->taxDetailsItemBuilder->setTaxPercent($rate);
+
         return $this->taxDetailsItemBuilder->create();
     }
 
