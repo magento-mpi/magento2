@@ -35,6 +35,11 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
      */
     protected $stockItemBuilder;
 
+    /**
+     * @var \Magento\Catalog\Service\V1\Product\Link\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productLoader;
+
     protected function setUp()
     {
         $this->stockItemRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\ItemRegistry')
@@ -49,13 +54,18 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\Link\ProductLoader')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
             'Magento\CatalogInventory\Service\V1\StockItemService',
             [
                 'stockItemRegistry' => $this->stockItemRegistry,
                 'config' => $this->config,
-                'stockItemBuilder' => $this->stockItemBuilder
+                'stockItemBuilder' => $this->stockItemBuilder,
+                'productLoader' => $this->productLoader
             ]
         );
     }
@@ -433,6 +443,103 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($resultAll, $this->model->getIsQtyTypeIds());
         $this->assertEquals($resultTrue, $this->model->getIsQtyTypeIds(true));
         $this->assertEquals($resultFalse, $this->model->getIsQtyTypeIds(false));
+    }
+
+    /**
+     * @param string $productSku
+     * @param int $productId
+     * @param [] $stockItemData
+     * @dataProvider getStockItemBySkuDataProvider
+     */
+    public function testGetStockItemBySku($productSku, $productId, $stockItemData)
+    {
+        // 1. Get mocks
+        /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var \Magento\CatalogInventory\Model\Stock\Item|\PHPUnit_Framework_MockObject_MockObject $stockItem */
+        $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        /** @var Data\StockItem|\PHPUnit_Framework_MockObject_MockObject $stockItemDataObject */
+        $stockItemDataObject = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 2. Set fixtures
+        $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
+        $stockItem->expects($this->any())->method('getData')->will($this->returnValue($stockItemData));
+
+        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
+            [$productSku, $product]
+        ]));
+
+        $this->stockItemRegistry->expects($this->any())->method('retrieve')->will($this->returnValueMap([
+            [$productId, $stockItem]
+        ]));
+
+        $this->stockItemBuilder->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($stockItemDataObject));
+
+        // 3. Set expectations
+        $this->stockItemBuilder->expects($this->any())->method('populateWithArray')->with($stockItemData);
+
+        // 4. Run tested method
+        $result = $this->model->getStockItemBySku($productSku);
+
+        // 5. Compare actual result with expected result
+        $this->assertEquals($stockItemDataObject, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getStockItemBySkuDataProvider()
+    {
+        return [
+            ['sku1', 1, ['stock_item_id' => 123]],
+            ['sku1', 1, []],
+        ];
+    }
+
+    /**
+     * @param string $productSku
+     * @param int $productId
+     * @dataProvider getStockItemBySkuWithExceptionDataProvider
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testGetStockItemBySkuWithException($productSku, $productId)
+    {
+        // 1. Get mocks
+        /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 2. Set fixtures
+        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
+            [$productSku, $product]
+        ]));
+        $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
+
+        // 3. Run tested method
+        $this->model->getStockItemBySku($productSku);
+    }
+
+    /**
+     * @return array
+     */
+    public function getStockItemBySkuWithExceptionDataProvider()
+    {
+        return [
+            ['sku1', null],
+            ['sku1', false],
+            ['sku1', 0],
+        ];
     }
 
     /**
