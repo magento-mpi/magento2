@@ -1680,6 +1680,12 @@ return array(
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
     ['getVisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getVisibleOnFrontStatuses'],
     ['getInvisibleOnFrontStates', 'Magento\Sales\Model\Order\Config', 'getInvisibleOnFrontStatuses'],
+    ['_shouldBeConverted', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_beforeSave', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_afterSave', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_afterLoad', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['getAllMethods', 'Magento\Payment\Model\Config'],
+    ['_getMethod', 'Magento\Payment\Model\Config'],
     ['getViewFileUrl', 'Magento\Framework\View\Url', 'Magento\Framework\View\Asset\Repository::getUrl'],
     ['getCssFiles', 'Magento\Core\Helper\Theme', 'Magento\Core\Helper\Theme::getCssAssets'],
     ['getGroupedCssFiles', 'Magento\Core\Helper\Theme'],
@@ -1699,4 +1705,5 @@ return array(
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
+    ['convertOldColumnDefinition', 'Magento\Framework\DB\Helper\AbstractHelper'],
 );

@@ -9,7 +9,7 @@
 namespace Magento\Backend\Test\Handler;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\Handler\Curl;
 
 /**
  * Class Conditions
@@ -35,60 +35,21 @@ use Mtf\Handler\Curl as AbstractCurl;
  *     {Product attribute combination|NOT FOUND|ANY:[[Attribute Set|is|Default][Attribute Set|is|Default]]}
  * ]}
  */
-class Conditions extends AbstractCurl {
+abstract class Conditions extends Curl
+{
     /**
      * Map of type parameter
      *
      * @var array
      */
-    private $mapTypeParams = [
-        'Attribute Set' => [
-            'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
-            'attribute' => 'attribute_set_id'
-        ],
-        'Category' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
-            'attribute' => 'category_ids'
-        ],
-        'Conditions combination' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Combine',
-            'aggregator' => 'all',
-            'value' => '1'
-        ],
-        'Price (percentage)' => [
-            'type' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
-        ],
-        'Subtotal' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'base_subtotal'
-        ],
-        'Total Weight' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'weight'
-        ],
-        'Shipping Method' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'shipping_method'
-        ],
-        'Shipping Postcode' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'postcode'
-        ],
-        'Shipping State/Province' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'region_id'
-        ],
-        'Shipping Country' => [
-            'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'country_id'
-        ],
-    ];
+    protected $mapTypeParams = [];
+
     /**
      * Map of rule parameters
      *
      * @var array
      */
-    private $mapRuleParams = [
+    protected $mapRuleParams = [
         'operator' => [
             'is' => '==',
             'is not' => '!=',
@@ -108,14 +69,30 @@ class Conditions extends AbstractCurl {
     ];
 
     /**
-     * Persist Fixture
+     * Map encode special chars
      *
-     * @param FixtureInterface $fixture [optional]
-     * @return mixed
+     * @var array
      */
-    public function persist(FixtureInterface $fixture = null) {
+    protected $encodeChars = [
+        '\{' => '&lbrace;',
+        '\}' => '&rbrace;',
+        '\[' => '&lbracket;',
+        '\]' => '&rbracket;',
+        '\:' => '&colon;',
+    ];
 
-    }
+    /**
+     * Map decode special chars
+     *
+     * @var array
+     */
+    protected $decodeChars = [
+        '&lbrace;' => '{',
+        '&rbrace;' => '}',
+        '&lbracket;' => '[',
+        '&rbracket;' => ']',
+        '&colon;' => ':',
+    ];
 
     /**
      * Prepare conditions to array for send by post request
@@ -123,7 +100,8 @@ class Conditions extends AbstractCurl {
      * @param string $conditions
      * @return array
      */
-    protected function prepareCondition($conditions) {
+    protected function prepareCondition($conditions)
+    {
         $conditions = $this->decodeValue($conditions);
         $defaultCondition = [
             1 => [
@@ -143,7 +121,8 @@ class Conditions extends AbstractCurl {
      * @param int $nesting
      * @return array
      */
-    private function convertConditionsCombination($combination, $conditions, $nesting) {
+    private function convertConditionsCombination($combination, $conditions, $nesting)
+    {
         $combination = [$nesting => $this->convertSingleCondition($combination)];
         $conditions = $this->convertMultipleCondition($conditions, $nesting);
         return $combination + $conditions;
@@ -157,7 +136,7 @@ class Conditions extends AbstractCurl {
      * @param int $count
      * @return array
      */
-    protected function convertMultipleCondition(array $conditions, $nesting = 1, $count = 1)
+    private function convertMultipleCondition(array $conditions, $nesting = 1, $count = 1)
     {
         $result = [];
         foreach ($conditions as $key => $condition) {
@@ -181,7 +160,7 @@ class Conditions extends AbstractCurl {
      * @return array
      * @throws \Exception
      */
-    protected function convertSingleCondition($condition)
+    private function convertSingleCondition($condition)
     {
         $condition = $this->parseCondition($condition);
         extract($condition);
@@ -216,7 +195,8 @@ class Conditions extends AbstractCurl {
      * @param string $name
      * @return array
      */
-    protected function getTypeParam($name) {
+    private function getTypeParam($name)
+    {
         return isset($this->mapTypeParams[$name]) ? $this->mapTypeParams[$name] : [];
     }
 
@@ -226,7 +206,8 @@ class Conditions extends AbstractCurl {
      * @param string $name
      * @return array
      */
-    protected function getRuleParam($name) {
+    private function getRuleParam($name)
+    {
         foreach ($this->mapRuleParams as $typeParam => &$params) {
             if (isset($params[$name])) {
                 return [$typeParam => $params[$name]];
@@ -242,24 +223,14 @@ class Conditions extends AbstractCurl {
      * @return array
      * @throws \Exception
      */
-    protected function decodeValue($value)
+    private function decodeValue($value)
     {
-        $value = str_replace('\{', '&lbrace;', $value);
-        $value = str_replace('\}', '&rbrace;', $value);
-        $value = str_replace('\[', '&lbracket;', $value);
-        $value = str_replace('\]', '&rbracket;', $value);
-        $value = str_replace('\:', '&colon;', $value);
-
+        $value = str_replace(array_keys($this->encodeChars), $this->encodeChars, $value);
         $value = preg_replace('/(\]|})({|\[)/', '$1,$2', $value);
         $value = preg_replace('/{([^:]+):/', '{"$1":', $value);
         $value = preg_replace('/\[([^\[{])/', '"$1', $value);
         $value = preg_replace('/([^\]}])\]/', '$1"', $value);
-
-        $value = str_replace('&lbrace;', '{', $value);
-        $value = str_replace('&rbrace;', '}', $value);
-        $value = str_replace('&lbracket;', '[', $value);
-        $value = str_replace('&rbracket;', ']', $value);
-        $value = str_replace('&colon;', ':', $value);
+        $value = str_replace(array_keys($this->decodeChars), $this->decodeChars, $value);
 
         $value = "[{$value}]";
         $value = json_decode($value, true);
@@ -276,7 +247,7 @@ class Conditions extends AbstractCurl {
      * @return array
      * @throws \Exception
      */
-    protected function parseCondition($condition)
+    private function parseCondition($condition)
     {
         if (!preg_match_all('/([^|]+\|?)/', $condition, $match)) {
             throw new \Exception('Bad format condition');

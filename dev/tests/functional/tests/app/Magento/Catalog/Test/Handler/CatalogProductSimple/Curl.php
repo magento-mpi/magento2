@@ -49,10 +49,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Search' => 3,
             'Catalog, Search' => 4
         ],
-        'tax_class_id' => [
-            'None' => 0,
-            'Taxable Goods' => 2
-        ],
         'website_ids' => [
             'Main Website' => 1
         ],
@@ -79,6 +75,13 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         // @todo remove "if" when fixtures refactored
         if ($fixture instanceof InjectableFixture) {
             $fields = $this->replacePlaceholder($fixture->getData(), $this->placeholderData);
+            // Getting Tax class id
+            if ($fixture->hasData('tax_class_id')) {
+                $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
+                $fields['tax_class_id'] = ($taxClassId === null)
+                    ? $this->getTaxClassId($fields['tax_class_id'])
+                    : $taxClassId;
+            }
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {
                 $categoryIds = [];
@@ -106,6 +109,30 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['id' => $id];
+    }
+
+    /**
+     * Getting tax class id from tax rule page
+     *
+     * @param string $taxClassName
+     * @return int
+     * @throws \Exception
+     */
+    protected function getTaxClassId($taxClassName)
+    {
+        $url = $_ENV['app_backend_url'] . 'tax/rule/new/';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
+        $response = $curl->read();
+        $curl->close();
+
+        preg_match('~<option value="(\d+)".*>' . $taxClassName . '</option>~', $response, $matches);
+        if (!isset($matches[1]) || empty($matches[1])) {
+            throw new \Exception('Product tax class id ' . $taxClassName . ' undefined!');
+        }
+
+        return (int)$matches[1];
     }
 
     /**
@@ -165,7 +192,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         if (empty($fields['stock_data']['qty'])) {
             $fields['stock_data']['qty'] = isset($fields['qty']) ? $fields['qty'] : null;
         }
-        if (!empty($fields['stock_data']['qty']) || !empty($fields['stock_data']['is_in_stock'])) {
+        if (!empty($fields['stock_data']['qty'])) {
             $fields['stock_data']['manage_stock'] = 1;
         }
 

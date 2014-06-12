@@ -27,7 +27,7 @@ class CheckoutCart extends FrontendPage
             'locator' => '//div[contains(@class, "cart container")]',
             'strategy' => 'xpath',
         ],
-        'messageBlock' => [
+        'messagesBlock' => [
             'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages .messages',
