@@ -9,10 +9,10 @@
 namespace Magento\ConfigurableProduct\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\Category;
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
-use Magento\Catalog\Test\Page\Product\CatalogProductNew;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Test Coverage for CreateConfigurableProductEntity
@@ -30,25 +30,31 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class CreateConfigurableEntityTest extends Injectable
 {
     /**
-     * @var Category
+     * Category fixture
+     *
+     * @var CatalogCategory
      */
     protected $category;
 
     /**
+     * Backend catalog page (product grid)
+     *
      * @var CatalogProductIndex
      */
     protected $productPageGrid;
 
     /**
+     * Product page (product form)
+     *
      * @var CatalogProductNew
      */
     protected $newProductPage;
 
     /**
-     * @param Category $category
+     * @param CatalogCategory $category
      * @return array
      */
-    public function __prepare(Category $category)
+    public function __prepare(CatalogCategory $category)
     {
         $category->persist();
 
@@ -58,12 +64,12 @@ class CreateConfigurableEntityTest extends Injectable
     }
 
     /**
-     * @param Category $category
+     * @param CatalogCategory $category
      * @param CatalogProductIndex $productPageGrid
      * @param CatalogProductNew $newProductPage
      */
     public function __inject(
-        Category $category,
+        CatalogCategory $category,
         CatalogProductIndex $productPageGrid,
         CatalogProductNew $newProductPage
     ) {
@@ -73,19 +79,21 @@ class CreateConfigurableEntityTest extends Injectable
     }
 
     /**
+     * Run create configurable product test
+     *
      * @param CatalogProductConfigurable $configurable
-     * @param Category $category
+     * @param CatalogCategory $category
+     * @return void
      */
-    public function testCreate(CatalogProductConfigurable $configurable, Category $category)
+    public function testCreate(CatalogProductConfigurable $configurable, CatalogCategory $category)
     {
         // Steps
         $this->productPageGrid->open();
         $this->productPageGrid->getProductBlock()->addProduct('configurable');
-
-        $productBlockForm = $this->newProductPage->getConfigurableBlockForm();
-
+        // Fill form
+        $productBlockForm = $this->newProductPage->getConfigurableProductForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($configurable);
-        $productBlockForm->save($configurable);
+        $this->newProductPage->getFormAction()->saveProduct($this->newProductPage, $configurable);
     }
 }

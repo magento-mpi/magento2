@@ -52,10 +52,18 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->engineMock = $this->getMock('\Magento\CatalogSearch\Model\Resource\EngineInterface');
         $this->collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->engineProviderMock = $this->getMock(
-            '\Magento\CatalogSearch\Model\Resource\EngineProvider', array(), array(), '', false
+            '\Magento\CatalogSearch\Model\Resource\EngineProvider',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->engineProviderMock->expects($this->any())->method('get')->will($this->returnValue($this->engineMock));
@@ -82,7 +90,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         };
 
         $this->assertEquals(
-            false, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
+            false,
+            $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
         );
     }
 
@@ -113,7 +122,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         };
 
         $this->assertEquals(
-            true, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
+            true,
+            $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
         );
     }
 
@@ -156,7 +166,8 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         };
 
         $this->assertEquals(
-            false, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
+            false,
+            $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
         );
     }
 }

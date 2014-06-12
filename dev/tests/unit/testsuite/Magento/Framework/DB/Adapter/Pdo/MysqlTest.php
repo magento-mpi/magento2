@@ -51,7 +51,16 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->_adapter = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('_connect', '_beginTransaction', '_commit', '_rollBack', 'query', '_debugWriteToFile', 'fetchRow'),
+            array(
+                'getCreateTable',
+                '_connect',
+                '_beginTransaction',
+                '_commit',
+                '_rollBack',
+                'query',
+                '_debugWriteToFile',
+                'fetchRow'
+            ),
             array(
                 'dbname' => 'not_exists',
                 'username' => 'not_valid',
@@ -466,6 +475,51 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
                 ->where($prepareField . ' >= ?', 151)
                 ->where($prepareField . ' < ?', 201),
             $result[3]
+        );
+    }
+
+    /**
+     * @param array $options
+     * @param string $expectedQuery
+     *
+     * @dataProvider addColumnDataProvider
+     * @covers \Magento\Framework\DB\Adapter\Pdo\Mysql::addColumn
+     * @covers \Magento\Framework\DB\Adapter\Pdo\Mysql::_getColumnDefinition
+     */
+    public function testAddColumn($options, $expectedQuery)
+    {
+        $adapter = $this->getMock(
+            '\Magento\Framework\DB\Adapter\Pdo\Mysql',
+            array('tableColumnExists', '_getTableName', 'rawQuery', 'resetDdlCache', 'quote'), array(), '', false
+        );
+
+        $adapter->expects($this->any())->method('_getTableName')->will($this->returnArgument(0));
+        $adapter->expects($this->any())->method('quote')->will($this->returnArgument(0));
+        $adapter->expects($this->once())->method('rawQuery')->with($expectedQuery);
+        $adapter->addColumn('tableName', 'columnName', $options);
+    }
+
+    /**
+     * @return array
+     */
+    public function addColumnDataProvider()
+    {
+        return array(
+            array(
+                'columnData' => array(
+                    'TYPE'        => 'integer',
+                    'IDENTITY'    => true,
+                    'UNSIGNED'    => true,
+                    'NULLABLE'    => false,
+                    'DEFAULT'     => null,
+                    'COLUMN_NAME' => 'Some field',
+                    'COMMENT'     => 'Some field',
+                    'AFTER'       => 'Previous field'
+                ),
+                'expectedQuery' =>
+                    'ALTER TABLE `tableName` ADD COLUMN `columnName` int UNSIGNED '
+                    . 'NOT NULL default  auto_increment COMMENT Some field AFTER `Previous field` ',
+            )
         );
     }
 }

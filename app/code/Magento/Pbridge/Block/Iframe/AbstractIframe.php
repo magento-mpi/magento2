@@ -6,14 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pbridge\Block\Iframe;
 
 /**
  * Abstract payment block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Iframe;
-
 abstract class AbstractIframe extends \Magento\Payment\Block\Form
 {
     /**
@@ -293,11 +290,8 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $this->_viewFileSystem->getFilename(
-                    $name
-                ) : $this->_viewUrl->getViewFileUrl(
-                    $name
-                );
+                $items[$params][] = $mergeCallback ? $this->_assetRepo->createAsset($name)->getSourceFile()
+                    : $this->_assetRepo->getUrl($name);
             }
         }
 

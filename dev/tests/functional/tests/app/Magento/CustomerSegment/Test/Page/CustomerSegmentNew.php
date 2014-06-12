@@ -13,7 +13,7 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
 use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Report\Customer\Segment\Detail\Grid;
 use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
-use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit;
+use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\CustomerSegmentForm;
 use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab\Conditions;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
@@ -62,11 +62,11 @@ class CustomerSegmentNew extends Page
     /**
      * Get new customer form
      *
-     * @return Edit
+     * @return CustomerSegmentForm
      */
     public function getNewCustomerSegmentForm()
     {
-        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentEdit(
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentCustomerSegmentForm(
             $this->_browser->find($this->segmentForm, Locator::SELECTOR_CSS)
         );
     }
@@ -76,7 +76,7 @@ class CustomerSegmentNew extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)

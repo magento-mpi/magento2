@@ -21,6 +21,15 @@ use Mtf\Repository\RepositoryFactory;
 class CatalogProductConfigurable extends InjectableFixture
 {
     /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\ConfigurableProduct\Test\Repository\CatalogProductConfigurable';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+    /**
      * Constructor
      *
      * @constructor
@@ -42,7 +51,13 @@ class CatalogProductConfigurable extends InjectableFixture
         $persist = false
     ) {
         parent::__construct(
-            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
+            $configuration,
+            $repositoryFactory,
+            $fixtureFactory,
+            $handlerFactory,
+            $data,
+            $dataSet,
+            $persist
         );
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
@@ -58,14 +73,12 @@ class CatalogProductConfigurable extends InjectableFixture
     ];
 
     protected $defaultDataSet = [
-        'enable_googlecheckout' => null,
-        'msrp_display_actual_price_type' => null,
-        'msrp_enabled' => null,
-        'options_container' => null,
-        'quantity_and_stock_status' => null,
-        'status' => null,
-        'tax_class_id' => null,
-        'visibility' => null,
+        'type_id' => 'configurable',
+        'attribute_set_id' => 'Default',
+        'name' => 'Configurable Product %isolation%',
+        'sku' => 'sku_configurable_product_%isolation%',
+        'price' => ['value' => 100.00],
+        'weight' => 1,
     ];
 
     protected $category_ids = [
@@ -74,7 +87,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CategoryIds'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds'
     ];
 
     protected $color = [
@@ -172,7 +185,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
     ];
 
     protected $has_options = [
@@ -335,7 +348,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price'
     ];
 
     protected $quantity_and_stock_status = [
@@ -435,6 +448,8 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'default_value' => 'Taxable Goods',
         'input' => 'select',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -460,7 +475,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
     ];
 
     protected $updated_at = [
@@ -477,6 +492,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings',
     ];
 
     protected $url_path = [
@@ -523,7 +539,7 @@ class CatalogProductConfigurable extends InjectableFixture
     protected $attribute_set_name = [
         'attribute_code' => 'attribute_set_name',
         'backend_type' => 'virtual',
-        'group' => 'product-details'
+        'group' => 'variations'
     ];
 
     protected $qty = [
@@ -537,7 +553,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'customer-options',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     protected $configurable_options = [
@@ -546,7 +562,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'input' => 'variations',
         'group' => 'product-details',
-        'fixture' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableOptions',
+        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableOptions',
     ];
 
     protected $attribute_options = [
@@ -555,7 +571,23 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'input' => 'variations',
         'group' => 'product-details',
-        'fixture' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\AttributeOptions',
+        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\AttributeOptions',
+    ];
+
+    protected $configurable_attributes_data = [
+        'attribute_code' => 'configurable_options_data',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'input' => 'variations',
+        'group' => 'variations',
+    ];
+
+    protected $variations_matrix = [
+        'attribute_code' => 'variations_matrix',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'input' => 'variations',
+        'group' => 'variations',
     ];
 
     public function getCategoryIds()

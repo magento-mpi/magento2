@@ -98,18 +98,18 @@ class ApplyCatalogPriceRuleTest extends Functional
         $catalogRulePage->open();
 
         // Add new Catalog Price Rule
-        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid = $catalogRulePage->getCatalogRuleGrid();
         $catalogRuleGrid->addNewCatalogRule();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
-        $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
+        $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
             array('category_id' => $categoryId)
         );
         $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
         $newCatalogRuleForm->fill($catalogRuleFixture);
-        $newCatalogRuleForm->save();
+        $catalogRuleCreatePage->getFormPageActions()->save();
 
         // Save fixture discount rate
         $this->discountRate = $catalogRuleFixture->getDiscountAmount() * .01;
@@ -123,7 +123,7 @@ class ApplyCatalogPriceRuleTest extends Functional
 
         // Verify Catalog Price Rule in grid
         $catalogRulePage->open();
-        $gridBlock = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $gridBlock = $catalogRulePage->getCatalogRuleGrid();
         $this->assertTrue(
             $gridBlock->isRuleVisible($catalogRuleFixture->getRuleName()),
             'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid'
@@ -164,16 +164,20 @@ class ApplyCatalogPriceRuleTest extends Functional
             $appliedRulePrice = $product->getProductPrice() * $this->discountRate;
             if ($product instanceof ConfigurableProduct) {
                 // Select option
-                $productViewBlock->fillOptions($product);
+                $optionsBlock = $productPage->getCustomOptionsBlock();
+                $productOptions = $product->getProductOptions();
+                if (!empty($productOptions)) {
+                    $optionsBlock->fillProductOptions($productOptions);
+                }
                 $appliedRulePrice += $product->getProductOptionsPrice();
             }
             $productPriceBlock = $productViewBlock->getProductPriceBlock();
             $this->assertContains((string)$appliedRulePrice, $productPriceBlock->getSpecialPrice());
 
             // Add to Cart
-            $productViewBlock->addToCart($product);
+            $productViewBlock->clickAddToCart();
             $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-            $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+            $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 
             // Verify Cart page price
             $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);

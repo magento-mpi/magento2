@@ -48,7 +48,7 @@ class SalesOrder extends Page
      *
      * @var string
      */
-    protected $messageBlock = '#messages .messages';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Order actions block
@@ -113,7 +113,7 @@ class SalesOrder extends Page
     public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -132,11 +132,11 @@ class SalesOrder extends Page
     /**
      * Get Order view tabs block
      *
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\Tabs
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\OrderForm
      */
     public function getFormTabsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewTabs(
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewOrderForm(
             $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }
