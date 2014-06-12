@@ -295,7 +295,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                                 }
                             } else {
                                 $taxAmount = $this->_storeManager->getStore()->roundPrice(
-                                    $value * $defaultPercent / 100);
+                                    $value * $defaultPercent / 100
+                                );
                             }
                         }
                     }
