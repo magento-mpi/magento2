@@ -1,0 +1,10 @@
+{
+    "name": "magento/theme-frontend-iphone_html5",
+    "description": "N/A",
+    "require": {
+        "magento/theme-frontend-plushe": "0.1.0",
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-theme-frontend",
+    "version": "0.1.0"
+}

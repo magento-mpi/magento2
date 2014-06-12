@@ -1,0 +1,9 @@
+{
+    "name": "magento/theme-frontend-backend",
+    "description": "N/A",
+    "require": {
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-theme-adminhtml",
+    "version": "0.1.0"
+}

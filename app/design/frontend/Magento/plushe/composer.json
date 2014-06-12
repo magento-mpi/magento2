@@ -1,0 +1,10 @@
+{
+    "name": "magento/theme-frontend-plushe",
+    "description": "N/A",
+    "require": {
+        "magento/theme-frontend-blank": "0.1.0",
+        "magento/framework": "0.1.0"
+    },
+    "type": "magento2-theme-frontend",
+    "version": "0.1.0"
+}
