@@ -78,6 +78,6 @@ class FlatTest extends \PHPUnit_Framework_TestCase
         $except = 5;
         $this->productFlatIndexerRow->expects($this->any())->method('execute')->with($this->equalTo($except));
 
-        $this->model->executeFull($except);
+        $this->model->executeRow($except);
     }
 } 
