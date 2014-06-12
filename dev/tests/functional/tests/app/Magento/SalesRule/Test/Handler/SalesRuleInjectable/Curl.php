@@ -107,7 +107,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
      * @return void
      * @throws \Exception
      */
-   public function persist(FixtureInterface $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'sales_rule/promo_quote/save/';
         $data = $this->replaceMappingData($fixture->getData());

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesRule\Test\Constraint; 
+namespace Magento\SalesRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
@@ -59,7 +59,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
             'Sales rule data on edit page(backend) not equals to passed from fixture.'
-                . "\nFailed values:\n " . implode(";\n ", $dataDiff)
+            . "\nFailed values:\n " . implode(";\n ", $dataDiff)
         );
     }
 
