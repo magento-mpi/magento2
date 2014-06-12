@@ -10,10 +10,7 @@
 
 namespace Magento\CatalogInventory\Model\Indexer;
 
-/**
- * @TODO rename NewStock to Stock after removing the old Stock Indexer
- */
-class NewStock implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
+class Stock implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
 {
     /**
      * @var \Magento\CatalogInventory\Model\Indexer\Stock\Action\Row

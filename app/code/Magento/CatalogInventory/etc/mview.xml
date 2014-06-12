@@ -8,12 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Mview/etc/mview.xsd">
-    <!--
-    /**
-     * @TODO rename NewStock to Stock after removing the old Stock Indexer
-     */
-    -->
-    <view id="cataloginventory_stock" class="Magento\CatalogInventory\Model\Indexer\NewStock" group="indexer">
+    <view id="cataloginventory_stock" class="Magento\CatalogInventory\Model\Indexer\Stock" group="indexer">
         <subscriptions>
             <table name="cataloginventory_stock_item" entity_column="product_id" />
         </subscriptions>
