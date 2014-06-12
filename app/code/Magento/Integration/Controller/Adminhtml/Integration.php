@@ -99,8 +99,9 @@ class Integration extends Action
     {
         $unsecureEndpointsCount = $this->_integrationCollection->addUnsecureEndpointFilter()->getSize();
         if ($unsecureEndpointsCount > 0) {
-            $this->messageManager->addNotice(__('Warning! Integrations not using HTTPS are insecure and
-                     potentially expose private or personally identifiable information')
+            // @codingStandardsIgnoreStart
+            $this->messageManager->addNotice(__('Warning! Integrations not using HTTPS are insecure and potentially expose private or personally identifiable information')
+            // @codingStandardsIgnoreEnd
             );
         }
         $this->_view->loadLayout();
@@ -239,12 +240,14 @@ class Integration extends Action
                 } else {
                     $integration = $this->_integrationService->update($integrationData);
                 }
+                if (!$this->getRequest()->isXmlHttpRequest()) {
                 $this->messageManager->addSuccess(
                     __(
                         'The integration \'%1\' has been saved.',
                         $this->escaper->escapeHtml($integration->getName())
                     )
                 );
+                }
                 if ($this->getRequest()->isXmlHttpRequest()) {
                     $isTokenExchange = $integration->getEndpoint() && $integration->getIdentityLinkUrl() ? '1' : '0';
                     $this->getResponse()->setBody(
@@ -540,13 +543,5 @@ class Integration extends Action
             $integrationName
         );
         $this->messageManager->addNotice($msg);
-    }
-
-    public function nonHttpsNotice()
-    {
-        return __(
-            'Warning! Integrations not using HTTPS are insecure and potentially expose private or personally
-            identifiable information'
-        );
     }
 }
