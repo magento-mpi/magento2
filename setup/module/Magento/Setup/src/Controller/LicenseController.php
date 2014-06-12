@@ -10,7 +10,6 @@ namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\Form\License;
 
 class LicenseController extends AbstractActionController
 {
@@ -20,18 +19,11 @@ class LicenseController extends AbstractActionController
     protected $view;
 
     /**
-     * @var \Magento\Setup\Model\Form\License
-     */
-    protected $license;
-
-    /**
      * @param ViewModel $view
-     * @param \Magento\Setup\Model\Form\License $license
      */
-    public function __construct(ViewModel $view, License $license)
+    public function __construct(ViewModel $view)
     {
         $this->view = $view;
-        $this->license = $license;
     }
 
     /**
@@ -39,9 +31,7 @@ class LicenseController extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->view->setVariable('form', $this->license);
         $this->view->setTerminal(true);
-
         return $this->view;
     }
 }
