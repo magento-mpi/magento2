@@ -39,7 +39,7 @@ class CmsIndex extends FrontendPage
         'footerBlock' => [
             'name' => 'footerBlock',
             'class' => 'Magento\Theme\Test\Block\Html\Footer',
-            'locator' => 'footer.footer',
+            'locator' => 'footer.page-footer',
             'strategy' => 'css selector',
         ],
         'linksBlock' => [
