@@ -44,6 +44,8 @@ class Grid extends GridInterface
 
     /**
      * Press 'Add Selected Products' button
+     *
+     * @return void
      */
     public function addProducts()
     {

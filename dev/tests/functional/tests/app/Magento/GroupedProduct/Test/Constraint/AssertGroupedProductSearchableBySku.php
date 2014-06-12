@@ -29,6 +29,7 @@ class AssertGroupedProductSearchableBySku extends AssertProductSearchableBySku
      *
      * @param CmsIndex $cmsIndex
      * @param FixtureInterface $product
+     * @return void
      */
     protected function searchBy(CmsIndex $cmsIndex, FixtureInterface $product)
     {

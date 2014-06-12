@@ -44,6 +44,7 @@ class ListAssociatedProducts extends Form
      *
      * @param array $data
      * @param int $index
+     * @return void
      */
     public function fillProductOptions(array $data, $index)
     {

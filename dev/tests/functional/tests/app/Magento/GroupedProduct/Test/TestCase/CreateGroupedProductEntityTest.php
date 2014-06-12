@@ -38,13 +38,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 class CreateGroupedProductEntityTest extends Injectable
 {
     /**
-     * Fixture Category
-     *
-     * @var CatalogCategory
-     */
-    protected $category;
-
-    /**
      * Page product on backend
      *
      * @var CatalogProductIndex
@@ -67,7 +60,6 @@ class CreateGroupedProductEntityTest extends Injectable
     public function __prepare(CatalogCategory $category)
     {
         $category->persist();
-
         return [
             'category' => $category
         ];
@@ -76,17 +68,14 @@ class CreateGroupedProductEntityTest extends Injectable
     /**
      * Filling objects of the class
      *
-     * @param CatalogCategory $category
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductNew $catalogProductNewPage
      * @return void
      */
     public function __inject(
-        CatalogCategory $category,
         CatalogProductIndex $catalogProductIndexNewPage,
         CatalogProductNew $catalogProductNewPage
     ) {
-        $this->category = $category;
         $this->catalogProductIndex = $catalogProductIndexNewPage;
         $this->catalogProductNew = $catalogProductNewPage;
     }
@@ -100,6 +89,7 @@ class CreateGroupedProductEntityTest extends Injectable
      */
     public function testCreateGroupedProduct(CatalogProductGrouped $product, CatalogCategory $category)
     {
+        //Steps
         $this->catalogProductIndex->open();
         $this->catalogProductIndex->getProductBlock()->addProduct('grouped');
         $productBlockForm = $this->catalogProductNew->getForm();

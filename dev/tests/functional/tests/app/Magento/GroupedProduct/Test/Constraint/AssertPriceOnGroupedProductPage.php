@@ -20,16 +20,6 @@ use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
 class AssertPriceOnGroupedProductPage
 {
     /**
-     * Constructor
-     *
-     * @constructor
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * Verify product price on grouped product view page
      *
      * @param CatalogProductView $catalogProductView

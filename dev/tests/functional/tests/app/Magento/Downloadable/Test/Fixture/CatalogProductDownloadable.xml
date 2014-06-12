@@ -246,13 +246,6 @@
             <default_value></default_value>
             <input>price</input>
         </price>
-        <qty>
-            <attribute_code>quantity_and_stock_status][qty</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value>1</default_value>
-            <input>select</input>
-        </qty>
         <related_tgtr_position_behavior>
             <attribute_code>related_tgtr_position_behavior</attribute_code>
             <backend_type>int</backend_type>

@@ -12,7 +12,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView as ParentCatalogProduct
 
 /**
  * Class CatalogProductView
- *
  * Frontend grouped product view page
  */
 class CatalogProductView extends ParentCatalogProductView
