@@ -93,6 +93,6 @@ class Inventory extends \Magento\Framework\App\Helper\AbstractHelper
                 return $dataObject->{$method}();
             }
         }
-        throw new \BadMethodCallException(__('Field "%s" was not found in DO "%s".', $field, get_class($dataObject)));
+        throw new \BadMethodCallException(__('Field "%1" was not found in DO "%2".', $field, get_class($dataObject)));
     }
 }
