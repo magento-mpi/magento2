@@ -49,6 +49,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
      */
     protected $compareHelper;
 
+    /**
+     * @var \Magento\CatalogInventory\Service\V1\Data\StockItem
+     */
+    protected $stockItemDoMock;
+
     const PRODUCT_ID = 1;
     const PRODUCT_TYPE = 'simple';
     const PRODUCT_SKU = '12345';
@@ -107,17 +112,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDoMock */
-        $stockItemDoMock = $this->getMock(
+        $this->stockItemDoMock = $this->getMock(
             '\Magento\CatalogInventory\Service\V1\Data\StockItem',
-            ['getStockId'],
+            ['getStockId', 'getIsQtyDecimal'],
             [],
             '',
             false
         );
-
-        $stockItemDoMock->expects($this->any())
-            ->method('getStockId')
-            ->will($this->returnValue(false));
 
         /** @var \Magento\CatalogInventory\Service\V1\StockItemService $stockItemServiceMock */
         $stockItemServiceMock = $this->getMock(
@@ -130,7 +131,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $stockItemServiceMock->expects($this->any())
             ->method('getStockItem')
-            ->will($this->returnValue($stockItemDoMock));
+            ->will($this->returnValue($this->stockItemDoMock));
 
         $this->model = $this->objectManagerHelper->getObject(
             '\Magento\Sales\Model\Quote\Item',
@@ -361,16 +362,12 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->with('sales_quote_item_set_product', ['product' => $productMock, 'quote_item' => $this->model]);
 
         $isQtyDecimal = true;
-        $stockItemMock = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
-            ->disableOriginalConstructor()
-            ->setMethods(['getIsQtyDecimal', '__wakeup'])
-            ->getMock();
-        $stockItemMock->expects($this->once())
+        $this->stockItemDoMock->expects($this->once())
+            ->method('getStockId')
+            ->will($this->returnValue(99));
+        $this->stockItemDoMock->expects($this->once())
             ->method('getIsQtyDecimal')
             ->will($this->returnValue($isQtyDecimal));
-        $productMock->expects($this->exactly(2))
-            ->method('getStockItem')
-            ->will($this->returnValue($stockItemMock));
 
         $storeId = 15;
         $customerGroupId = 11;
@@ -426,7 +423,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                     'getWeight',
                     'getTaxClassId',
                     'getCost',
-                    'getStockItem',
                     'setStoreId',
                     'setCustomerGroupId',
                     'getTypeInstance',
