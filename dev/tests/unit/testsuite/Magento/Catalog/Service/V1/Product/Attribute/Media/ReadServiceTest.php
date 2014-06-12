@@ -272,9 +272,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())
             ->method('loadByAttribute')
             ->with('sku', $sku)
-            ->will($this->returnSelf());
-
-        $this->productMock->expects($this->once())->method('getId')->will($this->returnValue(false));
+            ->will($this->returnValue(false));
 
         $this->service->getList($sku);
     }
@@ -302,7 +300,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with('sku', $sku)
             ->will($this->returnSelf());
 
-        $this->productMock->expects($this->once())->method('getId')->will($this->returnValue($productId));
         $this->productMock->expects($this->any())
             ->method('getData')->will($this->returnValueMap($productDataMap));
 
