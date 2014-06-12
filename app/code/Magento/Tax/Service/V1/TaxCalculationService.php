@@ -371,8 +371,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         if ($item->getTaxIncluded()) {
             if ($taxRequest->getSameRateAsStore()) {
-                $taxable = $price;
-                $rowTaxExact = $this->calculator->calcTaxAmount($price, $rate, true, false);
+                $taxable = $subtotal;
+                $rowTaxExact = $this->calculator->calcTaxAmount($taxable, $rate, true, false);
                 $rowTax = $this->deltaRound($rowTaxExact, $rate, true);
                 $subtotal = $subtotal - $rowTax;
                 $taxPrice = $price;
