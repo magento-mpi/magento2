@@ -10,6 +10,7 @@ namespace Magento\Weee\Model;
 use Magento\Catalog\Model\Product;
 use Magento\Store\Model\Website;
 use Magento\Customer\Model\Converter as CustomerConverter;
+use Magento\Tax\Model\Calculation;
 
 class Tax extends \Magento\Framework\Model\AbstractModel
 {
@@ -44,13 +45,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $_productDiscounts = array();
 
     /**
-     * Weee data
-     *
-     * @var \Magento\Weee\Helper\Data
-     */
-    protected $_weeeData = null;
-
-    /**
      * Tax data
      *
      * @var \Magento\Tax\Helper\Data
@@ -83,6 +77,13 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $customerConverter;
 
     /**
+     * Weee config
+     *
+     * @var \Magento\Weee\Model\Config
+     */
+    protected $weeeConfig;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -90,9 +91,9 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Weee\Model\Resource\Tax $resource
      * @param CustomerConverter $customerConverter
+     * @param \Magento\Weee\Model\Config $weeeConfig
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -104,9 +105,9 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         \Magento\Tax\Model\CalculationFactory $calculationFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Weee\Helper\Data $weeeData,
         \Magento\Weee\Model\Resource\Tax $resource,
         CustomerConverter $customerConverter,
+        \Magento\Weee\Model\Config $weeeConfig,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -115,8 +116,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $this->_calculationFactory = $calculationFactory;
         $this->_customerSession = $customerSession;
         $this->_taxData = $taxData;
-        $this->_weeeData = $weeeData;
         $this->customerConverter = $customerConverter;
+        $this->weeeConfig = $weeeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -179,7 +180,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      */
     public function getWeeeTaxAttributeCodes($forceEnabled = false)
     {
-        if (!$forceEnabled && !$this->_weeeData->isEnabled()) {
+        if (!$forceEnabled && !$this->weeeConfig->isEnabled()) {
             return array();
         }
 
@@ -213,6 +214,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         }
 
         $websiteId = $this->_storeManager->getWebsite($website)->getId();
+        /** @var \Magento\Store\Model\Store $store */
         $store = $this->_storeManager->getWebsite($website)->getDefaultGroup()->getDefaultStore();
 
         /** @var \Magento\Tax\Model\Calculation $calculator */
@@ -229,7 +231,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $defaultRateRequest = $calculator->getDefaultRateRequest($store);
 
         $discountPercent = 0;
-        if (!$ignoreDiscount && $this->_weeeData->isDiscounted($store)) {
+        if (!$ignoreDiscount && $this->weeeConfig->isDiscounted($store)) {
             $discountPercent = $this->_getDiscountPercentForProduct($product);
         }
 
@@ -274,17 +276,20 @@ class Tax extends \Magento\Framework\Model\AbstractModel
 
                     $taxAmount = $amount = 0;
                     $amount = $value;
-                    if ($calculateTax && $this->_weeeData->isTaxable($store)) {
+                    if ($calculateTax && $this->weeeConfig->isTaxable($store)) {
                         /** @var \Magento\Tax\Model\Calculation $calculator */
-                        $defaultPercent = $this->_calculationFactory->create()->getRate(
+                        $defaultPercent = $calculator->getRate(
                             $defaultRateRequest->setProductClassId($product->getTaxClassId())
                         );
-                        $currentPercent = $product->getTaxPercent();
+                        $currentPercent = $calculator->getRate(
+                            $rateRequest->setProductClassId($product->getTaxClassId())
+                        );
                         if ($this->_taxData->priceIncludesTax($store)) {
-                            $taxAmount = $this->_storeManager->getStore()->roundPrice(
-                                $value / (100 + $defaultPercent) * $currentPercent
-                            );
-                            $amount = $amount - $taxAmount;
+                            $amountInclTax = $value / (100 + $defaultPercent) * (100 + $currentPercent);
+                            //round the "golden price"
+                            $amountInclTax = $store->roundPrice($amountInclTax);
+                            $taxAmount = $amountInclTax - $amountInclTax / (100 + $currentPercent) * 100;
+                            $taxAmount = $store->roundPrice($taxAmount);
                         } else {
                             $appliedRates = $this->_calculationFactory->create()->getAppliedRates($rateRequest);
                             if (count($appliedRates) > 1) {
@@ -295,9 +300,10 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                                 }
                             } else {
                                 $taxAmount = $this->_storeManager->getStore()->roundPrice(
-                                    $value * $defaultPercent / 100
+                                    $value * $currentPercent / 100
                                 );
                             }
+                            $taxAmount = $store->roundPrice($value * $currentPercent / 100);
                         }
                     }
 
