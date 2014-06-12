@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Config;
+namespace Magento\Catalog\Model\Config\Source;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
