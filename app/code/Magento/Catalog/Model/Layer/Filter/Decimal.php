@@ -70,7 +70,6 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
          * Filter must be string: $index, $range
          */
         $filter = $request->getParam($this->getRequestVar());
-        //is_array verification is added for LayeredNavigation on catalogsearch_advanced_result page
         if (!$filter || is_array($filter)) {
             return $this;
         }

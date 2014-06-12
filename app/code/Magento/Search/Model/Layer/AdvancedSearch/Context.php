@@ -9,12 +9,12 @@
 namespace Magento\Search\Model\Layer\AdvancedSearch;
 
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
-use Magento\Catalog\Model\Layer\AdvancedSearch\CollectionFilter;
-use Magento\Catalog\Model\Layer\AdvancedSearch\ItemCollectionProvider as CatalogCollectionProvider;
+use Magento\CatalogSearch\Model\Layer\Advanced\CollectionFilter;
+use Magento\CatalogSearch\Model\Layer\Advanced\ItemCollectionProvider as CatalogCollectionProvider;
 use Magento\Search\Model\Layer\Search\ItemCollectionProvider as SearchCollectionProvider;
 use Magento\Catalog\Model\Layer\Search\StateKey;
 
-class Context extends \Magento\Catalog\Model\Layer\AdvancedSearch\Context
+class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
 {
     /**
      * @var \Magento\Search\Helper\Data

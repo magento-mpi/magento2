@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Layer\AdvancedSearch;
+namespace Magento\CatalogSearch\Model\Layer\Advanced;
 
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
 use Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory;

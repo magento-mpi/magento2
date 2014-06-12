@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Layer\AdvancedSearch;
+namespace Magento\CatalogSearch\Model\Layer\Advanced;
 
 class Context extends \Magento\Catalog\Model\Layer\Context
 {
