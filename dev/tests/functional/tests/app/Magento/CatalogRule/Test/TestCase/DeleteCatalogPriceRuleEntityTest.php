@@ -50,7 +50,6 @@ class DeleteCatalogPriceRuleEntityTest extends Injectable
      *
      * @param CatalogRuleIndex $catalogRuleIndex
      * @param CatalogRuleNew $catalogRuleNew
-     * @return array
      */
     public function __inject(
         CatalogRuleIndex $catalogRuleIndex,

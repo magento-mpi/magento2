@@ -82,11 +82,11 @@
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleSuccessDeleteMessage>
-    <assertCatalogPriceRuleIsNotPresentedInGrid module="Magento_CatalogRule">
+    <assertCatalogPriceRuleNotInGrid module="Magento_CatalogRule">
         <severeness>low</severeness>
         <require>
             <catalogPriceRuleOriginal class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
-    </assertCatalogPriceRuleIsNotPresentedInGrid>
+    </assertCatalogPriceRuleNotInGrid>
 </constraint>

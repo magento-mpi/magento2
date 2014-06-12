@@ -16,7 +16,7 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
  */
 class AssertCatalogPriceRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The rule has been deleted.';
+    const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
 
     /**
      * Constraint severeness
@@ -35,10 +35,10 @@ class AssertCatalogPriceRuleSuccessDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $pageCatalogRuleIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

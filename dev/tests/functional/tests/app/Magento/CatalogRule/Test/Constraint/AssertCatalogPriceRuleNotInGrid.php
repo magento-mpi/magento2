@@ -13,9 +13,9 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 
 /**
- * Class AssertCatalogPriceRuleIsNotPresentedInGrid
+ * Class AssertCatalogPriceRuleNotInGrid
  */
-class AssertCatalogPriceRuleIsNotPresentedInGrid extends AbstractConstraint
+class AssertCatalogPriceRuleNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
