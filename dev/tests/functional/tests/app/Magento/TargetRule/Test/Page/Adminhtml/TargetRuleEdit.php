@@ -6,12 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Page\Adminhtml; 
+namespace Magento\TargetRule\Test\Page\Adminhtml;
 
 use Mtf\Page\BackendPage; 
 
 /**
  * Class TargetRuleEdit
+ * Backend target rule edit page
  */
 class TargetRuleEdit extends BackendPage
 {
@@ -26,7 +27,7 @@ class TargetRuleEdit extends BackendPage
         ],
         'targetRuleForm' => [
             'name' => 'targetRuleForm',
-            'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\Form',
+            'class' => 'Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\TargetRuleForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -41,7 +42,7 @@ class TargetRuleEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\Form
+     * @return \Magento\TargetRule\Test\Block\Adminhtml\Targetrule\Edit\TargetRuleForm
      */
     public function getTargetRuleForm()
     {

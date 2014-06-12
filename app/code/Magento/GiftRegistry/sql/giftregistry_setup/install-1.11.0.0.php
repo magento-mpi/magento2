@@ -135,9 +135,6 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Label'
 )->addIndex(
-    $installer->getIdxName('magento_giftregistry_label', array('type_id')),
-    array('type_id')
-)->addIndex(
     $installer->getIdxName('magento_giftregistry_label', array('store_id')),
     array('store_id')
 )->addForeignKey(

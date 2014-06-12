@@ -102,8 +102,8 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::__construct
-     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
+     * @covers \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeService::__construct
+     * @covers \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeService::addAttribute
      */
     public function testAddAttribute()
     {
@@ -141,7 +141,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
+     * @covers \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeService::addAttribute
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Attribute set does not exist
      */
@@ -156,7 +156,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
+     * @covers \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeService::addAttribute
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Wrong attribute set id provided
      */
@@ -176,7 +176,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
+     * @covers \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeService::addAttribute
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Attribute group does not exist
      */
@@ -202,7 +202,7 @@ class AttributeServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Catalog\Service\V1\ProductAttributeSetAttributeService::addAttribute
+     * @covers \Magento\Catalog\Service\V1\Product\AttributeSet\AttributeService::addAttribute
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Attribute does not exist
      */
