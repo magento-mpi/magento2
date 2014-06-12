@@ -389,6 +389,13 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
                         $valueArr[] = $option['label'];
                     }
                 } elseif (isset($option['value'])) {
+                    if (is_array($option['value'])) {
+                        foreach ($option['value'] as $optionValue) {
+                            if ($optionValue['value'] == $value) {
+                                return $optionValue['label'];
+                            }
+                        }
+                    }
                     if ($option['value'] == $value) {
                         return $option['label'];
                     }

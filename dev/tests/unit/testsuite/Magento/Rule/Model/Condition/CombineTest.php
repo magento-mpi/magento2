@@ -23,15 +23,8 @@ class CombineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_contextMock = $this->getMock('Magento\Rule\Model\Condition\Context', [], [], '', false);
-
         $this->_objectManagerHelper = new ObjectManagerHelper($this);
-        $this->_combine = $this->_objectManagerHelper->getObject(
-            'Magento\Rule\Model\Condition\Combine',
-            [
-                'context' => $this->_contextMock
-            ]
-        );
+        $this->_combine = $this->_objectManagerHelper->getObject('Magento\Rule\Model\Condition\Combine');
     }
 
     /**
