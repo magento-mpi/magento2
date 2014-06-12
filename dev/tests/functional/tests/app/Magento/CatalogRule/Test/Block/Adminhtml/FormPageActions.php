@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\FormPageActions as PageActions;
 
 /**
@@ -32,7 +31,5 @@ class FormPageActions extends PageActions
     public function saveAndApply()
     {
         $this->_rootElement->find($this->saveAndApplyButton)->click();
-        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 }

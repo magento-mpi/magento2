@@ -80,8 +80,7 @@ class Curl extends Conditions implements CatalogRuleInterface
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception(
-                "Catalog Price Rule entity creating by curl handler"
-                . " was not successful! Response: $response"
+                "Catalog Price Rule entity creating by curl handler was not successful! Response: $response"
             );
         }
 
