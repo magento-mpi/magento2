@@ -9,9 +9,17 @@
         "phpmd/phpmd" : "1.4.*"
     },
     "autoload": {
-        "psr-4": {"Magento\\Setup\\": "module/Magento/Setup/src/"}
+        "psr-4": {
+            "Magento\\Setup\\": "module/Magento/Setup/src/",
+            "Magento\\Config\\": "module/Magento/Config/src/",
+            "Magento\\Install\\": "module/Magento/Install/src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Magento\\Setup\\Tests\\": "module/Magento/Setup/tests/" }
+        "psr-4": {
+            "Magento\\Setup\\Tests\\": "module/Magento/Setup/tests/",
+            "Magento\\Config\\Tests\\": "module/Magento/Config/tests/",
+            "Magento\\Install\\Tests\\": "module/Magento/Install/tests/"
+        }
     }
 }

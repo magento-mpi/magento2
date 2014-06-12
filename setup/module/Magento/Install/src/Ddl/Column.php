@@ -11,4 +11,4 @@ namespace Magento\Install\Ddl;
 class Column
 {
 
-} 
+}

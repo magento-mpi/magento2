@@ -22,7 +22,7 @@ class ByPatternTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($globResult));
 
         /** @var \Magento\Config\GlobWrapper $glob */
-        $resolver = new ByPattern($glob, $pattern, $path);
+        $resolver = new ByPattern($glob, $path, $pattern);
         $this->assertEquals($globResult, $resolver->get());
     }
 }
