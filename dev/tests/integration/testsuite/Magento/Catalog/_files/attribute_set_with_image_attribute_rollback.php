@@ -36,9 +36,3 @@ $attributeSetCollection->load();
 /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
 $attributeSet = $attributeSetCollection->fetchItem();
 $attributeSet->delete();
-
-
-
-
-
-

@@ -21,7 +21,6 @@ $data = [
     'sort_order' => 200,
 ];
 
-
 $attributeSet->setData($data);
 $attributeSet->validate();
 $attributeSet->save();
@@ -44,4 +43,3 @@ $attributeData = array(
 $attribute = $objectManager->create('\Magento\Catalog\Model\Entity\Attribute');
 $attribute->setData($attributeData);
 $attribute->save();
-
