@@ -154,7 +154,7 @@ class ReadService implements ReadServiceInterface
         $result = array();
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productFactory->create()->loadByAttribute('sku', $productSku);
-        if (!$product->getId()) {
+        if (!$product) {
             throw NoSuchEntityException::singleField('sku', $productSku);
         }
 

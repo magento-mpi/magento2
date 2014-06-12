@@ -165,4 +165,29 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertContains('small_image', $imageTypes);
         $this->assertContains('thumbnail', $imageTypes);
     }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode 404
+     */
+    public function testGetListForAbsentSku()
+    {
+        $productSku = 'absent_sku_' . time();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . urlencode($productSku) . '/media',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => 'catalogProductAttributeMediaReadServiceV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductAttributeMediaReadServiceV1GetList'
+            ]
+        ];
+
+        $requestData = [
+            'productSku' => $productSku
+        ];
+        $this->_webApiCall($serviceInfo, $requestData);
+    }
 }
