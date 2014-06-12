@@ -29,7 +29,7 @@
         </price_to>
         <tax_class_id>
             <selector>#tax_class_id</selector>
-            <input>multiselect</input>
+            <input>select</input>
         </tax_class_id>
     </fields>
 </mapping>

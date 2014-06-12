@@ -13,7 +13,7 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class Grid
- * Attribute grid
+ * Attribute grid of Product Attributes
  */
 class Grid extends AbstractGrid
 {

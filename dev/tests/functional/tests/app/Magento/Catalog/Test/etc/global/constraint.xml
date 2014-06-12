@@ -248,6 +248,9 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertCrossSellsProductsSection>
+    <assertNoCrossSellsProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
+    </assertNoCrossSellsProductsSection>
     <assertRelatedProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
         <require>
@@ -258,6 +261,9 @@
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
         </require>
     </assertRelatedProductsSection>
+    <assertNoRelatedProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
+    </assertNoRelatedProductsSection>
     <assertUpSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
         <require>
@@ -268,6 +274,9 @@
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
         </require>
     </assertUpSellsProductsSection>
+    <assertNoUpSellsProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
+    </assertNoUpSellsProductsSection>
     <assertCategorySaveMessage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategorySaveMessage>
@@ -277,4 +286,10 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
+    <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
+        </require>
+    </assertAbsenceDeleteAttributeButton>
 </constraint>

@@ -16,14 +16,14 @@ use Mtf\Util\XmlConverter;
 use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Form;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm as ParentForm;
 
 /**
  * Class ProductForm
  * Product creation form
  */
-class ProductForm extends Form
+class ProductForm extends ParentForm
 {
     /**
      * New attribute selector
@@ -31,7 +31,7 @@ class ProductForm extends Form
      * @var string
      */
     protected $newAttribute = 'body';
-//
+
     /**
      * New attribute frame selector
      *
@@ -45,6 +45,27 @@ class ProductForm extends Form
      * @var string
      */
     protected $productDetailsTab = '#product_info_tabs_product-details';
+
+    /**
+     * Choose affected attribute set dialog popup window
+     *
+     * @var string
+     */
+    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
+
+    /**
+     * Variations tab selector
+     *
+     * @var string
+     */
+    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
+
+    /**
+     * Variations wrapper selector
+     *
+     * @var string
+     */
+    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
 
     /**
      * @param Element $element
@@ -92,10 +113,10 @@ class ProductForm extends Form
     /**
      * Initialization categories before use in the form of
      *
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return void
      */
-    public function setCategory(CatalogCategoryEntity $category)
+    public function setCategory(CatalogCategory $category)
     {
         $this->category = $category;
     }
@@ -121,7 +142,6 @@ class ProductForm extends Form
             $this->browser->switchToFrame();
             $this->variationsFill($fixture->getConfigurableOptions());
         }
-
     }
 
     /**

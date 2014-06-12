@@ -8,13 +8,9 @@
 
 namespace Magento\TargetRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
 
 /**
  * Test Creation for CreateTargetRuleEntity
@@ -36,46 +32,8 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
  * @group Target_Rules_(MX)
  * @ZephyrId MAGETWO-24686
  */
-class CreateTargetRuleEntityTest extends Injectable
+class CreateTargetRuleEntityTest extends TargetRuleEntityTest
 {
-    /**
-     * @var TargetRuleIndex
-     */
-    protected $targetRuleIndex;
-
-    /**
-     * @var TargetRuleNew
-     */
-    protected $targetRuleNew;
-
-    /**
-     * @var TargetRuleEdit
-     */
-    protected $targetRuleEdit;
-
-    /**
-     * @var TargetRule
-     */
-    protected $targetRule;
-
-    /**
-     * Injection data
-     *
-     * @param TargetRuleIndex $targetRuleIndex
-     * @param TargetRuleNew $targetRuleNew
-     * @param TargetRuleEdit $targetRuleEdit
-     * @return void
-     */
-    public function __inject(
-        TargetRuleIndex $targetRuleIndex,
-        TargetRuleNew $targetRuleNew,
-        TargetRuleEdit $targetRuleEdit
-    ) {
-        $this->targetRuleIndex = $targetRuleIndex;
-        $this->targetRuleNew = $targetRuleNew;
-        $this->targetRuleEdit = $targetRuleEdit;
-    }
-
     /**
      * Run create TargetRule entity test
      *
@@ -106,52 +64,6 @@ class CreateTargetRuleEntityTest extends Injectable
         $this->targetRuleNew->getPageActions()->save();
 
         // Prepare data for tear down
-        $this->targetRule = $targetRule;
-    }
-
-    /**
-     * Get data for replace in variations
-     *
-     * @param CatalogProductSimple $product1
-     * @param CatalogProductSimple $product2
-     * @param CustomerSegment $customerSegment
-     * @return array
-     */
-    protected function getReplaceData(
-        CatalogProductSimple $product1,
-        CatalogProductSimple $product2,
-        CustomerSegment $customerSegment = null
-    ) {
-        $customerSegmentName = ($customerSegment && $customerSegment->hasData()) ? $customerSegment->getName() : '';
-        return [
-            'rule_information' => [
-                'customer_segment_ids' => [
-                    '%customer_segment%' => $customerSegmentName,
-                ],
-            ],
-            'products_to_match' => [
-                'conditions_serialized' => [
-                    '%category_1%' => $product1->getCategoryIds()[0]['id'],
-                ],
-            ],
-            'products_to_display' => [
-                'actions_serialized' => [
-                    '%category_2%' => $product2->getCategoryIds()[0]['id'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Clear data after test
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $filter = ['name' => $this->targetRule->getName()];
-        $this->targetRuleIndex->open();
-        $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
-        $this->targetRuleEdit->getPageActions()->delete();
+        $this->prepareTearDown($targetRule);
     }
 }

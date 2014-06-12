@@ -30,14 +30,13 @@ class AssertCartPriceRuleFreeShippingIsApplied extends AssertCartPriceRuleApplyi
      */
     protected function assert()
     {
-        preg_match('/\$(.*)$/', $this->checkoutCart->getTotalsBlock()->getChippingPrice(), $shippingPriceMatch);
-        $currentShippingPrice = $shippingPriceMatch[1];
+        $shippingPrice = $this->checkoutCart->getTotalsBlock()->getShippingPrice();
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $currentShippingPrice,
+            $shippingPrice,
             self::FREE_SHIPPING_PRICE,
-            'Current shipping price: \'' . $this->checkoutCart->getTotalsBlock()->getChippingPrice()
-            . '\' not equals with free shipping price: \'' . self::FREE_SHIPPING_PRICE . '\''
+            'Current shipping price: \'' . $shippingPrice
+                . '\' not equals with free shipping price: \'' . self::FREE_SHIPPING_PRICE . '\''
         );
     }
 

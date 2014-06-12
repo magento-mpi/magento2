@@ -448,6 +448,8 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'default_value' => 'Taxable Goods',
         'input' => 'select',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
