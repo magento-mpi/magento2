@@ -26,7 +26,7 @@ class CatalogProductAttributeNew extends BackendPage
         ],
         'attributeForm' => [
             'name' => 'attributeForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Form',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\AttributeForm',
             'locator' => '[id$="main-container"]',
             'strategy' => 'css selector',
         ],
@@ -41,7 +41,7 @@ class CatalogProductAttributeNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Form
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\AttributeForm
      */
     public function getAttributeForm()
     {

@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>salesRuleForm</name>
-        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form</class>
+        <class>Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

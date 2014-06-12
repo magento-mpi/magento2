@@ -33,7 +33,7 @@ class CatalogCategoryEdit extends BackendPage
         ],
         'editForm' => [
             'name' => 'editForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Edit\CategoryForm',
             'locator' => '#category-edit-container',
             'strategy' => 'css selector',
         ],
@@ -56,7 +56,7 @@ class CatalogCategoryEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Edit\CategoryForm
      */
     public function getEditForm()
     {

@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>editForm</name>
-        <class>Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit</class>
+        <class>Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\PromoForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
