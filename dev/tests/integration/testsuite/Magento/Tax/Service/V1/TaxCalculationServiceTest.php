@@ -20,57 +20,45 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     private $objectManager;
 
     /**
-     * Tax calculation model
+     * Tax calculation service
      *
-     * @var \Magento\Tax\Model\Calculation
+     * @var \Magento\Tax\Service\V1\TaxCalculationService
      */
-    private $calculator;
-
-    /**
-     * Tax configuration object
-     *
-     * @var \Magento\Tax\Model\Config
-     */
-    private $config;
-
-    /**
-     * Tax Helper
-     *
-     * @var \Magento\Tax\Helper\Data
-     */
-    private $helper;
+    private $taxCalculationService;
 
     /**
      * Tax Details Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxDetailsBuilder
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
      */
-    private $taxDetailsBuilder;
+    private $quoteDetailsBuilder;
 
     /**
      * Tax Details Item Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
      */
-    private $taxDetailsItemBuilder;
+    private $quoteDetailsItemBuilder;
 
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->calculator = $this
-            ->objectManager
-            ->create('Magento\Tax\Model\Calculation');
-        $this->config = $this
-            ->objectManager
-            ->create('Magento\Tax\Model\Config');
-        $this->helper = $this
-            ->objectManager
-            ->create('Magento\Tax\Helper\Data');
-        $this->taxDetailsBuilder = $this
-            ->objectManager
-            ->create('Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
-        $this->taxDetailsItemBuilder = $this
-            ->objectManager
-            ->create('Magento\Tax\Service\V1\data\TaxDetails\ItemBuilder');
+        $this->quoteDetailsBuilder = $this->objectManager
+            ->create('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
+        $this->quoteDetailsItemBuilder = $this->objectManager
+            ->create('Magento\Tax\Service\V1\data\QuoteDetails\ItemBuilder');
+        $this->taxCalculationService = $this->objectManager->get('\Magento\Tax\Service\V1\TaxCalculationService');
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Catalog/_files/products.php
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     * @magentoDataFixture Magento/Customer/_files/customer_group.php
+     */
+    public function testCalculateTaxUnitBased()
+    {
+
     }
 }
