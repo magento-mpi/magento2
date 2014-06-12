@@ -79,7 +79,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'name' => 'DownloadableProduct_%isolation%',
         'sku' => 'DownloadableProduct_%isolation%',
         'price' => '100',
-        'tax_class' => 'Taxable Goods',
+        'tax_class_id' => ['dataSet' => 'Taxable Goods'],
         'description' => 'This is description for downloadable product',
         'short_description' => 'This is short description for downloadable product',
         'quantity_and_stock_status_qty' => '1',
@@ -526,7 +526,8 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '2',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
