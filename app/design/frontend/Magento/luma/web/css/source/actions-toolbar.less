@@ -6,7 +6,7 @@
 //  * @license     {license_link}
 //  */
 
-.actions.toolbar {
+.actions-toolbar {
     > .primary,
     > .secondary {
         text-align: center;
@@ -31,7 +31,7 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .actions.toolbar {
+    .actions-toolbar {
         .actions-toolbar();
         > .primary,
         > .secondary {
@@ -43,7 +43,7 @@
         }
     }
     form {
-        .actions.toolbar {
+        .actions-toolbar {
             .column:not(.sidebar-main) &,
             .column:not(.sidebar-additional) & {
             }

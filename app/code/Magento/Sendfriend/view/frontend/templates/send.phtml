@@ -12,7 +12,7 @@
  */
 ?>
 <script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
-    <div class="actions toolbar">
+    <div class="actions-toolbar">
         <div class="secondary">
             <button type="button" id="btn-remove${_index_}" class="action remove"
                title="<?php echo $this->escapeJsQuote(__('Remove Email')) ?>"><span><?php echo $this->escapeJsQuote(__('Remove Email')) ?></span></button>
@@ -93,7 +93,7 @@
                 <span><?php echo __('Maximum %1 email addresses allowed.', $this->getMaxRecipients()) ?></span>
             </div>
         <?php endif; ?>
-        <div class="actions toolbar">
+        <div class="actions-toolbar">
             <div class="secondary">
             <?php if (1 < $this->getMaxRecipients()): ?>
                 <button type="button" id="add-recipient-button" class="action add">
@@ -102,7 +102,7 @@
             </div>
         </div>
     </fieldset>
-    <div class="actions toolbar">
+    <div class="actions-toolbar">
         <div class="primary">
             <button type="submit"
                     class="action submit primary"<?php if (!$this->canSend()): ?> disabled="disabled"<?php endif ?>>
