@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\Helper;
+namespace Magento\Paypal\Helper\Shortcut;
 use Magento\Catalog\Helper\ShortcutValidatorInterface;
 
-class ShortcutValidator implements ShortcutValidatorInterface
+class Validator implements ShortcutValidatorInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory
@@ -72,7 +72,7 @@ class ShortcutValidator implements ShortcutValidatorInterface
      * Checks visibility of context (cart or product page)
      *
      * @param string $paymentCode Payment method code
-     * @param $isInCatalog
+     * @param bool $isInCatalog
      * @return bool
      */
     public function isContextAvailable($paymentCode, $isInCatalog)
@@ -92,7 +92,7 @@ class ShortcutValidator implements ShortcutValidatorInterface
     /**
      * Check is product available depending on final price or type set(configurable)
      *
-     * @param $isInCatalog
+     * @param bool $isInCatalog
      * @return bool
      */
     public function isPriceOrSetAvailable($isInCatalog)
@@ -114,7 +114,7 @@ class ShortcutValidator implements ShortcutValidatorInterface
     /**
      * Сhecks payment method and quote availability
      *
-     * @param $paymentCode
+     * @param string $paymentCode
      * @return bool
      */
     public function isMethodAvailable($paymentCode)

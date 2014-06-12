@@ -35,16 +35,6 @@
             <argument name="proFactory" xsi:type="object">Magento\Paypal\Model\Payflow\ProFactory</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Block\ShortcutButtons">
-        <arguments>
-            <argument name="shortcutValidator" xsi:type="object">Magento\Paypal\Helper\ShortcutValidator</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Checkout\Block\QuoteShortcutButtons">
-        <arguments>
-            <argument name="shortcutValidator" xsi:type="object">Magento\Paypal\Helper\ShortcutCheckoutValidator</argument>
-        </arguments>
-    </type>
     <type name="Magento\Paypal\Block\Express\Shortcut">
         <arguments>
             <argument name="paymentMethodCode" xsi:type="const">Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS</argument>

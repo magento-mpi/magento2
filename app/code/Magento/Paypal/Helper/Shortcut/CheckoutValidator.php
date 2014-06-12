@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paypal\Helper;
+namespace Magento\Paypal\Helper\Shortcut;
 use Magento\Catalog\Helper\ShortcutValidatorInterface;
 
-class ShortcutCheckoutValidator implements ShortcutValidatorInterface
+class CheckoutValidator implements ShortcutValidatorInterface
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -28,12 +28,12 @@ class ShortcutCheckoutValidator implements ShortcutValidatorInterface
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param ShortcutValidator $shortcutValidator
+     * @param Validator $shortcutValidator
      * @param \Magento\Payment\Helper\Data $paymentData
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        ShortcutValidator $shortcutValidator,
+        Validator $shortcutValidator,
         \Magento\Payment\Helper\Data $paymentData
     ) {
         $this->_checkoutSession = $checkoutSession;

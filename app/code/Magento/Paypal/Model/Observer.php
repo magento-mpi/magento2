@@ -66,6 +66,11 @@ class Observer
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Paypal\Helper\Shortcut\Factory
+     */
+    protected $_shortcutFactory;
+
+    /**
      * Shortcut template path
      */
     const SHORTCUT_TEMPLATE = 'express/shortcut.phtml';
@@ -80,6 +85,7 @@ class Observer
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Paypal\Helper\Shortcut\Factory $shortcutFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -90,7 +96,8 @@ class Observer
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Paypal\Helper\Shortcut\Factory $shortcutFactory
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
@@ -101,6 +108,7 @@ class Observer
         $this->_authorization = $authorization;
         $this->_agreementFactory = $agreementFactory;
         $this->_checkoutSession = $checkoutSession;
+        $this->_shortcutFactory = $shortcutFactory;
     }
 
     /**
@@ -251,12 +259,12 @@ class Observer
             'Magento\Paypal\Block\Payflow\Bml\Shortcut'
         ];
         foreach ($blocks as $blockInstanceName) {
-            $params = [
-                'shortcutValidator' => $shortcutButtons->getValidator()
-            ];
             if (!in_array('Bml', explode('/', $blockInstanceName))) {
                 $params['checkoutSession'] = $observer->getEvent()->getCheckoutSession();
             }
+            $params = [
+                'shortcutValidator' => $this->_shortcutFactory($observer->getEvent()->getCheckoutSession())
+            ];
 
             // we believe it's \Magento\Framework\View\Element\Template
             $shortcut = $shortcutButtons->getLayout()->createBlock(

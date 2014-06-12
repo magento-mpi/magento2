@@ -103,6 +103,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'PAYFLOWCOLOR' => 'payflowcolor',
         'LOCALECODE' => 'locale_code',
         'PAL' => 'pal',
+        'USERSELECTEDFUNDINGSOURCE' => 'funding_source',
 
         // transaction info
         'TRANSACTIONID' => 'transaction_id',
@@ -258,7 +259,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'ITEMAMT',
         'SHIPPINGAMT',
         'TAXAMT',
-        'REQBILLINGADDRESS'
+        'REQBILLINGADDRESS',
+        'USERSELECTEDFUNDINGSOURCE'
     );
 
     /**
