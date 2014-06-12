@@ -11,6 +11,7 @@ namespace Magento\Webapi\Controller;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\AuthenticationException;
+use Magento\Webapi\Exception;
 use Magento\Webapi\Exception as HttpException;
 
 /**
@@ -56,15 +57,21 @@ class Login extends \Magento\Framework\App\Action\Action
     /**
      * Login registered users and initiate a session. Send back the session id.
      *
-     * Expects a POST in the form of {"username":"adugar@ebay.com", "password":"Welcome@1"}
+     * Expects a POST. ex for JSON  {"username":"user@magento.com", "password":"userpassword"}
      */
     public function indexAction()
     {
         $contentTypeHeaderValue = $this->getRequest()->getHeader('Content-Type');
         $contentType = $this->getContentType($contentTypeHeaderValue);
-        $loginData = $this->deserializerFactory
-            ->get($contentType)
-            ->deserialize($this->getRequest()->getRawBody());
+        $loginData = null;
+        try {
+            $loginData = $this->deserializerFactory
+                ->get($contentType)
+                ->deserialize($this->getRequest()->getRawBody());
+        } catch (Exception $e) {
+            $this->getResponse()->setHttpResponseCode($e->getCode());
+            return;
+        }
         if (!$loginData || $this->getRequest()->getMethod() !== \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
             $this->getResponse()->setHttpResponseCode(HttpException::HTTP_BAD_REQUEST);
             return;
@@ -79,7 +86,7 @@ class Login extends \Magento\Framework\App\Action\Action
         $this->session->start('frontend');
         $this->session->setUserId($customerData->getId());
         $this->session->setUserType(UserIdentifier::USER_TYPE_CUSTOMER);
-        $this->getResponse()->setBody($this->session->regenerateId(true)->getSessionId());
+        $this->session->regenerateId(true);
     }
 
     /**
@@ -90,7 +97,7 @@ class Login extends \Magento\Framework\App\Action\Action
         $this->session->start('frontend');
         $this->session->setUserId(0);
         $this->session->setUserType(UserIdentifier::USER_TYPE_GUEST);
-        $this->getResponse()->setBody($this->session->regenerateId(true)->getSessionId());
+        $this->session->regenerateId(true);
     }
 
     /**
