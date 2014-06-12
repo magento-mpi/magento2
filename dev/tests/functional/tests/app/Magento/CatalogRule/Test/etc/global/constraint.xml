@@ -85,7 +85,7 @@
     <assertCatalogPriceRuleNotInGrid module="Magento_CatalogRule">
         <severeness>low</severeness>
         <require>
-            <catalogPriceRuleOriginal class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
+            <catalogPriceRule class="Magento\CatalogRule\Test\Fixture\CatalogRule"/>
             <pageCatalogRuleIndex class="Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex"/>
         </require>
     </assertCatalogPriceRuleNotInGrid>

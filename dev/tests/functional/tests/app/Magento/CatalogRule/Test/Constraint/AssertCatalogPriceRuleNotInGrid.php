@@ -27,17 +27,17 @@ class AssertCatalogPriceRuleNotInGrid extends AbstractConstraint
     /**
      * Assert that Catalog Price Rule is not presented in grid and cannot be found using ID, Rule name
      *
-     * @param CatalogRule $catalogPriceRuleOriginal
+     * @param CatalogRule $catalogPriceRule
      * @param CatalogRuleIndex $pageCatalogRuleIndex
      * @return void
      */
     public function processAssert(
-        CatalogRule $catalogPriceRuleOriginal,
+        CatalogRule $catalogPriceRule,
         CatalogRuleIndex $pageCatalogRuleIndex
     ) {
         $filter = [
-            'rule_id' => $catalogPriceRuleOriginal->getId(),
-            'name' => $catalogPriceRuleOriginal->getName(),
+            'rule_id' => $catalogPriceRule->getId(),
+            'name' => $catalogPriceRule->getName(),
         ];
         $pageCatalogRuleIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
