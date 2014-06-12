@@ -20,46 +20,46 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $mockedEavConfig;
+    private $eavConfig;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $mockedAttributeCollectionFactory;
+    private $attributeCollectionFactory;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $mockedAttributeCollection;
+    private $attributeCollection;
 
     /**
      * @var \Magento\Eav\Model\Entity\Attribute|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $mockedAttribute;
+    private $attribute;
 
     protected function setUp()
     {
-        $this->mockedEavConfig = $this->getMockBuilder('Magento\Eav\Model\Config')
+        $this->eavConfig = $this->getMockBuilder('Magento\Eav\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockedAttributeCollection = $this->getMockBuilder(
+        $this->attributeCollection = $this->getMockBuilder(
             '\Magento\Catalog\Model\Resource\Product\Attribute\Collection'
         )
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->mockedAttributeCollectionFactory = $this->getMockBuilder(
+        $this->attributeCollectionFactory = $this->getMockBuilder(
             'Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory'
         )
             ->setMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->mockedAttributeCollectionFactory->expects($this->any())->method('create')->will(
-            $this->returnValue($this->mockedAttributeCollection)
+        $this->attributeCollectionFactory->expects($this->any())->method('create')->will(
+            $this->returnValue($this->attributeCollection)
         );
 
-        $this->mockedAttribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute')
+        $this->attribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -67,8 +67,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->model = $helper->getObject(
             'Magento\Catalog\Model\Config\CatalogClone\Media\Image',
             [
-                'eavConfig' => $this->mockedEavConfig,
-                'attributeCollectionFactory' => $this->mockedAttributeCollectionFactory
+                'eavConfig' => $this->eavConfig,
+                'attributeCollectionFactory' => $this->attributeCollectionFactory
             ]
         );
     }
@@ -76,40 +76,40 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testGetPrefixes()
     {
         $entityTypeId = 3;
-        /** @var \Magento\Eav\Model\Entity\Type|\PHPUnit_Framework_MockObject_MockObject $mockedEntityType */
-        $mockedEntityType = $this->getMockBuilder('Magento\Eav\Model\Entity\Type')
+        /** @var \Magento\Eav\Model\Entity\Type|\PHPUnit_Framework_MockObject_MockObject $entityType */
+        $entityType = $this->getMockBuilder('Magento\Eav\Model\Entity\Type')
             ->disableOriginalConstructor()
             ->getMock();
-        $mockedEntityType->expects($this->once())->method('getId')->will($this->returnValue($entityTypeId));
+        $entityType->expects($this->once())->method('getId')->will($this->returnValue($entityTypeId));
 
-        /** @var \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\PHPUnit_Framework_MockObject_MockObject $mockedFrontend */
-        $mockedFrontend = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend')
+        /** @var \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\PHPUnit_Framework_MockObject_MockObject $frontend */
+        $frontend = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend')
             ->setMethods(['getLabel'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $mockedFrontend->expects($this->once())->method('getLabel')->will($this->returnValue('testLabel'));
+        $frontend->expects($this->once())->method('getLabel')->will($this->returnValue('testLabel'));
 
-        $this->mockedAttributeCollection->expects($this->once())->method('setEntityTypeFilter')->with(
+        $this->attributeCollection->expects($this->once())->method('setEntityTypeFilter')->with(
             $this->equalTo($entityTypeId)
         );
-        $this->mockedAttributeCollection->expects($this->once())->method('setFrontendInputTypeFilter')->with(
+        $this->attributeCollection->expects($this->once())->method('setFrontendInputTypeFilter')->with(
             $this->equalTo('media_image')
         );
 
-        $this->mockedAttribute->expects($this->once())->method('getAttributeCode')->will(
+        $this->attribute->expects($this->once())->method('getAttributeCode')->will(
             $this->returnValue('attributeCode')
         );
-        $this->mockedAttribute->expects($this->once())->method('getFrontend')->will(
-            $this->returnValue($mockedFrontend)
+        $this->attribute->expects($this->once())->method('getFrontend')->will(
+            $this->returnValue($frontend)
         );
 
-        $this->mockedAttributeCollection->expects($this->any())->method('getIterator')->will(
-            $this->returnValue(new \ArrayIterator([$this->mockedAttribute]))
+        $this->attributeCollection->expects($this->any())->method('getIterator')->will(
+            $this->returnValue(new \ArrayIterator([$this->attribute]))
         );
 
-        $this->mockedEavConfig->expects($this->any())->method('getEntityType')->with(
+        $this->eavConfig->expects($this->any())->method('getEntityType')->with(
             $this->equalTo(Product::ENTITY)
-        )->will($this->returnValue($mockedEntityType));
+        )->will($this->returnValue($entityType));
 
         $this->assertEquals([['field' => 'attributeCode_', 'label' => 'testLabel']], $this->model->getPrefixes());
     }
