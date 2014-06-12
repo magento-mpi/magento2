@@ -39,11 +39,12 @@ Magento/Sales/Model/Resource/Helper
 Magento/Sales/Model/Resource/Order
 Magento/Sales/Model/Service/Quote
 Magento/Catalog/Block/Product
-Magento/Catalog/Model/ImportExport
 Magento/Catalog/Model/Resource/Product
 Magento/Catalog/Model/Layer
 Magento/Catalog/Model/Layer/Search.php
 Magento/Catalog/Model/Layer/Category.php
+Magento/CatalogImportExport/Model/Export
+Magento/CatalogImportExport/Model/Import
 Magento/CatalogRule/Block/Adminhtml/Promo/Catalog/Edit/Tab
 Magento/Checkout/Block/Onepage
 Magento/Cms/Block/Adminhtml/Page/Edit
