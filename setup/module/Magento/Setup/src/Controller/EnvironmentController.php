@@ -41,8 +41,8 @@ class EnvironmentController extends AbstractActionController
      */
     public function indexAction()
     {
+        $this->view->setVariable('modules', $this->moduleList->getModules());
         $this->view->setTerminal(true);
-
         return $this->view;
     }
 }
