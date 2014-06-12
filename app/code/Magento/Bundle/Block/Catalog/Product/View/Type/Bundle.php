@@ -23,6 +23,17 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     const TOTAL_ROUNDING = 2;
 
     /**
+     * Mapping between constants in \Magento\Tax\Model\Calculation and this class
+     *
+     * @var array
+     */
+    protected $mapping = [
+        Calculation::CALC_UNIT_BASE => self::UNIT_ROUNDING,
+        Calculation::CALC_ROW_BASE => self::ROW_ROUNDING,
+        Calculation::CALC_TOTAL_BASE => self::TOTAL_ROUNDING,
+    ];
+
+    /**
      * @var array
      */
     protected $_options;
@@ -307,12 +318,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     public function getRoundingMethod()
     {
         $algorithm = $this->_taxData->getCalculationAgorithm();
-        if ($algorithm == Calculation::CALC_UNIT_BASE) {
-            return self::UNIT_ROUNDING;
-        } elseif ($algorithm == Calculation::CALC_ROW_BASE) {
-            return self::ROW_ROUNDING;
-        } else {
-            return self::TOTAL_ROUNDING;
-        }
+        return isset($this->mapping[$algorithm]) ? $this->mapping[$algorithm] : self::TOTAL_ROUNDING;
     }
 }

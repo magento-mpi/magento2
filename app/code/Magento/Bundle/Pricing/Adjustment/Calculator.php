@@ -233,19 +233,6 @@ class Calculator implements BundleCalculatorInterface
     }
 
     /**
-     * Get tax rounding method.
-     * This is needed to determine whether each selection price should be rounded first before
-     * adding them together to get bundle price.
-     *
-     * @param Store $store
-     * @return string
-     */
-    protected function getRoundingMethod(Store $store = null)
-    {
-        return $this->taxHelper->getCalculationAgorithm($store);
-    }
-
-    /**
      * Calculate amount for dynamic bundle product
      *
      * @param float $basePriceValue
@@ -265,7 +252,7 @@ class Calculator implements BundleCalculatorInterface
         }
         /** @var  Store $store */
         $store = $bundleProduct->getStore();
-        $roundingMethod = $this->getRoundingMethod($store);
+        $roundingMethod = $this->taxHelper->getCalculationAgorithm($store);
         /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
         foreach ($amountList as $itemAmount) {
             if ($roundingMethod != TaxCalculation::CALC_TOTAL_BASE) {

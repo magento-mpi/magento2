@@ -71,7 +71,6 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->saleableItem->expects($this->any())->method('getPriceInfo')->will($this->returnValue($priceInfo));
 
         $store = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->setMethods(['roundPrice', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
         $store->expects($this->any())->method('roundPrice')->will($this->returnArgument(0));
@@ -97,7 +96,6 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
 
         $this->taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
-            ->setMethods(['getCalculationAgorithm'])
             ->disableOriginalConstructor()
             ->getMock();
 
