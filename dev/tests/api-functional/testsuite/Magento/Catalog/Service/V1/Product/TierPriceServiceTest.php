@@ -122,8 +122,8 @@ class TierPriceServiceTest extends WebapiAbstract
         $service = $objectManager->get('\Magento\Catalog\Service\V1\Product\TierPriceServiceInterface');
         $prices = $service->getList($productSku, 1);
         $this->assertCount(1, $prices);
-        $this->assertEquals(10, $prices[2]->getValue());
-        $this->assertEquals(50, $prices[2]->getQty());
+        $this->assertEquals(10, $prices[0]->getValue());
+        $this->assertEquals(50, $prices[0]->getQty());
     }
 
     /**
@@ -158,7 +158,7 @@ class TierPriceServiceTest extends WebapiAbstract
         $service = $objectManager->get('\Magento\Catalog\Service\V1\Product\TierPriceServiceInterface');
         $prices = $service->getList($productSku, 'all');
         $this->assertCount(3, $prices);
-        $this->assertEquals(20, (int)$prices[0]->getValue());
-        $this->assertEquals(50, (int)$prices[0]->getQty());
+        $this->assertEquals(20, (int)$prices[2]->getValue());
+        $this->assertEquals(50, (int)$prices[2]->getQty());
     }
 }
