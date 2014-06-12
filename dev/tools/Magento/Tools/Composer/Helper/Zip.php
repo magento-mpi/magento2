@@ -26,38 +26,44 @@ class Zip
     {
         $noOfZips = 0;
 
-        if (!extension_loaded('zip') || !file_exists($source)) {
-            return $noOfZips;
-        }
-
-        $zip = new \ZipArchive();
-        if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
-            return $noOfZips;
-        }
-
-        if (is_dir($source) === true) {
-            $files = Zip::getFiles($source, $excludes);
-            $noOfZips += sizeof($files);
-            foreach ($files as $file) {
-                $file = str_replace('\\', '/', realpath($file));
-                if ( in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
-                    continue;
-                }
-                if (is_dir($file) === true) {
-                    $str = str_replace($source . '/', '', $file . '/');
-                    $zip->addEmptyDir($str);
-                } else if (is_file($file) === true) {
-                    $str = str_replace($source . '/', '', $file);
-                    $zip->addFromString($str, file_get_contents($file));
-                }
+        try{
+            if (!extension_loaded('zip') || !file_exists($source)) {
+                throw new \Exception("Error while ziiping.", "1");
             }
-        } else if (is_file($source) === true) {
-            $zip->addFromString(basename($source), file_get_contents($source));
-            $noOfZips++;
-        }
 
-        $zip->close();
-        return $noOfZips;
+            $zip = new \ZipArchive();
+            if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
+                throw new \Exception("Error while ziiping.", "1");
+            }
+
+            if (is_dir($source) === true) {
+                $files = Zip::getFiles($source, $excludes);
+                foreach ($files as $file) {
+                    $file = str_replace('\\', '/', realpath($file));
+                    if ( in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
+                        continue;
+                    }
+                    $relativePath = str_replace($source . '/', '', $file);
+                    if (is_dir($file) === true) {
+                        $relativePath .= '/';
+                        $zip->addEmptyDir($relativePath);
+                    } else if (is_file($file) === true) {
+                        $zip->addFromString($relativePath, file_get_contents($file));
+                    } else {
+                        throw new \Exception("The path $file is not a directory or file!", "1");
+                    }
+                }
+                $noOfZips += sizeof($files);
+            } else if (is_file($source) === true) {
+                $zip->addFromString(basename($source), file_get_contents($source));
+                $noOfZips++;
+            }
+
+            $zip->close();
+            return $noOfZips;
+        } catch(\Exception $e) {
+            exit($e->getMessage());
+        }
     }
 
     /**

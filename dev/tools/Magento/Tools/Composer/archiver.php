@@ -93,16 +93,12 @@ try {
             if (is_file($file) === true) {
                 if (strpos(\basename($file), '.json')) {
                     $foundComposerJson = true;
-                    $info = array(
-                        "name" => "",
-                        "version" => "",
-                    );
-                    JsonParser::parseJsonFiles($file, $info);
-                    $name = Converter::vendorPackagetoName($info["name"]);
+                    $json = json_decode(file_get_contents($file));
+                    $name = Converter::vendorPackagetoName($json->name);
                     $noOfZips += Zip::Zip(\dirname($file),
-                        $generationDir . "/" . $name . "-". $info["version"] . ".zip", $excludes);
-                    $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $info["name"],
-                        $info["version"]));
+                        $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes);
+                    $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name,
+                        $json->version));
                 }
             }
         }
@@ -121,15 +117,11 @@ try {
     );
 
     if (file_exists (str_replace('\\', '/', realpath(BP)) . "/composer.json")) {
-        $info = array(
-            "name" => "",
-            "version" => "",
-        );
-        JsonParser::parseJsonFiles(str_replace('\\', '/', realpath(BP)) . "/composer.json", $info);
-        $name = Converter::vendorPackagetoName($info["name"]);
+        $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . "/composer.json"));
+        $name = Converter::vendorPackagetoName($json->name);
         $noOfZips += Zip::Zip(str_replace('\\', '/', realpath(BP)),
-            $generationDir . "/" . $name . "-". $info["version"] . ".zip", $excludes);
-        $logger->debug(sprintf("Created zip archive for %-40s [%9s]", $info["name"], $info["version"]));
+            $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes);
+        $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name, $json->version));
     } else {
         throw new \Exception("Did not find the composer.json file in ". str_replace('\\', '/', realpath(BP)), "1");
     }
@@ -137,11 +129,9 @@ try {
     $logger->info(sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
         $generationDir));
 
-}
-catch (\Zend_Console_Getopt_Exception $e) {
+} catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
     exit($e->getMessage());
 }
 
