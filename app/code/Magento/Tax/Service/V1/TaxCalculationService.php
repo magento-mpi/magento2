@@ -159,7 +159,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                     $processedChildren[] = $this->processItem($keyedItems[$childCode], $addressRequest, $storeId);
                     $calculated[] = $childCode;
                 }
-                $processedItemBuilder = $this->calculateParent($processedChildren);
+                $processedItemBuilder = $this->calculateParent($processedChildren, $item->getQuantity());
                 $processedItemBuilder->setCode($item->getCode());
                 $processedItemBuilder->setType($item->getType());
                 $processedItem = $processedItemBuilder->create();
@@ -444,14 +444,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * Calculate row information for item based on children calculation
      *
      * @param TaxDetailsItem[] $children
+     * @param int $quantity
      * @return TaxDetailsItemBuilder
      */
-    protected function calculateParent($children)
+    protected function calculateParent($children, $quantity)
     {
         $parentBuilder = $this->taxDetailsItemBuilder->populateWithArray([]);
 
-        $price = 0.00;
-        $priceInclTax = 0.00;
         $rowTotal = 0.00;
         $rowTotalInclTax = 0.00;
         $taxAmount = 0.00;
@@ -460,8 +459,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $discountTaxCompensationAmount = 0.00;
 
         foreach ($children as $child) {
-            $price += $child->getPrice();
-            $priceInclTax += $child->getPriceInclTax();
             $rowTotal += $child->getRowTotal();
             $rowTotalInclTax += $child->getRowTotalInclTax();
             $taxAmount += $child->getTaxAmount();
@@ -469,6 +466,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $discountAmount += $child->getDiscountAmount();
             $discountTaxCompensationAmount += $child->getDiscountTaxCompensationAmount();
         }
+
+        $price = $rowTotal / $quantity;
+        $priceInclTax = $rowTotalInclTax / $quantity;
 
         $parentBuilder->setPrice($price);
         $parentBuilder->setPriceInclTax($priceInclTax);
