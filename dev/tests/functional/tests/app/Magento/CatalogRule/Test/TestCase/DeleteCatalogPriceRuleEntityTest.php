@@ -50,6 +50,7 @@ class DeleteCatalogPriceRuleEntityTest extends Injectable
      *
      * @param CatalogRuleIndex $catalogRuleIndex
      * @param CatalogRuleNew $catalogRuleNew
+     * @return void
      */
     public function __inject(
         CatalogRuleIndex $catalogRuleIndex,
@@ -62,17 +63,17 @@ class DeleteCatalogPriceRuleEntityTest extends Injectable
     /**
      * Delete Catalog Price Rule test
      *
-     * @param CatalogRule $catalogPriceRuleOriginal
+     * @param CatalogRule $catalogPriceRule
      * @return void
      */
-    public function testDeleteCatalogPriceRule(CatalogRule $catalogPriceRuleOriginal)
+    public function testDeleteCatalogPriceRule(CatalogRule $catalogPriceRule)
     {
-        //Precondition
-        $catalogPriceRuleOriginal->persist();
+        // Precondition
+        $catalogPriceRule->persist();
 
         $filter = [
-            'name' => $catalogPriceRuleOriginal->getName(),
-            'rule_id' => $catalogPriceRuleOriginal->getId()
+            'name' => $catalogPriceRule->getName(),
+            'rule_id' => $catalogPriceRule->getId()
         ];
         // Steps
         $this->catalogRuleIndex->open();
