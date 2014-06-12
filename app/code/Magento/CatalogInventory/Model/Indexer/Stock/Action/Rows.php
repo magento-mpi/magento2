@@ -30,7 +30,6 @@ class Rows extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
         }
         try {
             $this->_reindexRows($ids);
-            $this->_logger->log('Rows reindex for products - ' . implode(",", $ids) . '');
         } catch (\Exception $e) {
             throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
         }
