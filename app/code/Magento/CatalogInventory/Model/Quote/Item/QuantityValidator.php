@@ -70,7 +70,7 @@ class QuantityValidator
         $parentStockItem = false;
 
         /**
-         * Check if product in stock. For composite products check base (parent) item stosk status
+         * Check if product in stock. For composite products check base (parent) item stock status
          */
         if ($quoteItem->getParentItem()) {
             $parentStockItem = $this->stockItemFactory->create()
@@ -129,6 +129,7 @@ class QuantityValidator
             }
 
             foreach ($options as $option) {
+
                 $result = $this->optionInitializer->initialize($option, $quoteItem, $qty);
                 if ($result->getHasError()) {
                     $option->setHasError(true);
