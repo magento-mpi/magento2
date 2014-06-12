@@ -19,7 +19,6 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Form;
 
-
 /**
  * Class ProductForm
  * Product creation form

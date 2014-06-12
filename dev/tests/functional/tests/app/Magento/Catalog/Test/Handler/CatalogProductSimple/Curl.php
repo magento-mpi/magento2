@@ -32,6 +32,18 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Yes' => 1,
             'No' => 0
         ],
+        'use_config_enable_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'use_config_qty_increments' => [
+            'Yes' => 1,
+            'No' => 0
+        ],
+        'is_in_stock' => [
+            'In Stock' => 1,
+            'Out of Stock' => 0
+        ],
         'is_virtual' => [
             'Yes' => 1
         ],
@@ -49,6 +61,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Search' => 3,
             'Catalog, Search' => 4
         ],
+        'tax_class_id' => [
+            'None' => 0,
+            'Taxable Goods' => 2
+        ],
         'website_ids' => [
             'Main Website' => 1
         ],
@@ -64,7 +80,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     /**
      * Post request for creating simple product
      *
-     * @param FixtureInterface $fixture [optional]
+     * @param FixtureInterface $fixture
      * @return array
      * @throws \Exception
      */
@@ -74,7 +90,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         // @todo remove "if" when fixtures refactored
         if ($fixture instanceof InjectableFixture) {
-            $fields = $this->replacePlaceholder($fixture->getData(), $this->placeholderData);
+            $fields = $this->prepareStockData($this->replacePlaceholder($fixture->getData()));
             // Getting Tax class id
             if ($fixture->hasData('tax_class_id')) {
                 $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
@@ -85,12 +101,11 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {
                 $categoryIds = [];
-                foreach ($fields['category_ids'] as $categoryData ) {
+                foreach ($fields['category_ids'] as $categoryData) {
                     $categoryIds[] = $categoryData['id'];
                 }
                 $fields['category_ids'] = $categoryIds;
             }
-
             $data = $prefix ? [$prefix => $fields] : $fields;
         } else {
             $data = $this->_prepareData($fixture->getData('fields'), $prefix);
@@ -139,37 +154,24 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * Replace placeholder data in fixture data
      *
      * @param array $data
-     * @param array $placeholders
      * @return array
      */
-    private function replacePlaceholder(array $data, array $placeholders)
+    protected function replacePlaceholder(array $data)
     {
-        foreach ($data as $key => $value) {
-            if (!isset($placeholders[$key])) {
-                continue;
+        array_walk_recursive(
+            $data,
+            function (&$item, $key, $placeholder) {
+                $item = isset($placeholder[$key][$item]) ? $placeholder[$key][$item] : $item;
+            },
+            $this->placeholderData
+        );
+        if (!empty($data['website_ids'])) {
+            foreach ($data['website_ids'] as &$value) {
+                $value = isset($this->placeholderData['website_ids'][$value])
+                    ? $this->placeholderData['website_ids'][$value]
+                    : $value;
             }
-            if (is_array($value)) {
-                $data[$key] = $this->replacePlaceholderValues($value, $placeholders[$key]);
-            } else {
-                $data[$key] = isset($placeholders[$key][$value]) ? $placeholders[$key][$value] : $value;
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * Replace placeholder data in fixture values
-     *
-     * @param array $data
-     * @param array $placeholders
-     * @return array
-     */
-    private function replacePlaceholderValues(array $data, array $placeholders)
-    {
-        foreach ($data as $key => $value) {
-            if (isset($placeholders[$value])) {
-                $data[$key] = $placeholders[$value];
-            }
+            unset($value);
         }
         return $data;
     }

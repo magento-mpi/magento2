@@ -22,6 +22,24 @@
             <default_value></default_value>
             <input>text</input>
         </category_ids>
+        <configurable_attributes_data>
+            <attribute_code>configurable_attributes_data</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>
+            <input>variations</input>
+            <group>variations</group>
+            <dependence>variations_matrix</dependence>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData</source>
+        </configurable_attributes_data>
+        <variations_matrix>
+            <attribute_code>variations_matrix</attribute_code>
+            <backend_type>virtual</backend_type>
+            <is_required>0</is_required>
+            <input>variations</input>
+            <group>variations</group>
+            <dependence>configurable_options</dependence>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\VariationsMatrix</source>
+        </variations_matrix>
         <color>
             <attribute_code>color</attribute_code>
             <backend_type>int</backend_type>
@@ -106,7 +124,7 @@
             <default_value></default_value>
             <input>text</input>
             <group>advanced-pricing</group>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions</fixture>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions</source>
         </group_price>
         <has_options>
             <attribute_code>has_options</attribute_code>
@@ -249,7 +267,7 @@
             <default_value></default_value>
             <input>price</input>
             <group>product_info_tabs_product-details</group>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</fixture>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\Price</source>
         </price>
         <quantity_and_stock_status>
             <attribute_code>quantity_and_stock_status</attribute_code>
@@ -424,21 +442,22 @@
             <backend_type>virtual</backend_type>
             <group>product_info_tabs_customer_options</group>
             <is_required>0</is_required>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
         </custom_options>
         <configurable_options>
             <attribute_code>configurable_options</attribute_code>
             <backend_type>virtual</backend_type>
             <group>product-details</group>
             <is_required>0</is_required>
-            <fixture>Magento\ConfigurableProducts\Test\Fixture\CatalogProductConfigurable\ConfigurableOptions</fixture>
+            <dependence>attribute_options</dependence>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableOptions</source>
         </configurable_options>
         <attribute_options>
-            <attribute_code>configurable_options</attribute_code>
+            <attribute_code>attribute_options</attribute_code>
             <backend_type>virtual</backend_type>
             <group>product-details</group>
             <is_required>0</is_required>
-            <fixture>Magento\ConfigurableProducts\Test\Fixture\CatalogProductConfigurable\AttributeOptions</fixture>
+            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\AttributeOptions</source>
         </attribute_options>
     </fields>
     <data_set>

@@ -16,6 +16,7 @@ use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductBundle
+ * Fixture for Bundle product
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -27,7 +28,7 @@ class CatalogProductBundle extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Bundle\Test\Handler\CatalogProductBundle\CatalogProductBundleInterface';
+    protected $handlerInterface = 'Magento\Bundle\Test\Handler\CatalogProductBundleInterface';
 
     /**
      * Constructor
@@ -50,9 +51,6 @@ class CatalogProductBundle extends InjectableFixture
         $dataSet = '',
         $persist = false
     ) {
-        if (!isset($data['url_key']) && isset($data['name'])) {
-            $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
-        }
         parent::__construct(
             $configuration,
             $repositoryFactory,
@@ -62,6 +60,10 @@ class CatalogProductBundle extends InjectableFixture
             $dataSet,
             $persist
         );
+
+        if (!isset($this->data['url_key']) && isset($this->data['name'])) {
+            $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
+        }
     }
 
     protected $dataConfig = [
@@ -73,14 +75,10 @@ class CatalogProductBundle extends InjectableFixture
     ];
 
     protected $defaultDataSet = [
-        'enable_googlecheckout' => null,
-        'msrp_display_actual_price_type' => null,
-        'msrp_enabled' => null,
-        'options_container' => null,
-        'quantity_and_stock_status' => null,
-        'status' => null,
-        'tax_class_id' => null,
-        'visibility' => null,
+        'name' => 'BundleProduct %isolation%',
+        'sku_type' => 'Dynamic',
+        'price_type' => 'Dynamic',
+        'weight_type' => 'Dynamic',
     ];
 
     protected $category_ids = [
@@ -89,6 +87,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $country_of_manufacture = [
@@ -145,6 +144,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'textarea',
+        'group' => 'product-details'
     ];
 
     protected $enable_googlecheckout = [
@@ -169,8 +169,17 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'autosettings'
     ];
 
+    protected $use_config_gift_message_available = [
+        'attribute_code' => 'use_config_gift_message_available',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'checkbox',
+        'group' => 'autosettings'
+    ];
     protected $group_price = [
         'attribute_code' => 'group_price',
         'backend_type' => 'decimal',
@@ -324,8 +333,25 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details',
-        'source' => 'Magento\Bundle\Test\Fixture\Bundle\Price'
+        'group' => 'product-details'
+    ];
+
+    protected $price_from = [
+        'attribute_code' => 'price_from',
+        'backend_type' => 'decimal',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'price',
+        'group' => 'product-details'
+    ];
+
+    protected $price_to = [
+        'attribute_code' => 'price_to',
+        'backend_type' => 'decimal',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'price',
+        'group' => 'product-details'
     ];
 
     protected $price_type = [
@@ -337,12 +363,22 @@ class CatalogProductBundle extends InjectableFixture
         'group' => 'product-details',
     ];
 
+    protected $status = [
+        'attribute_code' => 'status',
+        'backend_type' => 'int',
+        'is_required' => '0',
+        'default_value' => '1',
+        'input' => 'checkbox',
+        'group' => 'product-details'
+    ];
+
     protected $price_view = [
         'attribute_code' => 'price_view',
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'advanced-pricing'
     ];
 
     protected $quantity_and_stock_status = [
@@ -351,6 +387,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'select',
+        'group' => 'product-details'
     ];
 
     protected $required_options = [
@@ -361,12 +398,25 @@ class CatalogProductBundle extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $use_config_manage_stock = [
+        'attribute_code' => 'use_config_manage_stock',
+        'input' => 'checkbox',
+        'group' => 'advanced-inventory'
+    ];
+
+    protected $manage_stock = [
+        'attribute_code' => 'manage_stock',
+        'input' => 'select',
+        'group' => 'advanced-inventory',
+    ];
+
     protected $shipment_type = [
         'attribute_code' => 'shipment_type',
         'backend_type' => 'int',
         'is_required' => '1',
         'default_value' => '',
-        'input' => '',
+        'input' => 'select',
+        'group' => 'product-details'
     ];
 
     protected $short_description = [
@@ -375,6 +425,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'textarea',
+        'group' => 'autosettings'
     ];
 
     protected $sku = [
@@ -392,7 +443,25 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'product-details'
+    ];
+
+    protected $weight_type = [
+        'attribute_code' => 'weight_type',
+        'backend_type' => 'int',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'select',
         'group' => 'product-details',
+    ];
+
+    protected $weight = [
+        'attribute_code' => 'weight',
+        'backend_type' => 'decimal',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'product-details'
     ];
 
     protected $small_image = [
@@ -411,37 +480,33 @@ class CatalogProductBundle extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $special_from_date = [
-        'attribute_code' => 'special_from_date',
-        'backend_type' => 'datetime',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'date',
-    ];
-
     protected $special_price = [
         'attribute_code' => 'special_price',
         'backend_type' => 'decimal',
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'advanced-pricing'
+        'group' => 'advanced-pricing',
+    ];
+
+    protected $special_from_date = [
+        'attribute_code' => 'special_from_date',
+        'backend_type' => 'data',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'price',
+        'group' => 'advanced-pricing',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $special_to_date = [
         'attribute_code' => 'special_to_date',
-        'backend_type' => 'datetime',
+        'backend_type' => 'data',
         'is_required' => '0',
         'default_value' => '',
-        'input' => 'date',
-    ];
-
-    protected $status = [
-        'attribute_code' => 'status',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '1',
-        'input' => 'select',
+        'input' => 'price',
+        'group' => 'advanced-pricing',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $tax_class_id = [
@@ -450,7 +515,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '2',
         'input' => 'select',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
+        'group' => 'product-details'
     ];
 
     protected $thumbnail = [
@@ -475,6 +540,8 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'advanced-pricing',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
     ];
 
     protected $updated_at = [
@@ -491,6 +558,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings'
     ];
 
     protected $url_path = [
@@ -507,22 +575,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '4',
         'input' => 'select',
-    ];
-
-    protected $weight = [
-        'attribute_code' => 'weight',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'weight',
-    ];
-
-    protected $weight_type = [
-        'attribute_code' => 'weight_type',
-        'backend_type' => 'int',
-        'is_required' => '1',
-        'default_value' => '',
-        'input' => '',
+        'group' => 'autosettings',
     ];
 
     protected $id = [
@@ -538,12 +591,40 @@ class CatalogProductBundle extends InjectableFixture
         'source' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
     ];
 
+    protected $bundle_option = [
+        'attribute_code' => 'bundle_option',
+    ];
+
+    protected $bundle_selection = [
+        'attribute_code' => 'bundle_selection',
+    ];
+
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'customer-options',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+    ];
+
+    protected $new_variations_attribute_set_id = [
+        'attribute_code' => 'new_variations_attribute_set_id'
+    ];
+
+    protected $affect_bundle_product_selection = [
+        'attribute_code' => 'affect_bundle_product_selection'
+    ];
+
+    protected $stock_data = [
+        'attribute_code' => 'stock_data'
+    ];
+
+    protected $category_id = [
+        'attribute_code' => 'category_id'
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids'
     ];
 
     public function getCategoryIds()
@@ -694,6 +775,16 @@ class CatalogProductBundle extends InjectableFixture
     public function getPrice()
     {
         return $this->getData('price');
+    }
+
+    public function getPriceFrom()
+    {
+        return $this->getData('price_from');
+    }
+
+    public function getPriceTo()
+    {
+        return $this->getData('price_to');
     }
 
     public function getPriceType()

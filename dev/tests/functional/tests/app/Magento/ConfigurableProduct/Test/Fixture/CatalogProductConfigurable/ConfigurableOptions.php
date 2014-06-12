@@ -8,33 +8,38 @@
 
 namespace Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class ConfigurableOptions
- *
- * Data keys:
- *  - preset (Configurable options preset name)
- *  - products (comma separated sku identifiers)
- *
+ * Source options of the configurable products
  */
 class ConfigurableOptions implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
+     * Source constructor
+     *
      * @param array $params
+     * @param array $dependenceData
      * @param array $data
      */
-    public function __construct(array $params, array $data = [])
+    public function __construct(array $params, array $dependenceData, array $data = [])
     {
+        $dependenceData = $dependenceData['attribute_options'];
         $this->params = $params;
         if (isset($data['preset'])) {
             $this->data = $this->getPreset($data['preset']);
+        }
+
+        if (isset($this->data['id']) && $this->data['id'] === 'new') {
+            $this->data['attribute_id'] = $dependenceData['id'];
+            $this->data['code'] = $dependenceData['attribute_code'];
+            $this->data['label'] = $dependenceData['frontend_label'];
+            foreach ($this->data['values'] as &$value) {
+                $data = array_shift($dependenceData['option']['value']);
+                $value['value_index'] = $data['id'];
+            }
+            unset($value);
         }
     }
 
@@ -51,12 +56,12 @@ class ConfigurableOptions implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string|null $key
      * @return mixed
      */
     public function getData($key = null)
     {
-        return $this->data;
+        return isset($this->data[$key]) ? $this->data[$key] : $this->data;
     }
 
     /**
@@ -76,17 +81,17 @@ class ConfigurableOptions implements FixtureInterface
     protected function getPreset($name)
     {
         $presets = [
-            'configurable_attributes_data' => [
+            'attributes_data' => [
                 'value' => [
                     'label' => [
                         'value' => 'test%isolation%'
                     ],
-                    '0' => [
+                    [
                         'option_label' => [
                             'value' => 'option 0'
                         ],
                         'pricing_value' => [
-                            'value' => '30'
+                            'value' => 30.00
                         ],
                         'is_percent' => [
                             'value' => 'No'
@@ -95,12 +100,12 @@ class ConfigurableOptions implements FixtureInterface
                             'value' => 'Yes'
                         ],
                     ],
-                    '1' => [
+                    [
                         'option_label' => [
                             'value' => 'option 1'
                         ],
                         'pricing_value' => [
-                            'value' => '40'
+                            'value' => 40.00
                         ],
                         'is_percent' => [
                             'value' => 'No'
@@ -108,6 +113,21 @@ class ConfigurableOptions implements FixtureInterface
                         'include' => [
                             'value' => 'Yes'
                         ],
+                    ]
+                ]
+            ],
+            'default' => [
+                'id' => 'new',
+                'values' => [
+                    [
+                        'pricing_value' => 100.00,
+                        'is_percent' => 'No',
+                        'include' => 'Yes'
+                    ],
+                    [
+                        'pricing_value' => 200.00,
+                        'is_percent' => 'No',
+                        'include' => 'Yes'
                     ]
                 ]
             ]

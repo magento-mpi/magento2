@@ -22,17 +22,15 @@ use Mtf\Fixture\FixtureInterface;
 class Selections implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
+     * Current preset name
+     *
      * @var string
      */
     protected $currentPreset;
 
     /**
-     * @constructor
+     * "Selections" source constructor
+     *
      * @param FixtureFactory $fixtureFactory
      * @param $data
      * @param array $params
@@ -44,8 +42,6 @@ class Selections implements FixtureInterface
         array $params = [],
         $persist = false
     ) {
-        $this->fixtureFactory = $fixtureFactory;
-
         $this->data = $data;
 
         if (isset($this->data['products'])) {
@@ -53,12 +49,14 @@ class Selections implements FixtureInterface
             $this->data['products'] = [];
             foreach ($products as $key => $product) {
                 list($fixture, $dataSet) = explode('::', $product);
-                $this->data['products'][$key] = $this->fixtureFactory
-                    ->createByCode($fixture, ['dataSet' => $dataSet]);
+                $this->data['products'][$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
             }
         }
-        $this->currentPreset = $this->data['preset'];
-        $this->data['preset'] = $this->getPreset($this->data['preset']);
+
+        if (isset($this->data['preset'])) {
+            $this->currentPreset = $this->data['preset'];
+            $this->data['preset'] = $this->getPreset($this->data['preset']);
+        }
 
         $this->params = $params;
         if ($persist) {
@@ -134,6 +132,8 @@ class Selections implements FixtureInterface
     }
 
     /**
+     * Getting preset data
+     *
      * @param $name
      * @return mixed
      * @throws \InvalidArgumentException

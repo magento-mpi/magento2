@@ -1,0 +1,8 @@
+"catalogSearch/data/query_text/value";"constraint"
+"simple";"assertCatalogSearchResult"
+"virtual";"assertCatalogSearchResult"
+"giftcard";"assertCatalogSearchResult"
+"downloadable";"assertCatalogSearchResult"
+"grouped";"assertCatalogSearchResult"
+"bundle_dynamic";"assertCatalogSearchResult"
+"bundle_fixed";"assertCatalogSearchResult"

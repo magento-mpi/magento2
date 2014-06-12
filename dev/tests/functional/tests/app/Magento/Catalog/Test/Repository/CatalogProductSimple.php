@@ -16,6 +16,12 @@ use Mtf\Repository\AbstractRepository;
  */
 class CatalogProductSimple extends AbstractRepository
 {
+    /**
+     * Constructor
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
@@ -27,6 +33,7 @@ class CatalogProductSimple extends AbstractRepository
             'quantity_and_stock_status' => 'In Stock',
             'qty' => 25,
             'price' => ['value' => 560, 'preset' => '-'],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'website_ids' => ['Main Website'],
         ];
 
