@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class ProductTypeServiceTest
@@ -26,8 +26,10 @@ class StockStatusServiceTest extends WebapiAbstract
     {
         $sku = 'simple';
 
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product')->load(1);
+        $product = $objectManager->get('Magento\Catalog\Model\Product')->load(1);
         $expectedData = $product->getQuantityAndStockStatus();
 
         $serviceInfo = array(
