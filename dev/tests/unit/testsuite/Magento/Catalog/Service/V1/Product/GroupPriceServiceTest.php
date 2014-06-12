@@ -8,17 +8,14 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var GroupPriceService
      */
     protected $service;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $productFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -62,9 +59,6 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false
-        );
         $this->repositoryMock = $this->getMock(
             '\Magento\Catalog\Model\ProductRepository', array(), array(), '', false
         );
@@ -80,15 +74,10 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product',
             array('getData', 'setData', 'validate', 'save', 'getIdBySku', 'load', '__wakeup'), array(), '', false);
-        $this->productFactoryMock
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->productMock));
         $this->repositoryMock->expects($this->any())->method('get')->with('product_sku')
             ->will($this->returnValue($this->productMock));
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->service = new GroupPriceService(
-            $this->productFactoryMock,
             $this->repositoryMock,
             $this->priceBuilderMock,
             $this->storeManagerMock,
@@ -149,12 +138,6 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessDeleteGroupPrice()
     {
-        $this->productMock
-            ->expects($this->once())
-            ->method('getIdBySku')
-            ->with('product_sku')
-            ->will($this->returnValue(1));
-        $this->productMock->expects($this->once())->method('load')->with(1)->will($this->returnSelf());
         $this->storeManagerMock
             ->expects($this->never())
             ->method('getWebsite');
@@ -174,12 +157,8 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteGroupPriceFromNonExistingProduct()
     {
-        $this->productMock
-            ->expects($this->once())
-            ->method('getIdBySku')
-            ->with('product_sku')
-            ->will($this->returnValue(null));
-        $this->productMock->expects($this->never())->method('load');
+        $this->repositoryMock->expects($this->once())->method('get')
+            ->will($this->throwException(new NoSuchEntityException()));
         $this->priceModifierMock->expects($this->never())->method('removeGroupPrice');
         $this->storeManagerMock
             ->expects($this->never())
@@ -189,12 +168,6 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessDeleteGroupPriceFromWebsiteLevel()
     {
-        $this->productMock
-            ->expects($this->once())
-            ->method('getIdBySku')
-            ->with('product_sku')
-            ->will($this->returnValue(1));
-        $this->productMock->expects($this->once())->method('load')->with(1)->will($this->returnSelf());
         $this->storeManagerMock
             ->expects($this->once())
             ->method('getWebsite')
@@ -286,7 +259,7 @@ class GroupPriceServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Values of following attributes are invalid: attr1, attr2
      */
     public function testSetThrowsExceptionIfDoesntValidate()

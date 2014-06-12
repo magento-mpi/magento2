@@ -11,16 +11,11 @@ namespace Magento\Catalog\Service\V1\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
 use Magento\Catalog\Service\V1\Data\Product;
 
 class GroupPriceService implements GroupPriceServiceInterface
 {
-    /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $productFactory;
-
     /**
      * @var \Magento\Catalog\Model\ProductRepository
      */
@@ -52,7 +47,6 @@ class GroupPriceService implements GroupPriceServiceInterface
     protected $config;
 
     /**
-     * @param ProductFactory $productFactory
      * @param ProductRepository $productRepository
      * @param Product\GroupPriceBuilder $groupPriceBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -61,7 +55,6 @@ class GroupPriceService implements GroupPriceServiceInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        ProductFactory $productFactory,
         ProductRepository $productRepository,
         Product\GroupPriceBuilder $groupPriceBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -69,7 +62,6 @@ class GroupPriceService implements GroupPriceServiceInterface
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
-        $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
         $this->storeManager = $storeManager;
@@ -116,7 +108,7 @@ class GroupPriceService implements GroupPriceServiceInterface
         $errors = $product->validate();
         if (is_array($errors) && count($errors)) {
             $errorAttributeCodes = implode(', ', array_keys($errors));
-            throw new CouldNotSaveException(
+            throw new InputException(
                 sprintf('Values of following attributes are invalid: %s', $errorAttributeCodes)
             );
         }
@@ -133,13 +125,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function delete($productSku, $customerGroupId)
     {
-        $product = $this->productFactory->create();
-        $productId = $product->getIdBySku($productSku);
-
-        if (!$productId) {
-            throw new NoSuchEntityException("Such product doesn't exist");
-        }
-        $product->load($productId);
+        $product = $this->productRepository->get($productSku, true);
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $websiteId = 0;
         } else {
@@ -154,11 +140,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function getList($productSku)
     {
-        try {
-            $product = $this->productRepository->get($productSku, true);
-        } catch (\Exception $e) {
-            throw new NoSuchEntityException("Such product doesn't exist");
-        }
+        $product = $this->productRepository->get($productSku, true);
         $priceKey = 'website_price';
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $priceKey = 'price';

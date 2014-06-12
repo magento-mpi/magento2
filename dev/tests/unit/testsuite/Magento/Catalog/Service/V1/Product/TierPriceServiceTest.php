@@ -8,17 +8,14 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TierPriceService
      */
     protected $service;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $productFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -62,9 +59,6 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false
-        );
         $this->repositoryMock = $this->getMock(
             '\Magento\Catalog\Model\ProductRepository', array(), array(), '', false
         );
@@ -77,10 +71,6 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product',
             array('getData', 'getIdBySku', 'load', '__wakeup', 'save', 'validate', 'setData'), array(), '', false);
-        $this->productFactoryMock
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->productMock));
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->priceModifierMock =
             $this->getMock('Magento\Catalog\Model\Product\PriceModifier', array(), array(), '', false);
@@ -88,7 +78,6 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->productMock));
 
         $this->service = new TierPriceService(
-            $this->productFactoryMock,
             $this->repositoryMock,
             $this->priceBuilderMock,
             $this->storeManagerMock,
@@ -164,12 +153,6 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessDeleteTierPrice()
     {
-        $this->productMock
-            ->expects($this->once())
-            ->method('getIdBySku')
-            ->with('product_sku')
-            ->will($this->returnValue(1));
-        $this->productMock->expects($this->once())->method('load')->with(1)->will($this->returnSelf());
         $this->storeManagerMock
             ->expects($this->never())
             ->method('getWebsite');
@@ -189,12 +172,8 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteTierPriceFromNonExistingProduct()
     {
-        $this->productMock
-            ->expects($this->once())
-            ->method('getIdBySku')
-            ->with('product_sku')
-            ->will($this->returnValue(null));
-        $this->productMock->expects($this->never())->method('load');
+        $this->repositoryMock->expects($this->once())->method('get')
+            ->will($this->throwException(new NoSuchEntityException()));
         $this->priceModifierMock->expects($this->never())->method('removeTierPrice');
         $this->storeManagerMock
             ->expects($this->never())
@@ -204,12 +183,6 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSuccessDeleteTierPriceFromWebsiteLevel()
     {
-        $this->productMock
-            ->expects($this->once())
-            ->method('getIdBySku')
-            ->with('product_sku')
-            ->will($this->returnValue(1));
-        $this->productMock->expects($this->once())->method('load')->with(1)->will($this->returnSelf());
         $this->storeManagerMock
             ->expects($this->once())
             ->method('getWebsite')
@@ -305,7 +278,7 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Values of following attributes are invalid: attr1, attr2
      */
     public function testSetThrowsExceptionIfDoesntValidate()

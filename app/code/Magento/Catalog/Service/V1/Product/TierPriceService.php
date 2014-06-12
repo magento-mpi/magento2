@@ -10,17 +10,12 @@ namespace Magento\Catalog\Service\V1\Product;
 
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ProductRepository;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Data\Product;
 
 class TierPriceService implements TierPriceServiceInterface
 {
-    /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $productFactory;
-
     /**
      * @var \Magento\Catalog\Model\ProductRepository
      */
@@ -52,7 +47,6 @@ class TierPriceService implements TierPriceServiceInterface
     protected $customerGroupService;
 
     /**
-     * @param ProductFactory $productFactory
      * @param ProductRepository $productRepository
      * @param Product\TierPriceBuilder $priceBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -61,7 +55,6 @@ class TierPriceService implements TierPriceServiceInterface
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      */
     public function __construct(
-        ProductFactory $productFactory,
         ProductRepository $productRepository,
         Product\TierPriceBuilder $priceBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -69,7 +62,6 @@ class TierPriceService implements TierPriceServiceInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
     ) {
-        $this->productFactory = $productFactory;
         $this->productRepository = $productRepository;
         $this->priceBuilder = $priceBuilder;
         $this->storeManager = $storeManager;
@@ -86,14 +78,8 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price)
     {
-        try {
-            $product = $this->productRepository->get($productSku, true);
-            $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
-        } catch (NoSuchEntityException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw new NoSuchEntityException("Such product doesn't exist");
-        }
+        $product = $this->productRepository->get($productSku, true);
+        $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
 
         $tierPrices = $product->getData('tier_price');
         $websiteId = 0;
@@ -127,7 +113,7 @@ class TierPriceService implements TierPriceServiceInterface
         $errors = $product->validate();
         if (is_array($errors) && count($errors)) {
             $errorAttributeCodes = implode(', ', array_keys($errors));
-            throw new CouldNotSaveException(
+            throw new InputException(
                 sprintf('Values of following attributes are invalid: %s', $errorAttributeCodes)
             );
         }
@@ -144,13 +130,7 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function delete($productSku, $customerGroupId, $qty)
     {
-        $product = $this->productFactory->create();
-        $productId = $product->getIdBySku($productSku);
-
-        if (!$productId) {
-            throw new NoSuchEntityException("Such product doesn't exist");
-        }
-        $product->load($productId);
+        $product = $this->productRepository->get($productSku, true);
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $websiteId = 0;
         } else {
@@ -165,11 +145,7 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function getList($productSku, $customerGroupId)
     {
-        try {
-            $product = $this->productRepository->get($productSku, true);
-        } catch (\Exception $e) {
-            throw new NoSuchEntityException("Such product doesn't exist");
-        }
+        $product = $this->productRepository->get($productSku, true);
 
         $priceKey = 'website_price';
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
