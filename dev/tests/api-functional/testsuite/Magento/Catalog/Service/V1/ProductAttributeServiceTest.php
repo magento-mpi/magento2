@@ -65,8 +65,8 @@ class ProductAttributeServiceTest extends WebapiAbstract
         $testAttributeCode = 'color';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/addOption',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
