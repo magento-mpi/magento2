@@ -1,5 +1,5 @@
 {
-    "name": "magento/theme-frontend-backend",
+    "name": "magento/theme-adminhtml-backend",
     "description": "N/A",
     "require": {
         "magento/framework": "0.1.0"
