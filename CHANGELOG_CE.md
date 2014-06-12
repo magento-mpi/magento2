@@ -1,3 +1,5 @@
+* Service layer updates:
+  * StockItem Service Implementation (MAGETWO-18609)
 * Framework improvements:
   * Covered Magento application components with unit tests:
       * `SalesRule/Model/Observer`
