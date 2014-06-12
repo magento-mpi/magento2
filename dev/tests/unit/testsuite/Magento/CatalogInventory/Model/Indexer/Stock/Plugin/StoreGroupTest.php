@@ -81,7 +81,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'object_id' => false,
-                    'has_website_id_changed' => true
+                    'has_website_id_changed' => false
                 )
             ),
         );
