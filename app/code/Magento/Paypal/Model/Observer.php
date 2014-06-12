@@ -66,6 +66,11 @@ class Observer
     protected $_checkoutSession;
 
     /**
+     * Shortcut template path
+     */
+    const SHORTCUT_TEMPLATE = 'express/shortcut.phtml';
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Framework\Registry $coreRegistry
@@ -264,7 +269,7 @@ class Observer
             )->setShowOrPosition(
                 $observer->getEvent()->getOrPosition()
             )->setTemplate(
-                'express/shortcut.phtml'
+                self::SHORTCUT_TEMPLATE
             );
             $shortcutButtons->addShortcut($shortcut);
         }
