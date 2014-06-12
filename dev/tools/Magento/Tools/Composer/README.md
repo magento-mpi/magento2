@@ -17,7 +17,6 @@ Help
 ```shell
 > php -f create-composer.php -- -help
 Usage: create-composer.php [ options ]
---edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
 --verbose|-v          Detailed console logs
 --clean|-c            Clean composer.json files from each component
 
@@ -28,5 +27,13 @@ Usage: create-composer.php [ options ]
 Usage: archiver.php [ options ]
 --verbose|-v         Detailed console logs
 --output|-o <string> Generation dir. Default value _packages
+
+```
+
+```shell
+> php -f create-skeleton.php -- -help
+Usage: create-skeleton.php [ options ]
+--edition|-e <string> Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]
+--verbose|-v          Detailed console logs
 
 ```

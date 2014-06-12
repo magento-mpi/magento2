@@ -61,7 +61,7 @@ class ComposerCreator
             $command = 'cd ' . $this->_rootDir . $component->getLocation() . ' && php ' .
                 __DIR__ . '/../composer.phar init '.
                 '--name "' . strtolower($component->getName()) .
-                '" --description="We would be updating the description soon." ' .
+                '" --description="N/A" ' .
                 //'--author="Magento Support <support@magentocommerce.com>" '.
                 //'--stability="dev" '.
                 '-n';

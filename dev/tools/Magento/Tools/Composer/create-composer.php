@@ -14,22 +14,16 @@
  */
 require __DIR__ . '/../../../bootstrap.php';
 
-use \Magento\Tools\Composer\Extractor\ModuleExtractor;
-use \Magento\Tools\Composer\Extractor\EnterpriseExtractor;
-use \Magento\Tools\Composer\Extractor\CommunityExtractor;
 use \Magento\Tools\Composer\Extractor\AdminThemeExtractor;
 use \Magento\Tools\Composer\Extractor\FrontendThemeExtractor;
 use \Magento\Tools\Composer\Creator\ComposerCreator;
 use \Magento\Tools\Composer\Cleaner\ComposerCleaner;
-use \Magento\Tools\Composer\Parser\ModuleXmlParser;
 use \Magento\Tools\Composer\Parser\AdminhtmlThemeXmlParser;
 use \Magento\Tools\Composer\Parser\FrontendThemeXmlParser;
-use \Magento\Tools\Composer\Parser\NullParser;
 
 try {
     $opt = new \Zend_Console_Getopt(
         array(
-            'edition|e=s' => 'Edition of which packaging is done. Acceptable values: [ee|enterprise] or [ce|community]',
             'verbose|v' => 'Detailed console logs',
             'clean|c' => 'Clean composer.json files from each component'
         )
@@ -46,43 +40,16 @@ try {
     $logger->addFilter($filter);
 
     $clean = $opt->getOption('c')? true: false;
-    $edition = $opt->getOption('e') ?: null;
-    if (!$edition) {
-        $logger->info('Edition is required. Acceptable values [ee|enterprise] or [ce|community]');
-        exit;
-    }
-
-    switch (strtolower($edition)) {
-        case 'enterprise':
-        case 'ee':
-            $logger->info('Your Edition: Enterprise');
-            $productExtractor = new EnterpriseExtractor(BP, $logger, new NullParser());
-            break;
-        case 'community':
-        case 'ce':
-            $logger->info('Your Edition: Community');
-            $productExtractor = new CommunityExtractor(BP, $logger, new NullParser());
-            break;
-        default:
-            $logger->info('Edition value not acceptable. Acceptable values: [ee|ce]');
-            exit;
-    }
-
 
     $logger->info(sprintf('Your Magento Installation Directory: %s ', BP));
 
-    $moduleExtractor = new ModuleExtractor(BP, $logger, new ModuleXmlParser());
     $adminThemeExtractor = new AdminThemeExtractor(BP, $logger, new AdminhtmlThemeXmlParser());
     $frontEndThemeExtractor = new FrontendThemeExtractor(BP, $logger, new FrontendThemeXmlParser());
 
-    $components = $moduleExtractor->extract(array(), $moduleCount);
-    $logger->debug(sprintf("Read %3d modules.", $moduleCount));
-    $components = $adminThemeExtractor->extract($components, $adminThemeCount);
+    $components = $adminThemeExtractor->extract(array(), $adminThemeCount);
     $logger->debug(sprintf("Read %3d admin themes.", $adminThemeCount));
     $components = $frontEndThemeExtractor->extract($components, $frontendThemeCount);
     $logger->debug(sprintf("Read %3d frontend themes.", $frontendThemeCount));
-    $components = $productExtractor->extract($components, $productCount);
-    $logger->debug(sprintf('Created %s edition project', $edition));
 
     $logger->info(sprintf("Starting to create composer.json for %3d components.", sizeof($components)));
 
