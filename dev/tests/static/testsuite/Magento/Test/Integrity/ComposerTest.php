@@ -51,7 +51,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertFileExists($file);
         self::$shell->execute('composer validate --working-dir=%s', [$dir]);
         $json = json_decode(file_get_contents($file));
-        $this->assertMagentoConventions($json, $packageType);
+        $this->assertMagentoConventions($dir, $packageType, $json);
     }
 
     /**
@@ -73,11 +73,12 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     /**
      * Enforce Magento-specific conventions to a composer.json file
      *
-     * @param \StdClass $json
+     * @param string $dir
      * @param string $packageType
+     * @param \StdClass $json
      * @throws \InvalidArgumentException
      */
-    private function assertMagentoConventions(\StdClass $json, $packageType)
+    private function assertMagentoConventions($dir, $packageType, \StdClass $json)
     {
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
@@ -88,6 +89,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             case 'magento2-module':
                 $this->assertRegExp('/^magento\/module(\-[a-z][a-z\d]+)+$/', $json->name);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertModuleDependenciesInSync($dir, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
@@ -106,6 +108,43 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertDependsOnFramework(\StdClass $json)
     {
         $this->assertObjectHasAttribute('magento/framework', $json);
+    }
+
+    /**
+     * Assert that references to module dependencies in module.xml and composer.json are not out of sync
+     *
+     * @param string $dir
+     * @param \StdClass $json
+     */
+    private function assertModuleDependenciesInSync($dir, \StdClass $json)
+    {
+        $xml = simplexml_load_file("$dir/etc/module.xml");
+        $packages = [];
+        /** @var \SimpleXMLElement $node */
+        foreach ($xml->module->depends->children() as $node) {
+            if ('module' === $node->getName()) {
+                $packages[] = $this->convertModuleToPackageName((string)$node['name']);
+            }
+        }
+        foreach ($packages as $package) {
+            $this->assertObjectHasAttribute($package, $json);
+        }
+    }
+
+    /**
+     * Convert a fully qualified module name to a composer package name according to conventions
+     *
+     * @param string $moduleName
+     * @return string
+     */
+    private function convertModuleToPackageName($moduleName)
+    {
+        list($vendor, $name) = explode('_', $moduleName, 2);
+        $package = 'module';
+        foreach(preg_split('/([A-Z][a-z\d]+)/', $name, -1, PREG_SPLIT_DELIM_CAPTURE) as $chunk) {
+            $package .= $chunk ? "-{$chunk}" : '';
+        }
+        return strtolower("{$vendor}/{$package}");
     }
 
     /**
