@@ -24,65 +24,35 @@ class Signature extends \OAuth\OAuth1\Signature\Signature
      */
     public function getSignature(UriInterface $uri, array $params, $method = 'POST')
     {
-        parse_str($uri->getQuery(), $queryStringData);
+        $queryStringData = !$uri->getQuery() ? [] : array_reduce(
+            explode('&', $uri->getQuery()),
+            function ($carry, $item){
+                list($key, $value) = explode('=', $item, 2);
+                $carry[rawurldecode($key)] = rawurldecode($value);
+                return $carry;
+            },
+            []
+        );
 
-        $allParams = array_merge($queryStringData, $params);
-        foreach ($allParams as $key => $value) {
-            if (is_array($value)) {
-                /** Implementation for complex filters parameters */
-                foreach ($value as $filterIndex => $filterMeta) {
-                    foreach ($filterMeta as $filterMetaKey => $filterMetaValue) {
-                        $signatureData[] = [
-                            'key' => rawurlencode("{$key}[{$filterIndex}][{$filterMetaKey}]"),
-                            'value' => rawurlencode($filterMetaValue)
-                        ];
-                    }
-                }
-            } else {
-                $signatureData[] = ['key' => rawurlencode($key), 'value' => rawurlencode($value)];
-            }
+        foreach (array_merge($queryStringData, $params) as $key => $value) {
+            $signatureData[rawurlencode($key)] = rawurlencode($value);
         }
+
+        ksort($signatureData);
+
         // determine base uri
         $baseUri = $uri->getScheme() . '://' . $uri->getRawAuthority();
 
         if ('/' == $uri->getPath()) {
-            $baseUri.= $uri->hasExplicitTrailingHostSlash() ? '/' : '';
+            $baseUri .= $uri->hasExplicitTrailingHostSlash() ? '/' : '';
         } else {
             $baseUri .= $uri->getPath();
         }
 
         $baseString = strtoupper($method) . '&';
-        $baseString.= rawurlencode($baseUri) . '&';
-        $baseString.= rawurlencode($this->buildSignatureDataString($signatureData));
+        $baseString .= rawurlencode($baseUri) . '&';
+        $baseString .= rawurlencode($this->buildSignatureDataString($signatureData));
 
         return base64_encode($this->hash($baseString));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function buildSignatureDataString(array $signatureData)
-    {
-        $signatureString = '';
-        usort(
-            $signatureData,
-            function ($a, $b) {
-                if ($a['key'] == $b['key']) {
-                    return 0;
-                } elseif ($a['key'] > $b['key']) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        );
-        $delimiter = '';
-        foreach ($signatureData as $dataItem) {
-            $signatureString .= $delimiter . $dataItem['key'] . '=' . $dataItem['value'];
-
-            $delimiter = '&';
-        }
-
-        return $signatureString;
     }
 }
