@@ -96,7 +96,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function create($productSku, GalleryEntry $entry, GalleryEntryContent $entryContent, $storeId = null)
+    public function create($productSku, GalleryEntry $entry, GalleryEntryContent $entryContent, $storeId = 0)
     {
         $store = $this->storeFactory->create()->load($storeId);
         if ($store->getId() != $storeId) {
@@ -145,7 +145,7 @@ class WriteService implements WriteServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function update($productSku, GalleryEntry $entry, $storeId = null)
+    public function update($productSku, GalleryEntry $entry, $storeId = 0)
     {
         $store = $this->storeFactory->create()->load($storeId);
         if ($store->getId() != $storeId) {

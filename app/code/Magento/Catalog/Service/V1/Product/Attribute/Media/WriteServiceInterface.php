@@ -26,7 +26,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function create($productSku, GalleryEntry $entry, GalleryEntryContent $entryContent, $storeId = null);
+    public function create($productSku, GalleryEntry $entry, GalleryEntryContent $entryContent, $storeId = 0);
 
     /**
      * Update gallery entry
@@ -38,7 +38,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
      */
-    public function update($productSku, GalleryEntry $entry, $storeId = null);
+    public function update($productSku, GalleryEntry $entry, $storeId = 0);
 
     /**
      * Remove gallery entry
