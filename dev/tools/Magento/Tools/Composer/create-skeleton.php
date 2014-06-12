@@ -8,9 +8,6 @@
 
 require __DIR__ . '/../../../bootstrap.php';
 
-use \Magento\Tools\Composer\Helper\Zip;
-use \Magento\Tools\Composer\Helper\Converter;
-use \Magento\Tools\Composer\Helper\JsonParser;
 use \Magento\Tools\Composer\Model\Project;
 use \Magento\Tools\Composer\Creator\ComposerCreator;
 use \Magento\Tools\Composer\Model\Package;
@@ -32,7 +29,7 @@ try {
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('[%timestamp%] : %message%' . PHP_EOL));
     $logger = new Zend_Log($logWriter);
-    $logger->setTimestampFormat("H:i:s");
+    $logger->setTimestampFormat('H:i:s');
     $filter = $opt->getOption('v') ?
             new \Zend_Log_Filter_Priority(Zend_Log::DEBUG) :
             new \Zend_Log_Filter_Priority(Zend_Log::INFO);
@@ -65,11 +62,11 @@ try {
 
     //Locations to look for components
     $components = array(
-        str_replace('\\', '/', realpath(BP)) . "/app/code/Magento/*",
-        str_replace('\\', '/', realpath(BP)) . "/app/design/adminhtml/Magento/*",
-        str_replace('\\', '/', realpath(BP)) . "/app/design/frontend/Magento/*",
-        str_replace('\\', '/', realpath(BP)) . "/app/i18n/Magento/*",
-        str_replace('\\', '/', realpath(BP)) . "/lib/internal/Magento/*"
+        str_replace('\\', '/', realpath(BP)) . '/app/code/Magento/*',
+        str_replace('\\', '/', realpath(BP)) . '/app/design/adminhtml/Magento/*',
+        str_replace('\\', '/', realpath(BP)) . '/app/design/frontend/Magento/*',
+        str_replace('\\', '/', realpath(BP)) . '/app/i18n/Magento/*',
+        str_replace('\\', '/', realpath(BP)) . '/lib/internal/Magento/*'
     );
 
     $dependencies = array();
@@ -77,7 +74,7 @@ try {
         foreach (glob($component, GLOB_ONLYDIR) as $dir) {
             $file = $dir . '/composer.json';
             if ( !file_exists($file) ) {
-                $logger->info("composer.json file not found for " . $file);
+                $logger->info('composer.json file not found for ' . $file);
                 exit(100);
             }
             $json = json_decode(file_get_contents($file));
