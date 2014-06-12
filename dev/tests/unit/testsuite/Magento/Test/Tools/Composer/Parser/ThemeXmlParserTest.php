@@ -45,7 +45,7 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_rootDir = __DIR__ . '/../_files';
         $objectManagerHelper = new ObjectManager($this);
-        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\ThemeXmlParser');
+        $this->parser = $objectManagerHelper->getObject('\Magento\Tools\Composer\Parser\FrontendThemeXmlParser');
     }
 
     /**
@@ -55,7 +55,7 @@ class ThemeXmlParserTest extends \PHPUnit_Framework_TestCase
     public function testgetMappings()
     {
         $moduleDefinition = $this->parser->getMappings($this->_rootDir, $this->_componentDir);
-        $this->assertEquals($moduleDefinition['name'], "Magento_Sample-Theme");
+        $this->assertEquals($moduleDefinition['name'], "Magento_theme-frontend-Sample");
         $this->assertEquals($moduleDefinition['version'], "0.1.0");
         $this->assertEquals(sizeof($moduleDefinition['dependencies']), 1);
     }
