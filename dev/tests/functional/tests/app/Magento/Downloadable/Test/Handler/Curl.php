@@ -13,8 +13,8 @@ use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as AbstractCurl;
 
 /**
  * Class CreateProduct
@@ -22,72 +22,6 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
  */
 class Curl extends AbstractCurl implements CatalogProductDownloadableInterface
 {
-    /**
-     * Placeholder for data sent Curl
-     *
-     * @var array
-     */
-    protected $placeholderData = [
-        'manage_stock' => [
-            'Yes' => 1,
-            'No' => 0
-        ],
-        'is_in_stock' => [
-            'Yes' => 1,
-            'No' => 0,
-            'In Stock' => 1,
-            'Out of Stock' => 0
-        ],
-        'is_virtual' => [
-            'Yes' => 1,
-            'No' => 0
-        ],
-        'inventory_manage_stock' => [
-            'Yes' => 1,
-            'No' => 0
-        ],
-        'visibility' => [
-            'Not Visible Individually' => 1,
-            'Catalog' => 2,
-            'Search' => 3,
-            'Catalog, Search' => 4
-        ],
-        'tax_class_id' => [
-            'None' => 0,
-            'Taxable Goods' => 2
-        ],
-        'website_ids' => [
-            'Main Website' => 1
-        ],
-        'status' => [
-            'Product offline' => 2,
-            'Product online' => 1
-        ],
-        'new_variations_attribute_set_id' => [
-            'Default' => 4
-        ],
-        'links_purchased_separately' => [
-            'Yes' => 1,
-            'No' => 0
-        ],
-        'is_shareable' => [
-          'Yes' => 1,
-          'No' => 0,
-          'Use config' => 2
-        ],
-    ];
-
-    /**
-     * Specific array
-     *
-     * @var array
-     */
-    protected $specificData = [
-        'downloadable',
-        'new_variations_attribute_set_id',
-        'affect_configurable_product_attributes'
-    ];
-
     /**
      * Post request for creating simple product
      *
@@ -99,39 +33,21 @@ class Curl extends AbstractCurl implements CatalogProductDownloadableInterface
     {
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
-        // @todo remove "if" when fixtures refactored
-        if ($fixture instanceof InjectableFixture) {
-            $fields = $fixture->getData();
-            // Apply a placeholder for data
-            array_walk_recursive(
-                $fields,
-                function (&$item, $key, $placeholder) {
-                    $item = isset($placeholder[$key][$item]) ? $placeholder[$key][$item] : $item;
-                },
-                $this->placeholderData
-            );
-
+        $this->extendPlaceholder();
+        $fields = $this->replacePlaceholder($fixture->getData());
+        if ($fixture->hasData('tax_class_id')) {
+            $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
+            $fields['tax_class_id'] = $taxClassId === null
+                ? $this->getTaxClassId($fields['tax_class_id'])
+                : $taxClassId;
+        }
+        $data = $prefix ? [$prefix => $fields] : $fields;
+        $data['new-variations-attribute-set-id'] = 4;
+        if (isset($fields['downloadable'])) {
             if ($prefix) {
-                $data[$prefix] = $fields;
-            } else {
-                $data = $fields;
+                unset($data[$prefix]['downloadable']);
+                $data['downloadable'] = $fields['downloadable'];
             }
-
-            foreach ($this->specificData as $specific) {
-                if (isset($fields[$specific])) {
-                    if ($prefix) {
-                        unset($data[$prefix][$specific]);
-                    } else {
-                        unset($data[$specific]);
-                    }
-                    $data[($specific != 'new_variations_attribute_set_id')
-                        ? $specific
-                        : 'new-variations-attribute_set-id'] = $fields[$specific];
-
-                }
-            }
-        } else {
-            $data = $this->_prepareData($fixture->getData('fields'), $prefix);
         }
 
         if ($fixture->getData('category_id')) {
@@ -153,59 +69,22 @@ class Curl extends AbstractCurl implements CatalogProductDownloadableInterface
     }
 
     /**
-     * Prepare POST data for creating product request
+     * Expand basic placeholder
      *
-     * @param array $params
-     * @param string|null $prefix
-     * @return array
+     * @return void
      */
-    protected function _prepareData($params, $prefix = null)
+    protected function extendPlaceholder()
     {
-        $data = array();
-        foreach ($params as $key => $values) {
-            $value = $this->_getValue($values);
-            //do not add this data if value does not exist
-            if (null === $value) {
-                continue;
-            }
-            if (isset($values['input_name'])) {
-                $data[$values['input_name']] = $value;
-            } elseif ($prefix) {
-                $data[$prefix][$key] = $value;
-            } else {
-                $data[$key] = $value;
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * Retrieve field value or return null if value does not exist
-     *
-     * @param array $values
-     * @return null|mixed
-     */
-    protected function _getValue($values)
-    {
-        if (!isset($values['value'])) {
-            return null;
-        }
-        return isset($values['input_value']) ? $values['input_value'] : $values['value'];
-    }
-
-    /**
-     * Retrieve URL for request with all necessary parameters
-     *
-     * @param array $config
-     * @return string
-     */
-    protected function _getUrl(array $config)
-    {
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
-        $params = '';
-        foreach ($requestParams as $key => $value) {
-            $params .= $key . '/' . $value . '/';
-        }
-        return $_ENV['app_backend_url'] . 'catalog/product/save/' . $params . 'popup/1/back/edit';
+        $this->placeholderData += [
+            'links_purchased_separately' => [
+                'Yes' => 1,
+                'No' => 0
+            ],
+            'is_shareable' => [
+                'Yes' => 1,
+                'No' => 0,
+                'Use config' => 2
+            ],
+        ];
     }
 }

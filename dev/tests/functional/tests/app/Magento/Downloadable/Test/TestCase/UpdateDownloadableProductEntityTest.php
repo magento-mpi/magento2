@@ -10,7 +10,7 @@ namespace Magento\Downloadable\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
@@ -32,13 +32,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 class UpdateDownloadableProductEntityTest extends Injectable
 {
     /**
-     * Fixture category
-     *
-     * @var CatalogCategoryEntity
-     */
-    protected $category;
-
-    /**
      * Downloadable product fixture
      *
      * @var CatalogProductDownloadable
@@ -53,7 +46,7 @@ class UpdateDownloadableProductEntityTest extends Injectable
     protected $catalogProductIndex;
 
     /**
-     * New product page on backend
+     * Edit product page on backend
      *
      * @var CatalogProductEdit
      */
@@ -62,13 +55,12 @@ class UpdateDownloadableProductEntityTest extends Injectable
     /**
      * Persist category
      *
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return array
      */
-    public function __prepare(CatalogCategoryEntity $category)
+    public function __prepare(CatalogCategory $category)
     {
         $category->persist();
-
         return [
             'category' => $category
         ];
@@ -77,13 +69,13 @@ class UpdateDownloadableProductEntityTest extends Injectable
     /**
      * Filling objects of the class
      *
-     * @param CatalogCategoryEntity $category
+     *
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductEdit $catalogProductEditPage
      * @param FixtureFactory $fixtureFactory
+     * @return void
      */
     public function __inject(
-        CatalogCategoryEntity $category,
         CatalogProductIndex $catalogProductIndexNewPage,
         CatalogProductEdit $catalogProductEditPage,
         FixtureFactory $fixtureFactory
@@ -95,16 +87,16 @@ class UpdateDownloadableProductEntityTest extends Injectable
         $this->product->persist();
         $this->catalogProductIndex = $catalogProductIndexNewPage;
         $this->catalogProductEdit = $catalogProductEditPage;
-        $this->category = $category;
     }
 
     /**
-     * Test create downloadable product
+     * Test update downloadable product
      *
      * @param CatalogProductDownloadable $product
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
+     * @return void
      */
-    public function testUpdateDownloadableProduct(CatalogProductDownloadable $product, CatalogCategoryEntity $category)
+    public function testUpdateDownloadableProduct(CatalogProductDownloadable $product, CatalogCategory $category)
     {
         $filter = ['sku' => $this->product->getSku()];
         $this->catalogProductIndex->open()->getProductGrid()->searchAndOpen($filter);

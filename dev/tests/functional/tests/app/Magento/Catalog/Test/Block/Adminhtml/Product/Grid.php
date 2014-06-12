@@ -49,4 +49,3 @@ class Grid extends ParentGrid
         $this->massaction('Update Attributes', $items);
     }
 }
- 

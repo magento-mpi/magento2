@@ -364,13 +364,13 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'advanced-inventory',
     ];
 
-    protected $stock_data= [
+    protected $stock_data = [
         'attribute_code' => 'stock_data',
         'input' => 'text',
         'group' => 'advanced-inventory',
     ];
 
-    protected $stock_data_min_qty= [
+    protected $stock_data_min_qty = [
         'attribute_code' => 'stock_data_min_qty',
         'input' => 'text',
         'group' => 'advanced-inventory',
@@ -448,10 +448,11 @@ class CatalogProductDownloadable extends InjectableFixture
     ];
 
     protected $downloadable = [
-            'attribute_code' => 'downloadable',
-            'is_required' => '0',
-            'group' => 'downloadable_information',
-        ];
+        'attribute_code' => 'downloadable',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'downloadable_information',
+    ];
 
     protected $downloadable_links = [
         'attribute_code' => 'downloadable_items',
@@ -648,18 +649,7 @@ class CatalogProductDownloadable extends InjectableFixture
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
-    ];
-
-    protected $new_variations_attribute_set_id = [
-        'attribute_code' => 'new-variations-attribute-set-id',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'weight',
-    ];
-
-    protected $affect_configurable_product_attributes = [
-        'attribute_code' => 'affect_configurable_product_attributes',
+        'backend_type' => 'virtual'
     ];
 
     public function getCategoryIds()

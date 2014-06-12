@@ -58,11 +58,11 @@ class AssertDownloadableProductForm extends AssertProductForm
     {
         usort(
             $fields,
-            function ($a, $b) {
-                if ($a['sort_order'] == $b['sort_order']) {
+            function ($row1, $row2) {
+                if ($row1['sort_order'] == $row2['sort_order']) {
                     return 0;
                 }
-                return ($a['sort_order'] < $b['sort_order']) ? -1 : 1;
+                return ($row1['sort_order'] < $row2['sort_order']) ? -1 : 1;
             }
         );
     }
@@ -86,21 +86,10 @@ class AssertDownloadableProductForm extends AssertProductForm
             );
         }
 
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $fields[$key] = $this->convertDownloadableArray($value);
-            } else {
-                if ($key == "sample_type_url" || $key == "sample_type_file"
-                    || $key == "file_type_url" || $key == "file_type_file"
-                    || $key == "is_virtual" || $key == 'is_require'
-                    || $key == 'stock_data_use_config_min_qty'
-                ) {
-                    $fields[$key] = ($value == 'Yes') ? 1 : 0;
-                } elseif ($key == "special_price") {
-                    $fields[$key] = [$key => $fields[$key]];
-                }
-            }
+        if (isset($fields['special_price'])) {
+            $fields['special_price'] = ['special_price' => $fields['special_price']];
         }
+
         return $fields;
     }
 
