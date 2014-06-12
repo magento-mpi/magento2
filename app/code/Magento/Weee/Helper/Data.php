@@ -459,4 +459,44 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return $totalBaseWeeeTaxIncTaxApplied;
     }
+
+    /**
+     * Get the total tax applied on weee by unit
+     *
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return float
+     */
+    public function getTotalTaxAppliedForWeeeTax($item)
+    {
+        $weeeTaxAppliedAmounts = $this->getApplied($item);
+        $totalTaxForWeeeTax = 0;
+        foreach ($weeeTaxAppliedAmounts as $weeeTaxAppliedAmount) {
+            $totalTaxForWeeeTax += max(
+                $weeeTaxAppliedAmount['amount_incl_tax']
+                - $weeeTaxAppliedAmount['amount'],
+                0
+            );
+        }
+        return $totalTaxForWeeeTax;
+    }
+
+    /**
+     * Get the total tax applied on weee by unit
+     *
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return float
+     */
+    public function getBaseTotalTaxAppliedForWeeeTax($item)
+    {
+        $weeeTaxAppliedAmounts = $this->getApplied($item);
+        $totalTaxForWeeeTax = 0;
+        foreach ($weeeTaxAppliedAmounts as $weeeTaxAppliedAmount) {
+            $totalTaxForWeeeTax += max(
+                $weeeTaxAppliedAmount['base_amount_incl_tax']
+                - $weeeTaxAppliedAmount['base_amount'],
+                0
+            );
+        }
+        return $totalTaxForWeeeTax;
+    }
 }
