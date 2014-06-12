@@ -8,6 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Module_One" dbversion="1.0.0.0" active="true" />
-    <module name="Module_Two" dbversion="1.0.0.0" active="false" />
+    <module name="Module_One" active="true" />
+    <module name="Module_Two" active="false" />
 </config>
