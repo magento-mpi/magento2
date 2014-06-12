@@ -29,19 +29,27 @@ class Login extends \Magento\Framework\App\Action\Action
     protected $customerAccountService;
 
     /**
+     * @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory
+     */
+    protected $deserializerFactory;
+
+    /**
      * Initialize Login Service
      *
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Session\Generic $session,
+        \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory,
         CustomerAccountServiceInterface $customerAccountService
     ) {
         parent::__construct($context);
         $this->session = $session;
+        $this->deserializerFactory = $deserializerFactory;
         $this->customerAccountService = $customerAccountService;
     }
 
@@ -52,8 +60,12 @@ class Login extends \Magento\Framework\App\Action\Action
      */
     public function indexAction()
     {
-        $loginData = json_decode($this->getRequest()->getRawBody(), true);
-        if (!$loginData || $this->getRequest()->getMethod()!==\Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
+        $contentTypeHeaderValue = $this->getRequest()->getHeader('Content-Type');
+        $contentType = $this->getContentType($contentTypeHeaderValue);
+        $loginData = $this->deserializerFactory
+            ->get($contentType)
+            ->deserialize($this->getRequest()->getRawBody());
+        if (!$loginData || $this->getRequest()->getMethod() !== \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
             $this->getResponse()->setHttpResponseCode(HttpException::HTTP_BAD_REQUEST);
             return;
         }
@@ -62,10 +74,9 @@ class Login extends \Magento\Framework\App\Action\Action
             $customerData = $this->customerAccountService->authenticate($loginData['username'], $loginData['password']);
         } catch (AuthenticationException $e) {
             $this->getResponse()->setHttpResponseCode(HttpException::HTTP_UNAUTHORIZED);
-            //TODO: Verify error message that needs to be sent
             return;
         }
-        $this->session->start('webapi');
+        $this->session->start('frontend');
         $this->session->setUserId($customerData->getId());
         $this->session->setUserType(UserIdentifier::USER_TYPE_CUSTOMER);
         $this->getResponse()->setBody($this->session->regenerateId(true)->getSessionId());
@@ -76,9 +87,32 @@ class Login extends \Magento\Framework\App\Action\Action
      */
     public function anonymousAction()
     {
-        $this->session->start('webapi');
+        $this->session->start('frontend');
         $this->session->setUserId(0);
         $this->session->setUserType(UserIdentifier::USER_TYPE_GUEST);
         $this->getResponse()->setBody($this->session->regenerateId(true)->getSessionId());
+    }
+
+    /**
+     * Get Content-Type value of request given the $header value.
+     *
+     * TODO: Remove this method if \Magento\Webapi\Controller\Rest\Request can be injected instead of
+     * Magento\Framework\App\Request\Http which is injected by core di.xml
+     *
+     * @param string $headerValue
+     * @return string
+     * @throws \Magento\Webapi\Exception
+     */
+    protected function getContentType($headerValue)
+    {
+        if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
+            return null;
+        }
+        // request encoding check if it is specified in header
+        if (isset($matches[2]) && \Magento\Webapi\Controller\Rest\Request::REQUEST_CHARSET != strtolower($matches[2])) {
+            return null;
+        }
+
+        return $matches[1];
     }
 }
