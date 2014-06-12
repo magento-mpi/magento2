@@ -78,7 +78,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Retrieve id of the attribute.
      *
-     * @return string
+     * @return string|null
      */
     public function getAttributeId()
     {
@@ -88,7 +88,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Retrieve code of the attribute.
      *
-     * @return string
+     * @return string|null
      */
     public function getAttributeCode()
     {
@@ -98,7 +98,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Frontend HTML for input element.
      *
-     * @return string
+     * @return string|null
      */
     public function getFrontendInput()
     {
@@ -108,7 +108,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Retrieve validation rules.
      *
-     * @return \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\ValidationRule[]|null
      */
     public function getValidationRules()
     {
@@ -118,7 +118,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether attribute is visible on frontend.
      *
-     * @return bool
+     * @return bool|null
      */
     public function isVisible()
     {
@@ -128,7 +128,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether attribute is required.
      *
-     * @return bool
+     * @return bool|null
      */
     public function isRequired()
     {
@@ -138,7 +138,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]|null
      */
     public function getOptions()
     {
@@ -148,7 +148,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether current attribute has been defined by a user.
      *
-     * @return bool
+     * @return bool|null
      */
     public function isUserDefined()
     {
@@ -158,7 +158,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get label which supposed to be displayed on frontend.
      *
-     * @return string
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel[]|null
      */
     public function getFrontendLabel()
     {
@@ -168,7 +168,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get the note attribute for the element.
      *
-     * @return string
+     * @return string|null
      */
     public function getNote()
     {
@@ -178,7 +178,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get backend type.
      *
-     * @return string
+     * @return string|null
      */
     public function getBackendType()
     {
@@ -188,7 +188,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get default value for the element.
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultValue()
     {
@@ -198,7 +198,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether this is a unique attribute
      *
-     * @return string
+     * @return string|null
      */
     public function isUnique()
     {
@@ -217,7 +217,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
      *  - 'bundle',
      *  - 'downloadable'
      *
-     * @return string[]
+     * @return string[]|null
      */
     public function getApplyTo()
     {
@@ -227,7 +227,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute can be used for configurable products
      *
-     * @return string
+     * @return string|null
      */
     public function isConfigurable()
     {
@@ -237,7 +237,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute can be used in Quick Search
      *
-     * @return string
+     * @return string|null
      */
     public function isSearchable()
     {
@@ -247,7 +247,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute can be used in Advanced Search
      *
-     * @return string
+     * @return string|null
      */
     public function isVisibleInAdvancedSearch()
     {
@@ -257,7 +257,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute can be compared on the frontend
      *
-     * @return string
+     * @return string|null
      */
     public function isComparable()
     {
@@ -267,7 +267,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute can be used for promo rules
      *
-     * @return string
+     * @return string|null
      */
     public function isUsedForPromoRules()
     {
@@ -277,7 +277,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute is visible on the frontend
      *
-     * @return string
+     * @return string|null
      */
     public function isVisibleOnFront()
     {
@@ -287,7 +287,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the attribute can be used in product listing
      *
-     * @return string
+     * @return string|null
      */
     public function getUsedInProductListing()
     {
@@ -297,7 +297,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Retrieve attribute scope
      *
-     * @return string
+     * @return string|null
      */
     public function getScope()
     {
@@ -307,7 +307,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Retrieve frontend class of attribute
      *
-     * @return string
+     * @return string|null
      */
     public function getFrontendClass()
     {
@@ -317,7 +317,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Enable WYSIWYG flag
      *
-     * @return bool
+     * @return bool|null
      */
     public function isWysiwygEnabled()
     {
@@ -327,7 +327,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether the HTML tags are allowed on the frontend
      *
-     * @return bool
+     * @return bool|null
      */
     public function isHtmlAllowedOnFront()
     {
@@ -337,7 +337,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether it is used for sorting in product listing
      *
-     * @return bool
+     * @return bool|null
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getUsedForSortBy()
@@ -348,7 +348,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether it used in layered navigation
      *
-     * @return bool
+     * @return bool|null
      */
     public function isFilterable()
     {
@@ -358,7 +358,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Whether it is used in search results layered navigation
      *
-     * @return bool
+     * @return bool|null
      */
     public function isFilterableInSearch()
     {
@@ -368,7 +368,7 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get position
      *
-     * @return int
+     * @return int|null
      */
     public function getPosition()
     {

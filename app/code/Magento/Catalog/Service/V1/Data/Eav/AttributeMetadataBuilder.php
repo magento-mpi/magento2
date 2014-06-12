@@ -30,22 +30,31 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     protected $validationRuleBuilder;
 
     /**
+     * @var Product\Attribute\FrontendLabelBuilder
+     */
+    protected $frontendLabelBuilder;
+
+    /**
      * Initializes builder.
      *
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
      * @param OptionBuilder $optionBuilder
      * @param ValidationRuleBuilder $validationRuleBuilder
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param Product\Attribute\FrontendLabelBuilder $frontendLabelBuilder
      */
     public function __construct(
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         OptionBuilder $optionBuilder,
-        ValidationRuleBuilder $validationRuleBuilder
+        ValidationRuleBuilder $validationRuleBuilder,
+        Product\Attribute\FrontendLabelBuilder $frontendLabelBuilder
     ) {
         parent::__construct($objectFactory);
         $this->optionBuilder = $optionBuilder;
         $this->validationRuleBuilder = $validationRuleBuilder;
+        $this->frontendLabelBuilder = $frontendLabelBuilder;
         $this->_data[AttributeMetadata::OPTIONS] = array();
         $this->_data[AttributeMetadata::VALIDATION_RULES] = array();
+        $this->_data[AttributeMetadata::FRONTEND_LABEL] = array();
     }
 
     /**
@@ -139,7 +148,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     /**
      * Set front end label
      *
-     * @param  string $frontendLabel
+     * @param  \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel[] $frontendLabel
      * @return $this
      */
     public function setFrontendLabel($frontendLabel)
@@ -414,6 +423,15 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
 
             $data[AttributeMetadata::OPTIONS] = $options;
             $data[AttributeMetadata::VALIDATION_RULES] = $validationRules;
+        }
+
+        // fill frontend labels
+        if (isset($data[AttributeMetadata::FRONTEND_LABEL]) && is_array($data[AttributeMetadata::FRONTEND_LABEL])) {
+            $frontendLabel = [];
+            foreach ($data[AttributeMetadata::FRONTEND_LABEL] as $key => $value) {
+                $frontendLabel[$key] = $this->frontendLabelBuilder->populateWithArray($value)->create();
+            }
+            $data[AttributeMetadata::FRONTEND_LABEL] = $frontendLabel;
         }
 
         if (array_key_exists(AttributeMetadata::APPLY_TO, $data)) {

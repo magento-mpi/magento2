@@ -26,19 +26,19 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
     private $inputTypeFactory;
 
     /**
-     * @var Data\ProductAttributeTypeBuilder
+     * @var Data\Eav\Product\Attribute\TypeBuilder
      */
     private $attributeTypeBuilder;
 
     /**
      * @param ProductMetadataServiceInterface $metadataService
      * @param InputtypeFactory $inputTypeFactory
-     * @param Data\ProductAttributeTypeBuilder $attributeTypeBuilder
+     * @param Data\Eav\Product\Attribute\TypeBuilder $attributeTypeBuilder
      */
     public function __construct(
         ProductMetadataServiceInterface $metadataService,
         InputtypeFactory $inputTypeFactory,
-        Data\ProductAttributeTypeBuilder $attributeTypeBuilder
+        Data\Eav\Product\Attribute\TypeBuilder $attributeTypeBuilder
     ) {
         $this->metadataService = $metadataService;
         $this->inputTypeFactory = $inputTypeFactory;

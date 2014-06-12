@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\ProductAttributeType;
+use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type;
 
 /**
  * Class ProductAttributeReadServiceInterface
@@ -18,7 +18,7 @@ interface ProductAttributeReadServiceInterface
     /**
      * Retrieve list of product attribute types
      *
-     * @return \Magento\Catalog\Service\V1\Data\ProductAttributeType[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type[]
      */
     public function types();
 

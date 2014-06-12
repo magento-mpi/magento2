@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 
 class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
@@ -29,7 +29,7 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
             ));
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder');
+        $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder');
         $productAttributeReadService = new ProductAttributeReadService(
             $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService'),
             $inputtypeFactoryMock,
@@ -38,7 +38,7 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
         $types = $productAttributeReadService->types();
         $this->assertTrue(is_array($types));
         $this->assertNotEmpty($types);
-        $this->assertInstanceOf('Magento\Catalog\Service\V1\Data\ProductAttributeType', current($types));
+        $this->assertInstanceOf('Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type', current($types));
     }
 
     /**
