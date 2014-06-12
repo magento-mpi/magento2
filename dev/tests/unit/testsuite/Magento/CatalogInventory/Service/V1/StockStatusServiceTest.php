@@ -7,21 +7,32 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
-use Magento\CatalogInventory\Model\Stock\Status;
-
 /**
  * Test for Magento\CatalogInventory\Service\V1\StockStatusService
  */
 class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
+     * @var StockStatusService
      */
-    protected $objectManager;
+    protected $model;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Stock\Status|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockStatus;
 
     protected function setUp()
     {
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectManagerHelper->getObject(
+            'Magento\CatalogInventory\Service\V1\StockStatusService',
+            ['stockStatus' => $this->stockStatus]
+        );
     }
 
     /**
@@ -33,25 +44,13 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProductStockStatus($productIds, $websiteId, $stockId, $expectedResult)
     {
-        // 1 Create mocks
-        $stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $model = $this->objectManager->getObject(
-            'Magento\CatalogInventory\Service\V1\StockStatusService',
-            ['stockStatus' => $stockStatus]
-        );
-
-        // 2. Set expectations
-        $stockStatus->expects($this->once())
+        $this->stockStatus->expects($this->once())
             ->method('getProductStockStatus')
             ->with($productIds, $websiteId, $stockId)
             ->will($this->returnValue($expectedResult));
 
-        // 3. Run tested method
-        $result = $model->getProductStockStatus($productIds, $websiteId, $stockId);
+        $result = $this->model->getProductStockStatus($productIds, $websiteId, $stockId);
 
-        // 5. Compare actual result with expected result
         $this->assertEquals($expectedResult, $result);
     }
 
@@ -63,5 +62,19 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
         return [
             [[1,2], 3, 4, []],
         ];
+    }
+
+    public function testAssignProduct()
+    {
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()->getMock();
+        $stockId = 1;
+        $stockStatus = false;
+
+        $this->stockStatus->expects($this->once())
+            ->method('assignProduct')
+            ->with($product, $stockId, $stockStatus)
+            ->will($this->returnSelf());
+
+        $this->assertEquals($this->model, $this->model->assignProduct($product, $stockId, $stockStatus));
     }
 }
