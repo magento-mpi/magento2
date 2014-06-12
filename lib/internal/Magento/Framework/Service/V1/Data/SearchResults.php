@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data;
+namespace Magento\Framework\Service\V1\Data;
 
 /**
  * SearchResults Service Data Object used for the search service requests
@@ -16,7 +16,7 @@ class SearchResults extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get items
      *
-     * @return \Magento\Catalog\Service\V1\Data\Product[]
+     * @return array
      */
     public function getItems()
     {

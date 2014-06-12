@@ -51,6 +51,12 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
+    <route url="/V1/products/attributes" method="GET">
+        <service class="Magento\Catalog\Service\V1\ProductAttributeReadServiceInterface" method="search"/>
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
     <route url="/V1/products/types" method="GET">
         <service class="Magento\Catalog\Service\V1\ProductTypeServiceInterface" method="getProductTypes"/>
         <resources>
