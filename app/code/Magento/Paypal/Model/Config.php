@@ -24,6 +24,12 @@ class Config
     const METHOD_WPP_EXPRESS = 'paypal_express';
 
     /**
+     * PayPal Bill Me Later - Express Checkout
+     * @var string
+     */
+    const METHOD_WPP_BML = 'paypal_express_bml';
+
+    /**
      * PayPal Website Payments Pro - Direct Payments
      */
     const METHOD_WPP_DIRECT = 'paypal_direct';
@@ -32,6 +38,11 @@ class Config
      * Express Checkout (Payflow Edition)
      */
     const METHOD_WPP_PE_EXPRESS = 'payflow_express';
+
+    /**
+     * PayPal Bill Me Later - Express Checkout (Payflow Edition)
+     */
+    const METHOD_WPP_PE_BML = 'payflow_express_bml';
 
     /**
      * Payflow Pro Gateway
@@ -729,12 +740,24 @@ class Config
                     $result = true;
                 }
                 break;
+            case self::METHOD_WPP_BML:
+                // check for express payments dependence
+                if (!$this->isMethodActive(self::METHOD_WPP_EXPRESS)) {
+                    $result = false;
+                }
+                break;
             case self::METHOD_WPP_PE_EXPRESS:
                 // check for direct payments dependence
                 if ($this->isMethodActive(self::METHOD_PAYFLOWLINK)
                     || $this->isMethodActive(self::METHOD_PAYFLOWADVANCED)) {
                     $result = true;
                 } elseif (!$this->isMethodActive(self::METHOD_PAYFLOWPRO)) {
+                    $result = false;
+                }
+                break;
+            case self::METHOD_WPP_PE_BML:
+                // check for express payments dependence
+                if (!$this->isMethodActive(self::METHOD_WPP_PE_EXPRESS)) {
                     $result = false;
                 }
                 break;
@@ -860,7 +883,12 @@ class Config
     public function getCountryMethods($countryCode = null)
     {
         $countryMethods = [
-            'other' => [self::METHOD_WPS, self::METHOD_WPP_EXPRESS, self::METHOD_BILLING_AGREEMENT],
+            'other' => [
+                self::METHOD_WPS,
+                self::METHOD_WPP_EXPRESS,
+                self::METHOD_BILLING_AGREEMENT,
+                self::METHOD_WPP_BML
+            ],
             'US' => [
                 self::METHOD_PAYFLOWADVANCED,
                 self::METHOD_WPP_DIRECT,
@@ -868,8 +896,10 @@ class Config
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_PAYFLOWLINK,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT,
-                self::METHOD_WPP_PE_EXPRESS
+                self::METHOD_WPP_PE_EXPRESS,
+                self::METHOD_WPP_PE_BML
             ],
             'CA' => [
                 self::METHOD_WPP_DIRECT,
@@ -877,6 +907,7 @@ class Config
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_PAYFLOWLINK,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT,
                 self::METHOD_WPP_PE_EXPRESS
             ],
@@ -885,6 +916,7 @@ class Config
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'AU' => [
@@ -892,46 +924,54 @@ class Config
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'NZ' => [
                 self::METHOD_WPS,
                 self::METHOD_PAYFLOWPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'JP' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'FR' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'IT' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'ES' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'HK' => [
                 self::METHOD_WPS,
                 self::METHOD_HOSTEDPRO,
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ],
             'DE' => [
                 self::METHOD_WPP_EXPRESS,
+                self::METHOD_WPP_BML,
                 self::METHOD_BILLING_AGREEMENT
             ]
         ];
@@ -1564,6 +1604,12 @@ class Config
             case self::METHOD_WPS:
                 $path = $this->_mapStandardFieldset($fieldName);
                 break;
+            case self::METHOD_WPP_BML:
+                $path = $this->_mapBmlFieldset($fieldName);
+                break;
+            case self::METHOD_WPP_PE_BML:
+                $path = $this->_mapBmlPayflowFieldset($fieldName);
+                break;
             case self::METHOD_WPP_EXPRESS:
             case self::METHOD_WPP_PE_EXPRESS:
                 $path = $this->_mapExpressFieldset($fieldName);
@@ -1580,6 +1626,7 @@ class Config
         if ($path === null) {
             switch ($this->_methodCode) {
                 case self::METHOD_WPP_EXPRESS:
+                case self::METHOD_WPP_BML:
                 case self::METHOD_WPP_DIRECT:
                 case self::METHOD_BILLING_AGREEMENT:
                 case self::METHOD_HOSTEDPRO:
@@ -1640,6 +1687,40 @@ class Config
                 return "payment/{$this->_methodCode}/{$fieldName}";
             default:
                 return $this->_mapMethodFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal Express Bill Me Later config fields
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapBmlFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'allow_ba_signup':
+                return "payment/" . self::METHOD_WPP_EXPRESS . "/{$fieldName}";
+            default:
+                return $this->_mapExpressFieldset($fieldName);
+        }
+    }
+
+    /**
+     * Map PayPal Express Bill Me Later config fields (Payflow Edition)
+     *
+     * @param string $fieldName
+     * @return string|null
+     */
+    protected function _mapBmlPayflowFieldset($fieldName)
+    {
+        switch ($fieldName)
+        {
+            case 'allow_ba_signup':
+                return "payment/" . self::METHOD_WPP_PE_EXPRESS . "/{$fieldName}";
+            default:
+                return $this->_mapExpressFieldset($fieldName);
         }
     }
 
@@ -1809,5 +1890,76 @@ class Config
     {
         $websiteId = $this->_storeManager->getStore($this->_storeId)->getWebsiteId();
         return $this->_certFactory->create()->loadByWebsite($websiteId, false)->getCertPath();
+    }
+
+    /**
+     * Get PublisherId from stored config
+     *
+     * @return mixed
+     */
+    public function getBmlPublisherId()
+    {
+        return $this->_scopeConfig->getValue(
+            'payment/' . self::METHOD_WPP_BML . '/publisher_id',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
+    }
+
+    /**
+     * Get Display option from stored config
+     * @param $section
+     *
+     * @return mixed
+     */
+    public function getBmlDisplay($section)
+    {
+        $display = $this->_scopeConfig->getValue(
+            'payment/' . self::METHOD_WPP_BML . '/'.$section.'_display',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
+        $bmlActive = $this->_scopeConfig->getValue(
+            'payment/' . self::METHOD_WPP_BML . '/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
+        $bmlUkActive = $this->_scopeConfig->getValue(
+            'payment/' . self::METHOD_WPP_PE_BML . '/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
+        return (($bmlActive && $this->isMethodActive(self::METHOD_WPP_EXPRESS))
+            || ($bmlUkActive && $this->isMethodActive(self::METHOD_WPP_PE_EXPRESS))) ? $display : 0;
+    }
+
+    /**
+     * Get Position option from stored config
+     * @param $section
+     *
+     * @return mixed
+     */
+    public function getBmlPosition($section)
+    {
+        return $this->_scopeConfig->getValue(
+            'payment/' . self::METHOD_WPP_BML . '/'.$section.'_position',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
+    }
+
+    /**
+     * Get Size option from stored config
+     * @param $section
+     *
+     * @return mixed
+     */
+    public function getBmlSize($section)
+    {
+        return $this->_scopeConfig->getValue(
+            'payment/' . self::METHOD_WPP_BML . '/'.$section.'_size',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_storeId
+        );
     }
 }

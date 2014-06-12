@@ -137,7 +137,8 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'ECI' => 'centinel_eci',
         'XID' => 'centinel_xid',
         'VPAS' => 'centinel_vpas_result',
-        'ECISUBMITTED3DS' => 'centinel_eci_result'
+        'ECISUBMITTED3DS' => 'centinel_eci_result',
+        'USERSELECTEDFUNDINGSOURCE' => 'funding_source'
     );
 
     /**
@@ -248,7 +249,8 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'HDRBORDERCOLOR',
         'HDRBACKCOLOR',
         'PAYFLOWCOLOR',
-        'LOCALECODE'
+        'LOCALECODE',
+        'USERSELECTEDFUNDINGSOURCE'
     );
 
     /**

@@ -116,6 +116,13 @@ class Checkout
     protected $_isBARequested = false;
 
     /**
+     * Flag for Bill Me Later mode
+     *
+     * @var bool
+     */
+    protected $_isBml = false;
+
+    /**
      * Customer ID
      *
      * @var int
@@ -416,6 +423,16 @@ class Checkout
     }
 
     /**
+     * Set flag that forces to use BillMeLater
+     *
+     * @param bool $isBml
+     */
+    public function setIsBml($isBml)
+    {
+        $this->_isBml = $isBml;
+    }
+
+    /**
      * Setter for customer
      *
      * @param CustomerDataObject $customerData
@@ -491,6 +508,10 @@ class Checkout
                     'giropay_bank_txn_pending_url' => $pendingUrl,
                 ]
             );
+        }
+
+        if ($this->_isBml) {
+            $this->_api->setFundingSource('BML');
         }
 
         $this->_setBillingAgreementRequest();

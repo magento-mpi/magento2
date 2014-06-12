@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Block;
 
 use Magento\Framework\View\Element\Template;
+use Magento\Catalog\Helper\ShortcutValidatorInterface;
 
 class ShortcutButtons extends Template
 {
@@ -36,13 +37,20 @@ class ShortcutButtons extends Template
     protected $_orPosition;
 
     /**
+     * @var \Magento\Catalog\Helper\ShortcutValidatorInterface
+     */
+    protected $_shortcutValidator;
+
+    /**
      * @param Template\Context $context
+     * @param ShortcutValidatorInterface $shortcutValidator
      * @param bool $isCatalogProduct
      * @param null|string $orPosition
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
+        ShortcutValidatorInterface $shortcutValidator,
         $isCatalogProduct = false,
         $orPosition = null,
         array $data = array()
@@ -50,6 +58,7 @@ class ShortcutButtons extends Template
         parent::__construct($context, $data);
         $this->_isCatalogProduct = $isCatalogProduct;
         $this->_orPosition = $orPosition ?: ($isCatalogProduct ? self::POSITION_BEFORE : self::POSITION_AFTER);
+        $this->_shortcutValidator = $shortcutValidator;
     }
 
     /**
@@ -63,6 +72,16 @@ class ShortcutButtons extends Template
         if ($block instanceof ShortcutInterface) {
             $this->_shortcuts[] = $block;
         }
+    }
+
+    /**
+     * Returns block validator
+     *
+     * @return ShortcutValidatorInterface
+     */
+    public function getValidator()
+    {
+        return $this->_shortcutValidator;
     }
 
     /**

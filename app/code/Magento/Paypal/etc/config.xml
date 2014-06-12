@@ -48,6 +48,11 @@
                 <verify_peer>1</verify_peer>
                 <skip_order_review_step>1</skip_order_review_step>
             </paypal_express>
+            <paypal_express_bml>
+                <model>Magento\Paypal\Model\Bml</model>
+                <title>Bill Me Later</title>
+                <group>paypal</group>
+            </paypal_express_bml>
             <paypal_direct>
                 <model>Magento\Paypal\Model\Direct</model>
                 <title>PayPal Payments Pro</title>
@@ -75,6 +80,11 @@
                 <verify_peer>1</verify_peer>
                 <model>Magento\Paypal\Model\PayflowExpress</model>
             </payflow_express>
+            <paypaluk_express_bml>
+                <model>Magento\Paypal\Model\Payflow\Bml</model>
+                <title>Bill Me Later</title>
+                <group>paypal</group>
+            </paypaluk_express_bml>
             <payflowpro>
                 <model>Magento\Paypal\Model\Payflowpro</model>
                 <title>Payflow Pro</title>

@@ -239,33 +239,34 @@ class Observer
     {
         /** @var \Magento\Catalog\Block\ShortcutButtons $shortcutButtons */
         $shortcutButtons = $observer->getEvent()->getContainer();
-        // PayPal Express Checkout
-        $shortcut = $shortcutButtons->getLayout()->createBlock(
+        $blocks = [
             'Magento\Paypal\Block\Express\Shortcut',
-            '',
-            array('checkoutSession' => $observer->getEvent()->getCheckoutSession())
-        );
-        $shortcut->setIsInCatalogProduct(
-            $observer->getEvent()->getIsCatalogProduct()
-        )->setShowOrPosition(
-            $observer->getEvent()->getOrPosition()
-        )->setTemplate(
-            'express/shortcut.phtml'
-        );
-        $shortcutButtons->addShortcut($shortcut);
-        // PayPal Express Checkout Payflow Edition
-        $shortcut = $shortcutButtons->getLayout()->createBlock(
             'Magento\Paypal\Block\PayflowExpress\Shortcut',
-            '',
-            array('checkoutSession' => $observer->getEvent()->getCheckoutSession())
-        );
-        $shortcut->setIsInCatalogProduct(
-            $observer->getEvent()->getIsCatalogProduct()
-        )->setShowOrPosition(
-            $observer->getEvent()->getOrPosition()
-        )->setTemplate(
-            'express/shortcut.phtml'
-        );
-        $shortcutButtons->addShortcut($shortcut);
+            'Magento\Paypal\Block\Bml\Shortcut',
+            'Magento\Paypal\Block\Payflow\Bml\Shortcut'
+        ];
+        foreach ($blocks as $blockInstanceName) {
+            $params = [
+                'shortcutValidator' => $shortcutButtons->getValidator()
+            ];
+            if (!in_array('Bml', explode('/', $blockInstanceName))) {
+                $params['checkoutSession'] = $observer->getEvent()->getCheckoutSession();
+            }
+
+            // we believe it's \Magento\Framework\View\Element\Template
+            $shortcut = $shortcutButtons->getLayout()->createBlock(
+                $blockInstanceName,
+                '',
+                $params
+            );
+            $shortcut->setIsInCatalogProduct(
+                $observer->getEvent()->getIsCatalogProduct()
+            )->setShowOrPosition(
+                $observer->getEvent()->getOrPosition()
+            )->setTemplate(
+                'express/shortcut.phtml'
+            );
+            $shortcutButtons->addShortcut($shortcut);
+        }
     }
 }

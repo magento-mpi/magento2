@@ -166,6 +166,9 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
                 $this->_checkout->setIsBillingAgreementRequested($isBaRequested);
             }
 
+            // Bill Me Later
+            $this->_checkout->setIsBml((bool)$this->getRequest()->getParam('bml'));
+
             // giropay
             $this->_checkout->prepareGiropayUrls(
                 $this->_url->getUrl('checkout/onepage/success'),
