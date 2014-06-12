@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 /**
  * Class AttributeMetadata
  */
-class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
+class AttributeMetadata extends \Magento\Framework\Service\Data\Eav\AbstractObject
 {
     /**#@+
      * Constants used as keys into $_data
@@ -24,6 +24,8 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     const VALIDATION_RULES = 'validation_rules';
 
     const OPTIONS = 'options';
+
+    const SYSTEM = 'system';
 
     const VISIBLE = 'visible';
 
@@ -93,6 +95,16 @@ class AttributeMetadata extends \Magento\Framework\Service\Data\AbstractObject
     public function getAttributeCode()
     {
         return $this->_get(self::ATTRIBUTE_CODE);
+    }
+
+    /**
+     * Retrieve is system attribute flag
+     *
+     * @return bool|null
+     */
+    public function isSystem()
+    {
+        return $this->_get(self::SYSTEM);
     }
 
     /**

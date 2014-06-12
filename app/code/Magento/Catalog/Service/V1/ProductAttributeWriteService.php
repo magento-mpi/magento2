@@ -5,21 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Product\Attribute;
+namespace Magento\Catalog\Service\V1;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 
 /**
- * Class WriteService
- * @package Magento\Catalog\Service\V1\Product\Attribute
+ * Class ProductAttributeWriteService
+ * @package Magento\Catalog\Service\V1
  */
-class WriteService implements WriteServiceInterface
+class ProductAttributeWriteService implements ProductAttributeWriteServiceInterface
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -42,30 +39,43 @@ class WriteService implements WriteServiceInterface
     protected $helper;
 
     /**
-     * @var \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory
+     * @var \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator
      */
-    protected $inputtypeValidatorFactory;
+    protected $inputValidator;
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param \Magento\Catalog\Helper\Product $helper
-     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $inputtypeValidatorFactory
+     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Catalog\Helper\Product $helper,
-        \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $inputtypeValidatorFactory
-    )
-    {
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
+    ) {
         $this->eavConfig = $eavConfig;
         $this->attributeFactory = $attributeFactory;
         $this->filter = $filter;
         $this->helper = $helper;
-        $this->inputtypeValidatorFactory = $inputtypeValidatorFactory;
+        $this->inputValidator = $inputValidator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($attributeId)
+    {
+        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $attributeId);
+        if (!$model) {
+            //product attribute does not exist
+            throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $attributeId);
+        }
+        $model->delete();
+        return true;
     }
 
     /**
@@ -99,64 +109,6 @@ class WriteService implements WriteServiceInterface
             ->setIsUserDefined(1);
 
         return $model->save()->getAttributeCode();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update($id, AttributeMetadata $attribute)
-    {
-        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attributeModel */
-        $model = $this->attributeFactory->create();
-        $model->loadByCode(\Magento\Catalog\Model\Product::ENTITY, $id);
-        if (!$model->getId()) {
-            throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_CODE, $id);
-        }
-
-        $data = $attribute->__toArray();
-
-        // this fields should not be changed
-        $data[AttributeMetadata::ATTRIBUTE_ID]   = $model->getAttributeId();
-        $data[AttributeMetadata::USER_DEFINED]   = $model->getIsUserDefined();
-        $data[AttributeMetadata::FRONTEND_INPUT] = $model->getFrontendInput();
-
-        if (isset($data[AttributeMetadata::FRONTEND_LABEL]) && is_array($data[AttributeMetadata::FRONTEND_LABEL])) {
-            $frontendLabel[0] = $model->getFrontendLabel();
-            foreach ($data[AttributeMetadata::FRONTEND_LABEL] as $item) {
-                if (isset($item[FrontendLabel::STORE_ID], $item[FrontendLabel::LABEL])) {
-                    $frontendLabel[$item[FrontendLabel::STORE_ID]] = $item[FrontendLabel::LABEL];
-                }
-            }
-            $data[AttributeMetadata::FRONTEND_LABEL] = $frontendLabel;
-        }
-
-        if (!$model->getIsUserDefined()) {
-            // Unset attribute field for system attributes
-            unset($data[AttributeMetadata::APPLY_TO]);
-        }
-
-        try {
-            $model->addData($data);
-            $model->save();
-        } catch(\Exception $e) {
-            throw new CouldNotSaveException('Could not update product attribute' . $e->getMessage());
-        }
-
-        return $model->getAttributeCode();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove($attributeId)
-    {
-        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $attributeId);
-        if (!$model) {
-            //product attribute does not exist
-            throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $attributeId);
-        }
-        $model->delete();
-        return true;
     }
 
     /**
@@ -199,8 +151,7 @@ class WriteService implements WriteServiceInterface
      */
     protected function validateFrontendInput($frontendInput)
     {
-        $validator = $this->inputtypeValidatorFactory->create();
-        if (!$validator->isValid($frontendInput)) {
+        if (!$this->inputValidator->isValid($frontendInput)) {
             throw InputException::invalidFieldValue('frontend_input', $frontendInput);
         }
     }
