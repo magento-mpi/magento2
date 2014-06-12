@@ -19,6 +19,10 @@ return [
             'Magento\Setup\Controller\TestController',
         ],
         'instance' => [
+            'preference' => [
+                'Zend\EventManager\EventManagerInterface' => 'EventManager',
+                'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
+            ],
             'Magento\Setup\Controller\TestController' => [
                 'parameters' => [
                     'resolver' => new \Magento\Config\Resolver\ByPattern(
@@ -28,12 +32,6 @@ return [
                         ),
                 ],
             ],
-        ],
-    ],
-    'instance' => [
-        'preference' => [
-            'Zend\EventManager\EventManagerInterface' => 'EventManager',
-            'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
         ],
     ],
 ];

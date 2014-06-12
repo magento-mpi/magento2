@@ -13,6 +13,13 @@ namespace Magento\Config;
  */
 class GlobWrapper
 {
+    /**
+     * Find pathnames matching a pattern
+     *
+     * @param string $path
+     * @param int $flag
+     * @return array
+     */
     public function glob($path, $flag = 0)
     {
         return glob($path, $flag);

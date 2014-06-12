@@ -13,12 +13,26 @@ use Magento\Config\Resolver;
 
 class ByPattern implements Resolver
 {
+    /**
+     * @var string
+     */
     protected $pattern;
 
+    /**
+     * @var string
+     */
     protected $path;
 
+    /**
+     * @var \Magento\Config\GlobWrapper
+     */
     protected $glob;
 
+    /**
+     * @param GlobWrapper $glob
+     * @param string $path
+     * @param string $pattern
+     */
     public function __construct(
         GlobWrapper $glob,
         $path,
@@ -29,6 +43,9 @@ class ByPattern implements Resolver
         $this->pattern = $pattern;
     }
 
+    /**
+     * @return array
+     */
     public function get()
     {
         return $this->glob->glob($this->path . $this->pattern);

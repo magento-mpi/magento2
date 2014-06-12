@@ -10,6 +10,7 @@ return [
     'modules' => [
         'Magento\Install',
         'Magento\Config',
+        'Magento\Module',
         'Magento\Setup',
     ],
     'module_listener_options' => [
