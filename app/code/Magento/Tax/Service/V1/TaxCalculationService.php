@@ -45,13 +45,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected $taxDetailsBuilder;
 
     /**
-     * Tax helper
-     *
-     * @var \Magento\Tax\Helper\Data
-     */
-    protected $helper;
-
-    /**
      * Rounding deltas for prices
      *
      * @var array
@@ -76,20 +69,17 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      *
      * @param Calculation $calculation
      * @param \Magento\Tax\Model\Config $config
-     * @param \Magento\Tax\Helper\Data $helper
      * @param TaxDetailsBuilder $taxDetailsBuilder
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      */
     public function __construct(
         Calculation $calculation,
         \Magento\Tax\Model\Config $config,
-        \Magento\Tax\Helper\Data $helper,
         TaxDetailsBuilder $taxDetailsBuilder,
         TaxDetailsItemBuilder $taxDetailsItemBuilder
     ) {
         $this->calculator = $calculation;
         $this->config = $config;
-        $this->helper = $helper;
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
     }
@@ -124,7 +114,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $classIds = array_unique($classIds);
             $addressRequest->setProductClassId($classIds);
             $storeRequest->setProductClassId($classIds);
-            if ($this->helper->isCrossBorderTradeEnabled($storeId)) {
+            if ((bool)$this->config->crossBorderTradeEnabled($storeId)) {
                 $addressRequest->setSameRateAsStore(true);
             } else {
                 $addressRequest->setSameRateAsStore(
