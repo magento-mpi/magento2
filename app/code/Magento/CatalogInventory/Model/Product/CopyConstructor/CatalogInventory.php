@@ -39,7 +39,7 @@ class CatalogInventory implements \Magento\Catalog\Model\Product\CopyConstructor
             'use_config_backorders' => 1,
             'use_config_notify_stock_qty' => 1
         ];
-        /** @var \Magento\CatalogInventory\Model\Stock\Item $currentStockItem */
+        /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $currentStockItemDo */
         $currentStockItemDo = $this->stockItemService->getStockItem($product->getId());
         if ($currentStockItemDo->getStockId()) {
             $stockData += [
