@@ -23,7 +23,6 @@ class FullTest extends \PHPUnit_Framework_TestCase
             false
         );
         $resourceMock = $this->getMock('Magento\Framework\App\Resource', array('getConnection'), array(), '', false);
-        $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
         $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
 
@@ -40,7 +39,6 @@ class FullTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\CatalogInventory\Model\Indexer\Stock\Action\Full(
             $resourceMock,
-            $loggerMock,
             $indexerFactoryMock,
             $productTypeMock
         );
