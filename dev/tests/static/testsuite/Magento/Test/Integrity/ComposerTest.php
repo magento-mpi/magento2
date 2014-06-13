@@ -109,6 +109,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertRegExp('/^magento\/theme-adminhtml(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertObjectHasAttribute('require', $json);
                 $this->assertDependsOnFramework($json->require);
+                $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-theme-frontend':
                 $this->assertRegExp('/^magento\/theme-frontend(\-[a-z0-9_]+)+$/', $json->name);
@@ -152,6 +153,18 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         foreach ($packages as $package) {
             $this->assertObjectHasAttribute($package, $json);
         }
+    }
+
+    /**
+     * Assert that references to theme version in theme.xml and composer.json are not out of sync
+     *
+     * @param string $dir
+     * @param string $version
+     */
+    private function assertThemeVersionInSync($dir, $version)
+    {
+        $xml = simplexml_load_file("$dir/theme.xml");
+        $this->assertEquals($xml->theme->version, $version);
     }
 
     /**

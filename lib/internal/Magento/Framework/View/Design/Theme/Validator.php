@@ -33,10 +33,39 @@ class Validator
      */
     public function __construct()
     {
+        $this->_setVersionValidators();
         $this->_setTypeValidators();
         $this->_setTitleValidators();
     }
 
+    /**
+     * Set version validators
+     *
+     * @return $this
+     */
+    protected function _setVersionValidators()
+    {
+        $versionValidators = array(
+            array(
+                'name' => 'not_empty',
+                'class' => 'Zend_Validate_NotEmpty',
+                'break' => true,
+                'options' => array(),
+                'message' => __('Field can\'t be empty')
+            ),
+            array(
+                'name' => 'available',
+                'class' => 'Zend_Validate_Regex',
+                'break' => true,
+                'options' => array('pattern' => '/^(\d+\.\d+\.\d+(\-[a-zA-Z0-9]+)?)$|^\*$/'),
+                'message' => __('Theme version has not compatible format.')
+            )
+        );
+
+        $this->addDataValidators('theme_version', $versionValidators);
+
+        return $this;
+    }
 
     /**
      * Set title validators
