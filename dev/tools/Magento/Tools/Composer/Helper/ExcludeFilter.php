@@ -23,7 +23,7 @@ class ExcludeFilter extends \RecursiveFilterIterator
     /**
      * ExcludeFilter Constructor
      *
-     * @param string RecursiveDirectoryIterator
+     * @param  \RecursiveDirectoryIterator $iterator
      * @param array $exclude
      */
     public function __construct(\RecursiveDirectoryIterator $iterator, array $exclude)
@@ -44,7 +44,7 @@ class ExcludeFilter extends \RecursiveFilterIterator
     /**
      * Getting the children of Inner Iterator
      *
-     * @return RecursiveIteratorIterator
+     * @return \RecursiveDirectoryIterator
      */
     public function getChildren()
     {
