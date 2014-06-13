@@ -37,4 +37,3 @@ class UserGrid extends Grid
      */
     protected $editLink = '[data-column="username"]';
 }
-
