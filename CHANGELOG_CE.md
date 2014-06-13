@@ -1,3 +1,5 @@
+2.0.0.0-dev82
+=============
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `ConfigurableProduct/Helper/Data.php`
@@ -41,8 +43,7 @@
   * Update Category (MTA-52)
   * Update Category Url Rewrite (MTA-87)
   * Update Product Url Rewrite (MTA-84)
-  
-  
+
 2.0.0.0-dev81
 =============
 * Framework improvements:
