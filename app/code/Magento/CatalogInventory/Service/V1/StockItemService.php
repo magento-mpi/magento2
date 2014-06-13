@@ -370,4 +370,23 @@ class StockItemService implements StockItemServiceInterface
         }
         return $result;
     }
+
+    /**
+     * Retrieves a list of SKU's with low inventory qty
+     *
+     * @param Data\LowStockCriteria $lowStockCriteria
+     * @return Data\LowStockResult
+     */
+    public function getLowStockItems(Data\LowStockCriteria $lowStockCriteria)
+    {
+        $lowStockCriteria->getQty();
+        $lowStockCriteria->getPageSize();
+        $lowStockCriteria->getCurrentPage();
+        $lowStockCriteria->getStoreId();
+        $result = [
+            'list of sku',
+            'total count',
+        ];
+        return $result;
+    }
 }
