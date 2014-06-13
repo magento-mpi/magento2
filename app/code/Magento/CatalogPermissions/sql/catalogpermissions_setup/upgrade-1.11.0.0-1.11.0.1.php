@@ -60,9 +60,6 @@ $table = $connection->newTable(
     array(),
     'Grant Checkout Items'
 )->addIndex(
-    $this->getIdxName('magento_catalogpermissions_index', array('category_id')),
-    array('category_id')
-)->addIndex(
     $this->getIdxName('magento_catalogpermissions_index', array('website_id')),
     array('website_id')
 )->addIndex(

@@ -230,9 +230,6 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('customer_address_entity_datetime', array('attribute_id')),
     array('attribute_id')
 )->addIndex(
-    $installer->getIdxName('customer_address_entity_datetime', array('entity_id')),
-    array('entity_id')
-)->addIndex(
     $installer->getIdxName('customer_address_entity_datetime', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
 )->addForeignKey(
@@ -310,9 +307,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('customer_address_entity_decimal', array('attribute_id')),
     array('attribute_id')
-)->addIndex(
-    $installer->getIdxName('customer_address_entity_decimal', array('entity_id')),
-    array('entity_id')
 )->addIndex(
     $installer->getIdxName('customer_address_entity_decimal', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
@@ -392,9 +386,6 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('customer_address_entity_int', array('attribute_id')),
     array('attribute_id')
 )->addIndex(
-    $installer->getIdxName('customer_address_entity_int', array('entity_id')),
-    array('entity_id')
-)->addIndex(
     $installer->getIdxName('customer_address_entity_int', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
 )->addForeignKey(
@@ -472,9 +463,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('customer_address_entity_text', array('attribute_id')),
     array('attribute_id')
-)->addIndex(
-    $installer->getIdxName('customer_address_entity_text', array('entity_id')),
-    array('entity_id')
 )->addForeignKey(
     $installer->getFkName('customer_address_entity_text', 'attribute_id', 'eav_attribute', 'attribute_id'),
     'attribute_id',
@@ -550,9 +538,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('customer_address_entity_varchar', array('attribute_id')),
     array('attribute_id')
-)->addIndex(
-    $installer->getIdxName('customer_address_entity_varchar', array('entity_id')),
-    array('entity_id')
 )->addIndex(
     $installer->getIdxName('customer_address_entity_varchar', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
@@ -632,9 +617,6 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('customer_entity_datetime', array('attribute_id')),
     array('attribute_id')
 )->addIndex(
-    $installer->getIdxName('customer_entity_datetime', array('entity_id')),
-    array('entity_id')
-)->addIndex(
     $installer->getIdxName('customer_entity_datetime', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
 )->addForeignKey(
@@ -712,9 +694,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('customer_entity_decimal', array('attribute_id')),
     array('attribute_id')
-)->addIndex(
-    $installer->getIdxName('customer_entity_decimal', array('entity_id')),
-    array('entity_id')
 )->addIndex(
     $installer->getIdxName('customer_entity_decimal', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
@@ -794,9 +773,6 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('customer_entity_int', array('attribute_id')),
     array('attribute_id')
 )->addIndex(
-    $installer->getIdxName('customer_entity_int', array('entity_id')),
-    array('entity_id')
-)->addIndex(
     $installer->getIdxName('customer_entity_int', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')
 )->addForeignKey(
@@ -874,9 +850,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('customer_entity_text', array('attribute_id')),
     array('attribute_id')
-)->addIndex(
-    $installer->getIdxName('customer_entity_text', array('entity_id')),
-    array('entity_id')
 )->addForeignKey(
     $installer->getFkName('customer_entity_text', 'attribute_id', 'eav_attribute', 'attribute_id'),
     'attribute_id',
@@ -952,9 +925,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('customer_entity_varchar', array('attribute_id')),
     array('attribute_id')
-)->addIndex(
-    $installer->getIdxName('customer_entity_varchar', array('entity_id')),
-    array('entity_id')
 )->addIndex(
     $installer->getIdxName('customer_entity_varchar', array('entity_id', 'attribute_id', 'value')),
     array('entity_id', 'attribute_id', 'value')

@@ -450,6 +450,7 @@ class CatalogProductVirtual extends InjectableFixture
         'default_value' => 'Taxable Goods',
         'input' => 'select',
         'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -492,6 +493,7 @@ class CatalogProductVirtual extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings',
     ];
 
     protected $url_path = [
