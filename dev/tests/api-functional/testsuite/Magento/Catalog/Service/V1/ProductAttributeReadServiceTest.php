@@ -231,7 +231,7 @@ class ProductAttributeReadServiceTest extends WebapiAbstract
                         'frontend_input' => 'textarea'
                     ],
                 ],
-                [Attribute::IS_REQUIRED, SearchCriteria::SORT_ASC]
+                [Attribute::ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups

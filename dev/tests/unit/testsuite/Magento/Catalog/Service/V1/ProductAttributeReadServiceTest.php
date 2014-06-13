@@ -91,7 +91,30 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
         );
         $attrCollectionMock->expects($this->once())->method('join')->with(
             $this->equalTo(array('additional_table' => 'catalog_eav_attribute')),
-            $this->equalTo('main_table.attribute_id = additional_table.attribute_id')
+            $this->equalTo('main_table.attribute_id = additional_table.attribute_id'),
+            $this->equalTo(
+                [
+                    'frontend_input_renderer',
+                    'is_global',
+                    'is_visible',
+                    'is_searchable',
+                    'is_filterable',
+                    'is_comparable',
+                    'is_visible_on_front',
+                    'is_html_allowed_on_front',
+                    'is_used_for_price_rules',
+                    'is_filterable_in_search',
+                    'used_in_product_listing',
+                    'used_for_sort_by',
+                    'apply_to',
+                    'is_visible_in_advanced_search',
+                    'position',
+                    'is_wysiwyg_enabled',
+                    'is_used_for_promo_rules',
+                    'is_configurable',
+                    'search_weight',
+                ]
+            )
         );
         $attrCollectionMock->expects($this->once())->method('getSize')->will($this->returnValue(1));
         $attrCollectionMock->expects($this->once())->method('addFieldToFilter')->with(

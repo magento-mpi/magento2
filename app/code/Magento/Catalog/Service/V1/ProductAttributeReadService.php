@@ -118,7 +118,28 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
         }
         $this->attributeCollection->join(
             array('additional_table' => $this->attributeCollection->getTable('catalog_eav_attribute')),
-            'main_table.attribute_id = additional_table.attribute_id'
+            'main_table.attribute_id = additional_table.attribute_id',
+            [
+                'frontend_input_renderer',
+                'is_global',
+                'is_visible',
+                'is_searchable',
+                'is_filterable',
+                'is_comparable',
+                'is_visible_on_front',
+                'is_html_allowed_on_front',
+                'is_used_for_price_rules',
+                'is_filterable_in_search',
+                'used_in_product_listing',
+                'used_for_sort_by',
+                'apply_to',
+                'is_visible_in_advanced_search',
+                'position',
+                'is_wysiwyg_enabled',
+                'is_used_for_promo_rules',
+                'is_configurable',
+                'search_weight',
+            ]
         );
 
         $this->attributeCollection->setCurPage($searchCriteria->getCurrentPage());
