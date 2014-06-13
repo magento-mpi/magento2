@@ -19,27 +19,37 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * @var Status
      */
-    private $stockStatus;
+    protected $stockStatus;
 
     /**
      * @var \Magento\Store\Model\Resolver\Website
      */
-    private $scopeResolver;
+    protected $scopeResolver;
 
     /**
      * @var \Magento\Catalog\Service\V1\Product\Link\ProductLoader
      */
-    private $productLoader;
+    protected $productLoader;
 
     /**
      * @var StockItemService
      */
-    private $stockItemService;
+    protected $stockItemService;
 
     /**
      * @var Data\StockStatusBuilder
      */
-    private $stockStatusBuilder;
+    protected $stockStatusBuilder;
+
+    /**
+     * @var \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory
+     */
+    protected $itemsFactory;
+
+    /**
+     * @var Data\LowStockResultBuilder
+     */
+    protected $lowStockResultBuilder;
 
     /**
      * @param Status $stockStatus
@@ -47,19 +57,24 @@ class StockStatusService implements StockStatusServiceInterface
      * @param \Magento\Catalog\Service\V1\Product\Link\ProductLoader $productLoader
      * @param \Magento\Store\Model\Resolver\Website $scopeResolver
      * @param Data\StockStatusBuilder $stockStatusBuilder
+     * @param \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory $itemsFactory
+     * @param Data\LowStockResultBuilder $lowStockResultBuilder
      */
     public function __construct(
         Status $stockStatus,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Catalog\Service\V1\Product\Link\ProductLoader $productLoader,
         \Magento\Store\Model\Resolver\Website $scopeResolver,
-        \Magento\CatalogInventory\Service\V1\Data\StockStatusBuilder $stockStatusBuilder
+        Data\StockStatusBuilder $stockStatusBuilder,
+        \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory $itemsFactory,
+        Data\LowStockResultBuilder $lowStockResultBuilder
     ) {
         $this->stockStatus = $stockStatus;
         $this->stockItemService = $stockItemService;
         $this->productLoader = $productLoader;
         $this->scopeResolver = $scopeResolver;
         $this->stockStatusBuilder = $stockStatusBuilder;
+        $this->lowStockResultBuilder = $lowStockResultBuilder;
     }
 
     /**
@@ -112,5 +127,32 @@ class StockStatusService implements StockStatusServiceInterface
         $this->stockStatusBuilder->populateWithArray($result);
 
         return $this->stockStatusBuilder->create();
+    }
+
+    /**
+     * Retrieves a list of SKU's with low inventory qty
+     *
+     * @param Data\LowStockCriteria $lowStockCriteria
+     * @return Data\LowStockResult
+     */
+    public function getLowStockItems(Data\LowStockCriteria $lowStockCriteria)
+    {
+        /** @var \Magento\CatalogInventory\Model\Resource\Stock\Status\Collection $itemCollection */
+        $itemCollection = $this->itemsFactory->create();
+        $itemCollection->addWebsiteFilter($this->scopeResolver->getScope());
+        $itemCollection->addQtyFilter($lowStockCriteria->getQty());
+        $itemCollection->setCurPage($lowStockCriteria->getCurrentPage());
+        $itemCollection->setPageSize($lowStockCriteria->getPageSize());
+
+        $countOfItems = $itemCollection->getSize();
+        $listOfSku = [];
+        foreach ($itemCollection as $item) {
+            $listOfSku[] = $item->getSku();
+        }
+
+        $this->lowStockResultBuilder->setSearchCriteria($lowStockCriteria);
+        $this->lowStockResultBuilder->setTotalCount($countOfItems);
+        $this->lowStockResultBuilder->setItems($listOfSku);
+        return $this->lowStockResultBuilder->create();
     }
 }
