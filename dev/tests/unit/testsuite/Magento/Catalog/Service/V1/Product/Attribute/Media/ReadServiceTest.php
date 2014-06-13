@@ -418,7 +418,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testInfo()
     {
         $productSku = 'Sku absent';
-        $storeId = 30;
         $imageId = 123321;
         $images = [
             [
