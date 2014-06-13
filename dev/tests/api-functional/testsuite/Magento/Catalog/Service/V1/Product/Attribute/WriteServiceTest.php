@@ -90,7 +90,7 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateValidate($data)
     {
-        $this->assertGreaterThan(0, $this->createAttribute($data));
+        $this->createAttribute($data);
     }
 
     /**
@@ -102,9 +102,12 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertTrue($this->deleteAttribute($attributeId));
     }
 
-    public function testRemoveNoSuchEntityException()
+    /**
+     * @param $invalidId
+     * @dataProvider removeNoSuchEntityExceptionDataProvider
+     */
+    public function testRemoveNoSuchEntityException($invalidId)
     {
-        $invalidId = -1;
         $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
@@ -122,6 +125,14 @@ class WriteServiceTest extends WebapiAbstract
             $this->assertEquals(['fieldName' => 'attribute_id', 'fieldValue' => $invalidId], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
+    }
+
+    public function removeNoSuchEntityExceptionDataProvider()
+    {
+        return array(
+            [-1],
+            ['unexisting_attribute_id'],
+        );
     }
 
     protected function getAttributeData()

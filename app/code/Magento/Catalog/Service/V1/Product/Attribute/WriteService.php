@@ -151,7 +151,7 @@ class WriteService implements WriteServiceInterface
     public function remove($attributeId)
     {
         $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $attributeId);
-        if (!$model) {
+        if (!$model || !$model->getId()) {
             //product attribute does not exist
             throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $attributeId);
         }
