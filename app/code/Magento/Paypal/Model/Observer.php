@@ -263,7 +263,7 @@ class Observer
                 $params['checkoutSession'] = $observer->getEvent()->getCheckoutSession();
             }
             $params = [
-                'shortcutValidator' => $this->_shortcutFactory($observer->getEvent()->getCheckoutSession())
+                'shortcutValidator' => $this->_shortcutFactory->create($observer->getEvent()->getCheckoutSession())
             ];
 
             // we believe it's \Magento\Framework\View\Element\Template

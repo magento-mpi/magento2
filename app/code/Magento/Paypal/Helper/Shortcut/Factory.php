@@ -8,7 +8,7 @@
  
 namespace Magento\Paypal\Helper\Shortcut;
 
-class ValidatorFactory
+class Factory
 {
     /**
      * Default validator
