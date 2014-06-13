@@ -68,9 +68,6 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Banner Content'
 )->addIndex(
-    $installer->getIdxName('magento_banner_content', array('banner_id')),
-    array('banner_id')
-)->addIndex(
     $installer->getIdxName('magento_banner_content', array('store_id')),
     array('store_id')
 )->addForeignKey(
@@ -110,9 +107,6 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addIndex(
-    $installer->getIdxName('magento_banner_catalogrule', array('banner_id')),
-    array('banner_id')
-)->addIndex(
     $installer->getIdxName('magento_banner_catalogrule', array('rule_id')),
     array('rule_id')
 )->addForeignKey(
@@ -151,9 +145,6 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
-)->addIndex(
-    $installer->getIdxName('magento_banner_salesrule', array('banner_id')),
-    array('banner_id')
 )->addIndex(
     $installer->getIdxName('magento_banner_salesrule', array('rule_id')),
     array('rule_id')
