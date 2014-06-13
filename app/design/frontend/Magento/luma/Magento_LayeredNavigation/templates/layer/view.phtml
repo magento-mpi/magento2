@@ -15,32 +15,40 @@
 ?>
 
 <?php if($this->canShowBlock()): ?>
-    <div class="block filter">
-        <div class="title">
-            <strong><?php echo __('Shop By') ?></strong>
+    <div class="block filter" id="layered-filter-block" data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": ".columns" } }}'>
+        <div class="block-title filter-title">
+            <strong data-role="title"><?php echo __('Shop By') ?></strong>
         </div>
 
-        <div class="content">
+        <div class="block-content filter-content">
             <?php echo $this->getChildHtml('state') ?>
 
             <?php if ($this->getLayer()->getState()->getFilters()): ?>
-                <div class="actions">
-                    <a href="<?php echo $this->getClearUrl() ?>" class="action clear"><span><?php echo __('Clear All') ?></span></a>
+                <div class="block-actions filter-actions">
+                    <a href="<?php echo $this->getClearUrl() ?>" class="action clear filter-clear"><span><?php echo __('Clear All') ?></span></a>
                 </div>
             <?php endif; ?>
 
-            <strong class="subtitle"><?php echo __('Shopping Options') ?></strong>
+            <strong class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
 
-            <ul class="options items" id="narrow-by-list">
+            <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": true}}'>
                 <?php foreach ($this->getFilters() as $filter): ?>
                     <?php if ($filter->getItemsCount()): ?>
-                        <li class="item" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
-                            <div class="title" data-role="title"><span><?php echo __($filter->getName()) ?></span></div>
-                            <div class="content" data-role="content"><?php echo $this->getChildBlock('renderer')->render($filter); ?></div>
-                        </li>
+                        <div class="filter-options-item">
+                            <div data-role="collapsible" class="filter-options-title"><?php echo __($filter->getName()) ?></div>
+                            <div data-role="content" class="filter-options-content"><?php echo $this->getChildBlock('renderer')->render($filter); ?></div>
+                        </div>
                     <?php endif; ?>
                 <?php endforeach; ?>
-            </ul>
+            </div>
         </div>
     </div>
+    <script>
+    jQuery( document ).ready(function() {
+        var count = jQuery('.filter-current').attr('data-count');
+        if (count > 0) {
+            jQuery('.block.filter > .block-title strong').attr('data-count', count);
+        }
+    });
+    </script>
 <?php endif; ?>

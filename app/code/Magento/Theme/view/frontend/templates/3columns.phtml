@@ -35,10 +35,10 @@ $bodyCss = $this->getBodyClass() ? $this->getBodyClass() : '';
                 <?php
                     echo $this->getChildHtml('main');
                     // Inside of <php> to avoid spaces between tags
-                    echo '<div class="sidebar-main">';
+                    echo '<div class="sidebar sidebar-main">';
                     echo $this->getChildHtml('sidebar_main');
                     echo '</div>';
-                    echo '<div class="sidebar-additional">';
+                    echo '<div class="sidebar sidebar-additional">';
                     echo $this->getChildHtml('sidebar_additional');
                     echo '</div>';
                 ?>
