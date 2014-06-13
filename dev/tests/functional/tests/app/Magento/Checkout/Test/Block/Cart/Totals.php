@@ -113,8 +113,10 @@ class Totals extends Block
      *
      * @return string
      */
-    public function getChippingPrice(){
-        return  $this->_rootElement->find($this->shippingPriceSelector, Locator::SELECTOR_CSS)->getText();
+    public function getShippingPrice()
+    {
+        $shippingPrice = $this->_rootElement->find($this->shippingPriceSelector, Locator::SELECTOR_CSS)->getText();
+        return $this->escapeCurrency($shippingPrice);
     }
 
     /**

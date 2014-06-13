@@ -811,7 +811,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
                                 'groups' => array(
-                                    'wpp_us' => array( //Payments Pro (Includes Express Checkout)
+                                    'wpp_usuk' => array( //Payments Pro (Includes Express Checkout)
                                         'groups' => array(
                                             'wpp_required_settings' => array( //Required PayPal Settings
                                                 'groups' => array(
@@ -895,7 +895,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
                                 'groups' => array(
-                                    'payflow_advanced_us' => array( //PayPal Payments Advanced (Includes Express Checkout)
+                                    'payflow_advanced' => array( //PayPal Payments Advanced (Includes Express Checkout)
                                         'groups' => array(
                                             'required_settings' => array( //Required PayPal Settings
                                                 'groups' => array(
@@ -979,7 +979,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
                                 'groups' => array(
-                                    'wps_us' => array( //Payments Standard
+                                    'wps_usuk' => array( //Payments Standard
                                         'groups' => array(
                                             'wps_required_settings' => array( //Required PayPal Settings
                                                 'fields' => array(
@@ -1213,7 +1213,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array( // PayPal Payment Gateways
                                 'groups' => array(
-                                    'paypal_payflowpro_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
+                                    'paypal_payflowpro_with_express_checkout' => array( // Payflow Pro (Includes Express Checkout)
                                         'groups' => array(
                                             'paypal_payflow_required' => array( // Required Paypal Settings
                                                 'groups' => array(
@@ -1301,7 +1301,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array(
                                 'groups' => array(
-                                    'paypal_payflowpro_with_express_checkout_us' => array(
+                                    'paypal_payflowpro_with_express_checkout' => array(
                                         'groups' => array(
                                             'settings_paypal_payflow' => array(
                                                 'groups' => array(
@@ -1477,7 +1477,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array(
                                 'groups' => array(
-                                    'paypal_payflowpro_with_express_checkout_us' => array(
+                                    'paypal_payflowpro_with_express_checkout' => array(
                                         'groups' => array(
                                             'paypal_payflow_required' => array(
                                                 'groups' => array(
@@ -1687,7 +1687,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_group_all_in_one' => array( // PayPal All-in-One Payment Solutions
                                 'groups' => array(
-                                    'wpp_us' => array( // Payments Pro (Includes Express Checkout)
+                                    'wpp_usuk' => array( // Payments Pro (Includes Express Checkout)
                                         'groups' => array(
                                             'wpp_settings' => array( // Basic Settings - PayPal Express Checkout
                                                 'groups' => array(

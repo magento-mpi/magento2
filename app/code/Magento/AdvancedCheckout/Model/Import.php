@@ -120,7 +120,7 @@ class Import extends \Magento\Framework\Object
     {
         $extension = pathinfo($this->_uploadedFile, PATHINFO_EXTENSION);
         $method = $this->_getMethodByExtension(strtolower($extension));
-        if (!empty($method) && method_exists($this, $method)) {
+        if (!empty($method) && is_callable([$this, $method])) {
             return $this->{$method}();
         }
 

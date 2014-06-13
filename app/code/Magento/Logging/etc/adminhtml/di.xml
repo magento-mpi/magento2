@@ -19,4 +19,9 @@
     <type name="Magento\Framework\App\ActionInterface">
         <plugin name="log" type="Magento\Logging\App\Action\Plugin\Log" sortOrder="95"/>
     </type>
+    <type name="Magento\Logging\Model\Handler\Controllers">
+        <arguments>
+            <argument name="structureConfig" xsi:type="object">Magento\Backend\Model\Config\Structure\Proxy</argument>
+        </arguments>
+    </type>
 </config>
