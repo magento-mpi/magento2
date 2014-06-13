@@ -79,6 +79,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $storeManagerMock;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
