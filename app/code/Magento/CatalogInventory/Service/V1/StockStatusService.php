@@ -9,6 +9,7 @@ namespace Magento\CatalogInventory\Service\V1;
 
 use Magento\CatalogInventory\Model\Stock;
 use Magento\CatalogInventory\Model\Stock\Status;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Service related to Product Stock Status
@@ -53,7 +54,8 @@ class StockStatusService implements StockStatusServiceInterface
         \Magento\Catalog\Service\V1\Product\Link\ProductLoader $productLoader,
         \Magento\Store\Model\Resolver\Website $scopeResolver,
         \Magento\CatalogInventory\Service\V1\Data\StockStatusBuilder $stockStatusBuilder
-    ) {
+    )
+    {
         $this->stockStatus = $stockStatus;
         $this->stockItemService = $stockItemService;
         $this->productLoader = $productLoader;
@@ -81,7 +83,8 @@ class StockStatusService implements StockStatusServiceInterface
         \Magento\Catalog\Model\Product $product,
         $stockId = Stock::DEFAULT_STOCK_ID,
         $stockStatus = null
-    ) {
+    )
+    {
         $this->stockStatus->assignProduct($product, $stockId, $stockStatus);
         return $this;
     }
@@ -92,6 +95,9 @@ class StockStatusService implements StockStatusServiceInterface
     public function getProductStockStatusBySku($sku)
     {
         $product = $this->productLoader->load($sku);
+        if (!$product->getId()) {
+            throw new NoSuchEntityException("Product with SKU \"{$sku}\" does not exist");
+        }
 
         $data = $this->stockStatus->getProductStockStatus(
             [$product->getId()],
