@@ -172,7 +172,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertThemeVersionInSync($dir, $version)
     {
         $xml = simplexml_load_file("$dir/theme.xml");
-        $this->assertEquals($xml->theme->version, $version);
+        $this->assertEquals($xml->version, $version);
     }
 
     /**
