@@ -46,12 +46,12 @@ try {
         case 'enterprise':
         case 'ee':
             $logger->info('Your Edition: Enterprise');
-            $product = new Project("magento/enterprise-edition", "0.1.0", '', 'project', array());
+            $product = new Package("magento/enterprise-edition", "0.1.0", '', 'project');
             break;
         case 'community':
         case 'ce':
             $logger->info('Your Edition: Community');
-            $product = new Project("magento/community-edition", "0.1.0", '', 'project', array());
+            $product = new Project("magento/community-edition", "0.1.0", '', 'project');
             break;
         default:
             $logger->info('Edition value not acceptable. Acceptable values: [ee|ce]');
@@ -86,8 +86,8 @@ try {
         }
     }
     $logger->debug(sprintf("Total Dependencies on Skeleton: %s", sizeof($product->getDependencies())));
-    $creator = new ComposerCreator(BP, array($product), $logger);
-    $creator->create();
+    $creator = new ComposerCreator(BP, $logger);
+    $creator->create(array($product));
 
     $logger->info(sprintf("SUCCESS: Created composer.json for %s edition", $edition));
 }

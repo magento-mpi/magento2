@@ -17,13 +17,6 @@ class ComposerCreator
 {
 
     /**
-     * List of Components
-     *
-     * @var array
-     */
-    private $_components;
-
-    /**
      * Application Logger
      *
      * @var \Zend_Log
@@ -40,23 +33,23 @@ class ComposerCreator
      * Composer Creator Constructor
      *
      * @param string $rootDir
-     * @param array $components
      * @param \Zend_Log $logger
      */
-    public function __construct($rootDir , $components, \Zend_Log $logger)
+    public function __construct($rootDir, \Zend_Log $logger)
     {
-        $this->_components = $components;
         $this->_rootDir = $rootDir;
         $this->_logger = $logger;
     }
 
     /**
-     * {@inheritdoc}
+     * Creates composer.json for components
+     * @param array $components
+     * @return int
      */
-    public function create()
+    public function create(array $components)
     {
         $counter = 0;
-        foreach ($this->_components as $component) {
+        foreach ($components as $component) {
             /** @var Package $component */
             $command = 'cd ' . $this->_rootDir . $component->getLocation() . ' && php ' .
                 __DIR__ . '/../composer.phar init '.
