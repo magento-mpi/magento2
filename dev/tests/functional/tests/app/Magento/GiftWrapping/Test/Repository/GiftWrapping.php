@@ -15,6 +15,11 @@ use Mtf\Repository\AbstractRepository;
  */
 class GiftWrapping extends AbstractRepository
 {
+    /**
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['enabled'] = [

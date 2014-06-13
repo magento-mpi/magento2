@@ -22,12 +22,18 @@ use Mtf\System\Config;
 class Curl extends AbstractCurl implements GiftWrappingInterface
 {
     /**
-     * Mapping for websites
+     * Mapping for gift wrapping data
      *
      * @var array
      */
-    protected $websites = [
-        1 => 'Main Website',
+    protected $mappingData = [
+        'website_ids' => [
+            'Main Website' => 1,
+        ],
+        'status' => [
+            'Disabled' => 0,
+            'Enabled' => 1,
+        ]
     ];
 
     /**
@@ -39,7 +45,7 @@ class Curl extends AbstractCurl implements GiftWrappingInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $this->prepareData($fixture);
+        $data['wrapping'] = $this->replaceMappingData($fixture->getData());
 
         $url = $_ENV['app_backend_url'] . 'admin/giftwrapping/save/store/0/back/edit/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
@@ -55,25 +61,5 @@ class Curl extends AbstractCurl implements GiftWrappingInterface
         preg_match("~Location: [^\\s]*giftwrapping\\/edit\\/id\\/(\\d+)~", $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['wrapping_id' => $id];
-    }
-
-    /**
-     * Preparing data
-     *
-     * @param \Magento\GiftWrapping\Test\Fixture\GiftWrapping $fixture
-     * @return array
-     */
-    protected function prepareData($fixture)
-    {
-        $data['wrapping'] = [
-            'design' => $fixture->getDesign(),
-            'base_price' => $fixture->getBasePrice(),
-            'status' => ($fixture->getStatus() === 'Enabled') ? 1 : 0,
-        ];
-        foreach ($fixture->getWebsiteIds() as $website) {
-            $data['wrapping']['website_ids'][] = array_search($website, $this->websites);
-        }
-
-        return $data;
     }
 }
