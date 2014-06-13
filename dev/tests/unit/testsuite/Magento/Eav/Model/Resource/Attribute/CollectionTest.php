@@ -72,14 +72,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
         $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
-
-        $this->entityTypeMock = $this->getMock(
-            'Magento\Eav\Model\Entity\Type',
-            array('__wakeup'),
-            array(),
-            '',
-            false
-        );
+        $this->entityTypeMock = $this->getMock('Magento\Eav\Model\Entity\Type', array('__wakeup'), array(), '', false);
         $this->entityTypeMock->setAdditionalAttributeTable('some_extra_table');
         $this->eavConfigMock->expects($this->any())
             ->method('getEntityType')
@@ -200,7 +193,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 . ' INNER JOIN "some_extra_table" AS "additional_table"'
                 . ' ON additional_table.attribute_id = main_table.attribute_id' . "\n"
                 . ' LEFT JOIN "some_extra_table" AS "scope_table"'
-                . ' ON scope_table.attribute_id = main_table.attribute_id AND scope_table.website_id = :scope_website_id'
+                . ' ON scope_table.attribute_id = main_table.attribute_id'
+                . ' AND scope_table.website_id = :scope_website_id'
                 . ' WHERE (main_table.entity_type_id = :mt_entity_type_id)'
                 . ' AND (IF(main_table.col2 IS NULL, scope_table.col2, main_table.col2) = 1)'
             ),
@@ -210,7 +204,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 . ' INNER JOIN "some_extra_table" AS "additional_table"'
                 . ' ON additional_table.attribute_id = main_table.attribute_id'. "\n"
                 . ' LEFT JOIN "some_extra_table" AS "scope_table"'
-                . ' ON scope_table.attribute_id = main_table.attribute_id AND scope_table.website_id = :scope_website_id'
+                . ' ON scope_table.attribute_id = main_table.attribute_id'
+                . ' AND scope_table.website_id = :scope_website_id'
                 . ' WHERE (main_table.entity_type_id = :mt_entity_type_id)'
                 . ' AND (IF(additional_table.col3 IS NULL, scope_table.col3, additional_table.col3) = 2)'
             )
