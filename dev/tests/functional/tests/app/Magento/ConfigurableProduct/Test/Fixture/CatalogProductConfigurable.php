@@ -13,6 +13,7 @@ use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductConfigurable
@@ -21,6 +22,15 @@ use Mtf\Repository\RepositoryFactory;
 class CatalogProductConfigurable extends InjectableFixture
 {
     /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\ConfigurableProduct\Test\Repository\CatalogProductConfigurable';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+    /**
      * Constructor
      *
      * @constructor
@@ -28,6 +38,7 @@ class CatalogProductConfigurable extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -37,6 +48,7 @@ class CatalogProductConfigurable extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -46,6 +58,7 @@ class CatalogProductConfigurable extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist
@@ -64,14 +77,12 @@ class CatalogProductConfigurable extends InjectableFixture
     ];
 
     protected $defaultDataSet = [
-        'enable_googlecheckout' => null,
-        'msrp_display_actual_price_type' => null,
-        'msrp_enabled' => null,
-        'options_container' => null,
-        'quantity_and_stock_status' => null,
-        'status' => null,
-        'tax_class_id' => null,
-        'visibility' => null,
+        'type_id' => 'configurable',
+        'attribute_set_id' => 'Default',
+        'name' => 'Configurable Product %isolation%',
+        'sku' => 'sku_configurable_product_%isolation%',
+        'price' => ['value' => 100.00],
+        'weight' => 1,
     ];
 
     protected $category_ids = [
@@ -441,6 +452,8 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'default_value' => 'Taxable Goods',
         'input' => 'select',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -483,6 +496,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings',
     ];
 
     protected $url_path = [
@@ -529,7 +543,7 @@ class CatalogProductConfigurable extends InjectableFixture
     protected $attribute_set_name = [
         'attribute_code' => 'attribute_set_name',
         'backend_type' => 'virtual',
-        'group' => 'product-details'
+        'group' => 'variations'
     ];
 
     protected $qty = [
@@ -562,6 +576,22 @@ class CatalogProductConfigurable extends InjectableFixture
         'input' => 'variations',
         'group' => 'product-details',
         'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\AttributeOptions',
+    ];
+
+    protected $configurable_attributes_data = [
+        'attribute_code' => 'configurable_options_data',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'input' => 'variations',
+        'group' => 'variations',
+    ];
+
+    protected $variations_matrix = [
+        'attribute_code' => 'variations_matrix',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'input' => 'variations',
+        'group' => 'variations',
     ];
 
     public function getCategoryIds()

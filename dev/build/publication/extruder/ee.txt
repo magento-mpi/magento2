@@ -151,6 +151,7 @@ dev/tests/functional/tests/app/Magento/CustomerSegment
 dev/tests/functional/tests/app/Magento/Directory
 dev/tests/functional/tests/app/Magento/GiftCard
 dev/tests/functional/tests/app/Magento/GiftCardAccount
+dev/tests/functional/tests/app/Magento/GiftWrapping
 dev/tests/functional/tests/app/Magento/Logging
 dev/tests/functional/tests/app/Magento/Integration
 dev/tests/functional/tests/app/Magento/Multishipping
@@ -162,6 +163,7 @@ dev/tests/functional/tests/app/Magento/Rma
 dev/tests/functional/tests/app/Magento/Sales
 dev/tests/functional/tests/app/Magento/SalesRule
 dev/tests/functional/tests/app/Magento/Shipping
+dev/tests/functional/tests/app/Magento/TargetRule
 dev/tests/functional/tests/app/Magento/Tax/Test/TestCase/AutomaticTaxApplyingTest.php
 dev/tests/functional/tests/app/Magento/User/Test/TestCase/UserWithRestrictedRoleTest.php
 dev/tests/functional/tests/app/Magento/Widget
