@@ -1726,4 +1726,5 @@ return array(
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
+    ['convertOldColumnDefinition', 'Magento\Framework\DB\Helper\AbstractHelper'],
 );
