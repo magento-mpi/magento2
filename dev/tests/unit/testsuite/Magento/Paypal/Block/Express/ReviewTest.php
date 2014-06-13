@@ -85,12 +85,9 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
         return [[true], [false]];
     }
 
-    /**
-     * @param \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quote
-     * @dataProvider quoteDataProvider
-     */
-    public function testBeforeToHtmlWhenQuoteIsNotVirtual($quote)
+    public function testBeforeToHtmlWhenQuoteIsNotVirtual()
     {
+        $quote = $this->_getQuoteMock();
         $quote->expects($this->any())->method('getIsVirtual')->will($this->returnValue(false));
         $quote->setMayEditShippingMethod('MayEditShippingMethod');
 
@@ -124,12 +121,9 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('paypal/express/placeOrder', $this->model->getPlaceOrderUrl());
     }
 
-    /**
-     * @param \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quote
-     * @dataProvider quoteDataProvider
-     */
-    public function testBeforeToHtmlWhenQuoteIsVirtual($quote)
+    public function testBeforeToHtmlWhenQuoteIsVirtual()
     {
+        $quote = $this->_getQuoteMock();
         $quote->expects($this->any())->method('getIsVirtual')->will($this->returnValue(true));
         $this->model->setQuote($quote);
         $this->model->toHtml();
@@ -142,7 +136,12 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('paypal/express/placeOrder', $this->model->getPlaceOrderUrl());
     }
 
-    public function quoteDataProvider()
+    /**
+     * Create mock of sales quote model
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getQuoteMock()
     {
         $methodInstance = new \Magento\Framework\Object(['title' => 'Payment Method']);
         $payment = $this->getMock('Magento\Sales\Model\Quote\Payment', [], [], '', false);
@@ -158,8 +157,6 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $quote->expects($this->any())->method('getShippingAddress')->will($this->returnValue($address));
 
-        return [
-            [$quote]
-        ];
+        return $quote;
     }
 }
