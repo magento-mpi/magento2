@@ -55,8 +55,6 @@ class ComposerCreator
                 __DIR__ . '/../composer.phar init '.
                 '--name "' . strtolower($component->getName()) .
                 '" --description="N/A" ' .
-                //'--author="Magento Support <support@magentocommerce.com>" '.
-                //'--stability="dev" '.
                 '-n';
             //Command to include package installer.
             $dependencies = $component->getDependencies();
@@ -65,7 +63,6 @@ class ComposerCreator
             foreach ($dependencies as $dependency) {
                 $command .= ' --require="' . strtolower($dependency->getName()) . ':'.$dependency->getVersion() . '"';
             }
-            //$command .= ' --require="Magento/Package-installer:*"';
             $command .= ' --require="magento/framework:0.1.0"';
             $output = array();
             exec($command, $output);
