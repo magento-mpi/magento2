@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Block\Catalog\Category;
+namespace Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Tree
  * Categories tree block
- *
  */
 class Tree extends Block
 {
