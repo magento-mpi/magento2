@@ -29,7 +29,7 @@ class IdPath implements FixtureInterface
      *
      * @var FixtureInterface
      */
-    protected $category;
+    protected $entity;
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -39,15 +39,19 @@ class IdPath implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        preg_match('`%(.*?)%`', $data['dataSet'], $dataSet);
+        if (!isset($data['entity'])) {
+            $this->data = $data;
+            return;
+        }
+        preg_match('`%(.*?)%`', $data['entity'], $dataSet);
         $explodeValue = explode('::', $dataSet[1]);
         if (!empty($explodeValue) && count($explodeValue) > 1) {
             /** @var FixtureInterface $fixture */
-            $this->category = $fixtureFactory->createByCode($explodeValue[0],['dataSet' => $explodeValue[1]]);
-            $this->category->persist();
-            $this->data =  preg_replace('`(%.*?%)`', $this->category->getId(), $data['dataSet']);
+            $this->entity = $fixtureFactory->createByCode($explodeValue[0], ['entity' => $explodeValue[1]]);
+            $this->entity->persist();
+            $this->data = preg_replace('`(%.*?%)`', $this->entity->getId(), $data['entity']);
         } else {
-            $this->data = strval($data['dataSet']);
+            $this->data = strval($data['entity']);
         }
     }
 
@@ -83,12 +87,12 @@ class IdPath implements FixtureInterface
     }
 
     /**
-     * Return category
+     * Return entity
      *
      * @return FixtureInterface
      */
-    public function getCategory()
+    public function getEntity()
     {
-        return $this->category;
+        return $this->entity;
     }
 }
