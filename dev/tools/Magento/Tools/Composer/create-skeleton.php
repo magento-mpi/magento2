@@ -8,7 +8,6 @@
 
 require __DIR__ . '/../../../bootstrap.php';
 
-use \Magento\Tools\Composer\Model\Project;
 use \Magento\Tools\Composer\Creator\ComposerCreator;
 use \Magento\Tools\Composer\Model\Package;
 
@@ -51,7 +50,7 @@ try {
         case 'community':
         case 'ce':
             $logger->info('Your Edition: Community');
-            $product = new Project("magento/community-edition", "0.1.0", '', 'project');
+            $product = new Package("magento/community-edition", "0.1.0", '', 'project');
             break;
         default:
             $logger->info('Edition value not acceptable. Acceptable values: [ee|ce]');
