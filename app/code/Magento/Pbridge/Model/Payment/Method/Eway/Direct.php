@@ -6,82 +6,56 @@
  * @license    {license_link}
  */
 
-
-/**
- * Eway.Com.Au dummy payment method model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Pbridge\Model\Payment\Method\Eway;
 
 class Direct extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
-     * Eway Direct payment method code
+     * Payment method code
      *
      * @var string
      */
     protected $_code = 'eway_direct';
 
     /**
-     * @var bool
+     * List of default accepted currency codes supported by payment gateway
+     *
+     * @var array
      */
-    protected $_isGateway = true;
+    protected $_allowCurrencyCode = array('USD', 'GBP', 'NZD', 'CAD', 'HKD', 'SGD', 'EUR', 'JPY');
 
-    /**
-     * @var bool
+    /**#@+
+     * Availability options
      */
     protected $_canAuthorize = true;
-
-    /**
-     * @var bool
-     */
     protected $_canCapture = true;
-
-    /**
-     * @var bool
-     */
     protected $_canCapturePartial = true;
-
-    /**
-     * @var bool
-     */
+    protected $_canCaptureOnce = true;
     protected $_canRefund = true;
-
-    /**
-     * @var bool
-     */
+    protected $_canRefundInvoicePartial = true;
     protected $_canVoid = true;
-
-    /**
-     * @var bool
-     */
     protected $_canUseInternal = true;
-
-    /**
-     * @var bool
-     */
     protected $_canUseCheckout = true;
-
-    /**
-     * @var bool
-     */
     protected $_canSaveCc = true;
+    /**#@-*/
 
     /**
-     * Capturing method being executed via Payment Bridge
+     * Check whether it's possible to void authorization
      *
      * @param \Magento\Framework\Object $payment
-     * @param float $amount
-     * @return $this
+     * @return bool
      */
-    public function capture(\Magento\Framework\Object $payment, $amount)
+    public function canVoid(\Magento\Framework\Object $payment)
     {
-        $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
-        if (!$response) {
-            $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
+        $canVoid = parent::canVoid($payment);
+
+        if ($canVoid) {
+            $order = $this->getInfoInstance()->getOrder();
+            if ($order && count($order->getInvoiceCollection()) > 0) {
+                $canVoid = false;
+            }
         }
-        $payment->addData((array)$response);
-        return $this;
+
+        return $canVoid;
     }
 }
