@@ -69,9 +69,9 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
-        $editForm->openRoleTab();
-        $rolesGrid = $editForm->getRolesGrid();
-        $rolesGrid->searchAndOpen(['role_name'=>$data['rolename']]);
+        $editForm->openTab('user-role');
+        $rolesGrid = $editUser->getRolesGrid();
+        $rolesGrid->searchAndOpen(['rolename' => $data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
@@ -79,7 +79,6 @@ class UserWithRestrictedRoleTest extends Functional
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
-//        Factory::getApp()->magentoBackendLoginUser($userFixture);
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($userFixture);
         $loginPage->getLoginBlock()->submit();
@@ -88,14 +87,16 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Verify that only Sales resource is available.
         $this->assertTrue(
-            $salesPage->getNavigationMenuBlock()->assertNavigationMenuItemsCount(1),
+            count($dashboard->getMenuBlock()->getTopMenuItems()) == 1,
             "You have access not only for Sales resource"
         );
 
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
-        $this->assertContains('Access denied',
-            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
+        $this->assertContains(
+            'Access denied',
+            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock()
+        );
     }
 
     /**
@@ -142,9 +143,9 @@ class UserWithRestrictedRoleTest extends Functional
         //Steps
         $userPage->open();
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
-        $editForm->openRoleTab();
-        $rolesGrid = $editForm->getRolesGrid();
-        $rolesGrid->searchAndOpen(['role_name'=>$data['rolename']]);
+        $editForm->openTab('user-role');
+        $rolesGrid = $editUser->getRolesGrid();
+        $rolesGrid->searchAndOpen(['rolename' => $data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
@@ -152,7 +153,6 @@ class UserWithRestrictedRoleTest extends Functional
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
-//        Factory::getApp()->magentoBackendLoginUser($userFixture);
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($userFixture);
         $loginPage->getLoginBlock()->submit();
@@ -161,19 +161,22 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Verify that only Sales resource is available.
         $this->assertTrue(
-            $salesPage->getNavigationMenuBlock()->assertNavigationMenuItemsCount(1),
+            count($dashboard->getMenuBlock()->getTopMenuItems()) == 1,
             "You have access not only for Sales resource"
         );
 
         //Verify that at "Purchase Point" dropdown only store from preconditions is available
         $this->assertContains($storeData['name'], $salesGrid->getPurchasePointFilterText());
-        $this->assertTrue($salesGrid->assertNumberOfPurchasePointFilterOptionsGroup(2),
-            "You have more than one store in the Purchase Point Filter");
+        $this->assertTrue(
+            $salesGrid->assertNumberOfPurchasePointFilterOptionsGroup(2),
+            "You have more than one store in the Purchase Point Filter"
+        );
 
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
-        $this->assertContains('Access denied',
-            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
+        $this->assertContains(
+            'Access denied',
+            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock()
+        );
     }
 }
-

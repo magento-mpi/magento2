@@ -31,14 +31,24 @@ class Curl extends AbstractCurl implements AdminUserInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
+        /** @var \Magento\User\Test\Fixture\AdminUserInjectable $fixture */
         $data = $fixture->getData();
-        $data['roles[]'] = $fixture->getRoleId();
-        unset($data['role_id']);
+        $hasRoleSource = is_object($fixture->getDataFieldConfig('role')['source']) ? true : false;
+        if ($hasRoleSource) {
+            /** @var \Magento\User\Test\Fixture\AdminUserRole $role */
+            $role = $fixture->getDataFieldConfig('role')['source']->getRole();
+            if (!$role->hasData('role_id')) {
+                $role->persist();
+            }
+            $data['roles[]'] = $role->getRoleId();
+        } else {
+            $data['roles[]'] = $data['role_id'];
+        }
 
         $url = $_ENV['app_backend_url'] . 'admin/user/save/active_tab/main_section/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 

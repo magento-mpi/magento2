@@ -62,14 +62,15 @@ class DeleteUserRoleEntityTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
+        /** @var \Magento\User\Test\Fixture\AdminUserRole  $role */
         $role = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => 'default']);
         $role->persist();
-        $role_id = $role->getData('role_id');
+        $roleId = $role->getRoleId();
         $adminUser = $fixtureFactory->createByCode(
             'adminUserInjectable',
             [
                 'dataSet' => 'custom_admin',
-                'data' => ['role_id' => $role_id]
+                'data' => ['role_id' => $roleId]
             ]
         );
         $adminUser->persist();
@@ -112,7 +113,7 @@ class DeleteUserRoleEntityTest extends Injectable
         $isDefaultUser
     ) {
         $filter = [
-            'role_name' => $role->getRoleName()
+            'rolename' => $role->getRoleName()
         ];
         //Steps
         if ($isDefaultUser == 0) {

@@ -10,12 +10,13 @@ namespace Magento\User\Test\Constraint;
 
 use Magento\User\Test\Fixture\AdminUserInjectable;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\User\Test\Page\Adminhtml\UserIndex;
+use Magento\Backend\Test\Page\Dashboard;
+use Magento\Backend\Test\Page\AdminAuthLogin;
 
 /**
- * Class AssertUserInGrid
+ * Class AssertUserSuccessLogin
  */
-class AssertUserInGrid extends AbstractConstraint
+class AssertUserSuccessLogin extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -25,34 +26,40 @@ class AssertUserInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that user is present in User Grid.
+     * Verify whether customer has logged in to the Backend
      *
-     * @param UserIndex $userIndex
+     * @param Dashboard $dashboard
      * @param AdminUserInjectable $user
+     * @param AdminAuthLogin $adminAuth
      * @param AdminUserInjectable $customAdmin
      * @return void
      */
     public function processAssert(
-        UserIndex $userIndex,
+        Dashboard $dashboard,
         AdminUserInjectable $user,
+        AdminAuthLogin $adminAuth,
         AdminUserInjectable $customAdmin = null
     ) {
         $adminUser = ($user->hasData('password') || $user->hasData('username')) ? $user : $customAdmin;
-        $filter = ['username' => $adminUser->getUsername()];
-        $userIndex->open();
+        if ($dashboard->getAdminPanelHeader()->isVisible()) {
+            $dashboard->getAdminPanelHeader()->logOut();
+        }
+        $adminAuth->getLoginBlock()->fill($adminUser);
+        $adminAuth->getLoginBlock()->submit();
+
         \PHPUnit_Framework_Assert::assertTrue(
-            $userIndex->getUserGrid()->isRowVisible($filter),
-            'User with name \'' . $adminUser->getUsername() . '\' is absent in User grid.'
+            $dashboard->getAdminPanelHeader()->isLoggedIn(),
+            'Admin user was not logged in.'
         );
     }
 
     /**
-     * Returns success message if assert true.
+     * Returns success message if equals to expected message
      *
      * @return string
      */
     public function toString()
     {
-        return 'User is present in Users grid.';
+        return 'Admin user is logged in.';
     }
 }

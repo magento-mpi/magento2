@@ -31,8 +31,7 @@ class AdminUserInjectable extends InjectableFixture
         'firstname' => 'FirstName%isolation%',
         'lastname' => 'LastName%isolation%',
         'email' => 'email%isolation%@example.com',
-        'password' => '123123q',
-        'password_confirmation' => '123123q'
+        'password' => '123123q'
     ];
 
     protected $user_id = [
@@ -49,6 +48,7 @@ class AdminUserInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'user-info'
     ];
 
     protected $lastname = [
@@ -57,6 +57,7 @@ class AdminUserInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'user-info'
     ];
 
     protected $email = [
@@ -65,6 +66,7 @@ class AdminUserInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'user-info'
     ];
 
     protected $username = [
@@ -73,6 +75,7 @@ class AdminUserInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'user-info'
     ];
 
     protected $password = [
@@ -81,6 +84,7 @@ class AdminUserInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'user-info'
     ];
 
     protected $created = [
@@ -168,6 +172,18 @@ class AdminUserInjectable extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $role = [
+        'attribute_code' => 'role',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\User\Test\Fixture\User\Role'
+    ];
+
+    protected $password_confirmation = [
+        'attribute_code' => 'password_confirmation',
+        'backend_type' => 'virtual',
+        'group' => 'user-info'
+    ];
+
     public function getUserId()
     {
         return $this->getData('user_id');
@@ -251,5 +267,15 @@ class AdminUserInjectable extends InjectableFixture
     public function getRoleId()
     {
         return $this->getData('role_id');
+    }
+
+    public function getRole()
+    {
+        return $this->getData('role');
+    }
+
+    public function getPasswordConfirmation()
+    {
+        return $this->getData('password_confirmation');
     }
 }
