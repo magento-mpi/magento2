@@ -11,7 +11,7 @@ namespace Magento\CatalogSearch\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\GiftCard\Test\Fixture\GiftCartProduct;
+use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductVirtual;
@@ -46,8 +46,8 @@ class SearchEntityResultsTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        /** @var GiftCartProduct $giftCardProduct */
-        $giftCardProduct = $fixtureFactory->createByCode('giftCartProduct', ['dataSet' => 'customDefault']);
+        /** @var GiftCardProduct $giftCardProduct */
+        $giftCardProduct = $fixtureFactory->createByCode('giftCardProduct', ['dataSet' => 'customDefault']);
         $giftCardProduct->persist();
 
         /** @var CatalogProductSimple $simpleProduct */

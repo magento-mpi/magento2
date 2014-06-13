@@ -11,10 +11,10 @@ namespace Magento\GiftCard\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class GiftCartProduct
+ * Class GiftCardProduct
  * Data for creation Gift Cart Product
  */
-class GiftCartProduct extends AbstractRepository
+class GiftCardProduct extends AbstractRepository
 {
     /**
      * @constructor

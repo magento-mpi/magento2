@@ -9,6 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\GiftCard\Test\Handler\GiftCartProduct\GiftCartProductInterface"
-                type="\Magento\GiftCard\Test\Handler\GiftCartProduct\Curl" />
+    <preference for="Magento\GiftCard\Test\Handler\GiftCardProductInterface"
+                type="\Magento\GiftCard\Test\Handler\Curl" />
 </config>

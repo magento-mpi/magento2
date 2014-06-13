@@ -11,19 +11,19 @@ namespace Magento\GiftCard\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class GiftCartProduct
+ * Class GiftCardProduct
  */
-class GiftCartProduct extends InjectableFixture
+class GiftCardProduct extends InjectableFixture
 {
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\GiftCard\Test\Repository\GiftCartProduct';
+    protected $repositoryClass = 'Magento\GiftCard\Test\Repository\GiftCardProduct';
 
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\GiftCard\Test\Handler\GiftCartProduct\GiftCartProductInterface';
+    protected $handlerInterface = 'Magento\GiftCard\Test\Handler\GiftCardProductInterface';
 
     protected $dataConfig = [
         'create_url_params' => [

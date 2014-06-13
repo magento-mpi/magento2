@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCard\Test\Handler\GiftCartProduct;
+namespace Magento\GiftCard\Test\Handler;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as AbstractCurl;
  * Class Curl
  * Create new gift card product via curl
  */
-class Curl extends AbstractCurl implements GiftCartProductInterface
+class Curl extends AbstractCurl implements GiftCardProductInterface
 {
     /**
      * Persist fixture
