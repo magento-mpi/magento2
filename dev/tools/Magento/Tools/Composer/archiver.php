@@ -6,14 +6,11 @@
  * @license     {license_link}
  */
 
-ini_set('memory_limit', '-1');
 
 require __DIR__ . '/../../../bootstrap.php';
 $generationDir = __DIR__ . '/_packages';
 
 use \Magento\Tools\Composer\Helper\Zip;
-use \Magento\Tools\Composer\Helper\Converter;
-use \Magento\Tools\Composer\Helper\JsonParser;
 
 /**
  * Composer Archiver Tool
@@ -94,7 +91,16 @@ try {
                 if (strpos(\basename($file), '.json')) {
                     $foundComposerJson = true;
                     $json = json_decode(file_get_contents($file));
-                    $name = Converter::vendorPackagetoName($json->name);
+                    if ($json->name != null && is_string($json->name) && sizeof($json->name) > 0 ) {
+                        if (strpos($json->name, "/") != false && substr_count($json->name, "/") === 1) {
+                            $name = str_replace("/", "_", $json->name);
+                        } elseif (strpos($json->name, "\\") != false && substr_count($json->name, "\\") === 1) {
+                            $name = str_replace("\\", "_", $json->name);
+                        }
+                    } else {
+                        throw new \Exception("Not a valid vendorPackage: $json->name", "1");
+                    }
+
                     $noOfZips += Zip::Zip(\dirname($file),
                         $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes);
                     $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name,
@@ -118,7 +124,15 @@ try {
 
     if (file_exists (str_replace('\\', '/', realpath(BP)) . "/composer.json")) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . "/composer.json"));
-        $name = Converter::vendorPackagetoName($json->name);
+        if ($json->name != null && is_string($json->name) && sizeof($json->name) > 0 ) {
+            if (strpos($json->name, "/") != false && substr_count($json->name, "/") === 1) {
+                $name = str_replace("/", "_", $json->name);
+            } elseif (strpos($json->name, "\\") != false && substr_count($json->name, "\\") === 1) {
+                $name = str_replace("\\", "_", $json->name);
+            }
+        } else {
+            throw new \Exception("Not a valid vendorPackage: $json->name", "1");
+        }
         $noOfZips += Zip::Zip(str_replace('\\', '/', realpath(BP)),
             $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes);
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name, $json->version));
