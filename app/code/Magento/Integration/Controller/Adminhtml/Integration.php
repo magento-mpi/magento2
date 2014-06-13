@@ -10,7 +10,7 @@ namespace Magento\Integration\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Exception as IntegrationException;
-use Magento\Integration\Service\OauthV1Interface as IntegrationOauthService;
+use Magento\Integration\Service\V1\OauthInterface as IntegrationOauthService;
 use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
@@ -36,7 +36,7 @@ class Integration extends Action
     /** @var \Magento\Framework\Logger */
     protected $_logger;
 
-    /** @var \Magento\Integration\Service\IntegrationV1Interface */
+    /** @var \Magento\Integration\Service\V1\IntegrationInterface */
     private $_integrationService;
 
     /** @var IntegrationOauthService */
@@ -57,7 +57,7 @@ class Integration extends Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
+     * @param \Magento\Integration\Service\V1\IntegrationInterface $integrationService
      * @param IntegrationOauthService $oauthService
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Integration\Helper\Data $integrationData
@@ -67,7 +67,7 @@ class Integration extends Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Logger $logger,
-        \Magento\Integration\Service\IntegrationV1Interface $integrationService,
+        \Magento\Integration\Service\V1\IntegrationInterface $integrationService,
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Integration\Helper\Data $integrationData,

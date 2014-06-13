@@ -6,16 +6,13 @@
  * @license     {license_link}
  */
 
-
-/**
- * Product stock qty block for abstract composite product
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CatalogInventory\Block\Stockqty;
 
 use Magento\Catalog\Model\Product;
 
+/**
+ * Product stock qty block for abstract composite product
+ */
 abstract class Composite extends DefaultStockqty
 {
     /**
@@ -43,17 +40,6 @@ abstract class Composite extends DefaultStockqty
             $this->_childProducts = $this->_getChildProducts();
         }
         return $this->_childProducts;
-    }
-
-    /**
-     * Retrieve product stock qty
-     *
-     * @param Product $product
-     * @return float
-     */
-    public function getProductStockQty($product)
-    {
-        return $product->getStockItem()->getStockQty();
     }
 
     /**
