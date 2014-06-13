@@ -95,15 +95,16 @@ class StockStatusService implements StockStatusServiceInterface
     public function getProductStockStatusBySku($sku)
     {
         $product = $this->productLoader->load($sku);
-        if (!$product->getId()) {
+        $productId = $product->getId();
+        if (!$productId) {
             throw new NoSuchEntityException("Product with SKU \"{$sku}\" does not exist");
         }
 
         $data = $this->stockStatus->getProductStockStatus(
-            [$product->getId()],
+            [$productId],
             $this->scopeResolver->getScope()->getId()
         );
-        $stockStatus = (bool)$data[1];
+        $stockStatus = (bool)$data[$productId];
 
         $result = [
             Data\StockStatus::STOCK_STATUS => $stockStatus,
