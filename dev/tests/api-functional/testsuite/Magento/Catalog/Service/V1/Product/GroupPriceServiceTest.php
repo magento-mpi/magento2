@@ -98,7 +98,7 @@ class GroupPriceServiceTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Catalog/_files/product_group_prices.php
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoApiDataFixture Magento/Store/_files/website.php
      */
     public function testAddForDifferentWebsite()
