@@ -54,8 +54,7 @@ class StockStatusService implements StockStatusServiceInterface
         \Magento\Catalog\Service\V1\Product\Link\ProductLoader $productLoader,
         \Magento\Store\Model\Resolver\Website $scopeResolver,
         \Magento\CatalogInventory\Service\V1\Data\StockStatusBuilder $stockStatusBuilder
-    )
-    {
+    ) {
         $this->stockStatus = $stockStatus;
         $this->stockItemService = $stockItemService;
         $this->productLoader = $productLoader;
@@ -83,8 +82,7 @@ class StockStatusService implements StockStatusServiceInterface
         \Magento\Catalog\Model\Product $product,
         $stockId = Stock::DEFAULT_STOCK_ID,
         $stockStatus = null
-    )
-    {
+    ) {
         $this->stockStatus->assignProduct($product, $stockId, $stockStatus);
         return $this;
     }
