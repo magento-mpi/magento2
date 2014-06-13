@@ -14,6 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\StateException;
 use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder;
+use \Magento\Catalog\Model\Product;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -166,13 +167,7 @@ class ReadService implements ReadServiceInterface
         $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
         $gallery = $this->mediaGallery->loadGallery($product, $container);
 
-        $attributes = $product->getMediaAttributes();
-        $imageTypes = array_keys($attributes);
-
-        $productImages = [];
-        foreach ($imageTypes as $type) {
-            $productImages[$type] = $product->getData($type);
-        }
+        $productImages = $this->getMediaAttributeValues($product);
 
         foreach ($gallery as $image) {
             $this->galleryEntryBuilder->setId($image['value_id']);
@@ -181,7 +176,6 @@ class ReadService implements ReadServiceInterface
             $this->galleryEntryBuilder->setDisabled($image['disabled_default']);
             $this->galleryEntryBuilder->setPosition($image['position_default']);
             $this->galleryEntryBuilder->setFile($image['file']);
-            $this->galleryEntryBuilder->setStoreId($product->getStoreId());
             $result[] = $this->galleryEntryBuilder->create();
         }
         return $result;
@@ -199,9 +193,10 @@ class ReadService implements ReadServiceInterface
         }
 
         $output = null;
+        $productImages = $this->getMediaAttributeValues($product);
         foreach ((array)$product->getMediaGallery('images') as $image) {
             if (intval($image['value_id']) == intval($imageId)) {
-                $image['store_id'] = $product->getStoreId();
+                $image['types'] = array_keys($productImages, $image['file']);
                 $output = $this->galleryEntryBuilder->populateWithArray($image)->create();
                 break;
             }
@@ -211,5 +206,21 @@ class ReadService implements ReadServiceInterface
             throw new NoSuchEntityException("Such image doesn't exist");
         }
         return $output;
+    }
+
+    /**
+     * Retrieve assoc array that contains media attribute values of the given product
+     *
+     * @param Product $product
+     * @return array
+     */
+    protected function getMediaAttributeValues(Product $product)
+    {
+        $mediaAttributeCodes = array_keys($product->getMediaAttributes());
+        $mediaAttributeValues = array();
+        foreach ($mediaAttributeCodes as $attributeCode) {
+            $mediaAttributeValues[$attributeCode] = $product->getData($attributeCode);
+        }
+        return $mediaAttributeValues;
     }
 }
