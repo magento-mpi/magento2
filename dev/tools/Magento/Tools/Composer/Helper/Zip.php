@@ -68,7 +68,7 @@ class Zip
      *
      * @param string $source
      * @param string $excludes
-     * @return RecursiveIteratorIterator
+     * @return \RecursiveIteratorIterator
      */
     private static function getFiles($source, $excludes)
     {
