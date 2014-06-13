@@ -12,11 +12,11 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 
 /**
- * Class AssertCartPriceRuleSuccessSaveMessage
+ * Class AssertCartPriceRuleSuccessDeleteMessage
  */
-class AssertCartPriceRuleSuccessSaveMessage extends AbstractConstraint
+class AssertCartPriceRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The rule has been saved.';
+    const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
 
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertCartPriceRuleSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success message is displayed after sales rule save
+     * Assert that success message is displayed after sales rule delete
      *
      * @param PromoQuoteIndex $promoQuoteIndex
      * @return void
@@ -35,10 +35,10 @@ class AssertCartPriceRuleSuccessSaveMessage extends AbstractConstraint
     {
         $actualMessage = $promoQuoteIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }
@@ -50,6 +50,6 @@ class AssertCartPriceRuleSuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Sales rule success save message is present.';
+        return 'Sales rule success delete message is present.';
     }
 }
