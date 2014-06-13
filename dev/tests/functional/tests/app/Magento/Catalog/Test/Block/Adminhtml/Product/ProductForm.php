@@ -75,6 +75,13 @@ class ProductForm extends FormTabs
     protected $category;
 
     /**
+     * Attribute on the Product page
+     *
+     * @var string
+     */
+    protected $attribute = './/*[contains(@class,"label")]/span[text()="%s"]';
+
+    /**
      * Fill the product form
      *
      * @param FixtureInterface $fixture
@@ -319,7 +326,7 @@ class ProductForm extends FormTabs
      */
     public function checkAttributeLabel($attributeLabel)
     {
-        $attributeLabelLocator = sprintf(".//*[contains(@class,'label')]/span[text()='%s']", $attributeLabel);
+        $attributeLabelLocator = sprintf($this->attribute, $attributeLabel);
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
     }

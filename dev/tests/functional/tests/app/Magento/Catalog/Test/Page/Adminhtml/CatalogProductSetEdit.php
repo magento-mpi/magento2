@@ -13,7 +13,6 @@ use Mtf\Page\BackendPage;
 /**
  * Class CatalogProductSetEdit
  * Product Set edit page
- *
  */
 class CatalogProductSetEdit extends BackendPage
 {
@@ -26,8 +25,8 @@ class CatalogProductSetEdit extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'newAttributes' => [
-            'name' => 'newAttributes',
+        'main' => [
+            'name' => 'main',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main',
             'locator' => '.attribute-set',
             'strategy' => 'css selector',
@@ -45,8 +44,8 @@ class CatalogProductSetEdit extends BackendPage
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main
      */
-    public function getNewAttributes()
+    public function getMain()
     {
-        return $this->getBlockInstance('newAttributes');
+        return $this->getBlockInstance('main');
     }
 }

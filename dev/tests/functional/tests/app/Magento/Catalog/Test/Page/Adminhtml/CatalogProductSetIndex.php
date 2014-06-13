@@ -25,8 +25,8 @@ class CatalogProductSetIndex extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'blockAttributeSetGrid' => [
-            'name' => 'blockAttributeSetGrid',
+        'attributeSetGrid' => [
+            'name' => 'attributeSetGrid',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Grid',
             'locator' => '#setGrid',
             'strategy' => 'css selector',
@@ -44,8 +44,8 @@ class CatalogProductSetIndex extends BackendPage
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Grid
      */
-    public function getBlockAttributeSetGrid()
+    public function getAttributeSetGrid()
     {
-        return $this->getBlockInstance('blockAttributeSetGrid');
+        return $this->getBlockInstance('attributeSetGrid');
     }
 }

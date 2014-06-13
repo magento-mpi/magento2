@@ -41,6 +41,10 @@
             <default_value>0</default_value>
             <input></input>
         </sort_order>
+        <skeleton_set>
+            <attribute_code>skeleton_set</attribute_code>
+            <backend_type>virtual</backend_type>
+        </skeleton_set>
     </fields>
     <repository_class>Magento\Catalog\Test\Repository\CatalogAttributeSet</repository_class>
     <handler_interface>Magento\Catalog\Test\Handler\CatalogAttributeSet\CatalogAttributeSetInterface</handler_interface>

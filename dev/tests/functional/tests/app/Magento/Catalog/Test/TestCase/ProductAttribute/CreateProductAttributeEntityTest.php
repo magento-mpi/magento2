@@ -33,19 +33,17 @@ class CreateProductAttributeEntityTest extends Injectable
     /**
      * Run CreateProductAttributeEntity test
      *
-     * @param CatalogProductAttribute $attribute
+     * @param CatalogProductAttribute $productAttribute
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
      * @param CatalogAttributeSet $productTemplate
-     * @param string $product
      * @return void
      */
     public function testCreateProductAttribute(
-        CatalogProductAttribute $attribute,
+        CatalogProductAttribute $productAttribute,
         CatalogProductAttributeIndex $attributeIndex,
         CatalogProductAttributeNew $attributeNew,
-        CatalogAttributeSet $productTemplate,
-        $product
+        CatalogAttributeSet $productTemplate
     ) {
         //Precondition
         $productTemplate->persist();
@@ -53,7 +51,7 @@ class CreateProductAttributeEntityTest extends Injectable
         //Steps
         $attributeIndex->open();
         $attributeIndex->getPageActionsBlock()->addNew();
-        $attributeNew->getAttributeForm()->fill($attribute);
+        $attributeNew->getAttributeForm()->fill($productAttribute);
         $attributeNew->getPageActions()->save();
     }
 }
