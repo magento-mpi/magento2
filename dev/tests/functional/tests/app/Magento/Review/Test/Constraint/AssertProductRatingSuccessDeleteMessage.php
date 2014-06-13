@@ -16,7 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertProductRatingSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You deleted the rating.';
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the rating.';
 
     /**
      * Constraint severeness
@@ -35,10 +35,10 @@ class AssertProductRatingSuccessDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $ratingIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

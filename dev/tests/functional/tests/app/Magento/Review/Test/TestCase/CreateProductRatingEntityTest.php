@@ -34,7 +34,7 @@ use Mtf\TestCase\Injectable;
  * @group Reviews_and_Ratings_(MX)
  * @ZephyrId MAGETWO-23331
  */
-class CreateBackendProductRatingTest extends Injectable
+class CreateProductRatingEntityTest extends Injectable
 {
     /**
      * @var Rating
@@ -81,7 +81,7 @@ class CreateBackendProductRatingTest extends Injectable
      * @param Rating $productRating
      * @return void
      */
-    public function testCreateBackendProductRating(
+    public function testCreateProductRatingEntityTest(
         CatalogProductSimple $product,
         Rating $productRating
     ) {

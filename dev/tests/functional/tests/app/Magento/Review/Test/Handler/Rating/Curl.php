@@ -18,6 +18,7 @@ use Mtf\Util\Protocol\CurlTransport;
 
 /**
  * Class Curl
+ * Curl handler for creating product Rating through backend.
  */
 class Curl extends AbstractCurl implements RatingInterface
 {
@@ -54,7 +55,9 @@ class Curl extends AbstractCurl implements RatingInterface
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Product Rating entity creating by curl handler was not successful! Response: $response");
+            throw new \Exception(
+                'Product Rating entity creating by curl handler was not successful! Response:' . $response
+            );
         }
 
         return ['id' => $this->getProductRatingId()];
