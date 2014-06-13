@@ -10,14 +10,13 @@ namespace Magento\CatalogRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
- * Class AssertCatalogPriceRuleAppliedProductPage
+ * Class AssertCatalogPriceRuleAppliedCatalogPage
  */
-class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
+class AssertCatalogPriceRuleAppliedCatalogPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,18 +26,17 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that Catalog Price Rule is applied & it impacts on product's discount price on Product page
+     * Assert that Catalog Price Rule is applied for product(s) in Catalog
+     * according to Priority(Priority/Stop Further Rules Processing)
      *
      * @param CatalogProductSimple $product
-     * @param CatalogProductView $pageCatalogProductView
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
-     * @param array $price
+     * @param $price
      * @return void
      */
     public function processAssert(
         CatalogProductSimple $product,
-        CatalogProductView $pageCatalogProductView,
         CmsIndex $cmsIndex,
         CatalogCategoryView $catalogCategoryView,
         array $price
@@ -47,10 +45,9 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
         $categoryName = $product->getCategoryIds()[0]['name'];
         $productName = $product->getName();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $productPriceBlock = $pageCatalogProductView->getViewBlock()->getProductPriceBlock();
-        $actualPrice['grand_total'] = $productPriceBlock->getSpecialPrice();
+        $productPriceBlock = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($productName);
         $actualPrice['sub_total'] = $productPriceBlock->getRegularPrice();
+        $actualPrice['grand_total'] = $productPriceBlock->getSpecialPrice();
         $actualPrice['discount_amount'] = $actualPrice['sub_total'] - $actualPrice['grand_total'];
         $diff = $this->verifyData($actualPrice, $price);
         \PHPUnit_Framework_Assert::assertTrue(
@@ -80,12 +77,12 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     }
 
     /**
-     * Text of catalog price rule visibility on product page (frontend)
+     * Text of catalog price rule visibility on catalog page (frontend)
      *
      * @return string
      */
     public function toString()
     {
-        return 'Displayed catalog price rule data on product page(frontend) equals to passed from fixture.';
+        return 'Displayed catalog price rule data on catalog page(frontend) equals to passed from fixture.';
     }
 }

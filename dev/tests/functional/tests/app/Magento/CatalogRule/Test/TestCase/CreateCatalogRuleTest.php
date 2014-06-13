@@ -45,6 +45,6 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         $this->adminCache->getMessagesBlock()->assertSuccessMessage();
 
         // Prepare data for tear down
-        $this->prepareTearDown($catalogPriceRule);
+        $this->catalogRules = $catalogPriceRule;
     }
 }
