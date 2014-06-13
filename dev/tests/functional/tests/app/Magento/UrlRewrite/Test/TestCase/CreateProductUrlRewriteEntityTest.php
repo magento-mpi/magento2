@@ -35,7 +35,7 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
  * @group URL_Rewrites_(PS)
  * @ZephyrId MAGETWO-25150
  */
-class ProductUrlRewriteEntityTest extends Injectable
+class CreateProductUrlRewriteEntityTest extends Injectable
 {
     /**
      * Url rewrite index page
@@ -52,7 +52,7 @@ class ProductUrlRewriteEntityTest extends Injectable
     protected $urlRewriteEdit;
 
     /**
-     * Prepare dataSets and pages
+     * Prepare pages
      *
      * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlrewriteEdit $urlRewriteEdit

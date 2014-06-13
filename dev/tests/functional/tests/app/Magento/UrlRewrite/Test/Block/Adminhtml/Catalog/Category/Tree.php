@@ -25,16 +25,10 @@ class Tree extends Block
     protected $skipCategoryButton = '[data-ui-id="urlrewrite-catalog-product-edit-skip-categories"]';
 
     /**
-     * Locator value for  edit form
-     *
-     * @var string
-     */
-    protected $editForm = '#edit_form';
-
-    /**
      * Select category by its name
      *
      * @param string $categoryName
+     * @return void
      */
     public function selectCategory($categoryName)
     {
@@ -44,14 +38,10 @@ class Tree extends Block
     /**
      * Skip category selection
      *
-     * @return $this
+     * @return void
      */
     public function skipCategorySelection()
     {
         $this->_rootElement->find($this->skipCategoryButton, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->waitUntil(function () {
-                return $this->_rootElement->find($this->editForm)->isVisible();
-            });
-        return $this;
     }
 }
