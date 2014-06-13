@@ -1,8 +1,6 @@
 {
     "name": "magento/framework",
     "description": "N/A",
-    "require": {
-    },
     "type": "magento2-framework",
     "version": "0.1.0"
 }
