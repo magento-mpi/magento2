@@ -99,7 +99,7 @@ class Cart extends Block
     public function getCartItemSubTotalByProductName($productName)
     {
         $selector = sprintf($this->cartItem, $productName) . $this->itemSubTotalSelector;
-        $itemSubtotal =  $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+        $itemSubtotal = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
         return $this->escapeCurrency($itemSubtotal);
     }
 
@@ -114,10 +114,7 @@ class Cart extends Block
     {
         $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemUnitPriceSelector;
         $prices = explode("\n", trim($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText()));
-        if (count($prices) == 1) {
-            return floatval(trim($prices[0], $currency));
-        }
-        return $this->formatPricesData($prices, $currency);
+        return floatval(trim($prices[0], $currency));
     }
 
     /**
