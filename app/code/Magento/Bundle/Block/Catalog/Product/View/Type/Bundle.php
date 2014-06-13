@@ -72,6 +72,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param array $data
+     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -81,7 +82,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
