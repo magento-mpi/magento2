@@ -59,13 +59,6 @@ class Observer
     protected $_stockStatusFactory;
 
     /**
-     * Construct
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexer;
-
-    /**
      * @var Stock
      */
     protected $_stock;
@@ -81,9 +74,9 @@ class Observer
     protected $_resourceStock;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Resource\Indexer\Stock
+     * @var \Magento\CatalogInventory\Model\Indexer\NewStock
      */
-    protected $_resourceIndexerStock;
+    protected $_stockIndexer;
 
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -97,9 +90,8 @@ class Observer
 
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
-     * @param Resource\Indexer\Stock $resourceIndexerStock
+     * @param \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer
      * @param Resource\Stock $resourceStock
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param Stock $stock
      * @param Stock\Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
@@ -109,9 +101,8 @@ class Observer
      */
     public function __construct(
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
-        \Magento\CatalogInventory\Model\Resource\Indexer\Stock $resourceIndexerStock,
+        \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer,
         \Magento\CatalogInventory\Model\Resource\Stock $resourceStock,
-        \Magento\Index\Model\Indexer $indexer,
         Stock $stock,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
@@ -120,9 +111,8 @@ class Observer
         \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
     ) {
         $this->_priceIndexer = $priceIndexer;
-        $this->_resourceIndexerStock = $resourceIndexerStock;
+        $this->_stockIndexer = $stockIndexer;
         $this->_resourceStock = $resourceStock;
-        $this->_indexer = $indexer;
         $this->_stock = $stock;
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
@@ -453,7 +443,7 @@ class Observer
         }
 
         if (count($productIds)) {
-            $this->_resourceIndexerStock->reindexProducts($productIds);
+            $this->_stockIndexer->executeList($productIds);
         }
 
         // Reindex previously remembered items
@@ -607,20 +597,6 @@ class Observer
         $this->_stockStatus->prepareCatalogProductIndexSelect($select, $entity, $website);
 
         return $this;
-    }
-
-    /**
-     * Reindex all events of product-massAction type
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function reindexProductsMassAction($observer)
-    {
-        $this->_indexer->indexEvents(
-            \Magento\Catalog\Model\Product::ENTITY,
-            \Magento\Index\Model\Event::TYPE_MASS_ACTION
-        );
     }
 
     /**
