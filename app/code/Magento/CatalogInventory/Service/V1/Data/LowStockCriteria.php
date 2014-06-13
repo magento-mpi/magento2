@@ -23,7 +23,7 @@ class LowStockCriteria extends AbstractObject
     /**#@-*/
 
     /**
-     * @return int
+     * @return float
      */
     public function getQty()
     {

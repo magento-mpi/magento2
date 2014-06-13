@@ -28,4 +28,10 @@
             <resource ref="Magento_CatalogInventory::cataloginventory"/>
         </resources>
     </route>
+    <route url="/V1/stockItem/lowStock/" method="PUT">
+        <service class="Magento\CatalogInventory\Service\V1\StockStatusServiceInterface" method="getLowStockItems"/>
+        <resources>
+            <resource ref="Magento_CatalogInventory::cataloginventory"/>
+        </resources>
+    </route>
 </routes>

@@ -15,7 +15,7 @@ class LowStockCriteriaBuilder extends \Magento\Framework\Service\Data\AbstractOb
     /**
      * Set page size
      *
-     * @param int $qty
+     * @param float $qty
      * @return $this
      */
     public function setQty($qty)

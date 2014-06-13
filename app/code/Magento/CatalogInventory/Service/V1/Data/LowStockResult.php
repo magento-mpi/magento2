@@ -14,6 +14,14 @@ use Magento\Framework\Service\Data\AbstractObject;
  */
 class LowStockResult extends AbstractObject
 {
+    /**#@+
+     * Low stock search result object data keys
+     */
+    const PRODUCT_SKU_LIST = 'items';
+    const SEARCH_CRITERIA = 'search_criteria';
+    const TOTAL_COUNT = 'total_count';
+    /**#@-*/
+
     /**
      * Get items
      *
@@ -21,7 +29,7 @@ class LowStockResult extends AbstractObject
      */
     public function getItems()
     {
-        return is_null($this->_get('items')) ? array() : $this->_get('items');
+        return is_null($this->_get(self::PRODUCT_SKU_LIST)) ? array() : $this->_get(self::PRODUCT_SKU_LIST);
     }
 
     /**
@@ -31,7 +39,7 @@ class LowStockResult extends AbstractObject
      */
     public function getSearchCriteria()
     {
-        return $this->_get('search_criteria');
+        return $this->_get(self::SEARCH_CRITERIA);
     }
 
     /**
@@ -41,6 +49,6 @@ class LowStockResult extends AbstractObject
      */
     public function getTotalCount()
     {
-        return $this->_get('total_count');
+        return $this->_get(self::TOTAL_COUNT);
     }
 }

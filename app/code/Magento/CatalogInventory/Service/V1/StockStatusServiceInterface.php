@@ -30,4 +30,12 @@ interface StockStatusServiceInterface
      * @throw \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getProductStockStatusBySku($sku);
+
+    /**
+     * Retrieves a list of SKU's with low inventory qty
+     *
+     * @param \Magento\CatalogInventory\Service\V1\Data\LowStockCriteria $lowStockCriteria
+     * @return \Magento\CatalogInventory\Service\V1\Data\LowStockResult
+     */
+    public function getLowStockItems($lowStockCriteria);
 }

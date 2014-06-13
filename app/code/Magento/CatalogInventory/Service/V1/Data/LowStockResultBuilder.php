@@ -20,7 +20,7 @@ class LowStockResultBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setSearchCriteria(LowStockCriteria $searchCriteria)
     {
-        return $this->_set('search_criteria', $searchCriteria);
+        return $this->_set(LowStockResult::SEARCH_CRITERIA, $searchCriteria);
     }
 
     /**
@@ -31,7 +31,7 @@ class LowStockResultBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setTotalCount($totalCount)
     {
-        return $this->_set('total_count', $totalCount);
+        return $this->_set(LowStockResult::TOTAL_COUNT, $totalCount);
     }
 
     /**
@@ -42,6 +42,6 @@ class LowStockResultBuilder extends \Magento\Framework\Service\Data\AbstractObje
      */
     public function setItems($items)
     {
-        return $this->_set('items', $items);
+        return $this->_set(LowStockResult::PRODUCT_SKU_LIST, $items);
     }
 }

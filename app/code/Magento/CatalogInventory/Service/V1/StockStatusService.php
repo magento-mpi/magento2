@@ -74,6 +74,7 @@ class StockStatusService implements StockStatusServiceInterface
         $this->productLoader = $productLoader;
         $this->scopeResolver = $scopeResolver;
         $this->stockStatusBuilder = $stockStatusBuilder;
+        $this->itemsFactory = $itemsFactory;
         $this->lowStockResultBuilder = $lowStockResultBuilder;
     }
 
@@ -132,10 +133,10 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * Retrieves a list of SKU's with low inventory qty
      *
-     * @param Data\LowStockCriteria $lowStockCriteria
-     * @return Data\LowStockResult
+     * @param \Magento\CatalogInventory\Service\V1\Data\LowStockCriteria $lowStockCriteria
+     * @return \Magento\CatalogInventory\Service\V1\Data\LowStockResult
      */
-    public function getLowStockItems(Data\LowStockCriteria $lowStockCriteria)
+    public function getLowStockItems($lowStockCriteria)
     {
         /** @var \Magento\CatalogInventory\Model\Resource\Stock\Status\Collection $itemCollection */
         $itemCollection = $this->itemsFactory->create();
