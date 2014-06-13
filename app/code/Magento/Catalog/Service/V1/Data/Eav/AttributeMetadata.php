@@ -41,6 +41,10 @@ class AttributeMetadata extends AbstractObject
 
     const BACKEND_TYPE = 'backend_type';
 
+    const SOURCE_MODEL = 'source_model';
+
+    const BACKEND_MODEL = 'backend_model';
+
     const DEFAULT_VALUE = 'default_value';
 
     const UNIQUE = 'unique';
@@ -197,6 +201,26 @@ class AttributeMetadata extends AbstractObject
     public function getBackendType()
     {
         return $this->_get(self::BACKEND_TYPE);
+    }
+
+    /**
+     * Get backend model
+     *
+     * @return string|null
+     */
+    public function getBackendModel()
+    {
+        return $this->_get(self::BACKEND_MODEL);
+    }
+
+    /**
+     * Get source model
+     *
+     * @return string|null
+     */
+    public function getSourceModel()
+    {
+        return $this->_get(self::SOURCE_MODEL);
     }
 
     /**

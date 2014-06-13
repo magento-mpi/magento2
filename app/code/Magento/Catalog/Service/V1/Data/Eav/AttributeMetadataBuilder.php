@@ -189,6 +189,28 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set backend model
+     *
+     * @param  string $value
+     * @return $this
+     */
+    public function setBackendModel($value)
+    {
+        return $this->_set(AttributeMetadata::BACKEND_MODEL, $value);
+    }
+
+    /**
+     * Set source model
+     *
+     * @param  string $value
+     * @return $this
+     */
+    public function setSourceModel($value)
+    {
+        return $this->_set(AttributeMetadata::SOURCE_MODEL, $value);
+    }
+
+    /**
      * Set default value for the element
      *
      * @param  mixed $value

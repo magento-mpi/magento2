@@ -73,24 +73,34 @@ class WriteService implements WriteServiceInterface
      */
     public function create(\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata $attributeMetadata)
     {
-        if (!$attributeMetadata->getFrontendLabel()) {
-            throw InputException::invalidFieldValue('frontend_label', $attributeMetadata->getFrontendLabel());
-        }
-
         /**
          * @var $model \Magento\Catalog\Model\Resource\Eav\Attribute
          */
         $model = $this->attributeFactory->create();
-        $data = EavDataObjectConverter::toFlatArray($attributeMetadata);
-        $data['attribute_code'] =
-            $attributeMetadata->getAttributeCode() ?: $this->generateCode($attributeMetadata->getFrontendLabel());
-        $this->validateCode($data['attribute_code']);
+        $data = $attributeMetadata->__toArray();
+        // unset attribute id because we create new attribute (does not rewrite existing one)
+        unset($data[AttributeMetadata::ATTRIBUTE_ID]);
+
+        // define frontend label
+        if (!$attributeMetadata->getFrontendLabel()) {
+            throw InputException::requiredField(AttributeMetadata::FRONTEND_LABEL);
+        }
+        foreach ($attributeMetadata->getFrontendLabel() as $label) {
+            $data[AttributeMetadata::FRONTEND_LABEL][$label->getStoreId()] = $label->getLabel();
+        }
+        if (!isset($data[AttributeMetadata::FRONTEND_LABEL][0]) || !$data[AttributeMetadata::FRONTEND_LABEL][0]) {
+            throw InputException::invalidFieldValue(AttributeMetadata::FRONTEND_LABEL, null);
+        }
+
+        $data[AttributeMetadata::ATTRIBUTE_CODE] =
+            $attributeMetadata->getAttributeCode() ?: $this->generateCode($data[AttributeMetadata::FRONTEND_LABEL][0]);
+        $this->validateCode($data[AttributeMetadata::ATTRIBUTE_CODE]);
         $this->validateFrontendInput($attributeMetadata->getFrontendInput());
 
-        $data['backend_type'] = $model->getBackendTypeByInput($attributeMetadata->getFrontendInput());
-        $data['source_model'] =
+        $data[AttributeMetadata::BACKEND_TYPE] = $model->getBackendTypeByInput($attributeMetadata->getFrontendInput());
+        $data[AttributeMetadata::SOURCE_MODEL] =
             $this->helper->getAttributeSourceModelByInputType($attributeMetadata->getFrontendInput());
-        $data['backend_model'] =
+        $data[AttributeMetadata::BACKEND_MODEL] =
             $this->helper->getAttributeBackendModelByInputType($attributeMetadata->getFrontendInput());
 
         $model->addData($data);
@@ -193,7 +203,7 @@ class WriteService implements WriteServiceInterface
     /**
      * Validate Frontend Input Type
      *
-     * @param string $frontendInput
+     * @param  string $frontendInput
      * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
