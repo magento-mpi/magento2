@@ -63,7 +63,7 @@ class ZipTest extends \PHPUnit_Framework_TestCase
 
         for ($i = 0; $i < $za->numFiles; $i++) {
             $stat = $za->statIndex($i);
-            $this->assertNotContains($source . '/' . $stat['name'], $exclude);
+            $this->assertNotContains($source . '/' . rtrim($stat['name'], '/'), $exclude);
         }
     }
 }
