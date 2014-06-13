@@ -35,6 +35,7 @@
             <argument name="proFactory" xsi:type="object">Magento\Paypal\Model\Payflow\ProFactory</argument>
         </arguments>
     </type>
+    <preference for="Magento\Paypal\Helper\Shortcut\ValidatorInterface" type="Magento\Paypal\Helper\Shortcut\Validator"/>
     <type name="Magento\Paypal\Block\Express\Shortcut">
         <arguments>
             <argument name="paymentMethodCode" xsi:type="const">Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS</argument>

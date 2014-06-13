@@ -35,7 +35,7 @@ class Factory
 
     /**
      * @param mixed $parameter
-     * @return \Magento\Catalog\Helper\ShortcutValidatorInterface
+     * @return \Magento\Paypal\Helper\Shortcut\ValidatorInterface
      */
     public function create($parameter = null)
     {

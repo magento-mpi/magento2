@@ -7,9 +7,9 @@
  */
 
 namespace Magento\Paypal\Helper\Shortcut;
-use Magento\Catalog\Helper\ShortcutValidatorInterface;
+use Magento\Paypal\Helper\Shortcut\ValidatorInterface;
 
-class Validator implements ShortcutValidatorInterface
+class Validator implements ValidatorInterface
 {
     /**
      * @var \Magento\Paypal\Model\ConfigFactory

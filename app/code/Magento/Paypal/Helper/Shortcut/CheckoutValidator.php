@@ -7,9 +7,9 @@
  */
 
 namespace Magento\Paypal\Helper\Shortcut;
-use Magento\Catalog\Helper\ShortcutValidatorInterface;
+use Magento\Paypal\Helper\Shortcut\ValidatorInterface;
 
-class CheckoutValidator implements ShortcutValidatorInterface
+class CheckoutValidator implements ValidatorInterface
 {
     /**
      * @var \Magento\Checkout\Model\Session

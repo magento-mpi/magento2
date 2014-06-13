@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Helper;
+namespace Magento\Paypal\Helper\Shortcut;
 
-interface ShortcutValidatorInterface
+interface ValidatorInterface
 {
     /**
      * Validates shortcut

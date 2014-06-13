@@ -8,7 +8,7 @@
 namespace Magento\Paypal\Block\Express;
 
 use Magento\Catalog\Block as CatalogBlock;
-use Magento\Catalog\Helper\ShortcutValidatorInterface;
+use Magento\Paypal\Helper\Shortcut\ValidatorInterface;
 
 /**
  * Paypal express checkout shortcut link
@@ -88,7 +88,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
     protected $_localeResolver;
 
     /**
-     * @var ShortcutValidatorInterface
+     * @var ValidatorInterface
      */
     private $_shortcutValidator;
 
@@ -100,7 +100,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param ShortcutValidatorInterface $shortcutValidator
+     * @param ValidatorInterface $shortcutValidator
      * @param string $paymentMethodCode
      * @param string $startAction
      * @param string $checkoutType
@@ -116,7 +116,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        ShortcutValidatorInterface $shortcutValidator,
+        ValidatorInterface $shortcutValidator,
         $paymentMethodCode,
         $startAction,
         $checkoutType,

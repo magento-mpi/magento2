@@ -9,7 +9,7 @@
 namespace Magento\Paypal\Block\Bml;
 
 use Magento\Catalog\Block as CatalogBlock;
-use Magento\Catalog\Helper\ShortcutValidatorInterface;
+use Magento\Paypal\Helper\Shortcut\ValidatorInterface;
 
 class Shortcut extends \Magento\Framework\View\Element\Template implements CatalogBlock\ShortcutInterface
 {
@@ -64,7 +64,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
     const SHORTCUT_IMAGE = 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_SM.png';
 
     /**
-     * @var ShortcutValidatorInterface
+     * @var ValidatorInterface
      */
     private $_shortcutValidator;
 
@@ -72,7 +72,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\Math\Random $mathRandom
-     * @param ShortcutValidatorInterface $shortcutValidator
+     * @param ValidatorInterface $shortcutValidator
      * @param string $paymentMethodCode
      * @param string $startAction
      * @param string $alias
@@ -84,7 +84,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Math\Random $mathRandom,
-        ShortcutValidatorInterface $shortcutValidator,
+        ValidatorInterface $shortcutValidator,
         $paymentMethodCode,
         $startAction,
         $alias,
