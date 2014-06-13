@@ -1,13 +1,6 @@
 <?php
-/**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
- */
-namespace Magento\Test\Tools\Composer\Helper;
 
-use Magento\TestFramework\Helper\ObjectManager;
+namespace Magento\Test\Tools\Composer\Helper;
 
 /**
  * Class ExcludeFilterTest
@@ -18,12 +11,14 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
     /**
      * ExcludeFilter
      *
-     * @var \Magento\Tools\Composer\Helper\FilterTest
+     * @var \Magento\Tools\Composer\Helper\ExcludeFilter object
      */
     protected $excludeFilter;
 
     /**
      * Exclude Array
+     *
+     * @var Array of excluded paths
      */
     protected $exclude = array();
 
@@ -33,8 +28,6 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManagerHelper = new ObjectManager($this);
-
         $source = __DIR__ . '/../_files';
         $exclude = array(
             realpath(__DIR__ . '/../_files/app/code/Magento/OtherModule')
@@ -42,8 +35,7 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
 
         $directory = new \RecursiveDirectoryIterator($source);
 
-        $this->excludeFilter = $objectManagerHelper->getObject('\Magento\Tools\Composer\Helper\ExcludeFilter',
-            array('iterator' => $directory, 'exclude' => $exclude));
+        $this->excludeFilter = new \Magento\Tools\Composer\Helper\ExcludeFilter($directory, $exclude);
     }
 
     /**

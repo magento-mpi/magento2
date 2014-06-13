@@ -28,8 +28,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManagerHelper = new ObjectManager($this);
-        $this->converter = $objectManagerHelper->getObject('\Magento\Tools\Composer\Helper\Converter');
+        $this->converter = new \Magento\Tools\Composer\Helper\Converter();
     }
 
     /**
