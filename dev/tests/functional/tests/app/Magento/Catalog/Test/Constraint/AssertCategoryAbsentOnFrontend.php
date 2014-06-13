@@ -39,11 +39,8 @@ class AssertCategoryAbsentOnFrontend extends AbstractConstraint
      * @param CatalogCategory $category
      * @return void
      */
-    public function processAssert(
-        Browser $browser,
-        CatalogCategoryView $categoryView,
-        CatalogCategory $category
-    ) {
+    public function processAssert(Browser $browser, CatalogCategoryView $categoryView, CatalogCategory $category)
+    {
         $browser->open($_ENV['app_frontend_url'] . $category->getUrlKey() . '.html');
         \PHPUnit_Framework_Assert::assertEquals(
             self::NOT_FOUND_MESSAGE,
