@@ -49,9 +49,11 @@ class Tree extends Block
     public function skipCategorySelection()
     {
         $this->_rootElement->find($this->skipCategoryButton, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->waitUntil(function () {
+        $this->_rootElement->waitUntil(
+            function () {
                 return $this->_rootElement->find($this->editForm)->isVisible();
-            });
+            }
+        );
         return $this;
     }
 }
