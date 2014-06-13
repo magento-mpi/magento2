@@ -110,7 +110,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'types' => array('image'),
@@ -150,7 +149,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'types' => array('image'),
@@ -192,7 +190,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => $this->getTargetGalleryEntryId(),
-                'store_id' => null,
                 'label' => 'Updated Image Text',
                 'position' => 10,
                 'types' => array('thumbnail'),
@@ -228,7 +225,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => $this->getTargetGalleryEntryId(),
-                'store_id' => null,
                 'label' => 'Updated Image Text',
                 'position' => 10,
                 'types' => array('thumbnail'),
@@ -286,7 +282,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'types' => array('image'),
@@ -315,7 +310,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'disabled' => false,
@@ -344,7 +338,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'disabled' => false,
                 'label' => 'Image Text',
                 'position' => 1,
@@ -372,7 +365,6 @@ class WriteServiceTest extends WebapiAbstract
         $requestData = array(
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'types' => array('image'),
@@ -401,7 +393,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'wrong_product_sku',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'position' => 1,
                 'label' => 'Image Text',
                 'types' => array('image'),
@@ -429,7 +420,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => null,
-                'store_id' => null,
                 'label' => 'Image Text',
                 'position' => 1,
                 'types' => array('image'),
@@ -457,7 +447,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => $this->getTargetGalleryEntryId(),
-                'store_id' => null,
                 'label' => 'Updated Image Text',
                 'position' => 10,
                 'types' => array('thumbnail'),
@@ -480,7 +469,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'wrong_product_sku',
             'entry' => array(
                 'id' => 9999,
-                'store_id' => null,
                 'label' => 'Updated Image Text',
                 'position' => 1,
                 'types' => array('thumbnail'),
@@ -503,7 +491,6 @@ class WriteServiceTest extends WebapiAbstract
             'productSku' => 'simple',
             'entry' => array(
                 'id' => 9999,
-                'store_id' => null,
                 'label' => 'Updated Image Text',
                 'position' => 1,
                 'types' => array('thumbnail'),

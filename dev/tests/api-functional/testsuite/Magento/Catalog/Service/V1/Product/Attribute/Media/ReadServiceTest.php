@@ -28,11 +28,11 @@ class ReadServiceTest extends WebapiAbstract
         $imageId = $image['value_id'];
 
         $expected = [
-            'store_id' => $product->getStoreId(),
             'label' => $image['label'],
             'position' => $image['position'],
             'disabled' => (bool)$image['disabled'],
-            'file' => $image['file']
+            'file' => $image['file'],
+            'types' => array('image', 'small_image', 'thumbnail'),
         ];
 
         $serviceInfo = array(
@@ -52,10 +52,10 @@ class ReadServiceTest extends WebapiAbstract
         ];
         $data = $this->_webApiCall($serviceInfo, $requestData);
         $actual = (array) $data;
-        $this->assertEquals($expected['store_id'], $actual['store_id']);
         $this->assertEquals($expected['label'], $actual['label']);
         $this->assertEquals($expected['position'], $actual['position']);
         $this->assertEquals($expected['file'], $actual['file']);
+        $this->assertEquals($expected['types'], $actual['types']);
         $this->assertEquals($expected['disabled'], (bool)$actual['disabled']);
     }
 

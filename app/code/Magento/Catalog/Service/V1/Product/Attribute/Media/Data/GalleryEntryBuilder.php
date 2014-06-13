@@ -25,17 +25,6 @@ class GalleryEntryBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set store ID
-     *
-     * @param int $storeId
-     * @return $this
-     */
-    public function setStoreId($storeId)
-    {
-        return $this->_set(GalleryEntry::STORE_ID, $storeId);
-    }
-
-    /**
      * Set media alternative text
      *
      * @param string $label

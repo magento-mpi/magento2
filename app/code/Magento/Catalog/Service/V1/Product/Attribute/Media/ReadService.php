@@ -14,6 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\StateException;
 use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder;
+use \Magento\Catalog\Model\Product;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -59,11 +60,17 @@ class ReadService implements ReadServiceInterface
     protected $attributeFactory;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param MediaImageBuilder $mediaImageBuilder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param GalleryEntryBuilder $galleryEntryBuilder
@@ -74,6 +81,7 @@ class ReadService implements ReadServiceInterface
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         MediaImageBuilder $mediaImageBuilder,
         \Magento\Catalog\Model\ProductRepository $productRepository,
         GalleryEntryBuilder $galleryEntryBuilder
@@ -83,6 +91,7 @@ class ReadService implements ReadServiceInterface
         $this->eavConfig = $eavConfig;
         $this->mediaGallery = $mediaGallery;
         $this->attributeFactory = $attributeFactory;
+        $this->storeManager = $storeManager;
         $this->builder = $mediaImageBuilder;
         $this->productRepository = $productRepository;
         $this->galleryEntryBuilder = $galleryEntryBuilder;
@@ -100,7 +109,7 @@ class ReadService implements ReadServiceInterface
         $data = [];
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
         foreach ($items as $attribute) {
-            $this->builder->setFrontendLabel($attribute->getFrontendLabel());
+            $this->builder->setFrontendLabel($attribute->getStoreLabel());
             $this->builder->setCode($attribute->getData('attribute_code'));
             $this->builder->setIsUserDefined($attribute->getData('is_user_defined'));
             if ($attribute->getIsGlobal()) {
@@ -136,6 +145,7 @@ class ReadService implements ReadServiceInterface
         $collection = $this->collectionFactory->create();
         $collection->setAttributeSetFilter($attributeSetId);
         $collection->setFrontendInputTypeFilter('media_image');
+        $collection->addStoreLabel($this->storeManager->getStore()->getId());
 
         return $this->prepareData($collection->getItems());
     }
@@ -157,13 +167,7 @@ class ReadService implements ReadServiceInterface
         $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
         $gallery = $this->mediaGallery->loadGallery($product, $container);
 
-        $attributes = $product->getMediaAttributes();
-        $imageTypes = array_keys($attributes);
-
-        $productImages = [];
-        foreach ($imageTypes as $type) {
-            $productImages[$type] = $product->getData($type);
-        }
+        $productImages = $this->getMediaAttributeValues($product);
 
         foreach ($gallery as $image) {
             $this->galleryEntryBuilder->setId($image['value_id']);
@@ -172,7 +176,6 @@ class ReadService implements ReadServiceInterface
             $this->galleryEntryBuilder->setDisabled($image['disabled_default']);
             $this->galleryEntryBuilder->setPosition($image['position_default']);
             $this->galleryEntryBuilder->setFile($image['file']);
-            $this->galleryEntryBuilder->setStoreId($product->getStoreId());
             $result[] = $this->galleryEntryBuilder->create();
         }
         return $result;
@@ -190,9 +193,10 @@ class ReadService implements ReadServiceInterface
         }
 
         $output = null;
+        $productImages = $this->getMediaAttributeValues($product);
         foreach ((array)$product->getMediaGallery('images') as $image) {
             if (intval($image['value_id']) == intval($imageId)) {
-                $image['store_id'] = $product->getStoreId();
+                $image['types'] = array_keys($productImages, $image['file']);
                 $output = $this->galleryEntryBuilder->populateWithArray($image)->create();
                 break;
             }
@@ -202,5 +206,21 @@ class ReadService implements ReadServiceInterface
             throw new NoSuchEntityException("Such image doesn't exist");
         }
         return $output;
+    }
+
+    /**
+     * Retrieve assoc array that contains media attribute values of the given product
+     *
+     * @param Product $product
+     * @return array
+     */
+    protected function getMediaAttributeValues(Product $product)
+    {
+        $mediaAttributeCodes = array_keys($product->getMediaAttributes());
+        $mediaAttributeValues = array();
+        foreach ($mediaAttributeCodes as $attributeCode) {
+            $mediaAttributeValues[$attributeCode] = $product->getData($attributeCode);
+        }
+        return $mediaAttributeValues;
     }
 }

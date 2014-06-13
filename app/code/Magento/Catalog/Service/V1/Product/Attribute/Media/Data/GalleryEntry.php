@@ -15,7 +15,6 @@ class GalleryEntry extends AbstractObject
 {
     const ID = 'id';
     const LABEL = 'label';
-    const STORE_ID = 'store_id';
     const POSITION = 'position';
     const DISABLED = 'disabled';
     const TYPES = 'types';
@@ -29,16 +28,6 @@ class GalleryEntry extends AbstractObject
     public function getId()
     {
         return $this->_get(self::ID);
-    }
-
-    /**
-     * Retrieve store ID
-     *
-     * @return int|null
-     */
-    public function getStoreId()
-    {
-        return $this->_get(self::STORE_ID);
     }
 
     /**
