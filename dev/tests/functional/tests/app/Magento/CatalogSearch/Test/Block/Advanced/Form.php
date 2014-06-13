@@ -56,15 +56,6 @@ class Form extends ParentForm
         $data = array_merge($data, $data['price']);
         unset($data['price']);
 
-        // If you want to select all, we obtain values
-        if ($data['tax_class_id'] === 'all') {
-            $taxClassValues = explode(
-                "\n",
-                $this->_rootElement->find($this->taxClassSelector)->getText()
-            );
-            $data['tax_class_id'] = $taxClassValues;
-        }
-
         // Mapping
         $mapping = $this->dataMapping($data);
         $this->_fill($mapping, $element);

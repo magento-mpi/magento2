@@ -16,14 +16,14 @@ use Mtf\Util\XmlConverter;
 use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Form;
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm as ParentForm;
 
 /**
  * Class ProductForm
  * Product creation form
  */
-class ProductForm extends Form
+class ProductForm extends ParentForm
 {
     /**
      * New attribute selector
@@ -113,10 +113,10 @@ class ProductForm extends Form
     /**
      * Initialization categories before use in the form of
      *
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return void
      */
-    public function setCategory(CatalogCategoryEntity $category)
+    public function setCategory(CatalogCategory $category)
     {
         $this->category = $category;
     }
@@ -142,7 +142,6 @@ class ProductForm extends Form
             $this->browser->switchToFrame();
             $this->variationsFill($fixture->getConfigurableOptions());
         }
-
     }
 
     /**

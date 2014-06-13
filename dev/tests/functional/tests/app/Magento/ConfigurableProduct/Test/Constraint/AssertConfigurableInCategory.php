@@ -8,11 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Fixture\Category;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
@@ -33,14 +32,14 @@ class AssertConfigurableInCategory extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param CatalogProductConfigurable $configurable
-     * @param CatalogCategoryEntity $category
+     * @param CatalogCategory $category
      * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         CatalogProductConfigurable $configurable,
-        CatalogCategoryEntity $category
+        CatalogCategory $category
     ) {
         //Open category view page
         $cmsIndex->open();
