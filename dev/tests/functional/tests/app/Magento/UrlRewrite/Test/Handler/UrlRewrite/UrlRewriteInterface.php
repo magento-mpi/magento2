@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Handler\UrlRewrite; 
+namespace Magento\UrlRewrite\Test\Handler\UrlRewrite;
 
 use Mtf\Handler\HandlerInterface;
 
