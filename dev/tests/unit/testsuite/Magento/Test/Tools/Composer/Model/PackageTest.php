@@ -11,11 +11,12 @@ namespace Magento\Test\Tools\Composer\Model;
  * Class Package
  * @package Magento\Test\Tools\Composer\Model
  */
-class Package extends \PHPUnit_Framework_TestCase
+class PackageTest extends \PHPUnit_Framework_TestCase
 {
 
 
-    public function testAddDependencies(){
+    public function testAddDependencies()
+    {
         $package = new \Magento\Tools\Composer\Model\Package('magento/module', '0.1.0', BP, 'module');
         $moduleOne = new \Magento\Tools\Composer\Model\Package('magento/module1', '1.2.3', BP, 'theme');
         $package->addDependencies(array($moduleOne));
@@ -37,7 +38,7 @@ class Package extends \PHPUnit_Framework_TestCase
                     $this->assertEquals('1.2.3', $dependency->getVersion());
                     $this->assertEquals(BP, $dependency->getLocation());
                     break;
-                case 'module':
+                case 'framework':
                     $this->assertEquals('magento/module2', $dependency->getName());
                     $this->assertEquals('3.4.5', $dependency->getVersion());
                     $this->assertEquals(BP, $dependency->getLocation());
@@ -46,7 +47,8 @@ class Package extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testConstructor(){
+    public function testConstructor()
+    {
         $package = new \Magento\Tools\Composer\Model\Package('magento/module', '0.1.0', BP, 'module');
 
         $this->assertEquals('magento/module', $package->getName());
