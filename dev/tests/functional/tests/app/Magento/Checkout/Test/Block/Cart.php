@@ -62,14 +62,14 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $updateShoppingCart = '.action.update';
+    protected $updateShoppingCart = '//button[@value="update_qty"]';
 
     /**
      * Quantity input selector
      *
      * @var string
      */
-    protected $qty = '.control.qty > .qty';
+    protected $productQty = '//input[@type="number" and @title="Qty"]';
 
     /**
      * Get sub-total for the specified item in the cart
@@ -276,30 +276,31 @@ class Cart extends Block
      */
     public function updateShoppingCart()
     {
-        $updateShoppingCart = $this->_rootElement->find($this->updateShoppingCart);
-        if ($updateShoppingCart->isVisible()) {
-            $updateShoppingCart->click();
-        }
+        $this->_rootElement->find($this->updateShoppingCart, Locator::SELECTOR_XPATH)->click();
     }
 
     /**
      * Set product quantity
      *
+     * @param string $productName
      * @param int $qty
      * @return void
      */
-    public function setProductQty($qty)
+    public function setProductQty($productName, $qty)
     {
-        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->setValue($qty);
+        $productQtySelector = '//tr[normalize-space(td)="' . $productName . '"]' . $this->productQty;
+        $this->_rootElement->find($productQtySelector, Locator::SELECTOR_XPATH)->setValue($qty);
     }
 
     /**
      * Get product quantity
      *
+     * @param string $productName
      * @return string
      */
-    public function getProductQty()
+    public function getProductQty($productName)
     {
-        return $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->getValue();
+        $productQtySelector = '//tr[normalize-space(td)="' . $productName . '"]' . $this->productQty;
+        return $this->_rootElement->find($productQtySelector, Locator::SELECTOR_XPATH)->getValue();
     }
 }

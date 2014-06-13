@@ -37,7 +37,7 @@ class Review extends Block
      *
      * @var string
      */
-    protected  $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
+    protected $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
     
     /**
      * Subtotal search mask

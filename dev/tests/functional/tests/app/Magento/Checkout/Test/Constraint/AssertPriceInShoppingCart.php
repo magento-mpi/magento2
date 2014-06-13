@@ -6,11 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Constraint; 
+namespace Magento\Checkout\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Fixture\Cart;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertPriceInShoppingCart
@@ -25,28 +26,28 @@ class AssertPriceInShoppingCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that price in the shopping cart is equals to expected price from data set
+     * Assert that price in the shopping cart equals to expected price from data set
      *
      * @param CheckoutCart $checkoutCart
      * @param Cart $cart
-     * @param string $productName
+     * @param CatalogProductSimple $product
      * @return void
      */
     public function processAssert(
         CheckoutCart $checkoutCart,
         Cart $cart,
-        $productName
+        CatalogProductSimple $product
     ) {
         preg_match(
             '/\$(.*)$/',
-            $checkoutCart->open()->getCartBlock()->getProductPriceByName($productName),
+            $checkoutCart->open()->getCartBlock()->getProductPriceByName($product->getName()),
             $cartProductPriceMatch
         );
         \PHPUnit_Framework_Assert::assertEquals(
             $cartProductPriceMatch[1],
             $cart->getPrice(),
             'Shopping cart product price: \'' . $cartProductPriceMatch[1]
-                . '\' not equals with price from data set: \'' . $cart->getPrice() . '\''
+            . '\' not equals with price from data set: \'' . $cart->getPrice() . '\''
         );
     }
 

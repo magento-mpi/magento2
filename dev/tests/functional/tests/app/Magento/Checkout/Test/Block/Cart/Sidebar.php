@@ -21,7 +21,7 @@ class Sidebar extends Block
      *
      * @var string
      */
-    protected $qty = '.details.qty > .qty';
+    protected $qty = '//*[@class="product"]/*[@title="%s"]/following-sibling::*//*[@class="value qty"]';
 
     /**
      * Mini cart link selector
@@ -43,11 +43,13 @@ class Sidebar extends Block
     /**
      * Get product quantity
      *
+     * @param string $productName
      * @return string
      */
-    public function getProductQty()
+    public function getProductQty($productName)
     {
         $this->openMiniCart();
-        return $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->getText();
+        $productQty = sprintf($this->qty, $productName);
+        return $this->_rootElement->find($productQty, Locator::SELECTOR_XPATH)->getText();
     }
 }

@@ -6,11 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Constraint; 
+namespace Magento\Checkout\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Fixture\Cart;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductQtyInMiniShoppingCart
@@ -25,22 +26,24 @@ class AssertProductQtyInMiniShoppingCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that quantity in the mini shopping cart is equals to expected quantity from data set
+     * Assert that product quantity in the mini shopping cart is equals to expected quantity from data set
      *
      * @param CmsIndex $cmsIndex
      * @param Cart $cart
+     * @param CatalogProductSimple $product
      * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
-        Cart $cart
+        Cart $cart,
+        CatalogProductSimple $product
     ) {
-        $productQtyInMiniCart = $cmsIndex->open()->getCartSidebarBlock()->getProductQty();
+        $productQtyInMiniCart = $cmsIndex->open()->getCartSidebarBlock()->getProductQty($product->getName());
         \PHPUnit_Framework_Assert::assertEquals(
             $productQtyInMiniCart,
             $cart->getQty(),
             'Mini shopping cart product qty: \'' . $productQtyInMiniCart
-                . '\' not equals with qty from data set: \'' . $cart->getQty() . '\''
+            . '\' not equals with qty from data set: \'' . $cart->getQty() . '\''
         );
     }
 

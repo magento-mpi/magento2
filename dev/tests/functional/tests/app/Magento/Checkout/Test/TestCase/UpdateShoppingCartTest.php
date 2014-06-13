@@ -12,8 +12,6 @@ use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Fixture\Cart;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 
@@ -38,27 +36,6 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class UpdateShoppingCartTest extends Injectable
 {
     /**
-     * Product for update shopping cart
-     *
-     * @var CatalogProductSimple
-     */
-    protected $productForUpdateShoppingCart;
-
-    /**
-     * Page CmsIndex
-     *
-     * @var CmsIndex
-     */
-    protected $cmsIndex;
-
-    /**
-     * Page CatalogCategoryView
-     *
-     * @var CatalogCategoryView
-     */
-    protected $catalogCategoryView;
-
-    /**
      * Page CatalogProductView
      *
      * @var CatalogProductView
@@ -75,40 +52,31 @@ class UpdateShoppingCartTest extends Injectable
     /**
      * Inject data
      *
-     * @param CmsIndex $cmsIndex
-     * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @return void
      */
     public function __inject(
-        CmsIndex $cmsIndex,
-        CatalogCategoryView $catalogCategoryView,
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart
     ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->catalogCategoryView = $catalogCategoryView;
         $this->catalogProductView = $catalogProductView;
         $this->checkoutCart = $checkoutCart;
     }
 
     /**
-     * Create simple product with price "100" and category
+     * Create simple product with price "100"
      *
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $this->productForUpdateShoppingCart = $fixtureFactory->createByCode(
-            'catalogProductSimple',
-            ['dataSet' => 'product_with_category']
-        );
-        $this->productForUpdateShoppingCart->persist();
+        $product = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
+        $product->persist();
 
         return [
-            'productName' => $this->productForUpdateShoppingCart->getName()
+            'product' => $product
         ];
     }
 
@@ -116,21 +84,20 @@ class UpdateShoppingCartTest extends Injectable
      * Update Shopping Cart
      *
      * @param Cart $cart
-     * @param string $productName
+     * @param CatalogProductSimple $product
      * @return void
      */
-    public function testUpdateShoppingCart(Cart $cart, $productName)
-    {
+    public function testUpdateShoppingCart(
+        Cart $cart,
+        CatalogProductSimple $product
+    ) {
         // Preconditions
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
-        $categoryName = $this->productForUpdateShoppingCart->getCategoryIds()[0]['name'];
 
         // Steps
-        $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $this->catalogProductView->getViewBlock()->clickAddToCart();
-        $this->checkoutCart->getCartBlock()->setProductQty($cart->getQty());
+        $this->catalogProductView->init($product);
+        $this->catalogProductView->open()->getViewBlock()->clickAddToCart();
+        $this->checkoutCart->getCartBlock()->setProductQty($product->getName(), $cart->getQty());
         $this->checkoutCart->getCartBlock()->updateShoppingCart();
     }
 }

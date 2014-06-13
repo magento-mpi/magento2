@@ -14,9 +14,9 @@ use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
- * Class AssertProductQtyInShoppingCart
+ * Class AssertSubtotalInShoppingCart
  */
-class AssertProductQtyInShoppingCart extends AbstractConstraint
+class AssertSubtotalInShoppingCart extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertProductQtyInShoppingCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that quantity in the shopping cart is equals to expected quantity from data set
+     * Assert that subtotal total in the shopping cart is equals to expected total from data set
      *
      * @param CheckoutCart $checkoutCart
      * @param Cart $cart
@@ -38,12 +38,16 @@ class AssertProductQtyInShoppingCart extends AbstractConstraint
         Cart $cart,
         CatalogProductSimple $product
     ) {
-        $cartProductQty = $checkoutCart->open()->getCartBlock()->getProductQty($product->getName());
+        preg_match(
+            '/\$(.*)$/',
+            $checkoutCart->open()->getCartBlock()->getCartItemSubTotalByProductName($product->getName()),
+            $cartProductSubtotalMatch
+        );
         \PHPUnit_Framework_Assert::assertEquals(
-            $cartProductQty,
-            $cart->getQty(),
-            'Shopping cart product qty: \'' . $cartProductQty
-            . '\' not equals with qty from data set: \'' . $cart->getQty() . '\''
+            $cartProductSubtotalMatch[1],
+            $cart->getRowTotal(),
+            'Shopping cart subtotal: \'' . $cartProductSubtotalMatch[1]
+            . '\' not equals with total from data set: \'' . $cart->getRowTotal() . '\''
         );
     }
 
@@ -54,6 +58,6 @@ class AssertProductQtyInShoppingCart extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Quantity in the shopping cart equals to expected quantity from data set.';
+        return 'Subtotal in the shopping cart equals to expected total from data set.';
     }
 }

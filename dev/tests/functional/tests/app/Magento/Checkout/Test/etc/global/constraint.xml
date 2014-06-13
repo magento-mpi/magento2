@@ -17,7 +17,7 @@
     <assertProductQtyInMiniShoppingCart module="Magento_Checkout">
         <severeness>low</severeness>
     </assertProductQtyInMiniShoppingCart>
-    <assertGrandTotalInShoppingCart module="Magento_Checkout">
+    <assertSubtotalInShoppingCart module="Magento_Checkout">
         <severeness>low</severeness>
-    </assertGrandTotalInShoppingCart>
+    </assertSubtotalInShoppingCart>
 </constraint>
