@@ -228,7 +228,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             'text',
             array('name' => 'uses_per_customer',
                   'label' => __('Uses per Customer'),
-                  'note' => __('Enforced only for logged in customers')
+                  'note' => __('Usage limit enforced for logged in customers only')
             )
         );
 
