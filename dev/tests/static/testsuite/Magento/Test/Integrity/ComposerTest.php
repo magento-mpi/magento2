@@ -67,6 +67,15 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         foreach (glob("{$root}/app/i18n/Magento/*", GLOB_ONLYDIR) as $dir) {
             $result[] = [$dir, 'magento2-language'];
         }
+        foreach (glob("{$root}/app/design/adminhtml/Magento/*", GLOB_ONLYDIR) as $dir) {
+            $result[] = [$dir, 'magento2-theme-adminhtml'];
+        }
+        foreach (glob("{$root}/app/design/frontend/Magento/*", GLOB_ONLYDIR) as $dir) {
+            $result[] = [$dir, 'magento2-theme-frontend'];
+        }
+        foreach (glob("{$root}/lib/internal/Magento/*", GLOB_ONLYDIR) as $dir) {
+            $result[] = [$dir, 'magento2-framework'];
+        }
         return $result;
     }
 
@@ -83,17 +92,31 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
-        $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
         switch ($packageType) {
             case 'magento2-module':
                 $this->assertRegExp('/^magento\/module(\-[a-z][a-z\d]+)+$/', $json->name);
+                $this->assertObjectHasAttribute('require', $json);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertModuleDependenciesInSync($dir, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
+                $this->assertObjectHasAttribute('require', $json);
                 $this->assertDependsOnFramework($json->require);
+                break;
+            case 'magento2-theme-adminhtml':
+                $this->assertRegExp('/^magento\/theme-adminhtml(\-[a-z0-9_]+)+$/', $json->name);
+                $this->assertObjectHasAttribute('require', $json);
+                $this->assertDependsOnFramework($json->require);
+                break;
+            case 'magento2-theme-frontend':
+                $this->assertRegExp('/^magento\/theme-frontend(\-[a-z0-9_]+)+$/', $json->name);
+                $this->assertObjectHasAttribute('require', $json);
+                $this->assertDependsOnFramework($json->require);
+                break;
+            case 'magento2-framework':
+                $this->assertRegExp('/^magento\/framework$/', $json->name);
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
