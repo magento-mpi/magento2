@@ -60,6 +60,7 @@ class ApplySeveralCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
         array $price
     ) {
         // Preconditions
+        $this->catalogRuleIndex->open();
         foreach ($catalogRulesOriginal as $key => $catalogPriceRule) {
             if ($catalogPriceRule != '-') {
                 $this->catalogRules[$key] = $fixtureFactory->createByCode(
@@ -72,7 +73,6 @@ class ApplySeveralCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
                     'name' => $this->catalogRules[$key]->getName(),
                     'rule_id' => $this->catalogRules[$key]->getId()
                 ];
-                $this->catalogRuleIndex->open();
                 $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
                 $this->catalogRuleNew->getFormPageActions()->saveAndApply();
             }

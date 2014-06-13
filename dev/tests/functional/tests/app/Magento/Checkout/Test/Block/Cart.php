@@ -246,11 +246,7 @@ class Cart extends Block
      */
     private function getProductName($product)
     {
-        if ($product instanceof Product) {
-            $productName = $product->getProductName();
-        } else {
-            $productName = $product->getName();
-        }
+        $productName = ($product instanceof Product) ? $product->getProductName() : $product->getName();
         if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
             if (!empty($productOptions)) {
