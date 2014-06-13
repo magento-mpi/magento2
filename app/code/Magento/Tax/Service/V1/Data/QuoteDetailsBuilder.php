@@ -7,6 +7,11 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
+/**
+ * QuoteDetailsBuilder
+ *
+ * @method QuoteDetails create()
+ */
 class QuoteDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**

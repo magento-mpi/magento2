@@ -97,9 +97,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $dataArray
      * @param string $errorMessages
-     * @dataProvider createDataProvider
      * @throws \Magento\Framework\Exception\InputException
+     *
+     * @dataProvider createDataProvider
      * @expectedException \Magento\Framework\Exception\InputException
+     * @magentoDbIsolation enabled
      */
     public function testCreateTaxRateWithExceptionMessages($dataArray, $errorMessages)
     {
