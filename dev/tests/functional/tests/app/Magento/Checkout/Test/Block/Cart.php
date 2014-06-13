@@ -68,7 +68,20 @@ class Cart extends Block
         $selector = '//tr[normalize-space(td)="' . $this->getProductName(
             $product
         ) . '"]' . $this->itemSubTotalSelector;
-        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+        $subTotal = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($subTotal);
+    }
+
+    /**
+     * Method that escapes currency symbols
+     *
+     * @param string $price
+     * @return string
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 
     /**
@@ -228,12 +241,16 @@ class Cart extends Block
     /**
      * Return the name of the specified product.
      *
-     * @param Product $product
+     * @param Product|FixtureInterface $product
      * @return string
      */
     private function getProductName($product)
     {
-        $productName = $product->getProductName();
+        if ($product instanceof Product) {
+            $productName = $product->getProductName();
+        } else {
+            $productName = $product->getName();
+        }
         if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
             if (!empty($productOptions)) {
