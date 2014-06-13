@@ -474,7 +474,7 @@
         }
     }
     .product {
-        &.add.form {
+        &-add-form {
             clear: both;
             padding-top: @indent-s-base + @indent-xs-base;
         }
@@ -561,13 +561,13 @@
         color: @addto-color;
         display: inline-block;
         line-height: 26px;
-        margin-left: -8px;
         text-transform: uppercase;
         font-weight: @font-weight-semibold;
+        letter-spacing: .05em;
         .icon-font(
             @_icon-font-content: @icon-compare-full,
-            @_icon-font-size: 26px,
-            @_icon-font-line-height: 26px,
+            @_icon-font-size: 16px,
+            @_icon-font-line-height: 16px,
             @_icon-font-margin: -2px 10px 0 0,
             @_icon-font-vertical-align: middle
         );
@@ -613,7 +613,7 @@
             margin-bottom: @indent-s-base + @indent-xs-base;
         }
         .product {
-            &.add.form {
+            &-add-form {
                 border-top: 1px #c1c1c1 solid;
                 padding-top: @indent-base;
             }
@@ -731,7 +731,7 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .product.add.form {
+    .product-add-form {
         &:extend(.revert-field-type-desktop all);
         .product.options.wrapper .field:not(.date) {
             input[type="text"],

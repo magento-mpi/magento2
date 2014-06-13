@@ -8,15 +8,8 @@
 
 .table.data.grouped {
     .table-bordered(
-        @_type: light,
-        @_border-width: 1px
+        @_type: horizontal
     );
-    > tbody:nth-child(even) > tr {
-        > td,
-        > th {
-            background: #f5f5f5;
-        }
-    }
     .product.name {
         font-weight: @font-weight-base;
     }
@@ -57,7 +50,7 @@
     float: right;
     display: block;
     width: auto;
-    & + script + .product.add.form {
+    & + script + .product-add-form {
         border-top: 0;
     }
 }
