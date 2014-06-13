@@ -38,6 +38,8 @@ $productTaxClass2 = $objectManager->create(
     'ProductTaxClass2'
 )->setClassType(
     \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
+)->setId(
+    2
 )->save();
 
 $taxRate = array(

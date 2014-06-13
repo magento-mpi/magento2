@@ -16,6 +16,7 @@ use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetailsBuilder;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Tax Calculation Service
@@ -65,35 +66,47 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected $taxDetailsItemBuilder;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Constructor
      *
      * @param Calculation $calculation
      * @param \Magento\Tax\Model\Config $config
      * @param TaxDetailsBuilder $taxDetailsBuilder
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Calculation $calculation,
         \Magento\Tax\Model\Config $config,
         TaxDetailsBuilder $taxDetailsBuilder,
-        TaxDetailsItemBuilder $taxDetailsItemBuilder
+        TaxDetailsItemBuilder $taxDetailsItemBuilder,
+        StoreManagerInterface $storeManager
     ) {
         $this->calculator = $calculation;
         $this->config = $config;
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
+        $this->storeManager = $storeManager;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function calculateTax(QuoteDetails $quoteDetails, $storeId)
+    public function calculateTax(QuoteDetails $quoteDetails, $storeId = null)
     {
+        if (is_null($storeId)) {
+            $storeId = $this->storeManager->getStore()->getStoreId();
+        }
+
         // initial TaxDetails data
         $taxDetailsData = [
-            TaxDetails::KEY_SUBTOTAL => 0,
-            TaxDetails::KEY_TAX_AMOUNT => 0,
-            TaxDetails::KEY_DISCOUNT_AMOUNT => 0,
+            TaxDetails::KEY_SUBTOTAL => 0.0,
+            TaxDetails::KEY_TAX_AMOUNT => 0.0,
+            TaxDetails::KEY_DISCOUNT_AMOUNT => 0.0
         ];
 
         $items = $quoteDetails->getItems();

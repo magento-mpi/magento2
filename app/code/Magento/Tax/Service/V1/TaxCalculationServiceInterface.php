@@ -14,7 +14,7 @@ interface TaxCalculationServiceInterface
      * Calculate Tax
      *
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails $quoteDetails
-     * @param int $storeId
+     * @param null|int $storeId
      * @return \Magento\Tax\Service\V1\Data\TaxDetails
      */
     public function calculateTax(\Magento\Tax\Service\V1\Data\QuoteDetails $quoteDetails, $storeId);
