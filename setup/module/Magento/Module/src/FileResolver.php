@@ -91,11 +91,6 @@ class FileResolver implements FileResolverInterface
      */
     protected function getFiles($path)
     {
-        $pattern = sprintf(
-            '%s%s',
-            $this->config->magento->basePath,
-            $path
-        );
-        return Glob::glob($pattern);
+        return Glob::glob($this->config->magento->basePath . $path);
     }
 }
