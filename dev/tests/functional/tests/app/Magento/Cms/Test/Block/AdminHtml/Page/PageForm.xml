@@ -15,7 +15,7 @@
         <fields>
             <store_id>
                 <selector>[name='stores[]']</selector>
-                <input>multiselect</input>
+                <input>multiselectgrouplist</input>
             </store_id>
             <is_active>
                 <input>select</input>

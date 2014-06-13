@@ -13,7 +13,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class CreatePageTest
- *
  */
 class CreatePageTest extends Functional
 {
@@ -37,7 +36,7 @@ class CreatePageTest extends Functional
     {
         // Fixture, pages and blocks
         $cmsPageFixture = Factory::getFixtureFactory()->getMagentoCmsPage();
-        $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPage();
+        $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPageIndex();
         $cmsPageGrid->open();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
         // Create a Cms Page
@@ -45,7 +44,7 @@ class CreatePageTest extends Functional
         $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
         $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
         $cmsPageNewForm->fill($cmsPageFixture);
-        $cmsPageNewForm->save();
+        $cmsPageNew->getPageMainActions()->save();
         $message = $cmsPageGrid->getMessagesBlock();
         $message->assertSuccessMessage();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();

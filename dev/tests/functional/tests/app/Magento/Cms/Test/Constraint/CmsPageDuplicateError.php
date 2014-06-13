@@ -9,11 +9,10 @@
 namespace Magento\Cms\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\AdminHtml\CmsPageGrid;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 
 /**
  * Class CmsPageDuplicateError
- *
  */
 class CmsPageDuplicateError extends AbstractConstraint
 {
@@ -25,12 +24,12 @@ class CmsPageDuplicateError extends AbstractConstraint
     /**
      * Verify that page has not been created
      *
-     * @param CmsPageGrid $cmsPageGrid
+     * @param CmsIndex $cmsIndex
      * @return void
      */
-    public function processAssert(CmsPageGrid $cmsPageGrid)
+    public function processAssert(CmsIndex $cmsIndex)
     {
-        $message = $cmsPageGrid->getMessagesBlock();
+        $message = $cmsIndex->getMessagesBlock();
         $this->result = $message->assertErrorMessage();
     }
 

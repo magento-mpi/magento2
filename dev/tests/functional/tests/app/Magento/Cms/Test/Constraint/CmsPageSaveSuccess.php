@@ -9,13 +9,12 @@
 namespace Magento\Cms\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\AdminHtml\CmsPageGrid;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\CmsPage;
 use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
 
 /**
  * Class CmsPageSaveSuccess
- *
  */
 class CmsPageSaveSuccess extends AbstractConstraint
 {
@@ -27,22 +26,22 @@ class CmsPageSaveSuccess extends AbstractConstraint
     /**
      * Verify that page has not been created
      *
-     * @param CmsPageGrid $cmsPageGrid
+     * @param CmsIndex $cmsIndex
      * @param CmsPage $cmsPage
      * @param CmsPageFixture $cmsPageFixture
      * @return void
      */
-    public function processAssert(CmsPageGrid $cmsPageGrid, CmsPage $cmsPage, CmsPageFixture $cmsPageFixture)
+    public function processAssert(CmsIndex $cmsIndex, CmsPage $cmsPage, CmsPageFixture $cmsPageFixture)
     {
-        $message = $cmsPageGrid->getMessagesBlock();
+        $message = $cmsIndex->getMessagesBlock();
         $result = $message->assertSuccessMessage();
         if ($result) {
             // Find Page in grid
-            $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
+            $cmsPageGridBlock = $cmsIndex->getCmsPageGridBlock();
             $cmsPageGridBlock->search(array('title' => $cmsPageFixture->getTitle()));
 
             // Select the 'Preview' link for the new page
-            $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
+            $cmsPageGridBlock = $cmsIndex->getCmsPageGridBlock();
             $cmsPageGridBlock->previewCmsPage();
 
             // Verify the Cms Page content

@@ -8,22 +8,27 @@
 
 namespace Magento\Cms\Test\TestCase;
 
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
-use Magento\Cms\Test\Page\AdminHtml\CmsPageGrid;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\CmsPage;
 
 /**
  * Class CreatePageTest
- *
  */
 class CreatePageEntityTest extends Injectable
 {
     /**
-     * @var CmsPageGrid
+     * @var CmsIndex
      */
-    protected $cmsPageGrid;
+    protected $cmsIndex;
+
+    /**
+     * @var CmsNew
+     */
+    protected $cmsNew;
 
     /**
      * @var CmsPage
@@ -41,12 +46,15 @@ class CreatePageEntityTest extends Injectable
     }
 
     /**
-     * @param CmsPageGrid $cmsPageGrid
+     * @param CmsIndex $cmsIndex
      * @param CmsPage $cmsPage
+     * @param CmsNew $cmsNew
+     * @return void
      */
-    public function __inject(CmsPageGrid $cmsPageGrid, CmsPage $cmsPage)
+    public function __inject(CmsIndex $cmsIndex, CmsPage $cmsPage, CmsNew $cmsNew)
     {
-        $this->cmsPageGrid = $cmsPageGrid;
+        $this->cmsIndex = $cmsIndex;
+        $this->cmsNew = $cmsNew;
         $this->cmsPage = $cmsPage;
     }
 
@@ -58,12 +66,10 @@ class CreatePageEntityTest extends Injectable
      */
     public function testCreateCmsPage(CmsPageFixture $cmsPageFixture)
     {
-        $this->cmsPageGrid->open();
-        $cmsPageGridBlock = $this->cmsPageGrid->getCmsPageGridBlock();
+        $this->cmsIndex->open();
+        $cmsPageGridBlock = $this->cmsIndex->getCmsPageGridBlock();
         $cmsPageGridBlock->addNewCmsPage();
-        $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
-        $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
-        $cmsPageNewForm->fill($cmsPageFixture);
-        $cmsPageNewForm->save();
+        $this->cmsNew->getNewCmsPageForm()->fill($cmsPageFixture);
+        $this->cmsNew->getPageMainActions()->save();
     }
 }

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Block\AdminHtml\Page;
+namespace Magento\Cms\Test\Block\Adminhtml\Page;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;

@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Block\AdminHtml\Page;
+namespace Magento\Cms\Test\Block\Adminhtml\Page;
 
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 
 /**
  * Class Grid
  * Backend Cms Page grid
- *
  */
-class Grid extends \Magento\Backend\Test\Block\Widget\Grid
+class Grid extends ParentGrid
 {
     /**
      * 'Add New' cms page button
@@ -23,6 +23,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      * @var string
      */
     protected $addNewCmsPage = "//button[@id='add']";
+
+    /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $selectItem = 'td[class*=col-title]';
 
     /**
      * 'Preview' cms page link
@@ -36,11 +43,11 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      *
      * @var array
      */
-    protected $filters = array(
-        'title' => array(
+    protected $filters = [
+        'title' => [
             'selector' => '#cmsPageGrid_filter_title'
-        ),
-    );
+        ],
+    ];
 
     /**
      * Add new page
