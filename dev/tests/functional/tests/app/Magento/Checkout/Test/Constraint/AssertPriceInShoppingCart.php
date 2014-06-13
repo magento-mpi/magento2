@@ -38,15 +38,11 @@ class AssertPriceInShoppingCart extends AbstractConstraint
         Cart $cart,
         CatalogProductSimple $product
     ) {
-        preg_match(
-            '/\$(.*)$/',
-            $checkoutCart->open()->getCartBlock()->getProductPriceByName($product->getName()),
-            $cartProductPriceMatch
-        );
+        $cartProductPrice = $checkoutCart->open()->getCartBlock()->getProductPriceByName($product->getName());
         \PHPUnit_Framework_Assert::assertEquals(
-            $cartProductPriceMatch[1],
+            $cartProductPrice,
             $cart->getPrice(),
-            'Shopping cart product price: \'' . $cartProductPriceMatch[1]
+            'Shopping cart product price: \'' . $cartProductPrice
             . '\' not equals with price from data set: \'' . $cart->getPrice() . '\''
         );
     }

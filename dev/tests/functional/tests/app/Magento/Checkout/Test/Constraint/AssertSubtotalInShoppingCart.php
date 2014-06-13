@@ -38,15 +38,12 @@ class AssertSubtotalInShoppingCart extends AbstractConstraint
         Cart $cart,
         CatalogProductSimple $product
     ) {
-        preg_match(
-            '/\$(.*)$/',
-            $checkoutCart->open()->getCartBlock()->getCartItemSubTotalByProductName($product->getName()),
-            $cartProductSubtotalMatch
-        );
+        $cartProductSubtotal = $checkoutCart->open()->getCartBlock()
+            ->getCartItemSubTotalByProductName($product->getName());
         \PHPUnit_Framework_Assert::assertEquals(
-            $cartProductSubtotalMatch[1],
+            $cartProductSubtotal,
             $cart->getRowTotal(),
-            'Shopping cart subtotal: \'' . $cartProductSubtotalMatch[1]
+            'Shopping cart subtotal: \'' . $cartProductSubtotal
             . '\' not equals with total from data set: \'' . $cart->getRowTotal() . '\''
         );
     }

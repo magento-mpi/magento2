@@ -31,13 +31,22 @@ class Sidebar extends Block
     protected $cartLink = 'a.showcart';
 
     /**
+     * Mini cart content selector
+     *
+     * @var string
+     */
+    protected $cartContent = 'div.minicart';
+
+    /**
      * Open mini cart
      *
      * @return void
      */
     public function openMiniCart()
     {
-        $this->_rootElement->find($this->cartLink)->click();
+        if (!$this->_rootElement->find($this->cartContent)->isVisible()) {
+            $this->_rootElement->find($this->cartLink)->click();
+        }
     }
 
     /**

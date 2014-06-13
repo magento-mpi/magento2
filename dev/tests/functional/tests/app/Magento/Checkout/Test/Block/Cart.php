@@ -62,7 +62,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $updateShoppingCart = '//button[@value="update_qty"]';
+    protected $updateShoppingCart = '[name="update_cart_action"]';
 
     /**
      * Quantity input selector
@@ -72,6 +72,13 @@ class Cart extends Block
     protected $productQty = '//input[@type="number" and @title="Qty"]';
 
     /**
+     * Cart item selector
+     *
+     * @var string
+     */
+    protected $cartItem = '//tr[normalize-space(td)="%s"]';
+
+    /**
      * Get sub-total for the specified item in the cart
      *
      * @param SimpleProduct $product
@@ -79,9 +86,7 @@ class Cart extends Block
      */
     public function getCartItemSubTotal($product)
     {
-        $selector = '//tr[normalize-space(td)="' . $this->getProductName(
-            $product
-        ) . '"]' . $this->itemSubTotalSelector;
+        $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemSubTotalSelector;
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
@@ -93,8 +98,9 @@ class Cart extends Block
      */
     public function getCartItemSubTotalByProductName($productName)
     {
-        $selector = '//tr[normalize-space(td)="' . $productName . '"]' . $this->itemSubTotalSelector;
-        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+        $selector = sprintf($this->cartItem, $productName) . $this->itemSubTotalSelector;
+        $itemSubtotal =  $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($itemSubtotal);
     }
 
     /**
@@ -106,10 +112,7 @@ class Cart extends Block
      */
     public function getCartItemUnitPrice($product, $currency = '$')
     {
-        $selector = '//tr[normalize-space(td)="' . $this->getProductName(
-            $product
-        ) . '"]' . $this->itemUnitPriceSelector;
-
+        $selector = sprintf($this->cartItem, $this->getProductName($product)) . $this->itemUnitPriceSelector;
         $prices = explode("\n", trim($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText()));
         if (count($prices) == 1) {
             return floatval(trim($prices[0], $currency));
@@ -234,7 +237,7 @@ class Cart extends Block
     public function isProductInShoppingCart($product)
     {
         return $this->_rootElement->find(
-            '//tr[normalize-space(td)="' . $this->getProductName($product) . '"]',
+            sprintf($this->cartItem, $this->getProductName($product)),
             Locator::SELECTOR_XPATH
         )->isVisible();
     }
@@ -266,7 +269,8 @@ class Cart extends Block
     public function getProductPriceByName($productName)
     {
         $priceSelector = sprintf($this->cartProductPrice, $productName);
-        return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
+        $cartProductPrice = $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
+        return $this->escapeCurrency($cartProductPrice);
     }
 
     /**
@@ -276,7 +280,7 @@ class Cart extends Block
      */
     public function updateShoppingCart()
     {
-        $this->_rootElement->find($this->updateShoppingCart, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->updateShoppingCart, Locator::SELECTOR_CSS)->click();
     }
 
     /**
@@ -288,7 +292,7 @@ class Cart extends Block
      */
     public function setProductQty($productName, $qty)
     {
-        $productQtySelector = '//tr[normalize-space(td)="' . $productName . '"]' . $this->productQty;
+        $productQtySelector = sprintf($this->cartItem, $productName) . $this->productQty;
         $this->_rootElement->find($productQtySelector, Locator::SELECTOR_XPATH)->setValue($qty);
     }
 
@@ -300,7 +304,19 @@ class Cart extends Block
      */
     public function getProductQty($productName)
     {
-        $productQtySelector = '//tr[normalize-space(td)="' . $productName . '"]' . $this->productQty;
+        $productQtySelector = sprintf($this->cartItem, $productName) . $this->productQty;
         return $this->_rootElement->find($productQtySelector, Locator::SELECTOR_XPATH)->getValue();
+    }
+
+    /**
+     * Method that escapes currency symbols
+     *
+     * @param string $price
+     * @return string
+     */
+    protected function escapeCurrency($price)
+    {
+        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
+        return (isset($matches[1])) ? $matches[1] : null;
     }
 }
