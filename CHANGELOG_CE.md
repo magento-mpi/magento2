@@ -12,7 +12,11 @@
 * Created Service API for Magento_Catalog Module:
    * Implemented Product API (MAGETWO-23306)
    * Implemented ProductAttributeRead API (MAGETWO-23313)
+   * Implemented Product Attribute Media API(MAGETWO-23308)
+   * Implemented Product Group Price API(MAGETWO-23311)
 * Fixed bugs:
+   * Fixed: Export loses information about linked products(MAGETWO-25060)
+   * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
    * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
    * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
    * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
