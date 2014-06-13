@@ -43,21 +43,37 @@ class StockItemService implements StockItemServiceInterface
     protected $productLoader;
 
     /**
+     * @var \Magento\Store\Model\Resolver\Store
+     */
+    protected $scopeResolver;
+
+    /**
+     * @var Data\LowStockResultBuilder
+     */
+    protected $lowStockResultBuilder;
+
+    /**
      * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param Data\StockItemBuilder $stockItemBuilder
      * @param ProductLoader $productLoader
+     * @param \Magento\Store\Model\Resolver\Store $scopeResolver
+     * @param Data\LowStockResultBuilder $lowStockResultBuilder
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
         Data\StockItemBuilder $stockItemBuilder,
-        ProductLoader $productLoader
+        ProductLoader $productLoader,
+        \Magento\Store\Model\Resolver\Store $scopeResolver,
+        Data\LowStockResultBuilder $lowStockResultBuilder
     ) {
         $this->stockItemRegistry = $stockItemRegistry;
         $this->config = $config;
         $this->stockItemBuilder = $stockItemBuilder;
         $this->productLoader = $productLoader;
+        $this->scopeResolver = $scopeResolver;
+        $this->lowStockResultBuilder = $lowStockResultBuilder;
     }
 
     /**
@@ -369,5 +385,28 @@ class StockItemService implements StockItemServiceInterface
             }
         }
         return $result;
+    }
+
+    /**
+     * Retrieves a list of SKU's with low inventory qty
+     *
+     * @param Data\LowStockCriteria $lowStockCriteria
+     * @return Data\LowStockResult
+     */
+    public function getLowStockItems(Data\LowStockCriteria $lowStockCriteria)
+    {
+        $lowStockCriteria->getQty();
+        $lowStockCriteria->getPageSize();
+        $lowStockCriteria->getCurrentPage();
+        $storeId = $this->scopeResolver->getScope()->getId();
+
+        // some count
+        $countOfItems = 100;
+        $listOfSku = ['some', 'list', 'of', 'sku'];
+
+        $this->lowStockResultBuilder->setSearchCriteria($lowStockCriteria);
+        $this->lowStockResultBuilder->setTotalCount($countOfItems);
+        $this->lowStockResultBuilder->setItems($listOfSku);
+        return $this->lowStockResultBuilder->create();
     }
 }
