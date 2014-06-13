@@ -20,13 +20,9 @@ class ZipTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $destination = str_replace('\\', '/', realpath(__DIR__ . '/..') . '/_files/_packages');
-        try {
-            if (file_exists($destination . "/" . "library.zip")) {
-                unlink($destination . "/" . "library.zip");
-            }
-        }
-        catch (\Exception $ex) {
+        $destination = TESTS_TEMP_DIR;
+        if (file_exists($destination . '/' . 'library.zip')) {
+            unlink($destination . '/' . 'library.zip');
         }
     }
 
@@ -37,18 +33,10 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     public function testZip()
     {
         $source = str_replace('\\', '/', realpath(__DIR__ . '/..' . '/_files/app'));
-        $destination = str_replace('\\', '/', realpath(__DIR__ . '/..') . '/_files/_packages');
+        $destination = TESTS_TEMP_DIR;
 
-        try {
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
-            }
-        }
-        catch (\Exception $ex) {
-        }
-
-        $noOfZips = \Magento\Tools\Composer\Helper\Zip::Zip($source, $destination . "/" . "library.zip", array());
-        $this->assertTrue(file_exists($destination . "/" . "library.zip"));
+        $noOfZips = \Magento\Tools\Composer\Helper\Zip::Zip($source, $destination . '/' . 'library.zip', array());
+        $this->assertFileExists($destination . '/' . 'library.zip');
         $this->assertEquals(sizeof($noOfZips), 1);
     }
 
@@ -60,35 +48,22 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     public function testZipExclude()
     {
         $source = str_replace('\\', '/', realpath(__DIR__ . '/..' . '/_files/app'));
-        $destination = str_replace('\\', '/', realpath(__DIR__ . '/..') . '/_files/_packages');
-        try {
-            if (!file_exists($destination)) {
-                mkdir($destination, 0777, true);
-            }
-        }
-        catch (\Exception $ex) {
-        }
+        $destination = TESTS_TEMP_DIR;
 
         $exclude = array(
-            realpath(__DIR__ . '/..') . '/_files/app/code/Magento/OtherModule'
+            str_replace('\\', '/', realpath(__DIR__ . '/..')) . '/_files/app/code/Magento/OtherModule'
         );
 
         \Magento\Tools\Composer\Helper\Zip::Zip($source, $destination . "/" . "library.zip", $exclude);
-        $this->assertTrue(file_exists($destination . "/" . "library.zip"));
+        $this->assertFileExists($destination . '/' . 'library.zip');
 
         $za = new \ZipArchive();
 
-        $za->open($destination . "/" . "library.zip");
-
-        $found = false;
+        $za->open($destination . '/' . 'library.zip');
 
         for ($i = 0; $i < $za->numFiles; $i++) {
             $stat = $za->statIndex($i);
-            if (in_array($source . "/" . $stat['name'], $exclude)) {
-                $found = true;
-            }
+            $this->assertNotContains($source . '/' . $stat['name'], $exclude);
         }
-
-        $this->assertFalse($found);
     }
 }
