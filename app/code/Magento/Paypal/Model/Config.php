@@ -1915,7 +1915,7 @@ class Config
     public function getBmlDisplay($section)
     {
         $display = $this->_scopeConfig->getValue(
-            'payment/' . self::METHOD_WPP_BML . '/' . $section.'_display',
+            'payment/' . self::METHOD_WPP_BML . '/' . $section . '_display',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_storeId
         );
@@ -1942,7 +1942,7 @@ class Config
     public function getBmlPosition($section)
     {
         return $this->_scopeConfig->getValue(
-            'payment/' . self::METHOD_WPP_BML . '/' . $section.'_position',
+            'payment/' . self::METHOD_WPP_BML . '/' . $section . '_position',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_storeId
         );
@@ -1957,7 +1957,7 @@ class Config
     public function getBmlSize($section)
     {
         return $this->_scopeConfig->getValue(
-            'payment/' . self::METHOD_WPP_BML . '/' . $section.'_size',
+            'payment/' . self::METHOD_WPP_BML . '/' . $section . '_size',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_storeId
         );

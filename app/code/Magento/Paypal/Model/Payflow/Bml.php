@@ -7,14 +7,15 @@
  */
  
 namespace Magento\Paypal\Model\Payflow;
+use Magento\Paypal\Model;
 
-class Bml extends \Magento\Paypal\Model\Express
+class Bml extends Model\Express
 {
     /**
      * Payment method code
      * @var string
      */
-    protected $_code  = Config::METHOD_WPP_PE_BML;
+    protected $_code  = Model\Config::METHOD_WPP_PE_BML;
 
     /**
      * Checkout payment form

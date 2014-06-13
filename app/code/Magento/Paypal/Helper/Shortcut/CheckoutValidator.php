@@ -86,7 +86,7 @@ class CheckoutValidator implements ShortcutValidatorInterface
         $quote = $isInCatalog ? null : $this->_checkoutSession->getQuote();
         // validate minimum quote amount and validate quote for zero grandtotal
         if (null !== $quote && (!$quote->validateMinimumAmount() ||
-                !$quote->getGrandTotal() && !$quote->hasNominalItems())
+            !$quote->getGrandTotal() && !$quote->hasNominalItems())
         ) {
             return false;
         }

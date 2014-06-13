@@ -64,12 +64,12 @@
                         <attribute type="shared">1</attribute>
                     </field>
                     <field id="enable_express_checkout_bml" sortOrder="21" extends="payment_all_paypal/express_checkout/express_checkout_required/enable_express_checkout_bml">
-                        <comment><![CDATA[PayPal Payments Advanced lets you give customers access to financing through Bill Me Later&#174; - at no additional cost to you.
-                                            You get paid up front, even though customers have more time to pay. A pre-integrated payment button lets customers pay quickly with Bill Me Later&#174;.
-                                            <a href="https://www.paypal.com/webapps/mpp/promotional-financing" target="_blank">Learn More</a>]]>
+                        <comment><![CDATA[Website Payments Pro lets you give customers access to financing through Bill Me Later&#174; - at no additional cost to you.
+                                        You get paid up front, even though customers have more time to pay. A pre-integrated payment button lets customers pay quickly with Bill Me Later&#174;.
+                                        <a href="https://www.paypal.com/webapps/mpp/promotional-financing" target="_blank">Learn More</a>]]>
                         </comment>
                         <requires>
-                            <field id="enable_payflow_advanced"/>
+                            <field id="enable_wpp"/>
                         </requires>
                     </field>
                     <group id="wpp_advertise_bml" showInDefault="1" showInWebsite="1" sortOrder="22" translate="label comment">
@@ -733,6 +733,7 @@
                         You get paid up front, even though customers have more time to pay. A pre-integrated payment button lets customers pay quickly with Bill Me Later&#174;.
                         <a href="https:/www.paypal.com/webapps/mpp/promotional-financing" target="_blank">Learn More</a>]]>
                         </comment>
+                        <config_path>payment/paypal_express_bml/active</config_path>
                         <requires>
                             <field id="enable_express_checkout"/>
                         </requires>
@@ -1843,7 +1844,7 @@
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>
-                        <field id="enable_payflow_advanced" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
+                        <field id="enable_payflow_advanced" translate="label comment" type="select" sortOrder="41" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/payflow_advanced/active</config_path>
                             <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
@@ -1853,7 +1854,13 @@
                             <frontend_class>paypal-enabler paypal-ec-pe paypal-payflow-advanced</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
-                        <field id="enable_express_checkout_bml" sortOrder="32" extends="payment_all_paypal/express_checkout/express_checkout_required/enable_express_checkout_bml">
+                        <field id="enable_express_checkout" extends="payment_all_paypal/payflow_link/payflow_link_required/enable_express_checkout_basic" showInDefault="1" showInWebsite="1">
+                            <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Field\Hidden</frontend_model>
+                            <requires>
+                                <field id="enable_payflow_advanced"/>
+                            </requires>
+                        </field>
+                        <field id="enable_express_checkout_bml" sortOrder="42" extends="payment_all_paypal/express_checkout/express_checkout_required/enable_express_checkout_bml">
                             <comment><![CDATA[PayPal Payments Advanced lets you give customers access to financing through Bill Me Later&#174; - at no additional cost to you.
                                         You get paid up front, even though customers have more time to pay. A pre-integrated payment button lets customers pay quickly with Bill Me Later&#174;.
                                         <a href="https://www.paypal.com/webapps/mpp/promotional-financing" target="_blank">Learn More</a>]]>
@@ -1862,13 +1869,8 @@
                                 <field id="enable_payflow_advanced"/>
                             </requires>
                         </field>
-                        <field id="enable_express_checkout" extends="payment_all_paypal/payflow_link/payflow_link_required/enable_express_checkout_basic" showInDefault="1" showInWebsite="1">
-                            <frontend_model>Magento\Paypal\Block\Adminhtml\System\Config\Field\Hidden</frontend_model>
-                            <requires>
-                                <field id="enable_payflow_advanced"/>
-                            </requires>
-                        </field>
-                        <group id="advanced_advertise_bml" showInDefault="1" showInWebsite="1" sortOrder="32" translate="label comment">
+
+                        <group id="advanced_advertise_bml" showInDefault="1" showInWebsite="1" sortOrder="43" translate="label comment">
                             <label>Advertise Bill Me Later</label>
                             <comment>
                                 <![CDATA[<a href="https://financing.paypal.com/ppfinportal/content/whyUseFinancing" target="_blank">Why Advertise Financing?</a><br/>
@@ -2126,13 +2128,13 @@
                         </field>
 
 
-                        <field id="enable_express_checkout_bml_uk" translate="label" type="select" sortOrder="21" showInWebsite="1" showInDefault="1">
+                        <field id="enable_express_checkout_bml_payflow" translate="label" type="select" sortOrder="21" showInWebsite="1" showInDefault="1">
                             <label>Enable Bill Me Later</label>
                             <comment><![CDATA[PayPal Express Checkout Payflow Edition lets you give customers access to financing through Bill Me Later&#174; - at no additional cost to you.
                             You get paid up front, even though customers have more time to pay. A pre-integrated payment button lets customers pay quickly with Bill Me Later&#174;.
                             <a href="https:/www.paypal.com/webapps/mpp/promotional-financing" target="_blank">Learn More</a>]]>
                             </comment>
-                            <config_path>payment/paypaluk_express_bml/active</config_path>
+                            <config_path>payment/payflow_express_bml/active</config_path>
                             <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                             <attribute type="shared">1</attribute>
                             <frontend_class>paypal-bml</frontend_class>

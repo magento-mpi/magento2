@@ -15,6 +15,9 @@ class Payflowbml extends \Magento\Framework\App\Action\Action
      */
     public function startAction()
     {
-        $this->_forward('start', 'express', 'paypal', ['bml' => 1]);
+        $this->_forward('start', 'express', 'paypal', [
+                'bml' => 1,
+                'button' => $this->getRequest()->getParam('button')
+            ]);
     }
 }
