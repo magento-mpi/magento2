@@ -32,8 +32,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     private static $root;
 
+    /**
+     * @var string
+     */
+    private static $composerPath = 'composer';
+
     public static function setUpBeforeClass()
     {
+        if (defined('TESTS_COMPOSER_PATH')) {
+            self::$composerPath = TESTS_COMPOSER_PATH;
+        }
         self::$shell = self::createShell();
         self::$isComposerAvailable = self::isComposerAvailable();
         self::$root = Files::init()->getPathToSource();
@@ -49,7 +57,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertComposerAvailable();
         $file = $dir . '/composer.json';
         $this->assertFileExists($file);
-        self::$shell->execute('composer validate --working-dir=%s', [$dir]);
+        self::$shell->execute(self::$composerPath . ' validate --working-dir=%s', [$dir]);
         $json = json_decode(file_get_contents($file));
         $this->assertMagentoConventions($dir, $packageType, $json);
     }
@@ -201,7 +209,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private static function isComposerAvailable()
     {
         try {
-            self::$shell->execute('composer --version');
+            self::$shell->execute(self::$composerPath . ' --version');
         } catch (Exception $e) {
             return false;
         }
