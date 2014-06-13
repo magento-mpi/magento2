@@ -8,7 +8,6 @@
 namespace Magento\Checkout\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Catalog\Helper\ShortcutValidatorInterface;
 
 class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
 {

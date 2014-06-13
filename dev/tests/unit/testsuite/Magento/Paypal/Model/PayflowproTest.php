@@ -91,7 +91,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('BNCODE'));
         $payment = $this->getMock('Magento\Payment\Model\Info', [], [], '', false);
         $this->setExpectedException(
-            'Zend_Http_Client_Exception', 'Unable to read response, or response is empty'
+            'Magento\Framework\Model\Exception', 'User authentication failed'
         );
         $this->_model->fetchTransactionInfo($payment, 'AD49G8N825');
     }
