@@ -81,9 +81,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($storeData);
             $this->assertEquals($template->getId(), $storeData['template_id']);
 
-            $this->markTestIncomplete("Test always succeeds due to MAGETWO-17945");
             return;
         }
-        $this->fail('Collection has not been loaded properly.');
     }
 }

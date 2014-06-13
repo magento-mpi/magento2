@@ -28,7 +28,7 @@ class RatingEdit extends BackendPage
         ],
         'ratingForm' => [
             'name' => 'ratingForm',
-            'class' => 'Magento\Review\Test\Block\Adminhtml\Rating\Edit\Form',
+            'class' => 'Magento\Review\Test\Block\Adminhtml\Rating\Edit\RatingForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -43,7 +43,7 @@ class RatingEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Review\Test\Block\Adminhtml\Rating\Edit\Form
+     * @return \Magento\Review\Test\Block\Adminhtml\Rating\Edit\RatingForm
      */
     public function getRatingForm()
     {

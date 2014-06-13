@@ -50,7 +50,7 @@ class TaxClass extends AbstractRepository
         ];
 
         $this->_data['all'] = [
-            'class_name' => 'all',
+            'class_name' => 'All',
         ];
     }
 }
