@@ -13,6 +13,7 @@
    * Implemented Product API (MAGETWO-23306)
    * Implemented ProductAttributeRead API (MAGETWO-23313)
 * Fixed bugs:
+   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
    * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
    * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
    * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
