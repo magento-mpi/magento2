@@ -13,9 +13,9 @@ use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductRatingInGrid
+ * Class AssertProductRatingNotInGrid
  */
-class AssertProductRatingInGrid extends AbstractConstraint
+class AssertProductRatingNotInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -25,7 +25,7 @@ class AssertProductRatingInGrid extends AbstractConstraint
     protected $severeness = 'middle';
 
     /**
-     * Assert product Rating availability in product Rating grid
+     * Assert product Rating is absent on product Rating grid
      *
      * @param RatingIndex $ratingIndex
      * @param Rating $productRating
@@ -36,19 +36,19 @@ class AssertProductRatingInGrid extends AbstractConstraint
         $filter = ['rating_code' => $productRating->getRatingCode()];
 
         $ratingIndex->open();
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $ratingIndex->getRatingGrid()->isRowVisible($filter),
-            "Product Rating " . $productRating->getRatingCode() . " is absent on product Rating grid."
+            "Product Rating " . $productRating->getRatingCode() . " is exist on product Rating grid."
         );
     }
 
     /**
-     * Text success exist product Rating in grid
+     * Text success absent product Rating in grid
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product Rating is present in grid.';
+        return 'Product Rating is absent in grid.';
     }
 }
