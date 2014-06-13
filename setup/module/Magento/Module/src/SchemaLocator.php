@@ -10,20 +10,15 @@
 
 namespace Magento\Module;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Config\SchemaLocatorInterface;
+use Magento\Config\ConfigFactory;
 
 class SchemaLocator implements SchemaLocatorInterface
 {
     /**
-     * @var ServiceLocatorInterface
+     * @var \Magento\Config\ConfigFactory
      */
-    protected $serviceLocator;
-
-    /**
-     * @var array
-     */
-    protected $configuration = [];
+    protected $configFactory;
 
     /**
      * @var string
@@ -31,16 +26,16 @@ class SchemaLocator implements SchemaLocatorInterface
     protected $schemaName;
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ConfigFactory $configFactory
      * @param string $schemaName
      */
     public function __construct(
-        ServiceLocatorInterface $serviceLocator,
+        ConfigFactory $configFactory,
         $schemaName = 'module.xsd'
     ) {
-        $this->serviceLocator = $serviceLocator;
+        $this->configFactory = $configFactory;
+        $this->config = $this->configFactory->create();
         $this->schemaName = $schemaName;
-        $this->configuration = $this->serviceLocator->get('config')['parameters'];
     }
 
     /**
@@ -50,8 +45,8 @@ class SchemaLocator implements SchemaLocatorInterface
      */
     public function getSchema()
     {
-        $path = $this->configuration['magento']['base_path']
-            . $this->configuration['magento']['filesystem']['framework']
+        $path = $this->config->magento->basePath
+            . $this->config->magento->filesystem->framework
             . 'Module/etc/' . $this->schemaName;
 
         return realpath($path);

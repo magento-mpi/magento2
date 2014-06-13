@@ -8,38 +8,40 @@
 
 namespace Magento\Module;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\Glob;
 use Magento\Config\FileResolverInterface;
 use Magento\Config\FileIteratorFactory;
+use Magento\Config\ConfigFactory;
 
 class FileResolver implements FileResolverInterface
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $serviceLocator;
-
-    /**
-     * @var array
-     */
-    protected $configuration = [];
-
     /**
      * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
-     * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+     * @var \Magento\Config\ConfigFactory
+     */
+    protected $configFactory;
+
+    /**
+     * @var \Magento\Config\Config
+     */
+    protected $config;
+
+    /**
      * @param \Magento\Config\FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\ConfigFactory $configFactory
+     * @internal param \Magento\Config\Config $config
      */
     public function __construct(
-        ServiceLocatorInterface $serviceLocator,
-        FileIteratorFactory $iteratorFactory
+        FileIteratorFactory $iteratorFactory,
+        ConfigFactory $configFactory
     ) {
-        $this->serviceLocator = $serviceLocator;
         $this->iteratorFactory = $iteratorFactory;
-        $this->configuration = $this->serviceLocator->get('config')['parameters'];
+        $this->configFactory = $configFactory;
+        $this->config = $this->configFactory->create();
     }
 
     /**
@@ -50,26 +52,19 @@ class FileResolver implements FileResolverInterface
     {
         $paths = [];
 
-        $pattern = $this->configuration['magento']['base_path']
-            . $this->configuration['magento']['filesystem']['module']
-            . '*/*/etc/' . $filename;
-        $files = glob($pattern);
-
+        // Collect files by /app/code/*/*/etc/{filename} pattern
+        $files = $this->getFiles($this->config->magento->filesystem->module . '*/*/etc/' . $filename);
         foreach ($files as $file) {
             $paths[] = $this->getRelativePath($file);
         }
 
-        $path = $this->configuration['magento']['base_path']
-            . $this->configuration['magento']['filesystem']['config']
-            . '*/' . $filename;
-
-        $files = glob($path);
-
+        // Collect files by /app/etc/*/{filename} pattern
+        $files = $this->getFiles($this->config->magento->filesystem->config . '*/' . $filename);
         foreach ($files as $file) {
             $paths[] = $this->getRelativePath($file);
         }
 
-        return $this->iteratorFactory->create($this->configuration['magento']['base_path'], $paths);
+        return $this->iteratorFactory->create($this->config->magento->basePath, $paths);
     }
 
     /**
@@ -80,7 +75,7 @@ class FileResolver implements FileResolverInterface
      */
     protected function getRelativePath($path = null)
     {
-        $basePath = $this->configuration['magento']['base_path'];
+        $basePath = $this->config->magento->basePath;
         if (strpos($path, $basePath) === 0
             || $basePath == $path . '/') {
             $result = substr($path, strlen($basePath));
@@ -88,5 +83,19 @@ class FileResolver implements FileResolverInterface
             $result = $path;
         }
         return $result;
+    }
+
+    /**
+     * @param string $path
+     * @return array|false
+     */
+    protected function getFiles($path)
+    {
+        $pattern = sprintf(
+            '%s%s',
+            $this->config->magento->basePath,
+            $path
+        );
+        return Glob::glob($pattern);
     }
 }
