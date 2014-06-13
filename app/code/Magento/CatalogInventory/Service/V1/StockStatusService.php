@@ -81,9 +81,12 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductStockStatus($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID)
+    public function getProductStockStatus($productId, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID)
     {
-        return $this->stockStatus->getProductStockStatus($productIds, $websiteId, $stockId);
+        $stockStatusData = $this->stockStatus->getProductStockStatus([$productId], $websiteId, $stockId);
+        $stockStatus = empty($stockStatusData[$productId]) ? null : $stockStatusData[$productId];
+
+        return $stockStatus;
     }
 
     /**

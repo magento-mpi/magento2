@@ -36,7 +36,7 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
     protected $stockItemBuilder;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Link\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Service\V1\Product\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $productLoader;
 
@@ -54,7 +54,7 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\Link\ProductLoader')
+        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoader')
             ->disableOriginalConstructor()
             ->getMock();
 

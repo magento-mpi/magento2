@@ -17,12 +17,12 @@ interface StockStatusServiceInterface
     /**
      * Retrieve Product Stock Status
      *
-     * @param int[] $productIds
+     * @param int $productId
      * @param int $websiteId
      * @param int $stockId
      * @return array
      */
-    public function getProductStockStatus($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID);
+    public function getProductStockStatus($productId, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID);
 
     /**
      * @param string $sku

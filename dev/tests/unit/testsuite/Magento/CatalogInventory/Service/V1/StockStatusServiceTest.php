@@ -23,7 +23,7 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
     protected $stockStatus;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Link\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Service\V1\Product\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $productLoader;
 
@@ -48,7 +48,7 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\Link\ProductLoader')
+        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoader')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -78,20 +78,20 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int[] $productIds
+     * @param int $productId
      * @param int $websiteId
      * @param int $stockId
-     * @param [] $expectedResult
+     * @param mixed $expectedResult
      * @dataProvider getProductStockStatusDataProvider
      */
-    public function testGetProductStockStatus($productIds, $websiteId, $stockId, $expectedResult)
+    public function testGetProductStockStatus($productId, $websiteId, $stockId, $expectedResult)
     {
         $this->stockStatus->expects($this->once())
             ->method('getProductStockStatus')
-            ->with($productIds, $websiteId, $stockId)
-            ->will($this->returnValue($expectedResult));
+            ->with([$productId], $websiteId, $stockId)
+            ->will($this->returnValue([$productId => 'expected_result']));
 
-        $result = $this->model->getProductStockStatus($productIds, $websiteId, $stockId);
+        $result = $this->model->getProductStockStatus($productId, $websiteId, $stockId);
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -101,8 +101,9 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function getProductStockStatusDataProvider()
     {
+        $productId = 1;
         return [
-            [[1, 2], 3, 4, []],
+            [$productId, 3, 4, 'expected_result'],
         ];
     }
 
