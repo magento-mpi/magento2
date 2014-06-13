@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class CatalogCategory
  * Manage categories page in backend
- *
  */
 class CatalogCategory extends Page
 {
@@ -75,11 +74,11 @@ class CatalogCategory extends Page
     /**
      * Get Category edit form
      *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Edit\CategoryForm
      */
     public function getFormBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryEditForm(
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryEditCategoryForm(
             $this->_browser->find($this->formBlock, Locator::SELECTOR_CSS)
         );
     }
