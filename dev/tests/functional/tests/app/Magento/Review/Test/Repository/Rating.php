@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Review\Test\Repository;
+
+use Mtf\Repository\AbstractRepository;
+
+/**
+ * Class Rating
+ */
+class Rating extends AbstractRepository
+{
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
+    {
+        $this->_data['default'] = [
+            'rating_code' => 'Rating %isolation%',
+            'stores' => 'Main Website/Main Website Store/Default Store View',
+            'is_active' => 'Yes',
+        ];
+    }
+}
