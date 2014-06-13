@@ -106,7 +106,7 @@ class StockStatusService implements StockStatusServiceInterface
 
         $result = [
             Data\StockStatus::STOCK_STATUS => $stockStatus,
-            Data\StockStatus::STOCK_QTY => $this->stockItemService->getStockQty($product->getId())
+            Data\StockStatus::STOCK_QTY => $this->stockItemService->getStockQty($productId)
         ];
 
         $this->stockStatusBuilder->populateWithArray($result);
