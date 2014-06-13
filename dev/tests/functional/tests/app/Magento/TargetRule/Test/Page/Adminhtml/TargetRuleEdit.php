@@ -8,7 +8,7 @@
 
 namespace Magento\TargetRule\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class TargetRuleEdit

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Constraint; 
+namespace Magento\TargetRule\Test\Constraint;
 
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
 use Mtf\Constraint\AbstractConstraint;
@@ -16,7 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertTargetRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You deleted the rule.';
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the rule.';
 
     /**
      * Constraint severeness
@@ -35,10 +35,10 @@ class AssertTargetRuleSuccessDeleteMessage extends AbstractConstraint
     {
         $actualMessage = $targetRuleIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_DELETE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_DELETE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

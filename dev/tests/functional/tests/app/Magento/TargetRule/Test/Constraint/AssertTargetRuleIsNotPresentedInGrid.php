@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Constraint; 
+namespace Magento\TargetRule\Test\Constraint;
 
 use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
@@ -17,6 +17,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertTargetRuleIsNotPresentedInGrid extends AbstractConstraint
 {
+    /**
+     * Day in seconds
+     */
+    const DAY = 86400;
+
     /**
      * Constraint severeness
      *
@@ -35,17 +40,24 @@ class AssertTargetRuleIsNotPresentedInGrid extends AbstractConstraint
         TargetRule $targetRule,
         TargetRuleIndex $targetRuleIndex
     ) {
-        $data = $targetRule->getData();
+        $fromDate = isset($data['from_date']) ? strtotime($data['from_date']) : null;
         $filter = [
-            'id' => $data['id'],
-            'name' => $data['name'],
+            'name' => $targetRule->getName(),
+            'applies_to' => $targetRule->hasData('apply_to') ? $targetRule->getApplyTo() : null,
+            'status' => $targetRule->hasData('is_active') ? $targetRule->getIsActive() : null,
         ];
 
+        if ($fromDate) {
+            $filter['start_on_from'] = date('m/d/Y', $fromDate - self::DAY);
+        }
         $targetRuleIndex->open();
+        $targetRuleIndex->getTargetRuleGrid()->search($filter);
+        if ($fromDate) {
+            $filter['start_on_from'] = date('M j, Y', $fromDate);
+        }
         \PHPUnit_Framework_Assert::assertFalse(
-            $targetRuleIndex->getTargetRuleGrid()->isRowVisible($filter),
+            $targetRuleIndex->getTargetRuleGrid()->isRowVisible($filter, false),
             'Target rule with '
-            . 'id \'' . $filter['id'] . '\', '
             . 'name \'' . $filter['name'] . '\', '
             . 'is presented in Target rule grid.'
         );

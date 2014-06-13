@@ -58,7 +58,7 @@ class AssertTargetRuleInGrid extends AbstractConstraint
         $targetRuleIndex->open();
         $targetRuleIndex->getTargetRuleGrid()->search($filter);
         if ($fromDate) {
-            $filter['start_on_from'] = date('M d, Y', $fromDate);
+            $filter['start_on_from'] = date('M j, Y', $fromDate);
         }
         \PHPUnit_Framework_Assert::assertTrue(
             $targetRuleIndex->getTargetRuleGrid()->isRowVisible($filter, false),

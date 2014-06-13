@@ -9,6 +9,7 @@
 namespace Magento\TargetRule\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
@@ -45,16 +46,39 @@ class DeleteTargetRuleEntityTest extends Injectable
     protected $targetRuleEdit;
 
     /**
+     * Prepare data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
+        $product1 = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['dataSet' => 'product_with_category']
+        );
+        $product2 = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['dataSet' => 'product_with_special_price_and_category']
+        );
+
+        $product1->persist();
+        $product2->persist();
+        return [
+            'product1' => $product1,
+            'product2' => $product2,
+        ];
+    }
+
+    /**
      * Injection data
      *
      * @param TargetRuleIndex $targetRuleIndex
      * @param TargetRuleEdit $targetRuleEdit
      * @return void
      */
-    public function __inject(
-        TargetRuleIndex $targetRuleIndex,
-        TargetRuleEdit $targetRuleEdit
-    ) {
+    public function __inject(TargetRuleIndex $targetRuleIndex, TargetRuleEdit $targetRuleEdit)
+    {
         $this->targetRuleIndex = $targetRuleIndex;
         $this->targetRuleEdit = $targetRuleEdit;
     }
@@ -62,29 +86,69 @@ class DeleteTargetRuleEntityTest extends Injectable
     /**
      * Run delete TargetRule entity test
      *
+     * @param FixtureFactory $fixtureFactory
+     * @param TargetRule $targetRule
      * @param CatalogProductSimple $product1
      * @param CatalogProductSimple $product2
-     * @param TargetRule $targetRule
      * @return void
      */
     public function testDeleteTargetRuleEntity(
+        FixtureFactory $fixtureFactory,
+        TargetRule $targetRule,
         CatalogProductSimple $product1,
-        CatalogProductSimple $product2,
-        TargetRule $targetRule
+        CatalogProductSimple $product2
     ) {
-        // Preconditions:
-        $product1->persist();
-        $product2->persist();
-        $targetRule->persist();
+        // Preconditions
+        $replace = $this->getReplaceData($product1, $product2);
+        $data = $this->prepareData($targetRule->getData(), $replace);
+        /** @var TargetRule $originalTargetRule */
+        $originalTargetRule = $fixtureFactory->createByCode('targetRule', $data);
+        $originalTargetRule->persist();
 
         // Steps
-        $targetRuleData = $targetRule->getData();
-        $filter = [
-            'id' => $targetRuleData['id'],
-            'name' => $targetRuleData['name'],
-        ];
+        $filter = ['id' => $originalTargetRule->getRuleId()];
         $this->targetRuleIndex->open();
         $this->targetRuleIndex->getTargetRuleGrid()->searchAndOpen($filter);
         $this->targetRuleEdit->getPageActions()->delete();
+    }
+
+    /**
+     * Get data for replace in variations
+     *
+     * @param CatalogProductSimple $product1
+     * @param CatalogProductSimple $product2
+     * @return array
+     */
+    protected function getReplaceData(CatalogProductSimple $product1, CatalogProductSimple $product2)
+    {
+        return [
+            'conditions_serialized' => [
+                '%category_1%' => $product1->getCategoryIds()[0]['id'],
+            ],
+            'actions_serialized' => [
+                '%category_2%' => $product2->getCategoryIds()[0]['id'],
+            ],
+        ];
+    }
+
+    /**
+     * Replace placeholders in each values of data
+     *
+     * @param array $data
+     * @param array $replace
+     * @return array
+     */
+    protected function prepareData(array $data, array $replace)
+    {
+        foreach ($replace as $key => $pair) {
+            if (isset($data[$key])) {
+                $data[$key] = str_replace(
+                    array_keys($pair),
+                    array_values($pair),
+                    $data[$key]
+                );
+            }
+        }
+        return $data;
     }
 }
