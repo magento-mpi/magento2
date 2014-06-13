@@ -44,7 +44,6 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue('test_id'));
-        $this->productMock->expects($this->never())->method('setData')->with('_edit_mode', true);
         $this->productMock->expects($this->once())->method('load')->with('test_id');
         $this->assertSame($this->productMock, $this->model->get('test_sku'));
         $this->assertSame($this->productMock, $this->model->get('test_sku'));
