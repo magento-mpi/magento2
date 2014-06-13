@@ -185,7 +185,7 @@ class ReadServiceTest extends WebapiAbstract
             'productSku' => $productSku
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->setExpectedException('SoapFault', 'No such entity with %fieldName = %fieldValue', 0);
+            $this->setExpectedException('SoapFault', 'Requested product doesn\'t exist');
         } else {
             $this->setExpectedException('Exception', '', 404);
         }
