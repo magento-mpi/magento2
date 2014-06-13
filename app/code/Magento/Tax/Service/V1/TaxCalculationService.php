@@ -326,6 +326,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
+        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
 
         return $this->taxDetailsItemBuilder->create();
     }
