@@ -19,4 +19,14 @@ class PaypalDirect extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @var string
      */
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_DIRECT;
+
+    /**
+     * Return 3D validation flag
+     *
+     * @return bool
+     */
+    public function is3dSecureEnabled()
+    {
+        return (bool)$this->getMethod()->getConfigData('centinel');
+    }
 }

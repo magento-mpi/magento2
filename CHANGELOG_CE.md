@@ -1,102 +1,30 @@
-* Service layer updates:
-  * StockItem Service Implementation (MAGETWO-18609)
+* Added support for MTF Reporting Tool
 * Framework improvements:
-  * Covered Magento application components with unit tests:
-      * `SalesRule/Model/Observer`
-      * `SalesRule/Helper/*`
-      * `SalesRule/Model/Plugin/*`
-      * `SalesRule/Model/System/Config*`
-      * `Sales/Model/Config.php`
-      * `Sales/Model/Download.php`
-      * `Sales/Model/Quote.php`
+  * Covered the following Magento application components with unit tests:
       * `ConfigurableProduct/Helper/Data.php`
       * `ConfigurableProduct/Model/Export/RowCustomizer.php`
       * `ConfigurableProduct/Model/Product/Type/Configurable.php`
       * `ConfigurableProduct/Model/Product/Type/Plugin.php`
       * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
       * `CatalogSearch/Helper/Data.php`
-  * Covered Magento lib form elements with unit tests:
-      * `lib/Magento/Framework/Flag.php`
-      * `lib/Magento/Framework/Escaper`
-      * `lib/Magento/Framework/Event`
-      * `lib/Magento/Framework/Logger`
-      * `lib/Magento/Framework/Util`
-      * `lib/Magento/Framework/Registry.php`
-      * `lib/Magento/Framework/Backup/Media`
-      * `lib/Magento/Framework/Backup/NoMedia`
-      * `lib/Magento/Framework/Archive`
-      * `lib/Magento/Framework/Translate.php`
+  * Covered Magento lib with unit tests:
       * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
       * `lib/internal/Magento/Framework/DB/Tree/Node.php`
-  * Created Service API for Magento_Catalog Module:
-     * Implemented Product API (MAGETWO-23306)
-     * Implemented ProductAttributeRead API (MAGETWO-23313)
-     * AttributeSet Service (MAGETWO-23316)
-     * AttributeSetGroup Service (MAGETWO-23317)
-     * ProductLinks Service (MAGETWO-23318)
-     * ProductType Service (MAGETWO-23310)
-  * Increased unit tests coverage (MAGETWO-24243)
-  * Move Authorization service (MAGETWO-23856)
-  * Fix Customer Model usage on session in CE modules
-  * [Mobile] Allow client to get partial response
-* Payments Parity between M1 and M2
-  * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
-  * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
-  * Removed Saved Credit Card payment method (MAGETWO-23885)
+* Created Service API for Magento_Catalog Module:
+   * Implemented Product API (MAGETWO-23306)
+   * Implemented ProductAttributeRead API (MAGETWO-23313)
 * Fixed bugs:
-  * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
-  * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
-  * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
-  * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
-  * Fixed: Impossible place order with Zero Subtotal Checkout using "Checkout with Multiple Addresses"(MAGETWO-23973)
-  * Fixed: Unexpected confirmation window if place order with Zero Subtotal Checkout on backend (MAGETWO-23974)
-  * Fixed: Impossible create order for new customer on backend if gift options is enabled (MAGETWO-24231)
-  * Fixed: Wrong message about backordered items in cart on backend (MAGETWO-1275)
-  * Fixed: Validate Each Address Separately in Multi-address Checkout affects ability to proceed to multi-address checkout(MAGETWO-3113)
-  * Fixed: The Minimum Order Amount does not apply to the order(MAGETWO-5814)
-  * Fixed: Element 'Checkout-step payment-fieldset, 'dl id="checkout-payment-method-load" ' is duplicated and causing problems when styling attempted for this section(MAGETWO-20917)
-  * Fixed: Redirect on dashboard if click "Search" ,"Reset" buttons on Recurring Profile page (MAGETWO-21085)
-  * Fixed: 'Enabled for RMA' option is available for online shipping method in Magento 2 CE (MAGETWO-23970)
-  * Fixed: Free shipping applied even if Free Shipping with Minimum Order Amount disabled (MAGETWO-18340)
-  * Fixed: Downloadable product that is set for "Links can be purchased separately" does not display as a grouped product (MAGETWO-21044)
-  * Fixed: Error at generation variation twice (MAGETWO-24155)
-  * Fixed: Category pager works incorrectly (MAGETWO-24235)
-  * Fixed: File permissions change after system backup (MAGETWO-20995)
-  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
-  * Fixed: Magento Contact Us form will not submited if secure_base_url don't contains "https" (MAGETWO-10764)
-  * Fixed: "Price as configured" doesn't count options cost (MAGETWO-24153)
-  * Fixed: Incorrect product view URL in Pending Review Rss (MAGETWO-22787)
-  * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
-  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
-  * Fixed: FPC should be invalidated after applying catalog price rule (MAGETWO-24311)
-  * Fixed: 'Manage Stock' is reset to 'No' if 'Stock Availability' option has been changed (MAGETWO-10610)
-  * Fixed: 'Recurring Profile' section isn't updated after changing product template (MAGETWO-10727)
-  * Fixed: Fatal error appears on attempt to add product to the cart when FPT is enabled in specific case (MAGETWO-14725)
-  * Fixed: Back in stock product alerts emails don't show HTML correctly (MAGETWO-17265)
-  * Fixed: Redirect to frontend on refresh Statistic Page if Add Store Code to Urls = yes (MAGETWO-18797)
-  * Fixed: Price as configured doesn't include chosen bundle options on map popup (MAGETWO-19634)
-  * Fixed: Wrong allowed countries list in checkout (MAGETWO-21001)
-  * Fixed: Configurable product displays in layered navigation with disabled associated simple products (MAGETWO-21017)
-  * Fixed: Configurable product looses his variations after "Save and duplicate action" (MAGETWO-21165)
-  * Fixed: Impossible to import Product Custom Options from product page and custom options aren't duplicated correct via "Save and Duplicate" action (MAGETWO-21774)
-  * Fixed: Impossible to create customer from backend in single store mode (MAGETWO-22468)
-  * Fixed: Review from backend is created with status "Guest" (MAGETWO-24066)
-  * Fixed: There is ability to add image for variation(configurable product) during editing (MAGETWO-24158)
-  * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
-  * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
-  * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
-  * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
-  * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
-  * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
-  * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
-  * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
-  * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
+   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
+   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
+   * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
+   * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
+   * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
+   * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
+   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
+   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+   * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
 * GitHub requests:
-  * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
-  * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
-  * [#256] (https://github.com/magento/magento2/issues/256) Unused file app\code\core\Mage\Backend\view\adminhtml\store\switcher\enhanced.phtml
-  * [#561] (https://github.com/magento/magento2/pull/561) Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getForeignKeys()
-  * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
   * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
   * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
   * [#562]  Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable() (MAGETWO-24037)
@@ -114,6 +42,74 @@
   * Update Category (MTA-52)
   * Update Category Url Rewrite (MTA-87)
   * Update Product Url Rewrite (MTA-84)
+  
+  
+2.0.0.0-dev81
+=============
+* Framework improvements:
+  * Covered the following Magento application components with unit tests:
+      * `SalesRule/Model/Observer`
+      * `SalesRule/Helper/*`
+      * `SalesRule/Model/Plugin/*`
+      * `SalesRule/Model/System/Config*`
+      * `Sales/Model/Config.php`
+      * `Sales/Model/Download.php`
+      * `Sales/Model/Quote.php`
+  * Covered the following Magento lib form elements with unit tests:
+      * `lib/Magento/Framework/Flag.php`
+      * `lib/Magento/Framework/Escaper`
+      * `lib/Magento/Framework/Event`
+      * `lib/Magento/Framework/Logger`
+      * `lib/Magento/Framework/Util`
+      * `lib/Magento/Framework/Registry.php`
+      * `lib/Magento/Framework/Backup/Media`
+      * `lib/Magento/Framework/Backup/NoMedia`
+      * `lib/Magento/Framework/Archive`
+      * `lib/Magento/Framework/Translate.php`
+  * Created Service API for Magento_Catalog module:
+      * AttributeSet service
+      * AttributeSetGroup service
+      * ProductLinks service
+      * ProductType service
+* Payments Improvements:
+  * Resolved a performance issue with Merchant Country selector under Payment Methods settings
+  * Removed the PayPal Payments Pro Payflow Edition payment solution
+  * Removed the Saved Credit Card payment method
+* Added the following functional tests:
+  * Delete Admin User
+  * Delete Backend Customer
+  * Delete Product UrlRewrite
+  * Downloadable Product Creation
+  * Update Simple Product
+  * Update Tax Rule
+  * Update Tax Rate
+  * Suggest Searching Result
+* Fixed bugs:
+  * Fixed an issue where the Create Order page title was not correct when scrolling down was performed
+  * Fixed the concurrent test running in MTF
+  * Fixed an issue where product custom options were merged incorrectly
+  * Fixed an issue where customer group discount was not applied for bundle products
+  * Fixed an issue where it was impossible to  create a refund for the PayPal Exprecch Checkout Payflow Edition if captured from the PayPal admin
+  * Fixed an issue where adding customer review caused an error in system.log
+  * Fixed an issue where  the Manage Stock option was automatically reset to No after changing the Stock Availability option
+  * Fixed an issue where the recurring profile attributes where displayed for a product when they were not included in the product attribute set.
+  * Fixed an issue where a fatal error appeared in some cases on attempt to add a product to  cart when FPT was enabled
+  * Fixed an issue where back in stock product alert emails showed HTML markup
+  * Fixed an issue where the Refresh Statistics link on the Sales Report page redirected to the frontend after setting  Add Store Code to Urls to Yes
+  * Fixed an issue where the selected bundle options price was included to the price displayed in the MAP popup
+  * Fixed an issue where the wrong allowed countries list was used in Checkout
+  * Fixed an issue where configurable products with out of stock associated simple products were displayed in layered navigation
+  * Fixed an issue where configurable products lost options  after being duplicated using the Save and Duplicate button
+  * Fixed issues with simple product custom options where it was impossible to import them from a product page and they were not duplicated correctly using the Save and Duplicate button
+  * Fixed an issue where it was impossible to create a customer on the backend in a single store mode
+  * Fixed an issue where reviews created on the backend appeared with the Guest status
+  * Fixed an issue where it was impossible to add an image for a configurable product variation during editing
+* Processed GitHub requests:
+  * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
+  * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
+  * [#256] (https://github.com/magento/magento2/issues/256) Unused file app\code\core\Mage\Backend\view\adminhtml\store\switcher\enhanced.phtml
+  * [#561] (https://github.com/magento/magento2/pull/561) Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getForeignKeys()
+  * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
 
 2.0.0.0-dev80
 =============
@@ -185,7 +181,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-
+  
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
@@ -221,7 +217,7 @@
   * Fixed an issue where the Links section was absent while editing downloadable products from the Wishlist
   * Fixed an issue where specified details for composite products were lost after adding to Gift Card and Downloadable products to the Wishlist
   * Fixed and issue where the Date widget was set to incorrect date when creating a new customer
-  * Fixed an issue where a customer was redirected to Dashboard if the Redirect user to dashboard after login option was set to вЂNoвЂ™
+  * Fixed an issue where a customer was redirected to Dashboard if the Redirect user to dashboard after login option was set to "No"
   * Fixed an issue where a customer was not able to register during checkout if Guest Checkout was not allowed
   * Fixed an issue where System logs were not generated properly in integration tests
   * Fixed benchmarking script
@@ -239,15 +235,7 @@
   * Catalog Price Rule Creation
   * Category Url Rewrite Creation
   * Admin User Role Deletion
-  * Delete Admin User
-  * Delete Backend Customer
-  * Delete Product UrlRewrite
-  * Downloadable Product Creation
-  * Update Simple Product
-  * Update Tax Rule
-  * Update Tax Rate
-  * Suggest Searching Result
-* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
+* Update composer.json.dist in order to download and install MTF from Public GitHub
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity
   * [#507] (https://github.com/magento/magento2/issues/507) "Insert Image" window is overlapped on menu
@@ -269,66 +257,71 @@
 2.0.0.0-dev77
 =============
 * Themes update:
-  * Blank theme was refactored to mobile-first (MAGETWO-23339)
+  * Blank theme was refactored to implement the mobile-first approach
+* Added Readme.md file
 * Fixed bugs:
-  * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
-  * Adding of products with custom option from wishlist to shoping cart shows error (MAGETWO-2828)
-  * Impossible to add to cart product from Wishlist sidebar (MAGETWO-24000)
-  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
-  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
-  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
-  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
-  * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
-  * Fixed: User Role Permission Problems when Managing Orders (MAGETWO-3520)
-  * Fixed: HTTPS links were not generated correctly (MAGETWO-18460)
-  * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
-  * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
-  * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
-  * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
-  * Customer addresses are not editable and removed on backend (MAGETWO-22599)
-  * Fatal error when previewing newsletter template with restricted user (MAGETWO-19343)
-  * Cannot save tax rate if Zip was in range and Zip/Post Code field was left empty before (MAGETWO-9486)
-  * Puerto Rico is listed both as a State & a country in country list (MAGETWO-8790)
-  * Special Price displayed in place of original price in "Items Ordered" column for orders. (MAGETWO-7666)
-  * When Anchor Categories selected for "Display On" setting for Widgets, check boxes do not stay checked (MAGETWO-7628)
-  * Admin User Password Confirmation is Not Validated on Server-Side (MAGETWO-7204)
-  * Adding Customer Review: error in system.log (MAGETWO-3674)
-  * Fixed: Incorrect messages if enter invalid email during admin user and customer creation (MAGETWO-21581)
-  * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
-  * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
-  * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
-  * Fixed: Impossible add product from wishlist to shopping cart (MAGETWO-19635)
-  * Fixed: An error appears after install Magento (MAGETWO-24246)
-  * Fixed: Improve Blank theme UI (MAGETWO-23339)
-  * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
-  * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
-  * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
-  * Partial cache invalidation does not work for built-in caching (MAGETWO-23268)
-  * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
-  * Error messages are not correct during customer registration (MAGETWO-23976)
-  * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
-  * Impossible to place order without CheckoutAgreements module (MAGETWO-23958)
-  * Fixed: There is no Media Image attribute type in select list when creating the product attribute (MAGETWO-15365)
-  * Fixed: Frontend Checkout One page - Incorrect label attribute for State/Province dropdown at shipping information tab (MAGETWO-8745)
-  * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
-  * Fixed: Catalog Price Rule is not shown on the Catalog and Product pages (MAGETWO-24114)
-  * Fixed: Recuring profiles(payments) are viewable(editable) by any registered user who knows the URL (MAGETWO-22339)
-  * Fixed: Credit card frame is absent while Onepage Checkout on Payment Information step if only one payment method is enabled (MAGETWO-23956)
-  * Fixed: Impossible use inline translate for My Account and Register links on frontend (MAGETWO-24026)
-  * Fixed: Unable to activate customer through REST (MAGETWO-23845)
-  * Fixed: Undefined method version_compate called in \lib\Magento\Connect\Validator.php (MAGETWO-20347)
-  * Fixed: Invalid XML Formatting of Boolean in REST Response (MAGETWO-24052)
-  * Fixed: Impossible perform installation if use index.php from pub folder(problem with js and css) (MAGETWO-23950)
-  * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome browser (MAGETWO-23564)
-  * Fixed: Impossible to change admin frontname using console installation (MAGETWO-15273)
-  * Fixed exception on Transaction page when searching by payment method (MAGETWO-24159)
-  * Removed "Add to wishlist" link in catalog with disabled wishlist functionality (MAGETWO-22345)
-  * Fixed: System is broken if admin user unassigned his own role (MAGETWO-15672)
-  * Fixed: Exceptions on attempt to Export products - user with store-level restrictions (MAGETWO-18642)
-  * Fixed: While saving category two loaders are displayed (MAGETWO-8652)
-  * Fixed: Cannot perform search for Newsletters on the Newsletter grid (MAGETWO-23960)
+  * Fixed an issue where it was impossible to place order using store credit
+  * Fixed an issue where adding products with custom options from a wishlist to shopping cart caused an error
+  * Fixed an issue where it was impossible to add a product to the shopping cart from the Wishlist sidebar
+  * Fixed an issue where the Add to Wishlist drop-down arrow was missed on the category page on the frontend
+  * Fixed an issue where it was impossible to manage multiple wishlists on the frontend if FPC was disabled
+  * Fixed an issue where prices with taxes were not displayed on the category and product pages on the frontend
+  * Fixed an issue where it was impossible to store cache when using either Varnish or built-in cache
+  * Fixed an issue where all refactored indexers were in the REINDEX REQUIRED status after installation
+  * Fixed an issue where admins with limited access could perform operations not allowed by role permissions
+  * Fixed an issue where http links were generated instead of https links
+  * Fixed an issue where it was impossible to use Subcategories when building a condition for a catalog price rule
+  * Fixed an issue where a registered customer could not place an order using PayPal Payments Advanced
+  * Fixed an issue where PayPal Settlement report was empty
+  * Fixed an issue where a newly created subcategory was still active after switching to the Default category
+  * Fixed an issue where it was impossible to save changes or remove a customer address on the backend
+  * Fixed an issue where for an admin with restricted permissions previewing a newsletter template caused a fatal error
+  * Fixed an issue where it was impossible to save a Tax Rate if specified that Zip was a range, and the Zip/Post Code field was left empty
+  * Fixed an issue where Puerto Rico was listed both as a state and as a country
+  * Fixed an issue where the Special Price was displayed instead of the place of Original Price in the Items Ordered column if the orders list.
+  * Fixed an issue in Widget configuration where category check boxes did not stay selected when Anchor Categories were specified in the Display On drop-down list.
+  * Fixed an issue where admin user password confirmation was not validated on the server side
+  * Fixed an issue where adding a customer review caused an error
+  * Fixed an issue where the incorrect error messages were displayed if an invalid email was entered during admin user or customer creation
+  * Fixed an issue with the Debug section in developer settings, which should only be displayed for the website or store view scope level
+  * Fixed an issue where the fatal error was displayed after uninstall if during installation it was specified to save session in the database
+  * Fixed an issue where a wrong error message was displayed when a non-existing database was specified when installing Magento using the console install script
+  * Fixed an issue where it was impossible to add products from a wishlist to a shopping cart
+  * Fixed an issue where an error appeared after Magento installation
+  * Improved the Blank theme UI
+  * Fixed an issue with a zooming product image overlapped by category design on the frontend
+  * Fixed an issue where it was impossible to select only billing or only shipping address when editing the user address on the frontend
+  * Fixed an issue where it was impossible to view a Wishlist in the Wishlist Search widget
+  * Fixed an issue where partial cache invalidation did not work for built-in caching
+  * Fixed an issue where it was impossible to find a catalog event using the Countdown Ticker grid filter if the event had been specified to be displayed on both category and product pages
+  * Fixed incorrect error messages displayed during customer registration
+  * Fixed an issue where product attributes from other store views were displayed for products in a Wishlist
+  * Fixed an issue where it was impossible to place an order without the CheckoutAgreements module
+  * Fixed an issue where the Media Image attribute type was not available when creating the product attribute
+  * Fixed an issue with incorrect label attribute for the State/Province drop-down list on the Shipping Information tab
+  * Fixed an issue where using only digits in the SKU field of configurable products led to a confusing behavior
+  * Fixed an issue where a catalog price rule was not shown on the catalog and product pages on the frontend
+  * Fixed an issue where Recurring Profiles (payments) were available on the frontend for any registered user who had the URL
+  * Fixed an issue where a credit card frame was absent on the Payment Information step of Onepage Checkout, if there was only one payment method with a credit card available
+  * Fixed an issued where it was impossible to use inline translate for the My Account and Register links on the frontend
+  * Fixed an issue where it was impossible to activate a customer using REST
+  * Fixed an issue with the undefined version_compate method called in \lib\Magento\Connect\Validator.php
+  * Fixed an issue with invalid XML formatting of Boolean in REST response
+  * Fixed an issue where it was impossible to perform installation using index.php from the pub folder (problem with JS and CSS)
+  * Fixed an issue where the Multiple Wishlist functionality did not work correctly with enabled Full Page Cache in the Chrome browser
+  * Fixed an issue where it was impossible to change an admin frontname using console installation
+  * Fixed an exception on the Transaction page when searching by payment method
+  * Fixed an issue where the "Add to wishlist" link was displayed in catalog even when the Wishlist functionality was disabled
+  * Fixed an issue where the system was broken if an admin user unassigned his own role
+  * Fixed an issue with exceptions thrown on attempt to export products for users with store-level restrictions
+  * Fixed an issue where two loaders were displayed when saving a category
+  * Fixed an issue where it was impossible to search for a newsletter in the Newsletter grid
+  * Fixed an issue where the displayed currency and product price were not changed after switching to a new currency
+  * Fixed an issue with frontend crashing when deleting a product from a mini shopping cart
+  * Fixed an issue where it was impossible to add a bundle product to a shopping cart
+  * Fixed an issue where a configurable product base image disappeared when selecting product variations
 * Functional tests:
-  * Functional end-to-end tests publication (MQM-60)
+  * Functional end-to-end tests publication
      * Bundle product
      * Category
      * Customer
@@ -343,12 +336,12 @@
      * User
      * Virtual product
 * Service layer updates:
-  * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
+  * Move CurrentCustomerService from Service to Helper
 * GitHub requests:
-  * [#544] Performance tests not working (MAGETWO-23467)
-  * [#554] Performance tests - Fix jmeter output format (MAGETWO-23743)
-  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message (MAGETWO-22574)
-  * [#563] (https://github.com/magento/magento2/issues/563) Admin Login not working #563 (MAGETWO-24023)
+  * [#544] (https://github.com/magento/magento2/issues/544) Performance tests not working
+  * [#554] (https://github.com/magento/magento2/pull/554) Performance tests - Fix jmeter output format
+  * [#525] (https://github.com/magento/magento2/pull/525) Fix typo in FS Generator help message
+  * [#563] (https://github.com/magento/magento2/issues/563) Admin Login not working #563
 
 2.0.0.0-dev76
 =============
@@ -2927,4 +2920,3 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
-
