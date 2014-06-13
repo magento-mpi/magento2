@@ -305,6 +305,8 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   float $rowValueExclTax
+     * @param   float $baseRowValueExclTax
+     * @param   float $rowValueInclTax
      * @param   float $baseRowValueInclTax
      * @return  $this
      */

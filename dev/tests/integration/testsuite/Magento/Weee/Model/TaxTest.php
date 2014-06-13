@@ -24,8 +24,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = $this->getMock('Magento\Weee\Helper\Data', [], [], '', false);
-        $helper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
+        $weeeConfig = $this->getMock('Magento\Weee\Model\Config', [], [], '', false);
+        $weeeConfig->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $attribute = $this->getMock('Magento\Eav\Model\Entity\Attribute', [], [], '', false);
         $attribute->expects($this->any())->method('getAttributeCodesByFrontendType')->will(
             $this->returnValue(['price'])
@@ -34,7 +34,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $attributeFactory->expects($this->any())->method('create')->will($this->returnValue($attribute));
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Weee\Model\Tax',
-            ['weeeData' => $helper, 'attributeFactory' => $attributeFactory]
+            ['weeeConfig' => $weeeConfig, 'attributeFactory' => $attributeFactory]
         );
     }
 

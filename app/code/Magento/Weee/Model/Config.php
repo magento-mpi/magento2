@@ -8,6 +8,7 @@
 namespace Magento\Weee\Model;
 
 use Magento\Store\Model\Store;
+
 /**
  * WEEE config model
  */
@@ -172,5 +173,4 @@ class Config
             $store
         );
     }
-
 }
