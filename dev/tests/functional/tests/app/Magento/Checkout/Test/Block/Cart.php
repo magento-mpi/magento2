@@ -58,6 +58,13 @@ class Cart extends Block
     protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
 
     /**
+     * Get bundle options
+     *
+     * @var string
+     */
+    protected $bundleOptions = '//dl[contains(@class, "cart item options")]/dd[%d]/span[@class="price"][%d]';
+
+    /**
      * Get sub-total for the specified item in the cart
      *
      * @param SimpleProduct $product
@@ -92,10 +99,9 @@ class Cart extends Block
      */
     public function getCartItemUnitPrice($product, $currency = '$')
     {
-        $selector = '//tr[normalize-space(td)="' . $this->getProductName(
+        $selector = '//tr[td//*[normalize-space(text()) = "' . $this->getProductName(
             $product
-        ) . '"]' . $this->itemUnitPriceSelector;
-
+        ) . '"]]' . $this->itemUnitPriceSelector;
         $prices = explode("\n", trim($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText()));
         if (count($prices) == 1) {
             return floatval(trim($prices[0], $currency));
@@ -233,7 +239,7 @@ class Cart extends Block
      */
     private function getProductName($product)
     {
-        $productName = $product->getProductName();
+        $productName = $product->getName();
         if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
             if (!empty($productOptions)) {
@@ -253,5 +259,18 @@ class Cart extends Block
     {
         $priceSelector = sprintf($this->cartProductPrice, $productName);
         return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get item Bundle options
+     *
+     * @param $index
+     * @param $itemIndex
+     * @return string
+     */
+    public function getPriceBundleOptions($index, $itemIndex = 1)
+    {
+        $formatPrice = sprintf($this->bundleOptions, $index, $itemIndex);
+        return $this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText();
     }
 }

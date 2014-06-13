@@ -68,16 +68,23 @@ class AssertProductPage extends AbstractConstraint
             'description'       => '- product description on product view page is not correct.'
         ];
         $dataOnPage = [
-            'name'          => $viewBlock->getProductName(),
-            'sku'           => $viewBlock->getProductSku(),
-            'regular_price' => $price['price_regular_price']
+            'name' => $viewBlock->getProductName(),
+            'sku' => $viewBlock->getProductSku(),
         ];
         $compareData = [
-            'name'          => $this->product->getName(),
-            'sku'           => $this->product->getSku(),
-            'regular_price' => number_format($this->product->getPrice(), 2),
-
+            'name' => $this->product->getName(),
+            'sku' => $this->product->getSku(),
         ];
+        if (isset($price['price_regular_price'])) {
+            $dataOnPage['regular_price'] = $price['price_regular_price'];
+            $compareData['regular_price'] = $price['price_regular_price'];
+        } elseif (isset($price['price_from']) && isset($price['price_to'])) {
+            $priceData = $this->product->getDataFieldConfig('price')['source']->getPreset();
+            $dataOnPage['price_from'] = $price['price_from'];
+            $dataOnPage['price_to'] = $price['price_to'];
+            $compareData['price_from'] = $priceData['price_from'];
+            $compareData['price_to'] = $priceData['price_to'];
+        }
 
         if ($productShortDescription = $this->product->getShortDescription()) {
             $compareData['short_description'] = $productShortDescription;

@@ -9,8 +9,13 @@
 -->
 <mapping strict="0">
     <fields>
+        <name>
+            <selector>//div[contains(@class,'choice')][1]/input[@type="radio"]</selector>
+            <strategy>xpath</strategy>
+            <input>checkbox</input>
+        </name>
         <qty>
-            <selector>.qty-holder input</selector>
+            <selector>input.qty</selector>
         </qty>
     </fields>
 </mapping>

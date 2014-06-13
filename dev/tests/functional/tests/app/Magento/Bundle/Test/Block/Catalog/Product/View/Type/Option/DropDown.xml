@@ -9,9 +9,10 @@
 -->
 <mapping strict="0">
     <fields>
-        <value>
+        <name>
             <selector>select</selector>
-        </value>
+            <input>select</input>
+        </name>
         <qty>
             <selector>input.qty</selector>
         </qty>

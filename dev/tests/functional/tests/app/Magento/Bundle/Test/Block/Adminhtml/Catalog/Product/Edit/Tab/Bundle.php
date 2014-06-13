@@ -9,13 +9,13 @@
 namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\InjectableFixture;
+use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
 /**
  * Class Bundle
- * Bundle options section
+ * Bundle options section block on product-details tab
  */
 class Bundle extends Tab
 {
@@ -27,22 +27,23 @@ class Bundle extends Tab
     protected $addNewOption = '#add_new_option';
 
     /**
-     * Bundle options block
+     * 'Open Option' button
      *
      * @var string
      */
-    protected $bundleOptionBlock = '#bundle_option_';
+    protected $openOption = '[data-target="#bundle_option_%d-content"]';
 
     /**
      * Get bundle options block
      *
      * @param int $blockNumber
-     * @return \Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option
+     * @return Option
      */
     protected function getBundleOptionBlock($blockNumber)
     {
-        return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOption(
-            $this->_rootElement->find($this->bundleOptionBlock . $blockNumber)
+        return $this->blockFactory->create(
+            'Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option',
+            ['element' => $this->_rootElement->find('#' . $blockNumber)]
         );
     }
 
@@ -59,15 +60,36 @@ class Bundle extends Tab
             return $this;
         }
         $bundleOptions = $this->prepareBundleOptions($fields['bundle_selections']['value']);
-        $blocksNumber = 0;
-        foreach ($bundleOptions as $bundleOption) {
+        foreach ($bundleOptions as $key => $bundleOption) {
             $this->_rootElement->find($this->addNewOption)->click();
-            $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber);
-            $bundleOptionsBlock->fillBundleOption($bundleOption, $this->_rootElement);
-            $blocksNumber++;
+            $this->getBundleOptionBlock($key)->fillBundleOption($bundleOption);
+        }
+        return $this;
+    }
+
+    /**
+     * Get data to fields on downloadable tab
+     *
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
+     */
+    public function getDataFormTab($fields = null, Element $element = null)
+    {
+        $newFields = [];
+        if (!isset($fields['bundle_selections'])) {
+            return $this;
+        }
+        $index = 0;
+        $bundleOptions = $this->prepareBundleOptions($fields['bundle_selections']['value'], true);
+        foreach ($bundleOptions as $key => $bundleOption) {
+            $this->_rootElement->find(sprintf($this->openOption, $index))->click();
+            $newFields['bundle_selections']['bundle_option_' . $key] = $this->getBundleOptionBlock($key)
+                ->getBundleOptionData($bundleOption);
+            $index++;
         }
 
-        return $this;
+        return $newFields;
     }
 
     /**
@@ -85,10 +107,9 @@ class Bundle extends Tab
         $bundleOptions = $this->prepareBundleOptions($fields['bundle_selections']['value']);
         $blocksNumber = 0;
         foreach ($$bundleOptions as $bundleOption) {
-            $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber, $element);
+            $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber++, $element);
             $bundleOptionsBlock->expand();
             $bundleOptionsBlock->updateBundleOption($bundleOption, $element);
-            $blocksNumber++;
         }
     }
 
@@ -96,30 +117,39 @@ class Bundle extends Tab
      * Prepare Bundle Options array from preset
      *
      * @param array $bundleSelections
-     * @return array
-     * @throws \InvalidArgumentException
+     * @param bool $priceType
+     * @return array|null
      */
-    protected function prepareBundleOptions(array $bundleSelections)
+    protected function prepareBundleOptions(array $bundleSelections, $priceType = false)
     {
         if (!isset($bundleSelections['preset'])) {
             return $bundleSelections;
         }
-
         $preset = $bundleSelections['preset'];
         $products = $bundleSelections['products'];
-        foreach ($preset['items'] as & $item) {
+        foreach ($preset as & $item) {
             foreach ($item['assigned_products'] as $productIncrement => & $selection) {
                 if (!isset($products[$productIncrement])) {
-                    throw new \InvalidArgumentException(
-                        sprintf('Not sufficient number of products for bundle preset: %s', $preset['name'])
-                    );
+                    break;
                 }
-                /** @var $fixture CatalogProductSimple */
+                /** @var InjectableFixture $fixture */
                 $fixture = $products[$productIncrement];
-                $selection['search_data']['name'] = $fixture->getName();
-                $selection['data']['product_id']['value'] = $fixture->getId();
+                if ($priceType !== false) {
+                    $newData = [];
+                    $newData['getProductName'] = $fixture->getData('name');
+                    $newData['selection_qty'] = $selection['data']['selection_qty'];
+                    if (isset ($selection['data']['selection_price_value'])) {
+                        $newData['selection_price_value'] = $selection['data']['selection_price_value'];
+                    }
+                    if (isset ($selection['data']['selection_price_type'])) {
+                        $newData['selection_price_type'] = $selection['data']['selection_price_type'];
+                    }
+                    $item['assigned_products'][$productIncrement] = $newData;
+                } else {
+                    $selection['search_data']['name'] = $fixture->getData('name');
+                }
             }
         }
-        return $preset['items'];
+        return $preset;
     }
 }

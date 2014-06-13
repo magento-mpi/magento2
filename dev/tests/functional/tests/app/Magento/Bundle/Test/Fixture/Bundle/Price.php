@@ -8,16 +8,13 @@
 
 namespace Magento\Bundle\Test\Fixture\Bundle;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Price
- *
  * Data keys:
  *  - preset (Price verification preset name)
  *  - value (Price value)
- *
  */
 class Price implements FixtureInterface
 {
@@ -32,10 +29,10 @@ class Price implements FixtureInterface
     protected $currentPreset;
 
     /**
-     * @param array $params
      * @param array $data
+     * @param array $params
      */
-    public function __construct(array $params, array $data = [])
+    public function __construct(array $data = [], array $params)
     {
         $this->params = $params;
         if (isset($data['value'])) {
@@ -102,7 +99,42 @@ class Price implements FixtureInterface
                 'price_from' => '$32.00',
                 'price_to' => '$80.00',
                 'cart_price' => '$80.00'
-            ]
+            ],
+            'dynamic-200' => [
+                'price_from' => '$200.00',
+                'price_to' => '$500.00',
+                'cart_price' => '$80.00'
+            ],
+            'fixed-50' => [
+                'price_from' => '$50.00',
+                'price_to' => '$100.00',
+                'cart_price' => '$80.00'
+            ],
+            'fixed-1' => [
+                'price_from' => '$1.00',
+                'price_to' => '$10.00',
+                'cart_price' => '$80.00'
+            ],
+            'dynamic-8' => [
+                'price_from' => '$8.00',
+                'price_to' => '$20.00',
+                'cart_price' => '$80.00'
+            ],
+            'dynamic-32' => [
+                'price_from' => '$32.00',
+                'price_to' => '$80.00',
+                'cart_price' => '$80.00'
+            ],
+            'dynamic-40' => [
+                'price_from' => '$40.00',
+                'price_to' => '$100.00',
+                'cart_price' => '$80.00'
+            ],
+            'fixed-115' => [
+                'price_from' => '$115.00',
+                'price_to' => '$120.00',
+                'cart_price' => '$80.00'
+            ],
         ];
         if (!isset($presets[$this->currentPreset])) {
             return null;
@@ -110,3 +142,4 @@ class Price implements FixtureInterface
         return $presets[$this->currentPreset];
     }
 }
+

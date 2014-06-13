@@ -32,4 +32,19 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertBundleInCart>
+    <assertBundleItemsOnProductPage module="Magento_Bundle">
+        <severeness>low</severeness>
+    </assertBundleItemsOnProductPage>
+    <assertBundlePriceView module="Magento_Bundle">
+        <severeness>low</severeness>
+    </assertBundlePriceView>
+    <assertBundlePriceType module="Magento_Bundle">
+        <severeness>low</severeness>
+    </assertBundlePriceType>
+    <assertBundleProductForm module="Magento_Bundle">
+        <severeness>low</severeness>
+    </assertBundleProductForm>
+    <assertTierPriceOnBundleProductPage module="Magento_Bundle">
+        <severeness>low</severeness>
+    </assertTierPriceOnBundleProductPage>
 </constraint>

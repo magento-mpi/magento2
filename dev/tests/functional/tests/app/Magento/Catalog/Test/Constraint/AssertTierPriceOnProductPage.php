@@ -25,6 +25,13 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Decimals for price format
+     *
+     * @var int
+     */
+    protected $decimals = 2;
+
+    /**
      * Assertion that tier prices are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
@@ -65,7 +72,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
             }
             if (count($match) < 2
                 && $match[1] != $tierPrice['price_qty']
-                || $match[2] !== number_format($tierPrice['price'], 2)
+                || $match[2] !== number_format($tierPrice['price'], $this->decimals)
             ) {
                 $noError = false;
                 break;

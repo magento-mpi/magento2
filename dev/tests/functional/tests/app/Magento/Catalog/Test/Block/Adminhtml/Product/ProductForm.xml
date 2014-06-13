@@ -54,6 +54,9 @@
             <special_price>
                 <selector>#special_price</selector>
             </special_price>
+            <price_view>
+                <input>select</input>
+            </price_view>
         </fields>
     </advanced-pricing>
     <advanced-inventory>
@@ -76,6 +79,9 @@
             <stock_data_min_qty>
                 <selector>[name='product[stock_data][min_qty]']</selector>
             </stock_data_min_qty>
+            <use_config_manage_stock>
+                <input>checkbox</input>
+            </use_config_manage_stock>
         </fields>
     </advanced-inventory>
     <autosettings>
@@ -91,7 +97,13 @@
                 <selector>#short_description</selector>
                 <input>textarea</input>
             </short_description>
-            <url_key></url_key>
+            <url_key />
+            <gift_message_available>
+                <input>select</input>
+            </gift_message_available>
+            <use_config_gift_message_available>
+                <input>checkbox</input>
+            </use_config_gift_message_available>
         </fields>
     </autosettings>
     <variations>

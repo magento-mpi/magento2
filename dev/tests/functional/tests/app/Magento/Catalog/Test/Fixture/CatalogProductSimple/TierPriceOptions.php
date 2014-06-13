@@ -71,13 +71,13 @@ class TierPriceOptions implements FixtureInterface
     {
         $presets = [
             'default' => [
-                0 => [
-                    'price' => 150,
+                [
+                    'price' => 15,
                     'website' => 'All Websites [USD]',
                     'price_qty' => 3,
                     'customer_group' => 'ALL GROUPS'
                 ],
-                1 => [
+                [
                     'price' => 24,
                     'website' => 'All Websites [USD]',
                     'price_qty' => 15,
@@ -85,10 +85,24 @@ class TierPriceOptions implements FixtureInterface
                 ]
             ],
             'MAGETWO-23002' => [
-                0 => [
+                [
                     'price' => 90,
                     'website' => 'All Websites [USD]',
                     'price_qty' => 2,
+                    'customer_group' => 'ALL GROUPS'
+                ]
+            ],
+            'tier_price_data' => [
+                [
+                    'price' => 50,
+                    'website' => 'All Websites [USD]',
+                    'price_qty' => 3,
+                    'customer_group' => 'ALL GROUPS'
+                ],
+                [
+                    'price' => 24,
+                    'website' => 'All Websites [USD]',
+                    'price_qty' => 15,
                     'customer_group' => 'ALL GROUPS'
                 ]
             ]

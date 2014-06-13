@@ -256,6 +256,138 @@ class CustomOptions implements FixtureInterface
                         ]
                     ]
                 ]
+            ],
+            'all_types' => [
+                [
+                    'title' => 'custom option Field',
+                    'is_require' => 'Yes',
+                    'type' => 'Field',
+                    'options' => [
+                        [
+                            'price' => 10,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_field_row_1',
+                            'max_characters' => '10'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option Area',
+                    'is_require' => 'Yes',
+                    'type' => 'Area',
+                    'options' => [
+                        [
+                            'price' => 10,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_area_row_2',
+                            'max_characters' => '10'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option File',
+                    'is_require' => 'Yes',
+                    'type' => 'File',
+                    'options' => [
+                        [
+                            'price' => 10,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_file_row_2',
+                            'file_extension' => 'jpg',
+                            'image_size_x' => '100',
+                            'image_size_y' => '100'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option drop down',
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => '20 percent',
+                            'price' => 20,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_drop_down_row'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option Radio Buttons',
+                    'is_require' => 'Yes',
+                    'type' => 'Radio Buttons',
+                    'options' => [
+                        [
+                            'title' => '20 percent',
+                            'price' => 20,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_radio_buttons_row'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option Checkbox',
+                    'is_require' => 'Yes',
+                    'type' => 'Checkbox',
+                    'options' => [
+                        [
+                            'title' => '20 percent',
+                            'price' => 20,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_checkbox_row'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option Multiple Select',
+                    'is_require' => 'Yes',
+                    'type' => 'Multiple Select',
+                    'options' => [
+                        [
+                            'title' => '20 percent',
+                            'price' => 20,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_multiple_select_row'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option Date',
+                    'is_require' => 'Yes',
+                    'type' => 'Date',
+                    'options' => [
+                        [
+                            'price' => 20,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_date_row'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option Date & Time',
+                    'is_require' => 'Yes',
+                    'type' => 'Date & Time',
+                    'options' => [
+                        [
+                            'price' => 20,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_date_and_time_row'
+                        ]
+                    ]
+                ],
+                [
+                    //TODO fixed setValue() for select type (contains => "=")
+                    'title' => 'custom option Time',
+                    'is_require' => 'Yes',
+                    'type' => 'Date & Time',
+                    'options' => [
+                        [
+                            'price' => 20,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_time_row'
+                        ]
+                    ]
+                ]
             ]
         ];
         if (!isset($presets[$name])) {

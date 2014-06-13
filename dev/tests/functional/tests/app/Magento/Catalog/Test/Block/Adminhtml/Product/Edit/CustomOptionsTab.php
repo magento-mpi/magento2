@@ -26,16 +26,6 @@ class CustomOptionsTab extends Tab
     protected $customOptionRow = '#product-custom-options-content .fieldset-wrapper:nth-child(%d)';
 
     /**
-     * Class name 'Subform' of the main tab form
-     *
-     * @var array
-     */
-    protected $childrenForm = [
-        'Field' => 'CustomOptionsTab\OptionField',
-        'Drop-down' => 'CustomOptionsTab\OptionDropDown'
-    ];
-
-    /**
      * Add an option button
      *
      * @var string
@@ -51,7 +41,7 @@ class CustomOptionsTab extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $fields = reset($fields);
+        $fields = reset($fields );
         if (empty($fields['value']) || !is_array($fields['value'])) {
             return $this;
         }
@@ -69,12 +59,10 @@ class CustomOptionsTab extends Tab
             $this->_fill($data, $rootElement);
 
             // Fill subform
-            if (isset($field['type']) && isset($this->childrenForm[$field['type']])
-                && !empty($options)
-            ) {
+            if (isset($field['type']) && !empty($options)) {
                 /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
                 $optionsForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
+                    __NAMESPACE__ . '\CustomOptionsTab\Option' . $this->optionConvert($field['type']),
                     ['element' => $rootElement]
                 );
 
@@ -121,12 +109,10 @@ class CustomOptionsTab extends Tab
             $formDataItem = $this->_getData($data, $rootElement);
 
             // Data collection subform
-            if (isset($field['type']) && isset($this->childrenForm[$field['type']])
-                && !empty($options)
-            ) {
+            if (isset($field['type']) && !empty($options)) {
                 /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
                 $optionsForm = $this->blockFactory->create(
-                    __NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
+                    __NAMESPACE__ . '\CustomOptionsTab\Option' . $this->optionConvert($field['type']),
                     ['element' => $rootElement]
                 );
 
@@ -141,5 +127,20 @@ class CustomOptionsTab extends Tab
         }
 
         return $formData;
+    }
+
+    /**
+     * Convert string
+     *
+     * @param string $str
+     * @return string
+     */
+    protected function optionConvert($str)
+    {
+        $str = str_replace([' ', '&'], "", $str);
+        if ($end = strpos($str, '-')) {
+            $str = substr($str, 0, $end) . ucfirst(substr($str, ($end + 1)));
+        }
+        return $str;
     }
 }

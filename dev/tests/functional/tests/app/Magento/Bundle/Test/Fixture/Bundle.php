@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Bundle
- *
+ * Fixture for Bundle edit
  */
 class Bundle extends Product
 {

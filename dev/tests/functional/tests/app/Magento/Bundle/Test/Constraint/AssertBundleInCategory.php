@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductInCategory
+ * Assert that product is visible in the assigned category and checks the price of the product
  */
 class AssertBundleInCategory extends AbstractConstraint
 {
@@ -31,13 +32,14 @@ class AssertBundleInCategory extends AbstractConstraint
      *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param CatalogProductBundle $bundle
+     * @param CatalogProductBundle $product
      * @param CatalogCategory $category
+     * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
-        CatalogProductBundle $bundle,
+        CatalogProductBundle $product,
         CatalogCategory $category
     ) {
         //Open category view page
@@ -45,7 +47,7 @@ class AssertBundleInCategory extends AbstractConstraint
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
 
         //process asserts
-        $this->assertPrice($bundle, $catalogCategoryView);
+        $this->assertPrice($product, $catalogCategoryView);
     }
 
     /**
@@ -53,22 +55,20 @@ class AssertBundleInCategory extends AbstractConstraint
      *
      * @param CatalogProductBundle $bundle
      * @param CatalogCategoryView $catalogCategoryView
+     * @return void
      */
     protected function assertPrice(CatalogProductBundle $bundle, CatalogCategoryView $catalogCategoryView)
     {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $bundle->getDataFieldConfig('price')['source'];
-        $pricePresetData = $priceFixture->getPreset();
-
+        $priceData = $bundle->getDataFieldConfig('price')['source']->getPreset();
         //Price from/to verification
         $priceBlock = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($bundle->getName());
         \PHPUnit_Framework_Assert::assertEquals(
-            $pricePresetData['price_from'],
+            $priceData['price_from'],
             $priceBlock->getPriceFrom(),
             'Bundle price From on category page is not correct.'
         );
         \PHPUnit_Framework_Assert::assertEquals(
-            $pricePresetData['price_to'],
+            $priceData['price_to'],
             $priceBlock->getPriceTo(),
             'Bundle price To on category page is not correct.'
         );

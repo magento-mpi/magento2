@@ -14,6 +14,30 @@
         <strategy>css selector</strategy>
         <wrapper>product</wrapper>
         <fields>
+            <tax_class_id>
+                <input>select</input>
+            </tax_class_id>
+            <is_virtual>
+                <input>checkbox</input>
+            </is_virtual>
+            <qty>
+                <selector>[name='product[quantity_and_stock_status][qty]']</selector>
+            </qty>
+            <quantity_and_stock_status>
+                <selector>[name='product[quantity_and_stock_status][is_in_stock]']</selector>
+                <input>select</input>
+            </quantity_and_stock_status>
+            <description>
+                <selector>#description</selector>
+                <input>textarea</input>
+            </description>
+            <shipment_type>
+                <input>select</input>
+            </shipment_type>
+            <status>
+                <selector>[name="product-online-switcher"]</selector>
+                <input>checkbox</input>
+            </status>
             <sku_type>
                 <input>select</input>
             </sku_type>
@@ -23,9 +47,9 @@
             <weight_type>
                 <input>select</input>
             </weight_type>
-            <shipment_type>
-                <input>select</input>
-            </shipment_type>
+            <weight>
+                <input>input</input>
+            </weight>
         </fields>
     </product-details>
     <bundle>

@@ -12,21 +12,21 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class Bundle
- *
- * Data keys:
- *  - preset (bundle options preset name)
- *  - products (comma separated sku identifiers)
- *
+ * Class Selections
+ * Bundle selections preset
  */
 class Selections implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
+     * Fixture factory
+     *
+     * @var FixtureFactory
      */
     protected $fixtureFactory;
 
     /**
+     * Current preset
+     *
      * @var string
      */
     protected $currentPreset;
@@ -34,7 +34,7 @@ class Selections implements FixtureInterface
     /**
      * @constructor
      * @param FixtureFactory $fixtureFactory
-     * @param $data
+     * @param array $data
      * @param array $params
      * @param bool $persist
      */
@@ -75,7 +75,7 @@ class Selections implements FixtureInterface
     {
         if (isset($this->data['products'])) {
             foreach ($this->data['products'] as $product) {
-                /** @var $product FixtureInterface */
+                /** @var FixtureInterface $product */
                 $product->persist();
             }
         }
@@ -84,7 +84,7 @@ class Selections implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string $key [optional]
      * @return mixed
      */
     public function getData($key = null)
@@ -113,14 +113,14 @@ class Selections implements FixtureInterface
         $product = $this->data['products'][0];
         $selectionsForCheckout = [
             'default' => [
-                0 => [
+                [
                     'value' => $product->getName(),
                     'type' => 'select',
                     'qty' => 1
                 ]
             ],
             'second' => [
-                0 => [
+                [
                     'value' => $product->getName(),
                     'type' => 'select',
                     'qty' => 1
@@ -134,106 +134,239 @@ class Selections implements FixtureInterface
     }
 
     /**
-     * @param $name
+     * Preset array
+     *
+     * @param string $name
      * @return mixed
      * @throws \InvalidArgumentException
      */
     protected function getPreset($name)
     {
         $presets = [
-            'default' => [
-                'name' => 'Bundle Selections Default Preset',
-                'items' => [
-                    'bundle_item_0' => [
-                        'title' => [
-                            'value' => 'Drop-down Option'
-                        ],
-                        'type' => [
-                            'value' => 'Drop-down',
-                            'input_value' => 'select'
-                        ],
-                        'required' => [
-                            'value' => 'Yes',
-                            'input_value' => '1'
-                        ],
-                        'assigned_products' => [
-                            0 => [
-                                'search_data' => [
-                                    'name' => '%item1::getProductName%',
-                                ],
-                                'data' => [
-                                    'selection_qty' => [
-                                        'value' => 1
-                                    ],
-                                    'product_id' => [
-                                        'value' => '%item1::getProductId%'
-                                    ]
-                                ]
+            'defaultBundleDynamic' => [
+                'bundle_option_0' => [
+                    'title' => 'Drop-down Option',
+                    'type' => 'Drop-down',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
                             ],
-                            1 => [
-                                'search_data' => [
-                                    'name' => '%item2::getProductName%',
-                                ],
-                                'data' => [
-                                    'selection_qty' => [
-                                        'value' => 1
-                                    ],
-                                    'product_id' => [
-                                        'value' => '%item2::getProductId%'
-                                    ]
-                                ]
+                            'data' => [
+                                'selection_qty' => 1,
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'defaultBundleFixed' => [
+                'bundle_option_0' => [
+                    'title' => 'Drop-down Option',
+                    'type' => 'Drop-down',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 10,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 5,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'all_types' => [
+                'bundle_option_0' => [
+                    'title' => 'Drop-down Option',
+                    'type' => 'Drop-down',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 10,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 5,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ]
+                    ]
+                ],
+                'bundle_option_1' => [
+                    'title' => 'Radio Button Option',
+                    'type' => 'Radio Buttons',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 20,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 25,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ]
+                    ]
+                ],
+                'bundle_option_2' => [
+                    'title' => 'Checkbox Option',
+                    'type' => 'Checkbox',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 30,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 35,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ]
+                    ]
+                ],
+                'bundle_option_3' => [
+                    'title' => 'Multiple Select Option',
+                    'type' => 'Multiple Select',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 40,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 45,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'with_not_required_options' => [
+                'bundle_option_0' => [
+                    'title' => 'Drop-down Option',
+                    'type' => 'Drop-down',
+                    'required' => 'No',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 45,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ]
+                    ]
+                ],
+                'bundle_option_1' => [
+                    'title' => 'Radio Button Option',
+                    'type' => 'Radio Buttons',
+                    'required' => 'No',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 45,
+                                'selection_price_type' => 'Fixed',
                             ]
                         ]
                     ]
                 ]
             ],
             'second' => [
-                'name' => 'Bundle Selections Default Preset',
-                'items' => [
-                    'bundle_item_0' => [
-                        'title' => [
-                            'value' => 'Drop-down Second Option'
-                        ],
-                        'type' => [
-                            'value' => 'Drop-down',
-                            'input_value' => 'select'
-                        ],
-                        'required' => [
-                            'value' => 'Yes',
-                            'input_value' => '1'
-                        ],
-                        'assigned_products' => [
-                            0 => [
-                                'search_data' => [
-                                    'name' => '%item1::getProductName%',
-                                ],
-                                'data' => [
-                                    'selection_qty' => [
-                                        'value' => 1
-                                    ],
-                                    'product_id' => [
-                                        'value' => '%item1::getProductId%'
-                                    ],
-                                    'selection_price_value' => [
-                                        'value' => '5'
-                                    ]
-                                ]
+                'bundle_option_0' => [
+                    'title' => 'Drop-down Option',
+                    'type' => 'Drop-down',
+                    'required' => 'Yes',
+                    'assigned_products' => [
+                        [
+                            'search_data' => [
+                                'name' => '%item1_simple1::getProductName%',
                             ],
-                            1 => [
-                                'search_data' => [
-                                    'name' => '%item2::getProductName%',
-                                ],
-                                'data' => [
-                                    'selection_qty' => [
-                                        'value' => 1
-                                    ],
-                                    'product_id' => [
-                                        'value' => '%item2::getProductId%'
-                                    ],
-                                    'selection_price_value' => [
-                                        'value' => '10'
-                                    ]
-                                ]
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 10,
+                                'selection_price_type' => 'Fixed',
+                            ]
+                        ],
+                        [
+                            'search_data' => [
+                                'name' => '%item1_virtual2::getProductName%',
+                            ],
+                            'data' => [
+                                'selection_qty' => 1,
+                                'selection_price_value' => 5,
+                                'selection_price_type' => 'Fixed',
                             ]
                         ]
                     ]

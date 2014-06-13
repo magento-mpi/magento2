@@ -56,12 +56,10 @@ class EditBundleTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
-        $gridBlock->searchAndOpen(
-            array(
-                'sku' => $product->getProductSku(),
-                'type' => 'Bundle Product'
-            )
-        );
+        $gridBlock->searchAndOpen([
+            'sku' => $product->getProductSku(),
+            'type' => 'Bundle Product'
+        ]);
         $productForm->fillProduct($editProduct);
         $editProductPage->getFormAction()->save();
         //Verifying
@@ -81,10 +79,10 @@ class EditBundleTest extends Functional
      */
     public function createDataProvider()
     {
-        return array(
-            array('getMagentoBundleBundleFixed'),
-            array('getMagentoBundleBundleDynamic')
-        );
+        return [
+            ['getMagentoBundleBundleFixed'],
+            ['getMagentoBundleBundleDynamic']
+        ];
     }
 
     /**

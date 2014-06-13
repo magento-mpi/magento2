@@ -16,7 +16,6 @@ use \Magento\Catalog\Test\Handler\Ui\CreateProduct;
 /**
  * Class CreateBundle
  * Create a bundle product
- *
  */
 class CreateBundle extends CreateProduct
 {

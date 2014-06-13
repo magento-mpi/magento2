@@ -9,14 +9,14 @@
 namespace Magento\Bundle\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Bundle\Test\Page\Product\CatalogProductView;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertProductView
+ * Class AssertBundlePriceView
+ * Assert that displayed price view for bundle product on product page equals passed from fixture.
  */
-class AssertBundleView extends AbstractConstraint
+class AssertBundlePriceView extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -26,50 +26,50 @@ class AssertBundleView extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Check bundle product on the product page
+     * Assert that displayed price view for bundle product on product page equals passed from fixture.
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductBundle $bundle
+     * @param CatalogProductBundle $product
+     * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
-        CatalogProductBundle $bundle
+        CatalogProductBundle $product
     ) {
         //Open product view page
-        $catalogProductView->init($bundle);
+        $catalogProductView->init($product);
         $catalogProductView->open();
 
         //Process assertions
-        $this->assertPrice($bundle, $catalogProductView);
+        $this->assertPrice($product, $catalogProductView);
     }
 
     /**
      * Assert prices on the product view Page
      *
-     * @param CatalogProductBundle $bundle
+     * @param CatalogProductBundle $product
      * @param CatalogProductView $catalogProductView
+     * @return void
      */
-    protected function assertPrice(CatalogProductBundle $bundle, CatalogProductView $catalogProductView)
+    protected function assertPrice(CatalogProductBundle $product, CatalogProductView $catalogProductView)
     {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $bundle->getDataFieldConfig('price')['source'];
-        $pricePresetData = $priceFixture->getPreset();
-
+        $priceData = $product->getDataFieldConfig('price')['source']->getPreset();
         $priceBlock = $catalogProductView->getViewBlock()->getProductPriceBlock();
+
         \PHPUnit_Framework_Assert::assertEquals(
-            $pricePresetData['price_from'],
+            $priceData['price_from'],
             $priceBlock->getPriceFrom(),
             'Bundle price From on product view page is not correct.'
         );
         \PHPUnit_Framework_Assert::assertEquals(
-            $pricePresetData['price_to'],
+            $priceData['price_to'],
             $priceBlock->getPriceTo(),
             'Bundle price To on product view page is not correct.'
         );
     }
 
     /**
-     * Text of Visible in category assert
+     * Text of Visible in bundle assert
      *
      * @return string
      */

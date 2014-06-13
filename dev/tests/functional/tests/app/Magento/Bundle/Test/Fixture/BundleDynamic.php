@@ -12,7 +12,7 @@ use Mtf\Factory\Factory;
 
 /**
  * Class BundleDynamic
- *
+ * Fixture for Bundle dynamic
  */
 class BundleDynamic extends Bundle
 {
@@ -67,7 +67,7 @@ class BundleDynamic extends Bundle
                 ),
                 'bundle_selections' => array(
                     'value' => array(
-                        'bundle_item_0' => array(
+                        'bundle_option_0' => array(
                             'title' => array(
                                 'value' => 'Drop-down Option'
                             ),
@@ -80,7 +80,7 @@ class BundleDynamic extends Bundle
                                 'input_value' => '1'
                             ),
                             'assigned_products' => array(
-                                'assigned_product_0' => array(
+                                [
                                     'search_data' => array(
                                         'name' => '%item1_simple1::getProductName%',
                                     ),
@@ -92,8 +92,8 @@ class BundleDynamic extends Bundle
                                             'value' => '%item1_simple1::getProductId%'
                                         )
                                     )
-                                ),
-                                'assigned_product_1' => array(
+                                ],
+                                [
                                     'search_data' => array(
                                         'name' => '%item1_virtual2::getProductName%',
                                     ),
@@ -105,7 +105,7 @@ class BundleDynamic extends Bundle
                                             'value' => '%item1_virtual2::getProductId%'
                                         )
                                     )
-                                )
+                                ]
                             )
                         )
                     ),
