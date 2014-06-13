@@ -466,7 +466,7 @@
         vertical-align: top;
     }
     .stock {
-        margin: 4px 0 3px;
+        margin: 0 0 3px;
         &.available,
         &.unavailable {
             font-weight: @font-weight-bold;
@@ -568,7 +568,7 @@
             @_icon-font-content: @icon-compare-full,
             @_icon-font-size: 16px,
             @_icon-font-line-height: 16px,
-            @_icon-font-margin: -2px 10px 0 0,
+            @_icon-font-margin: -2px 5px 0 0,
             @_icon-font-vertical-align: middle
         );
         &:hover {
@@ -576,7 +576,7 @@
             text-decoration: none;
         }
         &:not(:last-child) {
-            margin-right: 50px;
+            margin-right: 30px;
         }
     }
 }
@@ -733,7 +733,7 @@
 .responsive(@break) when (@break = @break-point-1) {
     .product-add-form {
         &:extend(.revert-field-type-desktop all);
-        .product.options.wrapper .field:not(.date) {
+        .product-options-wrapper .field:not(.date) {
             input[type="text"],
             select,
             textarea {
