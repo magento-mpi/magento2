@@ -73,6 +73,8 @@ abstract class AbstractAction
      * Execute action for given ids
      *
      * @param array|int $ids
+     *
+     * @return void
      */
     abstract public function execute($ids);
 
@@ -139,6 +141,8 @@ abstract class AbstractAction
 
     /**
      * Reindex all
+     *
+     * @return void
      */
     public function reindexAll()
     {
@@ -174,7 +178,9 @@ abstract class AbstractAction
     /**
      * Delete old relations
      *
-     * @var string $tableName
+     * @param string $tableName
+     *
+     * @return void
      */
     protected function _deleteOldRelations($tableName)
     {

@@ -74,9 +74,9 @@ class Observer
     protected $_resourceStock;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Indexer\Stock
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
      */
-    protected $_stockIndexer;
+    protected $_stockIndexerProcessor;
 
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -90,7 +90,7 @@ class Observer
 
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
-     * @param \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param Resource\Stock $resourceStock
      * @param Stock $stock
      * @param Stock\Status $stockStatus
@@ -101,7 +101,7 @@ class Observer
      */
     public function __construct(
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
-        \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         \Magento\CatalogInventory\Model\Resource\Stock $resourceStock,
         Stock $stock,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
@@ -111,7 +111,7 @@ class Observer
         \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
     ) {
         $this->_priceIndexer = $priceIndexer;
-        $this->_stockIndexer = $stockIndexer;
+        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         $this->_resourceStock = $resourceStock;
         $this->_stock = $stock;
         $this->_stockStatus = $stockStatus;
@@ -443,7 +443,7 @@ class Observer
         }
 
         if (count($productIds)) {
-            $this->_stockIndexer->executeList($productIds);
+            $this->_stockIndexerProcessor->reindexList($productIds);
         }
 
         // Reindex previously remembered items

@@ -36,16 +36,16 @@ class Attribute extends Action
     /**
      * Stock Indexer
      *
-     * @var \Magento\CatalogInventory\Model\Indexer\Stock
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
      */
-    protected $_stockIndexer;
+    protected $_stockIndexerProcessor;
 
     /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
-     * @param \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      */
     public function __construct(
@@ -53,14 +53,14 @@ class Attribute extends Action
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
-        \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         \Magento\Catalog\Helper\Product $catalogProduct
     ) {
         parent::__construct($context);
         $this->_helper = $helper;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
-        $this->_stockIndexer = $stockIndexer;
+        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         $this->_catalogProduct = $catalogProduct;
     }
 
@@ -178,7 +178,7 @@ class Attribute extends Action
                 }
 
                 if ($stockItemSaved) {
-                    $this->_stockIndexer->execute($this->_helper->getProductIds());
+                    $this->_stockIndexerProcessor->reindexList($this->_helper->getProductIds());
                 }
             }
 

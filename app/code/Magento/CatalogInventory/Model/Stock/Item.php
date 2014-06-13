@@ -166,9 +166,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_stockStatus;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Indexer\Stock
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
      */
-    protected $_stockIndexer;
+    protected $_stockIndexerProcessor;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -189,7 +189,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
@@ -206,7 +206,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
@@ -222,7 +222,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_customerSession = $customerSession;
-        $this->_stockIndexer = $stockIndexer;
+        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
@@ -949,7 +949,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         parent::_afterSave();
 
         if ($this->_processIndexEvents) {
-            $this->_stockIndexer->executeRow($this->getProductId());
+            $this->_stockIndexerProcessor->reindexRow($this->getProductId());
         }
         return $this;
     }

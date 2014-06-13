@@ -22,6 +22,8 @@ class Row extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
      *
      * @param int|null $id
      * @throws \Magento\CatalogInventory\Exception
+     *
+     * @return void
      */
     public function execute($id = null)
     {

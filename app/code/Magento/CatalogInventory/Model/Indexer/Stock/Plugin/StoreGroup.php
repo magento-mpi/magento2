@@ -18,11 +18,12 @@ class StoreGroup extends AbstractPlugin
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeSave(\Magento\Store\Model\Resource\Group $subject,
-                               \Magento\Framework\Model\AbstractModel $object
+    public function beforeSave(
+        \Magento\Store\Model\Resource\Group $subject,
+        \Magento\Framework\Model\AbstractModel $object
     ) {
         if (!$object->getId() || $object->dataHasChangedFor('website_id')) {
-            $this->invalidateIndexer();
+            $this->_indexerProcessor->markIndexerAsInvalid();
         }
     }
 }

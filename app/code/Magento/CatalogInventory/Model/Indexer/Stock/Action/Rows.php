@@ -22,6 +22,8 @@ class Rows extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
      *
      * @param array $ids
      * @throws \Magento\CatalogInventory\Exception
+     *
+     * @return void
      */
     public function execute($ids)
     {

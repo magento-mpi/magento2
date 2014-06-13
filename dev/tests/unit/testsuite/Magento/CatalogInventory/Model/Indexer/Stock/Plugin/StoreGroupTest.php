@@ -25,7 +25,13 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_indexerMock = $this->getMock('Magento\Indexer\Model\IndexerInterface');
+        $this->_indexerMock = $this->getMock(
+            '\Magento\CatalogInventory\Model\Indexer\Stock\Processor',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\CatalogInventory\Model\Indexer\Stock\Plugin\StoreGroup($this->_indexerMock);
     }
 
@@ -52,10 +58,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($data['has_website_id_changed']));
 
         $this->_indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(11));
-        $this->_indexerMock->expects($this->once())
-            ->method('invalidate');
+            ->method('markIndexerAsInvalid');
 
         $this->_model->beforeSave($subjectMock, $objectMock);
     }

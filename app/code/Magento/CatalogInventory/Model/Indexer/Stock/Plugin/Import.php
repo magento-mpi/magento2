@@ -20,7 +20,7 @@ class Import extends AbstractPlugin
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $result)
     {
-        $this->invalidateIndexer();
+        $this->_indexerProcessor->markIndexerAsInvalid();
         return $result;
     }
 }
