@@ -34,7 +34,7 @@ class Table
     /**
      * @var string
      */
-    protected $comment;
+    protected $description;
 
     /**
      * @var string
@@ -97,17 +97,17 @@ class Table
     /**
      * @return string
      */
-    public function getComment()
+    public function getDescription()
     {
-        return $this->comment;
+        return $this->description;
     }
 
     /**
-     * @param $comment
+     * @param $description
      */
-    public function setComment($comment)
+    public function setDescription($description)
     {
-        $this->comment = $comment;
+        $this->description = $description;
     }
 
     /**

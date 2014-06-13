@@ -77,11 +77,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Install\Ddl\Index', $testIndex);
     }
 
-    public function testGetSetComment()
+    public function testGetSetDescription()
     {
-        $this->assertNull($this->model->getComment());
-        $comment = 'some_comment';
-        $this->model->setComment($comment);
-        $this->assertEquals($comment, $this->model->getComment());
+        $this->assertNull($this->model->getDescription());
+        $description = 'some_comment';
+        $this->model->setDescription($description);
+        $this->assertEquals($description, $this->model->getDescription());
     }
 }
