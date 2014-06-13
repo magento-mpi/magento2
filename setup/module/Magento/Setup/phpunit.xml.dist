@@ -12,7 +12,7 @@
          bootstrap="../../../vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Magento Install Module Test Suite">
+        <testsuite name="Magento Setup Module Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
