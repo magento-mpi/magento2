@@ -74,7 +74,7 @@ class Observer
     protected $_resourceStock;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Indexer\NewStock
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock
      */
     protected $_stockIndexer;
 
@@ -90,7 +90,7 @@ class Observer
 
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer
-     * @param \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer
      * @param Resource\Stock $resourceStock
      * @param Stock $stock
      * @param Stock\Status $stockStatus
@@ -101,7 +101,7 @@ class Observer
      */
     public function __construct(
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $priceIndexer,
-        \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer,
+        \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer,
         \Magento\CatalogInventory\Model\Resource\Stock $resourceStock,
         Stock $stock,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,

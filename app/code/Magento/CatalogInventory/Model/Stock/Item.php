@@ -166,7 +166,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_stockStatus;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Indexer\NewStock
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock
      */
     protected $_stockIndexer;
 
@@ -189,7 +189,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer
      * @param Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
@@ -206,7 +206,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer,
+        \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer,
         Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,

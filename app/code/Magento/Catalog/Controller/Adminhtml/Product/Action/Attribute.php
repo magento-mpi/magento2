@@ -36,7 +36,7 @@ class Attribute extends Action
     /**
      * Stock Indexer
      *
-     * @var \Magento\CatalogInventory\Model\Indexer\NewStock
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock
      */
     protected $_stockIndexer;
 
@@ -45,7 +45,7 @@ class Attribute extends Action
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
-     * @param \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      */
     public function __construct(
@@ -53,7 +53,7 @@ class Attribute extends Action
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
-        \Magento\CatalogInventory\Model\Indexer\NewStock $stockIndexer,
+        \Magento\CatalogInventory\Model\Indexer\Stock $stockIndexer,
         \Magento\Catalog\Helper\Product $catalogProduct
     ) {
         parent::__construct($context);
