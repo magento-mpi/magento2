@@ -371,7 +371,14 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      */
     protected function _getRequestCacheKey($request)
     {
-        $key = $request->getStore() ? $request->getStore()->getId() . '|' : '';
+        $store = $request->getStore();
+        $key = '';
+        if ($store instanceof \Magento\Store\Model\Store) {
+            $key = $store->getId() . '|';
+        } elseif (is_numeric($store)) {
+            $key = $store . '|';
+        }
+
         $key .= $request->getProductClassId() . '|'
             . $request->getCustomerClassId() . '|'
             . $request->getCountryId() . '|'

@@ -71,18 +71,6 @@ class TaxDetailsBuilder extends \Magento\Framework\Service\Data\AbstractObjectBu
     }
 
     /**
-     * Set taxable amount
-     *
-     * @param float $taxableAmount
-     * @return $this
-     */
-    public function setTaxableAmount($taxableAmount)
-    {
-        $this->_set(TaxDetails::KEY_TAXABLE_AMOUNT, $taxableAmount);
-        return $this;
-    }
-
-    /**
      * Set discount amount
      *
      * @param float $discountAmount
