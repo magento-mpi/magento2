@@ -6,17 +6,14 @@
  * @license     {license_link}
  */
 
-
-/**
- * Product qty increments block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CatalogInventory\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Block\IdentityInterface;
 
+/**
+ * Product qty increments block
+ */
 class Qtyincrements extends Template implements IdentityInterface
 {
     /**
@@ -31,19 +28,27 @@ class Qtyincrements extends Template implements IdentityInterface
      *
      * @var \Magento\Framework\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     */
+    protected $stockItemService;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->stockItemService = $stockItemService;
         parent::__construct($context, $data);
     }
 
@@ -75,7 +80,7 @@ class Qtyincrements extends Template implements IdentityInterface
     public function getProductQtyIncrements()
     {
         if ($this->_qtyIncrements === null) {
-            $this->_qtyIncrements = $this->getProduct()->getStockItem()->getQtyIncrements();
+            $this->_qtyIncrements = $this->stockItemService->getQtyIncrements($this->getProduct()->getId());
             if (!$this->getProduct()->isSaleable()) {
                 $this->_qtyIncrements = false;
             }

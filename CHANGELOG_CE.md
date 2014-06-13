@@ -1,3 +1,48 @@
+* Framework improvements:
+  * Covered the following Magento application components with unit tests:
+      * `ConfigurableProduct/Helper/Data.php`
+      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
+      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
+      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
+      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
+      * `CatalogSearch/Helper/Data.php`
+  * Covered Magento lib with unit tests:
+      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
+* Created Service API for Magento_Catalog Module:
+   * Implemented Product API (MAGETWO-23306)
+   * Implemented ProductAttributeRead API (MAGETWO-23313)
+* Fixed bugs:
+   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
+   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
+   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
+   * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
+   * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
+   * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
+   * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
+   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
+   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+   * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
+* GitHub requests:
+  * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
+  * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
+  * [#562]  Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable() (MAGETWO-24037)
+  * [#565]  Magento\CatalogSearch\Model\Query::getResultCollection() not working (MAGETWO-24162)
+  * [#557]  translation anomalies backend login page (MAGETWO-23760)
+* Functional test:
+  * Advanced Search (MTA-93)
+  * Existing Customer Creation (MTA-319)
+  * Product Attribute Creation (MTA-26)
+  * Product Rating Creation (MTA-144)
+  * Sales Rule Creation (MTA-73)
+  * System Product Attribute Deletion (MTA-310)
+  * Tax Rate Creation (MTA-120)
+  * Tax Rule Deletion (MTA-4)
+  * Update Category (MTA-52)
+  * Update Category Url Rewrite (MTA-87)
+  * Update Product Url Rewrite (MTA-84)
+  
+  
 2.0.0.0-dev81
 =============
 * Framework improvements:
