@@ -27,7 +27,7 @@ class StockStatusService implements StockStatusServiceInterface
     protected $scopeResolver;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\Link\ProductLoader
+     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
      */
     protected $productLoader;
 
@@ -54,7 +54,7 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * @param Status $stockStatus
      * @param StockItemService $stockItemService
-     * @param \Magento\Catalog\Service\V1\Product\Link\ProductLoader $productLoader
+     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
      * @param \Magento\Store\Model\Resolver\Website $scopeResolver
      * @param Data\StockStatusBuilder $stockStatusBuilder
      * @param \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory $itemsFactory
@@ -63,7 +63,7 @@ class StockStatusService implements StockStatusServiceInterface
     public function __construct(
         Status $stockStatus,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\Catalog\Service\V1\Product\Link\ProductLoader $productLoader,
+        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader,
         \Magento\Store\Model\Resolver\Website $scopeResolver,
         Data\StockStatusBuilder $stockStatusBuilder,
         \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory $itemsFactory,
