@@ -2575,4 +2575,5 @@ return array(
         'Magento\Catalog\Pricing\Price\BasePrice'
     ],
     ['\Magento\Bundle\Pricing\Price\BasePriceInterface'],
+    ['\Magento\Cataloginventory\Model\Resource\Indexer\Stock'],
 );
