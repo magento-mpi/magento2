@@ -69,6 +69,16 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectHelper;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeManagerMock;
+
     protected function setUp()
     {
         $this->objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -92,6 +102,17 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $mediaImageBuilder = $this->objectHelper->getObject(
             '\Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImageBuilder'
         );
+
+        $this->storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+
+        $this->storeManagerMock = $this->getMock(
+            '\Magento\Store\Model\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->storeMock));
 
         $this->setFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\SetFactory',
@@ -140,6 +161,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 'setFactory' => $this->setFactoryMock,
                 'eavConfig' => $this->eavConfigMock,
                 'mediaImageBuilder' => $mediaImageBuilder,
+                'storeManager' => $this->storeManagerMock,
                 'productRepository' => $this->productRepoMock,
                 'attributeFactory' => $this->attributeFactoryMock,
                 'mediaGallery' => $this->mediaGalleryMock,
@@ -232,12 +254,12 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with('media_image');
         $attributeMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Eav\Attribute',
-            array('getFrontendLabel', 'getData', 'getIsGlobal', 'isScopeWebsite', 'isScopeStore', '__wakeup'),
+            array('getStoreLabel', 'getData', 'getIsGlobal', 'isScopeWebsite', 'isScopeStore', '__wakeup'),
             array(),
             '',
             false
         );
-        $attributeMock->expects($this->once())->method('getFrontendLabel')->will($this->returnValue('coolLabel'));
+        $attributeMock->expects($this->once())->method('getStoreLabel')->will($this->returnValue('coolLabel'));
         $attributeMock->expects($this->any())->method('getData')->will($this->returnArgument(0));
         $attributeMock->expects($this->once())->method('getIsGlobal')->will($this->returnValue(false));
         $attributeMock->expects($this->once())->method('isScopeWebsite')->will($this->returnValue(false));

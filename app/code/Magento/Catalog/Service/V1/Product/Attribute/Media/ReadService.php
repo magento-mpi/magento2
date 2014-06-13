@@ -59,11 +59,17 @@ class ReadService implements ReadServiceInterface
     protected $attributeFactory;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param MediaImageBuilder $mediaImageBuilder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param GalleryEntryBuilder $galleryEntryBuilder
@@ -74,6 +80,7 @@ class ReadService implements ReadServiceInterface
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         MediaImageBuilder $mediaImageBuilder,
         \Magento\Catalog\Model\ProductRepository $productRepository,
         GalleryEntryBuilder $galleryEntryBuilder
@@ -83,6 +90,7 @@ class ReadService implements ReadServiceInterface
         $this->eavConfig = $eavConfig;
         $this->mediaGallery = $mediaGallery;
         $this->attributeFactory = $attributeFactory;
+        $this->storeManager = $storeManager;
         $this->builder = $mediaImageBuilder;
         $this->productRepository = $productRepository;
         $this->galleryEntryBuilder = $galleryEntryBuilder;
@@ -100,7 +108,7 @@ class ReadService implements ReadServiceInterface
         $data = [];
         /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
         foreach ($items as $attribute) {
-            $this->builder->setFrontendLabel($attribute->getFrontendLabel());
+            $this->builder->setFrontendLabel($attribute->getStoreLabel());
             $this->builder->setCode($attribute->getData('attribute_code'));
             $this->builder->setIsUserDefined($attribute->getData('is_user_defined'));
             if ($attribute->getIsGlobal()) {
@@ -136,6 +144,7 @@ class ReadService implements ReadServiceInterface
         $collection = $this->collectionFactory->create();
         $collection->setAttributeSetFilter($attributeSetId);
         $collection->setFrontendInputTypeFilter('media_image');
+        $collection->addStoreLabel($this->storeManager->getStore()->getId());
 
         return $this->prepareData($collection->getItems());
     }
