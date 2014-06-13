@@ -21,7 +21,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
  * Products from "product/dataSet" column is created
  * For simple product: https://wiki.corp.x.com/download/attachments/82015445/CatalogProductSimple.php
  * For virtual product: https://wiki.corp.x.com/download/attachments/82015445/CatalogProductVirtual.php
-
+ *
  * Test Flow:
  * 1. Login to the backend.
  * 2. Navigate to Products > Catalog.
