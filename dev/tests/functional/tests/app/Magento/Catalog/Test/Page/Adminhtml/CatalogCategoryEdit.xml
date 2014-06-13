@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>editForm</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form</class>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Category\Edit\CategoryForm</class>
         <locator>#category-edit-container</locator>
         <strategy>css selector</strategy>
     </block>
