@@ -173,7 +173,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array(),
+            array('getMediaGallery', 'getData', 'getMediaAttributes', 'getStoreId', '__wakeup'),
             array(),
             '',
             false
@@ -372,5 +372,80 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 $productDataMap,
             ],
         );
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testInfoAbsentSku()
+    {
+        $productSku = 'Sku absent';
+        $imageId = 123321;
+
+        $this->productRepoMock->expects($this->once())
+            ->method('get')
+            ->with($productSku)
+            ->will($this->throwException(new \Magento\Framework\Exception\NoSuchEntityException()));
+
+        $this->service->info($productSku, $imageId);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testInfoEmptyGallery()
+    {
+        $productSku = 'Sku absent';
+        $imageId = 123321;
+
+        $this->productRepoMock->expects($this->once())
+            ->method('get')
+            ->with($productSku)
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())
+            ->method('getMediaGallery')
+            ->with('images')
+            ->will($this->returnValue([]));
+        $this->service->info($productSku, $imageId);
+    }
+
+    public function testInfo()
+    {
+        $productSku = 'Sku absent';
+        $storeId = 30;
+        $imageId = 123321;
+        $images = [
+            [
+                'value_id' => $imageId,
+                'file' => '/m/a/magento_image.jpg',
+                'label' => 'Image Alt Text',
+                'position' => '1',
+                'disabled' => '0',
+            ]
+        ];
+
+        $this->productRepoMock->expects($this->once())
+            ->method('get')
+            ->with($productSku)
+            ->will($this->returnValue($this->productMock));
+
+        $this->productMock->expects($this->once())
+            ->method('getMediaGallery')
+            ->with('images')
+            ->will($this->returnValue($images));
+
+        $this->productMock->expects($this->once())
+            ->method('getStoreId')
+            ->will($this->returnValue($storeId));
+
+        $result = $this->service->info($productSku, $imageId);
+
+        $resultImage = reset($images);
+        $this->assertEquals($resultImage['file'], $result->getFile());
+        $this->assertEquals($resultImage['label'], $result->getLabel());
+        $this->assertEquals($resultImage['position'], $result->getPosition());
+        $this->assertEquals($resultImage['disabled'], $result->isDisabled());
+        $this->assertEquals($storeId, $result->getStoreId());
     }
 }
