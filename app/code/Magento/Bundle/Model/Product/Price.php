@@ -657,4 +657,23 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
 
         return $finalPrice;
     }
+
+    /**
+     * Returns the lowest price after applying any applicable bundle discounts
+     *
+     * @param /Magento/Catalog/Model/Product $bundleProduct
+     * @param float|string $price
+     * @param int          $bundleQty
+     * @return float
+     */
+    public function getLowestPrice($bundleProduct, $price, $bundleQty = 1)
+    {
+        $price *= 1;
+        return min(
+            $price,
+            $this->_applyGroupPrice($bundleProduct, $price),
+            $this->_applyTierPrice($bundleProduct, $bundleQty, $price),
+            $this->_applySpecialPrice($bundleProduct, $price)
+        );
+    }
 }
