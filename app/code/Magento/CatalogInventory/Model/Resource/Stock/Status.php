@@ -89,7 +89,8 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 ->where('website_id = :website_id')
                 ->where('stock_id = :stock_id');
             $bind = array(':product_id' => $productId, ':website_id' => $websiteId, ':stock_id' => $stockId);
-            if ($row = $adapter->fetchRow($select, $bind)) {
+            $row = $adapter->fetchRow($select, $bind);
+            if ($row) {
                 $bind = array('qty' => $qty, 'stock_status' => $status);
                 $where = array(
                     $adapter->quoteInto('product_id=?', (int)$row['product_id']),
