@@ -171,7 +171,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                     ? $this->placeholderData['website_ids'][$value]
                     : $value;
             }
-            unset($value);
         }
         return $data;
     }

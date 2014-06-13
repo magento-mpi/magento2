@@ -73,14 +73,15 @@ class Curl extends AbstractCurl implements CatalogProductConfigurableInterface
      */
     protected function extendPlaceholder()
     {
-        $this->placeholderData['is_percent'] = [
-            'No' => 0,
-            'Yes' => 1
-        ];
-
-        $this->placeholderData['include'] = [
-            'Yes' => 1,
-            'No' => 0
+        $this->placeholderData += [
+            'is_percent' => [
+                'Yes' => 1,
+                'No' => 0
+            ],
+            'include' => [
+                'Yes' => 1,
+                'No' => 0
+            ]
         ];
     }
 }

@@ -39,53 +39,36 @@ use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 class SearchEntityResultsTest extends Injectable
 {
     /**
-     * Prepare test data
+     * Config to create products
      *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @var array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        /** @var GiftCardProduct $giftCardProduct */
-        $giftCardProduct = $fixtureFactory->createByCode('giftCardProduct', ['dataSet' => 'customDefault']);
-        $giftCardProduct->persist();
-
-        /** @var CatalogProductSimple $simpleProduct */
-        $simpleProduct = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'default']);
-        $simpleProduct->persist();
-
-        /** @var CatalogProductVirtual $virtualProduct */
-        $virtualProduct = $fixtureFactory->createByCode('catalogProductVirtual', ['dataSet' => 'default']);
-        $virtualProduct->persist();
-
-        /** @var CatalogProductVirtual $virtualProduct */
-        $configurableProduct = $fixtureFactory->createByCode(
-            'catalogProductConfigurable',
-            ['dataSet' => 'customDefault', 'persist' => true]
-        );
-
-        /** @var CatalogProductGrouped $groupedProduct */
-        $groupedProduct = $fixtureFactory->createByCode('catalogProductGrouped', ['dataSet' => 'default']);
-        $groupedProduct->persist();
-
-        /** @var CatalogProductBundle $bundleDynamicProduct */
-        $bundleDynamicProduct = $fixtureFactory->createByCode(
-            'catalogProductBundle',
-            [
+    protected $products = [
+        'giftCardProduct' => [
+            'giftcard' => ['dataSet' => 'customDefault']
+        ],
+        'catalogProductSimple' => [
+            'simple' => ['dataSet' => 'default']
+        ],
+        'catalogProductVirtual' => [
+            'virtual' => ['dataSet' => 'default']
+        ],
+        'catalogProductConfigurable' => [
+            'configurable' => ['dataSet' => 'customDefault', 'persist' => true]
+        ],
+        'catalogProductGrouped' => [
+            'grouped' => ['dataSet' => 'default']
+        ],
+        'catalogProductBundle' => [
+            'bundle_dynamic' => [
                 'dataSet' => 'bundle_dynamic_product',
                 'data' => [
                     'bundle_selections' => [
                         'products' => 'catalogProductSimple::default'
                     ]
                 ]
-            ]
-        );
-        $bundleDynamicProduct->persist();
-
-        /** @var CatalogProductBundle $bundleFixedProduct */
-        $bundleFixedProduct = $fixtureFactory->createByCode(
-            'catalogProductBundle',
-            [
+            ],
+            'bundle_fixed' => [
                 'dataSet' => 'bundle_fixed_product',
                 'data' => [
                     'bundle_selections' => [
@@ -93,28 +76,29 @@ class SearchEntityResultsTest extends Injectable
                     ]
                 ]
             ]
-        );
-        $bundleFixedProduct->persist();
+        ],
+        'catalogProductDownloadable' => [
+            'downloadable' => ['dataSet' => 'default']
+        ]
+    ];
 
-        /** @var CatalogProductDownloadable $downloadableProduct */
-        $downloadableProduct = $fixtureFactory->createByCode(
-            'catalogProductDownloadable',
-            ['dataSet' => 'default']
-        );
-        $downloadableProduct->persist();
+    /**
+     * Prepare test data
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
+        $products = [];
+        foreach($this->products as $fixtureName => $productConfig) {
+            foreach ($productConfig as $varName => $arguments) {
+                $products[$varName] = $fixtureFactory->createByCode($fixtureName, $arguments);
+                $products[$varName]->persist();
+            }
+        }
 
-        return [
-            'products' => [
-                'simple' => $simpleProduct,
-                'virtual' => $virtualProduct,
-                'giftcard' => $giftCardProduct,
-                'downloadable' => $downloadableProduct,
-                'grouped' => $groupedProduct,
-                'configurable' => $configurableProduct,
-                'bundle_dynamic' => $bundleDynamicProduct,
-                'bundle_fixed' => $bundleFixedProduct
-            ]
-        ];
+        return ['products' => $products];
     }
 
     /**
