@@ -403,6 +403,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->with($productSku)
             ->will($this->returnValue($this->productMock));
 
+
+        $this->productMock->expects($this->once())
+            ->method('getMediaAttributes')
+            ->will($this->returnValue(array()));
+        
         $this->productMock->expects($this->once())
             ->method('getMediaGallery')
             ->with('images')
@@ -436,8 +441,8 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($images));
 
         $this->productMock->expects($this->once())
-            ->method('getStoreId')
-            ->will($this->returnValue($storeId));
+            ->method('getMediaAttributes')
+            ->will($this->returnValue(array()));
 
         $result = $this->service->info($productSku, $imageId);
 
@@ -446,6 +451,5 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($resultImage['label'], $result->getLabel());
         $this->assertEquals($resultImage['position'], $result->getPosition());
         $this->assertEquals($resultImage['disabled'], $result->isDisabled());
-        $this->assertEquals($storeId, $result->getStoreId());
     }
 }
