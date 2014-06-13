@@ -17,13 +17,13 @@
 * Fixed bugs:
   * Fixed issues with form elements visibility on the backend
   * Fixed an issue where backend forms contained an excessive container
-  * Fixed an issue where a wrong category structure displayed on the Category page
-  * Fixed an issue where the  pub/index.php entry point was broken because of the obsolete constants
-  * Fixed an issue where it was impossible to  pass an empty array as an argument in DI configuration and layout updates
+  * Fixed an issue where a wrong category structure was displayed on the Category page
+  * Fixed an issue where the pub/index.php entry point was broken because of the obsolete constants
+  * Fixed an issue where it was impossible to pass an empty array as an argument in DI configuration and layout updates
   * Fixed an issue with status and visibility settings of a related product on the backend
-  * Fixed an issue with unused DB Indexes, which used resources, but did not contribute to higher performance
+  * Fixed an issue with unused DB indexes, which used resources, but did not contribute to higher performance
   * Fixed an issue where it was possible to create a downloadable product without specifying a link or a file
-  * Fixed an issue where a fatal error was thrown when opening a fixed bundle product with custom options page on the frontend
+  * Fixed an issue where a fatal error occured when opening a fixed bundle product with custom options page on the frontend
   * Fixed an issue where the was a wrong config key for backend cataloginventory
 * Processed GitHub requests:
   * [#548] (https://github.com/magento/magento2/issues/548) -- Console installer doesn't checks filesystem permissions
@@ -31,7 +31,7 @@
   * [#562] (https://github.com/magento/magento2/pull/562) -- Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable()
   * [#565] (https://github.com/magento/magento2/pull/565) -- Magento\CatalogSearch\Model\Query::getResultCollection() not working
   * [#557] (https://github.com/magento/magento2/issues/557) -- translation anomalies backend login page
-* Added the following functional test:
+* Added the following functional tests:
   * Advanced Search
   * Existing Customer Creation
   * Product Attribute Creation
