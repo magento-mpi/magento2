@@ -12,10 +12,10 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class ProductId
- * Prepare product
+ * Class IdPath
+ * Prepare ID Path
  */
-class ProductId implements FixtureInterface
+class IdPath implements FixtureInterface
 {
     /**
      * Resource data
@@ -25,11 +25,11 @@ class ProductId implements FixtureInterface
     protected $data;
 
     /**
-     * Return product
+     * Return category
      *
      * @var FixtureInterface
      */
-    protected $product;
+    protected $entity;
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -39,14 +39,19 @@ class ProductId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        $explodeValue = explode('::', $data['dataSet']);
+        if (!isset($data['entity'])) {
+            $this->data = array_shift($data);
+            return;
+        }
+        preg_match('`%(.*?)%`', $data['entity'], $dataSet);
+        $explodeValue = explode('::', $dataSet[1]);
         if (!empty($explodeValue) && count($explodeValue) > 1) {
             /** @var FixtureInterface $fixture */
-            $this->product = $fixtureFactory->createByCode($explodeValue[0],['dataSet' => $explodeValue[1]]);
-            $this->product->persist();
-            $this->data =  $this->product->getId();
+            $this->entity = $fixtureFactory->createByCode($explodeValue[0], ['entity' => $explodeValue[1]]);
+            $this->entity->persist();
+            $this->data = preg_replace('`(%.*?%)`', $this->entity->getId(), $data['entity']);
         } else {
-            $this->data = strval($data['dataSet']);
+            $this->data = strval($data['entity']);
         }
     }
 
@@ -82,12 +87,12 @@ class ProductId implements FixtureInterface
     }
 
     /**
-     * Return product
+     * Return entity
      *
      * @return FixtureInterface
      */
-    public function getProduct()
+    public function getEntity()
     {
-        return $this->product;
+        return $this->entity;
     }
 }

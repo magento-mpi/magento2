@@ -11,7 +11,7 @@
     <block>
         <name>treeBlock</name>
         <class>Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree</class>
-        <locator>[data-ui-id="category-selector"]</locator>
+        <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>

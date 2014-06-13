@@ -8,31 +8,30 @@
 
 namespace Magento\UrlRewrite\Test\TestCase;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+use Mtf\TestCase\Injectable;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
-use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for DeleteProductUrlRewritesEntity
- *
- * Precondition:
- * 1. Sub category is created.
- * 2. Product is created.
- * 3. Product url rewrites is created.
+ * Test Creation for Delete Category URL Rewrites Entity
  *
  * Test Flow:
- * 1. Login to backend.
- * 2. Navigate to MARKETING > URL Redirects.
- * 3. Click Redirect from grid.
- * 4. Click 'Delete' button.
- * 5. Perform asserts.
+ * Preconditions:
+ * 1. Create category
+ * 2. Create custom category UrlRewrite
+ *
+ * Steps:
+ * 1. Open Backend
+ * 2. Go to Marketing->URL Redirects
+ * 3. Search and open created URL Redirect
+ * 4. Delete URL Redirect
+ * 5. Perform all assertions
  *
  * @group URL_Rewrites_(PS)
- * @ZephyrId  MAGETWO-23287
+ * @ZephyrId MAGETWO-25086
  */
-class DeleteProductUrlRewriteEntityTest extends Injectable
+class DeleteCategoryUrlRewriteEntityTest extends Injectable
 {
     /**
      * Url rewrite index page
@@ -49,33 +48,35 @@ class DeleteProductUrlRewriteEntityTest extends Injectable
     protected $urlRewriteEdit;
 
     /**
-     * Prepare pages
+     * Inject pages
      *
      * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlrewriteEdit $urlRewriteEdit
      * @return void
      */
-    public function __inject(
-        UrlrewriteIndex $urlRewriteIndex,
-        UrlrewriteEdit $urlRewriteEdit
-    ) {
+    public function __inject(UrlrewriteIndex $urlRewriteIndex, UrlrewriteEdit $urlRewriteEdit)
+    {
         $this->urlRewriteIndex = $urlRewriteIndex;
         $this->urlRewriteEdit = $urlRewriteEdit;
     }
 
     /**
-     * Delete product url rewrites entity
+     * Delete category Url Rewrite
      *
-     * @param UrlRewrite $productRedirect
+     * @param UrlRewrite $urlRewrite
      * @return void
      */
-    public function testDeleteProductUrlRewrite(UrlRewrite $productRedirect)
+    public function testDeleteCategoryUrlRewrite(UrlRewrite $urlRewrite)
     {
-        // Precondition
-        $productRedirect->persist();
-        // Steps
+        //Precondition
+        $urlRewrite->persist();
+        //Steps
         $this->urlRewriteIndex->open();
-        $filter = ['request_path' => $productRedirect->getRequestPath()];
+        if ($urlRewrite->getRequestPath()) {
+            $filter = ['request_path' => $urlRewrite->getRequestPath()];
+        } else {
+            $filter = ['id_path' => $urlRewrite->getIdPath()];
+        }
         $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
         $this->urlRewriteEdit->getPageMainActions()->delete();
     }

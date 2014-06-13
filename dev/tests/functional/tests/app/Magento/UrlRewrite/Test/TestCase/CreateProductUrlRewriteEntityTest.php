@@ -8,33 +8,34 @@
 
 namespace Magento\UrlRewrite\Test\TestCase;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\TestCase\Injectable;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteIndex;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit;
-use Mtf\Fixture\FixtureFactory;
 
 /**
- * Test Creation for Update Product URL Rewrites Entity
+ * Test Creation for Product URL Rewrites Entity
  *
  * Test Flow:
- *
  * Preconditions:
- * 1. Create custom store view
+ * 1. Create custom storeView
  * 2. Create simple product
- * 3. Create product UrlRewrite
  *
  * Steps:
  * 1. Open Backend
  * 2. Go to Marketing->Url Redirects
- * 3. Search and open created Url Redirect
- * 4. Fill data according to dataset
- * 5. Perform all assertions
+ * 3. Click "Add URL Rewrite" button
+ * 4. Select "For Product" from  "Create URL Rewrite:" dropdown
+ * 5. Select created early product
+ * 6. Click "Skip Category Selection" button
+ * 7. Fill data according to dataSet
+ * 8. Perform all assertions
  *
  * @group URL_Rewrites_(PS)
- * @ZephyrId MAGETWO-24819
+ * @ZephyrId MAGETWO-25150
  */
-class UpdateProductUrlRewriteEntityTest extends Injectable
+class CreateProductUrlRewriteEntityTest extends Injectable
 {
     /**
      * Url rewrite index page
@@ -51,44 +52,36 @@ class UpdateProductUrlRewriteEntityTest extends Injectable
     protected $urlRewriteEdit;
 
     /**
-     * Prepare dataSets and pages
+     * Prepare pages
      *
      * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlrewriteEdit $urlRewriteEdit
-     * @return array
+     * @return void
      */
-    public function __inject(
-        UrlrewriteIndex $urlRewriteIndex,
-        UrlrewriteEdit $urlRewriteEdit
-    ) {
+    public function __inject(UrlrewriteIndex $urlRewriteIndex, UrlrewriteEdit $urlRewriteEdit)
+    {
         $this->urlRewriteIndex = $urlRewriteIndex;
         $this->urlRewriteEdit = $urlRewriteEdit;
     }
 
     /**
-     * Update product URL rewrites
+     * Create product URL Rewrite
      *
+     * @param CatalogProductSimple $product
      * @param UrlRewrite $urlRewrite
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
-    public function testUpdateProductUrlRewrite(
-        UrlRewrite $urlRewrite,
-        FixtureFactory $fixtureFactory
-    ) {
-        /** @var UrlRewrite $productRedirect */
-        $productRedirect = $fixtureFactory->createByCode(
-            'urlRewrite',
-            [
-                'dataSet' => 'default',
-                'data' => ['id_path' => [$urlRewrite->getIdPath()]]
-            ]
-        );
-        $productRedirect->persist();
+    public function testProductUrlRewrite(CatalogProductSimple $product, UrlRewrite $urlRewrite)
+    {
+        //Precondition
+        $product->persist();
+        $filter = ['id' => $product->getId()];
         //Steps
         $this->urlRewriteIndex->open();
-        $filter = ['request_path' => $productRedirect->getRequestPath()];
-        $this->urlRewriteIndex->getUrlRedirectGrid()->searchAndOpen($filter);
+        $this->urlRewriteIndex->getPageActionsBlock()->addNew();
+        $this->urlRewriteEdit->getUrlRewriteTypeSelectorBlock()->selectType('For product');
+        $this->urlRewriteEdit->getProductGridBlock()->searchAndOpen($filter);
+        $this->urlRewriteEdit->getTreeBlock()->skipCategorySelection();
         $this->urlRewriteEdit->getFormBlock()->fill($urlRewrite);
         $this->urlRewriteEdit->getPageMainActions()->save();
     }
