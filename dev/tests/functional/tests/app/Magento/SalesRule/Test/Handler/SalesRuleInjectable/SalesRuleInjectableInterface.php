@@ -15,5 +15,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface SalesRuleInjectableInterface extends HandlerInterface
 {
-   //
+    //
 }
