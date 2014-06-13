@@ -1735,6 +1735,7 @@ return array(
         'Magento\CatalogInventory\Helper\Minsaleqty',
         'Magento\CatalogInventory\Helper\Minsaleqty::decodeArrayFieldValue'
     ],
+    ['convertOldColumnDefinition', 'Magento\Framework\DB\Helper\AbstractHelper'],
     ['changeItemStatus', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getWebsiteDefaultStoreId', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getProductData', 'Magento\CatalogInventory\Model\Stock\Status'],
