@@ -7,6 +7,7 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\Authz\Model\UserIdentifier;
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Service\Data\AbstractObject;
@@ -244,7 +245,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected function _overrideParams(array $inputData, array $parameters)
     {
         foreach ($parameters as $name => $paramData) {
-            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+            if ($paramData['value'] == ':session') {
+                $inputData[$name] = $this->session->getUserId();
+            } else if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
                 $inputData[$name] = $paramData[Converter::KEY_VALUE];
             }
         }

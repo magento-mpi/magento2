@@ -7,18 +7,18 @@
  */
 namespace Magento\Authz\Service;
 
-use Magento\Framework\Acl\Builder as AclBuilder;
-use Magento\Framework\Acl;
 use Magento\Authz\Model\UserIdentifier;
+use Magento\Framework\Acl;
+use Magento\Framework\Acl\Builder as AclBuilder;
+use Magento\Framework\Acl\RootResource as RootAclResource;
 use Magento\Framework\Logger;
-use Magento\Webapi\ServiceException as ServiceException;
-use Magento\Webapi\ServiceResourceNotFoundException;
 use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
-use Magento\Framework\Acl\RootResource as RootAclResource;
+use Magento\Webapi\ServiceException as ServiceException;
+use Magento\Webapi\ServiceResourceNotFoundException;
 
 /**
  * Authorization service.
@@ -119,7 +119,10 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 );
             }
             foreach ($resources as $resource) {
-                if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
+                //self and anonymous are not identified as valid resources in $this->_aclBuilder->getAcl()->isAllowed
+                if (!$this->_isAllowedForSystemRole($role->getRoleName(), $resource)
+                    && !$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)
+                ) {
                     return false;
                 }
             }
@@ -320,5 +323,18 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _existsSystemRoleForUserType($userType)
     {
         return ($userType == UserIdentifier::USER_TYPE_CUSTOMER) || ($userType == UserIdentifier::USER_TYPE_GUEST);
+    }
+
+    /**
+     * Check if  the system role is associated with the allowed resource
+     *
+     * @param string $role
+     * @param string $resource
+     * @return bool
+     */
+    protected function _isAllowedForSystemRole($role, $resource)
+    {
+        return ($role == UserIdentifier::USER_TYPE_CUSTOMER && $resource == 'self')
+        || ($role == UserIdentifier::USER_TYPE_GUEST && $resource == 'anonymous');
     }
 }

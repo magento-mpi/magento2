@@ -55,4 +55,9 @@
     <type name="Magento\Authz\Service\AuthorizationV1">
         <plugin name="webapiRestAuthorizationV1" type="Magento\Webapi\Model\Plugin\AuthorizationServiceV1" />
     </type>
+    <type name="Magento\Framework\Session\Generic">
+        <arguments>
+            <argument name="sessionName" xsi:type="string">frontend</argument>
+        </arguments>
+    </type>
 </config>
