@@ -11,6 +11,7 @@ use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
 use Magento\Catalog\Service\V1\Data\Eav\Attribute;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Eav\Model\Resource\Entity\Attribute\Collection;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class ProductAttributeReadService
@@ -115,7 +116,6 @@ class ProductAttributeReadService implements ProductAttributeReadServiceInterfac
                 $this->attributeCollection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
-
         $this->attributeCollection->join(
             array('additional_table' => $this->attributeCollection->getTable('catalog_eav_attribute')),
             'main_table.attribute_id = additional_table.attribute_id'
