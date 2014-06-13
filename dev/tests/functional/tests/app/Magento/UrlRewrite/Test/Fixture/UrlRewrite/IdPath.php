@@ -40,7 +40,7 @@ class IdPath implements FixtureInterface
     {
         $this->params = $params;
         if (!isset($data['entity'])) {
-            $this->data = $data;
+            $this->data = array_shift($data);
             return;
         }
         preg_match('`%(.*?)%`', $data['entity'], $dataSet);
