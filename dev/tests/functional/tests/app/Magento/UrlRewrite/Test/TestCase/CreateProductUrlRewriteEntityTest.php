@@ -56,7 +56,7 @@ class CreateProductUrlRewriteEntityTest extends Injectable
      *
      * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlrewriteEdit $urlRewriteEdit
-     * @return array
+     * @return void
      */
     public function __inject(UrlrewriteIndex $urlRewriteIndex, UrlrewriteEdit $urlRewriteEdit)
     {
@@ -69,6 +69,7 @@ class CreateProductUrlRewriteEntityTest extends Injectable
      *
      * @param CatalogProductSimple $product
      * @param UrlRewrite $urlRewrite
+     * @return void
      */
     public function testProductUrlRewrite(CatalogProductSimple $product, UrlRewrite $urlRewrite)
     {
