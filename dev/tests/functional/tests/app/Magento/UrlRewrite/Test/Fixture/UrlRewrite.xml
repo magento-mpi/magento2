@@ -23,11 +23,6 @@
             <backend_type>virtual</backend_type>
             <source>Magento\UrlRewrite\Test\Fixture\UrlRewrite\IdPath</source>
         </id_path>
-        <product_id>
-            <attribute_code>product_id</attribute_code>
-            <backend_type>virtual</backend_type>
-            <source>Magento\UrlRewrite\Test\Fixture\UrlRewrite\ProductId</source>
-        </product_id>
         <store_id>
             <attribute_code>store_id</attribute_code>
             <backend_type>virtual</backend_type>
