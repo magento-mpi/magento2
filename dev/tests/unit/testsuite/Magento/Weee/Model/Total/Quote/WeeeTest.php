@@ -45,9 +45,15 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         $defaultRateRequest = new \Magento\Framework\Object();
 
         $taxCalculation->expects($this->any())->method('getRateRequest')->will($this->returnValue($rateRequest));
-        $taxCalculation->expects($this->any())->method('getRateOriginRequest')->will($this->returnValue($defaultRateRequest));
+        $taxCalculation
+            ->expects($this->any())
+            ->method('getRateOriginRequest')
+            ->will($this->returnValue($defaultRateRequest));
 
-        $taxCalculation->expects($this->any())->method('getRate')->will($this->onConsecutiveCalls($storeTaxRate, $customerTaxRate));
+        $taxCalculation
+            ->expects($this->any())
+            ->method('getRate')
+            ->will($this->onConsecutiveCalls($storeTaxRate, $customerTaxRate));
 
         return $taxCalculation;
     }
@@ -192,6 +198,9 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Data provider for testCollect
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * Multiple datasets
      *
      * @return array
      */
