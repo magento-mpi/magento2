@@ -127,6 +127,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 
         $priceIncludesTax = $this->_taxData->priceIncludesTax($this->_store);
         $calculationAlgorithm = $this->_taxData->getCalculationAgorithm($this->_store);
+        $defaultPercent = $currentPercent = 0; //when FPT is not taxable
         foreach ($attributes as $key => $attribute) {
             $title          = $attribute->getName();
 
@@ -134,12 +135,14 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $value = $this->_store->convertPrice($baseValue);
             $value = $this->_store->roundPrice($value);
 
-            $defaultPercent = $this->_calculator->getRate(
-                $defaultRateRequest->setProductClassId($item->getProduct()->getTaxClassId())
-            );
-            $currentPercent = $this->_calculator->getRate(
-                $rateRequest->setProductClassId($item->getProduct()->getTaxClassId())
-            );
+            if ($this->_weeeData->isTaxable($this->_store)) {
+                $defaultPercent = $this->_calculator->getRate(
+                    $defaultRateRequest->setProductClassId($item->getProduct()->getTaxClassId())
+                );
+                $currentPercent = $this->_calculator->getRate(
+                    $rateRequest->setProductClassId($item->getProduct()->getTaxClassId())
+                );
+            }
 
             if ($priceIncludesTax) {
                 //Make sure that price including tax is rounded first
@@ -171,6 +174,12 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $rowValueExclTax = $this->_store->roundPrice($valueExclTax * $item->getTotalQty());
             $baseRowValueExclTax = $this->_store->roundPrice($baseValueExclTax * $item->getTotalQty());
 
+            //Now, round the unit price just in case
+            $valueExclTax = $this->_store->roundPrice($valueExclTax);
+            $baseValueExclTax = $this->_store->roundPrice($baseValueExclTax);
+            $valueInclTax = $this->_store->roundPrice($valueInclTax);
+            $baseValueInclTax = $this->_store->roundPrice($baseValueInclTax);
+
             $totalValueInclTax += $valueInclTax;
             $baseTotalValueInclTax += $baseValueInclTax;
             $totalRowValueInclTax += $rowValueInclTax;
@@ -184,14 +193,14 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 
             $productTaxes[] = array(
                 'title' => $title,
-                'base_amount' => $this->_store->roundPrice($baseValueExclTax),
-                'amount' => $this->_store->roundPrice($valueExclTax),
-                'row_amount' => $this->_store->roundPrice($rowValueExclTax),
-                'base_row_amount' => $this->_store->roundPrice($baseRowValueExclTax),
-                'base_amount_incl_tax' => $this->_store->roundPrice($baseValueInclTax),
-                'amount_incl_tax' => $this->_store->roundPrice($valueInclTax),
-                'row_amount_incl_tax' => $this->_store->roundPrice($rowValueInclTax),
-                'base_row_amount_incl_tax' => $this->_store->roundPrice($baseRowValueInclTax),
+                'base_amount' => $baseValueExclTax,
+                'amount' => $valueExclTax,
+                'row_amount' => $rowValueExclTax,
+                'base_row_amount' => $baseRowValueExclTax,
+                'base_amount_incl_tax' => $baseValueInclTax,
+                'amount_incl_tax' => $valueInclTax,
+                'row_amount_incl_tax' => $rowValueInclTax,
+                'base_row_amount_incl_tax' => $baseRowValueInclTax,
             );
 
             //This include FPT as applied tax, since tax on FPT is calculated separately, we use value excluding tax
