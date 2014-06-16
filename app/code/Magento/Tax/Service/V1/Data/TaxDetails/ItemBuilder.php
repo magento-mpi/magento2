@@ -166,7 +166,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
      */
     public function setDiscountTaxCompensationAmount($discountTaxCompensationAmount)
     {
-        $this->set(Item::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT, $discountTaxCompensationAmount);
+        $this->_set(Item::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT, $discountTaxCompensationAmount);
         return $this;
     }
 

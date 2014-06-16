@@ -71,6 +71,20 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected $storeManager;
 
     /**
+     * Item code to Item object array.
+     *
+     * @var QuoteDetailsItem[]
+     */
+    private $keyedItems;
+
+    /**
+     * child item code to parent item code array.
+     *
+     * @var string
+     */
+    private $childToParent;
+
+    /**
      * Constructor
      *
      * @param Calculation $calculation
@@ -113,6 +127,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         if (empty($items)) {
             return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
         }
+        $this->computeRelationships($items);
 
         $addressRequest = $this->getAddressTaxRequest($quoteDetails, $storeId);
         if ($this->config->priceIncludesTax($storeId)) {
@@ -137,23 +152,18 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         // init rounding deltas for this quote
         $this->roundingDeltas = [];
-        $keyedItems = [];
-        foreach ($items as $item) {
-            $keyedItems[$item->getCode()] = $item;
-        }
-        $calculated = [];
+        $children = array_keys($this->childToParent);
         $processedItems = [];
         /** @var QuoteDetailsItem $item */
-        foreach ($keyedItems as $key => $item) {
-            if (in_array($key, $calculated)) {
+        foreach ($this->keyedItems as $key => $item) {
+            if (in_array($key, $children)) {
                 continue;
             }
 
             if ($item->getChildCodes()) {
                 $processedChildren = [];
                 foreach ($item->getChildCodes() as $childCode) {
-                    $processedChildren[] = $this->processItem($keyedItems[$childCode], $addressRequest, $storeId);
-                    $calculated[] = $childCode;
+                    $processedChildren[] = $this->processItem($this->keyedItems[$childCode], $addressRequest, $storeId);
                 }
                 $processedItemBuilder = $this->calculateParent($processedChildren, $item->getQuantity());
                 $processedItemBuilder->setCode($item->getCode());
@@ -167,6 +177,26 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         }
 
         return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->setItems($processedItems)->create();
+    }
+
+    /**
+     * Computes relationships between items, primarily the child to parent relationship.
+     *
+     * @param QuoteDetailsItem[] $items
+     * @return void
+     */
+    private function computeRelationships($items)
+    {
+        $this->keyedItems = [];
+        $this->childToParent = [];
+        foreach ($items as $item) {
+            $this->keyedItems[$item->getCode()] = $item;
+            if ($item->getChildCodes()) {
+                foreach ($item->getChildCodes() as $childCode) {
+                    $this->childToParent[$childCode] = $item->getCode();
+                }
+            }
+        }
     }
 
     /**
@@ -238,9 +268,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $taxRequest->setProductClassId($item->getTaxClassId());
         $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
         $rate = $this->calculator->getRate($taxRequest);
-        $quantity = $item->getQuantity();
+        $quantity = $this->getTotalQuantity($item);
         $price = $taxPrice = $this->calculator->round($item->getUnitPrice());
-        $subtotal = $taxSubtotal = $this->calculator->round($item->getRowTotal());
+        $subtotal = $taxSubtotal = $this->calcRowTotal($item);
         if ($item->getTaxIncluded()) {
             if ($taxRequest->getSameRateAsStore() || ($rate == $storeRate)) {
                 $taxable = $price;
@@ -297,9 +327,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $taxRequest->setProductClassId($item->getTaxClassId());
         $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
         $rate = $this->calculator->getRate($taxRequest);
-        $quantity = $item->getQuantity();
+        $quantity = $this->getTotalQuantity($item);
         $price = $this->calculator->round($item->getUnitPrice());
-        $subtotal = $this->calculator->round($item->getRowTotal());
+        $subtotal = $this->calcRowTotal($item);
 
         if ($item->getTaxIncluded()) {
             if ($taxRequest->getSameRateAsStore() || ($rate == $storeRate)) {
@@ -360,9 +390,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $taxRequest->setProductClassId($item->getTaxClassId());
         $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
         $rate = $this->calculator->getRate($taxRequest);
-        $quantity = $item->getQuantity();
+        $quantity = $this->getTotalQuantity($item);
         $price = $this->calculator->round($item->getUnitPrice());
-        $subtotal = $taxSubtotal = $this->calculator->round($item->getRowTotal());
+        $subtotal = $taxSubtotal = $this->calcRowTotal($item);
 
         if ($item->getTaxIncluded()) {
             if ($taxRequest->getSameRateAsStore() || ($rate == $storeRate)) {
@@ -448,14 +478,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      */
     protected function calculateParent($children, $quantity)
     {
-        $parentBuilder = $this->taxDetailsItemBuilder->populateWithArray([]);
-
         $rowTotal = 0.00;
         $rowTotalInclTax = 0.00;
         $taxAmount = 0.00;
         $taxableAmount = 0.00;
         $discountAmount = 0.00;
-        $discountTaxCompensationAmount = 0.00;
 
         foreach ($children as $child) {
             $rowTotal += $child->getRowTotal();
@@ -463,22 +490,20 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $taxAmount += $child->getTaxAmount();
             $taxableAmount += $child->getTaxableAmount();
             $discountAmount += $child->getDiscountAmount();
-            $discountTaxCompensationAmount += $child->getDiscountTaxCompensationAmount();
         }
 
         $price = $rowTotal / $quantity;
         $priceInclTax = $rowTotalInclTax / $quantity;
 
-        $parentBuilder->setPrice($price);
-        $parentBuilder->setPriceInclTax($priceInclTax);
-        $parentBuilder->setRowTotal($rowTotal);
-        $parentBuilder->setRowTotalInclTax($rowTotalInclTax);
-        $parentBuilder->setTaxAmount($taxAmount);
-        $parentBuilder->setTaxableAmount($taxableAmount);
-        $parentBuilder->setDiscountAmount($discountAmount);
-        $parentBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
+        $this->taxDetailsItemBuilder->setPrice($price);
+        $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
+        $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
+        $this->taxDetailsItemBuilder->setTaxAmount($taxAmount);
+        $this->taxDetailsItemBuilder->setTaxableAmount($taxableAmount);
+        $this->taxDetailsItemBuilder->setDiscountAmount($discountAmount);
 
-        return $parentBuilder;
+        return $this->taxDetailsItemBuilder;
     }
 
     /**
@@ -518,5 +543,40 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             = $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT] + $item->getDiscountAmount();
 
         return $taxDetailsData;
+    }
+
+    /**
+     * Calculates the total quantity for this item.
+     *
+     * What this really means is that if this is a child item, it return the parent quantity times
+     * the child quantity and return that as the child's quantity.
+     *
+     * @param QuoteDetailsItem $item
+     * @return float
+     */
+    protected function getTotalQuantity(QuoteDetailsItem $item)
+    {
+        if (isset($this->childToParent[$item->getCode()])) {
+            $parentCode = $this->childToParent[$item->getCode()];
+            $parentQuantity = $this->keyedItems[$parentCode]->getQuantity();
+            return $parentQuantity * $item->getQuantity();
+        }
+        return $item->getQuantity();
+    }
+
+    /**
+     * Calculate the row total for an item
+     *
+     * @param QuoteDetailsItem $item
+     * @return float
+     */
+    protected function calcRowTotal(QuoteDetailsItem $item)
+    {
+        $qty = $this->getTotalQuantity($item);
+
+        // Round unit price before multiplying to prevent losing 1 cent on subtotal
+        $total = $this->calculator->round($item->getUnitPrice()) * $qty;
+
+        return $this->calculator->round($total);
     }
 }

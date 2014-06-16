@@ -213,7 +213,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 10,
             'unit_price' => 1,
-            'row_total' => 10,
             'tax_class_id' => 'DefaultProductClass',
         ];
         $oneProductResults = [
@@ -240,14 +239,28 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'code' => 'sku_1',
             'type' => 'product',
             'quantity' => 10,
-            'unit_price' => 1.075,
-            'row_total' => 10.75,
+            'unit_price' => 1.08,
             'tax_class_id' => 'DefaultProductClass',
             'tax_included' => true,
         ];
-        $oneProductInclTaxResults = $oneProductResults;
-        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
-        $oneProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
+        $oneProductInclTaxResults = [
+            'subtotal' => 10.05,
+            'tax_amount' => 0.75,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'price' => 1.01,
+                    'price_incl_tax' => 1.08,
+                    'row_total' => 10.05,
+                    'row_total_incl_tax' => 10.8,
+                    'taxable_amount' => 10.8, // Should this be 10.0?  Possible bug?  Old code behaves this way too.
+                    'code' => 'sku_1',
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'tax_amount' => 0.75,
+                ],
+            ],
+        ];
 
         $oneProductInclTaxDiffRate = $baseQuote;
         $oneProductInclTaxDiffRate['items'][] = [
@@ -255,12 +268,11 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 10,
             'unit_price' => 1.1,
-            'row_total' => 11,
             'tax_class_id' => 'HigherProductClass',
             'tax_included' => true,
         ];
         $oneProductInclTaxDiffRateResults = [
-            'subtotal' => 10.0,
+            'subtotal' => 10.05,
             'tax_amount' => 2.2,
             'discount_amount' => 0,
             'items' => [
@@ -285,7 +297,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'product',
                 'quantity' => 10,
                 'unit_price' => 1,
-                'row_total' => 10,
                 'tax_class_id' => 'DefaultProductClass',
             ],
             [
@@ -293,7 +304,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'product',
                 'quantity' => 20,
                 'unit_price' => 11,
-                'row_total' => 220,
                 'tax_class_id' => 'DefaultProductClass',
             ]
         ];
@@ -334,7 +344,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'product',
                 'quantity' => 10,
                 'unit_price' => 1.075,
-                'row_total' => 10.75,
                 'tax_class_id' => 'DefaultProductClass',
                 'tax_included' => true,
             ],
@@ -343,7 +352,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'product',
                 'quantity' => 20,
                 'unit_price' => 11.825,
-                'row_total' => 236.5,
                 'tax_class_id' => 'DefaultProductClass',
                 'tax_included' => true,
             ]
@@ -352,6 +360,50 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
         $twoProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
         $twoProductInclTaxResults['items'][1]['taxable_amount'] = 236.5;
+
+        $oneProductWithChildren = $baseQuote;
+        $oneProductWithChildren['items'] = [
+            [
+                'code' => 'child_1_sku',
+                'type' => 'product',
+                'quantity' => 2,
+                'unit_price' => 12.34,
+                'tax_class_id' => 'DefaultProductClass',
+            ],
+            [
+                'code' => 'parent_sku', // Put the parent in the middle of the children to test an edge case
+                'type' => 'product',
+                'quantity' => 10,
+                'unit_price' => 0,
+                'tax_class_id' => 'DefaultProductClass',
+                'child_codes' => ['child_1_sku', 'child_2_sku'],
+            ],
+            [
+                'code' => 'child_2_sku',
+                'type' => 'product',
+                'quantity' => 2,
+                'unit_price' => 1.99,
+                'tax_class_id' => 'HigherProductClass',
+            ],
+        ];
+        $oneProductWithChildrenResults = [
+            'subtotal' => 286.6,
+            'tax_amount' => 27.3,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'code' => 'parent_sku',
+                    'price' => 28.66,
+                    'price_incl_tax' => 31.39,
+                    'row_total' => 286.6,
+                    'row_total_incl_tax' => 313.9,
+                    'taxable_amount' => 286.6,
+                    'type' => 'product',
+                    'tax_percent' => 9.525,
+                    'tax_amount' => 27.3,
+                ],
+            ],
+        ];
 
         return [
             'one product' => [
@@ -374,6 +426,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quote_details' => $twoProductsInclTax,
                 'expected_tax_details' => $twoProductInclTaxResults,
             ],
+            'one product with two children' => [
+                'quote_details' => $oneProductWithChildren,
+                'expected_tax_details' => $oneProductWithChildrenResults,
+            ],
         ];
     }
 
@@ -385,7 +441,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function performTaxClassSubstitution($data)
     {
-        array_walk_recursive($data,
+        array_walk_recursive(
+            $data,
             function (&$value, $key) {
                 if ( ($key === 'tax_class_id' || $key === 'customer_tax_class_id')
                     && is_string($value)
