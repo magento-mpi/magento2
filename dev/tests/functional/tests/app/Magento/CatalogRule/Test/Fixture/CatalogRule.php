@@ -127,6 +127,7 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
+        'source' => 'Magento\CatalogRule\Test\Fixture\Conditions'
     ];
 
     protected $rule = [
