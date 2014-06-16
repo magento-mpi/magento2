@@ -733,25 +733,25 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'code' => 'sku_1',
             'type' => 'product',
             'quantity' => 10,
-            'unit_price' => 1.08,
+            'unit_price' => 1.0,
             'tax_class_id' => 'DefaultProductClass',
             'tax_included' => true,
         ];
         $oneProductInclTaxResults = [
-            'subtotal' => 10.05,
-            'tax_amount' => 0.75,
+            'subtotal' => 9.3,
+            'tax_amount' => 0.7,
             'discount_amount' => 0,
             'items' => [
                 [
-                    'price' => 1.01,
-                    'price_incl_tax' => 1.08,
-                    'row_total' => 10.05,
-                    'row_total_incl_tax' => 10.8,
-                    'taxable_amount' => 10.8, // Should this be 10.0?  Possible bug?  Old code behaves this way too.
+                    'price' => 0.93,
+                    'price_incl_tax' => 1.0,
+                    'row_total' => 9.3,
+                    'row_total_incl_tax' => 10,
+                    'taxable_amount' => 10,  // Shouldn't this be 9.3?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 0.75,
+                    'tax_amount' => .7,
                 ],
             ],
         ];
@@ -760,26 +760,26 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductInclTaxDiffRate['items'][] = [
             'code' => 'sku_1',
             'type' => 'product',
-            'quantity' => 10,
-            'unit_price' => 1.1,
+            'quantity' => 9,
+            'unit_price' => 0.33, // this is including the store tax of 10%. Pre tax is 0.3
             'tax_class_id' => 'HigherProductClass',
             'tax_included' => true,
         ];
         $oneProductInclTaxDiffRateResults = [
-            'subtotal' => 10,
-            'tax_amount' => 2.2,
+            'subtotal' => 2.73,
+            'tax_amount' => 0.6,
             'discount_amount' => 0,
             'items' => [
                 [
-                    'price' => 1,
-                    'price_incl_tax' => 1.22,
-                    'row_total' => 10,
-                    'row_total_incl_tax' => 12.2,
-                    'taxable_amount' => 12.2, // TODO: Possible bug, shouldn't this be 10?
+                    'price' => 0.3,
+                    'price_incl_tax' => 0.37, // 0.366 rounded up
+                    'row_total' => 2.73,
+                    'row_total_incl_tax' => 3.33, // 3.294?
+                    'taxable_amount' => 3.33, // Shouldn't this match row_total?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 22.0,
-                    'tax_amount' => 2.2,
+                    'tax_amount' => 0.6,
                 ],
             ],
         ];
@@ -837,7 +837,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'code' => 'sku_1',
                 'type' => 'product',
                 'quantity' => 10,
-                'unit_price' => 1.08,
+                'unit_price' => 0.98,
                 'tax_class_id' => 'DefaultProductClass',
                 'tax_included' => true,
             ],
@@ -845,37 +845,37 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'code' => 'sku_2',
                 'type' => 'product',
                 'quantity' => 20,
-                'unit_price' => 11.83,
+                'unit_price' => 11.99,
                 'tax_class_id' => 'DefaultProductClass',
                 'tax_included' => true,
             ]
         ];
         $twoProductInclTaxResults = [
-            'subtotal' => 230.14,
-            'tax_amount' => 17.26,
+            'subtotal' => 232.19,
+            'tax_amount' => 17.41,
             'discount_amount' => 0,
             'items' => [
                 [
-                    'price' => 1.01,
-                    'price_incl_tax' => 1.08,
-                    'row_total' => 10.05,
-                    'row_total_incl_tax' => 10.8,
-                    'taxable_amount' => 10.8,  // Shouldn't this be 10?
+                    'price' => 0.91,
+                    'price_incl_tax' => 0.98,
+                    'row_total' => 9.12,
+                    'row_total_incl_tax' => 9.8,
+                    'taxable_amount' => 9.8,  // Shouldn't this match row_total?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => .75,
+                    'tax_amount' => .68,
                 ],
                 [
-                    'price' => 11,
-                    'price_incl_tax' => 11.83,
-                    'row_total' => 220.09,
-                    'row_total_incl_tax' => 236.6,
-                    'taxable_amount' => 236.6, // Shouldn't this be 220?
+                    'price' => 11.15,
+                    'price_incl_tax' => 11.99,
+                    'row_total' => 223.07,
+                    'row_total_incl_tax' => 239.8,
+                    'taxable_amount' => 239.8, // Shouldn't this be 223.07?
                     'code' => 'sku_2',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 16.51,
+                    'tax_amount' => 16.73,
                 ],
             ],
         ];
