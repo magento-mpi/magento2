@@ -312,7 +312,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 ],
                 [
                     'price' => 11,
-                    'price_incl_tax' => 11.83, // Unit price would have been 11.82 but row price is 11.83 (rounding)
+                    'price_incl_tax' => 11.83, // Unit price would have been 11.825 but row price is 11.83 (rounding)
                     'row_total' => 220,
                     'row_total_incl_tax' => 236.5,
                     'taxable_amount' => 220,
@@ -324,22 +324,52 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
+        $twoProductsInclTax = $baseQuote;
+        $twoProductsInclTax['items'] = [
+            [
+                'code' => 'sku_1',
+                'type' => 'product',
+                'quantity' => 10,
+                'unit_price' => 1.075,
+                'row_total' => 10.75,
+                'tax_class_id' => 'DefaultProductClass',
+                'tax_included' => true,
+            ],
+            [
+                'code' => 'sku_2',
+                'type' => 'product',
+                'quantity' => 20,
+                'unit_price' => 11.825,
+                'row_total' => 236.5,
+                'tax_class_id' => 'DefaultProductClass',
+                'tax_included' => true,
+            ]
+        ];
+        $twoProductInclTaxResults = $twoProductsResults;
+        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
+        $twoProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
+        $twoProductInclTaxResults['items'][1]['taxable_amount'] = 236.5;
+
         return [
             'one product' => [
                 'quote_details' => $oneProduct,
                 'expected_tax_details' => $oneProductResults,
             ],
-            'one product tax included' => [
+            'one product, tax included' => [
                 'quote_details' => $oneProductInclTax,
                 'expected_tax_details' => $oneProductInclTaxResults,
             ],
-            'one product tax included but differs from store rate' => [
+            'one product, tax included but differs from store rate' => [
                 'quote_details' => $oneProductInclTaxDiffRate,
                 'expected_tax_details' => $oneProductInclTaxDiffRateResults,
             ],
-            'two items, quantity three' => [
+            'two products' => [
                 'quote_details' => $twoProducts,
                 'expected_tax_details' => $twoProductsResults,
+            ],
+            'two products, tax included' => [
+                'quote_details' => $twoProductsInclTax,
+                'expected_tax_details' => $twoProductInclTaxResults,
             ],
         ];
     }
