@@ -35,7 +35,7 @@ interface StockStatusServiceInterface
      * Retrieves a list of SKU's with low inventory qty
      *
      * @param \Magento\CatalogInventory\Service\V1\Data\LowStockCriteria $lowStockCriteria
-     * @return \Magento\CatalogInventory\Service\V1\Data\LowStockResult
+     * @return \Magento\CatalogInventory\Service\V1\Data\LowStockResult contains string[]
      */
     public function getLowStockItems($lowStockCriteria);
 }

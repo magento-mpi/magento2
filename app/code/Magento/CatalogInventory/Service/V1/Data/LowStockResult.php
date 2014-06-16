@@ -25,7 +25,7 @@ class LowStockResult extends AbstractObject
     /**
      * Get items
      *
-     * @return array
+     * @return string[]
      */
     public function getItems()
     {

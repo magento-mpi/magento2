@@ -136,8 +136,7 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * Retrieves a list of SKU's with low inventory qty
      *
-     * @param \Magento\CatalogInventory\Service\V1\Data\LowStockCriteria $lowStockCriteria
-     * @return \Magento\CatalogInventory\Service\V1\Data\LowStockResult
+     * {@inheritdoc}
      */
     public function getLowStockItems($lowStockCriteria)
     {
