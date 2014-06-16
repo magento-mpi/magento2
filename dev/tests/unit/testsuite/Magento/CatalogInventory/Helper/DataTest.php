@@ -12,7 +12,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class DataTest
-  */
+ */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\CatalogInventory\Helper\Data */
