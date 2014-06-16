@@ -14,7 +14,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;
-use Magento\Setup\View\Http\InjectTemplateListener;
+use Magento\Setup\Mvc\View\Http\InjectTemplateListener;
 
 class Module implements
     BootstrapListenerInterface,
@@ -27,8 +27,12 @@ class Module implements
      */
     public function onBootstrap(EventInterface $e)
     {
+        /** @var \Zend\Mvc\MvcEvent $e */
+        /** @var \Zend\Mvc\Application $application */
         $application = $e->getApplication();
+        /** @var \Zend\EventManager\EventManager $events */
         $events = $application->getEventManager();
+        /** @var \Zend\EventManager\SharedEventManager $sharedEvents */
         $sharedEvents = $events->getSharedManager();
 
         $moduleRouteListener = new ModuleRouteListener();

@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Setup\View\Http;
+namespace Magento\Setup\Mvc\View\Http;
 
 use Zend\EventManager\EventManagerInterface as Events;
 use Zend\Mvc\View\Http\InjectTemplateListener as ZendInjectTemplateListener;
