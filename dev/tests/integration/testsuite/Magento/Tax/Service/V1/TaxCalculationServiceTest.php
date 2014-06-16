@@ -87,7 +87,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->tearDownDefaultRules();
     }
 
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
@@ -98,6 +97,78 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     public function testCalculateTaxUnitBased()
     {
 
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     * @dataProvider calculateTaxDataProvider
+     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
+     */
+    public function testCalculateTaxTotalBased($storeId, $quoteDetailsData, $expectedTaxDetails)
+    {
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
+
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+
+        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+    }
+
+    public function calculateTaxDataProvider()
+    {
+        $data = [
+            'store_id' => null,
+            'quote_details' => [
+                'shipping_address' => [
+                    'vat_id' => 0,
+                    'postcode' => '55555',
+                ],
+                'items' => [
+                    [
+                        'code' => 'code',
+                        'type' => 'type',
+                        'quantity' => 1,
+                        'unit_price' => 10.0,
+                    ],
+                ],
+                'customer_tax_class_id' => 1
+            ],
+            'expected_tax_details' => [
+                'subtotal' => 0.0,
+                'tax_amount' => 0.0,
+                'discount_amount' => 0.0,
+                'items' => [
+                    [
+                        'tax_amount' => 0,
+                        'price' => 10.0,
+                        'price_incl_tax' => 0.0,
+                        'row_total' => 0.0,
+                        'row_total_incl_tax' => 0.0,
+                        'taxable_amount' => 0.0,
+                        'code' => 'code',
+                        'type' => 'type',
+                        'tax_percent' => 0,
+                    ],
+                ],
+            ],
+        ];
+
+        $oneProductWithStoreIdWithTaxClassId = $data;
+        $oneProductWithStoreIdWithoutTaxClassId = $data;
+        $oneProductWithoutStoreIdWithoutTaxClassId = $data;
+
+        $oneProductWithStoreIdWithTaxClassId['store_id'] = 1;
+        $oneProductWithStoreIdWithoutTaxClassId['store_id'] = 1;
+
+        $oneProductWithStoreIdWithTaxClassId['quote_details']['items'][0]['tax_class_id'] = 2;
+        $oneProductWithoutStoreIdWithoutTaxClassId['quote_details']['items'][0]['tax_class_id'] = 2;
+
+        return [
+            'one product with store id, with tax class id' => $oneProductWithStoreIdWithTaxClassId,
+            'one product with store id, without tax class id' => $oneProductWithStoreIdWithoutTaxClassId,
+            'one product without store id, with tax class id' => $oneProductWithoutStoreIdWithoutTaxClassId,
+            'one product without store id, without tax class id' => $data,
+        ];
     }
 
     /**
