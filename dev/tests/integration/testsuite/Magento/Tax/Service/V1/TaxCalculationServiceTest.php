@@ -907,18 +907,18 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
         $oneProductWithChildrenResults = [
             'subtotal' => 286.6,
-            'tax_amount' => 27.27, // 27.3,
+            'tax_amount' => 27.27,
             'discount_amount' => 0,
             'items' => [
                 [
                     'code' => 'parent_sku',
                     'price' => 28.66,
-                    'price_incl_tax' => 31.387, // 31.39,
+                    'price_incl_tax' => 31.39,
                     'row_total' => 286.6,
-                    'row_total_incl_tax' => 313.87, // 313.9,
+                    'row_total_incl_tax' => 313.87,
                     'taxable_amount' => 286.6,
                     'type' => 'product',
-                    'tax_amount' => 27.27, // 27.3,
+                    'tax_amount' => 27.27,
                 ],
             ],
         ];

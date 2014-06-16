@@ -490,8 +490,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $taxableAmount += $child->getTaxableAmount();
         }
 
-        $price = $rowTotal / $quantity;
-        $priceInclTax = $rowTotalInclTax / $quantity;
+        $price = $this->calculator->round($rowTotal / $quantity);
+        $priceInclTax = $this->calculator->round($rowTotalInclTax / $quantity);
 
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
