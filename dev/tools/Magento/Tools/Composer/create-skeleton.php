@@ -72,15 +72,17 @@ try {
     foreach ($components as $component) {
         foreach (glob($component, GLOB_ONLYDIR) as $dir) {
             $file = $dir . '/composer.json';
-            if ( !file_exists($file) ) {
+            if (!file_exists($file)) {
                 $logger->info('composer.json file not found for ' . $file);
                 exit(100);
             }
             $json = json_decode(file_get_contents($file));
-            $depends = new Package($json->name,
+            $depends = new Package(
+                $json->name,
                 $json->version,
                 $dir,
-                '');
+                ''
+            );
             $product->addDependencies($depends);
         }
     }
@@ -96,4 +98,3 @@ catch (\Zend_Console_Getopt_Exception $e) {
 catch (\Exception $e) {
     exit($e->getMessage());
 }
-

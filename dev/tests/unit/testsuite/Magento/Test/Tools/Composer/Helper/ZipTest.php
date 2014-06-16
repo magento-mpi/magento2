@@ -35,7 +35,7 @@ class ZipTest extends \PHPUnit_Framework_TestCase
         $source = str_replace('\\', '/', realpath(__DIR__ . '/..' . '/_files/app'));
         $destination = TESTS_TEMP_DIR;
 
-        $noOfZips = \Magento\Tools\Composer\Helper\Zip::Zip($source, $destination . '/' . 'library.zip', array());
+        $noOfZips = \Magento\Tools\Composer\Helper\Zipper::zip($source, $destination . '/' . 'library.zip', array());
         $this->assertFileExists($destination . '/' . 'library.zip');
         $this->assertEquals(sizeof($noOfZips), 1);
     }
@@ -54,7 +54,7 @@ class ZipTest extends \PHPUnit_Framework_TestCase
             str_replace('\\', '/', realpath(__DIR__ . '/..')) . '/_files/app/code/Magento/OtherModule'
         );
 
-        \Magento\Tools\Composer\Helper\Zip::Zip($source, $destination . "/" . "library.zip", $exclude);
+        \Magento\Tools\Composer\Helper\Zipper::zip($source, $destination . "/" . "library.zip", $exclude);
         $this->assertFileExists($destination . '/' . 'library.zip');
 
         $za = new \ZipArchive();

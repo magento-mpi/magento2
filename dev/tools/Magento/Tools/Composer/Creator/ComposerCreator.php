@@ -44,7 +44,7 @@ class ComposerCreator
     /**
      * Creates composer.json for components
      * @param array $components
-     * @return int
+     * @return int count of created components
      */
     public function create(array $components)
     {
@@ -73,8 +73,13 @@ class ComposerCreator
                 //Success
                 $this->addAdditionalInfo($component);
                 $counter++;
-                $this->_logger->debug(sprintf("Created composer.json for %-40s [%7s]",
-                    $component->getName(), $component->getVersion()));
+                $this->_logger->debug(
+                    sprintf(
+                        "Created composer.json for %-40s [%7s]",
+                        $component->getName(),
+                        $component->getVersion()
+                    )
+                );
             }
 
         }
@@ -85,11 +90,12 @@ class ComposerCreator
      * Adds version and type information to composer.json file
      *
      * @param Package $component
+     * @return void
      */
     private function addAdditionalInfo(Package $component)
     {
         if ($component->getVersion() != null && $component->getVersion() != "") {
-            $json = file_get_contents( $this->_rootDir . $component->getLocation() . '/composer.json');
+            $json = file_get_contents($this->_rootDir . $component->getLocation() . '/composer.json');
             $composer = json_decode($json, true);
             if (!array_key_exists('type', $composer)) {
                 $composer['type'] = $component->getType();
@@ -97,8 +103,10 @@ class ComposerCreator
             if (!array_key_exists('version', $composer)) {
                 $composer['version'] = $component->getVersion();
             }
-            file_put_contents( $this->_rootDir . $component->getLocation() . '/composer.json',
-                json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            file_put_contents(
+                $this->_rootDir . $component->getLocation() . '/composer.json',
+                json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            );
         }
     }
 }

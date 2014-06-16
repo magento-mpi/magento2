@@ -11,7 +11,7 @@ namespace Magento\Tools\Composer\Helper;
 /**
  * Class for Zipping Components
  */
-class Zip
+class Zipper
 {
 
     /**
@@ -23,24 +23,21 @@ class Zip
      * @throws \Exception
      * @return int
      */
-    public static function Zip($source, $destination, array $excludes)
+    public static function zip($source, $destination, array $excludes)
     {
         $noOfZips = 0;
-
         if (!extension_loaded('zip') || !file_exists($source)) {
             throw new \Exception("Error while ziiping.", "1");
         }
-
         $zip = new \ZipArchive();
         if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
             throw new \Exception("Error while ziiping.", "1");
         }
-
         if (is_dir($source) === true) {
-            $files = Zip::getFiles($source, $excludes);
+            $files = Zipper::getFiles($source, $excludes);
             foreach ($files as $file) {
                 $file = str_replace('\\', '/', realpath($file));
-                if ( in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
+                if (in_array(substr($file, strrpos($file, '/')+1), array('.', '..'))) {
                     continue;
                 }
                 $relativePath = str_replace($source . '/', '', $file);

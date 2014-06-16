@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../bootstrap.php';
 $generationDir = __DIR__ . '/_packages';
 
-use \Magento\Tools\Composer\Helper\Zip;
+use \Magento\Tools\Composer\Helper\Zipper;
 
 /**
  * Composer Archiver Tool
@@ -44,7 +44,7 @@ try {
         if (!file_exists($generationDir)) {
             mkdir($generationDir, 0777, true);
         }
-    } catch(\Exception $ex){
+    } catch(\Exception $ex) {
         $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $generationDir, $ex->getMessage()));
         exit($e->getCode());
     }
@@ -65,9 +65,10 @@ try {
     $excludes = array();
 
     foreach ($components as $component) {
-        $files = new \RecursiveIteratorIterator(new
-            \RecursiveDirectoryIterator($component, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST);
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($component, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
 
         $foundComposerJson = false;
         $prevDepth = 0;
@@ -81,7 +82,7 @@ try {
                 continue;
             }
 
-            if ($files->getDepth()=== 0) {
+            if ($files->getDepth() === 0) {
                 $foundComposerJson = false;
             }
 
@@ -101,10 +102,11 @@ try {
                         throw new \Exception("Not a valid vendorPackage: $json->name", "1");
                     }
 
-                    $noOfZips += Zip::Zip(\dirname($file),
-                        $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes);
-                    $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name,
-                        $json->version));
+                    $noOfZips += Zipper::zip(
+                        \dirname($file),
+                        $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes
+                    );
+                    $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name, $json->version));
                 }
             }
         }
@@ -122,9 +124,9 @@ try {
         str_replace('\\', '/', realpath(BP)) . "/dev/tools/Magento/Tools/Composer/_packages"
     );
 
-    if (file_exists (str_replace('\\', '/', realpath(BP)) . "/composer.json")) {
+    if (file_exists(str_replace('\\', '/', realpath(BP)) . "/composer.json")) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . "/composer.json"));
-        if ($json->name != null && is_string($json->name) && sizeof($json->name) > 0 ) {
+        if ($json->name != null && is_string($json->name) && sizeof($json->name) > 0) {
             if (strpos($json->name, "/") != false && substr_count($json->name, "/") === 1) {
                 $name = str_replace("/", "_", $json->name);
             } elseif (strpos($json->name, "\\") != false && substr_count($json->name, "\\") === 1) {
@@ -133,15 +135,21 @@ try {
         } else {
             throw new \Exception("Not a valid vendorPackage: $json->name", "1");
         }
-        $noOfZips += Zip::Zip(str_replace('\\', '/', realpath(BP)),
-            $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes);
+        $noOfZips += Zipper::zip(
+            str_replace('\\', '/', realpath(BP)),
+            $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes
+        );
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name, $json->version));
     } else {
-        throw new \Exception("Did not find the composer.json file in ". str_replace('\\', '/', realpath(BP)), "1");
+        throw new \Exception("Did not find the composer.json file in " . str_replace('\\', '/', realpath(BP)), "1");
     }
 
-    $logger->info(sprintf("SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
-        $generationDir));
+    $logger->info(
+        sprintf(
+            "SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
+            $generationDir
+        )
+    );
 
 } catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
