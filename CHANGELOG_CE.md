@@ -1,5 +1,6 @@
 2.0.0.0-dev82
 =============
+* Added support for MTF Reporting Tool
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `ConfigurableProduct/Helper/Data.php`
