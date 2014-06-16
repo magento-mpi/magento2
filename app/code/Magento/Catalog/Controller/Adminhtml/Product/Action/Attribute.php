@@ -11,8 +11,6 @@ use Magento\Backend\App\Action;
 
 /**
  * Adminhtml catalog product action attribute update controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Attribute extends Action
 {
@@ -31,7 +29,7 @@ class Attribute extends Action
      *
      * @var \Magento\Catalog\Helper\Product
      */
-    protected $_catalogProduct = null;
+    protected $_catalogProduct;
 
     /**
      * Stock Indexer
@@ -104,20 +102,13 @@ class Attribute extends Action
 
         try {
             if ($attributesData) {
-                $dateFormat = $this->_objectManager->get(
-                    'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
-                )->getDateFormat(
-                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
-                );
+                $dateFormat = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\TimezoneInterface')
+                    ->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
                 $storeId = $this->_helper->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = $this->_objectManager->get(
-                        'Magento\Eav\Model\Config'
-                    )->getAttribute(
-                        \Magento\Catalog\Model\Product::ENTITY,
-                        $attributeCode
-                    );
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
+                        ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
                         continue;
@@ -135,7 +126,7 @@ class Attribute extends Action
                         $attributesData[$attributeCode] = $value;
                     } elseif ($attribute->getFrontendInput() == 'multiselect') {
                         // Check if 'Change' checkbox has been checked by admin for this attribute
-                        $isChanged = (bool)$this->getRequest()->getPost($attributeCode . '_checkbox');
+                        $isChanged = (bool) $this->getRequest()->getPost($attributeCode . '_checkbox');
                         if (!$isChanged) {
                             unset($attributesData[$attributeCode]);
                             continue;
@@ -147,13 +138,8 @@ class Attribute extends Action
                     }
                 }
 
-                $this->_objectManager->get(
-                    'Magento\Catalog\Model\Product\Action'
-                )->updateAttributes(
-                    $this->_helper->getProductIds(),
-                    $attributesData,
-                    $storeId
-                );
+                $this->_objectManager->get('Magento\Catalog\Model\Product\Action')
+                    ->updateAttributes($this->_helper->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
                 $stockItem = $this->_objectManager->create('Magento\CatalogInventory\Model\Stock\Item');
@@ -211,9 +197,9 @@ class Attribute extends Action
 
             $this->_productFlatIndexerProcessor->reindexList($this->_helper->getProductIds());
 
-            if ($this->_catalogProduct->isDataForPriceIndexerWasChanged(
-                $attributesData
-            ) || !empty($websiteRemoveData) || !empty($websiteAddData)
+            if ($this->_catalogProduct->isDataForPriceIndexerWasChanged($attributesData)
+                || !empty($websiteRemoveData)
+                || !empty($websiteAddData)
             ) {
                 $this->_productPriceIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
@@ -240,7 +226,7 @@ class Attribute extends Action
         $productIds = $this->_helper->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
-        } else if (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
+        } elseif (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
             $error = __('Please make sure to define SKU values for all processed products.');
         }
 
@@ -275,12 +261,8 @@ class Attribute extends Action
         try {
             if ($attributesData) {
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = $this->_objectManager->get(
-                        'Magento\Eav\Model\Config'
-                    )->getAttribute(
-                        'catalog_product',
-                        $attributeCode
-                    );
+                    $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
+                        ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
                         continue;

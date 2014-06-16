@@ -5,13 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
 /**
  * Backend for serialized array data
- *
  */
-namespace Magento\CatalogInventory\Model\System\Config\Backend;
-
 class Minsaleqty extends \Magento\Framework\App\Config\Value
 {
     /**
