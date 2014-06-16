@@ -13,6 +13,9 @@
    * Implemented Product API (MAGETWO-23306)
    * Implemented ProductAttributeRead API (MAGETWO-23313)
 * Fixed bugs:
+   * Fixed: Grouped price doesn't show on grouped product page (MAGETWO-25105)
+   * Fixed: Fatal on Grouped Product without assigned products (MAGETWO-25106)
+   * Fixed: Inactive coupon can be applied (MAGETWO-24976)
    * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
    * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
    * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
