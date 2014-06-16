@@ -1,9 +1,5 @@
 <?php
 /**
- * Configurable product type implementation
- *
- * This type builds in product attributes and existing simple products
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,12 +8,19 @@
 namespace Magento\ConfigurableProduct\Model\Product\Type;
 
 /**
+ * Configurable product type implementation
+ *
+ * This type builds in product attributes and existing simple products
+ *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
+    /**
+     * Product type code
+     */
     const TYPE_CODE = 'configurable';
 
     /**
@@ -99,8 +102,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Product collection factory
      *
-     * @var
-     * \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 

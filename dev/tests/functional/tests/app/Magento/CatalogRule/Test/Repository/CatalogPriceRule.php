@@ -28,10 +28,6 @@ class CatalogPriceRule extends AbstractRepository
 
     const GROUP_ACTIONS = 'actions';
 
-    const CONDITION_TYPE = 'conditions__1__new_child';
-
-    const CONDITION_VALUE = 'conditions__1--1__value';
-
     public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
@@ -71,17 +67,12 @@ class CatalogPriceRule extends AbstractRepository
                         'input' => 'select'
                     ),
                     'discount_amount' => array('value' => '50.0000', 'group' => static::GROUP_ACTIONS),
-                    self::CONDITION_TYPE => array(
-                        'value' => 'Category',
+                    'conditions' => array(
+                        'value' => '[Category|is|%category_id%]',
                         'group' => static::GROUP_CONDITIONS,
-                        'input' => 'select',
+                        'input' => 'conditions',
                         'input_value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|category_ids'
                     ),
-                    self::CONDITION_VALUE => array(
-                        'value' => '%category_id%',
-                        'group' => static::GROUP_CONDITIONS,
-                        'input' => 'input'
-                    )
                 )
             )
         );
