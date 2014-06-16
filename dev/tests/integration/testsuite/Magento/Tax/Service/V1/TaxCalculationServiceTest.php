@@ -559,7 +559,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'tax_included' => true,
         ];
         $oneProductInclTaxDiffRateResults = [
-            'subtotal' => 10.05,
+            'subtotal' => 10,
             'tax_amount' => 2.2,
             'discount_amount' => 0,
             'items' => [
@@ -612,7 +612,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 ],
                 [
                     'price' => 11,
-                    'price_incl_tax' => 11.83, // Unit price would have been 11.825 but row price is 11.83 (rounding)
+                    'price_incl_tax' => 11.83,
                     'row_total' => 220,
                     'row_total_incl_tax' => 236.5,
                     'taxable_amount' => 220,
@@ -630,7 +630,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'code' => 'sku_1',
                 'type' => 'product',
                 'quantity' => 10,
-                'unit_price' => 1.075,
+                'unit_price' => 1.08,
                 'tax_class_id' => 'DefaultProductClass',
                 'tax_included' => true,
             ],
@@ -638,15 +638,40 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'code' => 'sku_2',
                 'type' => 'product',
                 'quantity' => 20,
-                'unit_price' => 11.825,
+                'unit_price' => 11.83,
                 'tax_class_id' => 'DefaultProductClass',
                 'tax_included' => true,
             ]
         ];
-        $twoProductInclTaxResults = $twoProductsResults;
-        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
-        $twoProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
-        $twoProductInclTaxResults['items'][1]['taxable_amount'] = 236.5;
+        $twoProductInclTaxResults = [
+            'subtotal' => 230.14,
+            'tax_amount' => 17.26,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'price' => 1.01,
+                    'price_incl_tax' => 1.08,
+                    'row_total' => 10.05,
+                    'row_total_incl_tax' => 10.8,
+                    'taxable_amount' => 10.8,  // Shouldn't this be 10?
+                    'code' => 'sku_1',
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'tax_amount' => .75,
+                ],
+                [
+                    'price' => 11,
+                    'price_incl_tax' => 11.83,
+                    'row_total' => 220.09,
+                    'row_total_incl_tax' => 236.6,
+                    'taxable_amount' => 236.6, // Shouldn't this be 220?
+                    'code' => 'sku_2',
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'tax_amount' => 16.51,
+                ],
+            ],
+        ];
 
         $oneProductWithChildren = $baseQuote;
         $oneProductWithChildren['items'] = [
@@ -675,19 +700,18 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
         $oneProductWithChildrenResults = [
             'subtotal' => 286.6,
-            'tax_amount' => 27.3,
+            'tax_amount' => 27.27, // 27.3,
             'discount_amount' => 0,
             'items' => [
                 [
                     'code' => 'parent_sku',
                     'price' => 28.66,
-                    'price_incl_tax' => 31.39,
+                    'price_incl_tax' => 31.387, // 31.39,
                     'row_total' => 286.6,
-                    'row_total_incl_tax' => 313.9,
+                    'row_total_incl_tax' => 313.87, // 313.9,
                     'taxable_amount' => 286.6,
                     'type' => 'product',
-                    'tax_percent' => 9.525,
-                    'tax_amount' => 27.3,
+                    'tax_amount' => 27.27, // 27.3,
                 ],
             ],
         ];

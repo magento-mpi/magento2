@@ -482,14 +482,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $rowTotalInclTax = 0.00;
         $taxAmount = 0.00;
         $taxableAmount = 0.00;
-        $discountAmount = 0.00;
 
         foreach ($children as $child) {
             $rowTotal += $child->getRowTotal();
             $rowTotalInclTax += $child->getRowTotalInclTax();
             $taxAmount += $child->getTaxAmount();
             $taxableAmount += $child->getTaxableAmount();
-            $discountAmount += $child->getDiscountAmount();
         }
 
         $price = $rowTotal / $quantity;
@@ -501,7 +499,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
         $this->taxDetailsItemBuilder->setTaxAmount($taxAmount);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxableAmount);
-        $this->taxDetailsItemBuilder->setDiscountAmount($discountAmount);
 
         return $this->taxDetailsItemBuilder;
     }
