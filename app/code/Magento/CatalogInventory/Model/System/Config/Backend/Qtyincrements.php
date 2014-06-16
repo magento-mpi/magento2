@@ -5,15 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Backend for qty increments
- *
- */
 namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
 use Magento\Framework\Model\Exception;
 
+/**
+ * Backend for qty increments
+ */
 class Qtyincrements extends \Magento\Framework\App\Config\Value
 {
     /**

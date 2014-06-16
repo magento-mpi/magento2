@@ -9,7 +9,7 @@
 -->
 
 <fixture>
-    <salesRule module="Magento_SalesRule">
+    <salesRuleInjectable module="Magento_SalesRule">
         <type>flat</type>
         <entity_type>salesrule</entity_type>
         <collection>Magento\SalesRule\Model\Resource\Rule\Collection</collection>
@@ -30,5 +30,5 @@
         </fields>
         <data_set />
         <data_config />
-    </salesRule>
+    </salesRuleInjectable>
 </fixture>
