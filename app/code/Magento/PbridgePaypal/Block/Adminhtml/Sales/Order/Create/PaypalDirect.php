@@ -14,9 +14,13 @@ namespace Magento\PbridgePaypal\Block\Adminhtml\Sales\Order\Create;
 class PaypalDirect extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
-     * Paypal payment code
+     * Return 3D validation flag
      *
-     * @var string
+     * @return bool
      */
-    protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_DIRECT;
+    public function is3dSecureEnabled()
+    {
+        return (bool)$this->getMethod()->getConfigData('centinel')
+            && (bool)$this->getMethod()->getConfigData('centinel_backend');
+    }
 }
