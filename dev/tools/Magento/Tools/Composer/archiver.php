@@ -88,28 +88,42 @@ try {
                     $json = json_decode(file_get_contents($file));
                     $name = Helper::vendorPackageToName($json->name);
                     if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1');
-                    $noOfZips += Zipper::Zip(dirname($file),
-                        $generationDir . '/' . $name . "-". $json->version . '.zip', $excludes);
-                    $logger->info(sprintf("Created zip archive for %-40s [%9s]", $name,
-                        $json->version));
+                    $noOfZips += Zipper::Zip(
+                        dirname($file),
+                        $generationDir . '/' . $name . "-". $json->version . '.zip',
+                        $excludes
+                    );
+                    $logger->info(
+                        sprintf(
+                            "Created zip archive for %-40s [%9s]",
+                            $name,
+                            $json->version
+                        )
+                    );
                 }
             }
         }
     }
 
     //Creating zipped folders for skeletons
-    $excludes = array_merge ($components, array(
-        str_replace('\\', '/', realpath(BP)) . '/.git',
-        str_replace('\\', '/', realpath(BP)) . '/.idea',
-        str_replace('\\', '/', realpath(BP)) . '/dev/tools/Magento/Tools/Composer'
-    ));
+    $excludes = array_merge (
+        $components,
+        array(
+            str_replace('\\', '/', realpath(BP)) . '/.git',
+            str_replace('\\', '/', realpath(BP)) . '/.idea',
+            str_replace('\\', '/', realpath(BP)) . '/dev/tools/Magento/Tools/Composer'
+        )
+    );
     $name = '';
     if (file_exists (str_replace('\\', '/', realpath(BP)) . '/composer.json')) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . '/composer.json'));
         $name = Helper::vendorPackageToName($json->name);
         if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1');
-        $noOfZips += Zipper::Zip(str_replace('\\', '/', realpath(BP)),
-            $generationDir . '/' . $name . '-'. $json->version . '.zip', $excludes);
+        $noOfZips += Zipper::Zip(
+            str_replace('\\', '/', realpath(BP)),
+            $generationDir . '/' . $name . '-'. $json->version . '.zip',
+            $excludes
+        );
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $name, $json->version));
     } else {
         throw new \Exception('Did not find the composer.json file in '. str_replace('\\', '/', realpath(BP)), '1');
