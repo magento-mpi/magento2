@@ -106,6 +106,13 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
      *
      * @var bool
      */
+    protected $_canCaptureOnce = false;
+
+    /**
+     * Payment Method feature
+     *
+     * @var bool
+     */
     protected $_canRefund = false;
 
     /**
@@ -260,6 +267,16 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
     public function canCapturePartial()
     {
         return $this->_canCapturePartial;
+    }
+
+    /**
+     * Check whether capture can be performed once and no further capture possible
+     *
+     * @return bool
+     */
+    public function canCaptureOnce()
+    {
+        return $this->_canCaptureOnce;
     }
 
     /**
