@@ -50,6 +50,6 @@ class AssertTargetRuleSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Target rule success delete message is present.';
+        return 'Success message about rule deleting is present.';
     }
 }

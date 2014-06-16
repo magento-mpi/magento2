@@ -58,15 +58,16 @@ class Curl extends Conditions implements TargetRuleInterface
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $data = $this->replaceMappingData($targetRule->getData());
 
-        $data['rule'] = [];
-        if (isset($data['conditions_serialized'])) {
-            $data['rule']['conditions'] = $this->prepareCondition($data['conditions_serialized']);
-            unset($data['conditions_serialized']);
+        if (!isset($data['conditions_serialized'])) {
+            $data['conditions_serialized'] = '';
         }
-        if (isset($data['actions_serialized'])) {
-            $data['rule']['actions'] = $this->prepareCondition($data['actions_serialized']);
-            unset($data['actions_serialized']);
+        $data['rule']['conditions'] = $this->prepareCondition($data['conditions_serialized']);
+        unset($data['conditions_serialized']);
+        if (!isset($data['actions_serialized'])) {
+            $data['actions_serialized'] = '';
         }
+        $data['rule']['actions'] = $this->prepareCondition($data['actions_serialized']);
+        unset($data['actions_serialized']);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
