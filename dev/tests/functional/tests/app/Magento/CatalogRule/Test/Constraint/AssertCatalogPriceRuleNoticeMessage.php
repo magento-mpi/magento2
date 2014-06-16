@@ -57,3 +57,4 @@ class AssertCatalogPriceRuleNoticeMessage extends AbstractConstraint
         return 'Assert that notice message is displayed';
     }
 }
+

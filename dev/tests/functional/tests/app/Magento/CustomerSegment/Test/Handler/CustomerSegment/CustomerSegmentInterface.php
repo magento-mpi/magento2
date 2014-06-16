@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Handler\CustomerSegment; 
+namespace Magento\CustomerSegment\Test\Handler\CustomerSegment;
 
 use Mtf\Handler\HandlerInterface;
 

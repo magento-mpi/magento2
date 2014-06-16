@@ -12,7 +12,6 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
 
-
 /**
  * Class Authentication
  * Card Verification frame on OnePageCheckout order review step
@@ -48,7 +47,8 @@ class Authentication extends Block
         //Workaround for https\http data transfer browser alert
         try {
             $this->_rootElement->acceptAlert();
-        } catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
+        }
+            catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
         }
     }
 

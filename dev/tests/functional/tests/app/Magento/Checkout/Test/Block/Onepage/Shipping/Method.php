@@ -53,7 +53,8 @@ class Method extends Block
             $shippingMethod = $fixture->getShippingMethods()->getData('fields');
         }
         $selector = sprintf(
-            $this->shippingMethod, $shippingMethod['shipping_service'], $shippingMethod['shipping_method']
+            $this->shippingMethod, $shippingMethod['shipping_service'],
+            $shippingMethod['shipping_method']
         );
         $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();

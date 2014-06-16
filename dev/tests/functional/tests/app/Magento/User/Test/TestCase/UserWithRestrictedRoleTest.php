@@ -75,7 +75,10 @@ class UserWithRestrictedRoleTest extends Functional
         $editUser->getPageActions()->save();
 
         //Verification
-        $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
+        $this->assertContains(
+            'You saved the user.',
+            $userPage->getMessagesBlock()->getSuccessMessages()
+        );
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
@@ -94,8 +97,10 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
-        $this->assertContains('Access denied',
-            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
+        $this->assertContains(
+            'Access denied',
+            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock()
+        );
     }
 
     /**
@@ -148,7 +153,10 @@ class UserWithRestrictedRoleTest extends Functional
         $editUser->getPageActions()->save();
 
         //Verification
-        $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
+        $this->assertContains(
+            'You saved the user.',
+            $userPage->getMessagesBlock()->getSuccessMessages()
+        );
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
@@ -166,14 +174,20 @@ class UserWithRestrictedRoleTest extends Functional
         );
 
         //Verify that at "Purchase Point" dropdown only store from preconditions is available
-        $this->assertContains($storeData['name'], $salesGrid->getPurchasePointFilterText());
-        $this->assertTrue($salesGrid->assertNumberOfPurchasePointFilterOptionsGroup(2),
-            "You have more than one store in the Purchase Point Filter");
+        $this->assertContains(
+            $storeData['name'],
+            $salesGrid->getPurchasePointFilterText()
+        );
+        $this->assertTrue(
+            $salesGrid->assertNumberOfPurchasePointFilterOptionsGroup(2),
+            "You have more than one store in the Purchase Point Filter"
+        );
 
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
-        $this->assertContains('Access denied',
-            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
+        $this->assertContains(
+            'Access denied',
+            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock()
+        );
     }
 }
-

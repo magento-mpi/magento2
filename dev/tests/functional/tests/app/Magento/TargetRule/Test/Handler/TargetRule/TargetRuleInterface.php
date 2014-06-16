@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TargetRule\Test\Handler\TargetRule; 
+namespace Magento\TargetRule\Test\Handler\TargetRule;
 
 use Mtf\Handler\HandlerInterface;
 

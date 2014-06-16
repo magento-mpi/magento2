@@ -42,7 +42,7 @@ class ProductId implements FixtureInterface
         $explodeValue = explode('::', $data['dataSet']);
         if (!empty($explodeValue) && count($explodeValue) > 1) {
             /** @var FixtureInterface $fixture */
-            $this->product = $fixtureFactory->createByCode($explodeValue[0],['dataSet' => $explodeValue[1]]);
+            $this->product = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
             $this->product->persist();
             $this->data =  $this->product->getId();
         } else {

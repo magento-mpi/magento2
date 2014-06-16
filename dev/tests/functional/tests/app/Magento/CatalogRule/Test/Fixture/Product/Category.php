@@ -18,7 +18,7 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (Product options preset name)
  *
  */
-class Category implements  FixtureInterface
+class Category implements FixtureInterface
 {
     /**
      * @var \Mtf\Fixture\FixtureFactory
