@@ -259,12 +259,12 @@ class Observer
             'Magento\Paypal\Block\Payflow\Bml\Shortcut'
         ];
         foreach ($blocks as $blockInstanceName) {
-            if (!in_array('Bml', explode('/', $blockInstanceName))) {
-                $params['checkoutSession'] = $observer->getEvent()->getCheckoutSession();
-            }
             $params = [
                 'shortcutValidator' => $this->_shortcutFactory->create($observer->getEvent()->getCheckoutSession())
             ];
+            if (!in_array('Bml', explode('/', $blockInstanceName))) {
+                $params['checkoutSession'] = $observer->getEvent()->getCheckoutSession();
+            }
 
             // we believe it's \Magento\Framework\View\Element\Template
             $shortcut = $shortcutButtons->getLayout()->createBlock(

@@ -111,6 +111,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         }
         $this->_event->setContainer($shortcutButtonsMock);
         $this->_model->addPaypalShortcuts($this->_observer);
+
+        foreach ($blockInstances as $instance) {
+            $this->assertEquals(\Magento\Paypal\Model\Observer::SHORTCUT_TEMPLATE, $instance->getTemplate());
+        }
     }
 
     /**
