@@ -26,6 +26,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     const KEY_FORCE = 'force';
     const KEY_VALUE = 'value';
     const KEY_DATA_PARAMETERS = 'parameters';
+    const KEY_SOURCE = 'source';
+    const KEY_METHOD = 'method';
     /**#@-*/
 
     /**
@@ -77,6 +79,14 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                     self::KEY_FORCE => $force,
                     self::KEY_VALUE => ($value === 'null') ? null : $value,
                 ];
+                $sourceNode = $parameter->attributes->getNamedItem('source');
+                if ($sourceNode) {
+                    $data[$name][self::KEY_SOURCE] = $sourceNode->nodeValue;
+                }
+                $methodNode = $parameter->attributes->getNamedItem('method');
+                if ($methodNode) {
+                    $data[$name][self::KEY_METHOD] = $methodNode->nodeValue;
+                }
             }
 
             $method = $route->attributes->getNamedItem('method')->nodeValue;
