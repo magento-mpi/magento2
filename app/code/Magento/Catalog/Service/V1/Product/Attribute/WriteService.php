@@ -85,6 +85,7 @@ class WriteService implements WriteServiceInterface
         if (!$attributeMetadata->getFrontendLabel()) {
             throw InputException::requiredField(AttributeMetadata::FRONTEND_LABEL);
         }
+        $data[AttributeMetadata::FRONTEND_LABEL] = [];
         foreach ($attributeMetadata->getFrontendLabel() as $label) {
             $data[AttributeMetadata::FRONTEND_LABEL][$label->getStoreId()] = $label->getLabel();
         }

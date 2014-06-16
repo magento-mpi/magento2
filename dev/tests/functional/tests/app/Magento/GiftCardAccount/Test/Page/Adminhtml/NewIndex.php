@@ -22,7 +22,7 @@ class NewIndex extends BackendPage
     protected $_blocks = [
         'pageMainForm' => [
             'name' => 'pageMainForm',
-            'class' => 'Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\Form',
+            'class' => 'Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -35,7 +35,7 @@ class NewIndex extends BackendPage
     ];
 
     /**
-     * @return \Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\Form
+     * @return \Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm
      */
     public function getPageMainForm()
     {
