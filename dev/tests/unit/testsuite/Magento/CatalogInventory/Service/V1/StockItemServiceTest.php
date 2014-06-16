@@ -13,7 +13,7 @@ use Magento\Catalog\Model\ProductTypes\ConfigInterface;
 /**
  * Class StockItemTest
  */
-class StockItemTest extends \PHPUnit_Framework_TestCase
+class StockItemServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var StockItemService
