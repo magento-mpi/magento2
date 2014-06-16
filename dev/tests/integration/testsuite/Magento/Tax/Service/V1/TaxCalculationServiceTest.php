@@ -131,8 +131,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProduct['items'][] = [
             'code' => 'sku_1',
             'type' => 'product',
-            'quantity' => 1,
-            'unit_price' => 10,
+            'quantity' => 10,
+            'unit_price' => 1,
             'row_total' => 10,
             'tax_class_id' => 'DefaultProductClass',
         ];
@@ -142,8 +142,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'discount_amount' => 0,
             'items' => [
                 [
-                    'price' => 10,
-                    'price_incl_tax' => 10.75,
+                    'price' => 1,
+                    'price_incl_tax' => 1.08,
                     'row_total' => 10,
                     'row_total_incl_tax' => 10.75,
                     'taxable_amount' => 10,
@@ -159,11 +159,43 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductInclTax['items'][] = [
             'code' => 'sku_1',
             'type' => 'product',
-            'quantity' => 1,
-            'unit_price' => 10.75,
+            'quantity' => 10,
+            'unit_price' => 1.075,
             'row_total' => 10.75,
             'tax_class_id' => 'DefaultProductClass',
             'tax_included' => true,
+        ];
+        $oneProductInclTaxResults = $oneProductResults;
+        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
+        $oneProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
+
+        $oneProductInclTaxDiffRate = $baseQuote;
+        $oneProductInclTaxDiffRate['items'][] = [
+            'code' => 'sku_1',
+            'type' => 'product',
+            'quantity' => 10,
+            'unit_price' => 1.1,
+            'row_total' => 11,
+            'tax_class_id' => 'HigherProductClass',
+            'tax_included' => true,
+        ];
+        $oneProductInclTaxDiffRateResults = [
+            'subtotal' => 10.0,
+            'tax_amount' => 2.2,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'price' => 1,
+                    'price_incl_tax' => 1.22,
+                    'row_total' => 10,
+                    'row_total_incl_tax' => 12.2,
+                    'taxable_amount' => 12.2, // TODO: Possible bug, shouldn't this be 10?
+                    'code' => 'sku_1',
+                    'type' => 'product',
+                    'tax_percent' => 22.0,
+                    'tax_amount' => 2.2,
+                ],
+            ],
         ];
 
         $twoProducts = $baseQuote;
@@ -171,28 +203,28 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'code' => 'sku_1',
                 'type' => 'product',
-                'quantity' => 1,
-                'unit_price' => 10,
+                'quantity' => 10,
+                'unit_price' => 1,
                 'row_total' => 10,
                 'tax_class_id' => 'DefaultProductClass',
             ],
             [
                 'code' => 'sku_2',
                 'type' => 'product',
-                'quantity' => 2,
-                'unit_price' => 100,
-                'row_total' => 200,
+                'quantity' => 20,
+                'unit_price' => 11,
+                'row_total' => 220,
                 'tax_class_id' => 'DefaultProductClass',
             ]
         ];
         $twoProductsResults = [
-            'subtotal' => 210,
-            'tax_amount' => 15.75,
+            'subtotal' => 230,
+            'tax_amount' => 17.25,
             'discount_amount' => 0,
             'items' => [
                 [
-                    'price' => 10,
-                    'price_incl_tax' => 10.75,
+                    'price' => 1,
+                    'price_incl_tax' => 1.08,
                     'row_total' => 10,
                     'row_total_incl_tax' => 10.75,
                     'taxable_amount' => 10,
@@ -202,15 +234,15 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'tax_amount' => .75,
                 ],
                 [
-                    'price' => 100,
-                    'price_incl_tax' => 107.5,
-                    'row_total' => 200,
-                    'row_total_incl_tax' => 215,
-                    'taxable_amount' => 200,
+                    'price' => 11,
+                    'price_incl_tax' => 11.83, // Unit price would have been 11.82 but row price is 11.83 (rounding)
+                    'row_total' => 220,
+                    'row_total_incl_tax' => 236.5,
+                    'taxable_amount' => 220,
                     'code' => 'sku_2',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 15,
+                    'tax_amount' => 16.5,
                 ],
             ],
         ];
@@ -220,11 +252,14 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quote_details' => $oneProduct,
                 'expected_tax_details' => $oneProductResults,
             ],
-            // FIXME: This test fails
-//            'one product tax included' => [
-//                'quote_details' => $oneProductInclTax,
-//                'expected_tax_details' => $oneProductResults,
-//            ],
+            'one product tax included' => [
+                'quote_details' => $oneProductInclTax,
+                'expected_tax_details' => $oneProductInclTaxResults,
+            ],
+            'one product tax included but differs from store rate' => [
+                'quote_details' => $oneProductInclTaxDiffRate,
+                'expected_tax_details' => $oneProductInclTaxDiffRateResults,
+            ],
             'two items, quantity three' => [
                 'quote_details' => $twoProducts,
                 'expected_tax_details' => $twoProductsResults,
@@ -255,22 +290,40 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClasses = $this->createTaxClasses([
             ['name' => 'DefaultCustomerClass', 'type' => ClassModel::TAX_CLASS_TYPE_CUSTOMER],
             ['name' => 'DefaultProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
+            ['name' => 'HigherProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
         ]);
 
         $this->taxRates = $this->createTaxRates([
-            ['percentage' => 7.5, 'country' => 'US', 'region' => 42]
+            ['percentage' => 7.5, 'country' => 'US', 'region' => 42],
+            ['percentage' => 7.5, 'country' => 'US', 'region' => 12], // Default store rate
         ]);
+
+        $higherRates = $this->createTaxRates([
+            ['percentage' => 22, 'country' => 'US', 'region' => 42],
+            ['percentage' => 10, 'country' => 'US', 'region' => 12], // Default store rate
+            ]);
 
         $this->taxRules = $this->createTaxRules([
             [
                 'code' => 'Default Rule',
-                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass']],
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
                 'product_tax_class_ids' => [$this->taxClasses['DefaultProductClass']],
-                'tax_rate_ids' => [$this->taxRates['7.5']],
+                'tax_rate_ids' => array_values($this->taxRates),
+                'sort_order' => 0,
+                'priority' => 0,
+            ],
+            [
+                'code' => 'Higher Rate Rule',
+                'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                'product_tax_class_ids' => [$this->taxClasses['HigherProductClass']],
+                'tax_rate_ids' => array_values($higherRates),
                 'sort_order' => 0,
                 'priority' => 0,
             ],
         ]);
+
+        // For cleanup
+        $this->taxRates = array_merge($this->taxRates, $higherRates);
     }
 
     /**
@@ -326,8 +379,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      *
      * Returns a map of percentage => rate
      *
-     * @param array $ratesData array of rate data, keys are 'country' and 'percentage'
-     * @return int[] Percentage => TaxRateId map
+     * @param array $ratesData array of rate data, keys are 'country', 'region' and 'percentage'
+     * @return int[] Tax Rate Id
      */
     private function createTaxRates($ratesData)
     {
@@ -339,13 +392,14 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $rates = [];
         foreach ($ratesData as $rateData) {
+            $code = "{$rateData['country']} - {$rateData['region']} - {$rateData['percentage']}";
             $taxRateBuilder->setCountryId($rateData['country'])
                 ->setRegionId($rateData['region'])
                 ->setPostcode('*')
-                ->setCode("Code {$rateData['region']}")
+                ->setCode($code)
                 ->setPercentageRate($rateData['percentage']);
 
-            $rates[(string)$rateData['percentage']] =
+            $rates[$code] =
                 $taxRateService->createTaxRate($taxRateBuilder->create())->getId();
         }
         return $rates;

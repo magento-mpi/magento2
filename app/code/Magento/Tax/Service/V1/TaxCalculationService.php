@@ -299,11 +299,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             } else {
                 $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
                 $tax = $this->calculator->calcTaxAmount($taxPrice, $rate, true, true);
-                $price = $this->calculator->round($taxPrice - $tax);
-                $taxable = $this->calculator->round($taxPrice * $quantity);
-                $taxSubtotal = $this->calculator->round($taxPrice * $quantity);
+                $price = $taxPrice - $tax;
+                $taxable = $taxPrice * $quantity;
+                $taxSubtotal = $taxPrice * $quantity;
                 $rowTax = $this->calculator->calcTaxAmount($taxable, $rate, true, true);
-                $subtotal = $this->calculator->round($taxSubtotal - $rowTax);
+                $subtotal = $taxSubtotal - $rowTax;
             }
         } else {
             $taxable = $subtotal;
@@ -314,13 +314,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $rowTaxes[] = $this->calculator->calcTaxAmount($taxable, $taxRate, false, true);
             }
             $rowTax = array_sum($rowTaxes);
-            $taxSubtotal = $this->calculator->round($subtotal + $rowTax);
+            $taxSubtotal = $subtotal + $rowTax;
             $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
         }
 
         $this->taxDetailsItemBuilder->setPrice($price);
-        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
         $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
+        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
         $this->taxDetailsItemBuilder->setCode($item->getCode());
