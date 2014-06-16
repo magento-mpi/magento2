@@ -77,7 +77,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSearch()
     {
-        $attrCollectionMock = $this->getMock('\Magento\Eav\Model\Resource\Entity\Attribute\Collection',
+        $attrCollectionMock = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Collection',
             array(), array(), '', false);
         $attrCollectionMock->expects($this->any())->method('addOrder')->with(
             $this->equalTo('attribute_id'),
@@ -196,7 +196,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create');
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $filterBuilder = $helper->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = $helper->getObject('Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField('frontend_input')->setValue('text')->setConditionType('eq')->create();
 
         $filterGroupBuilder = $helper->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
