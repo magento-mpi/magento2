@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Data;
+namespace Magento\Catalog\Service\V1\Data\Eav\Product\Attribute;
 
 /**
- * Class ProductAttributeType
- * @package Magento\Catalog\Service\V1\Data
+ * Class Type
+ * @package Magento\Catalog\Service\V1\Data\Eav\Product\Attribute
  */
-class ProductAttributeType extends \Magento\Framework\Service\Data\AbstractObject
+class Type extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**
      * Constants used as keys into $_data

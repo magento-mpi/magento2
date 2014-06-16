@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -15,10 +15,10 @@ use Magento\Catalog\Service\V1\Data\Eav\Attribute;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
- * Class ProductAttributeReadServiceTest
- * @package Magento\Catalog\Service\V1
+ * Class ReadServiceTest
+ * @package Magento\Catalog\Service\V1\Product\Attribute
  */
-class ProductAttributeReadServiceTest extends WebapiAbstract
+class ReadServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = 'catalogProductAttributeReadServiceV1';
     const SERVICE_VERSION = 'V1';

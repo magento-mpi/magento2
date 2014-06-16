@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
-use Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
-class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
+class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for retrieving product attributes types
@@ -19,30 +18,30 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testTypes()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $inputtypeFactoryMock = $this->getMock(
+        $inputTypeFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory',
             array('create')
         );
-        $inputtypeFactoryMock->expects($this->once())
+        $inputTypeFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue(
                 $objectManager->getObject('Magento\Catalog\Model\Product\Attribute\Source\Inputtype')
             ));
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\ProductAttributeTypeBuilder');
+        $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder');
         $productAttributeReadService = $objectManager->getObject(
-            'Magento\Catalog\Service\V1\ProductAttributeReadService',
+            '\Magento\Catalog\Service\V1\Product\Attribute\ReadService',
             [
                 'metadataService' => $objectManager->getObject('Magento\Catalog\Service\V1\ProductMetadataService'),
-                'inputTypeFactory' => $inputtypeFactoryMock,
+                'inputTypeFactory' => $inputTypeFactoryMock,
                 'attributeTypeBuilder' => $attributeTypeBuilder
             ]
         );
         $types = $productAttributeReadService->types();
         $this->assertTrue(is_array($types));
         $this->assertNotEmpty($types);
-        $this->assertInstanceOf('Magento\Catalog\Service\V1\Data\ProductAttributeType', current($types));
+        $this->assertInstanceOf('Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type', current($types));
     }
 
     /**
@@ -66,9 +65,9 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
                 $attributeCode
             );
 
-        /** @var \Magento\Catalog\Service\V1\ProductAttributeReadServiceInterface $service */
+        /** @var \Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface $service */
         $service = $objectManager->getObject(
-            'Magento\Catalog\Service\V1\ProductAttributeReadService',
+            'Magento\Catalog\Service\V1\Product\Attribute\ReadService',
             array(
                'metadataService' => $metadataServiceMock
             )
@@ -212,7 +211,7 @@ class ProductAttributeReadServiceTest extends \PHPUnit_Framework_TestCase
         $searchBuilder->setPageSize(10);
 
         $prductAttrService = $helper->getObject(
-            'Magento\Catalog\Service\V1\ProductAttributeReadService',
+            'Magento\Catalog\Service\V1\Product\Attribute\ReadService',
             [
                 'searchResultsBuilder' => $searchResultsBuilderMock,
                 'attributeCollection' => $attrCollectionMock,
