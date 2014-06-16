@@ -31,31 +31,21 @@ class Banners extends Template
     /**
      * @param Template\Context $context
      * @param Config $paypalConfig
+     * @param string $section
+     * @param int $position
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         Config $paypalConfig,
+        $section = '',
+        $position = 0,
         array $data = array()
     ) {
+        $this->_section = (string)$section;
+        $this->_position = (int)$position;
         $this->_paypalConfig = $paypalConfig;
         parent::__construct($context, $data);
-    }
-
-    /**
-     * @param string $section
-     */
-    public function setSection($section = '')
-    {
-        $this->_section = $section;
-    }
-
-    /**
-     * @param int $position
-     */
-    public function setPosition($position = 0)
-    {
-        $this->_position = $position;
     }
 
     /**

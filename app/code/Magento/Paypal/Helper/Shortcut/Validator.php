@@ -7,7 +7,6 @@
  */
 
 namespace Magento\Paypal\Helper\Shortcut;
-use Magento\Paypal\Helper\Shortcut\ValidatorInterface;
 
 class Validator implements ValidatorInterface
 {

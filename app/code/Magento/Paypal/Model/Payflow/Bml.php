@@ -7,6 +7,7 @@
  */
  
 namespace Magento\Paypal\Model\Payflow;
+
 use Magento\Paypal\Model;
 
 class Bml extends Model\Express
