@@ -3661,10 +3661,11 @@ tr.dynamic-grid input.input-text {
     float: none;
 }
 
-.fpt-item-container select {
-    width: 100%;
-
-    &:first-child {
+.data-table .fpt-item-container {
+    td {
+        vertical-align: top;
+    }
+    select:first-child {
         margin-bottom: 8px;
     }
 }
@@ -3672,6 +3673,7 @@ tr.dynamic-grid input.input-text {
 .eq-ie9 {
     .col-1-layout,
     .catalog-product-edit,
+    .catalog-product-new,
     .sales-order-view,
     .catalog-category-edit {
         table.data {
