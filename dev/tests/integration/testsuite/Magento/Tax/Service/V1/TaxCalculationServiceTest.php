@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Service\V1;
 
-use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\ClassModel;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -69,6 +68,13 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $taxRules;
 
+    /**
+     * Helps in creating required tax rules.
+     *
+     * @var TaxRuleFixtureFactory
+     */
+    private $taxRuleFixtureFactory;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
@@ -77,7 +83,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteDetailsItemBuilder = $this->objectManager
             ->create('Magento\Tax\Service\V1\data\QuoteDetails\ItemBuilder');
         $this->taxCalculationService = $this->objectManager->get('\Magento\Tax\Service\V1\TaxCalculationService');
-
+        $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
 
         $this->setUpDefaultRules();
     }
@@ -105,7 +111,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      * @dataProvider calculateTaxDataProvider
      * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
      */
-    public function testCalculateTaxTotalBased($storeId, $quoteDetailsData, $expectedTaxDetails)
+    public function testCalculateTaxTotalBased($quoteDetailsData, $expectedTaxDetails, $storeId = null)
     {
         $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
 
@@ -117,7 +123,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     public function calculateTaxDataProvider()
     {
         $data = [
-            'store_id' => null,
             'quote_details' => [
                 'shipping_address' => [
                     'vat_id' => 0,
@@ -151,6 +156,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
+            'store_id' => null,
         ];
 
         $oneProductWithStoreIdWithTaxClassId = $data;
@@ -182,7 +188,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
 
-        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, 1);
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
 
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
@@ -358,23 +364,23 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function setUpDefaultRules()
     {
-        $this->taxClasses = $this->createTaxClasses([
+        $this->taxClasses = $this->taxRuleFixtureFactory->createTaxClasses([
             ['name' => 'DefaultCustomerClass', 'type' => ClassModel::TAX_CLASS_TYPE_CUSTOMER],
             ['name' => 'DefaultProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
             ['name' => 'HigherProductClass', 'type' => ClassModel::TAX_CLASS_TYPE_PRODUCT],
         ]);
 
-        $this->taxRates = $this->createTaxRates([
+        $this->taxRates = $this->taxRuleFixtureFactory->createTaxRates([
             ['percentage' => 7.5, 'country' => 'US', 'region' => 42],
             ['percentage' => 7.5, 'country' => 'US', 'region' => 12], // Default store rate
         ]);
 
-        $higherRates = $this->createTaxRates([
+        $higherRates = $this->taxRuleFixtureFactory->createTaxRates([
             ['percentage' => 22, 'country' => 'US', 'region' => 42],
             ['percentage' => 10, 'country' => 'US', 'region' => 12], // Default store rate
             ]);
 
-        $this->taxRules = $this->createTaxRules([
+        $this->taxRules = $this->taxRuleFixtureFactory->createTaxRules([
             [
                 'code' => 'Default Rule',
                 'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
@@ -402,126 +408,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function tearDownDefaultRules()
     {
-        $this->deleteTaxRules(array_values($this->taxRules));
-        $this->deleteTaxRates(array_values($this->taxRates));
-        $this->deleteTaxClasses(array_values($this->taxClasses));
+        $this->taxRuleFixtureFactory->deleteTaxRules(array_values($this->taxRules));
+        $this->taxRuleFixtureFactory->deleteTaxRates(array_values($this->taxRates));
+        $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
     }
 
-    /**
-     * Helper to create tax rules.
-     *
-     * @param array $rulesData Keys match TaxRuleBuilder populateWithArray
-     * @return array code => rule id
-     */
-    private function createTaxRules($rulesData)
-    {
-        /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder $taxRuleBuilder */
-        $taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
-        /** @var \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService */
-        $taxRuleService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRuleServiceInterface');
-
-        $rules = [];
-        foreach ($rulesData as $ruleData) {
-            $taxRuleBuilder->populateWithArray($ruleData);
-
-            $rules[$ruleData['code']] = $taxRuleService->createTaxRule($taxRuleBuilder->create())->getId();
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Helper function that deletes tax rules
-     *
-     * @param int[] $ruleIds
-     */
-    private function deleteTaxRules($ruleIds)
-    {
-        /** @var \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService */
-        $taxRuleService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRuleServiceInterface');
-
-        foreach ($ruleIds as $ruleId) {
-            $taxRuleService->deleteTaxRule($ruleId);
-        }
-    }
-
-    /**
-     * Helper function that creates rates based on a set of input percentages.
-     *
-     * Returns a map of percentage => rate
-     *
-     * @param array $ratesData array of rate data, keys are 'country', 'region' and 'percentage'
-     * @return int[] Tax Rate Id
-     */
-    private function createTaxRates($ratesData)
-    {
-
-        /** @var \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder */
-        $taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
-        /** @var \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService */
-        $taxRateService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRateServiceInterface');
-
-        $rates = [];
-        foreach ($ratesData as $rateData) {
-            $code = "{$rateData['country']} - {$rateData['region']} - {$rateData['percentage']}";
-            $taxRateBuilder->setCountryId($rateData['country'])
-                ->setRegionId($rateData['region'])
-                ->setPostcode('*')
-                ->setCode($code)
-                ->setPercentageRate($rateData['percentage']);
-
-            $rates[$code] =
-                $taxRateService->createTaxRate($taxRateBuilder->create())->getId();
-        }
-        return $rates;
-    }
-
-    /**
-     * Helper function that deletes tax rates
-     *
-     * @param int[] $rateIds
-     */
-    private function deleteTaxRates($rateIds)
-    {
-        /** @var \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService */
-        $taxRateService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRateServiceInterface');
-        foreach ($rateIds as $rateId) {
-            $taxRateService->deleteTaxRate($rateId);
-        }
-    }
-
-    /**
-     * Helper function that creates tax classes based on input.
-     *
-     * @param array $classesData Keys include 'name' and 'type'
-     * @return array ClassName => ClassId
-     */
-    private function createTaxClasses($classesData)
-    {
-        $classes = [];
-        foreach ($classesData as $classData) {
-            /** @var \Magento\Tax\Model\ClassModel $class */
-            $class = $this->objectManager->create('Magento\Tax\Model\ClassModel')
-                ->setClassName($classData['name'])
-                ->setClassType($classData['type'])
-                ->save();
-            $classes[$classData['name']] = $class->getId();
-        }
-        return $classes;
-    }
-
-    /**
-     * Helper function that deletes tax classes
-     *
-     * @param int[] $classIds
-     */
-    private function deleteTaxClasses($classIds)
-    {
-        /** @var \Magento\Tax\Model\ClassModel $class */
-        $class = $this->objectManager->create('Magento\Tax\Model\ClassModel');
-        foreach ($classIds as $classId) {
-            $class->setId($classId);
-            $class->delete();
-        }
-    }
 }
