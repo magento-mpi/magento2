@@ -25,7 +25,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
 
     const STORE_LABELS = 'store_labels';
 
-    const IS_DEFAULT = 'is_default';
+    const IS_DEFAULT = 'default';
 
     /**
      * Get option label
