@@ -286,6 +286,18 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
+    <assertProductTemplateSaveMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateSaveMessage>
+    <assertProductTemplateForm module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateForm>
+    <assertProductTemplateInGrid module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateInGrid>
+    <assertProductTemplateOnProductForm module="Magento_Catalog">
+        <severeness>high</severeness>
+    </assertProductTemplateOnProductForm>
     <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
         <severeness>high</severeness>
         <require>

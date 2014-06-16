@@ -8,12 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
@@ -23,6 +20,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
  * Class AssertProductAttributeOnProductForm
+ * Check attribute on product form
  */
 class AssertProductAttributeOnProductForm extends AbstractConstraint
 {
@@ -62,7 +60,7 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
             'set_name' => $productTemplate->getAttributeSetName(),
         ];
         $productSet->open();
-        $productSet->getAttributeSetGrid()->searchAndOpen($filterAttribute);
+        $productSet->getGrid()->searchAndOpen($filterAttribute);
 
         $attributeData = ($productAttributeOriginal !== null) ? array_merge(
             $productAttribute->getData(),
@@ -77,8 +75,8 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
             [
                 'dataSet' => 'product_with_category',
                 'data' => [
-                    'attribute_set_id' => $productTemplate->getAttributeSetId(),
-                ]
+                    'attribute_set_id' => ['attribute_set' => $productTemplate],
+                ],
             ]
         );
         $product->persist();

@@ -14,9 +14,9 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
 /**
  * Class SkeletonSetId
- * Create and return Attribute set
+ * Return Attribute set
  */
-class SkeletonSetId implements FixtureInterface
+class AttributeSetId implements FixtureInterface
 {
     /**
      * Attribute Set name
@@ -26,9 +26,9 @@ class SkeletonSetId implements FixtureInterface
     protected $data;
 
     /**
-     * New Attribute Set
+     * Attribute Set fixture
      *
-     * @var array
+     * @var \Magento\Catalog\Test\Fixture\CatalogAttributeSet
      */
     protected $attributeSet;
 
@@ -41,13 +41,21 @@ class SkeletonSetId implements FixtureInterface
     {
         $this->params = $params;
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
-            $parentSet = $fixtureFactory->createByCode('catalogAttributeSet', ['dataSet' => $data['dataSet']]);
-            if (!$parentSet->hasData('attribute_set_id')) {
-                $parentSet->persist();
-            }
-            /** @var CatalogAttributeSet $parentSet */
-            $this->data = $parentSet->getAttributeSetName();
-            $this->attributeSet = $parentSet;
+            $attributeSet = $fixtureFactory->createByCode('catalogAttributeSet', ['dataSet' => $data['dataSet']]);
+            /** @var CatalogAttributeSet $attributeSet */
+            $this->data = $attributeSet->getAttributeSetName();
+            $this->attributeSet = $attributeSet;
+        }
+        if (isset($data['attribute_set'])
+            && $data['attribute_set'] instanceof CatalogAttributeSet
+        ) {
+            $attributeSet = $data['attribute_set'];
+            /** @var CatalogAttributeSet $attributeSet */
+            $this->data = [
+                'attribute_set_id' => $attributeSet->getAttributeSetId(),
+                'attribute_set_name' => $attributeSet->getAttributeSetName(),
+            ];
+            $this->attributeSet = $attributeSet;
         }
     }
 
@@ -73,9 +81,9 @@ class SkeletonSetId implements FixtureInterface
     }
 
     /**
-     * Get Attribute Set
+     * Return Attribute Set fixture
      *
-     * @return array
+     * @return \Magento\Catalog\Test\Fixture\CatalogAttributeSet
      */
     public function getAttributeSet()
     {

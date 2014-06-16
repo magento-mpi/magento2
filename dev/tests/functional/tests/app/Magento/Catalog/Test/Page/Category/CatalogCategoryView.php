@@ -12,7 +12,8 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
- * Catalog Category page
+ *
+ * @package Magento\Catalog\Test\Page\Category
  */
 class CatalogCategoryView extends FrontendPage
 {
@@ -39,8 +40,8 @@ class CatalogCategoryView extends FrontendPage
         ],
         'toolbar' => [
             'name' => 'toolbar',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
-            'locator' => '.toolbar.products',
+            'class' => '\Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
+            'locator' => '.pages .items',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
@@ -50,11 +51,11 @@ class CatalogCategoryView extends FrontendPage
             'strategy' => 'css selector',
         ],
         'viewBlock' => [
-            'name' => 'descriptionBlock',
+            'name' => 'viewBlock',
             'class' => 'Magento\Catalog\Test\Block\Category\View',
             'locator' => '.category.view',
             'strategy' => 'css selector',
-        ]
+        ],
     ];
 
     /**
@@ -82,7 +83,7 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     * @return \\Magento\Catalog\Test\Block\Product\ProductList\Toolbar
      */
     public function getToolbar()
     {

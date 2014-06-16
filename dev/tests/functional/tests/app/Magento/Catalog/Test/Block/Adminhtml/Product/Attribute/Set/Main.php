@@ -52,4 +52,30 @@ class Main extends Block
         $attributeLabelLocator = sprintf($this->attribute, $attribute);
         $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->dragAndDrop($target);
     }
+
+    /**
+     * Get AttributeSet name from product_set edit page
+     *
+     * @return string
+     */
+    public function getAttributeSetName()
+    {
+        return $this->_rootElement->find("#attribute_set_name", Locator::SELECTOR_CSS)->getValue();
+    }
+
+    /**
+     * Checks present Product Attribute on product_set Groups
+     *
+     * @param $attributeLabel
+     * @return bool
+     */
+    public function checkProductAttribute($attributeLabel)
+    {
+        $attributeLabelLocator = sprintf(
+            ".//*[contains(@class,'x-tree-root-node')]//li[@class='x-tree-node']/div/a/span[text()='%s']",
+            $attributeLabel
+        );
+
+        return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
+    }
 }

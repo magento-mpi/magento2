@@ -14,6 +14,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -76,17 +77,15 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
         $response = $curl->read();
         $curl->close();
 
-        preg_match(
-            '`<tr.*?http.*?attribute_id\/(\d*?)\/`',
-            $response,
-            $matches
-        );
-        $id = isset($matches[1]) ? $matches[1] : null;
-
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Product Attribute creating by curl handler was not successful!");
         }
 
-        return ['attribute_id' => $id];
+        $url = 'catalog/product_attribute/index/filter/';
+        $url .= base64_encode('frontend_label=' . $data['frontend_label'][0]);
+        $regExpPattern = '`<tr.*?http.*?attribute_id\/(\d*?)\/`';
+        $extractor = new Extractor($url, $regExpPattern);
+
+        return ['attribute_id' => $extractor->getData()[1]];
     }
 }

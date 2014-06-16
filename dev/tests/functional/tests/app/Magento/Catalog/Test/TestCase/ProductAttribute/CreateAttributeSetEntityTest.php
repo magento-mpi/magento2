@@ -1,0 +1,80 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Catalog\Test\TestCase\ProductAttribute;
+
+use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetAdd;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
+
+/**
+ * Test Creation for CreateAttributeSetEntity
+ *
+ * Test Flow:
+ * 1. Log in to Backend.
+ * 2. Navigate to Stores > Attributes > Product Template.
+ * 3. Start to create new Product Template.
+ * 4. Fill out fields data according to data set.
+ * 5. Add created Product Attribute to Product Template.
+ * 6. Save new Product Template.
+ * 7. Verify created Product Template.
+ *
+ * @group Product_Attributes_(CS)
+ * @ZephyrId MAGETWO-25104
+ */
+class CreateAttributeSetEntityTest extends Injectable
+{
+    /**
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __inject(
+        FixtureFactory $fixtureFactory
+    ) {
+
+        $productAttribute = $fixtureFactory->createByCode(
+            'catalogProductAttribute',
+            ['dataSet' => 'attribute_type_text_field']
+        );
+        $productAttribute->persist();
+
+        return [
+            'productAttribute' => $productAttribute
+        ];
+    }
+
+    /**
+     * Run CreateAttributeSetEntity test
+     *
+     * @param CatalogAttributeSet $attributeSet
+     * @param CatalogProductSetAdd $setAdd
+     * @param CatalogProductSetIndex $productSetIndex
+     * @param CatalogProductSetEdit $productSetEdit
+     * @param CatalogProductAttribute $productAttribute
+     */
+    public function testCreateAttributeSet(
+        CatalogAttributeSet $attributeSet,
+        CatalogProductSetAdd $setAdd,
+        CatalogProductSetIndex $productSetIndex,
+        CatalogProductSetEdit $productSetEdit,
+        CatalogProductAttribute $productAttribute
+    ) {
+        //Steps
+        $productSetIndex->open();
+        $productSetIndex->getPageActionsBlock()->addNew();
+
+        $setAdd->getAttributeSetForm()->fill($attributeSet);
+        $setAdd->getPageActions()->save();
+        $productSetEdit->getMain()->moveAttribute($productAttribute->getData(), 'Product Details');
+        $productSetEdit->getPageActions()->save();
+    }
+}

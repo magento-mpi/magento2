@@ -9,6 +9,12 @@
 -->
 <page mca="catalog/product_set/index" >
     <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
         <name>pageActionsBlock</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>
         <locator>.page-main-actions</locator>
