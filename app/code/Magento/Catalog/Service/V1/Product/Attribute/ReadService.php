@@ -8,9 +8,18 @@
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
+use Magento\Catalog\Service\V1\Data\Eav\Attribute;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder;
+use Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResultsBuilder;
+use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Eav\Model\Resource\Entity\Attribute\Collection;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class ReadService
+ *
  * @package Magento\Catalog\Service\V1\Product\Attribute
  */
 class ReadService implements ReadServiceInterface
@@ -31,34 +40,34 @@ class ReadService implements ReadServiceInterface
     private $attributeTypeBuilder;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResultsBuilder
+     * @var SearchResultsBuilder
      */
     private $searchResultsBuilder;
 
     /**
-     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @var Collection
      */
     private $attributeCollection;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder
+     * @var AttributeBuilder
      */
     protected $attributeBuilder;
 
     /**
      * @param ProductMetadataServiceInterface $metadataService
      * @param InputtypeFactory $inputTypeFactory
-     * @param \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResultsBuilder $searchResultsBuilder
+     * @param SearchResultsBuilder $searchResultsBuilder
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection
-     * @param \Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder $attributeBuilder
+     * @param AttributeBuilder $attributeBuilder
      * @param TypeBuilder $attributeTypeBuilder
      */
     public function __construct(
         ProductMetadataServiceInterface $metadataService,
         InputtypeFactory $inputTypeFactory,
-        \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResultsBuilder $searchResultsBuilder,
+        SearchResultsBuilder $searchResultsBuilder,
         \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
-        \Magento\Catalog\Service\V1\Data\Eav\AttributeBuilder $attributeBuilder,
+        AttributeBuilder $attributeBuilder,
         TypeBuilder $attributeTypeBuilder
     ) {
         $this->metadataService = $metadataService;
