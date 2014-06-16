@@ -38,9 +38,8 @@ class CreatePageTest extends Functional
         $cmsPageFixture = Factory::getFixtureFactory()->getMagentoCmsPage();
         $cmsPageGrid = Factory::getPageFactory()->getAdminCmsPageIndex();
         $cmsPageGrid->open();
-        $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
+        $cmsPageGrid->getPageActionsBlock()->addNew();
         // Create a Cms Page
-        $cmsPageGridBlock->addNewCmsPage();
         $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
         $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
         $cmsPageNewForm->fill($cmsPageFixture);
@@ -48,10 +47,10 @@ class CreatePageTest extends Functional
         $message = $cmsPageGrid->getMessagesBlock();
         $message->assertSuccessMessage();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
-        $cmsPageGridBlock->search(array('title' => $cmsPageFixture->getPageTitle()));
-        $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
         // Select the 'Preview' link for the new page
-        $cmsPageGridBlock->previewCmsPage();
+        $filter = ['title' => $cmsPageFixture->getPageTitle()];
+        $cmsPageGridBlock->searchAndPreview($filter);
+
         $cmsPage = Factory::getPageFactory()->getCmsPage();
         $cmsPage->init($cmsPageFixture);
         $cmsPage->selectWindow();

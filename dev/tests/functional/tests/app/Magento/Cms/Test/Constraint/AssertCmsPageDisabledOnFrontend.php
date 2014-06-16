@@ -42,7 +42,7 @@ class AssertCmsPageDisabledOnFrontend extends AbstractConstraint
     {
         $cmsIndex->open();
         $filter = ['title' => $cms->getTitle()];
-        $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
+        $cmsIndex->getCmsPageGridBlock()->searchAndPreview($filter);
         $browser->selectWindow();
         \PHPUnit_Framework_Assert::assertEquals(
             self::NOT_FOUND_MESSAGE,

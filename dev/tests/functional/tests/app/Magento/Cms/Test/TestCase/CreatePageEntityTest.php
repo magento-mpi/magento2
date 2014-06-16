@@ -67,8 +67,8 @@ class CreatePageEntityTest extends Injectable
     public function testCreateCmsPage(CmsPageFixture $cmsPageFixture)
     {
         $this->cmsIndex->open();
-        $cmsPageGridBlock = $this->cmsIndex->getCmsPageGridBlock();
-        $cmsPageGridBlock->addNewCmsPage();
+        $cmsPageGridBlock = $this->cmsIndex->getPageActionsBlock();
+        $cmsPageGridBlock->addNew();
         $this->cmsNew->getNewCmsPageForm()->fill($cmsPageFixture);
         $this->cmsNew->getPageMainActions()->save();
     }

@@ -12,12 +12,12 @@ use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertCmsPageSaveMessage
+ * Class AssertCmsPageSuccessSaveMessage
  * Assert that after save a CMS page "The page has been saved." successful message appears
  */
-class AssertCmsPageSaveMessage extends AbstractConstraint
+class AssertCmsPageSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The page has been saved.';
+    const SUCCESS_SAVE_MESSAGE = 'The page has been saved.';
 
     /**
      * Constraint severeness
@@ -36,10 +36,10 @@ class AssertCmsPageSaveMessage extends AbstractConstraint
     {
         $actualMessage = $cmsIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_MESSAGE,
+            self::SUCCESS_SAVE_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }

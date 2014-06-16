@@ -14,12 +14,12 @@
             <cmsPageGrid class="Magento\Cms\Test\Page\Adminhtml\CmsPageGrid" />
         </require>
     </cmsPageDuplicateError>
-    <assertCmsPageSaveMessage module="Magento_Cms">
+    <assertCmsPageSuccessSaveMessage module="Magento_Cms">
         <severeness>low</severeness>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\Adminhtml\CmsIndex" />
         </require>
-    </assertCmsPageSaveMessage>
+    </assertCmsPageSuccessSaveMessage>
     <assertCmsPageDisabledOnFrontend module="Magento_Cms">
         <severeness>low</severeness>
         <require>

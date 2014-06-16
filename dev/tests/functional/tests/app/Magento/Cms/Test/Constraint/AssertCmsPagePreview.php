@@ -47,16 +47,16 @@ class AssertCmsPagePreview extends AbstractConstraint
     ) {
         $cmsIndex->open();
         $filter = ['title' => $cms->getTitle()];
-        $cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
+        $cmsIndex->getCmsPageGridBlock()->searchAndPreview($filter);
         $browser->selectWindow();
         \PHPUnit_Framework_Assert::assertEquals(
-            $cms->getTitle(),
+            $cms->getContentHeading(),
             $frontCmsIndex->getTitleBlock()->getTitle(),
             'Wrong title is displayed.'
         );
         if ($cms->getContent()) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $cms->getTitle(),
+                $cms->getContent(),
                 $frontCmsPage->getCmsPageBlock()->getPageContent(),
                 'Wrong content is displayed.'
             );

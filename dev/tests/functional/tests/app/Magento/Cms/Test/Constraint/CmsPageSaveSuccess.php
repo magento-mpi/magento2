@@ -38,11 +38,8 @@ class CmsPageSaveSuccess extends AbstractConstraint
         if ($result) {
             // Find Page in grid
             $cmsPageGridBlock = $cmsIndex->getCmsPageGridBlock();
-            $cmsPageGridBlock->search(array('title' => $cmsPageFixture->getTitle()));
-
-            // Select the 'Preview' link for the new page
-            $cmsPageGridBlock = $cmsIndex->getCmsPageGridBlock();
-            $cmsPageGridBlock->previewCmsPage();
+            $filter = ['title' => $cmsPageFixture->getTitle()];
+            $cmsPageGridBlock->searchAndPreview($filter);
 
             // Verify the Cms Page content
             $cmsPage->init($cmsPageFixture);

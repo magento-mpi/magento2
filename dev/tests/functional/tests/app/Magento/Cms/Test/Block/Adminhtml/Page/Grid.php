@@ -18,18 +18,11 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 class Grid extends ParentGrid
 {
     /**
-     * 'Add New' cms page button
-     *
-     * @var string
-     */
-    protected $addNewCmsPage = "//button[@id='add']";
-
-    /**
      * Locator value for link in action column
      *
      * @var string
      */
-    protected $selectItem = 'td[class*=col-title]';
+    protected $editLink = 'td[class*=col-title]';
 
     /**
      * 'Preview' cms page link
@@ -50,22 +43,20 @@ class Grid extends ParentGrid
     ];
 
     /**
-     * Add new page
+     * Search item and open it on front
      *
-     * @return void
+     * @param array $filter
+     * @throws \Exception
      */
-    public function addNewCmsPage()
+    public function searchAndPreview(array $filter)
     {
-        $this->_rootElement->find($this->addNewCmsPage, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Preview page
-     *
-     * @return void
-     */
-    public function previewCmsPage()
-    {
-        $this->_rootElement->find($this->previewCmsPage, Locator::SELECTOR_XPATH)->click();
+        $this->search($filter);
+        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
+        if ($rowItem->isVisible()) {
+            $rowItem->find($this->previewCmsPage, Locator::SELECTOR_XPATH)->click();
+            $this->waitForElement();
+        } else {
+            throw new \Exception('Searched item was not found.');
+        }
     }
 }

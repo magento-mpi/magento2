@@ -75,7 +75,7 @@ class UpdateCmsPageEntityTest extends Injectable
     {
         $this->cmsIndex->open();
         $filter = ['title' => $cmsOriginal->getTitle()];
-        $this->cmsIndex->getCmsPageGridBlock()->searchAndSelect($filter);
+        $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
         $this->cmsNew->getNewCmsPageForm()->fill($cms);
         $this->cmsNew->getPageMainActions()->save();
     }
