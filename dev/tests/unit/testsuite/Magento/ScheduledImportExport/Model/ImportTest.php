@@ -46,6 +46,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Framework\HTTP\Adapter\FileTransferFactory', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\File\UploaderFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', array(), array(), '', false),
+            $this->getMock('Magento\CatalogInventory\Model\Indexer\Stock\Processor', array(), array(), '', false),
             $indexer
         );
     }
