@@ -22,7 +22,7 @@ class Helper
      */
     public static function vendorPackageToName($vendorPackage)
     {
-        if ($vendorPackage != null && is_string($vendorPackage) && sizeof($vendorPackage) > 0 ) {
+        if ($vendorPackage != null && is_string($vendorPackage) && sizeof($vendorPackage) > 0) {
             if (strpos($vendorPackage, '/') != false && substr_count($vendorPackage, '/') === 1) {
                 return str_replace('/', '_', $vendorPackage);
             } elseif (strpos($vendorPackage, '\\') != false && substr_count($vendorPackage, '\\') === 1) {
@@ -37,7 +37,7 @@ class Helper
      *
      * @return array
      */
-    public static  function getComponentsList()
+    public static function getComponentsList()
     {
         return array(
             str_replace('\\', '/', realpath(BP)) . '/app/code/Magento',

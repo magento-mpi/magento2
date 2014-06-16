@@ -47,14 +47,14 @@ class Zipper
                 if (is_dir($file) === true) {
                     $relativePath .= '/';
                     $zip->addEmptyDir($relativePath);
-                } else if (is_file($file) === true) {
+                } elseif (is_file($file) === true) {
                     $zip->addFromString($relativePath, file_get_contents($file));
                 } else {
                     throw new \Exception("The path $file is not a directory or file!", "1");
                 }
             }
             $noOfZips += sizeof($files);
-        } else if (is_file($source) === true) {
+        } elseif (is_file($source) === true) {
             $zip->addFromString(basename($source), file_get_contents($source));
             $noOfZips++;
         }
