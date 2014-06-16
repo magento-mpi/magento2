@@ -488,7 +488,7 @@ class Url
     ) {
         if (is_null($storeId)) {
             foreach ($this->getStores() as $store) {
-                $this->refreshCategoryRewrite($categoryId, $store->getId(), $refreshProducts);
+                $this->refreshCategoryRewrite($categoryId, $store->getId(), $refreshProducts, $changeRequestPath);
             }
             return $this;
         }
