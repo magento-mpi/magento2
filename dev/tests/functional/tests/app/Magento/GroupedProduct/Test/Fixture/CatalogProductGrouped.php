@@ -8,11 +8,12 @@
 
 namespace Magento\GroupedProduct\Test\Fixture;
 
-use Mtf\Fixture\InjectableFixture;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductGrouped
@@ -37,6 +38,7 @@ class CatalogProductGrouped extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -46,6 +48,7 @@ class CatalogProductGrouped extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -55,6 +58,7 @@ class CatalogProductGrouped extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist

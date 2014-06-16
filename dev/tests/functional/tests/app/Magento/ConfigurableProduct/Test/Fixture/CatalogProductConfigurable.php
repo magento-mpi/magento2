@@ -82,6 +82,7 @@ class CatalogProductConfigurable extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -91,6 +92,7 @@ class CatalogProductConfigurable extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -99,6 +101,7 @@ class CatalogProductConfigurable extends InjectableFixture
         $this->repositoryFactory = $repositoryFactory;
         $this->fixtureFactory = $fixtureFactory;
         $this->handlerFactory = $handlerFactory;
+        $this->eventManager = $eventManager;
         $this->isolation = mt_rand();
 
         if ($dataSet) {

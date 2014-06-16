@@ -104,14 +104,12 @@ class AttributeOptions implements FixtureInterface
         preg_match('#.*\(function\s+\(\$\)\s+\{\s+var\s+data\s*=\s*([^\;]+)\;.*#umi', $response, $matches);
 
         $result = json_decode($matches[1], true);
-        $curlData['id'] = $result['attribute']['id'];
+        $this->data['id'] = $result['attribute']['id'];
         foreach ($result['attribute']['options'] as $key => $value) {
-            if (isset($curlData['option']['value']['option_' . $key])) {
-                $curlData['option']['value']['option_' . $key]['id'] = $value['value'];
+            if (isset($this->data['option']['value']['option_' . $key])) {
+                $this->data['option']['value']['option_' . $key]['id'] = $value['value'];
             }
         }
-
-        $this->data = $curlData;
     }
 
     /**
@@ -197,9 +195,11 @@ class AttributeOptions implements FixtureInterface
                 ]
             ]
         ];
+
         if (!isset($presets[$name])) {
             return null;
         }
+
         return $presets[$name];
     }
 }
