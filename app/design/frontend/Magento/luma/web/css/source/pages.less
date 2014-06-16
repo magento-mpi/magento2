@@ -1,0 +1,29 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.pages {
+    .pager();
+    .item {
+        padding: 0 5px;
+    }
+    .item.current {
+        background: #e5e5e5;
+    }
+    .action {
+        border-radius: 3px;
+        @_shadow: inset 0px 1px 0px 0px rgba(255,255,255,1), inset 0px -1px 0px 0px fade(@border-color-base, 30);
+        .css(box-shadow, @_shadow);
+        padding: 0 8px;
+        &.previous {
+            margin-right: 12px;
+        }
+        &.next {
+            margin-left: 12px;
+        }
+    }
+}

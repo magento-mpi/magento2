@@ -173,8 +173,8 @@
     .products.wrapper ~ .toolbar & {
         display: none;
     }
-
     &-options {
+        margin: 0 5px 0 7px;
         width: auto;
     }
     &-action {
@@ -260,6 +260,7 @@
     float: right;
     &-options {
         width: auto;
+        margin: 0 5px 0 7px;
     }
     &-label {
         .visually-hidden();
@@ -305,9 +306,19 @@
     &.list.items {
         &:extend(.reset-list all);
         .item.product {
+            padding-top: 10px;
             &:extend(.add-box-sizing all);
             position: relative;
             vertical-align: top;
+            border: 1px solid transparent;
+            &:hover {
+                border: 1px solid #bbbbbb;
+                @_shadow: 3px 3px 4px 0px rgba(163, 163, 163, 1);;
+                .css(box-shadow, @_shadow);
+                .actions {
+                    visibility: visible;
+                }
+            }
         }
         .name {
             .product-name();
@@ -324,6 +335,8 @@
             color: @text-color-intense;
         }
         .actions {
+            margin-top: 10px;
+             visibility: hidden;
             > .secondary {
                 display: none;
                 vertical-align: top;
@@ -338,24 +351,39 @@
         }
         .action {
             &.towishlist {
+                margin-top: 5px;
                 .icon-font(
                     @icon-wishlist-full,
-                    @_icon-font-size: 29px,
+                    @_icon-font-size: 22px,
                     @_icon-font-color: @text-color-muted,
                     @_icon-font-text-hide: true,
                     @_icon-font-vertical-align: middle,
                     @_icon-font-line-height: normal
                 );
+                &:before {
+                    width: 30px;
+                }
             }
             &.tocompare {
+                margin-top: 5px;
                 .icon-font(
                     @icon-compare-full,
-                    @_icon-font-size: 29px,
+                    @_icon-font-size: 22px,
                     @_icon-font-color: @text-color-muted,
                     @_icon-font-text-hide: true,
                     @_icon-font-vertical-align: middle,
                     @_icon-font-line-height: normal
                 );
+                &:before {
+                    width: 30px;
+                }
+            }
+            &.tocart {
+                border-radius: 0;
+                font-size: 13px;
+                line-height: 1;
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
         }
     }
