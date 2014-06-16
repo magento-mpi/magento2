@@ -106,7 +106,7 @@ try {
     }
 
     //Creating zipped folders for skeletons
-    $excludes = array_merge (
+    $excludes = array_merge(
         $components,
         array(
             str_replace('\\', '/', realpath(BP)) . '/.git',
@@ -115,7 +115,7 @@ try {
         )
     );
     $name = '';
-    if (file_exists (str_replace('\\', '/', realpath(BP)) . '/composer.json')) {
+    if (file_exists(str_replace('\\', '/', realpath(BP)) . '/composer.json')) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . '/composer.json'));
         $name = Helper::vendorPackageToName($json->name);
         if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1');
