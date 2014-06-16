@@ -19,7 +19,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $status = $this->getCatalogInventoryStatusMock();
         $helper = $this->getCoreHelperMock();
         $entity = $this->getEntityFactoryMock();
-        $collection = new Collection($entity, $cart, $product, $status, $helper);
+        $collection = new Collection($entity, $cart, $product, $helper, $status);
         $collection->loadData();
     }
 
@@ -93,9 +93,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function getCatalogInventoryStatusMock()
     {
-        $inventoryMock = $this->getMock('Magento\CatalogInventory\Model\Stock\Status', array(), array(), '', false);
-        $inventoryMock->disableOriginalConstructor();
-        $inventoryMock->setMethods(array('getProductStockStatus'));
+        $inventoryMock = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockStatusService')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getProductStockStatus'))
+            ->getMock();
         $inventoryMock->expects($this->any())->method('getProductStockStatus')->will($this->returnValue(array()));
 
         return $inventoryMock;
