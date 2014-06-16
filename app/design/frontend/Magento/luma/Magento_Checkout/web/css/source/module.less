@@ -25,7 +25,7 @@
             > .title {
                 .icon-font(
                     @_icon-font-content: @icon-down,
-                    @_icon-font-size: 30px,
+                    @_icon-font-size: 12px,
                     @_icon-font-position: after
                 );
                 border-top: @border-width-base solid @border-color-base;
@@ -231,7 +231,7 @@
                         @_button-padding: 0 15px 0 5px,
                         @_button-icon-use: true,
                         @_button-font-content: @icon-prev,
-                        @_button-icon-font-size: 32px,
+                        @_button-icon-font-size: 12px,
                         @_button-icon-font-position: before
                     );
                     border-radius: 3px;
@@ -243,7 +243,7 @@
                 &.update {
                     .button-icon(
                         @icon-update,
-                        @_icon-font-size: 32px
+                        @_icon-font-size: 12px
                     );
                     padding-left: 5px;
                 }
@@ -272,6 +272,7 @@
 
 .opc-block-progress {
     &:extend(.add-box-sizing all);
+    margin-top: 20px;
     margin-bottom: @indent-l-base;
     > .title {
         background: @sidebar-background;
@@ -320,6 +321,8 @@
     }
 }
 
+@opc-margin-left: 10%;
+
 .opc-wrapper {
     &:extend(.add-box-sizing all);
     > .opc {
@@ -328,12 +331,12 @@
     .section {
         &.allow > .title {
             cursor: pointer;
-            .icon-font(
+            /*.icon-font(
                 @icon-edit,
                 @_icon-font-size: 20px,
                 @_icon-font-display: block,
                 @_icon-font-position: after
-            );
+            );*/
             &:after {
                 position: absolute;
                 right: 18px;
@@ -371,25 +374,25 @@
             }
             .fieldset {
                 margin-bottom: 0;
+                &.login {
+                    .form-hasrequired(bottom);
+                    &:after {
+                        margin-top: 35px;
+                        text-align: center;
+                    }
+                }
             }
             .form {
                 .form-hasrequired(bottom);
                 &:after {
                     text-align: right;
                 }
-            }
-            .form > .choice {
-                margin-top: @form-field-vertical-indent;
+                > .choice {
+                    margin-top: @form-field-vertical-indent;
+                }
             }
             .actions {
                 margin-top: 40px;
-            }
-            .fieldset.login {
-                .form-hasrequired(bottom);
-                &:after {
-                    margin-top: 35px;
-                    text-align: center;
-                }
             }
         }
 
@@ -438,9 +441,7 @@
     //  Shipping methods
     .methods-shipping {
         .item-title {
-            .font-size(16);
-            margin-bottom: 15px;
-            font-weight: @font-weight-semibold;
+            &:extend(.abstract-shipping-methods-title all);
         }
         .item-content {
             margin: 0 0 35px;
@@ -448,9 +449,22 @@
                 margin-bottom: 15px;
             }
         }
+        .price.box {
+            margin-left: 20px;
+            .regular .price {
+                font-weight: @font-weight-bold;
+            }
+        }
     }
 
-    //  Payment mathods
+    .extra-options-container {
+        font-weight: @font-weight-base;
+        .field.choice {
+            margin: 20px 0 15px;
+        }
+    }
+
+    //  Payment methods
     .methods-payment {
         border-bottom: @border-width-base solid @border-color-base;
         .item-title {
@@ -463,128 +477,54 @@
             margin: 0;
             > .fieldset {
                 padding: 0 10px 40px;
+                &.redirect {
+                    margin: 10px 0 30px 37px;
+                    width: 80%;
+                }
             }
         }
-        .content {
-            margin-left: 20px;
-        }
+
         img {
             vertical-align: middle;
         }
-        .field.month {
-            padding-right: 10px;
-        }
 
-        .field.cvv {
-            width: 30%;
-            .control {
-                position: relative;
-            }
-            .note {
-                position: absolute;
-                right: -23px;
-                &:before {
-                    display: none;
-                }
-                > a {
-                    .icon-font(
-                        @_icon-font-content: @icon-help,
-                        @_icon-font-size: 16px,
-                        @_icon-font-color: @color-primary-light,
-                        @_icon-font-color-hover: @color-primary,
-                        @_icon-font-text-hide: true
-                    )
+        .field {
+            &.month {
+                padding-right: 10px;
+                .control {
+                    position: relative;
+                    &:after {
+                        content: "/";
+                        color: @color-primary-light;
+                        position: absolute;
+                        right: -9px;
+                        top: 5px;
+                    }
                 }
             }
-        }
-
-        .field.month .control {
-            position: relative;
-            &:after {
-                content: "/";
-                color: @color-primary-light;
-                position: absolute;
-                right: -9px;
-                top: 5px;
-            }
-        }
-    }
-
-    // Gift messages
-    .fieldset.gift.message {
-        > legend {
-            margin-left: 0;
-            padding: 0;
-        }
-        .field.choice {
-            font-weight: @font-weight-base;
-            margin: 0 0 20px 20px;
-            &:before {
-                display: none;
-            }
-        }
-        .block.items {
-            background: @sidebar-background;
-            display: block;
-            padding: 20px 30px;
-            margin: 20px 0 0;
-            > .title {
-                margin-top: 10px;
-                margin-bottom: 0;
-            }
-            > .options {
-                margin: 0 0 20px 20px;
-            }
-            .block.message {
-                margin-bottom: 10px;
-            }
-        }
-    }
-
-    // Gift wrapping
-    .field.wrapping {
-        .label {
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-        .design {
-            margin: 10px 0;
-            &:extend(.add-clearfix all);
-            > img {
-                float: left;
-                max-width: 100px;
-                max-height: 100px;
-                margin-right: 10px;
-            }
-        }
-    }
-
-    .options.individual {
-        margin-top: 10px;
-        ol > .item {
-            border-bottom: @border-width-base solid @border-color-base;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            .product {
-                &:extend(.add-clearfix all);
-                margin-bottom: 10px;
-                .img {
-                    float: left;
-                    margin-right: 20px;
+            &.cvv {
+                width: 30%;
+                .control {
+                    position: relative;
+                }
+                .note {
+                    position: absolute;
+                    right: -23px;
+                    &:before {
+                        display: none;
+                    }
+                    > a {
+                        .icon-font(
+                            @_icon-font-content: @icon-help,
+                            @_icon-font-size: 16px,
+                            @_icon-font-color: @color-primary-light,
+                            @_icon-font-color-hover: @color-primary,
+                            @_icon-font-text-hide: true
+                        )
+                    }
                 }
             }
-            &:last-child {
-                border-bottom: 0;
-                padding-bottom: 0;
-            }
         }
-        .number {
-            font-size: @font-size-s;
-        }
-    }
-    .activate.message {
-        display: inline-block;
-        margin: 10px 0;
     }
 
     // Order review
@@ -608,17 +548,47 @@
         .amount {
             text-align: right;
         }
-        td {
-            padding: 7px 10px;
+        tfoot td {
+            background: @sidebar-background;
         }
-        tbody tr:last-child td {
-            border-bottom: @border-width-base solid @border-color-base;
-        }
-        .review.item.options {
-            font-size: @font-size-s;
-            margin: 10px 0 0;
+        .review-item-options {
+            margin: 20px 0 0;
             &:extend(.add-clearfix all);
         }
+        .product.name {
+            .font-size(18);
+            font-weight: @font-weight-light;
+        }
+        .cart.price {
+            color: @color-primary-lighter;
+            .font-size(16);
+            font-weight: @font-weight-bold;
+        }
+        .grand.totals {
+            .font-size(16);
+            td {
+                padding: 0 0 40px;
+                > strong {
+                    border-top: @border-width-base solid @border-color-base;
+                    display: block;
+                    padding-top: 11px;
+                }
+            }
+            .mark {
+                padding-left: 15px;
+                strong {
+                    font-weight: @font-weight-bold;
+                    padding-right: 15px;
+                }
+            }
+            .amount {
+                padding-right: 15px;
+                strong {
+                    padding-left: 15px;
+                }
+            }
+        }
+
     }
 
     .action.primary.checkout {
@@ -629,14 +599,20 @@
         display: none;
     }
 
-    .extra-options-container {
-        .price.box {
-            font-weight: normal;
-            margin-left: 20px;
-            &.no-display {
-                display: none;
-            }
-        }
+    .actions-toolbar {
+        margin: 40px 0 0;
+    }
+}
+
+//  Checkout success
+.checkout-success {
+    .subtitle .print {
+        display: inline-block;
+        margin-left: 15px;
+        .font-size(14);
+    }
+    .actions-toolbar {
+        margin-top: 50px;
     }
 }
 
@@ -848,11 +824,17 @@
         &:extend(.add-box-sizing-desktop all);
         .step {
             &:extend(.form-field-column-2 all);
-            .form:not(.login):not(.payments) {
-                margin-left: 10%;
-                width: 80%;
+
+            .form {
+                &.shipping.address,
+                &.billing,
+                &.methods-shipping {
+                    margin-left: @opc-margin-left;
+                    width: 80%;
+                }
             }
 
+            //  Login or register
             .login-wrapper {
                 display: block;
                 &:extend(.add-clearfix-desktop all);
@@ -860,28 +842,27 @@
                     &:extend(.blocks-2columns-reverse all);
                     margin-bottom: 0;
                 }
-                .fieldset .field {
-                    padding: 0;
-                    width: 100%;
-                }
-                .field.choice:not(.persistent) {
-                    &:before {
-                        display: none;
+                .fieldset {
+                    .field {
+                        padding: 0;
+                        width: 100%;
                     }
-                }
-                .fieldset.login {
-                    &:after {
+                    &.login :after {
                         text-align: left;
+
                     }
+                }
+                .field.choice:not(.persistent):before {
+                    display: none;
                 }
             }
 
-            &.content {
-                .field.street,
-                .field.choice {
+            &.content .field {
+                &.street,
+                &.choice {
                     width: 100%;
                 }
-                .field.street .field.additional {
+                &.street .field.additional {
                     padding: 0;
                     width: 100%;
                 }
@@ -891,18 +872,13 @@
                 &:extend(.form-field-revert-column-1 all);
             }
         }
+
+        //  Payment methods
         .methods-payment {
             .item-content > .fieldset {
-                margin: 10px 0 30px 10%;
+                margin: 10px 0 30px @opc-margin-left;
                 padding: 0;
                 width: 46%;
-                &.redirect {
-                    margin: 10px 0 0;
-                    width: 80%;
-                    p {
-                        margin: 0 37px 20px;
-                    }
-                }
             }
             .field.cvv {
                 display: inline-block;
@@ -913,12 +889,20 @@
                 width: 70%;
             }
         }
+
+        .checkout-submit-order .actions-toolbar > .primary {
+            float: right;
+        }
+    }
+    .checkout-success .subtitle .print {
+        margin-left: 40px;
     }
 
     .opc-block-progress {
         .layout-column(2, 1, @layout-column-checkout-left-width);
         padding-right: @layout-column-main-sidebar-offset;
         &:extend(.add-box-sizing-desktop all);
+        margin-top: 0;
     }
 
     // Shopping cart - responsive

@@ -1,0 +1,42 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.opc-wrapper {
+    .fieldset.gift-message .field.gift-wrapping {
+        padding: 0;
+        width: 100%;
+    }
+    .gift-wrapping {
+        > .label {
+            .font-size(16);
+            font-weight: @font-weight-semibold;
+            display: inline-block;
+            margin: 0 0 10px;
+        }
+        .nested {
+            &:extend(.add-clearfix all);
+            margin: 20px 0;
+            img {
+                max-width: 100px;
+                max-height: 100px;
+                float: left;
+                margin-right: 20px;
+            }
+        }
+    }
+}
+
+.responsive(@break) when (@break = @break-point-1) {
+    .opc-wrapper {
+        .gift-wrapping {
+            .nested {
+                &:extend(add-clearfix-desktop all);
+            }
+        }
+    }
+}

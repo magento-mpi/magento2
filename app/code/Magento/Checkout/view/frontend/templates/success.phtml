@@ -13,7 +13,7 @@
         <?php if ($this->getCanViewOrder()) :?>
             <p><?php echo __('Your order # is: %1.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
         <?php  else :?>
-            <p><?php echo __('Your order # is: %1.', $this->escapeHtml($this->getOrderId())) ?></p>
+            <p><?php echo __('Your order # is: <span>%1</span>.', $this->escapeHtml($this->getOrderId())) ?></p>
         <?php endif;?>
             <p><?php echo __('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
         <?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
@@ -26,7 +26,7 @@
 
     <?php echo $this->getAdditionalInfoHtml() ?>
 
-    <div class="actions">
-        <a class="action continue" title="<?php echo __('Continue Shopping') ?>" href="<?php echo $this->getUrl() ?>"><span><?php echo __('Continue Shopping') ?></span></a>
+    <div class="actions-toolbar">
+        <a class="action primary continue" title="<?php echo __('Continue Shopping') ?>" href="<?php echo $this->getUrl() ?>"><span><?php echo __('Continue Shopping') ?></span></a>
     </div>
 </div>
