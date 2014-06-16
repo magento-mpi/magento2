@@ -45,7 +45,7 @@ try {
         if (!file_exists($generationDir)) {
             mkdir($generationDir, 0777, true);
         }
-    } catch(\Exception $ex) {
+    } catch (\Exception $ex) {
         $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $generationDir, $ex->getMessage()));
         exit($e->getCode());
     }
@@ -87,7 +87,7 @@ try {
                     $foundComposerJson = true;
                     $json = json_decode(file_get_contents($file));
                     $name = Helper::vendorPackageToName($json->name);
-                    if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1');
+                    if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1')    ;
                     $noOfZips += Zipper::Zip(
                         dirname($file),
                         $generationDir . '/' . $name . "-". $json->version . '.zip',
