@@ -47,10 +47,10 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         $order->expects(
             $this->any()
         )->method(
-            'getStore'
-        )->will(
-            $this->returnValue(new \Magento\Framework\Object(array('id' => 1)))
-        );
+                'getStore'
+            )->will(
+                $this->returnValue(new \Magento\Framework\Object(array('id' => 1)))
+            );
         $order->expects($this->any())->method('getBillingAddress')->will($this->returnValue($address));
         $order->expects($this->once())->method('getShippingAddress')->will($this->returnValue($address));
         $order->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
@@ -76,13 +76,13 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         $pbridgeData->expects(
             $this->once()
         )->method(
-            'getCustomerIdentifierByEmail'
-        )->with(
-            $this->equalTo(1),
-            $this->equalTo(1)
-        )->will(
-            $this->returnValue(null)
-        );
+                'getCustomerIdentifierByEmail'
+            )->with(
+                $this->equalTo(1),
+                $this->equalTo(1)
+            )->will(
+                $this->returnValue(null)
+            );
         $api = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge\Api',
             array('doAuthorize', 'getResponse'),
@@ -94,12 +94,12 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         $api->expects(
             $this->once()
         )->method(
-            'doAuthorize'
-        )->with(
-            new ObjectConstraint('is_first_capture', isset($firstCaptureFlag) ? $firstCaptureFlag : true)
-        )->will(
-            $this->returnSelf()
-        );
+                'doAuthorize'
+            )->with(
+                new ObjectConstraint('is_first_capture', isset($firstCaptureFlag) ? $firstCaptureFlag : true)
+            )->will(
+                $this->returnSelf()
+            );
 
         $apiFactory = $this->getMock('Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory', array('create'));
         $apiFactory->expects($this->once())->method('create')->will($this->returnValue($api));
