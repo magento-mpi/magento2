@@ -13,7 +13,6 @@ use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Repository\RepositoryFactory;
-use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductDownloadable
@@ -29,7 +28,7 @@ class CatalogProductDownloadable extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Downloadable\Test\Handler\CatalogProductDownloadableInterface';
+    protected $handlerInterface = 'Magento\Downloadable\Test\Handler\CatalogProductDownloadable\CatalogProductDownloadableInterface';
 
     /**
      * Constructor
@@ -39,7 +38,6 @@ class CatalogProductDownloadable extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
-     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -49,7 +47,6 @@ class CatalogProductDownloadable extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
-        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -59,7 +56,6 @@ class CatalogProductDownloadable extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
-            $eventManager,
             $data,
             $dataSet,
             $persist

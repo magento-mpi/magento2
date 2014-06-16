@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Downloadable\Test\Handler;
+namespace Magento\Downloadable\Test\Handler\CatalogProductDownloadable;
 
 use Mtf\Handler\HandlerInterface;
 

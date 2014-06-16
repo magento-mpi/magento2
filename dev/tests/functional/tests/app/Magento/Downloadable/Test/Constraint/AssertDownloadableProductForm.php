@@ -86,10 +86,6 @@ class AssertDownloadableProductForm extends AssertProductForm
             );
         }
 
-        if (isset($fields['special_price'])) {
-            $fields['special_price'] = ['special_price' => $fields['special_price']];
-        }
-
         return $fields;
     }
 

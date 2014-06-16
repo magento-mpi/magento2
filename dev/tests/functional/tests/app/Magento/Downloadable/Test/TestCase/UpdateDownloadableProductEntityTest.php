@@ -19,6 +19,12 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  * Test Creation for Update DownloadableProductEntity
  *
  * Test Flow:
+ *
+ * Precondition:
+ * Category is created.
+ * Product is created(before each variation).
+ *
+ * Steps:
  * 1. Login to backend.
  * 2. Navigate to PRODUCTS > Catalog.
  * 3. Search and open product in the grid.
@@ -68,7 +74,6 @@ class UpdateDownloadableProductEntityTest extends Injectable
 
     /**
      * Filling objects of the class
-     *
      *
      * @param CatalogProductIndex $catalogProductIndexNewPage
      * @param CatalogProductEdit $catalogProductEditPage

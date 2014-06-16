@@ -7,13 +7,13 @@
  */
 namespace Magento\Downloadable\Test\Repository;
 
-use Magento\Catalog\Test\Repository\Product;
+use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogProductDownloadable
  * Data for creation Catalog Product Downloadable
  */
-class CatalogProductDownloadable extends Product
+class CatalogProductDownloadable extends AbstractRepository
 {
     /**
      * @constructor
