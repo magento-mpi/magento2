@@ -6,12 +6,6 @@
  * @license    {license_link}
  */
 
-
-/**
- * Payment Profiles Iframe block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Pbridge\Block\Payment;
 
 class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe

@@ -6,16 +6,13 @@
  * @license     {license_link}
  */
 
-
-/**
- * Product stock qty block for grouped product type
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\CatalogInventory\Block\Stockqty\Type;
 
 use Magento\Catalog\Model\Product;
 
+/**
+ * Product stock qty block for grouped product type
+ */
 class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite
 {
     /**

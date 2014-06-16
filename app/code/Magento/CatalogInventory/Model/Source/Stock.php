@@ -6,14 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogInventory\Model\Source;
 
 /**
  * CatalogInventory Stock source model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogInventory\Model\Source;
-
 class Stock implements \Magento\Framework\Option\ArrayInterface
 {
     /**
