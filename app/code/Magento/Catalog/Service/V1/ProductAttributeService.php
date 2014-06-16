@@ -29,6 +29,8 @@ class ProductAttributeService implements ProductAttributeServiceInterface
 
     /**
      * @param ProductMetadataServiceInterface $metadataService
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $optionCollectionFactory
      */
     public function __construct(
         ProductMetadataServiceInterface $metadataService,

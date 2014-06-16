@@ -63,7 +63,7 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
      *
      * @param $labelText
      * @param $storeId
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Option\Labels
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option\Label
      */
     private function buildLabel($labelText, $storeId)
     {

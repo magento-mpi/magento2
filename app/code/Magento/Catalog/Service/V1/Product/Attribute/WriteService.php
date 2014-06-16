@@ -18,6 +18,7 @@ use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 /**
  * Class WriteService
  * @package Magento\Catalog\Service\V1\Product\Attribute
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WriteService implements WriteServiceInterface
 {
@@ -59,8 +60,7 @@ class WriteService implements WriteServiceInterface
         \Magento\Framework\Filter\FilterManager $filter,
         \Magento\Catalog\Helper\Product $helper,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $inputtypeValidatorFactory
-    )
-    {
+    ) {
         $this->eavConfig = $eavConfig;
         $this->attributeFactory = $attributeFactory;
         $this->filter = $filter;
@@ -148,7 +148,7 @@ class WriteService implements WriteServiceInterface
         try {
             $model->addData($data);
             $model->save();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not update product attribute' . $e->getMessage());
         }
 
