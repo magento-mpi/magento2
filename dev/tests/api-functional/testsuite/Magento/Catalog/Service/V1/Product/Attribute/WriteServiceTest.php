@@ -139,7 +139,9 @@ class WriteServiceTest extends WebapiAbstract
     {
         return array(
             AttributeMetadata::ATTRIBUTE_CODE => uniqid('code_'),
-            AttributeMetadata::FRONTEND_LABEL => [['store_id' => 1, 'label' => uniqid('label_')]],
+            AttributeMetadata::FRONTEND_LABEL => [
+                ['store_id' => 0, 'label' => uniqid('label_default_')]
+            ],
             AttributeMetadata::DEFAULT_VALUE => 'default value',
             AttributeMetadata::REQUIRED => true,
             AttributeMetadata::FRONTEND_INPUT => 'text',

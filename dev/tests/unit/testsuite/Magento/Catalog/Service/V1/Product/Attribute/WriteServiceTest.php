@@ -78,6 +78,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->frontendLabelMock = $this->getMock(
             '\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel', [], [], '', false
         );
+        $this->frontendLabelMock->expects($this->any())
+            ->method('getStoreId')
+            ->will($this->returnValue(0));
+
+        $this->frontendLabelMock->expects($this->any())
+            ->method('getLabel')
+            ->will($this->returnValue('Default Label'));
 
         $this->attributeWriteService = $objectManager->getObject(
             '\Magento\Catalog\Service\V1\Product\Attribute\WriteService',
@@ -96,7 +103,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $dataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
         $dataMock->expects($this->any())->method('getFrontendLabel')
-            ->will($this->returnValue([[$this->frontendLabelMock]]));
+            ->will($this->returnValue([$this->frontendLabelMock]));
         $dataMock->expects($this->any())->method('__toArray')->will($this->returnValue(array()));
         $dataMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue($attrCode));
         $dataMock->expects($this->any())->method('getFrontendInput')->will($this->returnValue('textarea'));
@@ -139,10 +146,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateInvalidCode()
     {
         $dataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
-        $dataMock->expects($this->at(0))->method('getFrontendLabel')
-            ->will($this->returnValue($this->frontendLabelMock));
-        $dataMock->expects($this->at(1))->method('__toArray')->will($this->returnValue(array()));
-        $dataMock->expects($this->at(2))->method('getAttributeCode')->will($this->returnValue('111'));
+        $dataMock->expects($this->at(0))->method('__toArray')->will($this->returnValue(array()));
+        $dataMock->expects($this->at(1))->method('getFrontendLabel')
+            ->will($this->returnValue([$this->frontendLabelMock]));
+        $dataMock->expects($this->at(2))->method('getFrontendLabel')
+            ->will($this->returnValue([$this->frontendLabelMock]));
+        $dataMock->expects($this->at(3))->method('getAttributeCode')->will($this->returnValue('111'));
         $this->attributeWriteService->create($dataMock);
     }
 
@@ -152,11 +161,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateInvalidInput()
     {
         $dataMock = $this->getMock('\Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata', [], [], '', false);
-        $dataMock->expects($this->at(0))->method('getFrontendLabel')
-            ->will($this->returnValue($this->frontendLabelMock));
-        $dataMock->expects($this->at(1))->method('__toArray')->will($this->returnValue(array()));
-        $dataMock->expects($this->at(2))->method('getAttributeCode')->will($this->returnValue('code_111'));
-        $dataMock->expects($this->at(3))->method('getFrontendInput')->will($this->returnValue('textarea'));
+        $dataMock->expects($this->at(0))->method('__toArray')->will($this->returnValue(array()));
+        $dataMock->expects($this->at(1))->method('getFrontendLabel')
+            ->will($this->returnValue([$this->frontendLabelMock]));
+        $dataMock->expects($this->at(2))->method('getFrontendLabel')
+            ->will($this->returnValue([$this->frontendLabelMock]));
+        $dataMock->expects($this->at(3))->method('getAttributeCode')->will($this->returnValue('code_111'));
+        $dataMock->expects($this->at(4))->method('getFrontendInput')->will($this->returnValue('textarea'));
         $this->inputValidator->expects($this->at(0))->method('isValid')->will($this->returnValue(false));
         $this->attributeWriteService->create($dataMock);
     }
@@ -240,7 +251,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->with(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id)
             ->will($this->returnValue($this->attributeMock));
-        $this->attributeMock->expects($this->at(0))->method('delete');
+        $this->attributeMock->expects($this->at(0))->method('getId')->will($this->returnValue(1));
+        $this->attributeMock->expects($this->at(1))->method('delete');
         $this->assertTrue($this->attributeWriteService->remove($id));
     }
 
