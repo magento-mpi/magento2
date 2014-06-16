@@ -1020,3 +1020,23 @@ body.catalog-product-compare-index {
         }
     }
 }
+
+.block.related {
+    .action.select {
+        .button-as-link();
+        font-weight: normal;
+        &:active {
+            box-shadow: none;
+        }
+    }
+    .product.name {
+        display: inline-block;
+    }
+    .field.choice {
+        display: inline-block;
+        .label {
+            &:extend(.visually-hidden all);
+        }
+    }
+}
+
