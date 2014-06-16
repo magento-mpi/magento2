@@ -10,6 +10,7 @@ require __DIR__ . '/../../../bootstrap.php';
 
 use \Magento\Tools\Composer\Creator\ComposerCreator;
 use \Magento\Tools\Composer\Model\Package;
+use \Magento\Tools\Composer\Helper\Helper;
 
 /**
  * Composer Skeleton Creator Tool
@@ -60,17 +61,11 @@ try {
     $logger->info(sprintf("Your Magento Installation Directory: %s ", BP));
 
     //Locations to look for components
-    $components = array(
-        str_replace('\\', '/', realpath(BP)) . '/app/code/Magento/*',
-        str_replace('\\', '/', realpath(BP)) . '/app/design/adminhtml/Magento/*',
-        str_replace('\\', '/', realpath(BP)) . '/app/design/frontend/Magento/*',
-        str_replace('\\', '/', realpath(BP)) . '/app/i18n/Magento/*',
-        str_replace('\\', '/', realpath(BP)) . '/lib/internal/Magento/*'
-    );
+    $components = Helper::getComponentsList();
 
     $dependencies = array();
     foreach ($components as $component) {
-        foreach (glob($component, GLOB_ONLYDIR) as $dir) {
+        foreach (glob($component . '/*', GLOB_ONLYDIR) as $dir) {
             $file = $dir . '/composer.json';
             if (!file_exists($file)) {
                 $logger->info('composer.json file not found for ' . $file);

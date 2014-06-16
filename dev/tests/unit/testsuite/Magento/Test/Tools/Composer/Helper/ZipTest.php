@@ -17,7 +17,6 @@ class ZipTest extends \PHPUnit_Framework_TestCase
      * Intial Setup
      * @return void
      */
-
     protected function setUp()
     {
         $destination = TESTS_TEMP_DIR;
@@ -41,10 +40,9 @@ class ZipTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test Zip
+     * Test ZipExclude
      * @return void
      */
-
     public function testZipExclude()
     {
         $source = str_replace('\\', '/', realpath(__DIR__ . '/..' . '/_files/app'));

@@ -26,12 +26,15 @@ class Zipper
     public static function zip($source, $destination, array $excludes)
     {
         $noOfZips = 0;
-        if (!extension_loaded('zip') || !file_exists($source)) {
-            throw new \Exception("Error while ziiping.", "1");
+        if (!file_exists($source)) {
+            throw new \Exception("Error while zipping: source $source does not exist", "1");
+        }
+        if (!extension_loaded('zip')) {
+            throw new \Exception("Error while zipping: extension loading problem", "1");
         }
         $zip = new \ZipArchive();
         if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
-            throw new \Exception("Error while ziiping.", "1");
+            throw new \Exception("Error while zipping: could not create the destination folder", "1");
         }
         if (is_dir($source) === true) {
             $files = Zipper::getFiles($source, $excludes);
