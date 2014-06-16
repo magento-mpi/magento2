@@ -44,7 +44,7 @@ try {
         if (!file_exists($generationDir)) {
             mkdir($generationDir, 0777, true);
         }
-    } catch(\Exception $ex) {
+    } catch (\Exception $ex) {
         $logger->error(sprintf("ERROR: Creating Directory %s failed. Message: %s", $generationDir, $ex->getMessage()));
         exit($e->getCode());
     }
@@ -92,7 +92,7 @@ try {
                 if (strpos(\basename($file), '.json')) {
                     $foundComposerJson = true;
                     $json = json_decode(file_get_contents($file));
-                    if ($json->name != null && is_string($json->name) && sizeof($json->name) > 0 ) {
+                    if ($json->name != null && is_string($json->name) && sizeof($json->name) > 0) {
                         if (strpos($json->name, "/") != false && substr_count($json->name, "/") === 1) {
                             $name = str_replace("/", "_", $json->name);
                         } elseif (strpos($json->name, "\\") != false && substr_count($json->name, "\\") === 1) {
@@ -104,7 +104,8 @@ try {
 
                     $noOfZips += Zipper::zip(
                         \dirname($file),
-                        $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes
+                        $generationDir . "/" . $name . "-". $json->version . ".zip",
+                        $excludes
                     );
                     $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name, $json->version));
                 }
@@ -137,7 +138,8 @@ try {
         }
         $noOfZips += Zipper::zip(
             str_replace('\\', '/', realpath(BP)),
-            $generationDir . "/" . $name . "-". $json->version . ".zip", $excludes
+            $generationDir . "/" . $name . "-". $json->version . ".zip",
+            $excludes
         );
         $logger->info(sprintf("Created zip archive for %-40s [%9s]", $json->name, $json->version));
     } else {

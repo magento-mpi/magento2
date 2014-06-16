@@ -91,10 +91,8 @@ try {
     $creator->create(array($product));
 
     $logger->info(sprintf("SUCCESS: Created composer.json for %s edition", $edition));
-}
-catch (\Zend_Console_Getopt_Exception $e) {
+} catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
     exit($e->getMessage());
 }

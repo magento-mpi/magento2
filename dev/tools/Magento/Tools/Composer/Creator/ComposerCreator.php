@@ -61,12 +61,12 @@ class ComposerCreator
 
             /** @var Package  $dependency */
             foreach ($dependencies as $dependency) {
-                $command .= ' --require="' . strtolower($dependency->getName()) . ':'.$dependency->getVersion() . '"';
+                $command .= ' --require="' . strtolower($dependency->getName()) . ':' . $dependency->getVersion() . '"';
             }
             $command .= ' --require="magento/framework:0.1.0"';
             $output = array();
             exec($command, $output);
-            if (sizeof($output) > 0 ) {
+            if (sizeof($output) > 0) {
                 //Failed
                 $this->_logger->error(implode(". ", $output));
             } else {
