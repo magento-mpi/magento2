@@ -10,7 +10,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <type name="Magento\CatalogInventory\Model\Observer">
         <arguments>
-            <argument name="resourceIndexerStock" xsi:type="object">Magento\CatalogInventory\Model\Resource\Indexer\Stock\Proxy</argument>
             <argument name="resourceStock" xsi:type="object">Magento\CatalogInventory\Model\Resource\Stock\Proxy</argument>
             <argument name="indexer" xsi:type="object">Magento\Index\Model\Indexer\Proxy</argument>
             <argument name="stock" xsi:type="object">Magento\CatalogInventory\Model\Stock\Proxy</argument>
@@ -34,9 +33,6 @@
                 <item name="cataloginventory" xsi:type="string">Magento_CatalogInventory</item>
             </argument>
         </arguments>
-    </type>
-    <type name="Magento\ImportExport\Model\Import">
-        <plugin name="invalidateStockIndexerOnImport" type="\Magento\CatalogInventory\Model\Indexer\Stock\Plugin\Import" />
     </type>
     <type name="Magento\Store\Model\Resource\Group">
         <plugin name="storeGroupResourceAroundBeforeSave" type="\Magento\CatalogInventory\Model\Indexer\Stock\Plugin\StoreGroup"/>

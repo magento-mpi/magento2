@@ -7,8 +7,21 @@
  */
 namespace Magento\CatalogInventory\Model\Indexer\Stock\Plugin;
 
-class StoreGroup extends AbstractPlugin
+class StoreGroup
 {
+    /**
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
+     */
+    protected $_indexerProcessor;
+
+    /**
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor  $indexerProcessor
+     */
+    public function __construct(\Magento\CatalogInventory\Model\Indexer\Stock\Processor $indexerProcessor)
+    {
+        $this->_indexerProcessor = $indexerProcessor;
+    }
+
     /**
      * Before save handler
      *
