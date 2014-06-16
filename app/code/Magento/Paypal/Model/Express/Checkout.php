@@ -426,10 +426,12 @@ class Checkout
      * Set flag that forces to use BillMeLater
      *
      * @param bool $isBml
+     * @return $this
      */
     public function setIsBml($isBml)
     {
         $this->_isBml = $isBml;
+        return $this;
     }
 
     /**

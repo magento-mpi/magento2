@@ -100,6 +100,8 @@ class Form extends \Magento\Payment\Block\Form
     /**
      * Initializes redirect template and set mark
      * @param \Magento\Framework\View\Element\Template $mark
+     *
+     * @return void
      */
     protected function _initializeRedirectTemplateWithMark(\Magento\Framework\View\Element\Template $mark)
     {

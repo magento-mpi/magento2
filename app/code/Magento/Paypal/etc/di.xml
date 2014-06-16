@@ -39,7 +39,7 @@
     <type name="Magento\Paypal\Block\Express\Shortcut">
         <arguments>
             <argument name="paymentMethodCode" xsi:type="const">Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS</argument>
-            <argument name="startAction" xsi:type="string">paypal/express/start</argument>
+            <argument name="startAction" xsi:type="string">paypal/express/start/button/1</argument>
             <argument name="checkoutType" xsi:type="string">Magento\Paypal\Model\Express\Checkout</argument>
             <argument name="alias" xsi:type="string">product.info.addtocart.paypal</argument>
         </arguments>
@@ -47,7 +47,7 @@
     <virtualType name="Magento\Paypal\Block\PayflowExpress\Shortcut" type="Magento\Paypal\Block\Express\Shortcut">
         <arguments>
             <argument name="paymentMethodCode" xsi:type="const">Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS</argument>
-            <argument name="startAction" xsi:type="string">paypal/payflowexpress/start</argument>
+            <argument name="startAction" xsi:type="string">paypal/payflowexpress/start/button/1</argument>
             <argument name="checkoutType" xsi:type="string">Magento\Paypal\Model\PayflowExpress\Checkout</argument>
             <argument name="alias" xsi:type="string">product.info.addtocart.payflow</argument>
         </arguments>

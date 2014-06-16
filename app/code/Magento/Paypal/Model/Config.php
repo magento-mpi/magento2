@@ -1908,7 +1908,7 @@ class Config
 
     /**
      * Get Display option from stored config
-     * @param $section
+     * @param string $section
      *
      * @return mixed
      */
@@ -1935,7 +1935,7 @@ class Config
 
     /**
      * Get Position option from stored config
-     * @param $section
+     * @param string $section
      *
      * @return mixed
      */
@@ -1950,7 +1950,7 @@ class Config
 
     /**
      * Get Size option from stored config
-     * @param $section
+     * @param string $section
      *
      * @return mixed
      */

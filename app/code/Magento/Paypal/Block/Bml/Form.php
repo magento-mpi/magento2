@@ -21,6 +21,8 @@ class Form extends Express\Form
 
     /**
      * Set template and redirect message
+     *
+     * @return void
      */
     protected function _construct()
     {
