@@ -33,11 +33,6 @@
             <argument name="paypalClassName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\PaypalDirect</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Payflow\ProFactory" type="Magento\Paypal\Model\ProFactory">
-        <arguments>
-            <argument name="instanceName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro</argument>
-        </arguments>
-    </virtualType>
     <virtualType name="Magento\PbridgePaypal\Model\Payment\Method\Paypal\ProFactory" type="Magento\Paypal\Model\ProFactory">
         <arguments>
             <argument name="instanceName" xsi:type="string">Magento\PbridgePaypal\Model\Payment\Method\Paypal\Pro</argument>
