@@ -53,6 +53,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
 
             $resources = $route->getElementsByTagName('resource');
             $resourceReferences = [];
+            $resourcePermissionSet = [];
             /** @var \DOMElement $resource */
             foreach ($resources as $resource) {
                 if ($resource->nodeType != XML_ELEMENT_NODE) {
@@ -61,8 +62,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 $ref = $resource->attributes->getNamedItem('ref')->nodeValue;
                 $resourceReferences[$ref] = true;
                 // For SOAP
-                $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_ACL_RESOURCES][$ref] = true;
+                $resourcePermissionSet[] = $ref;
             }
+            $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_ACL_RESOURCES][]
+                = $resourcePermissionSet;
 
             $parameters = $route->getElementsByTagName('parameter');
             $data = [];
