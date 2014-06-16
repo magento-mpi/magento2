@@ -31,7 +31,7 @@ interface ReadServiceInterface
     public function info($id);
 
     /**
-     * Retrive the list of product attributes
+     * Retrieve the list of product attributes
      *
      * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResults containing Data\Eav\Attribute objects
