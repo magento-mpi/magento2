@@ -139,6 +139,22 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     * @dataProvider calculateTaxRoundingDataProvider
+     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
+     */
+    public function testCalculateTaxTotalBasedRounding($quoteDetailsData, $expectedTaxDetails, $storeId = null)
+    {
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
+
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+
+        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+    }
 
     public function calculateTaxNoTaxInclDataProvider()
     {
@@ -347,6 +363,105 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function calculateTaxRoundingDataProvider()
+    {
+        $prodRoundingNoTaxInclBase = [
+            'quote_details' => [
+                'shipping_address' => [
+                    'postcode' => '55555',
+                    'country_id' => 'US',
+                    'region' => ['region_id' => 42],
+                ],
+                'items' => [
+                    [
+                        'code' => 'code',
+                        'type' => 'type',
+                        'quantity' => 2,
+                        'unit_price' => 7.97,
+                        'row_total' => 15.94,
+                        'tax_included' => false,
+                    ],
+                ],
+                'customer_tax_class_id' => 'DefaultCustomerClass'
+            ],
+            'expected_tax_details' => [
+                'subtotal' => 15.94,
+                'tax_amount' => 0.0,
+                'discount_amount' => 0.0,
+                'items' => [],
+            ],
+            'store_id' => null,
+        ];
+
+        $prodQuoteDetailItemBase = [
+            'code' => 'code',
+            'type' => 'type',
+            'quantity' => 2,
+            'unit_price' => 7.97,
+            'row_total' => 15.94,
+            'tax_included' => false,
+        ];
+
+        $quoteDetailItemWithDefaultProductTaxClass = $prodQuoteDetailItemBase;
+        $quoteDetailItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
+
+        $prodExpectedItemWithNoProductTaxClass = [
+            'tax_amount' => 0,
+            'price' => 7.97,
+            'price_incl_tax' => 7.97,
+            'row_total' => 15.94,
+            'row_total_incl_tax' => 15.94,
+            'taxable_amount' => 15.94,
+            'code' => 'code',
+            'type' => 'type',
+            'tax_percent' => 0,
+        ];
+
+        $prodExpectedItemWithDefaultProductTaxClass = [
+            'tax_amount' => 1.20,
+            'price' => 7.97,
+            'price_incl_tax' => 8.57,
+            'row_total' => 15.94,
+            'row_total_incl_tax' => 17.14,
+            'taxable_amount' => 15.94,
+            'code' => 'code',
+            'type' => 'type',
+            'tax_percent' => 7.5,
+        ];
+
+        $prodWithStoreIdWithTaxClassId = $prodRoundingNoTaxInclBase;
+        $prodWithStoreIdWithoutTaxClassId = $prodRoundingNoTaxInclBase;
+        $prodWithoutStoreIdWithTaxClassId = $prodRoundingNoTaxInclBase;
+        $prodWithoutStoreIdWithoutTaxClassId = $prodRoundingNoTaxInclBase;
+
+        $prodWithStoreIdWithTaxClassId['store_id'] = 1;
+        $prodWithStoreIdWithTaxClassId['quote_details']['items'][] = $quoteDetailItemWithDefaultProductTaxClass;
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 1.20;
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithDefaultProductTaxClass;
+
+        $prodWithStoreIdWithoutTaxClassId['store_id'] = 1;
+        $prodWithStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
+        $prodWithStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithNoProductTaxClass;
+
+        $prodWithoutStoreIdWithTaxClassId['quote_details']['items'][] =
+            $quoteDetailItemWithDefaultProductTaxClass;
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 1.20;
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithDefaultProductTaxClass;
+
+        $prodWithoutStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
+        $prodWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithNoProductTaxClass;
+
+        return [
+            'rounding product with store id, with tax class id' => $prodWithStoreIdWithTaxClassId,
+            'rounding product with store id, without tax class id' => $prodWithStoreIdWithoutTaxClassId,
+            'rounding product without store id, with tax class id' => $prodWithoutStoreIdWithTaxClassId,
+            'rounding product without store id, without tax class id' => $prodWithoutStoreIdWithoutTaxClassId,
+        ];
+    }
 
 
     /**
