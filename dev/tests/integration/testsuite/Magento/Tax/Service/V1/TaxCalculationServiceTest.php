@@ -11,6 +11,9 @@ namespace Magento\Tax\Service\V1;
 use Magento\Tax\Model\ClassModel;
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -94,19 +97,232 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_address.php
-     * @magentoDataFixture Magento/Catalog/_files/products.php
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @magentoDataFixture Magento/Customer/_files/customer_group.php
+     * @magentoConfigFixture current_store tax/calculation/algorithm UNIT_BASE_CALCULATION
+     * @dataProvider calculateUnitBasedDataProvider
      */
-    public function testCalculateTaxUnitBased()
+    public function testCalculateTaxUnitBased($quoteDetailsData, $expected)
     {
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
 
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, 1);
+        $this->assertEquals($expected, $taxDetails->__toArray());
+    }
+
+    public function calculateUnitBasedDataProvider()
+    {
+        $baseQuote = $this->getBaseQuoteData();
+        $oneProduct = $baseQuote;
+        $oneProduct['items'][] = [
+            'code' => 'sku_1',
+            'type' => 'product',
+            'quantity' => 2,
+            'unit_price' => 10,
+            'row_total' => 20,
+            'tax_class_id' => 'DefaultProductClass',
+        ];
+        $oneProductResults = [
+            'subtotal' => 20,
+            'tax_amount' => 1.5,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'tax_amount' => 1.5,
+                    'price' => 10,
+                    'price_incl_tax' => 10.75,
+                    'row_total' => 20,
+                    'row_total_incl_tax' => 21.5,
+                    'taxable_amount' => 10,
+                    'code' => 'sku_1',
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                ],
+            ],
+        ];
+
+        $oneProductInclTax = $baseQuote;
+        $oneProductInclTax['items'][] = [
+            'code' => 'sku_1',
+            'type' => 'product',
+            'quantity' => 2,
+            'unit_price' => 10.75,
+            'row_total' => 21.5,
+            'tax_class_id' => 'DefaultProductClass',
+            'tax_included' => true,
+        ];
+        $oneProductInclTaxResults = $oneProductResults;
+        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
+        $oneProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
+
+        $oneProductInclTaxDiffRate = $baseQuote;
+        $oneProductInclTaxDiffRate['items'][] = [
+            'code' => 'sku_1',
+            'type' => 'product',
+            'quantity' => 2,
+            'unit_price' => 11,
+            'row_total' => 22,
+            'tax_class_id' => 'HigherProductClass',
+            'tax_included' => true,
+        ];
+        $oneProductInclTaxDiffRateResults = [
+            'subtotal' => 20,
+            'tax_amount' => 4.4,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'price' => 10,
+                    'price_incl_tax' => 12.2,
+                    'row_total' => 20,
+                    'row_total_incl_tax' => 24.4,
+                    'taxable_amount' => 12.2, // TODO: Possible bug, shouldn't this be 10?
+                    'code' => 'sku_1',
+                    'type' => 'product',
+                    'tax_percent' => 22.0,
+                    'tax_amount' => 4.4,
+                ],
+            ],
+        ];
+
+        $twoProducts = $baseQuote;
+        $twoProducts['items'] = [
+            [
+                'code' => 'sku_1',
+                'type' => 'product',
+                'quantity' => 2,
+                'unit_price' => 10,
+                'row_total' => 20,
+                'tax_class_id' => 'DefaultProductClass',
+            ],
+            [
+                'code' => 'sku_2',
+                'type' => 'product',
+                'quantity' => 20,
+                'unit_price' => 11,
+                'row_total' => 220,
+                'tax_class_id' => 'DefaultProductClass',
+            ]
+        ];
+        $twoProductsResults = [
+            'subtotal' => 240,
+            'tax_amount' => 18.1,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'price' => 10,
+                    'price_incl_tax' => 10.75,
+                    'row_total' => 20,
+                    'row_total_incl_tax' => 21.5,
+                    'taxable_amount' => 10,
+                    'code' => 'sku_1',
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'tax_amount' => 1.5,
+                ],
+                [
+                    'price' => 11,
+                    'price_incl_tax' => 11.83,
+                    'row_total' => 220,
+                    'row_total_incl_tax' => 236.6,
+                    'taxable_amount' => 11,
+                    'code' => 'sku_2',
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'tax_amount' => 16.6,
+                ],
+            ],
+        ];
+
+        $twoProductsInclTax = $baseQuote;
+        $twoProductsInclTax['items'] = [
+            [
+                'code' => 'sku_1',
+                'type' => 'product',
+                'quantity' => 2,
+                'unit_price' => 10.75,
+                'row_total' => 21.5,
+                'tax_class_id' => 'DefaultProductClass',
+                'tax_included' => true,
+            ],
+            [
+                'code' => 'sku_2',
+                'type' => 'product',
+                'quantity' => 20,
+                'unit_price' => 11.83,
+                'row_total' => 236.6,
+                'tax_class_id' => 'DefaultProductClass',
+                'tax_included' => true,
+            ]
+        ];
+        $twoProductInclTaxResults = $twoProductsResults;
+        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
+        $twoProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
+        $twoProductInclTaxResults['items'][1]['taxable_amount'] = 11.83;
+
+        $bundleProduct = $baseQuote;
+        $bundleProduct['items'][] = [
+            'code' => 'sku_1',
+            'type' => 'product',
+            'quantity' => 1,
+            'unit_price' => 10,
+            'row_total' => 10,
+            'tax_class_id' => 'DefaultProductClass',
+        ];
+        $bundleProduct['items'][] = [
+            'code' => 'bundle',
+            'type' => 'product',
+            'quantity' => 2,
+            'unit_price' => 0,
+            'row_total' => 0,
+            'tax_class_id' => 'DefaultProductClass',
+            'child_codes' => ['sku_1'],
+        ];
+        $bundleProductResults = [
+            'subtotal' => 20,
+            'tax_amount' => 1.5,
+            'discount_amount' => 0,
+            'items' => [
+                [
+                    'tax_amount' => 1.5,
+                    'price' => 10,
+                    'price_incl_tax' => 10.75,
+                    'row_total' => 20,
+                    'row_total_incl_tax' => 21.5,
+                    'taxable_amount' => 10,
+                    'code' => 'bundle',
+                    'type' => 'product',
+                ],
+            ],
+        ];
+
+        return [
+            'one product' => [
+                'quote_details' => $oneProduct,
+                'expected_tax_details' => $oneProductResults,
+            ],
+            'one product, tax included' => [
+                'quote_details' => $oneProductInclTax,
+                'expected_tax_details' => $oneProductInclTaxResults,
+            ],
+            'one product, tax included but differs from store rate' => [
+                'quote_details' => $oneProductInclTaxDiffRate,
+                'expected_tax_details' => $oneProductInclTaxDiffRateResults,
+            ],
+            'two products' => [
+                'quote_details' => $twoProducts,
+                'expected_tax_details' => $twoProductsResults,
+            ],
+            'two products, tax included' => [
+                'quote_details' => $twoProductsInclTax,
+                'expected_tax_details' => $twoProductInclTaxResults,
+            ],
+            'bundle product' => [
+                'quote_details' => $bundleProduct,
+                'expected_tax_details' => $bundleProductResults,
+            ],
+        ];
     }
 
     /**
-     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      * @dataProvider calculateTaxNoTaxInclDataProvider
      * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
@@ -123,7 +339,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      * @dataProvider calculateTaxTaxInclDataProvider
      * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
@@ -485,15 +700,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function calculateTaxRowBasedDataProvider()
     {
-        $baseQuote = [
-            'shipping_address' => [
-                'postcode' => '55555',
-                'country_id' => 'US',
-                'region' => ['region_id' => 42],
-            ],
-            'items' => [],
-            'customer_tax_class_id' => 'DefaultCustomerClass',
-        ];
+        $baseQuote = $this->getBaseQuoteData();
         $oneProduct = $baseQuote;
         $oneProduct['items'][] = [
             'code' => 'sku_1',
@@ -820,4 +1027,25 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
     }
 
+    /**
+     * @return array
+     */
+    private function getBaseQuoteData()
+    {
+        $baseQuote = [
+            'billing_address' => [
+                'postcode' => '55555',
+                'country_id' => 'US',
+                'region' => ['region_id' => 42],
+            ],
+            'shipping_address' => [
+                'postcode' => '55555',
+                'country_id' => 'US',
+                'region' => ['region_id' => 42],
+            ],
+            'items' => [],
+            'customer_tax_class_id' => 'DefaultCustomerClass',
+        ];
+        return $baseQuote;
+    }
 }
