@@ -249,8 +249,8 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
         );
 
         // Add total Weee amounts in the subtotal
-        $address->setSubtotalInclTax($address->getSubtotalInclTax() + $totalRowValue);
-        $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax() + $baseTotalRowValue);
+        $address->setSubtotalInclTax($address->getSubtotalInclTax());
+        $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax());
 
         $this->_weeeData->setApplied($item, array_merge($this->_weeeData->getApplied($item), $productTaxes));
 
