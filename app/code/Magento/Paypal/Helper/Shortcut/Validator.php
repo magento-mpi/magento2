@@ -63,8 +63,8 @@ class Validator implements ValidatorInterface
     public function validate($code, $isInCatalog)
     {
         return $this->isContextAvailable($code, $isInCatalog)
-        && $this->isPriceOrSetAvailable($isInCatalog)
-        && $this->isMethodAvailable($code);
+            && $this->isPriceOrSetAvailable($isInCatalog)
+            && $this->isMethodAvailable($code);
     }
 
     /**
@@ -102,7 +102,7 @@ class Validator implements ValidatorInterface
             $currentProduct = $this->_registry->registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (double)$currentProduct->getFinalPrice();
-                if (empty($productPrice) && !$this->productTypeConfig->isProductSet($currentProduct->getTypeId())) {
+                if (empty($productPrice) && !$this->_productTypeConfig->isProductSet($currentProduct->getTypeId())) {
                     return  false;
                 }
             }
