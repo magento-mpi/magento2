@@ -245,10 +245,11 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected function _overrideParams(array $inputData, array $parameters)
     {
         foreach ($parameters as $name => $paramData) {
-            if ($paramData['value'] == ':session') {
-                $inputData[$name] = $this->session->getUserId();
-            } else if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
-                $inputData[$name] = $paramData[Converter::KEY_VALUE];
+            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+                $value = isset($paramData['source']) && $paramData['source'] == 'session'
+                    ? $this->session->{$paramData['method']}()
+                    : $paramData[Converter::KEY_VALUE];
+                $inputData[$name] = $value;
             }
         }
         return $inputData;

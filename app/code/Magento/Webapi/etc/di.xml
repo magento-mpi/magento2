@@ -49,9 +49,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\App\Action\Context">
-        <arguments>
-            <argument name="request" xsi:type="object">Magento\Webapi\Controller\Rest\Request\Proxy</argument>
-        </arguments>
-    </type>
 </config>

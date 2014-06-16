@@ -37,6 +37,26 @@ return [
         ],
     ],
     'routes' => [
+        '/V1/customers/me/session' => [
+            'GET' => [
+                'secure' => false,
+                'service' => [
+                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
+                    'method' => 'getCustomer',
+                ],
+                'resources' => [
+                    'Magento_Customer::customer_self' => true,
+                ],
+                'parameters' => [
+                    'id' => [
+                        'force' => true,
+                        'source' => 'session',
+                        'method' => 'getUserId',
+                        'value' => null,
+                    ],
+                ],
+            ],
+        ],
         '/V1/customers/me' => [
             'GET' => [
                 'secure' => false,

@@ -28,6 +28,9 @@ use Magento\Webapi\ServiceResourceNotFoundException;
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
+    const PERMISSION_ANONYMOUS = 'anonymous';
+    const PERMISSION_SELF = 'self';
+
     /**
      * @var AclBuilder
      */
@@ -105,32 +108,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     public function isAllowed($resources, UserIdentifier $userIdentifier = null)
     {
-        $resources = is_array($resources) ? $resources : array($resources);
+        $resources = is_array($resources) ? $resources : [$resources];
         $userIdentifier = $userIdentifier ? $userIdentifier : $this->_userIdentifier;
-        try {
-            $role = $this->_getUserRole($userIdentifier);
-            if (!$role) {
-                throw new ServiceResourceNotFoundException(
-                    __(
-                        'Role for user with ID "%1" and user type "%2" cannot be found.',
-                        $userIdentifier->getUserId(),
-                        $userIdentifier->getUserType()
-                    )
-                );
-            }
-            foreach ($resources as $resource) {
-                //self and anonymous are not identified as valid resources in $this->_aclBuilder->getAcl()->isAllowed
-                if (!$this->_isAllowedForSystemRole($role->getRoleName(), $resource)
-                    && !$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)
-                ) {
-                    return false;
-                }
-            }
+        if ($this->_isAnonymousOrSelfAllowed($resources, $userIdentifier)) {
             return true;
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            return false;
         }
+        return $this->_isUserWithRoleAllowed($resources, $userIdentifier);
     }
 
     /**
@@ -167,7 +150,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     public function getAllowedResources(UserIdentifier $userIdentifier)
     {
-        $allowedResources = array();
+        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_GUEST) {
+            return [self::PERMISSION_ANONYMOUS];
+        } elseif ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER) {
+            return [self::PERMISSION_SELF];
+        }
+        $allowedResources = [];
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
@@ -221,9 +209,8 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _createRole($userIdentifier)
     {
         $userType = $userIdentifier->getUserType();
-        if ($this->_existsSystemRoleForUserType($userType)) {
-            throw new \LogicException("The role with user type '{$userType}' cannot be created since there should be "
-                . "a single system role with this user type.");
+        if (!$this->_canRoleBeCreatedForUserType($userType)) {
+            throw new \LogicException("The role with user type '{$userType}' cannot be created");
         }
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
@@ -256,8 +243,8 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _deleteRole($userIdentifier)
     {
         $userType = $userIdentifier->getUserType();
-        if ($this->_existsSystemRoleForUserType($userType)) {
-            throw new \LogicException("The role with user type '{$userType}' is system and cannot be deleted.");
+        if (!$this->_canRoleBeCreatedForUserType($userType)) {
+            throw new \LogicException("The role with user type '{$userType}' cannot be created or deleted.");
         }
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
@@ -276,18 +263,20 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return Role|false Return false in case when no role associated with provided user was found.
+     * @throws \LogicException
      */
     protected function _getUserRole($userIdentifier)
     {
+        if (!$this->_canRoleBeCreatedForUserType($userIdentifier)) {
+            throw new \LogicException(
+                "The role with user type '{$userIdentifier->getUserType()}' does not exist and cannot be created"
+            );
+        }
         $roleCollection = $this->_roleCollectionFactory->create();
         $userType = $userIdentifier->getUserType();
         /** @var Role $role */
-        if ($this->_existsSystemRoleForUserType($userType)) {
-            $role = $roleCollection->setUserTypeFilter($userType)->getFirstItem();
-        } else {
-            $userId = $userIdentifier->getUserId();
-            $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
-        }
+        $userId = $userIdentifier->getUserId();
+        $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
         return $role->getId() ? $role : false;
     }
 
@@ -301,40 +290,74 @@ class AuthorizationV1 implements AuthorizationV1Interface
      */
     protected function _associateResourcesWithRole($role, array $resources)
     {
-        if ($this->_existsSystemRoleForUserType($role->getUserType())) {
-            throw new \LogicException(
-                "Neither role with user type '{$role->getUserType()}' nor its permissions cannot be changed."
-            );
-        }
         /** @var \Magento\User\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();
         $rules->setRoleId($role->getId())->setResources($resources)->saveRel();
     }
 
     /**
-     * Check if there is system role associated with the provided user type.
+     * Check if there role can be associated with user having provided user type.
      *
-     * System role cannot be changed and its permissions cannot be amended.
-     * There are two system roles: customer and guest
+     * Roles cannot be created for guests and customers.
      *
      * @param string $userType
      * @return bool
      */
-    protected function _existsSystemRoleForUserType($userType)
+    protected function _canRoleBeCreatedForUserType($userType)
     {
-        return ($userType == UserIdentifier::USER_TYPE_CUSTOMER) || ($userType == UserIdentifier::USER_TYPE_GUEST);
+        return ($userType != UserIdentifier::USER_TYPE_CUSTOMER) && ($userType != UserIdentifier::USER_TYPE_GUEST);
     }
 
     /**
-     * Check if  the system role is associated with the allowed resource
+     * Check if the user has permission to access the requested resources.
      *
-     * @param string $role
-     * @param string $resource
+     * @param string[] $resources
+     * @param UserIdentifier $userIdentifier
      * @return bool
      */
-    protected function _isAllowedForSystemRole($role, $resource)
+    protected function _isAnonymousOrSelfAllowed($resources, UserIdentifier $userIdentifier)
     {
-        return ($role == UserIdentifier::USER_TYPE_CUSTOMER && $resource == 'self')
-        || ($role == UserIdentifier::USER_TYPE_GUEST && $resource == 'anonymous');
+        if (count($resources) == 1) {
+            $resource = reset($resources);
+            $isAnonymousAccess = ($resource == self::PERMISSION_ANONYMOUS);
+            $isSelfAccess = ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_CUSTOMER)
+                && ($resource == self::PERMISSION_SELF);
+            if ($isAnonymousAccess || $isSelfAccess) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if user who has role is allowed to access requested resources.
+     *
+     * @param string[] $resources
+     * @param UserIdentifier $userIdentifier
+     * @return bool
+     */
+    protected function _isUserWithRoleAllowed($resources, UserIdentifier $userIdentifier)
+    {
+        try {
+            $role = $this->_getUserRole($userIdentifier);
+            if (!$role) {
+                throw new ServiceResourceNotFoundException(
+                    __(
+                        'Role for user with ID "%1" and user type "%2" cannot be found.',
+                        $userIdentifier->getUserId(),
+                        $userIdentifier->getUserType()
+                    )
+                );
+            }
+            foreach ($resources as $resource) {
+                if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            return false;
+        }
     }
 }
