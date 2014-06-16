@@ -241,12 +241,12 @@ class Integration extends Action
                     $integration = $this->_integrationService->update($integrationData);
                 }
                 if (!$this->getRequest()->isXmlHttpRequest()) {
-                $this->messageManager->addSuccess(
-                    __(
-                        'The integration \'%1\' has been saved.',
-                        $this->escaper->escapeHtml($integration->getName())
-                    )
-                );
+                    $this->messageManager->addSuccess(
+                        __(
+                            'The integration \'%1\' has been saved.',
+                            $this->escaper->escapeHtml($integration->getName())
+                        )
+                    );
                 }
                 if ($this->getRequest()->isXmlHttpRequest()) {
                     $isTokenExchange = $integration->getEndpoint() && $integration->getIdentityLinkUrl() ? '1' : '0';

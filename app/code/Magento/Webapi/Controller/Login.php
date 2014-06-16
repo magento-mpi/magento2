@@ -58,6 +58,8 @@ class Login extends \Magento\Framework\App\Action\Action
      * Login registered users and initiate a session. Send back the session id.
      *
      * Expects a POST. ex for JSON  {"username":"user@magento.com", "password":"userpassword"}
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -91,6 +93,8 @@ class Login extends \Magento\Framework\App\Action\Action
 
     /**
      * Initiate a session for unregistered users. Send back the session id.
+     *
+     * @return void
      */
     public function anonymousAction()
     {

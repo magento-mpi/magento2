@@ -27,6 +27,7 @@ use Magento\Webapi\Controller\Rest\Router\Route;
  * TODO: Consider warnings suppression removal
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Rest implements \Magento\Framework\App\FrontControllerInterface
 {
@@ -274,6 +275,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * Authentication can be based on active customer/guest session or it can be based on OAuth headers.
      *
      * @throws \Magento\Framework\Exception\AuthorizationException
+     * @return void
      */
     protected function _checkPermissions()
     {
