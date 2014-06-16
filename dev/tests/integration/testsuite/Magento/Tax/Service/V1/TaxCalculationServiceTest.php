@@ -108,11 +108,13 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxDataProvider
+     * @dataProvider calculateTaxNoTaxInclDataProvider
      * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
      */
-    public function testCalculateTaxTotalBased($quoteDetailsData, $expectedTaxDetails, $storeId = null)
+    public function testCalculateTaxTotalBasedNoTaxIncl($quoteDetailsData, $expectedTaxDetails, $storeId = null)
     {
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+
         $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
@@ -120,13 +122,32 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
 
-    public function calculateTaxDataProvider()
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
+     * @dataProvider calculateTaxTaxInclDataProvider
+     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
+     */
+    public function testCalculateTaxTotalBasedTaxIncl($quoteDetailsData, $expectedTaxDetails, $storeId = null)
     {
-        $data = [
+        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
+
+        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
+
+        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+
+        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+    }
+
+
+    public function calculateTaxNoTaxInclDataProvider()
+    {
+        $prodNoTaxInclBase = [
             'quote_details' => [
                 'shipping_address' => [
-                    'vat_id' => 0,
                     'postcode' => '55555',
+                    'country_id' => 'US',
+                    'region' => ['region_id' => 42],
                 ],
                 'items' => [
                     [
@@ -134,48 +155,199 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                         'type' => 'type',
                         'quantity' => 1,
                         'unit_price' => 10.0,
+                        'row_total' => 10.0,
+                        'tax_included' => false,
                     ],
                 ],
-                'customer_tax_class_id' => 1
+                'customer_tax_class_id' => 'DefaultCustomerClass'
             ],
             'expected_tax_details' => [
-                'subtotal' => 0.0,
+                'subtotal' => 10.0,
                 'tax_amount' => 0.0,
                 'discount_amount' => 0.0,
-                'items' => [
-                    [
-                        'tax_amount' => 0,
-                        'price' => 10.0,
-                        'price_incl_tax' => 0.0,
-                        'row_total' => 0.0,
-                        'row_total_incl_tax' => 0.0,
-                        'taxable_amount' => 0.0,
-                        'code' => 'code',
-                        'type' => 'type',
-                        'tax_percent' => 0,
-                    ],
-                ],
+                'items' => [],
             ],
             'store_id' => null,
         ];
 
-        $oneProductWithStoreIdWithTaxClassId = $data;
-        $oneProductWithStoreIdWithoutTaxClassId = $data;
-        $oneProductWithoutStoreIdWithoutTaxClassId = $data;
+        $prodQuoteDetailItemBase = [
+            'code' => 'code',
+            'type' => 'type',
+            'quantity' => 1,
+            'unit_price' => 10.0,
+            'row_total' => 10.0,
+            'tax_included' => false,
+        ];
 
-        $oneProductWithStoreIdWithTaxClassId['store_id'] = 1;
-        $oneProductWithStoreIdWithoutTaxClassId['store_id'] = 1;
+        $quoteDetailItemWithDefaultProductTaxClass = $prodQuoteDetailItemBase;
+        $quoteDetailItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
-        $oneProductWithStoreIdWithTaxClassId['quote_details']['items'][0]['tax_class_id'] = 2;
-        $oneProductWithoutStoreIdWithoutTaxClassId['quote_details']['items'][0]['tax_class_id'] = 2;
+        $prodExpectedItemWithNoProductTaxClass = [
+            'tax_amount' => 0,
+            'price' => 10.0,
+            'price_incl_tax' => 10.0,
+            'row_total' => 10.0,
+            'row_total_incl_tax' => 10.0,
+            'taxable_amount' => 10.0,
+            'code' => 'code',
+            'type' => 'type',
+            'tax_percent' => 0,
+        ];
+
+        $prodExpectedItemWithDefaultProductTaxClass = [
+            'tax_amount' => 0.75,
+            'price' => 10.0,
+            'price_incl_tax' => 10.75,
+            'row_total' => 10.0,
+            'row_total_incl_tax' => 10.75,
+            'taxable_amount' => 10.0,
+            'code' => 'code',
+            'type' => 'type',
+            'tax_percent' => 7.5,
+        ];
+
+        $prodWithStoreIdWithTaxClassId = $prodNoTaxInclBase;
+        $prodWithStoreIdWithoutTaxClassId = $prodNoTaxInclBase;
+        $prodWithoutStoreIdWithTaxClassId = $prodNoTaxInclBase;
+        $prodWithoutStoreIdWithoutTaxClassId = $prodNoTaxInclBase;
+
+        $prodWithStoreIdWithTaxClassId['store_id'] = 1;
+        $prodWithStoreIdWithTaxClassId['quote_details']['items'][] = $quoteDetailItemWithDefaultProductTaxClass;
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.75;
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithDefaultProductTaxClass;
+
+        $prodWithStoreIdWithoutTaxClassId['store_id'] = 1;
+        $prodWithStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
+        $prodWithStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithNoProductTaxClass;
+
+        $prodWithoutStoreIdWithTaxClassId['quote_details']['items'][] =
+            $quoteDetailItemWithDefaultProductTaxClass;
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.75;
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithDefaultProductTaxClass;
+
+        $prodWithoutStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
+        $prodWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+            $prodExpectedItemWithNoProductTaxClass;
 
         return [
-            'one product with store id, with tax class id' => $oneProductWithStoreIdWithTaxClassId,
-            'one product with store id, without tax class id' => $oneProductWithStoreIdWithoutTaxClassId,
-            'one product without store id, with tax class id' => $oneProductWithoutStoreIdWithoutTaxClassId,
-            'one product without store id, without tax class id' => $data,
+            'product with store id, with tax class id' => $prodWithStoreIdWithTaxClassId,
+            'product with store id, without tax class id' => $prodWithStoreIdWithoutTaxClassId,
+            'product without store id, with tax class id' => $prodWithoutStoreIdWithTaxClassId,
+            'product without store id, without tax class id' => $prodWithoutStoreIdWithoutTaxClassId,
         ];
     }
+
+    public function calculateTaxTaxInclDataProvider()
+    {
+        $productTaxInclBase = [
+            'quote_details' => [
+                'shipping_address' => [
+                    'postcode' => '55555',
+                    'country_id' => 'US',
+                    'region' => ['region_id' => 42],
+                ],
+                'items' => [
+                    [
+                        'code' => 'code',
+                        'type' => 'type',
+                        'quantity' => 1,
+                        'unit_price' => 10.0,
+                        'row_total' => 10.0,
+                        'tax_included' => true,
+                    ],
+                ],
+                'customer_tax_class_id' => 'DefaultCustomerClass'
+            ],
+            'expected_tax_details' => [
+                'subtotal' => 10.0,
+                'tax_amount' => 0.0,
+                'discount_amount' => 0.0,
+                'items' => [],
+            ],
+            'store_id' => null,
+        ];
+
+        $productTaxInclQuoteDetailItemBase = [
+            'code' => 'code',
+            'type' => 'type',
+            'quantity' => 1,
+            'unit_price' => 10.0,
+            'row_total' => 10.0,
+            'tax_included' => true,
+        ];
+
+        $quoteDetailTaxInclItemWithDefaultProductTaxClass = $productTaxInclQuoteDetailItemBase;
+        $quoteDetailTaxInclItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
+
+        $productTaxInclExpectedItemWithNoProductTaxClass = [
+            'tax_amount' => 0,
+            'price' => 10.0,
+            'price_incl_tax' => 10.0,
+            'row_total' => 10.0,
+            'row_total_incl_tax' => 10.0,
+            'taxable_amount' => 10.0,
+            'code' => 'code',
+            'type' => 'type',
+            'tax_percent' => 0,
+        ];
+
+        $productTaxInclExpectedItemWithDefaultProductTaxClass = [
+            'tax_amount' => 0.70,
+            'price' => 9.30,
+            'price_incl_tax' => 10.00,
+            'row_total' => 9.30,
+            'row_total_incl_tax' => 10.0,
+            'taxable_amount' => 9.30,
+            'code' => 'code',
+            'type' => 'type',
+            'tax_percent' => 7.5,
+        ];
+
+        $productInclTaxWithStoreIdWithTaxClassId = $productTaxInclBase;
+        $productInclTaxWithStoreIdWithoutTaxClassId = $productTaxInclBase;
+        $productInclTaxWithoutStoreIdWithTaxClassId = $productTaxInclBase;
+        $productInclTaxWithoutStoreIdWithoutTaxClassId = $productTaxInclBase;
+
+        $productInclTaxWithStoreIdWithTaxClassId['store_id'] = 1;
+        $productInclTaxWithStoreIdWithTaxClassId['quote_details']['items'][] =
+            $quoteDetailTaxInclItemWithDefaultProductTaxClass;
+        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.70;
+        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['subtotal'] = 9.30;
+        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+            $productTaxInclExpectedItemWithDefaultProductTaxClass;
+        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['items'][0]['taxable_amount'] = 10.00;
+
+        $productInclTaxWithStoreIdWithoutTaxClassId['store_id'] = 1;
+        $productInclTaxWithStoreIdWithoutTaxClassId['quote_details']['items'][] =
+            $productTaxInclQuoteDetailItemBase;
+        $productInclTaxWithStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+            $productTaxInclExpectedItemWithNoProductTaxClass;
+
+        $productInclTaxWithoutStoreIdWithTaxClassId['quote_details']['items'][] =
+            $quoteDetailTaxInclItemWithDefaultProductTaxClass;
+        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.70;
+        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['subtotal'] = 9.30;
+        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+            $productTaxInclExpectedItemWithDefaultProductTaxClass;
+        /* TODO: BUG? */
+        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][0]['taxable_amount'] = 10.00;
+
+        $productInclTaxWithoutStoreIdWithoutTaxClassId['quote_details']['items'][] = $productTaxInclQuoteDetailItemBase;
+        $productInclTaxWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+            $productTaxInclExpectedItemWithNoProductTaxClass;
+
+        return [
+            'product incl tax with store id, with tax class id' => $productInclTaxWithStoreIdWithTaxClassId,
+            'product incl tax with store id, without tax class id' => $productInclTaxWithStoreIdWithoutTaxClassId,
+            'product incl tax without store id, with tax class id' => $productInclTaxWithoutStoreIdWithTaxClassId,
+            'product incl tax without store id, without tax class id' => $productInclTaxWithoutStoreIdWithoutTaxClassId,
+        ];
+    }
+
+
 
     /**
      * @magentoDbIsolation enabled
