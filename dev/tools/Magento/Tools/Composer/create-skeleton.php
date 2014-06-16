@@ -46,12 +46,12 @@ try {
         case 'enterprise':
         case 'ee':
             $logger->info('Your Edition: Enterprise');
-            $product = new Package("magento/enterprise-edition", "0.1.0", '', 'project');
+            $product = new Package("magento/product-enterprise", "0.1.0", '', 'project');
             break;
         case 'community':
         case 'ce':
             $logger->info('Your Edition: Community');
-            $product = new Package("magento/community-edition", "0.1.0", '', 'project');
+            $product = new Package("magento/product-community", "0.1.0", '', 'project');
             break;
         default:
             $logger->info('Edition value not acceptable. Acceptable values: [ee|ce]');
