@@ -57,12 +57,9 @@
     .css(appearance, none, 1);
     appearance: none;
     border: 1px solid @border-color-base;
-    border-radius: 3px;
     background: transparent;
     max-width: 200px;
     height: 32px;
-    @_shadow: inset 0px 1px 0px 0px rgba(255,255,255,1), inset 0px -1px 0px 0px fade(@border-color-base, 30);
-    .css(box-shadow, @_shadow);
     .url("images/select-bg.svg");
     background-image: url("@{url}");
     background-repeat: no-repeat;
