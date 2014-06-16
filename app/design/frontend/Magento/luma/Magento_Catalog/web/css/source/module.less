@@ -139,6 +139,11 @@
     padding-top: 55px;
 }
 .toolbar {
+    select {
+        border-radius: 3px;
+        @_shadow: inset 0px 1px 0px 0px rgba(255,255,255,1), inset 0px -1px 0px 0px fade(@border-color-base, 30);
+        .css(box-shadow, @_shadow);
+    }
     &-products {
         .catalog-category-view & {
             position: absolute;
@@ -193,6 +198,11 @@
     display: none;
 }
 .responsive(@break) when (@break = @break-point-0) {
+    .catalog-category-view .columns {
+        position: relative;
+        z-index: 1;
+        padding-top: 0;
+    }
     .toolbar {
         .catalog-category-view &-products {
             position: static;
@@ -354,7 +364,7 @@
                 margin-top: 5px;
                 .icon-font(
                     @icon-wishlist-full,
-                    @_icon-font-size: 22px,
+                    @_icon-font-size: 18px,
                     @_icon-font-color: @text-color-muted,
                     @_icon-font-text-hide: true,
                     @_icon-font-vertical-align: middle,
@@ -368,7 +378,7 @@
                 margin-top: 5px;
                 .icon-font(
                     @icon-compare-full,
-                    @_icon-font-size: 22px,
+                    @_icon-font-size: 18px,
                     @_icon-font-color: @text-color-muted,
                     @_icon-font-text-hide: true,
                     @_icon-font-vertical-align: middle,
@@ -391,7 +401,7 @@
         .products.list.items {
             .item.product {
                 display: block;
-                margin-bottom: @indent-l-base;
+                margin-bottom: @indent-m-base;
             }
             .product.photo {
                 display: block;
@@ -813,7 +823,7 @@
         &.wrapper.list {
             .products.list.items {
                 .item.product {
-                    margin-bottom: 2 * @indent-xl-base;
+                    margin-bottom: @indent-l-base;
                     > .product {
                         display: table;
                         width: 100%;

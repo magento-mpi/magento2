@@ -12,6 +12,10 @@
 body.filter-active {
     width:100%; height: 100%;
     overflow: hidden;
+    .page-wrapper {
+        height:0;
+        overflow: hidden;
+    }
     .columns {
         z-index: 999;
     }
@@ -213,6 +217,10 @@ body.filter-active {
     body.filter-active {
         width:auto; height: auto;
         overflow: auto;
+        .page-wrapper {
+            height:auto;
+            overflow: auto;
+        }
         .columns {
             position: static;
         }
