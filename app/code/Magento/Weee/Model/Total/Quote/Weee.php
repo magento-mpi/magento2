@@ -23,13 +23,6 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     protected $_store;
 
     /**
-     * Flag which notify what tax amount can be affected by fixed product tax
-     *
-     * @var bool
-     */
-    protected $_isTaxAffected;
-
-    /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Tax\Model\Config $taxConfig
@@ -55,7 +48,6 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::collect($address);
-        $this->_isTaxAffected = false;
         $items = $this->_getAddressItems($address);
         if (!count($items)) {
             return $this;
@@ -85,7 +77,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     }
 
     /**
-     * Calculate item fixed tax and prepare information for discount and recular taxation
+     * Calculate item fixed tax and prepare information for discount and regular taxation
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
@@ -256,7 +248,10 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $baseTotalRowValueInclTax
         );
 
-        //Update applied weee for the item
+        // Add total Weee amounts in the subtotal
+        $address->setSubtotalInclTax($address->getSubtotalInclTax() + $totalRowValue);
+        $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax() + $baseTotalRowValue);
+
         $this->_weeeData->setApplied($item, array_merge($this->_weeeData->getApplied($item), $productTaxes));
 
         //Update the applied taxes for the quote
@@ -300,6 +295,13 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _processTaxSettings($item, $value, $baseValue, $rowValue, $baseRowValue)
     {
+        if ($rowValue) {
+            $item->unsRowTotalInclTax()
+                ->unsBaseRowTotalInclTax()
+                ->unsPriceInclTax()
+                ->unsBasePriceInclTax();
+        }
+
         if ($this->_weeeData->isTaxable($this->_store) && $rowValue) {
             $item->setExtraTaxableAmount($value)
                 ->setBaseExtraTaxableAmount($baseValue)
