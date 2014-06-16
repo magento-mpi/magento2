@@ -87,7 +87,9 @@ try {
                     $foundComposerJson = true;
                     $json = json_decode(file_get_contents($file));
                     $name = Helper::vendorPackageToName($json->name);
-                    if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1')    ;
+                    if ($name == '') {
+                        throw new \Exception('Not a valid vendorPackage name', '1');
+                    }
                     $noOfZips += Zipper::Zip(
                         dirname($file),
                         $generationDir . '/' . $name . "-". $json->version . '.zip',
@@ -118,7 +120,9 @@ try {
     if (file_exists(str_replace('\\', '/', realpath(BP)) . '/composer.json')) {
         $json = json_decode(file_get_contents(str_replace('\\', '/', realpath(BP)) . '/composer.json'));
         $name = Helper::vendorPackageToName($json->name);
-        if ($name == '') throw new \Exception('Not a valid vendorPackage name', '1');
+        if ($name == '') {
+            throw new \Exception('Not a valid vendorPackage name', '1');
+        }
         $noOfZips += Zipper::Zip(
             str_replace('\\', '/', realpath(BP)),
             $generationDir . '/' . $name . '-'. $json->version . '.zip',
