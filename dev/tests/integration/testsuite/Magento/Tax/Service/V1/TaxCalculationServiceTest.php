@@ -193,6 +193,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateTaxRowBasedDataProvider()
     {
         $baseQuote = [
@@ -374,6 +377,12 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * Substitutes an ID for the name of a tax class in a tax class ID field.
+     *
+     * @param array $data
+     * @return array
+     */
     private function performTaxClassSubstitution($data)
     {
         array_walk_recursive($data,
