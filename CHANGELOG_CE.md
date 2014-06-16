@@ -1,3 +1,4 @@
+* Added support for MTF Reporting Tool
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `ConfigurableProduct/Helper/Data.php`
