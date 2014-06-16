@@ -558,8 +558,7 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $stockItemDetailsDoData,
         $dataToSave,
         $savedStockItemId
-    )
-    {
+    ) {
         // 1. Create mocks
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
