@@ -10,7 +10,7 @@ namespace Magento\Framework\App\Config;
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Config\Element
+     * @var Element
      */
     protected $_model;
 
@@ -24,6 +24,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         <value_sensitive_key>vaLue</value_sensitive_key>
         <false_key>false</false_key>
         <off_key>off</off_key>
+        <on_key>on</on_key>
         <regular_cdata><![CDATA[value]]></regular_cdata>
         <empty_cdata><![CDATA[]]></empty_cdata>
         <empty_text></empty_text>
@@ -39,15 +40,12 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     </no_classname_test>
 </root>
 XML;
-        /**
-         * @TODO: Need to use ObjectManager instead 'new'.
-         * On this moment we have next bug MAGETWO-4274 which blocker for this key.
-         */
-        $this->_model = new \Magento\Framework\App\Config\Element($xml);
+        $this->_model = new Element($xml);
     }
 
     public function testIs()
     {
+        /** @var Element $element */
         $element = $this->_model->is_test;
         $this->assertTrue($element->is('value_key', 'value'));
         $this->assertTrue($element->is('value_sensitive_key', 'value'));
@@ -55,6 +53,7 @@ XML;
         $this->assertFalse($element->is('false_key'));
         $this->assertFalse($element->is('empty_cdata'));
         $this->assertFalse($element->is('empty_text'));
+        $this->assertTrue($element->is('on_key'));
     }
 
     public function testGetClassName()
@@ -63,4 +62,4 @@ XML;
         $this->assertEquals('Magento\Catalog\Model\Observer', $this->_model->model_test->getClassName());
         $this->assertFalse($this->_model->no_classname_test->getClassName());
     }
-}
+} 
