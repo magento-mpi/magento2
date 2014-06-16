@@ -250,7 +250,7 @@ abstract class AbstractType
      * Get array of product set attributes
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute[]
      */
     public function getSetAttributes($product)
     {
@@ -286,7 +286,7 @@ abstract class AbstractType
      * Retrieve product type attributes
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute[]
      */
     public function getEditableAttributes($product)
     {
