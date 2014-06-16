@@ -29,7 +29,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ));
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $attributeTypeBuilder = $helper->getObject('\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder');
+        $attributeTypeBuilder = $helper->getObject(
+            '\Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder'
+        );
         $productAttributeReadService = $objectManager->getObject(
             '\Magento\Catalog\Service\V1\Product\Attribute\ReadService',
             [
@@ -75,6 +77,9 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $service->info($attributeCode);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testSearch()
     {
         $attrCollectionMock = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Collection',

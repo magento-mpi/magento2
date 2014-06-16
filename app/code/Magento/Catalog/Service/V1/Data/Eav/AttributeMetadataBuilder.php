@@ -438,6 +438,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
 
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _setDataValues(array $data)
     {

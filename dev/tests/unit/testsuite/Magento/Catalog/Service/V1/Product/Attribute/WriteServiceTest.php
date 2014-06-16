@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\Attribute;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +35,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $eavConfig;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel | \PHPUnit_Framework_MockObject_MockObject
+     * @var FrontendLabel | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $frontendLabelMock;
 
