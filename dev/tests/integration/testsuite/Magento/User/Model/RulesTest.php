@@ -46,7 +46,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialUserPermissions()
     {
-        $expectedDefaultPermissions = ['Magento_Adminhtml::all', 'self', 'anonymous'];
+        $expectedDefaultPermissions = ['Magento_Adminhtml::all'];
         $this->_checkExistingPermissions($expectedDefaultPermissions);
     }
 
@@ -57,8 +57,8 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testSetAllowForAllResources()
     {
         $resources = array('Magento_Adminhtml::all');
-        $this->_model->setRoleId(2)->setResources($resources)->saveRel();
-        $expectedPermissions = ['Magento_Adminhtml::all', 'anonymous', 'Magento_Adminhtml::all'];
+        $this->_model->setRoleId(1)->setResources($resources)->saveRel();
+        $expectedPermissions = ['Magento_Adminhtml::all'];
         $this->_checkExistingPermissions($expectedPermissions);
     }
 
@@ -71,7 +71,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $ruleSelect = $adapter->select()->from($this->_model->getResource()->getMainTable());
 
         $rules = $ruleSelect->query()->fetchAll();
-        $this->assertEquals(3, count($rules));
+        $this->assertEquals(1, count($rules));
         $actualPermissions = [];
         foreach ($rules as $rule) {
             $actualPermissions[] = $rule['resource_id'];
