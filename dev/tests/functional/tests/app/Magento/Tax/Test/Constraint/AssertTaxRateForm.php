@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Tax\Test\Constraint;
@@ -87,13 +87,16 @@ class AssertTaxRateForm extends AbstractConstraint
     protected function verifyForm(array $formData, array $fixtureData)
     {
         $errorMessages = [];
+        $skippedFields = [
+            'id',
+        ];
 
         foreach ($fixtureData as $key => $value) {
-            if ($key === 'id') {
+            if (in_array($key, $skippedFields)) {
                 continue;
             }
             if ($value !== $formData[$key]) {
-                $errorMessages[] = "Data in " . $key . " field not equal."
+                $errorMessages[] = "Data in " . $key . " field is not equal."
                     . "\nExpected: " . $value
                     . "\nActual: " . $formData[$key];
             }

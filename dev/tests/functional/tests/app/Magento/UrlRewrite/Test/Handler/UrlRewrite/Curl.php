@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Handler\UrlRewrite; 
+namespace Magento\UrlRewrite\Test\Handler\UrlRewrite;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
@@ -51,7 +51,7 @@ class Curl extends AbstractCurl implements UrlRewriteInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $url = $_ENV['app_backend_url'] . $this->url . $fixture->getData('id_path');
+        $url = $_ENV['app_backend_url'] . $this->url . $fixture->getIdPath();
         $data = $this->prepareData($fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
