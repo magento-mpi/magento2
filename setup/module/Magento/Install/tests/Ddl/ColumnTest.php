@@ -83,4 +83,25 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
             array(false, false),
         );
     }
+
+    public function testGetSetType()
+    {
+        $this->assertNull($this->model->getType());
+        $columnType = \Magento\Install\Ddl\Column::TYPE_CHAR;
+        $this->model->setType($columnType);
+        $this->assertEquals($columnType, $this->model->getType());
+    }
+
+    /**
+     * @expectedException        UnexpectedValueException
+     * @expectedExceptionMessage Unsupported column type
+     */
+    public function testGetSetTypeWithException()
+    {
+        $this->assertNull($this->model->getType());
+        $columnType = 'UNSUPPORTED_TYPE';
+        $this->model->setType($columnType);
+    }
+
+
 }
