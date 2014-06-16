@@ -93,7 +93,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->filterGroupBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder'
         );
-        $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
         $this->customerHelper = new CustomerHelper();
     }
 
@@ -130,7 +129,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerDetailsAsArray = $this->customerHelper->createSampleCustomerDetailsData()->__toArray();
         unset($customerDetailsAsArray['customer']['firstname']);
         unset($customerDetailsAsArray['customer']['email']);
-        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
+        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => CustomerHelper::PASSWORD];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Expected exception did not occur.');
@@ -263,7 +262,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'Authenticate'
             ]
         ];
-        $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => 'test@123'];
+        $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => CustomerHelper::PASSWORD];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
     }
@@ -283,7 +282,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'ChangePassword'
             ]
         ];
-        $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
+        $requestData = ['currentPassword' => CustomerHelper::PASSWORD, 'newPassword' => '123@test'];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $requestData['customerId'] = $customerData['id'];
         }
@@ -1190,7 +1189,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
 
         $customerDetailsAsArray = $customerDetails->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
+        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => CustomerHelper::PASSWORD];
         $customerData = $this->_webApiCall($serviceInfo, $requestData);
         //TODO: Fix assertions to verify custom attributes
         $this->assertNotNull($customerData);

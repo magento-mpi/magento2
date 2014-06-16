@@ -38,6 +38,7 @@ class Customer extends WebapiAbstract
     /** Sample values for testing */
     const FIRSTNAME = 'Jane';
     const LASTNAME = 'Doe';
+    const PASSWORD = 'test@123';
 
     const ADDRESS_CITY1 = 'CityM';
     const ADDRESS_CITY2 = 'CityX';
@@ -84,7 +85,7 @@ class Customer extends WebapiAbstract
             ]
         ];
         $customerDetailsAsArray = $this->createSampleCustomerDetailsData()->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
+        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => self::PASSWORD];
         $customerData = $this->_webApiCall($serviceInfo, $requestData);
         return $customerData;
     }

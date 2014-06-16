@@ -67,6 +67,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : array(),
             $httpMethod
         );
+        $oauthHeader = array_merge($oauthHeader, ['Accept: application/json', 'Content-Type: application/json']);
         switch ($httpMethod) {
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, array(), $oauthHeader);
