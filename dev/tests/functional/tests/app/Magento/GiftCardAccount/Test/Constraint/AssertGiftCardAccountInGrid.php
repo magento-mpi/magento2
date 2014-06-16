@@ -44,7 +44,6 @@ class AssertGiftCardAccountInGrid extends AbstractConstraint
         }
         $filter = [
             'balance' => $giftCardAccount->getBalance(),
-            'state' => 'Available',
             'date_expires' => $dateExpires,
         ];
         \PHPUnit_Framework_Assert::assertTrue(

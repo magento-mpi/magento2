@@ -50,7 +50,7 @@ jQuery(function($) {
         collapsableArea = $('> .collapse', collapsableWrapper),
         stockAvailabilityField = $('#quantity_and_stock_status'),
         qtyField = $('#qty'),
-        currentProductTemplateControl = $('#product-template-suggest-container .actions-split > .action-toggle'),
+        currentProductTemplateControl = $('#product-template-suggest-container .action-dropdown > .action-toggle'),
         attributesInput = $("input[name='attributes[]']", variationsContainer),
         hasVariations = <?php echo ($this->getProduct()->getTypeId() == Configurable::TYPE_CODE || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>,
         isLocked = function (element) {
@@ -141,8 +141,12 @@ jQuery(function($) {
             $(this).html('');
         })
         .on('click', '[data-column=entity_id]', function() {
-            $(this).closest('tr').find('input[type!=checkbox],button')
-                .prop('disabled', !$(this).is(':checked'));
+            var entityCheckBox = $(this);
+            entityCheckBox.closest('tr').find('input[type!=checkbox],button').each(function () {
+                if (!isLocked($(this))) {
+                    $(this).prop('disabled', !entityCheckBox.is(':checked'));
+                }
+            });
         })
         .on('click', '[data-action=choose]', function(event) {
             event.preventDefault();
@@ -200,6 +204,7 @@ jQuery(function($) {
 
                     $matrixRow.find('[name=image]')
                         .attr('src', $gridRow.find('[data-role=image-url]').val())
+                        .attr('data-locked', '1')
                         .trigger('click')
                         .prop({disabled: true});
 

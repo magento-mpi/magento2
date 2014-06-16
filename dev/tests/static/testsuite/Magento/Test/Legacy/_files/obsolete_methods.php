@@ -1707,5 +1707,12 @@ return array(
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
     ['updateOrderAction', 'Magento\Paypal\Controller\Express\AbstractExpress'],
     ['updateOrder', 'Magento\Paypal\Model\Express\Checkout'],
-    ['_matchBnCountryCode', 'Magento\Paypal\Model\Config']
+    ['_matchBnCountryCode', 'Magento\Paypal\Model\Config'],
+    ['convertOldColumnDefinition', 'Magento\Framework\DB\Helper\AbstractHelper'],
+    ['changeItemStatus', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getWebsiteDefaultStoreId', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getProductData', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getProductData', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
+    ['getProduct', 'Magento\CatalogInventory\Model\Stock\Item'],
+    ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
 );

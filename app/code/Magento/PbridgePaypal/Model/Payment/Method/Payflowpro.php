@@ -115,6 +115,15 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         $response = $this->_paypal->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
         $payment->setIsTransactionClosed(0);
+        if (!empty($response['respmsg'])) {
+            $preparedMessage = (string)$payment->getPreparedMessage();
+            $preparedMessage .= ' ' . $response['respmsg'];
+            if (!empty($response['postfpsmsg'])) {
+                $preparedMessage .= ': ' . $response['postfpsmsg'];
+            }
+            $preparedMessage .= '.';
+            $payment->setPreparedMessage($preparedMessage);
+        }
         return $this;
     }
 
