@@ -17,6 +17,7 @@ use Magento\Framework\ObjectManager as MagentoObjectManager;
  * Class ObjectManagerFactory
  *
  * @api
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObjectManagerFactory
 {
