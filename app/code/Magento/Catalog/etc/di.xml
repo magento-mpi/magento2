@@ -383,4 +383,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock">
+        <plugin name="showOutOfStockValueChanged" type="\Magento\Catalog\Model\Plugin\ShowOutOfStockConfig"/>
+    </type>
 </config>

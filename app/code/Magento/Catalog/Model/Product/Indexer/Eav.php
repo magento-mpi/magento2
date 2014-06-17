@@ -152,7 +152,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $event->getDataObject();
         $attributes = $product->getAttributes();
-        $reindexEav = $product->getForceReindexRequired();
+        $reindexEav = $product->getForceReindexEavRequired();
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             if ($this->_attributeIsIndexable($attribute) && $product->dataHasChangedFor($attributeCode)) {

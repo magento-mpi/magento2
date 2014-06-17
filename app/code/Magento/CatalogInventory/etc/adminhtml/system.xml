@@ -27,6 +27,7 @@
                     <label>Display Out of Stock Products</label>
                     <comment>Products will still be shown by direct product URLs.</comment>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <backend_model>Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock</backend_model>
                 </field>
                 <field id="stock_threshold_qty" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Only X left Threshold</label>
