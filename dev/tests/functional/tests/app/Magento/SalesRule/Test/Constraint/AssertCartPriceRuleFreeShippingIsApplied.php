@@ -36,7 +36,7 @@ class AssertCartPriceRuleFreeShippingIsApplied extends AssertCartPriceRuleApplyi
             $shippingPrice,
             self::FREE_SHIPPING_PRICE,
             'Current shipping price: \'' . $shippingPrice
-                . '\' not equals with free shipping price: \'' . self::FREE_SHIPPING_PRICE . '\''
+            . '\' not equals with free shipping price: \'' . self::FREE_SHIPPING_PRICE . '\''
         );
     }
 
