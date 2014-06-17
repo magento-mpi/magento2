@@ -35,13 +35,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_taxData;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
-
-    /**
      * @var \Magento\Weee\Model\Tax
      */
     protected $_weeeTax;
@@ -71,14 +64,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Weee\Model\Config $weeeConfig,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_storeManager = $storeManager;
         $this->_weeeTax = $weeeTax;
         $this->_coreRegistry = $coreRegistry;
         $this->_taxData = $taxData;
-        $this->_scopeConfig = $scopeConfig;
         $this->_weeeConfig = $weeeConfig;
         parent::__construct($context);
     }
