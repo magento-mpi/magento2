@@ -25,10 +25,12 @@ class CatalogProductDownloadable extends InjectableFixture
      */
     protected $repositoryClass = 'Magento\Downloadable\Test\Repository\CatalogProductDownloadable';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
     protected $handlerInterface = 'Magento\Downloadable\Test\Handler\CatalogProductDownloadable\CatalogProductDownloadableInterface';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Constructor

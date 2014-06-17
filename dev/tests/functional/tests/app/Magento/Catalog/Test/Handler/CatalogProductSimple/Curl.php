@@ -72,9 +72,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     {
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
-        $data = $this->_prepareData($fixture, $prefix);
+        $data = $this->prepareData($fixture, $prefix);
 
-        return ['id' => $this->createCurl($data, $config)];
+        return ['id' => $this->createProduct($data, $config)];
     }
 
     /**
@@ -126,7 +126,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param string|null $prefix
      * @return array
      */
-    protected function _prepareData(FixtureInterface $fixture, $prefix = null)
+    protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
         $fields = $this->replaceMappingData($fixture->getData());
         // Getting Tax class id
@@ -159,16 +159,16 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     }
 
     /**
-     * Create curl for product
+     * Create product via curl
      *
      * @param array $data
      * @param array $config
      * @return int|null
      * @throws \Exception
      */
-    protected function createCurl(array $data, array $config)
+    protected function createProduct(array $data, array $config)
     {
-        $url = $this->_getUrl($config);
+        $url = $this->getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
@@ -188,7 +188,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param array $values
      * @return null|mixed
      */
-    protected function _getValue($values)
+    protected function getValue($values)
     {
         if (!isset($values['value'])) {
             return null;
@@ -202,7 +202,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      * @param array $config
      * @return string
      */
-    protected function _getUrl(array $config)
+    protected function getUrl(array $config)
     {
         $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
         $params = '';

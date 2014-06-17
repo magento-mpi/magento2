@@ -28,14 +28,14 @@ class Curl extends AbstractCurl implements CatalogProductDownloadableInterface
         $this->extendPlaceholder();
         $config = $fixture->getDataConfig();
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
-        $data = $this->_prepareData($fixture, $prefix);
+        $data = $this->prepareData($fixture, $prefix);
 
         if ($prefix) {
             $data['downloadable'] = $data[$prefix]['downloadable'];
             unset($data[$prefix]['downloadable']);
         }
 
-        return ['id' => $this->createCurl($data, $config)];
+        return ['id' => $this->createProduct($data, $config)];
     }
 
     /**

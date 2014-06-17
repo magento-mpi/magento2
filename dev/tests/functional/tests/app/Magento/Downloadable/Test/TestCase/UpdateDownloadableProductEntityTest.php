@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  * Test Flow:
  *
  * Precondition:
- * Category is created.
- * Product is created(before each variation).
+ * 1. Category is created.
+ * 2. Product is created(before each variation).
  *
  * Steps:
  * 1. Login to backend.
@@ -87,7 +87,7 @@ class UpdateDownloadableProductEntityTest extends Injectable
     ) {
         $this->product = $fixtureFactory->createByCode(
             'catalogProductDownloadable',
-            ['dataSet' => 'customDefault']
+            ['dataSet' => 'default']
         );
         $this->product->persist();
         $this->catalogProductIndex = $catalogProductIndexNewPage;
