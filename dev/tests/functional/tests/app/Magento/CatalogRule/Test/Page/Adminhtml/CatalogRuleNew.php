@@ -27,7 +27,7 @@ class CatalogRuleNew extends BackendPage
         ],
         'editForm' => [
             'name' => 'editForm',
-            'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit',
+            'class' => 'Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\PromoForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -42,7 +42,7 @@ class CatalogRuleNew extends BackendPage
     }
 
     /**
-     * @return \Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit
+     * @return \Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\PromoForm
      */
     public function getEditForm()
     {

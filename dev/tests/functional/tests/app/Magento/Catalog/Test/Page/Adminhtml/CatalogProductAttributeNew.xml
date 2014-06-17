@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/product_attribute/new">
+    <block>
+        <name>pageActions</name>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>attributeForm</name>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\AttributeForm</class>
+        <locator>#edit_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
