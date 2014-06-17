@@ -76,16 +76,19 @@ class ApplyMapTest extends Functional
             'Product is invisible on Category page'
         );
         $this->assertContains(
-            $product->getProductMapPrice(), $productListBlock->getOldPriceCategoryPage(),
+            $product->getProductMapPrice(),
+            $productListBlock->getOldPriceCategoryPage(),
             'Displayed on Category page MAP is incorrect'
         );
         $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
         $this->assertContains(
-            $product->getProductMapPrice(), $mapBlock->getOldPrice(),
+            $product->getProductMapPrice(),
+            $mapBlock->getOldPrice(),
             'Displayed on Category page MAP is incorrect'
         );
         $this->assertEquals(
-            $product->getProductPrice(), $mapBlock->getActualPrice(),
+            $product->getProductPrice(),
+            $mapBlock->getActualPrice(),
             'Displayed on Category page price is incorrect'
         );
     }
@@ -109,11 +112,13 @@ class ApplyMapTest extends Functional
         $mapBlock = $productPage->getMapBlock();
         //Verification on Product View page
         $this->assertContains(
-            $product->getProductMapPrice(), $mapBlock->getOldPrice(),
+            $product->getProductMapPrice(),
+            $mapBlock->getOldPrice(),
             'Displayed on Product page MAP is incorrect'
         );
         $this->assertEquals(
-            $product->getProductPrice(), $mapBlock->getActualPrice(),
+            $product->getProductPrice(),
+            $mapBlock->getActualPrice(),
             'Displayed on Product page price is incorrect'
         );
     }
@@ -136,7 +141,8 @@ class ApplyMapTest extends Functional
         //Verification in Shopping Cart
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $this->assertEquals(
-            $product->getProductPrice(), $unitPrice, 'Incorrect unit price is displayed in Cart'
+            $product->getProductPrice(),
+            $unitPrice, 'Incorrect unit price is displayed in Cart'
         );
     }
 

@@ -46,7 +46,8 @@ class Success extends Block
         $orderIds = array();
         $ordersNumber = count($fixture->getShippingMethods());
         for ($i = 1; $i <= $ordersNumber; $i++) {
-            $orderIds[] = $this->_rootElement->find('//a[' . $i . '][contains(@href, "view/order_id")]',
+            $orderIds[] = $this->_rootElement->find(
+                '//a[' . $i . '][contains(@href, "view/order_id")]',
                 Locator::SELECTOR_XPATH)->getText();
         }
 

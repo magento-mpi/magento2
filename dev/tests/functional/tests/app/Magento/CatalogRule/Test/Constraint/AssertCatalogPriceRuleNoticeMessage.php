@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\Constraint; 
+namespace Magento\CatalogRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
@@ -57,4 +57,3 @@ class AssertCatalogPriceRuleNoticeMessage extends AbstractConstraint
         return 'Assert that notice message is displayed';
     }
 }
-
