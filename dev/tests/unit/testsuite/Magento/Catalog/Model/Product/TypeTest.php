@@ -9,6 +9,11 @@ namespace Magento\Catalog\Model\Product;
 
 use Magento\Framework\Object;
 
+/**
+ * ProductType Test
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
