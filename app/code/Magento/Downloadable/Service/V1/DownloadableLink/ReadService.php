@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Downloadable\Service\V1;
+namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
 class DownloadableLinkReadService implements DownloadableLinkReadServiceInterface
 {

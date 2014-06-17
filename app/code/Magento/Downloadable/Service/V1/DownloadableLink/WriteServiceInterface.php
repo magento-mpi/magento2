@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Downloadable\Service\V1;
+namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
-use \magento\Downloadable\Service\V1\Data\DownloadableLink;
+use \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLink;
 
 interface DownloadableLinkWriteServiceInterface
 {
@@ -16,7 +16,7 @@ interface DownloadableLinkWriteServiceInterface
      * Add link(or sample) for specified product
      *
      * @param string $productSku
-     * @param \Magento\Downloadable\Service\V1\Data\DownloadableLink $linkData
+     * @param \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLink $linkData
      * @return int link ID
      */
     public function add($productSku, DownloadableLink $linkData);

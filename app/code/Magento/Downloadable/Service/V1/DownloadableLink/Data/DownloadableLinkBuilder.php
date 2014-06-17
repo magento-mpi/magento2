@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Product\Attribute\Media\Data;
+namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
 class DownloadableLinkBuilder extends AbstractObjectBuilder
 {
