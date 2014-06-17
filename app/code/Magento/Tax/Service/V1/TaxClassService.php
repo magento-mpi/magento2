@@ -8,6 +8,7 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\Converter;
@@ -66,10 +67,11 @@ class TaxClassService implements TaxClassServiceInterface
      */
     public function deleteTaxClass($taxClassId)
     {
-        $taxClassModel = $this->_taxClassModelFactory->create()->load($taxClassId);
+        $taxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
         if (is_null($taxClassModel->getId())) {
             throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
         }
+        $taxClassModel->delete();
 
         return true;
     }
