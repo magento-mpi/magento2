@@ -17,5 +17,8 @@
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
+        <!--incremental_build_placeholder
+            <env name="INCREMENTAL_BUILD" value="true"/>
+        incremental_build_placeholder-->
     </php>
 </phpunit>
