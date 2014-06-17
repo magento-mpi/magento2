@@ -1654,7 +1654,7 @@
                             <field id="pphs_bml_productpage_size2" extends="payment_all_paypal/payments_pro_hosted_solution/pphs_required_settings/pphs_advertise_bml/pphs_settings_bml_productpage/pphs_bml_productpage_size1">
                                 <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCPPN</source_model>
                                 <depends>
-                                    <field id="pphs_bml_productpage_position">0</field>
+                                    <field id="pphs_bml_productpage_position">1</field>
                                 </depends>
                             </field>
                         </group>
