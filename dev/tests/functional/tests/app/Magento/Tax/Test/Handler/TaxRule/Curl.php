@@ -75,7 +75,7 @@ class Curl extends AbstractCurl implements TaxRuleInterface
             }
             $fieldFixture = $fixture->getDataFieldConfig($field);
             $fieldFixture = $fieldFixture['source']->getFixture();
-            foreach ($data[$field] as $key => $value) {
+            foreach ($data[$field] as $key) {
                 $id = $fieldFixture[$key]->getId();
                 if ($id === null) {
                     $fieldFixture[$key]->persist();

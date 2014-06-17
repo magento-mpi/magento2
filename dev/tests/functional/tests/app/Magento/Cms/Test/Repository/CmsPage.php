@@ -16,6 +16,12 @@ use Mtf\Repository\AbstractRepository;
  */
 class CmsPage extends AbstractRepository
 {
+    /**
+     * @param array $defaultConfig
+     * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['cms-page-duplicated'] = [

@@ -35,12 +35,12 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
         CatalogRule $catalogPriceRule,
         CatalogRuleIndex $pageCatalogRuleIndex
     ) {
-        $rule_website = $catalogPriceRule->getWebsiteIds();
-        $rule_website = reset($rule_website);
+        $ruleWebsite = $catalogPriceRule->getWebsiteIds();
+        $ruleWebsite = reset($ruleWebsite);
         $filter = [
             'name' => $catalogPriceRule->getName(),
             'is_active' => $catalogPriceRule->getIsActive(),
-            'rule_website' => $rule_website,
+            'rule_website' => $ruleWebsite,
         ];
         //add to filter from_date & to_date if there are ones
         $data = $catalogPriceRule->getData();
@@ -55,7 +55,7 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
             $pageCatalogRuleIndex->getCatalogRuleGrid()->isRowVisible($filter),
             'Catalog Price Rule \'' . $filter['name'] . '\', '
             . 'with status \'' . $filter['is_active'] . '\', '
-            . 'website \''. $rule_website . '\' '
+            . 'website \''. $ruleWebsite . '\' '
             . 'is absent in Catalog Price Rule grid.'
         );
     }

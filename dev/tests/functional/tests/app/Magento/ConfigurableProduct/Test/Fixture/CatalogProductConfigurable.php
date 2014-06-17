@@ -18,6 +18,8 @@ use Mtf\System\Event\EventManagerInterface;
 /**
  * Class CatalogProductConfigurable
  *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CatalogProductConfigurable extends InjectableFixture
 {
