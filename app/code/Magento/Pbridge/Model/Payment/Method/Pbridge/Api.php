@@ -106,4 +106,43 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
         \Magento\Framework\Profiler::stop('pbridge_void');
         return $this;
     }
+
+    /**
+     * Accept payment transaction
+     *
+     * @param \Magento\Framework\Object $request
+     * @return $this
+     */
+    public function doAccept($request)
+    {
+        $request->setData('payment_action', 'accept');
+        $this->_call($request->getData());
+        return $this;
+    }
+
+    /**
+     * Deny payment transaction
+     *
+     * @param \Magento\Framework\Object $request
+     * @return $this
+     */
+    public function doDeny($request)
+    {
+        $request->setData('payment_action', 'deny');
+        $this->_call($request->getData());
+        return $this;
+    }
+
+    /**
+     * Fetch transaction info
+     *
+     * @param \Magento\Framework\Object $request
+     * @return $this
+     */
+    public function doFetchTransactionInfo($request)
+    {
+        $request->setData('payment_action', 'fetch');
+        $this->_call($request->getData());
+        return $this;
+    }
 }

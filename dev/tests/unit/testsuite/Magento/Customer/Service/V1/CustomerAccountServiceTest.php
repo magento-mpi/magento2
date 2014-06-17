@@ -2011,8 +2011,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($customerEntity)->create();
 
-//        $this->_setupStoreMock();
-
         $this->_storeMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($storeId));
