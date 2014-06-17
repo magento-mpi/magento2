@@ -10,21 +10,21 @@ namespace Magento\CustomerSegment\Model;
 use \Magento\CustomerSegment\Helper\Data;
 
 /**
- * Segment/customer relatio model. Model working in website scope. If website is not declared
- * all methods are working in current ran website scoupe
+ * Segment/customer relation model. Model working in website scope. If website is not declared
+ * all methods are working in current ran website scope
  *
- * @method \Magento\CustomerSegment\Model\Resource\Customer _getResource()
- * @method \Magento\CustomerSegment\Model\Resource\Customer getResource()
+ * @method Resource\Customer _getResource()
+ * @method Resource\Customer getResource()
  * @method int getSegmentId()
- * @method \Magento\CustomerSegment\Model\Customer setSegmentId(int $value)
+ * @method Customer setSegmentId(int $value)
  * @method int getCustomerId()
- * @method \Magento\CustomerSegment\Model\Customer setCustomerId(int $value)
+ * @method Customer setCustomerId(int $value)
  * @method string getAddedDate()
- * @method \Magento\CustomerSegment\Model\Customer setAddedDate(string $value)
+ * @method Customer setAddedDate(string $value)
  * @method string getUpdatedDate()
- * @method \Magento\CustomerSegment\Model\Customer setUpdatedDate(string $value)
+ * @method Customer setUpdatedDate(string $value)
  * @method int getWebsiteId()
- * @method \Magento\CustomerSegment\Model\Customer setWebsiteId(int $value)
+ * @method Customer setWebsiteId(int $value)
  */
 class Customer extends \Magento\Framework\Model\AbstractModel
 {
@@ -133,18 +133,15 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      *
      * @param string $eventName
      * @param int $websiteId
-     * @return \Magento\CustomerSegment\Model\Resource\Segment\Collection
+     * @return Resource\Segment\Collection
      */
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName][$websiteId])) {
-            $relatedSegments = $this->_collectionFactory->create()->addEventFilter(
-                $eventName
-            )->addWebsiteFilter(
-                $websiteId
-            )->addIsActiveFilter(
-                1
-            );
+            $relatedSegments = $this->_collectionFactory->create()
+                ->addEventFilter($eventName)
+                ->addWebsiteFilter($websiteId)
+                ->addIsActiveFilter(1);
             $this->_segmentMap[$eventName][$websiteId] = $relatedSegments;
         }
         return $this->_segmentMap[$eventName][$websiteId];
@@ -193,7 +190,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      *
      * @param int|null|\Magento\Customer\Model\Customer $customer
      * @param \Magento\Store\Model\Website $website
-     * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segments
+     * @param Resource\Segment\Collection $segments
      * @return $this
      */
     protected function _processSegmentsValidation($customer, $website, $segments)
@@ -208,37 +205,35 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         $matchedIds = array();
         $notMatchedIds = array();
         $useVisitorId = !$customer || !$customerId;
+        /** @var Segment $segment */
         foreach ($segments as $segment) {
             if ($useVisitorId) {
                 // Skip segment if it cannot be applied to visitor
-                if ($segment->getApplyTo() == \Magento\CustomerSegment\Model\Segment::APPLY_TO_REGISTERED) {
+                if ($segment->getApplyTo() == Segment::APPLY_TO_REGISTERED) {
                     continue;
                 }
                 $segment->setVisitorId($this->_visitor->getId());
-            } else {
-                // Skip segment if it cannot be applied to customer
-                if ($segment->getApplyTo() == \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
-                    continue;
-                }
-            }
-            $isMatched = $segment->validateCustomer($customer, $website);
-            if ($isMatched) {
                 $matchedIds[] = $segment->getId();
             } else {
-                $notMatchedIds[] = $segment->getId();
+                // Skip segment if it cannot be applied to customer
+                if ($segment->getApplyTo() == Segment::APPLY_TO_VISITORS) {
+                    continue;
+                }
+                $isMatched = $segment->validateCustomer($customer, $website);
+                if ($isMatched) {
+                    $matchedIds[] = $segment->getId();
+                } else {
+                    $notMatchedIds[] = $segment->getId();
+                }
             }
         }
-
 
         if ($customerId) {
             $this->addCustomerToWebsiteSegments($customerId, $websiteId, $matchedIds);
             $this->removeCustomerFromWebsiteSegments($customerId, $websiteId, $notMatchedIds);
-            $segmentIds = $this->_customerWebsiteSegments[$websiteId][$customerId];
         } else {
             $this->addVisitorToWebsiteSegments($this->_customerSession, $websiteId, $matchedIds);
             $this->removeVisitorFromWebsiteSegments($this->_customerSession, $websiteId, $notMatchedIds);
-            $allSegments = $this->_customerSession->getCustomerSegmentIds();
-            $segmentIds = $allSegments[$websiteId];
         }
 
         return $this;

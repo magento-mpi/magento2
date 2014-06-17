@@ -29,11 +29,6 @@ $installer->getConnection()->addIndex(
 );
 $installer->getConnection()->addIndex(
     $installer->getTable('catalogsearch_query'),
-    $installer->getIdxName('catalogsearch_query', array('query_text')),
-    'query_text'
-);
-$installer->getConnection()->addIndex(
-    $installer->getTable('catalogsearch_query'),
     $installer->getIdxName('catalogsearch_query', array('query_text', 'store_id', 'num_results')),
     array('query_text', 'store_id', 'num_results')
 );

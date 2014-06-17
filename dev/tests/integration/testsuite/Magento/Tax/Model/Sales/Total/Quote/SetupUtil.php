@@ -30,6 +30,7 @@ class SetupUtil
     ];
 
     const TAX_RATE_TX = 'tax_rate_tx';
+    const TAX_RATE_AUSTIN = 'tax_rate_austin';
     const TAX_RATE_SHIPPING = 'tax_rate_shipping';
     const TAX_STORE_RATE = 'tax_store_rate';
     const REGION_TX = '57';
@@ -50,6 +51,16 @@ class SetupUtil
                 'tax_postcode' => '*',
                 'code' => self::TAX_RATE_TX,
                 'rate' => '20',
+            ],
+            'id' => null,
+        ],
+        self::TAX_RATE_AUSTIN => [
+            'data' => [
+                'tax_country_id' => self::COUNTRY_US,
+                'tax_region_id' => self::REGION_TX,
+                'tax_postcode' => self::AUSTIN_POST_CODE,
+                'code' => self::TAX_RATE_AUSTIN,
+                'rate' => '5',
             ],
             'id' => null,
         ],
@@ -285,14 +296,12 @@ class SetupUtil
      *
      * @return array
      */
-    protected function getTaxRateIds()
+    protected function getDefaultTaxRateIds()
     {
-        $taxRateIds = [];
-        foreach ($this->taxRates as $taxRateName => $taxRate) {
-            if ($taxRateName != self::TAX_RATE_SHIPPING) {
-                $taxRateIds[] = $taxRate['id'];
-            }
-        }
+        $taxRateIds = [
+            $this->taxRates[self::TAX_RATE_TX]['id'],
+            $this->taxRates[self::TAX_STORE_RATE]['id'],
+        ];
 
         return $taxRateIds;
     }
@@ -337,7 +346,7 @@ class SetupUtil
             'position' => '0',
             'tax_customer_class' => $customerClassIds,
             'tax_product_class' => $this->getProductTaxClassIds(),
-            'tax_rate' => $this->getTaxRateIds(),
+            'tax_rate' => $this->getDefaultTaxRateIds(),
         ];
 
         //Create tax rules

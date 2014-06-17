@@ -10,7 +10,7 @@
 <page mca="admin/giftcardaccount/new/index">
     <block>
         <name>pageMainForm</name>
-        <class>Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Form</class>
+        <class>Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\GiftCardAccountForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
