@@ -48,17 +48,6 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * Set row total
-     *
-     * @param float $rowTotal
-     * @return $this
-     */
-    public function setRowTotal($rowTotal)
-    {
-        return $this->_set(Item::KEY_ROW_TOTAL, $rowTotal);
-    }
-
-    /**
      * Set unit price
      *
      * @param float $unitPrice
