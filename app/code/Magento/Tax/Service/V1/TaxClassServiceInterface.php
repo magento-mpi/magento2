@@ -14,6 +14,16 @@ namespace Magento\Tax\Service\V1;
 interface TaxClassServiceInterface
 {
     /**
+     * Update a tax class with the given information.
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxClass $taxClass
+     * @return bool True if the tax class was updated, false otherwise
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with given tax class ID does not exist
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    public function updateTaxClass(\Magento\Tax\Service\V1\Data\TaxClass $taxClass);
+
+    /**
      * Delete a tax class with the given tax class id.
      *
      * @param int $taxClassId
