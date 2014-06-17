@@ -36,6 +36,8 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 class UpdateSitemapEntityTest extends Injectable
 {
     /**
+     * Sitemap grid page
+     *
      * @var SitemapIndex
      */
     protected $sitemapIndex;

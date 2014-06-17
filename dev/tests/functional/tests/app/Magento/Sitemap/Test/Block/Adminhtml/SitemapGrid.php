@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class SitemapGrid
  * Backend sitemap grid
- *
  */
 class SitemapGrid extends Grid
 {

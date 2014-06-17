@@ -18,7 +18,7 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
- *
+ * Curl handler for creating sitemap
  */
 class Curl extends AbstractCurl implements SitemapInterface
 {
@@ -30,7 +30,7 @@ class Curl extends AbstractCurl implements SitemapInterface
     protected $defaultAttributeValues = ['store_id' => 1];
 
     /**
-     * Prepare data for deleting sitemap
+     * Post request for creating sitemap
      *
      * @param FixtureInterface $fixture
      * @return array
@@ -57,7 +57,7 @@ class Curl extends AbstractCurl implements SitemapInterface
      * Get id after created sitemap
      *
      * @param array $data
-     * @return mixed
+     * @return string
      * @throws \Exception
      */
     protected function getSitemapId(array $data)
