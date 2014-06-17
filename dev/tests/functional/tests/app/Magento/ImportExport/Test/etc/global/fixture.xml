@@ -12,6 +12,5 @@
     <importExport module="Magento_ImportExport">
         <type>flat</type>
         <entity_type>importexport_importdata</entity_type>
-        <collection>Magento\ImportExport\Model\Export</collection>
     </importExport>
 </fixture>

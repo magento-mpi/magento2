@@ -54,7 +54,7 @@ class DeleteProductAttributeEntityTest extends Injectable
         ];
         //Steps
         $attributeIndex->open();
-        $attributeIndex->getBlockAttributeGrid()->searchAndOpen($filter);
+        $attributeIndex->getGrid()->searchAndOpen($filter);
         $attributeNew->getPageActions()->delete();
     }
 }

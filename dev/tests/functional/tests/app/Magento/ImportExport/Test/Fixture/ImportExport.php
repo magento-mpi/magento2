@@ -16,16 +16,6 @@ use Mtf\Fixture\InjectableFixture;
  */
 class ImportExport extends InjectableFixture
 {
-    /**
-     * @var string
-     */
-    protected $repositoryClass = 'Magento\ImportExport\Test\Repository\ImportExport';
-
-    /**
-     * @var string
-     */
-    protected $handlerInterface = 'Magento\ImportExport\Test\Handler\ImportExport\ImportExportInterface';
-
     protected $defaultDataSet = [
         'entity' => 'Products',
         'behavior' => 'CSV',

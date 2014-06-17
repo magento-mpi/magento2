@@ -11,7 +11,6 @@
     <module>Magento_ImportExport</module>
     <type>flat</type>
     <entity_type>importexport_importdata</entity_type>
-    <collection>Magento\ImportExport\Model\Export</collection>
     <fields>
         <id>
             <attribute_code>id</attribute_code>
@@ -42,6 +41,4 @@
             <input></input>
         </data>
     </fields>
-    <repository_class>Magento\ImportExport\Test\Repository\ImportExport</repository_class>
-    <handler_interface>Magento\ImportExport\Test\Handler\ImportExport\ImportExportInterface</handler_interface>
 </fixture>

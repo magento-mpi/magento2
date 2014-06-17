@@ -15,8 +15,8 @@ use Mtf\Block\Form as AbstractForm;
  * Class FormAttributeSearch
  * Form Attribute Search on Product page
  */
-class FormAttributeSearch extends AbstractForm {
-
+class FormAttributeSearch extends AbstractForm
+{
     /**
      * Fill attribute on the search field
      *

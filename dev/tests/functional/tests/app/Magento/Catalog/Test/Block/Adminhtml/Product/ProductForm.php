@@ -358,4 +358,14 @@ class ProductForm extends FormTabs
 
         return $this->_rootElement->find($attributeSetButtonLocator, Locator::SELECTOR_XPATH)->getText();
     }
+
+    /**
+     * Click 'Add AttributeButton' on the Product page
+     *
+     * @return void
+     */
+    public function addAttribute()
+    {
+        $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
+    }
 }

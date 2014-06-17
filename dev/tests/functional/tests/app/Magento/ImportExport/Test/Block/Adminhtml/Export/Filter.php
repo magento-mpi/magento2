@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: oonoshko
- * Date: 03.06.14
- * Time: 17:11
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\ImportExport\Test\Block\Adminhtml\Export;

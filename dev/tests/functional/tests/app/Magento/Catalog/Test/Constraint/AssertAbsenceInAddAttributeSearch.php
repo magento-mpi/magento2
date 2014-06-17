@@ -47,7 +47,6 @@ class AssertAbsenceInAddAttributeSearch extends AbstractConstraint
         CatalogProductAttribute $productAttribute,
         CatalogProductIndex $productGrid,
         CatalogProductNew $newProductPage
-
     ) {
         $this->attributeFrontendLabel = $productAttribute->getFrontendLabel();
 
