@@ -375,3 +375,26 @@
     margin-bottom: 15px;
     font-weight: @font-weight-semibold;
 }
+
+//
+//    Add to Actions
+//--------------------------------------
+.abstract-add-to-actions {
+    color: @addto-color;
+    display: inline-block;
+    line-height: 26px;
+    text-transform: uppercase;
+    font-weight: @font-weight-semibold;
+    letter-spacing: .05em;
+    .icon-font(
+        @_icon-font-content: '',
+        @_icon-font-size: 16px,
+        @_icon-font-line-height: 16px,
+        @_icon-font-margin: -2px 5px 0 0,
+        @_icon-font-vertical-align: middle
+    );
+    &:hover {
+        color: @addto-hover-color;
+        text-decoration: none;
+    }
+}

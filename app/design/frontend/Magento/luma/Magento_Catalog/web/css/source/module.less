@@ -488,7 +488,7 @@
 }
 
 .product-info-main {
-    .title.product {
+    .page-title {
         h1 {
             margin-bottom: @indent-xs-base;
         }
@@ -497,11 +497,13 @@
         display: table;
         width: 100%;
         color: @product-info-price;
+        margin-bottom: @indent-s-base + @indent-xs-base;
     }
     .product-info-stock-sku {
         text-align: right;
         display: table-cell;
         vertical-align: top;
+        padding-left: 10%;
     }
     .stock {
         margin: 0 0 3px;
@@ -510,6 +512,9 @@
             font-weight: @font-weight-bold;
             text-transform: uppercase;
         }
+    }
+    .product.attibute.sku {
+        word-break: break-word;
     }
     .product {
         &-add-form {
@@ -583,9 +588,9 @@
         }
     }
     .product-addto-links {
-        display: inline-block;
-        &:not(:last-child) {
-            margin-right: 50px;
+        display: inline;
+        .action {
+            margin-right: 5%;
         }
     }
     .product.reviews.summary {
@@ -596,26 +601,11 @@
 .product-social-links {
     margin: 0 0 20px;
     .action.tocompare {
-        color: @addto-color;
-        display: inline-block;
-        line-height: 26px;
-        text-transform: uppercase;
-        font-weight: @font-weight-semibold;
-        letter-spacing: .05em;
-        .icon-font(
+        &:extend(.abstract-add-to-actions all);
+        .icon-font-symbol(
             @_icon-font-content: @icon-compare-full,
-            @_icon-font-size: 16px,
-            @_icon-font-line-height: 16px,
-            @_icon-font-margin: -2px 5px 0 0,
-            @_icon-font-vertical-align: middle
+            @_icon-font-position: before
         );
-        &:hover {
-            color: @addto-hover-color;
-            text-decoration: none;
-        }
-        &:not(:last-child) {
-            margin-right: 30px;
-        }
     }
 }
 
@@ -642,13 +632,10 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .product-info-main {
-        .title.product {
+        .page-title {
             h1 {
                 margin-bottom: @indent-s-base + @indent-xs-base;
             }
-        }
-        .product-info-price {
-            margin-bottom: @indent-s-base + @indent-xs-base;
         }
         .product {
             &-add-form {
