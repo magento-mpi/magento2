@@ -14,6 +14,7 @@ use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
 use Magento\Tax\Service\V1\Data\SearchResultsBuilder;
+use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
 /**
  * Tax class service.
@@ -36,20 +37,41 @@ class TaxClassService implements TaxClassServiceInterface
     protected $converter;
 
     /**
+     * @var TaxClassModelFactory
+     */
+    protected $taxClassModelFactory;
+
+    /**
      * Initialize dependencies.
      *
      * @param TaxClassCollectionFactory $taxClassCollectionFactory
+     * @param TaxClassModelFactory $taxClassModelFactory
      * @param SearchResultsBuilder $searchResultsBuilder
      * @param Converter $converter
      */
     public function __construct(
         TaxClassCollectionFactory $taxClassCollectionFactory,
+        TaxClassModelFactory $taxClassModelFactory,
         SearchResultsBuilder $searchResultsBuilder,
         Converter $converter
     ) {
         $this->taxClassCollectionFactory = $taxClassCollectionFactory;
+        $this->taxClassModelFactory = $taxClassModelFactory;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->converter = $converter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteTaxClass($taxClassId)
+    {
+        $taxClassModel = $this->_taxClassModelFactory->create()->load($taxClassId);
+        if (is_null($taxClassModel->getId())) {
+            throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
+        }
+
+        return true;
     }
 
     /**
