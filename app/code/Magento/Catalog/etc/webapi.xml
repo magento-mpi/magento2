@@ -190,13 +190,13 @@
         </resources>
     </route>
     <route url="/V1/products/attributes/:id/options" method="GET">
-        <service class="Magento\Catalog\Service\V1\ProductAttributeServiceInterface" method="options"/>
+        <service class="Magento\Catalog\Service\V1\Product\Attribute\Option\ReadServiceInterface" method="options"/>
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
     <route url="/V1/products/attributes/:id/options" method="POST">
-        <service class="Magento\Catalog\Service\V1\ProductAttributeServiceInterface" method="addOption" />
+        <service class="Magento\Catalog\Service\V1\Product\Attribute\Option\WriteServiceInterface" method="addOption" />
         <resources>
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
