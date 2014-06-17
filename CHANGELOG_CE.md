@@ -1,5 +1,61 @@
+* Added support for MTF Reporting Tool
 * Framework improvements:
-  * Covered Magento application components with unit tests:
+  * Covered the following Magento application components with unit tests:
+      * `ConfigurableProduct/Helper/Data.php`
+      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
+      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
+      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
+      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
+      * `CatalogSearch/Helper/Data.php`
+  * Covered Magento lib with unit tests:
+      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
+* Created Service API for Magento_Catalog Module:
+   * Implemented Product API (MAGETWO-23306)
+   * Implemented ProductAttributeRead API (MAGETWO-23313)
+* Fixed bugs:
+   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
+   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
+   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
+   * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
+   * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
+   * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
+   * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
+   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
+   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+   * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
+* GitHub requests:
+  * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
+  * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
+  * [#562]  Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable() (MAGETWO-24037)
+  * [#565]  Magento\CatalogSearch\Model\Query::getResultCollection() not working (MAGETWO-24162)
+  * [#557]  translation anomalies backend login page (MAGETWO-23760)
+* Functional test:
+  * Advanced Search (MTA-93)
+  * Existing Customer Creation (MTA-319)
+  * Product Attribute Creation (MTA-26)
+  * Product Rating Creation (MTA-144)
+  * Sales Rule Creation (MTA-73)
+  * System Product Attribute Deletion (MTA-310)
+  * Tax Rate Creation (MTA-120)
+  * Tax Rule Deletion (MTA-4)
+  * Update Category (MTA-52)
+  * Update Category Url Rewrite (MTA-87)
+  * Update Product Url Rewrite (MTA-84)
+  * Create Product Url Rewrite (MTA-83)
+  * Delete Catalog Price Rule (MTA-67)
+  * Delete Category Url Rewrite (MTA-86)
+  * Delete CMS Page Rewrite (MTA-170)
+  * Delete Product Rating (MTA-145)
+  * Delete Sales Rule (MTA-75)
+  * Delete Tax Rate (MTA-122)
+  * Update Catalog Price Rule (MTA-72)
+  * Update Shopping Cart (MTA-60)
+
+2.0.0.0-dev81
+=============
+* Framework improvements:
+  * Covered the following Magento application components with unit tests:
       * `SalesRule/Model/Observer`
       * `SalesRule/Helper/*`
       * `SalesRule/Model/Plugin/*`
@@ -7,7 +63,7 @@
       * `Sales/Model/Config.php`
       * `Sales/Model/Download.php`
       * `Sales/Model/Quote.php`
-  * Covered Magento lib form elements with unit tests:
+  * Covered the following Magento lib form elements with unit tests:
       * `lib/Magento/Framework/Flag.php`
       * `lib/Magento/Framework/Escaper`
       * `lib/Magento/Framework/Event`
@@ -18,40 +74,50 @@
       * `lib/Magento/Framework/Backup/NoMedia`
       * `lib/Magento/Framework/Archive`
       * `lib/Magento/Framework/Translate.php`
-  * Created Service API for Magento_Catalog Module:
-     * AttributeSet Service (MAGETWO-23316)
-     * AttributeSetGroup Service (MAGETWO-23317)
-     * ProductLinks Service (MAGETWO-23318)
-     * ProductType Service (MAGETWO-23310)
-  * Increased unit tests coverage (MAGETWO-24243)
-* Payments Parity between M1 and M2
-  * Resolved performance issue with Merchant Country selector under Payment Methods settings (MAGETWO-13169)
-  * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
-  * Removed Saved Credit Card payment method (MAGETWO-23885)
+  * Created Service API for Magento_Catalog module:
+      * AttributeSet service
+      * AttributeSetGroup service
+      * ProductLinks service
+      * ProductType service
+* Payments Improvements:
+  * Resolved a performance issue with Merchant Country selector under Payment Methods settings
+  * Removed the PayPal Payments Pro Payflow Edition payment solution
+  * Removed the Saved Credit Card payment method
+* Added the following functional tests:
+  * Delete Admin User
+  * Delete Backend Customer
+  * Delete Product UrlRewrite
+  * Downloadable Product Creation
+  * Update Simple Product
+  * Update Tax Rule
+  * Update Tax Rate
+  * Suggest Searching Result
 * Fixed bugs:
-  * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
-  * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
-  * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)
-  * Fixed: Customer group discount isn't applied for Bundle Product (MAGETWO-22611)
-  * Fixed: Cannot create refund for payflow express if captured from paypal (MAGETWO-20893)
-* GitHub requests:
+  * Fixed an issue where the Create Order page title was not correct when scrolling down was performed
+  * Fixed the concurrent test running in MTF
+  * Fixed an issue where product custom options were merged incorrectly
+  * Fixed an issue where customer group discount was not applied for bundle products
+  * Fixed an issue where it was impossible to  create a refund for the PayPal Exprecch Checkout Payflow Edition if captured from the PayPal admin
+  * Fixed an issue where adding customer review caused an error in system.log
+  * Fixed an issue where  the Manage Stock option was automatically reset to No after changing the Stock Availability option
+  * Fixed an issue where the recurring profile attributes where displayed for a product when they were not included in the product attribute set.
+  * Fixed an issue where a fatal error appeared in some cases on attempt to add a product to  cart when FPT was enabled
+  * Fixed an issue where back in stock product alert emails showed HTML markup
+  * Fixed an issue where the Refresh Statistics link on the Sales Report page redirected to the frontend after setting  Add Store Code to Urls to Yes
+  * Fixed an issue where the selected bundle options price was included to the price displayed in the MAP popup
+  * Fixed an issue where the wrong allowed countries list was used in Checkout
+  * Fixed an issue where configurable products with out of stock associated simple products were displayed in layered navigation
+  * Fixed an issue where configurable products lost options  after being duplicated using the Save and Duplicate button
+  * Fixed issues with simple product custom options where it was impossible to import them from a product page and they were not duplicated correctly using the Save and Duplicate button
+  * Fixed an issue where it was impossible to create a customer on the backend in a single store mode
+  * Fixed an issue where reviews created on the backend appeared with the Guest status
+  * Fixed an issue where it was impossible to add an image for a configurable product variation during editing
+* Processed GitHub requests:
   * [#539] (https://github.com/magento/magento2/issues/539) The "{config.xml,*/config.xml}" pattern cannot be processed
   * [#564] (https://github.com/magento/magento2/issues/564) Catalog product images - Do not removing from file system
   * [#256] (https://github.com/magento/magento2/issues/256) Unused file app\code\core\Mage\Backend\view\adminhtml\store\switcher\enhanced.phtml
   * [#561] (https://github.com/magento/magento2/pull/561) Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getForeignKeys()
   * [#576] (https://github.com/magento/magento2/pull/576) Change Request for InvokerDefault::_callObserverMethod()
-* Functional test:
-  * Advanced Search
-  * Existing Customer Creation
-  * Product Attribute Creation
-  * Product Rating Creation
-  * Sales Rule Creation
-  * System Product Attribute Deletion
-  * Tax Rate Creation
-  * Tax Rule Deletion
-  * Update Category
-  * Update Category Url Rewrite
-  * Update Product Url Rewrite
 
 2.0.0.0-dev80
 =============
@@ -159,7 +225,7 @@
   * Fixed an issue where the Links section was absent while editing downloadable products from the Wishlist
   * Fixed an issue where specified details for composite products were lost after adding to Gift Card and Downloadable products to the Wishlist
   * Fixed and issue where the Date widget was set to incorrect date when creating a new customer
-  * Fixed an issue where a customer was redirected to Dashboard if the Redirect user to dashboard after login option was set to вЂNoвЂ™
+  * Fixed an issue where a customer was redirected to Dashboard if the Redirect user to dashboard after login option was set to "No"
   * Fixed an issue where a customer was not able to register during checkout if Guest Checkout was not allowed
   * Fixed an issue where System logs were not generated properly in integration tests
   * Fixed benchmarking script
@@ -177,15 +243,7 @@
   * Catalog Price Rule Creation
   * Category Url Rewrite Creation
   * Admin User Role Deletion
-  * Delete Admin User
-  * Delete Backend Customer
-  * Delete Product UrlRewrite
-  * Downloadable Product Creation
-  * Update Simple Product
-  * Update Tax Rule
-  * Update Tax Rate
-  * Suggest Searching Result
-* Update composer.json.dist in order to download and install MTF from Public GitHub (MAGETWO-24698)
+* Update composer.json.dist in order to download and install MTF from Public GitHub
 * GitHub requests:
   * [#542] (https://github.com/magento/magento2/pull/542) Fix ImportExport bug which occurs while importing multiple rows per entity
   * [#507] (https://github.com/magento/magento2/issues/507) "Insert Image" window is overlapped on menu

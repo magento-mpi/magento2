@@ -50,7 +50,7 @@ class Curl extends Conditions implements CmsPageInterface
      * Post request for creating a cms page
      *
      * @param FixtureInterface $fixture
-     * @return void
+     * @return array
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
@@ -68,5 +68,9 @@ class Curl extends Conditions implements CmsPageInterface
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Cms page entity creating by curl handler was not successful! Response: $response");
         }
+
+        preg_match("~page_id\/(\d*?)\/~", $response, $matches);
+        $id = isset($matches[1]) ? $matches[1] : null;
+        return ['page_id' => $id];
     }
 }

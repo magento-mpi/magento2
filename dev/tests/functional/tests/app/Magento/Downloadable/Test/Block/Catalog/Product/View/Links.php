@@ -82,7 +82,7 @@ class Links extends Block
      */
     public function getItemTitle($index)
     {
-        return $this->_rootElement->find($this->formatIndex($index) . $this->titleForList,Locator::SELECTOR_XPATH)
+        return $this->_rootElement->find($this->formatIndex($index) . $this->titleForList, Locator::SELECTOR_XPATH)
             ->getText();
     }
 

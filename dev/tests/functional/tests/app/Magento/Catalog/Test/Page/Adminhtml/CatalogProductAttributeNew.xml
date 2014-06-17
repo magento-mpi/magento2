@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>attributeForm</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Form</class>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\AttributeForm</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>

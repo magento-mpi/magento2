@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-/**
- * MinSaleQty value manipulation helper
- */
 namespace Magento\CatalogInventory\Helper;
 
 use Magento\Store\Model\Store;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as CustomerGroupService;
 
+/**
+ * MinSaleQty value manipulation helper
+ */
 class Minsaleqty
 {
     /**
@@ -48,7 +48,7 @@ class Minsaleqty
      */
     protected function _fixQty($qty)
     {
-        return !empty($qty) ? (double)$qty : null;
+        return !empty($qty) ? (float) $qty : null;
     }
 
     /**
@@ -70,7 +70,7 @@ class Minsaleqty
                 }
             }
             if (count($data) == 1 && array_key_exists(CustomerGroupService::CUST_GROUP_ALL, $data)) {
-                return (string)$data[CustomerGroupService::CUST_GROUP_ALL];
+                return (string) $data[CustomerGroupService::CUST_GROUP_ALL];
             }
             return serialize($data);
         } else {
@@ -107,16 +107,10 @@ class Minsaleqty
             return false;
         }
         unset($value['__empty']);
-        foreach ($value as $_id => $row) {
-            if (!is_array(
-                $row
-            ) || !array_key_exists(
-                'customer_group_id',
-                $row
-            ) || !array_key_exists(
-                'min_sale_qty',
-                $row
-            )
+        foreach ($value as $row) {
+            if (!is_array($row)
+                || !array_key_exists('customer_group_id', $row)
+                || !array_key_exists('min_sale_qty', $row)
             ) {
                 return false;
             }
@@ -134,8 +128,8 @@ class Minsaleqty
     {
         $result = array();
         foreach ($value as $groupId => $qty) {
-            $_id = $this->mathRandom->getUniqueHash('_');
-            $result[$_id] = array('customer_group_id' => $groupId, 'min_sale_qty' => $this->_fixQty($qty));
+            $resultId = $this->mathRandom->getUniqueHash('_');
+            $result[$resultId] = array('customer_group_id' => $groupId, 'min_sale_qty' => $this->_fixQty($qty));
         }
         return $result;
     }
@@ -150,16 +144,10 @@ class Minsaleqty
     {
         $result = array();
         unset($value['__empty']);
-        foreach ($value as $_id => $row) {
-            if (!is_array(
-                $row
-            ) || !array_key_exists(
-                'customer_group_id',
-                $row
-            ) || !array_key_exists(
-                'min_sale_qty',
-                $row
-            )
+        foreach ($value as $row) {
+            if (!is_array($row)
+                || !array_key_exists('customer_group_id', $row)
+                || !array_key_exists('min_sale_qty', $row)
             ) {
                 continue;
             }
@@ -193,7 +181,7 @@ class Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else if ($groupId == CustomerGroupService::CUST_GROUP_ALL) {
+            } elseif ($groupId == CustomerGroupService::CUST_GROUP_ALL) {
                 $result = $qty;
             }
         }

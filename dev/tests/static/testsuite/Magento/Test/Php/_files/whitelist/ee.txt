@@ -5,6 +5,7 @@ app/code/Magento/AdminGws/Model/Plugin
 app/code/Magento/AdminGws/Model/Config
 app/code/Magento/AdminGws/Model/Config.php
 app/code/Magento/AdminGws/Model/ConfigInterface.php
+app/code/Magento/CatalogEvent/Model/Category
 app/code/Magento/CustomerCustomAttributes/Block/Account
 app/code/Magento/GiftCard/Model/Plugin
 app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
@@ -20,7 +21,6 @@ app/code/Magento/Invitation/Model/Resource/Report
 app/code/Magento/Invitation/Model/Plugin
 app/code/Magento/Invitation/Controller/Adminhtml/Report
 app/code/Magento/MultipleWishlist/Block/Link.php
-app/code/Magento/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/Magento/Reward/Block/Customer/AccountLink.php
 app/code/Magento/Rma/Block/Order/Link.php
 app/code/Magento/SalesArchive/Model/Order

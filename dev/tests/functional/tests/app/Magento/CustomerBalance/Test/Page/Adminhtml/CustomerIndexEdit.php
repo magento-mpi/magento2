@@ -31,7 +31,7 @@ class CustomerIndexEdit extends ParentCustomerIndexEdit
         $this->_blocks = [
             'customerForm' => [
                 'name' => 'customerForm',
-                'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Edit\Form',
+                'class' => 'Magento\CustomerBalance\Test\Block\Adminhtml\Edit\CustomerForm',
                 'locator' => '[id="page:main-container"]',
                 'strategy' => 'css selector',
             ],
@@ -45,7 +45,7 @@ class CustomerIndexEdit extends ParentCustomerIndexEdit
     }
 
     /**
-     * @return \Magento\CustomerBalance\Test\Block\Adminhtml\Edit\Form
+     * @return \Magento\CustomerBalance\Test\Block\Adminhtml\Edit\CustomerForm
      */
     public function getCustomerForm()
     {
