@@ -1,18 +1,4 @@
-* Added support for MTF Reporting Tool
-* Framework improvements:
-  * Covered the following Magento application components with unit tests:
-      * `ConfigurableProduct/Helper/Data.php`
-      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
-      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
-      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
-      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
-      * `CatalogSearch/Helper/Data.php`
-  * Covered Magento lib with unit tests:
-      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
-      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
 * Created Service API for Magento_Catalog Module:
-   * Implemented Product API (MAGETWO-23306)
-   * Implemented ProductAttributeRead API (MAGETWO-23313)
    * Implemented Product Attribute Media API(MAGETWO-23308)
    * Implemented Product Group Price API(MAGETWO-23311)
 * Tax calculation updates:
@@ -34,16 +20,35 @@
   * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
   * Fixed: Changed the default value for tax configuration "apply_after_discount" setting (MAGETWO-25119)
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
-  * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
-  * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
-  * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
-  * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
-  * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
-  * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
-  * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
-  * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
-  * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
-  * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
+
+2.0.0.0-dev82
+=============
+* Added support for MTF Reporting Tool
+* Framework improvements:
+  * Covered the following Magento application components with unit tests:
+      * `ConfigurableProduct/Helper/Data.php`
+      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
+      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
+      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
+      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
+      * `CatalogSearch/Helper/Data.php`
+  * Covered Magento lib with unit tests:
+      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
+* Created Service API for Magento_Catalog Module:
+   * Implemented Product API (MAGETWO-23306)
+   * Implemented ProductAttributeRead API (MAGETWO-23313)
+* Fixed bugs:
+   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
+   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
+   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
+   * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
+   * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
+   * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
+   * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
+   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
+   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+   * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
 * GitHub requests:
   * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
   * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
