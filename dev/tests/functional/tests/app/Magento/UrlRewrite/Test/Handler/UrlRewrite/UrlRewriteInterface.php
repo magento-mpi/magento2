@@ -14,6 +14,5 @@ use Mtf\Handler\HandlerInterface;
  * Interface UrlRewriteInterface
  */
 interface UrlRewriteInterface extends HandlerInterface
-{
-   //
+    //
 }

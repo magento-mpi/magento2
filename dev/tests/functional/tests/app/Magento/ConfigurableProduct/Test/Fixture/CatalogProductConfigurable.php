@@ -29,7 +29,9 @@ class CatalogProductConfigurable extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+    protected $handlerInterface =
+        'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+
     /**
      * Constructor
      *

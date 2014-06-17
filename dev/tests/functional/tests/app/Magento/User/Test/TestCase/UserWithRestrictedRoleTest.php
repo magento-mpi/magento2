@@ -82,7 +82,7 @@ class UserWithRestrictedRoleTest extends Functional
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
-//        Factory::getApp()->magentoBackendLoginUser($userFixture);
+        //Factory::getApp()->magentoBackendLoginUser($userFixture);
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($userFixture);
         $loginPage->getLoginBlock()->submit();
@@ -160,7 +160,7 @@ class UserWithRestrictedRoleTest extends Functional
         $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
-//        Factory::getApp()->magentoBackendLoginUser($userFixture);
+        //Factory::getApp()->magentoBackendLoginUser($userFixture);
         $loginPage->open();
         $loginPage->getLoginBlock()->fill($userFixture);
         $loginPage->getLoginBlock()->submit();

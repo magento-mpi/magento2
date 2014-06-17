@@ -38,12 +38,12 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
         CatalogRuleIndex $pageCatalogRuleIndex,
         CatalogRuleNew $pageCatalogRuleNew
     ) {
-        $rule_website = $catalogPriceRule->getWebsiteIds();
-        $rule_website = reset($rule_website);
+        $ruleWebsite = $catalogPriceRule->getWebsiteIds();
+        $ruleWebsite = reset($ruleWebsite);
         $filter = [
             'name' => $catalogPriceRule->getName(),
             'is_active' => $catalogPriceRule->getIsActive(),
-            'rule_website' => $rule_website,
+            'rule_website' => $ruleWebsite,
         ];
 
         $pageCatalogRuleIndex->open();
