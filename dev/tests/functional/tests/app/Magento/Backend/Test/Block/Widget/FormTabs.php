@@ -20,6 +20,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class FormTabs
  * Is used to represent any form with tabs on the page
+ *
+ * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 class FormTabs extends Form
 {
@@ -149,7 +151,7 @@ class FormTabs extends Form
      */
     protected function fillMissedFields(array $tabs)
     {
-        foreach (array_diff_key($this->tabs, $tabs) as $tabName => $tabData) {
+        foreach (array_diff_key($this->tabs, $tabs) as $tabName) {
             $tabElement = $this->getTabElement($tabName);
             if ($this->openTab($tabName)) {
                 $tabElement->fillFormTab($this->unassignedFields, $this->_rootElement);
@@ -173,13 +175,15 @@ class FormTabs extends Form
      * @param FixtureInterface|null $fixture
      * @param Element|null $element
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
         $data = [];
 
         if (null === $fixture) {
-            foreach ($this->tabs as $tabName => $tab) {
+            foreach ($this->tabs as $tabName) {
                 $this->openTab($tabName);
                 $tabData = $this->getTabElement($tabName)->getDataFormTab();
                 $data = array_merge($data, $tabData);

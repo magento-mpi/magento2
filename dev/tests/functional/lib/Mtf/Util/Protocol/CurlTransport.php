@@ -65,7 +65,7 @@ class CurlTransport implements CurlInterface
         if (empty($this->_config)) {
             return $this;
         }
-        foreach ($this->_config as $param => $curlOption) {
+        foreach ($this->_config as $param) {
             if (array_key_exists($param, $this->_allowedParams)) {
                 curl_setopt($this->_getResource(), $this->_allowedParams[$param], $this->_config[$param]);
             }

@@ -16,6 +16,8 @@ use Mtf\Client\Element\Locator;
 /**
  * Abstract class Grid
  * Basic grid actions
+ *
+ * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 abstract class Grid extends Block
 {
