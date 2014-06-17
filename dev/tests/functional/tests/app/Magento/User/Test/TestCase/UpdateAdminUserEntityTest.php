@@ -80,7 +80,6 @@ class UpdateAdminUserEntityTest extends Injectable
      * @param Dashboard $dashboard
      * @param AdminAuthLogin $adminAuth
      * @param FixtureFactory $fixtureFactory
-     * @param CmsIndex $cmsIndex
      * @return array
      */
     public function __inject(
