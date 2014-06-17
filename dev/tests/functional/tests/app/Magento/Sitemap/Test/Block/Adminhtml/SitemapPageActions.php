@@ -26,6 +26,8 @@ class SitemapPageActions extends FormPageActions
 
     /**
      * Click on "Save & Generate" button
+     *
+     * @return void
      */
     public function saveAndGenerate()
     {

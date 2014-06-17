@@ -56,14 +56,16 @@ class AssertSitemapContent extends AbstractConstraint
         ];
         $sitemapIndex->getSitemapGrid()->search($filter);
         $content = file_get_contents($sitemapIndex->getSitemapGrid()->getLinkForGoogle());
-        $productUrl = $_ENV['app_frontend_url'] . $product->getUrlKey() . '.html';
-        $catalogUrl = $_ENV['app_frontend_url'] . $catalog->getUrlKey() . '.html';
-        $cmsPageUrl = $_ENV['app_frontend_url'] . $cmsPage->getIdentifier();
+        $urls = [
+            $_ENV['app_frontend_url'] . $product->getUrlKey() . '.html',
+            $_ENV['app_frontend_url'] . $catalog->getUrlKey() . '.html',
+            $_ENV['app_frontend_url'] . $cmsPage->getIdentifier()
+        ];
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->checkContent($content, $productUrl, $catalogUrl, $cmsPageUrl),
+            $this->checkContent($content, $urls),
             'Content of file sitemap.xml does not including one or more next urls: '
-            . "\n" . $productUrl . "\n" . $catalogUrl . "\n" . $cmsPageUrl
+            . $this->urlsToString($urls)
         );
     }
 
@@ -71,21 +73,38 @@ class AssertSitemapContent extends AbstractConstraint
      * Check content for the presence urls
      *
      * @param string $content
-     * @param string $productUrl
-     * @param string $catalogUrl
-     * @param string $cmsPageUrl
+     * @param array $urls
      * @return bool
      */
-    protected function checkContent($content, $productUrl, $catalogUrl, $cmsPageUrl)
+    protected function checkContent($content, $urls)
     {
-        $productResult = strpos($content, $productUrl);
-        $catalogResult = strpos($content, $catalogUrl);
-        $cmsPageResult = strpos($content, $cmsPageUrl);
-        if ($productResult && $catalogResult && $cmsPageResult) {
+        $result = [];
+        foreach ($urls as $url) {
+            if (strpos($content, $url)) {
+                $result[] = strpos($content, $url);
+            }
+        }
+        if (count($result) == count($urls)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * Convert urls array to string
+     *
+     * @param array $urls
+     * @return string
+     */
+    protected function urlsToString($urls)
+    {
+        $urlsStr = '';
+        foreach ($urls as $url) {
+            $urlsStr .= "\n" . $url;
+        }
+
+        return $urlsStr;
     }
 
     /**

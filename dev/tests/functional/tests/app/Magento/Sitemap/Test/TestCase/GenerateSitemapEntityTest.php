@@ -38,11 +38,15 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapNew;
 class GenerateSitemapEntityTest extends Injectable
 {
     /**
+     * Sitemap grid page
+     *
      * @var SitemapIndex
      */
     protected $sitemapIndex;
 
     /**
+     * Sitemap new page
+     *
      * @var SitemapNew
      */
     protected $sitemapNew;
