@@ -74,6 +74,7 @@ class Tree extends Block
      * Select Default category
      *
      * @param string $path
+     * @return void
      */
     public function selectCategory($path)
     {
@@ -85,11 +86,11 @@ class Tree extends Block
     /**
      * Find category name in array
      *
-     * @param $structure
-     * @param $category
+     * @param array $structure
+     * @param array $category
      * @return bool
      */
-    protected function inTree($structure, &$category)
+    protected function inTree(array $structure, array &$category)
     {
         $element = array_shift($category);
         foreach ($structure as $item) {
@@ -104,22 +105,22 @@ class Tree extends Block
     }
 
     /**
-     * Find category in category tree
+     * Check category in category tree
      *
      * @param string $path
      * @return bool
      */
-    public function findCategory($path)
+    public function inCategory($path)
     {
         $category = explode('/', $path);
         $structure = $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->getStructure();
         $result = false;
         $element = array_shift($category);
         foreach ($structure as $item) {
-            $result = strpos($item['name'], $element);
-            if ($result !== false && !empty($item['subnodes'])) {
+            $searchResult = strpos($item['name'], $element);
+            if ($searchResult !== false && !empty($item['subnodes'])) {
                 $result = $this->inTree($item['subnodes'], $category);
-            } elseif ($result !== false && empty($category)) {
+            } elseif ($searchResult !== false && empty($category)) {
                 $result = true;
             }
         }

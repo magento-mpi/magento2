@@ -13,10 +13,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertCategoryNotExist
+ * Class AssertCategoryAbsenceOnBackend
  * Assert that not displayed category in backend catalog category tree
  */
-class AssertCategoryNotExist extends AbstractConstraint
+class AssertCategoryAbsenceOnBackend extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -35,8 +35,11 @@ class AssertCategoryNotExist extends AbstractConstraint
     public function processAssert(CatalogCategoryIndex $catalogCategoryIndex, CatalogCategory $category)
     {
         $catalogCategoryIndex->open();
+        $categoryPath = $category->getParentId() == 1
+            ? $category->getName()
+            : $category->getPath() . '/' . $category->getName();
         \PHPUnit_Framework_Assert::assertFalse(
-            $catalogCategoryIndex->getTreeCategories()->findCategory($category->getPath() . '/' . $category->getName()),
+            $catalogCategoryIndex->getTreeCategories()->inCategory($categoryPath),
             'Category is displayed in backend catalog category tree.'
         );
     }

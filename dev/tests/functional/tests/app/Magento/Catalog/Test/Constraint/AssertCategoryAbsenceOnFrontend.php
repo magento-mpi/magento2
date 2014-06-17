@@ -14,10 +14,10 @@ use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertCategoryAbsentOnFrontend
+ * Class AssertCategoryAbsenceOnFrontend
  * Assert that not displayed category in frontend main menu
  */
-class AssertCategoryAbsentOnFrontend extends AbstractConstraint
+class AssertCategoryAbsenceOnFrontend extends AbstractConstraint
 {
     /**
      * Message on the product page 404

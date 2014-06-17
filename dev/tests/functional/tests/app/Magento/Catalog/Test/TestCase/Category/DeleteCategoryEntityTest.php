@@ -69,9 +69,10 @@ class DeleteCategoryEntityTest extends Injectable
     {
         $category->persist();
         $this->catalogCategoryIndex->open();
-        $this->catalogCategoryIndex->getTreeCategories()->selectCategory(
-            $category->getPath() . '/' . $category->getName()
-        );
+        $categoryPath = $category->getParentId() == 1
+            ? $category->getName()
+            : $category->getPath() . '/' . $category->getName();
+        $this->catalogCategoryIndex->getTreeCategories()->selectCategory($categoryPath);
         $this->catalogCategoryEdit->getFormPageActions()->delete();
     }
 }
