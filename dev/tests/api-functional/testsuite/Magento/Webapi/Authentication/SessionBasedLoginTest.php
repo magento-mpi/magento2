@@ -13,7 +13,7 @@ namespace Magento\Webapi\Authentication;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
 
-class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
+class SessionBasedLoginTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     /**
      * @var \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient;
