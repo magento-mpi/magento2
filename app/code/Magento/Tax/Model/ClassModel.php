@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Tax\Model;
+
 /**
  * Tax class model
  *
@@ -15,11 +17,7 @@
  * @method \Magento\Tax\Model\ClassModel setClassName(string $value)
  * @method string getClassType()
  * @method \Magento\Tax\Model\ClassModel setClassType(string $value)
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model;
-
 class ClassModel extends \Magento\Framework\Model\AbstractModel
 {
     /**
