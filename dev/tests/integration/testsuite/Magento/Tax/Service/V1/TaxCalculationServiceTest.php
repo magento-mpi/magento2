@@ -374,6 +374,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateTaxNoTaxInclDataProvider()
     {
         $prodNoTaxInclBase = [
