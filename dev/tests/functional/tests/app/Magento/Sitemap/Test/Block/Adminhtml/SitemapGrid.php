@@ -9,6 +9,7 @@
 namespace Magento\Sitemap\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SitemapGrid
@@ -40,4 +41,38 @@ class SitemapGrid extends Grid
      * @var string
      */
     protected $editLink = 'td[class*=col-sitemap_id]';
+
+    /**
+     * Locator link for Google in grid
+     *
+     * @var string
+     */
+    protected $linkForGoogle = 'tbody tr .col-link a';
+
+    /**
+     * Locator sitemap id in grid
+     *
+     * @var string
+     */
+    protected $sitemapId = 'tbody tr .col-sitemap_id';
+
+    /**
+     * Get link for Google
+     *
+     * @return string
+     */
+    public function getLinkForGoogle()
+    {
+        return $this->_rootElement->find($this->linkForGoogle, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
+     * Get sitemap id
+     *
+     * @return string
+     */
+    public function getSitemapId()
+    {
+        return $this->_rootElement->find($this->sitemapId, Locator::SELECTOR_CSS)->getText();
+    }
 }
