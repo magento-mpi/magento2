@@ -29,6 +29,7 @@
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
 * Fixed bugs:
   * Fixed: Changed the default value for tax configuration "apply_after_discount" setting (MAGETWO-25119)
+  * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
