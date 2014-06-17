@@ -113,13 +113,13 @@
                                 <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCCPC</source_model>
                                 <attribute type="shared">1</attribute>
                                 <depends>
-                                    <field id="wpp_bml_homepage_position">0</field>
+                                    <field id="wpp_bml_categorypage_position">0</field>
                                 </depends>
                             </field>
                             <field id="wpp_bml_categorypage_size2" extends="payment_us/paypal_group_all_in_one/payflow_advanced/required_settings/advanced_advertise_bml/advanced_settings_bml_categorypage/advanced_bml_categorypage_size1">
                                 <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCCPS</source_model>
                                 <depends>
-                                    <field id="wpp_bml_homepage_position">1</field>
+                                    <field id="wpp_bml_categorypage_position">1</field>
                                 </depends>
                             </field>
                         </group>
@@ -133,13 +133,13 @@
                                 <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCPPC</source_model>
                                 <attribute type="shared">1</attribute>
                                 <depends>
-                                    <field id="advanced_bml_productpage_position">0</field>
+                                    <field id="wpp_bml_productpage_position">0</field>
                                 </depends>
                             </field>
                             <field id="wpp_bml_productpage_size2" extends="payment_us/paypal_group_all_in_one/payflow_advanced/required_settings/advanced_advertise_bml/advanced_settings_bml_productpage/advanced_bml_productpage_size1">
                                 <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCPPN</source_model>
                                 <depends>
-                                    <field id="advanced_bml_productpage_position">1</field>
+                                    <field id="wpp_bml_productpage_position">1</field>
                                 </depends>
                             </field>
 
@@ -774,7 +774,7 @@
                             <label>Catalog Category Page</label>
                             <field id="bml_categorypage_display" translate="label" extends="payment_all_paypal/express_checkout/express_checkout_required/advertise_bml/settings_bml_categorypage/bml_categorypage_display"/>
                             <field id="payflow_link_bml_categorypage_position" translate="label" extends="payment_all_paypal/express_checkout/express_checkout_required/advertise_bml/settings_bml_categorypage/bml_categorypage_position" />
-                            <field id="payflow_link_bml_categorypage_size1" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="30">
+                            <field id="payflow_link_bml_categorypage_size1" translate="label" type="select" showInDefault="1" showInWebsite="1" sortOrder="40">
                                 <label>Size</label>
                                 <config_path>payment/paypal_express_bml/categorypage_size</config_path>
                                 <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCCPC</source_model>
@@ -790,7 +790,7 @@
                                 </depends>
                             </field>
                         </group>
-                        <group id="payflow_link_settings_bml_productpage"  translate="label" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="40">
+                        <group id="payflow_link_settings_bml_productpage"  translate="label" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="50">
                             <label>Catalog Product Page</label>
                             <field id="bml_productpage_display" translate="label" extends="payment_all_paypal/express_checkout/express_checkout_required/advertise_bml/settings_bml_productpage/bml_productpage_display" />
                             <field id="payflow_link_bml_productpage_position" translate="label" extends="payment_all_paypal/express_checkout/express_checkout_required/advertise_bml/settings_bml_productpage/bml_productpage_position" />
@@ -810,7 +810,7 @@
                                 </depends>
                             </field>
                         </group>
-                        <group id="payflow_link_settings_bml_checkout"  translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                        <group id="payflow_link_settings_bml_checkout"  translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                             <label>Checkout Cart Page</label>
                             <field id="bml_checkout_display" translate="label" extends="payment_all_paypal/express_checkout/express_checkout_required/advertise_bml/settings_bml_checkout/bml_checkout_display" />
                             <field id="payflow_link_bml_checkout_position" translate="label" extends="payment_all_paypal/express_checkout/express_checkout_required/advertise_bml/settings_bml_checkout/bml_checkout_position" />
@@ -1911,13 +1911,13 @@
                                     <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCCPC</source_model>
                                     <attribute type="shared">1</attribute>
                                     <depends>
-                                        <field id="advanced_bml_homepage_position">0</field>
+                                        <field id="advanced_bml_categorypage_position">0</field>
                                     </depends>
                                 </field>
                                 <field id="advanced_bml_categorypage_size2" extends="payment_us/paypal_group_all_in_one/payflow_advanced/required_settings/advanced_advertise_bml/advanced_settings_bml_categorypage/advanced_bml_categorypage_size1">
                                     <source_model>Magento\Paypal\Model\System\Config\Source\BmlSize::getBmlSizeCCPS</source_model>
                                     <depends>
-                                        <field id="advanced_bml_homepage_position">1</field>
+                                        <field id="advanced_bml_categorypage_position">1</field>
                                     </depends>
                                 </field>
                             </group>
