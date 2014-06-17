@@ -1,0 +1,60 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Tax\Service\V1\Data;
+
+/**
+ * Tax class data
+ */
+class TaxClass extends \Magento\Framework\Service\Data\AbstractObject
+{
+    /**#@+
+     * Tax class type.
+     */
+    const TYPE_CUSTOMER = 'CUSTOMER';
+    const TYPE_PRODUCT = 'PRODUCT';
+    /**#@-*/
+
+    /**#@+
+     * Tax class field key.
+     */
+    const KEY_ID = 'id';
+    const KEY_NAME = 'name';
+    const KEY_TYPE = 'type';
+    /**#@-*/
+
+    /**
+     * Get tax class ID.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_get(self::KEY_ID);
+    }
+
+    /**
+     * Get tax class name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_get(self::KEY_NAME);
+    }
+
+    /**
+     * Get tax class type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_get(self::KEY_TYPE);
+    }
+}
