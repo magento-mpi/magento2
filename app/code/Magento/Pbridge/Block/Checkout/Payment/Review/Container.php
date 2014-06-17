@@ -46,7 +46,8 @@ class Container extends \Magento\Framework\View\Element\Template
         $quote = $this->_checkoutSession->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
-            if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {
+            $method = $payment->getMethodInstance();
+            if ($method->getIsDeferred3dCheck() || $method->getIsPendingOrderRequired()) {
                 $this->setMethodCode($payment->getMethod());
                 return parent::_toHtml();
             }

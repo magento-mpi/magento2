@@ -18,6 +18,11 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
 class AssertTargetRuleInGrid extends AbstractConstraint
 {
     /**
+     * Day in seconds
+     */
+    const DAY = 86400;
+
+    /**
      * Constraint severeness
      *
      * @var string
@@ -29,18 +34,25 @@ class AssertTargetRuleInGrid extends AbstractConstraint
      *
      * @param TargetRule $targetRule
      * @param TargetRuleIndex $targetRuleIndex
+     * @param TargetRule|null $initialTargetRule
      * @return void
      */
-    public function processAssert(TargetRule $targetRule, TargetRuleIndex $targetRuleIndex)
-    {
-        $fromDate = $targetRule->hasData('from_date') ? strtotime($targetRule->getFromDate()) : null;
+    public function processAssert(
+        TargetRule $targetRule,
+        TargetRuleIndex $targetRuleIndex,
+        TargetRule $initialTargetRule = null
+    ) {
+        $data = $initialTargetRule
+            ? array_replace($initialTargetRule->getData(), $targetRule->getData())
+            : $targetRule->getData();
+        $fromDate = isset($data['from_date']) ? strtotime($data['from_date']) : null;
         $filter = [
-            'name' => $targetRule->getName(),
-            'applies_to' => $targetRule->getApplyTo(),
-            'status' => $targetRule->getIsActive()
+            'name' => $data['name'],
+            'applies_to' => $data['apply_to'],
+            'status' => $data['is_active']
         ];
         if ($fromDate) {
-            $filter['start_on_from'] = date('m/d/Y', $fromDate - 60*60*24);
+            $filter['start_on_from'] = date('m/d/Y', $fromDate - self::DAY);
         }
 
         $targetRuleIndex->open();

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesRule\Test\Page\Adminhtml; 
+namespace Magento\SalesRule\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteNew
@@ -22,7 +22,7 @@ class PromoQuoteNew extends BackendPage
     protected $_blocks = [
         'salesRuleForm' => [
             'name' => 'salesRuleForm',
-            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form',
+            'class' => 'Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -47,7 +47,7 @@ class PromoQuoteNew extends BackendPage
     ];
 
     /**
-     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form
+     * @return \Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\PromoQuoteForm
      */
     public function getSalesRuleForm()
     {

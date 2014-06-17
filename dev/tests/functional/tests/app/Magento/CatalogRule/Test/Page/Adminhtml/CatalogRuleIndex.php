@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\Page\Adminhtml; 
+namespace Magento\CatalogRule\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogRuleIndex

@@ -33,10 +33,9 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testProductViewActionUpsell()
     {
-        $this->markTestSkipped('Can not be reproduced by manual testing');
         $this->dispatch('catalog/product/view/id/1');
         $content = $this->getResponse()->getBody();
-        $this->assertContains('<div class="block upsell">', $content);
+        $this->assertContains('<div class="block upsell"', $content);
         $this->assertContains('Simple Product 2 Name', $content);
     }
 }

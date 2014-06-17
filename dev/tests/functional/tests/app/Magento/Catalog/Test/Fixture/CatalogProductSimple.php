@@ -13,6 +13,7 @@ use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductSimple
@@ -38,6 +39,7 @@ class CatalogProductSimple extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -47,6 +49,7 @@ class CatalogProductSimple extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -56,6 +59,7 @@ class CatalogProductSimple extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist
@@ -449,6 +453,7 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => 'Taxable Goods',
         'input' => 'select',
         'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [

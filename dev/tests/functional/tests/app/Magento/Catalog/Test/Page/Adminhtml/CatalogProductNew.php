@@ -21,7 +21,7 @@ class CatalogProductNew extends BackendPage
     protected $_blocks = [
         'form' => [
             'name' => 'form',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Form',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -72,8 +72,10 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
+     * Page initialization
      *
      * @param FixtureInterface $fixture
+     * @return void
      */
     public function init(FixtureInterface $fixture)
     {
@@ -94,7 +96,7 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Form
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
      */
     public function getForm()
     {

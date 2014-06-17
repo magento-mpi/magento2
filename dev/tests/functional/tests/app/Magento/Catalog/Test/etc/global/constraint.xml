@@ -142,77 +142,6 @@
             <product class="Mtf\Fixture\FixtureInterface" />
         </require>
     </assertGroupedPriceOnProductPage>
-    <assertCrossSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
-        </require>
-    </assertCrossSellsProductsSection>
-    <assertRelatedProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertRelatedProductsSection>
-    <assertUpSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertUpSellsProductsSection>
-    <assertCategorySaveMessage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCategorySaveMessage>
-    <assertCategoryForm module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCategoryForm>
-    <assertCategoryPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCategoryPage>
-    <assertCrossSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
-        </require>
-    </assertCrossSellsProductsSection>
-    <assertRelatedProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertRelatedProductsSection>
-    <assertUpSellsProductsSection module="Magento_Catalog">
-        <severeness>middle</severeness>
-        <require>
-            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
-            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
-            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
-            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
-        </require>
-    </assertUpSellsProductsSection>
     <assertProductAttributeSaveMessage module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
@@ -277,20 +206,38 @@
     <assertProductAttributeIsGlobal module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductAttributeIsGlobal>
+    <assertCrossSellsProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
     <assertSuccessDeletedAttribute module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
         </require>
+    </assertCrossSellsProductsSection>
+    <assertNoCrossSellsProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
+    </assertNoCrossSellsProductsSection>
+    <assertRelatedProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
     </assertSuccessDeletedAttribute>
     <assertAbsenceProductAttributeInGrid module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
         </require>
+    </assertRelatedProductsSection>
+    <assertNoRelatedProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
+    </assertNoRelatedProductsSection>
+    <assertUpSellsProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
     </assertAbsenceProductAttributeInGrid>
     <assertAbsenceInAddAttributeSearch module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
         </require>
+    </assertUpSellsProductsSection>
+    <assertNoUpSellsProductsSection module="Magento_Catalog">
+        <severeness>middle</severeness>
+    </assertNoUpSellsProductsSection>
     </assertAbsenceInAddAttributeSearch>
     <assertCategorySaveMessage module="Magento_Catalog">
         <severeness>low</severeness>
@@ -301,6 +248,12 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
+    <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
+        <severeness>high</severeness>
+        <require>
+            <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
+        </require>
+    </assertAbsenceDeleteAttributeButton>
     <assertAbsenceProductAttributeForExport module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
