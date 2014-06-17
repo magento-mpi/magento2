@@ -9,7 +9,7 @@
 <script data-template="pbridge-input" type="text/x-jquery-tmpl">
     <input {{each $data}}${$index}="${$value}"{{/each}} />
 </script>
-<div id="payment-method-message" style="font: normal normal normal 11px/1.35 Arial, Helvetica, sans-serif;color: #444;float: left;font-size: 12px;font-weight: bold;padding: 2px 15px 0px 0px;text-align: left;"></div>
+<body style="background:transparent">
 <script type="text/javascript">
     (function($) {
         $.template('pBridgeInput', $('[data-template="pbridge-input"]', $(document)));
@@ -64,6 +64,9 @@
                             });
                     }
                     document.getElementById('pbridge-reload').onclick = function () { parent.jQuery('#payment_form_pbridge_authorizenet_container').trigger('reloadPbridgeIframe'); return false; };
+
+                    //parent.submittedPayments[paymentObj.currentMethod] = 1;
+
                 } catch (e) {}
             }
         }
@@ -72,3 +75,6 @@
         });
     })(parent.jQuery);
 </script>
+
+<div id="payment-method-message" style="font: normal normal normal 11px/1.35 Arial, Helvetica, sans-serif;color: #444;float: left;font-size: 12px;font-weight: bold;padding: 2px 15px 0px 0px;text-align: left;"></div>
+</body>

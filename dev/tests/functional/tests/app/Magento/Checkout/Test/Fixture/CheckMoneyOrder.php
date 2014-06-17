@@ -31,13 +31,13 @@ class CheckMoneyOrder extends Checkout
             ),
             'product_price_with_tax' => array(
                 'SimpleProduct' => array(
-                    'value' => '$10.00',
+                    'value' => '10.00',
                 ),
                 'ConfigurableProduct' => array(
-                    'value' => '$11.00',
+                    'value' => '11.00',
                 ),
                 'BundleFixed' => array(
-                    'value' => '$110.00',
+                    'value' => '110.00',
                 ),
             ),
         );
