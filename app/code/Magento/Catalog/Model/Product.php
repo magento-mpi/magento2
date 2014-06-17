@@ -720,7 +720,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         /**
          * Product Options
          */
-        $this->getOptionInstance()->setProduct($this)->saveOptions();
+        if (!$this->getIsDuplicate()) {
+            $this->getOptionInstance()->setProduct($this)->saveOptions();
+        }
 
         $result = parent::_afterSave();
 
@@ -1930,7 +1932,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _clearData()
     {
         foreach ($this->_data as $data) {
-            if (is_object($data) && method_exists($data, 'reset')) {
+            if (is_object($data) && method_exists($data, 'reset') && is_callable([$data, 'reset'])) {
                 $data->reset();
             }
         }

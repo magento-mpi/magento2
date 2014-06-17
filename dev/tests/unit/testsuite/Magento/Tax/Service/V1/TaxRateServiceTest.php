@@ -51,7 +51,8 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->rateModelMock = $this->getMockBuilder('Magento\Tax\Model\Calculation\Rate')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->taxRateService = $this->objectManager->getObject('Magento\Tax\Service\V1\TaxRateService',
+        $this->taxRateService = $this->objectManager->getObject(
+            'Magento\Tax\Service\V1\TaxRateService',
             [
                 'rateRegistry' => $this->rateRegistryMock,
                 'converter' => $this->converterMock,
@@ -275,5 +276,4 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception('Bad error occurred')));
         $this->taxRateService->deleteTaxRate(1);
     }
-
 }
