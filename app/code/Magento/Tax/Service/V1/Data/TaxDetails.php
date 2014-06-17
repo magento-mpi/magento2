@@ -17,8 +17,6 @@ class TaxDetails extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_TAX_AMOUNT = 'tax_amount';
 
-    const KEY_TAXABLE_AMOUNT = 'taxable_amount';
-
     const KEY_DISCOUNT_AMOUNT = 'discount_amount';
 
     const KEY_APPLIED_TAXES = 'applied_taxes';
@@ -45,16 +43,6 @@ class TaxDetails extends \Magento\Framework\Service\Data\AbstractObject
     public function getTaxAmount()
     {
         return $this->_get(self::KEY_TAX_AMOUNT);
-    }
-
-    /**
-     * Get taxable amount
-     *
-     * @return float
-     */
-    public function getTaxableAmount()
-    {
-        return $this->_get(self::KEY_TAXABLE_AMOUNT);
     }
 
     /**
