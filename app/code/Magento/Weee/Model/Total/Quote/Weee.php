@@ -248,10 +248,6 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $baseTotalRowValueInclTax
         );
 
-        // Add total Weee amounts in the subtotal
-        $address->setSubtotalInclTax($address->getSubtotalInclTax());
-        $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax());
-
         $this->_weeeData->setApplied($item, array_merge($this->_weeeData->getApplied($item), $productTaxes));
 
         //Update the applied taxes for the quote
@@ -295,13 +291,6 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _processTaxSettings($item, $value, $baseValue, $rowValue, $baseRowValue)
     {
-        if ($rowValue) {
-            $item->unsRowTotalInclTax()
-                ->unsBaseRowTotalInclTax()
-                ->unsPriceInclTax()
-                ->unsBasePriceInclTax();
-        }
-
         if ($this->_weeeData->isTaxable($this->_store) && $rowValue) {
             $item->setExtraTaxableAmount($value)
                 ->setBaseExtraTaxableAmount($baseValue)
