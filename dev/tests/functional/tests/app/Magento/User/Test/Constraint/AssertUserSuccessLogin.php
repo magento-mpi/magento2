@@ -38,18 +38,15 @@ class AssertUserSuccessLogin extends AbstractConstraint
         Dashboard $dashboard,
         AdminUserInjectable $user,
         AdminAuthLogin $adminAuth,
-        AdminUserInjectable $customAdmin
+        AdminUserInjectable $customAdmin = null
     ) {
-        if ($user->hasData('firstname')) {
-            $adminAuth->open();
-            $adminAuth->getLoginBlock()->fill($user);
-            $adminAuth->getLoginBlock()->submit();
+        $adminUser = ($user->hasData('password') || $user->hasData('username')) ? $user : $customAdmin;
+        if ($dashboard->getAdminPanelHeader()->isVisible()) {
+            $dashboard->getAdminPanelHeader()->logOut();
         }
-        if (!$dashboard->getAdminPanelHeader()->isVisible() && $customAdmin != null) {
-            $adminAuth->open();
-            $adminAuth->getLoginBlock()->fill($customAdmin);
-            $adminAuth->getLoginBlock()->submit();
-        }
+        $adminAuth->getLoginBlock()->fill($adminUser);
+        $adminAuth->getLoginBlock()->submit();
+
         \PHPUnit_Framework_Assert::assertTrue(
             $dashboard->getAdminPanelHeader()->isLoggedIn(),
             'Admin user was not logged in.'

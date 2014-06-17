@@ -47,7 +47,7 @@ class AssertRoleInGrid extends AbstractConstraint
         AdminUserRole $role,
         AdminUserRole $roleInit = null
     ) {
-        $filter = ['role_name' => $role->getRoleName() != null ? $role->getRoleName() : $roleInit->getRoleName()];
+        $filter = ['rolename' => $role->getRoleName() != null ? $role->getRoleName() : $roleInit->getRoleName()];
         if ($role->getRolesUsers() == null) {
             $browser->reopen(); // TODO Remove this after resolving bug in UpdateAdminUserRole test
             $adminAuthLogin->open();

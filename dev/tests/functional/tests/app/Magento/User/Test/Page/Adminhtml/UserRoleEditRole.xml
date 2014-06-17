@@ -15,8 +15,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>roleForm</name>
-        <class>Magento\User\Test\Block\Adminhtml\Role\Edit</class>
+        <name>roleFormTabs</name>
+        <class>Magento\User\Test\Block\Adminhtml\Role\RoleForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

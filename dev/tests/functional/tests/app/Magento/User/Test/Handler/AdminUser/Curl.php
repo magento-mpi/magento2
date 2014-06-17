@@ -14,7 +14,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
-use Magento\Backend\Test\Handler\Pagination;
+use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -31,14 +31,15 @@ class Curl extends AbstractCurl implements AdminUserInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
+        /** @var \Magento\User\Test\Fixture\AdminUserInjectable $fixture */
         $data = $fixture->getData();
-        $data['roles[]'] = $fixture->getRoleId();
-        unset($data['role_id']);
+        $role = $fixture->getDataFieldConfig('role')['source']->getRole();
+        $data['roles[]'] = $role->getRoleId();
 
         $url = $_ENV['app_backend_url'] . 'admin/user/save/active_tab/main_section/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -49,8 +50,8 @@ class Curl extends AbstractCurl implements AdminUserInterface
         $url = 'admin/user/roleGrid/sort/user_id/dir/desc';
         $regExpPattern = '/class=\"\scol\-id col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
             . $data['username'] . '/siu';
-        $pagination = new Pagination($url, $regExpPattern);
+        $extractor = new Extractor($url, $regExpPattern);
 
-        return ['user_id' => $pagination->getId()];
+        return ['user_id' => $extractor->getData()[1]];
     }
 }

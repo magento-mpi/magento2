@@ -18,8 +18,8 @@ class UserIndex extends BackendPage
     const MCA = 'admin/user';
 
     protected $_blocks = [
-        'userActions' => [
-            'name' => 'userActions',
+        'pageActions' => [
+            'name' => 'pageActions',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
@@ -47,9 +47,15 @@ class UserIndex extends BackendPage
     /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
+<<<<<<< HEAD
     public function getUserActions()
     {
         return $this->getBlockInstance('userActions');
+=======
+    public function getPageActions()
+    {
+        return $this->getBlockInstance('pageActions');
+>>>>>>> remotes/origin/MTA-53
     }
 
     /**

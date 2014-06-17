@@ -24,9 +24,9 @@ class UserRoleEditRole extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'roleForm' => [
-            'name' => 'roleForm',
-            'class' => 'Magento\User\Test\Block\Adminhtml\Role\Edit',
+        'roleFormTabs' => [
+            'name' => 'roleFormTabs',
+            'class' => 'Magento\User\Test\Block\Adminhtml\Role\RoleForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -47,11 +47,11 @@ class UserRoleEditRole extends BackendPage
     }
 
     /**
-     * @return \Magento\User\Test\Block\Adminhtml\Role\Edit
+     * @return \Magento\User\Test\Block\Adminhtml\Role\RoleForm
      */
-    public function getRoleForm()
+    public function getRoleFormTabs()
     {
-        return $this->getBlockInstance('roleForm');
+        return $this->getBlockInstance('roleFormTabs');
     }
 
     /**

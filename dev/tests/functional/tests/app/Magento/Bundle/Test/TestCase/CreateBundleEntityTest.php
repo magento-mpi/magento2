@@ -9,8 +9,8 @@
 namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
@@ -23,15 +23,15 @@ class CreateBundleEntityTest extends Injectable
     /**
      * Category fixture
      *
-     * @var Category
+     * @var CatalogCategory
      */
     protected $category;
 
     /**
-     * @param Category $category
+     * @param CatalogCategory $category
      * @return array
      */
-    public function __prepare(Category $category)
+    public function __prepare(CatalogCategory $category)
     {
         $category->persist();
         return [
@@ -40,9 +40,9 @@ class CreateBundleEntityTest extends Injectable
     }
 
     /**
-     * @param Category $category
+     * @param CatalogCategory $category
      */
-    public function __inject(Category $category)
+    public function __inject(CatalogCategory $category)
     {
         $this->category = $category;
     }

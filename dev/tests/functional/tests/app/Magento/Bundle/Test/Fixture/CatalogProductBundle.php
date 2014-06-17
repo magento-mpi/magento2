@@ -450,6 +450,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '0',
         'default_value' => '2',
         'input' => 'select',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [

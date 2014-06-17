@@ -8,9 +8,7 @@
 
 namespace Magento\User\Test\Handler\AdminUserRole;
 
-use Magento\User\Test\Handler\AdminUserRole\AdminUserRoleInterface;
-use Magento\Backend\Test\Handler\Pagination;
-use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
+use Magento\Backend\Test\Handler\Extractor;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -34,15 +32,18 @@ class Curl extends AbstractCurl implements AdminUserRoleInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData();
-        $data['rolename'] = $data['role_name'];
-        unset($data['role_name']);
-        $data['all'] = ($data['resource_access'] == 'All') ? '1' : '0';
-        unset($data['resource_access']);
+        $data['all'] = ($data['resource_access'] == 'All') ? 1 : 0;
+        if (isset($data['roles_resources'])) {
+            foreach ($data['roles_resources'] as $resource) {
+                $data['resource'][] = $resource;
+            }
+        }
+        unset($data['roles_resources']);
         $data['gws_is_all'] = (isset($data['gws_is_all'])) ? $data['gws_is_all'] : '1';
         $url = $_ENV['app_backend_url'] . 'admin/user_role/saverole/active_tab/info/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -54,8 +55,8 @@ class Curl extends AbstractCurl implements AdminUserRoleInterface
         $regExpPattern = '/class=\"\scol\-id col\-role_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
             . $data['rolename'] . '/siu';
 
-        $pagination = new Pagination($url, $regExpPattern);
+        $extractor = new Extractor($url, $regExpPattern);
 
-        return ['role_id' => $pagination->getId()];
+        return ['role_id' => $extractor->getData()[1]];
     }
 }

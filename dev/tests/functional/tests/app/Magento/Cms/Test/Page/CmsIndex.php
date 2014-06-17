@@ -12,8 +12,6 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CmsIndex
- *
- * @package Magento\Cms\Test\Page
  */
 class CmsIndex extends FrontendPage
 {
@@ -53,7 +51,7 @@ class CmsIndex extends FrontendPage
         'storeSwitcherBlock' => [
             'name' => 'storeSwitcherBlock',
             'class' => 'Magento\Store\Test\Block\Switcher',
-            'locator' => '//*[@data-ui-id="language-switcher"]',
+            'locator' => '[data-ui-id="language-switcher"]',
             'strategy' => 'css selector',
         ],
     ];

@@ -10,8 +10,14 @@
 <mapping strict="0">
     <wrapper>catalogevent</wrapper>
     <fields>
-        <date_start />
-        <date_end />
+        <date_start>
+            <selector>#event_edit_date_start</selector>
+            <input>datepicker</input>
+        </date_start>
+        <date_end>
+            <selector>#event_edit_date_end</selector>
+            <input>datepicker</input>
+        </date_end>
         <sort_order />
         <display_state composite="1">
             <category_page>

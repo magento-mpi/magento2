@@ -174,8 +174,7 @@ class Observer
                 continue;
             }
 
-            $childPath = $logPath . '/' . $entity;
-            $mergePart = $level < 3 ? $this->_getDirectoryList($childPath, $level + 1) : array($childPath);
+            $mergePart = $level < 3 ? $this->_getDirectoryList($entity, $level + 1) : array($entity);
 
             $result = array_merge($result, $mergePart);
         }

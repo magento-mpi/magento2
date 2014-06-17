@@ -98,8 +98,8 @@ class FormPageActions extends PageActions
     public function save()
     {
         $this->_rootElement->find($this->saveButton)->click();
-        $this->waitForElementNotVisible($this->loader,Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld,Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
+        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 
     /**
@@ -109,5 +109,15 @@ class FormPageActions extends PageActions
     {
         $this->_rootElement->find($this->deleteButton)->click();
         $this->_rootElement->acceptAlert();
+    }
+
+    /**
+     * Check 'Delete' button availability
+     *
+     * @return bool
+     */
+    public function checkDeleteButton()
+    {
+        return $this->_rootElement->find($this->deleteButton)->isVisible();
     }
 }

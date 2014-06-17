@@ -264,17 +264,22 @@ abstract class Grid extends Block
      *
      * @param array $filter
      * @param bool $isSearchable
+     * @param bool $isStrict
      * @return Element
      */
-    protected function getRow(array $filter, $isSearchable = true)
+    protected function getRow(array $filter, $isSearchable = true, $isStrict = true)
     {
         if ($isSearchable) {
             $this->search($filter);
         }
         $location = '//div[@class="grid"]//tr[';
+        $rowTemplate = 'td[contains(text(),normalize-space("%s"))]';
+        if ($isStrict) {
+            $rowTemplate = 'td[text()[normalize-space()="%s"]]';
+        }
         $rows = [];
         foreach ($filter as $value) {
-            $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
+            $rows[] = sprintf($rowTemplate, $value);
         }
         $location = $location . implode(' and ', $rows) . ']';
         return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
@@ -285,11 +290,12 @@ abstract class Grid extends Block
      *
      * @param array $filter
      * @param bool $isSearchable
+     * @param bool $isStrict
      * @return bool
      */
-    public function isRowVisible(array $filter, $isSearchable = true)
+    public function isRowVisible(array $filter, $isSearchable = true, $isStrict = true)
     {
-        return $this->getRow($filter, $isSearchable)->isVisible();
+        return $this->getRow($filter, $isSearchable, $isStrict)->isVisible();
     }
 
     /**
@@ -303,6 +309,8 @@ abstract class Grid extends Block
         $sortBlock = $this->_rootElement->find(sprintf($this->sortLink, $field, $sort));
         if ($sortBlock->isVisible()) {
             $sortBlock->click();
+            $this->getTemplateBlock()->waitLoader();
         }
+        $this->reinitRootElement();
     }
 }
