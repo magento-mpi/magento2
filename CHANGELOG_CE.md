@@ -13,6 +13,8 @@
 * Created Service API for Magento_Catalog Module:
    * Implemented Product API (MAGETWO-23306)
    * Implemented ProductAttributeRead API (MAGETWO-23313)
+   * Implemented Product Attribute Media API(MAGETWO-23308)
+   * Implemented Product Group Price API(MAGETWO-23311)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -28,6 +30,8 @@
   * Admin tax notification messages (MAGETWO-24583)
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
 * Fixed bugs:
+  * Fixed: Export loses information about linked products(MAGETWO-25060)
+  * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
   * Fixed: Changed the default value for tax configuration "apply_after_discount" setting (MAGETWO-25119)
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
