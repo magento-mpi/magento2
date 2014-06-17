@@ -124,7 +124,7 @@
     <route url="/V1/customerAccounts" method="POST">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="createCustomer"/>
         <resources>
-            <resource ref="Magento_Customer::customer"/>
+            <resource ref="anonymous"/>
         </resources>
     </route>
     <route url="/V1/customerAccounts" method="PUT">

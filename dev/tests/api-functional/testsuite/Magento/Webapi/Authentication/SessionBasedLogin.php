@@ -12,6 +12,7 @@ namespace Magento\Webapi\Authentication;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -25,6 +26,7 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     const LOGIN_REGISTERED = '/api/login';
     const LOGIN_ANONYMOUS = '/api/login/anonymous';
+    const CUSTOMER_RESOURCE_URL = 'V1/customer/me/';
     /**#@-*/
 
     const CONTENT_TYPE_JSON = 'application/json';
@@ -35,6 +37,9 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
 
     /** @var array */
     private $customerData;
+
+    /** @var string */
+    protected $defaultStoreCode;
 
     /**
      * Setup curl client
@@ -48,6 +53,10 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->curlClient->setRestBasePath('');
         $this->customerHelper = Bootstrap::getObjectManager()->create('Magento\TestFramework\Helper\Customer');
         $this->customerData = $this->customerHelper->createSampleCustomer();
+        $this->defaultStoreCode = Bootstrap::getObjectManager()
+            ->get('Magento\Store\Model\StoreManagerInterface')
+            ->getStore()
+            ->getCode();
     }
 
     /**
@@ -64,6 +73,17 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function testLoginAnonymous()
     {
         $this->login(self::LOGIN_ANONYMOUS, null, null);
+    }
+
+    public function testApiWithSelfPermissions()
+    {
+        $arguments = ["username" => $this->customerData['email'], "password" => CustomerHelper::PASSWORD];
+        $session = $this->login(self::LOGIN_REGISTERED, $arguments, self::CONTENT_TYPE_JSON);
+        $header = ['Cookie: ' . $session . '; XDEBUG_SESSION=1', 'Accept: application/json'];
+        $this->curlClient->setRestBasePath('/rest/');
+        $response = $this->curlClient
+            ->get('/' . $this->defaultStoreCode . '/' . self::CUSTOMER_RESOURCE_URL, null, $header);
+        $this->assertNotNull($this->customerData['email'], $response['email']);
     }
 
     /**
@@ -96,9 +116,13 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
         $response = $this->curlClient->post($resource, $data, $headers);
         //Make sure response is null/empty
         $this->assertNull($response);
+        $responseHeader = $this->curlClient->getCurrentResponseArray()['header'];
         //Check for Set-Cookie to make sure correct header will be set
-        $this->assertContains("Set-Cookie: frontend=", $this->curlClient->getCurrentResponseArray()['header']);
+        $this->assertContains("Set-Cookie: frontend=", $responseHeader);
+        preg_match_all('/frontend=.*?;/', $responseHeader, $matches);
+        //The curl client here return two session ids erroneously in the response header. The second one is correct
+        $session = explode(';', $matches[0][1]);
+        return $session[0];
     }
-
 }
 
