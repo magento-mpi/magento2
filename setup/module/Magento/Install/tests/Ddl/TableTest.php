@@ -5,12 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Install\Ddl;
+namespace Magento\Install\Tests\Ddl;
+
+use Magento\Install\Ddl\Table;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Install\Ddl\Table
+     * @var Table
      */
     protected $model;
 

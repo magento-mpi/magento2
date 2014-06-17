@@ -5,12 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Install\Ddl;
+namespace Magento\Install\Tests\Ddl;
+
+use Magento\Install\Ddl\Column;
 
 class ColumnTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Install\Ddl\Column
+     * @var Column
      */
     protected $model;
 
