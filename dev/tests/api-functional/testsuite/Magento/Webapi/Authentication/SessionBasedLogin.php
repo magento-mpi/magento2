@@ -12,7 +12,6 @@ namespace Magento\Webapi\Authentication;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
-use Magento\TestFramework\TestCase\WebapiAbstract;
 
 class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -79,7 +78,7 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
     {
         $arguments = ["username" => $this->customerData['email'], "password" => CustomerHelper::PASSWORD];
         $session = $this->login(self::LOGIN_REGISTERED, $arguments, self::CONTENT_TYPE_JSON);
-        $header = ['Cookie: ' . $session . '; XDEBUG_SESSION=1', 'Accept: application/json'];
+        $header = ['Cookie: ' . $session, 'Accept: application/json'];
         $this->curlClient->setRestBasePath('/rest/');
         $response = $this->curlClient
             ->get('/' . $this->defaultStoreCode . '/' . self::CUSTOMER_RESOURCE_URL, null, $header);
@@ -120,9 +119,8 @@ class SessionBasedLogin extends \Magento\TestFramework\TestCase\WebapiAbstract
         //Check for Set-Cookie to make sure correct header will be set
         $this->assertContains("Set-Cookie: frontend=", $responseHeader);
         preg_match_all('/frontend=.*?;/', $responseHeader, $matches);
-        //The curl client here return two session ids erroneously in the response header. The second one is correct
-        $session = explode(';', $matches[0][1]);
-        return $session[0];
+        //The curl client here returns two session ids erroneously in the response header. The second one is correct
+        return $matches[0][1];
     }
 }
 
