@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page; 
+namespace Magento\Checkout\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CheckoutCart

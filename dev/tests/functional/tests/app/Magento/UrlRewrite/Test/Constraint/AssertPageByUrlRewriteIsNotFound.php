@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Constraint; 
+namespace Magento\UrlRewrite\Test\Constraint;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;

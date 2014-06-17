@@ -15,6 +15,16 @@ use Mtf\Fixture\InjectableFixture;
  */
 class GiftWrapping extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\GiftWrapping\Test\Repository\GiftWrapping';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\GiftWrapping\Test\Handler\GiftWrapping\GiftWrappingInterface';
+
     protected $defaultDataSet = [
         'design' => 'Gift Wrapping %isolation%',
         'website_ids' => ['Main Website'],

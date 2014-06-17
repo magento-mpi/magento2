@@ -23,4 +23,10 @@
     <assertCartPriceRuleSuccessSaveMessage module="Magento_SalesRule">
         <severeness>low</severeness>
     </assertCartPriceRuleSuccessSaveMessage>
+    <assertCartPriceRuleSuccessDeleteMessage module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleSuccessDeleteMessage>
+    <assertCartPriceRuleIsNotPresentedInGrid module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleIsNotPresentedInGrid>
 </constraint>
