@@ -109,6 +109,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $taxDetails->__toArray());
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateUnitBasedDataProvider()
     {
         $baseQuote = $this->getBaseQuoteData();
@@ -471,6 +474,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateTaxTaxInclDataProvider()
     {
         $productTaxInclBase = [
@@ -772,9 +778,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'items' => [
                 [
                     'price' => 0.3,
-                    'price_incl_tax' => 0.37, // 0.366 rounded up
+                    'price_incl_tax' => 0.37,
                     'row_total' => 2.73,
-                    'row_total_incl_tax' => 3.33, // 3.294?
+                    'row_total_incl_tax' => 3.33,
                     'taxable_amount' => 3.33, // Shouldn't this match row_total?
                     'code' => 'sku_1',
                     'type' => 'product',
