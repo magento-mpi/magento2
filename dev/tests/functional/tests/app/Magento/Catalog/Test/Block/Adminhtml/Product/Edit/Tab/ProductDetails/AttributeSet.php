@@ -13,6 +13,7 @@ use Mtf\Client\Driver\Selenium\Element\SuggestElement;
 
 /**
  * Class AttributeSet
+ * Set and Get Attribute Set on the Product form
  */
 class AttributeSet extends SuggestElement
 {
@@ -45,7 +46,7 @@ class AttributeSet extends SuggestElement
     /**
      * Get value
      *
-     * @return null
+     * @return string
      */
     public function getValue()
     {

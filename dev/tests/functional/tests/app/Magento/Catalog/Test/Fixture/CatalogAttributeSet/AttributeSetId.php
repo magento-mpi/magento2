@@ -28,7 +28,7 @@ class AttributeSetId implements FixtureInterface
     /**
      * Attribute Set fixture
      *
-     * @var \Magento\Catalog\Test\Fixture\CatalogAttributeSet
+     * @var CatalogAttributeSet
      */
     protected $attributeSet;
 
@@ -83,7 +83,7 @@ class AttributeSetId implements FixtureInterface
     /**
      * Return Attribute Set fixture
      *
-     * @return \Magento\Catalog\Test\Fixture\CatalogAttributeSet
+     * @return CatalogAttributeSet
      */
     public function getAttributeSet()
     {

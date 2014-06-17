@@ -12,8 +12,7 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
- *
- * @package Magento\Catalog\Test\Page\Category
+ * Catalog Category page
  */
 class CatalogCategoryView extends FrontendPage
 {

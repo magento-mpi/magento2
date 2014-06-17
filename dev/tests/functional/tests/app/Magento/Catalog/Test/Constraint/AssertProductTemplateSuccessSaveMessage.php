@@ -12,10 +12,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductTemplateSaveMessage
+ * Class AssertProductTemplateSuccessSaveMessage
  * Check Product Templates success save message
  */
-class AssertProductTemplateSaveMessage extends AbstractConstraint
+class AssertProductTemplateSuccessSaveMessage extends AbstractConstraint
 {
     /**
      * Text value to be checked

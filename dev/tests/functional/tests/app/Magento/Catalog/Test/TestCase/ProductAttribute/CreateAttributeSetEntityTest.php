@@ -34,12 +34,42 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 class CreateAttributeSetEntityTest extends Injectable
 {
     /**
+     * Catalog Product Set page
+     *
+     * @var CatalogProductSetIndex
+     */
+    protected $productSetIndex;
+
+    /**
+     * Catalog Product Set add page
+     *
+     * @var CatalogProductSetAdd
+     */
+    protected $setAdd;
+
+    /**
+     * Catalog Product Set edit page
+     *
+     * @var CatalogProductSetEdit
+     */
+    protected $productSetEdit;
+
+    /**
      * @param FixtureFactory $fixtureFactory
+     * @param CatalogProductSetIndex $productSetIndex
+     * @param CatalogProductSetAdd $setAdd
+     * @param CatalogProductSetEdit $productSetEdit
      * @return array
      */
     public function __inject(
-        FixtureFactory $fixtureFactory
+        FixtureFactory $fixtureFactory,
+        CatalogProductSetIndex $productSetIndex,
+        CatalogProductSetAdd $setAdd,
+        CatalogProductSetEdit $productSetEdit
     ) {
+        $this->productSetIndex = $productSetIndex;
+        $this->setAdd = $setAdd;
+        $this->productSetEdit = $productSetEdit;
 
         $productAttribute = $fixtureFactory->createByCode(
             'catalogProductAttribute',
@@ -56,25 +86,20 @@ class CreateAttributeSetEntityTest extends Injectable
      * Run CreateAttributeSetEntity test
      *
      * @param CatalogAttributeSet $attributeSet
-     * @param CatalogProductSetAdd $setAdd
-     * @param CatalogProductSetIndex $productSetIndex
-     * @param CatalogProductSetEdit $productSetEdit
      * @param CatalogProductAttribute $productAttribute
+     * @return void
      */
     public function testCreateAttributeSet(
         CatalogAttributeSet $attributeSet,
-        CatalogProductSetAdd $setAdd,
-        CatalogProductSetIndex $productSetIndex,
-        CatalogProductSetEdit $productSetEdit,
         CatalogProductAttribute $productAttribute
     ) {
         //Steps
-        $productSetIndex->open();
-        $productSetIndex->getPageActionsBlock()->addNew();
+        $this->productSetIndex->open();
+        $this->productSetIndex->getPageActionsBlock()->addNew();
 
-        $setAdd->getAttributeSetForm()->fill($attributeSet);
-        $setAdd->getPageActions()->save();
-        $productSetEdit->getMain()->moveAttribute($productAttribute->getData(), 'Product Details');
-        $productSetEdit->getPageActions()->save();
+        $this->setAdd->getAttributeSetForm()->fill($attributeSet);
+        $this->setAdd->getPageActions()->save();
+        $this->productSetEdit->getMain()->moveAttribute($productAttribute->getData(), 'Product Details');
+        $this->productSetEdit->getPageActions()->save();
     }
 }

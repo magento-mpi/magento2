@@ -13,7 +13,6 @@ use Magento\Backend\Test\Block\GridPageActions as AbstractGridPageActions;
 /**
  * Class GridPageActions
  * Grid page actions block on CatalogProductSetAdd page
- *
  */
 class GridPageActions extends AbstractGridPageActions
 {

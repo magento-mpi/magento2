@@ -286,17 +286,30 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
-    <assertProductTemplateSaveMessage module="Magento_Catalog">
+    <assertProductTemplateSuccessSaveMessage module="Magento_Catalog">
         <severeness>high</severeness>
-    </assertProductTemplateSaveMessage>
+        <productSetIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+    </assertProductTemplateSuccessSaveMessage>
     <assertProductTemplateForm module="Magento_Catalog">
         <severeness>high</severeness>
+        <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+        <productSetEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit" />
+        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+        <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
     </assertProductTemplateForm>
     <assertProductTemplateInGrid module="Magento_Catalog">
         <severeness>high</severeness>
+        <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
     </assertProductTemplateInGrid>
     <assertProductTemplateOnProductForm module="Magento_Catalog">
         <severeness>high</severeness>
+        <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
+        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+        <productEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
+        <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+        <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
+        <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
     </assertProductTemplateOnProductForm>
     <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
         <severeness>high</severeness>

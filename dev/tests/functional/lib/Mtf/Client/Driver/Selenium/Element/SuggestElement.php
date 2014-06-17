@@ -12,6 +12,10 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element as AbstractElement;
 
+/**
+ * Class SuggestElement
+ * General class for suggest elements.
+ */
 class SuggestElement extends AbstractElement
 {
     /**
@@ -67,11 +71,9 @@ class SuggestElement extends AbstractElement
 
     /**
      * Get value
-     *
-     * @return null
      */
     public function getValue()
     {
-        return null;
+        //
     }
 }
