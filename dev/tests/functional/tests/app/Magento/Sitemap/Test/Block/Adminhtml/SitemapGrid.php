@@ -57,6 +57,13 @@ class SitemapGrid extends Grid
     protected $sitemapId = 'tbody tr .col-sitemap_id';
 
     /**
+     * Locator generate link
+     *
+     * @var string
+     */
+    protected $generate = 'tbody tr .col-action a';
+
+    /**
      * Get link for Google
      *
      * @return string
@@ -74,5 +81,15 @@ class SitemapGrid extends Grid
     public function getSitemapId()
     {
         return $this->_rootElement->find($this->sitemapId, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
+     * Generate sitemap
+     *
+     * @return void
+     */
+    public function generate()
+    {
+        $this->_rootElement->find($this->generate, Locator::SELECTOR_CSS)->click();
     }
 }

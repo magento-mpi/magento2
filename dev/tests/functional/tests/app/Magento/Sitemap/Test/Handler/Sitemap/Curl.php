@@ -38,7 +38,7 @@ class Curl extends AbstractCurl implements SitemapInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $url = $_ENV['app_backend_url'] . 'admin/sitemap/save/';
+        $url = $_ENV['app_backend_url'] . 'admin/sitemap/save/generate/';
         $data = array_merge($this->defaultAttributeValues, $fixture->getData());
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
