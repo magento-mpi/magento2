@@ -14,6 +14,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -22,14 +23,12 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements CatalogProductAttributeInterface
 {
     /**
-     * Post request for creating Product Attribute
+     * Mapping values for data.
      *
-     * @param FixtureInterface $fixture [optional]
-     * @return array
+     * @var array
      */
-    public function persist(FixtureInterface $fixture = null)
-    {
-        $frontend_inputs = [
+    protected $mappingData = [
+        'frontend_input' => [
             'Text Field' => 'text',
             'Text Area' => 'textarea',
             'Date' => 'date',
@@ -39,25 +38,38 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
             'Price' => 'price',
             'Media Image' => 'media_image',
             'Fixed Product Tax' => 'weee',
-        ];
+        ],
+        'is_required' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
 
-        $data = $fixture->getData();
+    ];
+
+    /**
+     * Post request for creating Product Attribute
+     *
+     * @param FixtureInterface $fixture
+     * @return array
+     * @throws \Exception
+     */
+    public function persist(FixtureInterface $fixture = null)
+    {
+
+        $data = $this->replaceMappingData($fixture->getData());
         $data['frontend_label'] = [0 => $data['frontend_label']];
-        $data['is_required'] = ($data['is_required'] == 'Yes') ? 1 : 0;
-        $data['frontend_input'] = $frontend_inputs[$data['frontend_input']];
-        $data['option'] = [
-            'value' => [
-                'option_0' => ['black', 'option_0'],
-                'option_1' => ['white', 'option_1'],
-                'option_2' => ['green', 'option_2'],
-            ],
-            'order' => [
-                'option_0' => 1,
-                'option_1' => 2,
-                'option_2' => 3,
-            ]
-        ];
-        $data['default'][] = 'option_0';
+
+        if (isset($data['options'])) {
+            foreach ($data['options'] as $key => $values) {
+                if ($values['is_default'] == 'Yes') {
+                    $data['default'][] = $values['view'];
+                }
+                $index = 'option_' . $key;
+                $data['option']['value'][$index] = [$values['admin'], $values['view']];
+                $data['option']['order'][$index] = $key;
+            }
+            unset($data['options']);
+        }
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -65,13 +77,15 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
         $response = $curl->read();
         $curl->close();
 
-        preg_match(
-            '`<tr.*?http.*?attribute_id\/(\d*?)\/`',
-            $response,
-            $matches
-        );
-        $id = isset($matches[1]) ? $matches[1] : null;
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Product Attribute creating by curl handler was not successful!");
+        }
 
-        return ['id' => $id];
+        $url = 'catalog/product_attribute/index/filter/';
+        $url .= base64_encode('frontend_label=' . $data['frontend_label'][0]);
+        $regExpPattern = '`<tr.*?http.*?attribute_id\/(\d*?)\/`';
+        $extractor = new Extractor($url, $regExpPattern);
+
+        return ['attribute_id' => $extractor->getData()[1]];
     }
 }

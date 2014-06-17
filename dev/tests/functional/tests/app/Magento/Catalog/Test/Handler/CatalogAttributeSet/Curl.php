@@ -26,12 +26,15 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      *
      * @param FixtureInterface $fixture
      * @return array
+     * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData();
-        $data['gotoEdit'] = 1;
-        $data['skeleton_set'] = 4;
+        if (!isset($data['gotoEdit'])) {
+            $data['gotoEdit'] = 1;
+        }
+        $data['skeleton_set'] = $data['attribute_set_id'];
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -46,6 +49,10 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
         );
         $id = isset($matches[1]) ? $matches[1] : null;
 
-        return ['id' => $id];
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Attribute Set creating by curl handler was not successful!");
+        }
+
+        return ['attribute_set_id' => $id];
     }
 }

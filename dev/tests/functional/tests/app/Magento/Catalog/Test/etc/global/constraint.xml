@@ -208,37 +208,31 @@
     </assertProductAttributeIsGlobal>
     <assertCrossSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
+    </assertCrossSellsProductsSection>
     <assertSuccessDeletedAttribute module="Magento_Catalog">
         <severeness>high</severeness>
-        <require>
-        </require>
-    </assertCrossSellsProductsSection>
+    </assertSuccessDeletedAttribute>
     <assertNoCrossSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertNoCrossSellsProductsSection>
     <assertRelatedProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
-    </assertSuccessDeletedAttribute>
+    </assertRelatedProductsSection>
     <assertAbsenceProductAttributeInGrid module="Magento_Catalog">
         <severeness>high</severeness>
-        <require>
-        </require>
-    </assertRelatedProductsSection>
+    </assertAbsenceProductAttributeInGrid>
     <assertNoRelatedProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertNoRelatedProductsSection>
     <assertUpSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
-    </assertAbsenceProductAttributeInGrid>
+    </assertUpSellsProductsSection>
     <assertAbsenceInAddAttributeSearch module="Magento_Catalog">
         <severeness>high</severeness>
-        <require>
-        </require>
-    </assertUpSellsProductsSection>
+    </assertAbsenceInAddAttributeSearch>
     <assertNoUpSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertNoUpSellsProductsSection>
-    </assertAbsenceInAddAttributeSearch>
     <assertCategorySaveMessage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategorySaveMessage>
@@ -248,6 +242,31 @@
     <assertCategoryPage module="Magento_Catalog">
         <severeness>low</severeness>
     </assertCategoryPage>
+    <assertProductTemplateSuccessSaveMessage module="Magento_Catalog">
+        <severeness>high</severeness>
+        <productSetIndex class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+    </assertProductTemplateSuccessSaveMessage>
+    <assertProductTemplateForm module="Magento_Catalog">
+        <severeness>high</severeness>
+        <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+        <productSetEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit" />
+        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+        <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+    </assertProductTemplateForm>
+    <assertProductTemplateInGrid module="Magento_Catalog">
+        <severeness>high</severeness>
+        <productSet class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex" />
+        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+    </assertProductTemplateInGrid>
+    <assertProductTemplateOnProductForm module="Magento_Catalog">
+        <severeness>high</severeness>
+        <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
+        <attributeSet class="Magento\Catalog\Test\Fixture\CatalogAttributeSet" />
+        <productEdit class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
+        <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
+        <newProductPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew" />
+        <productAttribute class="Magento\Catalog\Test\Fixture\CatalogProductAttribute" />
+    </assertProductTemplateOnProductForm>
     <assertAbsenceDeleteAttributeButton module="Magento_Catalog">
         <severeness>high</severeness>
         <require>
@@ -256,7 +275,5 @@
     </assertAbsenceDeleteAttributeButton>
     <assertAbsenceProductAttributeForExport module="Magento_Catalog">
         <severeness>high</severeness>
-        <require>
-        </require>
     </assertAbsenceProductAttributeForExport>
 </constraint>

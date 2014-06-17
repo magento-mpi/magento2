@@ -40,33 +40,31 @@ class UpdateProductAttributeEntityTest extends Injectable
     /**
      * Run UpdateProductAttributeEntity test
      *
-     * @param CatalogProductAttribute $attribute
+     * @param CatalogProductAttribute $productAttributeOriginal
+     * @param CatalogProductAttribute $productAttribute
      * @param CatalogAttributeSet $productTemplate
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
-     * @param CatalogProductAttribute $productAttribute
-     * @param string $product
      * @return void
      */
     public function testUpdateProductAttribute(
-        CatalogProductAttribute $attribute,
+        CatalogProductAttribute $productAttributeOriginal,
+        CatalogProductAttribute $productAttribute,
         CatalogAttributeSet $productTemplate,
         CatalogProductAttributeIndex $attributeIndex,
-        CatalogProductAttributeNew $attributeNew,
-        CatalogProductAttribute $productAttribute,
-        $product
+        CatalogProductAttributeNew $attributeNew
     ) {
         //Precondition
         $productTemplate->persist();
-        $attribute->persist();
+        $productAttributeOriginal->persist();
 
         $filter = [
-            'frontend_label' => $attribute->getFrontendLabel(),
+            'frontend_label' => $productAttributeOriginal->getFrontendLabel(),
         ];
 
         //Steps
         $attributeIndex->open();
-        $attributeIndex->getBlockAttributeGrid()->searchAndOpen($filter);
+        $attributeIndex->getGrid()->searchAndOpen($filter);
         $attributeNew->getAttributeForm()->fill($productAttribute);
         $attributeNew->getPageActions()->save();
     }

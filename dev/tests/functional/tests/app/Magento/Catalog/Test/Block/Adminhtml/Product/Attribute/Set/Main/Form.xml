@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>catalogevent</wrapper>
+    <fields>
+        <attribute_set_name>
+            <selector>#attribute_set_name</selector>
+        </attribute_set_name>
+        <skeleton_set>
+            <selector>#skeleton_set</selector>
+            <input>select</input>
+        </skeleton_set>
+    </fields>
+</mapping>

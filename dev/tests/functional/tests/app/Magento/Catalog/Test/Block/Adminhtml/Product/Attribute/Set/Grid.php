@@ -22,7 +22,7 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $editLink = '.a-left.col-set_name.last';
+    protected $editLink = 'td[data-column="set_name"]';
 
     /**
      * Filters array mapping

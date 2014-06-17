@@ -8,12 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
@@ -23,6 +20,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
  * Class AssertProductAttributeOnProductForm
+ * Check attribute on product form
  */
 class AssertProductAttributeOnProductForm extends AbstractConstraint
 {
@@ -42,9 +40,8 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
      * @param CatalogProductSetEdit $productSetEdit
      * @param CatalogAttributeSet $productTemplate
      * @param CatalogProductIndex $productGrid
-     * @param CatalogProductAttribute $attribute
+     * @param CatalogProductAttribute $productAttributeOriginal
      * @param CatalogProductEdit $productEdit
-     * @param mixed $product
      * @param CatalogProductAttribute|null $productAttribute
      * @return void
      */
@@ -55,38 +52,31 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
         CatalogProductSetEdit $productSetEdit,
         CatalogAttributeSet $productTemplate,
         CatalogProductIndex $productGrid,
-        CatalogProductAttribute $attribute,
         CatalogProductEdit $productEdit,
-        $product,
-        CatalogProductAttribute $productAttribute = null
+        CatalogProductAttribute $productAttribute,
+        CatalogProductAttribute $productAttributeOriginal = null
     ) {
         $filterAttribute = [
             'set_name' => $productTemplate->getAttributeSetName(),
         ];
         $productSet->open();
-        $productSet->getBlockAttributeSetGrid()->searchAndOpen($filterAttribute);
+        $productSet->getGrid()->searchAndOpen($filterAttribute);
 
-        $attributeLabel = ($productAttribute) ? $attribute->getFrontendLabel() : $attribute->getAttributeCode();
-        $productSetEdit->getNewAttributes()->moveAttribute($attributeLabel);
+        $attributeData = ($productAttributeOriginal !== null) ? array_merge(
+            $productAttribute->getData(),
+            $productAttributeOriginal->getData()
+        ) : $productAttribute->getData();
+
+        $productSetEdit->getMain()->moveAttribute($attributeData, 'Product Details');
         $productSetEdit->getPageActions()->save();
 
-        $product = explode('::', $product);
-        $attributeId = $this->getAttributeId($attributeLabel);
         $product = $fixtureFactory->createByCode(
-            $product[0],
+            'catalogProductSimple',
             [
-                'dataSet' => $product[1],
+                'dataSet' => 'product_with_category',
                 'data' => [
-                    'attribute_set_id' => $productTemplate->getData('id'),
-                    'configurable_attributes_data' => [
-                        $attributeId => [
-                            'attribute_id' => $attributeId,
-                            'code' => $attribute->getData('frontend_label'),
-                            'label' => $attribute->getData('frontend_label'),
-                            'id' => 'new',
-                        ]
-                    ]
-                ]
+                    'attribute_set_id' => ['attribute_set' => $productTemplate],
+                ],
             ]
         );
         $product->persist();
@@ -97,48 +87,16 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
         $productGrid->open();
         $productGrid->getProductGrid()->searchAndOpen($filterProduct);
 
-        $frontendLabel = ($productAttribute) ? $productAttribute->getFrontendLabel() : $attribute->getFrontendLabel();
+        $frontendLabel = ($productAttributeOriginal !== null) ? array_merge(
+            $productAttributeOriginal->getData(),
+            $productAttribute->getData()
+        )['frontend_label']
+            : $productAttribute->getData()['frontend_label'];
+
         \PHPUnit_Framework_Assert::assertTrue(
             $productEdit->getForm()->checkAttributeLabel($frontendLabel),
             "Product Attribute is absent on Product form."
         );
-    }
-
-    /**
-     * Get attribute id by attributeLabel
-     *
-     * @param string $attributeLabel
-     * @return int|null
-     */
-    protected function getAttributeId($attributeLabel)
-    {
-        $filter = ['attribute_code' => $attributeLabel];
-        $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/index/filter/' . $this->encodeFilter($filter);
-        $curl = new BackendDecorator(new CurlTransport(), new Config());
-
-        $curl->write(CurlInterface::GET, $url, '1.0');
-        $response = $curl->read();
-        $curl->close();
-
-        preg_match('`<tr.*?http.*?attribute_id\/(\d*?)\/`', $response, $match);
-        return empty($match[1]) ? null : $match[1];
-    }
-
-    /**
-     * Encoded filter parameters
-     *
-     * @param array $filter
-     * @return string
-     */
-    protected function encodeFilter(array $filter)
-    {
-        $result = [];
-        foreach ($filter as $name => $value) {
-            $result[] = "{$name}={$value}";
-        }
-        $result = implode('&', $result);
-
-        return base64_encode($result);
     }
 
     /**

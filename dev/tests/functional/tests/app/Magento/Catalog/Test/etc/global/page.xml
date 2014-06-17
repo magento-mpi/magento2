@@ -63,4 +63,9 @@
         <area>adminhtml</area>
         <class>Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit</class>
     </catalogCategoryEdit>
+    <catalogProductSetAdd>
+        <mca>catalog/product_set/add</mca>
+        <area>adminhtml</area>
+        <class>Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetAdd</class>
+    </catalogProductSetAdd>
 </page>

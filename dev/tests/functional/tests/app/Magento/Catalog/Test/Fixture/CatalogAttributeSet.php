@@ -27,6 +27,8 @@ class CatalogAttributeSet extends InjectableFixture
     protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogAttributeSet\CatalogAttributeSetInterface';
 
     protected $defaultDataSet = [
+            'attribute_set_name' => 'Default_attribute_set_%isolation%',
+            'attribute_set_id' => 4,
     ];
 
     protected $attribute_set_id = [
@@ -61,6 +63,15 @@ class CatalogAttributeSet extends InjectableFixture
         'input' => '',
     ];
 
+    protected $skeleton_set = [
+        'attribute_code' => 'skeleton_set',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogAttributeSet\SkeletonSetId',
+    ];
+
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
@@ -79,5 +90,10 @@ class CatalogAttributeSet extends InjectableFixture
     public function getSortOrder()
     {
         return $this->getData('sort_order');
+    }
+
+    public function getSkeletonSet()
+    {
+        return $this->getData('skeleton_set');
     }
 }

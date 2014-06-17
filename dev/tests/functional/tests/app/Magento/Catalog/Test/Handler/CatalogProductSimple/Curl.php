@@ -82,10 +82,18 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                     ? $this->getTaxClassId($fields['tax_class_id'])
                     : $taxClassId;
             }
+            // Getting Attribute Set id
+            if ($fixture->hasData('attribute_set_id')) {
+                $attributeSetId = $fixture
+                    ->getDataFieldConfig('attribute_set_id')['source']
+                    ->getAttributeSet()
+                    ->getAttributeSetId();
+                $fields['attribute_set_id'] = $attributeSetId;
+            }
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {
                 $categoryIds = [];
-                foreach ($fields['category_ids'] as $categoryData ) {
+                foreach ($fields['category_ids'] as $categoryData) {
                     $categoryIds[] = $categoryData['id'];
                 }
                 $fields['category_ids'] = $categoryIds;

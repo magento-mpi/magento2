@@ -25,8 +25,13 @@ class CatalogAttributeSet extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'attribute_set_name' => 'product_template_default_%isolation%',
-            'skeleton_set' => 'Default'
+            'attribute_set_name' => 'Default',
+            'attribute_set_id' => 4,
+        ];
+
+        $this->_data['custom_attribute_set'] = [
+            'attribute_set_name' => 'Attribute_set%isolation%',
+            'attribute_set_id' => 4,
         ];
     }
 }

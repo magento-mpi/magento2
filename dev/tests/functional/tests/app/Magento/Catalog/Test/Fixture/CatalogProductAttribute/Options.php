@@ -26,6 +26,8 @@ class Options implements FixtureInterface
         $this->params = $params;
         if (isset($data['preset'])) {
             $this->data = $this->getPreset($data['preset']);
+        } else {
+            $this->data = $data;
         }
     }
 
