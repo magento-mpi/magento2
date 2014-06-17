@@ -26,12 +26,17 @@ class ShowOutOfStockConfig
      * After save handler
      *
      * @param \Magento\Framework\App\Config\Value $subject
+     * @param $result
+     *
+     * @return mixed
      */
-    public function afterSave(\Magento\Framework\App\Config\Value $subject)
+    public function afterSave(\Magento\Framework\App\Config\Value $subject, $result)
     {
         if ($subject->isValueChanged()) {
             $this->_indexer->getProcessByCode('catalog_product_attribute')
                 ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
+
+        return $result;
     }
 }
