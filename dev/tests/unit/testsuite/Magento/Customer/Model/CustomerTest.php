@@ -13,6 +13,9 @@
  */
 namespace Magento\Customer\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Customer\Model\Customer */

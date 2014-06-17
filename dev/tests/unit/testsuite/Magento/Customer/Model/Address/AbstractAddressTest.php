@@ -266,26 +266,47 @@ class AbstractAddressTest extends \PHPUnit_Framework_TestCase
      */
     public function validateDataProvider()
     {
+        $countryId = 1;
         $data = array(
             'firstname' => 'First Name',
             'lastname' => 'Last Name',
             'street' => "Street 1\nStreet 2",
             'city' => 'Odessa',
             'telephone' => '555-55-55',
-            'country_id' => 1,
+            'country_id' => $countryId,
             'postcode' => 07201,
             'region_id' => 1,
         );
         return array(
-            array(array_diff_key($data, array('firstname' => '')), array('Please enter the first name.')),
-            array(array_diff_key($data, array('lastname' => '')), array('Please enter the last name.')),
-            array(array_diff_key($data, array('street' => '')), array('Please enter the street.')),
-            array(array_diff_key($data, array('city' => '')), array('Please enter the city.')),
-            array(array_diff_key($data, array('telephone' => '')), array('Please enter the telephone number.')),
-            array(array_diff_key($data, array('postcode' => '')), array('Gender is required.')),
-            array(array_diff_key($data, array('region_id' => '')), array('Gender is required.')),
-            array(array_diff_key($data, array('country_id' => '')), array('Please enter the country.')),
-            array($data, true),
+            'firstname' =>array(
+                array_merge(array_diff_key($data, array('firstname' => '')), array('country_id' => $countryId++)),
+                array('Please enter the first name.')
+            ),
+            'lastname' => array(
+                array_merge(array_diff_key($data, array('lastname' => '')), array('country_id' => $countryId++)),
+                array('Please enter the last name.')
+            ),
+            'street' => array(
+                array_merge(array_diff_key($data, array('street' => '')), array('country_id' => $countryId++)),
+                array('Please enter the street.')
+            ),
+            'city' => array(
+                array_merge(array_diff_key($data, array('city' => '')), array('country_id' => $countryId++)),
+                array('Please enter the city.')
+            ),
+            'telephone' => array(
+                array_merge(array_diff_key($data, array('telephone' => '')), array('country_id' => $countryId++)),
+                array('Please enter the telephone number.')
+            ),
+            'postcode' => array(
+                array_merge(array_diff_key($data, array('postcode' => '')), array('country_id' => $countryId++)),
+                array('Please enter the zip/postal code.')
+            ),
+            'country_id' => array(
+                array_diff_key($data, array('country_id' => '')),
+                array('Please enter the country.')
+            ),
+            'validated' => array(array_merge($data, array('country_id' => $countryId++)), true),
         );
     }
 }
