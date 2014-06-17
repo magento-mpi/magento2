@@ -149,7 +149,9 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var \Magento\CatalogInventory\Service\V1\Data\StockStatus|\PHPUnit_Framework_MockObject_MockObject $scope */
+        /**
+         * @var \Magento\CatalogInventory\Service\V1\Data\StockStatus|\PHPUnit_Framework_MockObject_MockObject $scope
+         */
         $stockStatusDataObject = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\Data\StockStatus')
             ->disableOriginalConstructor()
             ->getMock();
