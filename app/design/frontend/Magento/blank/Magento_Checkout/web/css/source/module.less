@@ -443,6 +443,21 @@
     }
 }
 
+//  Checkout success
+.checkout-onepage-success {
+    .page-title {
+        .print {
+            display: none;
+        }
+    }
+}
+
+.checkout-success {
+    .actions-toolbar {
+        margin-top: 40px;
+    }
+}
+
 //
 //    Minicart
 //--------------------------------------
@@ -690,6 +705,18 @@
         .fieldset.login {
             .actions {
                 &:extend(.margin-for-forms-desktop all);
+            }
+        }
+    }
+
+    //  Checkout success
+    .checkout-onepage-success {
+        .page-title {
+            .print {
+                display: none;
+                display: inline-block;
+                margin-left: 40px;
+                .font-size(14);
             }
         }
     }

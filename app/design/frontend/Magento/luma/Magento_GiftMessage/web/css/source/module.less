@@ -98,6 +98,12 @@
                     .font-size(16);
                     font-weight: @font-weight-base;
                 }
+                .photo.container {
+                    margin: 15px 0;
+                    img {
+                        display: block;
+                    }
+                }
             }
         }
     }
@@ -116,6 +122,13 @@
                     float: left;
                     margin: 0 30px 0 0;
                     width: 145px;
+                    .name {
+                        .font-size(16);
+                        font-weight: @font-weight-base;
+                        max-width: 145px;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
                 }
                 .options {
                     overflow: hidden;

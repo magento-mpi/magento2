@@ -334,21 +334,27 @@
     .section {
         &.allow > .title {
             cursor: pointer;
-            /*.icon-font(
+            .icon-font(
                 @icon-edit,
                 @_icon-font-size: 20px,
                 @_icon-font-display: block,
                 @_icon-font-position: after
-            );*/
+            );
             &:after {
                 position: absolute;
                 right: 18px;
                 top: 12px;
             }
         }
+        .step.content {
+            display: none;
+        }
         &.active {
             .step.title {
                 color: @color-primary;
+            }
+            .step.content {
+                display: block;
             }
         }
     }
@@ -456,7 +462,6 @@
             > .price {
                 display: block;
             }
-            margin-left: 20px;
             .regular .price,
             .price .price {
                 font-weight: @font-weight-bold;
@@ -538,8 +543,16 @@
     .data.table {
         &:extend(.product-options-list all);
         .table-caption(@_table-caption-hide: true);
-        tbody tr:first-child td {
-            border-top: @border-width-base solid @border-color-base;
+        tbody {
+            tr:first-child td {
+                border-top: @border-width-base solid @border-color-base;
+            }
+            tr:not(:last-child) td {
+                border-bottom: @border-width-base solid @border-color-base;
+            }
+        }
+        th.col.subtotal {
+            text-align: center;
         }
         .col {
             &.price,
@@ -612,12 +625,15 @@
 }
 
 //  Checkout success
-.checkout-success {
-    .subtitle .print {
-        display: inline-block;
-        margin-left: 15px;
-        .font-size(14);
+.checkout-onepage-success {
+    .page-title {
+        .print {
+            display: none;
+        }
     }
+}
+
+.checkout-success {
     .actions-toolbar {
         margin-top: 50px;
     }
@@ -903,6 +919,24 @@
     }
     .checkout-success .subtitle .print {
         margin-left: 40px;
+    }
+
+    //  Checkout success
+    .checkout-onepage-success {
+        .page-title {
+            .print {
+                display: none;
+                display: inline-block;
+                margin-left: 40px;
+                .font-size(14);
+                .icon-font(
+                    @icon-print,
+                    @_icon-font-size: 16px,
+                    @_icon-font-margin: 0 5px 0 0,
+                    @_icon-font-position: before
+                );
+            }
+        }
     }
 
     .opc-block-progress {
