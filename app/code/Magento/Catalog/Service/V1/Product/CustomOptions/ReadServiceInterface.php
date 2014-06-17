@@ -16,4 +16,13 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionType[]
      */
     public function getTypes();
+
+    /**
+     * Get the list of custom options for a specific product
+     *
+     * @param string $productSku
+     * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option[]
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getList($productSku);
 }

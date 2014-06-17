@@ -21,6 +21,8 @@ use Magento\Framework\Model\AbstractModel;
  * @method \Magento\Catalog\Model\Product\Option setProductId(int $value)
  * @method string getType()
  * @method \Magento\Catalog\Model\Product\Option setType(string $value)
+ * @method string getTitle()
+ * @method \Magento\Catalog\Model\Product\Option seTitle(string $value)
  * @method int getIsRequire()
  * @method \Magento\Catalog\Model\Product\Option setIsRequire(int $value)
  * @method string getSku()

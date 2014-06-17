@@ -23,15 +23,31 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
     protected $optionTypeBuilder;
 
     /**
+     * @var Data\OptionBuilder
+     */
+    protected $optionBuilder;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductRepository
+     */
+    protected $productRepository;
+
+    /**
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param Data\OptionTypeBuilder $optionTypeBuilder
+     * @param Data\OptionBuilder $optionBuilder
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
     public function __construct(
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
-        Data\OptionTypeBuilder $optionTypeBuilder
+        Data\OptionTypeBuilder $optionTypeBuilder,
+        Data\OptionBuilder $optionBuilder,
+        \Magento\Catalog\Model\ProductRepository $productRepository
     ) {
         $this->productOptionConfig = $productOptionConfig;
         $this->optionTypeBuilder = $optionTypeBuilder;
+        $this->optionBuilder = $optionBuilder;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -55,4 +71,31 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
         }
         return $output;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getList($productSku)
+    {
+        $product = $this->productRepository->get($productSku);
+
+        $output = [];
+
+        /** @var $option \Magento\Catalog\Model\Product\Option */
+        foreach ($product->getProductOptionsCollection() as $option) {
+            $data = array(
+                Data\Option::OPTION_ID => $option->getId(),
+                Data\Option::TITLE => $option->getTitle(),
+                Data\Option::TYPE => $option->getType(),
+                Data\Option::IS_REQUIRE => $option->getIsRequire(),
+                Data\Option::SORT_ORDER => $option->getSortOrder(),
+                Data\Option::VALUE => []
+            );
+
+            $output[] = $this->optionBuilder->populateWithArray($data)->create();
+        }
+        return $output;
+    }
+
+
 }
