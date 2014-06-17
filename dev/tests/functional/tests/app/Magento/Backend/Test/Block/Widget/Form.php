@@ -120,6 +120,8 @@ class Form extends FormInstance
      *
      * @param FixtureInterface $fixture
      * @return Form
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function save(FixtureInterface $fixture = null)
     {
