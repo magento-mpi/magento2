@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Block\Product\View;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -19,60 +20,53 @@ use Mtf\Client\Element\Locator;
 class CustomOptions extends Block
 {
     /**
-     * Regexp price pattern
+     * Selector for single option block
      *
      * @var string
      */
-    protected $pricePattern = '#\$([\d,]+\.\d+)$#';
+    protected $optionElement = './/div[contains(@class,"field")][%d]';
 
     /**
-     * Field set XPath locator
+     * Selector for title of option
      *
      * @var string
      */
-    protected $fieldsetLocator = '//*[@id="product-options-wrapper"]//*[@class="fieldset"]';
+    protected $title = './label/span[1]';
 
     /**
-     * Field XPath locator
+     * Selector for required option
      *
      * @var string
      */
-    protected $fieldLocator = '/div[not(contains(@class,"downloads")) and contains(@class,"field")%s][%d]';
+    protected $required = '//self::*[contains(@class,"required")]';
 
     /**
-     * Required field XPath locator
+     * Selector for price notice of "Field" option
      *
      * @var string
      */
-    protected $requiredLocator = ' and contains(@class,"required")';
+    protected $priceNotice = './/*[@class="price-notice"]';
 
     /**
-     * Select field XPath locator
+     * Selector for max characters of "Field" option
      *
      * @var string
      */
-    protected $selectLocator = './div[contains(@class,"control")]//select';
+    protected $maxCharacters = './/div[@class="control"]/p[@class="note"]/strong';
 
     /**
-     * Title value CSS locator
+     * Selector for select element of drop-down option
      *
      * @var string
      */
-    protected $titleLocator = '.label span:not(.price-notice)';
+    protected $dropdownSelect = './/div[@class="control"]/select';
 
     /**
-     * Price value CSS locator
+     * Selector for option of select element
      *
      * @var string
      */
-    protected $priceLocator = '.label .price-notice';
-
-    /**
-     * Option XPath locator
-     *
-     * @var string
-     */
-    protected $optionLocator = './option[%d]';
+    protected $option = './/option[%d]';
 
     /**
      * Option XPath locator by value
@@ -89,71 +83,117 @@ class CustomOptions extends Block
     protected $selectByTitleLocator = '//*[*[@class="product options wrapper"]//span[text()="%s"]]//select';
 
     /**
-     * Bundle field CSS locator
+     * Get product options
      *
-     * @var string
+     * @param CatalogProductSimple $product
+     * @return array
+     * @throws \Exception
      */
-    protected $bundleFieldLocator = '#product-options-wrapper > .fieldset > .field';
+    public function getOptions(CatalogProductSimple $product)
+    {
+        $dataOptions = $product->hasData('custom_options') ? $product->getCustomOptions() : [];
+        $listCustomOptions = $this->getListCustomOptions();
+        $readyOptions = [];
+        $result = [];
+
+        foreach ($dataOptions as $option) {
+            $title = $option['title'];
+            if (!isset($listCustomOptions[$title])) {
+                throw new \Exception("Can't find option: \"{$title}\"");
+            }
+
+            /** @var Element $optionElement */
+            $optionElement = $listCustomOptions[$title];
+            $typeMethod = preg_replace('/[^a-zA-Z]/', '', $option['type']);
+            $getTypeData = 'get' . ucfirst(strtolower($typeMethod)) . 'Data';
+
+            $optionData = $this->$getTypeData($optionElement);
+            $optionData['title'] = $title;
+            $optionData['type'] = $option['type'];
+            $optionData['is_require'] = $optionElement->find($this->required, Locator::SELECTOR_XPATH)->isVisible()
+                ? 'Yes'
+                : 'No';
+
+            $readyOptions[] = $title;
+            $result[$title] = $optionData;
+        }
+
+        $unreadyCustomOptions = array_diff_key($listCustomOptions, array_flip($readyOptions));
+        foreach ($unreadyCustomOptions as $optionElement) {
+            $title = $optionElement->find($this->title, Locator::SELECTOR_XPATH)->getText();
+            $result[$title] = ['title' => $title];
+        }
+
+        return $result;
+    }
 
     /**
-     * Get product options
+     * Get list custom options
      *
      * @return array
      */
-    public function getOptions()
+    private function getListCustomOptions()
     {
-        $options = [];
-        $index = 1;
+        $customOptions = [];
+        $context = $this->_rootElement;
 
-        $fieldElement = $this->_rootElement->find(
-            $this->fieldsetLocator . sprintf($this->fieldLocator, '', $index),
-            Locator::SELECTOR_XPATH
-        );
+        $count = 1;
+        $optionElement = $context->find(sprintf($this->optionElement, $count), Locator::SELECTOR_XPATH);
+        while ($optionElement->isVisible()) {
+            $title = $optionElement->find($this->title, Locator::SELECTOR_XPATH)->getText();
+            $customOptions[$title] = $optionElement;
+            ++$count;
+            $optionElement = $context->find(sprintf($this->optionElement, $count), Locator::SELECTOR_XPATH);
+        }
+        return $customOptions;
+    }
 
-        while ($fieldElement && $fieldElement->isVisible()) {
-            $option = ['price' => []];
-            $option['is_require'] = $this->_rootElement->find(
-                $this->fieldsetLocator . sprintf($this->fieldLocator, $this->requiredLocator, $index),
-                Locator::SELECTOR_XPATH
-            )->isVisible();
-            $option['title'] = $fieldElement->find($this->titleLocator)->getText();
+    /**
+     * Get data of "Field" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    private function getFieldData(Element $option)
+    {
+        $priceNotice = $option->find($this->priceNotice, Locator::SELECTOR_XPATH)->getText();
+        $price = preg_replace('/[^0-9\.]/', '', $priceNotice);
+        $maxCharacters = $option->find($this->maxCharacters, Locator::SELECTOR_XPATH);
 
-            if (($price = $fieldElement->find($this->priceLocator))
-                && $price->isVisible()
-            ) {
-                $matches = [];
-                $value = $price->getText();
-                if (preg_match($this->pricePattern, $value, $matches)) {
-                    $option['value'][] = $value;
-                    $option['price'][] = $matches[1];
-                }
-            } elseif (($prices = $fieldElement->find(
-                $this->selectLocator,
-                Locator::SELECTOR_XPATH
-            )
-                ) && $prices->isVisible()
-            ) {
-                $priceIndex = 0;
-                while (($price = $prices->find(sprintf($this->optionLocator, ++$priceIndex), Locator::SELECTOR_XPATH))
-                    && $price->isVisible()
-                ) {
-                    $matches = [];
-                    $value = $price->getText();
-                    if (preg_match($this->pricePattern, $value, $matches)) {
-                        $option['value'][] = $value;
-                        $option['price'][] = $matches[1];
-                    }
-                }
-            }
-            $options[$option['title']] = $option;
-            ++$index;
-            $fieldElement = $this->_rootElement->find(
-                $this->fieldsetLocator . sprintf($this->fieldLocator, '', $index),
-                Locator::SELECTOR_XPATH
-            );
+        return [
+            'options' => [
+                [
+                    'price' => floatval($price),
+                    'max_characters' => $maxCharacters->isVisible() ? $maxCharacters->getText() : null,
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Get data of "Drop-down" custom option
+     *
+     * @param Element $option
+     * @return array
+     */
+    private function getDropdownData(Element $option)
+    {
+        $select = $option->find($this->dropdownSelect, Locator::SELECTOR_XPATH, 'select');
+        $listSelectOptions = [];
+
+        $count = 2;
+        $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
+        while ($selectOption->isVisible()) {
+            $listSelectOptions[] = [
+                'title' => $selectOption->getText()
+            ];
+            ++$count;
+            $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         }
 
-        return $options;
+        return [
+            'options' => $listSelectOptions
+        ];
     }
 
     /**

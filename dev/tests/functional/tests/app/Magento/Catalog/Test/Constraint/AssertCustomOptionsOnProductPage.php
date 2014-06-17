@@ -8,9 +8,10 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCustomOptionsOnProductPage
@@ -25,76 +26,62 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Product fixture
+     * Skipped field for custom options
      *
-     * @var FixtureInterface
+     * @var array
      */
-    protected $product;
+    protected $skippedFieldOptions = [
+        'Field' => [
+            'price_type',
+            'sku',
+        ],
+        'Drop-down' => [
+            'price_type',
+            'sku',
+            'price',
+        ]
+    ];
 
     /**
      * Assertion that commodity options are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
-     * @param FixtureInterface $product
+     * @param CatalogProductSimple $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    public function processAssert(CatalogProductView $catalogProductView, CatalogProductSimple $product)
     {
-        $this->product = $product;
         // TODO fix initialization url for frontend page
         // Open product view page
-        $catalogProductView->init($this->product);
+        $catalogProductView->init($product);
         $catalogProductView->open();
         // Prepare data
-        $customOptions = $catalogProductView->getCustomOptionsBlock()->getOptions();
-        foreach ($customOptions as &$option) {
-            unset($option['value']);
-        }
-        unset($option);
-        $compareOptions = $this->prepareOptionArray($this->product->getCustomOptions());
-        $customOptions = $this->dataSortByKey($customOptions);
-        $compareOptions = $this->dataSortByKey($compareOptions);
+        $formCustomOptions = $catalogProductView->getCustomOptionsBlock()->getOptions($product);
+        $fixtureCustomOptions = $this->prepareOptions($product->getCustomOptions());
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $customOptions,
-            $compareOptions,
+            $formCustomOptions,
+            $fixtureCustomOptions,
             'Incorrect display of custom product options on the product page.'
         );
-    }
-
-    protected function dataSortByKey(array $data)
-    {
-        foreach ($data as &$item) {
-            ksort($item);
-        }
-        unset($item);
-        return $data;
     }
 
     /**
      * Preparation options before comparing
      *
-     * @param array $options
+     * @param array $customOptions
      * @return array
      */
-    protected function prepareOptionArray(array $options)
+    protected function prepareOptions(array $customOptions)
     {
         $result = [];
-        $productPrice = $this->product->hasData('group_price')
-            ? $this->product->getGroupPrice()[0]['price']
-            : $this->product->getPrice();
-
-        $placeholder = ['Yes' => true, 'No' => false];
-        foreach ($options as $option) {
-            $result[$option['title']]['is_require'] = $placeholder[$option['is_require']];
-            $result[$option['title']]['title'] = $option['title'];
-            $result[$option['title']]['price'] = [];
-            foreach ($option['options'] as $optionValue) {
-                if ($optionValue['price_type'] === 'Percent') {
-                    $optionValue['price'] = $productPrice / 100 * $optionValue['price'];
-                }
-                $result[$option['title']]['price'][] = number_format($optionValue['price'], 2);
+        foreach ($customOptions as $customOption) {
+            $skippedField = $this->skippedFieldOptions[$customOption['type']];
+            foreach ($customOption['options'] as &$option) {
+                $option = array_diff_key($option, array_flip($skippedField));
             }
+
+            $result[$customOption['title']] = $customOption;
         }
 
         return $result;

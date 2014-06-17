@@ -41,7 +41,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param FixtureInterface $product
-     * @param CatalogCategory $category
+     * @param CatalogCategory|null $category
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
@@ -49,7 +49,7 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         FixtureInterface $product,
-        CatalogCategory $category
+        CatalogCategory $category = null
     ) {
         $errors = [];
         // Check the product page is not available
@@ -69,8 +69,11 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
             $errors[] = '- successful product search.';
         }
 
+        $categoryName = $category
+            ? $category->getName()
+            : $product->getCategoryIds()[0];
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         while (!$isProductVisible && $catalogCategoryView->getToolbar()->nextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());

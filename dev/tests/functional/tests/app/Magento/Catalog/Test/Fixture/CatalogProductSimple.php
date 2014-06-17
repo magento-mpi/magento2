@@ -93,6 +93,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'product-details',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
@@ -546,6 +547,12 @@ class CatalogProductSimple extends InjectableFixture
         'group' => 'product-details',
     ];
 
+    protected $is_in_stock = [
+        'attribute_code' => 'is_in_stock',
+        'input' => 'select',
+        'group' => 'product-details',
+    ];
+
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',
@@ -558,6 +565,16 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'website_ids',
         'backend_type' => 'virtual',
         'default_value' => 'Main Website',
+        'group' => 'websites',
+    ];
+
+    protected $is_returnable = [
+        'attribute_code' => 'is_returnable',
+        'backend_type' => 'varchar',
+        'is_required' => '0',
+        'default_value' => '2',
+        'input' => 'select',
+        'group' => 'autosettings',
     ];
 
     public function getCategoryIds()
@@ -840,6 +857,11 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('qty');
     }
 
+    public function getIsInStock()
+    {
+        return $this->getData('is_in_stock');
+    }
+
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
@@ -848,5 +870,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getWebsiteIds()
     {
         return $this->getData('website_ids');
+    }
+
+    public function getIsReturnable()
+    {
+        return $this->getData('is_returnable');
     }
 }

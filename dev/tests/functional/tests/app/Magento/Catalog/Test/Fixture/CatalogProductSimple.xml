@@ -21,7 +21,8 @@
             <is_required>0</is_required>
             <default_value></default_value>
             <input>text</input>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds</fixture>
+            <group>product-details</group>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds</source>
         </category_ids>
         <color>
             <attribute_code>color</attribute_code>
@@ -417,6 +418,11 @@
             <input>input</input>
             <group>product-details</group>
         </qty>
+        <is_in_stock>
+            <attribute_code>is_in_stock</attribute_code>
+            <input>select</input>
+            <group>product-details</group>
+        </is_in_stock>
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>
@@ -429,7 +435,16 @@
             <attribute_code>website_ids</attribute_code>
             <backend_type>virtual</backend_type>
             <default_value>Main Website</default_value>
+            <group>websites</group>
         </website_ids>
+        <is_returnable>
+            <attribute_code>is_returnable</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <default_value>2</default_value>
+            <input>select</input>
+            <group>autosettings</group>
+        </is_returnable>
     </fields>
     <data_set>
         <sku></sku>

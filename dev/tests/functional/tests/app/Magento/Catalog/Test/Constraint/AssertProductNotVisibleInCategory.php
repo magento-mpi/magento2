@@ -15,9 +15,9 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
- * Class AssertProductVisibleInCategory
+ * Class AssertProductNotVisibleInCategory
  */
-class AssertProductVisibleInCategory extends AbstractConstraint
+class AssertProductNotVisibleInCategory extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -31,17 +31,17 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      *
      * @var string
      */
-    protected $errorMessage = 'Product is absent on category page.';
+    protected $errorMessage = 'Product is exist on category page.';
 
     /**
      * Message for passing test
      *
      * @var string
      */
-    protected $successfulMessage = 'Product is visible in the assigned category.';
+    protected $successfulMessage = 'Product is absent in the assigned category.';
 
     /**
-     * Assert that product is visible in the assigned category
+     * Assert that product is not visible in the assigned category
      *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex

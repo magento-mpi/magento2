@@ -256,7 +256,41 @@ class CustomOptions implements FixtureInterface
                         ]
                     ]
                 ]
-            ]
+            ],
+            'all_types' => [
+                [
+                    'title' => 'custom option field %isolation%',
+                    'type' => 'Field',
+                    'is_require' => 'Yes',
+                    'options' => [
+                        [
+                            'price' => 10,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku_field_option_%isolation%',
+                            'max_characters' => 1024
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option drop down %isolation%',
+                    'type' => 'Drop-down',
+                    'is_require' => 'Yes',
+                    'options' => [
+                        [
+                            'title' => '10 percent',
+                            'price' => 10,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_drop_down_row_%isolation%'
+                        ],
+                        [
+                            'title' => '20 percent',
+                            'price' => 20,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_drop_down_row_%isolation%'
+                        ]
+                    ]
+                ],
+            ],
         ];
         if (!isset($presets[$name])) {
             return null;

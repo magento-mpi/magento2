@@ -8,39 +8,16 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Constraint\AssertForm;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductForm
  */
-class AssertProductForm extends AbstractConstraint
+class AssertProductForm extends AssertForm
 {
-    /**
-     * Formatting options for numeric values
-     *
-     * @var array
-     */
-    protected $formattingOptions = [
-        'price' => [
-            'decimals' => 2,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ],
-        'qty' => [
-            'decimals' => 4,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ],
-        'weight' => [
-            'decimals' => 4,
-            'dec_point' => '.',
-            'thousands_sep' => ''
-        ]
-    ];
-
     /**
      * Constraint severeness
      *
@@ -64,78 +41,57 @@ class AssertProductForm extends AbstractConstraint
         $filter = ['sku' => $product->getSku()];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $formData = $productPage->getForm()->getData($product);
-        $fixtureData = $this->prepareFixtureData($product);
-
-        $errors = $this->compareArray($fixtureData, $formData);
-        \PHPUnit_Framework_Assert::assertTrue(
-            empty($errors),
-            "These data must be equal to each other:\n" . implode("\n", $errors)
-        );
+        $fixtureData = $this->prepareFixtureData($product->getData());
+        $formData = $this->prepareFormData($productPage->getForm()->getData($product));
+        $error = $this->verifyData($fixtureData, $formData);
+        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
     }
 
     /**
-     * Prepares and returns data to the fixture, ready for comparison
+     * Prepares fixture data for comparison
      *
-     * @param FixtureInterface $product
+     * @param array $data
      * @return array
      */
-    protected function prepareFixtureData(FixtureInterface $product)
+    protected function prepareFixtureData(array $data)
     {
-        $compareData = $product->getData();
-        $compareData = array_filter($compareData);
+        if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
+            $data['website_ids'] = [$data['website_ids']];
+        }
+        if (isset($data['giftcard_amounts'])) {
+            usort($data['giftcard_amounts'], [&$this, 'compareAmounts']);
+        }
 
-        array_walk_recursive(
-            $compareData,
-            function (&$item, $key, $formattingOptions) {
-                if (isset($formattingOptions[$key])) {
-                    $item = number_format(
-                        $item,
-                        $formattingOptions[$key]['decimals'],
-                        $formattingOptions[$key]['dec_point'],
-                        $formattingOptions[$key]['thousands_sep']
-                    );
-                }
-            },
-            $this->formattingOptions
-        );
-
-        return $compareData;
+        return $data;
     }
 
     /**
-     * Comparison of multidimensional arrays
+     * Prepares form data for comparison
      *
-     * @param array $fixtureData
-     * @param array $formData
+     * @param array $data
      * @return array
      */
-    protected function compareArray(array $fixtureData, array $formData)
+    protected function prepareFormData(array $data)
     {
-        $errors = [];
-        $keysDiff = array_diff(array_keys($formData), array_keys($fixtureData));
-        if (!empty($keysDiff)) {
-            return ['- fixture data do not correspond to form data in composition.'];
+        if (isset($data['giftcard_amounts'])) {
+            usort($data['giftcard_amounts'], [&$this, 'compareAmounts']);
         }
 
-        foreach ($fixtureData as $key => $value) {
-            if (is_array($value) && is_array($formData[$key])
-                && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
-            ) {
-                $errors = array_merge($errors, $innerErrors);
-            } elseif ($value != $formData[$key]) {
-                $fixtureValue = empty($value) ? '<empty-value>' : $value;
-                $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
-                $errors = array_merge(
-                    $errors,
-                    [
-                        "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
-                    ]
-                );
-            }
-        }
+        return $data;
+    }
 
-        return $errors;
+    /**
+     * User function for compare amounts
+     *
+     * @param $first
+     * @param $second
+     * @return int
+     */
+    public function compareAmounts($first, $second) {
+        if ($first['price'] == $second['price']) {
+            return 0;
+        }
+        return ($first['price'] < $second['price']) ? -1 : 1;
     }
 
     /**
