@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Install\Tests\Ddl;
+namespace Magento\Install\Ddl;
 
 class ColumnTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->model = new \Magento\Install\Ddl\Column();
+        $this->model = new Column();
     }
 
 
@@ -87,13 +87,13 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     public function testGetSetType()
     {
         $this->assertNull($this->model->getType());
-        $columnType = \Magento\Install\Ddl\Column::TYPE_CHAR;
+        $columnType = Column::TYPE_CHAR;
         $this->model->setType($columnType);
         $this->assertEquals($columnType, $this->model->getType());
     }
 
     /**
-     * @expectedException        UnexpectedValueException
+     * @expectedException        \UnexpectedValueException
      * @expectedExceptionMessage Unsupported column type
      */
     public function testGetSetTypeWithException()

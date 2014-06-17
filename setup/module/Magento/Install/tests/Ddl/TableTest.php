@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Install\Tests\Ddl;
+namespace Magento\Install\Ddl;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,20 +16,20 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->model = new \Magento\Install\Ddl\Table();
+        $this->model = new Table();
     }
 
     public function testGetSetEngine()
     {
-        $this->assertEquals(\Magento\Install\Ddl\Table::ENGINE_INNODB, $this->model->getEngine());//default value
-        $engine = \Magento\Install\Ddl\Table::ENGINE_MYISAM;
+        $this->assertEquals(Table::ENGINE_INNODB, $this->model->getEngine());//default value
+        $engine = Table::ENGINE_MYISAM;
         $this->model->setEngine($engine);
         $this->assertEquals($engine, $this->model->getEngine());
     }
 
     public function testGetSetCharset()
     {
-        $this->assertEquals(\Magento\Install\Ddl\Table::CHARSET_UTF8, $this->model->getCharset());//default value
+        $this->assertEquals(Table::CHARSET_UTF8, $this->model->getCharset());//default value
         $charset = 'koi8-r';
         $this->model->setCharset($charset);
         $this->assertEquals($charset, $this->model->getCharset());
@@ -39,6 +39,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->model->getColumns());
         $columnMock = $this->getMock('Magento\Install\Ddl\Column', array(), array(), '', false);
+        /** @var $columnMock \Magento\Install\Ddl\Column */
         $this->model->addColumn($columnMock);
         $this->assertEquals(1, count($this->model->getColumns()));
         $testColumn = array_shift($this->model->getColumns());
@@ -60,6 +61,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->model->getIndexes());
         $indexMock = $this->getMock('Magento\Install\Ddl\Index', array(), array(), '', false);
+        /** @var $indexMock \Magento\Install\Ddl\Index */
         $this->model->addIndex($indexMock);
         $this->assertEquals(1, count($this->model->getIndexes()));
         $testIndex = array_shift($this->model->getIndexes());
