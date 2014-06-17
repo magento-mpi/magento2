@@ -7,6 +7,8 @@
  */
 namespace Magento\Paypal\Model;
 
+use Magento\Paypal\Model\Config as Config;
+
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,11 +21,26 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $_scopeConfig;
 
+    /**
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreData;
+
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_scopeConfig = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_model = $helper->getObject('Magento\Paypal\Model\Config', ['scopeConfig' => $this->_scopeConfig]);
+        $this->_scopeConfig = $this->getMock(
+            'Magento\Framework\App\Config\ScopeConfigInterface',
+            ['getValue', 'isSetFlag'],
+            [],
+            '',
+            false
+        );
+        $this->_coreData = $this->getMock('Magento\Core\Helper\Data', ['getDefaultCountry'], [], '', false);
+        $this->_model = $helper->getObject(
+            'Magento\Paypal\Model\Config',
+            ['scopeConfig' => $this->_scopeConfig, 'coreData' => $this->_coreData]
+        );
     }
 
     public function testGetCountryMethods()
@@ -52,9 +69,43 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isMethodActive('payflow_direct'));
     }
 
-    public function testIsMethodAvailable()
+    /**
+     * test for eliminating payflow_direct
+     */
+    public function testIsMethodAvailableWPPPE()
     {
         $this->assertFalse($this->_model->isMethodAvailable('payflow_direct'));
+    }
+
+    /**
+     * @dataProvider isMethodAvailableDataProvider
+     */
+    public function testIsMethodAvailableForIsMethodActive($methodName, $expected)
+    {
+        $this->_scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->with('paypal/general/merchant_country')
+            ->will($this->returnValue('US'));
+        $this->_scopeConfig->expects($this->exactly(2))
+            ->method('isSetFlag')
+            ->withAnyParameters()
+            ->will($this->returnValue(true));
+
+        $this->_model->setMethod($methodName);
+        $this->assertEquals($expected, $this->_model->isMethodAvailable($methodName));
+    }
+
+    /**
+     * @return array
+     */
+    public function isMethodAvailableDataProvider()
+    {
+        return [
+            [Config::METHOD_WPP_EXPRESS, true],
+            [Config::METHOD_WPP_BML, true],
+            [Config::METHOD_WPP_PE_EXPRESS, true],
+            [Config::METHOD_WPP_PE_BML, true],
+        ];
     }
 
     public function testIsCreditCardMethod()
@@ -67,6 +118,25 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_model->setMethod('payflow_direct');
         $this->assertNull($this->_model->getConfigValue('useccv'));
         $this->assertNull($this->_model->getConfigValue('vendor'));
+
+        // _mapBmlFieldset
+        $this->_model->setMethod(Config::METHOD_WPP_BML);
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('payment/' . Config::METHOD_WPP_EXPRESS . '/allow_ba_signup')
+            ->will($this->returnValue(1));
+        $this->assertEquals(1, $this->_model->getConfigValue('allow_ba_signup'));
+    }
+
+    public function testGetSpecificConfigPathPayflow()
+    {
+        // _mapBmlPayflowFieldset
+        $this->_model->setMethod(Config::METHOD_WPP_PE_BML);
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('payment/' . Config::METHOD_WPP_PE_EXPRESS . '/allow_ba_signup')
+            ->will($this->returnValue(1));
+        $this->assertEquals(1, $this->_model->getConfigValue('allow_ba_signup'));
     }
 
     /**
@@ -96,5 +166,96 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $url = 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&order_id=orderId';
         $this->assertEquals($url, $this->_model->getExpressCheckoutOrderUrl('orderId'));
+    }
+
+    public function testGetBmlPublisherId()
+    {
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('payment/' . Config::METHOD_WPP_BML . '/publisher_id')
+            ->will($this->returnValue('12345'));
+        $this->assertEquals('12345', $this->_model->getBmlPublisherId());
+    }
+
+    /**
+     * @dataProvider getBmlPositionDataProvider
+     */
+    public function testGetBmlPosition($section, $expected)
+    {
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('payment/' . Config::METHOD_WPP_BML . '/' . $section . '_position')
+            ->will($this->returnValue($expected));
+        $this->assertEquals($expected, $this->_model->getBmlPosition($section));
+    }
+
+    /**
+     * @return array
+     */
+    public function getBmlPositionDataProvider()
+    {
+        return [
+            ['head', 'left'],
+            ['checkout', 'top']
+        ];
+    }
+
+    /**
+     * @dataProvider getBmlSizeDataProvider
+     */
+    public function testGetBmlSize($section, $expected)
+    {
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with('payment/' . Config::METHOD_WPP_BML . '/' . $section . '_size')
+            ->will($this->returnValue($expected));
+        $this->assertEquals($expected, $this->_model->getBmlSize($section));
+    }
+
+    /**
+     * @return array
+     */
+    public function getBmlSizeDataProvider()
+    {
+        return [
+            ['head', '125x75'],
+            ['checkout', ['50x50']]
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderGetBmlDisplay
+     */
+    public function testGetBmlDisplay($section, $expectedValue, $expectedFlag, $expected)
+    {
+        $this->_model->setStoreId(1);
+        $this->_coreData->expects($this->any())
+            ->method('getDefaultCountry')
+            ->with(1)
+            ->will($this->returnValue('US'));
+        $this->_scopeConfig->expects($this->any())
+            ->method('isSetFlag')
+            ->will($this->returnValue($expectedFlag));
+        $this->_scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValueMap([
+                ['payment/' . Config::METHOD_WPP_BML . '/' . $section . '_display', 'store', 1, $expectedValue],
+                ['payment/' . Config::METHOD_WPP_BML . '/active', 'store', 1, $expectedValue],
+                ['payment/' . Config::METHOD_WPP_PE_BML . '/active', 'store', 1, $expectedValue],
+            ]));
+        $this->assertEquals($expected, $this->_model->getBmlDisplay($section));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderGetBmlDisplay()
+    {
+        return [
+            ['head', true, true, true],
+            ['head', true, false, false],
+            ['head', false, true, false],
+            ['head', false, false, false],
+        ];
     }
 }
