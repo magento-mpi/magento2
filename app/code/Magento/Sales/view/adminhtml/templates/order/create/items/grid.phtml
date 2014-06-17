@@ -269,7 +269,7 @@ $_weeeHelper = $this->helper('Magento\Weee\Helper\Data');
                         <td class="col-price col-row-subtotal">
 
     <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax($this->getStore()) || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices($this->getStore())): ?>
-        <?php $_rowTotalWithoutDiscount = $_item->getPriceInclTax() * $_item->getQty() - $_item->getDiscountAmount() - $_item->getTaxAmount(); ?>
+        <?php $_rowTotalWithoutDiscount = $_item->getRowTotal() - $_item->getDiscountAmount(); ?>
         <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices($this->getStore())): ?>
             <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
         <?php endif; ?>
