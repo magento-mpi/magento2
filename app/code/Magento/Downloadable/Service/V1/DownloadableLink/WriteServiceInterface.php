@@ -10,7 +10,7 @@ namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
 use \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLink;
 
-interface DownloadableLinkWriteServiceInterface
+interface WriteServiceInterface
 {
     /**
      * Add link(or sample) for specified product

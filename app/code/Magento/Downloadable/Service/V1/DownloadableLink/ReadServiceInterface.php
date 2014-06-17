@@ -8,7 +8,7 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
-interface DownloadableLinkReadServiceInterface
+interface ReadServiceInterface
 {
     /**
      * @param string $productSku

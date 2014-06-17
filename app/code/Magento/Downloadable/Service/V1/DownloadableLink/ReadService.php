@@ -8,7 +8,7 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
-class DownloadableLinkReadService implements DownloadableLinkReadServiceInterface
+class ReadService implements ReadServiceInterface
 {
     /**
      * {@inheritdoc}

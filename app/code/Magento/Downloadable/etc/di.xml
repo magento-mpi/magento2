@@ -59,6 +59,6 @@
             </argument>
         </arguments>
     </type>
-    <preference for="\Magento\Downloadable\Service\V1\DownloadableLinkReadServiceInterface" type="\Magento\Downloadable\Service\V1\DownloadableLinkReadService" />
-    <preference for="\Magento\Downloadable\Service\V1\DownloadableLinkWriteServiceInterface" type="\Magento\Downloadable\Service\V1\DownloadableLinkWriteService" />
+    <preference for="\Magento\Downloadable\Service\V1\DownloadableLink\ReadServiceInterface" type="\Magento\Downloadable\Service\V1\DownloadableLink\ReadService" />
+    <preference for="\Magento\Downloadable\Service\V1\DownloadableLink\WriteServiceInterface" type="\Magento\Downloadable\Service\V1\DownloadableLink\WriteService" />
 </config>

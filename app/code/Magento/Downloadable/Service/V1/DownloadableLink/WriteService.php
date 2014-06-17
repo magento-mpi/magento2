@@ -10,7 +10,7 @@ namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
 use \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLink;
 
-class DownloadableLinkWriteService implements DownloadableLinkWriteServiceInterface
+class WriteService implements WriteServiceInterface
 {
     /**
      * {@inheritdoc}
