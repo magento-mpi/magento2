@@ -8,27 +8,74 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 
-class OptionValueBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+
+class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectBuilder
 {
     /**
-     * Set option value code
-     *
-     * @param string $value
-     * @return $this
+     * @var string[]
      */
-    public function setId($value)
-    {
-        return $this->_set(OptionValue::CODE, $value);
+    protected $customAttributeCodes = [
+        'sort_order',
+        'title',
+        'file_extension',
+        'image_size_x',
+        'image_size_y',
+        'max_characters'
+    ];
+
+    /**
+     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param array $customAttributeCodes
+     */
+    public function __construct(
+        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        array $customAttributeCodes = array()
+    ) {
+        parent::__construct($objectFactory, $valueBuilder);
+        $this->customAttributeCodes = array_merge($this->customAttributeCodes, $customAttributeCodes);
     }
 
     /**
-     * Set value
+     * Set price
+     *
+     * @param float $value
+     * @return $this
+     */
+    public function getPrice($value)
+    {
+        return $this->_set(OptionValue::PRICE, $value);
+    }
+
+    /**
+     * Set price type
      *
      * @param string $value
      * @return $this
      */
-    public function setValue($value)
+    public function getPriceType($value)
     {
-        return $this->_set(OptionValue::VALUE, $value);
+        return $this->_set(OptionValue::PRICE_TYPE, $value);
+    }
+
+    /**
+     * Set Sku
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function getSku($value)
+    {
+        return $this->_set(OptionValue::SKU, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomAttributesCodes()
+    {
+        return array_merge($this->customAttributeCodes, parent::getCustomAttributesCodes());
     }
 }

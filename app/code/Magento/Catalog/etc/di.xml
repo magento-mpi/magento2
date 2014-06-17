@@ -384,4 +384,18 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader">
+        <arguments>
+            <argument name="valueReaders" xsi:type="array">
+                <item name="default" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\DefaultReader</item>
+                <item name="field" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\Text</item>
+                <item name="area" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\Text</item>
+                <item name="file" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\File</item>
+                <item name="drop_down" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\Select</item>
+                <item name="radio" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\Select</item>
+                <item name="checkbox" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\Select</item>
+                <item name="multiple" xsi:type="object">Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader\Select</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

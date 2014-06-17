@@ -8,28 +8,45 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
 
-class OptionValue extends \Magento\Framework\Service\Data\AbstractObject
+class OptionValue extends \Magento\Framework\Service\Data\Eav\AbstractObject
 {
-    const CODE = 'code';
-    const VALUE = 'value';
+    const PRICE = 'price';
+    const PRICE_TYPE = 'price_type';
+    const SKU = 'sku';
+    const SORT_ORDER = 'sort_order';
+    const FILE_EXTENSION = 'file_extension';
+    const IMAGE_SIZE_X = 'image_size_x';
+    const IMAGE_SIZE_Y = 'image_size_y';
+    const MAX_CHARACTERS = 'max_characters';
+    const TITLE = 'title';
 
     /**
-     * Get option value code
+     * Get price
      *
-     * @return string
+     * @return float
      */
-    public function getId()
+    public function getPrice()
     {
-        return $this->_get(self::CODE);
+        return $this->_get(self::PRICE);
     }
 
     /**
-     * Get value
+     * Get price type
      *
      * @return string
      */
-    public function getValue()
+    public function getPriceType()
     {
-        return $this->_get(self::VALUE);
+        return $this->_get(self::PRICE_TYPE);
+    }
+
+    /**
+     * Get Sku
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->_get(self::SKU);
     }
 }

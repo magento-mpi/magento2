@@ -33,21 +33,29 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
     protected $productRepository;
 
     /**
+     * @var Data\OptionValue\Reader
+     */
+    protected $optionValueReader;
+
+    /**
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param Data\OptionTypeBuilder $optionTypeBuilder
      * @param Data\OptionBuilder $optionBuilder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param Data\OptionValue\Reader $optionValueReader
      */
     public function __construct(
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         Data\OptionTypeBuilder $optionTypeBuilder,
         Data\OptionBuilder $optionBuilder,
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Catalog\Model\ProductRepository $productRepository,
+        Data\OptionValue\Reader $optionValueReader
     ) {
         $this->productOptionConfig = $productOptionConfig;
         $this->optionTypeBuilder = $optionTypeBuilder;
         $this->optionBuilder = $optionBuilder;
         $this->productRepository = $productRepository;
+        $this->optionValueReader = $optionValueReader;
     }
 
     /**
@@ -78,9 +86,7 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
     public function getList($productSku)
     {
         $product = $this->productRepository->get($productSku);
-
         $output = [];
-
         /** @var $option \Magento\Catalog\Model\Product\Option */
         foreach ($product->getProductOptionsCollection() as $option) {
             $data = array(
@@ -89,13 +95,10 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
                 Data\Option::TYPE => $option->getType(),
                 Data\Option::IS_REQUIRE => $option->getIsRequire(),
                 Data\Option::SORT_ORDER => $option->getSortOrder(),
-                Data\Option::VALUE => []
+                Data\Option::VALUE => $this->optionValueReader->read($option)
             );
-
             $output[] = $this->optionBuilder->populateWithArray($data)->create();
         }
         return $output;
     }
-
-
 }
