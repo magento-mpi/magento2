@@ -83,7 +83,7 @@ try {
             $file = str_replace('\\', '/', realpath($file));
 
             if (is_file($file) === true) {
-                if (strpos($file, '/composer.json')) {
+                if (basename($file) === 'composer.json') {
                     $foundComposerJson = true;
                     $json = json_decode(file_get_contents($file));
                     $name = Helper::vendorPackageToName($json->name);
@@ -113,7 +113,8 @@ try {
         array(
             str_replace('\\', '/', realpath(BP)) . '/.git',
             str_replace('\\', '/', realpath(BP)) . '/.idea',
-            str_replace('\\', '/', realpath(BP)) . '/dev/tools/Magento/Tools/Composer'
+            str_replace('\\', '/', realpath(BP)) . '/dev/tools/Magento/Tools/Composer',
+            str_replace('\\', '/', realpath(BP)) . '/dev/tests/unit/testsuite/Magento/Test/Tools/Composer'
         )
     );
     $name = '';

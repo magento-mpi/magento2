@@ -26,12 +26,8 @@ class Zipper
     public static function zip($source, $destination, array $excludes)
     {
         $noOfZips = 0;
-        if (!file_exists($source)) {
-            throw new \Exception("Error while zipping: source $source does not exist", "1");
-        }
-        if (!extension_loaded('zip')) {
-            throw new \Exception("Error while zipping: extension loading problem", "1");
-        }
+
+        Zipper::checkSourceExtension($source);
         $zip = new \ZipArchive();
         if (!$zip->open($destination, \ZIPARCHIVE::CREATE)) {
             throw new \Exception("Error while zipping: could not create the destination folder", "1");
@@ -64,13 +60,29 @@ class Zipper
     }
 
     /**
+     * Checking existense of source and zip extension
+     *
+     * @param string $source
+     * @throws \Exception
+     */
+    protected static function checkSourceExtension($source)
+    {
+        if (!file_exists($source)) {
+            throw new \Exception("Error while zipping: source $source does not exist", "1");
+        }
+        if (!extension_loaded('zip')) {
+            throw new \Exception("Error while zipping: extension loading problem", "1");
+        }
+    }
+
+    /**
      * Creating the iterator for zipping
      *
      * @param string $source
      * @param string $excludes
      * @return \RecursiveIteratorIterator
      */
-    private static function getFiles($source, $excludes)
+    protected static function getFiles($source, $excludes)
     {
         $directory = new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS);
         if (sizeof($excludes) > 0) {
