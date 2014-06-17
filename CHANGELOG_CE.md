@@ -10,6 +10,18 @@
   * Covered Magento lib with unit tests:
       * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
       * `lib/internal/Magento/Framework/DB/Tree/Node.php`
+      * `lib/internal/Magento/Framework/Filter/*`
+      * `lib/internal/Magento/Framework/Model/Resource/Db/AbstractDb.php`
+      * `lib/internal/Magento/Framework/Model/Resource/Db/Collection/AbstractCollection.php`
+      * `lib/internal/Magento/Framework/File/Uploader.php`
+      * `lib/internal/Magento/Framework/File/Csv.php`
+* Allow client to get partial response for mobile (MAGETWO-22974)
+* Authentication support for mobile (MAGETWO-23744)
+* Improve ImportExport and ScheduledImportExport modularity (MAGETWO-23723)
+* Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
+* Move authorization services using new directory format (MAGETWO-23856)
+* Move integration services using new directory format (MAGETWO-24555)
+* Update integration registration based on security consultant feedback (MAGETWO-18235)
 * Created Service API for Magento_Catalog Module:
    * Implemented Product API (MAGETWO-23306)
    * Implemented ProductAttributeRead API (MAGETWO-23313)
@@ -39,12 +51,18 @@
   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
   * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
+  * Fixed: Incorrect Customer Model usage on session in CE modules (MAGETWO-23805)
+  * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
+  * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
 * GitHub requests:
   * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
   * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
   * [#562]  Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable() (MAGETWO-24037)
   * [#565]  Magento\CatalogSearch\Model\Query::getResultCollection() not working (MAGETWO-24162)
   * [#557]  translation anomalies backend login page (MAGETWO-23760)
+  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
+  * [#544]  Performance tests not working (MAGETWO-23467)
 * Functional test:
   * Advanced Search (MTA-93)
   * Existing Customer Creation (MTA-319)
