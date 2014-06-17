@@ -6,16 +6,13 @@
  * @license     {license_link}
  */
 
-
-/**
- * Quantity and Stock Status attribute processing
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 use Magento\Catalog\Model\Product;
 
+/**
+ * Quantity and Stock Status attribute processing
+ */
 class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
