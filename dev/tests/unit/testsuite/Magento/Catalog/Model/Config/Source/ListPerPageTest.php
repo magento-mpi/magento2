@@ -19,7 +19,10 @@ class ListPerPageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new ObjectManager($this);
-        $this->model = $helper->getObject('Magento\Catalog\Model\Config\Source\ListPerPage', ['options' => 'some,test,options']);
+        $this->model = $helper->getObject(
+            'Magento\Catalog\Model\Config\Source\ListPerPage',
+            ['options' => 'some,test,options']
+        );
     }
 
     public function testToOptionArray()

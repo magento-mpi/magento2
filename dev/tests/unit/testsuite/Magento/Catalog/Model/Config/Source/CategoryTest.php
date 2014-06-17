@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Model\Config\Source;
 
 use Magento\TestFramework\Helper\ObjectManager;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,12 +18,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Category\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Resource\Category\Collection|MockObject
      */
     private $categoryCollection;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Category|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Resource\Category|MockObject
      */
     private $category;
 
@@ -37,7 +38,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var \Magento\Catalog\Model\Resource\Category\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject $categoryCollectionFactory */
+        /** @var \Magento\Catalog\Model\Resource\Category\CollectionFactory|MockObject $categoryCollectionFactory */
         $categoryCollectionFactory = $this->getMockBuilder('Magento\Catalog\Model\Resource\Category\CollectionFactory')
             ->setMethods(['create'])
             ->disableOriginalConstructor()

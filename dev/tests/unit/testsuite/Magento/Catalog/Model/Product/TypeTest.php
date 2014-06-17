@@ -306,8 +306,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     private function getMockedTypePriceFactory()
     {
-        $mockedProductTypePrice = $this->getMockedProductTypePrice();
-
         $mockBuild = $this->getMockBuilder('\Magento\Catalog\Model\Product\Type\Price\Factory')
             ->disableOriginalConstructor()
             ->setMethods(['create']);

@@ -9,6 +9,12 @@ namespace Magento\Catalog\Model;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * Product Test
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
+ */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ObjectManagerHelper */
@@ -79,6 +85,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     private $website;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function setUp()
     {
         $this->categoryIndexerMock = $this->getMockForAbstractClass('\Magento\Indexer\Model\IndexerInterface');
@@ -146,7 +155,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->categoryFactory = $category = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
+        $this->categoryFactory = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
             ->setMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();

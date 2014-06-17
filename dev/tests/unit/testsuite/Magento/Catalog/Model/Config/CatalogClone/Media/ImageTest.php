@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Model\Config\CatalogClone\Media;
 
 use Magento\Catalog\Model\Product;
+use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
@@ -82,7 +83,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $entityType->expects($this->once())->method('getId')->will($this->returnValue($entityTypeId));
 
-        /** @var \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\PHPUnit_Framework_MockObject_MockObject $frontend */
+        /** @var AbstractFrontend|\PHPUnit_Framework_MockObject_MockObject $frontend */
         $frontend = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend')
             ->setMethods(['getLabel'])
             ->disableOriginalConstructor()
