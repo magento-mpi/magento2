@@ -37,5 +37,5 @@ class RoleGrid extends Grid
      *
      * @var string
      */
-    protected $editLink = '.col-role_name';
+    protected $editLink = 'tbody [data-column="role_name"]';
 }

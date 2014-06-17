@@ -60,11 +60,6 @@ class UpdateAdminUserEntityTest extends Injectable
     protected $adminAuth;
 
     /**
-     * @var CmsIndex
-     */
-    protected $cmsIndex;
-
-    /**
      * Run preconditions for test.
      *
      * @param FixtureFactory $fixtureFactory
@@ -78,14 +73,13 @@ class UpdateAdminUserEntityTest extends Injectable
     }
 
     /**
-     * Setup page for test
+     * Setup necessary data for test
      *
      * @param UserIndex $userIndex
      * @param UserEdit $userEdit
      * @param Dashboard $dashboard
      * @param AdminAuthLogin $adminAuth
      * @param FixtureFactory $fixtureFactory
-     * @param AdminUserRole $defaultRole
      * @param CmsIndex $cmsIndex
      * @return array
      */
@@ -94,14 +88,12 @@ class UpdateAdminUserEntityTest extends Injectable
         UserEdit $userEdit,
         Dashboard $dashboard,
         AdminAuthLogin $adminAuth,
-        FixtureFactory $fixtureFactory,
-        CmsIndex $cmsIndex
+        FixtureFactory $fixtureFactory
     ) {
         $this->userIndex = $userIndex;
         $this->userEdit = $userEdit;
         $this->dashboard = $dashboard;
         $this->adminAuth = $adminAuth;
-        $this->cmsIndex = $cmsIndex;
 
         $customAdmin = $fixtureFactory->createByCode(
             'adminUserInjectable',

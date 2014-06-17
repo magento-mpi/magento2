@@ -45,8 +45,17 @@ class Role implements FixtureInterface
     {
         $this->params = $params;
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
-            $this->role = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => $data['dataSet']]);
+                $this->role = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => $data['dataSet']]);
+            if (!$this->role->hasData('role_id')) {
+                $this->role->persist();
+            }
             $this->data = $this->role->getRoleName();
+        }
+        if (isset($data['role_fixture'])
+            && $data['role_fixture'] instanceof \Magento\User\Test\Fixture\AdminUserRole
+        ) {
+            $this->role = $data['role_fixture'];
+            $this->data = $data['role_fixture']->getRoleName();
         }
     }
 
@@ -63,7 +72,7 @@ class Role implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
+     * @param string $key [optional]
      * @return string|null
      */
     public function getData($key = null)

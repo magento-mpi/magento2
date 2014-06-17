@@ -12,14 +12,14 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class AdminUserRole
- * Predefined dataSets provider for UserRoles entity
+ * Predefined dataSets provider for AdminUserRoles entity
  */
 class AdminUserRole extends AbstractRepository
 {
     /**
+     * @constructor
      * @param array $defaultConfig
      * @param array $defaultData
-     * @constructor
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {

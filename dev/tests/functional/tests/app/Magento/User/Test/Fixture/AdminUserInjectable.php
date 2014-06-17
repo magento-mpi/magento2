@@ -31,7 +31,8 @@ class AdminUserInjectable extends InjectableFixture
         'firstname' => 'FirstName%isolation%',
         'lastname' => 'LastName%isolation%',
         'email' => 'email%isolation%@example.com',
-        'password' => '123123q'
+        'password' => '123123q',
+        'password_confirmation' => '123123q'
     ];
 
     protected $user_id = [
