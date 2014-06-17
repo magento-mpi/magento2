@@ -9,12 +9,15 @@
 namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
 use Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
+use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
+use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
 
 class TaxRuleService implements TaxRuleServiceInterface
 {
@@ -36,18 +39,34 @@ class TaxRuleService implements TaxRuleServiceInterface
     protected $taxRuleRegistry;
 
     /**
+     * @var Data\TaxRuleSearchResultsBuilder
+     */
+    protected $taxRuleSearchResultsBuilder;
+
+    /**
+     * @var TaxRuleModelFactory
+     */
+    protected $taxRuleModelFactory;
+
+    /**
      * @param TaxRuleBuilder $taxRuleBuilder
      * @param TaxRuleConverter $converter
      * @param TaxRuleRegistry $taxRuleRegistry
+     * @param TaxRuleSearchResultsBuilder
+     * @param TaxRuleModelFactory
      */
     public function __construct(
         TaxRuleBuilder $taxRuleBuilder,
         TaxRuleConverter $converter,
-        TaxRuleRegistry $taxRuleRegistry
+        TaxRuleRegistry $taxRuleRegistry,
+        Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder,
+        TaxRuleModelFactory $taxRuleModelFactory
     ) {
         $this->taxRuleBuilder = $taxRuleBuilder;
         $this->converter = $converter;
         $this->taxRuleRegistry = $taxRuleRegistry;
+        $this->taxRuleSearchResultsBuilder = $taxRuleSearchResultsBuilder;
+        $this->taxRuleModelFactory = $taxRuleModelFactory;
     }
 
     /**
@@ -97,7 +116,70 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     public function searchTaxRules(SearchCriteria $searchCriteria)
     {
-        // TODO: Implement searchTaxRules() method.
+        $this->taxRuleSearchResultsBuilder->setSearchCriteria($searchCriteria);
+        $collection = $this->taxRuleModelFactory->create()->getCollection();
+
+        //Add filters from root filter group to the collection
+        foreach ($searchCriteria->getFilterGroups() as $group) {
+            $this->addFilterGroupToCollection($group, $collection);
+        }
+        $this->taxRuleSearchResultsBuilder->setTotalCount($collection->getSize());
+        $sortOrders = $searchCriteria->getSortOrders();
+        if ($sortOrders) {
+            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
+                $field = $this->translateField($field);
+                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            }
+        }
+        $collection->setCurPage($searchCriteria->getCurrentPage());
+        $collection->setPageSize($searchCriteria->getPageSize());
+
+        $taxRules = [];
+
+        /** @var TaxRuleModel $taxRuleModel */
+        foreach ($collection as $taxRuleModel) {
+            $taxRule = $this->converter->createTaxRuleDataObjectFromModel($taxRuleModel);
+            $taxRules[] = $taxRule;
+        }
+        $this->taxRuleSearchResultsBuilder->setItems($taxRules);
+        return $this->taxRuleSearchResultsBuilder->create();
+    }
+
+    /**
+     * Helper function that adds a FilterGroup to the collection.
+     *
+     * @param FilterGroup $filterGroup
+     * @param Collection $collection
+     * @return void
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
+    {
+        $fields = [];
+        $conditions = [];
+        foreach ($filterGroup->getFilters() as $filter) {
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $fields[] = $this->translateField($filter->getField());
+            $conditions[] = [$condition => $filter->getValue()];
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields, $conditions);
+        }
+    }
+
+    /**
+     * Translates a field name to a DB column name for use in collection queries.
+     *
+     * @param string $field a field name that should be translated to a DB column name.
+     * @return string
+     */
+    protected function translateField($field)
+    {
+        if ($field == TaxRule::ID) {
+                return 'tax_calculation_rule_id';
+        } else {
+                return $field;
+        }
     }
 
     /**
