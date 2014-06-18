@@ -6,9 +6,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
+namespace Magento\CatalogRule\Test\TestCase;
 
-use Magento\CatalogRule\Test\TestCase\CatalogRuleEntityTest;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**

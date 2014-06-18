@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -155,8 +154,9 @@ class Price extends Block
             $priceElement = $this->_rootElement->find($this->regularPriceClass, Locator::SELECTOR_CSS);
         }
         // return the actual value of the price
-        $regularPrice = $priceElement->find($this->priceClass, Locator::SELECTOR_CSS)->getText();
-        return $this->escapeCurrency($regularPrice);
+        $element = $priceElement->find($this->priceClass, Locator::SELECTOR_CSS);
+        $price = preg_replace('#[^\d\.\s]+#umis', '', $element->getText());
+        return number_format(trim($price), 2);
     }
 
     /**
@@ -166,26 +166,10 @@ class Price extends Block
      */
     public function getSpecialPrice()
     {
-        $specialPrice = $this->_rootElement->find(
-            $this->specialPriceClass,
-            Locator::SELECTOR_CSS
-        )->find(
-            $this->priceClass,
-            Locator::SELECTOR_CSS
-        )->getText();
-        return $this->escapeCurrency($specialPrice);
-    }
-
-    /**
-     * Method that escapes currency symbols
-     *
-     * @param string $price
-     * @return string
-     */
-    protected function escapeCurrency($price)
-    {
-        preg_match("/^\\D*\\s*([\\d,\\.]+)\\s*\\D*$/", $price, $matches);
-        return (isset($matches[1])) ? $matches[1] : null;
+        $element = $this->_rootElement->find($this->specialPriceClass, Locator::SELECTOR_CSS)
+            ->find($this->priceClass, Locator::SELECTOR_CSS);
+        $price = preg_replace('#[^\d\.\s]+#umis', '', $element->getText());
+        return number_format(trim($price), 2);
     }
 
     /**
