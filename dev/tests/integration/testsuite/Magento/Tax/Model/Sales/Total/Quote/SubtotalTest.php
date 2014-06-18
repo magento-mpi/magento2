@@ -13,7 +13,7 @@ use Magento\Tax\Model\ClassModel;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
- * Subtotal Test
+ * Test \Magento\Tax\Model\Sales\Total\Quote\Subtotal
  */
 class SubtotalTest extends \PHPUnit_Framework_TestCase
 {

@@ -78,11 +78,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     private $keyedItems;
 
     /**
-     * child item code to parent item code array.
+     * parent item code to children item array.
      *
-     * @var string
+     * @var QuoteDetailsItem[][]
      */
-    private $childToParent;
+    private $parentToChildren;
 
     /**
      * Constructor
@@ -152,18 +152,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         // init rounding deltas for this quote
         $this->roundingDeltas = [];
-        $children = array_keys($this->childToParent);
         $processedItems = [];
         /** @var QuoteDetailsItem $item */
-        foreach ($this->keyedItems as $key => $item) {
-            if (in_array($key, $children)) {
-                continue;
-            }
-
-            if ($item->getChildCodes()) {
+        foreach ($this->keyedItems as $item) {
+            if (isset($this->parentToChildren[$item->getCode()])) {
                 $processedChildren = [];
-                foreach ($item->getChildCodes() as $childCode) {
-                    $processedChildren[] = $this->processItem($this->keyedItems[$childCode], $addressRequest, $storeId);
+                foreach ($this->parentToChildren[$item->getCode()] as $child) {
+                    $processedChildren[] = $this->processItem($child, $addressRequest, $storeId);
                 }
                 $processedItemBuilder = $this->calculateParent($processedChildren, $item->getQuantity());
                 $processedItemBuilder->setCode($item->getCode());
@@ -188,13 +183,12 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     private function computeRelationships($items)
     {
         $this->keyedItems = [];
-        $this->childToParent = [];
+        $this->parentToChildren = [];
         foreach ($items as $item) {
-            $this->keyedItems[$item->getCode()] = $item;
-            if ($item->getChildCodes()) {
-                foreach ($item->getChildCodes() as $childCode) {
-                    $this->childToParent[$childCode] = $item->getCode();
-                }
+            if ($item->getParentCode() === null) {
+                $this->keyedItems[$item->getCode()] = $item;
+            } else {
+                $this->parentToChildren[$item->getParentCode()][] = $item;
             }
         }
     }
@@ -553,9 +547,8 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      */
     protected function getTotalQuantity(QuoteDetailsItem $item)
     {
-        if (isset($this->childToParent[$item->getCode()])) {
-            $parentCode = $this->childToParent[$item->getCode()];
-            $parentQuantity = $this->keyedItems[$parentCode]->getQuantity();
+        if ($item->getParentCode()) {
+            $parentQuantity = $this->keyedItems[$item->getParentCode()]->getQuantity();
             return $parentQuantity * $item->getQuantity();
         }
         return $item->getQuantity();

@@ -269,6 +269,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'unit_price' => 10,
             'row_total' => 10,
             'tax_class_id' => 'DefaultProductClass',
+            'parent_code' => 'bundle',
         ];
         $bundleProduct['items'][] = [
             'code' => 'bundle',
@@ -277,7 +278,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'unit_price' => 0,
             'row_total' => 0,
             'tax_class_id' => 'DefaultProductClass',
-            'child_codes' => ['sku_1'],
         ];
         $bundleProductResults = [
             'subtotal' => 20,
@@ -477,6 +477,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function calculateTaxTaxInclDataProvider()
     {
         $productTaxInclBase = [
@@ -778,9 +781,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'items' => [
                 [
                     'price' => 0.3,
-                    'price_incl_tax' => 0.37, // 0.366 rounded up
+                    'price_incl_tax' => 0.37,
                     'row_total' => 2.73,
-                    'row_total_incl_tax' => 3.33, // 3.294?
+                    'row_total_incl_tax' => 3.33,
                     'taxable_amount' => 3.33, // Shouldn't this match row_total?
                     'code' => 'sku_1',
                     'type' => 'product',
@@ -894,6 +897,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 2,
                 'unit_price' => 12.34,
                 'tax_class_id' => 'DefaultProductClass',
+                'parent_code' => 'parent_sku',
             ],
             [
                 'code' => 'parent_sku', // Put the parent in the middle of the children to test an edge case
@@ -901,7 +905,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 10,
                 'unit_price' => 0,
                 'tax_class_id' => 'DefaultProductClass',
-                'child_codes' => ['child_1_sku', 'child_2_sku'],
             ],
             [
                 'code' => 'child_2_sku',
@@ -909,6 +912,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 2,
                 'unit_price' => 1.99,
                 'tax_class_id' => 'HigherProductClass',
+                'parent_code' => 'parent_sku',
             ],
         ];
         $oneProductWithChildrenResults = [
