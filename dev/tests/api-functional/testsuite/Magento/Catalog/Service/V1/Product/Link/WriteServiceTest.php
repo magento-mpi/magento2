@@ -176,14 +176,12 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->assertEmpty($actual);
     }
 
-
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      */
     public function testUpdate()
     {
         $productSku = 'simple_with_cross';
-        $linkedSku = 'simple';
         $linkType = 'related';
 
         $serviceInfo = [
