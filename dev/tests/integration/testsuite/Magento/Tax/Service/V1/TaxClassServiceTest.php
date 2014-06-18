@@ -12,6 +12,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Tax\Service\V1\Data\TaxClassBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
+use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
 
 class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,15 +50,15 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClassBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxClassBuilder');
         $this->taxClassModel = $this->objectManager->create('Magento\Tax\Model\ClassModel');
         $this->predefinedTaxClasses = [
-            TaxClassModel::TAX_CLASS_TYPE_PRODUCT => 'Taxable Goods',
-            TaxClassModel::TAX_CLASS_TYPE_CUSTOMER => 'Retail Customer'
+            TaxClassDataObject::TYPE_PRODUCT => 'Taxable Goods',
+            TaxClassDataObject::TYPE_CUSTOMER => 'Retail Customer'
         ];
     }
 
     public function testCreateTaxClass()
     {
         $taxClassDataObject = $this->taxClassBuilder->setName(self::SAMPLE_TAX_CLASS_NAME)
-            ->setType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->setType(TaxClassDataObject::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
 
@@ -74,14 +75,13 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         //Testing against existing Tax classes which are already setup when the instance is installed
         $taxClassDataObject = $this->taxClassBuilder
             ->setName($this->predefinedTaxClasses[TaxClassModel::TAX_CLASS_TYPE_PRODUCT])
-            ->setType(TaxClassModel::TAX_CLASS_TYPE_PRODUCT)
+            ->setType(TaxClassDataObject::TYPE_PRODUCT)
             ->create();
         $this->taxClassService->createTaxClass($taxClassDataObject);
     }
 
     public function testCreateTaxClassInvalidData()
     {
-        //TODO: Verify if this need use case needs to throw an exception
         $taxClassDataObject = $this->taxClassBuilder->setName(null)
             ->setType('')
             ->create();

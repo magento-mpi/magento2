@@ -8,8 +8,6 @@
 
 namespace Magento\Tax\Service\V1;
 
-use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
-
 /**
  * Interface for tax class service.
  */
@@ -18,21 +16,21 @@ interface TaxClassServiceInterface
     /**
      * Create a Tax Class
      *
-     * @param TaxClassDataObject $taxClass
-     * @return TaxClassDataObject
+     * @param \Magento\Tax\Service\V1\Data\TaxClass $taxClass
+     * @return string id for the newly created Tax class
      * @throws \Magento\Framework\Exception\InputException If bad input is provided
      */
-    public function createTaxClass(TaxClassDataObject $taxClass);
+    public function createTaxClass(\Magento\Tax\Service\V1\Data\TaxClass $taxClass);
 
     /**
      * Update a tax class with the given information.
      *
-     * @param TaxClassDataObject $taxClass
+     * @param \Magento\Tax\Service\V1\Data\TaxClass $taxClass
      * @return bool True if the tax class was updated, false otherwise
      * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with given tax class ID does not exist
      * @throws \Magento\Framework\Exception\InputException
      */
-    public function updateTaxClass(TaxClassDataObject $taxClass);
+    public function updateTaxClass(\Magento\Tax\Service\V1\Data\TaxClass $taxClass);
 
     /**
      * Delete a tax class with the given tax class id.

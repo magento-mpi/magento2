@@ -149,8 +149,8 @@ class TaxClassService implements TaxClassServiceInterface
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_TYPE]);
         }
 
-        if ($classType !== TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
-            && $classType !== TaxClassModel::TAX_CLASS_TYPE_PRODUCT
+        if ($classType !== TaxClassDataObject::TYPE_CUSTOMER
+            && $classType !== TaxClassDataObject::TYPE_PRODUCT
         ) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,
