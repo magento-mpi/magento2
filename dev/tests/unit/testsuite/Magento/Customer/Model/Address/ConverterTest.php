@@ -184,9 +184,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($addressId));
         $this->addressBuilderMock->expects($this->never())
             ->method('setCustomerId');
-        $this->model->createAddressFromModel($addressModelMock, $defaultBillingId, $defaultShippingId);
+        $this->assertEquals(
+            $addressMock,
+            $this->model->createAddressFromModel($addressModelMock, $defaultBillingId, $defaultShippingId)
+        );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function testCreateAddressFromModelWithCustomerId()
     {
         $defaultBillingId = 1;

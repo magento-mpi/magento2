@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Framework\Config;
+namespace Magento\Framework\App\Config;
 
 class ValueTest extends \PHPUnit_Framework_TestCase
 {
