@@ -292,11 +292,10 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $taxSubtotal = $taxPrice * $quantity;
         }
 
-        $this->taxDetailsItemBuilder->setTaxAmount($tax * $quantity);
+        $this->taxDetailsItemBuilder->setRowTax($tax * $quantity);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
         $this->taxDetailsItemBuilder->setRowTotal($subtotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
@@ -358,12 +357,11 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
         $this->taxDetailsItemBuilder->setRowTotal($subtotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
-        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
 
         return $this->taxDetailsItemBuilder->create();
     }
@@ -424,11 +422,10 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
         }
 
-        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
         $this->taxDetailsItemBuilder->setRowTotal($subtotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
@@ -473,25 +470,23 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     protected function calculateParent($children, $quantity)
     {
         $rowTotal = 0.00;
-        $rowTotalInclTax = 0.00;
-        $taxAmount = 0.00;
+        $rowTax = 0.00;
         $taxableAmount = 0.00;
 
         foreach ($children as $child) {
             $rowTotal += $child->getRowTotal();
-            $rowTotalInclTax += $child->getRowTotalInclTax();
-            $taxAmount += $child->getTaxAmount();
+            $rowTax += $child->getRowTax();
             $taxableAmount += $child->getTaxableAmount();
         }
 
+        $rowTotalInclTax = $rowTotal + $rowTax;
         $price = $this->calculator->round($rowTotal / $quantity);
         $priceInclTax = $this->calculator->round($rowTotalInclTax / $quantity);
 
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
         $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
-        $this->taxDetailsItemBuilder->setTaxAmount($taxAmount);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxableAmount);
 
         return $this->taxDetailsItemBuilder;
@@ -528,7 +523,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             = $taxDetailsData[TaxDetails::KEY_SUBTOTAL] + $item->getRowTotal();
 
         $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT]
-            = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getTaxAmount();
+            = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getRowTax();
 
         $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT]
             = $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT] + $item->getDiscountAmount();
