@@ -25,4 +25,14 @@ interface ReadServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getList($productSku);
+
+    /**
+     * Get custom option for a specific product
+     *
+     * @param string $productSku
+     * @param string $optionId
+     * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function get($productSku, $optionId);
 }
