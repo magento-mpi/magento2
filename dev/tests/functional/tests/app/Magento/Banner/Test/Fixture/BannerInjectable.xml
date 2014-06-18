@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Banner\Test\Fixture\BannerInjectable">
+    <module>Magento_Banner</module>
+    <type>flat</type>
+    <entity_type>magento_banner</entity_type>
+    <collection>Magento\Banner\Model\Resource\Banner\Collection</collection>
+    <fields>
+        <banner_id>
+            <attribute_code>banner_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </banner_id>
+        <name>
+            <attribute_code>name</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </name>
+        <is_enabled>
+            <attribute_code>is_enabled</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </is_enabled>
+        <types>
+            <attribute_code>types</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </types>
+        <use_customer_segment>
+            <attribute_code>types</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>select</input>
+        </use_customer_segment>
+        <use_customer_segment>
+            <attribute_code>types</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input>select</input>
+        </use_customer_segment>
+        <store_contents_not_use_0>
+            <attribute_code>types</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </store_contents_not_use_0>
+        <store_contents_0>
+            <attribute_code>types</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </store_contents_0>
+        <store_contents_not_use_1>
+            <attribute_code>types</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </store_contents_not_use_1>
+        <store_contents_1>
+            <attribute_code>types</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </store_contents_1>
+    </fields>
+</fixture>

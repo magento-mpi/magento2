@@ -1,0 +1,2 @@
+"banner/data/name";"banner/data/is_enabled";"banner/data/type";"banner/data/types[]";"banner/data/use_customer_segment";"banner/data/customer_segment_ids[]";"banner/data/store_contents_not_use_0";"banner/data/store_contents_0";"banner/data/store_contents_not_use_1";"banner/data/store_contents_1";"constraint"
+"banner_%isolation%";"Yes";"Any Banner Type";"-";"All";"-";"No";"banner_content_%isolation%";"Yes";"-";"assertBannerSuccessSaveMessage, assertBannerInGrid"
