@@ -30,7 +30,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      *
      * @var \Magento\Framework\Data\Collection
      */
-    protected $_collection = null;
+    protected $_collection;
 
     /**
      * Export flag
@@ -65,14 +65,14 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      *
      * @var string
      */
-    protected $_massactionIdField = null;
+    protected $_massactionIdField;
 
     /**
      * Massaction row id filter
      *
      * @var string
      */
-    protected $_massactionIdFilter = null;
+    protected $_massactionIdFilter;
 
     /**
      * Massaction block name
@@ -186,9 +186,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     {
         $this->setChild(
             'export_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(
                 array(
                     'label' => __('Export'),
                     'onclick' => $this->getJsObjectName() . '.doExport()',
@@ -198,17 +196,13 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         );
         $this->setChild(
             'reset_filter_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(
                 array('label' => __('Reset Filter'), 'onclick' => $this->getJsObjectName() . '.resetFilter()')
             )
         );
         $this->setChild(
             'search_button',
-            $this->getLayout()->createBlock(
-                'Magento\Backend\Block\Widget\Button'
-            )->setData(
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(
                 array(
                     'label' => __('Search'),
                     'onclick' => $this->getJsObjectName() . '.doFilter()',
@@ -273,15 +267,11 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         if (is_array($column)) {
             $this->getColumnSet()->setChild(
                 $columnId,
-                $this->getLayout()->createBlock(
-                    'Magento\Backend\Block\Widget\Grid\Column\Extended'
-                )->setData(
-                    $column
-                )->setId(
-                    $columnId
-                )->setGrid(
-                    $this
-                )
+                $this->getLayout()
+                    ->createBlock('Magento\Backend\Block\Widget\Grid\Column\Extended')
+                    ->setData($column)
+                    ->setId($columnId)
+                    ->setGrid($this)
             );
             $this->getColumnSet()->getChildBlock($columnId)->setGrid($this);
         } else {
@@ -421,19 +411,19 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock(
-            'Magento\Backend\Block\Widget\Grid\Column'
-        )->setData(
-            array(
-                'index' => $this->getMassactionIdField(),
-                'filter_index' => $this->getMassactionIdFilter(),
-                'type' => 'massaction',
-                'name' => $this->getMassactionBlock()->getFormFieldName(),
-                'is_system' => true,
-                'header_css_class' => 'col-select',
-                'column_css_class' => 'col-select'
-            )
-        );
+        $massactionColumn = $this->getLayout()
+            ->createBlock('Magento\Backend\Block\Widget\Grid\Column')
+            ->setData(
+                array(
+                    'index' => $this->getMassactionIdField(),
+                    'filter_index' => $this->getMassactionIdFilter(),
+                    'type' => 'massaction',
+                    'name' => $this->getMassactionBlock()->getFormFieldName(),
+                    'is_system' => true,
+                    'header_css_class' => 'col-select',
+                    'column_css_class' => 'col-select'
+                )
+            );
 
         if ($this->getNoFilterMassactionColumn()) {
             $massactionColumn->setData('filter', false);
@@ -964,8 +954,10 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      * @param \Magento\Framework\Filesystem\File\WriteInterface $stream
      * @return void
      */
-    protected function _exportCsvItem(\Magento\Framework\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
-    {
+    protected function _exportCsvItem(
+        \Magento\Framework\Object $item,
+        \Magento\Framework\Filesystem\File\WriteInterface $stream
+    ) {
         $row = array();
         foreach ($this->getColumns() as $column) {
             if (!$column->getIsSystem()) {
@@ -1126,7 +1118,10 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         $this->_isExport = true;
         $this->_prepareGrid();
 
-        $convert = new \Magento\Framework\Convert\Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Framework\Convert\Excel(
+            $this->getCollection()->getIterator(),
+            array($this, 'getRowRecord')
+        );
 
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.xml';
