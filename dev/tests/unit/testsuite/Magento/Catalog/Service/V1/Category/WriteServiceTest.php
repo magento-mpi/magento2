@@ -61,8 +61,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
- * @expectedException \Magento\Framework\Exception\CouldNotSaveException
- */
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
     public function testDeleteCouldNotSaveException()
     {
         $id = 3;
