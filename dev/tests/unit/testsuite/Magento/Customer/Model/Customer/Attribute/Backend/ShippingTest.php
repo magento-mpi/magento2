@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
-class BillingTest extends \PHPUnit_Framework_TestCase
+class ShippingTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Billing
+     * @var Shipping
      */
     protected $testable;
 
@@ -18,18 +19,18 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     {
         $logger = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
         /** @var \Magento\Framework\Logger $logger */
-        $this->testable = new Billing($logger);
+        $this->testable = new Shipping($logger);
     }
 
     public function testBeforeSave()
     {
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getDefaultBilling', 'unsetDefaultBilling'))
+            ->setMethods(array('getDefaultShipping', 'unsetDefaultShipping'))
             ->getMock();
 
-        $object->expects($this->once())->method('getDefaultBilling')->will($this->returnValue(null));
-        $object->expects($this->once())->method('unsetDefaultBilling')->will($this->returnSelf());
+        $object->expects($this->once())->method('getDefaultShipping')->will($this->returnValue(null));
+        $object->expects($this->once())->method('unsetDefaultShipping')->will($this->returnSelf());
         /** @var \Magento\Framework\Object $object */
 
         $this->testable->beforeSave($object);
@@ -39,10 +40,10 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         $attributeCode = 'attribute_code';
-        $defaultBilling = 'default billing address';
+        $defaultShipping = 'default Shipping address';
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getDefaultBilling', 'getAddresses', 'setDefaultBilling'))
+            ->setMethods(array('getDefaultShipping', 'getAddresses', 'setDefaultShipping'))
             ->getMock();
 
         $address = $this->getMockBuilder('Magento\Framework\Object')
@@ -63,10 +64,10 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $attribute->expects($this->once())->method('getEntity')->will($this->returnValue($entity));
         $attribute->expects($this->once())->method('getAttributeCode')->will($this->returnValue($attributeCode));
         $entity->expects($this->once())->method('saveAttribute')->with($this->logicalOr($object, $attributeCode));
-        $address->expects($this->once())->method('getPostIndex')->will($this->returnValue($defaultBilling));
+        $address->expects($this->once())->method('getPostIndex')->will($this->returnValue($defaultShipping));
         $address->expects($this->once())->method('getId')->will($this->returnValue($addressId));
-        $object->expects($this->once())->method('getDefaultBilling')->will($this->returnValue($defaultBilling));
-        $object->expects($this->once())->method('setDefaultBilling')->with($addressId)->will($this->returnSelf());
+        $object->expects($this->once())->method('getDefaultShipping')->will($this->returnValue($defaultShipping));
+        $object->expects($this->once())->method('setDefaultShipping')->with($addressId)->will($this->returnSelf());
         $object->expects($this->once())->method('getAddresses')->will($this->returnValue(array($address)));
         /** @var \Magento\Framework\Object $object */
         /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
