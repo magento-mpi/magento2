@@ -328,12 +328,12 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $filterBuilder = Bootstrap::getObjectManager()->create('\Magento\Framework\Service\V1\Data\FilterBuilder');
 
         return [
-            'eq' => [
+            'code eq "Default Rule"' => [
                 [$filterBuilder->setField(TaxRule::CODE)->setValue('Default Rule')->create()],
                 null,
                 ['Default Rule']
             ],
-            'and' => [
+            'sort_order eq 0 AND priority eq 0' => [
                 [
                     $filterBuilder->setField(TaxRule::SORT_ORDER)->setValue('0')->create(),
                     $filterBuilder->setField(TaxRule::PRIORITY)->setValue('0')->create(),
@@ -341,7 +341,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                 [],
                 ['Default Rule', 'Higher Rate Rule']
             ],
-            'or' => [
+            'code eq "Default Rule" OR code eq "Higher Rate Rule"' => [
                 [],
                 [
                     $filterBuilder->setField(TaxRule::CODE)->setValue('Default Rule')->create(),
@@ -349,7 +349,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                 ],
                 ['Default Rule', 'Higher Rate Rule']
             ],
-            'like' => [
+            'code like "%Rule"' => [
                 [
                     $filterBuilder->setField(TaxRule::CODE)->setValue('%Rule')->setConditionType('like')
                         ->create()
@@ -397,6 +397,14 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
                     'tax_rate_ids' => array_values($higherRates),
                     'sort_order' => 0,
                     'priority' => 0,
+                ],
+                [
+                    'code' => 'Highest Rate',
+                    'customer_tax_class_ids' => [$this->taxClasses['DefaultCustomerClass'], 3],
+                    'product_tax_class_ids' => [$this->taxClasses['HigherProductClass']],
+                    'tax_rate_ids' => array_values($higherRates),
+                    'sort_order' => 1,
+                    'priority' => 1,
                 ],
             ]);
 
