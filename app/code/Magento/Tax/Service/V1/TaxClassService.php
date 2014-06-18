@@ -87,7 +87,9 @@ class TaxClassService implements TaxClassServiceInterface
      */
     public function updateTaxClass(TaxClassDataObject $taxClass)
     {
-        if (is_null($taxClass->getId())) {
+        $this->validateTaxClassData($taxClass);
+
+        if (!$taxClass->getId()) {
             throw InputException::invalidFieldValue('id', $taxClass->getId());
         }
 
@@ -99,8 +101,12 @@ class TaxClassService implements TaxClassServiceInterface
             throw InputException::invalidFieldValue('type', $taxClass->getType());
         }
 
-        $this->validate($taxClassModel);
-        $taxClassModel->save();
+        try {
+            $taxModel->save();
+        } catch (ModelException $e) {
+            throw new InputException('A class with the same name already exists for tax class type %type.',
+                ['type' => $taxClass->getType()]);
+        }
 
         return true;
     }
@@ -120,44 +126,7 @@ class TaxClassService implements TaxClassServiceInterface
     }
 
     /**
-     * Validate tax class attribute values.
-     *
-     * @param TaxClassModel $taxClassModel
-     * @throws InputException
-     * @return void
-     */
-    private function validate(TaxClassModel $taxClassModel)
-    {
-        $exception = new InputException();
-        if (!\Zend_Validate::is(trim($taxClassModel->getId()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'id']);
-        }
-
-        if (!\Zend_Validate::is(trim($taxClassModel->getClassName()), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'className']);
-        }
-
-        $classType = $taxClassModel->getClassType();
-
-        if (!\Zend_Validate::is($classType, 'NotEmpty') &&
-            $classType === TaxClassModel::TAX_CLASS_TYPE_CUSTOMER ||
-            $classType === TaxClassModel::TAX_CLASS_TYPE_PRODUCT) {
-            $exception->addError(
-                InputException::INVALID_FIELD_VALUE,
-                ['fieldName' => 'classType', 'value' => $taxClassModel->getClassType()]
-            );
-        }
-
-        if ($exception->wasErrorAdded()) {
-            throw $exception;
-        }
-    }
-
-    /**
      * Validate TaxClass Data
-     *
-     * TODO : Make sure either \Magento\Tax\Service\V1\TaxClassService::validate or this function exists based on
-     * validation needed for TaxClass data
      *
      * @param TaxClassDataObject $taxClass
      * @throws InputException
