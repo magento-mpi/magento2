@@ -99,8 +99,7 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'price' => 19.99,
             'price_incl_tax' => 21.64,
             'row_total' => 19.99,
-            'row_total_incl_tax' => 21.64,
-            'tax_amount' => 1.65,
+            'row_tax' => 1.65,
             'taxable_amount' => 19.99,
             'discount_amount' => 0.00,
             'discount_tax_compensation_amount' => 0.00,
@@ -113,13 +112,11 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'no_items' => [[
                 'subtotal' => 9.99,
                 'tax_amount' => 0.00,
-                'taxable_amount' => 0.00,
                 'discount_amount' => 0.00,
             ]],
             'single_item' => [[
                 'subtotal' => 19.99,
                 'tax_amount' => 1.65,
-                'taxable_amount' => 19.99,
                 'discount_amount' => 0.00,
                 'applied_taxes' => [
                     $appliedTaxDataArray,
@@ -131,7 +128,6 @@ class TaxDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'multiple_items' => [[
                 'subtotal' => 19.99,
                 'tax_amount' => 1.65,
-                'taxable_amount' => 19.99,
                 'discount_amount' => 0.00,
                 'applied_taxes' => [
                     $appliedTaxDataArray,
