@@ -655,4 +655,74 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->observer->$testableMethod($observer)
         );
     }
+
+    /**
+     * @expectedException \Magento\Eav\Exception
+     */
+    public function testEnterpriseCustomerAttributeBeforeSaveNegative()
+    {
+        $attributeData = 'so_long_attribute_code_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+        $observer = $this->getMockBuilder('Magento\Framework\Event\Observer')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $event = $this->getMockBuilder('Magento\Framework\Event')
+            ->setMethods(array('getAttribute'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
+            ->setMethods(array('__wakeup', 'isObjectNew', 'getAttributeCode'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dataModel->expects($this->once())
+            ->method('isObjectNew')
+            ->will($this->returnValue(true));
+
+        $dataModel->expects($this->once())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeData));
+
+        $observer->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+        $event->expects($this->once())->method('getAttribute')->will($this->returnValue($dataModel));
+        /** @var \Magento\Framework\Event\Observer $observer */
+
+        $this->observer->enterpriseCustomerAttributeBeforeSave($observer);
+    }
+
+    public function testEnterpriseCustomerAttributeBeforeSavePositive()
+    {
+        $attributeData = 'normal_attribute_code';
+        $observer = $this->getMockBuilder('Magento\Framework\Event\Observer')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $event = $this->getMockBuilder('Magento\Framework\Event')
+            ->setMethods(array('getAttribute'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
+            ->setMethods(array('__wakeup', 'isObjectNew', 'getAttributeCode'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $dataModel->expects($this->once())
+            ->method('isObjectNew')
+            ->will($this->returnValue(true));
+
+        $dataModel->expects($this->once())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeData));
+
+        $observer->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+        $event->expects($this->once())->method('getAttribute')->will($this->returnValue($dataModel));
+        /** @var \Magento\Framework\Event\Observer $observer */
+
+        $this->assertInstanceOf(
+            'Magento\CustomerCustomAttributes\Model\Observer',
+            $this->observer->enterpriseCustomerAttributeBeforeSave($observer)
+        );
+    }
 }
