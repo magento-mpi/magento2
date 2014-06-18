@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeServiceV1';
+    const SERVICE_NAME = 'catalogProductAttributeOptionReadServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attributes';
 

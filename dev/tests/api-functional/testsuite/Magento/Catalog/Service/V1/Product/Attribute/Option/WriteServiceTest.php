@@ -13,7 +13,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class WriteServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeServiceV1';
+    const SERVICE_NAME = 'catalogProductAttributeOptionWriteServiceV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attributes';
 

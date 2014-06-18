@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
-use Magento\Catalog\Service\V1\Data\Eav\Option;
-
 /**
  * Interface ReadServiceInterface
  */
@@ -18,7 +16,7 @@ interface ReadServiceInterface
      * Retrieve list of attribute options
      *
      * @param string $id
-     * @return Option[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]
      */
     public function options($id);
 } 

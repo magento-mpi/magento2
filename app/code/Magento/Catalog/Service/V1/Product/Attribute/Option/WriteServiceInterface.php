@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
-use Magento\Catalog\Service\V1\Data\Eav\Option;
+use Magento\Catalog\Service\V1\Data\Eav\Option as EavOption;
 
 /**
  * Interface WriteServiceInterface
@@ -18,8 +18,8 @@ interface WriteServiceInterface
      * Add option to attribute
      *
      * @param string $id
-     * @param Option $option
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Option $option
      * @return bool
      */
-    public function addOption($id, Option $option);
+    public function addOption($id, EavOption $option);
 } 

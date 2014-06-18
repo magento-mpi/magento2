@@ -9,9 +9,8 @@ namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 use Magento\Eav\Model\Config;
-use Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory;
 use Magento\Framework\Exception\StateException;
-use Magento\Catalog\Service\V1\Data\Eav\Option;
+use Magento\Catalog\Service\V1\Data\Eav\Option as EavOption;
 
 class WriteService implements WriteServiceInterface
 {
@@ -33,7 +32,7 @@ class WriteService implements WriteServiceInterface
      * {@inheritdoc}
      * @throws StateException
      */
-    public function addOption($id, Option $option)
+    public function addOption($id, EavOption $option)
     {
         $model = $this->eavConfig->getAttribute(
             ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
