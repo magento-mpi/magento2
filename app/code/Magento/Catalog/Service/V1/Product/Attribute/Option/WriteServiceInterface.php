@@ -21,4 +21,15 @@ interface WriteServiceInterface
      * @return bool
      */
     public function addOption($id, \Magento\Catalog\Service\V1\Data\Eav\Option $option);
+
+    /**
+     * Delete option from attribute
+     *
+     * @param string $id
+     * @param int $optionId
+     * @throws \Magento\Framework\Exception\StateException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return bool
+     */
+    public function removeOption($id, $optionId);
 }

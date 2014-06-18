@@ -10,7 +10,9 @@ namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 use Magento\Eav\Model\Config;
 use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Eav\Option as EavOption;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 
 class WriteService implements WriteServiceInterface
 {
@@ -33,12 +35,9 @@ class WriteService implements WriteServiceInterface
      */
     public function addOption($id, EavOption $option)
     {
-        $model = $this->eavConfig->getAttribute(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
-            $id
-        );
-        if (!$model) {
-            throw new StateException('Attribute does no exist');
+        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id);
+        if (!$model || !$model->getId()) {
+            throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $id);
         }
 
         if (!$model->usesSource()) {
@@ -63,6 +62,33 @@ class WriteService implements WriteServiceInterface
 
         $model->setOption($options);
         $model->save();
+        return true;
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function removeOption($id, $optionId)
+    {
+        $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id);
+        if (!$model || !$model->getId()) {
+            throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $id);
+        }
+        if (!$model->usesSource()) {
+           throw new StateException('Attribute doesn\'t have any option');
+        }
+        if (!$model->getSource()->getOptionText($optionId)) {
+            throw new NoSuchEntityException(sprintf('Attribute %s does not contain option with Id %s', $id, $optionId));
+        }
+
+        $modelData = array('option' => array('value' => array($optionId => []), 'delete' => array($optionId => '1')));
+        $model->addData($modelData);
+        try {
+               $model->save();
+        } catch (\Exception $e) {
+            throw new StateException('Unable to remove option');
+        }
+
         return true;
     }
 }
