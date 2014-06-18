@@ -22,13 +22,37 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku/downloadable-links" method="POST">
-        <service class="Magento\Downloadable\Service\V1\DownloadableLink\WriteServiceInterface" method="add"/>
+        <service class="Magento\Downloadable\Service\V1\DownloadableLink\WriteServiceInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Downloadable::downloadable" />
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/downloadable-links/:linkId" method="PUT">
+        <service class="Magento\Downloadable\Service\V1\DownloadableLink\WriteServiceInterface" method="update"/>
         <resources>
             <resource ref="Magento_Downloadable::downloadable" />
         </resources>
     </route>
     <route url="/V1/products/downloadable-links/:linkId" method="DELETE">
-        <service class="Magento\Downloadable\Service\V1\DownloadableLink\WriteServiceInterface" method="remove"/>
+        <service class="Magento\Downloadable\Service\V1\DownloadableLink\WriteServiceInterface" method="delete"/>
+        <resources>
+            <resource ref="Magento_Downloadable::downloadable" />
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/downloadable-links/samples" method="POST">
+        <service class="Magento\Downloadable\Service\V1\DownloadableSample\WriteServiceInterface" method="create"/>
+        <resources>
+            <resource ref="Magento_Downloadable::downloadable" />
+        </resources>
+    </route>
+    <route url="/V1/products/:productSku/downloadable-links/samples/:sampleId" method="PUT">
+        <service class="Magento\Downloadable\Service\V1\DownloadableSample\WriteServiceInterface" method="update"/>
+        <resources>
+            <resource ref="Magento_Downloadable::downloadable" />
+        </resources>
+    </route>
+    <route url="/V1/products/downloadable-links/samples/:sampleId" method="DELETE">
+        <service class="Magento\Downloadable\Service\V1\DownloadableSample\WriteServiceInterface" method="delete"/>
         <resources>
             <resource ref="Magento_Downloadable::downloadable" />
         </resources>
