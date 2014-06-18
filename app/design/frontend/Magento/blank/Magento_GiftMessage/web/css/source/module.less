@@ -41,22 +41,19 @@
             .items {
                 .list-reset-styles();
                 .item {
-                border-bottom: @border-width-base solid @border-color-base;
-                padding-bottom: 10px;
-                margin-bottom: 20px;
-                .product {
-                    &:extend(.add-clearfix all);
-                    margin-bottom: 10px;
-                    .img {
-                        float: left;
-                        margin-right: 20px;
+                    border-bottom: @border-width-base solid @border-color-base;
+                    margin-bottom: 20px;
+                    padding-bottom: 10px;
+                    .product {
+                        .photo {
+                            margin: 10px 0;
+                        }
+                    }
+                    &:last-child {
+                        border-bottom: 0;
+                        padding-bottom: 0;
                     }
                 }
-                &:last-child {
-                    border-bottom: 0;
-                    padding-bottom: 0;
-                }
-            }
             }
             .number {
                 font-size: @font-size-s;
@@ -69,6 +66,36 @@
     .opc-wrapper {
         .gift-message {
             .options-items .order-options {
+                margin-left: 45px;
+            }
+            .item {
+                border-bottom: @border-width-base solid @border-color-base;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                &:extend(.add-clearfix-desktop all);
+                .product {
+                    float: left;
+                    margin-right: 20px;
+                    .photo {
+                        margin: 10px 0;
+                    }
+                    .name {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        max-width: 145px;
+                    }
+                }
+                .options {
+                    overflow: hidden;
+                }
+            }
+            .price.box > .price {
+                display: block;
+            }
+        }
+        .extra-options-container {
+            .price.box {
+                font-weight: normal;
                 margin-left: 45px;
             }
         }

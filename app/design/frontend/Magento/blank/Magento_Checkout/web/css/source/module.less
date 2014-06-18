@@ -52,7 +52,7 @@
                 .content {
                     display: block;
                 }
-                .title {
+                > .title {
                     .icon-font-symbol(
                         @_icon-font-content: @icon-prev,
                         @_icon-font-position: after
@@ -295,11 +295,17 @@
     > .opc {
         &:extend(.reset-list all);
     }
-    .section.allow > .title {
-        cursor: pointer;
+    .section {
+        &.allow > .title {
+            cursor: pointer;
+        }
+        &.active > .title {
+            color: @color-primary-darker;
+        }
     }
     .step {
         &.title {
+            color: @color-primary-lighter;
             line-height: 50px;
             h2,
             .number {
@@ -398,6 +404,9 @@
                 text-align: right;
                 white-space: nowrap;
             }
+        }
+        th.col.subtotal {
+            text-align: center;
         }
         .amount {
             text-align: right;
@@ -675,13 +684,6 @@
                         text-align: left;
                     }
                 }
-            }
-        }
-
-        .extra-options-container {
-            .price.box {
-                font-weight: normal;
-                margin-left: 45px;
             }
         }
     }
