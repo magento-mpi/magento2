@@ -47,8 +47,7 @@ class Authentication extends Block
         //Workaround for https\http data transfer browser alert
         try {
             $this->_rootElement->acceptAlert();
-        } catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
-            /** Do nothing for this exception. */
+        } catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
         }
     }
 
