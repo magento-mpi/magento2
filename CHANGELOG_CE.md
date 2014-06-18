@@ -5,13 +5,13 @@
       * `lib/internal/Magento/Framework/Model/Resource/Db/Collection/AbstractCollection.php`
       * `lib/internal/Magento/Framework/File/Uploader.php`
       * `lib/internal/Magento/Framework/File/Csv.php`
-* Allow client to get partial response for mobile (MAGETWO-22974)
-* Authentication support for mobile (MAGETWO-23744)
+  * Allow client to get partial response for mobile (MAGETWO-22974)
+  * Authentication support for mobile (MAGETWO-23744)
+  * Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
+  * Move authorization services using new directory format (MAGETWO-23856)
+  * Move integration services using new directory format (MAGETWO-24555)
+  * Update integration registration based on security consultant feedback (MAGETWO-18253)
 * Improve ImportExport modularity (MAGETWO-23723)
-* Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
-* Move authorization services using new directory format (MAGETWO-23856)
-* Move integration services using new directory format (MAGETWO-24555)
-* Update integration registration based on security consultant feedback (MAGETWO-18235)
 * Created Service API for Magento_Catalog Module:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
    * Implemented Product Group Price API(MAGETWO-23311)
