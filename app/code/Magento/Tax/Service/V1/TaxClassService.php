@@ -117,10 +117,15 @@ class TaxClassService implements TaxClassServiceInterface
     public function deleteTaxClass($taxClassId)
     {
         $taxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
-        if (is_null($taxClassModel->getId())) {
+        if (!$taxClassModel->getId()) {
             throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
         }
-        $taxClassModel->delete();
+
+        try {
+            $taxClassModel->delete();
+        } catch (\Exception $e) {
+            return false;
+        }
 
         return true;
     }

@@ -95,18 +95,31 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     */
-    public function testDeleteCustomer()
+    public function testDeleteTaxClass()
     {
-        $this->assertTrue($this->taxClassService->deleteTaxClass(4));
+        $taxClassName = 'Delete Me';
+        $taxClassDataObject = $this->taxClassBuilder->setName($taxClassName)
+            ->setType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+
+        $this->assertTrue($this->taxClassService->deleteTaxClass($taxClassId));
+
         // Verify if the tax class is deleted
         $this->setExpectedException(
             'Magento\Framework\Exception\NoSuchEntityException',
-            'No such entity with taxClassId = 4'
+            "No such entity with taxClassId = $taxClassId"
         );
-        $this->taxClassService->deleteTaxClass(4);
+        $this->taxClassService->deleteTaxClass($taxClassId);
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxClassId = 99999
+     */
+    public function testDeleteTaxClassInvalidData()
+    {
+        $nonexistentTaxClassId = 99999;
+        $this->taxClassService->deleteTaxClass($nonexistentTaxClassId);
+    }
 }
