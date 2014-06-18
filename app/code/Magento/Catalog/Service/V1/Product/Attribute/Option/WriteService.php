@@ -65,4 +65,4 @@ class WriteService implements WriteServiceInterface
         $model->save();
         return true;
     }
-} 
+}
