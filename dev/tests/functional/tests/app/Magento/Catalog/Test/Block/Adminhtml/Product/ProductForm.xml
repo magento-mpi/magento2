@@ -43,10 +43,10 @@
         <strategy>css selector</strategy>
         <wrapper>product</wrapper>
         <fields>
-            <product_website_1>
+            <website_ids>
                 <selector>[name='product[website_ids][]']</selector>
                 <input>checkbox</input>
-            </product_website_1>
+            </website_ids>
         </fields>
     </websites>
     <advanced-pricing>

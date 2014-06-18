@@ -30,8 +30,8 @@ class CatalogAttributeSet extends AbstractRepository
         ];
 
         $this->_data['custom_attribute_set'] = [
-            'attribute_set_name' => 'Attribute_set%isolation%',
-            'attribute_set_id' => 4,
+            'attribute_set_name' => 'Custom_attribute_set%isolation%',
+            'skeleton_set' => ['dataSet' => 'default'],
         ];
     }
 }

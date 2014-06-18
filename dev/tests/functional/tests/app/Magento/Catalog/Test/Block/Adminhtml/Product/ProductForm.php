@@ -82,21 +82,6 @@ class ProductForm extends FormTabs
     protected $attribute = './/*[contains(@class,"label")]/span[text()="%s"]';
 
     /**
-     * Attribute Set button on the Product page
-     *
-     * @var string
-     */
-    protected $attributeSetButton = './/*[contains(@class,"action-toggle")]/span[text()="%s"]';
-
-    /**
-     * Attribute Set locator
-     *
-     * @var string
-     */
-    protected $attributeSet = './/*[contains(@class,"mage-suggest-dropdown")]/ul/li/a[text()="%s"]';
-
-
-    /**
      * Fill the product form
      *
      * @param FixtureInterface $fixture
@@ -344,28 +329,5 @@ class ProductForm extends FormTabs
         $attributeLabelLocator = sprintf($this->attribute, $attributeLabel);
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
-    }
-
-    /**
-     * Get Attribute Set name from product page
-     *
-     * @param $attributeSet
-     * @return string
-     */
-    public function getAttributeSetName($attributeSet)
-    {
-        $attributeSetButtonLocator = sprintf($this->attributeSetButton, $attributeSet);
-
-        return $this->_rootElement->find($attributeSetButtonLocator, Locator::SELECTOR_XPATH)->getText();
-    }
-
-    /**
-     * Click 'Add AttributeButton' on the Product page
-     *
-     * @return void
-     */
-    public function addAttribute()
-    {
-        $this->_rootElement->find('.action-toggle.action-choose', Locator::SELECTOR_CSS)->click();
     }
 }

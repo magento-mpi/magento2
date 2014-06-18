@@ -14,7 +14,9 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
 /**
  * Class SkeletonSetId
- * Create and return Attribute set
+ *
+ *  Data keys:
+ *  - dataSet
  */
 class SkeletonSetId implements FixtureInterface
 {

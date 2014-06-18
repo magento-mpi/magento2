@@ -8,15 +8,14 @@
 
 namespace Mtf\Client\Driver\Selenium\Element;
 
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Client\Driver\Selenium\Element as AbstractElement;
+use Mtf\Client\Driver\Selenium\Element;
 
 /**
  * Class SuggestElement
  * General class for suggest elements.
  */
-class SuggestElement extends AbstractElement
+class SuggestElement extends Element
 {
     /**
      * Selector suggest input
@@ -38,7 +37,6 @@ class SuggestElement extends AbstractElement
      * @var string
      */
     protected $resultItem = './/*[contains(@class,"mage-suggest-dropdown")]/ul/li/a[text()="%s"]';
-
 
     /**
      * Set value
@@ -71,9 +69,11 @@ class SuggestElement extends AbstractElement
 
     /**
      * Get value
+     *
+     * @return string
      */
     public function getValue()
     {
-        //
+        return $this->find($this->suggest)->getValue();
     }
 }

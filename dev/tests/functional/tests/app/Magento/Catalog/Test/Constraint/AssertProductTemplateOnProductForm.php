@@ -32,7 +32,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
 
     /**
      * Assert that created product template:
-     * 1. Displays in 'product-template-suggest-container' dropdown
+     * 1. Displays in product template suggest container dropdown
      * 2. Can be used for new created product.
      *
      * @param FixtureFactory $fixtureFactory
@@ -61,7 +61,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
         $productSimple = $fixtureFactory->createByCode(
             'catalogProductSimple',
             [
-                'dataSet' => 'product_with_attribute_set',
+                'dataSet' => 'default',
                 'data' => [
                     'attribute_set_id' => ['attribute_set' => $attributeSet],
                 ],
@@ -70,20 +70,17 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
         $productBlockForm->fillProduct($productSimple);
         $newProductPage->getFormAction()->save();
 
-        $filterProduct = [
-            'sku' => $productSimple->getSku(),
-        ];
-        $productGrid->open();
-        $productGrid->getProductGrid()->searchAndOpen($filterProduct);
-
+        $formData = $productEdit->getForm()->getData($productSimple);
+        $formAttributeSet = $formData['attribute_set_id'];
         \PHPUnit_Framework_Assert::assertEquals(
             $attributeSet->getAttributeSetName(),
-            $productEdit->getForm()->getAttributeSetName($attributeSet->getAttributeSetName()),
+            $formAttributeSet,
             'Attribute Set not found on Product form.'
             . "\nExpected: " . $attributeSet->getAttributeSetName()
-            . "\nActual: " . $productEdit->getForm()->getAttributeSetName($attributeSet->getAttributeSetName())
+            . "\nActual: " . $formAttributeSet
         );
 
+        $productEdit->getForm()->openTab('product-details');
         \PHPUnit_Framework_Assert::assertTrue(
             $productEdit->getForm()->checkAttributeLabel($productAttribute->getFrontendLabel()),
             "Product Attribute is absent on Product form."

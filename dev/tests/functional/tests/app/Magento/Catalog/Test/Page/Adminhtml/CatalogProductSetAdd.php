@@ -27,7 +27,7 @@ class CatalogProductSetAdd extends BackendPage
         ],
         'attributeSetForm' => [
             'name' => 'attributeSetForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\Form',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\AttributeSetForm',
             'locator' => '#set_name',
             'strategy' => 'css selector',
         ],
@@ -42,7 +42,7 @@ class CatalogProductSetAdd extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\Form
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main\AttributeSetForm
      */
     public function getAttributeSetForm()
     {
