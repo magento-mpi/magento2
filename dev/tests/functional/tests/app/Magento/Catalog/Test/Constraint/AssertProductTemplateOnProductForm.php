@@ -71,7 +71,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
         $newProductPage->getFormAction()->save();
 
         $formData = $productEdit->getForm()->getData($productSimple);
-        $formAttributeSet = isset($formData['attribute_set_id']) ? $formData['attribute_set_id'] : null;
+        $formAttributeSet = $formData['attribute_set_id'];
         \PHPUnit_Framework_Assert::assertEquals(
             $attributeSet->getAttributeSetName(),
             $formAttributeSet,

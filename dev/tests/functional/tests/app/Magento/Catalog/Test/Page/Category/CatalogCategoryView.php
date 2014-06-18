@@ -40,7 +40,7 @@ class CatalogCategoryView extends FrontendPage
         'toolbar' => [
             'name' => 'toolbar',
             'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
-            'locator' => '.toolbar .products',
+            'locator' => '.pages .items',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [

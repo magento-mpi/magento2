@@ -22,17 +22,6 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 class Curl extends AbstractCurl implements CatalogAttributeSetInterface
 {
     /**
-     * Mapping values for data.
-     *
-     * @var array
-     */
-    protected $mappingData = [
-        'skeleton_set' => [
-            'Default' => 4,
-        ],
-
-    ];
-    /**
      * Post request for creating Attribute Set
      *
      * @param FixtureInterface $fixture
@@ -41,10 +30,14 @@ class Curl extends AbstractCurl implements CatalogAttributeSetInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $data = $this->replaceMappingData($fixture->getData());
+        $data = $fixture->getData();
         if (!isset($data['gotoEdit'])) {
             $data['gotoEdit'] = 1;
         }
+        $data['skeleton_set'] = $fixture
+            ->getDataFieldConfig('skeleton_set')['source']
+            ->getAttributeSet()
+            ->getAttributeSetId();
 
         $url = $_ENV['app_backend_url'] . 'catalog/product_set/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);

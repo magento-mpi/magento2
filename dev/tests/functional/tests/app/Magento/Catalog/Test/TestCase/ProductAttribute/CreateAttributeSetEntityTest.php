@@ -57,24 +57,16 @@ class CreateAttributeSetEntityTest extends Injectable
      * @param CatalogProductSetIndex $productSetIndex
      * @param CatalogProductSetAdd $productSetAdd
      * @param CatalogProductSetEdit $productSetEdit
-     * @param CatalogProductAttribute $productAttribute
-     * @return array
+     * @return void
      */
     public function __inject(
         CatalogProductSetIndex $productSetIndex,
         CatalogProductSetAdd $productSetAdd,
-        CatalogProductSetEdit $productSetEdit,
-        CatalogProductAttribute $productAttribute
+        CatalogProductSetEdit $productSetEdit
     ) {
         $this->productSetIndex = $productSetIndex;
         $this->productSetAdd = $productSetAdd;
         $this->productSetEdit = $productSetEdit;
-
-        $productAttribute->persist();
-
-        return [
-            'productAttribute' => $productAttribute
-        ];
     }
 
     /**
@@ -88,6 +80,8 @@ class CreateAttributeSetEntityTest extends Injectable
         CatalogAttributeSet $attributeSet,
         CatalogProductAttribute $productAttribute
     ) {
+        $productAttribute->persist();
+
         //Steps
         $this->productSetIndex->open();
         $this->productSetIndex->getPageActionsBlock()->addNew();

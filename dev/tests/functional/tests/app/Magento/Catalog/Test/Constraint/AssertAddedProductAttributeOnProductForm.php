@@ -62,10 +62,9 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
         $productSet->open();
         $productSet->getGrid()->searchAndOpen($filterAttribute);
 
-        $attributeData = ($productAttributeOriginal !== null) ? array_merge(
-            $productAttribute->getData(),
-            $productAttributeOriginal->getData()
-        ) : $productAttribute->getData();
+        $attributeData = ($productAttributeOriginal !== null)
+            ? array_merge($productAttribute->getData(), $productAttributeOriginal->getData())
+            : $productAttribute->getData();
 
         $productSetEdit->getMain()->moveAttribute($attributeData, 'Product Details');
         $productSetEdit->getPageActions()->save();
@@ -87,10 +86,8 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
         $productGrid->open();
         $productGrid->getProductGrid()->searchAndOpen($filterProduct);
 
-        $frontendLabel = ($productAttributeOriginal !== null) ? array_merge(
-            $productAttributeOriginal->getData(),
-            $productAttribute->getData()
-        )['frontend_label']
+        $frontendLabel = ($productAttributeOriginal !== null)
+            ? array_merge($productAttributeOriginal->getData(), $productAttribute->getData())['frontend_label']
             : $productAttribute->getData()['frontend_label'];
 
         \PHPUnit_Framework_Assert::assertTrue(

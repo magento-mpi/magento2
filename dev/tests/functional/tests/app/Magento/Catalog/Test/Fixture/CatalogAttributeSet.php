@@ -28,7 +28,7 @@ class CatalogAttributeSet extends InjectableFixture
 
     protected $defaultDataSet = [
         'attribute_set_name' => 'Default_attribute_set_%isolation%',
-        'skeleton_set' => 'Default',
+        'skeleton_set' => ['dataSet' => 'default'],
     ];
 
     protected $attribute_set_id = [
