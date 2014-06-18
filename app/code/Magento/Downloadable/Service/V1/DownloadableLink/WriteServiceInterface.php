@@ -8,7 +8,7 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
-use \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLink;
+use \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfo;
 
 interface WriteServiceInterface
 {
@@ -16,10 +16,10 @@ interface WriteServiceInterface
      * Add link(or sample) for specified product
      *
      * @param string $productSku
-     * @param \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLink $linkData
+     * @param \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfo $linkData
      * @return int link ID
      */
-    public function add($productSku, DownloadableLink $linkData);
+    public function add($productSku, DownloadableLinkInfo $linkData);
 
     /**
      * Remove link by id

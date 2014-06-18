@@ -8,6 +8,8 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
+use \Magento\Framework\Service\Data\AbstractObject;
+
 class DownloadableSampleInfo extends AbstractObject
 {
     CONST ID = 'id';
@@ -51,10 +53,10 @@ class DownloadableSampleInfo extends AbstractObject
     /**
      * Sort order index for sample
      *
-     * @return mixed
+     * @return int
      */
     public function getSortOrder()
     {
-        return $this->_get(self::SORT_ORDER);
+        return (int)$this->_get(self::SORT_ORDER);
     }
 }

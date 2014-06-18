@@ -9,13 +9,15 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+
 class DownloadableResourceInfoBuilder extends AbstractObjectBuilder
 {
     /**
      * Set file path
      *
      * @param string|null $value
-     * @return mixed
+     * @return $this
      */
     public function setFile($value)
     {
@@ -26,7 +28,7 @@ class DownloadableResourceInfoBuilder extends AbstractObjectBuilder
      * Set URL
      *
      * @param sting|null $value
-     * @return mixed
+     * @return $this
      */
     public function setUrl($value)
     {
@@ -38,7 +40,7 @@ class DownloadableResourceInfoBuilder extends AbstractObjectBuilder
      *
      * @param string $value
      * @throws \Magento\Framework\Exception\InputException
-     * @return mixed
+     * @return $this
      */
     public function setType($value)
     {

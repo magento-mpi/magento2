@@ -8,6 +8,8 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
+use \Magento\Framework\Service\Data\AbstractObject;
+
 class DownloadableResourceInfo extends AbstractObject
 {
     CONST FILE = 'file';

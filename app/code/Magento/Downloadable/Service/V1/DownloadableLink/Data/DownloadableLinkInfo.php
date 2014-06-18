@@ -51,11 +51,11 @@ class DownloadableLinkInfo extends AbstractObject
     /**
      * Sort order index for link
      *
-     * @return mixed
+     * @return int
      */
     public function getSortOrder()
     {
-        return $this->_get(self::SORT_ORDER);
+        return (int)$this->_get(self::SORT_ORDER);
     }
 
     /**
@@ -68,7 +68,7 @@ class DownloadableLinkInfo extends AbstractObject
      */
     public function getSharable()
     {
-        return $this->_get(self::SHARABLE);
+        return (int)$this->_get(self::SHARABLE);
     }
 
     /**
