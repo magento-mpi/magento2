@@ -68,7 +68,7 @@ class Converter
         $taxClassModel
             ->setId($taxClass->getId())
             ->setClassName($taxClass->getName())
-            ->getClassType($taxClass->getType());
+            ->setClassType($taxClass->getType());
         return $taxClassModel;
     }
 }

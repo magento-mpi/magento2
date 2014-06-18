@@ -8,16 +8,18 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
+use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
 use Magento\Tax\Service\V1\Data\SearchResultsBuilder;
-use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
 
 /**
  * Tax class service.
@@ -67,7 +69,23 @@ class TaxClassService implements TaxClassServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateTaxClass(TaxClass $taxClass)
+    public function createTaxClass(TaxClassDataObject $taxClass)
+    {
+        $this->validateTaxClassData($taxClass);
+        $taxModel = $this->converter->createTaxClassModel($taxClass);
+        try {
+            $taxModel->save();
+        } catch (ModelException $e) {
+            throw new InputException('A class with the same name already exists for ClassType %classType.',
+                ['classType' => $taxClass->getType()]);
+        }
+        return $taxModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateTaxClass(TaxClassDataObject $taxClass)
     {
         if (is_null($taxClass->getId())) {
             throw InputException::invalidFieldValue('id', $taxClass->getId());
@@ -127,6 +145,42 @@ class TaxClassService implements TaxClassServiceInterface
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,
                 ['fieldName' => 'classType', 'value' => $taxClassModel->getClassType()]
+            );
+        }
+
+        if ($exception->wasErrorAdded()) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * Validate TaxClass Data
+     *
+     * TODO : Make sure either \Magento\Tax\Service\V1\TaxClassService::validate or this function exists based on
+     * validation needed for TaxClass data
+     *
+     * @param TaxClassDataObject $taxClass
+     * @throws InputException
+     */
+    protected function validateTaxClassData(TaxClassDataObject $taxClass)
+    {
+        $exception = new InputException();
+
+        if (!\Zend_Validate::is(trim($taxClass->getName()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_NAME]);
+        }
+
+        $classType = $taxClass->getType();
+        if (!\Zend_Validate::is(trim($taxClass->getType()), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_TYPE]);
+        }
+
+        if ($classType !== TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
+            && $classType !== TaxClassModel::TAX_CLASS_TYPE_PRODUCT
+        ) {
+            $exception->addError(
+                InputException::INVALID_FIELD_VALUE,
+                ['fieldName' => TaxClassDataObject::KEY_TYPE, 'value' => $classType]
             );
         }
 
