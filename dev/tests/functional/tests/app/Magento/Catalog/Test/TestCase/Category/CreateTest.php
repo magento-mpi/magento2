@@ -39,7 +39,7 @@ class CreateTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
-        $treeBlock->selectCategory($category, false);
+        $treeBlock->selectCategory($category);
         $treeBlockEdit->addSubcategory();
         $formBlock->fill($category);
         $actionsBlock->save();

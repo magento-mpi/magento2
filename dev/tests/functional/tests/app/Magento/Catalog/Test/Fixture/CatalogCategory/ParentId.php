@@ -42,7 +42,7 @@ class ParentId implements FixtureInterface
     {
         $this->params = $params;
         if ($data['dataSet']) {
-            $this->parentCategory = $fixtureFactory->createByCode('catalogCategory', ['entity' => $data['dataSet']]);
+            $this->parentCategory = $fixtureFactory->createByCode('catalogCategory', ['dataSet' => $data['dataSet']]);
             if (!$this->parentCategory->hasData('id')) {
                 $this->parentCategory->persist();
             }

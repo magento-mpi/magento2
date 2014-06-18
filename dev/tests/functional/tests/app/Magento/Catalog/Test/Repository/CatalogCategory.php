@@ -26,24 +26,24 @@ class CatalogCategory extends AbstractRepository
         ];
 
         $this->_data['default_subcategory'] = [
-            'name' => 'Subcategory%isolation%',
-            'url_key' => 'Subcategory%isolation%',
+            'name' => 'DefaultSubcategory%isolation%',
+            'url_key' => 'DefaultSubcategory%isolation%',
             'parent_id' => ['dataSet' => 'default_category'],
             'is_active' => 'Yes',
             'include_in_menu' => 'Yes',
         ];
 
         $this->_data['root_category'] = [
-            'name' => 'Category%isolation%',
-            'url_key' => 'Subcategory%isolation%',
+            'name' => 'RootCategory%isolation%',
+            'url_key' => 'RootCategory%isolation%',
             'parent_id' => 1,
             'is_active' => 'Yes',
             'include_in_menu' => 'Yes'
         ];
 
         $this->_data['root_subcategory'] = [
-            'name' => 'Category%isolation%',
-            'url_key' => 'Subcategory%isolation%',
+            'name' => 'RootSubCategory%isolation%',
+            'url_key' => 'RootSubCategory%isolation%',
             'parent_id' => ['dataSet' => 'root_category'],
             'is_active' => 'Yes',
             'include_in_menu' => 'Yes'
