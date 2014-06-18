@@ -58,6 +58,8 @@ class Curl extends AbstractCurl implements TaxRuleInterface
      *
      * @param FixtureInterface $fixture
      * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function prepareData($fixture)
     {
@@ -75,7 +77,7 @@ class Curl extends AbstractCurl implements TaxRuleInterface
             }
             $fieldFixture = $fixture->getDataFieldConfig($field);
             $fieldFixture = $fieldFixture['source']->getFixture();
-            foreach ($data[$field] as $key) {
+            foreach ($data[$field] as $key => $value) {
                 $id = $fieldFixture[$key]->getId();
                 if ($id === null) {
                     $fieldFixture[$key]->persist();
