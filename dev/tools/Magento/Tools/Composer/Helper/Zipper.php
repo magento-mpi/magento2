@@ -63,6 +63,7 @@ class Zipper
      * Checking existense of source and zip extension
      *
      * @param string $source
+     * @return void
      * @throws \Exception
      */
     protected static function checkSourceExtension($source)
