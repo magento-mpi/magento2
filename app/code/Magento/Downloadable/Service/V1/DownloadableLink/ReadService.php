@@ -17,4 +17,13 @@ class ReadService implements ReadServiceInterface
     {
 
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function samples($productSku)
+    {
+
+    }
+
 }
