@@ -48,6 +48,7 @@ class Authentication extends Block
         try {
             $this->_rootElement->acceptAlert();
         } catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
+            /** Do nothing for this exception. */
         }
     }
 

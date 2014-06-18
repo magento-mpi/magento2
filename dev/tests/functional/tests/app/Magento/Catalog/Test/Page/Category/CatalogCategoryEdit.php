@@ -73,7 +73,7 @@ class CatalogCategoryEdit extends Page
      * @param array $params
      * @return $this
      *
-     * SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function open(array $params = array())
     {

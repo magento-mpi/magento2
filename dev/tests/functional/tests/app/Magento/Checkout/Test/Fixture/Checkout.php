@@ -17,7 +17,7 @@ use Mtf\Factory\Factory;
 /**
  * Class Checkout
  *
- * @SuppressWarnings(PHPMD.numberOfChildren)
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Checkout extends DataFixture
 {

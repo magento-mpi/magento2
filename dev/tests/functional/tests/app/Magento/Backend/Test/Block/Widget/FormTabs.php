@@ -21,7 +21,7 @@ use Mtf\Fixture\InjectableFixture;
  * Class FormTabs
  * Is used to represent any form with tabs on the page
  *
- * @SuppressWarnings(PHPMD.numberOfChildren)
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class FormTabs extends Form
 {

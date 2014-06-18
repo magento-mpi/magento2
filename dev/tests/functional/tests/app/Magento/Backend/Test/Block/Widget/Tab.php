@@ -15,7 +15,7 @@ use Mtf\Block\Form as AbstractForm;
  * Class Tab
  * Is used to represent any tab on the page
  *
- * @SuppressWarnings(PHPMD.numberOfChildren)
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Tab extends AbstractForm
 {

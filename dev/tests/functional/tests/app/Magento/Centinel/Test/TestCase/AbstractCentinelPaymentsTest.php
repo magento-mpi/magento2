@@ -91,7 +91,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
     /**
      * Get Message after failed submit 3D Secure Verification form
      *
-     * SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getFailedMessage(Checkout $fixture)
     {

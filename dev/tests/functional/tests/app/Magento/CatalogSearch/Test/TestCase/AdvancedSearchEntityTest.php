@@ -72,7 +72,7 @@ class AdvancedSearchEntityTest extends Injectable
      * @param AdvancedSearch $searchPage
      * @return void
      *
-     * SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testSearch(
         array $products,
