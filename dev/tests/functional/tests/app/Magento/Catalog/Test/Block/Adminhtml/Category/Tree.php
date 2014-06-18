@@ -13,6 +13,8 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Tree
@@ -74,13 +76,18 @@ class Tree extends Block
     /**
      * Select Default category
      *
-     * @param CatalogCategory $category
+     * @param FixtureInterface $category
      * @return void
      */
-    public function selectCategory(CatalogCategory $category)
+    public function selectCategory(FixtureInterface $category)
     {
-        $parentPath = $this->prepareFullCategoryPath($category);
-        $path = implode('/', $parentPath);
+        if ($category instanceof InjectableFixture) {
+            $parentPath = $this->prepareFullCategoryPath($category);
+            $path = implode('/', $parentPath);
+        } else {
+            $path = $category->getCategoryPath();
+        }
+
         $this->expandAllCategories();
         $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->setValue($path);
         $this->getTemplateBlock()->waitLoader();
