@@ -21,7 +21,7 @@ class UrlrewriteEdit extends BackendPage
         'treeBlock' => [
             'name' => 'treeBlock',
             'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Tree',
-            'locator' => '[data-ui-id="category-selector"]',
+            'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
         'formBlock' => [
@@ -33,12 +33,6 @@ class UrlrewriteEdit extends BackendPage
         'messagesBlock' => [
             'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
-            'locator' => '#messages .messages',
-            'strategy' => 'css selector',
-        ],
-        'buttonBlock' => [
-            'name' => 'buttonBlock',
-            'class' => 'Magento\Backend\Test\Block\Widget\Form',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
         ],
@@ -90,14 +84,6 @@ class UrlrewriteEdit extends BackendPage
     public function getMessagesBlock()
     {
         return $this->getBlockInstance('messagesBlock');
-    }
-
-    /**
-     * @return \Magento\Backend\Test\Block\Widget\Form
-     */
-    public function getButtonBlock()
-    {
-        return $this->getBlockInstance('buttonBlock');
     }
 
     /**

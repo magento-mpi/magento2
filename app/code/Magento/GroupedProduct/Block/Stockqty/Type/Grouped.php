@@ -1,7 +1,5 @@
 <?php
 /**
- * Product stock qty block for grouped product type
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,8 +7,12 @@
  */
 namespace Magento\GroupedProduct\Block\Stockqty\Type;
 
-class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite implements
-    \Magento\Framework\View\Block\IdentityInterface
+use Magento\Framework\View\Block\IdentityInterface;
+
+/**
+ * Product stock qty block for grouped product type
+ */
+class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite implements IdentityInterface
 {
     /**
      * Retrieve child products

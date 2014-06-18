@@ -73,7 +73,8 @@ class PaypalStandardTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
 
         /** @var  string $orderId */
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
