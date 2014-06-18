@@ -11,7 +11,6 @@ interface WriteServiceInterface
 {
     /**
      * Delete category
-
      *
      * @param int $categoryId category which will deleted
      * @return bool Will returned True if deleted
