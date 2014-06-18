@@ -235,6 +235,9 @@
     .data.table {
         &:extend(.product-options-list all);
         .table-caption(@_table-caption-hide: true);
+        thead tr:first-child th {
+            padding-top: 0;
+        }
         tbody {
             tr:first-child td {
                 border-top: @border-width-base solid @border-color-base;
