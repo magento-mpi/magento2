@@ -17,7 +17,7 @@
       * `lib/internal/Magento/Framework/File/Csv.php`
 * Allow client to get partial response for mobile (MAGETWO-22974)
 * Authentication support for mobile (MAGETWO-23744)
-* Improve ImportExport and ScheduledImportExport modularity (MAGETWO-23723)
+* Improve ImportExport modularity (MAGETWO-23723)
 * Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
 * Move authorization services using new directory format (MAGETWO-23856)
 * Move integration services using new directory format (MAGETWO-24555)
