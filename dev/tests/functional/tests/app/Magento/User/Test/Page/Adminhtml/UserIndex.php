@@ -47,15 +47,9 @@ class UserIndex extends BackendPage
     /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
-<<<<<<< HEAD
-    public function getUserActions()
-    {
-        return $this->getBlockInstance('userActions');
-=======
     public function getPageActions()
     {
         return $this->getBlockInstance('pageActions');
->>>>>>> remotes/origin/MTA-53
     }
 
     /**

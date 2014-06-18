@@ -98,13 +98,13 @@ class AdminUserRole extends InjectableFixture
     protected $resource_access = [
         'attribute_code' => 'resource_access',
         'backend_type' => 'virtual',
-        'group' => 'role-resources-tab'
+        'group' => 'role-resources'
     ];
 
     protected $roles_resources = [
         'attribute_code' => 'roles_resources',
         'backend_type' => 'virtual',
-        'group' => 'role-resources-tab'
+        'group' => 'role-resources'
     ];
 
     protected $roles_users = [

@@ -37,4 +37,4 @@ class Role extends Tab
             ['element' => $this->_rootElement->find('#roleUserGrid')]
         );
     }
-} 
+}

@@ -40,6 +40,8 @@ class CreateAdminUserRoleEntityTest extends Injectable
     protected $userRoleEditRole;
 
     /**
+     * Setup data for test
+     *
      * @param UserRoleIndex $userRoleIndex
      * @param UserRoleEditRole $userRoleEditRole
      */
@@ -61,7 +63,7 @@ class CreateAdminUserRoleEntityTest extends Injectable
         //Steps
         $this->userRoleIndex->open();
         $this->userRoleIndex->getRoleActions()->addNew();
-        $this->userRoleEditRole->getRoleForm()->fill($role);
+        $this->userRoleEditRole->getRoleFormTabs()->fill($role);
         $this->userRoleEditRole->getPageActions()->save();
     }
 }

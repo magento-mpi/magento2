@@ -31,8 +31,11 @@ class LoginUserTest extends Injectable
     protected $dashboard;
 
     /**
+     * Setup data for test
+     *
      * @param AdminAuthLogin $loginPage
      * @param Dashboard $dashboard
+     * @return void
      */
     public function __inject(AdminAuthLogin $loginPage, Dashboard $dashboard)
     {
@@ -52,6 +55,7 @@ class LoginUserTest extends Injectable
      * Test admin login to backend
      *
      * @param AdminUserInjectable $user
+     * @return void
      */
     public function test(AdminUserInjectable $user)
     {

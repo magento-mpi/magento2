@@ -51,11 +51,11 @@ class Role implements FixtureInterface
             }
             $this->data = $this->role->getRoleName();
         }
-        if (isset($data['role_fixture'])
-            && $data['role_fixture'] instanceof \Magento\User\Test\Fixture\AdminUserRole
+        if (isset($data['role'])
+            && $data['role'] instanceof \Magento\User\Test\Fixture\AdminUserRole
         ) {
-            $this->role = $data['role_fixture'];
-            $this->data = $data['role_fixture']->getRoleName();
+            $this->role = $data['role'];
+            $this->data = $data['role']->getRoleName();
         }
     }
 

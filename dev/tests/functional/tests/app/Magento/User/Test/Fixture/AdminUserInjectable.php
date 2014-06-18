@@ -171,11 +171,6 @@ class AdminUserInjectable extends InjectableFixture
     protected $role_id = [
         'attribute_code' => 'role_id',
         'backend_type' => 'virtual',
-    ];
-
-    protected $role = [
-        'attribute_code' => 'role',
-        'backend_type' => 'virtual',
         'source' => 'Magento\User\Test\Fixture\User\Role'
     ];
 
@@ -268,11 +263,6 @@ class AdminUserInjectable extends InjectableFixture
     public function getRoleId()
     {
         return $this->getData('role_id');
-    }
-
-    public function getRole()
-    {
-        return $this->getData('role');
     }
 
     public function getPasswordConfirmation()

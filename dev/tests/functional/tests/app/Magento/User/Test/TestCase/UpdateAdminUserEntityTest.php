@@ -9,7 +9,6 @@
 namespace Magento\User\Test\TestCase;
 
 use Magento\Backend\Test\Page\AdminAuthLogin;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\User\Test\Fixture\AdminUserInjectable;
 use Magento\User\Test\Fixture\AdminUserRole;
 use Mtf\Fixture\FixtureFactory;
@@ -120,12 +119,12 @@ class UpdateAdminUserEntityTest extends Injectable
         AdminUserInjectable $customAdmin,
         AdminUserRole $roleSales,
         $useSalesRoleFromDataSet,
-        $loginAsDefaultAdmin
+        $loginAsDefaultAdmin,
+        $userToLoginInAssert
     ) {
         // Prepare data
         $filter = ['username' => $customAdmin->getUsername()];
         $userRole = $useSalesRoleFromDataSet != '-' ? $roleSales : null;
-
         // Steps
         if ($loginAsDefaultAdmin == '0') {
             $this->adminAuth->open();

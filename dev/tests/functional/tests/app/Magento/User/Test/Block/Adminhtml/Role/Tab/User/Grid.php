@@ -29,4 +29,4 @@ class Grid extends GridInterface
      * @var string
      */
     protected $editLink = '.col-role_user_username';
-} 
+}
