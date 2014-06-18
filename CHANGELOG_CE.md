@@ -1,15 +1,5 @@
-* Added support for MTF Reporting Tool
 * Framework improvements:
-  * Covered the following Magento application components with unit tests:
-      * `ConfigurableProduct/Helper/Data.php`
-      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
-      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
-      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
-      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
-      * `CatalogSearch/Helper/Data.php`
   * Covered Magento lib with unit tests:
-      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
-      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
       * `lib/internal/Magento/Framework/Filter/*`
       * `lib/internal/Magento/Framework/Model/Resource/Db/AbstractDb.php`
       * `lib/internal/Magento/Framework/Model/Resource/Db/Collection/AbstractCollection.php`
@@ -22,9 +12,9 @@
 * Move authorization services using new directory format (MAGETWO-23856)
 * Move integration services using new directory format (MAGETWO-24555)
 * Update integration registration based on security consultant feedback (MAGETWO-18235)
-* Created Service API for Magento_Catalog Module:
-   * Implemented Product API (MAGETWO-23306)
-   * Implemented ProductAttributeRead API (MAGETWO-23313)
+* Created Service API for Magento_Catalog Module:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    * Created Service API for Magento_Catalog Module:
+   * Implemented Product Attribute Media API(MAGETWO-23308)
+   * Implemented Product Group Price API(MAGETWO-23311)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -40,29 +30,52 @@
   * Admin tax notification messages (MAGETWO-24583)
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
 * Fixed bugs:
+  * Fixed: Export loses information about linked products(MAGETWO-25060)
+  * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
   * Fixed: Changed the default value for tax configuration "apply_after_discount" setting (MAGETWO-25119)
-  * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
-  * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
-  * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
-  * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
-  * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
-  * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
-  * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
-  * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
-  * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
-  * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
+  * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Incorrect Customer Model usage on session in CE modules (MAGETWO-23805)
   * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
   * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+* GitHub requests:
+  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
+  * [#544]  Performance tests not working (MAGETWO-23467)
+
+2.0.0.0-dev82
+=============
+* Added support for MTF Reporting Tool
+* Framework improvements:
+  * Covered the following Magento application components with unit tests:
+      * `ConfigurableProduct/Helper/Data.php`
+      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
+      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
+      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
+      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
+      * `CatalogSearch/Helper/Data.php`
+  * Covered Magento lib with unit tests:
+      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
+* Created Service API for Magento_Catalog Module:
+   * Implemented Product API (MAGETWO-23306)
+   * Implemented ProductAttributeRead API (MAGETWO-23313)
+* Fixed bugs:
+   * Fixed: Backend UI issues: form elements visibility (MAGETWO-24707)
+   * Fixed: Backend forms contain unexpected container (MAGETWO-24708)
+   * Fixed: Structure of the Floating Panel on the Category page is not correct (MAGETWO-24712)
+   * Fixed: pub/index.php entry point is broken because of obsolete constants (MAGETWO-25082)
+   * Fixed inability to specify empty array in DI configuration and layout updates (MAGETWO-21666)
+   * Fixed: Status and visibility of related product in parent product does not match settings in the actual product (MAGETWO-20430)
+   * Fixed: Unused DB Indexes, take resources do not give performance (MAGETWO-24083)
+   * Fixed: File/Url options isn't required for downloadable samples/links (MAGETWO-6990)
+   * Fixed: Fatal error on openning fixed bundle product with custom options page (MAGETWO-24760)
+   * Fixed: Wrong config key for cataloginventory backend (MAGETWO-19508)
 * GitHub requests:
   * [#548] (https://github.com/magento/magento2/issues/548) Console installer doesn't checks filesystem permissions (MAGETWO-23567)
   * [#552] (https://github.com/magento/magento2/issues/552) backend notifications sitebuild bug (MAGETWO-23741)
   * [#562]  Bugfix Magento\Framework\DB\Adapter\Pdo\Mysql::getCreateTable() (MAGETWO-24037)
   * [#565]  Magento\CatalogSearch\Model\Query::getResultCollection() not working (MAGETWO-24162)
   * [#557]  translation anomalies backend login page (MAGETWO-23760)
-  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
-  * [#544]  Performance tests not working (MAGETWO-23467)
 * Functional test:
   * Advanced Search (MTA-93)
   * Existing Customer Creation (MTA-319)

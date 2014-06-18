@@ -123,7 +123,6 @@ dev/tests/functional/tests/app/Magento/CatalogEvent
 dev/tests/functional/tests/app/Magento/CatalogRule
 dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchTest.php
 dev/tests/functional/tests/app/Magento/Centinel
-dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Cart
 dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Onepage
 dev/tests/functional/tests/app/Magento/Checkout/Test/Fixture
 dev/tests/functional/tests/app/Magento/Checkout/Test/Handler

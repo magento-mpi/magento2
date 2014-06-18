@@ -38,7 +38,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * Test import data method
      *
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customer_finance_all_cases.php
-     * @magentoDataFixture Magento/ScheduledImportExport/_files/website.php
+     * @magentoDataFixture Magento/Store/_files/website.php
      * @magentoAppArea adminhtml
      *
      * @codingStandardsIgnoreStart
