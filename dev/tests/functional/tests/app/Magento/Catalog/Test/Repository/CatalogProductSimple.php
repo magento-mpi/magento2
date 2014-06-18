@@ -17,9 +17,12 @@ use Mtf\Repository\AbstractRepository;
 class CatalogProductSimple extends AbstractRepository
 {
     /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @param array $defaultConfig
+     * @param array $defaultData
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct()
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
             'type_id' => 'simple',
