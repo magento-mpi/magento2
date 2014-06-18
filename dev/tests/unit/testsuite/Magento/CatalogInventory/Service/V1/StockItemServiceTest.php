@@ -110,7 +110,7 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $stockItemDo = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\Data\StockItem')
             ->disableOriginalConstructor()
             ->getMock();
-        $stockItemDo->expects($this->once())
+        $stockItemDo->expects($this->any())
             ->method('getProductId')
             ->will($this->returnValue($productId));
         $stockItemDo->expects($this->once())
@@ -128,6 +128,11 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->stockItemRegistry->expects($this->once())
             ->method('retrieve')
+            ->with($productId)
+            ->will($this->returnValue($stockItemModel));
+
+        $this->stockItemRegistry->expects($this->once())
+            ->method('erase')
             ->with($productId)
             ->will($this->returnValue($stockItemModel));
 

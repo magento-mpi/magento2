@@ -96,6 +96,7 @@ class StockItemService implements StockItemServiceInterface
         $stockItem = $this->stockItemRegistry->retrieve($stockItemDo->getProductId());
         $stockItem->setData($stockItemDo->__toArray());
         $stockItem->save();
+        $this->stockItemRegistry->erase($stockItemDo->getProductId());
         return $this;
     }
 
