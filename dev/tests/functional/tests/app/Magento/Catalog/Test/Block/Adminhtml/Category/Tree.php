@@ -79,7 +79,7 @@ class Tree extends Block
      */
     public function selectCategory(CatalogCategory $category)
     {
-        $parentPath = $this->findPath($category);
+        $parentPath = $this->prepareFullCategoryPath($category);
         $path = implode('/', $parentPath);
         $this->expandAllCategories();
         $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->setValue($path);
@@ -87,16 +87,18 @@ class Tree extends Block
     }
 
     /**
-     * Find parent category path
+     * Prepare category path
      *
      * @param CatalogCategory $category
      * @return array
      */
-    public function findPath(CatalogCategory $category)
+    protected function prepareFullCategoryPath(CatalogCategory $category)
     {
         $path = [];
         if ($category->getDataFieldConfig('parent_id')['source']->getParentCategory() != null) {
-            $path = $this->findPath($category->getDataFieldConfig('parent_id')['source']->getParentCategory());
+            $path = $this->prepareFullCategoryPath(
+                $category->getDataFieldConfig('parent_id')['source']->getParentCategory()
+            );
         }
         return array_filter(array_merge($path, [$category->getPath(), $category->getName()]));
     }
@@ -125,20 +127,20 @@ class Tree extends Block
     /**
      * Check category in category tree
      *
-     * @param string $path
+     * @param $category
      * @return bool
      */
-    public function isCategoryVisible($path)
+    public function isCategoryVisible($category)
     {
-        $category = explode('/', $path);
+        $categoryPath = $this->prepareFullCategoryPath($category);
         $structure = $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->getStructure();
         $result = false;
-        $element = array_shift($category);
+        $element = array_shift($categoryPath);
         foreach ($structure as $item) {
             $searchResult = strpos($item['name'], $element);
             if ($searchResult !== false && !empty($item['subnodes'])) {
-                $result = $this->inTree($item['subnodes'], $category);
-            } elseif ($searchResult !== false && empty($category)) {
+                $result = $this->inTree($item['subnodes'], $categoryPath);
+            } elseif ($searchResult !== false && empty($categoryPath)) {
                 $result = true;
             }
         }

@@ -22,6 +22,7 @@ class CatalogCategory extends AbstractRepository
             'name' => 'Default Category',
             'parent_id' => 1,
             'is_active' => 'Yes',
+            'id' => 2,
         ];
 
         $this->_data['default_subcategory'] = [

@@ -18,13 +18,19 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
  */
 class ParentId implements FixtureInterface
 {
-
     /**
      * Return category
      *
-     * @var FixtureInterface
+     * @var CatalogCategory
      */
     protected $parentCategory = null;
+
+    /**
+     * Fixture params
+     *
+     * @var array
+     */
+    protected $params;
 
     /**
      * @constructor
@@ -35,9 +41,10 @@ class ParentId implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
         if ($data['dataSet']) {
-            /** @var CatalogCategory parentCategory */
             $this->parentCategory = $fixtureFactory->createByCode('catalogCategory', ['entity' => $data['dataSet']]);
-            $this->parentCategory->persist();
+            if (!$this->parentCategory->getId()) {
+                $this->parentCategory->persist();
+            }
             $this->data = $this->parentCategory->getId();
         } else {
             $this->data = $data;
@@ -78,7 +85,7 @@ class ParentId implements FixtureInterface
     /**
      * Return entity
      *
-     * @return FixtureInterface
+     * @return CatalogCategory
      */
     public function getParentCategory()
     {
