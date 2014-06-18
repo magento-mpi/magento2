@@ -46,7 +46,7 @@ class AssertCmsPageForm extends AbstractConstraint
 
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
-            'Tax Rule form was filled not right.'
+            'CMS Page data not equals to passed from fixture.'
             . "\nLog:\n" . implode(";\n", $dataDiff)
         );
     }

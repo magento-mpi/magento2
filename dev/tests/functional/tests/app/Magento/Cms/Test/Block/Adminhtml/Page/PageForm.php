@@ -29,6 +29,13 @@ class PageForm extends FormTabs
     protected $toggleButton = "#togglepage_content";
 
     /**
+     * Content Editor form
+     *
+     * @var string
+     */
+    protected $contentForm = "#page_content";
+
+    /**
      * Fill the page form
      *
      * @param FixtureInterface $fixture
@@ -50,8 +57,9 @@ class PageForm extends FormTabs
     protected function toggleEditor()
     {
         parent::openTab(self::CONTENT_TAB);
-        $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
-        if ($toggleButton->isVisible()) {
+        $content = $this->_rootElement->find($this->contentForm, Locator::SELECTOR_CSS);
+        if ($content->isVisible()) {
+            $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
             $toggleButton->click();
         }
     }
