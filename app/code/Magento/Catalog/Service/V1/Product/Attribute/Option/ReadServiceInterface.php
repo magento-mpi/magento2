@@ -19,4 +19,4 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Data\Eav\Option[]
      */
     public function options($id);
-} 
+}
