@@ -35,11 +35,10 @@ class AssertCategoryAbsenceOnBackend extends AbstractConstraint
     public function processAssert(CatalogCategoryIndex $catalogCategoryIndex, CatalogCategory $category)
     {
         $catalogCategoryIndex->open();
-        $categoryPath = $category->getParentId() == 1
-            ? $category->getName()
-            : $category->getPath() . '/' . $category->getName();
+        $parentCategory =  $catalogCategoryIndex->getTreeCategories()->findPath($category);
+        $categoryPath = implode('/', $parentCategory);
         \PHPUnit_Framework_Assert::assertFalse(
-            $catalogCategoryIndex->getTreeCategories()->inCategory($categoryPath),
+            $catalogCategoryIndex->getTreeCategories()->isCategoryVisible($categoryPath),
             'Category is displayed in backend catalog category tree.'
         );
     }

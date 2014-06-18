@@ -65,14 +65,11 @@ class DeleteCategoryEntityTest extends Injectable
      * @param CatalogCategory $category
      * @return void
      */
-    public function testDeleteCategory(CatalogCategory $category)
+    public function test(CatalogCategory $category)
     {
         $category->persist();
         $this->catalogCategoryIndex->open();
-        $categoryPath = $category->getParentId() == 1
-            ? $category->getName()
-            : $category->getPath() . '/' . $category->getName();
-        $this->catalogCategoryIndex->getTreeCategories()->selectCategory($categoryPath);
+        $this->catalogCategoryIndex->getTreeCategories()->selectCategory($category);
         $this->catalogCategoryEdit->getFormPageActions()->delete();
     }
 }

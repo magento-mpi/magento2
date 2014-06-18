@@ -9,6 +9,7 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -73,14 +74,31 @@ class Tree extends Block
     /**
      * Select Default category
      *
-     * @param string $path
+     * @param CatalogCategory $category
      * @return void
      */
-    public function selectCategory($path)
+    public function selectCategory(CatalogCategory $category)
     {
+        $parentPath = $this->findPath($category);
+        $path = implode('/', $parentPath);
         $this->expandAllCategories();
         $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->setValue($path);
         $this->getTemplateBlock()->waitLoader();
+    }
+
+    /**
+     * Find parent category path
+     *
+     * @param CatalogCategory $category
+     * @return array
+     */
+    public function findPath(CatalogCategory $category)
+    {
+        $path = [];
+        if ($category->getDataFieldConfig('parent_id')['source']->getParentCategory() != null) {
+            $path = $this->findPath($category->getDataFieldConfig('parent_id')['source']->getParentCategory());
+        }
+        return array_filter(array_merge($path, [$category->getPath(), $category->getName()]));
     }
 
     /**
@@ -110,7 +128,7 @@ class Tree extends Block
      * @param string $path
      * @return bool
      */
-    public function inCategory($path)
+    public function isCategoryVisible($path)
     {
         $category = explode('/', $path);
         $structure = $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->getStructure();
