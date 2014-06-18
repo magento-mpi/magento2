@@ -12,9 +12,9 @@ use Mtf\Block\Form as AbstractForm;
 
 /**
  * Class Form
- * Catalog Event form
+ * Attribute Set form
  */
-class Form extends AbstractForm
+class AttributeSetForm extends AbstractForm
 {
     //
 }

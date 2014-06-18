@@ -84,11 +84,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
             // Getting Attribute Set id
             if ($fixture->hasData('attribute_set_id')) {
-                $attributeSetId = $fixture
+                $fields['attribute_set_id']= $fixture
                     ->getDataFieldConfig('attribute_set_id')['source']
                     ->getAttributeSet()
                     ->getAttributeSetId();
-                $fields['attribute_set_id'] = $attributeSetId;
             }
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {

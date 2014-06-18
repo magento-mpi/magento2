@@ -28,20 +28,20 @@ class AssertProductTemplateInGrid extends AbstractConstraint
     /**
      * Assert that new product template displays in Product Templates grid
      *
-     * @param CatalogProductSetIndex $productSet
+     * @param CatalogProductSetIndex $productSetPage
      * @param CatalogAttributeSet $attributeSet
      * @return void
      */
-    public function processAssert(CatalogProductSetIndex $productSet, CatalogAttributeSet $attributeSet)
+    public function processAssert(CatalogProductSetIndex $productSetPage, CatalogAttributeSet $attributeSet)
     {
-        $filterAttribute = [
+        $filterAttributeSet = [
             'set_name' => $attributeSet->getAttributeSetName(),
         ];
 
-        $productSet->open();
+        $productSetPage->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $productSet->getGrid()->isRowVisible($filterAttribute),
-            'Attribute Set \'' . $filterAttribute['set_name'] . '\' is absent in Product Template grid.'
+            $productSetPage->getGrid()->isRowVisible($filterAttributeSet),
+            'Attribute Set \'' . $filterAttributeSet['set_name'] . '\' is absent in Product Template grid.'
         );
     }
 

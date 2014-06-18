@@ -27,8 +27,8 @@ class CatalogAttributeSet extends InjectableFixture
     protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogAttributeSet\CatalogAttributeSetInterface';
 
     protected $defaultDataSet = [
-            'attribute_set_name' => 'Default_attribute_set_%isolation%',
-            'attribute_set_id' => 4,
+        'attribute_set_name' => 'Default_attribute_set_%isolation%',
+        'skeleton_set' => 'Default',
     ];
 
     protected $attribute_set_id = [

@@ -39,8 +39,8 @@ class CatalogCategoryView extends FrontendPage
         ],
         'toolbar' => [
             'name' => 'toolbar',
-            'class' => '\Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
-            'locator' => '.pages .items',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
+            'locator' => '.toolbar .products',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
@@ -82,7 +82,7 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \\Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
      */
     public function getToolbar()
     {

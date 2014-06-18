@@ -29,7 +29,7 @@ class AssertProductTemplateForm extends AbstractConstraint
 
     /**
      * Assert that after save a product template on edit product set page displays:
-     * 1. Correct product template name in 'attribute_set_name' field passed from fixture
+     * 1. Correct product template name in Attribute set name field passed from fixture
      * 2. Created Product Attribute (if was added)
      *
      * @param CatalogProductSetIndex $productSet
@@ -43,7 +43,7 @@ class AssertProductTemplateForm extends AbstractConstraint
         CatalogProductSetIndex $productSet,
         CatalogProductSetEdit $productSetEdit,
         CatalogAttributeSet $attributeSet,
-        CatalogProductAttribute $productAttribute
+        CatalogProductAttribute $productAttribute = null
     ) {
         $filterAttribute = [
             'set_name' => $attributeSet->getAttributeSetName(),
@@ -54,15 +54,16 @@ class AssertProductTemplateForm extends AbstractConstraint
             $filterAttribute['set_name'],
             $productSetEdit->getMain()->getAttributeSetName(),
             'Attribute Set not found'
-            . "\nExpected: " .  $filterAttribute['set_name']
+            . "\nExpected: " . $filterAttribute['set_name']
             . "\nActual: " . $productSetEdit->getMain()->getAttributeSetName()
         );
-
-        $attributeLabel = $productAttribute->getFrontendLabel();
-        \PHPUnit_Framework_Assert::assertTrue(
-            $productSetEdit->getMain()->checkProductAttribute($attributeLabel),
-            "Product Attribute is absent on Product Template Groups"
-        );
+        if ($productAttribute !== null) {
+            $attributeLabel = $productAttribute->getFrontendLabel();
+            \PHPUnit_Framework_Assert::assertTrue(
+                $productSetEdit->getMain()->checkProductAttribute($attributeLabel),
+                "Product Attribute is absent on Product Template Groups"
+            );
+        }
     }
 
     /**

@@ -6,15 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture\CatalogAttributeSet;
+namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
 /**
- * Class SkeletonSetId
- * Return Attribute set
+ * Class AttributeSetId
+ *
+ *  Data keys:
+ *  - dataSet
+ *  - attribute_set
  */
 class AttributeSetId implements FixtureInterface
 {
@@ -42,21 +45,13 @@ class AttributeSetId implements FixtureInterface
         $this->params = $params;
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
             $attributeSet = $fixtureFactory->createByCode('catalogAttributeSet', ['dataSet' => $data['dataSet']]);
-            /** @var CatalogAttributeSet $attributeSet */
-            $this->data = $attributeSet->getAttributeSetName();
-            $this->attributeSet = $attributeSet;
         }
-        if (isset($data['attribute_set'])
-            && $data['attribute_set'] instanceof CatalogAttributeSet
-        ) {
+        if (isset($data['attribute_set']) && $data['attribute_set'] instanceof CatalogAttributeSet) {
             $attributeSet = $data['attribute_set'];
-            /** @var CatalogAttributeSet $attributeSet */
-            $this->data = [
-                'attribute_set_id' => $attributeSet->getAttributeSetId(),
-                'attribute_set_name' => $attributeSet->getAttributeSetName(),
-            ];
-            $this->attributeSet = $attributeSet;
         }
+        /** @var CatalogAttributeSet $attributeSet */
+        $this->data = $attributeSet->getAttributeSetName();
+        $this->attributeSet = $attributeSet;
     }
 
     /**

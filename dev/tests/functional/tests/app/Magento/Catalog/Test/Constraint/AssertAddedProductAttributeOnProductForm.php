@@ -19,10 +19,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 
 /**
- * Class AssertProductAttributeOnProductForm
+ * Class AssertAddedProductAttributeOnProductForm
  * Check attribute on product form
  */
-class AssertProductAttributeOnProductForm extends AbstractConstraint
+class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
 {
     /**
      * Constraint severeness
