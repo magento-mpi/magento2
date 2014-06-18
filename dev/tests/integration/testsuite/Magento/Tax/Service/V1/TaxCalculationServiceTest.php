@@ -121,7 +121,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 2,
             'unit_price' => 10,
-            'row_total' => 20,
             'tax_class_id' => 'DefaultProductClass',
         ];
         $oneProductResults = [
@@ -321,11 +320,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxNoTaxInclDataProvider
+     * @dataProvider calculateTaxTotalBasedDataProvider
      * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
      */
-    public function testCalculateTaxTotalBasedNoTaxIncl($quoteDetailsData, $expectedTaxDetails, $storeId = null)
+    public function testCalculateTaxTotalBased($quoteDetailsData, $expectedTaxDetails, $storeId = null)
     {
         $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
 
@@ -336,37 +334,13 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
 
-    /**
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxTaxInclDataProvider
-     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
-     */
-    public function testCalculateTaxTotalBasedTaxIncl($quoteDetailsData, $expectedTaxDetails, $storeId = null)
+    public function calculateTaxTotalBasedDataProvider()
     {
-        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
-
-        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
-
-        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
-    }
-
-    /**
-     * @magentoDbIsolation enabled
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxRoundingDataProvider
-     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
-     */
-    public function testCalculateTaxTotalBasedRounding($quoteDetailsData, $expectedTaxDetails, $storeId = null)
-    {
-        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
-
-        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
-
-        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        return array_merge(
+            $this->calculateTaxNoTaxInclDataProvider(),
+            $this->calculateTaxTaxInclDataProvider(),
+            $this->calculateTaxRoundingDataProvider()
+        );
     }
 
     /**
