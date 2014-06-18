@@ -175,9 +175,12 @@ class TaxRuleService implements TaxRuleServiceInterface
      */
     protected function translateField($field)
     {
-        if ($field == TaxRule::ID) {
+        switch ($field) {
+            case TaxRule::ID:
                 return 'tax_calculation_rule_id';
-        } else {
+            case TaxRule::SORT_ORDER:
+                return 'position';
+            default:
                 return $field;
         }
     }
