@@ -23,6 +23,8 @@
   * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
   * Fixed: Changed the default value for tax configuration "apply_after_discount" setting (MAGETWO-25119)
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
+  * Fixed: Backend UI issues: grids (MAGETWO-24705)
+  * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
 
 2.0.0.0-dev82
 =============
