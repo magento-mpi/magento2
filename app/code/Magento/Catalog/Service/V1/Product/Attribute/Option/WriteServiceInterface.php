@@ -19,6 +19,7 @@ interface WriteServiceInterface
      *
      * @param string $id
      * @param \Magento\Catalog\Service\V1\Data\Eav\Option $option
+     * @throws \Magento\Framework\Exception\StateException
      * @return bool
      */
     public function addOption($id, EavOption $option);

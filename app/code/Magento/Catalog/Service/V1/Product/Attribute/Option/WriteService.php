@@ -30,7 +30,6 @@ class WriteService implements WriteServiceInterface
 
     /**
      * {@inheritdoc}
-     * @throws StateException
      */
     public function addOption($id, EavOption $option)
     {
