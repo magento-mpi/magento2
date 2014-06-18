@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Test\Constraint; 
+namespace Magento\Tax\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 

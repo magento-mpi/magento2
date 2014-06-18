@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <targetRule module="Magento_TargetRule">
+        <type>flat</type>
+        <entity_type>magento_targetrule</entity_type>
+        <collection>Magento\TargetRule\Model\Resource\Rule\Collection</collection>
+        <identifier>name</identifier>
+    </targetRule>
+</fixture>

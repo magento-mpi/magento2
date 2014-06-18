@@ -42,9 +42,6 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Position'
 )->addIndex(
-    $installer->getIdxName('catalog_product_super_attribute', array('product_id')),
-    array('product_id')
-)->addIndex(
     $installer->getIdxName(
         'catalog_product_super_attribute',
         array('product_id', 'attribute_id'),
@@ -107,9 +104,6 @@ $table = $installer->getConnection()->newTable(
     ),
     array('product_super_attribute_id', 'store_id'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-)->addIndex(
-    $installer->getIdxName('catalog_product_super_attribute_label', array('product_super_attribute_id')),
-    array('product_super_attribute_id')
 )->addIndex(
     $installer->getIdxName('catalog_product_super_attribute_label', array('store_id')),
     array('store_id')
@@ -179,9 +173,6 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Website ID'
 )->addIndex(
-    $installer->getIdxName('catalog_product_super_attribute_pricing', array('product_super_attribute_id')),
-    array('product_super_attribute_id')
-)->addIndex(
     $installer->getIdxName('catalog_product_super_attribute_pricing', array('website_id')),
     array('website_id')
 )->addIndex(
@@ -242,9 +233,6 @@ $table = $installer->getConnection()->newTable(
 )->addIndex(
     $installer->getIdxName('catalog_product_super_link', array('parent_id')),
     array('parent_id')
-)->addIndex(
-    $installer->getIdxName('catalog_product_super_link', array('product_id')),
-    array('product_id')
 )->addIndex(
     $installer->getIdxName(
         'catalog_product_super_link',

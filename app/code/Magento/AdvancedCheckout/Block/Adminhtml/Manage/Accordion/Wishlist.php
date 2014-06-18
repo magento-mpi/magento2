@@ -9,13 +9,12 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for products in wishlist
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Wishlist extends AbstractAccordion
 {
     /**
      * Collection field name for using in controls
+     *
      * @var string
      */
     protected $_controlFieldName = 'wishlist_item_id';
@@ -35,18 +34,24 @@ class Wishlist extends AbstractAccordion
     protected $_configureRoute = '*/checkout/configureWishlistItem';
 
     /**
-     * Wishlist item factory
+     * Wishlist item collection factory
      *
-     * @var \Magento\Wishlist\Model\ItemFactory
+     * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
-    protected $_itemFactory = null;
+    protected $_itemFactory;
+
+    /**
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
+     */
+    protected $stockItemService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param array $data
      */
     public function __construct(
@@ -54,10 +59,12 @@ class Wishlist extends AbstractAccordion
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Wishlist\Model\ItemFactory $itemFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
+        $this->stockItemService = $stockItemService;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
@@ -94,7 +101,7 @@ class Wishlist extends AbstractAccordion
      */
     protected function _createItemsCollection()
     {
-        return $this->_itemFactory->create()->getCollection();
+        return $this->_itemFactory->create();
     }
 
     /**
@@ -105,16 +112,17 @@ class Wishlist extends AbstractAccordion
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = $this->_createItemsCollection()->addCustomerIdFilter(
-                $this->_getCustomer()->getId()
-            )->addStoreFilter(
-                $this->_getStore()->getWebsite()->getStoreIds()
-            )->setVisibilityFilter()->setSalableFilter()->resetSortOrder();
+            $collection = $this->_createItemsCollection()
+                ->addCustomerIdFilter($this->_getCustomer()->getId())
+                ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
+                ->setVisibilityFilter()
+                ->setSalableFilter()
+                ->resetSortOrder();
 
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 if ($product) {
-                    if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {
+                    if (!$this->stockItemService->getIsInStock($product->getId()) || !$product->isInStock()) {
                         // Remove disabled and out of stock products from the grid
                         $collection->removeItemByKey($item->getId());
                     } else {
@@ -147,9 +155,7 @@ class Wishlist extends AbstractAccordion
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
-        $this->getColumn(
-            'qty'
-        )->addData(
+        $this->getColumn('qty')->addData(
             array('renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty')
         );
 
