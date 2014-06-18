@@ -10,7 +10,7 @@ namespace Magento\Cms\Test\TestCase;
 
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
-use Magento\Cms\Test\Fixture\CmsPage as CmsPageOriginal;
+use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -53,10 +53,10 @@ class UpdateCmsPageEntityTest extends Injectable
      *
      * @param CmsIndex $cmsIndex
      * @param CmsNew $cmsNew
-     * @param CmsPageOriginal $cmsOriginal
+     * @param CmsPage $cmsOriginal
      * @return array
      */
-    public function __inject(CmsIndex $cmsIndex, CmsNew $cmsNew, CmsPageOriginal $cmsOriginal)
+    public function __inject(CmsIndex $cmsIndex, CmsNew $cmsNew, CmsPage $cmsOriginal)
     {
         $cmsOriginal->persist();
         $this->cmsIndex = $cmsIndex;
@@ -67,11 +67,11 @@ class UpdateCmsPageEntityTest extends Injectable
     /**
      * Update CMS Page
      *
-     * @param CmsPageOriginal $cms
-     * @param CmsPageOriginal $cmsOriginal
+     * @param CmsPage $cms
+     * @param CmsPage $cmsOriginal
      * @return void
      */
-    public function testUpdateCmsPage(CmsPageOriginal $cms, CmsPageOriginal $cmsOriginal)
+    public function testUpdateCmsPage(CmsPage $cms, CmsPage $cmsOriginal)
     {
         $this->cmsIndex->open();
         $filter = ['title' => $cmsOriginal->getTitle()];

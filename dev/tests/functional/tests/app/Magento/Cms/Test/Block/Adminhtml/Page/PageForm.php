@@ -58,8 +58,8 @@ class PageForm extends FormTabs
     {
         parent::openTab(self::CONTENT_TAB);
         $content = $this->_rootElement->find($this->contentForm, Locator::SELECTOR_CSS);
-        if ($content->isVisible()) {
-            $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
+        $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
+        if ($content->isVisible() && $toggleButton->isVisible()) {
             $toggleButton->click();
         }
     }
