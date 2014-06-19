@@ -55,10 +55,13 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testCreateTaxClass()
     {
-        $taxClassDataObject = $this->taxClassBuilder->setName(self::SAMPLE_TAX_CLASS_NAME)
-            ->setType(TaxClassDataObject::TYPE_CUSTOMER)
+        $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME)
+            ->setClassType(TaxClassDataObject::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
 
@@ -66,6 +69,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage A class with the same name already exists for ClassType PRODUCT.
      */
@@ -74,32 +78,38 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         //ClassType and name combination has to be unique.
         //Testing against existing Tax classes which are already setup when the instance is installed
         $taxClassDataObject = $this->taxClassBuilder
-            ->setName($this->predefinedTaxClasses[TaxClassModel::TAX_CLASS_TYPE_PRODUCT])
-            ->setType(TaxClassDataObject::TYPE_PRODUCT)
+            ->setClassName($this->predefinedTaxClasses[TaxClassModel::TAX_CLASS_TYPE_PRODUCT])
+            ->setClassType(TaxClassDataObject::TYPE_PRODUCT)
             ->create();
         $this->taxClassService->createTaxClass($taxClassDataObject);
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testCreateTaxClassInvalidData()
     {
-        $taxClassDataObject = $this->taxClassBuilder->setName(null)
-            ->setType('')
+        $taxClassDataObject = $this->taxClassBuilder->setClassName(null)
+            ->setClassType('')
             ->create();
         try {
             $this->taxClassService->createTaxClass($taxClassDataObject);
         } catch(InputException $e) {
             $errors = $e->getErrors();
-            $this->assertEquals('name is a required field.', $errors[0]->getMessage());
-            $this->assertEquals('type is a required field.', $errors[1]->getMessage());
-            $this->assertEquals('Invalid value of "" provided for the type field.', $errors[2]->getMessage());
+            $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
+            $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
+            $this->assertEquals('Invalid value of "" provided for the class_type field.', $errors[2]->getMessage());
         }
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testDeleteTaxClass()
     {
         $taxClassName = 'Delete Me';
-        $taxClassDataObject = $this->taxClassBuilder->setName($taxClassName)
-            ->setType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
 

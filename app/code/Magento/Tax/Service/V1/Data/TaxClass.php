@@ -23,9 +23,9 @@ class TaxClass extends \Magento\Framework\Service\Data\AbstractObject
     /**#@+
      * Tax class field key.
      */
-    const KEY_ID = 'id';
-    const KEY_NAME = 'name';
-    const KEY_TYPE = 'type';
+    const KEY_ID = 'class_id';
+    const KEY_NAME = 'class_name';
+    const KEY_TYPE = 'class_type';
     /**#@-*/
 
     /**
@@ -33,7 +33,7 @@ class TaxClass extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return int
      */
-    public function getId()
+    public function getClassId()
     {
         return $this->_get(self::KEY_ID);
     }
@@ -43,7 +43,7 @@ class TaxClass extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getName()
+    public function getClassName()
     {
         return $this->_get(self::KEY_NAME);
     }
@@ -53,7 +53,7 @@ class TaxClass extends \Magento\Framework\Service\Data\AbstractObject
      *
      * @return string
      */
-    public function getType()
+    public function getClassType()
     {
         return $this->_get(self::KEY_TYPE);
     }

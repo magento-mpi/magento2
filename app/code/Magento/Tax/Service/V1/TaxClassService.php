@@ -77,7 +77,7 @@ class TaxClassService implements TaxClassServiceInterface
             $taxModel->save();
         } catch (ModelException $e) {
             throw new InputException('A class with the same name already exists for ClassType %classType.',
-                ['classType' => $taxClass->getType()]);
+                ['classType' => $taxClass->getClassType()]);
         }
         return $taxModel->getId();
     }
@@ -89,23 +89,23 @@ class TaxClassService implements TaxClassServiceInterface
     {
         $this->validateTaxClassData($taxClass);
 
-        if (!$taxClass->getId()) {
-            throw InputException::invalidFieldValue('id', $taxClass->getId());
+        if (!$taxClass->getClassId()) {
+            throw InputException::invalidFieldValue('id', $taxClass->getClassId());
         }
 
-        $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClass->getId());
+        $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClass->getClassId());
         $taxClassModel = $this->converter->createTaxClassModel($taxClass);
 
         /* should not be allowed to switch the tax class type */
         if ($originalTaxClassModel->getClassType() !== $taxClassModel->getClassType()) {
-            throw InputException::invalidFieldValue('type', $taxClass->getType());
+            throw InputException::invalidFieldValue('type', $taxClass->getClassType());
         }
 
         try {
             $taxModel->save();
         } catch (ModelException $e) {
             throw new InputException('A class with the same name already exists for tax class type %type.',
-                ['type' => $taxClass->getType()]);
+                ['type' => $taxClass->getClassType()]);
         }
 
         return true;
@@ -140,12 +140,12 @@ class TaxClassService implements TaxClassServiceInterface
     {
         $exception = new InputException();
 
-        if (!\Zend_Validate::is(trim($taxClass->getName()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($taxClass->getClassName()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_NAME]);
         }
 
-        $classType = $taxClass->getType();
-        if (!\Zend_Validate::is(trim($taxClass->getType()), 'NotEmpty')) {
+        $classType = $taxClass->getClassType();
+        if (!\Zend_Validate::is(trim($taxClass->getClassType()), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_TYPE]);
         }
 
@@ -164,9 +164,13 @@ class TaxClassService implements TaxClassServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve tax classes which match a specific criteria.
+     *
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @return \Magento\Tax\Service\V1\Data\SearchResults containing Data\TaxClass
+     * @throws \Magento\Framework\Exception\InputException
      */
-    public function searchTaxClass(SearchCriteria $searchCriteria)
+    public function searchTaxClass(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var TaxClassCollection $collection */
@@ -208,7 +212,8 @@ class TaxClassService implements TaxClassServiceInterface
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
+            $fields[] = $filter->getField();
+            $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);

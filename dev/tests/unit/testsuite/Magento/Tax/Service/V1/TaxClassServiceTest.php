@@ -75,8 +75,8 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;;
 
         $taxClassSample = $this->taxClassBuilder
-            ->setType(TaxClass::TYPE_PRODUCT)
-            ->setName('Wholesale product')
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
             ->create();
 
         $this->taxClassModelMock
@@ -104,8 +104,8 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     public function testCreateTaxClassException()
     {
         $taxClassSample = $this->taxClassBuilder
-            ->setType(TaxClass::TYPE_PRODUCT)
-            ->setName('Wholesale product')
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
             ->create();
 
         $this->taxClassModelMock
@@ -148,9 +148,9 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             $this->taxClassService->createTaxClass($taxClassSample);
         } catch(InputException $e) {
             $errors = $e->getErrors();
-            $this->assertEquals('name is a required field.', $errors[0]->getMessage());
-            $this->assertEquals('type is a required field.', $errors[1]->getMessage());
-            $this->assertEquals('Invalid value of "" provided for the type field.', $errors[2]->getMessage());
+            $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
+            $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
+            $this->assertEquals('Invalid value of "" provided for the class_type field.', $errors[2]->getMessage());
         }
     }
 

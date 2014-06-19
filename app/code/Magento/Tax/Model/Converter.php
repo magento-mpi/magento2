@@ -49,10 +49,10 @@ class Converter
     public function createTaxClassData(TaxClassModel $taxClassModel)
     {
         $this->taxClassBuilder
-            ->setId($taxClassModel->getId())
-            ->setName($taxClassModel->getClassName())
-            ->setType($taxClassModel->getClassType());
-        return $this->taxClassBuilder;
+            ->setClassId($taxClassModel->getId())
+            ->setClassName($taxClassModel->getClassName())
+            ->setClassType($taxClassModel->getClassType());
+        return $this->taxClassBuilder->create();
     }
 
     /**
@@ -66,9 +66,9 @@ class Converter
         /** @var TaxClassModel $taxClassModel */
         $taxClassModel = $this->taxClassFactory->create();
         $taxClassModel
-            ->setId($taxClass->getId())
-            ->setClassName($taxClass->getName())
-            ->setClassType($taxClass->getType());
+            ->setId($taxClass->getClassId())
+            ->setClassName($taxClass->getClassName())
+            ->setClassType($taxClass->getClassType());
         return $taxClassModel;
     }
 }
