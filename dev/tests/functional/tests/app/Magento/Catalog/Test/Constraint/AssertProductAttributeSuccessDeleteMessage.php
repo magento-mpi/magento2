@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
  * Class AssertSuccessDeletedAttribute
  * Check success message on Attribute page
  */
-class AssertSuccessDeletedAttribute extends AbstractConstraint
+class AssertProductAttributeSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The product attribute has been deleted.';
 

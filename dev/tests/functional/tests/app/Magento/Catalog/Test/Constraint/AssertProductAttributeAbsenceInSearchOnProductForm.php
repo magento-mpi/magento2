@@ -8,31 +8,29 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
-use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAbsenceInAddAttributeSearch
  * Checks that product attribute cannot be added to product template on Product Page via Add Attribute control
  */
-class AssertAbsenceInAddAttributeSearch extends AbstractConstraint
+class AssertProductAttributeAbsenceInSearchOnProductForm extends AbstractConstraint
 {
+    /**
+     * Text value to be checked
+     */
+    const NO_FOUND_MESSAGE = 'No records found.';
+
     /**
      * Constraint severeness
      *
      * @var string
      */
     protected $severeness = 'high';
-
-    /**
-     * Attribute frontend label
-     *
-     * @var string
-     */
-    protected $attributeFrontendLabel;
 
     /**
      * Assert that deleted attribute can't be added to product template on Product Page via Add Attribute control
@@ -48,19 +46,15 @@ class AssertAbsenceInAddAttributeSearch extends AbstractConstraint
         CatalogProductIndex $productGrid,
         CatalogProductNew $newProductPage
     ) {
-        $this->attributeFrontendLabel = $productAttribute->getFrontendLabel();
-
         $productGrid->open();
-        $productGrid->getProductBlock()->addProduct('configurable');
-        $newProductPage->getForm()->addAttribute();
-        $newProductPage->getSearchAttributeForm()->fillSearch($this->attributeFrontendLabel);
-
-        \PHPUnit_Framework_Assert::assertNotEquals(
-            $this->attributeFrontendLabel,
-            $newProductPage->getSearchAttributeForm()->getSearchAttribute(),
-            'Product attribute not found.'
-            . "\nExpected: " . $this->attributeFrontendLabel
-            . "\nActual: " . $newProductPage->getSearchAttributeForm()->getSearchAttribute()
+        $productGrid->getProductBlock()->addProduct('simple');
+        $message = $newProductPage->getForm()->isExistAttributeInSearchResult($productAttribute->getFrontendLabel());
+        \PHPUnit_Framework_Assert::assertEquals(
+            self::NO_FOUND_MESSAGE,
+            $message,
+            'Product attribute found in Attribute Search form.'
+            . "\nExpected: " . self::NO_FOUND_MESSAGE
+            . "\nActual: " . $message
         );
     }
 

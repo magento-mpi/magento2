@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
  * Class AssertAbsenceProductAttributeInGrid
  * Checks that product attribute cannot be found by attribute code
  */
-class AssertAbsenceProductAttributeInGrid extends AbstractConstraint
+class AssertProductAttributeAbsenceInGrid extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -37,7 +37,7 @@ class AssertAbsenceProductAttributeInGrid extends AbstractConstraint
         CatalogProductAttribute $attribute
     ) {
         $filter = [
-            'frontend_label' => $attribute->getFrontendLabel(),
+            'attribute_code' => $attribute->getFrontendLabel(),
         ];
 
         $attributeIndex->open();

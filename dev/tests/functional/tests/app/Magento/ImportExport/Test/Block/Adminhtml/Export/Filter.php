@@ -14,6 +14,7 @@ use Mtf\Client\Element;
 
 /**
  * Class Filter
+ * Filter for export
  */
 class Filter extends Grid
 {
@@ -27,25 +28,7 @@ class Filter extends Grid
             'selector' => 'input[name="frontend_label"]'
         ],
         'attribute_code' => [
-            'selector' => '[name="attribute_code"]'
+            'selector' => 'input[name="attribute_code"]'
         ],
     ];
-
-    /**
-     * Checking absence of "attribute" in Filter export grid
-     *
-     * @param array $filter
-     * @param bool $isSearchable
-     * @return Element
-     */
-    public function checkAttributeAbsence(array $filter, $isSearchable = true)
-    {
-        $message = 'We couldn\'t find any records.';
-        if ($isSearchable) {
-            $this->search($filter);
-        }
-        $location = ".//*[contains(@class,'even')]//td[text() = \"" . $message . "\"]";
-
-        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
-    }
 }

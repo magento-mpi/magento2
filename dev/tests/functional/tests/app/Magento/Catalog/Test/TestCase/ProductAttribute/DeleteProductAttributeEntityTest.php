@@ -32,7 +32,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
  */
 class DeleteProductAttributeEntityTest extends Injectable
 {
-
     /**
      * Run DeleteProductAttributeEntity test
      *

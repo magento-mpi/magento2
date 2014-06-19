@@ -82,6 +82,27 @@ class ProductForm extends FormTabs
     protected $attribute = './/*[contains(@class,"label")]/span[text()="%s"]';
 
     /**
+     * Attribute selector in search form
+     *
+     * @var string
+     */
+    protected $inputAttribute = '[data-group="product-details"][data-role="product-attribute-search"]';
+
+    /**
+     * Add Attribute button
+     *
+     * @var string
+     */
+    protected $addAttribute = '.action-toggle.action-choose';
+
+    /**
+     * Search attribute result locator
+     *
+     * @var string
+     */
+    protected $searchResult = '.mage-suggest-dropdown .ui-corner-all';
+
+    /**
      * Fill the product form
      *
      * @param FixtureInterface $fixture
@@ -329,5 +350,19 @@ class ProductForm extends FormTabs
         $attributeLabelLocator = sprintf($this->attribute, $attributeLabel);
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Checking not exist attribute in search result
+     *
+     * @param $attributeName
+     * @return string
+     */
+    public function isExistAttributeInSearchResult($attributeName)
+    {
+        $this->_rootElement->find($this->addAttribute)->click();
+        $this->_rootElement->find($this->inputAttribute)->setValue($attributeName);
+
+        return $this->_rootElement->find($this->searchResult)->getText();
     }
 }

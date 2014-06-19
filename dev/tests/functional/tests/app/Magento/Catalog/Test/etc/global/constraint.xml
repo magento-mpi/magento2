@@ -209,27 +209,27 @@
     <assertCrossSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertCrossSellsProductsSection>
-    <assertSuccessDeletedAttribute module="Magento_Catalog">
+    <assertProductAttributeSuccessDeleteMessage module="Magento_Catalog">
         <severeness>high</severeness>
-    </assertSuccessDeletedAttribute>
+    </assertProductAttributeSuccessDeleteMessage>
     <assertNoCrossSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertNoCrossSellsProductsSection>
     <assertRelatedProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertRelatedProductsSection>
-    <assertAbsenceProductAttributeInGrid module="Magento_Catalog">
+    <assertProductAttributeAbsenceInGrid module="Magento_Catalog">
         <severeness>high</severeness>
-    </assertAbsenceProductAttributeInGrid>
+    </assertProductAttributeAbsenceInGrid>
     <assertNoRelatedProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertNoRelatedProductsSection>
     <assertUpSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertUpSellsProductsSection>
-    <assertAbsenceInAddAttributeSearch module="Magento_Catalog">
+    <assertProductAttributeAbsenceInSearchOnProductForm module="Magento_Catalog">
         <severeness>high</severeness>
-    </assertAbsenceInAddAttributeSearch>
+    </assertProductAttributeAbsenceInSearchOnProductForm>
     <assertNoUpSellsProductsSection module="Magento_Catalog">
         <severeness>middle</severeness>
     </assertNoUpSellsProductsSection>
@@ -273,7 +273,7 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertAbsenceDeleteAttributeButton>
-    <assertAbsenceProductAttributeForExport module="Magento_Catalog">
+    <assertProductAttributeAbsenceForExport module="Magento_Catalog">
         <severeness>high</severeness>
-    </assertAbsenceProductAttributeForExport>
+    </assertProductAttributeAbsenceForExport>
 </constraint>
