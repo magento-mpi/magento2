@@ -217,16 +217,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get tax calculation object
-     *
-     * @return \Magento\Tax\Model\Calculation
-     */
-    public function getCalculator()
-    {
-        return $this->_calculation;
-    }
-
-    /**
      * Get product price including store convertion rate
      *
      * @param \Magento\Catalog\Model\Product $product
