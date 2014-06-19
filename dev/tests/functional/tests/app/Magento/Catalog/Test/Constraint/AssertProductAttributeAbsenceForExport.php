@@ -17,7 +17,7 @@ use Mtf\Constraint\AbstractConstraint;
  * Class AssertAbsenceProductAttributeForExport
  * Checks that product attribute cannot be used for Products' Export
  */
-class AssertAbsenceProductAttributeForExport extends AbstractConstraint
+class AssertProductAttributeAbsenceForExport extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -44,11 +44,11 @@ class AssertAbsenceProductAttributeForExport extends AbstractConstraint
         $exportIndex->getExportForm()->fill($export);
 
         $filter = [
-            'frontend_label' => $attribute->getFrontendLabel(),
+            'attribute_code' => $attribute->getFrontendLabel(),
         ];
 
-        \PHPUnit_Framework_Assert::assertTrue(
-            $exportIndex->getFilterExport()->checkAttributeAbsence($filter)->isVisible(),
+        \PHPUnit_Framework_Assert::assertFalse(
+            $exportIndex->getFilterExport()->isRowVisible($filter),
             'Attribute \'' . $attribute->getFrontendLabel() . '\' is present in Filter export grid'
         );
     }
