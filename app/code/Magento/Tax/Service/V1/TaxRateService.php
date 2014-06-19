@@ -136,7 +136,7 @@ class TaxRateService implements TaxRateServiceInterface
     public function searchTaxRates(SearchCriteria $searchCriteria)
     {
         $this->taxRateSearchResultsBuilder->setSearchCriteria($searchCriteria);
-        /**@var \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection */
+
         $collection = $this->rateFactory->create()->getCollection();
 
         //Add filters from root filter group to the collection
@@ -146,7 +146,7 @@ class TaxRateService implements TaxRateServiceInterface
 
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
+            foreach ($sortOrders as $field => $direction) {
                 $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
