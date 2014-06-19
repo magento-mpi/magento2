@@ -1342,7 +1342,7 @@
 //
 // Popups variables
 //--------------------------------------
-@popup-width: 380px;
+@popup-width: auto;
 @popup-height: auto;
 @popup-padding: 22px;
 @popup-background: #fff;
@@ -1352,20 +1352,20 @@
 @popup-z-index: 1001;
 
 @popup-position: fixed;
-@popup-position-top: 20%;
-@popup-position-right: '';
-@popup-position-bottom: '';
-@popup-position-left: 50%;
+@popup-position-top: 0;
+@popup-position-right: 0;
+@popup-position-bottom: 0;
+@popup-position-left: 0;
 
-@popup-margin-top: '';
-@popup-margin-right: '';
-@popup-margin-bottom: '';
-@popup-margin-left: -((@popup-width+(@popup-padding*2))/2);
+@popup-margin-top: false;
+@popup-margin-right: false;
+@popup-margin-bottom: false;
+@popup-margin-left: false;
 
 @popup-content-height: auto;
-@popup-header-margin: '';
-@popup-content-margin: '';
-@popup-footer-margin: '';
+@popup-header-margin: 0 0 25px;
+@popup-content-margin: false;
+@popup-footer-margin: false;
 
 @popup-title-headings: true; //false
 @popup-title-headings-level: h3; // h1, h2, h3, h4, h5, h6

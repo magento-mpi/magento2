@@ -1338,7 +1338,7 @@
 //
 // Popups variables
 //--------------------------------------
-@popup-width: 380px;
+@popup-width: auto;
 @popup-height: auto;
 @popup-padding: 22px;
 @popup-background: #fff;
@@ -1349,15 +1349,15 @@
 @popup-z-index: 1001;
 
 @popup-position: fixed;
-@popup-position-top: 20%;
-@popup-position-right: false;
-@popup-position-bottom: false;
-@popup-position-left: 50%;
+@popup-position-top: 0;
+@popup-position-right: 0;
+@popup-position-bottom: 0;
+@popup-position-left: 0;
 
 @popup-margin-top: false;
 @popup-margin-right: false;
 @popup-margin-bottom: false;
-@popup-margin-left: -((@popup-width+(@popup-padding*2))/2);
+@popup-margin-left: false;
 
 @popup-content-height: auto;
 @popup-header-margin: 0 0 25px;
