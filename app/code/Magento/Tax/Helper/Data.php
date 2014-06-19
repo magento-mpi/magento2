@@ -637,24 +637,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Given a store price that includes tax at the store rate, this function will back out the store's tax, and add in
-     * the customer's tax.  Returns this new price which is the customer's price including tax.
-     *
-     * @param float $storePriceInclTax
-     * @param float $storePercent
-     * @param float $customerPercent
-     * @param null|int|string|Store $store
-     * @return float
-     */
-    protected function _calculatePriceInclTax($storePriceInclTax, $storePercent, $customerPercent, $store)
-    {
-        $priceExclTax         = $this->_calculatePrice($storePriceInclTax, $storePercent, false, false);
-        $customerTax          = $this->_calculation->calcTaxAmount($priceExclTax, $customerPercent, false, false);
-        $customerPriceInclTax = $store->roundPrice($priceExclTax + $customerTax);
-        return $customerPriceInclTax;
-    }
-
-    /**
      * Check if we have display in catalog prices including tax
      *
      * @return bool
@@ -683,43 +665,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function displayBothPrices($store = null)
     {
         return $this->getPriceDisplayType($store) == Config::DISPLAY_TYPE_BOTH;
-    }
-
-    /**
-     * Calculate price including/excluding tax based on tax rate percent
-     *
-     * @param   float $price
-     * @param   float $percent
-     * @param   bool  $type - true to calculate the price including tax or false if calculating price to exclude tax
-     * @param   bool  $roundTaxFirst
-     * @return  float
-     */
-    protected function _calculatePrice($price, $percent, $type, $roundTaxFirst = false)
-    {
-        if ($type) {
-            $taxAmount = $this->_calculation->calcTaxAmount($price, $percent, false, $roundTaxFirst);
-            return $price + $taxAmount;
-        } else {
-            $taxAmount = $this->_calculation->calcTaxAmount($price, $percent, true, $roundTaxFirst);
-            return $price - $taxAmount;
-        }
-    }
-
-    /**
-     * Calculate price including tax when multiple taxes is applied and rounded independently.
-     *
-     * @param  float $price
-     * @param  array $appliedRates
-     * @return float
-     */
-    protected function _calculatePriceInclTaxWithMultipleRates($price, $appliedRates)
-    {
-        $tax = 0;
-        foreach ($appliedRates as $appliedRate) {
-            $taxRate = $appliedRate['percent'];
-            $tax += $this->_calculation->round($price * $taxRate / 100);
-        }
-        return $tax + $price;
     }
 
     /**
