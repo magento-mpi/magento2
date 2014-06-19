@@ -71,10 +71,10 @@ class SuggestElement extends AbstractElement
     /**
      * Get value
      *
-     * @return null
+     * @return string
      */
     public function getValue()
     {
-        return null;
+        return $this->find($this->suggest)->getValue();
     }
 }

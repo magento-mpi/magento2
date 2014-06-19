@@ -59,8 +59,8 @@ class AssertCatalogRuleProductInCart extends AbstractConstraint
         if ($productOptions) {
             $customOption = $catalogProductView->getCustomOptionsBlock();
             $options = $customOption->getOptions();
-            $key = $productOptions[0]['title'];
-            $customOption->selectProductCustomOption(reset($options[$key]['value']));
+            $key = $productOptions['value']['label']['value'];
+            $customOption->selectProductCustomOption($options[$key]['title']);
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 

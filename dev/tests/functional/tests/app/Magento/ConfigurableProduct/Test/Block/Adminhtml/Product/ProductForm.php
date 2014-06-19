@@ -130,8 +130,10 @@ class ProductForm extends ParentForm
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $this->fillCategory($fixture);
-        parent::fill($fixture);
+        parent::fillProduct(
+            $fixture,
+            isset($this->category) ? $this->category : null
+        );
         if ($fixture->getAttributeOptions()) {
             $this->_rootElement->find($this->productDetailsTab)->click();
             $this->clickCreateNewVariationSet();

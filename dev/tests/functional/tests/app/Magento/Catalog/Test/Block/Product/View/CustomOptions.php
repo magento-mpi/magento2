@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\Block\Product\View;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Custom Options
@@ -20,11 +20,16 @@ use Mtf\Client\Element\Locator;
 class CustomOptions extends Block
 {
     /**
+     * Selector for options context
+     */
+    protected $optionsContext = '#product-options-wrapper > fieldset';
+
+    /**
      * Selector for single option block
      *
      * @var string
      */
-    protected $optionElement = './/div[contains(@class,"field")][%d]';
+    protected $optionElement = './div[contains(@class,"field")][%d]';
 
     /**
      * Selector for title of option
@@ -85,13 +90,13 @@ class CustomOptions extends Block
     /**
      * Get product options
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface|null $product
      * @return array
      * @throws \Exception
      */
-    public function getOptions(CatalogProductSimple $product)
+    public function getOptions(FixtureInterface $product = null)
     {
-        $dataOptions = $product->hasData('custom_options') ? $product->getCustomOptions() : [];
+        $dataOptions = ($product && $product->hasData('custom_options')) ? $product->getCustomOptions() : [];
         $listCustomOptions = $this->getListCustomOptions();
         $readyOptions = [];
         $result = [];
@@ -135,7 +140,7 @@ class CustomOptions extends Block
     private function getListCustomOptions()
     {
         $customOptions = [];
-        $context = $this->_rootElement;
+        $context = $this->_rootElement->find($this->optionsContext);
 
         $count = 1;
         $optionElement = $context->find(sprintf($this->optionElement, $count), Locator::SELECTOR_XPATH);
@@ -184,9 +189,13 @@ class CustomOptions extends Block
         $count = 2;
         $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         while ($selectOption->isVisible()) {
+            $optionText = $selectOption->getText();
+            list($title, $price) = explode('+', $optionText);
             $listSelectOptions[] = [
-                'title' => $selectOption->getText()
+                'title' => trim($title),
+                'price' => preg_replace('/[^0-9\.]/', '', $price),
             ];
+
             ++$count;
             $selectOption = $select->find(sprintf($this->option, $count), Locator::SELECTOR_XPATH);
         }
@@ -217,16 +226,21 @@ class CustomOptions extends Block
     /**
      * Choose custom option in a drop down
      *
-     * @param string $productOption
+     * @param string $title
+     * @param string|null $value
      * @return void
      */
-    public function selectProductCustomOption($productOption)
+    public function selectProductCustomOption($title, $value = null)
     {
         $select = $this->_rootElement->find(
-            sprintf($this->optionByValueLocator, $productOption),
+            sprintf($this->selectByTitleLocator, $title),
             Locator::SELECTOR_XPATH,
             'select'
         );
-        $select->setValue($productOption);
+
+        if (null === $value) {
+            $value = $select->find('.//option[@value != ""][1]', Locator::SELECTOR_XPATH)->getText();
+        }
+        $select->setValue($value);
     }
 }

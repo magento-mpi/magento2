@@ -99,7 +99,7 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
         $this->catalogCategoryIndex->open();
         $this->catalogCategoryIndex->getTreeCategories()
             ->selectCategory(
-                $catalogCategory->getPath() . '/' . $product->getCategoryIds()[0]['name']
+                $catalogCategory->getPath() . '/' . $product->getCategoryIds()[0]
             );
         $this->catalogCategoryIndex->getPageActionsEvent()->addCatalogEvent();
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);

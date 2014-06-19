@@ -18,6 +18,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  */
 class AssertDownloadableProductForm extends AssertProductForm
 {
+    protected $sortFields = ['downloadable_links/downloadable/link::sort_order'];
+
     /**
      * Constraint severeness
      *
@@ -41,58 +43,10 @@ class AssertDownloadableProductForm extends AssertProductForm
         $filter = ['sku' => $product->getData('sku')];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $fields = $this->prepareFixtureData($product);
-        $fields = $this->convertDownloadableArray($fields);
-
-        $fieldsForm = $productPage->getForm()->getData($product);
-        \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data.');
-    }
-
-    /**
-     * Sort downloadable array
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function sortDownloadableArray(&$fields)
-    {
-        usort(
-            $fields,
-            function ($a, $b) {
-                return $a['sort_order'] - $b['sort_order'];
-            }
-        );
-    }
-
-    /**
-     * Convert fixture array
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function convertDownloadableArray(array $fields)
-    {
-        if (isset($fields['downloadable_links']['downloadable']['link'])) {
-            $this->sortDownloadableArray(
-                $fields['downloadable_links']['downloadable']['link']
-            );
-        }
-        if (isset($fields['downloadable_sample']['downloadable']['sample'])) {
-            $this->sortDownloadableArray(
-                $fields['downloadable_sample']['downloadable']['sample']
-            );
-        }
-
-        foreach ($fields as $key => $value) {
-            if (is_array($value)) {
-                $fields[$key] = $this->convertDownloadableArray($value);
-            } else {
-                if ($key == "special_price") {
-                    $fields[$key] = [$key => $fields[$key]];
-                }
-            }
-        }
-        return $fields;
+        $fieldsFixture = $this->prepareFixtureData($product->getData(), $this->sortFields);
+        $fieldsForm = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
+        $error = $this->verifyData($fieldsFixture, $fieldsForm);
+        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
     }
 
     /**

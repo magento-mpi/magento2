@@ -10,6 +10,8 @@ namespace Magento\CatalogRule\Test\Fixture;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
 
 /**
  * Class Conditions
@@ -21,7 +23,7 @@ use Mtf\Fixture\FixtureInterface;
 class Conditions implements FixtureInterface
 {
     /**
-     * @var \Magento\Catalog\Test\Fixture\CatalogProductSimple
+     * @var CatalogProductSimple
      */
     protected $product;
 
@@ -37,7 +39,10 @@ class Conditions implements FixtureInterface
             list($fixture, $dataSet) = explode('::', $data['product']);
             $this->product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
             $this->product->persist();
-            $this->data = $this->product->getCategoryIds()[0]['id'];
+
+            /** @var CategoryIds $sourceCategories */
+            $sourceCategories = $this->product->getDataFieldConfig('category_ids')['source'];
+            $this->data = $sourceCategories->getIds()[0];
         }
     }
 

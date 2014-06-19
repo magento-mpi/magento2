@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Mtf\Constraint\AssertForm;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Class AssertCustomOptionsOnProductPage
  */
-class AssertCustomOptionsOnProductPage extends AbstractConstraint
+class AssertCustomOptionsOnProductPage extends AssertForm
 {
     /**
      * Constraint severeness
@@ -38,7 +38,6 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
         'Drop-down' => [
             'price_type',
             'sku',
-            'price',
         ]
     ];
 
@@ -46,10 +45,10 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
      * Assertion that commodity options are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, CatalogProductSimple $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
         // TODO fix initialization url for frontend page
         // Open product view page
@@ -57,27 +56,31 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
         $catalogProductView->open();
         // Prepare data
         $formCustomOptions = $catalogProductView->getCustomOptionsBlock()->getOptions($product);
-        $fixtureCustomOptions = $this->prepareOptions($product->getCustomOptions());
-
-        \PHPUnit_Framework_Assert::assertEquals(
-            $formCustomOptions,
-            $fixtureCustomOptions,
-            'Incorrect display of custom product options on the product page.'
-        );
+        $fixtureCustomOptions = $this->prepareOptions($product);
+        $error = $this->verifyData($fixtureCustomOptions, $formCustomOptions);
+        \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
     }
 
     /**
      * Preparation options before comparing
      *
-     * @param array $customOptions
+     * @param FixtureInterface $product
      * @return array
      */
-    protected function prepareOptions(array $customOptions)
+    protected function prepareOptions(FixtureInterface $product)
     {
+        $customOptions = $product->getCustomOptions();
+        $productPrice = $product->getPrice();
         $result = [];
+
         foreach ($customOptions as $customOption) {
             $skippedField = $this->skippedFieldOptions[$customOption['type']];
             foreach ($customOption['options'] as &$option) {
+                // recalculate percent price
+                if ('Percent' == $option['price_type']) {
+                    $option['price'] = ($productPrice * $option['price']) / 100;
+                }
+
                 $option = array_diff_key($option, array_flip($skippedField));
             }
 

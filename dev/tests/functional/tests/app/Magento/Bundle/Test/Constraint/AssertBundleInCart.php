@@ -56,7 +56,7 @@ class AssertBundleInCart extends AbstractConstraint
         if ($productOptions) {
             $options = $optionsBlock->getOptions();
             $key = $productOptions[0]['title'];
-            $optionsBlock->selectProductCustomOption($options[$key][1]);
+            $optionsBlock->selectProductCustomOption($options[$key]['title']);
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 

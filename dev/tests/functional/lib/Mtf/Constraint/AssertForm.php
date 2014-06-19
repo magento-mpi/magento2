@@ -102,4 +102,58 @@ abstract class AssertForm extends AbstractConstraint
 
         return '[' . implode(', ', $result) . ']';
     }
+
+    /**
+     * Sort multidimensional array by paths
+     *
+     * @param array $data
+     * @param array|string $paths
+     * @return void
+     */
+    protected function sortData(array &$data, $paths)
+    {
+        $paths = is_array($paths) ? $paths : [$paths];
+        foreach($paths as $path) {
+            $values = &$data;
+            $keys = explode('/', $path);
+
+            $key = array_shift($keys);
+            $order = null;
+            while (null !== $key) {
+                if (false !== strpos($key, '::')) {
+                    list($key, $order) = explode('::', $key);
+                }
+                if (!isset($values[$key])) {
+                    $key = null;
+                    continue;
+                }
+
+                $values = &$values[$key];
+                if ($order) {
+                    $this->sortMultidimensionalArray($values, $order);
+                    $order = null;
+                }
+                $key = array_shift($keys);
+            }
+        }
+    }
+
+    /**
+     * Sort multidimensional array by key
+     *
+     * @param array $data
+     * @param $key
+     * @return void
+     */
+    private function sortMultidimensionalArray(array &$data, $key)
+    {
+        $functionCode = "
+            if (\$first['{$key}'] == \$second['{$key}']) {
+                return 0;
+            }
+            return (\$first['{$key}'] < \$second['{$key}']) ? -1 : 1;
+        ";
+        $functionCompare = create_function('$first, $second' , $functionCode);
+        usort($data, $functionCompare);
+    }
 }

@@ -18,6 +18,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  */
 class AssertProductForm extends AssertForm
 {
+    protected $sortFields = [
+        'giftcard_amounts::price'
+    ];
+
     /**
      * Constraint severeness
      *
@@ -41,8 +45,8 @@ class AssertProductForm extends AssertForm
         $filter = ['sku' => $product->getSku()];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $fixtureData = $this->prepareFixtureData($product->getData());
-        $formData = $this->prepareFormData($productPage->getForm()->getData($product));
+        $fixtureData = $this->prepareFixtureData($product->getData(), $this->sortFields);
+        $formData = $this->prepareFormData($productPage->getForm()->getData($product), $this->sortFields);
         $error = $this->verifyData($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(null === $error, $error);
     }
@@ -51,17 +55,18 @@ class AssertProductForm extends AssertForm
      * Prepares fixture data for comparison
      *
      * @param array $data
+     * @param $sortFields
      * @return array
      */
-    protected function prepareFixtureData(array $data)
+    protected function prepareFixtureData(array $data, $sortFields = null)
     {
         if (isset($data['website_ids']) && !is_array($data['website_ids'])) {
             $data['website_ids'] = [$data['website_ids']];
         }
-        if (isset($data['giftcard_amounts'])) {
-            usort($data['giftcard_amounts'], [&$this, 'compareAmounts']);
-        }
 
+        if ($sortFields) {
+            $this->sortData($data, $sortFields);
+        }
         return $data;
     }
 
@@ -69,29 +74,15 @@ class AssertProductForm extends AssertForm
      * Prepares form data for comparison
      *
      * @param array $data
+     * @param $sortFields
      * @return array
      */
-    protected function prepareFormData(array $data)
+    protected function prepareFormData(array $data, $sortFields)
     {
-        if (isset($data['giftcard_amounts'])) {
-            usort($data['giftcard_amounts'], [&$this, 'compareAmounts']);
+        if ($sortFields) {
+            $this->sortData($data, $sortFields);
         }
-
         return $data;
-    }
-
-    /**
-     * User function for compare amounts
-     *
-     * @param $first
-     * @param $second
-     * @return int
-     */
-    public function compareAmounts($first, $second) {
-        if ($first['price'] == $second['price']) {
-            return 0;
-        }
-        return ($first['price'] < $second['price']) ? -1 : 1;
     }
 
     /**

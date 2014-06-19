@@ -106,4 +106,19 @@ class CategoryIds implements FixtureInterface
     {
         return $this->categories;
     }
+
+    /**
+     * Get id of categories
+     *
+     * @return array
+     */
+    public function getIds()
+    {
+        $ids = [];
+        foreach ($this->categories as $category) {
+            $ids[] = $category->getId();
+        }
+
+        return $ids;
+    }
 }

@@ -198,7 +198,7 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
     {
         foreach ($productQuantity as $product => $quantity) {
             if ($quantity > 0) {
-                $categoryName = $this->$product->getCategoryIds()[0]['name'];
+                $categoryName = $this->$product->getCategoryIds()[0];
                 $productName = $this->$product->getName();
                 $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
                 $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);

@@ -15,6 +15,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
 
 /**
  * Class CreateProduct
@@ -84,11 +85,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {
-                $categoryIds = [];
-                foreach ($fields['category_ids'] as $categoryData ) {
-                    $categoryIds[] = $categoryData['id'];
-                }
-                $fields['category_ids'] = $categoryIds;
+                /** @var CategoryIds $sourceCategory */
+                $sourceCategory = $fixture->getDataFieldConfig('category_ids')['source'];
+                $fields['category_ids'] = $sourceCategory->getIds();
             }
 
             $data = $prefix ? [$prefix => $fields] : $fields;

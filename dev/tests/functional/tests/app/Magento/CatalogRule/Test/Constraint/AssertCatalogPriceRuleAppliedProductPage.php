@@ -45,7 +45,7 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView
     ) {
         $cmsIndex->open();
-        $categoryName = $product->getCategoryIds()[0]['name'];
+        $categoryName = $product->getCategoryIds()[0];
         $productName = $product->getName();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
