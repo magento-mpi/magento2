@@ -15,7 +15,7 @@
   * Bundle product price consistency changes (MAGETWO-24588)
   * Admin tax notification messages (MAGETWO-24583)
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
-* Packages
+* Packages:
   * Introduced language packages with ability to inherit dictionaries (MAGETWO-24610)
 * Fixed bugs:
   * Fixed: Export loses information about linked products(MAGETWO-25060)
