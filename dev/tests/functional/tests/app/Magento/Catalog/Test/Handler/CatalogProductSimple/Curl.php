@@ -85,7 +85,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             $fields = $this->prepareStockData($fields);
             if (!empty($fields['category_ids'])) {
                 $categoryIds = [];
-                foreach ($fields['category_ids'] as $categoryData ) {
+                foreach ($fields['category_ids'] as $categoryData) {
                     $categoryIds[] = $categoryData['id'];
                 }
                 $fields['category_ids'] = $categoryIds;
