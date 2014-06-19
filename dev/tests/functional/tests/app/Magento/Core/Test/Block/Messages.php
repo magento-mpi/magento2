@@ -69,11 +69,8 @@ class Messages extends Block
         foreach ($elements as $key => $element) {
             $messages[$key] = $element->getText();
         }
-        if (count($messages) > 1) {
-            return $messages;
-        } else {
-            return $messages[0];
-        }
+
+        return count($messages) > 1 ? $messages : $messages[0];
     }
 
     /**

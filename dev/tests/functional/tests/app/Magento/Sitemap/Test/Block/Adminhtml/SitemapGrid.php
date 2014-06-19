@@ -65,14 +65,4 @@ class SitemapGrid extends Grid
     {
         return $this->_rootElement->find($this->linkForGoogle, Locator::SELECTOR_CSS)->getText();
     }
-
-    /**
-     * Get sitemap id
-     *
-     * @return string
-     */
-    public function getSitemapId()
-    {
-        return $this->_rootElement->find($this->sitemapId, Locator::SELECTOR_CSS)->getText();
-    }
 }

@@ -48,11 +48,9 @@ class AssertSitemapContent extends AbstractConstraint
         SitemapIndex $sitemapIndex
     ) {
         $sitemapIndex->open()->getSitemapGrid()->sortGridByField('sitemap_id');
-        $sitemapId = $sitemapIndex->getSitemapGrid()->getSitemapId();
         $filter = [
             'sitemap_filename' => $sitemap->getSitemapFilename(),
             'sitemap_path' => $sitemap->getSitemapPath(),
-            'sitemap_id' => $sitemapId
         ];
         $sitemapIndex->getSitemapGrid()->search($filter);
         $content = file_get_contents($sitemapIndex->getSitemapGrid()->getLinkForGoogle());
@@ -64,8 +62,8 @@ class AssertSitemapContent extends AbstractConstraint
 
         \PHPUnit_Framework_Assert::assertTrue(
             $this->checkContent($content, $urls),
-            'Content of file sitemap.xml does not including one or more next urls: '
-            . $this->urlsToString($urls)
+            'Content of file sitemap.xml does not include one or more of next urls:'
+            . implode("\n", $urls)
         );
     }
 
@@ -78,33 +76,12 @@ class AssertSitemapContent extends AbstractConstraint
      */
     protected function checkContent($content, $urls)
     {
-        $result = [];
         foreach ($urls as $url) {
-            if (strpos($content, $url)) {
-                $result[] = strpos($content, $url);
+            if (strpos($content, $url) === false) {
+                return false;
             }
         }
-        if (count($result) == count($urls)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Convert urls array to string
-     *
-     * @param array $urls
-     * @return string
-     */
-    protected function urlsToString($urls)
-    {
-        $urlsStr = '';
-        foreach ($urls as $url) {
-            $urlsStr .= "\n" . $url;
-        }
-
-        return $urlsStr;
+        return true;
     }
 
     /**

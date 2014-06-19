@@ -9,7 +9,6 @@
 namespace Magento\Sitemap\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\FormPageActions;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class SitemapPageActions
@@ -32,7 +31,5 @@ class SitemapPageActions extends FormPageActions
     public function saveAndGenerate()
     {
         $this->_rootElement->find($this->saveAndGenerateButton)->click();
-        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
-        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_XPATH);
     }
 }
