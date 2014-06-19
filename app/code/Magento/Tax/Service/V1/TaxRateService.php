@@ -135,8 +135,6 @@ class TaxRateService implements TaxRateServiceInterface
      */
     public function searchTaxRates(SearchCriteria $searchCriteria)
     {
-        $this->taxRateSearchResultsBuilder->setSearchCriteria($searchCriteria);
-
         $collection = $this->rateFactory->create()->getCollection();
 
         //Add filters from root filter group to the collection
@@ -219,6 +217,8 @@ class TaxRateService implements TaxRateServiceInterface
             case TaxRateDataObject::KEY_COUNTRY_ID:
             case TaxRateDataObject::KEY_REGION_ID:
                 return 'tax_' . $field;
+            case TaxRateDataObject::KEY_PERCENTAGE_RATE:
+                return 'rate';
             default:
                 return $field;
         }
