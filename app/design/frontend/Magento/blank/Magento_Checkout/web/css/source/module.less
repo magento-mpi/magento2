@@ -13,7 +13,6 @@
 //    One Page Checkout
 //--------------------------------------
 
-
 .opc-wrapper {
     &:extend(.add-box-sizing all);
     .css(padding-bottom, @indent-xl-base);
@@ -54,7 +53,7 @@
             .form {
                 .form-hasrequired(bottom);
                 &:after {
-                    text-align: right;
+                    text-align: center;
                 }
             }
             .form > .choice {
@@ -193,7 +192,7 @@
             font-weight: @font-weight-base;
         }
     }
-    .content {
+    > .content {
         background: @sidebar-background;
         padding: 0 15px 5px;
         .item-content.complete {
@@ -206,6 +205,31 @@
         }
         .data.table {
             font-size: @font-size-s;
+        }
+    }
+    .payment-method {
+        > .title {
+            font-weight: @font-weight-light;
+        }
+        > .content {
+            margin: 0 0 10px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .items-cards {
+            margin: 0;
+            > .content {
+                margin: 0;
+            }
+        }
+        .data.table {
+            th {
+                padding: 5px 10px 5px 0;
+            }
+            td {
+                padding: 5px 0;
+            }
         }
     }
 }
@@ -241,6 +265,11 @@
         .layout-column(2, 2, @layout-column-checkout-main-width);
         &:extend(.add-box-sizing-desktop all);
         .step {
+            .form {
+                &:after {
+                    text-align: right;
+                }
+            }
             .form:not(.login) .actions-toolbar {
                 &:extend(.reset-left-margin-desktop all);
             }

@@ -58,7 +58,8 @@
             padding: 0 25px;
             position: relative;
             h2 {
-                .heading(h3);
+                .font-size(18);
+                font-weight: @font-weight-semibold;
                 line-height: 48px;
                 margin: 0;
             }
@@ -86,7 +87,7 @@
             .form {
                 .form-hasrequired(bottom);
                 &:after {
-                    text-align: right;
+                    text-align: center;
                 }
                 > .choice {
                     margin-top: @form-field-vertical-indent;
@@ -329,14 +330,16 @@
     margin-bottom: @indent-l-base;
     > .title {
         background: @sidebar-background;
-        .heading(h3);
+        .font-size(18);
+        font-weight: @font-weight-light;
+        line-height: 48px;
         margin: 0;
-        padding: 15px;
+        padding: 0 15px;
         strong {
             font-weight: @font-weight-base;
         }
     }
-    .content {
+    > .content {
         background: @sidebar-background;
         padding: 0 15px;
         .items {
@@ -364,12 +367,36 @@
                 display: block;
             }
         }
-        .action,
-        .payment.method .title {
+        .action {
             font-weight: @font-weight-base;
         }
         .data.table {
             font-size: @font-size-s;
+        }
+    }
+    .payment-method {
+        > .title {
+            font-weight: @font-weight-light;
+        }
+        > .content {
+             margin: 0 0 10px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .items-cards {
+            margin: 0;
+            > .content {
+                margin: 0;
+            }
+        }
+        .data.table {
+            th {
+                padding: 5px 10px 5px 0;
+            }
+            td {
+                padding: 5px 0;
+            }
         }
     }
 }
@@ -415,6 +442,9 @@
                     margin-left: @opc-margin-left;
                     width: 80%;
                 }
+                &:after {
+                    text-align: right;
+                }
             }
 
             //  Login or register
@@ -430,9 +460,8 @@
                         padding: 0;
                         width: 100%;
                     }
-                    &.login :after {
+                    &.login:after {
                         text-align: left;
-
                     }
                 }
                 .field.choice:not(.persistent):before {
