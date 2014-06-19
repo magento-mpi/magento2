@@ -89,6 +89,12 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $list = $this->_webApiCall($serviceInfo, $requestData);
 
-        $this->assertNotEmpty($list);
+        $this->assertEquals(1, count($list));
+
+        $link = reset($list);
+        $this->assertEquals(2, $link['sharable']);
+        $this->assertEquals(15, $link['price']);
+        $this->assertEquals(15, $link['number_of_downloads']);
+        $this->assertNotEmpty($link['linkResource']);
     }
 }
