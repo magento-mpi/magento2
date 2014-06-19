@@ -201,9 +201,9 @@ class Phrase
     {
         if (is_string($contextValue)) {
             $contextValue = explode(',', $contextValue);
-        } else if (null == $contextValue) {
+        } elseif (null == $contextValue) {
             $contextValue = array();
-        } else if (!is_array($contextValue)) {
+        } elseif (!is_array($contextValue)) {
             throw new \DomainException('Wrong context type.');
         }
         $this->_contextValue = $contextValue;
