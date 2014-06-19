@@ -99,4 +99,38 @@ class WriteServiceTest extends WebapiAbstract
 
         return $fixtureOptions;
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @magentoAppIsolation enabled
+     */
+    public function testRemove()
+    {
+        $sku = 'simple';
+        /** @var  \Magento\Catalog\Model\Product $product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $product->load(1);
+        $customOptions= $product->getOptions();
+        $optionId = array_shift($customOptions)->getId();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => "/V1/products/$sku/options/$optionId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Remove'
+            ]
+        ];
+        $this->assertTrue($this->_webApiCall($serviceInfo, ['productSku' => $sku, 'optionId' => $optionId]));
+        /** @var  \Magento\Catalog\Model\Product $product */
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $product->load(1);
+        $this->assertNull($product->getOptionById($optionId));
+    }
 }

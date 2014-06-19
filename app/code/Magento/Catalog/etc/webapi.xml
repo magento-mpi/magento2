@@ -261,4 +261,10 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+    <route url="/V1/products/:productSku/options/:optionId" method="DELETE">
+        <service class="Magento\Catalog\Service\V1\Product\CustomOptions\WriteServiceInterface" method="remove"/>
+        <resources>
+            <resource ref="Magento_Catalog::catalog"/>
+        </resources>
+    </route>
 </routes>
