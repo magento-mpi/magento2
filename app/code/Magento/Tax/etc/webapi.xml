@@ -21,7 +21,7 @@
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
     </route>
-    <route url="/V1/taxClass" method="PUT">
+    <route url="/V1/taxClass/:taxClassId" method="PUT">
         <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="updateTaxClass"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>

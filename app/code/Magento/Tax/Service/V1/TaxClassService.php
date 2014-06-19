@@ -85,20 +85,25 @@ class TaxClassService implements TaxClassServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateTaxClass(TaxClassDataObject $taxClass)
+    public function updateTaxClass($taxClassId, TaxClassDataObject $taxClass)
     {
         $this->validateTaxClassData($taxClass);
 
-        if (!$taxClass->getClassId()) {
-            throw InputException::invalidFieldValue('id', $taxClass->getClassId());
+        if (!$taxClassId) {
+            throw InputException::invalidFieldValue('taxClassId', $taxClassId);
         }
 
-        $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClass->getClassId());
+        if ($taxClass->getClassId() && ($taxClassId != $taxClass->getClassId())) {
+            throw InputException::invalidFieldValue('classId', $taxClass->getClassId());
+        }
+
+        $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
         if (!$originalTaxClassModel->getId()) {
-            throw NoSuchEntityException::singleField('taxClassId', $taxClass->getClassId());
+            throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
         }
 
         $taxClassModel = $this->converter->createTaxClassModel($taxClass);
+        $taxClassModel->setId($taxClassId);
 
         /* should not be allowed to switch the tax class type */
         if ($originalTaxClassModel->getClassType() !== $taxClassModel->getClassType()) {

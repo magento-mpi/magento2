@@ -147,17 +147,16 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $updatedTaxClassName = 'Updated Class Name';
         $taxClassDataObject = $this->taxClassBuilder->setClassName($updatedTaxClassName)
             ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
-            ->setClassId($taxClassId)
             ->create();
 
-        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassDataObject));
+        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassId, $taxClassDataObject));
 
         $this->assertEquals($updatedTaxClassName, $this->taxClassModel->load($taxClassId)->getClassName());
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Invalid value of "" provided for the id field.
+     * @expectedExceptionMessage Invalid value of "" provided for the taxClassId field.
      */
     public function testUpdateTaxClassWithoutClassId()
     {
@@ -165,7 +164,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
             ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
             ->create();
-        $this->taxClassService->updateTaxClass($taxClassDataObject);
+        $this->taxClassService->updateTaxClass("", $taxClassDataObject);
     }
 
     /**
@@ -178,9 +177,8 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $nonexistentTaxClassId = 99999;
         $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
             ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
-            ->setClassId($nonexistentTaxClassId)
             ->create();
-        $this->taxClassService->updateTaxClass($taxClassDataObject);
+        $this->taxClassService->updateTaxClass($nonexistentTaxClassId, $taxClassDataObject);
     }
 
     /**
@@ -200,9 +198,8 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $updatedTaxClassName = 'Updated Class Name';
         $taxClassDataObject = $this->taxClassBuilder->setClassName($updatedTaxClassName)
             ->setClassType(TaxClassModel::TAX_CLASS_TYPE_PRODUCT)
-            ->setClassId($taxClassId)
             ->create();
 
-        $this->taxClassService->updateTaxClass($taxClassDataObject);
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassDataObject);
     }
 }

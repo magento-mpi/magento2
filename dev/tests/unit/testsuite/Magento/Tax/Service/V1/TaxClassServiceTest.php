@@ -198,7 +198,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->with($taxClassSample)
             ->will($this->returnValue($this->taxClassModelMock));
 
-        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassSample));
+        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassId, $taxClassSample));
     }
 
     /**
@@ -207,12 +207,14 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateTaxClassInvalidDataNoClassName()
     {
+        $taxClassId = 1;
+
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId(1)
+            ->setClassId($taxClassId)
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->create();
 
-        $this->taxClassService->updateTaxClass($taxClassSample);
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
     /**
@@ -221,12 +223,14 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateTaxClassInvalidDataNoClassType()
     {
+        $taxClassId = 1;
+
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId(1)
+            ->setClassId($taxClassId)
             ->setClassName('Wholesale product')
             ->create();
 
-        $this->taxClassService->updateTaxClass($taxClassSample);
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
     /**
@@ -235,27 +239,85 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateTaxClassInvalidDataInvalidClassType()
     {
+        $taxClassId = 1;
+
         $taxClassSample = $this->taxClassBuilder
-            ->setClassId(1)
+            ->setClassId($taxClassId)
             ->setClassType('Invalid Class Type')
             ->setClassName('Wholesale product')
             ->create();
 
-        $this->taxClassService->updateTaxClass($taxClassSample);
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Invalid value of "" provided for the id field.
-     */
-    public function testUpdateTaxClassMissingId()
+    public function testUpdateTaxClassMissingClassId()
     {
+        $taxClassId = 1;
+
         $taxClassSample = $this->taxClassBuilder
             ->setClassType(TaxClass::TYPE_PRODUCT)
             ->setClassName('Wholesale product')
             ->create();
 
-        $this->taxClassService->updateTaxClass($taxClassSample);
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($taxClassId));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock
+            ->expects($this->exactly(2))
+            ->method('getClassType')
+            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('save');
+
+        $this->converterMock
+            ->expects($this->once())
+            ->method('createTaxClassModel')
+            ->with($taxClassSample)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassId, $taxClassSample));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "2" provided for the classId field.
+     */
+    public function testUpdateTaxClassNotEqualId()
+    {
+        $taxClassId = 1;
+
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId(2)
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "" provided for the taxClassId field.
+     */
+    public function testUpdateTaxClassNoTaxClassId()
+    {
+        $taxClassId = null;
+
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
     /**
@@ -281,7 +343,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->with($taxClassId)
             ->will($this->returnValue($this->taxClassModelMock));
 
-        $this->taxClassService->updateTaxClass($taxClassSample);
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
     /**
@@ -329,7 +391,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->with($taxClassSample)
             ->will($this->returnValue($convertedTaxClassModelMock));
 
-        $this->taxClassService->updateTaxClass($taxClassSample);
+        $this->taxClassService->updateTaxClass($taxClassId, $taxClassSample);
     }
 
     public function testUpdateTaxClassSaveFailure()
@@ -368,7 +430,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->will($this->throwException(new \Exception()));;
 
-        $this->assertFalse($this->taxClassService->updateTaxClass($taxClassSample));
+        $this->assertFalse($this->taxClassService->updateTaxClass($taxClassId, $taxClassSample));
     }
 
     public function testDeleteModelDeleteThrowsException()
