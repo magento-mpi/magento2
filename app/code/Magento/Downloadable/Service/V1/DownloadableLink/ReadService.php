@@ -107,7 +107,15 @@ class ReadService implements ReadServiceInterface
      */
     public function samples($productSku)
     {
-
+        $sampleList = [];
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $this->productRepository->get($productSku);
+        $samples = $this->downloadableType->getSamples($product);
+        /** @var \Magento\Downloadable\Model\Link $sample */
+        foreach ($samples as $sample) {
+            $sampleList[] = $this->createLink($sample);
+        }
+        return $sampleList;
     }
 
 }
