@@ -11,6 +11,10 @@ use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Config;
+use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
+use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
+use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 /**
  * Catalog data helper
@@ -110,6 +114,35 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_localeResolver;
 
     /**
+     * Quote details builder
+     *
+     * @var QuoteDetailsBuilder
+     */
+    protected $quoteDetailsBuilder;
+
+    /**
+     * Quote details item builder
+     *
+     * @var QuoteDetailsItemBuilder
+     */
+    protected $quoteDetailsItemBuilder;
+
+    /**
+     * Tax calculation service
+     *
+     * @var TaxCalculationServiceInterface
+     */
+    protected $taxCalculationService;
+
+    /**
+     * Address converter
+     *
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
@@ -135,7 +168,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory,
-        \Magento\Framework\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        QuoteDetailsBuilder $quoteDetailsBuilder,
+        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
+        TaxCalculationServiceInterface $taxCalculationService,
+        AddressConverter $addressConverter
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -149,6 +186,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_taxItemFactory = $taxItemFactory;
         $this->_orderTaxCollectionFactory = $orderTaxCollectionFactory;
         $this->_localeResolver = $localeResolver;
+        $this->quoteDetailsBuilder = $quoteDetailsBuilder;
+        $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
+        $this->taxCalculationService = $taxCalculationService;
+        $this->addressConverter = $addressConverter;
     }
 
     /**
@@ -530,113 +571,74 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$price) {
             return $price;
         }
+
         $store = $this->_storeManager->getStore($store);
-        if (!$this->needPriceConversion($store)) {
-            return $store->roundPrice($price);
-        }
-        if (is_null($priceIncludesTax)) {
-            $priceIncludesTax = $this->priceIncludesTax($store);
-        }
-
-        $percent = $product->getTaxPercent();
-        $includingPercent = null;
-
-        $taxClassId = $product->getTaxClassId();
-        if (is_null($percent)) {
-            if ($taxClassId) {
-                $request = $this->_calculation->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
-                $percent = $this->_calculation->getRate($request->setProductClassId($taxClassId));
+        if ($this->needPriceConversion($store)) {
+            if (is_null($priceIncludesTax)) {
+                $priceIncludesTax = $this->priceIncludesTax($store);
             }
-        }
-        if ($taxClassId && $priceIncludesTax) {
-            if ($this->isCrossBorderTradeEnabled($store)) {
-                $includingPercent = $percent;
-            } else {
-                $request = $this->_calculation->getRateOriginRequest($store);
-                $includingPercent = $this->_calculation->getRate($request->setProductClassId($taxClassId));
+
+            $shippingAddressDataObject = null;
+            if ($shippingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
+                $shippingAddressDataObject = $this->addressConverter->createAddressFromModel(
+                    $shippingAddress,
+                    null,
+                    null
+                );
             }
-        }
 
-        if ($percent === false || is_null($percent)) {
-            if ($priceIncludesTax && !$includingPercent) {
-                return $price;
+            $billingAddressDataObject = null;
+            if ($billingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
+                $billingAddressDataObject = $this->addressConverter->createAddressFromModel(
+                    $billingAddress,
+                    null,
+                    null
+                );
             }
-        }
 
-        $product->setTaxPercent($percent);
-        if ($product->getAppliedRates() == null) {
-            $request = $this->_calculation->getRateRequest($shippingAddress, $billingAddress, $ctc, $store);
-            $request->setProductClassId($taxClassId);
-            $appliedRates = $this->_calculation->getAppliedRates($request);
-            $product->setAppliedRates($appliedRates);
-        }
+            $item = $this->quoteDetailsItemBuilder->setQuantity(1)
+                ->setCode($product->getSku())
+                ->setShortDescription($product->getShortDescription())
+                ->setTaxClassId($product->getTaxClassId())
+                ->setTaxIncluded($priceIncludesTax)
+                ->setType('product')
+                ->setUnitPrice($price)
+                ->create();
+            $quoteDetails = $this->quoteDetailsBuilder
+                ->setShippingAddress($shippingAddressDataObject)
+                ->setBillingAddress($billingAddressDataObject)
+                ->setCustomerTaxClassId($ctc)
+                ->setItems([$item])
+                ->create();
 
-        if (!is_null($includingTax)) {
-            if ($priceIncludesTax) {
+            $storeId = null;
+            if ($store) {
+                $storeId = $store->getId();
+            }
+            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetailsItem = $taxDetails->getItems()[0];
+
+            if (!is_null($includingTax)) {
                 if ($includingTax) {
-                    /**
-                     * Recalculate price include tax in case of different rates.  Otherwise price remains the same.
-                     */
-                    if ($includingPercent != $percent) {
-                        // determine the customer's price that includes tax
-                        $price = $this->_calculatePriceInclTax($price, $includingPercent, $percent, $store);
-                    }
+                    $price = $taxDetailsItem->getPriceInclTax();
                 } else {
-                    $price = $this->_calculatePrice($price, $includingPercent, false);
-                }
-            } else {
-                if ($includingTax) {
-                    $appliedRates = $product->getAppliedRates();
-                    if (count($appliedRates) > 1) {
-                        $price = $this->_calculatePriceInclTaxWithMultipleRates($price, $appliedRates);
-                    } else {
-                        $price = $this->_calculatePrice($price, $percent, true);
-                    }
-                }
-            }
-        } else {
-            if ($priceIncludesTax) {
-                switch ($this->getPriceDisplayType($store)) {
-                    case Config::DISPLAY_TYPE_EXCLUDING_TAX:
-                    case Config::DISPLAY_TYPE_BOTH:
-                        if ($includingPercent != $percent) {
-                            // determine the customer's price that includes tax
-                            $taxablePrice = $this->_calculatePriceInclTax($price, $includingPercent, $percent, $store);
-                            // determine the customer's tax amount,
-                            // round tax unless $roundPrice is set explicitly to false
-                            $tax = $this->_calculation->calcTaxAmount($taxablePrice, $percent, true, $roundPrice);
-                            // determine the customer's price without taxes
-                            $price = $taxablePrice - $tax;
-                        } else {
-                            //round tax first unless $roundPrice is set to false explicitly
-                            $price = $this->_calculatePrice($price, $includingPercent, false, $roundPrice);
-                        }
-                        break;
-                    case Config::DISPLAY_TYPE_INCLUDING_TAX:
-                        $price = $this->_calculatePrice($price, $includingPercent, false);
-                        $price = $this->_calculatePrice($price, $percent, true);
-                        break;
-                    default:
-                        break;
+                    $price = $taxDetailsItem->getPrice();
                 }
             } else {
                 switch ($this->getPriceDisplayType($store)) {
-                    case Config::DISPLAY_TYPE_INCLUDING_TAX:
-                        $appliedRates = $product->getAppliedRates();
-                        if (count($appliedRates) > 1) {
-                            $price = $this->_calculatePriceInclTaxWithMultipleRates($price, $appliedRates);
-                        } else {
-                            $price = $this->_calculatePrice($price, $percent, true);
-                        }
-                        break;
-                    case Config::DISPLAY_TYPE_BOTH:
                     case Config::DISPLAY_TYPE_EXCLUDING_TAX:
+                    case Config::DISPLAY_TYPE_BOTH:
+                        $price = $taxDetailsItem->getPrice();
+                        break;
+                    case Config::DISPLAY_TYPE_INCLUDING_TAX:
+                        $price = $taxDetailsItem->getPriceInclTax();
                         break;
                     default:
                         break;
                 }
             }
         }
+
         if ($roundPrice) {
             return $store->roundPrice($price);
         } else {
