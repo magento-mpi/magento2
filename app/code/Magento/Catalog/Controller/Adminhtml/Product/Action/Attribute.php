@@ -32,10 +32,18 @@ class Attribute extends Action
     protected $_catalogProduct;
 
     /**
+     * Stock Indexer
+     *
+     * @var \Magento\CatalogInventory\Model\Indexer\Stock\Processor
+     */
+    protected $_stockIndexerProcessor;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+     * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      */
     public function __construct(
@@ -43,12 +51,14 @@ class Attribute extends Action
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
+        \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         \Magento\Catalog\Helper\Product $catalogProduct
     ) {
         parent::__construct($context);
         $this->_helper = $helper;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
+        $this->_stockIndexerProcessor = $stockIndexerProcessor;
         $this->_catalogProduct = $catalogProduct;
     }
 
@@ -154,10 +164,7 @@ class Attribute extends Action
                 }
 
                 if ($stockItemSaved) {
-                    $this->_objectManager->get('Magento\Index\Model\Indexer')->indexEvents(
-                        \Magento\CatalogInventory\Model\Stock\Item::ENTITY,
-                        \Magento\Index\Model\Event::TYPE_SAVE
-                    );
+                    $this->_stockIndexerProcessor->reindexList($this->_helper->getProductIds());
                 }
             }
 

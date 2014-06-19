@@ -39,6 +39,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
                 $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
                 $objectManager->get('Magento\Index\Model\Indexer'),
+                $objectManager->get('Magento\CatalogInventory\Model\Indexer\Stock\Processor'),
                 array('entity' => 'catalog_product', 'behavior' => 'append')
             )
         );
