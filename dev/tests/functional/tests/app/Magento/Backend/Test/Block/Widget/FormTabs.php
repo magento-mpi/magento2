@@ -149,7 +149,7 @@ class FormTabs extends Form
      * @param array $tabs
      * @throws \Exception
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function fillMissedFields(array $tabs)
     {
@@ -178,7 +178,7 @@ class FormTabs extends Form
      * @param Element|null $element
      * @return array
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
