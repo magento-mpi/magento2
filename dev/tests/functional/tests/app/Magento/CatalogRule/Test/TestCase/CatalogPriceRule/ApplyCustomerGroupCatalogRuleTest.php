@@ -117,7 +117,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         // verify price in catalog list
         $productListBlock = $categoryPage->getListProductBlock();
-        $productPriceBlock = $productListBlock->getProductPriceBlock($product->getProductName());
+        $productPriceBlock = $productListBlock->getProductPriceBlock($product->getName());
         // verify the special price is not applied
         $this->assertFalse($productPriceBlock->isSpecialPriceVisible(), 'Special price is visible and not expected.');
         $this->assertContains(
@@ -167,8 +167,8 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-        $productPriceBlock = $productListBlock->getProductPriceBlock($product->getProductName());
+        $this->assertTrue($productListBlock->isProductVisible($product->getName()));
+        $productPriceBlock = $productListBlock->getProductPriceBlock($product->getName());
         $this->assertContains(
             (string)($product->getProductPrice() * $this->_discountDecimal),
             $productPriceBlock->getSpecialPrice(),

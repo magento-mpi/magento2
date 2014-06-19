@@ -71,11 +71,11 @@ class ApplyMapTest extends Functional
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $mapBlock = $categoryPage->getMapBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
+        $this->assertTrue($productListBlock->isProductVisible($product->getName()),
             'Product is invisible on Category page');
         $this->assertContains($product->getProductMapPrice(), $productListBlock->getOldPriceCategoryPage(),
             'Displayed on Category page MAP is incorrect');
-        $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
+        $productListBlock->openMapBlockOnCategoryPage($product->getName());
         $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
         'Displayed on Category page MAP is incorrect');
         $this->assertEquals($product->getProductPrice(), $mapBlock->getActualPrice(),
@@ -95,7 +95,7 @@ class ApplyMapTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $productListBlock = $categoryPage->getListProductBlock();
-        $productListBlock->openProductViewPage($product->getProductName());
+        $productListBlock->openProductViewPage($product->getName());
         $productViewBlock = $productPage->getViewBlock();
         $productViewBlock->openMapBlockOnProductPage();
         $mapBlock = $productPage->getMapBlock();

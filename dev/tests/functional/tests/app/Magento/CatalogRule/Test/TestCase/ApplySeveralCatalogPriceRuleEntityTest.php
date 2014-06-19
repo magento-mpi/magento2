@@ -48,34 +48,32 @@ class ApplySeveralCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
      * Apply several catalog price rules
      *
      * @param FixtureFactory $fixtureFactory,
-     * @param CatalogProductSimple $product
      * @param array $catalogRulesOriginal
      * @param array $price
      * @return void
      */
     public function testApplySeveralCatalogPriceRules(
         FixtureFactory $fixtureFactory,
-        CatalogProductSimple $product,
         array $catalogRulesOriginal,
         array $price
     ) {
-        // Preconditions
         $this->catalogRuleIndex->open();
         foreach ($catalogRulesOriginal as $key => $catalogPriceRule) {
-            if ($catalogPriceRule != '-') {
-                $this->catalogRules[$key] = $fixtureFactory->createByCode(
-                    'catalogRule',
-                    ['dataSet' => $catalogPriceRule]
-                );
-                $this->catalogRules[$key]->persist();
-
-                $filter = [
-                    'name' => $this->catalogRules[$key]->getName(),
-                    'rule_id' => $this->catalogRules[$key]->getId()
-                ];
-                $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
-                $this->catalogRuleNew->getFormPageActions()->saveAndApply();
+            if ($catalogPriceRule == '-') {
+                continue;
             }
+            $this->catalogRules[$key] = $fixtureFactory->createByCode(
+                'catalogRule',
+                ['dataSet' => $catalogPriceRule]
+            );
+            $this->catalogRules[$key]->persist();
+
+            $filter = [
+                'name' => $this->catalogRules[$key]->getName(),
+                'rule_id' => $this->catalogRules[$key]->getId()
+            ];
+            $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
+            $this->catalogRuleNew->getFormPageActions()->saveAndApply();
         }
     }
 }

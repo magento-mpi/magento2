@@ -12,9 +12,15 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogRule
+ * Data for creation Catalog Price Rule
  */
 class CatalogRule extends AbstractRepository
 {
+    /**
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['active_catalog_rule'] = [
@@ -81,8 +87,8 @@ class CatalogRule extends AbstractRepository
             'discount_amount' => '50',
         ];
 
-        $this->_data['catalog_price_rule_priority_1_stop_futher_rules'] = [
-            'name' => 'catalog_price_rule_priority_1_stop_futher_rules',
+        $this->_data['catalog_price_rule_priority_1_stop_further_rules'] = [
+            'name' => 'catalog_price_rule_priority_1_stop_further_rules',
             'description' => 'Priority 1, -5 By fixed amount',
             'is_active' => 'Active',
             'website_ids' => [

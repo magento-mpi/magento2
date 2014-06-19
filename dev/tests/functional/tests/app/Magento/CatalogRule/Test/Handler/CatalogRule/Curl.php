@@ -87,7 +87,6 @@ class Curl extends Conditions implements CatalogRuleInterface
                 "Catalog Price Rule entity creating by curl handler was not successful! Response: $response"
             );
         }
-
         return ['id' => $this->getCategoryPriceRuleId($data)];
     }
 
@@ -103,7 +102,7 @@ class Curl extends Conditions implements CatalogRuleInterface
         if (!isset($data['stop_rules_processing'])) {
             $data['stop_rules_processing'] = 0;
         }
-        if (isset ($data['rule'])) {
+        if (isset($data['rule'])) {
             $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
         }
         return $data;

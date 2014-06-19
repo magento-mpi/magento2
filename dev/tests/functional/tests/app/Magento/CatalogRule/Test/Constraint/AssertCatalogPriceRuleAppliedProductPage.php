@@ -49,9 +49,9 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
         $productPriceBlock = $pageCatalogProductView->getViewBlock()->getProductPriceBlock();
-        $actualPrice['grand_total'] = $productPriceBlock->getSpecialPrice();
-        $actualPrice['sub_total'] = $productPriceBlock->getRegularPrice();
-        $actualPrice['discount_amount'] = $actualPrice['sub_total'] - $actualPrice['grand_total'];
+        $actualPrice['regular'] = $productPriceBlock->getRegularPrice();
+        $actualPrice['special'] = $productPriceBlock->getSpecialPrice();
+        $actualPrice['discount_amount'] = $actualPrice['regular'] - $actualPrice['special'];
         $diff = $this->verifyData($actualPrice, $price);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($diff),
@@ -69,11 +69,11 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     protected function verifyData(array $formData, array $fixtureData)
     {
         $errorMessage = [];
-        foreach ($fixtureData as $key => $value) {
-            if ($value != $formData[$key]) {
-                $errorMessage[] = "Data in " . $key . " field not equal."
-                    . "\nExpected: " . $value
-                    . "\nActual: " . $formData[$key];
+        foreach ($formData as $key => $value) {
+            if ($value != $fixtureData[$key]) {
+                $errorMessage[] = "Data not equal."
+                    . "\nExpected: " . $fixtureData[$key]
+                    . "\nActual: " . $value;
             }
         }
         return $errorMessage;
