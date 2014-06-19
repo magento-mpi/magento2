@@ -1,3 +1,24 @@
+* Framework improvements:
+  * Covered the following Magento application components with unit tests:
+      * `Customer/Model/Address.php`
+      * `Customer/Model/Address/AbstractAddress.php `
+      * `Customer/Model/Address/Converter.php`
+      * `Customer/Model/Customer.php`
+      * `Customer/Model/Customer/Attribute/Backend/Billing.php`
+      * `Customer/Model/Customer/Attribute/Backend/Shipping.php`
+      * `Customer/Model/Customer/Attribute/Backend/Store.php `
+      * `Customer/Model/Customer/Attribute/Backend/Website.php `
+      * `Customer/Model/Customer/Attribute/Backend/PasswordTest.php`
+      * `Customer/Helper/Address.php`
+      * `Customer/Service/V1/CustomerAccountService.php`
+  * Covered Magento lib with unit tests:
+      * `Framework/App/Config/Element.php`
+      * `Framework/App/Config/Value.php`
+      * `Framework/App/DefaultPath/DefaultPath.php`
+      * `Framework/App/EntryPoint/EntryPoint.php`
+      * `Framework/App/Helper/AbstractHelper.php`
+      * `Framework/App/Resource/ConnectionFactory.php`
+      * `Framework/App/Route/Config.php`
 * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
    * Implemented Product Group Price API(MAGETWO-23311)
