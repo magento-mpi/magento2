@@ -102,32 +102,4 @@ class CategoryBuilder extends AbstractObjectBuilder
     {
         return $this->_set(Category::CHILDREN_COUNT, $value);
     }
-
-    /**
-     * Set category created date
-     *
-     * @param  string $value
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    public function setCreatedAt($value)
-    {
-        throw new \Magento\Framework\Exception\InputException(
-            'Field "created_at" is readonly',
-            ['fieldName' => 'created_at']
-        );
-    }
-
-    /**
-     * Set category updated date
-     *
-     * @param  string $value
-     * @throws \Magento\Framework\Exception\InputException
-     */
-    public function setUpdatedAt($value)
-    {
-        throw new \Magento\Framework\Exception\InputException(
-            'Field "updated_at" is readonly',
-            ['fieldName' => 'updated_at']
-        );
-    }
 }

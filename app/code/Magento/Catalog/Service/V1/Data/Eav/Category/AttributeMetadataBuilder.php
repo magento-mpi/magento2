@@ -146,7 +146,7 @@ class AttributeMetadataBuilder extends AbstractObjectBuilder
     /**
      * Set content that will be displayed on the category view page
      *
-     * @param $value
+     * @param  string $value
      * @return $this
      */
     public function setDisplayMode($value)
