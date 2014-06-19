@@ -29,8 +29,7 @@ class CategoryBuilder extends AbstractObjectBuilder
         \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
         AttributeValueBuilder $valueBuilder,
         MetadataServiceInterface $metadataService
-    )
-    {
+    ) {
         parent::__construct($objectFactory, $valueBuilder);
         $this->metadataService = $metadataService;
     }
@@ -132,4 +131,3 @@ class CategoryBuilder extends AbstractObjectBuilder
         );
     }
 }
-

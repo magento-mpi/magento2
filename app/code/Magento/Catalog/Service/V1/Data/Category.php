@@ -97,4 +97,3 @@ class Category extends AbstractObject
         return $this->_get(self::UPDATED_AT);
     }
 }
-
