@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Category;
 
+use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\CategoryBuilder;
@@ -40,7 +41,7 @@ class ReadService implements ReadServiceInterface
      */
     public function info($categoryId)
     {
-        /** @var Category $category */
+        /** @var CategoryModel $category */
         $category = $this->categoryFactory->create();
         $category->load($categoryId);
 
