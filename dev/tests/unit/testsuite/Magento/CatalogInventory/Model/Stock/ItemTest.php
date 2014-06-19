@@ -661,7 +661,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->item->setData('qty', 0);
         $this->item->processIsInStock();
         $this->assertEquals(
-            $this->item->getIsInStock(), \Magento\CatalogInventory\Model\Stock\Status::STATUS_OUT_OF_STOCK
+            \Magento\CatalogInventory\Model\Stock\Status::STATUS_OUT_OF_STOCK,
+            $this->item->getIsInStock()
         );
     }
 }
