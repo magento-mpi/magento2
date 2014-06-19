@@ -899,48 +899,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Join tax class
-     * @param \Magento\Framework\DB\Select $select
-     * @param int $storeId
-     * @param string $priceTable
-     * @return $this
-     */
-    public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
-    {
-        /** @var $taxClassAttribute \Magento\Eav\Model\Entity\Attribute */
-        $taxClassAttribute = $this->_attributeFactory->create();
-        $taxClassAttribute->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'tax_class_id');
-        $joinConditionD = implode(
-            ' AND ',
-            array(
-                "tax_class_d.entity_id = {$priceTable}.entity_id",
-                $select->getAdapter()->quoteInto('tax_class_d.attribute_id = ?', (int) $taxClassAttribute->getId()),
-                'tax_class_d.store_id = 0'
-            )
-        );
-        $joinConditionC = implode(
-            ' AND ',
-            array(
-                "tax_class_c.entity_id = {$priceTable}.entity_id",
-                $select->getAdapter()->quoteInto('tax_class_c.attribute_id = ?', (int) $taxClassAttribute->getId()),
-                $select->getAdapter()->quoteInto('tax_class_c.store_id = ?', (int) $storeId)
-            )
-        );
-        $select
-            ->joinLeft(
-                array('tax_class_d' => $taxClassAttribute->getBackend()->getTable()),
-                $joinConditionD,
-                array()
-            )->joinLeft(
-                array('tax_class_c' => $taxClassAttribute->getBackend()->getTable()),
-                $joinConditionC,
-                array()
-            );
-
-        return $this;
-    }
-
-    /**
      * Get configuration setting "Apply Discount On Prices Including Tax" value
      *
      * @param null|string|bool|int|Store $store

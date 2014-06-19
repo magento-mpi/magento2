@@ -685,6 +685,7 @@ return array(
     array('isUserSavingAllowed', 'Magento\User\Model\Resource\User'),
     array('isVerbose', 'Magento\Framework\Shell'),
     array('isWindowsOs', 'Magento\TestFramework\Helper\Memory'),
+    array('joinTaxClass', 'Magento\Tax\Helper\Data'),
     array('load', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('loadBaseContents', 'Magento\Email\Model\Template'),
     array('loadBase', 'Magento\Core\Model\Config'),
