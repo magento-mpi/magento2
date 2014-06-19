@@ -23,6 +23,15 @@ interface TaxClassServiceInterface
     public function createTaxClass(\Magento\Tax\Service\V1\Data\TaxClass $taxClass);
 
     /**
+     * Get a tax class with the given tax class id.
+     *
+     * @param int $taxClassId
+     * @return \Magento\Tax\Service\V1\Data\TaxClass
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with $taxClassId does not exist
+     */
+    public function getTaxClass($taxClassId);
+
+    /**
      * Update a tax class with the given information.
      *
      * @param int $taxClassId

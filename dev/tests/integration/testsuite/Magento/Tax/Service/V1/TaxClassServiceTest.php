@@ -104,6 +104,31 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
+    public function testGetTaxClass()
+    {
+        $taxClassName = 'Get Me';
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $data = $this->taxClassService->getTaxClass($taxClassId);
+        $this->assertEquals($taxClassId, $data->getClassId());
+        $this->assertEquals($taxClassName, $data->getClassName());
+        $this->assertEquals(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER, $data->getClassType());
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxClassId = -9999
+     */
+    public function testGetTaxClassWithNoSuchEntityException()
+    {
+        $this->taxClassService->getTaxClass(-9999);
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testDeleteTaxClass()
     {
         $taxClassName = 'Delete Me';

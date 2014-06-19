@@ -38,7 +38,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     private $taxClassModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Model\ClassModel
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Model\Converter
      */
     private $converterMock;
 
@@ -161,6 +161,51 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
             $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
         }
+    }
+
+    public function testGetTaxClass()
+    {
+        $taxClassId = 1;
+
+        $taxClassDataObjectMock = $this->getMockBuilder('Magento\Tax\Service\V1\Data\TaxClass')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($taxClassId));
+
+        $this->converterMock->expects($this->once())
+            ->method('createTaxClassData')
+            ->with($this->taxClassModelMock)
+            ->will($this->returnValue($taxClassDataObjectMock));
+
+        $this->assertEquals($taxClassDataObjectMock, $this->taxClassService->getTaxClass($taxClassId));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxClassId = -9999
+     */
+    public function testGetTaxClassWithNoSuchEntityException()
+    {
+        $taxClassId = -9999;
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(null));
+
+        $this->taxClassService->getTaxClass($taxClassId);
     }
 
     public function testUpdateTaxClassSuccess()
