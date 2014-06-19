@@ -45,7 +45,7 @@ class ReadService implements ReadServiceInterface
         $category = $this->categoryFactory->create();
         $category->load($categoryId);
 
-        if (!$category || !$category->getId()) {
+        if (!$category->getId()) {
             throw NoSuchEntityException::singleField(Category::ID, $categoryId);
         }
         /** @var AttributeMetadata $categoryMetadata */
