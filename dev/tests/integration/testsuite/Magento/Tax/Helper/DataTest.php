@@ -97,6 +97,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param \Magento\Framework\Object $input
+     * @param float $expectOutputPrice
+     * @param string[] $configs
+     * @param string $productClassName
+     *
      * @magentoDataFixture Magento/Catalog/_files/products.php
      * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      * @magentoDataFixture Magento/Customer/_files/customer.php

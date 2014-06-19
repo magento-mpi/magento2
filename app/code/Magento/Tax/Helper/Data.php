@@ -141,20 +141,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $addressConverter;
 
-
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param QuoteDetailsBuilder $quoteDetailsBuilder
+     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
+     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param AddressConverter $addressConverter
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
