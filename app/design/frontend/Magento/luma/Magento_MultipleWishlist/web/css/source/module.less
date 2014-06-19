@@ -15,13 +15,14 @@
             @_dropdown-split-list-item-padding: 5px 5px 5px 23px,
             @_dropdown-split-toggle-icon-content: @icon-down,
             @_dropdown-split-toggle-active-icon-content: @icon-up,
-            @_icon-font-size: 14px,
+            @_icon-font-size: 12px,
             @_icon-font-color: @addto-color,
-            @_icon-font-color-hover: @addto-hover-color
+            @_icon-font-color-hover: @addto-hover-color,
+            @_dropdown-split-list-pointer-position: left,
+            @_dropdown-split-list-min-width: 200px
         );
         margin-right: 20px;
         vertical-align: middle;
-
         .items .item:last-child {
             background: #e2e2e2;
             &:hover {
@@ -66,16 +67,15 @@
                     @_link-color-hover: @addto-hover-color
                 );
                 &.split {
-                    &:extend(.product-info-main .action.towishlist all);
+                    &:extend(.abstract-add-to-actions all);
                     .icon-font-symbol(
                         @_icon-font-content: @icon-wishlist-full,
                         @_icon-font-position: before
                     );
-                    font-size: inherit;
-                    font-weight: inherit;
-                    &:not(:last-child) {
-                        margin-right: 0;
-                    }
+                }
+                &.toggle {
+                    line-height: 26px;
+                    width: 26px;
                 }
                 &:hover {
                     color: @addto-hover-color;
