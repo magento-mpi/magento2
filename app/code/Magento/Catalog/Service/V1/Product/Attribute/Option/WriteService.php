@@ -66,8 +66,8 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function removeOption($id, $optionId)
     {
         $model = $this->eavConfig->getAttribute(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id);
@@ -75,7 +75,7 @@ class WriteService implements WriteServiceInterface
             throw NoSuchEntityException::singleField(AttributeMetadata::ATTRIBUTE_ID, $id);
         }
         if (!$model->usesSource()) {
-           throw new StateException('Attribute doesn\'t have any option');
+            throw new StateException('Attribute doesn\'t have any option');
         }
         if (!$model->getSource()->getOptionText($optionId)) {
             throw new NoSuchEntityException(sprintf('Attribute %s does not contain option with Id %s', $id, $optionId));
