@@ -134,6 +134,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectOutputPrice, $price);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function getPriceDataProvider()
     {
         return [
@@ -339,7 +342,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     private function getCustomerAddress()
     {
         $fixtureCustomerId = 1;
-        $fixtureCustomerAddressId = 1;
         $customerAddress = $this->objectManager->create('Magento\Customer\Model\Address')->load($fixtureCustomerId);
         /** Set data which corresponds tax class fixture */
         $customerAddress->setCountryId('US')->setRegionId(42)->save();
