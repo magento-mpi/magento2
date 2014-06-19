@@ -243,7 +243,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 'entity_id'
             )->joinLeft(
                 array('t2' => $table),
-                    $joinCondition,
+                $joinCondition,
                 array()
             )->where(
                 't1.attribute_id IN (?)',
