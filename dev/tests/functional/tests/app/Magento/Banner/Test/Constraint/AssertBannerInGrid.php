@@ -46,7 +46,7 @@ class AssertBannerInGrid extends AbstractConstraint
         if ($banner->hasData('types')) {
             $types = implode(', ', $banner->getTypes());
         }
-        $isBanner = $bannerIndex->getBannerGridBlock()->isBannerRowVisible($filter, $types);
+        $isBanner = $bannerIndex->getGrid()->isBannerRowVisible($filter, $types);
         \PHPUnit_Framework_Assert::assertTrue(
             $isBanner,
             'Banner is absent in banner grid.'
@@ -54,7 +54,7 @@ class AssertBannerInGrid extends AbstractConstraint
     }
 
     /**
-     * Banner in grid
+     * Text present Banner in the Banner grid
      *
      * @return string
      */

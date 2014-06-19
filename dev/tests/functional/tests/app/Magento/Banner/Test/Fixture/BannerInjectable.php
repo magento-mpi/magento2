@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class BannerInjectable
+ * Banner fixture
  */
 class BannerInjectable extends InjectableFixture
 {

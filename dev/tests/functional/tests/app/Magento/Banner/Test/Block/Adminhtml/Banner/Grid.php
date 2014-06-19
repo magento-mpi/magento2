@@ -19,6 +19,8 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 class Grid extends AbstractGrid
 {
     /**
+     * Path for types
+     *
      * @var string
      */
     protected $typesPath = '//td[contains(@class,"col-banner_types") and contains(.,"%s")]';

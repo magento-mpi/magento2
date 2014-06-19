@@ -12,6 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class BannerIndex
+ * Banner index page
  */
 class BannerIndex extends BackendPage
 {
@@ -24,7 +25,7 @@ class BannerIndex extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'bannerGridBlock' => [
+        'grid' => [
             'name' => 'bannerGridBlock',
             'class' => 'Magento\Banner\Test\Block\Adminhtml\Banner\Grid',
             'locator' => '#bannerGrid',
@@ -49,9 +50,9 @@ class BannerIndex extends BackendPage
     /**
      * @return \Magento\Banner\Test\Block\Adminhtml\Banner\Grid
      */
-    public function getBannerGridBlock()
+    public function getGrid()
     {
-        return $this->getBlockInstance('bannerGridBlock');
+        return $this->getBlockInstance('grid');
     }
 
     /**

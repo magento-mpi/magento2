@@ -67,6 +67,7 @@ class CreateBannerEntityTest extends Injectable
      */
     public function test(BannerInjectable $banner)
     {
+        // Steps
         $this->bannerIndex->open();
         $this->bannerIndex->getPageActionsBlock()->addNew();
         $this->bannerNew->getNewBannerPageForm()->fill($banner);
