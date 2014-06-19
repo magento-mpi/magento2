@@ -9,6 +9,7 @@ namespace Magento\Catalog\Service\V1\Category;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -37,8 +38,7 @@ class WriteService implements WriteServiceInterface
         $category->load($categoryId);
 
         if (!$category || !$category->getId()) {
-            // TODO: need change from static text to const
-            throw NoSuchEntityException::singleField('id', $categoryId);
+            throw NoSuchEntityException::singleField(CategoryDataObject::ID, $categoryId);
         }
 
         try {
