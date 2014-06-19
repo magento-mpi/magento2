@@ -114,10 +114,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function addSearchFilter($query)
     {
         $this->_searchQuery = $query;
-        $this->addFieldToFilter(
-            'entity_id',
-            array('in' => new \Zend_Db_Expr($this->_getSearchEntityIdsSql($query, true)))
-        );
+        $this->addFieldToFilter('entity_id', array('in' => new \Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
         return $this;
     }
 
@@ -165,10 +162,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         if ($attribute->getIsSearchable() && !in_array(
                 $attribute->getFrontendInput(),
                 array('select', 'multiselect')
-            ) && (in_array(
-                    $attribute->getBackendType(),
-                    array('varchar', 'text')
-                ) || $attribute->getBackendType() == 'static')
+        ) && (in_array(
+                $attribute->getBackendType(),
+                array('varchar', 'text')
+        ) || $attribute->getBackendType() == 'static')
         ) {
             return true;
         }
@@ -222,8 +219,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $table,
                         'entity_id'
                     )->where(
-                            $this->_resourceHelper->getCILike($attributeCode, $this->_searchQuery, $likeOptions)
-                        );
+                        $this->_resourceHelper->getCILike($attributeCode, $this->_searchQuery, $likeOptions)
+                    );
                 } else {
                     $tables[$table][] = $attribute->getId();
                 }
@@ -245,18 +242,18 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                 array('t1' => $table),
                 'entity_id'
             )->joinLeft(
-                    array('t2' => $table),
+                array('t2' => $table),
                     $joinCondition,
-                    array()
-                )->where(
-                    't1.attribute_id IN (?)',
-                    $attributeIds
-                )->where(
-                    't1.store_id = ?',
-                    0
-                )->where(
-                    $this->_resourceHelper->getCILike($ifValueId, $this->_searchQuery, $likeOptions)
-                );
+                array()
+            )->where(
+                't1.attribute_id IN (?)',
+                $attributeIds
+            )->where(
+                't1.store_id = ?',
+                0
+            )->where(
+                $this->_resourceHelper->getCILike($ifValueId, $this->_searchQuery, $likeOptions)
+            );
         }
 
         $sql = $this->_getSearchInOptionSql($query);
@@ -306,25 +303,25 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             array('d' => $optionValueTable),
             array('option_id', 'o.attribute_id', 'store_id' => $ifStoreId, 'a.frontend_input')
         )->joinLeft(
-                array('s' => $optionValueTable),
-                $this->getConnection()->quoteInto('s.option_id = d.option_id AND s.store_id=?', $storeId),
-                array()
-            )->join(
-                array('o' => $optionTable),
-                'o.option_id=d.option_id',
-                array()
-            )->join(
-                array('a' => $attributesTable),
-                'o.attribute_id=a.attribute_id',
-                array()
-            )->where(
-                'd.store_id=0'
-            )->where(
-                'o.attribute_id IN (?)',
-                $attributeIds
-            )->where(
-                $this->_resourceHelper->getCILike($ifValue, $this->_searchQuery, array('position' => 'any'))
-            );
+            array('s' => $optionValueTable),
+            $this->getConnection()->quoteInto('s.option_id = d.option_id AND s.store_id=?', $storeId),
+            array()
+        )->join(
+            array('o' => $optionTable),
+            'o.option_id=d.option_id',
+            array()
+        )->join(
+            array('a' => $attributesTable),
+            'o.attribute_id=a.attribute_id',
+            array()
+        )->where(
+            'd.store_id=0'
+        )->where(
+            'o.attribute_id IN (?)',
+            $attributeIds
+        )->where(
+            $this->_resourceHelper->getCILike($ifValue, $this->_searchQuery, array('position' => 'any'))
+        );
 
         $options = $this->getConnection()->fetchAll($select);
         if (empty($options)) {
@@ -351,8 +348,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $attributeTables[$frontendInput],
                         'entity_id'
                     )->where(
-                            implode(' OR ', $where)
-                        );
+                        implode(' OR ', $where)
+                    );
                 }
             }
         }
