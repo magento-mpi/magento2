@@ -18,17 +18,27 @@ use Magento\Tax\Service\V1\Data\TaxClassBuilder;
 class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\Tax\Model\Resource\TaxClass\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $taxClassCollectionFactory;
+
+    /**
+     * @var \Magento\Tax\Service\V1\Data\SearchResultsBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $searchResultBuilder;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\ClassModelFactory
      */
     private $taxClassModelFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Class
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Model\ClassModel
      */
     private $taxClassModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Class
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Model\ClassModel
      */
     private $converterMock;
 
@@ -146,7 +156,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->taxClassService->createTaxClass($taxClassSample);
-        } catch(InputException $e) {
+        } catch (InputException $e) {
             $errors = $e->getErrors();
             $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
             $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
@@ -212,17 +222,65 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxClassService->deleteTaxClass($taxClassId);
     }
 
+    public function testSearch()
+    {
+        $collectionSize = 3;
+        $currentPage = 1;
+        $pageSize = 10;
+        $searchCriteria = $this->createSearchCriteria();
+        $this->searchResultBuilder->expects($this->once())->method('setSearchCriteria')->with($searchCriteria);
+        /** @var \PHPUnit_Framework_MockObject_MockObject $collectionMock */
+        $collectionMock = $this->getMockBuilder('Magento\Tax\Model\Resource\TaxClass\Collection')
+            ->disableOriginalConstructor()
+            ->setMethods(['addFieldToFilter', 'getSize', 'setCurPage', 'setPageSize', 'getItems', 'addOrder'])
+            ->getMock();
+        $this->taxClassCollectionFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($collectionMock));
+        $collectionMock->expects($this->exactly(2))->method('addFieldToFilter');
+        $collectionMock->expects($this->any())->method('getSize')->will($this->returnValue($collectionSize));
+        $collectionMock->expects($this->once())->method('setCurPage')->with($currentPage);
+        $collectionMock->expects($this->once())->method('setPageSize')->with($pageSize);
+        $collectionMock->expects($this->once())->method('addOrder')->with('class_name', 'ASC');
+
+        /** @var \PHPUnit_Framework_MockObject_MockObject $taxClassModelMock */
+        $taxClassModelMock = $this->getMockBuilder('Magento\Tax\Model\ClassModel')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $collectionMock->expects($this->once())->method('getItems')->will($this->returnValue([$taxClassModelMock]));
+        /** @var \PHPUnit_Framework_MockObject_MockObject $taxMock */
+        $taxClassMock = $this->getMockBuilder('Magento\Tax\Service\V1\Data\TaxClass')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->converterMock
+            ->expects($this->once())
+            ->method('createTaxClassData')
+            ->with($taxClassModelMock)
+            ->will($this->returnValue($taxClassMock));
+        $this->searchResultBuilder
+            ->expects($this->once())
+            ->method('setItems')
+            ->will($this->returnValue([$taxClassMock]));
+
+        $this->taxClassService->searchTaxClass($searchCriteria);
+    }
+
     /**
      * @return TaxClassService
      */
     private function createService()
     {
-        $taxClassCollectionFactory = $this->getMockBuilder('Magento\Tax\Model\Resource\TaxClass\CollectionFactory')
+        $this->taxClassCollectionFactory = $this
+            ->getMockBuilder('Magento\Tax\Model\Resource\TaxClass\CollectionFactory')
             ->disableOriginalConstructor()
+            ->setMethods(['create', 'getIterator'])
             ->getMock();
 
-        $searchResultsBuilder = $this->objectManager
-            ->getObject('\Magento\Tax\Service\V1\Data\SearchResultsBuilder');
+        $this->searchResultBuilder = $this
+            ->getMockBuilder('Magento\Tax\Service\V1\Data\SearchResultsBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->converterMock = $this->getMockBuilder('Magento\Tax\Model\Converter')
             ->disableOriginalConstructor()
@@ -231,13 +289,59 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassService = $this->objectManager->getObject(
             'Magento\Tax\Service\V1\TaxClassService',
             [
-                'taxClassCollectionFactory' => $taxClassCollectionFactory,
+                'taxClassCollectionFactory' => $this->taxClassCollectionFactory,
                 'taxClassModelFactory' => $this->taxClassModelFactoryMock,
-                'searchResultsBuilder' => $searchResultsBuilder,
+                'searchResultsBuilder' => $this->searchResultBuilder,
                 'converter' => $this->converterMock
             ]
         );
 
         return $taxClassService;
+    }
+
+    /**
+     * @return \Magento\Framework\Service\V1\Data\SearchCriteria
+     */
+    private function createSearchCriteria()
+    {
+        /** @var \Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder $filterGroupBuilder */
+        $filterGroupBuilder = $this->objectManager->getObject(
+            'Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder'
+        );
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder */
+        $searchCriteriaBuilder = $this->objectManager->getObject(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
+            ['filterGroupBuilder' => $filterGroupBuilder]
+        );
+        /** @var \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder */
+        $filterBuilder = $this->objectManager->getObject('Magento\Framework\Service\V1\Data\FilterBuilder');
+        $productTaxClass = [TaxClass::KEY_NAME => 'Taxable Goods', TaxClass::KEY_TYPE => 'PRODUCT'];
+        $customerTaxClass = [TaxClass::KEY_NAME => 'Retail Customer', TaxClass::KEY_TYPE => 'CUSTOMER'];
+
+        $filter1 = $filterBuilder->setField(TaxClass::KEY_NAME)
+            ->setValue($productTaxClass[TaxClass::KEY_NAME])
+            ->create();
+        $filter2 = $filterBuilder->setField(TaxClass::KEY_NAME)
+            ->setValue($customerTaxClass[TaxClass::KEY_NAME])
+            ->create();
+        $filter3 = $filterBuilder->setField(TaxClass::KEY_TYPE)
+            ->setValue($productTaxClass[TaxClass::KEY_TYPE])
+            ->create();
+        $filter4 = $filterBuilder->setField(TaxClass::KEY_TYPE)
+            ->setValue($customerTaxClass[TaxClass::KEY_TYPE])
+            ->create();
+
+        /**
+         * (class_name == 'Retail Customer' || class_name == 'Taxable Goods)
+         * && ( class_type == 'CUSTOMER' || class_type == 'PRODUCT')
+         */
+        $searchCriteriaBuilder->addFilter([$filter1, $filter2]);
+        $searchCriteriaBuilder->addFilter([$filter3, $filter4]);
+        $searchCriteria = $searchCriteriaBuilder
+            ->setCurrentPage(1)
+            ->setPageSize(10)
+            ->setSortOrders(['class_name' => 1])
+            ->create();
+        return $searchCriteria;
     }
 }

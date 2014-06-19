@@ -190,7 +190,7 @@ class TaxClassService implements TaxClassServiceInterface
         $collection->setPageSize($searchCriteria->getPageSize());
         $taxClasses = [];
         /** @var \Magento\Tax\Model\ClassModel $taxClassModel */
-        foreach ($collection as $taxClassModel) {
+        foreach ($collection->getItems() as $taxClassModel) {
             $taxClasses[] = $this->converter->createTaxClassData($taxClassModel);
         }
         $this->searchResultsBuilder->setItems($taxClasses);
