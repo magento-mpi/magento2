@@ -121,7 +121,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 2,
             'unit_price' => 10,
-            'row_total' => 20,
             'tax_class_id' => 'DefaultProductClass',
         ];
         $oneProductResults = [
@@ -130,11 +129,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'discount_amount' => 0,
             'items' => [
                 [
-                    'tax_amount' => 1.5,
+                    'row_tax' => 1.5,
                     'price' => 10,
                     'price_incl_tax' => 10.75,
                     'row_total' => 20,
-                    'row_total_incl_tax' => 21.5,
                     'taxable_amount' => 10,
                     'code' => 'sku_1',
                     'type' => 'product',
@@ -176,12 +174,11 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 10,
                     'price_incl_tax' => 12.2,
                     'row_total' => 20,
-                    'row_total_incl_tax' => 24.4,
                     'taxable_amount' => 12.2, // TODO: Possible bug, shouldn't this be 10?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 22.0,
-                    'tax_amount' => 4.4,
+                    'row_tax' => 4.4,
                 ],
             ],
         ];
@@ -214,23 +211,21 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 10,
                     'price_incl_tax' => 10.75,
                     'row_total' => 20,
-                    'row_total_incl_tax' => 21.5,
                     'taxable_amount' => 10,
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 1.5,
+                    'row_tax' => 1.5,
                 ],
                 [
                     'price' => 11,
                     'price_incl_tax' => 11.83,
                     'row_total' => 220,
-                    'row_total_incl_tax' => 236.6,
                     'taxable_amount' => 11,
                     'code' => 'sku_2',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 16.6,
+                    'row_tax' => 16.6,
                 ],
             ],
         ];
@@ -269,6 +264,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'unit_price' => 10,
             'row_total' => 10,
             'tax_class_id' => 'DefaultProductClass',
+            'parent_code' => 'bundle',
         ];
         $bundleProduct['items'][] = [
             'code' => 'bundle',
@@ -277,7 +273,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'unit_price' => 0,
             'row_total' => 0,
             'tax_class_id' => 'DefaultProductClass',
-            'child_codes' => ['sku_1'],
         ];
         $bundleProductResults = [
             'subtotal' => 20,
@@ -285,11 +280,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'discount_amount' => 0,
             'items' => [
                 [
-                    'tax_amount' => 1.5,
+                    'row_tax' => 1.5,
                     'price' => 10,
                     'price_incl_tax' => 10.75,
                     'row_total' => 20,
-                    'row_total_incl_tax' => 21.5,
                     'taxable_amount' => 10,
                     'code' => 'bundle',
                     'type' => 'product',
@@ -326,11 +320,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxNoTaxInclDataProvider
+     * @dataProvider calculateTaxTotalBasedDataProvider
      * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
      */
-    public function testCalculateTaxTotalBasedNoTaxIncl($quoteDetailsData, $expectedTaxDetails, $storeId = null)
+    public function testCalculateTaxTotalBased($quoteDetailsData, $expectedTaxDetails, $storeId = null)
     {
         $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
 
@@ -341,37 +334,13 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
     }
 
-    /**
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxTaxInclDataProvider
-     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
-     */
-    public function testCalculateTaxTotalBasedTaxIncl($quoteDetailsData, $expectedTaxDetails, $storeId = null)
+    public function calculateTaxTotalBasedDataProvider()
     {
-        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
-
-        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
-
-        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
-    }
-
-    /**
-     * @magentoDbIsolation enabled
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
-     * @dataProvider calculateTaxRoundingDataProvider
-     * @magentoConfigFixture current_store tax/calculation/algorithm TOTAL_BASE_CALCULATION
-     */
-    public function testCalculateTaxTotalBasedRounding($quoteDetailsData, $expectedTaxDetails, $storeId = null)
-    {
-        $quoteDetailsData = $this->performTaxClassSubstitution($quoteDetailsData);
-
-        $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
-
-        $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
-
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        return array_merge(
+            $this->calculateTaxNoTaxInclDataProvider(),
+            $this->calculateTaxTaxInclDataProvider(),
+            $this->calculateTaxRoundingDataProvider()
+        );
     }
 
     /**
@@ -420,11 +389,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $quoteDetailItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
         $prodExpectedItemWithNoProductTaxClass = [
-            'tax_amount' => 0,
+            'row_tax' => 0,
             'price' => 10.0,
             'price_incl_tax' => 10.0,
             'row_total' => 10.0,
-            'row_total_incl_tax' => 10.0,
             'taxable_amount' => 10.0,
             'code' => 'code',
             'type' => 'type',
@@ -432,11 +400,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $prodExpectedItemWithDefaultProductTaxClass = [
-            'tax_amount' => 0.75,
+            'row_tax' => 0.75,
             'price' => 10.0,
             'price_incl_tax' => 10.75,
             'row_total' => 10.0,
-            'row_total_incl_tax' => 10.75,
             'taxable_amount' => 10.0,
             'code' => 'code',
             'type' => 'type',
@@ -523,11 +490,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $quoteDetailTaxInclItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
         $productTaxInclExpectedItemWithNoProductTaxClass = [
-            'tax_amount' => 0,
+            'row_tax' => 0,
             'price' => 10.0,
             'price_incl_tax' => 10.0,
             'row_total' => 10.0,
-            'row_total_incl_tax' => 10.0,
             'taxable_amount' => 10.0,
             'code' => 'code',
             'type' => 'type',
@@ -535,11 +501,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $productTaxInclExpectedItemWithDefaultProductTaxClass = [
-            'tax_amount' => 0.70,
+            'row_tax' => 0.70,
             'price' => 9.30,
             'price_incl_tax' => 10.00,
             'row_total' => 9.30,
-            'row_total_incl_tax' => 10.0,
             'taxable_amount' => 9.30,
             'code' => 'code',
             'type' => 'type',
@@ -630,11 +595,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $quoteDetailItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
         $prodExpectedItemWithNoProductTaxClass = [
-            'tax_amount' => 0,
+            'row_tax' => 0,
             'price' => 7.97,
             'price_incl_tax' => 7.97,
             'row_total' => 15.94,
-            'row_total_incl_tax' => 15.94,
             'taxable_amount' => 15.94,
             'code' => 'code',
             'type' => 'type',
@@ -642,11 +606,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $prodExpectedItemWithDefaultProductTaxClass = [
-            'tax_amount' => 1.20,
+            'row_tax' => 1.20,
             'price' => 7.97,
             'price_incl_tax' => 8.57,
             'row_total' => 15.94,
-            'row_total_incl_tax' => 17.14,
             'taxable_amount' => 15.94,
             'code' => 'code',
             'type' => 'type',
@@ -727,12 +690,11 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 1,
                     'price_incl_tax' => 1.08,
                     'row_total' => 10,
-                    'row_total_incl_tax' => 10.75,
                     'taxable_amount' => 10,
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 0.75,
+                    'row_tax' => 0.75,
                 ],
             ],
         ];
@@ -755,12 +717,11 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 0.93,
                     'price_incl_tax' => 1.0,
                     'row_total' => 9.3,
-                    'row_total_incl_tax' => 10,
                     'taxable_amount' => 10,  // Shouldn't this be 9.3?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => .7,
+                    'row_tax' => .7,
                 ],
             ],
         ];
@@ -783,12 +744,11 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 0.3,
                     'price_incl_tax' => 0.37,
                     'row_total' => 2.73,
-                    'row_total_incl_tax' => 3.33,
                     'taxable_amount' => 3.33, // Shouldn't this match row_total?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 22.0,
-                    'tax_amount' => 0.6,
+                    'row_tax' => 0.6,
                 ],
             ],
         ];
@@ -819,23 +779,21 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 1,
                     'price_incl_tax' => 1.08,
                     'row_total' => 10,
-                    'row_total_incl_tax' => 10.75,
                     'taxable_amount' => 10,
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => .75,
+                    'row_tax' => .75,
                 ],
                 [
                     'price' => 11,
                     'price_incl_tax' => 11.83,
                     'row_total' => 220,
-                    'row_total_incl_tax' => 236.5,
                     'taxable_amount' => 220,
                     'code' => 'sku_2',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 16.5,
+                    'row_tax' => 16.5,
                 ],
             ],
         ];
@@ -868,23 +826,21 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 0.91,
                     'price_incl_tax' => 0.98,
                     'row_total' => 9.12,
-                    'row_total_incl_tax' => 9.8,
                     'taxable_amount' => 9.8,  // Shouldn't this match row_total?
                     'code' => 'sku_1',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => .68,
+                    'row_tax' => .68,
                 ],
                 [
                     'price' => 11.15,
                     'price_incl_tax' => 11.99,
                     'row_total' => 223.07,
-                    'row_total_incl_tax' => 239.8,
                     'taxable_amount' => 239.8, // Shouldn't this be 223.07?
                     'code' => 'sku_2',
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'tax_amount' => 16.73,
+                    'row_tax' => 16.73,
                 ],
             ],
         ];
@@ -897,6 +853,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 2,
                 'unit_price' => 12.34,
                 'tax_class_id' => 'DefaultProductClass',
+                'parent_code' => 'parent_sku',
             ],
             [
                 'code' => 'parent_sku', // Put the parent in the middle of the children to test an edge case
@@ -904,7 +861,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 10,
                 'unit_price' => 0,
                 'tax_class_id' => 'DefaultProductClass',
-                'child_codes' => ['child_1_sku', 'child_2_sku'],
             ],
             [
                 'code' => 'child_2_sku',
@@ -912,6 +868,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 2,
                 'unit_price' => 1.99,
                 'tax_class_id' => 'HigherProductClass',
+                'parent_code' => 'parent_sku',
             ],
         ];
         $oneProductWithChildrenResults = [
@@ -924,10 +881,9 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                     'price' => 28.66,
                     'price_incl_tax' => 31.39,
                     'row_total' => 286.6,
-                    'row_total_incl_tax' => 313.87,
                     'taxable_amount' => 286.6,
                     'type' => 'product',
-                    'tax_amount' => 27.27,
+                    'row_tax' => 27.27,
                 ],
             ],
         ];

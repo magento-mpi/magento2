@@ -125,13 +125,11 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             [
                 'code' => 'item code',
                 'type' => 'shipping',
-                'row_total' => 14.85,
                 'discount_amount' => 2.6
             ],
             [
                 'code' => 'another code',
                 'type' => 'product',
-                'row_total' => 10,
                 'discount_amount' => 5
             ]
         ];
