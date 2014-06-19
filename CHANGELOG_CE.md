@@ -22,6 +22,11 @@
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: grids (MAGETWO-24705)
   * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+  * Fixed: Warning in Bundle Product page if bundle items contain out of stock product (MAGETWO-24276)
+  * Fixed: Js error if add associated(grouped) products for grouped (MAGETWO-23955)
+  * Fixed: No Layered Navigation on Advanced Search results page (MAGETWO-24864)
+  * Fixed: CLONE - Export through Excel XML truncates leading zeros (MAGETWO-22699)
+  * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
 
 2.0.0.0-dev82
 =============
