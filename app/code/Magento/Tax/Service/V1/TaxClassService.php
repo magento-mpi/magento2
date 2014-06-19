@@ -102,10 +102,12 @@ class TaxClassService implements TaxClassServiceInterface
         }
 
         try {
-            $taxModel->save();
+            $taxClassModel->save();
         } catch (ModelException $e) {
             throw new InputException('A class with the same name already exists for tax class type %type.',
-                ['type' => $taxClass->getClassType()]);
+                ['type' => $taxClass->getType()]);
+        } catch (\Exception $e) {
+            return false;
         }
 
         return true;
