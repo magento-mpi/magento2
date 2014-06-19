@@ -34,17 +34,14 @@ class AssertSitemapInGrid extends AbstractConstraint
     public function processAssert(Sitemap $sitemap, SitemapIndex $sitemapIndex)
     {
         $sitemapIndex->open()->getSitemapGrid()->sortGridByField('sitemap_id');
-        $sitemapId = $sitemapIndex->getSitemapGrid()->getSitemapId();
         $filter = [
             'sitemap_filename' => $sitemap->getSitemapFilename(),
             'sitemap_path' => $sitemap->getSitemapPath(),
-            'sitemap_id' => $sitemapId
         ];
         \PHPUnit_Framework_Assert::assertTrue(
             $sitemapIndex->getSitemapGrid()->isRowVisible($filter),
             'Sitemap with filename \'' . $sitemap->getSitemapFilename() . '\' and path \''
-            . $sitemap->getSitemapPath() . '\' and id \''
-            . $sitemapId . '\'is absent in Sitemap grid.'
+            . $sitemap->getSitemapPath() . '\' is absent in Sitemap grid. \''
         );
     }
 

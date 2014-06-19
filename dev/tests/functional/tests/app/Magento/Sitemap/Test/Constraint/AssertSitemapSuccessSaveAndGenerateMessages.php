@@ -44,24 +44,8 @@ class AssertSitemapSuccessSaveAndGenerateMessages extends AbstractConstraint
             'Wrong success messages is displayed.'
             . "\nExpected: " . sprintf(self::SUCCESS_GENERATE_MESSAGE, $sitemap->getSitemapFilename())
             . "\nExpected: " . self::SUCCESS_SAVE_MESSAGE
-            . "\nActual messages: " . $this->allMessages($actualMessages)
+            . "\nActual messages: " . implode("\n", $actualMessages)
         );
-    }
-
-    /**
-     * Combines all messages in string
-     *
-     * @param array $actualMessages
-     * @return string
-     */
-    protected function allMessages(array $actualMessages)
-    {
-        $messages = '';
-        foreach ($actualMessages as $message) {
-            $messages .= "\n" . $message;
-        }
-
-        return $messages;
     }
 
     /**
@@ -71,6 +55,6 @@ class AssertSitemapSuccessSaveAndGenerateMessages extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Sitemap success generate and save messages is present.';
+        return 'Sitemap success generate and save messages are present.';
     }
 }
