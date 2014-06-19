@@ -60,44 +60,44 @@ class ReadService implements ReadServiceInterface
         $links = $this->downloadableType->getLinks($product);
         /** @var \Magento\Downloadable\Model\Link $link */
         foreach ($links as $link) {
-            $linkList[] = $this->createLink($link);
+            $linkList[] = $this->buildResource($link);
         }
         return $linkList;
     }
 
     /**
-     * @param \Magento\Downloadable\Model\Link $linkData
+     * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfo
      */
-    protected function createLink(\Magento\Downloadable\Model\Link $linkData)
+    protected function buildResource($resourceData)
     {
         $this->linkBuilder->populateWithArray([]);
-        $this->linkBuilder->setId($linkData->getId());
-        $this->linkBuilder->setTitle($linkData->getStoreTitle());
-        $this->linkBuilder->setPrice($linkData->getPrice());
-        $this->linkBuilder->setNumberOfDownloads($linkData->getNumberOfDownloads());
-        $this->linkBuilder->setSortOrder($linkData->getSortOrder());
-        $this->linkBuilder->setSharable($linkData->getIsShareable());
-        $this->linkBuilder->setLinkResource($this->entityInfoGenerator('link', $linkData));
-        $this->linkBuilder->setSampleResource($this->entityInfoGenerator('sample', $linkData));
+        $this->linkBuilder->setId($resourceData->getId());
+        $this->linkBuilder->setTitle($resourceData->getStoreTitle());
+        $this->linkBuilder->setPrice($resourceData->getPrice());
+        $this->linkBuilder->setNumberOfDownloads($resourceData->getNumberOfDownloads());
+        $this->linkBuilder->setSortOrder($resourceData->getSortOrder());
+        $this->linkBuilder->setSharable($resourceData->getIsShareable());
+        $this->linkBuilder->setLinkResource($this->entityInfoGenerator('link', $resourceData));
+        $this->linkBuilder->setSampleResource($this->entityInfoGenerator('sample', $resourceData));
         return $this->linkBuilder->create();
     }
 
     /**
      * @param string $entityType 'link' or 'sample'
-     * @param \Magento\Downloadable\Model\Link $linkData
+     * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableResourceInfo|null
      */
-    protected function entityInfoGenerator($entityType, \Magento\Downloadable\Model\Link $linkData)
+    protected function entityInfoGenerator($entityType, $resourceData)
     {
-        $type = $linkData->getData($entityType . '_type');
+        $type = $resourceData->getData($entityType . '_type');
         if (empty($type)) {
             return null;
         }
         $this->resourceBuilder->populateWithArray([]);
         $this->resourceBuilder->setType($type);
-        $this->resourceBuilder->setUrl($linkData->getData($entityType . '_url'));
-        $this->resourceBuilder->setFile($linkData->getData($entityType . '_file'));
+        $this->resourceBuilder->setUrl($resourceData->getData($entityType . '_url'));
+        $this->resourceBuilder->setFile($resourceData->getData($entityType . '_file'));
         return $this->resourceBuilder->create();
 
     }
@@ -111,9 +111,9 @@ class ReadService implements ReadServiceInterface
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
         $samples = $this->downloadableType->getSamples($product);
-        /** @var \Magento\Downloadable\Model\Link $sample */
+        /** @var \Magento\Downloadable\Model\Sample $sample */
         foreach ($samples as $sample) {
-            $sampleList[] = $this->createLink($sample);
+            $sampleList[] = $this->buildResource($sample);
         }
         return $sampleList;
     }
