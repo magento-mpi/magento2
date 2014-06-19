@@ -50,13 +50,6 @@ class SitemapGrid extends Grid
     protected $linkForGoogle = 'tbody tr .col-link a';
 
     /**
-     * Locator sitemap id in grid
-     *
-     * @var string
-     */
-    protected $sitemapId = 'tbody tr .col-sitemap_id';
-
-    /**
      * Get link for Google
      *
      * @return string
