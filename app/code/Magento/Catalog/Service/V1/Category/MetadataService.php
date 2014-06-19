@@ -62,7 +62,7 @@ class MetadataService implements MetadataServiceInterface
     public function getCategoryAttributesMetadata()
     {
         return $this->getAllAttributeSetMetadata(
-            \Magento\Catalog\Model\Category::ENTITY, self::ATTRIBUTE_SET_ID_PRODUCT
+            \Magento\Catalog\Model\Category::ENTITY, self::ATTRIBUTE_SET_ID_CATEGORY
         );
     }
 

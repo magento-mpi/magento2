@@ -13,7 +13,7 @@ interface MetadataServiceInterface
     /**#@+
      * Predefined constants
      */
-    const ATTRIBUTE_SET_ID_PRODUCT = 3;
+    const ATTRIBUTE_SET_ID_CATEGORY = 3;
     /**#@-*/
 
     /**
