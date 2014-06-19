@@ -650,7 +650,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     ) {
         if (!is_null($specialPrice) && $specialPrice != false) {
             if ($this->_localeDate->isScopeDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
-                $specialPrice = $this->_storeManager->getStore()->roundPrice($finalPrice * $specialPrice / 100);
+                $specialPrice = $finalPrice * ($specialPrice / 100);
                 $finalPrice = min($finalPrice, $specialPrice);
             }
         }
@@ -668,7 +668,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getLowestPrice($bundleProduct, $price, $bundleQty = 1)
     {
-        $price *= 1;
+        $price = (float)$price;
         return min(
             $price,
             $this->_applyGroupPrice($bundleProduct, $price),
