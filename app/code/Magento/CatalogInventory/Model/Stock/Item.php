@@ -1070,4 +1070,15 @@ class Item extends \Magento\Framework\Model\AbstractModel
     {
         return false;
     }
+
+    /**
+     * Process data and set in_stock availability
+     *
+     * @return $this
+     */
+    public function processIsInStock()
+    {
+        $this->setData('is_in_stock', $this->verifyStock() ? Status::STATUS_IN_STOCK : Status::STATUS_OUT_OF_STOCK);
+        return $this;
+    }
 }

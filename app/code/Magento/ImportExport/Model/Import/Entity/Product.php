@@ -1768,6 +1768,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 );
 
                 $stockItem->setData($row);
+                $stockItem->processIsInStock();
 
                 if ($this->stockItemService->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {
