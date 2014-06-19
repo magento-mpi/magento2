@@ -29,6 +29,21 @@ class StockTest extends \PHPUnit_Framework_TestCase
      */
     protected $collectionFactory;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemService;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemFactory;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productFactory;
+
     protected function setUp()
     {
         $this->collectionFactory = $this
@@ -41,12 +56,29 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItemService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->stockItemFactory = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\ItemFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->productFactory = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
             'Magento\CatalogInventory\Model\Stock',
             [
-                'stockStatus' => $this->stockStatus,
-                'collectionFactory' => $this->collectionFactory
+                'stockStatus'       => $this->stockStatus,
+                'collectionFactory' => $this->collectionFactory,
+                'stockItemService'  => $this->stockItemService,
+                'stockItemFactory'  => $this->stockItemFactory,
+                'productFactory'    => $this->productFactory
             ]
         );
     }
@@ -127,5 +159,31 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->with($productOne, $stockItemStockId, $productOneStatus);
 
         $this->assertEquals($this->model, $this->model->addItemsToProducts($productCollection));
+    }
+
+    /**
+     * @covers \Magento\CatalogInventory\Model\Stock::getProductType
+     */
+    public function testGettingProductType()
+    {
+        $productId = 1;
+        $qty = 1;
+        $productType = 'simple';
+
+        $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $stockItem->expects($this->atLeastOnce())->method('loadByProduct')->with($productId)->will($this->returnSelf());
+        $stockItem->expects($this->any())->method('getId')->will($this->returnValue(1));
+
+        $this->stockItemFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($stockItem));
+
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $product->expects($this->atLeastOnce())->method('load')->with($productId);
+        $product->expects($this->atLeastOnce())->method('getTypeId')->will($this->returnValue($productType));
+        $this->productFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue($product));
+
+        $this->stockItemService->expects($this->once())->method('isQty')->with($productType);
+        $this->model->backItemQty($productId, $qty);
     }
 }

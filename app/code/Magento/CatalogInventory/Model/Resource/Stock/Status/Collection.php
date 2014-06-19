@@ -6,13 +6,11 @@
  * @license     {license_link}
  */
 
-/**
- * Stock item collection resource model
- */
 namespace Magento\CatalogInventory\Model\Resource\Stock\Status;
 
-use Magento\CatalogInventory\Model\Stock;
-
+/**
+ * Stock status collection resource model
+ */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
