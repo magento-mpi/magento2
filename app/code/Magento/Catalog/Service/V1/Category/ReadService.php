@@ -10,17 +10,18 @@ namespace Magento\Catalog\Service\V1\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\CategoryBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryBuilder
+     * @var CategoryBuilder
      */
     private $categoryBuilder;
 
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryFactory
      */
     private $categoryFactory;
 
@@ -39,14 +40,14 @@ class ReadService implements ReadServiceInterface
      */
     public function info($categoryId)
     {
-        /** @var \Magento\Catalog\Model\Category $category */
+        /** @var Category $category */
         $category = $this->categoryFactory->create();
         $category->load($categoryId);
 
         if (!$category || !$category->getId()) {
             throw NoSuchEntityException::singleField(Category::ID, $categoryId);
         }
-        /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata $categoryMetadata */
+        /** @var AttributeMetadata $categoryMetadata */
         $categoryMetadata = $this->categoryBuilder->populateWithArray($category->getData())->create();
 
         return $categoryMetadata;
