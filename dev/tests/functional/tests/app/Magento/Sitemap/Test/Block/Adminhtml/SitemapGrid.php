@@ -39,22 +39,22 @@ class SitemapGrid extends Grid
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-sitemap_id]';
+    protected $editLink = 'td[data-column="sitemap_id"]';
 
     /**
      * Locator link for Google in grid
      *
      * @var string
      */
-    protected $linkForGoogle = 'tbody tr .col-link a';
+    protected $linkForGoogle = 'td[data-column="link"] a';
 
     /**
      * Locator generate link
      *
      * @var string
      */
-    protected $generate = 'tbody tr .col-action a';
-    
+    protected $generate = 'td[data-column="action"] a';
+
     /**
      * Get link for Google
      *

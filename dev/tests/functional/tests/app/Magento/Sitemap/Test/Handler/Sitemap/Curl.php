@@ -15,6 +15,7 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
+use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -57,24 +58,17 @@ class Curl extends AbstractCurl implements SitemapInterface
      * Get id after created sitemap
      *
      * @param array $data
-     * @return string
-     * @throws \Exception
+     * @return string|null
      */
     protected function getSitemapId(array $data)
     {
         //Sort data in grid to define sitemap id if more than 20 items in grid
-        $url = $_ENV['app_backend_url'] . 'admin/sitemap/index/sort/sitemap_id/dir/desc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0');
-        $response = $curl->read();
-        $curl->close();
-
+        $url = 'admin/sitemap/index/sort/sitemap_id/dir/desc';
         $pattern = '/class=\" col\-id col\-sitemap_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
             . $data['sitemap_filename'] . '/siu';
-        preg_match($pattern, $response, $matches);
-        if (empty($matches)) {
-            throw new \Exception('Cannot find sitemap id');
-        }
-        return $matches[1];
+        $extractor = new Extractor($url, $pattern);
+        $match = $extractor->getData();
+
+        return empty($match[1]) ? null : $match[1];
     }
 }
