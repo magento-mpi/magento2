@@ -136,7 +136,7 @@ class TaxRateService implements TaxRateServiceInterface
     public function searchTaxRates(SearchCriteria $searchCriteria)
     {
         $this->taxRateSearchResultsBuilder->setSearchCriteria($searchCriteria);
-         /**@var \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection */
+        /**@var \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection */
         $collection = $this->rateFactory->create()->getCollection();
 
         //Add filters from root filter group to the collection
@@ -144,7 +144,6 @@ class TaxRateService implements TaxRateServiceInterface
             $this->addFilterGroupToCollection($group, $collection);
         }
 
-        $this->taxRateSearchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $field => $direction) {
@@ -160,11 +159,12 @@ class TaxRateService implements TaxRateServiceInterface
         foreach ($collection as $taxRateModel) {
             $taxRate[] = $this->converter->createTaxRateDataObjectFromModel($taxRateModel);
         }
-        $this->taxRateSearchResultsBuilder->setItems($taxRate);
 
-        return $this->taxRateSearchResultsBuilder->create();
-
-
+        return $this->taxRateSearchResultsBuilder
+            ->setItems($taxRate)
+            ->setTotalCount($collection->getSize())
+            ->setSearchCriteria($searchCriteria)
+            ->create();
     }
 
     /**
@@ -198,12 +198,32 @@ class TaxRateService implements TaxRateServiceInterface
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
+            $fields[] = $this->translateField($filter->getField());
+            $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
         }
     }
+
+    /**
+     * Translates a field name to a DB column name for use in collection queries.
+     *
+     * @param string $field a field name that should be translated to a DB column name.
+     * @return string
+     */
+    protected function translateField($field)
+    {
+        switch ($field) {
+            case TaxRateDataObject::KEY_POSTCODE:
+            case TaxRateDataObject::KEY_COUNTRY_ID:
+            case TaxRateDataObject::KEY_REGION_ID:
+                return 'tax_' . $field;
+            default:
+                return $field;
+        }
+    }
+
     /**
      * Validate tax rate
      *
