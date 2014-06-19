@@ -512,10 +512,15 @@
 .map.popup {
     .popup(
         @_popup-margin-top: @indent-s-base,
-        @_popup-margin-left: 0,
-        @_popup-content-margin: 10px 0 0
+        @_popup-margin-left: false,
+        @_popup-content-margin: 10px 0 0,
+        @_popup-position-top: false,
+        @_popup-position-left: false,
+        @_popup-position: absolute
     );
-    position: absolute;
+    .ui-dialog & {
+        padding: 22px;
+    }
     .map.add.form {
         &:extend(.add-clearfix all);
         margin-bottom: 15px;
