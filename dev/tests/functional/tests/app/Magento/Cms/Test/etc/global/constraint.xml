@@ -8,12 +8,12 @@
  */
 -->
 <constraint>
-    <cmsPageDuplicateError module="Magento_Cms">
+    <assertCmsPageDuplicateErrorMessage module="Magento_Cms">
         <severeness>low</severeness>
         <require>
             <cmsPageGrid class="Magento\Cms\Test\Page\Adminhtml\CmsPageGrid" />
         </require>
-    </cmsPageDuplicateError>
+    </assertCmsPageDuplicateErrorMessage>
     <assertCmsPageSuccessSaveMessage module="Magento_Cms">
         <severeness>low</severeness>
         <require>
@@ -47,10 +47,4 @@
             <cms class="Magento\Cms\Test\Fixture\CmsPage" />
         </require>
     </assertCmsPagePreview>
-    <cmsPageSaveSuccess module="Magento_Cms">
-        <severeness>low</severeness>
-        <require>
-            <cmsPageGrid class="Magento\Cms\Test\Page\Adminhtml\CmsPageGrid" />
-        </require>
-    </cmsPageSaveSuccess>
 </constraint>

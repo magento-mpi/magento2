@@ -13,6 +13,8 @@
         <selector>#page_tabs_main_section</selector>
         <strategy>css selector</strategy>
         <fields>
+            <title />
+            <identifier />
             <store_id>
                 <selector>[name='stores[]']</selector>
                 <input>multiselectgrouplist</input>
@@ -29,6 +31,10 @@
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>
         <selector>#page_tabs_content_section</selector>
         <strategy>css selector</strategy>
+        <fields>
+            <content_heading />
+            <content />
+        </fields>
     </content>
     <meta_data>
         <class>\Magento\Backend\Test\Block\Widget\Tab</class>

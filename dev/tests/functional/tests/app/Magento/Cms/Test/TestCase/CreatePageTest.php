@@ -41,7 +41,7 @@ class CreatePageTest extends Functional
         $cmsPageGrid->getPageActionsBlock()->addNew();
         // Create a Cms Page
         $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
-        $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
+        $cmsPageNewForm = $cmsPageNew->getPageForm();
         $cmsPageNewForm->fill($cmsPageFixture);
         $cmsPageNew->getPageMainActions()->save();
         $message = $cmsPageGrid->getMessagesBlock();

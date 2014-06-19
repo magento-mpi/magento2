@@ -19,8 +19,8 @@ class CmsNew extends BackendPage
     const MCA = 'admin/cms_page/new';
 
     protected $_blocks = [
-        'newCmsPageForm' => [
-            'name' => 'newCmsPageForm',
+        'pageForm' => [
+            'name' => 'pageForm',
             'class' => 'Magento\Cms\Test\Block\Adminhtml\Page\PageForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
@@ -36,9 +36,9 @@ class CmsNew extends BackendPage
     /**
      * @return \Magento\Cms\Test\Block\Adminhtml\Page\PageForm
      */
-    public function getNewCmsPageForm()
+    public function getPageForm()
     {
-        return $this->getBlockInstance('newCmsPageForm');
+        return $this->getBlockInstance('pageForm');
     }
 
     /**

@@ -19,7 +19,7 @@ use Mtf\TestCase\Injectable;
  * Test Flow:
  *
  * Preconditions:
- * CMS Page is created
+ * 1. CMS Page is created
  *
  * Steps:
  * 1. Log in to Backend.
@@ -71,12 +71,12 @@ class UpdateCmsPageEntityTest extends Injectable
      * @param CmsPage $cmsOriginal
      * @return void
      */
-    public function testUpdateCmsPage(CmsPage $cms, CmsPage $cmsOriginal)
+    public function test(CmsPage $cms, CmsPage $cmsOriginal)
     {
         $this->cmsIndex->open();
         $filter = ['title' => $cmsOriginal->getTitle()];
         $this->cmsIndex->getCmsPageGridBlock()->searchAndOpen($filter);
-        $this->cmsNew->getNewCmsPageForm()->fill($cms);
+        $this->cmsNew->getPageForm()->fill($cms);
         $this->cmsNew->getPageMainActions()->save();
     }
 }

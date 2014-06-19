@@ -9,7 +9,7 @@
 -->
 <page mca="admin/cms_page/new" >
     <block>
-        <name>newCmsPageForm</name>
+        <name>pageForm</name>
         <class>Magento\Cms\Test\Block\Adminhtml\Page\PageForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>

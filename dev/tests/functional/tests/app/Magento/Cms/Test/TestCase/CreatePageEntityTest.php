@@ -36,16 +36,6 @@ class CreatePageEntityTest extends Injectable
     protected $cmsPage;
 
     /**
-     * Login to backend as a precondition to test
-     *
-     * @return void
-     */
-    protected function setUp()
-    {
-        Factory::getApp()->magentoBackendLoginUser();
-    }
-
-    /**
      * @param CmsIndex $cmsIndex
      * @param CmsPage $cmsPage
      * @param CmsNew $cmsNew
@@ -61,15 +51,15 @@ class CreatePageEntityTest extends Injectable
     /**
      * Creating CMS content page
      *
-     * @param CmsPageFixture $cmsPageFixture
+     * @param CmsPageFixture $cms
      * @ZephyrId MAGETWO-12399
      */
-    public function testCreateCmsPage(CmsPageFixture $cmsPageFixture)
+    public function testCreateCmsPage(CmsPageFixture $cms)
     {
         $this->cmsIndex->open();
         $cmsPageGridBlock = $this->cmsIndex->getPageActionsBlock();
         $cmsPageGridBlock->addNew();
-        $this->cmsNew->getNewCmsPageForm()->fill($cmsPageFixture);
+        $this->cmsNew->getPageForm()->fill($cms);
         $this->cmsNew->getPageMainActions()->save();
     }
 }

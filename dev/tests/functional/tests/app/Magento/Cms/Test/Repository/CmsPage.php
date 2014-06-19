@@ -46,6 +46,7 @@ class CmsPage extends AbstractRepository
         $this->_data['cms-page-test'] = [
             'store_id' => 'All Store Views',
             'title' => 'CMS Page Test%isolation%',
+            'content_heading' => 'CMS Page Test%isolation%',
             'meta_keywords' => 'Meta,Keys',
             'meta_description' => 'Meta Description',
             'identifier' => 'cms-page-test%isolation%',

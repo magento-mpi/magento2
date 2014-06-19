@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Page; 
+namespace Magento\Cms\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CmsIndex
