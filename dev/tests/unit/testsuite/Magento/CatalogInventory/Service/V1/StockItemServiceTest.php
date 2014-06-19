@@ -139,58 +139,6 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->model, $this->model->saveStockItem($stockItemDo));
     }
 
-    public function testSubtractQty()
-    {
-        $productId = 123;
-        $qty = 1.5;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('subtractQty')
-            ->with($qty);
-
-        $this->assertEquals($this->model, $this->model->subtractQty($productId, $qty));
-    }
-
-    public function testCanSubtractQty()
-    {
-        $productId = 23;
-        $result = false;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('canSubtractQty')
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->canSubtractQty($productId));
-    }
-
-    public function testAddQty()
-    {
-        $productId = 143;
-        $qty = 3.5;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('addQty')
-            ->with($qty);
-
-        $this->assertEquals($this->model, $this->model->addQty($productId, $qty));
-    }
-
-    public function testGetMinQty()
-    {
-        $productId = 53;
-        $result = 3;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('getMinQty')
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->getMinQty($productId));
-    }
-
     public function testGetMinSaleQty()
     {
         $productId = 51;
@@ -215,19 +163,6 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($result));
 
         $this->assertEquals($result, $this->model->getMaxSaleQty($productId));
-    }
-
-    public function testGetNotifyStockQty()
-    {
-        $productId = 12;
-        $result = 15.3;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('getNotifyStockQty')
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->getNotifyStockQty($productId));
     }
 
     public function testEnableQtyIncrements()
@@ -256,19 +191,6 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $this->model->getQtyIncrements($productId));
     }
 
-    public function testGetBackorders()
-    {
-        $productId = 34;
-        $result = 2;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('getBackorders')
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->getBackorders($productId));
-    }
-
     public function testGetManageStock()
     {
         $productId = 32;
@@ -280,34 +202,6 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($result));
 
         $this->assertEquals($result, $this->model->getManageStock($productId));
-    }
-
-    public function testGetCanBackInStock()
-    {
-        $productId = 59;
-        $result = false;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('getCanBackInStock')
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->getCanBackInStock($productId));
-    }
-
-    public function testCheckQty()
-    {
-        $productId = 143;
-        $qty = 3.5;
-        $result = false;
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('checkQty')
-            ->with($qty)
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->checkQty($productId, $qty));
     }
 
     public function testSuggestQty()
@@ -396,21 +290,6 @@ class StockItemServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($result));
 
         $this->assertEquals($result, $this->model->getStockQty($productId));
-    }
-
-    public function testCheckQtyIncrements()
-    {
-        $productId = 86;
-        $qty = 6;
-        $result = $this->getMock('Magento\Framework\Object');
-
-        $stockItemModel = $this->getStockItemModel($productId);
-        $stockItemModel->expects($this->once())
-            ->method('checkQtyIncrements')
-            ->with($qty)
-            ->will($this->returnValue($result));
-
-        $this->assertEquals($result, $this->model->checkQtyIncrements($productId, $qty));
     }
 
     public function testIsQty()

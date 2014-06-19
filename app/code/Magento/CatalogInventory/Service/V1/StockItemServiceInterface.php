@@ -41,32 +41,6 @@ interface StockItemServiceInterface
 
     /**
      * @param int $productId
-     * @param int $qty
-     * @return $this
-     */
-    public function subtractQty($productId, $qty);
-
-    /**
-     * @param int $productId
-     * @return bool
-     */
-    public function canSubtractQty($productId);
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return $this
-     */
-    public function addQty($productId, $qty);
-
-    /**
-     * @param int $productId
-     * @return int
-     */
-    public function getMinQty($productId);
-
-    /**
-     * @param int $productId
      * @return int
      */
     public function getMinSaleQty($productId);
@@ -76,12 +50,6 @@ interface StockItemServiceInterface
      * @return int
      */
     public function getMaxSaleQty($productId);
-
-    /**
-     * @param int $productId
-     * @return int
-     */
-    public function getNotifyStockQty($productId);
 
     /**
      * @param int $productId
@@ -97,28 +65,9 @@ interface StockItemServiceInterface
 
     /**
      * @param int $productId
-     * @return int
-     */
-    public function getBackorders($productId);
-
-    /**
-     * @param int $productId
      * @return int mixed
      */
     public function getManageStock($productId);
-
-    /**
-     * @param int $productId
-     * @return bool
-     */
-    public function getCanBackInStock($productId);
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return bool
-     */
-    public function checkQty($productId, $qty);
 
     /**
      * @param int $productId
@@ -161,13 +110,6 @@ interface StockItemServiceInterface
      * @return int
      */
     public function getStockQty($productId);
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return bool
-     */
-    public function checkQtyIncrements($productId, $qty);
 
     /**
      * @param int $productTypeId

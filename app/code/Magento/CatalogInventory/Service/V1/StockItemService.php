@@ -124,50 +124,6 @@ class StockItemService implements StockItemServiceInterface
 
     /**
      * @param int $productId
-     * @param int $qty
-     * @return $this
-     */
-    public function subtractQty($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        $stockItem->subtractQty($qty);
-        return $this;
-    }
-
-    /**
-     * @param int $productId
-     * @return bool
-     */
-    public function canSubtractQty($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->canSubtractQty();
-    }
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return $this
-     */
-    public function addQty($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        $stockItem->addQty($qty);
-        return $this;
-    }
-
-    /**
-     * @param int $productId
-     * @return int
-     */
-    public function getMinQty($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getMinQty();
-    }
-
-    /**
-     * @param int $productId
      * @return int
      */
     public function getMinSaleQty($productId)
@@ -184,16 +140,6 @@ class StockItemService implements StockItemServiceInterface
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
         return $stockItem->getMaxSaleQty();
-    }
-
-    /**
-     * @param int $productId
-     * @return float
-     */
-    public function getNotifyStockQty($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getNotifyStockQty();
     }
 
     /**
@@ -220,41 +166,10 @@ class StockItemService implements StockItemServiceInterface
      * @param int $productId
      * @return int
      */
-    public function getBackorders($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getBackorders();
-    }
-
-    /**
-     * @param int $productId
-     * @return int
-     */
     public function getManageStock($productId)
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
         return $stockItem->getManageStock();
-    }
-
-    /**
-     * @param int $productId
-     * @return bool
-     */
-    public function getCanBackInStock($productId)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->getCanBackInStock();
-    }
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return bool
-     */
-    public function checkQty($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->checkQty($qty);
     }
 
     /**
@@ -321,17 +236,6 @@ class StockItemService implements StockItemServiceInterface
     {
         $stockItem = $this->stockItemRegistry->retrieve($productId);
         return $stockItem->getStockQty();
-    }
-
-    /**
-     * @param int $productId
-     * @param int $qty
-     * @return \Magento\Framework\Object
-     */
-    public function checkQtyIncrements($productId, $qty)
-    {
-        $stockItem = $this->stockItemRegistry->retrieve($productId);
-        return $stockItem->checkQtyIncrements($qty);
     }
 
     /**
