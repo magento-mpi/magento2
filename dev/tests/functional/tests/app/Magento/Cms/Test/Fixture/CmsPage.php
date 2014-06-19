@@ -12,8 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CmsPage
- *
- * @SuppressWarnings(PHPMD.TooManyFields)
+ * CMS Page fixture
  */
 class CmsPage extends InjectableFixture
 {
@@ -28,12 +27,12 @@ class CmsPage extends InjectableFixture
     protected $handlerInterface = 'Magento\Cms\Test\Handler\CmsPage\CmsPageInterface';
 
     protected $defaultDataSet = [
-        'title' => null,
-        'identifier' => null,
-        'store_id' => null,
-        'is_active' => null,
-        'under_version_control' => null,
-        'content' => null,
+        'title' => 'CMS Page%isolation%',
+        'identifier' => 'identifier%isolation%',
+        'store_id' => 'All Store Views',
+        'is_active' => 'Published',
+        'under_version_control' => 'No',
+        'content' => 'Text %isolation%',
     ];
 
     protected $title = [

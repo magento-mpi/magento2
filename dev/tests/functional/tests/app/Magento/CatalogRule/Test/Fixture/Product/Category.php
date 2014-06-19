@@ -16,7 +16,6 @@ use Mtf\Fixture\FixtureInterface;
  *
  * Data keys:
  *  - preset (Product options preset name)
- *
  */
 class Category implements FixtureInterface
 {
@@ -26,9 +25,8 @@ class Category implements FixtureInterface
     protected $fixtureFactory;
 
     /**
-     * @constructor
      * @param FixtureFactory $fixtureFactory
-     * @param $data
+     * @param mixed $data
      * @param array $params
      * @param bool $persist
      */

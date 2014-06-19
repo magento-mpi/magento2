@@ -10,7 +10,7 @@
 <page mca="catalog_rule/promo_catalog/new" >
     <block>
         <name>formPageActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <class>Magento\CatalogRule\Test\Block\Adminhtml\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>

@@ -7,7 +7,6 @@
  */
 namespace Magento\CatalogRule\Test\Block;
 
-use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;

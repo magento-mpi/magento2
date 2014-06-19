@@ -31,28 +31,31 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
      * @param CatalogRule $catalogPriceRule
      * @param CatalogRuleIndex $pageCatalogRuleIndex
      * @param CatalogRuleNew $pageCatalogRuleNew
+     * @param CatalogRule $catalogPriceRuleOriginal
      * @return void
      */
     public function processAssert(
         CatalogRule $catalogPriceRule,
         CatalogRuleIndex $pageCatalogRuleIndex,
-        CatalogRuleNew $pageCatalogRuleNew
+        CatalogRuleNew $pageCatalogRuleNew,
+        CatalogRule $catalogPriceRuleOriginal = null
     ) {
-        $ruleWebsite = $catalogPriceRule->getWebsiteIds();
-        $ruleWebsite = reset($ruleWebsite);
-        $filter = [
-            'name' => $catalogPriceRule->getName(),
-            'is_active' => $catalogPriceRule->getIsActive(),
-            'rule_website' => $ruleWebsite,
-        ];
+        $data = ($catalogPriceRuleOriginal === null)
+            ? $catalogPriceRule->getData()
+            : array_merge($catalogPriceRuleOriginal->getData(), $catalogPriceRule->getData());
+        $filter['name'] = $data['name'];
 
         $pageCatalogRuleIndex->open();
         $pageCatalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
-        //convert discount_amount to float to compare
         $formData = $pageCatalogRuleNew->getEditForm()->getData($catalogPriceRule);
         $fixtureData = $catalogPriceRule->getData();
-        $formData['discount_amount'] = floatval($formData['discount_amount']);
-        $fixtureData['discount_amount'] = floatval($fixtureData['discount_amount']);
+        //convert discount_amount to float to compare
+        if (isset($formData['discount_amount'])) {
+            $formData['discount_amount'] = floatval($formData['discount_amount']);
+        }
+        if (isset($fixtureData['discount_amount'])) {
+            $fixtureData['discount_amount'] = floatval($fixtureData['discount_amount']);
+        }
         $diff = $this->verifyData($formData, $fixtureData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($diff),
@@ -71,6 +74,9 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
     {
         $errorMessage = [];
         foreach ($fixtureData as $key => $value) {
+            if ($key == 'conditions') {
+                continue;
+            }
             if (is_array($value)) {
                 $diff = array_diff($value, $formData[$key]);
                 $diff = array_merge($diff, array_diff($formData[$key], $value));

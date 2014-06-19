@@ -12,18 +12,24 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CmsPage
- *
+ * Cms page repository
  */
 class CmsPage extends AbstractRepository
 {
     /**
+     * @construct
      * @param array $defaultConfig
      * @param array $defaultData
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['default'] = [
+            'title' => 'test_%isolation%',
+            'store_id' => 'All Store Views',
+            'is_active' => 'Published',
+            'content' => 'text content',
+        ];
+
         $this->_data['cms-page-duplicated'] = [
             'store_id' => 'All Store Views',
             'title' => '404 Not Found 1 Test%isolation%',
