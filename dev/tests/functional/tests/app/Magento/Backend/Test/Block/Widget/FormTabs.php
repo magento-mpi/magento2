@@ -148,10 +148,12 @@ class FormTabs extends Form
      *
      * @param array $tabs
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function fillMissedFields(array $tabs)
     {
-        foreach (array_diff_key($this->tabs, $tabs) as $tabName) {
+        foreach (array_diff_key($this->tabs, $tabs) as $tabName => $tabData) {
             $tabElement = $this->getTabElement($tabName);
             if ($this->openTab($tabName)) {
                 $tabElement->fillFormTab($this->unassignedFields, $this->_rootElement);
@@ -183,7 +185,7 @@ class FormTabs extends Form
         $data = [];
 
         if (null === $fixture) {
-            foreach ($this->tabs as $tabName) {
+            foreach ($this->tabs as $tabName => $tab) {
                 $this->openTab($tabName);
                 $tabData = $this->getTabElement($tabName)->getDataFormTab();
                 $data = array_merge($data, $tabData);

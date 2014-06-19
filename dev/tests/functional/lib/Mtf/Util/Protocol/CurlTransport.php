@@ -54,6 +54,8 @@ class CurlTransport implements CurlInterface
      * Apply current configuration array to curl resource
      *
      * @return $this
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _applyConfig()
     {
@@ -65,7 +67,7 @@ class CurlTransport implements CurlInterface
         if (empty($this->_config)) {
             return $this;
         }
-        foreach ($this->_config as $param) {
+        foreach ($this->_config as $param => $curlOption) {
             if (array_key_exists($param, $this->_allowedParams)) {
                 curl_setopt($this->_getResource(), $this->_allowedParams[$param], $this->_config[$param]);
             }
