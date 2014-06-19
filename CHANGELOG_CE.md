@@ -15,6 +15,8 @@
   * Bundle product price consistency changes (MAGETWO-24588)
   * Admin tax notification messages (MAGETWO-24583)
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
+* Packages
+  * Introduced language packages with ability to inherit dictionaries (MAGETWO-24610)
 * Fixed bugs:
   * Fixed: Export loses information about linked products(MAGETWO-25060)
   * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
@@ -22,6 +24,7 @@
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: grids (MAGETWO-24705)
   * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+  * Fixed: Fatal Error in \Magento\Framework\ArchiveTest when bz2 extension is not installed (MAGETWO-25149)
 
 2.0.0.0-dev82
 =============
