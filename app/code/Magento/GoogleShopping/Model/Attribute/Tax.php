@@ -25,6 +25,11 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_taxData = null;
 
     /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $calculation;
+
+    /**
      * Config
      *
      * @var \Magento\GoogleShopping\Model\Config
@@ -41,6 +46,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,11 +60,13 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\Tax\Model\Calculation $calculation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
+        $this->calculation = $calculation;
         parent::__construct(
             $context,
             $registry,
@@ -67,6 +75,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             $gsProduct,
             $catalogPrice,
             $resource,
+            $calculation,
             $resourceCollection,
             $data
         );
@@ -86,7 +95,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             return $entry;
         }
 
-        $calc = $this->_taxData->getCalculator();
+        $calc = $this->calculation;
         $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
