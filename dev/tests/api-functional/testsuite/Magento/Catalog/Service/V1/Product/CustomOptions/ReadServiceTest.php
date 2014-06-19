@@ -59,30 +59,21 @@ class ReadServiceTest extends WebapiAbstract
         ];
         $options = $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
 
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            /** Unset dynamic data */
-            $unset = function($item){
-                unset($item['option_id']);
-                return $item;
-            };
-        } else {
-            /** Unset dynamic data */
-            $unset = function ($item) {
-                unset($item['option_id']);
+        /** Unset dynamic data */
+        $unset = function ($item) {
+            unset($item['option_id']);
 
-                /** Format output data */
-                $format = function ($element) {
-                    $element['price'] = intval($element['price']);
-                    if (isset($element['custom_attributes'])) {
-                        $element['customAttributes'] = $element['custom_attributes'];
-                        unset($element['custom_attributes']);
-                    }
-                    return $element;
-                };
-                $item['value'] = array_map($format, $item['value']);
-                return $item;
+            /** Format output data */
+            $format = function ($element) {
+                if (isset($element['customAttributes'])) {
+                    $element['custom_attributes'] = $element['customAttributes'];
+                    unset($element['customAttributes']);
+                }
+                return $element;
             };
-        }
+            $item['value'] = array_map($format, $item['value']);
+            return $item;
+        };
 
         $options = array_map($unset, $options);
 

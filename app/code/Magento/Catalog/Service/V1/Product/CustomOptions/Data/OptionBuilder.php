@@ -16,7 +16,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param int $value
      * @return $this
      */
-    public function getOptionId($value)
+    public function setOptionId($value)
     {
         return $this->_set(Option::OPTION_ID, $value);
     }
@@ -27,7 +27,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param string $value
      * @return $this
      */
-    public function getTitle($value)
+    public function setTitle($value)
     {
         return $this->_set(Option::TITLE, $value);
     }
@@ -38,7 +38,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param string $value
      * @return $this
      */
-    public function getType($value)
+    public function setType($value)
     {
         return $this->_set(Option::TYPE, $value);
     }
@@ -49,7 +49,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param int $value
      * @return $this
      */
-    public function getSortOrder($value)
+    public function setSortOrder($value)
     {
         return $this->_set(Option::SORT_ORDER, $value);
     }
@@ -60,7 +60,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param bool $value
      * @return $this
      */
-    public function getIsRequire($value)
+    public function setIsRequire($value)
     {
         return $this->_set(Option::IS_REQUIRE, $value);
     }
@@ -71,7 +71,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
      * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue[] $value
      * @return $this
      */
-    public function getValue($value)
+    public function setValue($value)
     {
         return $this->_set(Option::VALUE, $value);
     }

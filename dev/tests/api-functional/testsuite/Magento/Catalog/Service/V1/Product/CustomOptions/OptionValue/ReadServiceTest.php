@@ -41,9 +41,12 @@ class ReadServiceTest extends WebapiAbstract
 
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
             foreach ($optionValueData as $key => $data) {
-                $optionValueData[$key]['customAttributes'] = $data['custom_attributes'];
                 $optionValueData[$key]['price'] = intval($optionValueData[$key]['price']);
-                unset($optionValueData[$key]['custom_attributes']);
+            }
+        } else {
+            foreach ($optionValueData as $key => $data) {
+                $optionValueData[$key]['custom_attributes'] = $data['customAttributes'];
+                unset($optionValueData[$key]['customAttributes']);
             }
         }
 

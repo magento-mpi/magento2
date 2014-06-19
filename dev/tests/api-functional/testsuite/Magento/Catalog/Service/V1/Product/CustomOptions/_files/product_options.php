@@ -10,14 +10,14 @@ return [
     [
         'title' => 'test_option_code_1',
         'type' => 'field',
-        'is_require' => 1,
         'sort_order' => 1,
+        'is_require' => 1,
         'value' => [
             [
                 'price' => 10,
                 'price_type' => 'fixed',
                 'sku' => 'sku1',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'max_characters',
                         'value' => 10
@@ -29,14 +29,14 @@ return [
     [
         'title' => 'area option',
         'type' => 'area',
-        'is_require' => 0,
         'sort_order' => 2,
+        'is_require' => 0,
         'value' => [
             [
                 'price' => 20,
                 'price_type' => 'percent',
                 'sku' => 'sku2',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'max_characters',
                         'value' => 20
@@ -56,7 +56,7 @@ return [
                 'price' => 30,
                 'price_type' => 'percent',
                 'sku' => 'sku3',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'file_extension',
                         'value' => 'jpg'
@@ -83,7 +83,7 @@ return [
                 'price' => 10,
                 'price_type' => 'fixed',
                 'sku' => 'drop_down option 1 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'drop_down option 1'
@@ -98,7 +98,7 @@ return [
                 'price' => 20,
                 'price_type' => 'fixed',
                 'sku' => 'drop_down option 2 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'drop_down option 2'
@@ -121,7 +121,7 @@ return [
                 'price' => 10,
                 'price_type' => 'fixed',
                 'sku' => 'radio option 1 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'radio option 1'
@@ -136,7 +136,7 @@ return [
                 'price' => 20,
                 'price_type' => 'fixed',
                 'sku' => 'radio option 2 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'radio option 2'
@@ -159,7 +159,7 @@ return [
                 'price' => 10,
                 'price_type' => 'fixed',
                 'sku' => 'checkbox option 1 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'checkbox option 1'
@@ -174,7 +174,7 @@ return [
                 'price' => 20,
                 'price_type' => 'fixed',
                 'sku' => 'checkbox option 2 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'checkbox option 2'
@@ -197,7 +197,7 @@ return [
                 'price' => 10,
                 'price_type' => 'fixed',
                 'sku' => 'multiple option 1 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'multiple option 1'
@@ -212,7 +212,7 @@ return [
                 'price' => 20,
                 'price_type' => 'fixed',
                 'sku' => 'multiple option 2 sku',
-                'customAttributes' => [
+                'custom_attributes' => [
                     [
                         'attribute_code' => 'title',
                         'value' => 'multiple option 2'

@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValueBuilder;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface;
 
 class Select implements ReaderInterface
 {

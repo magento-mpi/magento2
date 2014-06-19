@@ -44,7 +44,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      * @param float $value
      * @return $this
      */
-    public function getPrice($value)
+    public function setPrice($value)
     {
         return $this->_set(OptionValue::PRICE, $value);
     }
@@ -55,7 +55,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      * @param string $value
      * @return $this
      */
-    public function getPriceType($value)
+    public function setPriceType($value)
     {
         return $this->_set(OptionValue::PRICE_TYPE, $value);
     }
@@ -66,7 +66,7 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
      * @param string $value
      * @return $this
      */
-    public function getSku($value)
+    public function setSku($value)
     {
         return $this->_set(OptionValue::SKU, $value);
     }
