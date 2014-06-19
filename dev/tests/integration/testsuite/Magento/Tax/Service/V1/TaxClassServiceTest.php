@@ -98,7 +98,6 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             $errors = $e->getErrors();
             $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
             $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
-            $this->assertEquals('Invalid value of "" provided for the class_type field.', $errors[2]->getMessage());
         }
     }
 
@@ -131,5 +130,79 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     {
         $nonexistentTaxClassId = 99999;
         $this->taxClassService->deleteTaxClass($nonexistentTaxClassId);
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testUpdateTaxClassSuccess()
+    {
+        $taxClassName = 'New Class Name';
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $this->assertEquals($taxClassName, $this->taxClassModel->load($taxClassId)->getClassName());
+
+        $updatedTaxClassName = 'Updated Class Name';
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($updatedTaxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->setClassId($taxClassId)
+            ->create();
+
+        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassDataObject));
+
+        $this->assertEquals($updatedTaxClassName, $this->taxClassModel->load($taxClassId)->getClassName());
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "" provided for the id field.
+     */
+    public function testUpdateTaxClassWithoutClassId()
+    {
+        $taxClassName = 'New Class Name';
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->create();
+        $this->taxClassService->updateTaxClass($taxClassDataObject);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxClassId = 99999
+     */
+    public function testUpdateTaxClassWithInvalidClassId()
+    {
+        $taxClassName = 'New Class Name';
+        $nonexistentTaxClassId = 99999;
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->setClassId($nonexistentTaxClassId)
+            ->create();
+        $this->taxClassService->updateTaxClass($taxClassDataObject);
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "PRODUCT" provided for the type field.
+     */
+    public function testUpdateTaxClassWithChangingClassType()
+    {
+        $taxClassName = 'New Class Name';
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $this->assertEquals($taxClassName, $this->taxClassModel->load($taxClassId)->getClassName());
+
+        $updatedTaxClassName = 'Updated Class Name';
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($updatedTaxClassName)
+            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_PRODUCT)
+            ->setClassId($taxClassId)
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassDataObject);
     }
 }
