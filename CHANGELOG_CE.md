@@ -10,6 +10,7 @@
       * `Customer/Model/Customer/Attribute/Backend/Website.php `
       * `Customer/Model/Customer/Attribute/Backend/PasswordTest.php`
       * `Customer/Helper/Address.php`
+      * `Customer/Helper/View.php`
       * `Customer/Service/V1/CustomerAccountService.php`
   * Covered Magento lib with unit tests:
       * `Framework/App/Config/Element.php`
