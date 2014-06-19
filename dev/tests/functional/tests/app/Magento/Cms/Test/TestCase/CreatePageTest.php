@@ -46,7 +46,7 @@ class CreatePageTest extends Functional
         $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
         $cmsPageNewForm->fill($cmsPageFixture);
         $cmsPageNewForm->save();
-        $message = $cmsPageGrid->getMessageBlock();
+        $message = $cmsPageGrid->getMessagesBlock();
         $message->assertSuccessMessage();
         $cmsPageGridBlock = $cmsPageGrid->getCmsPageGridBlock();
         $cmsPageGridBlock->search(array('title' => $cmsPageFixture->getPageTitle()));
@@ -58,9 +58,9 @@ class CreatePageTest extends Functional
         $cmsPage->selectWindow();
         $cmsPageBlock = $cmsPage->getCmsPageBlock();
         // Verify the Cms Page content
-        $this->assertEquals(
-            $cmsPageBlock->getPageContent(),
+        $this->assertContains(
             $cmsPageFixture->getPageContent(),
+            $cmsPageBlock->getPageContent(),
             'Matched CMS Page Content "' . $cmsPageFixture->getPageContent() . '" not found on the page'
         );
     }

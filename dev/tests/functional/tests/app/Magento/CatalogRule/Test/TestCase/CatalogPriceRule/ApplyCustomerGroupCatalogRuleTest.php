@@ -15,7 +15,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class ApplyCustomerGroupCatalogRule
- *
  */
 class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
@@ -31,12 +30,6 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      */
     public function testApplyCustomerGroupCatalogRule()
     {
-        $this->markTestSkipped('MAGETWO-22504');
-        // Create Simple Product
-        $simpleProductFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);
-        $simpleProductFixture->persist();
-        $categoryIds = $simpleProductFixture->getCategoryIds();
         // Create Customer
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_customer');
@@ -48,6 +41,11 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $groupId = $customerGroupFixture->getGroupId();
         // update the customer fixture with the newly added customer group
         $customerFixture->updateCustomerGroup($groupName, $groupId);
+        // Create Simple Product
+        $simpleProductFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);
+        $simpleProductFixture->persist();
+        $categoryIds = $simpleProductFixture->getCategoryIds();
         // Create Customer Group Catalog Price Rule
         // Admin login
         Factory::getApp()->magentoBackendLoginUser();
@@ -67,14 +65,14 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $customerEditPage->getPageActionsBlock()->save();
 
         // Add Customer Group Catalog Price Rule
-        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
         $catalogRulePage->open();
-        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
-        $catalogRuleGrid->addNewCatalogRule();
+        $catalogRuleGrid = $catalogRulePage->getGridPageActions();
+        $catalogRuleGrid->addNew();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
-        $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
+        $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
             array('category_id' => $categoryIds[0],
                 'group_value' => $groupName,
@@ -84,7 +82,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // convert the discount amount to a decimal form
         $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
         $newCatalogRuleForm->fill($catalogRuleFixture);
-        $newCatalogRuleForm->save();
+        $catalogRuleCreatePage->getFormPageActions()->save();
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
@@ -95,7 +93,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         // Apply Catalog Price Rule
         $catalogRulePage->open();
-        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid = $catalogRulePage->getGridPageActions();
         $catalogRuleGrid->applyRules();
 
         // Verify Success Message
@@ -138,7 +136,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $this->assertContains(
@@ -197,7 +195,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->_discountDecimal),

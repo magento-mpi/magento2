@@ -101,7 +101,7 @@ class ShippingCarrierTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
 
         // Get and verify shipping quote
@@ -110,7 +110,7 @@ class ShippingCarrierTest extends Functional
         // Make estimated shipping content visible
         $cartShippingBlock->openEstimateShippingAndTax();
         $cartShippingBlock->fill(self::$checkoutFixture->getBillingAddress());
-        $cartShippingBlock->getQuote();
+        $cartShippingBlock->clickGetQuote();
         // Verify expected shipping carrier and method are present
         $shippingMethod = self::$checkoutFixture->getShippingMethods()->getData('fields');
         $carrier = $shippingMethod['shipping_service'];

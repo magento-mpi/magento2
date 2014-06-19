@@ -162,9 +162,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @var array
      */
     protected $_linkNameToId = array(
-        '_links_related_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
-        '_links_crosssell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
-        '_links_upsell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL
+        '_related_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
+        '_crosssell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
+        '_upsell_' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL
     );
 
     /**
@@ -242,15 +242,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         '_tier_price_customer_group',
         '_tier_price_qty',
         '_tier_price_price',
-        '_links_related_sku',
+        '_related_sku',
         '_group_price_website',
         '_group_price_customer_group',
         '_group_price_price',
-        '_links_related_position',
-        '_links_crosssell_sku',
-        '_links_crosssell_position',
-        '_links_upsell_sku',
-        '_links_upsell_position',
+        '_related_position',
+        '_crosssell_sku',
+        '_crosssell_position',
+        '_upsell_sku',
+        '_upsell_position',
         '_custom_option_store',
         '_custom_option_type',
         '_custom_option_title',
@@ -344,11 +344,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_catalogData = null;
 
     /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
+     * @var \Magento\CatalogInventory\Service\V1\StockItem
      */
-    protected $_catalogInventoryData = null;
+    protected $stockItemService;
 
     /**
      * Core event manager proxy
@@ -443,6 +441,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     private $_logger;
 
     /**
+     * {@inheritdoc}
+     */
+    protected $masterAttributeCode = 'sku';
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
@@ -451,17 +454,17 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\CatalogInventory\Service\V1\StockItem $stockItemService
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ImportExport\Model\Import\Config $importConfig
      * @param \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory
-     * @param \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory $optionFactory
+     * @param Product\OptionFactory $optionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory $productTypeFactory
+     * @param Product\Type\Factory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
@@ -482,7 +485,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Service\V1\StockItem $stockItemService,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
         \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory,
@@ -505,7 +508,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->stockItemService = $stockItemService;
         $this->_catalogData = $catalogData;
         $this->_importConfig = $importConfig;
         $this->_resourceFactory = $resourceFactory;
@@ -1766,7 +1769,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
                 $stockItem->setData($row);
 
-                if ($this->_catalogInventoryData->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
+                if ($this->stockItemService->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
                     if ($stockItem->verifyNotification()) {
                         $stockItem->setLowStockDate(
                             $this->_localeDate->date(

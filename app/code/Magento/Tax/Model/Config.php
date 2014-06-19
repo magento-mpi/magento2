@@ -17,6 +17,15 @@ use Magento\Store\Model\Store;
 
 class Config
 {
+    // tax notifications
+    const XML_PATH_TAX_NOTIFICATION_IGNORE_DISCOUNT = 'tax/notification/ignore_discount';
+
+    const XML_PATH_TAX_NOTIFICATION_IGNORE_PRICE_DISPLAY = 'tax/notification/ignore_price_display';
+
+    const XML_PATH_TAX_NOTIFICATION_IGNORE_FPT_CONFIGURATION = 'tax/notification/ignore_fpt_configuration';
+
+    const XML_PATH_TAX_NOTIFICATION_INFO_URL = 'tax/notification/info_url';
+
     // tax classes
     const CONFIG_XML_PATH_SHIPPING_TAX_CLASS = 'tax/classes/shipping_tax_class';
 
@@ -34,6 +43,8 @@ class Config
     const CONFIG_XML_PATH_DISCOUNT_TAX = 'tax/calculation/discount_tax';
 
     const XML_PATH_ALGORITHM = 'tax/calculation/algorithm';
+
+    const CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED = 'tax/calculation/cross_border_trade_enabled';
 
     // tax defaults
     const CONFIG_XML_PATH_DEFAULT_COUNTRY = 'tax/defaults/country';
@@ -90,6 +101,15 @@ class Config
     const DISPLAY_TYPE_INCLUDING_TAX = 2;
 
     const DISPLAY_TYPE_BOTH = 3;
+
+    /**
+     * Indexes for FPT Configuration Types
+     */
+    const FPT_NOT_TAXED = 0;
+
+    const FPT_TAXED = 1;
+
+    const FPT_LOADED_DISPLAY_WITH_TAX = 2;
 
     /**
      * @var bool|null
@@ -656,7 +676,7 @@ class Config
      * @param null|string|bool|int|Store $store
      * @return bool
      */
-    public function displaySalestDiscountExclTax($store = null)
+    public function displaySalesDiscountExclTax($store = null)
     {
         return $this->_scopeConfig->getValue(
             self::XML_PATH_DISPLAY_SALES_DISCOUNT,
@@ -712,6 +732,81 @@ class Config
     {
         return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_DISPLAY_SALES_ZERO_TAX,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Return the config value for self::CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED
+     *
+     * @param null|string|bool|int|Store $store
+     * @return bool
+     */
+    public function crossBorderTradeEnabled($store = null)
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            self::CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Check if do not show notification about wrong display settings
+     *
+     * @param null|string|bool|int|Store $store
+     * @return bool
+     */
+    public function isWrongDisplaySettingsIgnored($store = null)
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            self::XML_PATH_TAX_NOTIFICATION_IGNORE_PRICE_DISPLAY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Check if do not show notification about wrong discount settings
+     *
+     * @param null|string|bool|int|Store $store
+     * @return bool
+     */
+    public function isWrongDiscountSettingsIgnored($store = null)
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            self::XML_PATH_TAX_NOTIFICATION_IGNORE_DISCOUNT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Check if warning about conflicting FPT configuration should be shown
+     *
+     * @param null|string|bool|int|Store $store
+     * @return bool
+     */
+    public function isConflictingFptTaxConfigurationSettingsIgnored($store = null)
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            self::XML_PATH_TAX_NOTIFICATION_IGNORE_FPT_CONFIGURATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Return the notification info url
+     *
+     * @param null|string|bool|int|Store $store
+     * @return bool
+     */
+    public function getInfoUrl($store = null)
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            self::XML_PATH_TAX_NOTIFICATION_INFO_URL,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );

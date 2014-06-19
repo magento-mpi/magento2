@@ -34,6 +34,13 @@ class Method extends Block
     protected $continue = '#shipping-method-buttons-container button';
 
     /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
+
+    /**
      * Select shipping method
      *
      * @param Checkout|\Magento\Shipping\Test\Fixture\Method[] $fixture
@@ -46,11 +53,13 @@ class Method extends Block
             $shippingMethod = $fixture->getShippingMethods()->getData('fields');
         }
         $selector = sprintf(
-            $this->shippingMethod, $shippingMethod['shipping_service'], $shippingMethod['shipping_method']
+            $this->shippingMethod,
+            $shippingMethod['shipping_service'],
+            $shippingMethod['shipping_method']
         );
         $this->waitForElementVisible($selector, Locator::SELECTOR_XPATH);
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#shipping-method-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

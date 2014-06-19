@@ -2,21 +2,20 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SearchResultsList
  * Product list
- *
  */
 class ListProduct extends Block
 {
@@ -46,7 +45,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $productTitle = '.product.name';
+    protected $productTitle = '.product.name [title="%s"]';
 
     /**
      * Click for Price link on category page
@@ -61,6 +60,20 @@ class ListProduct extends Block
      * @var string
      */
     protected $oldPrice = ".old-price .price";
+
+    /**
+     * 'Add to Card' button
+     *
+     * @var string
+     */
+    protected $addToCard = "button.action.tocart";
+
+    /**
+     * Price box CSS selector
+     * 
+     * @var string
+     */
+    protected $priceBox = '.price-box #product-price-%s .price';
 
     /**
      * This method returns the price box block for the named product.
@@ -100,6 +113,7 @@ class ListProduct extends Block
      * Open product view page by clicking on product name
      *
      * @param string $productName
+     * @return void
      */
     public function openProductViewPage($productName)
     {
@@ -128,17 +142,14 @@ class ListProduct extends Block
      */
     protected function getProductNameElement($productName)
     {
-        return $this->_rootElement->find(
-            $this->productTitle,
-            Locator::SELECTOR_CSS
-        )->find(
-            '//*[@title="' . $productName . '"]',
-            Locator::SELECTOR_XPATH
-        );
+        return $this->_rootElement->find(sprintf($this->productTitle, $productName));
     }
 
     /**
      * Open MAP block on category page
+     *
+     * @param string $productName
+     * @return void
      */
     public function openMapBlockOnCategoryPage($productName)
     {
@@ -163,9 +174,17 @@ class ListProduct extends Block
      */
     public function getPrice($productId)
     {
-        return $this->_rootElement->find(
-            '.price-box #product-price-' . $productId . ' .price',
-            Locator::SELECTOR_CSS
-        )->getText();
+        return $this->_rootElement->find(sprintf($this->priceBox, $productId), Locator::SELECTOR_CSS)
+            ->getText();
+    }
+
+    /**
+     * Check 'Add To Card' button availability
+     *
+     * @return bool
+     */
+    public function checkAddToCardButton()
+    {
+        return $this->_rootElement->find($this->addToCard, Locator::SELECTOR_CSS)->isVisible();
     }
 }

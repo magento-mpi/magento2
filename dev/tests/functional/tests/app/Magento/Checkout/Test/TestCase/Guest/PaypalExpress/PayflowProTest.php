@@ -42,7 +42,7 @@ class PayflowProTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
 
         //Proceed to PayPal
@@ -65,7 +65,8 @@ class PayflowProTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }

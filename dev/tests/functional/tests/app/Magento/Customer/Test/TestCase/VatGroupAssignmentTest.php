@@ -54,14 +54,14 @@ class VatGroupAssignmentTest extends Functional
 
         $customerLoginPage->open();
         $customerLoginPage->getLoginBlock()->login($this->vatFixture->getCustomer());
-        $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
+        $customerAccountIndexPage->getAccountMenuBlock()->openMenuItem('Address Book');
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
         $this->fillVatId($customerAddressEditPage, $this->vatFixture->getInvalidVatNumber());
 
         $this->checkCustomerGroup($customersPage, $this->vatFixture->getInvalidVatGroup());
 
         $customerAccountIndexPage->open();
-        $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
+        $customerAccountIndexPage->getAccountMenuBlock()->openMenuItem('Address Book');
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
         $this->fillVatId($customerAddressEditPage, $this->vatFixture->getValidVatNumber());
 
@@ -79,10 +79,14 @@ class VatGroupAssignmentTest extends Functional
         $page->open();
         $grid = $page->getCustomerGridBlock();
         $email = $this->vatFixture->getCustomer()->getEmail();
-        $this->assertTrue($grid->isRowVisible(array(
-            'email' => $email,
-            'group' => $groupName,
-        )));
+        $this->assertTrue(
+            $grid->isRowVisible(
+                array(
+                    'email' => $email,
+                    'group' => $groupName,
+                )
+            )
+        );
     }
 
     /**

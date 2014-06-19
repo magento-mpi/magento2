@@ -63,11 +63,11 @@ class RmaEdit extends Page
     /**
      * Get Rma info tabs block
      *
-     * @return \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tabs
+     * @return \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\RmaForm
      */
     public function getFormTabsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaEditTabs(
+        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaEditRmaForm(
             $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }
@@ -101,7 +101,7 @@ class RmaEdit extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_ID)

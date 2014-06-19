@@ -8,11 +8,11 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Fixture\Category;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductInCategory
@@ -27,20 +27,22 @@ class AssertBundleInCategory extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Check bundle product on the category page
+     *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
      * @param CatalogProductBundle $bundle
-     * @param Category $category
+     * @param CatalogCategory $category
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
         CatalogProductBundle $bundle,
-        Category $category
+        CatalogCategory $category
     ) {
         //Open category view page
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getName());
 
         //process asserts
         $this->assertPrice($bundle, $catalogCategoryView);

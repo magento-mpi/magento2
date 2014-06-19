@@ -37,7 +37,7 @@ class Review extends Block
      *
      * @var string
      */
-    protected  $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
+    protected $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
     
     /**
      * Subtotal search mask
@@ -54,12 +54,19 @@ class Review extends Block
     protected $tax = '//tr[normalize-space(td)="Tax"]//span';
 
     /**
+     * Wait element
+     *
+     * @var string
+     */
+    protected $waitElement = '.loading-mask';
+
+    /**
      * Fill billing address
      */
     public function placeOrder()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#review-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
     }
 
     /**

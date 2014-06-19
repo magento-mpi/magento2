@@ -35,6 +35,59 @@
     </target>
 
     <target name="_code_legacy_tests" depends="_product_location" description="Code Legacy Tests">
+        <condition property="env.bamboo_file_formats" value="php,phtml">
+            <not><isset property="env.bamboo_file_formats"/></not>
+        </condition>
+        <script language="javascript"><![CDATA[
+            var currentBranch = project.getProperty('env.bamboo_repository_git_branch');
+            var currentRepoUrl = project.getProperty('env.bamboo_repository_git_repositoryUrl');
+            var additionalOptions = project.getProperty('env.bamboo_additional_options');
+            var fileFormats = project.getProperty('env.bamboo_file_formats');
+            var incrementalBuild = project.getProperty('env.bamboo_incremental_build');
+            var mainlineRepo = project.getProperty('env.bamboo_mainline_repo');
+
+            var parts = currentRepoUrl.split("/");
+            var teamRepo = parts[parts.length - 2];
+
+            if (incrementalBuild != 'disable' && teamRepo != mainlineRepo) {
+                //get changelist from github
+                var get_github_changes = project.createTask('exec');
+                get_github_changes.setExecutable('php');
+                get_github_changes.setResultProperty('script_exit_code');
+                var arg = get_github_changes.createArg();
+                var command = "-f " + project.getProperty('basedir')
+                        + "/dev/build/core_dev/static/get_github_changes.php -- --team-repo="
+                        + teamRepo + " --feature-branch=" + currentBranch + " --file-formats=" + fileFormats
+                        + " " + additionalOptions;
+                arg.setLine(command);
+                get_github_changes.execute();
+
+                if (project.getProperty('script_exit_code') == 0) {
+                    importClass(java.io.File);
+
+                    //copy a file with list of changed files
+                    var copyTask = project.createTask('copy');
+                    copyTask.setFile(new File(project.getProperty('basedir') + '/changed_files.txt'));
+                    copyTask.setTofile(new File(project.getProperty('product_root_dir') + '/dev/tests/static/testsuite/Magento/Test/Legacy/_files/changed_files.txt'));
+                    copyTask.setOverwrite(true);
+                    copyTask.execute();
+
+                    //replace placeholders in phpunit.legacy.xml file
+                    var file = project.getProperty('basedir') + '/dev/build/core_dev/static/phpunit.legacy.xml';
+                    var replace = project.createTask('replace');
+                    replace.setFailOnNoReplacements(true);
+                    replace.setFile(new File(file));
+                    var openingReplaceFilter = replace.createReplacefilter();
+                    openingReplaceFilter.setToken('<!--incremental_build_placeholder');
+                    openingReplaceFilter.setValue(' ');
+                    var closingReplaceFilter = replace.createReplacefilter();
+                    closingReplaceFilter.setToken('incremental_build_placeholder-->');
+                    closingReplaceFilter.setValue(' ');
+                    replace.execute();
+                }
+            }
+        ]]></script>
+
         <copy file="${basedir}/dev/build/core_dev/static/phpunit.legacy.xml"
               tofile="${product_root_dir}/dev/tests/static/phpunit.xml" overwrite="true"/>
         <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
@@ -67,6 +120,23 @@
             <param name="product_edition_code" value="ee"/>
             <target name="_product_edition"/>
             <target name="_static_tests_no_js"/>
+        </antcall>
+    </target>
+
+    <target name="sanity_check_ce" depends="_server_info" description="Sanity Check for CE">
+        <antcall>
+            <param name="license_replacement_enabled" value="true"/>
+            <param name="product_edition_code" value="ce"/>
+            <target name="_product_edition_no_additional"/>
+            <target name="_sanity_check"/>
+        </antcall>
+    </target>
+
+    <target name="sanity_check_ee" depends="_server_info" description="Sanity Check for EE">
+        <antcall>
+            <param name="license_replacement_enabled" value="true"/>
+            <param name="product_edition_code" value="ee"/>
+            <target name="_product_edition_no_additional"/>
             <target name="_sanity_check"/>
         </antcall>
     </target>
@@ -77,7 +147,6 @@
             <param name="product_edition_code" value="ce"/>
             <target name="_product_edition"/>
             <target name="_static_tests_no_js"/>
-            <target name="_sanity_check"/>
         </antcall>
     </target>
 

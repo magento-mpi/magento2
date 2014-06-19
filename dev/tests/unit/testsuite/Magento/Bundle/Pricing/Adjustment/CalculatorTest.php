@@ -46,6 +46,11 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     protected $selectionFactory;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $taxData;
+
+    /**
      * @var Calculator
      */
     protected $model;
@@ -53,10 +58,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->saleableItem = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['getPriceInfo', 'getPriceType', '__wakeup'])
+            ->setMethods(['getPriceInfo', 'getPriceType', '__wakeup', 'getStore'])
             ->disableOriginalConstructor()
             ->getMock();
-        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface', [], [], '', true);
+        $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $priceInfo->expects($this->any())->method('getPrice')->will($this->returnCallback(function ($type) {
             if (!isset($this->priceMocks[$type])) {
                 throw new \PHPUnit_Framework_ExpectationFailedException('Unexpected type of price model');
@@ -65,6 +70,12 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         }));
         $this->saleableItem->expects($this->any())->method('getPriceInfo')->will($this->returnValue($priceInfo));
 
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $store->expects($this->any())->method('roundPrice')->will($this->returnArgument(0));
+
+        $this->saleableItem->expects($this->any())->method('getStore')->will($this->returnValue($store));
 
         $this->baseCalculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
         $this->amountFactory = $this->getMock('Magento\Framework\Pricing\Amount\AmountFactory', [], [], '', false);
@@ -83,7 +94,17 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             return $bundlePrice;
         });
         $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
-        $this->model = new Calculator($this->baseCalculator, $this->amountFactory, $this->selectionFactory);
+
+        $this->taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->model = new Calculator(
+            $this->baseCalculator,
+            $this->amountFactory,
+            $this->selectionFactory,
+            $this->taxData
+        );
     }
 
     protected function tearDown()

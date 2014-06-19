@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\GiftWrapping\Test\Fixture\GiftWrapping">
+    <module>Magento_GiftWrapping</module>
+    <type>flat</type>
+    <entity_type>magento_giftwrapping</entity_type>
+    <collection>Magento\GiftWrapping\Model\Resource\Wrapping\Collection</collection>
+    <identifier>code</identifier>
+    <fields>
+        <wrapping_id>
+            <attribute_code>wrapping_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input />
+        </wrapping_id>
+        <status>
+            <attribute_code>status</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+        </status>
+        <base_price>
+            <attribute_code>base_price</attribute_code>
+            <backend_type>decimal</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+        </base_price>
+        <image>
+            <attribute_code>image</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+        </image>
+        <design>
+            <attribute_code>design</attribute_code>
+            <backend_type>virtual</backend_type>
+        </design>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+        </website_ids>
+    </fields>
+    <repository_class>Magento\GiftWrapping\Test\Repository\GiftWrapping</repository_class>
+    <handler_interface>Magento\GiftWrapping\Test\Handler\GiftWrapping\GiftWrappingInterface</handler_interface>
+</fixture>

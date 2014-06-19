@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @api
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,17 +9,17 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Block\Mapper;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Mtf\Fixture\InjectableFixture;
-use Mtf\Util\Iterator\File;
 use Mtf\Util\XmlConverter;
+use Mtf\Util\Iterator\File;
+use Mtf\Block\BlockFactory;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class FormTabs
  * Is used to represent any form with tabs on the page
- *
  */
 class FormTabs extends Form
 {
@@ -45,15 +44,17 @@ class FormTabs extends Form
      * @constructor
      * @param Element $element
      * @param Mapper $mapper
+     * @param BlockFactory $blockFactory
      * @param XmlConverter $xmlConverter
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
+        BlockFactory $blockFactory,
         XmlConverter $xmlConverter
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $mapper);
+        parent::__construct($element, $blockFactory, $mapper);
     }
 
     /**
@@ -95,16 +96,29 @@ class FormTabs extends Form
      * Fill form with tabs
      *
      * @param FixtureInterface $fixture
-     * @param Element $element
+     * @param Element|null $element
      * @return FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
+        return $this->fillTabs($tabs, $element);
+    }
+
+    /**
+     * Fill specified form with tabs
+     *
+     * @param array $tabs
+     * @param Element|null $element
+     * @return FormTabs
+     */
+    protected function fillTabs(array $tabs, Element $element = null)
+    {
+        $context = ($element === null) ? $this->_rootElement : $element;
         foreach ($tabs as $tabName => $tabFields) {
             $tabElement = $this->getTabElement($tabName);
             $this->openTab($tabName);
-            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
+            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $context);
             $this->updateUnassignedFields($tabElement);
         }
         if (!empty($this->unassignedFields)) {
@@ -154,24 +168,33 @@ class FormTabs extends Form
     }
 
     /**
-     * Verify form with tabs
+     * Get data of the tabs
      *
-     * @param FixtureInterface $fixture
-     * @param Element $element
-     * @return bool
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
      */
-    public function verify(FixtureInterface $fixture, Element $element = null)
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
-        $tabs = $this->getFieldsByTabs($fixture);
+        $data = [];
 
-        foreach ($tabs as $tab => $tabFields) {
-            $this->openTab($tab);
-            if (!$this->getTabElement($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
-                return false;
+        if (null === $fixture) {
+            foreach ($this->tabs as $tabName => $tab) {
+                $this->openTab($tabName);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab();
+                $data = array_merge($data, $tabData);
+            }
+        } else {
+            $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
+            $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
+            foreach ($tabsFields as $tabName => $fields) {
+                $this->openTab($tabName);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab($fields, $this->_rootElement);
+                $data = array_merge($data, $tabData);
             }
         }
 
-        return true;
+        return $data;
     }
 
     /**
@@ -262,8 +285,8 @@ class FormTabs extends Form
     protected function getTabElement($tabName)
     {
         $tabClass = $this->tabs[$tabName]['class'];
-        /** @var $tabElement Tab */
-        $tabElement = new $tabClass($this->_rootElement, $this->mapper);
+        /** @var Tab $tabElement */
+        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

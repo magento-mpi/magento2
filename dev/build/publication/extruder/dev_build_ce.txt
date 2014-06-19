@@ -17,8 +17,8 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Bundle/Test/Constraint
 ~dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest
 ~dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest.php
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleEntityTest
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleEntityTest.php
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapConfigurableTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/OutOfStockTest.php
@@ -26,10 +26,10 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CrosssellTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/RelatedProductTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/UpsellTest.php
+~dev/tests/functional/tests/app/Magento/CatalogEvent
 ~dev/tests/functional/tests/app/Magento/CatalogRule
 ~dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchTest.php
 ~dev/tests/functional/tests/app/Magento/Centinel
-~dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Cart
 ~dev/tests/functional/tests/app/Magento/Checkout/Test/Block/Onepage
 ~dev/tests/functional/tests/app/Magento/Checkout/Test/Fixture
 ~dev/tests/functional/tests/app/Magento/Checkout/Test/Handler
@@ -53,9 +53,13 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Customer/Test/Repository/CustomerConfig.php
 ~dev/tests/functional/tests/app/Magento/Customer/Test/Repository/VatGroup.php
 ~dev/tests/functional/tests/app/Magento/Customer/Test/TestCase/VatGroupAssignmentTest.php
+~dev/tests/functional/tests/app/Magento/CustomerBalance
 ~dev/tests/functional/tests/app/Magento/CustomerSegment
+~dev/tests/functional/tests/app/Magento/CustomerBalance
 ~dev/tests/functional/tests/app/Magento/Directory
 ~dev/tests/functional/tests/app/Magento/GiftCard
+~dev/tests/functional/tests/app/Magento/GiftCardAccount
+~dev/tests/functional/tests/app/Magento/GiftWrapping
 ~dev/tests/functional/tests/app/Magento/Logging
 ~dev/tests/functional/tests/app/Magento/Integration
 ~dev/tests/functional/tests/app/Magento/Multishipping
@@ -67,6 +71,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Sales
 ~dev/tests/functional/tests/app/Magento/SalesRule
 ~dev/tests/functional/tests/app/Magento/Shipping
+~dev/tests/functional/tests/app/Magento/TargetRule
 ~dev/tests/functional/tests/app/Magento/Tax/Test/TestCase/AutomaticTaxApplyingTest.php
 ~dev/tests/functional/tests/app/Magento/User/Test/TestCase/UserWithRestrictedRoleTest.php
 ~dev/tests/functional/tests/app/Magento/Widget

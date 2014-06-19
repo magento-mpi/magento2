@@ -7,6 +7,8 @@
  */
 namespace Magento\Pbridge\Helper;
 
+use Magento\Framework\Object;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,11 +32,35 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_paypalCartFactory;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_layout;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_encryptionFactory;
+
+    /**
      * setUp
      */
     protected function setUp()
     {
+        $this->_encryptionFactory = $this->getMock(
+            'Magento\Pbridge\Model\EncryptionFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
         $this->_cartFactory = $this->getMock('Magento\Payment\Model\CartFactory', array('create'), array(), '', false);
+        $this->_checkoutSession = $this->getMock('Magento\Checkout\Model\Session', ['getQuote'], array(), '', false);
+        $this->_layout = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
         $this->_paypalCartFactory = $this->getMock(
             'Magento\Paypal\Model\CartFactory',
             array('create'),
@@ -45,7 +71,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Pbridge\Helper\Data',
-            array('cartFactory' => $this->_cartFactory, 'paypalCartFactory' => $this->_paypalCartFactory)
+            [
+                'cartFactory' => $this->_cartFactory,
+                'paypalCartFactory' => $this->_paypalCartFactory,
+                'checkoutSession' => $this->_checkoutSession,
+                'layout' => $this->_layout,
+                'encryptionFactory' => $this->_encryptionFactory
+            ]
         );
         $this->_order = $this->getMock('Magento\Framework\Model\AbstractModel', array(), array(), '', false);
     }
@@ -88,5 +120,53 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($cart)
         );
         return array_merge(array('items' => array($items[0]->getData())), array('28'));
+    }
+
+    /**
+     * @dataProvider getContinueButtonDataProvider
+     */
+    public function testGetContinueButtonTemplate($quote, $blockObject, $expected)
+    {
+        $name = 'template name';
+        $block = 'buttons block name';
+        $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
+        $this->_layout->expects($this->any())->method('getBlock')->with($block)->will($this->returnValue($blockObject));
+        $this->assertEquals($expected, $this->_model->getContinueButtonTemplate($name, $block));
+    }
+
+    public function getContinueButtonDataProvider()
+    {
+        $paymentMock = $this->getMock(
+            'Magento\Sales\Model\Quote\Payment',
+            ['getMethodInstance', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $paymentMock->expects($this->any())->method('getMethodInstance')->will(
+            $this->returnValue(new \Magento\Framework\Object(['is_pending_order_required' => 'something']))
+        );
+        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getPayment', '__wakeup'], [], '', false);
+        $quoteMock->expects($this->any())->method('getPayment')->will($this->returnValue($paymentMock));
+        $blockObject = $this->getMock(
+            'Magento\Framework\View\Element\BlockInterface',
+            ['getTemplate', 'toHtml'],
+            [],
+            '',
+            false
+        );
+        $blockObject->expects($this->once())->method('getTemplate')->will($this->returnValue('block template'));
+        return [
+            [$quoteMock, null, 'template name'],
+            [null, $blockObject, 'block template'],
+            [null, false, '']
+        ];
+    }
+
+    public function testGetPbridgeParams()
+    {
+        $encryptor = $this->getMock('Magento\Pbridge\Model\Encryption', ['decrypt'], [], '', false);
+        $this->_encryptionFactory->expects($this->once())->method('create')->will($this->returnValue($encryptor));
+        $this->assertArrayHasKey('x_params', $this->_model->getPbridgeParams());
     }
 }

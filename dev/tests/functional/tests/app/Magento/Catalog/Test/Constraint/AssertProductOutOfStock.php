@@ -8,13 +8,12 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductOutOfStock
- *
  */
 class AssertProductOutOfStock extends AbstractConstraint
 {
@@ -31,13 +30,13 @@ class AssertProductOutOfStock extends AbstractConstraint
     const STOCK_AVAILABILITY = 'Out of stock';
 
     /**
-     * Assert  that Out of Stock status is displayed on product page
+     * Assert that Out of Stock status is displayed on product page
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, CatalogProductSimple $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
@@ -49,7 +48,7 @@ class AssertProductOutOfStock extends AbstractConstraint
     }
 
     /**
-     * Text of Out of Stock assert
+     * Returns a string representation of the object
      *
      * @return string
      */

@@ -25,7 +25,7 @@ class Upsell extends Tab
      * Select up-sell products
      *
      * @param array $products
-     * @param Element $context
+     * @param Element|null $context
      * @return $this
      */
     public function fillFormTab(array $products, Element $context = null)

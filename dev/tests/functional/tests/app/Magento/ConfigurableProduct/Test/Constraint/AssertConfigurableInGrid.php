@@ -9,12 +9,11 @@
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Class AssertConfigurableInGrid
- *
  */
 class AssertConfigurableInGrid extends AbstractConstraint
 {
@@ -26,7 +25,7 @@ class AssertConfigurableInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert product availability in Products Grid
+     * Assert product availability in products grid
      *
      * @param CatalogProductConfigurable $configurable
      * @param CatalogProductIndex $productPageGrid
@@ -43,7 +42,9 @@ class AssertConfigurableInGrid extends AbstractConstraint
     }
 
     /**
-     * @inheritdoc
+     * Returns a string representation of the object.
+     *
+     * @return string
      */
     public function toString()
     {

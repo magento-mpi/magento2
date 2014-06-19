@@ -162,7 +162,7 @@ $table = $installer->getConnection()->newTable(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
     'Created At'
 )->addColumn(
     'expired_at_static',
@@ -278,9 +278,6 @@ $table = $installer->getConnection()->newTable(
     ),
     array('website_id', 'customer_group_id', 'direction'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-)->addIndex(
-    $installer->getIdxName('magento_reward_rate', array('website_id')),
-    array('website_id')
 )->addIndex(
     $installer->getIdxName('magento_reward_rate', array('customer_group_id')),
     array('customer_group_id')
