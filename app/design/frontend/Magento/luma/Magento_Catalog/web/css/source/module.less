@@ -347,9 +347,14 @@
     .popup(
         @_popup-margin-top: 15px,
         @_popup-margin-left: 0,
-        @_popup-content-margin: 0
+        @_popup-content-margin: 0,
+        @_popup-position-top: auto,
+        @_popup-position-left: auto,
+        @_popup-position: absolute
     );
-    position: absolute;
+    .ui-dialog & {
+        padding: 22px;
+    }
     &:before {
         z-index: 99;
         border: solid 6px;

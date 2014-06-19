@@ -308,39 +308,3 @@
 ) when (@_popup-button-close-reset = true) {
     .button-reset();
 }
-// Popup working with dropdown dialog
-.ui-dialog.popup {
-  width: 420px;
-  .map.popup {
-    top: auto;
-    left: auto;
-    padding: 22px;
-  }
-  .action.close {
-    position: @popup-button-close-position;
-    ._popup-button-close-icon(
-      @popup-button-close-icon,
-      @popup-icon-font-content,
-      @popup-icon-font,
-      @popup-icon-font-size,
-      @popup-icon-font-line-height,
-      @popup-icon-font-color,
-      @popup-icon-font-color-hover,
-      @popup-icon-font-color-active,
-      @popup-icon-font-margin,
-      @popup-icon-font-vertical-align,
-      @popup-icon-font-position,
-      @popup-icon-font-text-hide
-    );
-    ._popup-button-close-reset(
-      @popup-button-close-reset
-    );
-/*    ._popup-position(
-      @popup-button-close-position-top,
-      @popup-button-close-position-bottom,
-      @popup-button-close-position-left,
-      @popup-button-close-position-right
-    );*/
-    z-index: 1001;
-  }
-}
