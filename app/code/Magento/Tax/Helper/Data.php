@@ -222,6 +222,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Product $product
      * @param null|string $format
      * @return float|string
+     * @deprecated
      */
     public function getProductPrice($product, $format = null)
     {
