@@ -56,7 +56,7 @@ class UpdateAdminUserRoleEntityTest extends Injectable
     protected $dashboard;
 
     /**
-     * Preconditions for test
+     * Preparing user without role
      *
      * @param FixtureFactory $fixtureFactory
      * @return array
@@ -69,7 +69,7 @@ class UpdateAdminUserRoleEntityTest extends Injectable
     }
 
     /**
-     * Preconditions for test
+     * Setup data for test
      *
      * @param UserRoleIndex $rolePage
      * @param UserRoleEditRole $userRoleEditRole
@@ -122,26 +122,23 @@ class UpdateAdminUserRoleEntityTest extends Injectable
         $userToLoginInAssert
     ) {
         $filter = ['rolename' => $roleInit->getRoleName()];
+        $userToLoginInTest = $user->getUsername() != 'admin' ? $customAdmin : $user;
 
         // Steps:
-        if ($role->getRoleName() != null) {
-            $this->adminAuthLogin->open();
-            $this->adminAuthLogin->getLoginBlock()->fill($customAdmin);
-            $this->adminAuthLogin->getLoginBlock()->submit();
-        }
+        $this->adminAuthLogin->open();
+        $this->adminAuthLogin->getLoginBlock()->fill($userToLoginInTest);
+        $this->adminAuthLogin->getLoginBlock()->submit();
         $this->rolePage->open();
         $this->rolePage->getRoleGrid()->searchAndOpen($filter);
         $username = $role->getRolesUsers() != null ? $userWithOutRole->getUsername() : null;
         $this->userRoleEditRole->getRoleFormTabs()->fillRole($role, $username);
         $this->userRoleEditRole->getPageActions()->save();
-
-
     }
 
     /**
      * Logout Admin User from account
      *
-     * return void
+     * @return void
      */
     public function tearDown()
     {

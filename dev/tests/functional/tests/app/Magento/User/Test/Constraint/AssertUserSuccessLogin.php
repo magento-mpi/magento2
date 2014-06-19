@@ -12,7 +12,6 @@ use Magento\User\Test\Fixture\AdminUserInjectable;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Dashboard;
 use Magento\Backend\Test\Page\AdminAuthLogin;
-use Magento\User\Test\Fixture\AdminUserRole;
 
 /**
  * Class AssertUserSuccessLogin
@@ -33,15 +32,15 @@ class AssertUserSuccessLogin extends AbstractConstraint
      * @param AdminUserInjectable $user
      * @param AdminAuthLogin $adminAuth
      * @param AdminUserInjectable $customAdmin
-     * @param string|null $userWithOutRole
+     * @param AdminUserInjectable $userWithOutRole
      * @param string|null $userToLoginInAssert
      * @return void
      */
     public function processAssert(
-        Dashboard $dashboard,
+        AdminUserInjectable $customAdmin,
         AdminUserInjectable $user,
         AdminAuthLogin $adminAuth,
-        AdminUserInjectable $customAdmin,
+        Dashboard $dashboard,
         $userWithOutRole = null,
         $userToLoginInAssert = null
     ) {
