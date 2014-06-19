@@ -94,6 +94,10 @@ class TaxClassService implements TaxClassServiceInterface
         }
 
         $originalTaxClassModel = $this->taxClassModelFactory->create()->load($taxClass->getClassId());
+        if (!$originalTaxClassModel->getId()) {
+            throw NoSuchEntityException::singleField('taxClassId', $taxClass->getClassId());
+        }
+
         $taxClassModel = $this->converter->createTaxClassModel($taxClass);
 
         /* should not be allowed to switch the tax class type */
@@ -103,9 +107,6 @@ class TaxClassService implements TaxClassServiceInterface
 
         try {
             $taxClassModel->save();
-        } catch (ModelException $e) {
-            throw new InputException('A class with the same name already exists for tax class type %type.',
-                ['type' => $taxClass->getType()]);
         } catch (\Exception $e) {
             return false;
         }
@@ -147,11 +148,9 @@ class TaxClassService implements TaxClassServiceInterface
         }
 
         $classType = $taxClass->getClassType();
-        if (!\Zend_Validate::is(trim($taxClass->getClassType()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($classType), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassDataObject::KEY_TYPE]);
-        }
-
-        if ($classType !== TaxClassDataObject::TYPE_CUSTOMER
+        } else if ($classType !== TaxClassDataObject::TYPE_CUSTOMER
             && $classType !== TaxClassDataObject::TYPE_PRODUCT
         ) {
             $exception->addError(

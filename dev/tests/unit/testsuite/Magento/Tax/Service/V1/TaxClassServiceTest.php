@@ -68,7 +68,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->taxClassModelMock = $this->getMockBuilder('Magento\Tax\Model\ClassModel')
             ->disableOriginalConstructor()
-            ->setMethods(['load', 'getId', 'delete', 'save', '__wakeup'])
+            ->setMethods(['load', 'getId', 'delete', 'save', 'getClassType', '__wakeup'])
             ->getMock();
 
         $this->taxClassModelFactoryMock->expects($this->any())
@@ -160,8 +160,215 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             $errors = $e->getErrors();
             $this->assertEquals('class_name is a required field.', $errors[0]->getMessage());
             $this->assertEquals('class_type is a required field.', $errors[1]->getMessage());
-            $this->assertEquals('Invalid value of "" provided for the class_type field.', $errors[2]->getMessage());
         }
+    }
+
+    public function testUpdateTaxClassSuccess()
+    {
+        $taxClassId = 1;
+
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId($taxClassId)
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($taxClassId));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock
+            ->expects($this->exactly(2))
+            ->method('getClassType')
+            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('save');
+
+        $this->converterMock
+            ->expects($this->once())
+            ->method('createTaxClassModel')
+            ->with($taxClassSample)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->assertTrue($this->taxClassService->updateTaxClass($taxClassSample));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage class_name is a required field.
+     */
+    public function testUpdateTaxClassInvalidDataNoClassName()
+    {
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId(1)
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassSample);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage class_type is a required field.
+     */
+    public function testUpdateTaxClassInvalidDataNoClassType()
+    {
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId(1)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassSample);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "Invalid Class Type" provided for the class_type field.
+     */
+    public function testUpdateTaxClassInvalidDataInvalidClassType()
+    {
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId(1)
+            ->setClassType('Invalid Class Type')
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassSample);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "" provided for the id field.
+     */
+    public function testUpdateTaxClassMissingId()
+    {
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassService->updateTaxClass($taxClassSample);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateTaxClassNotExistingEntity()
+    {
+        $taxClassId = 1;
+
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId($taxClassId)
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(null));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassService->updateTaxClass($taxClassSample);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Invalid value of "PRODUCT" provided for the type field.
+     */
+    public function testUpdateTaxClassInvalidClassTypeSwitched()
+    {
+        $taxClassId = 1;
+
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId($taxClassId)
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($taxClassId));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('getClassType')
+            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+
+        $convertedTaxClassModelMock = $this->getMockBuilder('Magento\Tax\Model\ClassModel')
+            ->disableOriginalConstructor()
+            ->setMethods(['getClassType', '__wakeup'])
+            ->getMock();
+
+        $convertedTaxClassModelMock
+            ->expects($this->once())
+            ->method('getClassType')
+            ->will($this->returnValue(TaxClass::TYPE_CUSTOMER));
+
+        $this->converterMock
+            ->expects($this->once())
+            ->method('createTaxClassModel')
+            ->with($taxClassSample)
+            ->will($this->returnValue($convertedTaxClassModelMock));
+
+        $this->taxClassService->updateTaxClass($taxClassSample);
+    }
+
+    public function testUpdateTaxClassSaveFailure()
+    {
+        $taxClassId = 1;
+
+        $taxClassSample = $this->taxClassBuilder
+            ->setClassId($taxClassId)
+            ->setClassType(TaxClass::TYPE_PRODUCT)
+            ->setClassName('Wholesale product')
+            ->create();
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($taxClassId));
+
+        $this->taxClassModelMock->expects($this->once())
+            ->method('load')
+            ->with($taxClassId)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock
+            ->expects($this->exactly(2))
+            ->method('getClassType')
+            ->will($this->returnValue(TaxClass::TYPE_PRODUCT));
+
+        $this->converterMock
+            ->expects($this->once())
+            ->method('createTaxClassModel')
+            ->with($taxClassSample)
+            ->will($this->returnValue($this->taxClassModelMock));
+
+        $this->taxClassModelMock
+            ->expects($this->once())
+            ->method('save')
+            ->will($this->throwException(new \Exception()));;
+
+        $this->assertFalse($this->taxClassService->updateTaxClass($taxClassSample));
     }
 
     public function testDeleteModelDeleteThrowsException()
