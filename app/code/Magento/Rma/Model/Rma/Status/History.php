@@ -17,9 +17,9 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
  * @method \Magento\Rma\Model\Rma\Status\History setIsCustomerNotified(bool $value)
  * @method \Magento\Rma\Model\Rma\Status\History setComment(string $comment)
  * @method \Magento\Rma\Model\Rma\Status\History setStoreId(int $storeId)
- * @method setEmailSent(bool $value)
- * @method getEmailSent() bool
- * @method getCreatedAt() string
+ * @method \Magento\Rma\Model\Rma\Status\History setEmailSent(bool $value)
+ * @method bool getEmailSent()
+ * @method string getCreatedAt()
  */
 class History extends \Magento\Framework\Model\AbstractModel
 {
@@ -54,9 +54,16 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Core date model
      *
+     * @var \Magento\Framework\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * Core date model 2.0
+     *
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
-    protected $_date;
+    protected $dateTimeDateTime;
 
     /**
      * @var \Magento\Framework\Translate\Inline\StateInterface
@@ -80,7 +87,8 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\Stdlib\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTimeDateTime
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param TimezoneInterface $localeDate
@@ -95,7 +103,8 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Framework\Stdlib\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTimeDateTime,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Rma\Helper\Data $rmaHelper,
         TimezoneInterface $localeDate,
@@ -107,7 +116,8 @@ class History extends \Magento\Framework\Model\AbstractModel
         $this->_rmaFactory = $rmaFactory;
         $this->_rmaConfig = $rmaConfig;
         $this->_transportBuilder = $transportBuilder;
-        $this->_date = $date;
+        $this->dateTime = $dateTime;
+        $this->dateTimeDateTime = $dateTimeDateTime;
         $this->inlineTranslation = $inlineTranslation;
         $this->rmaHelper = $rmaHelper;
         $this->localeDate = $localeDate;
@@ -270,10 +280,10 @@ class History extends \Magento\Framework\Model\AbstractModel
      * Get system comment by state
      * Returns null if state is not known
      *
-     * @param string $state
+     * @param string $status
      * @return string|null
      */
-    public static function getSystemCommentByStatus($state)
+    public static function getSystemCommentByStatus($status)
     {
         $comments = [
             Status::STATE_PENDING => __('We placed your Return request.'),
@@ -286,7 +296,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             Status::STATE_CLOSED => __('We closed your Return request.'),
             Status::STATE_PROCESSED_CLOSED => __('We processed and closed your Return request.')
         ];
-        return isset($comments[$state]) ? $comments[$state] : null;
+        return isset($comments[$status]) ? $comments[$status] : null;
     }
 
     /**
@@ -302,7 +312,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             ->setComment($comment)
             ->setIsVisibleOnFront($visibleOnFrontend)
             ->setStatus($rma->getStatus())
-            ->setCreatedAt($this->_date->gmtDate())
+            ->setCreatedAt($this->dateTimeDateTime->gmtDate())
             ->setIsCustomerNotified($this->getEmailSent())
             ->setIsAdmin($isAdmin)
             ->save();
@@ -412,6 +422,6 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function getCreatedAtDate()
     {
-        return $this->localeDate->date($this->_date->toTimestamp($this->getCreatedAt()), null, null, true);
+        return $this->localeDate->date($this->dateTime->toTimestamp($this->getCreatedAt()), null, null, true);
     }
 }

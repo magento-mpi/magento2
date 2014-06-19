@@ -51,12 +51,12 @@ class HistoryPlugin
     {
         $collection = $this->rmaCollection->addFieldToFilter('order_id', $subject->getOrder()->getId())->load();
         $creationSystemComment = StatusHistory::getSystemCommentByStatus(Status::STATE_PENDING);
+        /** @var $historyCollection \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
+        $historyCollection = $this->historyCollectionFactory->create();
         /** @var \Magento\Rma\Model\Rma $rma */
         foreach ($collection as $rma) {
-            /** @var $collection \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
-            $historyCollection = $this->historyCollectionFactory->create();
             /** @var $comments \Magento\Rma\Model\Rma\Status\History[] */
-            $comments = $historyCollection->addFieldToFilter('rma_entity_id', $rma->getId())->load();
+            $comments = $historyCollection->getItemsByColumnValue('rma_entity_id', $rma->getId());
             foreach ($comments as $comment) {
                 if ($comment['comment'] == $creationSystemComment) {
                     $history[] = [
@@ -67,9 +67,8 @@ class HistoryPlugin
                     ];
                 }
             }
-
         }
-        usort($history, [get_class($subject), "sortHistoryByTimestamp"]);
+        usort($history, [get_class($subject), 'sortHistoryByTimestamp']);
         return $history;
     }
 } 
