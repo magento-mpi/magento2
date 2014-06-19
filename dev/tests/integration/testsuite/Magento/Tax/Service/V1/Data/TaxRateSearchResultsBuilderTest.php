@@ -26,20 +26,14 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @var TaxRateSearchResultsBuilder
      */
-    private $builder;
+    private $taxRateSearchResultsBuilder;
 
-    /**
-     * TaxRate builder
-     *
-     * @var TaxRateBuilder
-     */
-    private $taxRateBuilder;
 
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->builder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder');
-        $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
+        $this->taxRateSearchResultsBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder');
+
     }
 
     /**
@@ -48,7 +42,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWithPopulateWithArray($dataArray)
     {
-        $taxRateSearchResults = $this->builder->populateWithArray($dataArray)->create();
+        $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populateWithArray($dataArray)->create();
         $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRateSearchResults', $taxRateSearchResults);
         $this->assertEquals($dataArray, $taxRateSearchResults->__toArray());
     }
@@ -83,8 +77,8 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testPopulate($dataArray)
     {
-        $taxRateSearchResultsFromArray = $this->builder->populateWithArray($dataArray)->create();
-        $taxRateSearchResults = $this->builder->populate($taxRateSearchResultsFromArray)->create();
+        $taxRateSearchResultsFromArray = $this->taxRateSearchResultsBuilder->populateWithArray($dataArray)->create();
+        $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populate($taxRateSearchResultsFromArray)->create();
         $this->assertEquals($taxRateSearchResultsFromArray, $taxRateSearchResults);
     }
 
@@ -93,10 +87,10 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergeDataObjects($firstDataSet, $secondDataSet, $mergedData)
     {
-        $taxRateSearchResults = $this->builder->populateWithArray($mergedData)->create();
-        $taxRateSearchResults1 = $this->builder->populateWithArray($firstDataSet)->create();
-        $taxRateSearchResults2 = $this->builder->populateWithArray($secondDataSet)->create();
-        $taxRateSearchResultsMerged = $this->builder->mergeDataObjects($taxRateSearchResults1, $taxRateSearchResults2);
+        $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populateWithArray($mergedData)->create();
+        $taxRateSearchResults1 = $this->taxRateSearchResultsBuilder->populateWithArray($firstDataSet)->create();
+        $taxRateSearchResults2 = $this->taxRateSearchResultsBuilder->populateWithArray($secondDataSet)->create();
+        $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjects($taxRateSearchResults1, $taxRateSearchResults2);
         $this->assertEquals($taxRateSearchResults->__toArray(), $taxRateSearchResultsMerged->__toArray());
     }
 
@@ -105,9 +99,9 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testMergeDataObjectWithArray($firstDataSet, $secondDataSet, $mergedData)
     {
-        $taxRateSearchResults = $this->builder->populateWithArray($mergedData)->create();
-        $taxRateSearchResults1 = $this->builder->populateWithArray($firstDataSet)->create();
-        $taxRateSearchResultsMerged = $this->builder->mergeDataObjectWithArray($taxRateSearchResults1, $secondDataSet);
+        $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populateWithArray($mergedData)->create();
+        $taxRateSearchResults1 = $this->taxRateSearchResultsBuilder->populateWithArray($firstDataSet)->create();
+        $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjectWithArray($taxRateSearchResults1, $secondDataSet);
         $this->assertEquals($taxRateSearchResults->__toArray(), $taxRateSearchResultsMerged->__toArray());
     }
 

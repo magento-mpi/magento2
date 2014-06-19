@@ -35,7 +35,7 @@ class TaxRateSearchResultsBuilder extends AbstractSearchResultsBuilder
     }
 
     /**
-     * Set tax rule items
+     * Set tax rate items
      *
      * @param \Magento\Tax\Service\V1\Data\TaxRate[] $taxRateItems
      * @return $this
