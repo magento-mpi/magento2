@@ -26,10 +26,12 @@ class CatalogProductDownloadable extends InjectableFixture
      */
     protected $repositoryClass = 'Magento\Downloadable\Test\Repository\CatalogProductDownloadable';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Downloadable\Test\Handler\CatalogProductDownloadableInterface';
+    protected $handlerInterface = 'Magento\Downloadable\Test\Handler\CatalogProductDownloadable\CatalogProductDownloadableInterface';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Constructor
@@ -374,7 +376,7 @@ class CatalogProductDownloadable extends InjectableFixture
     ];
 
     protected $stock_data_min_qty = [
-        'attribute_code' => 'stock_data_min_qty',
+        'attribute_code' => 'stock_data',
         'input' => 'text',
         'group' => 'advanced-inventory',
     ];
@@ -452,6 +454,7 @@ class CatalogProductDownloadable extends InjectableFixture
 
     protected $downloadable = [
         'attribute_code' => 'downloadable',
+        'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'downloadable_information',
     ];
@@ -626,7 +629,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'weight',
-        'group' => 'product-details',
+        'group' => 'product-details'
     ];
 
     protected $custom_options = [
@@ -635,7 +638,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => 'default',
         'group' => 'customer-options',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions'
     ];
 
     protected $id = [
@@ -651,18 +654,7 @@ class CatalogProductDownloadable extends InjectableFixture
 
     protected $website_ids = [
         'attribute_code' => 'website_ids',
-    ];
-
-    protected $new_variations_attribute_set_id = [
-        'attribute_code' => 'new-variations-attribute-set-id',
-        'backend_type' => 'decimal',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'weight',
-    ];
-
-    protected $affect_configurable_product_attributes = [
-        'attribute_code' => 'affect_configurable_product_attributes',
+        'backend_type' => 'virtual'
     ];
 
     public function getCategoryIds()

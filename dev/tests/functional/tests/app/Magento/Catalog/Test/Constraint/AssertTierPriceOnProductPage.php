@@ -31,8 +31,10 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
+    public function processAssert(
+        CatalogProductView $catalogProductView,
+        FixtureInterface $product
+    ) {
         // TODO fix initialization url for frontend page
         //Open product view page
         $catalogProductView->init($product);
@@ -63,7 +65,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
             if (!$noError) {
                 break;
             }
-            if (count($match) < 2
+            if ( count($match) < 2
                 && $match[1] != $tierPrice['price_qty']
                 || $match[2] !== number_format($tierPrice['price'], 2)
             ) {
