@@ -19,6 +19,9 @@ use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
 
+/**
+ * TaxRuleService implementation.
+ */
 class TaxRuleService implements TaxRuleServiceInterface
 {
     /**
@@ -52,8 +55,8 @@ class TaxRuleService implements TaxRuleServiceInterface
      * @param TaxRuleBuilder $taxRuleBuilder
      * @param TaxRuleConverter $converter
      * @param TaxRuleRegistry $taxRuleRegistry
-     * @param TaxRuleSearchResultsBuilder
-     * @param TaxRuleModelFactory
+     * @param Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder
+     * @param TaxRuleModelFactory $taxRuleModelFactory
      */
     public function __construct(
         TaxRuleBuilder $taxRuleBuilder,
@@ -126,7 +129,7 @@ class TaxRuleService implements TaxRuleServiceInterface
         $this->taxRuleSearchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
+            foreach ($sortOrders as $field => $direction) {
                 $field = $this->translateField($field);
                 $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
