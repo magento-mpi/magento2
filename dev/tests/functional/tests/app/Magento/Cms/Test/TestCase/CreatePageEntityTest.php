@@ -9,7 +9,6 @@
 namespace Magento\Cms\Test\TestCase;
 
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
-use Mtf\Factory\Factory;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
@@ -52,9 +51,10 @@ class CreatePageEntityTest extends Injectable
      * Creating CMS content page
      *
      * @param CmsPageFixture $cms
+     * @return void
      * @ZephyrId MAGETWO-12399
      */
-    public function testCreateCmsPage(CmsPageFixture $cms)
+    public function test(CmsPageFixture $cms)
     {
         $this->cmsIndex->open();
         $cmsPageGridBlock = $this->cmsIndex->getPageActionsBlock();

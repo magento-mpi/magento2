@@ -19,8 +19,6 @@ use Mtf\Client\Element\Locator;
  */
 class PageForm extends FormTabs
 {
-    const CONTENT_TAB = 'content';
-
     /**
      * Content Editor toggle button id
      *

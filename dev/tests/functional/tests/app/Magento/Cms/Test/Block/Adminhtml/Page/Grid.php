@@ -47,6 +47,7 @@ class Grid extends ParentGrid
      *
      * @param array $filter
      * @throws \Exception
+     * @return void
      */
     public function searchAndPreview(array $filter)
     {
