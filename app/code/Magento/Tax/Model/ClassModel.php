@@ -69,7 +69,7 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
      * @return bool
      * @throws \Magento\Framework\Model\Exception
      */
-    public function checkClassCanBeDeleted()
+    protected function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
             throw new \Magento\Framework\Model\Exception(__('This class no longer exists.'));
@@ -96,4 +96,17 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
 
         return true;
     }
+
+    /**
+     * Validate tax class can be deleted
+     *
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
+     */
+    protected function _beforeDelete()
+    {
+        $this->checkClassCanBeDeleted();
+        return parent::_beforeDelete();
+    }
+
 }
