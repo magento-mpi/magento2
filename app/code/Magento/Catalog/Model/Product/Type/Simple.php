@@ -5,14 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Type;
 
 /**
  * Simple product type implementation
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Type;
-
 class Simple extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     /**

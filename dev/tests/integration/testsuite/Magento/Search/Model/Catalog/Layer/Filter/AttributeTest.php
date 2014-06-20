@@ -16,7 +16,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyFilterToCollectionSelectString($givenValue, $expectedValue)
     {
-        $this->markTestIncomplete('MAGETWO-7903');
         $options = array();
         foreach ($this->getAttributeValues() as $testValues) {
             $options[] = array('label' => $testValues[0], 'value' => $testValues[0]);
@@ -44,8 +43,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Search\Model\Resource\Collection'
         );
-        $layer = $this->getMock('Magento\Catalog\Model\Layer\Category');
-        $layer->expects($this->any())->method('getProductCollection')->will($this->returnValue($productCollection));
+        $layer = $this->getMock(
+            'Magento\Catalog\Model\Layer\Category', array('getProductCollection'), array(), '', false
+        );
+        $layer->expects($this->any())
+            ->method('getProductCollection')
+            ->will($this->returnValue($productCollection));
 
         /**
          * @var \Magento\Search\Model\Layer\Category\Filter\Attribute
