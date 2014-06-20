@@ -19,22 +19,10 @@ class ReadServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/categories';
 
-    private static $categoryData = ['name' => 'Test Category'];
-    private static $modelId;
-
-    public static function infoDataFixture()
-    {
-        /** @var \Magento\Catalog\Model\CategoryFactory $categoryFactory */
-        $categoryFactory = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\CategoryFactory');
-        /** @var Category $category */
-        $category = $categoryFactory->create();
-        $category->setData(self::$categoryData);
-        $category->save();
-        self::$modelId = $category->getId();
-    }
+    private $modelId = 333;
 
     /**
-     * @magentoApiDataFixture infoDataFixture
+     * @magentoApiDataFixture Magento/Catalog/_files/category.php
      */
     public function testInfo()
     {
