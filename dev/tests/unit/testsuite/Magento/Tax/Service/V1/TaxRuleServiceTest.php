@@ -328,7 +328,8 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchTaxRulesEmptyResult()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Service\V1\Data\SearchCriteria */
+        /** @var \PHPUnit_Framework_MockObject_MockObject |
+         * \Magento\Framework\Service\V1\Data\SearchCriteria $mockSearchCriteria */
         $mockSearchCriteria = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
             ->disableOriginalConstructor()
             ->getMock();
@@ -365,12 +366,13 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchTaxRulesSingleResult()
     {
-        /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Tax\Model\Resource\Calculation\Rule\Collection */
+        /** @var \PHPUnit_Framework_MockObject_MockObject |
+         * \Magento\Tax\Model\Resource\Calculation\Rule\Collection $mockCollection */
         $mockCollection = $this->getMockBuilder('\Magento\Tax\Model\Resource\Calculation\Rule\Collection')
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup', 'getItems', 'getSize', 'addFieldToFilter', '_beforeLoad', 'getIterator'])
             ->getMock();
-        /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder */
+        /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder $taxRuleBuilder */
         $taxRuleBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         /** @var \Magento\Tax\Service\V1\Data\TaxRule $taxRule */
         $taxRule = $taxRuleBuilder->create();
@@ -389,16 +391,17 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 
         $filterGroupBuilder = $this->objectManager
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
-        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->getObject(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
         $searchCriteria = $searchCriteriaBuilder
             ->addFilter([$filter])
+            ->addSortOrder('id', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC)
             ->create();
 
-        /** @var \Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder */
+        /** @var \Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder $searchResultsBuilder */
         $searchResultsBuilder = $this->objectManager->getObject(
             '\Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder'
         );
