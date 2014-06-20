@@ -26,6 +26,9 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Checked whether all the phrases from en_US.csv file is present in all other locale csv files,
+     * and whether there is obsolete
+     *
      * @param string $modulePath
      * @dataProvider getModulesPath
      */
