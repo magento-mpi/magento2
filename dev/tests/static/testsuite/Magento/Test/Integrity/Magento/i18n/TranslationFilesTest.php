@@ -90,7 +90,8 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
     {
         $failures = [];
         if (!isset($files[$this->baseLocale])) {
-            return ["{$this->baseLocale}.csv file is not found"];
+            $failures[$this->baseLocale] = "{$this->baseLocale}.csv file is not found";
+            return $failures;
         }
         $baseLocaleData = $this->csvParser->getDataPairs($files[$this->baseLocale]);
         foreach (array_keys($files) as $locale) {
