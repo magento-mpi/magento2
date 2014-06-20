@@ -18,12 +18,9 @@ class CustomerGroupInjectable extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerGroupInjectable';
-
-    /**
-     * @var string
-     */
-    protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerGroup\CustomerGroupInterface';
+    // @codingStandardsIgnoreStart
+    protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerGroupInjectable\CustomerGroupInjectableInterface';
+    // @codingStandardsIgnoreEnd
 
     protected $defaultDataSet = [
         'customer_group_code' => 'customer_code_%isolation%',
@@ -47,6 +44,11 @@ class CustomerGroupInjectable extends InjectableFixture
         'source' => 'Magento\Customer\Test\Fixture\CustomerGroup\TaxClassIds',
     ];
 
+    protected $customer_group_id = [
+        'attribute_code' => 'customer_group_id',
+        'backend_type' => 'virtual',
+    ];
+
     public function getCustomerGroupCode()
     {
         return $this->getData('customer_group_code');
@@ -55,5 +57,10 @@ class CustomerGroupInjectable extends InjectableFixture
     public function getTaxClassId()
     {
         return $this->getData('tax_class_id');
+    }
+
+    public function getCustomerGroupId()
+    {
+        return $this->getData('customer_group_id');
     }
 }

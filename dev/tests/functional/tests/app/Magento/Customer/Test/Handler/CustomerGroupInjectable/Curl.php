@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Handler\CustomerGroup;
+namespace Magento\Customer\Test\Handler\CustomerGroupInjectable;
 
 use Mtf\System\Config;
 use Mtf\Handler\Curl as AbstractCurl;
@@ -14,12 +14,13 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
  * Curl handler for creating customer group
  */
-class Curl extends AbstractCurl implements CustomerGroupInterface
+class Curl extends AbstractCurl implements CustomerGroupInjectableInterface
 {
     /**
      * Url for saving data
@@ -52,30 +53,22 @@ class Curl extends AbstractCurl implements CustomerGroupInterface
             );
         }
 
-        return ['id' => $this->getCustomerGroupId($data, $response)];
+        return ['customer_group_id' => $this->getCustomerGroupId($data, $response)];
     }
 
     /**
      * Get id after creating Customer Group
      *
      * @param array $data
-     * @return mixed
-     * @throws \Exception
+     * @return int|null
      */
     public function getCustomerGroupId(array $data)
     {
-        //Sort data in grid to define customer group id if more than 20 items in grid
-        $url = $_ENV['app_backend_url'] . 'customer/group/index/sort/time/dir/desc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0');
-        $response = $curl->read();
-        $curl->close();
-
+        $url = 'customer/group/index/sort/time/dir/desc';
         $regExp = '/.*id\/(\d+)\/.*'. $data['code'] .'/siu';
-        preg_match($regExp, $response, $matches);
-        if (empty($matches)) {
-            throw new \Exception('Cannot find Customer Group Id');
-        }
-        return $matches[1];
+        $extractor = new Extractor($url, $regExp);
+        $match = $extractor->getData();
+
+        return empty($match[1]) ? null : $match[1];
     }
 }

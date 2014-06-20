@@ -49,6 +49,6 @@ class AssertCustomerGroupSuccessDeleteMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Assert that success delete message is displayed';
+        return 'Assert that success delete message is displayed.';
     }
 }

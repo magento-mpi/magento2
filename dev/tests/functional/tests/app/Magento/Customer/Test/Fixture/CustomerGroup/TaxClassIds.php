@@ -10,18 +10,27 @@ namespace Magento\Customer\Test\Fixture\CustomerGroup;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Tax\Test\Fixture\TaxClass;
 
 /**
- * Class TaxClass
- * @package Magento\Customer\Test\Fixture
+ * Class TaxClassIds
+ *
+ * Data keys:
+ *  - dataSet
  */
 class TaxClassIds implements FixtureInterface
 {
-    /** @var string Data */
+    /**
+     * TaxClass Name
+     *
+     * @var string
+     */
     protected $data;
 
     /**
-     * @var \Magento\Tax\Test\Fixture\TaxClass
+     * TaxClass fixture
+     *
+     * @var TaxClass
      */
     protected $taxClass;
 
@@ -70,7 +79,9 @@ class TaxClassIds implements FixtureInterface
     }
 
     /**
-     * @return \Magento\Tax\Test\Fixture\TaxClass
+     * Return TaxClass fixture
+     *
+     * @return TaxClass
      */
     public function getTaxClass()
     {

@@ -15,19 +15,18 @@ use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 
 /**
- * Test creation for DeleteCustomerGroupEntity
+ * Test Creation for DeleteCustomerGroupEntity
  *
  * Test Flow:
  * Preconditions:
- *  1.Customer Tax Class is created
- *  2.Customer Group is created
+ *  1. Customer Group is created
  * Steps:
- * 1. Log in to backend as admin user
- * 2. Navigate to Stores > Other Settings > Customer Groups
- * 3. Click on Customer Group from grid
- * 4. Click on Delete "Customer Group"
- * 5. Confirm in pop-up
- * 6. Perform all assertions
+ *  1. Log in to backend as admin user
+ *  2. Navigate to Stores > Other Settings > Customer Groups
+ *  3. Click on Customer Group from grid
+ *  4. Click on Delete "Customer Group"
+ *  5. Confirm in pop-up
+ *  6. Perform all assertions
  *
  * @group Customer_Groups_(CS)
  * @ZephyrId MAGETWO-25243
@@ -49,32 +48,25 @@ class DeleteCustomerGroupEntityTest extends Injectable
     protected $customerGroupNew;
 
     /**
-     * Preparing data
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable', ['dataSet' => 'default']);
-        $customerGroup->persist();
-
-        return ['customerGroup' => $customerGroup];
-    }
-
-    /**
      * Injection data
      *
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew
-     * @return void
+     * @param FixtureFactory $fixtureFactory
+     * @return array
      */
     public function __inject(
         CustomerGroupIndex $customerGroupIndex,
-        CustomerGroupNew $customerGroupNew
+        CustomerGroupNew $customerGroupNew,
+        FixtureFactory $fixtureFactory
     ) {
         $this->customerGroupIndex = $customerGroupIndex;
         $this->customerGroupNew = $customerGroupNew;
+
+        $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable');
+        $customerGroup->persist();
+
+        return ['customerGroup' => $customerGroup];
     }
 
     /**
