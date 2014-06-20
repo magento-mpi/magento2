@@ -190,7 +190,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxClassId = -9999
+     * @expectedExceptionMessage No such entity with class_id = -9999
      */
     public function testGetTaxClassWithNoSuchEntityException()
     {
