@@ -17,6 +17,9 @@
             z-index: 999;
         }
     }
+    .filter.active .filter-options-item:last-child {
+        margin-bottom: @indent-xl-base;
+    }
 }
 
 .filter {
@@ -148,7 +151,7 @@
             top: 50px;
             left: 0;
             right: 0;
-            height: 100%;
+            bottom: 0;
             overflow: scroll;
             background: #fff;
             z-index: 10;
