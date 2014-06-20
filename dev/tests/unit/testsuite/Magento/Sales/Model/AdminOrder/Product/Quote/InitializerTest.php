@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Sales\Model\AdminOrder\Product\Quote;
 
 /**
  * Initializer test
-  */
+ */
 class InitializerTest extends \PHPUnit_Framework_TestCase
 {
     /**

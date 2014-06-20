@@ -42,6 +42,16 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $stockItemService;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $lowStockResultBuilder;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $itemsFactory;
+
     protected function setUp()
     {
         $this->stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
@@ -64,6 +74,21 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->lowStockResultBuilder = $this->getMock(
+            'Magento\CatalogInventory\Service\V1\Data\LowStockResultBuilder',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->itemsFactory = $this->getMock(
+            'Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
             'Magento\CatalogInventory\Service\V1\StockStatusService',
@@ -73,6 +98,8 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
                 'scopeResolver' => $this->scopeResolver,
                 'stockStatusBuilder' => $this->stockStatusBuilder,
                 'stockItemService' => $this->stockItemService,
+                'itemsFactory' => $this->itemsFactory,
+                'lowStockResultBuilder' => $this->lowStockResultBuilder
             ]
         );
     }
@@ -258,5 +285,59 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ['sku1', false],
             ['sku1', 0],
         ];
+    }
+
+    /**
+     * @covers \Magento\CatalogInventory\Service\V1\StockStatusService::getLowStockItems
+     */
+    public function testGetterOfLowStockItems()
+    {
+        $websiteId = 1;
+        $criteriaData = [
+            'qty'          => 1,
+            'current_page' => 1,
+            'page_size'    => 10
+        ];
+        $scope = $this->getMockBuilder('Magento\Store\Model\Website')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $scope->expects($this->any())->method('getId')->will($this->returnValue($websiteId));
+        $this->scopeResolver->expects($this->any())->method('getScope')->will($this->returnValue($scope));
+
+        $builder = $this->getMockBuilder('Magento\Framework\Service\Data\AbstractObjectBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $builder->expects($this->any())->method('getData')->will($this->returnValue($criteriaData));
+
+        $statusItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
+            ->setMethods(['__wakeup', 'getSku'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $statusItem->expects($this->any())->method('getSku')->will($this->returnValue('test_sku'));
+
+        $collection = $this->getMockBuilder('Magento\CatalogInventory\Model\Resource\Stock\Status\Collection')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $collection->expects($this->any())->method('getSize')->will($this->returnValue(1));
+        $collection->expects($this->any())->method('getIterator')
+            ->will($this->returnValue(new \ArrayIterator([$statusItem])));
+        $this->itemsFactory->expects($this->once())->method('create')->will($this->returnValue($collection));
+
+        /** @var \Magento\Framework\Service\Data\AbstractObjectBuilder $builder */
+        $lowStockCriteria = new Data\LowStockCriteria($builder);
+
+        // Expected results
+        $collection->expects($this->atLeastOnce())->method('addWebsiteFilter')->with($scope);
+        $collection->expects($this->atLeastOnce())->method('addQtyFilter')->with($criteriaData['qty']);
+        $collection->expects($this->atLeastOnce())->method('setCurPage')->with($criteriaData['current_page']);
+        $collection->expects($this->atLeastOnce())->method('setPageSize')->with($criteriaData['page_size']);
+
+        $this->lowStockResultBuilder->expects($this->atLeastOnce())->method('setSearchCriteria')
+            ->with($lowStockCriteria);
+        $this->lowStockResultBuilder->expects($this->atLeastOnce())->method('setTotalCount')->with(1);
+        $this->lowStockResultBuilder->expects($this->atLeastOnce())->method('setItems')->with(['test_sku']);
+
+        // Run tested method
+        $this->model->getLowStockItems($lowStockCriteria);
     }
 }

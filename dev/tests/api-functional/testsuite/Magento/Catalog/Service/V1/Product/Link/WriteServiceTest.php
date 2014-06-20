@@ -175,7 +175,6 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $this->assertEmpty($actual);
     }
 
-
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/products_related.php
      */
