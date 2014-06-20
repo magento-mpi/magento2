@@ -6,30 +6,31 @@
  * @license     {license_link}
  */
 
-namespace Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+namespace Magento\Banner\Test\Fixture\BannerInjectable;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment as CustomerSegmentFixture;
 
 /**
- * Class IdPath
- * Prepare ID Path
+ * Class CustomerSegment
+ * Prepare customer segment
  */
-class IdPath implements FixtureInterface
+class CustomerSegment implements FixtureInterface
 {
     /**
      * Resource data
      *
-     * @var string
+     * @var array
      */
-    protected $data;
+    protected $data = [];
 
     /**
-     * Return category
+     * Return customer segment
      *
-     * @var FixtureInterface
+     * @var CustomerSegmentFixture
      */
-    protected $entity;
+    protected $customerSegment = [];
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -39,19 +40,17 @@ class IdPath implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
-        if (!isset($data['entity'])) {
-            $this->data = array_shift($data);
-            return;
-        }
-        preg_match('`%(.*?)%`', $data['entity'], $dataSet);
-        $explodeValue = explode('::', $dataSet[1]);
-        if (!empty($explodeValue) && count($explodeValue) > 1) {
-            /** @var FixtureInterface $fixture */
-            $this->entity = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
-            $this->entity->persist();
-            $this->data = preg_replace('`(%.*?%)`', $this->entity->getId(), $data['entity']);
+        if ($data['dataSet'] && $data['dataSet'] != "-") {
+            $dataSet = explode(',', $data['dataSet']);
+            foreach ($dataSet as $customerSegment) {
+                /** @var CustomerSegmentFixture $segment */
+                $segment = $fixtureFactory->createByCode('customerSegment', ['dataSet' => $customerSegment]);
+                $segment->persist();
+                $this->customerSegment[] = $segment;
+                $this->data[] = $segment->getName();
+            }
         } else {
-            $this->data = strval($data['entity']);
+            $this->data[] = null;
         }
     }
 
@@ -89,10 +88,10 @@ class IdPath implements FixtureInterface
     /**
      * Return entity
      *
-     * @return FixtureInterface
+     * @return CustomerSegmentFixture
      */
-    public function getEntity()
+    public function getCustomerSegments()
     {
-        return $this->entity;
+        return $this->customerSegment;
     }
 }

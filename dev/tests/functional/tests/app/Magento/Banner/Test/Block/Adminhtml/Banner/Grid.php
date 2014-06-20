@@ -9,7 +9,6 @@
 namespace Magento\Banner\Test\Block\Adminhtml\Banner;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -32,31 +31,15 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'banner' => [
-            'selector' => '#bannerGrid_banner_filter_banner_name'
+            'selector' => 'input[name="banner_name"]'
         ],
         'visibility' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-store-filter-visible-in"]',
+            'selector' => 'select[name="visible_in"]',
             'input' => 'selectstore',
         ],
         'active' => [
-            'selector' => '#bannerGrid_banner_filter_banner_is_enabled',
+            'selector' => 'select[name="banner_is_enabled"]',
             'input' => 'select',
         ],
     ];
-
-    /**
-     * Check banner in banner grid
-     *
-     * @param array $filters
-     * @param string $type
-     * @return bool
-     */
-    public function isBannerRowVisible($filters, $type = '')
-    {
-        $result = $this->isRowVisible($filters);
-        if ($type) {
-            $result = $this->_rootElement->find(sprintf($this->typesPath, $type), Locator::SELECTOR_XPATH)->isVisible();
-        }
-        return $result;
-    }
 }

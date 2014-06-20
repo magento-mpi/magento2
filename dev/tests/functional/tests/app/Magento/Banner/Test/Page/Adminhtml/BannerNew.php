@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Banner\Test\Page\Adminhtml; 
+namespace Magento\Banner\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class BannerNew
@@ -19,8 +19,8 @@ class BannerNew extends BackendPage
     const MCA = 'admin/banner/new';
 
     protected $_blocks = [
-        'newBannerPageForm' => [
-            'name' => 'newBannerPageForm',
+        'bannerForm' => [
+            'name' => 'bannerForm',
             'class' => 'Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
@@ -36,9 +36,9 @@ class BannerNew extends BackendPage
     /**
      * @return \Magento\Banner\Test\Block\Adminhtml\Banner\BannerForm
      */
-    public function getNewBannerPageForm()
+    public function getBannerForm()
     {
-        return $this->getBlockInstance('newBannerPageForm');
+        return $this->getBlockInstance('bannerForm');
     }
 
     /**

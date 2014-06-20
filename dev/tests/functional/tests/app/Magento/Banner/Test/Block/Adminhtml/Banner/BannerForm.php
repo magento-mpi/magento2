@@ -12,7 +12,7 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class BannerForm
- * Backend Cms Page edit page
+ * Backend banner form
  */
 class BannerForm extends FormTabs
 {

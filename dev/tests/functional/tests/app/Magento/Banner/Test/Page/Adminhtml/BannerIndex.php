@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Banner\Test\Page\Adminhtml; 
+namespace Magento\Banner\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class BannerIndex

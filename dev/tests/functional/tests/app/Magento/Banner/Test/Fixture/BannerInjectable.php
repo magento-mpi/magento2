@@ -34,6 +34,7 @@ class BannerInjectable extends InjectableFixture
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
+        'group' => 'banner_properties',
         'input' => '',
     ];
 
@@ -42,6 +43,7 @@ class BannerInjectable extends InjectableFixture
         'backend_type' => 'int',
         'is_required' => '',
         'default_value' => '',
+        'group' => 'banner_properties',
         'input' => '',
     ];
 
@@ -59,38 +61,35 @@ class BannerInjectable extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'banner_properties',
     ];
 
-    protected $store_contents_not_use_0 = [
+    protected $customer_segment = [
+        'attribute_code' => 'types',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => 'multiselect',
+        'group' => 'banner_properties',
+        'source' => 'Magento\Banner\Test\Fixture\BannerInjectable\CustomerSegment',
+    ];
+
+    protected $store_contents_not_use = [
         'attribute_code' => 'types',
         'backend_type' => 'int',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'group' => 'content',
     ];
 
-    protected $store_contents_0 = [
+    protected $store_contents = [
         'attribute_code' => 'types',
         'backend_type' => 'varchar',
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-    ];
-
-    protected $store_contents_not_use_1 = [
-        'attribute_code' => 'types',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $store_contents_1 = [
-        'attribute_code' => 'types',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
+        'group' => 'content',
     ];
 
     public function getBannerId()
@@ -118,23 +117,13 @@ class BannerInjectable extends InjectableFixture
         return $this->getData('use_customer_segment');
     }
 
-    public function getStoreContentsNotUse0()
+    public function getStoreContentsNotUse()
     {
-        return $this->getData('store_contents_not_use_0');
+        return $this->getData('store_contents_not_use');
     }
 
-    public function getStoreContents0()
+    public function getStoreContents()
     {
-        return $this->getData('store_contents_0');
-    }
-
-    public function getStoreContentsNotUse1()
-    {
-        return $this->getData('store_contents_not_use_1');
-    }
-
-    public function getStoreContents1()
-    {
-        return $this->getData('store_contents_1');
+        return $this->getData('store_contents');
     }
 }

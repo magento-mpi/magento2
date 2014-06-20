@@ -20,12 +20,12 @@ use Mtf\TestCase\Injectable;
  * Preconditions:
  * 1. Create customer segment
  *
- * 2. Steps:
- * 3. Open Backend
- * 4. Go to Content->Banners
- * 5. Click "Add Banner" button
- * 6. Fill data according to dataset
- * 7. Perform all assertions
+ * Steps:
+ * 1. Open Backend
+ * 2. Go to Content->Banners
+ * 3. Click "Add Banner" button
+ * 4. Fill data according to dataset
+ * 5. Perform all assertions
  *
  * @group CMS_Content_(PS)
  * @ZephyrId MAGETWO-25272
@@ -70,7 +70,7 @@ class CreateBannerEntityTest extends Injectable
         // Steps
         $this->bannerIndex->open();
         $this->bannerIndex->getPageActionsBlock()->addNew();
-        $this->bannerNew->getNewBannerPageForm()->fill($banner);
+        $this->bannerNew->getBannerForm()->fill($banner);
         $this->bannerNew->getPageMainActions()->save();
     }
 }
