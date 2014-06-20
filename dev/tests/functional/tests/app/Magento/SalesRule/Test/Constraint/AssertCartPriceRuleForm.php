@@ -53,14 +53,14 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         SalesRuleInjectable $salesRuleOrigin
     ) {
         $filter = [
-            'name' => $salesRule->getName() ? $salesRule->getName() : $salesRuleOrigin->getName(),
+            'name' => $salesRule->hasData('name') ? $salesRule->getName() : $salesRuleOrigin->getName(),
         ];
 
         $promoQuoteIndex->open();
         $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
-        $formData = $promoQuoteEdit->getSalesRuleForm()->getData($salesRule);
-        $fixtureData = $salesRule->getData();
-        $dataDiff = $this->verify($formData, $fixtureData);
+        $formData = $promoQuoteEdit->getSalesRuleForm()->getData();
+        $fixtureData = array_merge($salesRuleOrigin->getData(), $salesRule->getData());
+        $dataDiff = $this->verify($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
             'Sales rule data on edit page(backend) not equals to passed from fixture.'
@@ -75,7 +75,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
      * @param array $formData
      * @return array
      */
-    protected function verify(array $formData, array $fixtureData)
+    protected function verify(array $fixtureData, array $formData)
     {
         $errorMessage = [];
 

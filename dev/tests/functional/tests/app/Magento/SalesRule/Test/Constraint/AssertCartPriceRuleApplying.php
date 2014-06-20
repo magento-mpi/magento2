@@ -127,9 +127,9 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
      * @param AddressInjectable $address
      * @param array $productQuantity
      * @param array $shipping
-     * @param null $isLoggedIn
      * @param CatalogProductSimple $productForSalesRule1
      * @param CatalogProductSimple $productForSalesRule2
+     * @param int $isLoggedIn
      * @return void
      */
     public function processAssert(
@@ -145,9 +145,9 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
         AddressInjectable $address,
         array $productQuantity,
         array $shipping,
-        $isLoggedIn = null,
         CatalogProductSimple $productForSalesRule1,
-        CatalogProductSimple $productForSalesRule2 = null
+        CatalogProductSimple $productForSalesRule2 = null,
+        $isLoggedIn = null
     ) {
         $this->checkoutCart = $checkoutCart;
         $this->cmsIndex = $cmsIndex;
@@ -171,9 +171,11 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
             $this->checkoutCart->getShippingBlock()->fillEstimateShippingAndTax($address);
             $this->checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
         }
-        $this->checkoutCart->getDiscountCodesBlock()->applyCouponCode(
-            $salesRule->getCouponCode() ? $salesRule->getCouponCode() : $salesRuleOrigin->getCouponCode()
-        );
+        if ($salesRule->getCouponCode() || $salesRuleOrigin->getCouponCode()) {
+            $this->checkoutCart->getDiscountCodesBlock()->applyCouponCode(
+                $salesRule->getCouponCode() ? $salesRule->getCouponCode() : $salesRuleOrigin->getCouponCode()
+            );
+        }
         $this->assert();
     }
 

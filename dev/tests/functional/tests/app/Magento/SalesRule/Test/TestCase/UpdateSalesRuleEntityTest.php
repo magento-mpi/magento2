@@ -66,7 +66,8 @@ class UpdateSalesRuleEntityTest extends Injectable
     {
         $productForSalesRule1 = $fixtureFactory->createByCode(
             'catalogProductSimple',
-            ['dataSet' => 'simple_for_salesrule_1']);
+            ['dataSet' => 'simple_for_salesrule_1']
+        );
         $productForSalesRule1->persist();
         return [
             'productForSalesRule1' => $productForSalesRule1,
@@ -112,7 +113,7 @@ class UpdateSalesRuleEntityTest extends Injectable
         $filter = [
             'name' => $salesRuleOrigin->getName(),
         ];
-        $this->salesRuleName = $salesRule->getName() ? $salesRule->getName() : $salesRuleOrigin->getName();
+        $this->salesRuleName = $salesRule->hasData('name') ? $salesRule->getName() : $salesRuleOrigin->getName();
 
         // Steps
         $this->promoQuoteIndex->open();
