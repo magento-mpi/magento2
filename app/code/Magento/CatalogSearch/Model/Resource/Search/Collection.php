@@ -192,7 +192,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Retrieve SQL for search entities
      *
      * @param mixed $query
-     * @param bool $searchOnlyInCurrentStore Search only on current store or in all stores
+     * @param bool $searchOnlyInCurrentStore Search only in current store or in all stores
      * @return string
      */
     protected function _getSearchEntityIdsSql($query, $searchOnlyInCurrentStore = true)
