@@ -25,8 +25,8 @@ class CatalogProductSetEdit extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'main' => [
-            'name' => 'main',
+        'attributeSetEditBlock' => [
+            'name' => 'attributeSetEditBlock',
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main',
             'locator' => '.attribute-set',
             'strategy' => 'css selector',
@@ -44,8 +44,8 @@ class CatalogProductSetEdit extends BackendPage
     /**
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set\Main
      */
-    public function getMain()
+    public function getAttributeSetEditBlock()
     {
-        return $this->getBlockInstance('main');
+        return $this->getBlockInstance('attributeSetEditBlock');
     }
 }

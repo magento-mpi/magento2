@@ -66,7 +66,7 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
             ? array_merge($productAttribute->getData(), $productAttributeOriginal->getData())
             : $productAttribute->getData();
 
-        $productSetEdit->getMain()->moveAttribute($attributeData, 'Product Details');
+        $productSetEdit->getAttributeSetEditBlock()->moveAttribute($attributeData, 'Product Details');
         $productSetEdit->getPageActions()->save();
 
         $product = $fixtureFactory->createByCode(
@@ -86,12 +86,12 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
         $productGrid->open();
         $productGrid->getProductGrid()->searchAndOpen($filterProduct);
 
-        $frontendLabel = ($productAttributeOriginal !== null)
-            ? array_merge($productAttributeOriginal->getData(), $productAttribute->getData())['frontend_label']
-            : $productAttribute->getData()['frontend_label'];
+        $catalogProductAttribute = ($productAttributeOriginal !== null)
+            ? array_merge($productAttributeOriginal->getData(), $productAttribute->getData())
+            : $productAttribute->getData();
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $productEdit->getForm()->checkAttributeLabel($frontendLabel),
+            $productEdit->getForm()->checkAttributeLabel($catalogProductAttribute),
             "Product Attribute is absent on Product form."
         );
     }

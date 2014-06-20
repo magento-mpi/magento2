@@ -22,7 +22,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
  * Preset : AttributeOptions
  * 1. Attribute is created (Attribute)
  * 2. Attribute set is created (Product Template)
- * 3. Product is created (Simple, Configurable)
  *
  * Test Flow:
  * 1. Log in to Backend.
@@ -59,7 +58,7 @@ class UpdateProductAttributeEntityTest extends Injectable
         $productAttributeOriginal->persist();
 
         $filter = [
-            'frontend_label' => $productAttributeOriginal->getFrontendLabel(),
+            'attribute_code' => $productAttributeOriginal->getAttributeCode(),
         ];
 
         //Steps

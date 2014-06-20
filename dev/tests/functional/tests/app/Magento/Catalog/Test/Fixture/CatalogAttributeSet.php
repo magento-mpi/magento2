@@ -69,7 +69,7 @@ class CatalogAttributeSet extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogAttributeSet\SkeletonSetId',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogAttributeSet\SkeletonSet',
     ];
 
     public function getAttributeSetId()

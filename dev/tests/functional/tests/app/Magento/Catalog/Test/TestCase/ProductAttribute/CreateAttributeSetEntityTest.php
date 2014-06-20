@@ -88,7 +88,7 @@ class CreateAttributeSetEntityTest extends Injectable
 
         $this->productSetAdd->getAttributeSetForm()->fill($attributeSet);
         $this->productSetAdd->getPageActions()->save();
-        $this->productSetEdit->getMain()->moveAttribute($productAttribute->getData(), 'Product Details');
+        $this->productSetEdit->getAttributeSetEditBlock()->moveAttribute($productAttribute->getData(), 'Product Details');
         $this->productSetEdit->getPageActions()->save();
     }
 }

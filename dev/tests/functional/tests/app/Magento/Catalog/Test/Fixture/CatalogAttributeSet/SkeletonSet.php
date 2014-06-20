@@ -13,12 +13,12 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
 /**
- * Class SkeletonSetId
+ * Class SkeletonSet
  *
  *  Data keys:
  *  - dataSet
  */
-class SkeletonSetId implements FixtureInterface
+class SkeletonSet implements FixtureInterface
 {
     /**
      * Attribute Set name

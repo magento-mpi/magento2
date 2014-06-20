@@ -74,8 +74,7 @@ class CreateSimpleProductEntityTest extends Injectable
      * @param CatalogProductNew $newProductPage
      * @return void
      */
-    public function __inject
-    (
+    public function __inject(
         CatalogCategory $category,
         CatalogProductIndex $productGrid,
         CatalogProductNew $newProductPage

@@ -119,22 +119,6 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Fill product variations
-     *
-     * @param ConfigurableProduct $variations
-     * @return void
-     */
-    public function fillVariations(ConfigurableProduct $variations)
-    {
-        $variationsBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperConfig(
-            $this->_rootElement->find($this->variationsWrapper)
-        );
-        $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
-        $variationsBlock->generateVariations();
-        $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
-    }
-
-    /**
      * Select category
      *
      * @param FixtureInterface $fixture
@@ -328,12 +312,16 @@ class ProductForm extends FormTabs
     /**
      * Check visibility of the attribute on the product page
      *
-     * @param string $attributeLabel
+     * @param CatalogProductAttribute $productAttribute
      * @return bool
      */
-    public function checkAttributeLabel($attributeLabel)
+    public function checkAttributeLabel($productAttribute)
     {
-        $attributeLabelLocator = sprintf($this->attribute, $attributeLabel);
+        $frontendLabel = (is_array(
+            $productAttribute
+        )) ? $productAttribute['frontend_label'] : $productAttribute->getFrontendLabel();
+
+        $attributeLabelLocator = sprintf($this->attribute, $frontendLabel);
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
     }

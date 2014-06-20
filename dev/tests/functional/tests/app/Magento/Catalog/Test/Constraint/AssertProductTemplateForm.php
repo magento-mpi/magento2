@@ -52,15 +52,15 @@ class AssertProductTemplateForm extends AbstractConstraint
         $productSet->getGrid()->searchAndOpen($filterAttribute);
         \PHPUnit_Framework_Assert::assertEquals(
             $filterAttribute['set_name'],
-            $productSetEdit->getMain()->getAttributeSetName(),
+            $productSetEdit->getAttributeSetEditBlock()->getAttributeSetName(),
             'Attribute Set not found'
             . "\nExpected: " . $filterAttribute['set_name']
-            . "\nActual: " . $productSetEdit->getMain()->getAttributeSetName()
+            . "\nActual: " . $productSetEdit->getAttributeSetEditBlock()->getAttributeSetName()
         );
         if ($productAttribute !== null) {
             $attributeLabel = $productAttribute->getFrontendLabel();
             \PHPUnit_Framework_Assert::assertTrue(
-                $productSetEdit->getMain()->checkProductAttribute($attributeLabel),
+                $productSetEdit->getAttributeSetEditBlock()->checkProductAttribute($attributeLabel),
                 "Product Attribute is absent on Product Template Groups"
             );
         }

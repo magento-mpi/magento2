@@ -82,7 +82,7 @@ class AssertProductTemplateOnProductForm extends AbstractConstraint
 
         $productEdit->getForm()->openTab('product-details');
         \PHPUnit_Framework_Assert::assertTrue(
-            $productEdit->getForm()->checkAttributeLabel($productAttribute->getFrontendLabel()),
+            $productEdit->getForm()->checkAttributeLabel($productAttribute),
             "Product Attribute is absent on Product form."
         );
     }
