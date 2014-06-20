@@ -11,7 +11,9 @@ use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\CategoryBuilder;
-use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface
@@ -19,21 +21,30 @@ class ReadService implements ReadServiceInterface
     /**
      * @var CategoryBuilder
      */
-    private $categoryBuilder;
+    private $builder;
 
     /**
      * @var CategoryFactory
      */
     private $categoryFactory;
+    /**
+     * @var ConverterFactory
+     */
+    private $converterFactory;
 
     /**
-     * @param CategoryFactory $categoryFactory
-     * @param CategoryBuilder $categoryBuilder
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder $builder
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory $converterFactory
      */
-    public function __construct(CategoryFactory $categoryFactory, CategoryBuilder $categoryBuilder)
-    {
-        $this->categoryBuilder = $categoryBuilder;
+    public function __construct(
+        CategoryFactory $categoryFactory,
+        MetadataBuilder $builder,
+        ConverterFactory $converterFactory
+    ) {
+        $this->builder = $builder;
         $this->categoryFactory = $categoryFactory;
+        $this->converterFactory = $converterFactory;
     }
 
     /**
@@ -48,9 +59,10 @@ class ReadService implements ReadServiceInterface
         if (!$category->getId()) {
             throw NoSuchEntityException::singleField(Category::ID, $categoryId);
         }
-        /** @var AttributeMetadata $categoryMetadata */
-        $categoryMetadata = $this->categoryBuilder->populateWithArray($category->getData())->create();
 
-        return $categoryMetadata;
+        $metadata = $this->converterFactory->create(['builder' => $this->builder])
+            ->createDataFromModel($category);
+
+        return $metadata;
     }
 }
