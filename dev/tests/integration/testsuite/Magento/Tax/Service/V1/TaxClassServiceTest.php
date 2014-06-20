@@ -107,14 +107,15 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetTaxClass()
     {
         $taxClassName = 'Get Me';
-        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
-            ->setClassType(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)
+        $taxClassDataObject = $this->taxClassBuilder
+            ->setClassName($taxClassName)
+            ->setClassType(TaxClassDataObject::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         $data = $this->taxClassService->getTaxClass($taxClassId);
         $this->assertEquals($taxClassId, $data->getClassId());
         $this->assertEquals($taxClassName, $data->getClassName());
-        $this->assertEquals(TaxClassModel::TAX_CLASS_TYPE_CUSTOMER, $data->getClassType());
+        $this->assertEquals(TaxClassDataObject::TYPE_CUSTOMER, $data->getClassType());
     }
 
     /**

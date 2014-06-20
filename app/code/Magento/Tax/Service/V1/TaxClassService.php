@@ -89,7 +89,7 @@ class TaxClassService implements TaxClassServiceInterface
     {
         $taxClassModel = $this->taxClassModelFactory->create()->load($taxClassId);
         if (!$taxClassModel->getId()) {
-            throw NoSuchEntityException::singleField('taxClassId', $taxClassId);
+            throw NoSuchEntityException::singleField(TaxClassDataObject::KEY_ID, $taxClassId);
         }
         return $this->converter->createTaxClassData($taxClassModel);
     }
