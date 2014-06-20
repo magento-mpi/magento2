@@ -118,10 +118,12 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
             ->setClassName('Wholesale product')
             ->create();
 
+        $exceptionMessage = \Magento\Tax\Model\Resource\TaxClass::UNIQUE_TAX_CLASS_MSG . ' already exists.';
+
         $this->taxClassModelMock
             ->expects($this->once())
             ->method('save')
-            ->will($this->throwException(new \Magento\Framework\Model\Exception()));
+            ->will($this->throwException(new \Magento\Framework\Model\Exception($exceptionMessage)));
 
         $this->taxClassModelMock
             ->expects($this->never())
