@@ -75,7 +75,6 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
             $gsProduct,
             $catalogPrice,
             $resource,
-            $calculation,
             $resourceCollection,
             $data
         );
