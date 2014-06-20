@@ -132,7 +132,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                 $this->_testObsoleteConstants($content);
                 $this->_testObsoletePropertySkipCalculate($content);
             },
-            \Magento\TestFramework\Utility\Files::init()->getPhpFiles()
+            \Magento\TestFramework\Utility\ChangedFiles::getPhpFiles(__DIR__ . '/_files/changed_files.txt')
         );
     }
 

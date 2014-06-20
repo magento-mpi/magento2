@@ -56,10 +56,33 @@ class WriteServiceTest extends WebapiAbstract
         $newGroup = $groupData[$groupCountAfter-1];
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Service\V1\Product\AttributeGroup\WriteServiceInterface');
-        $groupService->delete($newGroup['id']);
+        $groupService->delete(1, $newGroup['id']);
 
         $this->assertCount($groupCountBefore + 1, $groupData, "The group data does not match.");
         $this->assertEquals('New Group', $newGroup['name'], "The group data does not match.");
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testCreateWithAttributeSetThatDoesNotExist()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/aaa/groups",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME .  'Create'
+            ]
+        ];
+
+        $this->_webApiCall(
+            $serviceInfo,
+            ['attributeSetId' => 'aaa', 'groupData' => ['id' => null, 'name' => 'New Group']]
+        );
     }
 
     public function testUpdate()
@@ -90,14 +113,18 @@ class WriteServiceTest extends WebapiAbstract
         ];
         $this->_webApiCall(
             $serviceInfo,
-            ['groupId' => $group->getId(), 'groupData' => ['id' => $group->getId(), 'name' => 'UpdatedGroup']]
+            [
+                'attributeSetId' => 1,
+                'groupId' => $group->getId(),
+                'groupData' => ['id' => $group->getId(), 'name' => 'UpdatedGroup']
+            ]
         );
         $groups = $this->_getGroups(1);
 
         $lastGroup = end($groups);
         $this->assertEquals($group->getId(), $lastGroup['id']);
         $this->assertEquals('UpdatedGroup', $lastGroup['name']);
-        $groupService->delete($lastGroup['id']);
+        $groupService->delete(1, $lastGroup['id']);
     }
 
     public function testDelete()
@@ -129,10 +156,10 @@ class WriteServiceTest extends WebapiAbstract
             ]
         ];
 
-        $this->_webApiCall($serviceInfo, ['groupId' => $group->getId()]);
+        $this->_webApiCall($serviceInfo, ['groupId' => $group->getId(), 'attributeSetId' => 1]);
         $groups = $this->_getGroups(1);
         $lastGroup = end($groups);
         $this->assertEquals($groupCount - 1, count($groups));
         $this->assertNotEquals('GroupToDelete', $lastGroup['name'], "Group was not removed");
     }
-} 
+}
