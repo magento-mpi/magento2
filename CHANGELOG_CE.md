@@ -16,10 +16,25 @@
   * Admin tax notification messages (MAGETWO-24583)
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
 * Fixed bugs:
+  * Fixed: Grouped price doesn't show on grouped product page (MAGETWO-25105)
+  * Fixed: Fatal on Grouped Product without assigned products (MAGETWO-25106)
+  * Fixed: Inactive coupon can be applied (MAGETWO-24976)
   * Fixed: Export loses information about linked products(MAGETWO-25060)
   * Fixed: Provide more informative Error messages for "Attribute Group Service"(MAGETWO-24930)
   * Fixed: Changed the default value for tax configuration "apply_after_discount" setting (MAGETWO-25119)
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
+  * Fixed: Backend UI issues: grids (MAGETWO-24705)
+  * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+* Added the following functional tests:
+  * Create Product Url Rewrite (MTA-83)
+  * Delete Catalog Price Rule (MTA-67)
+  * Delete Category Url Rewrite (MTA-86)
+  * Delete CMS Page Rewrite (MTA-170)
+  * Delete Product Rating (MTA-145)
+  * Delete Sales Rule (MTA-75)
+  * Delete Tax Rate (MTA-122)
+  * Update Catalog Price Rule (MTA-72)
+  * Update Shopping Cart (MTA-60)
 
 2.0.0.0-dev82
 =============
