@@ -12,6 +12,7 @@ use Mtf\Client\Element;
 
 /**
  * Class Labels
+ * Backend sales rule label tab
  */
 class Labels extends Tab
 {
@@ -33,7 +34,7 @@ class Labels extends Tab
             $count = 0;
             foreach ($fields['store_labels']['value'] as $storeLabel) {
                 $element->find(sprintf(self::STORE_LABEL_NAME, $count))->setValue($storeLabel);
-                $count++;
+                ++$count;
             }
         }
 
@@ -57,7 +58,7 @@ class Labels extends Tab
             if ($fieldValue != '') {
                 $storeLabels[$count] = $fieldValue;
             }
-            $count++;
+            ++$count;
             $field = $this->_rootElement->find(sprintf(self::STORE_LABEL_NAME, $count));
         }
 

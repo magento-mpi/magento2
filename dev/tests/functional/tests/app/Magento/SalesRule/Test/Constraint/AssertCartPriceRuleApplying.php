@@ -129,7 +129,7 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
      * @param array $shipping
      * @param CatalogProductSimple $productForSalesRule1
      * @param CatalogProductSimple $productForSalesRule2
-     * @param int $isLoggedIn
+     * @param int|null $isLoggedIn
      * @return void
      */
     public function processAssert(

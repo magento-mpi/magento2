@@ -50,7 +50,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         PromoQuoteIndex $promoQuoteIndex,
         PromoQuoteEdit $promoQuoteEdit,
         SalesRuleInjectable $salesRule,
-        SalesRuleInjectable $salesRuleOrigin
+        SalesRuleInjectable $salesRuleOrigin = null
     ) {
         $filter = [
             'name' => $salesRule->hasData('name') ? $salesRule->getName() : $salesRuleOrigin->getName(),
@@ -59,7 +59,9 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         $promoQuoteIndex->open();
         $promoQuoteIndex->getPromoQuoteGrid()->searchAndOpen($filter);
         $formData = $promoQuoteEdit->getSalesRuleForm()->getData();
-        $fixtureData = array_merge($salesRuleOrigin->getData(), $salesRule->getData());
+        $fixtureData = $salesRuleOrigin != null
+            ? array_merge($salesRuleOrigin->getData(), $salesRule->getData())
+            : $salesRule->getData();
         $dataDiff = $this->verify($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
