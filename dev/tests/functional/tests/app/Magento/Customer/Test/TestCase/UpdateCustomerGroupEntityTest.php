@@ -19,7 +19,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew;
  *
  * Test Flow:
  * Preconditions:
- *  1. Customer Group is created
+ * 1. Customer Group is created
  * Steps:
  * 1. Log in to backend as admin user
  * 2. Navigate to Stores > Other Settings > Customer Groups
@@ -52,18 +52,16 @@ class UpdateCustomerGroupEntityTest extends Injectable
      *
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew
-     * @param FixtureFactory $fixtureFactory
+     * @param CustomerGroupInjectable $customerGroupOriginal
      * @return array
      */
     public function __inject(
         CustomerGroupIndex $customerGroupIndex,
         CustomerGroupNew $customerGroupNew,
-        FixtureFactory $fixtureFactory
+        CustomerGroupInjectable $customerGroupOriginal
     ) {
         $this->customerGroupIndex = $customerGroupIndex;
         $this->customerGroupNew = $customerGroupNew;
-
-        $customerGroupOriginal = $fixtureFactory->createByCode('customerGroupInjectable');
         $customerGroupOriginal->persist();
 
         return ['customerGroupOriginal' => $customerGroupOriginal];
