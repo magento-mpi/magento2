@@ -42,7 +42,8 @@ class CatalogTest extends \PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Catalog/_files/product_simple_multistore.php
      */
-    public function testLoad($viewName, $expectedResult) {
+    public function testLoad($viewName, $expectedResult)
+    {
         $results = $this->catalogSearch->setStart(0)
             ->setLimit(20)
             ->setQuery($viewName)
