@@ -28,7 +28,7 @@ class Role extends Tab
     /**
      * Returns user grid block
      *
-     * @return \Mtf\Block\BlockInterface
+     * @return \Magento\User\Test\Block\Adminhtml\Role\Tab\User\Grid
      */
     public function getUserGrid()
     {

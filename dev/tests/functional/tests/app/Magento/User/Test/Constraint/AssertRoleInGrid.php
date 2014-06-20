@@ -8,7 +8,6 @@
 
 namespace Magento\User\Test\Constraint;
 
-use Magento\Backend\Test\Page\Dashboard;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;

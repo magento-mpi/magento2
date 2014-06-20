@@ -8,9 +8,9 @@
 
 namespace Magento\User\Test\Block\Adminhtml\Role\Tab\User;
 
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
-class Grid extends GridInterface
+class Grid extends AbstractGrid
 {
     /**
      * Grid filters' selectors
@@ -19,7 +19,7 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'username' => [
-            'selector' => '#roleUserGrid_filter_role_user_username'
+            'selector' => 'input[name="role_user_username"]'
         ]
     ];
 

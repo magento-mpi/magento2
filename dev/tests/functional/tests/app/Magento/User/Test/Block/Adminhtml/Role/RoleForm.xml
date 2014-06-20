@@ -26,7 +26,7 @@
         <fields>
             <resource_access>
                 <input>select</input>
-                <selector>#all</selector>
+                <selector>[name="all"]</selector>
                 <strategy>css selector</strategy>
             </resource_access>
             <roles_resources>

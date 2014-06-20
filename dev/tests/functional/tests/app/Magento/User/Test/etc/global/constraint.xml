@@ -33,6 +33,10 @@
     </assertUserWrongCredentialsMessage>
     <assertUserRoleSalesRestrictedAccess module="Magento_User">
         <severeness>low</severeness>
+        <require>
+            <userIndex class="Magento\User\Test\Page\Adminhtml\UserIndex" />
+            <dashboard class="Magento\Backend\Test\Page\Dashboard" />
+        </require>
     </assertUserRoleSalesRestrictedAccess>
     <assertRoleSuccessSaveMessage module="Magento_User">
         <severeness>low</severeness>
@@ -51,7 +55,6 @@
         <require>
             <userIndex class="Magento\User\Test\Page\Adminhtml\UserIndex" />
             <user class="Magento\User\Test\Fixture\AdminUserInjectable" />
-            <customAdmin class="Magento\User\Test\Fixture\AdminUserInjectable" />
         </require>
     </assertUserInGrid>
     <assertUserSuccessSaveMessage module="Magento_User">
