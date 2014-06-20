@@ -9,10 +9,9 @@ namespace Magento\Catalog\Service\V1\Category;
 
 use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\CategoryFactory;
-use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\CategoryBuilder;
-use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
 use Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -27,20 +26,24 @@ class ReadService implements ReadServiceInterface
     /**
      * @var CategoryFactory
      */
-    private $factory;
+    private $categoryFactory;
     /**
      * @var ConverterFactory
      */
     private $converterFactory;
 
     /**
-     * @param CategoryFactory $factory
-     * @param Builder $builder
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder $builder
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory $converterFactory
      */
-    public function __construct(CategoryFactory $factory, MetadataBuilder $builder, ConverterFactory $converterFactory)
-    {
+    public function __construct(
+        CategoryFactory $categoryFactory,
+        MetadataBuilder $builder,
+        ConverterFactory $converterFactory
+    ) {
         $this->builder = $builder;
-        $this->factory = $factory;
+        $this->categoryFactory = $categoryFactory;
         $this->converterFactory = $converterFactory;
     }
 
@@ -50,7 +53,7 @@ class ReadService implements ReadServiceInterface
     public function info($categoryId)
     {
         /** @var CategoryModel $category */
-        $category = $this->factory->create();
+        $category = $this->categoryFactory->create();
         $category->load($categoryId);
 
         if (!$category->getId()) {
