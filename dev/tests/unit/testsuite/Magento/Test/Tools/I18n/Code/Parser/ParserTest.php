@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Tools\I18n\Code\Parser;
+namespace Magento\Test\Tools\I18n\Code\Parser;
+
+use Magento\Tools\I18n\Code\Parser;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
