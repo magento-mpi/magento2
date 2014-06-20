@@ -13,6 +13,8 @@ use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails;
+use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax;
+use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetailsBuilder;
@@ -57,6 +59,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      *  ]
      */
     protected $roundingDeltas;
+
+    /**
+     * Array to hold discount compensations for items
+     *
+     * @var array
+     */
+    protected $discountTaxCompensations;
 
     /**
      * Tax details item builder
@@ -120,7 +129,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $taxDetailsData = [
             TaxDetails::KEY_SUBTOTAL => 0.0,
             TaxDetails::KEY_TAX_AMOUNT => 0.0,
-            TaxDetails::KEY_DISCOUNT_AMOUNT => 0.0
+            TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT => 0.0,
+            TaxDetails::KEY_APPLIED_TAXES => [],
+            TaxDetails::KEY_ITEMS => [],
         ];
 
         $items = $quoteDetails->getItems();
@@ -152,13 +163,18 @@ class TaxCalculationService implements TaxCalculationServiceInterface
 
         // init rounding deltas for this quote
         $this->roundingDeltas = [];
+        // init discount tax compensations array
+        $this->discountTaxCompensations = [];
         $processedItems = [];
         /** @var QuoteDetailsItem $item */
         foreach ($this->keyedItems as $item) {
             if (isset($this->parentToChildren[$item->getCode()])) {
                 $processedChildren = [];
                 foreach ($this->parentToChildren[$item->getCode()] as $child) {
-                    $processedChildren[] = $this->processItem($child, $addressRequest, $storeId);
+                    $processedItem = $this->processItem($child, $addressRequest, $storeId);
+                    $taxDetailsData = $this->rollUp($taxDetailsData, $processedItem);
+                    $processedItems[$processedItem->getCode()] = $processedItem;
+                    $processedChildren[] = $processedItem;
                 }
                 $processedItemBuilder = $this->calculateParent($processedChildren, $item->getQuantity());
                 $processedItemBuilder->setCode($item->getCode());
@@ -166,9 +182,9 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $processedItem = $processedItemBuilder->create();
             } else {
                 $processedItem = $this->processItem($item, $addressRequest, $storeId);
+                $taxDetailsData = $this->rollUp($taxDetailsData, $processedItem);
             }
-            $processedItems[] = $processedItem;
-            $taxDetailsData = $this->addSubtotalAmount($taxDetailsData, $processedItem);
+            $processedItems[$processedItem->getCode()] = $processedItem;
         }
 
         return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->setItems($processedItems)->create();
@@ -369,71 +385,206 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     }
 
     /**
+     * Create AppliedTax data object based applied tax rates and tax amount
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder $appliedTaxBuilder
+     * @param float $rowTax
+     * @param array $appliedRate
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax
+     */
+    protected function getAppliedTax($appliedTaxBuilder, $rowTax, $appliedRate)
+    {
+        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
+        $appliedTaxBuilder->setAmount($rowTax);
+        $appliedTaxBuilder->setPercent($appliedRate['percent']);
+        $appliedTaxBuilder->setTaxRateKey($appliedRate['id']);
+
+        /** @var  AppliedTaxRate[] $rateDataObjects */
+        $rateDataObjects = [];
+        foreach ($appliedRate['rates'] as $rate) {
+            $appliedTaxRateBuilder->setPercent($rate['percent']);
+            $appliedTaxRateBuilder->setCode($rate['code']);
+            $appliedTaxRateBuilder->setTitle($rate['title']);
+            //Skipped position, priority and rule_id
+            $rateDataObjects[$rate['code']] = $appliedTaxRateBuilder->create();
+        }
+        $appliedTaxBuilder->setRates($rateDataObjects);
+        $appliedTax = $appliedTaxBuilder->create();
+        return $appliedTax;
+    }
+
+    /**
+     * Create AppliedTax data object based applied tax rates and tax amount
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder $appliedTaxBuilder
+     * @param float $rowTax
+     * @param float $totalTaxRate
+     * @param array $appliedRates
+     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[]
+     */
+    protected function getAppliedTaxes($appliedTaxBuilder, $rowTax, $totalTaxRate, $appliedRates)
+    {
+        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes */
+        $appliedTaxes = [];
+        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
+        foreach ($appliedRates as $appliedRate) {
+            if ($appliedRate['percent'] == 0) {
+                continue;
+            }
+
+            $appliedAmount = $rowTax / $totalTaxRate * $appliedRate['percent'];
+
+            $appliedTaxBuilder->setAmount($appliedAmount);
+            $appliedTaxBuilder->setPercent($appliedRate['percent']);
+            $appliedTaxBuilder->setTaxRateKey($appliedRate['id']);
+
+            /** @var  AppliedTaxRate[] $rateDataObjects */
+            $rateDataObjects = [];
+            foreach ($appliedRate['rates'] as $rate) {
+                $appliedTaxRateBuilder->setPercent($rate['percent']);
+                $appliedTaxRateBuilder->setCode($rate['code']);
+                $appliedTaxRateBuilder->setTitle($rate['title']);
+                //Skipped position, priority and rule_id
+                $rateDataObjects[$rate['code']] = $appliedTaxRateBuilder->create();
+            }
+            $appliedTaxBuilder->setRates($rateDataObjects);
+            $appliedTax = $appliedTaxBuilder->create();
+            $appliedTaxes[] = $appliedTax;
+        }
+
+        return $appliedTaxes;
+    }
+
+    /**
      * Calculate item price and row total including/excluding tax based on total price rounding level
      *
      * @param QuoteDetailsItem $item
-     * @param \Magento\Framework\Object $taxRequest
+     * @param \Magento\Framework\Object $taxRateRequest
      * @param int $storeId
      * @return TaxDetailsItem
      */
     protected function totalBaseCalculation(
         QuoteDetailsItem $item,
-        \Magento\Framework\Object $taxRequest,
+        \Magento\Framework\Object $taxRateRequest,
         $storeId
     ) {
-        $taxRequest->setProductClassId($item->getTaxClassId());
-        $storeRate = $this->calculator->getStoreRate($taxRequest, $storeId);
-        $rate = $this->calculator->getRate($taxRequest);
+        /** @var  \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes */
+        $appliedTaxes = [];
+        $appliedTaxBuilder = $this->taxDetailsItemBuilder->getAppliedTaxBuilder();
+        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
+
+        $taxRateRequest->setProductClassId($item->getTaxClassId());
+        $appliedRates = $this->calculator->getAppliedRates($taxRateRequest);
+        $rate = $this->calculator->getRate($taxRateRequest);
+
+        //TODO: double check whether we need initializeItemTax
         $quantity = $this->getTotalQuantity($item);
-        $price = $this->calculator->round($item->getUnitPrice());
-        $subtotal = $taxSubtotal = $this->calcRowTotal($item);
+        $price = $priceInclTax = $this->calculator->round($item->getUnitPrice());
+        $rowTotal = $rowTotalInclTax = $taxableAmount = $this->calcRowTotal($item);
+
+        $discountAmount = $item->getDiscountAmount();
+        $applyTaxAfterDiscount = $this->config->applyTaxAfterDiscount($storeId);
+
+        $discountTaxCompensationAmount = 0;
 
         if ($item->getTaxIncluded()) {
-            if ($taxRequest->getSameRateAsStore() || ($rate == $storeRate)) {
-                $taxable = $subtotal;
-                $rowTaxExact = $this->calculator->calcTaxAmount($taxable, $rate, true, false);
+            if ($taxRateRequest->getSameRateAsStore()) {
+                $rowTaxExact = $this->calculator->calcTaxAmount($rowTotalInclTax, $rate, true, false);
                 $rowTax = $this->deltaRound($rowTaxExact, $rate, true);
-                $subtotal = $subtotal - $rowTax;
-                $taxPrice = $price;
-                $price = $this->calculator->round($subtotal / $quantity);
-
+                $rowTotal = $rowTotalInclTax - $rowTax;
+                $price = $this->calculator->round($rowTotal / $quantity);
             } else {
-                $taxPrice = $this->calculatePriceInclTax($price, $storeRate, $rate);
-                $tax = $this->calculator->calcTaxAmount($taxPrice, $rate, true, true);
-                $price = $taxPrice - $tax;
-                $taxSubtotal = $taxable = $taxPrice * $quantity;
+                $storeRate = $this->calculator->getStoreRate($taxRateRequest, $storeId);
+                $priceInclTax = $this->calculatePriceInclTax($price, $storeRate, $rate);
+                $rowTotalInclTax = $taxable = $priceInclTax * $quantity;
                 $rowTax =
                     $this->deltaRound($this->calculator->calcTaxAmount($taxable, $rate, true, false), $rate, true);
-                $subtotal = $taxSubtotal - $rowTax;
+                $rowTotal = $rowTotalInclTax - $rowTax;
+                $price = $this->calculator->round($rowTotal / $quantity);
             }
+
+            //Handle discount
+            if ($discountAmount && $applyTaxAfterDiscount ) {
+                //TODO: handle originalDiscountAmount
+                $taxableAmount = max($taxableAmount - $discountAmount, 0);
+                $rowTaxAfterDiscount = $this->calculator->calcTaxAmount(
+                    $taxableAmount,
+                    $rate,
+                    true,
+                    false
+                );
+                //Round the row tax using a different type so that we don't pollute the rounding deltas
+                $rowTaxAfterDiscount = $this->deltaRound(
+                    $rowTaxAfterDiscount,
+                    $rate,
+                    true,
+                    'tax_after_discount'
+                );
+
+                // Set discount tax compensation
+                $discountTaxCompensationAmount = $rowTax - $rowTaxAfterDiscount;
+                $rowTax = $rowTaxAfterDiscount;
+            }
+
+            //save applied taxes
+            //TODO: break up taxes per rate
+            $appliedTaxes = $this->getAppliedTaxes($appliedTaxBuilder, $rowTax, $rate, $appliedRates);
         } else {
-            $taxable = $subtotal;
-            $appliedRates = $this->calculator->getAppliedRates($taxRequest);
+            $taxableAmount = $rowTotal;
+            $appliedRates = $this->calculator->getAppliedRates($taxRateRequest);
             $rowTaxes = [];
+            //Apply each tax rate separately
             foreach ($appliedRates as $appliedRate) {
                 $taxId = $appliedRate['id'];
                 $taxRate = $appliedRate['percent'];
-                $rowTaxes[] = $this->deltaRound(
-                    $this->calculator->calcTaxAmount($taxable, $taxRate, false, false),
+                $rowTaxPerRate = $this->deltaRound(
+                    $this->calculator->calcTaxAmount($taxableAmount, $taxRate, false, false),
                     $taxId,
                     false
                 );
+                //Handle discount
+                if ($discountAmount && $applyTaxAfterDiscount ) {
+                    //TODO: handle originalDiscountAmount
+                    $taxableAmount = max($taxableAmount - $discountAmount, 0);
+                    $rowTaxAfterDiscount = $this->calculator->calcTaxAmount(
+                        $taxableAmount,
+                        $rate,
+                        false,
+                        false
+                    );
+                    //Round the row tax using a different type so that we don't pollute the rounding deltas
+                    $rowTaxAfterDiscount = $this->deltaRound(
+                        $rowTaxAfterDiscount,
+                        $rate,
+                        false,
+                        'tax_after_discount'
+                    );
+
+                    $rowTaxPerRate = $rowTaxAfterDiscount;
+                }
+                $appliedTaxes[$appliedRate['id']] = $this->getAppliedTax($appliedTaxBuilder, $rowTaxPerRate, $appliedRate);
+                $rowTaxes[] = $rowTaxPerRate;
             }
             $rowTax = array_sum($rowTaxes);
-            $taxSubtotal = $subtotal + $rowTax;
-            $taxPrice = $this->calculator->round($taxSubtotal / $quantity);
+            $rowTotalInclTax = $rowTotal + $rowTax;
+            $priceInclTax = $this->calculator->round($rowTotalInclTax / $quantity);
         }
 
+
+        $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
         $this->taxDetailsItemBuilder->setPrice($price);
-        $this->taxDetailsItemBuilder->setPriceInclTax($taxPrice);
-        $this->taxDetailsItemBuilder->setRowTotal($subtotal);
-        $this->taxDetailsItemBuilder->setRowTotalInclTax($taxSubtotal);
-        $this->taxDetailsItemBuilder->setTaxableAmount($taxable);
+        $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
+        $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
+        $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
+        $this->taxDetailsItemBuilder->setTaxableAmount($taxableAmount);
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
+        $this->taxDetailsItemBuilder->setDiscountAmount($discountAmount);
+        $this->taxDetailsItemBuilder->setDiscountTaxCompensationAmount($discountTaxCompensationAmount);
 
+        $this->taxDetailsItemBuilder->setAppliedTaxes($appliedTaxes);
         return $this->taxDetailsItemBuilder->create();
     }
 
@@ -522,7 +673,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param TaxDetailsItem $item
      * @return array
      */
-    protected function addSubtotalAmount($taxDetailsData, TaxDetailsItem $item)
+    protected function rollUp($taxDetailsData, TaxDetailsItem $item)
     {
         $taxDetailsData[TaxDetails::KEY_SUBTOTAL]
             = $taxDetailsData[TaxDetails::KEY_SUBTOTAL] + $item->getRowTotal();
@@ -530,9 +681,39 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT]
             = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getTaxAmount();
 
-        $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT]
-            = $taxDetailsData[TaxDetails::KEY_DISCOUNT_AMOUNT] + $item->getDiscountAmount();
+        $taxDetailsData[TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT] =
+            $taxDetailsData[TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT]
+            + $item->getDiscountTaxCompensationAmount();
 
+        $itemAppliedTaxes = $item->getAppliedTaxes();
+        if (!isset($taxDetailsData[TaxDetails::KEY_APPLIED_TAXES])) {
+            $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES] = [];
+        }
+        $appliedTaxes = $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES];
+        foreach ($itemAppliedTaxes as $taxId => $itemAppliedTax) {
+            if (!isset($appliedTaxes[$taxId])) {
+                //convert rate data object to array
+                $rates = [];
+                $rateDataObjects = $itemAppliedTax->getRates();
+                foreach ($rateDataObjects as $rateDataObject) {
+                    $rates[$rateDataObject->getCode()] = [
+                        'code' => $rateDataObject->getCode(),
+                        'title' => $rateDataObject->getTitle(),
+                        'percent' => $rateDataObject->getPercent(),
+                    ];
+                }
+                $appliedTaxes[$taxId] = [
+                    'amount' => $itemAppliedTax->getAmount(),
+                    'percent' => $itemAppliedTax->getPercent(),
+                    'rates' => $rates,
+                    'tax_rate_key' => $itemAppliedTax->getTaxRateKey(),
+                ];
+            } else {
+                $appliedTaxes[$taxId]['amount'] += $itemAppliedTax->getAmount();
+            }
+        }
+
+        $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES] = $appliedTaxes;
         return $taxDetailsData;
     }
 

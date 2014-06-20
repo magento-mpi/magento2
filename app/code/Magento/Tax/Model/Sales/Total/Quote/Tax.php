@@ -12,12 +12,28 @@ use Magento\Sales\Model\Quote\Address;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
 use Magento\Sales\Model\Quote\Item\AbstractItem;
 use Magento\Tax\Model\Calculation;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
+use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
+use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
+use Magento\Tax\Service\V1\Data\TaxDetails;
 
 /**
  * Tax totals calculation model
  */
 class Tax extends AbstractTotal
 {
+    const SHIPPING_ITEM_CODE = 'shipping';
+    const SHIPPING_ITEM_TYPE = 'shipping';
+    const PRODUCT_ITEM_TYPE = 'product';
+
+    /**
+     * Static counter
+     *
+     * @var int
+     */
+    protected static $counter = 0;
+
     /**
      * Tax module helper
      *
@@ -62,6 +78,9 @@ class Tax extends AbstractTotal
      */
     protected $_store;
 
+    protected $_taxCalculationService;
+    protected $quoteDetailsBuilder;
+
     /**
      * Hidden taxes array
      *
@@ -79,11 +98,15 @@ class Tax extends AbstractTotal
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Model\Calculation $calculation,
-        \Magento\Tax\Model\Config $taxConfig
+        \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
+        \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;
         $this->_calculator = $calculation;
+        $this->_taxCalculationService = $taxCalculationService;
+        $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_config = $taxConfig;
     }
 
@@ -93,8 +116,346 @@ class Tax extends AbstractTotal
      * @param   Address $address
      * @return  $this
      */
+    public function collectUsingService(Address $address)
+    {
+        parent::collect($address);
+        //Preparation for calling taxCalculationService with base currency
+        $quoteDetails = $this->prepareQuoteDetails($address, true);
+
+        $baseTaxDetailsBase = $this->_taxCalculationService
+            ->calculateTax($quoteDetails, $address->getQuote()->getStore()->getStoreId());
+
+        //Preparation for calling taxCalculationService with display currency
+        $quoteDetails = $this->prepareQuoteDetails($address, false);
+
+        $taxDetails = $this->_taxCalculationService
+            ->calculateTax($quoteDetails, $address->getQuote()->getStore()->getStoreId());
+
+
+        //Populate address and items with tax calculation results
+        $this->updateTaxInfo($address, $taxDetails, $baseTaxDetailsBase);
+
+        $this->_addAmount($address->getExtraTaxAmount());
+        $this->_addBaseAmount($address->getBaseExtraTaxAmount());
+        return $this;
+    }
+
+    /**
+     * Convert appliedTax data object from tax calculation service to internal array format
+     *
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $baseAppliedTaxes
+     * @return array
+     */
+    protected function convertAppliedTaxes( $appliedTaxes, $baseAppliedTaxes)
+    {
+        $appliedTaxesArray = [];
+
+        foreach ($appliedTaxes as $taxId => $appliedTax) {
+            $baseAppliedTax = $baseAppliedTaxes[$taxId];
+            $rateDataObjects = $appliedTax->getRates();
+
+            $rates = [];
+            foreach ($rateDataObjects as $rateDataObject) {
+                $rates[] = [
+                    'percent' => $rateDataObject->getPercent(),
+                    'code' => $rateDataObject->getCode(),
+                    'title' => $rateDataObject->getTitle(),
+                ];
+            }
+
+            $appliedTaxesArray[] = [
+                'amount' => $appliedTax->getAmount(),
+                'base_amount' => $baseAppliedTax->getAmount(),
+                'percent' => $appliedTax->getPercent(),
+                'id' => $appliedTax->getTaxRateKey(),
+                'rates' => $rates,
+            ];
+        }
+
+        return $appliedTaxesArray;
+    }
+
+    /**
+     * Update tax related fields for quote item
+     *
+     * @param AbstractItem $quoteItem
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\Item $itemTaxDetails
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\Item $baseItemTaxDetails
+     * @return $this
+     */
+    protected function updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails)
+    {
+        $quoteItem->setPrice($itemTaxDetails->getPrice());
+        $quoteItem->setPriceInclTax($itemTaxDetails->getPriceInclTax());
+        $quoteItem->setRowTotal($itemTaxDetails->getRowTotal());
+        $quoteItem->setRowTotalInclTax($itemTaxDetails->getRowTotalInclTax());
+        $quoteItem->setTaxAmount($itemTaxDetails->getTaxAmount());
+        $quoteItem->setTaxPercent($itemTaxDetails->getTaxPercent());
+        $quoteItem->setHiddenTaxAmount($itemTaxDetails->getDiscountTaxCompensationAmount());
+
+        $quoteItem->setBasePrice($baseItemTaxDetails->getPrice());
+        $quoteItem->setBasePriceInclTax($baseItemTaxDetails->getPriceInclTax());
+        $quoteItem->setBaseRowTotal($baseItemTaxDetails->getRowTotal());
+        $quoteItem->setBaseRowTotalInclTax($baseItemTaxDetails->getRowTotalInclTax());
+        $quoteItem->setBaseTaxAmount($baseItemTaxDetails->getTaxAmount());
+        $quoteItem->setTaxPercent($baseItemTaxDetails->getTaxPercent());
+        $quoteItem->setBaseHiddenTaxAmount($baseItemTaxDetails->getDiscountTaxCompensationAmount());
+
+        //Set discount calculation price, this may be needed by discount collector
+        if ($this->_config->discountTax($this->_store)) {
+            $quoteItem->setDiscountCalculationPrice($itemTaxDetails->getPriceInclTax());
+            $quoteItem->setBaseDiscountCalculationPrice($baseItemTaxDetails->getPriceInclTax());
+        } else {
+            $quoteItem->setDiscountCalculationPrice($itemTaxDetails->getPrice());
+            $quoteItem->setBaseDiscountCalculationPrice($baseItemTaxDetails->getPrice());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Update item tax and prices from item tax details object from tax calculation service
+     *
+     * @param Address $address
+     * @param TaxDetails $taxDetails
+     * @param TaxDetails $baseTaxDetails
+     * @return $this
+     */
+    protected function updateTaxInfo(Address $address, TaxDetails $taxDetails, TaxDetails $baseTaxDetails)
+    {
+        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\Item[] $keyedItems */
+        $keyedItems = [];
+        foreach ($taxDetails->getItems() as $item) {
+            $keyedItems[$item->getCode()] = $item;
+        }
+        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\Item[] $baseKeyedItems */
+        $baseKeyedItems = [];
+        foreach ($baseTaxDetails->getItems() as $item) {
+            $baseKeyedItems[$item->getCode()] = $item;
+        }
+
+        $appliedTaxesByItem = [];
+
+        $keyedAddressItems = [];
+        foreach ($this->_getAddressItems($address) as $addressItem) {
+            $keyedAddressItems[$addressItem->getSequence()] = $addressItem;
+        }
+
+        $subtotal = $baseSubtotal = 0;
+        $hiddenTax = $baseHiddenTax = 0;
+        $tax = $baseTax = 0;
+        $subtotalInclTax = $baseSubtotalInclTax = 0;
+
+        foreach ($keyedItems as $code => $itemTaxDetails) {
+            $baseItemTaxDetails = $baseKeyedItems[$code];
+            $type = $itemTaxDetails->getType();
+            if ($type == self::PRODUCT_ITEM_TYPE) {
+                $quoteItem = $keyedAddressItems[$code];
+                $this->updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails);
+
+                $subtotal += $itemTaxDetails->getRowTotal();
+                $baseSubtotal += $baseItemTaxDetails->getRowTotal();
+                $hiddenTax += $itemTaxDetails->getDiscountTaxCompensationAmount();
+                $baseHiddenTax += $baseItemTaxDetails->getDiscountTaxCompensationAmount();
+                $tax += $itemTaxDetails->getTaxAmount();
+                $baseTax += $baseItemTaxDetails->getTaxAmount();
+                $subtotalInclTax += $itemTaxDetails->getRowTotalInclTax();
+                $baseSubtotalInclTax += $baseItemTaxDetails->getRowTotalInclTax();
+
+                $appliedTaxes = $itemTaxDetails->getAppliedTaxes();
+                $baseAppliedTaxes = $baseItemTaxDetails->getAppliedTaxes();
+                $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
+
+                $this->_saveAppliedTaxes(
+                    $address,
+                    $appliedTaxesArray,
+                    $itemTaxDetails->getTaxAmount(),
+                    $baseItemTaxDetails->getTaxAmount(),
+                    $itemTaxDetails->getTaxPercent()
+                );
+
+                $appliedTaxesByItem[$quoteItem->getId()] = $appliedTaxesArray;
+            }
+            $address->getQuote()->setTaxesForItems($appliedTaxesByItem);
+        }
+
+        // Set item subtotals
+        $address->setTotalAmount('subtotal', $subtotal);
+        $address->setBaseTotalAmount('subtotal', $baseSubtotal);
+
+        $address->setSubtotalInclTax($subtotalInclTax);
+        $address->setBaseSubtotalInclTax($baseSubtotalInclTax);
+        $address->setTotalAmount('hidden_tax', $hiddenTax);
+        $address->setBaseTotalAmount('hidden_tax', $baseHiddenTax);
+
+        //Set shipping tax
+        if (isset($keyedItems[self::SHIPPING_ITEM_CODE]) && isset($baseKeyedItems[self::SHIPPING_ITEM_CODE])) {
+            $shippingItem = $keyedItems[self::SHIPPING_ITEM_CODE];
+            $baseShippingItem = $baseKeyedItems[self::SHIPPING_ITEM_CODE];
+            $address->setTotalAmount('shipping', $shippingItem->getRowTotal());
+            $address->setBaseTotalAmount('shipping', $baseShippingItem->getRowTotal());
+            $address->setShippingTaxAmount($shippingItem->getTaxAmount());
+            $address->setBaseShippingTaxAmount($baseShippingItem->getTaxAmount());
+            $address->setTotalAmount('shipping_hidden_tax', $shippingItem->getDiscountTaxCompensationAmount());
+            $address->setBaseTotalAmount('shipping_hidden_tax', $baseShippingItem->getDiscountTaxCompensationAmount());
+
+            $tax += $shippingItem->getTaxAmount();
+            $baseTax += $baseShippingItem->getTaxAmount();
+
+            //Add taxes applied to shipping to applied taxes
+            $appliedTaxes = $shippingItem->getAppliedTaxes();
+            $baseAppliedTaxes = $baseShippingItem->getAppliedTaxes();
+            $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
+            $this->_saveAppliedTaxes(
+                $address,
+                $appliedTaxesArray,
+                $shippingItem->getTaxAmount(),
+                $baseShippingItem->getTaxAmount(),
+                $itemTaxDetails->getTaxPercent()
+            );
+        }
+
+        $address->setTotalAmount('tax', $tax);
+        $address->setBaseTotalAmount('tax', $baseTax);
+
+        return $this;
+    }
+
+    /**
+     * Map Address to Address data object
+     *
+     * @param AddressBuilder $addressBuilder
+     * @param Address $address
+     * @return \Magento\Customer\Service\V1\Data\Address
+     */
+    protected function mapAddress(AddressBuilder $addressBuilder, Address $address)
+    {
+        $addressBuilder->setCountryId($address->getCountryId());
+        $addressBuilder->setRegion(
+            $addressBuilder->getRegionBuilder()
+                ->setRegionId($address->getRegionId())
+                ->create()
+        );
+        $addressBuilder->setPostcode($address->getPostcode());
+        $addressBuilder->setCity($address->getCity());
+        $addressBuilder->setStreet($address->getStreet());
+
+        return $addressBuilder->create();
+    }
+
+    /**
+     * Increment and return static counter
+     *
+     * @return int
+     */
+    protected function getNextIncrement()
+    {
+        return ++self::$counter;
+    }
+
+    /**
+     * Map an item to item data object
+     *
+     * @param ItemBuilder $itemBuilder
+     * @param AbstractItem $item
+     * @param bool $priceIncludesTax
+     * @param bool $useBaseCurrency
+     * @return ItemDataObject
+     */
+    protected function mapItem(ItemBuilder $itemBuilder, AbstractItem $item, $priceIncludesTax, $useBaseCurrency)
+    {
+        if (!$item->getSequence()) {
+            $sequence = 'sequence-' . $this->getNextIncrement();
+            $item->setSequence($sequence);
+        }
+        $itemBuilder->setCode($item->getSequence());
+        $itemBuilder->setQuantity($item->getQty());
+        $itemBuilder->setTaxClassId($item->getProduct()->getTaxClassId());
+
+        $itemBuilder->setTaxIncluded($priceIncludesTax);
+        $itemBuilder->setType('product'); //TODO: find a place to define constants
+
+        if ($item->getParentItem()) {
+            $itemBuilder->setParentCode($item->getParentItem()->getId());
+        }
+
+        if ($useBaseCurrency) {
+            $itemBuilder->setUnitPrice($item->getBaseCalculationPriceOriginal());
+            $itemBuilder->setDiscountAmount($item->getDiscountAmount());
+        } else {
+            $itemBuilder->setUnitPrice($item->getCalculationPriceOriginal());
+            $itemBuilder->setDiscountAmount($item->getBaseDiscountAmount());
+        }
+        return $itemBuilder->create();
+    }
+
+    /**
+     * Populate QuoteDetails object from Address object
+     *
+     * @param Address $address
+     * @param bool $useBaseCurrency
+     * @return \Magento\Tax\Service\V1\Data\QuoteDetails
+     */
+    protected function prepareQuoteDetails(Address $address, $useBaseCurrency)
+    {
+        $items = $this->_getAddressItems($address);
+        if (!count($items)) {
+            return $this->quoteDetailsBuilder->create();
+        }
+
+        $addressBuilder = $this->quoteDetailsBuilder->getAddressBuilder();
+
+        //Set billing address
+        $this->quoteDetailsBuilder->setBillingAddress(
+            $this->mapAddress($addressBuilder, $address->getQuote()->getBillingAddress())
+        );
+        //Set shipping address
+        $this->quoteDetailsBuilder->setShippingAddress(
+            $this->mapAddress($addressBuilder, $address)
+        );
+        //Set customer tax class
+        $this->quoteDetailsBuilder->setCustomerTaxClassId($address->getQuote()->getCustomerTaxClassId());
+        //Populate with items
+        $priceIncludesTax = $this->_config->priceIncludesTax($this->_store);
+        $itemBuilder = $this->quoteDetailsBuilder->getItemBuilder();
+        $itemDataObjects = [];
+        foreach ($items as $item) {
+            $itemDataObjects[] = $this->mapItem($itemBuilder, $item, $priceIncludesTax, $useBaseCurrency);
+        }
+
+        //Add shipping as an item
+        if ($address->getShippingAmount()) {
+            $itemBuilder->setType(self::SHIPPING_ITEM_TYPE);
+            $itemBuilder->setCode(self::SHIPPING_ITEM_CODE);
+            $itemBuilder->setQuantity(1);
+            if ($useBaseCurrency) {
+                $itemBuilder->setUnitPrice($address->getBaseShippingAmount());
+            } else {
+                $itemBuilder->setUnitPrice($address->getShippingAmount());
+            }
+            if ($address->getShippingDiscountAmount()) {
+                if ($useBaseCurrency) {
+                    $itemBuilder->setDiscountAmount($address->getBaseShippingDiscountAmount());
+                } else {
+                    $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
+                }
+            }
+            $itemBuilder->setTaxClassId($this->_config->getShippingTaxClass($this->_store));
+            $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($this->_store));
+            $itemDataObjects[] = $itemBuilder->create();
+        }
+        $this->quoteDetailsBuilder->setItems($itemDataObjects);
+
+        $quoteDetails = $this->quoteDetailsBuilder->create();
+        return $quoteDetails;
+    }
+
     public function collect(Address $address)
     {
+        if ($this->_config->getAlgorithm($this->_store) == Calculation::CALC_TOTAL_BASE) {
+            return $this->collectUsingService($address);
+        }
         parent::collect($address);
         $this->_roundingDeltas = array();
         $this->_baseRoundingDeltas = array();

@@ -8,6 +8,7 @@
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
 use Magento\Sales\Model\Quote\Address;
+use Magento\Tax\Model\Calculation;
 
 class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
@@ -73,6 +74,11 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     public function collect(Address $address)
     {
+        if ($this->_config->getAlgorithm($address->getQuote()->getStore()) == Calculation::CALC_TOTAL_BASE) {
+            //The new tax collector replaces shipping_tax collector
+            return $this;
+        }
+
         parent::collect($address);
         $calc = $this->_calculator;
         $store = $address->getQuote()->getStore();

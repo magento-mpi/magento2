@@ -40,10 +40,12 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Tax\Model\Config $taxConfig,
+        \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
+        \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
         \Magento\Weee\Helper\Data $weeeData
     ) {
         $this->_weeeData = $weeeData;
-        parent::__construct($taxData, $calculation, $taxConfig);
+        parent::__construct($taxData, $calculation, $taxConfig, $taxCalculationService, $quoteDetailsBuilder);
         $this->setCode('weee');
     }
 
