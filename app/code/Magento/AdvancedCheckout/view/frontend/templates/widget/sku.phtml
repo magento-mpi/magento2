@@ -14,8 +14,6 @@
  */
 $uniqueSuffix = '_' . $this->getRandomString(20);
 $skuFormId = 'skuForm' . $uniqueSuffix;
-$qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
-    . ' validate-number-range number-range-0.0001-99999999.9999';
 ?>
 <div class="widget block addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
     <?php if (!$this->getIsTitleHidden()): ?>
@@ -76,7 +74,12 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                                id="id-items[${rowIndex}${uniqueSuffix}][qty]"
                                class="qty"
                                maxlength="13"
-                               data-validate="{'required-if-specified': '[data-id=${rowIndex}${uniqueSuffix}sku]', 'validate-greater-than-zero': true}"/>
+                               data-validate='{
+                                    "required-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
+                                    "validate-number": true,
+                                    "validate-greater-than-zero": true,
+                                    "validate-number-range": "0.0001-99999999.9999"
+                                    }'/>
                     </div>
                 </div>
             </div>
