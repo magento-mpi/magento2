@@ -257,6 +257,8 @@ class View extends Block
         return $this->getPriceBlock()->getPrice();
     }
 
+
+
     /**
      * Return product short description on page
      *

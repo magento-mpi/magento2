@@ -12,8 +12,8 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class ProductForm
@@ -32,18 +32,21 @@ class ProductForm extends FormTabs
      * Fill the product form
      *
      * @param FixtureInterface $fixture
-     * @param CatalogCategory|null $category
+     * @param FixtureInterface|null $category
      * @param Element|null $element
      * @return $this
      */
     public function fillProduct(
         FixtureInterface $fixture,
-        CatalogCategory $category = null,
+        FixtureInterface $category = null,
         Element $element = null
     ) {
         $tabs = $this->getFieldsByTabs($fixture);
         if ($category) {
-            $tabs['product-details']['category_ids']['value'] = $category->getName();
+            $categoryName = ($category instanceof InjectableFixture )
+                ? $category->getName()
+                : $category->getCategoryName();
+            $tabs['product-details']['category_ids']['value'] = $categoryName;
         }
 
         return parent::fillTabs($tabs, $element);
