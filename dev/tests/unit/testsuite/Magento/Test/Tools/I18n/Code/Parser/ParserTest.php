@@ -57,14 +57,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $jsAdapter->setValueMap($jsMap);
 
         $this->factory->expects($this->any())->method('createPhrase')->with()->will($this->returnValueMap([
-            [['phrase' => 'php phrase111', 'translation' => 'php phrase111','quote' => "'"], 'php phrase111'],
-            [['phrase' => 'php phrase112', 'translation' => 'php phrase112','quote' => '"'], 'php phrase112'],
-            [['phrase' => 'php phrase121', 'translation' => 'php phrase121','quote' => "'"], 'php phrase121'],
-            [['phrase' => 'php phrase122', 'translation' => 'php phrase122','quote' => '"'], 'php phrase122'],
-            [['phrase' => 'js phrase111', 'translation' => 'js phrase111','quote' => "'"], 'js phrase111'],
-            [['phrase' => 'js phrase112', 'translation' => 'js phrase112','quote' => '"'], 'js phrase112'],
-            [['phrase' => 'js phrase121', 'translation' => 'js phrase121','quote' => "'"], 'js phrase121'],
-            [['phrase' => 'js phrase122', 'translation' => 'js phrase122','quote' => '"'], 'js phrase122'],
+            [['phrase' => 'php phrase111', 'translation' => 'php phrase111', 'quote' => "'"], 'php phrase111'],
+            [['phrase' => 'php phrase112', 'translation' => 'php phrase112', 'quote' => '"'], 'php phrase112'],
+            [['phrase' => 'php phrase121', 'translation' => 'php phrase121', 'quote' => "'"], 'php phrase121'],
+            [['phrase' => 'php phrase122', 'translation' => 'php phrase122', 'quote' => '"'], 'php phrase122'],
+            [['phrase' => 'js phrase111', 'translation' => 'js phrase111', 'quote' => "'"], 'js phrase111'],
+            [['phrase' => 'js phrase112', 'translation' => 'js phrase112', 'quote' => '"'], 'js phrase112'],
+            [['phrase' => 'js phrase121', 'translation' => 'js phrase121', 'quote' => "'"], 'js phrase121'],
+            [['phrase' => 'js phrase122', 'translation' => 'js phrase122', 'quote' => '"'], 'js phrase122'],
         ]));
 
         //4. Set expectations
