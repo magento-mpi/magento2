@@ -18,6 +18,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
 /**
  * Class ProductForm
@@ -312,22 +313,21 @@ class ProductForm extends FormTabs
     /**
      * Check visibility of the attribute on the product page
      *
-     * @param CatalogProductAttribute $productAttribute
+     * @param mixed $productAttribute
      * @return bool
      */
     public function checkAttributeLabel($productAttribute)
     {
-        $frontendLabel = (is_array(
-            $productAttribute
-        )) ? $productAttribute['frontend_label'] : $productAttribute->getFrontendLabel();
-
+        $frontendLabel = (is_array($productAttribute))
+            ? $productAttribute['frontend_label']
+            : $productAttribute->getFrontendLabel();
         $attributeLabelLocator = sprintf($this->attribute, $frontendLabel);
 
         return $this->_rootElement->find($attributeLabelLocator, Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**
-     * Call Method that Checking present attribute in search result
+     * Call method that checking present attribute in search result
      *
      * @param CatalogProductAttribute $productAttribute
      * @return bool
