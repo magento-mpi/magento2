@@ -18,7 +18,8 @@ interface TaxClassServiceInterface
      *
      * @param \Magento\Tax\Service\V1\Data\TaxClass $taxClass
      * @return string id for the newly created Tax class
-     * @throws \Magento\Framework\Exception\InputException If bad input is provided
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Model\Exception
      */
     public function createTaxClass(\Magento\Tax\Service\V1\Data\TaxClass $taxClass);
 

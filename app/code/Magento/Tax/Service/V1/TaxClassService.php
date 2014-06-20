@@ -76,8 +76,12 @@ class TaxClassService implements TaxClassServiceInterface
         try {
             $taxModel->save();
         } catch (ModelException $e) {
-            throw new InputException('A class with the same name already exists for ClassType %classType.',
-                ['classType' => $taxClass->getClassType()]);
+            if (strpos($e->getMessage(), \Magento\Tax\Model\Resource\TaxClass::UNIQUE_TAX_CLASS_MSG) !== false) {
+                throw new InputException('A class with the same name already exists for ClassType %classType.',
+                    ['classType' => $taxClass->getClassType()]);
+            } else {
+                throw $e;
+            }
         }
         return $taxModel->getId();
     }
