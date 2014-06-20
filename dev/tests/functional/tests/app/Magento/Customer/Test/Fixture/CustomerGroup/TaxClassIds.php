@@ -21,6 +21,11 @@ class TaxClassIds implements FixtureInterface
     protected $data;
 
     /**
+     * @var \Magento\Tax\Test\Fixture\TaxClass
+     */
+    protected $taxClass;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
@@ -39,6 +44,7 @@ class TaxClassIds implements FixtureInterface
                 $taxClass->persist();
             }
             $this->data = $taxClass->getClassName();
+            $this->taxClass = $taxClass;
         }
     }
 
@@ -61,6 +67,14 @@ class TaxClassIds implements FixtureInterface
     public function getData($key = null)
     {
         return $this->data;
+    }
+
+    /**
+     * @return \Magento\Tax\Test\Fixture\TaxClass
+     */
+    public function getTaxClass()
+    {
+        return $this->taxClass;
     }
 
     /**

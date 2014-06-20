@@ -15,9 +15,19 @@ use Mtf\Fixture\InjectableFixture;
  */
 class CustomerGroupInjectable extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerGroupInjectable';
+
+    /**
+     * @var string
+     */
+    protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerGroup\CustomerGroupInterface';
+
     protected $defaultDataSet = [
         'customer_group_code' => 'customer_code_%isolation%',
-        'tax_class_id' => 'Retail Customer',
+        'tax_class_id' => ['dataSet' => 'customer_tax_class'],
     ];
 
     protected $customer_group_code = [

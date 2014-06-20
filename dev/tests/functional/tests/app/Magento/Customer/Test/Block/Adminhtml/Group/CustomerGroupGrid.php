@@ -28,4 +28,11 @@ class CustomerGroupGrid extends Grid
             'selector' => '#customerGroupGrid_filter_type'
         ]
     ];
+
+    /**
+     * Locator value for grid to click
+     *
+     * @var string
+     */
+    protected $editLink = '[data-column="time"]';
 }
