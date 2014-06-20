@@ -11,18 +11,30 @@ use Magento\Framework\Service\Data\Eav\AbstractObject;
 
 class Metadata extends AbstractObject
 {
-    const ID = 'category_id'; // entity_id
+    const ID = 'category_id';
+
     const POSITION = 'position';
+
     const LEVEL = 'level';
+
     const PARENT_ID = 'parent_id';
+
     const CHILDREN = 'children';
+
     const CREATED_AT = 'created_at';
+
     const UPDATED_AT = 'updated_at';
+
     const NAME = 'name';
+
     const URL_KEY = 'url_key';
+
     const PATH = 'path';
+
     const DISPLAY_MODE = 'display_mode';
+
     const AVAILABLE_SORT_BY = 'available_sort_by';
+
     const INCLUDE_IN_MENU = 'include_in_menu';
 
     /**

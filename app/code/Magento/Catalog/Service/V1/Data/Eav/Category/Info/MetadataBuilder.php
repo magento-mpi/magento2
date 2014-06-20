@@ -35,6 +35,7 @@ class MetadataBuilder extends AbstractObjectBuilder
     {
         $attributeCodes = array();
         foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
+            /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata @attribute */
             $attributeCodes[] = $attribute->getAttributeCode();
         }
         return $attributeCodes;
