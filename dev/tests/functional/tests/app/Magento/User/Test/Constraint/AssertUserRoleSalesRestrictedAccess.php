@@ -42,10 +42,10 @@ class AssertUserRoleSalesRestrictedAccess extends AbstractConstraint
         $userIndex->open();
         $deniedMessage = $userIndex->getAccessDeniedBlock()->getTextFromAccessDeniedBlock();
         $isMenuItemSingle = (count($menuItems) == 1);
-        $hasSales = (in_array(self::ROLE_RESOURCE, $menuItems));
+        $hasSales = in_array(self::ROLE_RESOURCE, $menuItems);
         \PHPUnit_Framework_Assert::assertTrue(
             $hasSales && $isMenuItemSingle && (self::DENIED_ACCESS == $deniedMessage),
-            'Sales item is absent in Menu block.'
+            'Sales item is absent in Menu block or possible access to another page, not related to Sales.'
         );
     }
 
