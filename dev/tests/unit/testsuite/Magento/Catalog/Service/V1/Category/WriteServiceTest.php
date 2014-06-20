@@ -107,4 +107,54 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->model->delete($id);
     }
+
+    public function testUpdate()
+    {
+        $id = 3;
+        $this->category->expects($this->once())->method('load');
+        $this->category->expects($this->exactly(2))->method('getId')->will($this->returnValue($id));
+        $this->category->expects($this->once())->method('addData');
+        $this->category->expects($this->once())->method('validate');
+        $this->category->expects($this->once())->method('save');
+
+        $data = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $data->expects($this->once())->method('__toArray')->will($this->returnValue(array()));
+
+        $this->assertEquals($id, $this->model->update($id, $data));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function testUpdateNoSuchEntityException()
+    {
+        $data = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->model->update(3, $data);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testUpdateInputException()
+    {
+        $id = 3;
+        $this->category->expects($this->once())->method('load');
+        $this->category->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $this->category->expects($this->once())->method('addData');
+        $this->category
+            ->expects($this->once())
+            ->method('validate')
+            ->will($this->throwException(new \Magento\Eav\Model\Entity\Attribute\Exception()));
+
+        $data = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $data->expects($this->once())->method('__toArray')->will($this->returnValue(array()));
+
+        $this->assertEquals($id, $this->model->update($id, $data));
+    }
 }

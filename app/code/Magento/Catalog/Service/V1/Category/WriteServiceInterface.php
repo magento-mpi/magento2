@@ -27,4 +27,15 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function delete($categoryId);
+
+    /**
+     * Update category
+     *
+     * @param int $categoryId category to be updated
+     * @param \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata $category
+     * @return int
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\InputException
+     */
+    public function update($categoryId, \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata $category);
 }

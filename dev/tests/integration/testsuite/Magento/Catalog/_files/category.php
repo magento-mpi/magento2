@@ -20,13 +20,11 @@ $category->setId(
 )->setLevel(
     2
 )->setAvailableSortBy(
-    'name'
+    ['position']    
 )->setDefaultSortBy(
     'name'
 )->setIsActive(
     true
 )->setPosition(
     1
-)->setAvailableSortBy(
-    ['position']
 )->save();

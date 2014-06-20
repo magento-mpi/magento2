@@ -10,8 +10,11 @@ namespace Magento\Catalog\Service\V1\Category;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
+use Magento\Eav\Model\Entity\Attribute\Exception;
 use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
 
 class WriteService implements WriteServiceInterface
@@ -80,6 +83,31 @@ class WriteService implements WriteServiceInterface
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update($categoryId, AttributeMetadata $category)
+    {
+        $model = $this->categoryFactory->create();
+        $model->load($categoryId);
+        if (!$model->getId()) {
+            throw NoSuchEntityException::singleField(CategoryDataObject::ID, $categoryId);
+        }
+        try {
+            $model->addData($category->__toArray());
+            $model->validate();
+            $model->save();
+        } catch (Exception $exception) {
+            throw InputException::invalidFieldValue(
+                $exception->getAttributeCode(),
+                $model->getData($exception->getAttributeCode()),
+                $exception
+            );
+        }
+
+        return $model->getId();
     }
 
     /**
