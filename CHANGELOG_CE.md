@@ -1,3 +1,5 @@
+* i18n Improvements:
+  * Improved verbosity of i18n CLI Tools
 * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
    * Implemented Product Group Price API(MAGETWO-23311)

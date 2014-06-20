@@ -231,18 +231,6 @@
             <path>dev/tools/Magento/Tools/Migration/factory_table_names/blacklist_ce.php</path>
         </item>
         <item>
-            <word>Enterprise</word>
-            <path>dev/tools/Magento/Tools/Translate/config.inc.php</path>
-        </item>
-        <item>
-            <word>Enterprise</word>
-            <path>dev/tools/Magento/Tools/Translate/ModuleTranslations.php</path>
-        </item>
-        <item>
-            <word>Enterprise</word>
-            <path>dev/tools/Magento/Tools/Translate/generate_emailtemplates.php</path>
-        </item>
-        <item>
             <!-- License replacement tool does not process *.txt files currently -->
             <word>{copyright}</word>
             <word>{license_link}</word>
