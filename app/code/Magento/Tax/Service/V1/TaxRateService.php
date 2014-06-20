@@ -57,11 +57,6 @@ class TaxRateService implements TaxRateServiceInterface
     private $rateFactory;
 
     /**
-     *@var Data\TaxRateBuilder
-     */
-    private $taxRateBuilder;
-
-    /**
      * Constructor
      *
      * @param TaxRateBuilder $rateBuilder
@@ -69,23 +64,19 @@ class TaxRateService implements TaxRateServiceInterface
      * @param RateRegistry $rateRegistry
      * @param Data\TaxRateSearchResultsBuilder $taxRateSearchResultsBuilder
      * @param RateFactory $rateFactory
-     * @param Data\TaxRateBuilder $taxRateBuilder
      */
     public function __construct(
         TaxRateBuilder $rateBuilder,
         Converter $converter,
         RateRegistry $rateRegistry,
         Data\TaxRateSearchResultsBuilder $taxRateSearchResultsBuilder,
-        RateFactory $rateFactory,
-        Data\TaxRateBuilder $taxRateBuilder
-
+        RateFactory $rateFactory
     ) {
         $this->rateBuilder = $rateBuilder;
         $this->converter = $converter;
         $this->rateRegistry = $rateRegistry;
         $this->taxRateSearchResultsBuilder = $taxRateSearchResultsBuilder;
         $this->rateFactory = $rateFactory;
-        $this->taxRateBuilder = $taxRateBuilder;
     }
 
     /**
