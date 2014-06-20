@@ -26,27 +26,40 @@ class AssertGiftWrappingForm extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Skipped fields while verifying
+     *
+     * @var array
+     */
+    protected $skippedFields = [
+        'wrapping_id',
+    ];
+
+    /**
      * Assert that Gift Wrapping form was filled correctly
      *
      * @param GiftWrappingIndex $giftWrappingIndexPage
      * @param GiftWrappingNew $giftWrappingNewPage
      * @param GiftWrapping $giftWrapping
+     * @param GiftWrapping $initialGiftWrapping
      * @return void
      */
     public function processAssert(
         GiftWrappingIndex $giftWrappingIndexPage,
         GiftWrappingNew $giftWrappingNewPage,
-        GiftWrapping $giftWrapping
+        GiftWrapping $giftWrapping,
+        GiftWrapping $initialGiftWrapping = null
     ) {
-        $data = $giftWrapping->getData();
+        $data = ($initialGiftWrapping !== null)
+            ? array_merge($initialGiftWrapping->getData(), $giftWrapping->getData())
+            : $giftWrapping->getData();
         $data['base_price'] = number_format($data['base_price'], 2);
         $filter = [
-            'design' => $giftWrapping->getDesign(),
-            'status' => $giftWrapping->getStatus(),
+            'design' => $data['design'],
+            'status' => $data['status'],
         ];
         $giftWrappingIndexPage->open();
         $giftWrappingIndexPage->getGiftWrappingGrid()->searchAndOpen($filter);
-        $formData = $giftWrappingNewPage->getGiftWrappingForm()->getData($giftWrapping);
+        $formData = $giftWrappingNewPage->getGiftWrappingForm()->getData();
         $dataDiff = $this->verifyForm($formData, $data);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($dataDiff),
@@ -67,6 +80,9 @@ class AssertGiftWrappingForm extends AbstractConstraint
         $errorMessages = [];
 
         foreach ($fixtureData as $key => $value) {
+            if (in_array($key, $this->skippedFields)) {
+                continue;
+            }
             if (is_array($value)) {
                 $diff = array_diff($value, $formData[$key]);
                 $diff = array_merge($diff, array_diff($formData[$key], $value));

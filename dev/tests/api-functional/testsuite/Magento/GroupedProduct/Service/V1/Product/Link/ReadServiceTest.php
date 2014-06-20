@@ -11,7 +11,7 @@ namespace Magento\GroupedProduct\Service\V1;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\GroupedProduct\Model\Resource\Product\Link;
 
-class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     const SERVICE_NAME = 'catalogProductLinkReadServiceV1';
     const SERVICE_VERSION = 'V1';
@@ -80,7 +80,7 @@ class CatalogProductLinkServiceTest extends \Magento\TestFramework\TestCase\Weba
                 array_walk(
                     $expected,
                     function(&$item) {
-                    $item['customAttributes'] = [['attribute_code' => 'qty', 'value' => 1.000]];
+                    $item['custom_attributes'] = [['attribute_code' => 'qty', 'value' => 1.000]];
                 }
             );
         } else {
