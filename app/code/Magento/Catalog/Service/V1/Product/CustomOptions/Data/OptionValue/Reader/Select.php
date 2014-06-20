@@ -40,7 +40,8 @@ class Select implements ReaderInterface
                     OptionValue::PRICE_TYPE => $value->getPriceType(),
                     OptionValue::SKU => $value->getSku(),
                     OptionValue::TITLE => $value->getTitle(),
-                    OptionValue::SORT_ORDER => $value->getSortOrder()
+                    OptionValue::SORT_ORDER => $value->getSortOrder(),
+                    OptionValue::ID => $value->getId()
                 ]
             )->create();
         }

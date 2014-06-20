@@ -35,6 +35,7 @@
     <preference for="Magento\Catalog\Service\V1\Product\TierPriceServiceInterface" type="Magento\Catalog\Service\V1\Product\TierPriceService" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue\ReadService" />
+    <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ConverterInterface" type="Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter\Composite" />

@@ -69,6 +69,7 @@ class ReadServiceTest extends WebapiAbstract
                     $element['custom_attributes'] = $element['customAttributes'];
                     unset($element['customAttributes']);
                 }
+                unset($element['option_type_id']);
                 return $element;
             };
             $item['value'] = array_map($format, $item['value']);

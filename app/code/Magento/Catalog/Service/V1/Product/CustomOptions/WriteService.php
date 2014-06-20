@@ -24,19 +24,19 @@ class WriteService implements WriteServiceInterface
     protected $optionConverter;
 
     /**
-     * @var Data\OptionValue\Reader
+     * @var Data\OptionValue\ReaderInterface
      */
     protected $optionValueReader;
 
     /**
      * @param Data\Option\Converter $optionConverter
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param Data\OptionValue\Reader $optionValueReader
+     * @param Data\OptionValue\ReaderInterface $optionValueReader
      */
     public function __construct(
         Data\Option\Converter $optionConverter,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        Data\OptionValue\Reader $optionValueReader
+        Data\OptionValue\ReaderInterface $optionValueReader
     ) {
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
@@ -57,7 +57,7 @@ class WriteService implements WriteServiceInterface
         try {
             $product->save();
         } catch (\Exception $e) {
-            throw new CouldNotSaveException('Could not save group price');
+            throw new CouldNotSaveException('Could not save product option');
         }
 
         return true;
@@ -73,8 +73,7 @@ class WriteService implements WriteServiceInterface
 
         $options = $product->getOptions();
 
-        if (empty($options) || is_null($product->getOptionById($optionId)))
-        {
+        if (empty($options) || is_null($product->getOptionById($optionId))) {
             throw NoSuchEntityException::singleField('optionId', $optionId);
         }
 

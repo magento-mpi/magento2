@@ -13,7 +13,7 @@ class OptionBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilde
     /**
      * Set option id
      *
-     * @param int $value
+     * @param int|null $value
      * @return $this
      */
     public function setOptionId($value)

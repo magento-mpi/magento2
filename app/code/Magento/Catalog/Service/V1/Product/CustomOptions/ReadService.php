@@ -33,7 +33,7 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
     protected $productRepository;
 
     /**
-     * @var Data\OptionValue\Reader
+     * @var Data\OptionValue\ReaderInterface
      */
     protected $optionValueReader;
 
@@ -42,14 +42,14 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
      * @param Data\OptionTypeBuilder $optionTypeBuilder
      * @param Data\OptionBuilder $optionBuilder
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param Data\OptionValue\Reader $optionValueReader
+     * @param Data\OptionValue\ReaderInterface $optionValueReader
      */
     public function __construct(
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         Data\OptionTypeBuilder $optionTypeBuilder,
         Data\OptionBuilder $optionBuilder,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        Data\OptionValue\Reader $optionValueReader
+        Data\OptionValue\ReaderInterface $optionValueReader
     ) {
         $this->productOptionConfig = $productOptionConfig;
         $this->optionTypeBuilder = $optionTypeBuilder;

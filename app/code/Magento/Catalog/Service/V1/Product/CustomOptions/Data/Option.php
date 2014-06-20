@@ -20,7 +20,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get option id
      *
-     * @return string
+     * @return int|null
      */
     public function getOptionId()
     {

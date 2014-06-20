@@ -72,6 +72,16 @@ class OptionValueBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObj
     }
 
     /**
+     * Set ID
+     * @param int|null $value
+     * @return $this
+     */
+    public function setOptionTypeId($value)
+    {
+        return $this->_set(OptionValue::ID, $value);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getCustomAttributesCodes()

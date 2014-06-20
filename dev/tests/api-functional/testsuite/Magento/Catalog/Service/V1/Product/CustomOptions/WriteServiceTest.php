@@ -73,12 +73,12 @@ class WriteServiceTest extends WebapiAbstract
             Data\Option::VALUE => $reader->read($option)
         );
         $optionObject = $this->optionBuilder->populateWithArray($data)->create();
-
         $format = function ($element) {
                 $element['price'] = intval($element['price']);
                 if (isset($element['custom_attributes'])) {
                     $element['custom_attributes'] = array_values($element['custom_attributes']);
                 }
+            unset($element['option_type_id']);
             return $element;
         };
 

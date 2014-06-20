@@ -19,6 +19,7 @@ class OptionValue extends \Magento\Framework\Service\Data\Eav\AbstractObject
     const IMAGE_SIZE_Y = 'image_size_y';
     const MAX_CHARACTERS = 'max_characters';
     const TITLE = 'title';
+    const ID = 'option_type_id';
 
     /**
      * Get price
@@ -48,5 +49,15 @@ class OptionValue extends \Magento\Framework\Service\Data\Eav\AbstractObject
     public function getSku()
     {
         return $this->_get(self::SKU);
+    }
+
+    /**
+     * Get ID
+     *
+     * @return int|null
+     */
+    public function getOptionTypeId()
+    {
+        return $this->_get(self::ID);
     }
 }

@@ -34,6 +34,7 @@ class Converter
     public function covert(\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option)
     {
         $output = [
+            'option_id' => $option->getOptionId(),
             'title' => $option->getTitle(),
             'type' => $option->getType(),
             'sort_order' => $option->getSortOrder(),
