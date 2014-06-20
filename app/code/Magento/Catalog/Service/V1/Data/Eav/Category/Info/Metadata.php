@@ -12,7 +12,6 @@ use Magento\Framework\Service\Data\Eav\AbstractObject;
 class Metadata extends AbstractObject
 {
     const ID = 'category_id'; // entity_id
-    const ACTIVE = 'active';
     const POSITION = 'position';
     const LEVEL = 'level';
     const PARENT_ID = 'parent_id';
@@ -23,9 +22,16 @@ class Metadata extends AbstractObject
     const URL_KEY = 'url_key';
     const PATH = 'path';
     const DISPLAY_MODE = 'display_mode';
-    const ANCHOR = 'anchor';
     const AVAILABLE_SORT_BY = 'available_sort_by';
     const INCLUDE_IN_MENU = 'include_in_menu';
+
+    /**
+     * @return \Magento\Framework\Service\Data\Eav\AttributeValue[]|null
+     */
+    public function getCustomAttributes()
+    {
+        $this->_get(self::CUSTOM_ATTRIBUTES_KEY);
+    }
 
     /**
      * @return int|null
@@ -33,14 +39,6 @@ class Metadata extends AbstractObject
     public function getCategoryId()
     {
         return $this->_get(self::ID);
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function isActive()
-    {
-        return (bool)$this->_get(self::ACTIVE);
     }
 
     /**
@@ -121,14 +119,6 @@ class Metadata extends AbstractObject
     public function getDisplayMode()
     {
         return $this->_get(self::DISPLAY_MODE);
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function isAnchor()
-    {
-        return (bool)$this->_get(self::ANCHOR);
     }
 
     /**

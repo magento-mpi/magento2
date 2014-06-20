@@ -7,10 +7,39 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
+use Magento\Catalog\Service\V1\Category\MetadataServiceInterface;
 use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\ObjectFactory;
 
 class MetadataBuilder extends AbstractObjectBuilder
 {
+    /**
+     * @param ObjectFactory $objectFactory
+     * @param AttributeValueBuilder $valueBuilder
+     * @param MetadataServiceInterface $metadataService
+     */
+    public function __construct(
+        ObjectFactory $objectFactory,
+        AttributeValueBuilder $valueBuilder,
+        MetadataServiceInterface $metadataService
+    ) {
+        parent::__construct($objectFactory, $valueBuilder);
+        $this->metadataService = $metadataService;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getCustomAttributesCodes()
+    {
+        $attributeCodes = array();
+        foreach ($this->metadataService->getCustomAttributesMetadata() as $attribute) {
+            $attributeCodes[] = $attribute->getAttributeCode();
+        }
+        return $attributeCodes;
+    }
+
     /**
      * @param int $value
      * @return $this
@@ -18,16 +47,6 @@ class MetadataBuilder extends AbstractObjectBuilder
     public function setCategoryId($value)
     {
         $this->_set(Metadata::ID, $value);
-        return $this;
-    }
-
-    /**
-     * @param bool $value
-     * @return $this
-     */
-    public function setActive($value)
-    {
-        $this->_set(Metadata::ACTIVE, $value);
         return $this;
     }
 
@@ -128,16 +147,6 @@ class MetadataBuilder extends AbstractObjectBuilder
     public function setDisplayMode($value)
     {
         $this->_set(Metadata::DISPLAY_MODE, $value);
-        return $this;
-    }
-
-    /**
-     * @param bool $value
-     * @return $this
-     */
-    public function setAnchor($value)
-    {
-        $this->_set(Metadata::ANCHOR, $value);
         return $this;
     }
 

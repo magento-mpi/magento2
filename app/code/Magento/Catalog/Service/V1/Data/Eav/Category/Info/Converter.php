@@ -30,14 +30,10 @@ class Converter
      */
     public function createDataFromModel(Category $category)
     {
-        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute[] $categoryAttributes */
-        $categoryAttributes = $category->getAttributes();
-        $categoryAttributes['is_anchor']->getData();
         $builder = $this->builder->populateWithArray($category->getData())
             ->setCategoryId($category->getId())
-            ->setActive($category->getIsActive())
-            ->setChildren($category->getAllChildren())
-            ->setAnchor($category->getIsAnchor());
+            ->setChildren($category->getAllChildren());
+
         return $builder->create();
     }
 }
