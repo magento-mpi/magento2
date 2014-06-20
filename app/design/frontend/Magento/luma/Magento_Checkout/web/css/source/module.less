@@ -24,34 +24,41 @@
         &:extend(.reset-list all);
     }
     .section {
-        &.allow > .title {
-            cursor: pointer;
-            .icon-font(
-                @icon-edit,
-                @_icon-font-size: 20px,
-                @_icon-font-display: block,
-                @_icon-font-position: after
-            );
-            &:after {
-                position: absolute;
-                right: 18px;
-                top: 12px;
+        &.allow {
+            .step-title {
+                cursor: pointer;
+                .icon-font(
+                    @icon-edit,
+                    @_icon-font-size: 20px,
+                    @_icon-font-display: block,
+                    @_icon-font-position: after
+                );
+                &:after {
+                    position: absolute;
+                    right: 18px;
+                    top: 12px;
+                }
+            }
+            &.active {
+                .step-title:after {
+                    display: none;
+                }
             }
         }
-        .step.content {
+        .step-content {
             display: none;
         }
         &.active {
-            .step.title {
+            .step-title {
                 color: @color-primary;
             }
-            .step.content {
+            .step-content {
                 display: block;
             }
         }
     }
     .step {
-        &.title {
+        &-title {
             background: @sidebar-background;
             margin-bottom: 2px;
             color: lighten(@color-primary, 40%);
@@ -67,7 +74,7 @@
             }
         }
 
-        &.content {
+        &-content {
             padding: 35px 25px 80px;
             position: relative;
             .addresses .control {
@@ -430,7 +437,7 @@
     .opc-wrapper {
         .layout-column(2, 2, @layout-column-checkout-main-width);
         &:extend(.add-box-sizing-desktop all);
-        .step {
+        .step-content {
             &:extend(.form-field-column-2 all);
 
             .form {
@@ -467,7 +474,7 @@
                 }
             }
 
-            &.content .field {
+            .field {
                 &.street,
                 &.choice {
                     width: 100%;
@@ -490,13 +497,15 @@
                 padding: 0;
                 width: 46%;
             }
-            .field.cvv {
-                display: inline-block;
-                width: 30%;
-            }
-            .field.date {
-                display: inline-block;
-                width: 70%;
+            .field {
+                &.cvv {
+                    display: inline-block;
+                    width: 30%;
+                }
+                &.date {
+                    display: inline-block;
+                    width: 70%;
+                }
             }
         }
 

@@ -20,15 +20,16 @@
         &:extend(.reset-list all);
     }
     .section {
-        &.allow > .title {
+        &.allow .step-title {
             cursor: pointer;
         }
-        &.active > .title {
+        &.active .step-title {
             color: @color-primary-darker;
+            cursor: default;
         }
     }
     .step {
-        &.title {
+        &-title {
             color: @color-primary-lighter;
             line-height: 50px;
             h2,
@@ -41,7 +42,7 @@
             }
             border-bottom: @border-width-base solid @border-color-base;
         }
-        &.content {
+        &-content {
             padding: 20px 25px 40px;
             position: relative;
             .addresses .control {
@@ -49,25 +50,25 @@
             }
             .fieldset {
                 margin-bottom: 0;
+                &.login {
+                    .form-hasrequired(bottom);
+                    &:after {
+                        margin-top: 35px;
+                        text-align: center;
+                    }
+                }
             }
             .form {
                 .form-hasrequired(bottom);
                 &:after {
                     text-align: center;
                 }
-            }
-            .form > .choice {
-                margin-top: @form-field-vertical-indent;
+                > .choice {
+                    margin-top: @form-field-vertical-indent;
+                }
             }
             .actions {
                 margin-top: 40px;
-            }
-            .fieldset.login {
-                .form-hasrequired(bottom);
-                &:after {
-                    margin-top: 35px;
-                    text-align: center;
-                }
             }
         }
     }
@@ -103,7 +104,7 @@
         .content {
             margin-bottom: 0;
             .fieldset {
-               padding: 15px 0;
+                padding: 15px 0;
             }
             .label {
                 font-weight: @font-weight-base;
@@ -264,7 +265,7 @@
     .opc-wrapper {
         .layout-column(2, 2, @layout-column-checkout-main-width);
         &:extend(.add-box-sizing-desktop all);
-        .step {
+        .step-content {
             .form {
                 &:after {
                     text-align: right;
@@ -273,12 +274,10 @@
             .form:not(.login) .actions-toolbar {
                 &:extend(.reset-left-margin-desktop all);
             }
-            &.content {
-                .fieldset.login {
-                    &:after {
+            .fieldset.login {
+                &:after {
                         &:extend(.margin-for-forms-desktop all);
-                        text-align: left;
-                    }
+                    text-align: left;
                 }
             }
         }
