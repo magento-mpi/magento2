@@ -160,11 +160,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected function _isAttributeTextAndSearchable($attribute)
     {
         if ($attribute->getIsSearchable() && !in_array(
-                $attribute->getFrontendInput(),
-                array('select', 'multiselect')
+            $attribute->getFrontendInput(),
+            array('select', 'multiselect')
         ) && (in_array(
-                $attribute->getBackendType(),
-                array('varchar', 'text')
+            $attribute->getBackendType(),
+            array('varchar', 'text')
         ) || $attribute->getBackendType() == 'static')
         ) {
             return true;
