@@ -17,7 +17,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     private $categoryBuilder;
 
@@ -27,26 +27,38 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $category;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata
+     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $categoryMetadata;
+    private $categoryInfoMetadata;
+
+    /**
+     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $converterFactory;
+
+    /**
+     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\Converter|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $converter;
 
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
 
-        $this->categoryMetadata = $this->getMockBuilder(
-            'Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata'
+        $this->categoryInfoMetadata = $this->getMockBuilder(
+            'Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata'
         )
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->categoryBuilder = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\CategoryBuilder')
+        $this->categoryBuilder = $this->getMockBuilder(
+            'Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder'
+        )
             ->setMethods(['create', 'populateWithArray'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->categoryBuilder->expects($this->any())->method('create')
-            ->will($this->returnValue($this->categoryMetadata));
+            ->will($this->returnValue($this->categoryInfoMetadata));
 
         $this->category = $this->getMockBuilder('Magento\Catalog\Model\Category')
             ->setMethods(['getData', 'getId', 'load', '__wakeup'])
@@ -61,10 +73,31 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $categoryFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->category));
 
+        $this->converter = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\Info\Converter')
+            ->setMethods(['createDataFromModel'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->converterFactory = $this->getMockBuilder(
+            'Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory'
+        )
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->converterFactory->expects($this->any())->method('create')->will($this->returnValue($this->converter));
+
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Service\V1\Category\ReadService',
-            ['categoryFactory' => $categoryFactory, 'categoryBuilder' => $this->categoryBuilder]
+            [
+                'categoryFactory' => $categoryFactory,
+                'builder' => $this->categoryBuilder,
+                'converterFactory' => $this->converterFactory
+            ]
         );
+
+        $this->converter->expects($this->any())->method('createDataFromModel')
+            ->with($this->identicalTo($this->category))
+            ->will($this->returnValue($this->categoryInfoMetadata));
     }
 
     /**
@@ -73,7 +106,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testInfoNoSuchEntityException()
     {
         $id = 3;
-
         $this->category->expects($this->once())->method('load')->with($this->equalTo($id));
         $this->category->expects($this->once())->method('getId')->will($this->returnValue(false));
 
@@ -83,18 +115,11 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     public function testInfo()
     {
         $id = 3;
-        $categoryData = [$id . 'someData'];
-
         $this->category->expects($this->once())->method('load')->with($this->equalTo($id));
         $this->category->expects($this->once())->method('getId')->will($this->returnValue(true));
-        $this->category->expects($this->once())->method('getData')->will($this->returnValue($categoryData));
-
-        $this->categoryBuilder->expects($this->once())->method('populateWithArray')
-            ->with($this->equalTo($categoryData))
-            ->will($this->returnValue($this->categoryBuilder));
 
         $this->assertInstanceOf(
-            'Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata',
+            'Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata',
             $this->model->info($id)
         );
     }
