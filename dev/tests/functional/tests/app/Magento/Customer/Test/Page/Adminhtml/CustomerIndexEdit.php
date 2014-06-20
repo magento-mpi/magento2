@@ -39,7 +39,7 @@ class CustomerIndexEdit extends BackendPage
         ],
         'customerForm' => [
             'name' => 'customerForm',
-            'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\Form',
+            'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -70,7 +70,7 @@ class CustomerIndexEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Customer\Test\Block\Adminhtml\Edit\Form
+     * @return \Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm
      */
     public function getCustomerForm()
     {

@@ -63,7 +63,7 @@ class AutomaticTaxApplyingTest extends Functional
         $shippingBlock = $checkoutCartPage->getShippingBlock();
         $shippingBlock->openEstimateShippingAndTax();
         $shippingBlock->fill($this->fixture->getCustomer()->getDefaultShippingAddress());
-        $shippingBlock->getQuote();
+        $shippingBlock->clickGetQuote();
         $this->verifyCartTotals();
 
         // Proceed Checkout
@@ -95,9 +95,10 @@ class AutomaticTaxApplyingTest extends Functional
             $totalsBlock->getSubtotal(),
             'Subtotal is not equal to expected value'
         );
-        $this->assertContains($this->fixture->getCartGrandTotal(),
+        $this->assertContains(
+            $this->fixture->getCartGrandTotal(),
             $totalsBlock->getGrandTotal(),
-            'Gran Total is not equal to expected value'
+            'Grand Total is not equal to expected value'
         );
     }
 

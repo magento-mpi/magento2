@@ -188,8 +188,11 @@ class Ipn
 
         if ($error = $http->getError()) {
             $this->_notifyAdmin(__('IPN postback HTTP error: %1', $error));
+            $http->close();
             return;
         }
+        // cUrl resource must be closed after checking it for errors
+        $http->close();
 
         if (false !== preg_match('~VERIFIED~si', $response)) {
             $this->processIpnVerified();
@@ -231,7 +234,7 @@ class Ipn
     protected function _verifyOrder(Order $order)
     {
         // verify merchant email intended to receive notification
-        $merchantEmail = $this->_config->businessAccount;
+        $merchantEmail = $this->_config->getConfigValue('businessAccount');
         if ($merchantEmail) {
             $receiverEmail = $this->getIpnFormData('business');
             if (!$receiverEmail) {
@@ -437,18 +440,14 @@ class Ipn
                 // possible requires processing on our side as well
                 break;
             case 'intl':
-                $message = __(
-                    'This merchant account does not have a withdrawal mechanism. You can accept or deny this payment in your PayPal account overview.'
-                );
+                $message = __('This merchant account does not have a withdrawal mechanism. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'multi-currency':
-                $message = __(
-                    'This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.'
-                );
+                $message = __('This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'order':
                 throw new \Magento\Framework\Model\Exception(
-                    '"Order" authorizations are not implemented. Please use "simple" authorization.'
+                    __('"Order" authorizations are not implemented. Please use "simple" authorization.')
                 );
             case 'authorization':
                 $this->_registerPaymentAuthorization();

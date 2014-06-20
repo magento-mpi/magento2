@@ -8,9 +8,7 @@
 
 namespace Magento\User\Test\Handler\AdminUserRole;
 
-use Magento\User\Test\Handler\AdminUserRole\AdminUserRoleInterface;
-use Magento\Backend\Test\Handler\Pagination;
-use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
+use Magento\Backend\Test\Handler\Extractor;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -54,8 +52,8 @@ class Curl extends AbstractCurl implements AdminUserRoleInterface
         $regExpPattern = '/class=\"\scol\-id col\-role_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
             . $data['rolename'] . '/siu';
 
-        $pagination = new Pagination($url, $regExpPattern);
+        $extractor = new Extractor($url, $regExpPattern);
 
-        return ['role_id' => $pagination->getId()];
+        return ['role_id' => $extractor->getData()[1]];
     }
 }

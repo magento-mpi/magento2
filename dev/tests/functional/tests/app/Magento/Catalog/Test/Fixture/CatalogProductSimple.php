@@ -13,6 +13,7 @@ use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductSimple
@@ -38,6 +39,7 @@ class CatalogProductSimple extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -47,6 +49,7 @@ class CatalogProductSimple extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -56,6 +59,7 @@ class CatalogProductSimple extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist
@@ -76,9 +80,11 @@ class CatalogProductSimple extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test simple product %isolation%',
         'sku' => 'test_simple_sku_%isolation%',
+        'attribute_set_id' => 'Default',
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10
+        'qty' => 10,
+        'quantity_and_stock_status' => 'In Stock',
     ];
 
     protected $category_ids = [
@@ -447,6 +453,7 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => 'Taxable Goods',
         'input' => 'select',
         'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -489,6 +496,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings',
     ];
 
     protected $url_path = [
@@ -544,6 +552,12 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'group' => 'customer-options',
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
     ];
 
     public function getCategoryIds()
@@ -829,5 +843,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }

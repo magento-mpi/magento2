@@ -29,6 +29,13 @@ class View extends Block
     protected $addToCart = '#product-addtocart-button';
 
     /**
+     * Quantity input id
+     *
+     * @var string
+     */
+    protected $qty = '#qty';
+
+    /**
      * 'Check out with PayPal' button
      *
      * @var string
@@ -176,6 +183,18 @@ class View extends Block
     }
 
     /**
+     * Set quantity and click add to cart
+     *
+     * @param int $qty
+     * @return void
+     */
+    public function setQtyAndClickAddToCart($qty)
+    {
+        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->setValue($qty);
+        $this->clickAddToCart();
+    }
+
+    /**
      * Find Add To Cart button
      *
      * @return bool
@@ -222,8 +241,9 @@ class View extends Block
      */
     public function getProductPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\Price',
+            ['element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)]
         );
     }
 
@@ -336,7 +356,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**

@@ -1,9 +1,5 @@
 <?php
 /**
- * Configurable product type implementation
- *
- * This type builds in product attributes and existing simple products
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,12 +8,19 @@
 namespace Magento\ConfigurableProduct\Model\Product\Type;
 
 /**
+ * Configurable product type implementation
+ *
+ * This type builds in product attributes and existing simple products
+ *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
+    /**
+     * Product type code
+     */
     const TYPE_CODE = 'configurable';
 
     /**
@@ -99,8 +102,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Product collection factory
      *
-     * @var
-     * \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
@@ -534,13 +536,15 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             foreach ($data as $attributeData) {
                 /** @var $configurableAttribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
                 $configurableAttribute = $this->_configurableAttributeFactory->create();
-                if (!empty($attributeData['id'])) {
-                    $configurableAttribute->load($attributeData['id']);
-                } else {
-                    $configurableAttribute->loadByProductAndAttribute(
-                        $product,
-                        $this->getAttributeById($attributeData['attribute_id'], $product)
-                    );
+                if (!$product->getIsDuplicate()) {
+                    if (!empty($attributeData['id'])) {
+                        $configurableAttribute->load($attributeData['id']);
+                    } else {
+                        $configurableAttribute->loadByProductAndAttribute(
+                            $product,
+                            $this->getAttributeById($attributeData['attribute_id'], $product)
+                        );
+                    }
                 }
                 unset($attributeData['id']);
                 $configurableAttribute->addData(
@@ -1143,6 +1147,10 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $postData['stock_data'] = $parentProduct->getStockData();
         $postData['stock_data']['manage_stock'] = $postData['quantity_and_stock_status']['qty'] === '' ? 0 : 1;
+        if (!isset($postData['stock_data']['is_in_stock'])) {
+            $stockStatus = $parentProduct->getQuantityAndStockStatus();
+            $postData['stock_data']['is_in_stock'] = $stockStatus['is_in_stock'];
+        }
         $configDefaultValue = $this->_scopeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE

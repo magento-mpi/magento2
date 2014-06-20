@@ -26,7 +26,7 @@ class UrlrewriteIndex extends BackendPage
         ],
         'urlRedirectGrid' => [
             'name' => 'urlRedirectGrid',
-            'class' => 'Magento\UrlRewrite\Test\Block\Catalog\Category\Grid',
+            'class' => 'Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Grid',
             'locator' => '#urlrewriteGrid',
             'strategy' => 'css selector',
         ],
@@ -47,7 +47,7 @@ class UrlrewriteIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\UrlRewrite\Test\Block\Catalog\Category\Grid
+     * @return \Magento\UrlRewrite\Test\Block\Adminhtml\Catalog\Category\Grid
      */
     public function getUrlRedirectGrid()
     {
