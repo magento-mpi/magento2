@@ -12,7 +12,6 @@ use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test Creation for DeleteCustomerGroupEntity
@@ -52,18 +51,16 @@ class DeleteCustomerGroupEntityTest extends Injectable
      *
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew
-     * @param FixtureFactory $fixtureFactory
+     * @param CustomerGroupInjectable $customerGroup
      * @return array
      */
     public function __inject(
         CustomerGroupIndex $customerGroupIndex,
         CustomerGroupNew $customerGroupNew,
-        FixtureFactory $fixtureFactory
+        CustomerGroupInjectable $customerGroup
     ) {
         $this->customerGroupIndex = $customerGroupIndex;
         $this->customerGroupNew = $customerGroupNew;
-
-        $customerGroup = $fixtureFactory->createByCode('customerGroupInjectable');
         $customerGroup->persist();
 
         return ['customerGroup' => $customerGroup];

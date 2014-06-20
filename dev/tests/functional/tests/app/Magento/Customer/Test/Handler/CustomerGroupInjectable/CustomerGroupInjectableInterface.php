@@ -11,7 +11,7 @@ namespace Magento\Customer\Test\Handler\CustomerGroupInjectable;
 use Mtf\Handler\HandlerInterface;
 
 /**
- * Interface CustomerGroupCustomerGroupInjectableInterface
+ * Interface CustomerGroupInjectableInterface
  */
 interface CustomerGroupInjectableInterface extends HandlerInterface
 {

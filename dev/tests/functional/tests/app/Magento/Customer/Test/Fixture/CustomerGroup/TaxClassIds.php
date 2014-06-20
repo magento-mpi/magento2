@@ -21,7 +21,7 @@ use Magento\Tax\Test\Fixture\TaxClass;
 class TaxClassIds implements FixtureInterface
 {
     /**
-     * TaxClass Name
+     * Tax class name
      *
      * @var string
      */
@@ -70,8 +70,8 @@ class TaxClassIds implements FixtureInterface
     /**
      * Return prepared data set
      *
-     * @param $key [optional]
-     * @return mixed
+     * @param string|null $key
+     * @return mixed|string
      */
     public function getData($key = null)
     {
