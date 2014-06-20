@@ -10,8 +10,8 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent prices including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to be applied to subtotal only
-* Porting Tax Features from Magento 1.x:
   * Added support for tax rounding at individual tax rate
+* Porting Tax Features from Magento 1.x:
   * Price consistency UX and algorithm
   * Canadian provincial sales taxes
   * Fixed issues with bundle product price inconsistency across the system
