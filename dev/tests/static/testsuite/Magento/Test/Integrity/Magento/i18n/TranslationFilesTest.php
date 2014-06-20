@@ -9,7 +9,7 @@
  */
 namespace Magento\Test\Integrity\Magento\I18n;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class TranslationFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\File\Csv
