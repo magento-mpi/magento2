@@ -39,7 +39,8 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @param int $id
-     * @return array|bool|float|int|string
+     * @return bool
+     * @throws \Exception
      */
     protected function deleteCategory($id)
     {
