@@ -143,7 +143,7 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testUpdate($categoryData)
     {
-        $this->assertGreaterThan(0, $this->updateCategory(self::$modelId, $categoryData));
+        $this->assertGreaterThan(0, $this->updateCategory(333, $categoryData));
         //TODO Validate category data
         /** @var \Magento\Catalog\Service\V1\Category\ReadServiceInterface $readService */
         /*$readService = Bootstrap::getObjectManager()
@@ -186,7 +186,7 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testUpdateValidateInput($categoryData)
     {
-        $this->updateCategory(self::$modelId, $categoryData);
+        $this->updateCategory(333, $categoryData);
     }
 
     public function updateValidateInputDataProvider()
