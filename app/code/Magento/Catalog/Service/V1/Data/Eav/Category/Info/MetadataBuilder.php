@@ -12,6 +12,10 @@ use Magento\Framework\Service\Data\Eav\AbstractObjectBuilder;
 use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 use Magento\Framework\Service\Data\ObjectFactory;
 
+/**
+ * Class MetadataBuilder
+ * @codeCoverageIgnore
+ */
 class MetadataBuilder extends AbstractObjectBuilder
 {
     /**

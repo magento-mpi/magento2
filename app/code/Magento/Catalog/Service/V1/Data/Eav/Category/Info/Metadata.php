@@ -9,6 +9,10 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
 use Magento\Framework\Service\Data\Eav\AbstractObject;
 
+/**
+ * Class Metadata
+ * @codeCoverageIgnore
+ */
 class Metadata extends AbstractObject
 {
     const ID = 'category_id';
