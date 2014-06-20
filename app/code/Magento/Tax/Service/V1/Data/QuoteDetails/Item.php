@@ -18,8 +18,6 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_TAX_CLASS_ID = 'tax_class_id';
 
-    const KEY_ROW_TOTAL = 'row_total';
-
     const KEY_UNIT_PRICE = 'unit_price';
 
     const KEY_QUANTITY = 'quantity';
@@ -30,7 +28,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_DISCOUNT_AMOUNT = 'discount_amount';
 
-    const KEY_CHILD_CODES = 'child_codes';
+    const KEY_PARENT_CODE = 'parent_code';
     /**#@-*/
 
     /**
@@ -61,16 +59,6 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     public function getTaxClassId()
     {
         return $this->_get(self::KEY_TAX_CLASS_ID);
-    }
-
-    /**
-     * Get row total
-     *
-     * @return float
-     */
-    public function getRowTotal()
-    {
-        return $this->_get(self::KEY_ROW_TOTAL);
     }
 
     /**
@@ -124,12 +112,12 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get child codes
+     * Get parent code if this item is a child, null if this is a top level item.
      *
-     * @return string[]|null
+     * @return string|null
      */
-    public function getChildCodes()
+    public function getParentCode()
     {
-        return $this->_get(self::KEY_CHILD_CODES);
+        return $this->_get(self::KEY_PARENT_CODE);
     }
 }

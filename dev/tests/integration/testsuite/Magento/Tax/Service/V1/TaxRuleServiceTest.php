@@ -244,7 +244,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
         $this->taxRuleService->updateTaxRule($updatedTaxRule);
     }
 
-    /*
+    /**
      * Creates Tax Rule Data Object
      *
      * @return \Magento\Tax\Service\V1\Data\TaxRule
