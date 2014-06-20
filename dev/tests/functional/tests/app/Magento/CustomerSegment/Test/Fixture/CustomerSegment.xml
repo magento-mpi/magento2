@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\CustomerSegment\Test\Fixture\CustomerSegment">
+    <module>Magento_CustomerSegment</module>
+    <type>flat</type>
+    <entity_type>magento_customersegment_segment</entity_type>
+    <collection>Magento\CustomerSegment\Model\Resource\Segment\Collection</collection>
+    <identifier></identifier>
+    <fields>
+        <segment_id>
+            <attribute_code>segment_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </segment_id>
+        <name>
+            <attribute_code>name</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </name>
+        <description>
+            <attribute_code>description</attribute_code>
+            <backend_type>text</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </description>
+        <is_active>
+            <attribute_code>is_active</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </is_active>
+        <conditions_serialized>
+            <attribute_code>conditions_serialized</attribute_code>
+            <backend_type>mediumtext</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </conditions_serialized>
+        <processing_frequency>
+            <attribute_code>processing_frequency</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </processing_frequency>
+        <condition_sql>
+            <attribute_code>condition_sql</attribute_code>
+            <backend_type>mediumtext</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </condition_sql>
+        <apply_to>
+            <attribute_code>apply_to</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </apply_to>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+        </website_ids>
+    </fields>
+    <data_set>
+        <name></name>
+        <description></description>
+        <is_active></is_active>
+        <processing_frequency></processing_frequency>
+        <apply_to></apply_to>
+        <conditions_serialized></conditions_serialized>
+    </data_set>
+    <data_config></data_config>
+    <repository_class>Magento\CustomerSegment\Test\Repository\CustomerSegment</repository_class>
+    <handler_interface>Magento\CustomerSegment\Test\Handler\CustomerSegment\CustomerSegmentInterface</handler_interface>
+</fixture>

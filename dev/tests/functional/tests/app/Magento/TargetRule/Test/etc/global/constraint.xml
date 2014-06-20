@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertTargetRuleSuccessSaveMessage module="Magento_TargetRule">
+        <severeness>high</severeness>
+        <require>
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+        </require>
+    </assertTargetRuleSuccessSaveMessage>
+    <assertTargetRuleInGrid module="Magento_TargetRule">
+        <severeness>high</severeness>
+        <require>
+            <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+        </require>
+    </assertTargetRuleInGrid>
+    <assertTargetRuleForm module="Magento_TargetRule">
+        <severeness>high</severeness>
+        <require>
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+            <targetRuleEdit class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit" />
+            <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
+            <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
+        </require>
+    </assertTargetRuleForm>
+</constraint>

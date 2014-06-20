@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,24 +15,9 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Catalog
  * Backend catalog price rule grid
- *
  */
 class Catalog extends Grid
 {
-    /**
-     * 'Add New' catalog rule button
-     *
-     * @var string
-     */
-    protected $addNewCatalogRule = "//*[@class='page-actions']//*[@id='add']";
-
-    /**
-     * 'Apply Rules' button
-     *
-     * @var string
-     */
-    protected $applyCatalogRules = "//*[@class='page-actions']//*[@id='apply_rules']";
-
     /**
      * An element locator which allows to select first entity in grid
      *
@@ -47,6 +31,9 @@ class Catalog extends Grid
      * @var array
      */
     protected $filters = [
+        'rule_id' => [
+            'selector' => '#promo_catalog_grid_filter_rule_id'
+        ],
         'name' => [
             'selector' => '#promo_catalog_grid_filter_name',
         ],
@@ -65,22 +52,6 @@ class Catalog extends Grid
             'input' => 'select',
         ],
     ];
-
-    /**
-     * Add new catalog rule
-     */
-    public function addNewCatalogRule()
-    {
-        $this->_rootElement->find($this->addNewCatalogRule, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Click "Apply Rule" button
-     */
-    public function applyRules()
-    {
-        $this->_rootElement->find($this->applyCatalogRules, Locator::SELECTOR_XPATH)->click();
-    }
 
     /**
      * Return row with given catalog price rule name
@@ -105,26 +76,16 @@ class Catalog extends Grid
     }
 
     /**
-     * Check if row exists in grid with given name
-     *
-     * @param string $ruleName
-     * @return bool
-     */
-    public function isRuleVisible($ruleName)
-    {
-        return parent::isRowVisible(array('name' => $ruleName));
-    }
-
-    /**
      * Check if specific row exists in grid
      *
      * @param array $filter
      * @param bool $isSearchable
+     * @param bool $isStrict
      * @return bool
      */
-    public function isRowVisible(array $filter, $isSearchable = false)
+    public function isRowVisible(array $filter, $isSearchable = true, $isStrict = true)
     {
         $this->search(array('name' => $filter['name']));
-        return parent::isRowVisible($filter, $isSearchable);
+        return parent::isRowVisible($filter, $isSearchable, $isStrict);
     }
 }
