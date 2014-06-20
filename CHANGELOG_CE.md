@@ -6,18 +6,8 @@
   * Implemented Tax Rate Service (MAGETWO-21409)
   * Implemented Tax Calculation Data Objects (MAGETWO-24872)
   * Implemented Tax Calculation Builders (MAGETWO-24873)
-* Added support for MTF Reporting Tool
 * Framework improvements:
-  * Covered the following Magento application components with unit tests:
-      * `ConfigurableProduct/Helper/Data.php`
-      * `ConfigurableProduct/Model/Export/RowCustomizer.php`
-      * `ConfigurableProduct/Model/Product/Type/Configurable.php`
-      * `ConfigurableProduct/Model/Product/Type/Plugin.php`
-      * `ConfigurableProduct/Model/Quote/Item/QuantityValidator/Initializer/Option/Plugin/ConfigurableProduct.php`
-      * `CatalogSearch/Helper/Data.php`
   * Covered Magento lib with unit tests:
-      * `lib/internal/Magento/Framework/DB/Helper/AbstractHelper.php`
-      * `lib/internal/Magento/Framework/DB/Tree/Node.php`
       * `lib/internal/Magento/Framework/Less/File/Collector/Aggregated.php`
       * `lib/internal/Magento/Framework/Less/File/Collector/Library.php`
       * `lib/internal/Magento/Framework/Locale/Config.php`
