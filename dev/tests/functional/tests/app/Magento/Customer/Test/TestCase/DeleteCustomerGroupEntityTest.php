@@ -51,19 +51,14 @@ class DeleteCustomerGroupEntityTest extends Injectable
      *
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew
-     * @param CustomerGroupInjectable $customerGroup
-     * @return array
+     * @return void
      */
     public function __inject(
         CustomerGroupIndex $customerGroupIndex,
-        CustomerGroupNew $customerGroupNew,
-        CustomerGroupInjectable $customerGroup
+        CustomerGroupNew $customerGroupNew
     ) {
         $this->customerGroupIndex = $customerGroupIndex;
         $this->customerGroupNew = $customerGroupNew;
-        $customerGroup->persist();
-
-        return ['customerGroup' => $customerGroup];
     }
 
     /**
@@ -74,8 +69,11 @@ class DeleteCustomerGroupEntityTest extends Injectable
      */
     public function test(CustomerGroupInjectable $customerGroup)
     {
-        $filter = ['code' => $customerGroup->getCustomerGroupCode()];
+        // Precondition
+        $customerGroup->persist();
+
         // Steps
+        $filter = ['code' => $customerGroup->getCustomerGroupCode()];
         $this->customerGroupIndex->open();
         $this->customerGroupIndex->getCustomerGroupGrid()->searchAndOpen($filter);
         $this->customerGroupNew->getPageMainActions()->delete();
