@@ -26,39 +26,44 @@ class ReadServiceTest extends WebapiAbstract
     public function testInfo()
     {
         $expected = [
+            'parent_id' => '3',
+            'path' => '1/2/3',
+            'position' => '1',
+            'level' => '2',
             'custom_attributes' => [
                 [
-                    'attribute_code' => 'available_sort_by',
-                    'value' => '',
+                    'attribute_code' => 'children_count',
+                    'value' => '0',
                 ],
                 [
                     'attribute_code' => 'is_active',
                     'value' => '1',
                 ],
                 [
-                    'attribute_code' => 'include_in_menu',
-                    'value' => '1',
-                ],
-                [
-                    'attribute_code' => 'name',
-                    'value' => 'Category 1',
-                ],
-                [
                     'attribute_code' => 'default_sort_by',
                     'value' => 'name',
-                ],
-                [
-                    'attribute_code' => 'url_key',
-                    'value' => 'category-1',
                 ],
                 [
                     'attribute_code' => 'url_path',
                     'value' => 'category-1.html',
                 ],
             ],
+            'available_sort_by' => null,
+            'include_in_menu' => '1',
+            'name' => 'Category 1',
+            'url_key' => 'category-1',
+            'category_id' => '333',
+            'children' => ['333']
         ];
 
-        $this->assertEquals($expected, $this->getInfoCategory($this->modelId));
+        $result = $this->getInfoCategory($this->modelId);
+
+        $this->assertArrayHasKey('created_at', $result);
+        $this->assertArrayHasKey('updated_at', $result);
+
+        unset($result['created_at'], $result['updated_at']);
+
+        $this->assertEquals($expected, $result);
     }
 
     public function testInfoNoSuchEntityException()
@@ -79,7 +84,7 @@ class ReadServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $id,
-                'httpMethod' => Config::HTTP_METHOD_DELETE
+                'httpMethod' => Config::HTTP_METHOD_GET
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
