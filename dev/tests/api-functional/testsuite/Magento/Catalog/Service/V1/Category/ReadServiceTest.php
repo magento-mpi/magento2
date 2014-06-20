@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Service\V1\Category;
 
 use Magento\Catalog\Model\Category;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
@@ -28,23 +27,35 @@ class ReadServiceTest extends WebapiAbstract
     {
         $expected = [
             'custom_attributes' => [
-                0 => [
+                [
                     'attribute_code' => 'available_sort_by',
                     'value' => '',
                 ],
-                1 => [
+                [
+                    'attribute_code' => 'is_active',
+                    'value' => '1',
+                ],
+                [
                     'attribute_code' => 'include_in_menu',
                     'value' => '1',
                 ],
-                2 => [
+                [
                     'attribute_code' => 'name',
-                    'value' => 'Test Category',
+                    'value' => 'Category 1',
                 ],
-                3 => [
+                [
+                    'attribute_code' => 'default_sort_by',
+                    'value' => 'name',
+                ],
+                [
                     'attribute_code' => 'url_key',
-                    'value' => 'test-category',
-                ]
-            ]
+                    'value' => 'category-1',
+                ],
+                [
+                    'attribute_code' => 'url_path',
+                    'value' => 'category-1.html',
+                ],
+            ],
         ];
 
         $this->assertEquals($expected, $this->getInfoCategory($this->modelId));
