@@ -14,13 +14,15 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Reminder/_files/customersForNotification.php
+     * @ magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testGetCustomersForNotification()
     {
         $beforeYesterday = date('Y-m-d 03:00:00', strtotime('-2 day', time()));
         $customersForNotification = [['customer_id' => '1', 'coupon_id' => null, 'rule_id' => null, 'schedule' => '2',
                 'log_sent_at_max' => $beforeYesterday, 'log_sent_at_min' => $beforeYesterday]];
-        $resource = Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource')->getConnection('core_write');
+        /** @var \Magento\Framework\App\Resource $resource */
+        $resource = Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
         $adapter = $resource->getConnection('core_write');
         $adapter->query("UPDATE {$resource->getTableName('sales_flat_quote')} SET updated_at = '{$beforeYesterday}'");
 
