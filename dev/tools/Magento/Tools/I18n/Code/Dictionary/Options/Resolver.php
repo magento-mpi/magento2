@@ -32,7 +32,6 @@ class Resolver implements ResolverInterface
      *
      * @param string $directory
      * @param bool $withContext
-     * @throws \InvalidArgumentException
      */
     public function __construct($directory, $withContext)
     {
@@ -86,6 +85,7 @@ class Resolver implements ResolverInterface
 
     /**
      * @param array $directories
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function isValidPaths($directories)
