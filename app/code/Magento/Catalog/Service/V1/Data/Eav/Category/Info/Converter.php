@@ -32,7 +32,7 @@ class Converter
     {
         $builder = $this->builder->populateWithArray($category->getData())
             ->setCategoryId($category->getId())
-            ->setChildren($category->getAllChildren());
+            ->setChildren($category->getAllChildren(true));
 
         return $builder->create();
     }
