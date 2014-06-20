@@ -34,7 +34,7 @@
         </resources>
     </route>
     <route url="/V1/taxClass/search" method="PUT">
-        <service class="Magento\Tax\Service\V1\TaxClassService" method="searchTaxClass"/>
+        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="searchTaxClass"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
