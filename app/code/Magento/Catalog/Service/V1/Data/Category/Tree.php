@@ -68,13 +68,6 @@ class Tree
         $tree = $this->categoryTree->load(null);
         $tree->addCollectionData($this->getCategoryCollection());
         $root = $tree->getNodeById($rootId);
-
-        if ($root && $rootId != \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
-            $root->setIsVisible(true);
-        } elseif ($root && $root->getId() == \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
-            $root->setName(__('Root'));
-        }
-
         return $root;
     }
 
@@ -87,13 +80,6 @@ class Tree
         $nodeId = $category->getId();
         $node = $this->categoryTree->loadNode($nodeId);
         $node->loadChildren();
-
-        if ($node && $node->getId() != \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
-            $node->setIsVisible(true);
-        } elseif ($node && $node->getId() == \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
-            $node->setName(__('Root'));
-        }
-
         $this->categoryTree->addCollectionData($this->getCategoryCollection());
         return $node;
     }
