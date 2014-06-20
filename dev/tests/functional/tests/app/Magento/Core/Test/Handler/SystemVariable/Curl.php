@@ -35,7 +35,7 @@ class Curl extends AbstractCurl implements SystemVariableInterface
         $url = $_ENV['app_backend_url'] . 'admin/system_variable/save/back/edit/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 

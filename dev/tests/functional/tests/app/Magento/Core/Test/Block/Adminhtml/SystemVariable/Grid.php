@@ -12,7 +12,7 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 
 /**
  * Class Grid
- * Adminhtml System Variable management grid
+ * System Variable management grid
  */
 class Grid extends ParentGrid
 {
@@ -30,10 +30,10 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'code' => [
-            'selector' => '#customVariablesGrid_filter_code',
+            'selector' => 'input[name="code"]',
         ],
         'name' => [
-            'selector' => '#customVariablesGrid_filter_name',
+            'selector' => 'input[name="name"]',
         ],
     ];
 }

@@ -48,7 +48,7 @@ class AssertSystemVariableNotInGrid extends AbstractConstraint
     }
 
     /**
-     * Text of Custom System Variable not in grid assert
+     * Returns a string representation of successful assertion
      *
      * @return string
      */

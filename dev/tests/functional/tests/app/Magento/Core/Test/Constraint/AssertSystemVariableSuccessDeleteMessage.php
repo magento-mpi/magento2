@@ -16,7 +16,7 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the customer.'; //You deleted the custom variable.
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the custom variable.';
 
     /**
      * Constraint severeness
@@ -26,7 +26,7 @@ class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that success delete message is displayed after Custom System Variable deleted
+     * Assert that success delete message is correct after Custom System Variable deleted
      *
      * @param SystemVariableIndex $systemVariableIndexPage
      * @return void
@@ -44,12 +44,12 @@ class AssertSystemVariableSuccessDeleteMessage extends AbstractConstraint
     }
 
     /**
-     * Text that success delete message is displayed after Custom System Variable deleted
+     * Returns a string representation of successful assertion
      *
      * @return string
      */
     public function toString()
     {
-        return 'Custom System Variable success delete message is present.';
+        return 'Custom System Variable success delete message is correct.';
     }
 }
