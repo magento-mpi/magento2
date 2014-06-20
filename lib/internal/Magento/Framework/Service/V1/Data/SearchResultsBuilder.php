@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data;
+namespace Magento\Framework\Service\V1\Data;
 
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
@@ -42,7 +42,7 @@ class SearchResultsBuilder extends \Magento\Framework\Service\Data\AbstractObjec
     /**
      * Set items
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product[] $items
+     * @param array $items
      * @return $this
      */
     public function setItems($items)
