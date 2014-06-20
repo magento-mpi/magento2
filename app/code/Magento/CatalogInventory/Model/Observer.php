@@ -329,7 +329,11 @@ class Observer
         $quote = $observer->getEvent()->getQuote();
         $items = $this->_getProductsQty($quote->getAllItems());
         $this->_stock->revertProductsSale($items);
-
+        $productIds = array_keys($items);
+        if (!empty($productIds)) {
+            $this->_stockIndexerProcessor->reindexList($productIds);
+            $this->_priceIndexer->reindexList($productIds);
+        }
         // Clear flag, so if order placement retried again with success - it will be processed
         $quote->setInventoryProcessed(false);
     }
@@ -450,17 +454,18 @@ class Observer
         /* @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $items = array();
+        $productIds = array();
         foreach ($creditmemo->getAllItems() as $item) {
             /* @var $item \Magento\Sales\Model\Order\Creditmemo\Item */
-            $return = false;
+            $returnToStock = false;
             if ($item->hasBackToStock()) {
                 if ($item->getBackToStock() && $item->getQty()) {
-                    $return = true;
+                    $returnToStock = true;
                 }
             } elseif ($this->_catalogInventoryData->isAutoReturnEnabled()) {
-                $return = true;
+                $returnToStock = true;
             }
-            if ($return) {
+            if ($returnToStock) {
                 $parentOrderId = $item->getOrderItem()->getParentItemId();
                 /* @var $parentItem \Magento\Sales\Model\Order\Creditmemo\Item */
                 $parentItem = $parentOrderId ? $creditmemo->getItemByOrderId($parentOrderId) : false;
@@ -470,9 +475,12 @@ class Observer
                 } else {
                     $items[$item->getProductId()] = array('qty' => $qty, 'item' => null);
                 }
+                $productIds[]= $item->getProductId();
             }
         }
         $this->_stock->revertProductsSale($items);
+        $this->_stockIndexerProcessor->reindexList($productIds);
+        $this->_priceIndexer->reindexList($productIds);
     }
 
     /**
@@ -491,7 +499,7 @@ class Observer
         if ($item->getId() && $item->getProductId() && empty($children) && $qty) {
             $this->_stock->backItemQty($item->getProductId(), $qty);
         }
-
+        $this->_priceIndexer->reindexRow($item->getProductId());
         return $this;
     }
 
