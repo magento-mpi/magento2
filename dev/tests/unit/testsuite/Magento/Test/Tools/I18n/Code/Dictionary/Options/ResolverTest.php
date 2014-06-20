@@ -9,7 +9,7 @@ namespace Magento\Test\Tools\I18n\Code\Dictionary\Options;
 
 /**
  * Class ResolverTest
-  */
+ */
 class ResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
