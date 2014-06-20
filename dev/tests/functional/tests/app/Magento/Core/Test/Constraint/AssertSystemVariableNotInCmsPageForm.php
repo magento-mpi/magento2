@@ -29,6 +29,7 @@ class AssertSystemVariableNotInCmsPageForm extends AbstractConstraint
      *
      * @param CmsNew $cmsNewPage
      * @param SystemVariable $systemVariable
+     * @return void
      */
     public function processAssert(
         CmsNew $cmsNewPage,

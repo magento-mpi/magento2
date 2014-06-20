@@ -12,7 +12,7 @@ use Mtf\Block\Form as ParentForm;
 
 /**
  * Class Form
- * Form for tax rule creation
+ * Form for custom system variable creation
  */
 class Form extends ParentForm
 {

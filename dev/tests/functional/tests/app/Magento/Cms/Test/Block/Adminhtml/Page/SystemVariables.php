@@ -19,7 +19,7 @@ class SystemVariables extends Block
     /**
      * Returns array with all variables
      *
-     * @return array $values
+     * @return array
      */
     public function getAllVariables()
     {
