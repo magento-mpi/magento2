@@ -1733,4 +1733,6 @@ return array(
     ['getProductData', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['getProduct', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
+    ['prepareValueForDuplicate', 'Magento\Catalog\Model\Product\Option\Value'],
+    ['prepareOptionForDuplicate', '\Magento\Catalog\Model\Product\Option'],
 );
