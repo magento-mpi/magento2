@@ -75,8 +75,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 [$options[1]['paths'], '', $jsFiles],
             ]));
 
-
-
         $result = $this->parser->parse($options);
         $this->assertEquals($expectedResult, $result);
     }
