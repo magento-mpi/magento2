@@ -136,6 +136,8 @@ class Source extends AbstractEav
             's.store_id != 0'
         )->where(
             'd.value IS NOT NULL'
+        )->where(
+            'd2.value IS NOT NULL'
         )->group(array(
             's.store_id', 's.website_id', 'd.entity_id', 'd.attribute_id', 'd.value'
         ));

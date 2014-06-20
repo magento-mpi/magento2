@@ -61,7 +61,7 @@ class SourceTest extends \PHPUnit_Framework_TestCase
             ->where('value IN (?)', $optionIds);
 
         $result = $adapter->fetchAll($select);
-//        $this->assertCount(2, $result);
+        $this->assertCount(2, $result);
 
         /** @var \Magento\Catalog\Model\Product $product1 **/
         $product1 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Product');
