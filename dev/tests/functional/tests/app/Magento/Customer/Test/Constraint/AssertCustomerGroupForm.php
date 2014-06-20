@@ -35,7 +35,7 @@ class AssertCustomerGroupForm extends AbstractConstraint
     ];
 
     /**
-     * Assert that customer group form filled correctly
+     * Assert that customer group form equals to fixture data
      *
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew

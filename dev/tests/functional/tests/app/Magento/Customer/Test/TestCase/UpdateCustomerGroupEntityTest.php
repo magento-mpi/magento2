@@ -9,7 +9,6 @@
 namespace Magento\Customer\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew;
@@ -52,19 +51,14 @@ class UpdateCustomerGroupEntityTest extends Injectable
      *
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew
-     * @param CustomerGroupInjectable $customerGroupOriginal
-     * @return array
+     * @return void
      */
     public function __inject(
         CustomerGroupIndex $customerGroupIndex,
-        CustomerGroupNew $customerGroupNew,
-        CustomerGroupInjectable $customerGroupOriginal
+        CustomerGroupNew $customerGroupNew
     ) {
         $this->customerGroupIndex = $customerGroupIndex;
         $this->customerGroupNew = $customerGroupNew;
-        $customerGroupOriginal->persist();
-
-        return ['customerGroupOriginal' => $customerGroupOriginal];
     }
 
     /**
@@ -78,7 +72,10 @@ class UpdateCustomerGroupEntityTest extends Injectable
         CustomerGroupInjectable $customerGroupOriginal,
         CustomerGroupInjectable $customerGroup
     ) {
+        // Precondition
+        $customerGroupOriginal->persist();
         $filter = ['code' => $customerGroupOriginal->getCustomerGroupCode()];
+
         // Steps
         $this->customerGroupIndex->open();
         $this->customerGroupIndex->getCustomerGroupGrid()->searchAndOpen($filter);
