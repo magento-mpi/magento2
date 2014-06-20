@@ -1,0 +1,5 @@
+"customerGroup/data/customer_group_code";"constraint"
+"GroupName_%isolation%";"assertCustomerGroupSuccessCreateMessage, assertCustomerGroupInGrid, assertCustomerGroupOnCustomerForm"
+"General";"assertCustomerGroupAlreadyExists"
+"GroupName_%isolation%";"assertCustomerGroupSuccessCreateMessage, assertCustomerGroupInGrid, assertCustomerGroupOnCustomerForm"
+"GroupName_%isolation%";"assertCustomerGroupSuccessCreateMessage, assertCustomerGroupInGrid, assertCustomerGroupOnCustomerForm"

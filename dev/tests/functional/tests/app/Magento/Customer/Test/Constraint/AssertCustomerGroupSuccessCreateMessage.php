@@ -13,8 +13,6 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 
 /**
  * Class AssertCustomerGroupSuccessCreateMessage
- *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupSuccessCreateMessage extends AbstractConstraint
 {

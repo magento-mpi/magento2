@@ -13,8 +13,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerGroupAlreadyExists
- *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupAlreadyExists extends AbstractConstraint
 {
