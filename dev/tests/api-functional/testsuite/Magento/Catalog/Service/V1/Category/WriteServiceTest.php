@@ -20,26 +20,14 @@ class WriteServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/categories';
 
-    private static $categoryData = ['name' => 'Test Category'];
-    private static $modelId;
-
-    public static function deleteDataFixture()
-    {
-        /** @var \Magento\Catalog\Model\CategoryFactory $categoryFactory */
-        $categoryFactory = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\CategoryFactory');
-        /** @var Category $category */
-        $category = $categoryFactory->create();
-        $category->setData(self::$categoryData);
-        $category->save();
-        self::$modelId = $category->getId();
-    }
+    private $modelId = 333;
 
     /**
-     * @magentoApiDataFixture deleteDataFixture
+     * @magentoApiDataFixture Magento/Catalog/_files/category.php
      */
     public function testDelete()
     {
-        $this->assertTrue($this->deleteCategory(self::$modelId));
+        $this->assertTrue($this->deleteCategory($this->modelId));
     }
 
     public function testDeleteNoSuchEntityException()
