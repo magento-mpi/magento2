@@ -30,15 +30,15 @@ class AssertCatalogRuleProductInCategory extends AbstractConstraint
     /**
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param CatalogRule $catalogRule
+     * @param CatalogRule $catalogPriceRule
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
-        CatalogRule $catalogRule
+        CatalogRule $catalogPriceRule
     ) {
         /** @var CatalogProductSimple $product */
-        $product = $catalogRule->getDataFieldConfig('condition_value')['source']->getProduct();
+        $product = $catalogPriceRule->getDataFieldConfig('condition_value')['source']->getProduct();
         /** @var Category $category */
         $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
         //Open category view page

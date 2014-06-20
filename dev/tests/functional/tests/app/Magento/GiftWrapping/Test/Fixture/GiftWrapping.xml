@@ -51,4 +51,6 @@
             <backend_type>virtual</backend_type>
         </website_ids>
     </fields>
+    <repository_class>Magento\GiftWrapping\Test\Repository\GiftWrapping</repository_class>
+    <handler_interface>Magento\GiftWrapping\Test\Handler\GiftWrapping\GiftWrappingInterface</handler_interface>
 </fixture>
