@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Customer\Service\V1\Data\SearchResults;
+use Magento\Framework\Service\V1\Data\SearchResults;
 
 /**
  * TaxRateSearchResults Service Data Object used for the search service requests
