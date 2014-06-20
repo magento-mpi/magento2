@@ -702,7 +702,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $id = $simpleProduct->getIdBySku('Configurable 03-option_0');
         $simpleProduct->load($id);
         $this->assertEquals('Option Label', $simpleProduct->getAttributeText('attribute_with_option'));
-//        $this->assertNotEmpty($simpleProduct->getAvailableInCategories());
         $this->assertEquals(array(2, 4), $simpleProduct->getAvailableInCategories());
     }
 }
