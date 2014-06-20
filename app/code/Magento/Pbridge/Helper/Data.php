@@ -431,12 +431,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $decryptData = $this->decrypt($this->_getRequest()->getParam('data', ''));
         $data = json_decode($decryptData, true);
         $data = array(
-            'original_payment_method' => isset(
-                $data['original_payment_method']
-            ) ? $data['original_payment_method'] : null,
+            'original_payment_method' => isset($data['original_payment_method'])
+                    ? $data['original_payment_method']
+                    : null,
             'token' => isset($data['token']) ? $data['token'] : null,
             'cc_last4' => isset($data['cc_last4']) ? $data['cc_last4'] : null,
-            'cc_type' => isset($data['cc_type']) ? $data['cc_type'] : null
+            'cc_type' => isset($data['cc_type']) ? $data['cc_type'] : null,
+            'x_params' => isset($data['x_params']) ? serialize($data['x_params']) : null
         );
 
         return $data;
@@ -515,7 +516,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        if ($blockObject = $this->_layout->getBlock($block)) {
+        $blockObject = $this->_layout->getBlock($block);
+        if ($blockObject) {
+            return $blockObject->getTemplate();
+        }
+
+        return '';
+    }
+
+    /**
+     * Get template for Continue button to save order and load iframe
+     *
+     * @param string $name template name
+     * @param string $block buttons block name
+     * @return string
+     */
+    public function getContinueButtonTemplate($name, $block)
+    {
+        $quote = $this->_checkoutSession->getQuote();
+        if ($quote) {
+            $payment = $quote->getPayment();
+            if ($payment && $payment->getMethodInstance()->getIsPendingOrderRequired()) {
+                return $name;
+            }
+        }
+
+        $blockObject = $this->_layout->getBlock($block);
+        if ($blockObject) {
             return $blockObject->getTemplate();
         }
 

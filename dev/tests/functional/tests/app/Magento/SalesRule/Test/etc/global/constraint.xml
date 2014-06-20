@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertCartPriceRuleForm module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleForm>
+    <assertCartPriceRuleConditionIsApplied module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleConditionIsApplied>
+    <assertCartPriceRuleConditionIsNotApplied module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleConditionIsNotApplied>
+    <assertCartPriceRuleFreeShippingIsApplied module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleFreeShippingIsApplied>
+    <assertCartPriceRuleSuccessSaveMessage module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleSuccessSaveMessage>
+    <assertCartPriceRuleSuccessDeleteMessage module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleSuccessDeleteMessage>
+    <assertCartPriceRuleIsNotPresentedInGrid module="Magento_SalesRule">
+        <severeness>low</severeness>
+    </assertCartPriceRuleIsNotPresentedInGrid>
+</constraint>
