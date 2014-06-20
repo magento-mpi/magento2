@@ -9,6 +9,10 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
 use Magento\Catalog\Model\Category;
 
+/**
+ * Class Converter
+ * @codeCoverageIgnore
+ */
 class Converter
 {
     /**
