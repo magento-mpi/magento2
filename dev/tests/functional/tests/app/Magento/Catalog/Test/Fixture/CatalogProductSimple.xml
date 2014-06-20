@@ -413,11 +413,6 @@
             <backend_type>virtual</backend_type>
             <group>product-details</group>
         </attribute_set_id>
-        <attribute_id>
-            <attribute_code>attribute_id</attribute_code>
-            <backend_type>virtual</backend_type>
-            <group>product-details</group>
-        </attribute_id>
         <qty>
             <attribute_code>qty</attribute_code>
             <input>input</input>

@@ -37,7 +37,7 @@ class AssertProductAttributeAbsenceInGrid extends AbstractConstraint
         CatalogProductAttribute $attribute
     ) {
         $filter = [
-            'attribute_code' => $attribute->getFrontendLabel(),
+            'attribute_code' => $attribute->getAttributeCode(),
         ];
 
         $attributeIndex->open();

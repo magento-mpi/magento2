@@ -39,8 +39,8 @@ class AttributeSet extends SuggestElement
      */
     public function setValue($value)
     {
-        $this->find($this->actionToggle)->click();
-        if ($value !== 'Default') {
+        if ($value !== $this->find($this->actionToggle)->getText()) {
+            $this->find($this->actionToggle)->click();
             parent::setValue($value);
         }
     }

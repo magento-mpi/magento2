@@ -82,25 +82,11 @@ class ProductForm extends FormTabs
     protected $attribute = './/*[contains(@class,"label")]/span[text()="%s"]';
 
     /**
-     * Attribute selector in search form
+     * Attribute Search locator the Product page
      *
      * @var string
      */
-    protected $inputAttribute = '[data-group="product-details"][data-role="product-attribute-search"]';
-
-    /**
-     * Add Attribute button
-     *
-     * @var string
-     */
-    protected $addAttribute = '.action-toggle.action-choose';
-
-    /**
-     * Search attribute result locator
-     *
-     * @var string
-     */
-    protected $searchResult = '.mage-suggest-dropdown .ui-corner-all';
+    protected $attributeSearch = '#product-attribute-search-container';
 
     /**
      * Fill the product form
@@ -353,16 +339,17 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Checking not exist attribute in search result
+     * Call Method that Checking present attribute in search result
      *
-     * @param $attributeName
-     * @return string
+     * @param CatalogProductAttribute $productAttribute
+     * @return bool
      */
-    public function isExistAttributeInSearchResult($attributeName)
+    public function checkAttributeInSearchAttributeForm($productAttribute)
     {
-        $this->_rootElement->find($this->addAttribute)->click();
-        $this->_rootElement->find($this->inputAttribute)->setValue($attributeName);
-
-        return $this->_rootElement->find($this->searchResult)->getText();
+        return $this->_rootElement->find(
+            $this->attributeSearch,
+            Locator::SELECTOR_CSS,
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
+        )->isExistAttributeInSearchResult($productAttribute);
     }
 }

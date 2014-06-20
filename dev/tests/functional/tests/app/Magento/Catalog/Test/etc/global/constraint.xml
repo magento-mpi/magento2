@@ -273,7 +273,4 @@
             <attributeNew class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew" />
         </require>
     </assertAbsenceDeleteAttributeButton>
-    <assertProductAttributeAbsenceForExport module="Magento_Catalog">
-        <severeness>high</severeness>
-    </assertProductAttributeAbsenceForExport>
 </constraint>

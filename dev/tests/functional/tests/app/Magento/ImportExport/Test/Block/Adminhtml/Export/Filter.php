@@ -14,7 +14,7 @@ use Mtf\Client\Element;
 
 /**
  * Class Filter
- * Filter for export
+ * Filter for export grid
  */
 class Filter extends Grid
 {

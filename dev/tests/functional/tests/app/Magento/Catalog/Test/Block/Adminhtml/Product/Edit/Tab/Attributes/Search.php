@@ -32,6 +32,13 @@ class Search extends SuggestElement
     protected $actionToggle = '.action-toggle';
 
     /**
+     * Search attribute result locator
+     *
+     * @var string
+     */
+    protected $searchResult = '.mage-suggest-dropdown .ui-corner-all';
+
+    /**
      * Set value
      *
      * @param string $value
@@ -53,29 +60,20 @@ class Search extends SuggestElement
         return $this->find($this->value)->getText();
     }
 
-//    /**
-//     * Fill attribute on the search field
-//     *
-//     * @param $data
-//     * @return void
-//     */
-//    public function fillSearch($data)
-//    {
-//        $mapping = $this->dataMapping(['frontend_label' => $data]);
-//        $this->_fill($mapping);
-//    }
-//
-//    /**
-//     * Get product attribute from attribute search block
-//     *
-//     * @param Element $element
-//     * @return string
-//     */
-//    public function getSearchAttribute(Element $element = null)
-//    {
-//        $context = ($element === null) ? $this->_rootElement : $element;
-//        $attributeName = $context->find('.mage-suggest-dropdown .ui-corner-all')->getText();
-//
-//        return $attributeName;
-//    }
+    /**
+     * Checking not exist attribute in search result
+     *
+     * @param CatalogProductAttribute $productAttribute
+     * @return bool
+     */
+    public function isExistAttributeInSearchResult($productAttribute)
+    {
+        $this->find($this->actionToggle)->click();
+        $this->find($this->suggest)->setValue($productAttribute->getFrontendLabel());
+
+        if ($this->find($this->searchResult)->getText() == $productAttribute->getFrontendLabel()) {
+            return true;
+        }
+        return false;
+    }
 }

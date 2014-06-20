@@ -21,11 +21,6 @@ use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 class AssertProductAttributeAbsenceInSearchOnProductForm extends AbstractConstraint
 {
     /**
-     * Text value to be checked
-     */
-    const NO_FOUND_MESSAGE = 'No records found.';
-
-    /**
      * Constraint severeness
      *
      * @var string
@@ -48,13 +43,9 @@ class AssertProductAttributeAbsenceInSearchOnProductForm extends AbstractConstra
     ) {
         $productGrid->open();
         $productGrid->getProductBlock()->addProduct('simple');
-        $message = $newProductPage->getForm()->isExistAttributeInSearchResult($productAttribute->getFrontendLabel());
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::NO_FOUND_MESSAGE,
-            $message,
-            'Product attribute found in Attribute Search form.'
-            . "\nExpected: " . self::NO_FOUND_MESSAGE
-            . "\nActual: " . $message
+        \PHPUnit_Framework_Assert::assertFalse(
+            $newProductPage->getForm()->checkAttributeInSearchAttributeForm($productAttribute),
+            "Product attribute found in Attribute Search form."
         );
     }
 

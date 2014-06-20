@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\ImportExport\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\ImportExport\Test\Fixture\ImportExport;
@@ -44,7 +44,7 @@ class AssertProductAttributeAbsenceForExport extends AbstractConstraint
         $exportIndex->getExportForm()->fill($export);
 
         $filter = [
-            'attribute_code' => $attribute->getFrontendLabel(),
+            'attribute_code' => $attribute->getAttributeCode(),
         ];
 
         \PHPUnit_Framework_Assert::assertFalse(

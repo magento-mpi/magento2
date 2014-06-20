@@ -542,12 +542,6 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
-    protected $attribute_id = [
-        'attribute_code' => 'attribute_id',
-        'backend_type' => 'virtual',
-        'group' => 'product-details',
-    ];
-
     protected $qty = [
         'attribute_code' => 'qty',
         'input' => 'input',
