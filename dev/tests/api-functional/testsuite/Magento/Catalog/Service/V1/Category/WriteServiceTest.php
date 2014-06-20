@@ -8,11 +8,9 @@
 namespace Magento\Catalog\Service\V1\Category;
 
 use Magento\Catalog\Model\Category;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use SoapFault;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -41,7 +39,8 @@ class WriteServiceTest extends WebapiAbstract
 
     /**
      * @param int $id
-     * @return array|bool|float|int|string
+     * @return bool
+     * @throws \Exception
      */
     protected function deleteCategory($id)
     {
