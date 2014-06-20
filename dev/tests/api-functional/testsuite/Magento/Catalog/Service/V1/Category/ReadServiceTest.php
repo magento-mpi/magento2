@@ -47,7 +47,7 @@ class ReadServiceTest extends WebapiAbstract
             ]
         ];
 
-        $this->assertEquals($expected, $this->getInfoCategory(self::$modelId));
+        $this->assertEquals($expected, $this->getInfoCategory($this->modelId));
     }
 
     public function testInfoNoSuchEntityException()
