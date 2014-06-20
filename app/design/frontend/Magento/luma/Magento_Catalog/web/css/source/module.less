@@ -6,7 +6,7 @@
 //  * @license     {license_link}
 //  */
 
-@import "listing.less";
+@import "listings.less";
 @import "toolbar.less";
 
 
@@ -603,11 +603,17 @@ body.catalog-product-compare-index {
             box-shadow: none;
         }
     }
-    .product.name {
-        display: inline-block;
+    .product-item-details {
+        position: relative;
+        z-index: 1;
+    }
+    .product-item-name {
+        margin-left: 25px;
     }
     .field.choice {
-        display: inline-block;
+        position: absolute;
+        top: 2px;
+        left: 0;
         .label {
             &:extend(.visually-hidden all);
         }

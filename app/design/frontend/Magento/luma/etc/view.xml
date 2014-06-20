@@ -38,35 +38,40 @@
         <var name="category_page_grid:ratio">0.8</var>
         <var name="category_page_grid:height">250</var>
 
+        <var name="category_page_grid-1:type">small_image</var>
+        <var name="category_page_grid-1:width">240</var>
+        <var name="category_page_grid-1:ratio">0.8</var>
+        <var name="category_page_grid-1:height">300</var>
+
         <var name="product_comparison_list:type">small_image</var>
         <var name="product_comparison_list:width">140</var>
         <var name="product_comparison_list:ratio">1</var>
         <var name="product_comparison_list:height">140</var>
 
         <var name="related_products_list:type">small_image</var>
-        <var name="related_products_list:width">140</var>
-        <var name="related_products_list:ratio">1</var>
-        <var name="related_products_list:height">140</var>
+        <var name="related_products_list:width">152</var>
+        <var name="related_products_list:ratio">0.8</var>
+        <var name="related_products_list:height">190</var>
 
         <var name="upsell_products_list:type">small_image</var>
-        <var name="upsell_products_list:width">140</var>
-        <var name="upsell_products_list:ratio">1</var>
-        <var name="upsell_products_list:height">140</var>
+        <var name="upsell_products_list:width">152</var>
+        <var name="upsell_products_list:ratio">0.8</var>
+        <var name="upsell_products_list:height">190</var>
 
         <var name="product_page_main_image:type">image</var>
-        <var name="product_page_main_image:width">700</var>
-        <var name="product_page_main_image:ratio">1</var>
+        <var name="product_page_main_image:width">560</var>
+        <var name="product_page_main_image:ratio">0.8</var>
         <var name="product_page_main_image:height">700</var>
 
         <var name="product_page_main_image_default:type">image</var>
-        <var name="product_page_main_image_default:width">600</var>
+        <var name="product_page_main_image_default:width">560</var>90*1
         <var name="product_page_main_image_default:ratio">0.8</var>
-        <var name="product_page_main_image_default:height">750</var>
+        <var name="product_page_main_image_default:height">700</var>
 
         <var name="product_page_more_views:type">thumbnail</var>
-        <var name="product_page_more_views:width">90</var>
-        <var name="product_page_more_views:ratio">1</var>
-        <var name="product_page_more_views:height">90</var>
+        <var name="product_page_more_views:width">88</var>
+        <var name="product_page_more_views:ratio">0.8</var>
+        <var name="product_page_more_views:height">110</var>
 
         <var name="side_column_widget_product_thumbnail:type">thumbnail</var>
         <var name="side_column_widget_product_thumbnail:width">50</var>

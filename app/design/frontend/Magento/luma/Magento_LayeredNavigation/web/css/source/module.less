@@ -26,7 +26,7 @@
         visibility: visible;
     }
     &.block {
-        margin-bottom: @indent-xl-base;
+        margin-bottom: 0;
     }
     &-title {
         .filter.active & {
@@ -191,17 +191,26 @@
             margin: 0;
             padding: @indent-s-base 0 @indent-s-base;
             .item {
-                margin-bottom: @indent-xs-base;
+                margin-bottom: @indent-s-base;
+                line-height: 1.5em;
             }
             a {
                 color: @filter-link;
+                margin-right: -5px;
+                padding-left: 5px;
+                margin-left: -5px;
+                padding-right: 7px;
                 &:hover {
-                    color: @filter-link-hover;
+                    background-color: #e8e8e8;
                     text-decoration: none;
+                    & + .count {
+                        background-color: #e8e8e8;
+                    }
                 }
             }
             .count {
                 color: @filter-quantity;
+                padding-right: 5px;
                 &:before {
                     content: "(";
                 }
@@ -215,6 +224,9 @@
 .responsive(@break) when (@break = @break-point-0) {
 
     .filter {
+        &.block {
+            margin-bottom: @indent-xl-base;
+        }
         .layout-1 & {
             position: relative;
             z-index: 2;
@@ -243,6 +255,9 @@
         &-content {
             .layout-1 & {
                 display: none;
+            }
+            .item {
+                margin-bottom: @indent-xs-base;
             }
             .layout-1 .active & {
                 display: block;
@@ -280,7 +295,7 @@
         &-options {
             clear: both;
             position: static;
-            overflow: auto;
+            overflow: initial;
             display: block;
             background: transparent;
         }

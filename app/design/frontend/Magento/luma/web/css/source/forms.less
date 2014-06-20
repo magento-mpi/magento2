@@ -58,7 +58,6 @@
     appearance: none;
     border: 1px solid @border-color-base;
     background: transparent;
-    max-width: 200px;
     height: 32px;
     .url("images/select-bg.svg");
     background-image: url("@{url}");
@@ -66,11 +65,13 @@
     background-position: 100% 45%;
     background-size:30px 60px;
     padding-right:20px;
-    text-indent: 0.01px;
+    text-indent: 0.01em;
     text-overflow: '';
     &::-ms-expand{
       display:none;
     }
+
+
     .lt-ie10 & {
         background-image: none;
         padding-right: 4px;
@@ -78,6 +79,11 @@
 }
 select {
     .select-styling();
+}
+@-moz-document url-prefix() {
+    select {
+        background-image: none;
+    }
 }
 
 div.mage-error[generated] {
