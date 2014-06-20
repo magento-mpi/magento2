@@ -171,7 +171,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index' => 'qty_requested',
                 'type' => 'input',
                 'sortable' => false,
-                'header_css_class' => 'col-qty',
+                'header_css_class' => 'col-qty required',
                 'column_css_class' => 'col-qty'
             )
         );
@@ -186,7 +186,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => array('' => '') + $eavHelper->getAttributeOptionValues('reason'),
                 'index' => 'reason',
                 'sortable' => false,
-                'header_css_class' => 'col-reason',
+                'header_css_class' => 'col-reason required',
                 'column_css_class' => 'col-reason'
             )
         );
@@ -199,7 +199,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => array('' => '') + $eavHelper->getAttributeOptionValues('condition'),
                 'index' => 'condition',
                 'sortable' => false,
-                'header_css_class' => 'col-condition',
+                'header_css_class' => 'col-condition required',
                 'column_css_class' => 'col-condition'
             )
         );
@@ -212,7 +212,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'type' => 'select',
                 'options' => array('' => '') + $eavHelper->getAttributeOptionValues('resolution'),
                 'sortable' => false,
-                'header_css_class' => 'col-resolution',
+                'header_css_class' => 'col-resolution required',
                 'column_css_class' => 'col-resolution'
             )
         );
