@@ -1,7 +1,5 @@
 <?php
 /**
- * Find "install_wizard.xml" file and validate
- *
  * {license_notice}
  *
  * @copyright   {copyright}
