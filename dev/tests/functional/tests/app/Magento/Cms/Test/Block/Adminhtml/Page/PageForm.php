@@ -29,6 +29,20 @@ class PageForm extends FormTabs
     protected $toggleButton = "#togglepage_content";
 
     /**
+     * Insert Variable button selector
+     *
+     * @var string
+     */
+    protected $addVariableButton = ".add-variable";
+
+    /**
+     * System Variable block selector
+     *
+     * @var string
+     */
+    protected $systemVariableBlock = "./ancestor::body//div[div[@id='variables-chooser']]";
+
+    /**
      * Content Editor form
      *
      * @var string
@@ -62,5 +76,37 @@ class PageForm extends FormTabs
         if (!$content->isVisible() && $toggleButton->isVisible()) {
             $toggleButton->click();
         }
+    }
+
+    /**
+     * Clicking in content tab 'Insert Variable' button
+     *
+     * @return void
+     */
+    public function clickInsertVariable()
+    {
+        $this->toggleEditor();
+        $this->openTab('content');
+        $contentTab = $this->getTabElement('content');
+        $addVariableButton = $contentTab->_rootElement->find($this->addVariableButton);
+        if ($addVariableButton->isVisible()) {
+            $addVariableButton->click();
+        }
+    }
+
+    /**
+     * Getter for System Variable block
+     *
+     * @return SystemVariables
+     */
+    public function getSystemVariablesBlock()
+    {
+        /** @var \Magento\Cms\Test\Block\Adminhtml\Page\SystemVariables $systemVariablesBlock */
+        $systemVariablesBlock = $this->blockFactory->create(
+            __NAMESPACE__ . '\\SystemVariables',
+            ['element' => $this->_rootElement->find($this->systemVariableBlock, Locator::SELECTOR_XPATH)]
+        );
+
+        return $systemVariablesBlock;
     }
 }
