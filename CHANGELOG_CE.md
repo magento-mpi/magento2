@@ -8,6 +8,7 @@
   * Implemented Tax Rate Service (MAGETWO-21409)
   * Implemented Tax Calculation Data Objects (MAGETWO-24872)
   * Implemented Tax Calculation Builders (MAGETWO-24873)
+  * Implemented Tax Calculation Service (MAGETWO-24874)
 * Framework improvements:
   * Covered Magento lib with unit tests:
       * `lib/internal/Magento/Framework/Less/File/Collector/Aggregated.php`
