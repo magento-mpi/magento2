@@ -478,6 +478,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param null|string|bool|int|Store $store
      * @return string
+     * @deprecated
      */
     public function getAllRatesByProductClass($store = null)
     {
@@ -489,6 +490,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param null|string|bool|int|Store $store
      * @return string
+     * @deprecated
      */
     protected function _getAllRatesByProductClass($store = null)
     {
