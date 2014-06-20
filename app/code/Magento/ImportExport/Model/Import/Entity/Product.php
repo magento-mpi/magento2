@@ -1291,12 +1291,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                                 'attribute_set_id' => $this->_newSku[$rowSku]['attr_set_id'],
                                 'type_id' => $this->_newSku[$rowSku]['type_id'],
                                 'sku' => $rowSku,
+                                'has_options' => isset($rowData['has_options']) ? $rowData['has_options'] : 0,
                                 'created_at' => $this->dateTime->now(),
                                 'updated_at' => $this->dateTime->now()
                             );
-                            if (!empty($rowData['has_options'])) {
-                                $entityRowsIn[$rowSku]['has_options'] = $rowData['has_options'];
-                            }
                             $productsQty++;
                         } else {
                             $rowSku = null;
