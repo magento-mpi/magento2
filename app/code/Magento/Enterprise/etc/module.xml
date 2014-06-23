@@ -21,7 +21,6 @@
             <module name="Magento_Install"/>
             <module name="Magento_AdminNotification"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_Core"/>
             <module name="Magento_CatalogEvent"/>
             <module name="Magento_CatalogPermissions"/>
             <module name="Magento_CustomerSegment"/>
