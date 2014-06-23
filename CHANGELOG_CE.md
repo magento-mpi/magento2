@@ -28,6 +28,13 @@
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: grids (MAGETWO-24705)
   * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+  * Fixed: Previously selected products in 'Add Product to Bundle Option' grid aren't checked if page has been changed (MAGETWO-10614)
+  * Fixed: Google Content not sending correct attribute 'description' (wisebadger) (MAGETWO-18321)
+  * Fixed: Custom Attribute not listed on layered navigation after import (MAGETWO-18333)
+  * Fixed: Category URL keys do not work correctly after saving (MAGETWO-19490)
+  * Fixed: User has no possibility to create Target rule with special Products to Display condition (MAGETWO-23654)
+  * Fixed: Gift Card purchase not being displayed under payment details on guest customer's order screen (MAGETWO-24757)
+  * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
 * Added the following functional tests:
   * Create Product Url Rewrite (MTA-83)
   * Delete Catalog Price Rule (MTA-67)
@@ -223,7 +230,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-  
+
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
