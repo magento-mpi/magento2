@@ -8,14 +8,14 @@
 
 namespace Magento\TargetRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertTargetRuleInGrid
+ * Class AssertTargetRuleIsNotPresentedInGrid
  */
-class AssertTargetRuleInGrid extends AbstractConstraint
+class AssertTargetRuleIsNotPresentedInGrid extends AbstractConstraint
 {
     /**
      * Day in seconds
@@ -27,57 +27,49 @@ class AssertTargetRuleInGrid extends AbstractConstraint
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'middle';
 
     /**
-     * Assert target rule availability in Target Rule Grid
+     * Assert that Target Rule is not presented in grid
      *
      * @param TargetRule $targetRule
      * @param TargetRuleIndex $targetRuleIndex
-     * @param TargetRule|null $initialTargetRule
      * @return void
      */
     public function processAssert(
         TargetRule $targetRule,
-        TargetRuleIndex $targetRuleIndex,
-        TargetRule $initialTargetRule = null
+        TargetRuleIndex $targetRuleIndex
     ) {
-        $data = $initialTargetRule
-            ? array_replace($initialTargetRule->getData(), $targetRule->getData())
-            : $targetRule->getData();
         $fromDate = isset($data['from_date']) ? strtotime($data['from_date']) : null;
         $filter = [
-            'name' => $data['name'],
-            'applies_to' => $data['apply_to'],
-            'status' => $data['is_active']
+            'name' => $targetRule->getName(),
+            'applies_to' => $targetRule->hasData('apply_to') ? $targetRule->getApplyTo() : null,
+            'status' => $targetRule->hasData('is_active') ? $targetRule->getIsActive() : null,
         ];
+
         if ($fromDate) {
             $filter['start_on_from'] = date('m/d/Y', $fromDate - self::DAY);
         }
-
         $targetRuleIndex->open();
         $targetRuleIndex->getTargetRuleGrid()->search($filter);
         if ($fromDate) {
             $filter['start_on_from'] = date('M j, Y', $fromDate);
         }
-        \PHPUnit_Framework_Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertFalse(
             $targetRuleIndex->getTargetRuleGrid()->isRowVisible($filter, false),
             'Target rule with '
             . 'name \'' . $filter['name'] . '\', '
-            . (isset($filter['start_on_from']) ? ('start_on_from \'' . $filter['start_on_from'] . '\', ') : '')
-            . 'applies_to \'' . $filter['applies_to'] . '\', '
-            . 'status \'' . $filter['status'] . '\', '
-            . 'is absent in Target rule grid.'
+            . 'is presented in Target rule grid.'
         );
     }
 
     /**
-     * Text success exist target rule in grid
+     * Text success target rule is not presented in grid
      *
      * @return string
      */
     public function toString()
     {
-        return 'Target rule is present in grid.';
+        return 'Target rule is not presented in grid.';
     }
 }
