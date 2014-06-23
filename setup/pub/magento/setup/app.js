@@ -1,25 +1,50 @@
 'use strict';
-angular.module('magentoSetup', ['ui.router'])
-    .controller('navigationController', [
+var app = angular.module('magentoSetup', ['ui.router']);
+app.controller('navigationController', [
         '$scope',
-        '$state',
         'navigationService',
-        function ($scope, $state, navigationService) {
-            $scope.nav = $state.go('navigation');
+        function ($scope, navigationService) {
             navigationService.load(function (data) {
                 $scope.nav = data.nav;
+                data.nav.forEach(function (item) {
+                    app.stateProvider.state(
+                        item.url, {
+                            'url': item.url,
+                            'controller': item.controller + 'Controller'
+                        }
+                    );
+                });
             });
         }
     ])
-    .factory('navigationService', function ($http) {
+    .controller('readinessCheckController', ['$scope', function ($scope) {
+        console.log('readinessCheckController');
+    }])
+    .controller('addDatabaseController', ['$scope', function ($scope) {
+        console.log('addDatabaseController');
+    }])
+    .controller('webConfigurationController', ['$scope', function ($scope) {
+        console.log('webConfigurationController');
+    }])
+    .controller('customizeYourStoreController', ['$scope', function ($scope) {
+        console.log('customizeYourStoreController');
+    }])
+    .controller('createAdminAccountController', ['$scope', function ($scope) {
+        console.log('createAdminAccountController');
+    }])
+    .controller('installController', ['$scope', function ($scope) {
+        console.log('installController');
+    }])
+    .service('navigationService', ['$cacheFactory', '$http', function ($cacheFactory, $http) {
         return {
             load: function (callback) {
                 $http.get('menu').success(callback);
             }
         }
-    })
-    .config(function ($stateProvider, $urlRouterProvider) {
+    }])
+    .config(function ($stateProvider) {
         $stateProvider.state('navigation', {
-            controller: "navigationController"
-        })
+            controller: 'navigationController'
+        });
+        app.stateProvider = $stateProvider;
     });

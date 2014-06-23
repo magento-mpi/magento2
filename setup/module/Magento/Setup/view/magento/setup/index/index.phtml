@@ -2,7 +2,7 @@
     <ui-view>
         <ul class="nav nav-pills nav-stacked">
             <li ng-repeat="item in nav">
-                <a ui-sref=="#{{item.url}}">{{item.name}}</a>
+                <a ui-sref="{{item.url}}" href="#/{{item.url}}">{{item.name}}</a>
             </li>
         </ul>
     </ui-view>

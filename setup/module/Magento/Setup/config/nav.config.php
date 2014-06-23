@@ -11,32 +11,32 @@ return [
         [
             'url' => 'readiness-check',
             'name' => 'Readiness Check',
-            'controller' => '',
+            'controller' => 'readinessCheck',
         ],
         [
             'url' => 'add-database',
             'name' => 'Add Database',
-            'controller' => '',
+            'controller' => 'addDatabase',
         ],
         [
             'url' => 'web-configuration',
             'name' => 'Web Configuration',
-            'controller' => '',
+            'controller' => 'webConfiguration',
         ],
         [
             'url' => 'customize-your-store',
             'name' => 'Customize Your Store',
-            'controller' => '',
+            'controller' => 'customizeYourStore',
         ],
         [
             'url' => 'create-admin-account',
             'name' => 'Create Admin Account',
-            'controller' => '',
+            'controller' => 'createAdminAccount',
         ],
         [
             'url' => 'install',
             'name' => 'Install',
-            'controller' => '',
+            'controller' => 'install',
         ],
     ]
 ];
