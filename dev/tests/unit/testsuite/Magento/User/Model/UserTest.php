@@ -232,7 +232,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $this->_model->sendPasswordResetNotificationEmail();
+        $return = $this->_model->sendPasswordResetNotificationEmail();
+
+        $this->assertTrue($return instanceof User);
     }
 
     public function testSendPasswordResetConfirmationEmail()
@@ -322,6 +324,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $this->_model->sendPasswordResetConfirmationEmail();
+        $return = $this->_model->sendPasswordResetConfirmationEmail();
+
+        $this->assertTrue($return instanceof User);
     }
 }
