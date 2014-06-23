@@ -45,7 +45,9 @@ class CustomerSegment implements FixtureInterface
             foreach ($dataSet as $customerSegment) {
                 /** @var CustomerSegmentFixture $segment */
                 $segment = $fixtureFactory->createByCode('customerSegment', ['dataSet' => $customerSegment]);
-                $segment->persist();
+                if (!$segment->getSegmentId()) {
+                    $segment->persist();
+                }
                 $this->customerSegment[] = $segment;
                 $this->data[] = $segment->getName();
             }
@@ -86,7 +88,7 @@ class CustomerSegment implements FixtureInterface
     }
 
     /**
-     * Return entity
+     * Return customer segment fixture
      *
      * @return CustomerSegmentFixture
      */

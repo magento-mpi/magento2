@@ -13,7 +13,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Content
- * Content tab
+ * Banner content per store view edit page
  */
 class Content extends Tab
 {
@@ -72,7 +72,6 @@ class Content extends Tab
         $count = 0;
         $field = $this->_rootElement->find(sprintf($this->storeContent, $count), Locator::SELECTOR_CSS, 'checkbox');
         while ($field->isVisible()) {
-
             $fieldValue = $field->getValue();
             if ($fieldValue != '') {
                 $storeContent[$count] = $fieldValue;
@@ -85,7 +84,6 @@ class Content extends Tab
         $count = 0;
         $field = $this->_rootElement->find(sprintf($this->contentsNotUse, $count));
         while ($field->isVisible()) {
-
             $fieldValue = $field->getValue();
             if ($fieldValue != '') {
                 $storeContentUse[$count] = $fieldValue;
