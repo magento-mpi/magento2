@@ -25,9 +25,9 @@ class Tree
     protected $storeManager;
 
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var \Magento\Catalog\Model\Resource\Category\Collection
      */
-    protected $categoryFactory;
+    protected $categoryCollection;
 
     /**
      * @var \Magento\Catalog\Service\V1\Data\Eav\Category\TreeBuilderFactory
@@ -37,18 +37,18 @@ class Tree
     /**
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Store\Model\StoreManager $storeManager
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection
      * @param \Magento\Catalog\Service\V1\Data\Eav\Category\TreeBuilderFactory $treeBuilderFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Store\Model\StoreManager $storeManager,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection,
         \Magento\Catalog\Service\V1\Data\Eav\Category\TreeBuilderFactory $treeBuilderFactory
     ) {
         $this->categoryTree = $categoryTree;
         $this->storeManager = $storeManager;
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryCollection = $categoryCollection;
         $this->treeBuilderFactory = $treeBuilderFactory;
     }
 
@@ -66,7 +66,8 @@ class Tree
         $rootId = $store->getRootCategoryId();
 
         $tree = $this->categoryTree->load(null);
-        $tree->addCollectionData($this->getCategoryCollection());
+        $this->prepareCollection();
+        $tree->addCollectionData($this->categoryCollection);
         $root = $tree->getNodeById($rootId);
         return $root;
     }
@@ -80,19 +81,18 @@ class Tree
         $nodeId = $category->getId();
         $node = $this->categoryTree->loadNode($nodeId);
         $node->loadChildren();
-        $this->categoryTree->addCollectionData($this->getCategoryCollection());
+        $this->prepareCollection();
+        $this->categoryTree->addCollectionData($this->categoryCollection);
         return $node;
     }
 
     /**
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return void
      */
-    protected function getCategoryCollection()
+    protected function prepareCollection()
     {
         $storeId = $this->storeManager->getStore()->getId();
-        $collection = $this->categoryFactory->create()->getCollection();
-
-        $collection->addAttributeToSelect(
+        $this->categoryCollection->addAttributeToSelect(
             'name'
         )->addAttributeToSelect(
             'is_active'
@@ -103,8 +103,6 @@ class Tree
         )->setStoreId(
             $storeId
         );
-
-        return $collection;
     }
 
     /**
