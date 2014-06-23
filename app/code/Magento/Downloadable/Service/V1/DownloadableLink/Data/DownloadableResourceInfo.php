@@ -12,11 +12,11 @@ use \Magento\Framework\Service\Data\AbstractObject;
 
 class DownloadableResourceInfo extends AbstractObject
 {
-    CONST FILE = 'file';
+    const FILE = 'file';
 
-    CONST URL = 'url';
+    const URL = 'url';
 
-    CONST TYPE = 'type';
+    const TYPE = 'type';
 
     /**
      * Return file path or null when type is 'url'

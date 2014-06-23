@@ -12,21 +12,21 @@ use Magento\Framework\Service\Data\AbstractObject;
 
 class DownloadableLinkInfo extends AbstractObject
 {
-    CONST ID = 'id';
+    const ID = 'id';
 
-    CONST TITLE = 'title';
+    const TITLE = 'title';
 
-    CONST SORT_ORDER = 'sort_order';
+    const SORT_ORDER = 'sort_order';
 
-    CONST SHARABLE = 'sharable';
+    const SHARABLE = 'sharable';
 
-    CONST PRICE = 'price';
+    const PRICE = 'price';
 
-    CONST NUMBER_OF_DOWNLOADS = 'number_of_downloads';
+    const NUMBER_OF_DOWNLOADS = 'number_of_downloads';
 
-    CONST SAMPLE_RESOURCE = 'sample_resource';
+    const SAMPLE_RESOURCE = 'sample_resource';
 
-    CONST LINK_RESOURCE = 'link_resource';
+    const LINK_RESOURCE = 'link_resource';
 
     /**
      * Product link id

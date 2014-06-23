@@ -35,6 +35,13 @@ class ReadService implements ReadServiceInterface
      */
     protected $resourceBuilder;
 
+    /**
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Downloadable\Model\Product\Type $downloadableType
+     * @param Data\DownloadableLinkInfoBuilder $linkBuilder
+     * @param Data\DownloadableSampleInfoBuilder $sampleBuilder
+     * @param Data\DownloadableResourceInfoBuilder $resourceBuilder
+     */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Downloadable\Model\Product\Type $downloadableType,
@@ -66,6 +73,8 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
+     * Build a link data object
+     *
      * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfo
      */
@@ -84,6 +93,8 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
+     * Build file info data object
+     *
      * @param string $entityType 'link' or 'sample'
      * @param \Magento\Downloadable\Model\Link|\Magento\Downloadable\Model\Sample $resourceData
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableResourceInfo|null

@@ -12,13 +12,13 @@ use \Magento\Framework\Service\Data\AbstractObject;
 
 class DownloadableSampleInfo extends AbstractObject
 {
-    CONST ID = 'id';
+    const ID = 'id';
 
-    CONST TITLE = 'title';
+    const TITLE = 'title';
 
-    CONST SORT_ORDER = 'sort_order';
+    const SORT_ORDER = 'sort_order';
 
-    CONST SAMPLE_RESOURCE = 'sample_resource';
+    const SAMPLE_RESOURCE = 'sample_resource';
 
     /**
      * Product sample id
