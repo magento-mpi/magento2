@@ -48,7 +48,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var SearchCriteriaBuilder
      */
-    protected $searchBuilder;
+    protected $searchCriteriaBuilder;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | RateFactory
@@ -86,7 +86,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $filterGroupBuilder = $this->objectManager
             ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
-        $this->searchBuilder = $this->objectManager->getObject(
+        $this->searchCriteriaBuilder = $this->objectManager->getObject(
             'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
@@ -319,10 +319,10 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $filterBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField(TaxRate::KEY_REGION_ID)->setValue(self::REGION_ID)->create();
-        $this->searchBuilder->addFilter([$filter]);
+        $this->searchCriteriaBuilder->addFilter([$filter]);
 
         $this->createService();
-        $searchCriteria = $this->searchBuilder->create();
+        $searchCriteria = $this->searchCriteriaBuilder->create();
         $searchCriteria->getSortOrders();
         $searchResults = $this->taxRateService->searchTaxRates($searchCriteria);
         $items = $searchResults->getItems();
@@ -375,12 +375,12 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $filterBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField(TaxRate::KEY_REGION_ID)->setValue(self::REGION_ID)->create();
-        $this->searchBuilder
+        $this->searchCriteriaBuilder
             ->addFilter([$filter])
             ->addSortOrder('id', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC);
 
         $this->createService();
-        $searchCriteria = $this->searchBuilder->create();
+        $searchCriteria = $this->searchCriteriaBuilder->create();
         $searchResults = $this->taxRateService->searchTaxRates($searchCriteria);
         $items = $searchResults->getItems();
         $this->assertNotNull($searchResults);
@@ -402,6 +402,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * create taxRateService
+     */
     private function createService()
     {
         $this->taxRateService = $this->objectManager->getObject(
