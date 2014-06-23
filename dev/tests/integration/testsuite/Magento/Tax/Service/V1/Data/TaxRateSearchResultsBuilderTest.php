@@ -32,8 +32,9 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->taxRateSearchResultsBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder');
-
+        $this->taxRateSearchResultsBuilder = $this->objectManager->create(
+            'Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder'
+        );
     }
 
     /**
