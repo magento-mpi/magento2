@@ -2,6 +2,7 @@
    * Implemented Product Attribute Write API (MAGETWO-23314)
    * Implemented Product Attribute Options Read and Write API (MAGETWO-23312)
 * Covered the part of Magento Catalog Module with Unit Tests (MAGETWO-24245)
+* Ported payment related stories from M1.x (MAGETWO-20848)
 
 2.0.0.0-dev83
 =============
