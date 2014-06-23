@@ -34,6 +34,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $optionConverterMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $optionBuilderMock;
+
+    /**
      * @var \Magento\Catalog\Service\V1\Product\CustomOptions\WriteService
      */
     protected $writeService;
@@ -71,7 +76,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with(self::PRODUCT_SKU)
             ->will($this->returnValue($this->productMock));
+        $this->optionBuilderMock =
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder', [], [], '', false);
         $this->writeService = new \Magento\Catalog\Service\V1\Product\CustomOptions\WriteService(
+            $this->optionBuilderMock,
             $this->optionConverterMock,
             $this->repositoryMock,
             $this->optionTypeBuilderMock
@@ -116,11 +124,32 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             Data\Option::TYPE => 'text',
             Data\Option::IS_REQUIRE => true,
             Data\Option::SORT_ORDER => 10,
-            Data\Option::VALUE => ['some_value']
+            Data\Option::VALUE => [
+                'price_type' => 'fixed',
+                'sku' => 'sku1',
+                'max_characters' => 10
+            ]
         ];
 
+        $value = [
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
+
+        $convertedOptions[10] =  [
+            Data\Option::OPTION_ID => 10,
+            Data\Option::TITLE => 'Some title',
+            Data\Option::TYPE => 'text',
+            Data\Option::IS_REQUIRE => true,
+            Data\Option::SORT_ORDER => 10,
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
         $methods = array('getId', 'getTitle', 'getType', 'getIsRequire', 'getSortOrder', '__wakeup');
         $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', $methods, [], '', false);
+        $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
         $this->productMock->expects($this->once())->method('getOptions')->will($this->returnValue([$optionMock]));
         $this->productMock
             ->expects($this->once())
@@ -136,10 +165,21 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('read')
             ->with($optionMock)
-            ->will($this->returnValue(array('some_value')));
-        $options[10]['is_delete'] = '1';
+            ->will($this->returnValue($value));
+        $this->optionBuilderMock
+            ->expects($this->once())
+            ->method('populateWithArray')
+            ->with($options[10])
+            ->will($this->returnSelf());
+        $this->optionBuilderMock->expects($this->once())->method('create')->will($this->returnValue($optionData));
+        $this->optionConverterMock
+            ->expects($this->once())
+            ->method('convert')
+            ->with($optionData)
+            ->will($this->returnValue($convertedOptions[10]));
+        $convertedOptions[10]['is_delete'] = '1';
         $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
-        $this->productMock->expects($this->once())->method('setProductOptions')->with($options);
+        $this->productMock->expects($this->once())->method('setProductOptions')->with($convertedOptions);
         $this->productMock->expects($this->once())->method('setHasOptions')->with(true);
         $this->productMock->expects($this->once())->method('save');
         $this->assertTrue($this->writeService->remove(self::PRODUCT_SKU, 10));
@@ -156,11 +196,32 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             Data\Option::TYPE => 'text',
             Data\Option::IS_REQUIRE => true,
             Data\Option::SORT_ORDER => 10,
-            Data\Option::VALUE => ['some_value']
+            Data\Option::VALUE => [
+                'price_type' => 'fixed',
+                'sku' => 'sku1',
+                'max_characters' => 10
+            ]
         ];
 
+        $value = [
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
+
+        $convertedOptions[10] =  [
+            Data\Option::OPTION_ID => 10,
+            Data\Option::TITLE => 'Some title',
+            Data\Option::TYPE => 'text',
+            Data\Option::IS_REQUIRE => true,
+            Data\Option::SORT_ORDER => 10,
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
         $methods = array('getId', 'getTitle', 'getType', 'getIsRequire', 'getSortOrder', '__wakeup');
         $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', $methods, [], '', false);
+        $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
         $this->productMock->expects($this->once())->method('getOptions')->will($this->returnValue([$optionMock]));
         $this->productMock
             ->expects($this->once())
@@ -176,10 +237,21 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('read')
             ->with($optionMock)
-            ->will($this->returnValue(array('some_value')));
-        $options[10]['is_delete'] = '1';
+            ->will($this->returnValue($value));
+        $this->optionBuilderMock
+            ->expects($this->once())
+            ->method('populateWithArray')
+            ->with($options[10])
+            ->will($this->returnSelf());
+        $this->optionBuilderMock->expects($this->once())->method('create')->will($this->returnValue($optionData));
+        $this->optionConverterMock
+            ->expects($this->once())
+            ->method('convert')
+            ->with($optionData)
+            ->will($this->returnValue($convertedOptions[10]));
+        $convertedOptions[10]['is_delete'] = '1';
         $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
-        $this->productMock->expects($this->once())->method('setProductOptions')->with($options);
+        $this->productMock->expects($this->once())->method('setProductOptions')->with($convertedOptions);
         $this->productMock->expects($this->once())->method('setHasOptions')->with(true);
         $this->productMock->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
         $this->writeService->remove(self::PRODUCT_SKU, 10);

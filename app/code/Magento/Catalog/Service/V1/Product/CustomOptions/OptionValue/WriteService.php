@@ -8,13 +8,13 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder,
-    \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue,
-    \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option,
-    \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Converter as OptionConverter,
-    \Magento\Framework\Exception\NoSuchEntityException,
-    \Magento\Framework\Exception\CouldNotSaveException,
-    \Magento\Framework\Exception\InputException;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
+use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Converter as OptionConverter;
+use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Framework\Exception\CouldNotSaveException;
+use \Magento\Framework\Exception\InputException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -110,7 +110,7 @@ class WriteService implements WriteServiceInterface
                 $data[Option::VALUE][] = $value;
             }
             $optionDataObject = $this->optionBuilder->populateWithArray($data)->create();
-            $optionData = $this->optionConverter->covert($optionDataObject);
+            $optionData = $this->optionConverter->convert($optionDataObject);
             $customOptions[$option->getId()] = $optionData;
         }
 

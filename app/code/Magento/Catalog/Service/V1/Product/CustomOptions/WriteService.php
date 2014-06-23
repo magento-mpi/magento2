@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
 
 class WriteService implements WriteServiceInterface
 {
@@ -29,15 +30,23 @@ class WriteService implements WriteServiceInterface
     protected $optionValueReader;
 
     /**
+     * @var OptionBuilder
+     */
+    protected $optionBuilder;
+
+    /**
+     * @param OptionBuilder $optionBuilder
      * @param Data\Option\Converter $optionConverter
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param Data\OptionValue\ReaderInterface $optionValueReader
      */
     public function __construct(
+        OptionBuilder $optionBuilder,
         Data\Option\Converter $optionConverter,
         \Magento\Catalog\Model\ProductRepository $productRepository,
         Data\OptionValue\ReaderInterface $optionValueReader
     ) {
+        $this->optionBuilder = $optionBuilder;
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
         $this->optionValueReader = $optionValueReader;
@@ -49,7 +58,7 @@ class WriteService implements WriteServiceInterface
     public function add($productSku, \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option)
     {
         $product = $this->productRepository->get($productSku);
-        $optionData = $this->optionConverter->covert($option);
+        $optionData = $this->optionConverter->convert($option);
 
         $product->setCanSaveCustomOptions(true);
         $product->setProductOptions([$optionData]);
@@ -79,7 +88,7 @@ class WriteService implements WriteServiceInterface
 
         $customOptions = array();
         foreach ($options as $option) {
-            $customOptions[$option->getId()] = array(
+            $data= array(
                 Data\Option::OPTION_ID => $option->getId(),
                 Data\Option::TITLE => $option->getTitle(),
                 Data\Option::TYPE => $option->getType(),
@@ -87,6 +96,9 @@ class WriteService implements WriteServiceInterface
                 Data\Option::SORT_ORDER => $option->getSortOrder(),
                 Data\Option::VALUE => $this->optionValueReader->read($option)
             );
+            $optionDataObject = $this->optionBuilder->populateWithArray($data)->create();
+            $customOptions[$option->getId()] = $this->optionConverter->convert($optionDataObject);
+
         }
 
         $product->setCanSaveCustomOptions(true);

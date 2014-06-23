@@ -31,7 +31,7 @@ class Converter
      * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
      * @return array
      */
-    public function covert(\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option)
+    public function convert(\Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option)
     {
         $output = [
             'option_id' => $option->getOptionId(),

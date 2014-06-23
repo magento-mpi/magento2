@@ -113,7 +113,7 @@ class WriteServiceTest extends WebapiAbstract
         );
         $product->load(1);
         $customOptions= $product->getOptions();
-        $optionId = array_shift($customOptions)->getId();
+        $optionId = array_pop($customOptions)->getId();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => "/V1/products/$sku/options/$optionId",
@@ -132,5 +132,6 @@ class WriteServiceTest extends WebapiAbstract
         );
         $product->load(1);
         $this->assertNull($product->getOptionById($optionId));
+        $this->assertEquals(9, count($product->getOptions()));
     }
 }
