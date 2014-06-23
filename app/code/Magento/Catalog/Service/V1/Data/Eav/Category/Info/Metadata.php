@@ -146,7 +146,7 @@ class Metadata extends AbstractObject
     }
 
     /**
-     * @return string[]|null
+     * @return bool|null
      */
     public function isIncludeInMenu()
     {
