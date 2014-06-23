@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class FormPageActions
  * Form page actions block
- *
  */
 class FormPageActions extends PageActions
 {

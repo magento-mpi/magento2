@@ -34,6 +34,11 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
      */
     protected $_scopeConfig;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_paypalConfig;
+
     protected function assertPreConditions()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -41,6 +46,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_paypalConfig = $this->getMock('Magento\Paypal\Model\Config', ['getBuildNotationCode'], [], '', false);
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', array('create'), array(), '', false);
         $paymentFactory->expects($this->once())
             ->method('create')
@@ -53,7 +59,8 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
                 'paypalClassName' => 'paypal class name',
                 'paymentData' => $this->_paymentData,
                 'pbridgeData' => $this->_pbridgeData,
-                'scopeConfig' => $this->_scopeConfig
+                'scopeConfig' => $this->_scopeConfig,
+                'paypalConfig' => $this->_paypalConfig
             )
         );
     }
@@ -84,6 +91,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPbridgeMethodInstance()
     {
+        $this->_paypalConfig->expects($this->once())->method('getBuildNotationCode');
         $pbridgeMethodInstance = $this->_preparePbridgeMethodInstance();
         $this->assertEquals($pbridgeMethodInstance, $this->_model->getPbridgeMethodInstance());
         $this->assertEquals($pbridgeMethodInstance, $this->_model->getPbridgeMethodInstance());
@@ -195,6 +203,9 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('config value', $this->_model->getConfigData('some_field', $storeId));
     }
 
+    /**
+     * @return array
+     */
     public function getConfigDataDataProvider()
     {
         return array(array(null), array('any store id'));
