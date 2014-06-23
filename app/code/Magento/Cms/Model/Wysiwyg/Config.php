@@ -47,13 +47,6 @@ class Config extends \Magento\Framework\Object
     protected $_widgetConfig;
 
     /**
-     * Cms data
-     *
-     * @var \Magento\Cms\Helper\Data
-     */
-    protected $_cmsData;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Framework\Event\ManagerInterface
@@ -80,7 +73,6 @@ class Config extends \Magento\Framework\Object
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Core\Model\Variable\Config $variableConfig
@@ -92,7 +84,6 @@ class Config extends \Magento\Framework\Object
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Cms\Helper\Data $cmsData,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Variable\Config $variableConfig,
@@ -103,7 +94,6 @@ class Config extends \Magento\Framework\Object
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
-        $this->_cmsData = $cmsData;
         $this->_scopeConfig = $scopeConfig;
         $this->_authorization = $authorization;
         $this->_assetRepo = $assetRepo;
@@ -141,7 +131,6 @@ class Config extends \Magento\Framework\Object
                 'add_variables' => true,
                 'add_widgets' => true,
                 'no_display' => false,
-                'translator' => $this->_cmsData,
                 'encode_directives' => true,
                 'directives_url' => $this->_backendUrl->getUrl('cms/wysiwyg/directive'),
                 'popup_css' => $this->_assetRepo->getUrl(
