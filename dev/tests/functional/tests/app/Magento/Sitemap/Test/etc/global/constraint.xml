@@ -32,4 +32,7 @@
     <assertSitemapContent module="Magento_Sitemap">
         <severeness>low</severeness>
     </assertSitemapContent>
+    <assertSitemapSuccessGenerateMessage module="Magento_Sitemap">
+        <severeness>low</severeness>
+    </assertSitemapSuccessGenerateMessage>
 </constraint>

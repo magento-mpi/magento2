@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class SitemapGrid
  * Backend sitemap grid
- *
  */
 class SitemapGrid extends Grid
 {
@@ -40,14 +39,21 @@ class SitemapGrid extends Grid
      *
      * @var string
      */
-    protected $editLink = 'td[class*=col-sitemap_id]';
+    protected $editLink = 'td[data-column="sitemap_id"]';
 
     /**
      * Locator link for Google in grid
      *
      * @var string
      */
-    protected $linkForGoogle = 'tbody tr .col-link a';
+    protected $linkForGoogle = 'td[data-column="link"] a';
+
+    /**
+     * Locator generate link
+     *
+     * @var string
+     */
+    protected $generate = 'td[data-column="action"] a';
 
     /**
      * Get link for Google
@@ -57,5 +63,15 @@ class SitemapGrid extends Grid
     public function getLinkForGoogle()
     {
         return $this->_rootElement->find($this->linkForGoogle, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
+     * Generate sitemap
+     *
+     * @return void
+     */
+    public function generate()
+    {
+        $this->_rootElement->find($this->generate, Locator::SELECTOR_CSS)->click();
     }
 }

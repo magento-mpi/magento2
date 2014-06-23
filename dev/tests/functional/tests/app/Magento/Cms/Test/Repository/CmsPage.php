@@ -24,10 +24,13 @@ class CmsPage extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'title' => 'test_%isolation%',
+            'title' => 'test-%isolation%',
+            'identifier' => 'test-%isolation%',
             'store_id' => 'All Store Views',
             'is_active' => 'Published',
+            'under_version_control' => 'No',
             'content' => 'text content',
+            'root_template' => '1 column'
         ];
 
         $this->_data['cms-page-duplicated'] = [
@@ -54,16 +57,6 @@ class CmsPage extends AbstractRepository
             'under_version_control' => 'Yes',
             'mtf_dataset_name' => 'cms-page-test',
             'constraint' => 'cmsPageSaveSuccess'
-        ];
-
-        $this->_data['default'] = [
-            'title' => 'test-%isolation%',
-            'identifier' => 'test-%isolation%',
-            'store_id' => 'All Store Views',
-            'is_active' => 'Published',
-            'under_version_control' => 'No',
-            'content' => 'text content',
-            'root_template' => '1 column'
         ];
     }
 }

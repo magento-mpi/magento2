@@ -17,6 +17,7 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 
 /**
  * Class AssertSitemapContent
+ * Assert that sitemap.xml file contains correct content
  */
 class AssertSitemapContent extends AbstractConstraint
 {
