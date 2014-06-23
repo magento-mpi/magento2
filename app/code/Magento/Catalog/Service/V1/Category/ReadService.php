@@ -20,7 +20,7 @@ class ReadService implements ReadServiceInterface
     protected $categoryFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -32,12 +32,12 @@ class ReadService implements ReadServiceInterface
     /**
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Service\V1\Data\Category\Tree $categoryTree
-     * @param \Magento\Store\Model\StoreManager $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Service\V1\Data\Category\Tree $categoryTree,
-        \Magento\Store\Model\StoreManager $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryTree = $categoryTree;

@@ -20,7 +20,7 @@ class Tree
     protected $categoryTree;
 
     /**
-     * @var \Magento\Store\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -36,13 +36,13 @@ class Tree
 
     /**
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Store\Model\StoreManager $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection
      * @param \Magento\Catalog\Service\V1\Data\Eav\Category\TreeBuilderFactory $treeBuilderFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Store\Model\StoreManager $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection,
         \Magento\Catalog\Service\V1\Data\Eav\Category\TreeBuilderFactory $treeBuilderFactory
     ) {
