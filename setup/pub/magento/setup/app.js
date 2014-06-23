@@ -35,6 +35,9 @@ app.controller('navigationController', [
     .controller('installController', ['$scope', function ($scope) {
         console.log('installController');
     }])
+    .controller('mainController', ['$scope', function ($scope) {
+        console.log('mainController');
+    }])
     .service('navigationService', ['$cacheFactory', '$http', function ($cacheFactory, $http) {
         return {
             load: function (callback) {
