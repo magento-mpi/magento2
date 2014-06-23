@@ -59,6 +59,10 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $usesPerCustomerField = $form->getElement('uses_per_customer');
         $expectedNote = 'Usage limit enforced for logged in customers only.';
         $this->assertInstanceOf('Magento\Framework\Data\Form\Element\AbstractElement', $usesPerCustomerField);
-        $this->assertEquals($expectedNote, $usesPerCustomerField->getNote(), 'Wrong \'rule_uses_per_customer\' field note');
+        $this->assertEquals(
+            $expectedNote,
+            $usesPerCustomerField->getNote(),
+            'Wrong \'rule_uses_per_customer\' field note'
+        );
     }
 }
