@@ -25,6 +25,21 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $optionTypeBuilderMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productRepositoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $optionBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $optionValueReaderMock;
+
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -38,11 +53,20 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->productRepositoryMock = $this->getMock('Magento\Catalog\Model\ProductRepository', [], [], '', false);
+
+        $this->optionBuilderMock =
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder', [], [], '', false);
+        $this->optionValueReaderMock =
+            $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
         $this->service = $helper->getObject(
             '\Magento\Catalog\Service\V1\Product\CustomOptions\ReadService',
             [
                 'productOptionConfig' => $this->configMock,
                 'optionTypeBuilder' => $this->optionTypeBuilderMock,
+                'optionBuilder' => $this->optionBuilderMock,
+                'productRepository' => $this->productRepositoryMock,
+                'optionValueReader' => $this->optionValueReaderMock
             ]
         );
     }
@@ -51,7 +75,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $config = [
             [
-                'label' => 'group label 1',
+                'group' => 'group label 1',
                 'types' => [
                     [
                         'label' => 'label 1.1',
@@ -61,7 +85,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             [
-                'label' => 'group label 2',
+                'group' => 'group label 2',
                 'types' => [
                     [
                         'label' => 'label 2.2',
@@ -89,5 +113,54 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $this->optionTypeBuilderMock->expects($this->once())->method('create')->will($this->returnValue($object));
 
         $this->assertEquals([$object], $this->service->getTypes());
+    }
+
+    public function testGetList()
+    {
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->productRepositoryMock
+            ->expects($this->once())
+            ->method('get')
+            ->with('product_sku')
+            ->will($this->returnValue($productMock));
+        $value = [
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
+        $options[] = [
+            Data\Option::OPTION_ID => 10,
+            Data\Option::TITLE => 'Some title',
+            Data\Option::TYPE => 'text',
+            Data\Option::IS_REQUIRE => true,
+            Data\Option::SORT_ORDER => 10,
+            Data\Option::VALUE => $value
+        ];
+        $methods = array('getId', 'getTitle', 'getType', 'getIsRequire', 'getSortOrder', '__wakeup');
+        $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', $methods, [], '', false);
+        $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
+        $productMock
+            ->expects($this->once())
+            ->method('getProductOptionsCollection')
+            ->will($this->returnValue(array($optionMock)));
+        $optionMock->expects($this->once())->method('getId')->will($this->returnValue(10));
+        $optionMock->expects($this->once())->method('getTitle')->will($this->returnValue('Some title'));
+        $optionMock->expects($this->once())->method('getType')->will($this->returnValue('text'));
+        $optionMock->expects($this->once())->method('getIsRequire')->will($this->returnValue(true));
+        $optionMock->expects($this->once())->method('getSortOrder')->will($this->returnValue(10));
+        $this->optionValueReaderMock
+            ->expects($this->once())
+            ->method('read')
+            ->with($optionMock)
+            ->will($this->returnValue($value));
+        $this->optionBuilderMock
+            ->expects($this->once())
+            ->method('populateWithArray')
+            ->with($options[0])
+            ->will($this->returnSelf());
+        $this->optionBuilderMock->expects($this->once())->method('create')->will($this->returnValue($optionData));
+
+        $this->assertEquals(array($optionData), $this->service->getList('product_sku'));
+
     }
 }
