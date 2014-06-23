@@ -61,6 +61,17 @@ class CategoryBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set category parent id
+     *
+     * @param  int $value
+     * @return $this
+     */
+    public function setParentId($value)
+    {
+        return $this->_set(Category::PARENT_ID, $value);
+    }
+
+    /**
      * Set path of the category
      *
      * @param  string $value

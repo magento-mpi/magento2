@@ -80,7 +80,7 @@ class AttributeMetadata extends AbstractObject
     /**
      * Name of the created category
      *
-     * @return mixed|null
+     * @return string|null
      */
     public function getName()
     {
@@ -90,7 +90,7 @@ class AttributeMetadata extends AbstractObject
     /**
      * Defines whether the category will be visible in the frontend
      *
-     * @return mixed|null
+     * @return bool|null
      */
     public function isActive()
     {

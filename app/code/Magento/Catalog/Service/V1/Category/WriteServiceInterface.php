@@ -10,6 +10,15 @@ namespace Magento\Catalog\Service\V1\Category;
 interface WriteServiceInterface
 {
     /**
+     * Create category service
+     *
+     * @param \Magento\Catalog\Service\V1\Data\Category $category
+     * @return int
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function create(\Magento\Catalog\Service\V1\Data\Category $category);
+
+    /**
      * Delete category
      *
      * @param int $categoryId category which will deleted

@@ -38,6 +38,16 @@ class Category extends AbstractObject
     }
 
     /**
+     * Category parent id
+     *
+     * @return int|null
+     */
+    public function getParentId()
+    {
+        return $this->_get(self::PARENT_ID);
+    }
+
+    /**
      * Path of the category
      *
      * @return string|null

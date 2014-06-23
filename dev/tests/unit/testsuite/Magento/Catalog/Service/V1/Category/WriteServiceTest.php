@@ -21,6 +21,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $category;
 
+    /**
+     * @var \Magento\Catalog\Service\V1\Data\CategoryMapper
+     */
+    private $categoryMapper;
+
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
@@ -37,10 +42,35 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $categoryFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->category));
 
+        $this->categoryMapper = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\CategoryMapper')
+            ->setMethods(['toModel'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Service\V1\Category\WriteService',
-            ['categoryFactory' => $categoryFactory]
+            [
+                'categoryFactory' => $categoryFactory,
+                'categoryMapper' => $this->categoryMapper
+            ]
         );
+    }
+
+    public function testCreate()
+    {
+        $categorySdo = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->categoryMapper->expects($this->any())
+            ->method('toModel')
+            ->with($categorySdo)
+            ->will($this->returnValue($this->category));
+
+        $this->category->expects($this->once())->method('validate')->will($this->returnValue([]));
+        $this->category->expects($this->once())->method('save');
+
+        $this->model->create($categorySdo);
     }
 
     public function testDelete()
