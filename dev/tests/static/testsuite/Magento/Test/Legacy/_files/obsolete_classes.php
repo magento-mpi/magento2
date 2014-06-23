@@ -2694,7 +2694,6 @@ return array(
         'Magento\Catalog\Pricing\Price\BasePrice'
     ],
     ['Magento\Bundle\Pricing\Price\BasePriceInterface'],
-    ['Magento\Paypal\Block\PayflowExpress\Shortcut'],
     ['Magento\Banner\Helper\Data'],
     ['Magento\Cms\Helper\Data'],
     ['Magento\Cron\Helper\Data'],
