@@ -19,6 +19,9 @@
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
 * Covered the part of Magento Catalog Module with Unit Tests (MAGETWO-24245)
 * Fixed bugs:
+  * Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
+  * Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
+  * Not required 'State/Province' fields on 'Create new Order' page are marked as required (MAGETWO-17829)
   * Fixed: Grouped price doesn't show on grouped product page (MAGETWO-25105)
   * Fixed: Fatal on Grouped Product without assigned products (MAGETWO-25106)
   * Fixed: Inactive coupon can be applied (MAGETWO-24976)
