@@ -91,7 +91,7 @@ class AssignProductTest extends Functional
         /** @var Product $product */
         foreach ($products as $product) {
             $this->assertTrue(
-                $productListBlock->isProductVisible($product->getProductName()),
+                $productListBlock->isProductVisible($product->getName()),
                 'Product is absent on category page.'
             );
         }

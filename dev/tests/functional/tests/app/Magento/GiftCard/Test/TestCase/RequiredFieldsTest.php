@@ -90,12 +90,12 @@ class RequiredFieldsTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
+        $this->assertTrue($productListBlock->isProductVisible($product->getName()),
             'Product is absent on category page');
-        $productListBlock->openProductViewPage($product->getProductName());
+        $productListBlock->openProductViewPage($product->getName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($product->getName(), $productViewBlock->getProductName());
         $giftCardBlock = $productPage->getGiftCardBlock();
         $this->assertTrue($giftCardBlock->isOpenAmount(), 'Open Amount field is absent');
         $this->assertTrue($giftCardBlock->isGiftCardNotPhysical(), 'Fields are not corresponded to Virtual Card');
