@@ -108,5 +108,4 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
         $this->checkClassCanBeDeleted();
         return parent::_beforeDelete();
     }
-
 }
