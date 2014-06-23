@@ -8,15 +8,14 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertSpecialPriceOnProductPage;
-use Magento\GroupedProduct\Test\Constraint\AssertPriceOnGroupedProductPage;
 
 /**
  * Class AssertSpecialPriceOnGroupedProductPage
  */
-class AssertSpecialPriceOnGroupedProductPage extends AssertSpecialPriceOnProductPage
+class AssertSpecialPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPageAbstract
 {
     /**
      * Constraint severeness
@@ -30,18 +29,28 @@ class AssertSpecialPriceOnGroupedProductPage extends AssertSpecialPriceOnProduct
      *
      * @var string
      */
-    public $formatErrMessage = 'This "%s" product\'s special price on product page NOT equals passed from fixture.';
+    protected $errorMessage = 'This "%s" product\'s special price on product page NOT equals passed from fixture.';
 
     /**
-     * Assert that displayed special price on product page equals passed from fixture
+     * Successful message
+     *
+     * @var string
+     */
+    protected $successfulMessage = 'That displayed special price on grouped product page equals passed from fixture.';
+
+    /**
+     * Assert that displayed grouped price on grouped product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
-     * @param FixtureInterface $product
+     * @param CatalogProductGrouped $product
+     * @param AssertSpecialPriceOnProductPage $specialPrice
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
-        $assertPrice = new AssertPriceOnGroupedProductPage;
-        $assertPrice->assertPrice($product, $catalogProductView, $this);
+    public function processAssert(
+        CatalogProductView $catalogProductView,
+        CatalogProductGrouped $product,
+        AssertSpecialPriceOnProductPage $specialPrice
+    ) {
+        $this->processAssertPrice($product, $catalogProductView, $specialPrice);
     }
 }

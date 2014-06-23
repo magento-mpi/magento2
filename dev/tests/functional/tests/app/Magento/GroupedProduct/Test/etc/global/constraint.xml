@@ -14,9 +14,6 @@
     <assertGroupedProductForm module="Magento_GroupedProduct">
         <severeness>low</severeness>
     </assertGroupedProductForm>
-    <assertGroupedProductSearchableBySku module="Magento_GroupedProduct">
-        <severeness>low</severeness>
-    </assertGroupedProductSearchableBySku>
     <assertTierPriceOnGroupedProductPage module="Magento_GroupedProduct">
         <severeness>low</severeness>
     </assertTierPriceOnGroupedProductPage>

@@ -8,15 +8,14 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertGroupedPriceOnProductPage;
-use Magento\GroupedProduct\Test\Constraint\AssertPriceOnGroupedProductPage;
 
 /**
  * Class AssertGroupedPriceOnGroupedProductPage
  */
-class AssertGroupedPriceOnGroupedProductPage extends AssertGroupedPriceOnProductPage
+class AssertGroupedPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPageAbstract
 {
     /**
      * Constraint severeness
@@ -30,18 +29,28 @@ class AssertGroupedPriceOnGroupedProductPage extends AssertGroupedPriceOnProduct
      *
      * @var string
      */
-    public $formatErrMessage = 'This "%s" product\'s grouped price on product page NOT equals passed from fixture.';
+    protected $errorMessage = 'This "%s" product\'s grouped price on product page NOT equals passed from fixture.';
+
+    /**
+     * Successful message
+     *
+     * @var string
+     */
+    protected $successfulMessage = 'That displayed grouped price on grouped product page equals passed from fixture.';
 
     /**
      * Assert that displayed grouped price on grouped product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
-     * @param FixtureInterface $product
+     * @param CatalogProductGrouped $product
+     * @param AssertGroupedPriceOnProductPage $groupedPrice
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
-        $assertPrice = new AssertPriceOnGroupedProductPage;
-        $assertPrice->assertPrice($product, $catalogProductView, $this, 'Grouped');
+    public function processAssert(
+        CatalogProductView $catalogProductView,
+        CatalogProductGrouped $product,
+        AssertGroupedPriceOnProductPage $groupedPrice
+    ) {
+        $this->processAssertPrice($product, $catalogProductView, $groupedPrice);
     }
 }

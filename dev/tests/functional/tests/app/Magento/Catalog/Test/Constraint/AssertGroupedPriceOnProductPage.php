@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertGroupedPriceOnProductPage
  */
-class AssertGroupedPriceOnProductPage extends AbstractConstraint
+class AssertGroupedPriceOnProductPage extends AbstractConstraint implements ConstrainPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -29,7 +29,7 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
      *
      * @var string
      */
-    public $errMessage = 'Assert that displayed grouped price on product page NOT equals passed from fixture.';
+    protected $errorMessage = 'That displayed grouped price on product page is NOT equal to one, passed from fixture.';
 
     /**
      * Assert that displayed grouped price on product page equals passed from fixture
@@ -44,7 +44,18 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
         $catalogProductView->open();
 
         //Process assertions
-        $this->assertGroupedPrice($product, $catalogProductView);
+        $this->assertPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Set $errorMessage for grouped price assert
+     *
+     * @param string $errorMessage
+     * @return void
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
     }
 
     /**
@@ -55,23 +66,25 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
      * @param string $block
      * @return void
      */
-    public function assertGroupedPrice(
+    public function assertPrice(
         FixtureInterface $product,
         CatalogProductView $catalogProductView,
-        $block = 'View'
+        $block = ''
     ) {
         $fields = $product->getData();
-        $groupPrice = $catalogProductView->{'get' . $block . 'Block'}()->getProductPrice();
+        $groupPrice = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
         $groupPrice = isset($groupPrice['price_special_price'])
             ? $groupPrice['price_special_price']
             : null;
-        if(isset($fields['group_price'])){
-            foreach($fields['group_price'] as $itemGroupPrice)
-            \PHPUnit_Framework_Assert::assertEquals(
-                $itemGroupPrice['price'],
-                $groupPrice,
-                $this->errMessage
-            );
+
+        if (isset($fields['group_price'])) {
+            foreach ($fields['group_price'] as $itemGroupPrice) {
+                \PHPUnit_Framework_Assert::assertEquals(
+                    $itemGroupPrice['price'],
+                    $groupPrice,
+                    $this->errorMessage
+                );
+            }
         }
     }
 

@@ -29,9 +29,7 @@
                     <input>select</input>
                 </is_in_stock>
             </quantity_and_stock_status>
-            <description>
-                <selector>#description</selector>
-            </description>
+            <description />
         </fields>
     </product-details>
     <websites>
@@ -82,9 +80,7 @@
             <visibility>
                 <input>select</input>
             </visibility>
-            <short_description>
-                <selector>#short_description</selector>
-            </short_description>
+            <short_description />
             <url_key />
         </fields>
     </autosettings>

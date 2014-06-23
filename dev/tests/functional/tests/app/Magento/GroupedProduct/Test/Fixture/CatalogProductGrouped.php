@@ -13,6 +13,7 @@ use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Event\EventManagerInterface;
 
 /**
  * Class CatalogProductGrouped
@@ -25,10 +26,12 @@ class CatalogProductGrouped extends InjectableFixture
      */
     protected $repositoryClass = 'Magento\GroupedProduct\Test\Repository\CatalogProductGrouped';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
     protected $handlerInterface = 'Magento\GroupedProduct\Test\Handler\CatalogProductGrouped\CatalogProductGroupedInterface';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Constructor
@@ -38,6 +41,7 @@ class CatalogProductGrouped extends InjectableFixture
      * @param RepositoryFactory $repositoryFactory
      * @param FixtureFactory $fixtureFactory
      * @param HandlerFactory $handlerFactory
+     * @param EventManagerInterface $eventManager
      * @param array $data
      * @param string $dataSet
      * @param bool $persist
@@ -47,6 +51,7 @@ class CatalogProductGrouped extends InjectableFixture
         RepositoryFactory $repositoryFactory,
         FixtureFactory $fixtureFactory,
         HandlerFactory $handlerFactory,
+        EventManagerInterface $eventManager,
         array $data = [],
         $dataSet = '',
         $persist = false
@@ -56,6 +61,7 @@ class CatalogProductGrouped extends InjectableFixture
             $repositoryFactory,
             $fixtureFactory,
             $handlerFactory,
+            $eventManager,
             $data,
             $dataSet,
             $persist
@@ -64,7 +70,6 @@ class CatalogProductGrouped extends InjectableFixture
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
         }
-
     }
 
     protected $dataConfig = [

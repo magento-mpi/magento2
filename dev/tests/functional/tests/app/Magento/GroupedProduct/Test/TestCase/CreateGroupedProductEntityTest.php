@@ -87,7 +87,7 @@ class CreateGroupedProductEntityTest extends Injectable
      * @param CatalogCategory $category
      * @return void
      */
-    public function testCreateGroupedProduct(CatalogProductGrouped $product, CatalogCategory $category)
+    public function test(CatalogProductGrouped $product, CatalogCategory $category)
     {
         //Steps
         $this->catalogProductIndex->open();

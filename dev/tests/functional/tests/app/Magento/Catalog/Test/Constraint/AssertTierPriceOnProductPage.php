@@ -16,7 +16,7 @@ use Magento\Catalog\Test\Block\Product\View;
 /**
  * Class AssertTierPriceOnProductPage
  */
-class AssertTierPriceOnProductPage extends AbstractConstraint
+class AssertTierPriceOnProductPage extends AbstractConstraint implements ConstrainPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -37,7 +37,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
      *
      * @var string
      */
-    public $errMessage = 'Product tier price on product page is not correct.';
+    protected $errorMessage = 'Product tier price on product page is not correct.';
 
     /**
      * Format price
@@ -63,7 +63,29 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
         $catalogProductView->open();
 
         //Process assertions
-        $this->assertTierPrice($product, $catalogProductView);
+        $this->assertPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Set $errorMessage for tier price assert
+     *
+     * @param string $errorMessage
+     * @return void
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * Set $tierBlock selector
+     *
+     * @param string $tierBlock
+     * @return void
+     */
+    public function setTierBlock($tierBlock)
+    {
+        $this->tierBlock = $tierBlock;
     }
 
     /**
@@ -74,19 +96,14 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
      * @param string $block
      * @return void
      */
-    public function assertTierPrice(FixtureInterface $product, CatalogProductView $catalogProductView, $block = 'View')
+    public function assertPrice(FixtureInterface $product, CatalogProductView $catalogProductView, $block = '')
     {
         $noError = true;
         $match = [];
         $index = 1;
         /** @var View $viewBlock */
-        $viewBlock = $catalogProductView->{'get' . $block . 'Block'}();
+        $viewBlock = $catalogProductView->{'get' . $block . 'ViewBlock'}();
         $tierPrices = $product->getTierPrice();
-
-        if (isset($product->getData()['price_type'])) {
-            $viewBlock->clickCustomize();
-            $viewBlock->waitForElementVisible($this->tierBlock);
-        }
 
         foreach ($tierPrices as $tierPrice) {
             $text = $viewBlock->getTierPrices($index++);
@@ -103,7 +120,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
             }
         }
 
-        \PHPUnit_Framework_Assert::assertTrue($noError, $this->errMessage);
+        \PHPUnit_Framework_Assert::assertTrue($noError, $this->errorMessage);
     }
 
     /**

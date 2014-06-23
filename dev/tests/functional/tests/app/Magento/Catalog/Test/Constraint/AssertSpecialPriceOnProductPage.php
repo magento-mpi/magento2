@@ -15,7 +15,7 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 /**
  * Class AssertSpecialPriceOnProductPage
  */
-class AssertSpecialPriceOnProductPage extends AbstractConstraint
+class AssertSpecialPriceOnProductPage extends AbstractConstraint implements ConstrainPriceOnProductPageInterface
 {
     /**
      * Constraint severeness
@@ -29,7 +29,7 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
      *
      * @var string
      */
-    public $errMessage = 'Assert that displayed special price on product page NOT equals passed from fixture.';
+    protected $errorMessage = 'Assert that displayed special price on product page NOT equals passed from fixture.';
 
     /**
      * Assert that displayed special price on product page equals passed from fixture
@@ -44,7 +44,18 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
         $catalogProductView->open();
 
         //Process assertions
-        $this->assertSpecialPrice($product, $catalogProductView);
+        $this->assertPrice($product, $catalogProductView);
+    }
+
+    /**
+     * Set $errorMessage for special price assert
+     *
+     * @param string $errorMessage
+     * @return void
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        $this->errorMessage = $errorMessage;
     }
 
     /**
@@ -55,13 +66,13 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
      * @param string $block
      * @return void
      */
-    public function assertSpecialPrice(
+    public function assertPrice(
         FixtureInterface $product,
         CatalogProductView $catalogProductView,
-        $block = 'View'
+        $block = ''
     ) {
         $fields = $product->getData();
-        $specialPrice = $catalogProductView->{'get' . $block . 'Block'}()->getProductPrice();
+        $specialPrice = $catalogProductView->{'get' . $block . 'ViewBlock'}()->getProductPrice();
         $specialPrice = (isset($specialPrice['price_special_price']))
             ? $specialPrice['price_special_price']
             : null;
@@ -69,7 +80,7 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
             \PHPUnit_Framework_Assert::assertEquals(
                 number_format($fields['special_price'], 2),
                 $specialPrice,
-                $this->errMessage
+                $this->errorMessage
             );
         }
     }

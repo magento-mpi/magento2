@@ -8,15 +8,14 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
 use Magento\GroupedProduct\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertTierPriceOnProductPage;
-use Magento\GroupedProduct\Test\Constraint\AssertPriceOnGroupedProductPage;
 
 /**
  * Class AssertTierPriceOnGroupedProductPage
  */
-class AssertTierPriceOnGroupedProductPage extends AssertTierPriceOnProductPage
+class AssertTierPriceOnGroupedProductPage extends AssertPriceOnGroupedProductPageAbstract
 {
     /**
      * Constraint severeness
@@ -33,22 +32,32 @@ class AssertTierPriceOnGroupedProductPage extends AssertTierPriceOnProductPage
     protected $tierBlock = '#super-product-table tr:nth-child(%d) .prices.tier.items';
 
     /**
-     * Error message
+     * Format error message
      *
      * @var string
      */
-    public $formatErrMessage = 'For "%s" Product tier price on product page is not correct.';
+    protected $errorMessage = 'For "%s" Product tier price on product page is not correct.';
 
     /**
-     * Assertion that tier prices are displayed correctly
+     * Successful message
+     *
+     * @var string
+     */
+    protected $successfulMessage = 'Tier price is displayed on the grouped product page.';
+
+    /**
+     * Assert that displayed grouped price on grouped product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
-     * @param FixtureInterface $product
+     * @param CatalogProductGrouped $product
+     * @param AssertTierPriceOnProductPage $specialPrice
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
-    {
-        $assertPrice = new AssertPriceOnGroupedProductPage;
-        $assertPrice->assertPrice($product, $catalogProductView, $this, 'Tier');
+    public function processAssert(
+        CatalogProductView $catalogProductView,
+        CatalogProductGrouped $product,
+        AssertTierPriceOnProductPage $specialPrice
+    ) {
+        $this->processAssertPrice($product, $catalogProductView, $specialPrice, 'Tier');
     }
 }

@@ -19,23 +19,27 @@ class CatalogProductVirtual extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['virtual_product'] = [
-            'sku' => '50_dollar_product%isolation%',
-            'name' => '50_dollar_product%isolation%',
+            'sku' => 'virtual_product%isolation%',
+            'name' => 'virtual_product%isolation%',
             'type_id' => 'virtual',
             'attribute_set_id' => '4',
             'price' => ['value' => 50, 'preset' => '-'],
-            'id' => '3',
-            'mtf_dataset_name' => '50_dollar_product'
+            'quantity_and_stock_status' => [
+                'qty' => '1111',
+                'is_in_stock' => 'In Stock',
+            ],
         ];
 
         $this->_data['virtual_product2'] = [
-            'sku' => '50_dollar_product%isolation%',
-            'name' => '50_dollar_product%isolation%',
+            'sku' => 'virtual_product2%isolation%',
+            'name' => 'virtual_product2%isolation%',
             'type_id' => 'virtual',
             'attribute_set_id' => '4',
             'price' => ['value' => 50, 'preset' => '-'],
-            'id' => '3',
-            'mtf_dataset_name' => '50_dollar_product'
+            'quantity_and_stock_status' => [
+                'qty' => '1111',
+                'is_in_stock' => 'In Stock',
+            ],
         ];
 
         $this->_data['50_dollar_product'] = [

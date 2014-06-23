@@ -53,7 +53,8 @@ class AssertProductSearchableBySku extends AbstractConstraint
         FixtureInterface $product
     ) {
         $cmsIndex->open();
-        $this->searchBy($cmsIndex, $product);
+        $sku = ($product->hasData('sku') !== false) ? $product->getSku() : $product->getName();
+        $cmsIndex->getSearchBlock()->search($sku);
 
         $quantityAndStockStatus = $product->getQuantityAndStockStatus();
         $stockStatus = isset($quantityAndStockStatus['is_in_stock'])
@@ -67,25 +68,13 @@ class AssertProductSearchableBySku extends AbstractConstraint
 
         if ($product->getVisibility() === 'Catalog' || $stockStatus === 'Out of Stock') {
             $isVisible = !$isVisible;
-            $this->errorMessage = 'Product successfully found by SKU.';
-            $this->successfulMessage = 'The product has not been found by SKU.';
+            list($this->errorMessage, $this->successfulMessage) = [$this->successfulMessage, $this->errorMessage];
         }
 
         \PHPUnit_Framework_Assert::assertTrue(
             $isVisible,
             $this->errorMessage
         );
-    }
-
-    /**
-     * Search product on frontend
-     *
-     * @param CmsIndex $cmsIndex
-     * @param FixtureInterface $product
-     */
-    protected function searchBy(CmsIndex $cmsIndex, FixtureInterface $product)
-    {
-        $cmsIndex->getSearchBlock()->search($product->getSku());
     }
 
     /**
