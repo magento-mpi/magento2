@@ -213,4 +213,10 @@
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
+    <route url="/V1/categories/:categoryId/products" method="GET">
+        <service class="Magento\Catalog\Service\V1\Category\ReadServiceInterface" method="assignedProducts" />
+        <resources>
+            <resource ref="Magento_Catalog::categories" />
+        </resources>
+    </route>
 </routes>
