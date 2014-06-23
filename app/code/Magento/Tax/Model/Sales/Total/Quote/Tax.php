@@ -78,7 +78,18 @@ class Tax extends AbstractTotal
      */
     protected $_store;
 
-    protected $_taxCalculationService;
+    /**
+     * Tax calculation service, the collector will call the service which performs the actual calculation
+     *
+     * @var \Magento\Tax\Service\V1\TaxCalculationService
+     */
+    protected $taxCalculationService;
+
+    /**
+     * Builder to create QuoteDetails as input to tax calculation service
+     *
+     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
+     */
     protected $quoteDetailsBuilder;
 
     /**
@@ -94,6 +105,8 @@ class Tax extends AbstractTotal
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
+     * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
@@ -105,7 +118,7 @@ class Tax extends AbstractTotal
         $this->setCode('tax');
         $this->_taxData = $taxData;
         $this->_calculator = $calculation;
-        $this->_taxCalculationService = $taxCalculationService;
+        $this->taxCalculationService = $taxCalculationService;
         $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_config = $taxConfig;
     }
@@ -119,16 +132,20 @@ class Tax extends AbstractTotal
     public function collectUsingService(Address $address)
     {
         parent::collect($address);
+        $items = $this->_getAddressItems($address);
+        if (!$items) {
+            return $this;
+        }
         //Preparation for calling taxCalculationService with base currency
         $quoteDetails = $this->prepareQuoteDetails($address, true);
 
-        $baseTaxDetailsBase = $this->_taxCalculationService
+        $baseTaxDetailsBase = $this->taxCalculationService
             ->calculateTax($quoteDetails, $address->getQuote()->getStore()->getStoreId());
 
         //Preparation for calling taxCalculationService with display currency
         $quoteDetails = $this->prepareQuoteDetails($address, false);
 
-        $taxDetails = $this->_taxCalculationService
+        $taxDetails = $this->taxCalculationService
             ->calculateTax($quoteDetails, $address->getQuote()->getStore()->getStoreId());
 
 
@@ -147,9 +164,13 @@ class Tax extends AbstractTotal
      * @param \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $baseAppliedTaxes
      * @return array
      */
-    protected function convertAppliedTaxes( $appliedTaxes, $baseAppliedTaxes)
+    protected function convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes)
     {
         $appliedTaxesArray = [];
+
+        if (!$appliedTaxes || !$baseAppliedTaxes) {
+            return $appliedTaxesArray;
+        }
 
         foreach ($appliedTaxes as $taxId => $appliedTax) {
             $baseAppliedTax = $baseAppliedTaxes[$taxId];
@@ -215,6 +236,46 @@ class Tax extends AbstractTotal
     }
 
     /**
+     * Update tax related fields for shipping
+     *
+     * @param Address $address
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\Item $shippingTaxDetails
+     * @param \Magento\Tax\Service\V1\Data\TaxDetails\Item $baseShippingTaxDetails
+     * @return $this
+     */
+    protected function updateShippingTaxInfo(Address $address, $shippingTaxDetails, $baseShippingTaxDetails)
+    {
+        $address->setTotalAmount('shipping', $shippingTaxDetails->getRowTotal());
+        $address->setBaseTotalAmount('shipping', $baseShippingTaxDetails->getRowTotal());
+        $address->setShippingTaxAmount($shippingTaxDetails->getTaxAmount());
+        $address->setBaseShippingTaxAmount($baseShippingTaxDetails->getTaxAmount());
+        $address->setTotalAmount('shipping_hidden_tax', $shippingTaxDetails->getDiscountTaxCompensationAmount());
+        $address->setBaseTotalAmount('shipping_hidden_tax', $baseShippingTaxDetails->getDiscountTaxCompensationAmount());
+
+        $address->setShippingInclTax($shippingTaxDetails->getRowTotalInclTax());
+        $address->setBaseShippingInclTax($baseShippingTaxDetails->getRowTotalInclTax());
+
+        if ($this->_config->discountTax($this->_store)) {
+            $address->setShippingAmountForDiscount($shippingTaxDetails->getRowTotalInclTax());
+            $address->setBaseShippingAmountForDiscount($baseShippingTaxDetails->getRowTotalInclTax());
+        }
+
+        //Add taxes applied to shipping to applied taxes
+        $appliedTaxes = $shippingTaxDetails->getAppliedTaxes();
+        $baseAppliedTaxes = $baseShippingTaxDetails->getAppliedTaxes();
+        $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
+        $this->_saveAppliedTaxes(
+            $address,
+            $appliedTaxesArray,
+            $shippingTaxDetails->getTaxAmount(),
+            $baseShippingTaxDetails->getTaxAmount(),
+            $shippingTaxDetails->getTaxPercent()
+        );
+
+        return $this;
+    }
+
+    /**
      * Update item tax and prices from item tax details object from tax calculation service
      *
      * @param Address $address
@@ -237,6 +298,7 @@ class Tax extends AbstractTotal
 
         $appliedTaxesByItem = [];
 
+        /** @var AbstractItem[] $keyedAddressItems */
         $keyedAddressItems = [];
         foreach ($this->_getAddressItems($address) as $addressItem) {
             $keyedAddressItems[$addressItem->getSequence()] = $addressItem;
@@ -254,6 +316,10 @@ class Tax extends AbstractTotal
                 $quoteItem = $keyedAddressItems[$code];
                 $this->updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails);
 
+                if ($quoteItem->getHasChildren() && $quoteItem->isChildrenCalculated()) {
+                    //avoid double counting
+                    continue;
+                }
                 $subtotal += $itemTaxDetails->getRowTotal();
                 $baseSubtotal += $baseItemTaxDetails->getRowTotal();
                 $hiddenTax += $itemTaxDetails->getDiscountTaxCompensationAmount();
@@ -267,15 +333,19 @@ class Tax extends AbstractTotal
                 $baseAppliedTaxes = $baseItemTaxDetails->getAppliedTaxes();
                 $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
 
-                $this->_saveAppliedTaxes(
-                    $address,
-                    $appliedTaxesArray,
-                    $itemTaxDetails->getTaxAmount(),
-                    $baseItemTaxDetails->getTaxAmount(),
-                    $itemTaxDetails->getTaxPercent()
-                );
+                foreach ($appliedTaxesArray as $appliedTaxArray) {
+                    $this->_saveAppliedTaxes(
+                        $address,
+                        [$appliedTaxArray],
+                        $appliedTaxArray['amount'],
+                        $appliedTaxArray['base_amount'],
+                        $appliedTaxArray['percent']
+                    );
+                }
 
                 $appliedTaxesByItem[$quoteItem->getId()] = $appliedTaxesArray;
+                //Set applied tax for item
+                $quoteItem->setAppliedTaxes($appliedTaxesArray);
             }
             $address->getQuote()->setTaxesForItems($appliedTaxesByItem);
         }
@@ -293,27 +363,11 @@ class Tax extends AbstractTotal
         if (isset($keyedItems[self::SHIPPING_ITEM_CODE]) && isset($baseKeyedItems[self::SHIPPING_ITEM_CODE])) {
             $shippingItem = $keyedItems[self::SHIPPING_ITEM_CODE];
             $baseShippingItem = $baseKeyedItems[self::SHIPPING_ITEM_CODE];
-            $address->setTotalAmount('shipping', $shippingItem->getRowTotal());
-            $address->setBaseTotalAmount('shipping', $baseShippingItem->getRowTotal());
-            $address->setShippingTaxAmount($shippingItem->getTaxAmount());
-            $address->setBaseShippingTaxAmount($baseShippingItem->getTaxAmount());
-            $address->setTotalAmount('shipping_hidden_tax', $shippingItem->getDiscountTaxCompensationAmount());
-            $address->setBaseTotalAmount('shipping_hidden_tax', $baseShippingItem->getDiscountTaxCompensationAmount());
+
+            $this->updateShippingTaxInfo($address, $shippingItem, $baseShippingItem);
 
             $tax += $shippingItem->getTaxAmount();
             $baseTax += $baseShippingItem->getTaxAmount();
-
-            //Add taxes applied to shipping to applied taxes
-            $appliedTaxes = $shippingItem->getAppliedTaxes();
-            $baseAppliedTaxes = $baseShippingItem->getAppliedTaxes();
-            $appliedTaxesArray = $this->convertAppliedTaxes($appliedTaxes, $baseAppliedTaxes);
-            $this->_saveAppliedTaxes(
-                $address,
-                $appliedTaxesArray,
-                $shippingItem->getTaxAmount(),
-                $baseShippingItem->getTaxAmount(),
-                $itemTaxDetails->getTaxPercent()
-            );
         }
 
         $address->setTotalAmount('tax', $tax);
@@ -361,10 +415,16 @@ class Tax extends AbstractTotal
      * @param AbstractItem $item
      * @param bool $priceIncludesTax
      * @param bool $useBaseCurrency
+     * @param string $parentCode
      * @return ItemDataObject
      */
-    protected function mapItem(ItemBuilder $itemBuilder, AbstractItem $item, $priceIncludesTax, $useBaseCurrency)
-    {
+    protected function mapItem(
+        ItemBuilder $itemBuilder,
+        AbstractItem $item,
+        $priceIncludesTax,
+        $useBaseCurrency,
+        $parentCode = null
+    ) {
         if (!$item->getSequence()) {
             $sequence = 'sequence-' . $this->getNextIncrement();
             $item->setSequence($sequence);
@@ -381,12 +441,21 @@ class Tax extends AbstractTotal
         }
 
         if ($useBaseCurrency) {
-            $itemBuilder->setUnitPrice($item->getBaseCalculationPriceOriginal());
+            if (!$item->getBaseTaxCalculationPrice()) {
+                $item->setBaseTaxCalculationPrice($item->getBaseCalculationPriceOriginal());
+            }
+            $itemBuilder->setUnitPrice($item->getBaseTaxCalculationPrice());
             $itemBuilder->setDiscountAmount($item->getDiscountAmount());
         } else {
-            $itemBuilder->setUnitPrice($item->getCalculationPriceOriginal());
+            if (!$item->getTaxCalculationPrice()) {
+                $item->setTaxCalculationPrice($item->getCalculationPriceOriginal());
+            }
+            $itemBuilder->setUnitPrice($item->getTaxCalculationPrice());
             $itemBuilder->setDiscountAmount($item->getBaseDiscountAmount());
         }
+
+        $itemBuilder->setParentCode($parentCode);
+
         return $itemBuilder->create();
     }
 
@@ -421,29 +490,58 @@ class Tax extends AbstractTotal
         $itemBuilder = $this->quoteDetailsBuilder->getItemBuilder();
         $itemDataObjects = [];
         foreach ($items as $item) {
+            if ($item->getParentItem()) {
+                continue;
+            }
+
+            if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+                $parentItemDataObject = $this->mapItem($itemBuilder, $item, $priceIncludesTax, $useBaseCurrency);
+                $itemDataObjects[] = $parentItemDataObject;
+                foreach ($item->getChildren() as $child) {
+                    $childItemDataObject = $this->mapItem(
+                        $itemBuilder,
+                        $child,
+                        $priceIncludesTax,
+                        $useBaseCurrency,
+                        $parentItemDataObject->getCode()
+                    );
+                    $itemDataObjects[] = $childItemDataObject;
+                }
+            } else {
+                $itemDataObject = $this->mapItem($itemBuilder, $item, $priceIncludesTax, $useBaseCurrency);
+                $itemDataObjects[] = $itemDataObject;
+            }
             $itemDataObjects[] = $this->mapItem($itemBuilder, $item, $priceIncludesTax, $useBaseCurrency);
         }
 
-        //Add shipping as an item
-        if ($address->getShippingAmount()) {
-            $itemBuilder->setType(self::SHIPPING_ITEM_TYPE);
-            $itemBuilder->setCode(self::SHIPPING_ITEM_CODE);
-            $itemBuilder->setQuantity(1);
-            if ($useBaseCurrency) {
-                $itemBuilder->setUnitPrice($address->getBaseShippingAmount());
-            } else {
-                $itemBuilder->setUnitPrice($address->getShippingAmount());
+        if ($this->includeShipping()) {
+            //Add shipping as an item
+            if (!$address->getShippingTaxCalculationAmount() || $address->getShippingTaxCalculationAmount() <= 0) {
+                //Save the original shipping amount because shipping amount will be overridden
+                //with shipping amount excluding tax
+                $address->setShippingTaxCalculationAmount($address->getShippingAmount());
+                $address->setBaseShippingTaxCalculationAmount($address->getBaseShippingAmount());
             }
-            if ($address->getShippingDiscountAmount()) {
+            if ($address->getShippingTaxCalculationAmount() > 0) {
+                $itemBuilder->setType(self::SHIPPING_ITEM_TYPE);
+                $itemBuilder->setCode(self::SHIPPING_ITEM_CODE);
+                $itemBuilder->setQuantity(1);
                 if ($useBaseCurrency) {
-                    $itemBuilder->setDiscountAmount($address->getBaseShippingDiscountAmount());
+                    $itemBuilder->setUnitPrice($address->getBaseShippingTaxCalculationAmount());
                 } else {
-                    $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
+                    $itemBuilder->setUnitPrice($address->getShippingTaxCalculationAmount());
                 }
+                if ($address->getShippingDiscountAmount()) {
+                    if ($useBaseCurrency) {
+                        $itemBuilder->setDiscountAmount($address->getBaseShippingDiscountAmount());
+                    } else {
+                        $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
+                    }
+                }
+                $itemBuilder->setTaxClassId($this->_config->getShippingTaxClass($this->_store));
+                $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($this->_store));
+                $itemDataObjects[] = $itemBuilder->create();
             }
-            $itemBuilder->setTaxClassId($this->_config->getShippingTaxClass($this->_store));
-            $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($this->_store));
-            $itemDataObjects[] = $itemBuilder->create();
         }
         $this->quoteDetailsBuilder->setItems($itemDataObjects);
 
@@ -451,9 +549,16 @@ class Tax extends AbstractTotal
         return $quoteDetails;
     }
 
+    /**
+     * Collect tax totals for quote address
+     *
+     * @param   Address $address
+     * @return  $this
+     */
     public function collect(Address $address)
     {
-        if ($this->_config->getAlgorithm($this->_store) == Calculation::CALC_TOTAL_BASE) {
+        return $this->collectUsingService($address);
+        if ($this->_config->getAlgorithm($this->_store) != Calculation::CALC_UNIT_BASE) {
             return $this->collectUsingService($address);
         }
         parent::collect($address);
@@ -1574,5 +1679,15 @@ class Tax extends AbstractTotal
     public function getLabel()
     {
         return __('Tax');
+    }
+
+    /**
+     * Determine whether to include shipping in tax calculation
+     *
+     * @return bool
+     */
+    protected function includeShipping()
+    {
+        return true;
     }
 }
