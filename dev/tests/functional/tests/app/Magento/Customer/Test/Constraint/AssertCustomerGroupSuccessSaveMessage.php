@@ -12,11 +12,9 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 
 /**
- * Class AssertCustomerGroupSuccessCreateMessage
- *
- * @package Magento\Customer\Test\Constraint
+ * Class AssertCustomerGroupSuccessSaveMessage
  */
-class AssertCustomerGroupSuccessCreateMessage extends AbstractConstraint
+class AssertCustomerGroupSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The customer group has been saved.';
 
