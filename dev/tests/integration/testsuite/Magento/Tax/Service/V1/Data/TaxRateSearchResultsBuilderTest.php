@@ -91,7 +91,10 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populateWithArray($mergedData)->create();
         $taxRateSearchResults1 = $this->taxRateSearchResultsBuilder->populateWithArray($firstDataSet)->create();
         $taxRateSearchResults2 = $this->taxRateSearchResultsBuilder->populateWithArray($secondDataSet)->create();
-        $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjects($taxRateSearchResults1, $taxRateSearchResults2);
+        $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjects(
+            $taxRateSearchResults1,
+            $taxRateSearchResults2
+        );
         $this->assertEquals($taxRateSearchResults->__toArray(), $taxRateSearchResultsMerged->__toArray());
     }
 
@@ -102,7 +105,10 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populateWithArray($mergedData)->create();
         $taxRateSearchResults1 = $this->taxRateSearchResultsBuilder->populateWithArray($firstDataSet)->create();
-        $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjectWithArray($taxRateSearchResults1, $secondDataSet);
+        $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjectWithArray(
+            $taxRateSearchResults1,
+            $secondDataSet
+        );
         $this->assertEquals($taxRateSearchResults->__toArray(), $taxRateSearchResultsMerged->__toArray());
     }
 
