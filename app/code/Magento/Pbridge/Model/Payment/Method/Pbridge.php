@@ -66,6 +66,13 @@ class Pbridge extends AbstractMethod
     );
 
     /**
+     * Array of additional parameters, which need to be included in Pbridge request
+     *
+     * @var array
+     */
+    protected $_additionalRequestParameters = array();
+
+    /**
      * Pbridge data
      *
      * @var \Magento\Pbridge\Helper\Data
@@ -142,6 +149,17 @@ class Pbridge extends AbstractMethod
         $this->_pbridgeApiFactory = $pbridgeApiFactory;
         $this->_requestHttp = $requestHttp;
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
+    }
+
+    /**
+     * Ability to add additional parameters to request
+     *
+     * @param array $params
+     * @return void
+     */
+    public function setAdditionalRequestParameters(array $params)
+    {
+        $this->_additionalRequestParameters = $params;
     }
 
     /**
@@ -392,8 +410,6 @@ class Pbridge extends AbstractMethod
      */
     public function capture(\Magento\Framework\Object $payment, $amount)
     {
-        //parent::capture($payment, $amount);
-
         $authTransactionId = $payment->getParentTransactionId();
 
         if (!$authTransactionId) {
@@ -438,8 +454,6 @@ class Pbridge extends AbstractMethod
      */
     public function refund(\Magento\Framework\Object $payment, $amount)
     {
-        //parent::refund($payment, $amount);
-
         $captureTxnId = $payment->getParentTransactionId();
         if ($captureTxnId) {
             $order = $payment->getOrder();
@@ -487,12 +501,7 @@ class Pbridge extends AbstractMethod
 
         if ($authTransactionId = $payment->getParentTransactionId()) {
             $request = $this->_getApiRequest();
-            $request->addData(
-                array(
-                    'transaction_id' => $authTransactionId,
-                    'amount' => $payment->getOrder()->getBaseTotalDue()
-                )
-            );
+            $request->setData('transaction_id', $authTransactionId);
 
             $this->_getApi()->doVoid($request);
         } else {
@@ -657,6 +666,7 @@ class Pbridge extends AbstractMethod
             )
         );
         $request->setClientIdentifier($this->_getCustomerIdentifier());
+        $request->setData('additional_params', $this->_additionalRequestParameters);
 
         return $request;
     }

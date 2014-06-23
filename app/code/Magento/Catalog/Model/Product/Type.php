@@ -203,11 +203,8 @@ class Type
      */
     public function getAllOptions()
     {
-        $res = array();
-        $res[] = array('value' => '', 'label' => '');
-        foreach ($this->getOptionArray() as $index => $value) {
-            $res[] = array('value' => $index, 'label' => $value);
-        }
+        $res = $this->getOptions();
+        array_unshift($res, ['value' => '', 'label' => '']);
         return $res;
     }
 
@@ -218,9 +215,9 @@ class Type
      */
     public function getOptions()
     {
-        $res = array();
+        $res = [];
         foreach ($this->getOptionArray() as $index => $value) {
-            $res[] = array('value' => $index, 'label' => $value);
+            $res[] = ['value' => $index, 'label' => $value];
         }
         return $res;
     }

@@ -545,6 +545,8 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         /** @var \Magento\Paypal\Model\Payflow\Request $request */
         $request = $this->_requestFactory->create();
         $cscEditable = $this->getConfigData('csc_editable');
+        /** @var \Magento\Paypal\Model\Config $config */
+        $config = $this->_configFactory->create();
         $request->setUser(
             $this->getConfigData('user', $this->_getStoreId())
         )->setVendor(
@@ -557,7 +559,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
             $this->getConfigData('verbosity', $this->_getStoreId())
         )->setData(
             'BNCODE',
-            $this->getConfigData('bncode')
+            $config->getBuildNotationCode()
         )->setTender(
             self::TENDER_CC
         )->setCancelurl(
