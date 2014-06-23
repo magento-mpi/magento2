@@ -21,5 +21,6 @@ return [
         'template_path_stack' => [
             'setup' => __DIR__ . '/../view',
         ],
+        'strategies' => ['ViewJsonStrategy'],
     ],
 ];

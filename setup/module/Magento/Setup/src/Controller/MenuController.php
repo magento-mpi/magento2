@@ -7,83 +7,37 @@
  */
 namespace Magento\Setup\Controller;
 
+use Magento\Setup\Model\Navigation;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 
 class MenuController extends AbstractActionController
 {
     /**
-     * @return array|\Zend\Stdlib\ResponseInterface
+     * @var Navigation
      */
-    public function indexAction()
+    protected $navigation;
+
+    /**
+     * @var JsonModel
+     */
+    protected $jsonModel;
+
+    /**
+     * @param Navigation $navigation
+     * @param JsonModel $jsonModel
+     */
+    public function __construct(Navigation $navigation, JsonModel $jsonModel)
     {
-        $items = array(
-            $this->getItemObject(array(
-                'name'  => 'license',
-                'label' => 'License',
-                'next'  => 'environment',
-                'previous'  => null,
-                'template'  => '/',
-                'required'  => true,
-                'validated' => false,
-            )),
-            $this->getItemObject(array(
-                'name'  => 'environment',
-                'label' => 'Check Environment',
-                'next'  => 'database',
-                'previous'  => 'license',
-                'template'  => '/',
-                'required'  => true,
-                'validated' => false,
-            )),
-            $this->getItemObject(array(
-                'name'  => 'database',
-                'label' => 'Access to Database',
-                'next'  => 'configuration',
-                'previous'  => 'environment',
-                'template'  => '/',
-                'required'  => true,
-                'validated' => false,
-            )),
-            $this->getItemObject(array(
-                'name'  => 'configuration',
-                'label' => 'Configuration Magento',
-                'next'  => 'user',
-                'previous'  => 'database',
-                'template'  => '/',
-                'required'  => true,
-                'validated' => false,
-            )),
-            $this->getItemObject(array(
-                'name'  => 'user',
-                'label' => 'Add admin user',
-                'next'  => null,
-                'previous'  => 'configuration',
-                'template'  => '/',
-                'required'  => true,
-                'validated' => false,
-            )),
-        );
-
-        $response = $this->getResponse();
-        $response->setStatusCode(200);
-        $response->setContent(json_encode($items));
-
-        $headers = $response->getHeaders();
-        $headers->addHeaderLine('Content-Type', 'application/json');
-
-        return $response;
+        $this->navigation = $navigation;
+        $this->jsonModel = $jsonModel;
     }
 
     /**
-     * @param array $arguments
-     * @return \stdClass
+     * @return JsonModel
      */
-    protected function getItemObject($arguments)
+    public function indexAction()
     {
-        $item = new \stdClass();
-        foreach ($arguments as $key => $value) {
-            $item->$key = $value;
-        }
-        return $item;
+        return $this->jsonModel->setVariable('nav', $this->navigation->getData());
     }
 }

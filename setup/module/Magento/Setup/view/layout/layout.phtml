@@ -9,11 +9,9 @@
     <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/pub/bootstrap/bootstrap.min.css') ?>
 
     <?php echo $this->headScript()
-        ->appendFile($this->basePath() . '/pub/angular/angular.min.js')
-        ->appendFile('//code.angularjs.org/1.2.9/angular-sanitize.js')
-        ->appendFile($this->basePath() . '/pub/magento/setup/app.js')
-        ->appendFile($this->basePath() . '/pub/magento/setup/services.js')
-        ->appendFile($this->basePath() . '/pub/magento/setup/controllers.js');
+        ->appendFile($this->basePath() . '/pub/angular/angular.js')
+        ->appendFile($this->basePath() . '/pub/angular-ui-router/angular-ui-router.min.js')
+        ->appendFile($this->basePath() . '/pub/magento/setup/app.js');
     ?>
 
 </head>
