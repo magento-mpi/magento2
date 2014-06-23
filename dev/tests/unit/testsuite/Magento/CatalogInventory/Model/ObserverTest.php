@@ -133,8 +133,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getTotalQty')
             ->will($this->returnValue(10));
 
-        $this->_priceIndexer->expects($this->once())->method('reindexList')->with([1]);
-        $this->_stockIndexerProcessor->expects($this->once())->method('reindexList')->with([1]);
+        $this->_priceIndexer->expects($this->once())
+            ->method('reindexList')
+            ->with([1]);
+
+        $this->_stockIndexerProcessor->expects($this->once())
+            ->method('reindexList')
+            ->with([1]);
 
         $this->_observer->revertQuoteInventory($observer);
     }
@@ -202,8 +207,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getQty')
             ->will($this->returnValue(1));
 
-        $this->_priceIndexer->expects($this->once())->method('reindexList')->with([1]);
-        $this->_stockIndexerProcessor->expects($this->once())->method('reindexList')->with([1]);
+        $this->_priceIndexer->expects($this->once())
+            ->method('reindexList')
+            ->with([1]);
+
+        $this->_stockIndexerProcessor->expects($this->once())
+            ->method('reindexList')
+            ->with([1]);
 
         $this->_observer->refundOrderInventory($observer);
     }
