@@ -51,6 +51,7 @@ class Curl extends AbstractCurl implements RatingInterface
         $data = $this->replaceMappingData($rating->getData());
 
         $data['stores'] = is_array($data['stores']) ? $data['stores'] : [$data['stores']];
+        $data += $this->getAdditionalData();
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
@@ -76,5 +77,24 @@ class Curl extends AbstractCurl implements RatingInterface
         $match = $extractor->getData();
 
         return empty($match[1]) ? null : $match[1];
+    }
+
+    /**
+     * Return additional data for curl request
+     *
+     * @return array
+     */
+    protected function getAdditionalData()
+    {
+        return [
+            'rating_codes' => [1 => ''],
+            'option_title' => [
+                'add_1' => 1,
+                'add_2' => 2,
+                'add_3' => 3,
+                'add_4' => 4,
+                'add_5' => 5,
+            ],
+        ];
     }
 }

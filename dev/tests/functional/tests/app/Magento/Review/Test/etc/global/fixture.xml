@@ -22,6 +22,14 @@
         <data_set />
         <data_config />
     </review>
+    <reviewInjectable module="Magento_Review">
+        <type>composite</type>
+        <entities>
+            <review>review</review>
+            <review_detail>review_detail</review_detail>
+        </entities>
+        <collection>Magento\Review\Model\Resource\Review\Collection</collection>
+    </reviewInjectable>
     <rating module="Magento_Review">
         <type>flat</type>
         <entity_type>rating</entity_type>
