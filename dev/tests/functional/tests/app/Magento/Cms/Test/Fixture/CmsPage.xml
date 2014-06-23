@@ -27,6 +27,7 @@
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
+            <group>page_information</group>
         </title>
         <root_template>
             <attribute_code>root_template</attribute_code>
@@ -52,6 +53,7 @@
         <identifier>
             <attribute_code>identifier</attribute_code>
             <backend_type>varchar</backend_type>
+            <group>page_information</group>
             <is_required></is_required>
             <default_value></default_value>
             <input></input>
@@ -61,6 +63,7 @@
             <backend_type>varchar</backend_type>
             <is_required></is_required>
             <default_value></default_value>
+            <group>content</group>
             <input></input>
         </content_heading>
         <content>
@@ -68,6 +71,7 @@
             <backend_type>mediumtext</backend_type>
             <is_required></is_required>
             <default_value></default_value>
+            <group>content</group>
             <input></input>
         </content>
         <creation_time>
@@ -159,6 +163,7 @@
             <backend_type>smallint</backend_type>
             <is_required></is_required>
             <default_value>0</default_value>
+            <group>page_information</group>
             <input></input>
         </under_version_control>
         <store_id>
@@ -166,6 +171,7 @@
             <backend_type>virtual</backend_type>
             <is_required>1</is_required>
             <default_value>0</default_value>
+            <group>page_information</group>
             <input>multiselect</input>
         </store_id>
     </fields>
