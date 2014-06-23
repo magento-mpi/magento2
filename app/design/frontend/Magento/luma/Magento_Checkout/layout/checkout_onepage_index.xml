@@ -12,6 +12,7 @@
     <remove name="minicart" />
     <remove name="header.panel" />
     <remove name="top.search" />
+    <remove name="catalog.compare.link" />
     <remove name="page.main.title" />
     <remove name="catalog.topnav" />
     <remove name="footer-container" />

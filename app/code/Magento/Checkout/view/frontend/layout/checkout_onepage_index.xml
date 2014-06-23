@@ -30,7 +30,7 @@
             </block>
             <block class="Magento\Checkout\Block\Onepage\Review" name="checkout.onepage.review" as="review" template="onepage/review.phtml" cacheable="false"/>
         </block>
-        <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlClass="opc-block-progress" htmlId="checkout-progress-wrapper" after="-">
+        <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlClass="opc-block-progress-wrapper" htmlId="checkout-progress-wrapper" after="-">
             <block class="Magento\Checkout\Block\Onepage\Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
         </container>
     </referenceContainer>

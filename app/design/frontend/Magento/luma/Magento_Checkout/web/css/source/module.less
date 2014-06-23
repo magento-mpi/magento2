@@ -331,6 +331,10 @@
 //--------------------------------------
 
 .opc-block-progress {
+    display: none;
+    &.active {
+        display: block;
+    }
     &:extend(.add-box-sizing all);
     margin-top: 20px;
     margin-bottom: @indent-l-base;
