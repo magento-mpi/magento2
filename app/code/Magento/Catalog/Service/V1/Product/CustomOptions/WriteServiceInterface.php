@@ -36,6 +36,7 @@ interface WriteServiceInterface
      * @param string $optionId
      * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
      * @return int
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function update(
         $productSku,

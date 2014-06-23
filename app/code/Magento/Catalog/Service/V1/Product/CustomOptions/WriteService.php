@@ -124,7 +124,11 @@ class WriteService implements WriteServiceInterface
         \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
     ) {
         $product = $this->productRepository->get($productSku);
-        $optionData = $this->optionConverter->covert($option);
+        $optionData = $this->optionConverter->convert($option);
+        if (!$product->getOptionById($optionId)) {
+            throw new NoSuchEntityException();
+        }
+        $optionData['option_id'] = $optionId;
 
         $product->setCanSaveCustomOptions(true);
         $product->setProductOptions([$optionData]);
