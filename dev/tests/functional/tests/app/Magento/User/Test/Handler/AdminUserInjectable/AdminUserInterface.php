@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Handler\AdminUser;
+namespace Magento\User\Test\Handler\AdminUserInjectable;
 
 use Mtf\Handler\HandlerInterface;
 

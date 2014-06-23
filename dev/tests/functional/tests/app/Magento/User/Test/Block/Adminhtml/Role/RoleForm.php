@@ -31,36 +31,22 @@ class RoleForm extends FormTabs
         if ($username == null) {
             parent::fill($role);
         } else {
-            $this->fill($role);
+            $tabs = $this->getFieldsByTabs($role);
+            foreach ($tabs as $tabName => $tabFields) {
+                if ($tabName == 'roles_users') {
+                    break;
+                }
+                $tabElement = $this->getTabElement($tabName);
+                $this->openTab($tabName);
+                $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
+                $this->updateUnassignedFields($tabElement);
+            }
+            if (!empty($this->unassignedFields)) {
+                $this->fillMissedFields($tabs);
+            }
             $this->openTab('roles_users');
             $tabElement = $this->getTabElement('roles_users');
             $tabElement->fillFormTab(['username' => $username]);
         }
-    }
-
-    /**
-     * Fill form with tabs
-     *
-     * @param FixtureInterface $fixture
-     * @param Element|null $element
-     * @return FormTabs
-     */
-    public function fill(FixtureInterface $fixture, Element $element = null)
-    {
-        $tabs = $this->getFieldsByTabs($fixture);
-        foreach ($tabs as $tabName => $tabFields) {
-            if ($tabName == 'roles_users') {
-                break;
-            }
-            $tabElement = $this->getTabElement($tabName);
-            $this->openTab($tabName);
-            $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
-            $this->updateUnassignedFields($tabElement);
-        }
-        if (!empty($this->unassignedFields)) {
-            $this->fillMissedFields($tabs);
-        }
-
-        return $this;
     }
 }

@@ -27,6 +27,8 @@ class AssertUserSuccessLogin extends AbstractConstraint
 
     /**
      * Verify whether customer has logged in to the Backend
+     * $userToLoginInAssert variable holds name of variable with AdminUserInjectable fixture
+     * ($userWithOutRole or $customAdmin) according to dataSet
      *
      * @param Dashboard $dashboard
      * @param AdminUserInjectable $user
@@ -37,11 +39,11 @@ class AssertUserSuccessLogin extends AbstractConstraint
      * @return void
      */
     public function processAssert(
-        AdminUserInjectable $customAdmin,
         AdminUserInjectable $user,
         AdminAuthLogin $adminAuth,
         Dashboard $dashboard,
-        $userWithOutRole = null,
+        AdminUserInjectable $customAdmin = null,
+        AdminUserInjectable $userWithOutRole = null,
         $userToLoginInAssert = null
     ) {
         $adminUser = $userToLoginInAssert != null ? $$userToLoginInAssert : $user;

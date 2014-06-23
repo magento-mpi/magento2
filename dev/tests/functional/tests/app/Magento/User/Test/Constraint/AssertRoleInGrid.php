@@ -52,11 +52,8 @@ class AssertRoleInGrid extends AbstractConstraint
             $adminAuthLogin->open();
             $adminAuthLogin->getLoginBlock()->fill($customAdmin);
             $adminAuthLogin->getLoginBlock()->submit();
-            $adminAuthLogin->getLoginBlock()->waitForElementNotVisible('.form-login');
-            if (!$rolePage->getRoleGrid()->isVisible()) {
-                $rolePage->open();
-            }
         }
+        $rolePage->open();
         $rolePage->getRoleGrid()->resetFilter();
         \PHPUnit_Framework_Assert::assertTrue(
             $rolePage->getRoleGrid()->isRowVisible($filter),

@@ -10,6 +10,10 @@ namespace Magento\User\Test\Block\Adminhtml\Role\Tab\User;
 
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
+/**
+ * Class Grid
+ * Users grid in roles users tab
+ */
 class Grid extends AbstractGrid
 {
     /**

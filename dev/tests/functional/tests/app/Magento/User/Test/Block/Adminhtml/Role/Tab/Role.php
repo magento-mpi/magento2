@@ -11,6 +11,10 @@ namespace Magento\User\Test\Block\Adminhtml\Role\Tab;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 
+/**
+ * Class Role
+ * Respond for filing data in roles users tab
+ */
 class Role extends Tab
 {
     /**
