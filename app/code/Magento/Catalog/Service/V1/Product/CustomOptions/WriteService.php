@@ -114,4 +114,27 @@ class WriteService implements WriteServiceInterface
 
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(
+        $productSku,
+        $optionId,
+        \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
+    ) {
+        $product = $this->productRepository->get($productSku);
+        $optionData = $this->optionConverter->covert($option);
+
+        $product->setCanSaveCustomOptions(true);
+        $product->setProductOptions([$optionData]);
+
+        try {
+            $product->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException('Could not save custom option');
+        }
+
+        return true;
+    }
 }

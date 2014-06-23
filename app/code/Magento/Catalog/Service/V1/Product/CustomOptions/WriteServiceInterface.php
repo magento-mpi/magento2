@@ -28,4 +28,18 @@ interface WriteServiceInterface
      * @return bool
      */
     public function add($productSku, \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option);
+
+    /**
+     * Add custom option to the product
+     *
+     * @param string $productSku
+     * @param string $optionId
+     * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
+     * @return int
+     */
+    public function update(
+        $productSku,
+        $optionId,
+        \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
+    );
 }

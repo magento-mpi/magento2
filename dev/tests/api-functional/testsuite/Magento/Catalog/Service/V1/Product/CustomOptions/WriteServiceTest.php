@@ -134,4 +134,54 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertNull($product->getOptionById($optionId));
         $this->assertEquals(9, count($product->getOptions()));
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @magentoAppIsolation enabled
+     */
+    public function testUpdate()
+    {
+        $productSku = 'simple';
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
+        $optionReadService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface'
+        );
+
+        $options = $optionReadService->getList($productSku);
+        $optionId = $options[0]->getOptionId();
+        $optionDataPost = $options[0]->__toArray();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options/" . $optionId,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Update'
+            ]
+        ];
+
+        $this->assertEquals(10, $optionDataPost['value'][0]['custom_attributes']['max_characters']['value']);
+        $optionDataPost['title'] = $optionDataPost['title'] . "_updated";
+        $optionDataPost['value'][0]['custom_attributes']['max_characters']['value'] = 500;
+
+        $this->_webApiCall(
+            $serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId, 'option' => $optionDataPost]
+        );
+
+        /** @var \Magento\Catalog\Model\ProductRepository $repository */
+        $productRepository = \Magento\TestFramework\ObjectManager::getInstance()
+            ->create('Magento\Catalog\Model\ProductRepository');
+
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
+        $optionReadService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface',
+            array('productRepository' => $productRepository)
+        );
+        $updatedOption = $optionReadService->get($productSku, $optionId)->__toArray();
+        $this->assertEquals($optionDataPost, $updatedOption);
+    }
 }
+

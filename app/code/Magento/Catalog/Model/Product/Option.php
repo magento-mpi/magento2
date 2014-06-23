@@ -322,6 +322,7 @@ class Option extends AbstractModel
     public function saveOptions()
     {
         foreach ($this->getOptions() as $option) {
+            $this->_validatorBeforeSave = null;
             $this->setData(
                 $option
             )->setData(
