@@ -49,6 +49,7 @@ class ReadService implements ReadServiceInterface
      * @param \Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder $builder
      * @param \Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory $converterFactory
      * @param ProductBuilder $productBuilder
+     * @param ProductConverterFactory $productConverterFactory
      */
     public function __construct(
         CategoryFactory $categoryFactory,
@@ -69,13 +70,7 @@ class ReadService implements ReadServiceInterface
      */
     public function info($categoryId)
     {
-        /** @var CategoryModel $category */
-        $category = $this->categoryFactory->create();
-        $category->load($categoryId);
-
-        if (!$category->getId()) {
-            throw NoSuchEntityException::singleField(Category::ID, $categoryId);
-        }
+        $category = $this->getCategory($categoryId);
 
         $metadata = $this->converterFactory->create(['builder' => $this->builder])
             ->createDataFromModel($category);
@@ -88,13 +83,8 @@ class ReadService implements ReadServiceInterface
      */
     public function assignedProducts($categoryId)
     {
-        /** @var CategoryModel $category */
-        $category = $this->categoryFactory->create();
-        $category->load($categoryId);
+        $category = $this->getCategory($categoryId);
 
-        if (!$category->getId()) {
-            throw NoSuchEntityException::singleField(Category::ID, $categoryId);
-        }
         $productsPosition = $category->getProductsPosition();
         /** @var \Magento\Framework\Data\Collection\Db $products */
         $products = $category->getProductCollection();
@@ -112,5 +102,22 @@ class ReadService implements ReadServiceInterface
         }
 
         return $dtoProductList;
+    }
+
+    /**
+     * @param $id
+     * @return CategoryModel
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    private function getCategory($id)
+    {
+        /** @var CategoryModel $category */
+        $category = $this->categoryFactory->create();
+        $category->load($id);
+
+        if (!$category->getId()) {
+            throw NoSuchEntityException::singleField(Category::ID, $id);
+        }
+        return $category;
     }
 }
