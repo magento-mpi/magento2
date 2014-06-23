@@ -218,13 +218,13 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function checkIsStateLast($state)
     {
-        return (bool)$this->_getWriteAdapter()->fetchOne(
+        return (1 == $this->_getWriteAdapter()->fetchOne(
             $this->_getWriteAdapter()->select()
                 ->from(['sss' => $this->stateTable], [])
                 ->where('state = ?', $state)
                 ->limit(1)
-                ->columns([new\Zend_Db_Expr(1)])
-        );
+                ->columns([new\Zend_Db_Expr('COUNT(1)')])
+        ));
     }
 
     /**
@@ -237,7 +237,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         return (bool)$this->_getWriteAdapter()->fetchOne(
             $this->_getWriteAdapter()->select()
-                ->from(['sfo' => $this->getTable('sales_order')], [])
+                ->from(['sfo' => $this->getTable('sales_flat_order')], [])
                 ->where('status = ?', $status)
                 ->limit(1)
                 ->columns([new \Zend_Db_Expr(1)])
