@@ -48,9 +48,24 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_itemStatus;
 
     /**
+     * Attributes for rma items
+     *
+     * @var \Magento\Rma\Model\Resource\Item\Attribute\Collection
+     */
+    protected $attributeCollection;
+
+    /**
+     * Array of all attributes for rma
+     *
+     * @var array
+     */
+    protected $attributesCollection;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Item\Status $itemStatus
+     * @param \Magento\Rma\Model\Resource\Item\Attribute\Collection $attributeCollection,
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
@@ -59,6 +74,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Item\Status $itemStatus,
+        \Magento\Rma\Model\Resource\Item\Attribute\Collection $attributeCollection,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Framework\Registry $coreRegistry,
         array $data = array()
@@ -66,6 +82,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
         $this->_itemStatus = $itemStatus;
+        $this->attributeCollection = $attributeCollection;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -275,7 +292,17 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             )
         );
 
-        $actionsArray = array(array('caption' => __('Details'), 'class' => 'item_details'));
+        if (!$this->hasUserDefinedAttributes()) {
+            $actionsArray = array(
+                array(
+                    'caption' => __('Details'),
+                    'class' => 'item_details disabled',
+                    'disabled' => 'disabled'
+                )
+            );
+        } else {
+            $actionsArray = array(array('caption' => __('Details'), 'class' => 'item_details'));
+        }
         if (!($rma && ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED ||
             $rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
         ) {
@@ -296,6 +323,26 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         return parent::_prepareColumns();
     }
+
+    /**
+     * Check if there exist user-defined attribute for rma in system
+     *
+     * @return bool
+     */
+    protected function hasUserDefinedAttributes()
+    {
+        $count = 0;
+        if (!isset($this->attributesCollection)) {
+            $this->attributesCollection = $this->attributeCollection->load();
+        }
+        foreach ($this->attributesCollection as $attribute) {
+            if ($attribute->getIsUserDefined()) {
+                $count++;
+            }
+        }
+        return (bool)$count;
+    }
+
 
     /**
      * Get available for return item quantity
