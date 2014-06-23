@@ -141,9 +141,6 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Grant Checkout Items'
 )->addIndex(
-    $installer->getIdxName('magento_catalogpermissions_index', array('category_id')),
-    array('category_id')
-)->addIndex(
     $installer->getIdxName('magento_catalogpermissions_index', array('website_id')),
     array('website_id')
 )->addIndex(

@@ -27,7 +27,6 @@
                 </field>
                 <field id="transferkey" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Data Transfer Key</label>
-                    <backend_model>Magento\Pbridge\Model\System\Config\Backend\Data\Transfer\Key</backend_model>
                 </field>
                 <field id="uniquekey" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Magento Unique Identifier</label>
@@ -50,7 +49,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Cybersource\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
@@ -80,7 +79,11 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
+                </field>
+                <field id="currency" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Accepted Currency</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Locale\Currency</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -103,6 +106,10 @@
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
+                </field>
+                <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment Action</label>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
@@ -136,9 +143,21 @@
                     <comment>3D Secure Check will be unavailable if CIM enabled.</comment>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
+
+                <field id="centinel" translate="label" type="select" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable 3D Secure Card Validation on Frontend</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="centinel_backend" translate="label" type="select" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable 3D Secure Card Validation in Admin</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="centinel">1</field>
+                    </depends>
+                </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Authorizenet\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -146,10 +165,6 @@
                 <field id="order_status" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
                     <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
-                </field>
-                <field id="debug" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Debug</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="currency" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Accepted Currency</label>
@@ -175,30 +190,78 @@
             </group>
             <group id="pbridge_ogone_direct" translate="label" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Ogone Direct Link (Payment Bridge only)</label>
-                <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Enabled</label>
-                    <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="sandbox_flag" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
-                    <label>Test Mode</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="title" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Title</label>
-                </field>
-                <field id="payment_action" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Ogone\PaymentAction</source_model>
-                </field>
-                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment from Applicable Countries</label>
-                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
-                </field>
-                <field id="specificcountry" translate="label" type="multiselect" sortOrder="165" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Payment from Specific Countries</label>
-                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                </field>
+                <fieldset_css>complex</fieldset_css>
+                <group id="cc_settings" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ogone Credit Card</label>
+                    <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enabled</label>
+                        <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
+                        <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/pbridge_ogone_direct/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/pbridge_ogone_direct/title</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
+                        <config_path>payment/pbridge_ogone_direct/payment_action</config_path>
+                    </field>
+                    <field id="enable3ds" translate="label" type="select" sortOrder="46" showInDefault="1" showInWebsite="1">
+                        <label>Enable 3D Secure Card Validation on Frontend</label>
+                        <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/pbridge_ogone_direct/enable3ds</config_path>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/pbridge_ogone_direct/allowspecific</config_path>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="165" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <config_path>payment/pbridge_ogone_direct/specificcountry</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Sort Order</label>
+                        <frontend_class>validate-number</frontend_class>
+                        <config_path>payment/pbridge_ogone_direct/sort_order</config_path>
+                    </field>
+                </group>
+                <group id="dd_settings" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ogone Direct Debit</label>
+                    <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enabled</label>
+                        <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
+                        <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/pbridge_ogone_direct_debit/active</config_path>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Title</label>
+                        <config_path>payment/pbridge_ogone_direct_debit/title</config_path>
+                    </field>
+                    <field id="payment_action" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment Action</label>
+                        <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
+                        <config_path>payment/pbridge_ogone_direct_debit/payment_action</config_path>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                        <config_path>payment/pbridge_ogone_direct_debit/allowspecific</config_path>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="165" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <config_path>payment/pbridge_ogone_direct_debit/specificcountry</config_path>
+                    </field>
+                    <field id="sort_order" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Sort Order</label>
+                        <frontend_class>validate-number</frontend_class>
+                        <config_path>payment/pbridge_ogone_direct_debit/sort_order</config_path>
+                    </field>
+                </group>
             </group>
             <group id="paybox_direct" translate="label" type="text" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Paybox Direct (Payment Bridge only)</label>
@@ -212,11 +275,42 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Braintree\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Order Status</label>
                     <source_model>Magento\Sales\Model\Config\Source\Order\Status\Processing</source_model>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+            </group>
+            <group id="pbridge_payone_debit" translate="label" type="text" sortOrder="850" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Payone Direct Debit</label>
+                <field id="active" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment Action</label>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
+                </field>
+                <field id="currency" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Accepted Currency</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Locale\Currency</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="330" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -243,11 +337,19 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Braintree\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="payment_profiles_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Vault</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -265,7 +367,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Firstdata\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -291,11 +393,16 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\Payone\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\Payone\PaymentAction</source_model>
                 </field>
                 <field id="currency" translate="label" type="select" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Accepted Currency</label>
                     <source_model>Magento\Backend\Model\Config\Source\Locale\Currency</source_model>
+                </field>
+                <field id="enable3ds" translate="label comment" type="select" sortOrder="46" showInDefault="1" showInWebsite="1">
+                    <label>3D Secure Card Validation</label>
+                    <comment>If enabled, the Payone payment method will not be available for placing the orders from the backend.</comment>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment from Applicable Countries</label>
@@ -321,7 +428,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>
@@ -336,7 +443,7 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title</label>
@@ -369,7 +476,20 @@
                 </field>
                 <field id="payment_action" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment Action</label>
-                    <source_model>Magento\Pbridge\Model\Source\PaymentAction</source_model>
+                    <source_model>Magento\Pbridge\Model\System\Config\Source\PaymentAction</source_model>
+                </field>
+                <field id="enable3ds" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
+                    <label>3D Secure Card Validation</label>
+                    <comment>If enabled, the WorldPay payment method will not be available for placing the orders  from the backend.</comment>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                 </field>
                 <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Sort Order</label>

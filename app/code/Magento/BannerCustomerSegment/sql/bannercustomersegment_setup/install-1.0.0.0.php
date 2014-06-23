@@ -26,9 +26,6 @@ $table = $installer->getConnection()->newTable(
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Segment Id'
 )->addIndex(
-    $installer->getIdxName($tableName, array('banner_id')),
-    array('banner_id')
-)->addIndex(
     $installer->getIdxName($tableName, array('segment_id')),
     array('segment_id')
 )->addForeignKey(

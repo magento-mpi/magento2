@@ -48,9 +48,6 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Google experiment script'
 )->addIndex(
-    $installer->getIdxName('googleoptimizer_code', array('store_id')),
-    array('store_id')
-)->addIndex(
     $installer->getIdxName(
         'googleoptimizer_code',
         array('store_id', 'entity_id', 'entity_type'),
