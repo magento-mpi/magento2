@@ -20,10 +20,18 @@ class WriteServiceTest extends WebapiAbstract
      */
     protected $optionBuilder;
 
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
     protected function setUp()
     {
         $this->optionBuilder = \Magento\TestFramework\ObjectManager::getInstance()
             ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder');
+
+        $this->productFactory = \Magento\TestFramework\ObjectManager::getInstance()
+            ->get('Magento\Catalog\Model\ProductFactory');
     }
 
     /**
@@ -182,6 +190,96 @@ class WriteServiceTest extends WebapiAbstract
         );
         $updatedOption = $optionReadService->get($productSku, $optionId)->__toArray();
         $this->assertEquals($optionDataPost, $updatedOption);
+    }
+
+    /**
+     * @param string $optionType
+     *
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @magentoAppIsolation enabled
+     * @dataProvider validOptionDataProvider
+     */
+    public function testUpdateOptionAddingNewOptionValue($optionType)
+    {
+        $productId = 1;
+        $fixtureOption = null;
+        $value = [
+            'price' => 100500,
+            'price_type' => 'fixed',
+            'sku' => 'new option sku ' . $optionType,
+            'custom_attributes' => [
+                ['attribute_code' => 'title', 'value' => 'New Option Title'],
+                ['attribute_code' => 'sort_order', 'value' => 100]
+            ]
+        ];
+
+        $product = $this->productFactory->create();
+        $product->load($productId);
+        $productSku = $product->getSku();
+
+        /**@var $option \Magento\Catalog\Model\Product\Option */
+        foreach ($product->getOptions() as $option) {
+            if ($option->getType() == $optionType) {
+                $fixtureOption = $option;
+                break;
+            }
+        }
+
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
+        $reader = \Magento\TestFramework\ObjectManager::getInstance()
+            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+
+        $data = array(
+            Data\Option::TITLE => $option->getTitle(),
+            Data\Option::TYPE => $option->getType(),
+            Data\Option::IS_REQUIRE => $option->getIsRequire(),
+            Data\Option::SORT_ORDER => $option->getSortOrder(),
+            Data\Option::VALUE => $reader->read($fixtureOption)
+        );
+        $optionObject = $this->optionBuilder->populateWithArray($data)->create();
+        $optionDataPost = $optionObject->__toArray();
+        $optionDataPost['value'][] = $value;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options/" . $fixtureOption->getId(),
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Update'
+            ]
+        ];
+        $this->_webApiCall(
+            $serviceInfo,
+            ['productSku' => $productSku, 'optionId' => $fixtureOption->getId(), 'option' => $optionDataPost]
+        );
+
+        $actualProduct = $this->productFactory->create();
+        $actualProduct->load($productId);
+
+        $actualOption = $actualProduct->getOptionById($fixtureOption->getId());
+        $values = $actualOption->getValues();
+
+        /** @var \Magento\Catalog\Model\Product\Option\Value $valueObject */
+        $valueObject = end($values);
+
+        $this->assertEquals($value['price'], $valueObject->getPrice());
+        $this->assertEquals($value['price_type'], $valueObject->getPriceType());
+        $this->assertEquals($value['sku'], $valueObject->getSku());
+        $this->assertEquals('New Option Title', $valueObject->getTitle());
+        $this->assertEquals(100, $valueObject->getSortOrder());
+    }
+
+    public function validOptionDataProvider()
+    {
+        return [
+            'drop_down' => ['drop_down'],
+            'checkbox' => ['checkbox'],
+            'radio' => ['radio'],
+            'multiple' => ['multiple']
+        ];
     }
 }
 
