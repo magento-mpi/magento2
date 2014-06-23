@@ -12,13 +12,13 @@
 ?>
 <?php if ($_product->isSaleable() && $this->hasOptions()): ?>
 <div id="bundleSummary"
-     class="block bundle summary"
+     class="block-bundle-summary"
      data-mage-init='{"sticky":{"container": ".product-add-form"}}'>
     <div class="title">
         <strong><?php echo __('Your Customization'); ?></strong>
     </div>
     <div class="content">
-        <div class="bundle info">
+        <div class="bundle-info">
             <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($_product, 'bundled_product_customization_page')->toHtml() ?>
             <div class="product details">
                 <strong class="product name"><?php echo $this->escapeHtml($_product->getName()) ?></strong>
@@ -34,7 +34,7 @@
                 <?php echo $this->getChildHtml('', true);?>
             </div>
         </div>
-        <div class="bundle summary">
+        <div class="bundle-summary">
             <strong class="subtitle"><?php echo __('Summary'); ?></strong>
             <div id="bundle-summary" data-container="product-summary">
                 <ul data-mage-init='{"productSummary": []}' class="bundle items"></ul>

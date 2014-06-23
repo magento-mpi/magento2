@@ -9,11 +9,11 @@
 .actions.bundle {
     margin: @indent-s-base 0;
     .action.primary.customize {
-        .button-l();
+        &:extend(.abstract-button-l all);
     }
 }
 
-.bundle.options.container {
+.bundle-options-container {
     clear: both;
     margin-bottom: @indent-xl-base;
 
@@ -44,16 +44,16 @@
         }
     }
 
-    .block.bundle.summary {
+    .block-bundle-summary {
         padding: @indent-s-base @indent-base;
         background: @color-secondary;
         &:extend(.add-box-sizing all);
 
-        > .title > strong{
+        > .title > strong {
             .heading(h2);
         }
 
-        .bundle.summary {
+        .bundle-summary {
             margin-top: @indent-l-base;
             > .subtitle {
                 .heading(h3);
@@ -68,17 +68,17 @@
             }
         }
 
-        .tocart {
+        .box-tocart {
             .actions {
-                margin: @indent-s-base 0;
+                margin-bottom: @indent-s-base;
             }
             .action.primary {
+                &:extend(.abstract-button-l all);
             }
         }
         .product-addto-links {
-            .action {
-                .button();
-                margin-bottom: @indent-xs-base;
+            > .action {
+                &:extend(.abstract-action-addto all);
             }
         }
     }
@@ -91,7 +91,7 @@
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
-    .bundle.options.container {
+    .bundle-options-container {
         .legend.title {
             &:extend(.reset-left-margin all);
         }
@@ -102,14 +102,14 @@
         .product.options.bottom {
             width: 57%;
         }
-        .block.bundle.summary {
+        .block-bundle-summary {
             float: right;
             width: 40%;
             position: relative;
         }
         .product-options-wrapper,
         .product.options.bottom,
-        .block.bundle.summary {
+        .block-bundle-summary {
             .layout-2-left &,
             .layout-2-right &,
             .layout-3 & {
