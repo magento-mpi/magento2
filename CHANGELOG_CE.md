@@ -38,6 +38,7 @@
   * Delete Tax Rate (MTA-122)
   * Update Catalog Price Rule (MTA-72)
   * Update Shopping Cart (MTA-60)
+* Ported payment related stories from M1.x (MAGETWO-20848)
 
 2.0.0.0-dev82
 =============
