@@ -204,18 +204,4 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
         }
     }
-
-    /**
-     * Get fixture customer address
-     *
-     * @return \Magento\Customer\Model\Address
-     */
-    private function getCustomerAddress()
-    {
-        $fixtureCustomerId = 1;
-        $customerAddress = $this->objectManager->create('Magento\Customer\Model\Address')->load($fixtureCustomerId);
-        /** Set data which corresponds tax class fixture */
-        $customerAddress->setCountryId('US')->setRegionId(42)->save();
-        return $customerAddress;
-    }
 }
