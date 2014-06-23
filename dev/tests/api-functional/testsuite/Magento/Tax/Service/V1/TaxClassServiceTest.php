@@ -111,8 +111,8 @@ class TaxClassServiceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT . '/' . $taxClassId
+                'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
