@@ -13,7 +13,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
@@ -77,8 +76,10 @@ class TaxClassService implements TaxClassServiceInterface
             $taxModel->save();
         } catch (ModelException $e) {
             if (strpos($e->getMessage(), \Magento\Tax\Model\Resource\TaxClass::UNIQUE_TAX_CLASS_MSG) !== false) {
-                throw new InputException('A class with the same name already exists for ClassType %classType.',
-                    ['classType' => $taxClass->getClassType()]);
+                throw new InputException(
+                    'A class with the same name already exists for ClassType %classType.',
+                    ['classType' => $taxClass->getClassType()]
+                );
             } else {
                 throw $e;
             }
@@ -123,7 +124,7 @@ class TaxClassService implements TaxClassServiceInterface
 
         /* should not be allowed to switch the tax class type */
         if ($originalTaxClassModel->getClassType() !== $taxClassModel->getClassType()) {
-            throw InputException::invalidFieldValue('type', $taxClass->getClassType());
+            throw new InputException('Updating classType is not allowed.');
         }
 
         try {

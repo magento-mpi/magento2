@@ -8,9 +8,11 @@
 
 namespace Magento\Tax\Service\V1;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Service\V1\Data\TaxClassBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -30,6 +32,14 @@ class TaxClassServiceTest extends WebapiAbstract
     /** @var FilterBuilder */
     private $filterBuilder;
 
+    /** @var TaxClassBuilder */
+    private $taxClassBuilder;
+
+    /** @var TaxClassService */
+    private $taxClassService;
+
+    const SAMPLE_TAX_CLASS_NAME = 'Wholesale Customer';
+
     /**
      * Execute per test initialization.
      */
@@ -41,6 +51,146 @@ class TaxClassServiceTest extends WebapiAbstract
         $this->filterBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Framework\Service\V1\Data\FilterBuilder'
         );
+        $this->taxClassBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Tax\Service\V1\Data\TaxClassBuilder'
+        );
+        $this->taxClassService = Bootstrap::getObjectManager()->create(
+            'Magento\Tax\Service\V1\TaxClassService'
+        );
+    }
+
+    /**
+     * Test create TaxClass
+     */
+    public function testCreateTaxClass()
+    {
+        $taxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->create();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CreateTaxClass'
+            ]
+        ];
+
+        $requestData = ['taxClass' => $taxClassDataObject->__toArray()];
+        $taxClassId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotNull($taxClassId);
+
+        //Verify by getting the TaxClass
+        $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
+        $this->assertEquals($taxClassData->getClassName(), $taxClassName);
+        $this->assertEquals($taxClassData->getClassType(), TaxClass::TYPE_CUSTOMER);
+    }
+
+    /**
+     * Test create TaxClass
+     */
+    public function testUpdateTaxClass()
+    {
+        //Create Tax Class
+        $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
+            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $this->assertNotNull($taxClassId);
+
+        //Update Tax Class
+        $updatedTaxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
+        $updatedTaxClassDataObject = $this->taxClassBuilder
+            ->populate($taxClassDataObject)
+            ->setClassName($updatedTaxClassName)
+            ->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT . '/' . $taxClassId
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateTaxClass'
+            ]
+        ];
+
+        $requestData = ['taxClass' => $updatedTaxClassDataObject->__toArray(), 'taxClassId' => $taxClassId];
+
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+
+        //Verify by getting the TaxClass
+        $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
+        $this->assertEquals($taxClassData->getClassName(), $updatedTaxClassName);
+    }
+
+    public function testGetTaxClass()
+    {
+        //Create Tax Class
+        $taxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
+        $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
+            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $this->assertNotNull($taxClassId);
+
+        //Verify by getting the TaxClass
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetTaxClass'
+            ]
+        ];
+        $requestData = ['taxClassId' => $taxClassId];
+        $taxClassData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($taxClassData[TaxClass::KEY_NAME], $taxClassName);
+        $this->assertEquals($taxClassData[TaxClass::KEY_TYPE], TaxClass::TYPE_CUSTOMER);
+    }
+
+    /**
+     * Test delete Tax class
+     */
+    public function testDeleteTaxClass()
+    {
+        $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
+            ->setClassType(TaxClass::TYPE_CUSTOMER)
+            ->create();
+        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $this->assertNotNull($taxClassId);
+
+        //Verify by getting the TaxClass
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteTaxClass'
+            ]
+        ];
+        $requestData = ['taxClassId' => $taxClassId];
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
+
+        try {
+            $this->taxClassService->getTaxClass($taxClassId);
+            $this->fail("Tax class was not expected to be returned after being deleted.");
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals('No such entity with class_id = ' . $taxClassId, $e->getMessage());
+        }
     }
 
     /**

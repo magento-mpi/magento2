@@ -31,7 +31,7 @@ class TaxClass extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get tax class ID.
      *
-     * @return int
+     * @return int|null
      */
     public function getClassId()
     {

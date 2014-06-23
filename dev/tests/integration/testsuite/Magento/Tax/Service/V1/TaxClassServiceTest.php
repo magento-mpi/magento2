@@ -210,7 +210,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Invalid value of "PRODUCT" provided for the type field.
+     * @expectedExceptionMessage Updating classType is not allowed.
      */
     public function testUpdateTaxClassWithChangingClassType()
     {
