@@ -16,7 +16,9 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ObjectManagerHelper */
+    /**
+     * @var ObjectManagerHelper
+     */
     protected $_objectManagerHelper;
 
     /**
@@ -99,14 +101,37 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $product = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
 
-        $observer->expects($this->any())->method('getEvent')->will($this->returnValue($event));
-        $event->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
-        $quote->expects($this->any())->method('getAllItems')->will($this->returnValue([$item]));
-        $quote->expects($this->once())->method('setInventoryProcessed')->with(false);
-        $item->expects($this->any())->method('getChildrenItems')->will($this->returnValue([]));
-        $item->expects($this->any())->method('getProduct')->will($this->returnValue($product));
-        $item->expects($this->any())->method('getProductId')->will($this->returnValue(1));
-        $item->expects($this->any())->method('getTotalQty')->will($this->returnValue(10));
+        $observer->expects($this->any())
+            ->method('getEvent')
+            ->will($this->returnValue($event));
+
+        $event->expects($this->any())
+            ->method('getQuote')
+            ->will($this->returnValue($quote));
+
+        $quote->expects($this->any())
+            ->method('getAllItems')
+            ->will($this->returnValue([$item]));
+
+        $quote->expects($this->once())
+            ->method('setInventoryProcessed')
+            ->with(false);
+
+        $item->expects($this->any())
+            ->method('getChildrenItems')
+            ->will($this->returnValue([]));
+
+        $item->expects($this->any())
+            ->method('getProduct')
+            ->will($this->returnValue($product));
+
+        $item->expects($this->any())
+            ->method('getProductId')
+            ->will($this->returnValue(1));
+
+        $item->expects($this->any())
+            ->method('getTotalQty')
+            ->will($this->returnValue(10));
 
         $this->_priceIndexer->expects($this->once())->method('reindexList')->with([1]);
         $this->_stockIndexerProcessor->expects($this->once())->method('reindexList')->with([1]);
@@ -141,15 +166,41 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $observer->expects($this->any())->method('getEvent')->will($this->returnValue($event));
-        $event->expects($this->any())->method('getCreditmemo')->will($this->returnValue($creditmemo));
-        $creditmemo->expects($this->any())->method('getAllItems')->will($this->returnValue([$item]));
-        $orderItem->expects($this->any())->method('getParentId')->will($this->returnValue(null));
-        $item->expects($this->any())->method('getOrderItem')->will($this->returnValue($orderItem));
-        $item->expects($this->any())->method('getProductId')->will($this->returnValue(1));
-        $item->expects($this->once())->method('hasBackToStock')->will($this->returnValue(true));
-        $item->expects($this->once())->method('getBackToStock')->will($this->returnValue(1));
-        $item->expects($this->any())->method('getQty')->will($this->returnValue(1));
+        $observer->expects($this->any())
+            ->method('getEvent')
+            ->will($this->returnValue($event));
+
+        $event->expects($this->any())
+            ->method('getCreditmemo')
+            ->will($this->returnValue($creditmemo));
+
+        $creditmemo->expects($this->any())
+            ->method('getAllItems')
+            ->will($this->returnValue([$item]));
+
+        $orderItem->expects($this->any())
+            ->method('getParentId')
+            ->will($this->returnValue(null));
+
+        $item->expects($this->any())
+            ->method('getOrderItem')
+            ->will($this->returnValue($orderItem));
+
+        $item->expects($this->any())
+            ->method('getProductId')
+            ->will($this->returnValue(1));
+
+        $item->expects($this->once())
+            ->method('hasBackToStock')
+            ->will($this->returnValue(true));
+
+        $item->expects($this->once())
+            ->method('getBackToStock')
+            ->will($this->returnValue(1));
+
+        $item->expects($this->any())
+            ->method('getQty')
+            ->will($this->returnValue(1));
 
         $this->_priceIndexer->expects($this->once())->method('reindexList')->with([1]);
         $this->_stockIndexerProcessor->expects($this->once())->method('reindexList')->with([1]);
