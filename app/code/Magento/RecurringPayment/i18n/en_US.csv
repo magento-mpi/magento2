@@ -116,9 +116,7 @@ Week,Week
 "The wrong %1 is specified.","The wrong %1 is specified."
 "The currency code is undefined.","The currency code is undefined."
 "The payment method code is undefined.","The payment method code is undefined."
-"The payment is invalid:
-%1.","The payment is invalid:
-%1."
+"The payment is invalid:\n%1.","The payment is invalid:\n%1."
 "The recurring payment start date has invalid format.","The recurring payment start date has invalid format."
 "Billing Period","Billing Period"
 "An internal reference ID is required to save the payment.","An internal reference ID is required to save the payment."

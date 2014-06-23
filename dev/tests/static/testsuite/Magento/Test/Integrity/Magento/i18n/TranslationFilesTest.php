@@ -169,7 +169,9 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
                 throw new \RuntimeException(sprintf('Missed context in row #%d.', $key + 1));
             }
             foreach ($phrase->getContextValue() as $context) {
-                $files[$this->buildFilePath($phrase, $context)][$phrase->getPhrase()] = $phrase->getTranslation();
+                $phraseText = $this->eliminateSpecialChars($phrase->getPhrase());
+                $phraseTranslation = $this->eliminateSpecialChars($phrase->getTranslation());
+                $files[$this->buildFilePath($phrase, $context)][$phraseText] = $phraseTranslation;
             }
         }
 
@@ -258,5 +260,14 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
         }
 
         return $parserContextual;
+    }
+
+    /**
+     * @param string $text
+     * @return mixed
+     */
+    protected function eliminateSpecialChars($text)
+    {
+        return preg_replace(['/\\\\\'/', '/\\\\\\\\/'], ['\'', '\\'], $text);
     }
 }

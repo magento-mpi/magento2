@@ -201,8 +201,8 @@ To,To
 "[ deleted ]","[ deleted ]"
 "Select All","Select All"
 " [deleted]"," [deleted]"
-"empty_text' 'We couldn\'t find any records.","empty_text' 'We couldn\'t find any records."
-"empty_cell_label' 'We couldn\'t find any records.","empty_cell_label' 'We couldn\'t find any records."
+"We couldn't find any records.","We couldn't find any records."
+"We couldn't find any records.","We couldn't find any records."
 "Add New","Add New"
 Export,Export
 "We couldn't find any records.","We couldn't find any records."
