@@ -375,7 +375,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $filterBuilder = $this->objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
         $filter = $filterBuilder->setField(TaxRate::KEY_REGION_ID)->setValue(self::REGION_ID)->create();
-        $this->searchBuilder->addFilter([$filter]);
+        $this->searchBuilder
+            ->addFilter([$filter])
+            ->addSortOrder('id', \Magento\Framework\Service\V1\Data\SearchCriteria::SORT_ASC);
 
         $this->createService();
         $searchCriteria = $this->searchBuilder->create();
@@ -386,7 +388,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $searchResults->getTotalCount());
         $this->assertNotNull($items);
         $this->assertFalse(empty($items));
-        $this->assertEquals(self::REGION_ID, $searchResults->getItems()[0]->getRegionId());
+        $this->assertEquals(self::REGION_ID, $items[0]->getRegionId());
     }
 
     /**
