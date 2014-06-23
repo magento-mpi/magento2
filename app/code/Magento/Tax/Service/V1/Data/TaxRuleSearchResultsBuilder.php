@@ -6,43 +6,42 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Data\Product;
+namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Service\Data\ObjectFactory;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Service\V1\Data\AbstractSearchResultsBuilder;
-use Magento\Catalog\Service\V1\Data\ProductBuilder;
 
 /**
- * Builder for the SearchResults Service Data Object
+ * Builder for the TaxRuleSearchResults Service Data Object
  *
- * @method \Magento\Catalog\Service\V1\Data\Product\SearchResults create()
+ * @method TaxRuleSearchResults create()
  */
-class SearchResultsBuilder extends AbstractSearchResultsBuilder
+class TaxRuleSearchResultsBuilder extends AbstractSearchResultsBuilder
 {
     /**
      * Constructor
      *
      * @param ObjectFactory $objectFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param ProductBuilder $productBuilder
+     * @param TaxRuleBuilder $taxRuleObjectBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        ProductBuilder $productBuilder
+        TaxRuleBuilder $taxRuleObjectBuilder
     ) {
-        parent::__construct($objectFactory, $searchCriteriaBuilder, $productBuilder);
+        parent::__construct($objectFactory, $searchCriteriaBuilder, $taxRuleObjectBuilder);
     }
 
     /**
-     * Set items
+     * Set tax rule items
      *
-     * @param \Magento\Catalog\Service\V1\Data\Product[] $items
+     * @param \Magento\Tax\Service\V1\Data\TaxRule[] $taxRuleItems
      * @return $this
      */
-    public function setItems($items)
+    public function setItems($taxRuleItems)
     {
-        return parent::setItems($items);
+        return parent::setItems($taxRuleItems);
     }
 }

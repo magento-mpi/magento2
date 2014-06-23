@@ -17,6 +17,18 @@
    * Implemented Product Group Price API(MAGETWO-23311)
    * Implemented Product Attribute Write API (MAGETWO-23314)
    * Implemented Product Attribute Options Read and Write API (MAGETWO-23312)
+* Create Service for Magento Tax
+  * Implemented Tax Rule Service (MAGETWO-21408)
+  * Implemented Tax Rate Service (MAGETWO-21409)
+  * Implemented Tax Calculation Data Objects (MAGETWO-24872)
+  * Implemented Tax Calculation Builders (MAGETWO-24873)
+  * Implemented Tax Calculation Service (MAGETWO-24874)
+* Framework improvements:
+  * Covered Magento lib with unit tests:
+      * `lib/internal/Magento/Framework/Less/File/Collector/Aggregated.php`
+      * `lib/internal/Magento/Framework/Less/File/Collector/Library.php`
+      * `lib/internal/Magento/Framework/Locale/Config.php`
+      * `lib/internal/Magento/Framework/Locale/Currency.php`
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
