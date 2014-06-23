@@ -1,3 +1,8 @@
+* Created Service API for Magento_Catalog Module:
+   * Implemented Product Attribute Write API (MAGETWO-23314)
+   * Implemented Product Attribute Options Read and Write API (MAGETWO-23312)
+* Covered the part of Magento Catalog Module with Unit Tests (MAGETWO-24245)
+
 2.0.0.0-dev83
 =============
 * Created the Service API for the Magento_Catalog Module:
