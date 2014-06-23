@@ -2576,4 +2576,5 @@ return array(
     ],
     ['\Magento\Bundle\Pricing\Price\BasePriceInterface'],
     ['\Magento\Cataloginventory\Model\Resource\Indexer\Stock'],
+    ['\Magento\Paypal\Block\PayflowExpress\Shortcut'],
 );
