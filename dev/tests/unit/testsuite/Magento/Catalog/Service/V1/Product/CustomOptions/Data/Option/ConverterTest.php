@@ -59,6 +59,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('convert')
             ->with($this->optionMock)
             ->will($this->returnValue($options));
-        $this->assertEquals($options, $this->service->covert($this->optionMock));
+        $this->assertEquals($options, $this->service->convert($this->optionMock));
     }
 }
