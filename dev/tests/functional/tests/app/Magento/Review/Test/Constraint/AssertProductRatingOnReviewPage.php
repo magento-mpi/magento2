@@ -8,11 +8,9 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
+use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Constraint\AssertForm;
 
 /**
@@ -35,28 +33,20 @@ class AssertProductRatingOnReviewPage extends AssertForm
     /**
      * Assert that product rating is displayed on product review(backend)
      *
-     * @param CatalogProductIndex $catalogProductIndex
-     * @param CatalogProductEdit $catalogProductEdit
+     * @param ReviewIndex $reviewIndex
      * @param ReviewEdit $reviewEdit
-     * @param CatalogProductSimple $product
      * @param ReviewInjectable $review
-     * @retur void
+     * @return void
      */
     public function processAssert(
-        CatalogProductIndex $catalogProductIndex,
-        CatalogProductEdit $catalogProductEdit,
+        ReviewIndex $reviewIndex,
         ReviewEdit $reviewEdit,
-        CatalogProductSimple $product,
         ReviewInjectable $review
     ) {
-        $productFilter = ['name' => $product->getName()];
-        $reviewFilter = ['title' => $review->getTitle()];
+        $filter = ['title' => $review->getTitle()];
 
-        $catalogProductIndex->open();
-        $catalogProductIndex->getProductGrid()->searchAndOpen($productFilter);
-        $productForm = $catalogProductEdit->getForm();
-        $productForm->openTab(self::TAB_REVIEWS);
-        $productForm->getTabElement(self::TAB_REVIEWS)->getGrid()->searchAndOpen($reviewFilter);
+        $reviewIndex->open();
+        $reviewIndex->getReviewGrid()->searchAndOpen($filter);
 
         $reviewRatings = $review->getRatings();
         $formRatings = $reviewEdit->getReviewForm()->getRatings();

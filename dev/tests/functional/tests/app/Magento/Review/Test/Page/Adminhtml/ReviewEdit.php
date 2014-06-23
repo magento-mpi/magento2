@@ -15,7 +15,7 @@ use Mtf\Page\BackendPage;
  */
 class ReviewEdit extends BackendPage
 {
-    const MCA = 'review/rating/edit';
+    const MCA = 'review/product/edit';
 
     protected $_blocks = [
         'reviewForm' => [

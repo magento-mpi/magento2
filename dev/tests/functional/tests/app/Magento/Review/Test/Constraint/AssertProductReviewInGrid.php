@@ -8,9 +8,7 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Mtf\Constraint\AbstractConstraint;
 
@@ -34,29 +32,21 @@ class AssertProductReviewInGrid extends AbstractConstraint
     /**
      * Assert that review is displayed in grid on product reviews tab
      *
-     * @param CatalogProductIndex $catalogProductIndex
-     * @param CatalogProductEdit $catalogProductEdit
-     * @param CatalogProductSimple $product
+     * @param ReviewIndex $reviewIndex
      * @param ReviewInjectable $review
      * @return void
      */
     public function processAssert(
-        CatalogProductIndex $catalogProductIndex,
-        CatalogProductEdit $catalogProductEdit,
-        CatalogProductSimple $product,
+        ReviewIndex $reviewIndex,
         ReviewInjectable $review
     ) {
-        $productFilter = ['name' => $product->getName()];
-        $reviewFilter = ['title' => $review->getTitle()];
+        $filter = ['title' => $review->getTitle()];
 
-        $catalogProductIndex->open();
-        $catalogProductIndex->getProductGrid()->searchAndOpen($productFilter);
-        $productForm = $catalogProductEdit->getForm();
-        $productForm->openTab(self::TAB_REVIEWS);
+        $reviewIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $productForm->getTabElement(self::TAB_REVIEWS)->getGrid()->isRowVisible($reviewFilter),
+            $reviewIndex->getReviewGrid()->isRowVisible($filter),
             'Review with '
-            . 'title "' . $reviewFilter['title'] . '"'
+            . 'title "' . $filter['title'] . '"'
             . 'is absent in Review grid.'
         );
     }
