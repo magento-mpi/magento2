@@ -8,22 +8,26 @@
 
 namespace Magento\Cms\Test\TestCase;
 
-use Mtf\Factory\Factory;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
-use Magento\Cms\Test\Page\AdminHtml\CmsPageGrid;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\CmsPage;
 
 /**
  * Class CreatePageTest
- *
  */
 class CreatePageEntityTest extends Injectable
 {
     /**
-     * @var CmsPageGrid
+     * @var CmsIndex
      */
-    protected $cmsPageGrid;
+    protected $cmsIndex;
+
+    /**
+     * @var CmsNew
+     */
+    protected $cmsNew;
 
     /**
      * @var CmsPage
@@ -31,39 +35,31 @@ class CreatePageEntityTest extends Injectable
     protected $cmsPage;
 
     /**
-     * Login to backend as a precondition to test
-     *
+     * @param CmsIndex $cmsIndex
+     * @param CmsPage $cmsPage
+     * @param CmsNew $cmsNew
      * @return void
      */
-    protected function setUp()
+    public function __inject(CmsIndex $cmsIndex, CmsPage $cmsPage, CmsNew $cmsNew)
     {
-        Factory::getApp()->magentoBackendLoginUser();
-    }
-
-    /**
-     * @param CmsPageGrid $cmsPageGrid
-     * @param CmsPage $cmsPage
-     */
-    public function __inject(CmsPageGrid $cmsPageGrid, CmsPage $cmsPage)
-    {
-        $this->cmsPageGrid = $cmsPageGrid;
+        $this->cmsIndex = $cmsIndex;
+        $this->cmsNew = $cmsNew;
         $this->cmsPage = $cmsPage;
     }
 
     /**
      * Creating CMS content page
      *
-     * @param CmsPageFixture $cmsPageFixture
+     * @param CmsPageFixture $cms
+     * @return void
      * @ZephyrId MAGETWO-12399
      */
-    public function testCreateCmsPage(CmsPageFixture $cmsPageFixture)
+    public function test(CmsPageFixture $cms)
     {
-        $this->cmsPageGrid->open();
-        $cmsPageGridBlock = $this->cmsPageGrid->getCmsPageGridBlock();
-        $cmsPageGridBlock->addNewCmsPage();
-        $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
-        $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
-        $cmsPageNewForm->fill($cmsPageFixture);
-        $cmsPageNewForm->save();
+        $this->cmsIndex->open();
+        $cmsPageGridBlock = $this->cmsIndex->getPageActionsBlock();
+        $cmsPageGridBlock->addNew();
+        $this->cmsNew->getPageForm()->fill($cms);
+        $this->cmsNew->getPageMainActions()->save();
     }
 }
