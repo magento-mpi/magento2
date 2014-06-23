@@ -62,7 +62,7 @@
         &-info {
             width: 150px;
             max-width: 100%;
-            .catalog-category-view & {
+            .page-products & {
                 width: 200px;
             }
         }
@@ -223,13 +223,13 @@
                     visibility: hidden;
                     margin: @indent-s-base 0;
                 }
-                .action-primary + .action-secondary {
+                .actions-primary + .actions-secondary {
                     display: table-cell;
                     text-align: center;
                     white-space: nowrap;
                     width: 50%;
                 }
-                .action-primary { display: table-cell; }
+                .actions-primary { display: table-cell; }
                 .products-grid .product-item-info:hover & {
                     visibility: visible;
                 }
@@ -243,14 +243,14 @@
     .layout-1 .products-grid .product-item { width: 100%/3 }
     .layout-3 .products-grid .product-item { width: 100%/3 }
 
-    .catalog-category-view .products-grid .product-item { width: 100%/3 }
-    .catalog-category-view.layout-1 .products-grid .product-item { width: 100%/3 }
-    .catalog-category-view.layout-3 .products-grid .product-item { width: 100%/3 }
+    .page-products .products-grid .product-item { width: 100%/3 }
+    .page-products.layout-1 .products-grid .product-item { width: 100%/3 }
+    .page-products.layout-3 .products-grid .product-item { width: 100%/3 }
 }
 .responsive(@break) when (@break = @break-point-1) {
-    .catalog-category-view .products-grid .product-item { width: 100%/3 }
-    .catalog-category-view.layout-1 .products-grid .product-item { width: 100%/4 }
-    .catalog-category-view.layout-3 .products-grid .product-item { width: 100%/2 }
+    .page-products .products-grid .product-item { width: 100%/3 }
+    .page-products.layout-1 .products-grid .product-item { width: 100%/4 }
+    .page-products.layout-3 .products-grid .product-item { width: 100%/2 }
 }
 .responsive(@break) when (@break = @break-point-2) {
 
@@ -258,8 +258,8 @@
     .layout-1 .products-grid .product-item { width: 100%/6 }
     .layout-3 .products-grid .product-item { width: 100%/4 }
 
-    .catalog-category-view .products-grid .product-item { width: 100%/4 }
-    .catalog-category-view.layout-1 .products-grid .product-item { width: 100%/5 }
-    .catalog-category-view.layout-3 .products-grid .product-item { width: 100%/4 }
+    .page-products .products-grid .product-item { width: 100%/4 }
+    .page-products.layout-1 .products-grid .product-item { width: 100%/5 }
+    .page-products.layout-3 .products-grid .product-item { width: 100%/4 }
 }
 

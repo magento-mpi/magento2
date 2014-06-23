@@ -11,7 +11,7 @@
 @toolbar-background: #f0f0f0;
 
 
-.catalog-category-view .columns {
+.page-products .columns {
     position: relative;
     z-index: 1;
     padding-top: 55px;
@@ -23,7 +23,7 @@
         .css(box-shadow, @_shadow);
     }
     &-products {
-        .catalog-category-view & {
+        .page-products & {
             position: absolute;
             z-index: 1;
             top: 0;
@@ -96,13 +96,13 @@
 }
 
 .responsive(@break) when (@break = @break-point-0) {
-    .catalog-category-view .columns {
+    .page-products .columns {
         position: relative;
         z-index: 1;
         padding-top: 0;
     }
     .toolbar {
-        .catalog-category-view &-products {
+        .page-products &-products {
             position: static;
         }
         &-amount {

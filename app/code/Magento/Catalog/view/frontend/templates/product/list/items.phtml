@@ -221,7 +221,7 @@ switch($type = $this->getType()) {
                             <?php if($showWishlist || $showCompare || $showCart): ?>
                                 <div class="product actions product-item-actions">
                                     <?php if($showCart): ?>
-                                        <div class="action-primary">
+                                        <div class="actions-primary">
                                             <?php if($_item->isSaleable()): ?>
                                                 <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
                                                     <button class="action tocart primary" data-mage-init='{"redirectUrl": {"url": "<?php echo $this->getAddToCartUrl($_item) ?>"}}' type="button" title="<?php echo __('Add to Cart') ?>">
@@ -248,7 +248,7 @@ switch($type = $this->getType()) {
                                     <?php endif; ?>
 
                                     <?php if($showWishlist || $showCompare): ?>
-                                        <div class="secondary-addto-links action-secondary" data-role="add-to-links">
+                                        <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
                                             <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
                                                 <a href="#" data-post='<?php echo $this->getAddToWishlistParams($_item); ?>'  class="action towishlist" data-action="add-to-wishlist" title="<?php echo __('Add to Wishlist') ?>">
                                                     <span><?php echo __('Add to Wishlist') ?></span>
