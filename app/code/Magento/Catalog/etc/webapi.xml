@@ -249,18 +249,6 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
-    <route url="/V1/products/:productSku/options/:optionId/values" method="GET">
-        <service class="Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue\ReadServiceInterface" method="getList"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
-    <route url="/V1/products/:productSku/options/:optionId/values" method="POST">
-        <service class="Magento\Catalog\Service\V1\Product\CustomOptions\OptionValue\WriteServiceInterface" method="add"/>
-        <resources>
-            <resource ref="Magento_Catalog::catalog"/>
-        </resources>
-    </route>
     <route url="/V1/products/:productSku/options" method="POST">
         <service class="Magento\Catalog\Service\V1\Product\CustomOptions\WriteServiceInterface" method="add"/>
         <resources>
