@@ -65,7 +65,7 @@ class MergeService
      *
      * @param MergeableInterface[] $assets
      * @param string $contentType
-     * @return MergeableInterface[]
+     * @return array|\Iterator
      * @throws \InvalidArgumentException
      */
     public function getMergedAssets(array $assets, $contentType)
