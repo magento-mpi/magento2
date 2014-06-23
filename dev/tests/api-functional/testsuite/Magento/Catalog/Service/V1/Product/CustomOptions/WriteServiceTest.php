@@ -172,7 +172,7 @@ class WriteServiceTest extends WebapiAbstract
         );
 
         /** @var \Magento\Catalog\Model\ProductRepository $repository */
-        $productRepository = \Magento\TestFramework\ObjectManager::getInstance()
+        $productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\ProductRepository');
 
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
