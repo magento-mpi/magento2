@@ -782,64 +782,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Returns the SQL for the price tax
-     *
-     * @param string $priceField
-     * @param string $taxClassField
-     * @return string
-     */
-    public function getPriceTaxSql($priceField, $taxClassField)
-    {
-        if (!$this->priceIncludesTax() && $this->displayPriceExcludingTax()) {
-            return '';
-        }
-
-        $request = $this->_calculation->getDefaultRateRequest();
-        $defaultTaxes = $this->_calculation->getRatesForAllProductTaxClasses($request);
-
-        $request = $this->_calculation->getRateRequest();
-        $currentTaxes = $this->_calculation->getRatesForAllProductTaxClasses($request);
-
-        $defaultTaxString = $currentTaxString = '';
-
-        $rateToVariable = array(
-            'defaultTaxString' => 'defaultTaxes',
-            'currentTaxString' => 'currentTaxes',
-        );
-        foreach ($rateToVariable as $rateVariable => $rateArray) {
-            if (${$rateArray} && is_array(${$rateArray})) {
-                ${$rateVariable} = '';
-                foreach (${$rateArray} as $classId => $rate) {
-                    if ($rate) {
-                        ${$rateVariable} .= sprintf("WHEN %d THEN %12.4F ", $classId, $rate / 100);
-                    }
-                }
-                if (${$rateVariable}) {
-                    ${$rateVariable} = "CASE {$taxClassField} {${$rateVariable}} ELSE 0 END";
-                }
-            }
-        }
-
-        $result = '';
-
-        if ($this->priceIncludesTax()) {
-            if ($defaultTaxString) {
-                $result = "-({$priceField}/(1+({$defaultTaxString}))*{$defaultTaxString})";
-            }
-            if (!$this->displayPriceExcludingTax() && $currentTaxString) {
-                $result .= "+(({$priceField}{$result})*{$currentTaxString})";
-            }
-        } else {
-            if ($this->displayPriceIncludingTax()) {
-                if ($currentTaxString) {
-                    $result .= "+({$priceField}*{$currentTaxString})";
-                }
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Get configuration setting "Apply Discount On Prices Including Tax" value
      *
      * @param null|string|bool|int|Store $store

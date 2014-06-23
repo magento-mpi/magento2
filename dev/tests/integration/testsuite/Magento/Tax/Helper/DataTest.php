@@ -71,7 +71,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var $helper \Magento\Tax\Helper\Data */
         $this->helper = $this->objectManager->get('Magento\Tax\Helper\Data');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
-        $this->setUpDefaultRules();
         $this->scopeConfig = $this->objectManager->get('Magento\Framework\App\MutableScopeConfig');
     }
 
@@ -103,13 +102,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
      * @param string $productClassName
      *
      * @magentoDataFixture Magento/Catalog/_files/products.php
-     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDbIsolation enabled
      * @dataProvider getPriceDataProvider
      */
     public function testGetPrice($input, $expectOutputPrice, $configs = [], $productClassName = 'DefaultProductClass')
     {
+        $this->setUpDefaultRules();
         $fixtureProductId = 1;
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->objectManager->create('Magento\Catalog\Model\Product')->load($fixtureProductId);
@@ -329,9 +329,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     private function tearDownDefaultRules()
     {
-        $this->taxRuleFixtureFactory->deleteTaxRules(array_values($this->taxRules));
-        $this->taxRuleFixtureFactory->deleteTaxRates(array_values($this->taxRates));
-        $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
+        if ($this->taxRules) {
+            $this->taxRuleFixtureFactory->deleteTaxRules(array_values($this->taxRules));
+        }
+        if ($this->taxRates) {
+            $this->taxRuleFixtureFactory->deleteTaxRates(array_values($this->taxRates));
+        }
+        if ($this->taxClasses) {
+            $this->taxRuleFixtureFactory->deleteTaxClasses(array_values($this->taxClasses));
+        }
     }
 
     /**
