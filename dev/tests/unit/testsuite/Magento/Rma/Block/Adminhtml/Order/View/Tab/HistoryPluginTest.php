@@ -159,9 +159,12 @@ class HistoryPluginTest extends \PHPUnit_Framework_TestCase
 
     private function getReturn($rmaId)
     {
-        $rma = $this->getMock('Magento\Rma\Model\Rma', [], [], '', false);
+        $rma = $this->getMock('Magento\Rma\Model\Rma', ['getId', 'getIncrementId', '__wakeup'], [], '', false);
         $rma->expects($this->once())
             ->method('getId')
+            ->will($this->returnValue($rmaId));
+        $rma->expects($this->once())
+            ->method('getIncrementId')
             ->will($this->returnValue($rmaId));
         return $rma;
     }

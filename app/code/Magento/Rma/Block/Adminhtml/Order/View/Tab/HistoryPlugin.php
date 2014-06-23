@@ -55,13 +55,12 @@ class HistoryPlugin
         $historyCollection = $this->historyCollectionFactory->create();
         /** @var \Magento\Rma\Model\Rma $rma */
         foreach ($collection as $rma) {
-            $rmaId = $rma->getId();
             /** @var $comments \Magento\Rma\Model\Rma\Status\History[] */
-            $comments = $historyCollection->getItemsByColumnValue('rma_entity_id', $rmaId);
+            $comments = $historyCollection->getItemsByColumnValue('rma_entity_id', $rma->getId());
             foreach ($comments as $comment) {
                 if ($comment->getComment() == $creationSystemComment) {
                     $history[] = [
-                        'title' => sprintf('Return #%s created', $rmaId),
+                        'title' => sprintf('Return #%s created', $rma->getIncrementId()),
                         'notified' => $comment->getIsCustomerNotified(),
                         'comment' => '',
                         'created_at' => $comment->getCreatedAtDate()
