@@ -370,7 +370,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         }
 
         $this->taxDetailsItemBuilder->setCode($item->getCode());
-        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
         $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
@@ -443,7 +443,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
         $this->taxDetailsItemBuilder->setTaxPercent($rate);
-        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
 
         return $this->taxDetailsItemBuilder->create();
     }
@@ -657,7 +657,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         }
 
         $this->taxDetailsItemBuilder->setCode($item->getCode());
-        $this->taxDetailsItemBuilder->setTaxAmount($rowTax);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setPrice($price);
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
         $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
@@ -729,13 +729,13 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     {
         $rowTotal = 0.00;
         $rowTotalInclTax = 0.00;
-        $taxAmount = 0.00;
+        $rowTax = 0.00;
         $taxableAmount = 0.00;
 
         foreach ($children as $child) {
             $rowTotal += $child->getRowTotal();
             $rowTotalInclTax += $child->getRowTotalInclTax();
-            $taxAmount += $child->getTaxAmount();
+            $rowTax += $child->getRowTax();
             $taxableAmount += $child->getTaxableAmount();
         }
 
@@ -746,7 +746,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsItemBuilder->setPriceInclTax($priceInclTax);
         $this->taxDetailsItemBuilder->setRowTotal($rowTotal);
         $this->taxDetailsItemBuilder->setRowTotalInclTax($rowTotalInclTax);
-        $this->taxDetailsItemBuilder->setTaxAmount($taxAmount);
+        $this->taxDetailsItemBuilder->setRowTax($rowTax);
         $this->taxDetailsItemBuilder->setTaxableAmount($taxableAmount);
 
         return $this->taxDetailsItemBuilder;
@@ -783,7 +783,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             = $taxDetailsData[TaxDetails::KEY_SUBTOTAL] + $item->getRowTotal();
 
         $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT]
-            = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getTaxAmount();
+            = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getRowTax();
 
         $taxDetailsData[TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT] =
             $taxDetailsData[TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT]

@@ -121,6 +121,18 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
     }
 
     /**
+     * Set row total including tax
+     *
+     * @param float $rowTotalInclTax
+     * @return $this
+     */
+    public function setRowTotalInclTax($rowTotalInclTax)
+    {
+        $this->_set(Item::KEY_ROW_TOTAL_INCL_TAX, $rowTotalInclTax);
+        return $this;
+    }
+
+    /**
      * Set tax amount
      *
      * @param float $taxAmount

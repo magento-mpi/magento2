@@ -211,7 +211,7 @@ class Tax extends AbstractTotal
         $quoteItem->setPriceInclTax($itemTaxDetails->getPriceInclTax());
         $quoteItem->setRowTotal($itemTaxDetails->getRowTotal());
         $quoteItem->setRowTotalInclTax($itemTaxDetails->getRowTotalInclTax());
-        $quoteItem->setTaxAmount($itemTaxDetails->getTaxAmount());
+        $quoteItem->setTaxAmount($itemTaxDetails->getRowTax());
         $quoteItem->setTaxPercent($itemTaxDetails->getTaxPercent());
         $quoteItem->setHiddenTaxAmount($itemTaxDetails->getDiscountTaxCompensationAmount());
 
@@ -219,7 +219,7 @@ class Tax extends AbstractTotal
         $quoteItem->setBasePriceInclTax($baseItemTaxDetails->getPriceInclTax());
         $quoteItem->setBaseRowTotal($baseItemTaxDetails->getRowTotal());
         $quoteItem->setBaseRowTotalInclTax($baseItemTaxDetails->getRowTotalInclTax());
-        $quoteItem->setBaseTaxAmount($baseItemTaxDetails->getTaxAmount());
+        $quoteItem->setBaseTaxAmount($baseItemTaxDetails->getRowTax());
         $quoteItem->setTaxPercent($baseItemTaxDetails->getTaxPercent());
         $quoteItem->setBaseHiddenTaxAmount($baseItemTaxDetails->getDiscountTaxCompensationAmount());
 
@@ -247,8 +247,8 @@ class Tax extends AbstractTotal
     {
         $address->setTotalAmount('shipping', $shippingTaxDetails->getRowTotal());
         $address->setBaseTotalAmount('shipping', $baseShippingTaxDetails->getRowTotal());
-        $address->setShippingTaxAmount($shippingTaxDetails->getTaxAmount());
-        $address->setBaseShippingTaxAmount($baseShippingTaxDetails->getTaxAmount());
+        $address->setShippingTaxAmount($shippingTaxDetails->getRowTax());
+        $address->setBaseShippingTaxAmount($baseShippingTaxDetails->getRowTax());
         $address->setTotalAmount('shipping_hidden_tax', $shippingTaxDetails->getDiscountTaxCompensationAmount());
         $address->setBaseTotalAmount('shipping_hidden_tax', $baseShippingTaxDetails->getDiscountTaxCompensationAmount());
 
@@ -267,8 +267,8 @@ class Tax extends AbstractTotal
         $this->_saveAppliedTaxes(
             $address,
             $appliedTaxesArray,
-            $shippingTaxDetails->getTaxAmount(),
-            $baseShippingTaxDetails->getTaxAmount(),
+            $shippingTaxDetails->getRowTax(),
+            $baseShippingTaxDetails->getRowTax(),
             $shippingTaxDetails->getTaxPercent()
         );
 
@@ -324,8 +324,8 @@ class Tax extends AbstractTotal
                 $baseSubtotal += $baseItemTaxDetails->getRowTotal();
                 $hiddenTax += $itemTaxDetails->getDiscountTaxCompensationAmount();
                 $baseHiddenTax += $baseItemTaxDetails->getDiscountTaxCompensationAmount();
-                $tax += $itemTaxDetails->getTaxAmount();
-                $baseTax += $baseItemTaxDetails->getTaxAmount();
+                $tax += $itemTaxDetails->getRowTax();
+                $baseTax += $baseItemTaxDetails->getRowTax();
                 $subtotalInclTax += $itemTaxDetails->getRowTotalInclTax();
                 $baseSubtotalInclTax += $baseItemTaxDetails->getRowTotalInclTax();
 
@@ -366,8 +366,8 @@ class Tax extends AbstractTotal
 
             $this->updateShippingTaxInfo($address, $shippingItem, $baseShippingItem);
 
-            $tax += $shippingItem->getTaxAmount();
-            $baseTax += $baseShippingItem->getTaxAmount();
+            $tax += $shippingItem->getRowTax();
+            $baseTax += $baseShippingItem->getRowTax();
         }
 
         $address->setTotalAmount('tax', $tax);
