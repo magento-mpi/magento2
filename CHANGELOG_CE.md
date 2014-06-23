@@ -1,6 +1,8 @@
 * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
    * Implemented Product Group Price API(MAGETWO-23311)
+   * Implemented Product Attribute Write API (MAGETWO-23314)
+   * Implemented Product Attribute Options Read and Write API (MAGETWO-23312)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -15,6 +17,7 @@
   * Bundle product price consistency changes (MAGETWO-24588)
   * Admin tax notification messages (MAGETWO-24583)
   * Fixed issues with regards to hidden tax (MAGETWO-24689)
+* Covered the part of Magento Catalog Module with Unit Tests (MAGETWO-24245)
 * Fixed bugs:
   * Fixed: Grouped price doesn't show on grouped product page (MAGETWO-25105)
   * Fixed: Fatal on Grouped Product without assigned products (MAGETWO-25106)
@@ -35,6 +38,7 @@
   * Delete Tax Rate (MTA-122)
   * Update Catalog Price Rule (MTA-72)
   * Update Shopping Cart (MTA-60)
+* Ported payment related stories from M1.x (MAGETWO-20848)
 
 2.0.0.0-dev82
 =============
