@@ -89,7 +89,7 @@ class ReadService implements ReadServiceInterface
         /** @var \Magento\Framework\Data\Collection\Db $products */
         $products = $category->getProductCollection();
 
-        /** @var  $dtoProductList */
+        /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\Product $dtoProductList */
         $dtoProductList = [];
 
         /** @var \Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter $productConverter */
