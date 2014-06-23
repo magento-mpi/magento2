@@ -532,21 +532,24 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
         if ($product->getOrigData('type_id') === \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
-            $sampleIds = array();
-            $samples = $this->getSamples($product);
-            foreach ($samples as $sample) {
-                $sampleIds[] = $sample['sample_id'];
+            $downloadableData = $product->getDownloadableData();
+            $sampleItems = array();
+            if (isset($downloadableData['sample'])) {
+                foreach ($downloadableData['sample'] as $sample) {
+                    $sampleItems[] = $sample['sample_id'];
+                }
             }
-            if ($sampleIds) {
-                $this->_sampleResFactory->create()->deleteItems($sampleIds);
+            if ($sampleItems) {
+                $this->_sampleResFactory->create()->deleteItems($sampleItems);
             }
-            $linkIds = array();
-            $links = $this->getLinks($product);
-            foreach ($links as $link) {
-                $linkIds[] = $link['link_id'];
+            $linkItems = array();
+            if (isset($downloadableData['link'])) {
+                foreach ($downloadableData['link'] as $link) {
+                    $linkItems[] = $link['link_id'];
+                }
             }
-            if ($linkIds) {
-                $this->_linkResource->deleteItems($linkIds);
+            if ($linkItems) {
+                $this->_linkResource->deleteItems($linkItems);
             }
         }
     }
