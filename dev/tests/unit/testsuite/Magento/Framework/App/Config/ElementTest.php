@@ -30,6 +30,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($element->is('false_key'));
         $this->assertFalse($element->is('empty_cdata'));
         $this->assertFalse($element->is('empty_text'));
+        $this->assertTrue($element->is('on_key'));
     }
 
     public function testGetClassName()
