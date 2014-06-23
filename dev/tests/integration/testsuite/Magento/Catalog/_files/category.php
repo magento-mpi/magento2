@@ -9,6 +9,8 @@
 $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
 $category->setId(
     333
+)->setCreatedAt(
+    '2014-06-23 09:50:07'
 )->setName(
     'Category 1'
 )->setParentId(
@@ -25,4 +27,6 @@ $category->setId(
     true
 )->setPosition(
     1
+)->setAvailableSortBy(
+    ['position']
 )->save();
