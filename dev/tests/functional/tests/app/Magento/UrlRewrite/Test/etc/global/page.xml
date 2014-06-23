@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\UrlRewrite\Test\Page\Adminhtml\UrlrewriteEdit</class>
     </urlrewriteEdit>
+    <editCmsPage>
+        <mca>admin/urlrewrite/edit/cms_page</mca>
+        <area>adminhtml</area>
+        <class>Magento\UrlRewrite\Test\Page\Adminhtml\EditCmsPage</class>
+    </editCmsPage>
 </page>

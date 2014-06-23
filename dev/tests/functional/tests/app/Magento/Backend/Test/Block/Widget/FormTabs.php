@@ -112,7 +112,7 @@ class FormTabs extends Form
      * @param Element|null $element
      * @return FormTabs
      */
-    protected  function fillTabs(array $tabs, Element $element = null)
+    protected function fillTabs(array $tabs, Element $element = null)
     {
         $context = ($element === null) ? $this->_rootElement : $element;
         foreach ($tabs as $tabName => $tabFields) {

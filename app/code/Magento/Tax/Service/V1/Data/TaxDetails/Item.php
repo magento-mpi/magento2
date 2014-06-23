@@ -25,9 +25,7 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
 
     const KEY_ROW_TOTAL = 'row_total';
 
-    const KEY_ROW_TOTAL_INCL_TAX = 'row_total_incl_tax';
-
-    const KEY_TAX_AMOUNT = 'tax_amount';
+    const KEY_ROW_TAX = 'row_tax';
 
     const KEY_TAXABLE_AMOUNT = 'taxable_amount';
 
@@ -99,23 +97,13 @@ class Item extends \Magento\Framework\Service\Data\AbstractObject
     }
 
     /**
-     * Get row total including tax
+     * Get row tax amount
      *
      * @return float
      */
-    public function getRowTotalInclTax()
+    public function getRowTax()
     {
-        return $this->_get(self::KEY_ROW_TOTAL_INCL_TAX);
-    }
-
-    /**
-     * Get tax amount
-     *
-     * @return float
-     */
-    public function getTaxAmount()
-    {
-        return $this->_get(self::KEY_TAX_AMOUNT);
+        return $this->_get(self::KEY_ROW_TAX);
     }
 
     /**
