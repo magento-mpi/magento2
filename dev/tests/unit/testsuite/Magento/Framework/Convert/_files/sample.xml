@@ -1,4 +1,12 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
+ */
+-->
 <?mso-application progid="Excel.Sheet"?>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:x="urn:schemas-microsoft-com:office:excel"
