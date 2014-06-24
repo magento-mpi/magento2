@@ -93,9 +93,9 @@ class Resolver implements ResolverInterface
         foreach ($directories as $path) {
             if (!is_dir($path)) {
                 if ($this->withContext) {
-                    throw new \InvalidArgumentException('Base directory is not Magento root');
+                    throw new \InvalidArgumentException('Specified path is not a Magento root directory');
                 } else {
-                    throw new \InvalidArgumentException('Base directory doesn\'t exist');
+                    throw new \InvalidArgumentException('Specified path doesn\'t exist');
                 }
             }
         }
