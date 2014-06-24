@@ -9,9 +9,13 @@
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
 
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product as ProductModel;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Product as CategoryProduct;
 use Magento\Catalog\Service\V1\Data\Converter;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductConverter extends Converter
 {
     /**
@@ -22,10 +26,10 @@ class ProductConverter extends Converter
     /**
      * Convert a product model to a product data entity
      *
-     * @param Product $productModel
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Product
+     * @param ProductModel $productModel
+     * @return CategoryProduct
      */
-    public function createProductDataFromModel(Product $productModel)
+    public function createProductDataFromModel(ProductModel $productModel)
     {
         $this->_populateBuilderWithAttributes($productModel);
         $this->productBuilder->setPosition($this->position);
@@ -36,6 +40,7 @@ class ProductConverter extends Converter
 
     /**
      * @param int|null $position
+     * @return void
      */
     public function setPosition($position)
     {
