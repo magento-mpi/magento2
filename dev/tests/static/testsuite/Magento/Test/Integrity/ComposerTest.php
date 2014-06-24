@@ -117,10 +117,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($packageType, $json->type);
         switch ($packageType) {
             case 'magento2-module':
-                $this->assertRegExp('/^magento\/module(\-[a-z][a-z\d]+)+$/', $json->name);
+                $xml = simplexml_load_file("$dir/etc/module.xml");
+                $this->assertConsistentModuleName($xml, $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
-                $this->assertModuleDependenciesInSync($dir, $json->require);
+                $this->assertModuleDependenciesInSync($xml, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
@@ -143,13 +144,29 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Enforce package naming conventions for modules
+     *
+     * @param \SimpleXMLElement $xml
+     * @param string $packageName
+     */
+    private function assertConsistentModuleName(\SimpleXMLElement $xml, $packageName)
+    {
+        $moduleName = (string)$xml->module->attributes()->name;
+        $this->assertEquals(
+            $packageName,
+            $this->convertModuleToPackageName($moduleName),
+            "For the module '{$moduleName}', the expected package name is '{$packageName}'"
+        );
+    }
+
+    /**
      * Make sure a component depends on php version
      *
      * @param \StdClass $json
      */
     private function assertDependsOnPhp(\StdClass $json)
     {
-        $this->assertObjectHasAttribute('php', $json);
+        $this->assertObjectHasAttribute('php', $json, 'This component is expected to depend on certain PHP version(s)');
     }
 
     /**
@@ -159,18 +176,21 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     private function assertDependsOnFramework(\StdClass $json)
     {
-        $this->assertObjectHasAttribute('magento/framework', $json);
+        $this->assertObjectHasAttribute(
+            'magento/framework',
+            $json,
+            'This component is expected to depend on magento/framework'
+        );
     }
 
     /**
      * Assert that references to module dependencies in module.xml and composer.json are not out of sync
      *
-     * @param string $dir
+     * @param \SimpleXMLElement $xml
      * @param \StdClass $json
      */
-    private function assertModuleDependenciesInSync($dir, \StdClass $json)
+    private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
     {
-        $xml = simplexml_load_file("$dir/etc/module.xml");
         $packages = [];
         /** @var \SimpleXMLElement $node */
         foreach ($xml->module->depends->children() as $node) {
@@ -179,7 +199,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             }
         }
         foreach ($packages as $package) {
-            $this->assertObjectHasAttribute($package, $json);
+            $this->assertObjectHasAttribute(
+                $package,
+                $json,
+                "Dependency on the component {$package} is found at the etc/module.xml, but missing in composer.json"
+            );
         }
     }
 
