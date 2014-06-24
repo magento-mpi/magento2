@@ -45,7 +45,7 @@ class Content extends Tab
     }
 
     /**
-     * Getter for wysiwyg config
+     * Get for wysiwyg config block
      *
      * @return \Magento\Cms\Test\Block\Adminhtml\Wysiwyg\Config
      */
