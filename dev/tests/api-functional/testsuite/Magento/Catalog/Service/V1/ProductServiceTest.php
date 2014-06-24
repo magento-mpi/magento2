@@ -188,8 +188,7 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, $this->productData[0][Product::SKU]] //Filters(OR)
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU]],
-                [Product::ID, SearchCriteria::SORT_ASC]
+                [0 => $this->productData[0][Product::SKU]]
             ),
             array(
                 [ //Groups
@@ -206,8 +205,7 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::PRICE, $this->productData[0][Product::PRICE]],
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU]],
-                [Product::ID, SearchCriteria::SORT_ASC]
+                [0 => $this->productData[0][Product::SKU]]
             ),
             array(
                 [
@@ -216,8 +214,7 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                 ],
-                [0 => $this->productData[1][Product::SKU], 1 => $this->productData[0][Product::SKU]],
-                [Product::ID, SearchCriteria::SORT_DESC]
+                [0 => $this->productData[1][Product::SKU], 1 => $this->productData[0][Product::SKU]]
             ),
             array(
                 [
@@ -226,8 +223,7 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]],
-                [Product::ID, SearchCriteria::SORT_ASC]
+                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]]
             ),
             array(
                 [
@@ -237,8 +233,7 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, 'N']
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]],
-                [Product::ID, SearchCriteria::SORT_ASC]
+                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]]
             ),
             array(
                 [ //Groups
@@ -251,7 +246,6 @@ class ProductServiceTest extends WebapiAbstract
                     ]
                 ],
                 [], //No Items expected
-                [Product::ID, SearchCriteria::SORT_ASC]
             )
         );
     }
