@@ -188,6 +188,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      *
      * @param \SimpleXMLElement $xml
      * @param \StdClass $json
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
     {
