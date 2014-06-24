@@ -48,17 +48,6 @@ class ProductBuilder extends \Magento\Framework\Service\Data\Eav\AbstractObjectB
     }
 
     /**
-     * Set id
-     *
-     * @param int|null $value
-     * @return $this
-     */
-    public function setId($value)
-    {
-        return $this->_set(Product::ID, $value);
-    }
-
-    /**
      * Set Sku
      *
      * @param string|null $value
