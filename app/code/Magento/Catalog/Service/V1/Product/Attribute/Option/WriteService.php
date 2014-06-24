@@ -84,7 +84,7 @@ class WriteService implements WriteServiceInterface
         $modelData = array('option' => array('value' => array($optionId => []), 'delete' => array($optionId => '1')));
         $model->addData($modelData);
         try {
-               $model->save();
+            $model->save();
         } catch (\Exception $e) {
             throw new StateException('Unable to remove option');
         }
