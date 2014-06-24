@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Integration\Service\IntegrationV1 as IntegrationService;
+use Magento\Integration\Service\V1\Integration as IntegrationService;
 use Magento\Integration\Model\Integration;
 use Magento\Framework\Logger;
 

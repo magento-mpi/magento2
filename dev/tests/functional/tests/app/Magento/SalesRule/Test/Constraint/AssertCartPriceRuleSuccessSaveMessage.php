@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\SalesRule\Test\Constraint; 
+namespace Magento\SalesRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
@@ -38,8 +38,8 @@ class AssertCartPriceRuleSuccessSaveMessage extends AbstractConstraint
             self::SUCCESS_MESSAGE,
             $actualMessage,
             'Wrong success message is displayed.'
-                . "\nExpected: " . self::SUCCESS_MESSAGE
-                . "\nActual: " . $actualMessage
+            . "\nExpected: " . self::SUCCESS_MESSAGE
+            . "\nActual: " . $actualMessage
         );
     }
 

@@ -35,6 +35,7 @@
         <word>CustomerCustomAttributes</word>
         <word>CustomerSegment</word>
         <word>CustomerBalance</word>
+        <word>CustomerFinance</word>
         <word>Enterprise</word>
         <word>CacheInvalidate</word>
         <!-- GiftCard and GiftCardAccount modules -->
@@ -188,6 +189,7 @@
             <word>CustomerCustomAttributes</word>
             <word>CustomerSegment</word>
             <word>CustomerBalance</word>
+            <word>CustomerFinance</word>
             <word>Enterprise</word>
             <word>CacheInvalidate</word>
             <!-- GiftCard and GiftCardAccount modules -->
