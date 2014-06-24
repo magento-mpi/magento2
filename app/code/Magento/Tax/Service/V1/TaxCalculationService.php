@@ -311,7 +311,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             }
 
             //Handle discount
-            if ($discountAmount && $applyTaxAfterDiscount ) {
+            if ($discountAmount && $applyTaxAfterDiscount) {
                 //TODO: handle originalDiscountAmount
                 $unitDiscountAmount = $discountAmount / $quantity;
                 $taxableAmount = max($priceInclTax - $unitDiscountAmount, 0);
@@ -342,7 +342,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 $unitTaxAfterDiscount = $unitTaxPerRate;
 
                 //Handle discount
-                if ($discountAmount && $applyTaxAfterDiscount ) {
+                if ($discountAmount && $applyTaxAfterDiscount) {
                     //TODO: handle originalDiscountAmount
                     $unitDiscountAmount = $discountAmount / $quantity;
                     $taxableAmount = max($priceInclTax - $unitDiscountAmount, 0);
@@ -583,7 +583,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
             }
 
             //Handle discount
-            if ($discountAmount && $applyTaxAfterDiscount ) {
+            if ($discountAmount && $applyTaxAfterDiscount) {
                 //TODO: handle originalDiscountAmount
                 $taxableAmount = max($taxableAmount - $discountAmount, 0);
                 $rowTaxAfterDiscount = $this->calculator->calcTaxAmount(
@@ -624,7 +624,7 @@ class TaxCalculationService implements TaxCalculationServiceInterface
                 );
                 $rowTaxAfterDiscount = $rowTaxPerRate;
                 //Handle discount
-                if ($discountAmount && $applyTaxAfterDiscount ) {
+                if ($discountAmount && $applyTaxAfterDiscount) {
                     //TODO: handle originalDiscountAmount
                     $taxableAmount = max($rowTotal - $discountAmount, 0);
                     $rowTaxAfterDiscount = $this->calculator->calcTaxAmount(
