@@ -1712,4 +1712,5 @@ return array(
     ['getProductData', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['getProduct', 'Magento\CatalogInventory\Model\Stock\Item'],
     ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
+    ['translateArray', 'Magento\Framework\App\Helper\AbstractHelper'],
 );
