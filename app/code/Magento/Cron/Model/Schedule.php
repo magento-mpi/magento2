@@ -242,9 +242,9 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
     public function tryLockJob()
     {
         if ($this->_getResource()->trySetJobStatusAtomic(
-              $this->getId(),
-              self::STATUS_RUNNING,
-              self::STATUS_PENDING
+            $this->getId(),
+            self::STATUS_RUNNING,
+            self::STATUS_PENDING
         )) {
             $this->setStatus(self::STATUS_RUNNING);
             return true;
