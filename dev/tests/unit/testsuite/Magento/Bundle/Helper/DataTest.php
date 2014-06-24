@@ -40,7 +40,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetAllowedSelectionTypesIfTypesIsNotSet()
     {
         $configData = [];
-        $this->config->expects($this->once())->method('getType')->with('bundle')->will($this->returnValue($configData));
+        $this->config->expects($this->once())->method('getType')->with(Data::PRODUCT_TYPE_BUNDLE)
+            ->will($this->returnValue($configData));
 
         $this->assertEquals([], $this->helper->getAllowedSelectionTypes());
     }
