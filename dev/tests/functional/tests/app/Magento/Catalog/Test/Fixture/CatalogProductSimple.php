@@ -80,7 +80,7 @@ class CatalogProductSimple extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test simple product %isolation%',
         'sku' => 'test_simple_sku_%isolation%',
-        'attribute_set_id' => 'Default',
+        'attribute_set_id' => ['dataSet' => 'default'],
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
         'qty' => 10,
