@@ -125,6 +125,30 @@ class WriteService implements WriteServiceInterface
     }
 
     /**
+     * @param \Magento\Catalog\Model\Product\Option\Value[] $allOptionValues
+     * @param array $valuesToLeave
+     * @return array
+     */
+    protected function markValuesForRemoval($allOptionValues, $valuesToLeave)
+    {
+        $markedValues = $valuesToLeave;
+        $idsToLeave = [];
+        foreach ($valuesToLeave as $valueData) {
+            $idsToLeave[] = $valueData['option_type_id'];
+        }
+
+        /** @var $optionValue \Magento\Catalog\Model\Product\Option\Value */
+        foreach ($allOptionValues as $optionValue) {
+            if (!in_array($optionValue->getData('option_type_id'), $idsToLeave)) {
+                $optionValueData = $optionValue->getData();
+                $optionValueData['is_delete'] = 1;
+                $markedValues[] = $optionValueData;
+            }
+        }
+        return $markedValues;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function update(
@@ -140,6 +164,10 @@ class WriteService implements WriteServiceInterface
             throw new NoSuchEntityException();
         }
         $optionData['option_id'] = $optionId;
+        $originalValues = $product->getOptionById($optionId)->getValues();
+        if (!empty($originalValues) && count($optionData['values']) < count($originalValues)) {
+            $optionData['values'] = $this->markValuesForRemoval($originalValues, $optionData['values']);
+        }
 
         $product->setCanSaveCustomOptions(true);
         $product->setProductOptions([$optionData]);

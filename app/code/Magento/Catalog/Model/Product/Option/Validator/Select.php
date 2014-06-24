@@ -13,6 +13,22 @@ use Magento\Catalog\Model\Product\Option;
 class Select extends DefaultValidator
 {
     /**
+     * Check if all values are marked for removal
+     *
+     * @param $values
+     * @return bool
+     */
+    protected function checkAllValuesRemoved($values)
+    {
+        foreach ($values as $value) {
+            if (!array_key_exists('is_delete', $value) || $value['is_delete'] != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Validate option type fields
      *
      * @param Option $option
@@ -20,7 +36,13 @@ class Select extends DefaultValidator
      */
     protected function validateOptionValue(Option $option)
     {
-        if (!is_array($option->getData('values')) || $this->isEmpty($option->getData('values'))) {
+        $values = $option->getData('values');
+        if (!is_array($values) || $this->isEmpty($values)) {
+            return false;
+        }
+
+        //forbid removal of last value for option
+        if ($this->checkAllValuesRemoved($values)) {
             return false;
         }
 

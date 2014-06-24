@@ -25,13 +25,20 @@ class WriteServiceTest extends WebapiAbstract
      */
     protected $productFactory;
 
+    /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
-        $this->optionBuilder = \Magento\TestFramework\ObjectManager::getInstance()
-            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder');
+        $this->objectManager =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->productFactory = \Magento\TestFramework\ObjectManager::getInstance()
-            ->get('Magento\Catalog\Model\ProductFactory');
+        $this->optionBuilder = $this->objectManager->get(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder'
+        );
+
+        $this->productFactory = $this->objectManager->get('Magento\Catalog\Model\ProductFactory');
     }
 
     /**
@@ -59,12 +66,12 @@ class WriteServiceTest extends WebapiAbstract
         $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $optionDataPost]);
 
         /** @var \Magento\Catalog\Model\ProductRepository $repository */
-        $repository = \Magento\TestFramework\ObjectManager::getInstance()
-            ->get('Magento\Catalog\Model\ProductRepository');
+        $repository = $this->objectManager->get('Magento\Catalog\Model\ProductRepository');
 
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
-        $reader = \Magento\TestFramework\ObjectManager::getInstance()
-            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+        $reader = $this->objectManager->get(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface'
+        );
 
         $product = $repository->get('simple');
         $options = $product->getOptions();
@@ -161,9 +168,7 @@ class WriteServiceTest extends WebapiAbstract
     {
         $sku = 'simple';
         /** @var  \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Product'
-        );
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $customOptions= $product->getOptions();
         $optionId = array_pop($customOptions)->getId();
@@ -180,9 +185,7 @@ class WriteServiceTest extends WebapiAbstract
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, ['productSku' => $sku, 'optionId' => $optionId]));
         /** @var  \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Product'
-        );
+        $product = $this->objectManager->create('Magento\Catalog\Model\Product');
         $product->load(1);
         $this->assertNull($product->getOptionById($optionId));
         $this->assertEquals(9, count($product->getOptions()));
@@ -196,7 +199,7 @@ class WriteServiceTest extends WebapiAbstract
     {
         $productSku = 'simple';
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
-        $optionReadService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $optionReadService = $this->objectManager->create(
             'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface'
         );
 
@@ -225,11 +228,10 @@ class WriteServiceTest extends WebapiAbstract
         );
 
         /** @var \Magento\Catalog\Model\ProductRepository $repository */
-        $productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\ProductRepository');
+        $productRepository = $this->objectManager->create('Magento\Catalog\Model\ProductRepository');
 
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
-        $optionReadService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $optionReadService = $this->objectManager->create(
             'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface',
             array('productRepository' => $productRepository)
         );
@@ -271,8 +273,9 @@ class WriteServiceTest extends WebapiAbstract
         }
 
         /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
-        $reader = \Magento\TestFramework\ObjectManager::getInstance()
-            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+        $reader = $this->objectManager->get(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface'
+        );
 
         $data = array(
             Data\Option::TITLE => $option->getTitle(),
@@ -411,6 +414,120 @@ class WriteServiceTest extends WebapiAbstract
             'date_time' => ['date_time'],
             'time' => ['time']
         ];
+    }
+
+
+    /**
+     * Look through all options to find a title
+     *
+     * @param string $title
+     * @param \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $options
+     * @return bool
+     */
+    protected function getOptionIndexByTitle($title, $options)
+    {
+        foreach($options as $index => $option) {
+            if ($title == $option->getTitle()) {
+                return $index;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     */
+    public function testOptionValueRemoval()
+    {
+        $productSku = 'simple';
+        $optionTitle = 'radio option';
+
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
+        $optionReadService = $this->objectManager->create(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface'
+        );
+
+        $options = $optionReadService->getList($productSku);
+        $index = $this->getOptionIndexByTitle($optionTitle, $options);
+        $this->assertEquals(2, count($options[$index]->getValue()));
+
+        $optionId = $options[$index]->getOptionId();
+        $optionDataPost = $options[$index]->__toArray();
+        // remove one value
+        array_pop($optionDataPost['value']);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options/" . $optionId,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Update'
+            ]
+        ];
+
+        $this->_webApiCall(
+            $serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId, 'option' => $optionDataPost]
+        );
+
+        // reset product repository for read service
+        $productRepository = $this->objectManager->create('\Magento\Catalog\Model\ProductRepository');
+        $optionReadService = $this->objectManager->create(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface',
+            [
+                'productRepository' => $productRepository,
+            ]
+        );
+        $updatedOptions = $optionReadService->getList($productSku);
+        $this->assertEquals(1, count($updatedOptions[$index]->getValue()));
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     */
+    public function testLastOptionValueRemoval()
+    {
+        $productSku = 'simple';
+        $optionTitle = 'radio option';
+
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
+        $optionReadService = $this->objectManager->create(
+            'Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface'
+        );
+
+        $options = $optionReadService->getList($productSku);
+        $index = $this->getOptionIndexByTitle($optionTitle, $options);
+        $this->assertEquals(2, count($options[$index]->getValue()));
+
+        $optionId = $options[$index]->getOptionId();
+        $optionDataPost = $options[$index]->__toArray();
+        // remove all values
+        $optionDataPost['value'] = [];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options/" . $optionId,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Update'
+            ]
+        ];
+
+        try {
+            $this->_webApiCall(
+                $serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId, 'option' => $optionDataPost]
+            );
+        } catch (\SoapFault $e) {
+            $message = $e->getMessage();
+        } catch (\Exception $e) {
+            $message = json_decode($e->getMessage())->message;
+        }
+        $this->assertEquals($message, 'Could not save custom option');
     }
 }
 
