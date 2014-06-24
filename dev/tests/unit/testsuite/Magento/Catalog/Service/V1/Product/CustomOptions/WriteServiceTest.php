@@ -256,4 +256,57 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
         $this->writeService->remove(self::PRODUCT_SKU, 10);
     }
+
+    public function testAdd()
+    {
+        $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
+        $convertedOptions =  [
+            Data\Option::OPTION_ID => 10,
+            Data\Option::TITLE => 'Some title',
+            Data\Option::TYPE => 'text',
+            Data\Option::IS_REQUIRE => true,
+            Data\Option::SORT_ORDER => 10,
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
+        $this->optionConverterMock
+            ->expects($this->once())
+            ->method('convert')
+            ->with($optionData)
+            ->will($this->returnValue($convertedOptions));
+
+        $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
+        $this->productMock->expects($this->once())->method('setProductOptions')->with([$convertedOptions]);
+        $this->productMock->expects($this->once())->method('save');
+        $this->assertTrue($this->writeService->add(self::PRODUCT_SKU, $optionData));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testAddWithExceptionDuringSave()
+    {
+        $optionData = $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option', [], [], '', false);
+        $convertedOptions =  [
+            Data\Option::OPTION_ID => 10,
+            Data\Option::TITLE => 'Some title',
+            Data\Option::TYPE => 'text',
+            Data\Option::IS_REQUIRE => true,
+            Data\Option::SORT_ORDER => 10,
+            'price_type' => 'fixed',
+            'sku' => 'sku1',
+            'max_characters' => 10
+        ];
+        $this->optionConverterMock
+            ->expects($this->once())
+            ->method('convert')
+            ->with($optionData)
+            ->will($this->returnValue($convertedOptions));
+
+        $this->productMock->expects($this->once())->method('setCanSaveCustomOptions')->with(true);
+        $this->productMock->expects($this->once())->method('setProductOptions')->with([$convertedOptions]);
+        $this->productMock->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
+        $this->writeService->add(self::PRODUCT_SKU, $optionData);
+    }
 }
