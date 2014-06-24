@@ -17,14 +17,12 @@ return [
             'setup' => [
                 'type' => 'setup',
                 'options' => [
-                    'route'    => '/[:controller]',
-                    'constraints' => [
-                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ],
+                    'regex'    => '\b(?<controller>[\w-]+)$',
                     'defaults' => [
                         '__NAMESPACE__' => 'Magento\Setup\Controller',
                         'action' => 'index',
                     ],
+                    'spec' => '%controller%',
                 ],
             ],
             'home' => [
