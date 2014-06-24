@@ -6,16 +6,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Block\Adminhtml\Page;
+namespace Magento\Cms\Test\Block\Adminhtml\Wysiwyg;
 
 use Mtf\Block\Block;
 
 /**
- * Class SystemVariables
- * System variables manage block
+ * Class Config
+ * System variable management block
  */
-class SystemVariables extends Block
+class Config extends Block
 {
+    /**
+     * Selector for getting all variables in list
+     *
+     * @var string
+     */
+    protected $variablesSelector = '.insert-variable > li > a';
+
     /**
      * Returns array with all variables
      *
@@ -25,7 +32,7 @@ class SystemVariables extends Block
     {
         $values = [];
 
-        $variableElements = $this->_rootElement->find('.insert-variable > li > a')->getElements();
+        $variableElements = $this->_rootElement->find($this->variablesSelector)->getElements();
         foreach ($variableElements as $variableElement) {
             if ($variableElement->isVisible()) {
                 $values[] = $variableElement->getText();

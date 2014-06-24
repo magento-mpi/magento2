@@ -52,20 +52,14 @@ class DeleteSystemVariableEntityTest extends Injectable
      *
      * @param SystemVariableIndex $systemVariableIndex
      * @param SystemVariableNew $systemVariableNew
-     * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @return void
      */
     public function __inject(
         SystemVariableIndex $systemVariableIndex,
-        SystemVariableNew $systemVariableNew,
-        FixtureFactory $fixtureFactory
+        SystemVariableNew $systemVariableNew
     ) {
         $this->systemVariableIndexPage = $systemVariableIndex;
         $this->systemVariableNewPage = $systemVariableNew;
-        $systemVariable = $fixtureFactory->createByCode('systemVariable', ['dataSet' => 'default']);
-        $systemVariable->persist();
-
-        return ['systemVariable' => $systemVariable];
     }
 
     /**
@@ -76,6 +70,9 @@ class DeleteSystemVariableEntityTest extends Injectable
      */
     public function test(SystemVariable $systemVariable)
     {
+        // Precondition
+        $systemVariable->persist();
+
         // Steps
         $filter = [
             'code' => $systemVariable->getCode(),

@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Block\Adminhtml\SystemVariable\Edit;
+namespace Magento\Backend\Test\Block\System\Variable\Edit;
 
-use Mtf\Block\Form as ParentForm;
+use Mtf\Block\Form;
 
 /**
  * Class Form
  * Form for custom system variable creation
  */
-class Form extends ParentForm
+class VariableForm extends Form
 {
     //
 }

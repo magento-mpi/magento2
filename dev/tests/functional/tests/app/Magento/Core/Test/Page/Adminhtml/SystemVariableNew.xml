@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>systemVariableForm</name>
-        <class>Magento\Core\Test\Block\Adminhtml\SystemVariable\Edit\Form</class>
+        <class>Magento\Backend\Test\Block\System\Variable\Edit\VariableForm</class>
         <locator>#edit_form</locator>
         <strategy>css selector</strategy>
     </block>

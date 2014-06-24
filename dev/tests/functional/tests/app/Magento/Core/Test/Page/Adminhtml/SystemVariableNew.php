@@ -26,7 +26,7 @@ class SystemVariableNew extends BackendPage
         ],
         'systemVariableForm' => [
             'name' => 'systemVariableForm',
-            'class' => 'Magento\Core\Test\Block\Adminhtml\SystemVariable\Edit\Form',
+            'class' => 'Magento\Backend\Test\Block\System\Variable\Edit\VariableForm',
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
@@ -41,7 +41,7 @@ class SystemVariableNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Core\Test\Block\Adminhtml\SystemVariable\Edit\Form
+     * @return \Magento\Backend\Test\Block\System\Variable\Edit\VariableForm
      */
     public function getSystemVariableForm()
     {

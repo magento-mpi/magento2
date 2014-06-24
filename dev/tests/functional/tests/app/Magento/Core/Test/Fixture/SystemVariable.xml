@@ -66,6 +66,5 @@
             <input />
         </html_value>
     </fields>
-    <repository_class>Magento\Core\Test\Repository\SystemVariable</repository_class>
     <handler_interface>Magento\Core\Test\Handler\SystemVariable\SystemVariableInterface</handler_interface>
 </fixture>

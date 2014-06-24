@@ -26,7 +26,7 @@ class SystemVariableIndex extends BackendPage
         ],
         'systemVariableGrid' => [
             'name' => 'systemVariableGrid',
-            'class' => 'Magento\Core\Test\Block\Adminhtml\SystemVariable\Grid',
+            'class' => 'Magento\Backend\Test\Block\System\Variable\Grid',
             'locator' => '#customVariablesGrid',
             'strategy' => 'css selector',
         ],
@@ -47,7 +47,7 @@ class SystemVariableIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Core\Test\Block\Adminhtml\SystemVariable\Grid
+     * @return \Magento\Backend\Test\Block\System\Variable\Grid
      */
     public function getSystemVariableGrid()
     {

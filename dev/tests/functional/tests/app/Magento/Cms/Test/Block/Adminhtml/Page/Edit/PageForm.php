@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Block\Adminhtml\Page;
+namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
@@ -27,20 +27,6 @@ class PageForm extends FormTabs
      * @var string
      */
     protected $toggleButton = "#togglepage_content";
-
-    /**
-     * Insert Variable button selector
-     *
-     * @var string
-     */
-    protected $addVariableButton = ".add-variable";
-
-    /**
-     * System Variable block selector
-     *
-     * @var string
-     */
-    protected $systemVariableBlock = "./ancestor::body//div[div[@id='variables-chooser']]";
 
     /**
      * Content Editor form
@@ -79,34 +65,20 @@ class PageForm extends FormTabs
     }
 
     /**
-     * Clicking in content tab 'Insert Variable' button
+     * Returns array with System Variables
      *
-     * @return void
+     * @return array
      */
-    public function clickInsertVariable()
+    public function getSystemVariables()
     {
         $this->toggleEditor();
         $this->openTab('content');
+        /** @var \Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab\Content $contentTab */
         $contentTab = $this->getTabElement('content');
-        $addVariableButton = $contentTab->_rootElement->find($this->addVariableButton);
-        if ($addVariableButton->isVisible()) {
-            $addVariableButton->click();
-        }
-    }
+        /** @var \Magento\Cms\Test\Block\Adminhtml\Wysiwyg\Config $config */
+        $contentTab->clickInsertVariable();
+        $config = $contentTab->getWysiwygConfig();
 
-    /**
-     * Getter for System Variable block
-     *
-     * @return SystemVariables
-     */
-    public function getSystemVariablesBlock()
-    {
-        /** @var \Magento\Cms\Test\Block\Adminhtml\Page\SystemVariables $systemVariablesBlock */
-        $systemVariablesBlock = $this->blockFactory->create(
-            __NAMESPACE__ . '\\SystemVariables',
-            ['element' => $this->_rootElement->find($this->systemVariableBlock, Locator::SELECTOR_XPATH)]
-        );
-
-        return $systemVariablesBlock;
+        return $config->getAllVariables();
     }
 }

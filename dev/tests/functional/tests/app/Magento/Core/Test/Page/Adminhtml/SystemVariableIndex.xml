@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>systemVariableGrid</name>
-        <class>Magento\Core\Test\Block\Adminhtml\SystemVariable\Grid</class>
+        <class>Magento\Backend\Test\Block\System\Variable\Grid</class>
         <locator>#customVariablesGrid</locator>
         <strategy>css selector</strategy>
     </block>

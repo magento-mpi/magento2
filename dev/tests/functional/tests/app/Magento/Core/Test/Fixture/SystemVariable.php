@@ -18,11 +18,6 @@ class SystemVariable extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Core\Test\Repository\SystemVariable';
-
-    /**
-     * @var string
-     */
     protected $handlerInterface = 'Magento\Core\Test\Handler\SystemVariable\SystemVariableInterface';
 
     protected $defaultDataSet = [

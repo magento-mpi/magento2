@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Block\Adminhtml\SystemVariable;
+namespace Magento\Backend\Test\Block\System\Variable;
 
-use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class Grid
  * System Variable management grid
  */
-class Grid extends ParentGrid
+class Grid extends AbstractGrid
 {
     /**
      * Locator value for link in action column
