@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1;
+namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
 
 /**
  * Class ProductAttributeService
  */
-class ProductAttributeService implements ProductAttributeServiceInterface
+class OptionService implements OptionServiceInterface
 {
     /**
      * @var ProductMetadataServiceInterface

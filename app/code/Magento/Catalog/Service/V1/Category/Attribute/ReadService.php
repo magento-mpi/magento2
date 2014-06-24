@@ -5,17 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Product\Attribute;
+namespace Magento\Catalog\Service\V1\Category\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
-use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder;
 use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 
 /**
  * Class ReadService
  *
  * @package Magento\Catalog\Service\V1\Product\Attribute
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ReadService implements ReadServiceInterface
 {
@@ -25,42 +23,24 @@ class ReadService implements ReadServiceInterface
     private $metadataService;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory
-     */
-    private $inputTypeFactory;
-
-    /**
-     * @var TypeBuilder
-     */
-    private $attributeTypeBuilder;
-
-    /**
      * @param \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService
-     * @param InputtypeFactory $inputTypeFactory
-     * @param TypeBuilder $attributeTypeBuilder
+
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService,
-        InputtypeFactory $inputTypeFactory,
-        TypeBuilder $attributeTypeBuilder
+        \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService
     ) {
         $this->metadataService = $metadataService;
-        $this->inputTypeFactory = $inputTypeFactory;
-        $this->attributeTypeBuilder = $attributeTypeBuilder;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function types()
+    public function options($id)
     {
-        $types = [];
-        $inputType = $this->inputTypeFactory->create();
-
-        foreach ($inputType->toOptionArray() as $option) {
-            $types[] = $this->attributeTypeBuilder->populateWithArray($option)->create();
-        }
-        return $types;
+        return $this->metadataService->getAttributeMetadata(
+            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            $id
+        )->getOptions();
     }
 
     /**
