@@ -41,18 +41,31 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCoincidenceNonEnglishFiles($modulePath)
     {
-        $files = [];
-        foreach (glob("{$modulePath}/i18n/*.csv") as $file) {
-            $locale = str_replace('.csv', '', basename($file));
-            $files[$locale] = $file;
-        }
+        $files = $this->getCsvFiles($modulePath);
 
-        $failures = $this->checkModuleFiles($files);
+        $failures = array();
+        if (!empty($files)) {
+            $failures = $this->checkModuleFiles($files);
+        }
 
         $this->assertEmpty(
             $failures,
             $this->printMessage($failures)
         );
+    }
+
+    /**
+     * @param string $modulePath
+     * @return string[] Array csv files array[$locale]$pathToCsvFile]
+     */
+    protected function getCsvFiles($modulePath)
+    {
+        $files = [];
+        foreach (glob("{$modulePath}/i18n/*.csv") as $file) {
+            $locale = str_replace('.csv', '', basename($file));
+            $files[$locale] = $file;
+        }
+        return $files;
     }
 
     /**
@@ -66,7 +79,7 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
             $message .= $locale . "\n";
             foreach ($localeErrors as $typeError => $error) {
                 $message .= "\t" . $typeError . "\n";
-                foreach (array_keys($error) as $phrase) {
+                foreach ($error as $phrase) {
                     $message .= "\t\t" . $phrase . "\n";
                 }
             }
@@ -97,7 +110,7 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
     {
         $failures = [];
         if (!isset($files[$this->baseLocale])) {
-            $failures[$this->baseLocale] = ["{$this->baseLocale}.csv file is not found"];
+            $failures[$this->baseLocale]['missing'] = ["{$this->baseLocale}.csv file is not found"];
             return $failures;
         }
         $baseLocaleData = $this->csvParser->getDataPairs($files[$this->baseLocale]);
@@ -122,10 +135,10 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
 
         $failures = array();
         if (!empty($missing)) {
-            $failures['missing'] = $missing;
+            $failures['missing'] = array_keys($missing);
         }
         if (!empty($extra)) {
-            $failures['extra'] = $extra;
+            $failures['extra'] =  array_keys($extra);
         }
         return $failures;
     }

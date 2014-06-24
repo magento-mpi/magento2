@@ -1,31 +1,30 @@
-"(Allow)","(Autorise)"
-"(Config)","(Configure)"
-"(Deny)","(Refuse)"
-"<strong style=""color:red"">Warning!</strong> By default this feature restricts all categories.","<strong style=""color:red"">Attention !</strong> Par défaut, cette fonction restreint toutes les catégories. 
-
-
-
-"
-"A permission with the same scope already exists.","Une permission avec la même ampleur existe déjà."
-"Add to Cart","Ajouter au caddy"
-"Allow Adding to Cart","Permettre d'ajouter au caddy"
-"Allow Browsing Category","Permettre de naviguer la catégorie"
-"Browsing Category","Naviguer la catégorie"
-"Catalog Permissions","Permissions de catalogue"
-"Category Permissions","Permissions de la catégorie"
-"Category Permissions Section","Section des permissions de la catégorie"
-"Customer Groups","Groupes Client"
-"Disallow Catalog Search By","Ne plus permettre la recherche dans le catalogue par"
-"Display Product Prices","Affiche les prix des produits"
-"Enable","Active"
-"Landing Page","Page d'atterrissage"
-"New Permission","Nouvelle permission"
-"No","Non"
-"No, Redirect to Landing Page","Non, redirige vers la page d'atterrissage"
-"Permission with the same scope","Permission avec la même ampleur"
-"Remove Permission","Enlève la permission"
-"The product ""%s"" cannot be added to cart.","Il est impossible d'ajouter le produit ""%s"" au panier."
-"Yes, for Everyone","Oui, pour tous"
 "Yes, for Specified Customer Groups","Oui, pour les groupes client spécifiés"
-"You have no permissions to access this category","Vous n'avez pas la permission d'accéder à cette catégorie."
-"You have no permissions to access this product","Vous n'avez pas la permission d'accéder à ce produit."
+"Yes, for Everyone","Oui, pour tous"
+No,Non
+Action,Action
+"Add to Cart","Ajouter au caddy"
+"-- Please Select --","-- Please Select --"
+Website,Website
+"All Websites","All Websites"
+"Customer Group","Customer Group"
+"New Permission","Nouvelle permission"
+"You already have a permission with this scope.","You already have a permission with this scope."
+(Allow),(Autorise)
+(Deny),(Refuse)
+"Category Permissions","Permissions de la catégorie"
+"Browsing Category","Naviguer la catégorie"
+"Display Product Prices","Affiche les prix des produits"
+"No, Redirect to Landing Page","Non, redirige vers la page d'atterrissage"
+"You may need more permissions to access this category.","You may need more permissions to access this category."
+"You cannot add ""%1"" to the cart.","You cannot add ""%1"" to the cart."
+"You may need more permissions to access this product.","You may need more permissions to access this product."
+"Permission with the same scope","Permission avec la même ampleur"
+"Permissions do not depend on store views.","Permissions do not depend on store views."
+"All Customer Groups","All Customer Groups"
+Allow,Allow
+Deny,Deny
+"Use parent","Use parent"
+"Catalog Category Permissions","Catalog Category Permissions"
+"Indexed permissions for categories","Indexed permissions for categories"
+"Catalog Product Permissions","Catalog Product Permissions"
+"Indexed permissions for products","Indexed permissions for products"

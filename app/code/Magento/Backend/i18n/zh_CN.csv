@@ -1,0 +1,456 @@
+Custom,Custom
+"Are you sure?","Are you sure?"
+Close,Close
+Cancel,Cancel
+Back,Back
+Product,Product
+Price,Price
+Quantity,Quantity
+ID,ID
+SKU,SKU
+Customers,Customers
+No,No
+Subtotal,Subtotal
+Discount,Discount
+Action,Action
+"Excl. Tax","Excl. Tax"
+Total,Total
+"Incl. Tax","Incl. Tax"
+"Total incl. tax","Total incl. tax"
+Reset,Reset
+Edit,Edit
+"What is this?","What is this?"
+"Invalid Form Key. Please refresh the page.","Invalid Form Key. Please refresh the page."
+"You entered an invalid Secret Key. Please refresh the page.","You entered an invalid Secret Key. Please refresh the page."
+"Cache Storage Management","Cache Storage Management"
+"Flush Magento Cache","Flush Magento Cache"
+"Cache storage may contain additional data. Are you sure that you want flush it?","Cache storage may contain additional data. Are you sure that you want flush it?"
+"Flush Cache Storage","Flush Cache Storage"
+Invalidated,Invalidated
+Orders,Orders
+Amounts,Amounts
+Bestsellers,Bestsellers
+"Most Viewed Products","Most Viewed Products"
+"New Customers","New Customers"
+Customer,Customer
+Guest,Guest
+Items,Items
+"Grand Total","Grand Total"
+"Lifetime Sales","Lifetime Sales"
+"Average Orders","Average Orders"
+"Search Term","Search Term"
+Results,Results
+Uses,Uses
+Average,Average
+"Order Quantity","Order Quantity"
+Views,Views
+Revenue,Revenue
+Tax,Tax
+Shipping,Shipping
+"Images (.gif, .jpg, .png)","Images (.gif, .jpg, .png)"
+"Media (.avi, .flv, .swf)","Media (.avi, .flv, .swf)"
+"All Files","All Files"
+"Interface Language","Interface Language"
+"Reset to Default","Reset to Default"
+"All Store Views","All Store Views"
+"Save Account","Save Account"
+"My Account","My Account"
+"Account Information","Account Information"
+"User Name","User Name"
+"First Name","First Name"
+"Last Name","Last Name"
+Email,Email
+"User Email","User Email"
+"New Password","New Password"
+"Password Confirmation","Password Confirmation"
+"Interface Locale","Interface Locale"
+"Save Cache Settings","Save Cache Settings"
+"Catalog Rewrites","Catalog Rewrites"
+Refresh,Refresh
+"Images Cache","Images Cache"
+Clear,Clear
+"Search Index","Search Index"
+Rebuild,Rebuild
+"Inventory Stock Status","Inventory Stock Status"
+"Rebuild Catalog Index","Rebuild Catalog Index"
+"Rebuild Flat Catalog Category","Rebuild Flat Catalog Category"
+"Rebuild Flat Catalog Product","Rebuild Flat Catalog Product"
+"Cache Control","Cache Control"
+"All Cache","All Cache"
+"No change","No change"
+Disable,Disable
+Enable,Enable
+"Default Config","Default Config"
+"Save Config","Save Config"
+[GLOBAL],[GLOBAL]
+[WEBSITE],[WEBSITE]
+"[STORE VIEW]","[STORE VIEW]"
+"Use Default","Use Default"
+"Use Website","Use Website"
+Add,Add
+"Delete File","Delete File"
+"Search String","Search String"
+"Design Theme","Design Theme"
+"Add \Exception","Add \Exception"
+"-- No Theme --","-- No Theme --"
+Synchronize,Synchronize
+Configuration,Configuration
+"Add Design Change","Add Design Change"
+Delete,Delete
+Save,Save
+"Edit Design Change","Edit Design Change"
+"New Store Design Change","New Store Design Change"
+"General Settings","General Settings"
+Store,Store
+"-- Please Select --","-- Please Select --"
+"Custom Design","Custom Design"
+"Date From","Date From"
+"Date To","Date To"
+"Design Change","Design Change"
+General,General
+"Delete %1 '%2'","Delete %1 '%2'"
+"Delete %1","Delete %1"
+"Block Information","Block Information"
+"Backup Options","Backup Options"
+"Create DB Backup","Create DB Backup"
+Yes,Yes
+"Delete Store","Delete Store"
+"Delete Web Site","Delete Web Site"
+"Save Web Site","Save Web Site"
+"Save Store","Save Store"
+"Save Store View","Save Store View"
+"Delete Store View","Delete Store View"
+"Edit Web Site","Edit Web Site"
+"New Web Site","New Web Site"
+"Edit Store","Edit Store"
+"New Store","New Store"
+"Edit Store View","Edit Store View"
+"New Store View","New Store View"
+"Store Information","Store Information"
+"Web Site","Web Site"
+Name,Name
+"Root Category","Root Category"
+"Default Store View","Default Store View"
+"Store View Information","Store View Information"
+Code,Code
+Status,Status
+Disabled,Disabled
+Enabled,Enabled
+"Sort Order","Sort Order"
+"Web Site Information","Web Site Information"
+"Default Store","Default Store"
+"Set as Default","Set as Default"
+Stores,Stores
+"Create Website","Create Website"
+"Create Store","Create Store"
+"Create Store View","Create Store View"
+"Custom Variables","Custom Variables"
+"Add New Variable","Add New Variable"
+"Save and Continue Edit","Save and Continue Edit"
+"Custom Variable ""%1""","Custom Variable ""%1"""
+"New Custom Variable","New Custom Variable"
+Variable,Variable
+"Variable Code","Variable Code"
+"Variable Name","Variable Name"
+"Use Default Variable Values","Use Default Variable Values"
+"Variable HTML Value","Variable HTML Value"
+"Variable Plain Value","Variable Plain Value"
+"URL Rewrite Management","URL Rewrite Management"
+"Add URL Rewrite","Add URL Rewrite"
+"Edit URL Rewrite for a Category","Edit URL Rewrite for a Category"
+"Add URL Rewrite for a Category","Add URL Rewrite for a Category"
+Category:,Category:
+"We can't set up a URL rewrite because the product you chose is not associated with a website.","We can't set up a URL rewrite because the product you chose is not associated with a website."
+"We can't set up a URL rewrite because the category your chose is not associated with a website.","We can't set up a URL rewrite because the category your chose is not associated with a website."
+"Edit URL Rewrite for a Product","Edit URL Rewrite for a Product"
+"Add URL Rewrite for a Product","Add URL Rewrite for a Product"
+Product:,Product:
+"Skip Category Selection","Skip Category Selection"
+"Edit URL Rewrite for CMS page","Edit URL Rewrite for CMS page"
+"Add URL Rewrite for CMS page","Add URL Rewrite for CMS page"
+"CMS page:","CMS page:"
+"Chosen cms page does not associated with any website.","Chosen cms page does not associated with any website."
+Title,Title
+"URL Key","URL Key"
+"Store View","Store View"
+"Edit URL Rewrite","Edit URL Rewrite"
+"Add New URL Rewrite","Add New URL Rewrite"
+"Are you sure you want to do this?","Are you sure you want to do this?"
+"URL Rewrite Information","URL Rewrite Information"
+Type,Type
+"ID Path","ID Path"
+"Request Path","Request Path"
+"Target Path","Target Path"
+Redirect,Redirect
+Description,Description
+"For category","For category"
+"For product","For product"
+"For CMS page","For CMS page"
+"Create URL Rewrite:","Create URL Rewrite:"
+"Global Attribute","Global Attribute"
+"This attribute shares the same value in all stores.","This attribute shares the same value in all stores."
+Home,Home
+"Add New Image","Add New Image"
+"Reset Filter","Reset Filter"
+Search,Search
+Any,Any
+"All Countries","All Countries"
+From,From
+To,To
+"Date selector","Date selector"
+"[ deleted ]","[ deleted ]"
+"Select All","Select All"
+" [deleted]"," [deleted]"
+"Add New","Add New"
+Export,Export
+"We couldn't find any records.","We couldn't find any records."
+"Please correct the column format and try again.","Please correct the column format and try again."
+"Please select items.","Please select items."
+Submit,Submit
+"Please correct the tab configuration and try again.","Please correct the tab configuration and try again."
+"You have logged out.","You have logged out."
+"Cache Management","Cache Management"
+"You flushed the cache storage.","You flushed the cache storage."
+"The Magento cache storage has been flushed.","The Magento cache storage has been flushed."
+"%1 cache type(s) enabled.","%1 cache type(s) enabled."
+"An error occurred while enabling cache.","An error occurred while enabling cache."
+"%1 cache type(s) disabled.","%1 cache type(s) disabled."
+"An error occurred while disabling cache.","An error occurred while disabling cache."
+"%1 cache type(s) refreshed.","%1 cache type(s) refreshed."
+"An error occurred while refreshing cache.","An error occurred while refreshing cache."
+"Specified cache type(s) don't exist: ","Specified cache type(s) don't exist: "
+"The JavaScript/CSS cache has been cleaned.","The JavaScript/CSS cache has been cleaned."
+"An error occurred while clearing the JavaScript/CSS cache.","An error occurred while clearing the JavaScript/CSS cache."
+"The image cache was cleaned.","The image cache was cleaned."
+"An error occurred while clearing the image cache.","An error occurred while clearing the image cache."
+Dashboard,Dashboard
+"invalid request","invalid request"
+"see error log for details","see error log for details"
+"Service unavailable: %1","Service unavailable: %1"
+Error,Error
+"Access Denied","Access Denied"
+"You need more permissions to do this.","You need more permissions to do this."
+"No search modules were registered","No search modules were registered"
+"Please make sure that all global admin search modules are installed and activated.","Please make sure that all global admin search modules are installed and activated."
+System,System
+"The account has been saved.","The account has been saved."
+"An error occurred while saving account.","An error occurred while saving account."
+"This section is not allowed.","This section is not allowed."
+"You saved the configuration.","You saved the configuration."
+"An error occurred while saving this configuration:","An error occurred while saving this configuration:"
+"Synchronizing %1 to %2","Synchronizing %1 to %2"
+Synchronizing...,Synchronizing...
+"The timeout limit for response from synchronize process was reached.","The timeout limit for response from synchronize process was reached."
+"Store Design","Store Design"
+"Edit Store Design Change","Edit Store Design Change"
+"You saved the design change.","You saved the design change."
+"You deleted the design change.","You deleted the design change."
+"Cannot delete the design change.","Cannot delete the design change."
+"Manage Stores","Manage Stores"
+"The website does not exist.","The website does not exist."
+"Before modifying the website code please make sure that it is not used in index.php.","Before modifying the website code please make sure that it is not used in index.php."
+"The store does not exist","The store does not exist"
+"Store view doesn't exist","Store view doesn't exist"
+"Before modifying the store view code please make sure that it is not used in index.php.","Before modifying the store view code please make sure that it is not used in index.php."
+"New ","New "
+"The website has been saved.","The website has been saved."
+"The store has been saved.","The store has been saved."
+"The store view has been saved","The store view has been saved"
+"An error occurred while saving. Please review the error log.","An error occurred while saving. Please review the error log."
+"Unable to proceed. Please, try again.","Unable to proceed. Please, try again."
+"This website cannot be deleted.","This website cannot be deleted."
+"This store cannot be deleted.","This store cannot be deleted."
+"This store view cannot be deleted.","This store view cannot be deleted."
+"Unable to proceed. Please, try again","Unable to proceed. Please, try again"
+"The website has been deleted.","The website has been deleted."
+"Unable to delete website. Please, try again later.","Unable to delete website. Please, try again later."
+"The store has been deleted.","The store has been deleted."
+"Unable to delete store. Please, try again later.","Unable to delete store. Please, try again later."
+"The store view has been deleted.","The store view has been deleted."
+"Unable to delete store view. Please, try again later.","Unable to delete store view. Please, try again later."
+"The database was backed up.","The database was backed up."
+"We couldn't create a backup right now. Please try again later.","We couldn't create a backup right now. Please try again later."
+"Deleting a %1 will not delete the information associated with the %1 (e.g. categories, products, etc.), but the %1 will not be able to be restored. It is suggested that you create a database backup before deleting the %1.","Deleting a %1 will not delete the information associated with the %1 (e.g. categories, products, etc.), but the %1 will not be able to be restored. It is suggested that you create a database backup before deleting the %1."
+"You saved the custom variable.","You saved the custom variable."
+"You deleted the customer.","You deleted the customer."
+"URL Redirects","URL Redirects"
+"[New/Edit] URL Redirect","[New/Edit] URL Redirect"
+"The URL Rewrite has been saved.","The URL Rewrite has been saved."
+"An error occurred while saving URL Rewrite.","An error occurred while saving URL Rewrite."
+"Chosen product does not associated with the chosen store or category.","Chosen product does not associated with the chosen store or category."
+"Chosen category does not associated with the chosen store.","Chosen category does not associated with the chosen store."
+"Chosen cms page does not associated with the chosen store.","Chosen cms page does not associated with the chosen store."
+"The URL Rewrite has been deleted.","The URL Rewrite has been deleted."
+"An error occurred while deleting URL Rewrite.","An error occurred while deleting URL Rewrite."
+"Last 24 Hours","Last 24 Hours"
+"Last 7 Days","Last 7 Days"
+"Current Month","Current Month"
+YTD,YTD
+2YTD,2YTD
+"Please correct the user name or password.","Please correct the user name or password."
+"Authentication error occurred.","Authentication error occurred."
+"Please specify the admin custom URL.","Please specify the admin custom URL."
+"Invalid %1. %2","Invalid %1. %2"
+"Value must be a URL or one of placeholders: %1","Value must be a URL or one of placeholders: %1"
+"Specify a URL or path that starts with placeholder(s): %1, and ends with ""/"".","Specify a URL or path that starts with placeholder(s): %1, and ends with ""/""."
+"%1 An empty value is allowed as well.","%1 An empty value is allowed as well."
+"Specify a fully qualified URL.","Specify a fully qualified URL."
+"Selected allowed currency ""%1"" is not available in installed currencies.","Selected allowed currency ""%1"" is not available in installed currencies."
+"Default display currency ""%1"" is not available in allowed currencies.","Default display currency ""%1"" is not available in allowed currencies."
+"Sorry, we haven't installed the base currency you selected.","Sorry, we haven't installed the base currency you selected."
+"We can't save the Cron expression.","We can't save the Cron expression."
+"Sorry, we haven't installed the default display currency you selected.","Sorry, we haven't installed the default display currency you selected."
+"Sorry, the default display currency you selected in not available in allowed currencies.","Sorry, the default display currency you selected in not available in allowed currencies."
+"Please correct the email address: ""%1"".","Please correct the email address: ""%1""."
+"The sender name ""%1"" is not valid. Please use only visible characters and spaces.","The sender name ""%1"" is not valid. Please use only visible characters and spaces."
+"Maximum sender name length is 255. Please correct your settings.","Maximum sender name length is 255. Please correct your settings."
+"The file you're uploading exceeds the server size limit of %1 kilobytes.","The file you're uploading exceeds the server size limit of %1 kilobytes."
+"The base directory to upload file is not specified.","The base directory to upload file is not specified."
+"The specified image adapter cannot be used because of: ","The specified image adapter cannot be used because of: "
+"Default scope","Default scope"
+"Base currency","Base currency"
+"Display default currency","Display default currency"
+"website(%1) scope","website(%1) scope"
+"store(%1) scope","store(%1) scope"
+"Currency ""%1"" is used as %2 in %3.","Currency ""%1"" is used as %2 in %3."
+"Please correct the timezone.","Please correct the timezone."
+"IP Address","IP Address"
+"Cookie (unsafe)","Cookie (unsafe)"
+"Always (during development)","Always (during development)"
+"Only Once (version upgrade)","Only Once (version upgrade)"
+"Never (production)","Never (production)"
+Bcc,Bcc
+"Separate Email","Separate Email"
+"%1 (Default)","%1 (Default)"
+title,title
+Optional,Optional
+Required,Required
+Website,Website
+"File System","File System"
+Database,Database
+"HTTP (unsecure)","HTTP (unsecure)"
+"HTTPS (SSL)","HTTPS (SSL)"
+"Yes (302 Found)","Yes (302 Found)"
+"Yes (301 Moved Permanently)","Yes (301 Moved Permanently)"
+Specified,Specified
+Order,Order
+"Order #%1","Order #%1"
+"Order #%1 (%2)","Order #%1 (%2)"
+"Access denied","Access denied"
+"Please try to log out and sign in again.","Please try to log out and sign in again."
+"If you continue to receive this message, please contact the store owner.","If you continue to receive this message, please contact the store owner."
+"Access denied.","Access denied."
+"Log into Magento Admin Page","Log into Magento Admin Page"
+"Magento Admin Panel","Magento Admin Panel"
+Welcome,Welcome
+"User Name:","User Name:"
+"user name","user name"
+Password:,Password:
+password,password
+"Log in","Log in"
+"Please wait...","Please wait..."
+"Select Range:","Select Range:"
+"No Data Found","No Data Found"
+"Chart is disabled. To enable the chart, click <a href=""%1"">here</a>.","Chart is disabled. To enable the chart, click <a href=""%1"">here</a>."
+"Last 5 Orders","Last 5 Orders"
+"Last 5 Search Terms","Last 5 Search Terms"
+"Top 5 Search Terms","Top 5 Search Terms"
+"There are no search keywords.","There are no search keywords."
+"View Statistics For:","View Statistics For:"
+"All Websites","All Websites"
+"Shipping Amount","Shipping Amount"
+"Tax Amount","Tax Amount"
+"Browse Files...","Browse Files..."
+"Magento is an eBay Inc. company. Copyright&copy; %1 Magento, Inc. All rights reserved.","Magento is an eBay Inc. company. Copyright&copy; %1 Magento, Inc. All rights reserved."
+"Magento ver. %1","Magento ver. %1"
+"Help Us Keep Magento Healthy - Report All Bugs","Help Us Keep Magento Healthy - Report All Bugs"
+"Account Setting","Account Setting"
+"Customer View","Customer View"
+"Sign Out","Sign Out"
+"About the calendar","About the calendar"
+"Go Today","Go Today"
+Previous,Previous
+Next,Next
+WK,WK
+Time,Time
+Hour,Hour
+Minute,Minute
+"Please select an option.","Please select an option."
+"This is a required field.","This is a required field."
+"Please enter a valid number in this field.","Please enter a valid number in this field."
+"Please enter only numbers (1-9) into this field. Do not use spaces, commas, or any other characters.","Please enter only numbers (1-9) into this field. Do not use spaces, commas, or any other characters."
+"Please enter only letters (a-z) into this field.","Please enter only letters (a-z) into this field."
+"Please enter only numbers (0-9) or letters (a-z) into this field.","Please enter only numbers (0-9) or letters (a-z) into this field."
+"Please enter only numbers or letters into this field. Do not use spaces, commas, or any other characters.","Please enter only numbers or letters into this field. Do not use spaces, commas, or any other characters."
+"Please enter only letters (a-z), numbers (0-9), spaces and the ""#"" character into this field.","Please enter only letters (a-z), numbers (0-9), spaces and the ""#"" character into this field."
+"Please enter a valid phone number (for example, (123) 456-7890 or 123-456-7890).","Please enter a valid phone number (for example, (123) 456-7890 or 123-456-7890)."
+"Please enter a valid date.","Please enter a valid date."
+"Please enter a valid email address(for example johndoe@domain.com.).","Please enter a valid email address(for example johndoe@domain.com.)."
+"Please enter 6 or more characters.","Please enter 6 or more characters."
+"Please make sure your passwords match.","Please make sure your passwords match."
+"Please enter a valid URL (for example, the URL must begin with ""http://"").","Please enter a valid URL (for example, the URL must begin with ""http://"")."
+"Please enter a valid URL (for examples, http://www.example.com or www.example.com).","Please enter a valid URL (for examples, http://www.example.com or www.example.com)."
+"Please enter a valid social security number (for example, 123-45-6789).","Please enter a valid social security number (for example, 123-45-6789)."
+"Please enter a valid zip code (for example, 90602 or 90602-1234).","Please enter a valid zip code (for example, 90602 or 90602-1234)."
+"Please enter a valid zip code.","Please enter a valid zip code."
+"Please use this date format: dd/mm/yyyy. For example, enter ""17/03/2006"" to represent March 17, 2006.","Please use this date format: dd/mm/yyyy. For example, enter ""17/03/2006"" to represent March 17, 2006."
+"Please enter a valid dollar amount (for example, $100.00).","Please enter a valid dollar amount (for example, $100.00)."
+"Please select one of these options.","Please select one of these options."
+"Please select State/Province.","Please select State/Province."
+"Please enter a valid password.","Please enter a valid password."
+"Please enter a number greater than 0 in this field.","Please enter a number greater than 0 in this field."
+"Please enter a valid credit card number.","Please enter a valid credit card number."
+"Please wait, loading...","Please wait, loading..."
+"JavaScript may be disabled in your browser.","JavaScript may be disabled in your browser."
+"To use this website you must first enable JavaScript in your browser.","To use this website you must first enable JavaScript in your browser."
+"This is only a demo store. You can browse and place orders, but nothing will be processed.","This is only a demo store. You can browse and place orders, but nothing will be processed."
+Scope:,Scope:
+"Stores Configuration","Stores Configuration"
+"Please confirm scope switching. All data that hasn't been saved will be lost.","Please confirm scope switching. All data that hasn't been saved will be lost."
+"Additional Cache Management","Additional Cache Management"
+"Flush Catalog Images Cache","Flush Catalog Images Cache"
+"Pregenerated product images files","Pregenerated product images files"
+"Flush JavaScript/CSS Cache","Flush JavaScript/CSS Cache"
+"Themes JavaScript and CSS files combined to one file.","Themes JavaScript and CSS files combined to one file."
+Catalog,Catalog
+JavaScript/CSS,JavaScript/CSS
+"JavaScript/CSS Cache","JavaScript/CSS Cache"
+"Add after","Add after"
+"Current Configuration Scope:","Current Configuration Scope:"
+"Personal Information","Personal Information"
+"No records found.","No records found."
+"Select Category","Select Category"
+Images,Images
+"Big Image","Big Image"
+Thumbnail,Thumbnail
+"Additional Settings","Additional Settings"
+"Total %1 records found","Total %1 records found"
+View,View
+"per page","per page"
+Page,Page
+"Previous page","Previous page"
+"of %1","of %1"
+"Next page","Next page"
+"Export to:","Export to:"
+Actions,Actions
+"Mass Actions","Mass Actions"
+"Unselect All","Unselect All"
+"Select Visible","Select Visible"
+"Unselect Visible","Unselect Visible"
+"items selected","items selected"
+"The information in this tab has been changed.","The information in this tab has been changed."
+"This tab contains invalid data. Please solve the problem before saving.","This tab contains invalid data. Please solve the problem before saving."
+Loading...,Loading...
+Design,Design
+"File extension not known or unsupported type.","File extension not known or unsupported type."
+"Cache Type","Cache Type"
+Tags,Tags
+"
+                    <h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>
+                ","
+                    <h1 class=""page-heading"">404 Error</h1><p>Page not found.</p>
+                "
+"Variable ID","Variable ID"
+Options,Options
+"Magento Admin","Magento Admin"
+"Community Edition","Community Edition"

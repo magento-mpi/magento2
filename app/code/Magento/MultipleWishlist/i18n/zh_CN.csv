@@ -1,127 +1,125 @@
-"""%s"" cannot be moved.","无法移动“%s”。"
-"""%s"" is already present in %s.","“%s”已存在于 %s。"
-"""%s"" was successfully copied to %s.","“%s”已成功复制至 %s。"
-"""%s"" was successfully moved to %s.","“%s”已成功移动至 %s。"
-"%d items","%d 个项目"
-"%d items are already present in %s: %s.","%d 个项目已存在于 %s: %s。"
-"%d items cannot be moved: %s.","%d 个项目无法被移动：%s。"
-"%d items could not be copied.","%d 个项目无法被复制。"
-"%d items could not be moved.","%d 个项目无法被移动。"
-"%d items were copied to %s: %s.","%d 个项目被复制到 %s: %s。"
-"%d items were not found.","没有找到 %d 个项目。"
-"%d items were successfully moved to %s: %s.","%d 个项目已成功移动至 %s: %s。"
-"%s for ""%s"".","%s 对 “%s”。"
-"%s's Wishlist","%s 的愿望清单"
-"%s's Wishlist (%s)","%s 的愿望清单 (%s)"
-"* Required Fields","*必要字段"
+Remove,Remove
+Close,Close
+Cancel,取消
+Back,返回
+Product,产品名
+Price,价格
+SKU,产品SKU
+Customers,客户
+Qty,数量
+Edit,编辑
+Item,Item
+"Unit Price",单价
+"Add to Cart",添加到购物车
+Customer,Customer
+"First Name",名字
+"Last Name",姓氏
+Refresh,Refresh
+Save,保存
+Name,姓名
+Status,愿望清单状态
+Search,搜索
+"All Websites","All Websites"
+View,查看
+Actions,操作
 "1 item","1 个项目"
-"Actions","操作"
-"Add to Cart","添加到购物车"
-"Add to Wishlist","添加到收藏"
-"Add to:","添加至："
-"Added at","添加于"
-"All Forms","所有表单"
-"All Wishlists","全部愿望清单"
-"An error occurred during wishlist deletion.","删除愿望清单时发生错误。"
-"Back","返回"
-"Cancel","取消"
-"Change","更改"
-"Comment","评论"
-"Copy To Wishlist","复制到愿望清单"
-"Copy To:","复制到："
-"Copy to Wishlist","复制到愿望清单"
-"Copy to:","复制到："
-"Could not add item to shopping cart.","无法添加项目到购物车。"
-"Could not copy ""%s"".","无法复制“%s”。"
-"Could not copy wishlist item.","无法复制愿望清单项目。"
-"Could not move wishlist item.","无法移动愿望清单项目。"
-"Could not perform search","无法执行搜索"
-"Create New Wishlist","创建新的愿望清单"
-"Customer Name","顾客姓名"
-"Customer's Wishlist Report","客户愿望清单报告"
-"Customer's Wishlists","客户愿望清单"
-"Customer's wishlists","客户愿望清单"
-"Customers","客户"
-"Default wishlist cannot be deleted","无法删除默认愿望清单"
-"Delete Wishlist","删除愿望清单"
-"Surplus / Deficit","数量间的区别"
-"Display Wishlists Summary","显示愿望清单概要"
-"Edit","编辑"
-"Edit Wishlist","编辑愿望清单"
-"Enable Multiple Wishlists","编辑多个愿望清单"
-"Enter at least two letters","输入至少两个字母"
-"Error happened during wishlist creation","创建愿望清单时发生错误"
-"Error happened during wishlist creation. Try again later","创建愿望清单时发生错误。请稍后重试"
-"First Name","名字"
-"Go","转到"
-"Item was not found.","无法找到项目。"
-"Item with specified ID doesn't exist.","具有特定 ID 的项目不存在。"
-"Last Name","姓氏"
-"Log in to edit wishlists.","登录以编辑愿望清单。"
-"Make this wishlist public","公开愿望清单"
-"Move To Wishlist","移动到愿望清单"
-"Move To:","移动到："
-"Move to Wishlist","移动到愿望清单"
-"Move to:","移动到："
-"My Wishlists","我的愿望清单"
-"My Wishlists (%d item)","我的愿望清单（%d 个项目）"
-"My Wishlists (%d items)","我的愿望清单（%d 个项目）"
-"My Wishlists <small>(%d)</small>","我的愿望清单 <small>(%d)</small>"
-"My Wishlists Link","我的愿望清单链接"
-"Name","姓名"
-"Note: The number of multiple wishlists should be equal or more than 2.","注意：多个愿望清单的数字应到等于或大于 2。"
-"Number of Multiple Wishlists","多个愿望清单的数量"
-"Only %d wishlists can be created.","只可创建 %d 个愿望清单。"
-"Owner","所有者"
-"Owner Email","拥有者电子邮件"
-"Please enter at least 2 letters of the first name.","请输入名字的至少两个字母。"
-"Please enter at least 2 letters of the last name.","请输入姓氏的至少两个字母。"
-"Please enter at least 2 letters.","请输入至少两个字母。"
-"Please input a valid email address.","请输入有效电子邮件地址。"
-"Please specify correct search options.","请指定正确的搜索选项。"
-"Price","价格"
-"Private","私有"
-"Product Info","产品信息"
-"Product","产品名"
-"SKU","产品SKU"
-"Provide wishlist name","提供愿望清单名称"
-"Public","公开"
-"Qty","数量"
-"Store Quantity","商店可售数量"
-"Wishlist Quantity","愿望清单中的数量"
-"Quick Search Form Types","快速搜索表单类型"
-"RSS Feed","RSS源"
-"Reports","报告"
-"Save","保存"
-"Search","搜索"
-"Search By","搜索条件"
-"Search Options","搜索选项"
-"Search Results","搜索结果"
-"Select Search Type","选择搜索类型"
-"Select items to copy","选择项目来复制"
-"Select items to move","选择项目来移动"
-"Template","模板"
-"The wishlist is not assigned to your account and cannot be edited ","愿望清单未指定到您的帐户，无法编辑"
-"This Wishlist is empty","此愿望清单为空"
-"This list is not visible in the wishlist search results.","此清单在愿望清单搜索结果中不可见。"
-"This list is visible in the wishlist search results.","此清单在愿望清单搜索结果中可见。"
-"Unit Price","单价"
-"Updated at","更新于"
-"View","查看"
-"Wanted Qty","需求的数量"
-"Wishlist ""%s"" has been deleted.","愿望清单“%s”已被删除。"
-"Wishlist ""%s"" was successfully saved","愿望清单“%s”已成功保存"
-"Wishlist Info","愿望清单信息"
-"Wishlist Items","愿望清单项目"
-"Wishlist Name","愿望清单名称"
-"Wishlist Owner Email Search","愿望清单拥有者电子邮件搜索"
-"Wishlist Owner Name Search","愿望清单拥有者名字搜索"
-"Wishlist Search","愿望清单搜索"
-"Wishlist Search Description","愿望清单搜索描述"
-"Wishlist Search Template","愿望清单搜索模板"
-"Status","愿望清单状态"
-"Wishlist","愿望清单名称"
-"Wishlist:","愿望清单："
-"You are about to delete your wish list.\nThis action cannot be undone.\nDo you want to proceed?","您将要删除您的愿望清单。\n此操作无法撤销。\n您要继续吗？"
-"You must select items to add to cart","您必须选择项目来添加到购物车"
-"Your search returned no results.","您的搜索未找到结果。"
+"%1 items","%1 items"
+Comment,评论
+Wishlist,愿望清单名称
+Reports,报告
+"Wish List","Wish List"
+Template,模板
+Public,公开
+"Select Search Type",选择搜索类型
+"Please enter at least 2 letters of the first name.",请输入名字的至少两个字母。
+"Please enter at least 2 letters of the last name.",请输入姓氏的至少两个字母。
+Private,私有
+"All Forms",所有表单
+Owner,所有者
+"Required Fields","Required Fields"
+"Search Options",搜索选项
+"Search Results",搜索结果
+"Your search returned no results.",您的搜索未找到结果。
+Go,转到
+"Search By",搜索条件
+"Please enter at least two letters.","Please enter at least two letters."
+"Customer's Wish List Report","Customer's Wish List Report"
+"My Wish Lists","My Wish Lists"
+"%1's Wish List","%1's Wish List"
+"%1's Wish List (%2)","%1's Wish List (%2)"
+"Wish List Search","Wish List Search"
+"Customer Wish List Report","Customer Wish List Report"
+"Wish List ""%1"" was saved.","Wish List ""%1"" was saved."
+"Something went wrong creating the wish list.","Something went wrong creating the wish list."
+"Log in to edit wish lists.","Log in to edit wish lists."
+"Provide wish list name","Provide wish list name"
+"The wish list is not assigned to your account and cannot be edited.","The wish list is not assigned to your account and cannot be edited."
+"Only %1 wish lists can be created.","Only %1 wish lists can be created."
+"The default wish list cannot be deleted.","The default wish list cannot be deleted."
+"Wish list ""%1"" has been deleted.","Wish list ""%1"" has been deleted."
+"Something went wrong deleting the wish list.","Something went wrong deleting the wish list."
+"""%1"" was copied to %2.","""%1"" was copied to %2."
+"The item was not found.","The item was not found."
+"""%1"" is already present in %2.","""%1"" is already present in %2."
+"We could not copy ""%1"".","We could not copy ""%1""."
+"We could not copy the wish list item.","We could not copy the wish list item."
+"%1 items were not found.","%1 items were not found."
+"We could not copy %1 items.","We could not copy %1 items."
+"%1 items are already present in %2: %3.","%1 items are already present in %2: %3."
+"%1 items were copied to %2: %3.","%1 items were copied to %2: %3."
+"""%1"" was moved to %2.","""%1"" was moved to %2."
+"An item with this ID doesn't exist.","An item with this ID doesn't exist."
+"We cannot move ""%1"".","We cannot move ""%1""."
+"We could not move the wish list item.","We could not move the wish list item."
+"%1 items cannot be moved: %2.","%1 items cannot be moved: %2."
+"We could not move %1 items.","We could not move %1 items."
+"%1 items were moved to %2: %3.","%1 items were moved to %2: %3."
+"Please specify correct search options.",请指定正确的搜索选项。
+"We could not perform the search.","We could not perform the search."
+"%1 for ""%2""","%1 for ""%2"""
+"We could not add the item to shopping cart.","We could not add the item to shopping cart."
+"Cannot add the following product(s) to shopping cart: %1.","Cannot add the following product(s) to shopping cart: %1."
+"Product(s) %1 have required options. Each product can only be added individually.","Product(s) %1 have required options. Each product can only be added individually."
+"%1 product(s) have been added to shopping cart: %2.","%1 product(s) have been added to shopping cart: %2."
+"Wish List Owner Name Search","Wish List Owner Name Search"
+"Wish List Owner Email Search","Wish List Owner Email Search"
+"Please input a valid email address.",请输入有效电子邮件地址。
+"All Wish Lists","All Wish Lists"
+"Add To Order","Add To Order"
+"Configure and Add to Order","Configure and Add to Order"
+"No items","No items"
+"Delete Wish List","Delete Wish List"
+"Delete Wishlist",删除愿望清单
+"RSS Feed",RSS源
+"Updated at",更新于
+"Wish List Items","Wish List Items"
+"You must select items to add to the cart.","You must select items to add to the cart."
+"Add to Wish List","Add to Wish List"
+"Add to:",添加至：
+"Create New Wish List","Create New Wish List"
+"Move to Wish List","Move to Wish List"
+"Copy to Wish List","Copy to Wish List"
+"Owner Email",拥有者电子邮件
+"Wish List Name","Wish List Name"
+"This wishlist is publicly visible.","This wishlist is publicly visible."
+"This wishlist is private. Only you can view this wishlist.","This wishlist is private. Only you can view this wishlist."
+"Edit Wish List","Edit Wish List"
+"Wish List:","Wish List:"
+Added,Added
+CSV,CSV
+"Excel XML","Excel XML"
+"Error happened while creating wishlist. Please try again later","Error happened while creating wishlist. Please try again later"
+"You must select items to move","You must select items to move"
+"You must select items to copy","You must select items to copy"
+"You are about to delete your wish list. This action cannot be undone. Are you sure you want to continue?","You are about to delete your wish list. This action cannot be undone. Are you sure you want to continue?"
+"Make This Wish List Public","Make This Wish List Public"
+"Quick Search Form Types",快速搜索表单类型
+"Wishlist Search",愿望清单搜索
+"Wish List Search Description","Wish List Search Description"
+"Wish List Search Template","Wish List Search Template"
+"Wish List Quantity","Wish List Quantity"
+"Store Quantity",商店可售数量
+"Surplus / Deficit",数量间的区别
+"Wish List Info","Wish List Info"
+"Product Info",产品信息
+"Wanted Qty",需求的数量
