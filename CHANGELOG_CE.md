@@ -1,10 +1,34 @@
 * Framework improvements:
+  * Covered the following Magento application components with unit tests:
+      * `Customer/Model/Address.php`
+      * `Customer/Model/Address/AbstractAddress.php `
+      * `Customer/Model/Address/Converter.php`
+      * `Customer/Model/Customer.php`
+      * `Customer/Model/Customer/Attribute/Backend/Billing.php`
+      * `Customer/Model/Customer/Attribute/Backend/Shipping.php`
+      * `Customer/Model/Customer/Attribute/Backend/Store.php `
+      * `Customer/Model/Customer/Attribute/Backend/Website.php `
+      * `Customer/Model/Customer/Attribute/Backend/PasswordTest.php`
+      * `Customer/Helper/Address.php`
+      * `Customer/Helper/View.php`
+      * `Customer/Service/V1/CustomerAccountService.php`
   * Covered Magento lib with unit tests:
       * `lib/internal/Magento/Framework/Filter/*`
       * `lib/internal/Magento/Framework/Model/Resource/Db/AbstractDb.php`
       * `lib/internal/Magento/Framework/Model/Resource/Db/Collection/AbstractCollection.php`
       * `lib/internal/Magento/Framework/File/Uploader.php`
       * `lib/internal/Magento/Framework/File/Csv.php`
+      * `lib/internal/Magento/Framework/Less/File/Collector/Aggregated.php`
+      * `lib/internal/Magento/Framework/Less/File/Collector/Library.php`
+      * `lib/internal/Magento/Framework/Locale/Config.php`
+      * `lib/internal/Magento/Framework/Locale/Currency.php`
+      * `lib/internal/Magento/Framework/App/Config/Element.php`
+      * `lib/internal/Magento/Framework/App/Config/Value.php`
+      * `lib/internal/Magento/Framework/App/DefaultPath/DefaultPath.php`
+      * `lib/internal/Magento/Framework/App/EntryPoint/EntryPoint.php`
+      * `lib/internal/Magento/Framework/App/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/App/Resource/ConnectionFactory.php`
+      * `lib/internal/Magento/Framework/App/Route/Config.php`
   * Allow client to get partial response for mobile (MAGETWO-22974)
   * Authentication support for mobile (MAGETWO-23744)
   * Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
@@ -23,12 +47,6 @@
   * Implemented Tax Calculation Data Objects (MAGETWO-24872)
   * Implemented Tax Calculation Builders (MAGETWO-24873)
   * Implemented Tax Calculation Service (MAGETWO-24874)
-* Framework improvements:
-  * Covered Magento lib with unit tests:
-      * `lib/internal/Magento/Framework/Less/File/Collector/Aggregated.php`
-      * `lib/internal/Magento/Framework/Less/File/Collector/Library.php`
-      * `lib/internal/Magento/Framework/Locale/Config.php`
-      * `lib/internal/Magento/Framework/Locale/Currency.php`
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)

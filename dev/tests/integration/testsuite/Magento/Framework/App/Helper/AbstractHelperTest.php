@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Helper;
+namespace Magento\Framework\App\Helper;
 
-class AbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Helper\AbstractHelper|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Helper\AbstractHelper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper = null;
 
