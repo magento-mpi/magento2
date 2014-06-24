@@ -5,12 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Data;
+namespace Magento\Catalog\Service\V1\Data\Category;
 
 use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Catalog\Model\CategoryFactory;
+use Magento\catalog\Service\V1\Data\Category as CategoryDataObject;
 
-class CategoryMapper
+class Mapper
 {
     /** @var  CategoryFactory */
     protected $categoryFactory;
@@ -33,13 +34,13 @@ class CategoryMapper
     }
 
     /**
-     * @param  Category $category
+     * @param  CategoryDataObject $category
      * @param  \Magento\Catalog\Model\Category $categoryModel
      * @return \Magento\Catalog\Model\Category
      * @throws \RuntimeException
      */
     public function toModel(
-        Category $category,
+        CategoryDataObject $category,
         \Magento\Catalog\Model\Category $categoryModel = null
     ) {
         $categoryModel = $this->categoryFactory->create();

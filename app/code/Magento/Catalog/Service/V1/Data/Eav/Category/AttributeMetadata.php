@@ -80,7 +80,7 @@ class AttributeMetadata extends AbstractObject
     /**
      * Name of the created category
      *
-     * @return string|null
+     * @return string
      */
     public function getName()
     {
