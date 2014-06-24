@@ -1,7 +1,15 @@
 'use strict';
 var app = angular.module('magentoSetup', ['ui.router']);
-app.controller('navigationController', ['$scope', function ($scope) {
-
+app.controller('navigationController', ['$scope', 'navigationService', function ($scope, navigationService) {
+        navigationService.load(function (data) {
+            data.nav.forEach(function (item) {
+                app.stateProvider.state(item.id, {
+                    url: item.url,
+                    templateUrl: item.templateUrl,
+                    controller: item.controller + 'Controller'
+                })
+            });
+        });
     }])
     .controller('readinessCheckController', ['$scope', function ($scope) {
         console.log('readinessCheckController');
@@ -23,4 +31,14 @@ app.controller('navigationController', ['$scope', function ($scope) {
     }])
     .controller('mainController', ['$scope', function ($scope) {
         console.log('mainController');
-    }]);
+    }])
+    .service('navigationService', ['$http', function ($http) {
+        return {
+            load: function (callback) {
+                $http.get('menu').success(callback);
+            }
+        }
+    }])
+    .config(function ($stateProvider) {
+        app.stateProvider = $stateProvider;
+    });

@@ -14,6 +14,7 @@ return [
             'templateUrl' => 'readiness-check',
             'title'       => 'Readiness Check',
             'controller'  => 'readinessCheck',
+            'nav-bar'     => true,
         ],
         [
             'id'          => 'add-database',
@@ -21,6 +22,7 @@ return [
             'templateUrl' => 'add-database',
             'title'       => 'Add Database',
             'controller'  => 'addDatabase',
+            'nav-bar'     => true,
         ],
         [
             'id'          => 'web-configuration',
@@ -28,6 +30,7 @@ return [
             'templateUrl' => 'web-configuration',
             'title'       => 'Web Configuration',
             'controller'  => 'webConfiguration',
+            'nav-bar'     => true,
         ],
         [
             'id'          => 'customize-your-store',
@@ -35,6 +38,7 @@ return [
             'templateUrl' => 'customize-your-store',
             'title'       => 'Customize Your Store',
             'controller'  => 'customizeYourStore',
+            'nav-bar'     => true,
         ],
         [
             'id'          => 'create-admin-account',
@@ -42,6 +46,7 @@ return [
             'templateUrl' => 'create-admin-account',
             'title'       => 'Create Admin Account',
             'controller'  => 'createAdminAccount',
+            'nav-bar'     => true,
         ],
         [
             'id'          => 'install',
@@ -49,6 +54,7 @@ return [
             'templateUrl' => 'install',
             'title'       => 'Install',
             'controller'  => 'install',
+            'nav-bar'     => true,
         ],
     ]
 ];
