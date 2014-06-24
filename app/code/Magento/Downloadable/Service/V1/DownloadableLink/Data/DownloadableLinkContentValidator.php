@@ -65,6 +65,7 @@ class DownloadableLinkContentValidator
      *
      * @param DownloadableLinkContent $linkContent
      * @throws InputException
+     * @return void
      */
     protected function validateLinkResource(DownloadableLinkContent $linkContent)
     {
@@ -85,6 +86,7 @@ class DownloadableLinkContentValidator
      *
      * @param DownloadableLinkContent $linkContent
      * @throws InputException
+     * @return void
      */
     protected function validateSampleResource(DownloadableLinkContent $linkContent)
     {

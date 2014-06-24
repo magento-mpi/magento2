@@ -128,5 +128,4 @@ class ReadService implements ReadServiceInterface
         }
         return $sampleList;
     }
-
 }

@@ -27,7 +27,7 @@ class DownloadableResourceInfoBuilder extends AbstractObjectBuilder
     /**
      * Set URL
      *
-     * @param sting|null $value
+     * @param string|null $value
      * @return $this
      */
     public function setUrl($value)
@@ -47,10 +47,8 @@ class DownloadableResourceInfoBuilder extends AbstractObjectBuilder
         $allowedValues = ['url', 'file'];
         if (!in_array($value, $allowedValues)) {
             $values = '\'' . implode('\' and \'', $allowedValues) . '\'';
-            throw new \Magento\Framework\Exception\InputException('Allowed type values are '. $values );
+            throw new \Magento\Framework\Exception\InputException('Allowed type values are '. $values);
         }
         return $this->_set(DownloadableResourceInfo::TYPE, $value);
     }
-
-
 }

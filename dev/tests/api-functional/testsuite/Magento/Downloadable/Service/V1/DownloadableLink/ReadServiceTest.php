@@ -70,7 +70,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/Downloadable/_files/product_with_files.php
+     * @magentoApiDataFixture Magento/Downloadable/_files/product_downloadable_with_files.php
      * @dataProvider getListForAbsentProductProvider
      */
     public function testGetList($urlTail, $method, $expectations)
@@ -109,8 +109,8 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
     public function getListForAbsentProductProvider()
     {
-        $sampleIndex = TESTS_WEB_API_ADAPTER == 'rest' ? 'sample_resource' : 'sampleResource';
-        $linkIndex = TESTS_WEB_API_ADAPTER == 'rest' ? 'link_resource' : 'linkResource';
+        $sampleIndex = 'sample_resource';
+        $linkIndex = 'link_resource';
 
         $linkExpectation = [
             'fields' => [

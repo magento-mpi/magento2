@@ -32,8 +32,12 @@ interface WriteServiceInterface
      * @param bool $isGlobalScopeContent
      * @return bool
      */
-    public function update($productSku, $sampleId, DownloadableSampleContent $sampleContent,
-        $isGlobalScopeContent = false);
+    public function update(
+        $productSku,
+        $sampleId,
+        DownloadableSampleContent $sampleContent,
+        $isGlobalScopeContent = false
+    );
 
     /**
      * Delete downloadable sample

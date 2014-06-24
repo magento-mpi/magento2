@@ -43,11 +43,11 @@ class DownloadableSampleInfoBuilder extends AbstractObjectBuilder
     /**
      * File or URL of sample if any
      *
-     * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableResourceInfo
+     * @param \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableResourceInfo
+     * @return $this
      */
-    public function getSampleResource()
+    public function setSampleResource($sampleResource)
     {
-        return $this->_get(self::SAMPLE_RESOURCE);
+        return $this->_set(DownloadableLinkInfo::SAMPLE_RESOURCE, $sampleResource);
     }
-
 }

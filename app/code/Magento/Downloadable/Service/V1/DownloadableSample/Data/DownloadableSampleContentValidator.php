@@ -58,6 +58,7 @@ class DownloadableSampleContentValidator
      *
      * @param DownloadableSampleContent $sampleContent
      * @throws InputException
+     * @return void
      */
     protected function validateSampleResource(DownloadableSampleContent $sampleContent)
     {
