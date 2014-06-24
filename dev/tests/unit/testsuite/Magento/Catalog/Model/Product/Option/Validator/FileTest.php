@@ -49,7 +49,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         ];
         $configMock->expects($this->once())->method('getAll')->will($this->returnValue($config));
         $methods = ['getTitle', 'getType', 'getPriceType', 'getPrice', 'getImageSizeX', 'getImageSizeY','__wakeup'];
-        $this->valueMock = $this->getMock('Magento\Catalog\Model\Product\Option', $methods, [], '',false);;
+        $this->valueMock = $this->getMock('Magento\Catalog\Model\Product\Option', $methods, [], '', false);
         $this->validator = new \Magento\Catalog\Model\Product\Option\Validator\File(
             $configMock,
             $priceConfigMock

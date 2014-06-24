@@ -75,7 +75,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $config = [
             [
-                'group' => 'group label 1',
+                'label' => 'group label 1',
                 'types' => [
                     [
                         'label' => 'label 1.1',
@@ -85,7 +85,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             [
-                'group' => 'group label 2',
+                'label' => 'group label 2',
                 'types' => [
                     [
                         'label' => 'label 2.2',

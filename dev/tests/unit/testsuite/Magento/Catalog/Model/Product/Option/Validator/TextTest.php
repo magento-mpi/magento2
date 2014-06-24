@@ -49,7 +49,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
         ];
         $configMock->expects($this->once())->method('getAll')->will($this->returnValue($config));
         $methods = ['getTitle', 'getType', 'getPriceType', 'getPrice', '__wakeup', 'getMaxCharacters'];
-        $this->valueMock = $this->getMock('Magento\Catalog\Model\Product\Option', $methods, [], '',false);;
+        $this->valueMock = $this->getMock('Magento\Catalog\Model\Product\Option', $methods, [], '', false);
         $this->validator = new \Magento\Catalog\Model\Product\Option\Validator\Text(
             $configMock,
             $priceConfigMock

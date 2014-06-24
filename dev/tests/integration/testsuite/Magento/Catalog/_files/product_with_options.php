@@ -64,7 +64,7 @@ $product->setTypeId(
             'price' => 30.0,
             'price_type' => 'percent',
             'sku' => 'sku3',
-            'file_extension' => 'jpg',
+            'file_extension' => 'jpg, png, gif',
             'image_size_x' => 10,
             'image_size_y' => 20
 

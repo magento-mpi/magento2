@@ -6,7 +6,12 @@
  * @license     {license_link}
  */
 
-class ReaderTest extends PHPUnit_Framework_TestCase
+
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Reader

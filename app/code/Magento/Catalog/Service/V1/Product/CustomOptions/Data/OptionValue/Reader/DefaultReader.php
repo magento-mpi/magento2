@@ -12,6 +12,9 @@ use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValueBuilder;
 use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
 use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class DefaultReader implements ReaderInterface
 {
     /**
@@ -47,6 +50,7 @@ class DefaultReader implements ReaderInterface
      *
      * @param \Magento\Catalog\Model\Product\Option $option
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function getCustomAttributes(\Magento\Catalog\Model\Product\Option $option)
     {

@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter;
+namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\Converter
+;
 
 use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue;
 

@@ -61,6 +61,7 @@ class Option extends \Magento\Framework\Service\Data\AbstractObject
      * Get is require
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsRequire()
     {

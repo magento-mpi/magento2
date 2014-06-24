@@ -39,6 +39,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected $optionBuilderMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceScopeResolverMock;
+
+    /**
      * @var \Magento\Catalog\Service\V1\Product\CustomOptions\WriteService
      */
     protected $writeService;
@@ -78,11 +83,14 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->productMock));
         $this->optionBuilderMock =
             $this->getMock('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder', [], [], '', false);
+        $this->priceScopeResolverMock =
+            $this->getMock('Magento\Catalog\Model\Product\Price\ScopeResolver', [], [], '', false);
         $this->writeService = new \Magento\Catalog\Service\V1\Product\CustomOptions\WriteService(
             $this->optionBuilderMock,
             $this->optionConverterMock,
             $this->repositoryMock,
-            $this->optionTypeBuilderMock
+            $this->optionTypeBuilderMock,
+            $this->priceScopeResolverMock
         );
     }
 

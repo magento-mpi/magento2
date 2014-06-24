@@ -74,7 +74,7 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
                 $itemData = [
                     Data\OptionType::LABEL => __($type['label']),
                     Data\OptionType::CODE => $type['name'],
-                    Data\OptionType::GROUP => __($option['group'])
+                    Data\OptionType::GROUP => __($option['label'])
                 ];
                 $output[] = $this->optionTypeBuilder->populateWithArray($itemData)->create();
             }
