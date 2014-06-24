@@ -229,7 +229,7 @@ define(['jquery', 'jquery-ui', 'jquery.parsequery'], function($){
             if (result.length !== 1) {
                 result = [baseImage];
             }
-            if (galleryElement.length) {
+            if (galleryElement.length && typeof galleryElement.gallery != 'undefined') {
                 galleryElement.gallery('option', 'images', result);
             }
         },
