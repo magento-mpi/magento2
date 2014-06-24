@@ -11,10 +11,8 @@ use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\CategoryBuilder;
-use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory;
 use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
 use Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder;
-use Magento\Catalog\Service\V1\Data\Eav\Category\ProductBuilder;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -34,15 +32,6 @@ class ReadService implements ReadServiceInterface
      * @var ConverterFactory
      */
     private $converterFactory;
-
-    /**
-     * @var ProductBuilder
-     */
-    private $productBuilder;
-    /**
-     * @var ProductConverterFactory
-     */
-    private $productConverterFactory;
 
     /**
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
