@@ -116,8 +116,6 @@ class ProductServiceTest extends WebapiAbstract
 
     /**
      * @dataProvider searchDataProvider
-     * @depends      testCreate
-     * @depends      testDelete
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
@@ -188,7 +186,8 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, $this->productData[0][Product::SKU]] //Filters(OR)
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU]]
+                [0 => $this->productData[0][Product::SKU]],
+                [Product::SKU, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups
@@ -205,7 +204,8 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::PRICE, $this->productData[0][Product::PRICE]],
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU]]
+                [0 => $this->productData[0][Product::SKU]],
+                [Product::SKU, SearchCriteria::SORT_ASC]
             ),
             array(
                 [
@@ -214,7 +214,8 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                 ],
-                [0 => $this->productData[1][Product::SKU], 1 => $this->productData[0][Product::SKU]]
+                [0 => $this->productData[1][Product::SKU], 1 => $this->productData[0][Product::SKU]],
+                [Product::SKU, SearchCriteria::SORT_DESC]
             ),
             array(
                 [
@@ -223,7 +224,8 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, $this->productData[1][Product::SKU]]
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]]
+                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]],
+                [Product::SKU, SearchCriteria::SORT_ASC]
             ),
             array(
                 [
@@ -233,7 +235,8 @@ class ProductServiceTest extends WebapiAbstract
                         [Product::SKU, 'N']
                     ],
                 ],
-                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]]
+                [0 => $this->productData[0][Product::SKU], 1 => $this->productData[1][Product::SKU]],
+                [Product::SKU, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups
@@ -246,6 +249,7 @@ class ProductServiceTest extends WebapiAbstract
                     ]
                 ],
                 [], //No Items expected
+                [Product::SKU, SearchCriteria::SORT_ASC]
             )
         );
     }
@@ -322,10 +326,10 @@ class ProductServiceTest extends WebapiAbstract
     public function testCreateEmptySku()
     {
         $this->_createProduct([
-            Product::SKU => '',
-            Product::NAME => 'name',
-            Product::PRICE => '10',
-        ]);
+                Product::SKU => '',
+                Product::NAME => 'name',
+                Product::PRICE => '10',
+            ]);
     }
 
     public function testUpdate()
