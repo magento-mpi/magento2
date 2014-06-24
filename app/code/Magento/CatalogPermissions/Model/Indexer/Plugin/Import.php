@@ -35,9 +35,8 @@ class Import
      * After import handler
      *
      * @param \Magento\ImportExport\Model\Import $subject
-     * @param Object $import
-     *
-     * @return Object
+     * @param bool $import
+     * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
