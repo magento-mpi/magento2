@@ -71,7 +71,6 @@ class ProductBuilderTest extends \PHPUnit_Framework_TestCase
     public function setValueDataProvider()
     {
         return [
-            ['setId', 100, 'getId'],
             ['setSku', 'product_sku', 'getSku'],
             ['setName', 'buhanka hleba', 'getName'],
             ['setStoreId', 0, 'getStoreId'],
