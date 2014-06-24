@@ -19,10 +19,23 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_processor;
 
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Eav\Processor
+     */
+    protected $_eavProcessor;
+
     public function setUp()
     {
         $this->_processor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
+            array(),
+            array(),
+            '',
+            false
+        );
+
+        $this->_eavProcessor = $this->getMock(
+            '\Magento\Catalog\Model\Indexer\Product\Eav\Processor',
             array(),
             array(),
             '',
@@ -73,8 +86,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\ReservedAttributeList', array(), array(), '', false),
             $this->getMock('Magento\Framework\Locale\ResolverInterface', array(), array(), '', false),
-            $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
             $this->_processor,
+            $this->_eavProcessor,
             $this->getMock('\Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false),
             $this->getMock('\Magento\Catalog\Model\Attribute\LockValidatorInterface'),
             $resourceMock,
@@ -95,7 +108,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     public function testIndexerAfterDeleteAttribute()
     {
         $this->_processor->expects($this->once())->method('markIndexerAsInvalid');
-
+        $this->_model->setOrigData('id', 2);
+        $this->_model->setOrigData('used_in_product_listing', 1);
         $this->_model->delete();
     }
 }
