@@ -9,6 +9,9 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
     <default>
+        <paypal>
+            <bncode>Magento_Cart_Enterprise</bncode>
+        </paypal>
         <payment>
             <pbridge_paypal_direct>
                 <model>Magento\PbridgePaypal\Model\Payment\Method\Paypal\PaypalDirect</model>

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Test\Page; 
+namespace Magento\CatalogSearch\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogsearchResult

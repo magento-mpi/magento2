@@ -180,7 +180,8 @@ abstract class Conditions extends Curl
             $ruleParam += $param;
         }
         if (count($ruleParam) != count($rules)) {
-            throw new \Exception("Can't find all params. "
+            throw new \Exception(
+                "Can't find all params. "
                 . "\nSearch: " . implode(', ', $rules) . " "
                 . "\nFind: " . implode(', ', $ruleParam)
             );
