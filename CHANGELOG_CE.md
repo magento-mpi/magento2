@@ -1,3 +1,6 @@
+* Service layer updates:
+  * Implemented API for CatalogInventory module (MAGETWO-24954)
+  * Refactored external usages of CatalogInventory module to service (MAGETWO-24933, MAGETWO-24934)
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `Customer/Model/Address.php`
