@@ -195,6 +195,6 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertNotEmpty($this->model->getData('items_collection'));
+        $this->assertSame($this->productCollection, $this->model->getData('items_collection'));
     }
 }
