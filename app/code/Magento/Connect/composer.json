@@ -2,7 +2,7 @@
     "name": "magento/module-connect",
     "description": "N/A",
     "require": {
-        "php": ">=5.4.0",
+        "php": "5.4.*|5.5.*",
         "magento/module-store": "0.1.0",
         "magento/module-core": "0.1.0",
         "magento/module-backend": "0.1.0",

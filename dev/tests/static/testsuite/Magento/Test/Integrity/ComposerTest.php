@@ -127,15 +127,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertDependsOnFramework($json->require);
                 break;
             case 'magento2-theme-adminhtml':
-                $this->assertRegExp('/^magento\/theme-adminhtml(\-[a-z0-9_]+)+$/', $json->name);
+            case 'magento2-theme-frontend': // break is intentionally omitted
+                $this->assertRegExp('/^magento\/theme-(?:adminhtml|frontend)(\-[a-z0-9_]+)+$/', $json->name);
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
-                break;
-            case 'magento2-theme-frontend':
-                $this->assertRegExp('/^magento\/theme-frontend(\-[a-z0-9_]+)+$/', $json->name);
-                $this->assertDependsOnPhp($json->require);
-                $this->assertDependsOnFramework($json->require);
                 break;
             case 'magento2-framework':
                 $this->assertDependsOnPhp($json->require);

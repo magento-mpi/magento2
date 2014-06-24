@@ -2,7 +2,7 @@
     "name": "magento/module-store",
     "description": "N/A",
     "require": {
-        "php": ">=5.4.0",
+        "php": "5.4.*|5.5.*",
         "magento/module-core": "0.1.0",
         "magento/module-directory": "0.1.0",
         "magento/module-index": "0.1.0",
