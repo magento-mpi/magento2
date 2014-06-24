@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftWrapping\Test\Page\Adminhtml; 
+namespace Magento\GiftWrapping\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class GiftWrappingIndex

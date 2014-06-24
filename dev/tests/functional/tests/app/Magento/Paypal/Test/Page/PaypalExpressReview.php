@@ -30,7 +30,7 @@ class PaypalExpressReview extends Page
      *
      * @var string
      */
-    protected $reviewBlock = '#order-review-form';
+    protected $reviewBlock = '.column.main';
 
     /**
      * Custom constructor

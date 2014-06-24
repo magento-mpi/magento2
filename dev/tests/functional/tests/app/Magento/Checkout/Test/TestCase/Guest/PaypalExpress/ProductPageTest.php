@@ -46,13 +46,7 @@ class ProductPageTest extends Functional
         $paypalPage->getLoginBlock()->login($fixture->getPaypalCustomer());
         $paypalPage->getReviewBlock()->continueCheckout();
         $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
-        $this->assertTrue(
-            $checkoutReviewPage->getReviewBlock()->verifyOrderInformation($fixture),
-            'Order Information data on edit page not equals to passed from fixture.'
-        );
-        $checkoutReviewPage->getReviewBlock()->fillTelephone($fixture->getTelephoneNumber());
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
-
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
         //Verification
@@ -60,7 +54,8 @@ class ProductPageTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
