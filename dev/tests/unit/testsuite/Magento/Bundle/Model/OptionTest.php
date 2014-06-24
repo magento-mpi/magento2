@@ -22,7 +22,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     protected $selectionSecond;
 
     /**
-     * @var \Magento\Framework\Model\Resource\Db\AbstractDb|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Model\Resource\AbstractResource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $resource;
 
