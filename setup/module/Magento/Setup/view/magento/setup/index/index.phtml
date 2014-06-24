@@ -1,15 +1,9 @@
 <?php
-$appConfig = "app.config(function (\$stateProvider) {\n    \$stateProvider";
-foreach ($this->nav as $item) {
-            $appConfig .= ".state('" . $item['url'] . "', {
-                url: '" . $item['url'] . "',
-                templateUrl: '" . $item['url'] . "',
-                controller: '" . $item['controller'] . "Controller'
-        })";
-}
-$appConfig .= ";\n});\n";
 
-$this->inlineScript()->appendScript($appConfig, 'text/javascript');
+$this->inlineScript()->appendScript(
+    "app.config(function (\$stateProvider) { " . $this->stateProvider . " });",
+    'text/javascript'
+);
 ?>
 
 <div class="row">
