@@ -21,8 +21,9 @@ try {
     $console->parse();
 
     if (!count($console->getOptions())) {
-        throw new \UnexpectedValueException(
-            'Required parameters are missed, please see usage description' . "\n\n" . $console->getUsageMessage()
+        throw new \Zend_Console_Getopt_Exception(
+            'Required parameters are missed, please see usage description',
+            $console->getUsageMessage()
         );
     }
     $test = $console->getRemainingArgs();
