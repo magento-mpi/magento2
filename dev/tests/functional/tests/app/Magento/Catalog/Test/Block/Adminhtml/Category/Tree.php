@@ -30,6 +30,13 @@ class Tree extends Block
     protected $addSubcategory = 'add_subcategory_button';
 
     /**
+     * 'Add Root Category' button
+     *
+     * @var string
+     */
+    protected $addRootCategory = 'add_root_category_button';
+
+    /**
      * 'Expand All' link
      *
      * @var string
@@ -74,15 +81,30 @@ class Tree extends Block
     }
 
     /**
+     * Press 'Add Root Category' button
+     *
+     * @return void
+     */
+    public function addRootCategory()
+    {
+        $this->_rootElement->find($this->addRootCategory, Locator::SELECTOR_ID)->click();
+        $this->getTemplateBlock()->waitLoader();
+    }
+
+    /**
      * Select Default category
      *
      * @param FixtureInterface $category
+     * @param bool $fullPath
      * @return void
      */
-    public function selectCategory(FixtureInterface $category)
+    public function selectCategory(FixtureInterface $category, $fullPath = true)
     {
         if ($category instanceof InjectableFixture) {
             $parentPath = $this->prepareFullCategoryPath($category);
+            if (!$fullPath) {
+                array_pop($parentPath);
+            }
             $path = implode('/', $parentPath);
         } else {
             $path = $category->getCategoryPath();

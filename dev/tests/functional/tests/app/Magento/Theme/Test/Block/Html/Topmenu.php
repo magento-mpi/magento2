@@ -54,9 +54,42 @@ class Topmenu extends Block
     public function selectCategoryByName($categoryName)
     {
         $rootElement = $this->_rootElement;
+        $category = $this->waitLoadTopMenu($categoryName);
+        if ($category[1]) {
+            $rootElement->waitUntil(
+                function () use ($category) {
+                    return $category[0]->isVisible() ? true : null;
+                }
+            );
+        }
+        sleep(1); // TODO: sleep should be removed after fix with category sliding
+        $category[0]->click();
+    }
+
+    /**
+     * Check is visible category in top menu by name
+     *
+     * @param string $categoryName
+     * @return bool
+     */
+    public function isVisibleCategory($categoryName)
+    {
+        return $this->waitLoadTopMenu($categoryName)[0]->isVisible();
+    }
+
+    /**
+     * Wait for load top menu
+     *
+     * @param $categoryName
+     * @return array
+     */
+    protected function waitLoadTopMenu($categoryName)
+    {
+        $rootElement = $this->_rootElement;
         $moreCategoriesLink = $rootElement->find($this->moreParentCategories);
         $submenu = $moreCategoriesLink->find($this->submenu);
         $category = $rootElement->find(sprintf($this->category, $categoryName), Locator::SELECTOR_XPATH);
+        $notFindCategory = !$category->isVisible() && $moreCategoriesLink->isVisible();
         if (!$category->isVisible() && $moreCategoriesLink->isVisible()) {
             $rootElement->waitUntil(
                 function () use ($rootElement, $moreCategoriesLink, $submenu) {
@@ -65,14 +98,8 @@ class Topmenu extends Block
                     return $submenu->isVisible() ? true : null;
                 }
             );
-            $rootElement->waitUntil(
-                function () use ($category) {
-                    return $category->isVisible() ? true : null;
-                }
-            );
         }
-        sleep(1); // TODO: sleep should be removed after fix with category sliding
-        $category->click();
+        return [$category, $notFindCategory];
     }
 
     /**

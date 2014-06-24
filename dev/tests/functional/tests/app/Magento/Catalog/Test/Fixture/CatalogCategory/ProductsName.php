@@ -1,0 +1,98 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Catalog\Test\Fixture\CatalogCategory;
+
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+
+/**
+ * Class ProductsName
+ * Prepare products
+ */
+class ProductsName implements FixtureInterface
+{
+    /**
+     * Return category
+     *
+     * @var array
+     */
+    protected $product = [];
+
+    /**
+     * Fixture params
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
+     * @constructor
+     * @param FixtureFactory $fixtureFactory
+     * @param array $params
+     * @param array|int $data
+     */
+    public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
+    {
+        $this->params = $params;
+        if ($data['dataSet'] && $data['dataSet'] != '-') {
+            $dataSet = explode(',', $data['dataSet']);
+            foreach ($dataSet as $value) {
+                $explodeValue = explode('::', $value);
+                $product = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
+                $product->persist();
+                $this->data[] = $product->getName();
+                $this->product[] = $product;
+            }
+        } else {
+            $this->data = $data;
+        }
+    }
+
+    /**
+     * Persist attribute options
+     *
+     * @return void
+     */
+    public function persist()
+    {
+        //
+    }
+
+    /**
+     * Return prepared data set
+     *
+     * @param string|null $key
+     * @return mixed
+     */
+    public function getData($key = null)
+    {
+        return $this->data;
+    }
+
+    /**
+     * Return data set configuration settings
+     *
+     * @return array
+     */
+    public function getDataConfig()
+    {
+        return $this->params;
+    }
+
+    /**
+     * Return entity
+     *
+     * @return CatalogCategory
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+}

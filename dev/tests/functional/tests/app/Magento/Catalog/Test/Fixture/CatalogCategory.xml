@@ -146,6 +146,11 @@
             <attribute_code>include_in_menu</attribute_code>
             <backend_type>virtual</backend_type>
         </include_in_menu>
+        <products_name>
+            <attribute_code>products_name</attribute_code>
+            <backend_type>virtual</backend_type>
+            <source>Magento\Catalog\Test\Fixture\CatalogCategory\ProductsName</source>
+        </products_name>
     </fields>
     <repository_class>Magento\Catalog\Test\Repository\CatalogCategory</repository_class>
     <handler_interface>Magento\Catalog\Test\Handler\CatalogCategory\CatalogCategoryInterface</handler_interface>
