@@ -2,6 +2,7 @@
     "name": "magento/module-pay-pal-recurring-payment",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-customer": "0.1.0",
         "magento/module-directory": "0.1.0",
         "magento/module-payment": "0.1.0",

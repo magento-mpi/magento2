@@ -2,6 +2,7 @@
     "name": "magento/module-authorizenet",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-store": "0.1.0",
         "magento/module-sales": "0.1.0",
         "magento/module-checkout": "0.1.0",

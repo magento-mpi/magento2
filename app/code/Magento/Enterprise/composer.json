@@ -2,6 +2,7 @@
     "name": "magento/module-enterprise",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-cms": "0.1.0",
         "magento/module-install": "0.1.0",
         "magento/module-admin-notification": "0.1.0",

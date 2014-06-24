@@ -2,6 +2,7 @@
     "name": "magento/module-promotion-permissions",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-banner": "0.1.0",
         "magento/module-reminder": "0.1.0",
         "magento/module-catalog-rule": "0.1.0",

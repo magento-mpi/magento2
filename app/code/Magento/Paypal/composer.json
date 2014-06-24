@@ -2,6 +2,7 @@
     "name": "magento/module-paypal",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-store": "0.1.0",
         "magento/module-checkout": "0.1.0",
         "magento/module-sales": "0.1.0",
@@ -16,7 +17,7 @@
         "magento/module-catalog": "0.1.0",
         "magento/module-eav": "0.1.0",
         "magento/framework": "0.1.0",
-        "lib-libxml" : "*"
+        "lib-libxml": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0"

@@ -2,6 +2,7 @@
     "name": "magento/module-catalog-inventory",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-store": "0.1.0",
         "magento/module-catalog": "0.1.0",
         "magento/module-core": "0.1.0",

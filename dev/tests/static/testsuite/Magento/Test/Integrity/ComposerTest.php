@@ -58,7 +58,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $file = $dir . '/composer.json';
         $this->assertFileExists($file);
         self::$shell->execute(self::$composerPath . ' validate --working-dir=%s', [$dir]);
-        $json = json_decode(file_get_contents($file));
+        $contents = file_get_contents($file);
+        $json = json_decode($contents);
+        $this->assertCodingStyle($contents);
         $this->assertMagentoConventions($dir, $packageType, $json);
     }
 
@@ -88,6 +90,17 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Some of coding style conventions
+     *
+     * @param string $contents
+     */
+    private function assertCodingStyle($contents)
+    {
+        $this->assertNotRegExp('/" :\s*["{]/', $contents, 'Coding style: no space before colon.');
+        $this->assertNotRegExp('/":["{]/', $contents, 'Coding style: a space is necessary after colon.');
+    }
+
+    /**
      * Enforce Magento-specific conventions to a composer.json file
      *
      * @param string $dir
@@ -100,36 +113,47 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $this->assertObjectHasAttribute('name', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
+        $this->assertObjectHasAttribute('require', $json);
         $this->assertEquals($packageType, $json->type);
         switch ($packageType) {
             case 'magento2-module':
                 $this->assertRegExp('/^magento\/module(\-[a-z][a-z\d]+)+$/', $json->name);
-                $this->assertObjectHasAttribute('require', $json);
+                $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertModuleDependenciesInSync($dir, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
-                $this->assertObjectHasAttribute('require', $json);
                 $this->assertDependsOnFramework($json->require);
                 break;
             case 'magento2-theme-adminhtml':
                 $this->assertRegExp('/^magento\/theme-adminhtml(\-[a-z0-9_]+)+$/', $json->name);
-                $this->assertObjectHasAttribute('require', $json);
+                $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-theme-frontend':
                 $this->assertRegExp('/^magento\/theme-frontend(\-[a-z0-9_]+)+$/', $json->name);
-                $this->assertObjectHasAttribute('require', $json);
+                $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 break;
             case 'magento2-framework':
+                $this->assertDependsOnPhp($json->require);
                 $this->assertRegExp('/^magento\/framework$/', $json->name);
                 break;
             default:
                 throw new \InvalidArgumentException("Unknown package type {$packageType}");
         }
+    }
+
+    /**
+     * Make sure a component depends on php version
+     *
+     * @param \StdClass $json
+     */
+    private function assertDependsOnPhp(\StdClass $json)
+    {
+        $this->assertObjectHasAttribute('php', $json);
     }
 
     /**

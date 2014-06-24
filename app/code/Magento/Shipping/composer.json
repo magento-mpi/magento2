@@ -2,6 +2,7 @@
     "name": "magento/module-shipping",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-store": "0.1.0",
         "magento/module-core": "0.1.0",
         "magento/module-catalog": "0.1.0",
@@ -14,7 +15,7 @@
         "magento/module-theme": "0.1.0",
         "magento/module-tax": "0.1.0",
         "magento/framework": "0.1.0",
-        "ext-gd" : "*"
+        "ext-gd": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0"

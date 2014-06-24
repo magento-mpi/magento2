@@ -2,6 +2,7 @@
     "name": "magento/module-import-export",
     "description": "N/A",
     "require": {
+        "php": ">=5.4.0",
         "magento/module-store": "0.1.0",
         "magento/module-catalog": "0.1.0",
         "magento/module-core": "0.1.0",
@@ -11,7 +12,7 @@
         "magento/module-catalog-inventory": "0.1.0",
         "magento/module-customer": "0.1.0",
         "magento/framework": "0.1.0",
-        "ext-ctype" : "*"
+        "ext-ctype": "*"
     },
     "type": "magento2-module",
     "version": "0.1.0"
