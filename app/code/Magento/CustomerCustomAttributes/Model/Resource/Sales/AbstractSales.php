@@ -59,7 +59,7 @@ abstract class AbstractSales extends \Magento\Framework\Model\Resource\Db\Abstra
                 $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE);
                 break;
             case 'decimal':
-                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, 'length' => 12, 4);
+                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, 'length' => '12,4');
                 break;
             case 'int':
                 $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER);
