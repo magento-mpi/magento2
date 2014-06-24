@@ -146,12 +146,12 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         return [
             'links' => [
                 '/downloadable-links',
-                'GetList',
+                'GetLinks',
                 $linkExpectation,
             ],
             'samples' => [
                 '/downloadable-links/samples',
-                'Samples',
+                'GetSamples',
                 $sampleExpectation
             ],
         ];

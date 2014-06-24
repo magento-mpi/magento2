@@ -10,13 +10,13 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/products/:productSku/downloadable-links" method="GET">
-        <service class="Magento\Downloadable\Service\V1\DownloadableLink\ReadServiceInterface" method="getList"/>
+        <service class="Magento\Downloadable\Service\V1\DownloadableLink\ReadServiceInterface" method="getLinks"/>
         <resources>
             <resource ref="Magento_Downloadable::downloadable" />
         </resources>
     </route>
     <route url="/V1/products/:productSku/downloadable-links/samples" method="GET">
-        <service class="Magento\Downloadable\Service\V1\DownloadableLink\ReadServiceInterface" method="samples"/>
+        <service class="Magento\Downloadable\Service\V1\DownloadableLink\ReadServiceInterface" method="getSamples"/>
         <resources>
             <resource ref="Magento_Downloadable::downloadable" />
         </resources>

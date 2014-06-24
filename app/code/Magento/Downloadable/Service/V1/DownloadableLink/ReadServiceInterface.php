@@ -16,7 +16,7 @@ interface ReadServiceInterface
      * @param string $productSku
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableSampleInfo[]
      */
-    public function samples($productSku);
+    public function getSamples($productSku);
 
     /**
      * List of links with associated samples
@@ -24,5 +24,5 @@ interface ReadServiceInterface
      * @param string $productSku
      * @return \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkInfo[]
      */
-    public function getList($productSku);
+    public function getLinks($productSku);
 }

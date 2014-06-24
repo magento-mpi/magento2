@@ -59,7 +59,7 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getList($productSku)
+    public function getLinks($productSku)
     {
         $linkList = [];
         /** @var \Magento\Catalog\Model\Product $product */
@@ -116,7 +116,7 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function samples($productSku)
+    public function getSamples($productSku)
     {
         $sampleList = [];
         /** @var \Magento\Catalog\Model\Product $product */
