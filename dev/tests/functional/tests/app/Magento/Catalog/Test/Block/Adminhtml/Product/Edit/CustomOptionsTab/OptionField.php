@@ -18,4 +18,4 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 class OptionField extends Options
 {
     // Parent behavior
-} 
+}

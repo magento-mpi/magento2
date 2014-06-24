@@ -43,6 +43,10 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'In Stock' => 1,
             'Out of Stock' => 0
         ],
+        'quantity_and_stock_status' => [
+            'In Stock' => 1,
+            'Out of Stock' => 0
+        ],
         'visibility' => [
             'Not Visible Individually' => 1,
             'Catalog' => 2,
@@ -152,6 +156,15 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
                     ? $this->mappingData['website_ids'][$value]
                     : $value;
             }
+        }
+
+        // Getting Attribute Set id
+        if ($fixture->hasData('attribute_set_id')) {
+            $attributeSetId = $fixture
+                ->getDataFieldConfig('attribute_set_id')['source']
+                ->getAttributeSet()
+                ->getAttributeSetId();
+            $fields['attribute_set_id'] = $attributeSetId;
         }
 
         $data = $prefix ? [$prefix => $fields] : $fields;
