@@ -47,7 +47,7 @@ class ReadService implements ReadServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function tree($rootCategoryId = null, $depth = 0)
+    public function tree($rootCategoryId = null, $depth = null)
     {
         $category = null;
         if (!is_null($rootCategoryId)) {

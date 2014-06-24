@@ -111,7 +111,7 @@ class Tree
      * @param int $currentLevel
      * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Tree[]
      */
-    public function getTree($node, $depth = 0, $currentLevel = 0)
+    public function getTree($node, $depth = null, $currentLevel = 0)
     {
         $builder = $this->treeBuilderFactory->create();
         $builder->setId($node->getId())
@@ -125,7 +125,7 @@ class Tree
         if ($node->hasChildren()) {
             $children = array();
             foreach ($node->getChildren() as $child) {
-                if ($depth && $depth <= $currentLevel) {
+                if (!is_null($depth) && $depth <= $currentLevel) {
                     break;
                 }
                 $children[] = $this->getTree($child, $depth, $currentLevel + 1);
