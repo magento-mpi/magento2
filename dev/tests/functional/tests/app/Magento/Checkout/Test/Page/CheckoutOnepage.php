@@ -211,5 +211,4 @@ class CheckoutOnepage extends Page
             $this->_browser->find($this->iframeBody, Locator::SELECTOR_CSS)
         );
     }
-
 }

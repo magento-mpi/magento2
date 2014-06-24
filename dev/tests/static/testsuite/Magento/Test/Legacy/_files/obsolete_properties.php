@@ -40,6 +40,7 @@ return array(
     array('_designProductSettingsApplied'),
     array('_directOutput', 'Magento\Framework\View\Layout'),
     array('_dirs', 'Magento\Framework\App\Resource'),
+    array('_entityInvalidatedIndexes', 'Magento\ImportExport\Model\Import'),
     array('_distroServerVars'),
     array('_entityIdsToIncrementIds'),
     array('entities', 'Magento\Framework\App\Resource'),
@@ -209,7 +210,7 @@ return array(
     array('_dir', 'Magento\CatalogEvent\ModelEvent', '_filesystem'),
     array('_dir', 'Magento\Cms\Helper\Wyiswig\Images'),
     array('_dir', 'Magento\Email\Model\Template'),
-    array('_dir', 'Magento\ImportExport\Model\Import\Entity\Product', '_mediaDirectory'),
+    array('_dir', 'Magento\CatalogImportExport\Model\Import\Product', '_mediaDirectory'),
     array('_dir', 'Magento\ImportExport\Model\AbstractModel', '_varDirectory'),
     array('_coreDir', 'Magento\Install\Model\Installer\Console'),
     array('_dir', 'Magento\Install\Model\Installer\Filesystem'),
@@ -321,4 +322,5 @@ return array(
     ['_viewFileResolution', 'Magento\Framework\View\FileSystem', '_fileResolution, _localeFileResolution'],
     ['_inventoryModel', 'Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection'],
     ['_productInstance', 'Magento\CatalogInventory\Model\Stock\Item'],
+    ['_regionBuilder', 'Magento\Customer\Model\Address\Converter'],
 );

@@ -22,6 +22,7 @@
             <module name="Magento_Backend"/>
             <module name="Magento_User"/>
             <module name="Magento_Authz"/>
+            <module name="Magento_Customer"/>
         </depends>
     </module>
 </config>
