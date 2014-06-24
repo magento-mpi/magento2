@@ -298,8 +298,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
                 'base_subtotal_incl_tax' => 20,
                 'subtotal' => 0,
                 'base_subtotal' => 0,
-                'extra_tax_amount' => 18.48,
-                'base_extra_tax_amount' => 18.48,
+                'weee_amount' => 18.48,
+                'base_weee_amount' => 18.48,
             ]
         ];
 
