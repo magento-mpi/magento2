@@ -59,7 +59,7 @@ return [
                 'custom_attributes' => [
                     [
                         'attribute_code' => 'file_extension',
-                        'value' => 'jpg'
+                        'value' => 'jpg, png, gif'
                     ],
                     [
                         'attribute_code' => 'image_size_x',

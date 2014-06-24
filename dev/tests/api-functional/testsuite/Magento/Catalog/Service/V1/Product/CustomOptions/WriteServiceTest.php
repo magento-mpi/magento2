@@ -109,6 +109,51 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_without_options.php
+     * @magentoAppIsolation enabled
+     * @dataProvider optionNegativeDataProvider
+     */
+    public function testAddNegative($optionData)
+    {
+        $productSku = 'simple';
+        $optionDataPost = $optionData;
+        $optionDataPost['option_id'] = null;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
+            ]
+        ];
+
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->setExpectedException('SoapFault', 'Could not save product option');
+        } else {
+            $this->setExpectedException('Exception', '', 400);
+        }
+        $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $optionDataPost]);
+    }
+
+    public function optionNegativeDataProvider()
+    {
+        $fixtureOptions = array();
+        $fixture = include '_files/product_options_negative.php';
+        foreach ($fixture as $key => $item) {
+            $fixtureOptions[$key] = [
+                'optionData' => $item,
+            ];
+        };
+
+        return $fixtureOptions;
+    }
+
+    /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
      * @magentoAppIsolation enabled
      */
