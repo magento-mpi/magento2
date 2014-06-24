@@ -10,7 +10,7 @@ namespace Magento\Setup\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ConfigurationController extends AbstractActionController
+class CustomizeYourStoreController extends AbstractActionController
 {
     /**
      * @var \Zend\View\Model\ViewModel
@@ -20,18 +20,18 @@ class ConfigurationController extends AbstractActionController
     /**
      * @param ViewModel $view
      */
-    public function __construct(ViewModel $view)
-    {
+    public function __construct(
+        ViewModel $view
+    ) {
         $this->view = $view;
     }
 
     /**
-     * @return array|ViewModel
+     * @return ViewModel
      */
     public function indexAction()
     {
         $this->view->setTerminal(true);
-
         return $this->view;
     }
 }

@@ -9,14 +9,17 @@
 return [
     'di' => [
         'allowed_controllers' => [
-            'Magento\Setup\Controller\ConfigurationController',
-            'Magento\Setup\Controller\DatabaseController',
-            'Magento\Setup\Controller\EnvironmentController',
+            'Magento\Setup\Controller\ReadinessCheckController',
+            'Magento\Setup\Controller\AddDatabaseController',
+            'Magento\Setup\Controller\WebConfigurationController',
+            'Magento\Setup\Controller\CustomizeYourStoreController',
+            'Magento\Setup\Controller\CreateAdminAccountController',
+            'Magento\Setup\Controller\InstallController',
             'Magento\Setup\Controller\IndexController',
+            'Magento\Setup\Controller\EnvironmentController',
             'Magento\Setup\Controller\LicenseController',
             'Magento\Setup\Controller\MenuController',
             'Magento\Setup\Controller\UserController',
-            'Magento\Setup\Controller\TestController',
         ],
         'instance' => [
             'preference' => [
