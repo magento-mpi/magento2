@@ -32,7 +32,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->filesCollector = $this->getMock('Magento\Tools\I18n\Code\FilesCollector');
         $this->factory = $this->getMock('Magento\Tools\I18n\Code\Factory');
 
-        $this->parser = new Parser($this->filesCollector, $this->factory);
+        $this->parser = new Parser\Parser($this->filesCollector, $this->factory);
     }
 
     /**
@@ -151,7 +151,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class AdapterStub implements AdapterInterface
+class AdapterStub implements Parser\AdapterInterface
 {
     /**
      * @var string
