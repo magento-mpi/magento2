@@ -23,7 +23,7 @@
     </section>
     <section name="order_creditmemo">
         <group name="totals">
-            <item name="weee" instance="Magento\Weee\Model\Total\Creditmemo\Weee" sort_order="100"/>
+            <item name="weee" instance="Magento\Weee\Model\Total\Creditmemo\Weee" sort_order="600"/>
         </group>
     </section>
 </config>

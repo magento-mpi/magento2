@@ -40,7 +40,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     }
 
     /**
-     * Collect Weee taxes amount and prepare items prices for taxation and discount
+     * Collect Weee amounts for the quote / order
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @return  $this
@@ -316,8 +316,8 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             $address->addTotalAmount('subtotal', $this->_store->roundPrice($rowValueExclTax));
             $address->addBaseTotalAmount('subtotal', $this->_store->roundPrice($baseRowValueExclTax));
         } else {
-            $address->setExtraTaxAmount($address->getExtraTaxAmount() + $rowValueExclTax);
-            $address->setBaseExtraTaxAmount($address->getBaseExtraTaxAmount() + $baseRowValueExclTax);
+            $address->addTotalAmount('weee', $rowValueExclTax);
+            $address->addBaseTotalAmount('weee', $baseRowValueExclTax);
         }
         $address->setSubtotalInclTax($address->getSubtotalInclTax() + $this->_store->roundPrice($rowValueInclTax));
         $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax() + $this->_store->roundPrice($baseRowValueInclTax));
@@ -360,15 +360,31 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     }
 
     /**
-     * Fetch FPT data to address object for display in totals block
+     * Fetch the Weee total amount for display in totals block when building the initial quote
      *
      * @param   \Magento\Sales\Model\Quote\Address $address
      * @return  $this
-     * 
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
+        $weeeTotal = 0;
+
+        /** @var $items array of \Magento\Sales\Model\Order\Item */
+        $items = $this->_getAddressItems($address);
+        foreach ($items as $item) {
+            $weeeTotal += $item->getWeeeTaxAppliedRowAmount();
+        }
+
+        if ($weeeTotal) {
+            $address->addTotal(
+                array(
+                    'code' => $this->getCode(),
+                    'title' => __('FPT'),
+                    'value' => $weeeTotal,
+                    'area' => null
+                )
+            );
+        }
         return $this;
     }
 
