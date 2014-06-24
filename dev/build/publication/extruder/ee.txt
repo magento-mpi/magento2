@@ -16,6 +16,7 @@ app/design/adminhtml/Magento/backend/Magento_AdvancedCheckout
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerCustomAttributes
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerSegment
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerBalance
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/CustomerFinance
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Enterprise
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/GiftCard
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/GiftCardAccount
@@ -59,7 +60,6 @@ LICENSE_EE.txt
 
 app/design/adminhtml/Magento/backend/Magento_Enterprise/
 app/design/adminhtml/Magento/backend/Magento_GiftRegistry/
-app/design/frontend/Magento/iphone_html5
 app/design/frontend/Magento/blank/Magento_AdvancedCheckout
 app/design/frontend/Magento/blank/Magento_Banner
 app/design/frontend/Magento/blank/Magento_CatalogEvent
