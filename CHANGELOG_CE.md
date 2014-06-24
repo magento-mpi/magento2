@@ -13,18 +13,40 @@
       * `Customer/Helper/View.php`
       * `Customer/Service/V1/CustomerAccountService.php`
   * Covered Magento lib with unit tests:
-      * `Framework/App/Config/Element.php`
-      * `Framework/App/Config/Value.php`
-      * `Framework/App/DefaultPath/DefaultPath.php`
-      * `Framework/App/EntryPoint/EntryPoint.php`
-      * `Framework/App/Helper/AbstractHelper.php`
-      * `Framework/App/Resource/ConnectionFactory.php`
-      * `Framework/App/Route/Config.php`
-* Created Service API for Magento_Catalog Module:
+      * `lib/internal/Magento/Framework/Filter/*`
+      * `lib/internal/Magento/Framework/Model/Resource/Db/AbstractDb.php`
+      * `lib/internal/Magento/Framework/Model/Resource/Db/Collection/AbstractCollection.php`
+      * `lib/internal/Magento/Framework/File/Uploader.php`
+      * `lib/internal/Magento/Framework/File/Csv.php`
+      * `lib/internal/Magento/Framework/Less/File/Collector/Aggregated.php`
+      * `lib/internal/Magento/Framework/Less/File/Collector/Library.php`
+      * `lib/internal/Magento/Framework/Locale/Config.php`
+      * `lib/internal/Magento/Framework/Locale/Currency.php`
+      * `lib/internal/Magento/Framework/App/Config/Element.php`
+      * `lib/internal/Magento/Framework/App/Config/Value.php`
+      * `lib/internal/Magento/Framework/App/DefaultPath/DefaultPath.php`
+      * `lib/internal/Magento/Framework/App/EntryPoint/EntryPoint.php`
+      * `lib/internal/Magento/Framework/App/Helper/AbstractHelper.php`
+      * `lib/internal/Magento/Framework/App/Resource/ConnectionFactory.php`
+      * `lib/internal/Magento/Framework/App/Route/Config.php`
+  * Allow client to get partial response for mobile (MAGETWO-22974)
+  * Authentication support for mobile (MAGETWO-23744)
+  * Refactor the Oauth lib exception based on exception framework design (MAGETWO-16778)
+  * Move authorization services using new directory format (MAGETWO-23856)
+  * Move integration services using new directory format (MAGETWO-24555)
+  * Update integration registration based on security consultant feedback (MAGETWO-18253)
+* Improve ImportExport modularity (MAGETWO-23723)
+* Created Service API for Magento_Catalog Module:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
    * Implemented Product Group Price API(MAGETWO-23311)
    * Implemented Product Attribute Write API (MAGETWO-23314)
    * Implemented Product Attribute Options Read and Write API (MAGETWO-23312)
+* Create Service for Magento Tax
+  * Implemented Tax Rule Service (MAGETWO-21408)
+  * Implemented Tax Rate Service (MAGETWO-21409)
+  * Implemented Tax Calculation Data Objects (MAGETWO-24872)
+  * Implemented Tax Calculation Builders (MAGETWO-24873)
+  * Implemented Tax Calculation Service (MAGETWO-24874)
 * Tax calculation updates:
   * Fixed tax calculation rounding issues when discount is applied (MAGETWO-24163)
   * Fixed extra penny problem when exact tax amount ends with 0.5 cent (MAGETWO-24163)
@@ -50,6 +72,13 @@
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: grids (MAGETWO-24705)
   * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+  * Fixed: Incorrect Customer Model usage on session in CE modules (MAGETWO-23805)
+  * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
+  * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
+  * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+* GitHub requests:
+  * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
+  * [#544]  Performance tests not working (MAGETWO-23467)
 * Added the following functional tests:
   * Create Product Url Rewrite (MTA-83)
   * Delete Catalog Price Rule (MTA-67)
