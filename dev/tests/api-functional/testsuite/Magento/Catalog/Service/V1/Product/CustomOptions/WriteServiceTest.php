@@ -281,5 +281,91 @@ class WriteServiceTest extends WebapiAbstract
             'multiple' => ['multiple']
         ];
     }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_with_options.php
+     * @magentoAppIsolation enabled
+     * @dataProvider optionValueUpdateDataProvider
+     */
+    public function testUpdateOptionValue($optionType)
+    {
+        $productId = 1;
+        $fixtureOption = null;
+
+        $product = $this->productFactory->create();
+        $product->load($productId);
+        $productSku = $product->getSku();
+
+        /**@var $option \Magento\Catalog\Model\Product\Option */
+        foreach ($product->getOptions() as $option) {
+            if ($option->getType() == $optionType) {
+                $fixtureOption = $option;
+                break;
+            }
+        }
+
+        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface $reader */
+        $reader = \Magento\TestFramework\ObjectManager::getInstance()
+            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionValue\ReaderInterface');
+
+        $data = array(
+            Data\Option::TITLE => $option->getTitle(),
+            Data\Option::TYPE => $option->getType(),
+            Data\Option::IS_REQUIRE => $option->getIsRequire(),
+            Data\Option::SORT_ORDER => $option->getSortOrder(),
+            Data\Option::VALUE => $reader->read($fixtureOption)
+        );
+        $optionObject = $this->optionBuilder->populateWithArray($data)->create();
+        $optionDataPost = $optionObject->__toArray();
+
+        $updatedValues = $optionDataPost['value'];
+
+        foreach ($updatedValues as &$item) {
+            $item['price'] = $item['price'] * 5;
+            $item['sku'] = $item['sku'] . '_updated';
+        }
+        $optionDataPost['value'] = $updatedValues;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/products/' . $productSku . "/options/" . $fixtureOption->getId(),
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Update'
+            ]
+        ];
+        $this->_webApiCall(
+            $serviceInfo,
+            ['productSku' => $productSku, 'optionId' => $fixtureOption->getId(), 'option' => $optionDataPost]
+        );
+
+        $actualProduct = $this->productFactory->create();
+        $actualProduct->load($productId);
+
+        $values = $actualProduct->getOptionById($fixtureOption->getId())->getValues();
+        foreach (array_values($values) as $index => $value) {
+            $this->assertEquals($updatedValues[$index]['price'], intval($value->getPrice()));
+            $this->assertEquals($updatedValues[$index]['sku'], $value->getSku());
+        }
+    }
+
+    public function optionValueUpdateDataProvider()
+    {
+        return [
+            'drop_down' => ['drop_down'],
+            'checkbox' => ['checkbox'],
+            'radio' => ['radio'],
+            'multiple' => ['multiple'],
+            'field' => ['field'],
+            'area' => ['area'],
+            'file' => ['file'],
+            'date' => ['date'],
+            'date_time' => ['date_time'],
+            'time' => ['time']
+        ];
+    }
 }
 
