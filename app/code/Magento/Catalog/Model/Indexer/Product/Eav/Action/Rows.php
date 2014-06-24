@@ -25,7 +25,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Eav\AbstractAction
             throw new \Magento\Catalog\Exception(__('Bad value was supplied.'));
         }
         try {
-            $this->_logger->log(__METHOD__ . ' was called with ids ' . implode(",", $ids));
+            $this->reindex($ids);
         } catch (\Exception $e) {
             throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }

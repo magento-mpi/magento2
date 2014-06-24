@@ -25,7 +25,7 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Eav\AbstractAction
             throw new \Magento\Catalog\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_logger->log(__METHOD__ . ' was called with id ' . $id);
+            $this->reindex($id);
         } catch (\Exception $e) {
             throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }

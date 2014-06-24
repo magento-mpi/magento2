@@ -22,7 +22,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Eav\AbstractAction
     public function execute($ids = null)
     {
         try {
-            $this->reindexAll();
+            $this->reindex();
         } catch (\Exception $e) {
             throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }
