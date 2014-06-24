@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1\Category;
 
-use Magento\Catalog\Model\Category;
-use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
@@ -49,7 +47,7 @@ class ReadServiceTest extends WebapiAbstract
                 ],
             ],
             'available_sort_by' => ['position'],
-            'include_in_menu' => true,
+            'include_in_menu' => '1',
             'name' => 'Category 1',
             'url_key' => 'category-1',
             'category_id' => '333',
