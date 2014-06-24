@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductBuilder extends \Magento\Catalog\Service\V1\Data\ProductBuilder
 {
     /**

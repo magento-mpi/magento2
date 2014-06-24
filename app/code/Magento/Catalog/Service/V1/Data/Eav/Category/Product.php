@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Product extends \Magento\Catalog\Service\V1\Data\Product
 {
     /**
