@@ -243,11 +243,6 @@ class ProductService implements ProductServiceInterface
      */
     protected function translateField($field)
     {
-        switch ($field) {
-            case ProductData::ID:
-                return 'entity_id';
-            default:
-                return $field;
-        }
+        return $field;
     }
 }

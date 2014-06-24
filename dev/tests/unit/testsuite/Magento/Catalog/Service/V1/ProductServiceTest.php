@@ -194,7 +194,6 @@ class ProductServiceTest extends \PHPUnit_Framework_TestCase
         $productDataBuilder = $this->getMockBuilder('\Magento\Catalog\Service\V1\Data\ProductBuilder')
             ->disableOriginalConstructor()
             ->getMock();
-        $productDataBuilder->setId(1);
         $productDataBuilder->setPrice('10.000');
         $productDataBuilder->setSku('test');
         $productDataBuilder->setStoreId(10);

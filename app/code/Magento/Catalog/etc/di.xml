@@ -16,6 +16,7 @@
     <preference for="Magento\Catalog\Service\V1\Category\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\WriteService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeService" />
     <preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />
+    <preference for="Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\Tree\ReadService" />
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
     <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />
     <preference for="Magento\Catalog\Model\Product\PriceModifierInterface" type="Magento\Catalog\Model\Product\PriceModifier\Composite" />
