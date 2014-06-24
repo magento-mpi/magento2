@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
@@ -80,7 +81,7 @@ class Topmenu extends Block
     /**
      * Wait for load top menu
      *
-     * @param $categoryName
+     * @param string $categoryName
      * @return array
      */
     protected function waitLoadTopMenu($categoryName)

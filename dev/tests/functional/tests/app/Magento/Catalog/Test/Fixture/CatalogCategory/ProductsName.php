@@ -19,11 +19,11 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 class ProductsName implements FixtureInterface
 {
     /**
-     * Return category
+     * Return products
      *
      * @var array
      */
-    protected $product = [];
+    protected $products = [];
 
     /**
      * Fixture params
@@ -48,7 +48,7 @@ class ProductsName implements FixtureInterface
                 $product = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
                 $product->persist();
                 $this->data[] = $product->getName();
-                $this->product[] = $product;
+                $this->products[] = $product;
             }
         } else {
             $this->data = $data;
@@ -69,7 +69,7 @@ class ProductsName implements FixtureInterface
      * Return prepared data set
      *
      * @param string|null $key
-     * @return mixed
+     * @return array
      */
     public function getData($key = null)
     {
@@ -87,12 +87,12 @@ class ProductsName implements FixtureInterface
     }
 
     /**
-     * Return entity
+     * Return products
      *
-     * @return CatalogCategory
+     * @return array
      */
-    public function getProduct()
+    public function getProducts()
     {
-        return $this->product;
+        return $this->products;
     }
 }

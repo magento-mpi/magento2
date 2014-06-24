@@ -34,7 +34,7 @@ class AssertCategoryForAssignedProducts extends AbstractConstraint
      */
     public function processAssert(CatalogCategory $category, CatalogCategoryView $categoryView)
     {
-        $products = $category->getDataFieldConfig('products_name')['source']->getProduct();
+        $products = $category->getDataFieldConfig('products_name')['source']->getProducts();
         foreach ($products as $productFixture) {
             \PHPUnit_Framework_Assert::assertTrue(
                 $categoryView->getListProductBlock()->isProductVisible($productFixture->getName()),

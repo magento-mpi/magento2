@@ -35,7 +35,7 @@ class CategoryProducts extends Tab
     {
         foreach ($fields['products_name']['source']->getData() as $productName) {
             if ($productName != '-') {
-                $this->getRoleGrid()->searchAndSelect(['name' => $productName]);
+                $this->getProductGrid()->searchAndSelect(['name' => $productName]);
             }
         }
     }
@@ -45,7 +45,7 @@ class CategoryProducts extends Tab
      *
      * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid
      */
-    public function getRoleGrid()
+    public function getProductGrid()
     {
         return $this->blockFactory->create(
             'Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid',

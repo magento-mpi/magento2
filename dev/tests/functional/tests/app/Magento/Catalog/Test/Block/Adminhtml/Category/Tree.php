@@ -64,8 +64,9 @@ class Tree extends Block
      */
     protected function getTemplateBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -124,10 +125,10 @@ class Tree extends Block
     protected function prepareFullCategoryPath(CatalogCategory $category)
     {
         $path = [];
-        if ($category->getDataFieldConfig('parent_id')['source']->getParentCategory() != null) {
-            $path = $this->prepareFullCategoryPath(
-                $category->getDataFieldConfig('parent_id')['source']->getParentCategory()
-            );
+        $parentCategory = $category->getDataFieldConfig('parent_id')['source']->getParentCategory();
+
+        if ($parentCategory != null) {
+            $path = $this->prepareFullCategoryPath($parentCategory);
         }
         return array_filter(array_merge($path, [$category->getPath(), $category->getName()]));
     }
@@ -156,10 +157,10 @@ class Tree extends Block
     /**
      * Check category in category tree
      *
-     * @param $category
+     * @param CatalogCategory $category
      * @return bool
      */
-    public function isCategoryVisible($category)
+    public function isCategoryVisible(CatalogCategory $category)
     {
         $categoryPath = $this->prepareFullCategoryPath($category);
         $structure = $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->getStructure();

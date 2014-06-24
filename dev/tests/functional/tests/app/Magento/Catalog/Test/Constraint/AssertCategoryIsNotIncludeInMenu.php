@@ -54,7 +54,7 @@ class AssertCategoryIsNotIncludeInMenu extends AbstractConstraint
             $categoryView->getTitleBlock()->getTitle(),
             'Wrong page is displayed.'
         );
-        $products = $category->getDataFieldConfig('products_name')['source']->getProduct();
+        $products = $category->getDataFieldConfig('products_name')['source']->getProducts();
         foreach ($products as $productFixture) {
             \PHPUnit_Framework_Assert::assertTrue(
                 $categoryView->getListProductBlock()->isProductVisible($productFixture->getName()),
