@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Service\V1\Category;
+namespace Magento\Catalog\Service\V1\Category\Tree;
 
 /**
- * Test for \Magento\Catalog\Service\V1\Category\ReadService
+ * Test for \Magento\Catalog\Service\V1\Category\Tree\ReadService
  */
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Service\V1\Category\ReadService
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Catalog\Service\V1\Category\Tree\ReadService
      */
     protected $categoryService;
 
@@ -60,7 +60,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->categoryService = $this->objectManager
             ->getObject(
-                '\Magento\Catalog\Service\V1\Category\ReadService',
+                '\Magento\Catalog\Service\V1\Category\Tree\ReadService',
                 [
                     'categoryFactory' => $this->categoryFactoryMock,
                     'categoryTree' => $this->categoryTreeMock,

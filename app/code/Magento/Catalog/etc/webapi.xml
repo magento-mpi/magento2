@@ -202,7 +202,7 @@
         </resources>
     </route>
     <route url="/V1/categories" method="GET">
-        <service class="Magento\Catalog\Service\V1\Category\ReadServiceInterface" method="tree" />
+        <service class="Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface" method="tree" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>

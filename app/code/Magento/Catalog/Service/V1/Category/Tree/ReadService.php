@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Service\V1\Category;
+namespace Magento\Catalog\Service\V1\Category\Tree;
 
 /**
  * Class ReadService

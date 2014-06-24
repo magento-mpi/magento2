@@ -116,8 +116,6 @@ class ProductServiceTest extends WebapiAbstract
 
     /**
      * @dataProvider searchDataProvider
-     * @depends      testCreate
-     * @depends      testDelete
      */
     public function testSearch($filterGroups, $expected, $sortData)
     {
