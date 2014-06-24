@@ -13,7 +13,6 @@
         "magento/module-backend": "0.1.0",
         "magento/module-eav": "0.1.0",
         "magento/module-cms": "0.1.0",
-        "magento/module-import-export": "0.1.0",
         "magento/module-customer": "0.1.0",
         "magento/module-catalog-rule": "0.1.0",
         "magento/module-directory": "0.1.0",

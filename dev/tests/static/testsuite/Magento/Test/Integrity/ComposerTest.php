@@ -195,7 +195,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         /** @var \SimpleXMLElement $node */
         foreach ($xml->module->depends->children() as $node) {
             if ('module' === $node->getName()) {
-                $packages[] = $this->convertModuleToPackageName((string)$node['name']);
+                $moduleName = (string)$node['name'];
+                $packages[$moduleName] = $this->convertModuleToPackageName($moduleName);
             }
         }
         foreach ($packages as $package) {
@@ -204,6 +205,15 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $json,
                 "Dependency on the component {$package} is found at the etc/module.xml, but missing in composer.json"
             );
+        }
+        foreach ($json as $key => $value) {
+            if (0 === strpos($key, 'magento/module-', 0)) {
+                $this->assertContains(
+                    $key,
+                    $packages,
+                    "Dependency on the component {$key} is found at the composer.json, but missing in etc/module.xml"
+                );
+            }
         }
     }
 
