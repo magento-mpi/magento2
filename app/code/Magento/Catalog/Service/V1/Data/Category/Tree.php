@@ -106,7 +106,7 @@ class Tree
     }
 
     /**
-     * @param Magento\Framework\Data\Tree\Node $node
+     * @param \Magento\Framework\Data\Tree\Node $node
      * @param int $depth
      * @param int $currentLevel
      * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Tree[]
