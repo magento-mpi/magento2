@@ -21,7 +21,6 @@
             <module name="Magento_Install"/>
             <module name="Magento_AdminNotification"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_Core"/>
             <module name="Magento_CatalogEvent"/>
             <module name="Magento_CatalogPermissions"/>
             <module name="Magento_CustomerSegment"/>
@@ -29,7 +28,6 @@
             <module name="Magento_GiftCardAccount"/>
             <module name="Magento_GiftRegistry"/>
             <module name="Magento_GiftWrapping"/>
-            <module name="Magento_ScheduledImportExport"/>
             <module name="Magento_PricePermissions"/>
             <module name="Magento_PromotionPermissions"/>
             <module name="Magento_SalesArchive"/>
@@ -45,6 +43,7 @@
             <module name="Magento_Reminder"/>
             <module name="Magento_Reward"/>
             <module name="Magento_MultipleWishlist"/>
+            <module name="Magento_ScheduledImportExport"/>
         </depends>
     </module>
 </config>
