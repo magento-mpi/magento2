@@ -39,7 +39,10 @@ class NameBuilderTest extends \PHPUnit_Framework_TestCase
             array(
                 array('Magento_Backend', 'Block', 'urlrewrite', 'edit', 'form'),
                 'Magento\Backend\Block\Urlrewrite\Edit\Form'
-            )
+            ),
+            array(array('MyNamespace', 'MyModule'), 'MyNamespace\MyModule'),
+            array(array('uc', 'words', 'test'), 'Uc\Words\Test'),
+            array(array('ALL', 'CAPS', 'TEST'), 'ALL\CAPS\TEST'),
         );
     }
 }
