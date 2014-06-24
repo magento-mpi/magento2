@@ -18,7 +18,9 @@
     margin-bottom: @indent-xl-base;
 
     .legend.title {
-        .heading(h2);
+        .heading(h1);
+        border: 0;
+        padding: 0;
     }
 
     .product-add-form {
@@ -31,10 +33,28 @@
 
     .product-options-wrapper {
         margin-bottom: @indent-l-base;
+        .fieldset > .field {
+            padding-top: @form-field-vertical-indent;
+            border-top: 1px #e4e4e4 solid; 
+            &:first-of-type {
+                border-top: 0;
+                padding-top: 0;
+            } 
+        }
+        .field.choice {
+            .price-notice {
+                float: right;
+            }
+        }
     }
 
     .product.options.bottom {
         clear: both;
+    }
+
+    .action.back {
+        &:extend(.abstract-action-button-as-link all);
+        margin-bottom: @indent-l-base;
     }
 
     .price-box {
@@ -45,17 +65,41 @@
     }
 
     .block-bundle-summary {
-        padding: @indent-s-base @indent-base;
-        &:extend(.add-box-sizing all);
-
-        > .title > strong {
-            .heading(h2);
+        > .title {
+            border-bottom: 1px #e4e4e4 solid;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+             > strong {
+                .heading(h2);
+            }
+        }
+        .product-details {
+            position: relative;
+        }
+        .price-box {
+            padding-right: 60px;
+            .price-label {
+                display: block;
+            }
+            .price {
+                font-size: 36px;
+                color: #575757;
+            }
+        }
+        .field.qty {
+            position: absolute;
+            right: 0;
+            top: 0;
+            text-align: center;
         }
 
         .bundle-summary {
             margin-top: @indent-l-base;
+            &.empty {
+                display: none;
+            }
             > .subtitle {
-                .heading(h3);
+                .heading(h2);
                 display: block;
             }
         }
@@ -98,6 +142,15 @@
     p.required {
         color: @form-field-label-asterisk-color;
     }
+    .nested {
+        .field.qty {
+            .form-field-type(@_type: block);
+            &:last-child {
+                margin-bottom: 0;
+            }
+            margin-top: @form-field-vertical-indent;
+        }
+    }
 }
 
 //
@@ -106,7 +159,7 @@
 .responsive(@break) when (@break = @break-point-1) {
     .bundle-options-container {
         .legend.title {
-            &:extend(.reset-left-margin all);
+            font-size: @h1-font-size-desktop;
         }
         .product-options-wrapper {
             float: left;
@@ -116,6 +169,8 @@
             width: 57%;
         }
         .block-bundle-summary {
+            padding: @indent-s-base @indent-base;
+            &:extend(.add-box-sizing-desktop all);
             float: right;
             width: 40%;
             position: relative;

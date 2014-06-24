@@ -55,6 +55,9 @@
 
         .bundle-summary {
             margin-top: @indent-l-base;
+            &.empty {
+                display: none;
+            }
             > .subtitle {
                 .heading(h3);
                 display: block;

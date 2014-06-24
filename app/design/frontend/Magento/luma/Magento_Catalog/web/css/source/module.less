@@ -410,14 +410,9 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .product-add-form {
-        &:extend(.revert-field-type-desktop all);
         .product-options-wrapper .field:not(.date) {
-            input[type="text"],
-            select,
-            textarea {
-                min-width: 300px;
-                max-width: 300px;
-                width: auto;
+            > .control {
+                width: 80%;
             }
         }
     }
