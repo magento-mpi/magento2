@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
 
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Product as CategoryProduct;
 use Magento\Catalog\Service\V1\Data\Converter;
 
 /**
@@ -26,7 +27,7 @@ class ProductConverter extends Converter
      * Convert a product model to a product data entity
      *
      * @param Product $productModel
-     * @return \Magento\Catalog\Service\V1\Data\Eav\Category\Product
+     * @return CategoryProduct
      */
     public function createProductDataFromModel(Product $productModel)
     {
