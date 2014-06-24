@@ -39,6 +39,7 @@ class ProductConverter extends Converter
 
     /**
      * @param int|null $position
+     * @return void
      */
     public function setPosition($position)
     {

@@ -105,7 +105,7 @@ class ReadService implements ReadServiceInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return CategoryModel
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */

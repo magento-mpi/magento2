@@ -7,6 +7,13 @@
  */
 namespace Magento\Catalog\Service\V1\Category;
 
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\Converter;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder;
+use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter;
+use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
@@ -17,37 +24,37 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var MetadataBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     private $categoryBuilder;
 
     /**
-     * @var \Magento\Catalog\Model\Category|\PHPUnit_Framework_MockObject_MockObject
+     * @var Category|\PHPUnit_Framework_MockObject_MockObject
      */
     private $category;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata|\PHPUnit_Framework_MockObject_MockObject
+     * @var Metadata|\PHPUnit_Framework_MockObject_MockObject
      */
     private $categoryInfoMetadata;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var ConverterFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     private $converterFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\Info\Converter|\PHPUnit_Framework_MockObject_MockObject
+     * @var Converter|\PHPUnit_Framework_MockObject_MockObject
      */
     private $converter;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProductConverterFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     private $productConverterFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter|\PHPUnit_Framework_MockObject_MockObject
+     * @var ProductConverter|\PHPUnit_Framework_MockObject_MockObject
      */
     private $productConverter;
 
