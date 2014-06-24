@@ -23,8 +23,7 @@ class TaxClassBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setClassId($id)
     {
-        $this->_data[TaxClass::KEY_ID] = $id;
-        return $this;
+        return $this->_set(TaxClass::KEY_ID, $id);
     }
 
     /**
@@ -35,8 +34,7 @@ class TaxClassBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setClassName($name)
     {
-        $this->_data[TaxClass::KEY_NAME] = $name;
-        return $this;
+        return $this->_set(TaxClass::KEY_NAME, $name);
     }
 
     /**
@@ -47,7 +45,6 @@ class TaxClassBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuil
      */
     public function setClassType($type)
     {
-        $this->_data[TaxClass::KEY_TYPE] = $type;
-        return $this;
+        return $this->_set(TaxClass::KEY_TYPE, $type);
     }
 }
