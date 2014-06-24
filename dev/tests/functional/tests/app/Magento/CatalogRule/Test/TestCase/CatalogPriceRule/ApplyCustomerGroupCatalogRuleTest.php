@@ -30,12 +30,6 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      */
     public function testApplyCustomerGroupCatalogRule()
     {
-        $this->markTestSkipped('MAGETWO-22504');
-        // Create Simple Product
-        $simpleProductFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);
-        $simpleProductFixture->persist();
-        $categoryIds = $simpleProductFixture->getCategoryIds();
         // Create Customer
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_customer');
@@ -47,6 +41,11 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $groupId = $customerGroupFixture->getGroupId();
         // update the customer fixture with the newly added customer group
         $customerFixture->updateCustomerGroup($groupName, $groupId);
+        // Create Simple Product
+        $simpleProductFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);
+        $simpleProductFixture->persist();
+        $categoryIds = $simpleProductFixture->getCategoryIds();
         // Create Customer Group Catalog Price Rule
         // Admin login
         Factory::getApp()->magentoBackendLoginUser();
@@ -66,10 +65,10 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $customerEditPage->getPageActionsBlock()->save();
 
         // Add Customer Group Catalog Price Rule
-        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
         $catalogRulePage->open();
-        $catalogRuleGrid = $catalogRulePage->getCatalogRuleGrid();
-        $catalogRuleGrid->addNewCatalogRule();
+        $catalogRuleGrid = $catalogRulePage->getGridPageActions();
+        $catalogRuleGrid->addNew();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
