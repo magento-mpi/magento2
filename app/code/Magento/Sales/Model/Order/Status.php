@@ -75,7 +75,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $state
+     * @param string $state
      * @throws Exception
      */
     protected function validateBeforeUnassign($state)

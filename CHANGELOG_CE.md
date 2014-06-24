@@ -29,6 +29,7 @@
   * Removed Payments Pro Payflow Edition payment solution (MAGETWO-23859)
   * Removed Saved Credit Card payment method (MAGETWO-23885)
 * Fixed bugs:
+  * Fixed: Order disappears on frontend after unassign its order status (MAGETWO-25091)
   * Fixed: Create Order Page Title is not correct when scroll down (MAGETWO-22121)
   * Fixed: Parallel run in MTF is broken (MAGETWO-24350)
   * Fixed: Custom Options being Merged incorrectly (MAGETWO-20918)

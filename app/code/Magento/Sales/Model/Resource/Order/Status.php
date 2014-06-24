@@ -222,7 +222,6 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->select()
                 ->from(['sss' => $this->stateTable], [])
                 ->where('state = ?', $state)
-                ->limit(1)
                 ->columns([new\Zend_Db_Expr('COUNT(1)')])
         ));
     }
