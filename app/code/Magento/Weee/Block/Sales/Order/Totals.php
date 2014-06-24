@@ -41,7 +41,7 @@ class Totals extends \Magento\Framework\View\Element\Template
 
         /** @var $items array of \Magento\Sales\Model\Order\Item */
         $items = $this->getSource()->getAllItems();
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $weeeTotal += $item->getWeeeTaxAppliedRowAmount();
         }
 
