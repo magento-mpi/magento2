@@ -132,50 +132,46 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test default locale
+     *
+     * Check that all translation phrases in code are present in the locale files
+     *
+     * @param string $file
+     * @param array $phrases
+     *
+     * @dataProvider defaultLocaleDataProvider
      */
-    public function testDefaultLocale()
+    public function testDefaultLocale($file, $phrases)
     {
-        $parser = $this->prepareParser();
-        $parser->parse($this->getI18nPattern());
-
-        $convertedPhrases = $this->convertPhrasesByFile($parser->getPhrases());
-
-        $failures = [];
-
-        foreach ($convertedPhrases as $file => $phrases) {
-            $fail = $this->comparePhrase($phrases, $this->csvParser->getDataPairs($file));
-            if (!empty($fail)) {
-                $failures[] = $fail;
-            }
-
-        }
-
+        $failures = $this->comparePhrase($phrases, $this->csvParser->getDataPairs($file));
         $this->assertEmpty(
             $failures,
-            $this->printMessage($failures)
+            $this->printMessage([$file => $failures])
         );
     }
 
     /**
-     * @param \Magento\Tools\I18n\Code\Dictionary\Phrase[] $phrases
      * @return array
      * @throws \RuntimeException
      */
-    protected function convertPhrasesByFile($phrases)
+    public function defaultLocaleDataProvider()
     {
-        $files = array();
-        foreach ($phrases as $key => $phrase) {
+        $parser = $this->prepareParser();
+        $parser->parse($this->getI18nPattern());
+
+        $defaultLocale = array();
+        foreach ($parser->getPhrases() as $key => $phrase) {
             if (!$phrase->getContextType() || !$phrase->getContextValue()) {
                 throw new \RuntimeException(sprintf('Missed context in row #%d.', $key + 1));
             }
             foreach ($phrase->getContextValue() as $context) {
                 $phraseText = $this->eliminateSpecialChars($phrase->getPhrase());
                 $phraseTranslation = $this->eliminateSpecialChars($phrase->getTranslation());
-                $files[$this->buildFilePath($phrase, $context)][$phraseText] = $phraseTranslation;
+                $file = $this->buildFilePath($phrase, $context);
+                $defaultLocale[$file]['file'] = $file;
+                $defaultLocale[$file]['phrases'][$phraseText] = $phraseTranslation;
             }
         }
-
-        return $files;
+        return $defaultLocale;
     }
 
     /**
