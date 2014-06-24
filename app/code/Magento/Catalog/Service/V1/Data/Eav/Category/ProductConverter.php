@@ -12,6 +12,9 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Service\V1\Data\Converter;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductConverter extends Converter
 {
     /**
