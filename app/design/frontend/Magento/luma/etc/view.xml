@@ -174,9 +174,9 @@
         <var name="gift_messages_checkout_small_image:height">75</var>
 
         <var name="mini_cart_product_thumbnail:type">thumbnail</var>
-        <var name="mini_cart_product_thumbnail:width">78</var>
+        <var name="mini_cart_product_thumbnail:width">75</var>
         <var name="mini_cart_product_thumbnail:ratio">1</var>
-        <var name="mini_cart_product_thumbnail:height">78</var>
+        <var name="mini_cart_product_thumbnail:height">75</var>
 
         <var name="new_products_images_only_widget:type">small_image</var>
         <var name="new_products_images_only_widget:width">78</var>

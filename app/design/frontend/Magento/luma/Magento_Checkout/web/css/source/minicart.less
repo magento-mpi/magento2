@@ -11,21 +11,25 @@
 //--------------------------------------
 
 .block.minicart {
+    .items-total {
+        float: left;
+        margin: 0 10px;
+    }
     .subtotal {
-        border-top: 1px solid @color-secondary;
-        padding-top: 10px;
+        margin: 0 10px;
+        text-align: right;
         .amount {
-            font-size: @font-size-xl;
             .incl.tax {
                 display: block;
+            }
+            .price {
+                font-size: @font-size-l;
+                font-weight: @font-weight-bold;
             }
         }
     }
     .subtitle {
-        .heading(h3);
-        display: inline-block;
-        margin-top: 0;
-        font-weight: 500;
+        display: none;
     }
     .subtitle.empty {
         display: block;
@@ -34,11 +38,22 @@
         font-size: 14px;
     }
     > .content > .actions {
-        margin-top: 10px;
-        > .secondary,
+        margin-top: 15px;
+        > .secondary {
+            margin: 15px 0;
+            text-align: center;
+        }
         > .primary {
-            padding-right:20px;
-            display: inline;
+            margin: 0 10px;
+            .action.primary {
+                .button-l();
+                display: block;
+                width: 100%;
+            }
+        }
+        .paypal-logo {
+            margin-top: 15px;
+            text-align: center;
         }
     }
 }
@@ -52,31 +67,32 @@
         @_dropdown-list-item-padding: false,
         @_dropdown-list-item-hover: false,
         @_icon-font-position: before,
-        @_icon-font-size: 35px,
-        @_icon-font-line-height: 33px,
-        @_icon-font-color: @color-primary,
+        @_icon-font-size: 22px,
+        @_icon-font-line-height: 28px,
+        @_icon-font-color: @minicart-icons-color,
         @_icon-font-color-hover: @color-primary,
-        @_icon-font-color-active: @color-primary
+        @_icon-font-color-active: @minicart-icons-color
     );
     float: right;
     .block.minicart {
-        right: -15px;
+        padding: 29px 25px 25px;
+        right: 0;
         width: 320px;
-        padding: 15px 15px 15px;
         > .title {
             display: none;
         }
-        &:before,
         &:after {
             left: auto;
             right: 25px;
         }
         &:before {
+            left: auto;
             right: 26px;
         }
     }
     .product.actions {
-        text-align: right;
+        float: right;
+        margin: -24px 0 0;
         > .primary,
         > .secondary {
             display: inline;
@@ -90,23 +106,31 @@
         }
         .value,
         .label {
-            padding-right:10px;
+            padding: 2px 10px 2px 0;
             display: table-cell;
         }
         .label:after {
             content: ":";
         }
     }
-    .action.edit {
-        .icon-font(
-            @icon-settings,
-            @_icon-font-size: 28px,
-            @_icon-font-line-height: 28px,
-            @_icon-font-text-hide: true,
-            @_icon-font-color: #303030,
-            @_icon-font-color-hover: #303030,
-            @_icon-font-color-active: #303030
-        );
+    .action {
+        &.edit,
+        &.delete {
+            .icon-font(
+                @icon-edit,
+                @_icon-font-size: 18px,
+                @_icon-font-line-height: 20px,
+                @_icon-font-text-hide: true,
+                @_icon-font-color: @minicart-icons-color,
+                @_icon-font-color-hover: @color-primary,
+                @_icon-font-color-active: @minicart-icons-color
+            );
+        }
+        &.delete {
+            .icon-font-symbol(
+                @_icon-font-content: @icon-trash
+            );
+        }
     }
     .action.close {
         position: absolute;
@@ -114,8 +138,8 @@
         top: 6px;
         .icon-font(
             @icon-remove,
-            @_icon-font-size: 33px,
-            @_icon-font-line-height: 33px,
+            @_icon-font-size: 16px,
+            @_icon-font-line-height: 16px,
             @_icon-font-color: @text-color-muted,
             @_icon-font-text-hide: true
         );
@@ -125,16 +149,6 @@
         .text {
             &:extend(.visually-hidden all);
         }
-        .icon-font(
-            @_icon-font-content: @icon-cart,
-            @_icon-font-position: before,
-            @_icon-font-size: 24px,
-            @_icon-font-line-height: 33px,
-            @_icon-font-vertical-align: top,
-            @_icon-font-color: @color-primary,
-            @_icon-font-color-hover: @color-primary,
-            @_icon-font-color-active: @color-primary
-        );
         white-space: nowrap;
         .counter.qty {
             &.empty {
@@ -142,14 +156,14 @@
             }
             background: @color-active;
             border-radius: 2px;
-            color: #fff;
+            color: @page-bg-color;
             clip: none;
             display: inline-block;
-            height: 26px;
-            line-height: 26px;
-            margin: 3px 0 0;
+            height: 30px;
+            line-height: 30px;
             max-width: 2em;
             min-width: 20px;
+            margin: 0 0 0 7px;
             padding: 0 3px;
             overflow: hidden;
             text-align: center;
@@ -158,8 +172,8 @@
     }
     .ui-dialog {
         .action.close {
-            right: 0;
-            top: 46px;
+            right: 11px;
+            top: 53px;
             z-index: 100;
         }
     }
@@ -169,28 +183,45 @@
     .list-reset-styles(0, 0);
     .item {
         border-top: 1px solid @color-secondary;
-        padding: 15px 0;
+        padding: 20px 0;
         z-index: 1;
     }
     .item > .product {
         &:extend(.add-clearfix all);
     }
-    .product.photo {
-        float: left;
-    }
-    .product.details {
-        padding-left: 88px;
-    }
-    .action.delete {
-        .icon-font(
-            @icon-trash,
-            @_icon-font-size: 28px,
-            @_icon-font-line-height: 28px,
-            @_icon-font-text-hide: true,
-            @_icon-font-color: #303030,
-            @_icon-font-color-hover: #303030,
-            @_icon-font-color-active: #303030
-        );
+    .product {
+        &.photo {
+            float: left;
+        }
+        &.name {
+            display: block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: @font-weight-base;
+            a {
+                color: @link-color;
+            }
+        }
+        &.details {
+            padding-left: 88px;
+            .price {
+                font-weight: @font-weight-bold;
+            }
+        }
+        &.pricing {
+            margin-top: 3px;
+            .tooltip {
+                .icon-font(
+                    @icon-down,
+                    @_icon-font-size: 18px,
+                    @_icon-font-line-height: 18px,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-color: #303030,
+                    @_icon-font-margin: 0 0 0 10px
+                );
+            }
+        }
     }
 }
 
@@ -202,8 +233,21 @@
     .minicart-wrapper {
         margin-left: 13px;
         .block.minicart {
-            width: 380px;
+            right: -15px;
+            width: 390px;
+        }
+        .ui-dialog {
+            position: relative;
+            .action.close {
+                right: 0;
+                top: 18px;
+            }
         }
     }
+    .minilist .action.delete,
+    .minicart-wrapper .action.edit {
+        .icon-font-size(
+            @_icon-font-size: 16px
+        );
+    }
 }
-
