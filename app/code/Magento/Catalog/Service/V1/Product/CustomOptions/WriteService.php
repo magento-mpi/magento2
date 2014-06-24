@@ -36,29 +36,21 @@ class WriteService implements WriteServiceInterface
     protected $optionBuilder;
 
     /**
-     * @var PriceScopeResolver
-     */
-    protected $priceScopeResolver;
-
-    /**
      * @param OptionBuilder $optionBuilder
      * @param Data\Option\Converter $optionConverter
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param Data\OptionValue\ReaderInterface $optionValueReader
-     * @param PriceScopeResolver $priceScopeResolver
      */
     public function __construct(
         OptionBuilder $optionBuilder,
         Data\Option\Converter $optionConverter,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        Data\OptionValue\ReaderInterface $optionValueReader,
-        PriceScopeResolver $priceScopeResolver
+        Data\OptionValue\ReaderInterface $optionValueReader
     ) {
         $this->optionBuilder = $optionBuilder;
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
         $this->optionValueReader = $optionValueReader;
-        $this->priceScopeResolver = $priceScopeResolver;
     }
 
     /**
@@ -157,8 +149,6 @@ class WriteService implements WriteServiceInterface
         \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option $option
     ) {
         $product = $this->productRepository->get($productSku);
-        $product->setStoreId($this->priceScopeResolver->getScope());
-
         $optionData = $this->optionConverter->convert($option);
         if (!$product->getOptionById($optionId)) {
             throw new NoSuchEntityException();
