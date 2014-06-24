@@ -41,8 +41,6 @@ Magento/Sales/Model/Service/Quote
 Magento/Catalog/Block/Product
 Magento/Catalog/Model/Resource/Product
 Magento/Catalog/Model/Layer
-Magento/Catalog/Model/Layer/Search.php
-Magento/Catalog/Model/Layer/Category.php
 Magento/Catalog/Service/V1/Data
 Magento/CatalogRule/Block/Adminhtml/Promo/Catalog/Edit/Tab
 Magento/Checkout/Block/Onepage
@@ -124,3 +122,4 @@ Magento/OfflineShipping/Model/Carrier
 Magento/Usps/Model/Carrier
 Magento/Dhl/Model
 Magento/Shipping/Model
+Magento/Catalog/Service/V1/Category
