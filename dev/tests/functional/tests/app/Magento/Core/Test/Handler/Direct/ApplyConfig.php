@@ -16,7 +16,6 @@ use Mtf\Factory\Factory;
 /**
  * Class ApplyConfig
  * Apply system configuration to application under test
- *
  */
 class ApplyConfig extends Direct
 {
@@ -38,18 +37,20 @@ class ApplyConfig extends Direct
         );
 
         $objectManager->configure(
-            array(
-                'preferences' => array(
+            [
+                'preferences' => [
                     'Magento\Framework\Authorization\Policy' => 'Magento\Framework\Authorization\Policy\DefaultPolicy',
                     'Magento\Framework\Authorization\RoleLocator' => 'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
-                )));
+                ]
+            ]
+        );
 
         $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');
 
         $sections = $fixture->getData()['sections'];
         foreach ($sections as $section) {
             /** @var \Magento\Backend\Model\Config $configModel */
-            $configModel = $configFactory->create(array('data' => $section));
+            $configModel = $configFactory->create(['data' => $section]);
             $configModel->save();
         }
     }
