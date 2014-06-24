@@ -10,6 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Category;
 use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Mapper
 {
@@ -23,11 +24,11 @@ class Mapper
 
     /**
      * @param CategoryFactory $categoryFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         CategoryFactory $categoryFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->storeManager = $storeManager;
@@ -43,7 +44,7 @@ class Mapper
         CategoryDataObject $category,
         \Magento\Catalog\Model\Category $categoryModel = null
     ) {
-        $categoryModel = $this->categoryFactory->create();
+        $categoryModel = $categoryModel ?: $this->categoryFactory->create();
         $data = EavDataObjectConverter::toFlatArray($category);
         /** @see /app/code/Magento/Catalog/Controller/Adminhtml/Category.php method "_filterCategoryPostData" */
         if (isset($data['image']) && is_array($data['image'])) {
