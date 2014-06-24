@@ -35,7 +35,6 @@ class CheckoutOnepageTest extends \Magento\Checkout\Test\TestCase\Guest\PaypalEx
         $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
         $this->_processPaypal($fixture);
-        $this->_reviewOrder();
 
         //Verifying
         $this->_verifyOrder($fixture);

@@ -14,7 +14,12 @@ class CurlClient
     /**
      * @var string REST URL base path
      */
-    const REST_BASE_PATH = '/rest/';
+    protected $restBasePath = '/rest/';
+
+    /**
+     * @var array Response array
+     */
+    protected $responseArray;
 
     /**
      * @var array JSON Error code to error message mapping
@@ -108,8 +113,10 @@ class CurlClient
     {
         $url = $this->constructResourceUrl($resourcePath);
 
-        // json encode data
-        $jsonData = $this->_jsonEncode($data);
+        if (in_array("Content-Type: application/json", $headers)) {
+            // json encode data
+            $data = $this->_jsonEncode($data);
+        }
 
         $curlOpts = array();
         if ($put) {
@@ -117,13 +124,35 @@ class CurlClient
         } else {
             $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST;
         }
-        $headers[] = 'Content-Length: ' . strlen($jsonData);
-        $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
+        $headers[] = 'Content-Length: ' . strlen($data);
+        $curlOpts[CURLOPT_POSTFIELDS] = $data;
 
-        $resp = $this->_invokeApi($url, $curlOpts, $headers);
-        $respArray = $this->_jsonDecode($resp["body"]);
+        $this->responseArray = $this->_invokeApi($url, $curlOpts, $headers);
+        $respBodyArray = $this->_jsonDecode($this->responseArray["body"]);
 
-        return $respArray;
+        return $respBodyArray;
+    }
+
+    /**
+     * Set Rest base path if available
+     *
+     * @param string $restBasePath
+     *
+     * @return void
+     */
+    public function setRestBasePath($restBasePath)
+    {
+        $this->restBasePath = $restBasePath;
+    }
+
+    /**
+     * Get current response array
+     *
+     * @return void
+     */
+    public function getCurrentResponseArray()
+    {
+        return $this->responseArray;
     }
 
     /**
@@ -133,7 +162,7 @@ class CurlClient
      */
     public function constructResourceUrl($resourcePath)
     {
-        return rtrim(TESTS_BASE_URL, '/') . self::REST_BASE_PATH . ltrim($resourcePath, '/');
+        return rtrim(TESTS_BASE_URL, '/') . $this->restBasePath . ltrim($resourcePath, '/');
     }
 
     /**
@@ -161,11 +190,15 @@ class CurlClient
             curl_setopt($curl, $opt, $val);
         }
 
-        $resp = array();
-        $resp["body"] = curl_exec($curl);
-        if ($resp["body"] === false) {
+        $response = curl_exec($curl);
+        if ($response === false) {
             throw new \Exception(curl_error($curl));
         }
+
+        $resp = [];
+        $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $resp["header"] = substr($response, 0, $headerSize);
+        $resp["body"] = substr($response, $headerSize);
 
         $resp["meta"] = curl_getinfo($curl);
         if ($resp["meta"] === false) {
@@ -197,7 +230,8 @@ class CurlClient
             CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
             CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
             CURLOPT_MAXREDIRS => 10, // but don't redirect more than 10 times
-            CURLOPT_HTTPHEADER => array('Accept: application/json', 'Content-Type: application/json')
+            CURLOPT_HTTPHEADER => [],
+            CURLOPT_HEADER => 1
         );
 
         // merge headers
