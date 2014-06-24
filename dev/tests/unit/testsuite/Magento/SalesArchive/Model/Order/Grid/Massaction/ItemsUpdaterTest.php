@@ -62,7 +62,7 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cfgSalesArchiveMock->expects($this->any())->method('isArchiveActive')->will($this->returnValue(false));
 
-        $this->assertNotEquals($this->_updateArgs, $this->_model->update($this->_updateArgs));
+        $this->assertArrayNotHasKey('add_order_to_archive', $this->_model->update($this->_updateArgs));
     }
 
     public function testAuthAllowed()
