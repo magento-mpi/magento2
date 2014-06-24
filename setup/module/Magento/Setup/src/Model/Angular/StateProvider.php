@@ -40,8 +40,9 @@ class StateProvider
     {
         foreach ($this->nav->getData() as $item) {
             $state = $this->stateFactory->create();
-            $state->setName($item['url']);
-            $state->setUrl($item['url']);
+            $state->setId($item['id']);
+            $state->setTitle($item['title']);
+            $state->setUrl($item['templateUrl']);
             $state->setTemplateUrl($item['url']);
             $state->setController($item['controller']);
             $this->states[] = $state;
@@ -52,7 +53,7 @@ class StateProvider
     {
         $result = '$stateProvider';
         foreach ($this->states as $state) {
-            $result .= '.state(\'' . $state->getUrl() . '\',' . $state->asJS() . ')';
+            $result .= '.state(\'' . $state->getId() . '\',' . $state->asJS() . ')';
         }
         return $result . ';';
     }

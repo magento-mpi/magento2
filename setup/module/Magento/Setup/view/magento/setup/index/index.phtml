@@ -20,8 +20,8 @@ $this->inlineScript()->appendScript(
             <div>
                 <ul class="nav nav-pills nav-stacked">
                     <?php foreach ($this->nav as $item): ?>
-                    <li id="<?php echo $item['url']; ?>">
-                        <a ui-sref="<?php echo $item['url']; ?>" href="#/<?php echo $item['url']; ?>"><?php echo $item['name']; ?></a>
+                    <li id="<?php echo $item['id']; ?>">
+                        <a ui-sref="<?php echo $item['id']; ?>" href="#/<?php echo $item['url']; ?>"><?php echo $item['title']; ?></a>
                     </li>
                     <?php endforeach; ?>
                 </ul>

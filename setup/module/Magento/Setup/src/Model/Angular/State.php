@@ -13,7 +13,12 @@ class State
     /**
      * @var string
      */
-    protected $name;
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $id;
 
     /**
      * @var string
@@ -31,11 +36,19 @@ class State
     protected $controller;
 
     /**
-     * @param string $name
+     * @param string $title
      */
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
+        $this->title = $title;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -65,9 +78,17 @@ class State
     /**
      * @return string
      */
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -98,7 +119,7 @@ class State
     {
         return "{\n"
             . "url: '"         . $this->getUrl() . "',\n"
-            . "templateUrl: '" . $this->getUrl() . "',\n"
+            . "templateUrl: '" . $this->getTemplateUrl() . "',\n"
             . "controller: '"  . $this->getController() . "Controller'\n"
             . "}\n";
     }
