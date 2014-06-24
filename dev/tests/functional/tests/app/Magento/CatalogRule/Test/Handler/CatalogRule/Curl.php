@@ -58,6 +58,10 @@ class Curl extends Conditions implements CatalogRuleInterface
         ],
         'website_ids' => [
             'Main Website' => 1
+        ],
+        'stop_rules_processing' => [
+            'Yes' => 1,
+            'No' => 0
         ]
     ];
 
@@ -83,7 +87,6 @@ class Curl extends Conditions implements CatalogRuleInterface
                 "Catalog Price Rule entity creating by curl handler was not successful! Response: $response"
             );
         }
-
         return ['id' => $this->getCategoryPriceRuleId($data)];
     }
 
@@ -96,8 +99,12 @@ class Curl extends Conditions implements CatalogRuleInterface
     protected function prepareData($fixture)
     {
         $data = $this->replaceMappingData($fixture->getData());
-        $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
-
+        if (!isset($data['stop_rules_processing'])) {
+            $data['stop_rules_processing'] = 0;
+        }
+        if (isset($data['rule'])) {
+            $data['rule'] = ['conditions' => $this->prepareCondition($data['rule'])];
+        }
         return $data;
     }
 
@@ -110,7 +117,7 @@ class Curl extends Conditions implements CatalogRuleInterface
      */
     public function getCategoryPriceRuleId(array $data)
     {
-        //Sort data in grid to define category price rule id if more than 20 items in grid
+        // Sort data in grid to define category price rule id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'catalog_rule/promo_catalog/index/sort/rule_id/dir/desc';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0');

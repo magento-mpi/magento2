@@ -32,6 +32,9 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Yes' => 1,
             'No' => 0
         ],
+        'is_virtual' => [
+            'Yes' => 1
+        ],
         'use_config_enable_qty_increments' => [
             'Yes' => 1,
             'No' => 0
@@ -43,13 +46,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'is_in_stock' => [
             'In Stock' => 1,
             'Out of Stock' => 0
-        ],
-        'is_virtual' => [
-            'Yes' => 1
-        ],
-        'inventory_manage_stock' => [
-            'Yes' => 1,
-            'No' => 0
         ],
         'visibility' => [
             'Not Visible Individually' => 1,
@@ -76,7 +72,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     /**
      * Post request for creating simple product
      *
-     * @param FixtureInterface|null $fixture
+     * @param FixtureInterface|null $fixture [optional]
      * @return array
      * @throws \Exception
      */
@@ -141,6 +137,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     protected function prepareData(FixtureInterface $fixture, $prefix = null)
     {
         $fields = $this->replaceMappingData($fixture->getData());
+        $fields = $this->prepareStockData($fields);
         // Getting Tax class id
         if ($fixture->hasData('tax_class_id')) {
             $taxClassId = $fixture->getDataFieldConfig('tax_class_id')['source']->getTaxClass()->getId();
@@ -165,9 +162,48 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
         }
 
+        // Getting Attribute Set id
+        if ($fixture->hasData('attribute_set_id')) {
+            $attributeSetId = $fixture
+                ->getDataFieldConfig('attribute_set_id')['source']
+                ->getAttributeSet()
+                ->getAttributeSetId();
+            $fields['attribute_set_id'] = $attributeSetId;
+        }
+
         $data = $prefix ? [$prefix => $fields] : $fields;
 
         return $data;
+    }
+
+    /**
+     * Preparation of stock data
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function prepareStockData(array $fields)
+    {
+        $fields['stock_data']['manage_stock'] = 0;
+
+        if (!isset($fields['stock_data']['is_in_stock'])) {
+            $fields['stock_data']['is_in_stock'] = isset($fields['quantity_and_stock_status'])
+                ? $fields['quantity_and_stock_status']
+                : (isset($fields['inventory_manage_stock']) ? $fields['inventory_manage_stock'] : null);
+        }
+        if (!isset($fields['stock_data']['qty'])) {
+            $fields['stock_data']['qty'] = isset($fields['qty']) ? $fields['qty'] : null;
+        }
+        if (!empty($fields['stock_data']['qty'])) {
+            $fields['stock_data']['manage_stock'] = 1;
+        }
+
+        $fields['quantity_and_stock_status'] = [
+            'qty' => $fields['stock_data']['qty'],
+            'is_in_stock' => $fields['stock_data']['is_in_stock']
+        ];
+
+        return $this->filter($fields);
     }
 
     /**

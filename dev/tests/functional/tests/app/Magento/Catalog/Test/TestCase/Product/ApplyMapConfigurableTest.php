@@ -69,7 +69,7 @@ class ApplyMapConfigurableTest extends Functional
         // Verify on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue(
-            $productListBlock->isProductVisible($product->getProductName()),
+            $productListBlock->isProductVisible($product->getName()),
             'Product is invisible on Category page'
         );
         $this->assertFalse($productListBlock->isRegularPriceVisible(), 'Regular price is visible and not expected.');
@@ -78,7 +78,7 @@ class ApplyMapConfigurableTest extends Functional
             $productListBlock->getOldPriceCategoryPage(),
             'Displayed on Category page MAP is incorrect'
         );
-        $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
+        $productListBlock->openMapBlockOnCategoryPage($product->getName());
         $mapBlock = $categoryPage->getMapBlock();
         $this->assertContains(
             $product->getProductMapPrice(),
@@ -140,7 +140,7 @@ class ApplyMapConfigurableTest extends Functional
         $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $optionPrice = $product->getProductOptionsPrice() + floatval($product->getProductPrice());
-        $this->assertEquals($optionPrice, $unitPrice, 'Incorrect price for ' . $product->getProductName());
+        $this->assertEquals($optionPrice, $unitPrice, 'Incorrect price for ' . $product->getName());
     }
 
     /**

@@ -65,7 +65,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
             if (!$noError) {
                 break;
             }
-            if ( count($match) < 2
+            if (count($match) < 2
                 && $match[1] != $tierPrice['price_qty']
                 || $match[2] !== number_format($tierPrice['price'], 2)
             ) {

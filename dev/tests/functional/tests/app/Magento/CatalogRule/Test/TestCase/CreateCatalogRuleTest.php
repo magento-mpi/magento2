@@ -6,9 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
+namespace Magento\CatalogRule\Test\TestCase;
 
-use Magento\CatalogRule\Test\TestCase\CatalogRuleEntityTest;
+use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
@@ -19,13 +20,36 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
 class CreateCatalogRuleTest extends CatalogRuleEntityTest
 {
     /**
+     * Create simple product with category
+     *
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __prepare(
+        FixtureFactory $fixtureFactory
+    ) {
+        $productSimple = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'MAGETWO-23036']);
+        $productSimple->persist();
+
+        return ['product' => $productSimple];
+    }
+
+    /**
      * Create Catalog Price Rule
      *
      * @param CatalogRule $catalogPriceRule
+     * @param CatalogProductSimple $product
+     * @param array $price
      * @return void
      */
-    public function testCreate(CatalogRule $catalogPriceRule)
-    {
+    public function testCreate(
+        CatalogRule $catalogPriceRule,
+        CatalogProductSimple $product,
+        array $price
+    ) {
+        // Prepare data
+        $replace = ['conditions' => ['conditions' => ['%category_1%' => $product->getCategoryIds()[0]['id']]]];
+
         // Open Catalog Price Rule page
         $this->catalogRuleIndex->open();
 
@@ -33,7 +57,7 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         $this->catalogRuleIndex->getGridPageActions()->addNew();
 
         // Fill and Save the Form
-        $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule);
+        $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule, null, $replace);
         $this->catalogRuleNew->getFormPageActions()->save();
 
         // Apply Catalog Price Rule
@@ -45,6 +69,6 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         $this->adminCache->getMessagesBlock()->assertSuccessMessage();
 
         // Prepare data for tear down
-        $this->prepareTearDown($catalogPriceRule);
+        $this->catalogRules = $catalogPriceRule;
     }
 }

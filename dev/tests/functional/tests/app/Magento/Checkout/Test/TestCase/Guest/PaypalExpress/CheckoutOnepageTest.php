@@ -37,7 +37,6 @@ class CheckoutOnepageTest extends Functional
         $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
         $this->_processPaypal($fixture);
-        $this->_reviewOrder();
 
         //Verifying
         $this->_verifyOrder($fixture);
@@ -104,15 +103,6 @@ class CheckoutOnepageTest extends Functional
         $paypalPage = Factory::getPageFactory()->getPaypal();
         $paypalPage->getLoginBlock()->login($paypalCustomer);
         $paypalPage->getReviewBlock()->continueCheckout();
-    }
-
-    /**
-     * Review order on checkout Magento page and place it
-     */
-    protected function _reviewOrder()
-    {
-        $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
-        $checkoutReviewPage->getReviewBlock()->placeOrder();
     }
 
     /**

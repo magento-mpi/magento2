@@ -39,4 +39,4 @@ class ProductPagination extends Block
             return null;
         }
     }
-} 
+}
