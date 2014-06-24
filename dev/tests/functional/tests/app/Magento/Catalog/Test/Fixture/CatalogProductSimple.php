@@ -84,7 +84,10 @@ class CatalogProductSimple extends InjectableFixture
         'price' => ['value' => 100.00],
         'weight' => 12.0000,
         'qty' => 10,
-        'quantity_and_stock_status' => 'In Stock',
+        'quantity_and_stock_status' => [
+            'qty' => 10.0000,
+            'is_in_stock' => 'In Stock',
+        ],
     ];
 
     protected $category_ids = [

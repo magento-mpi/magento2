@@ -8,6 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -26,35 +27,173 @@ class ConfigurableAttributesData implements FixtureInterface
     /**
      * Source constructor
      *
-     * @param array $params
-     * @param array $dependenceData
+     * @param FixtureFactory $fixtureFactory
      * @param array $data
+     * @param array $params [optional]
+     * @param bool $persist [optional]
      */
-    public function __construct(array $params, array $dependenceData, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [], $persist = false)
     {
-        $this->data[$dependenceData['configurable_options']['attribute_id']] = [];
+        $this->params = $params;
 
-        $data = & $this->data[$dependenceData['configurable_options']['attribute_id']];
-        $data['id'] = $dependenceData['configurable_options']['id'];
-        $data['attribute_id'] = $dependenceData['configurable_options']['attribute_id'];
-        $data['code'] = $dependenceData['configurable_options']['code'];
-        $data['label'] = $dependenceData['configurable_options']['label'];
-
-        foreach ($dependenceData['configurable_options']['values'] as $values) {
-            $data['values'][$values['value_index']] = $values;
+        if ($data['preset']) {
+            $this->currentPreset = $data['preset'];
+            $this->data = $this->getPreset($this->currentPreset);
         }
 
-        $this->params = $params;
+        if (!empty($this->data['attributes'])) {
+            foreach ($this->data['attributes'] as $key => $attribute) {
+                list($fixture, $dataSet) = explode('::', $attribute);
+                $this->data['attributes'][$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            }
+        }
+
+        if (!empty($this->data['products'])) {
+            foreach ($this->data['products'] as $key => $product) {
+                list($fixture, $dataSet) = explode('::', $product);
+                $this->data['products'][$key] = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            }
+        }
+
+        if ($persist) {
+            $this->persist();
+        }
     }
 
     /**
-     * Persists prepared data into application
+     * Persist configurable attribute data
      *
      * @return void
      */
     public function persist()
     {
-        //
+        if (!empty($this->data['products'])) {
+            foreach ($this->data['products'] as $product) {
+                /** @var $product FixtureInterface */
+                $product->persist();
+            }
+        }
+
+        if (!empty($this->data['attributes'])) {
+            foreach ($this->data['attributes'] as $attribute) {
+                /** @var $attribute FixtureInterface */
+                $attribute->persist();
+            }
+
+            // Set options used
+            $fixtures = $this->data['attributes'];
+            foreach (array_keys($this->data['attributes_data']) as $key) {
+                $fixtureData = $fixtures[$key]->getData();
+                $this->data['attributes_data'][$key]['id'] = $fixtureData['attribute_id'];
+                $this->data['attributes_data'][$key]['title'] = $fixtureData['frontend_label'];
+                $this->data['attributes_data'][$key]['code'] = $fixtureData['frontend_label'];
+                foreach ($this->data['attributes_data'][$key]['options'] as $optionKey => &$value) {
+                    $value['id'] = $fixtureData['options'][$optionKey + 1]['id'];
+                    $value['name'] = $fixtureData['options'][$optionKey + 1]['view'];
+                }
+                unset($value);
+            }
+
+            // Prepare data for matrix
+            $attributes = [];
+            foreach ($this->data['attributes_data'] as $attributeKey => $attribute) {
+                $options = [];
+                foreach ($attribute['options'] as $optionKey => $option) {
+                    if ($option['include'] === 'Yes') {
+                        $option['key'] = $optionKey;
+                        $options[] = $option;
+                    }
+                }
+                $attributes[] = [
+                    'key' => $attributeKey,
+                    'id' => $attribute['id'],
+                    'code' => $attribute['code'],
+                    'options' => $options
+                ];
+            }
+
+            // Generation variants
+            $variations = [];
+            $attributes = array_reverse($attributes);
+            $attributesCount = count($attributes);
+            $currentVariation = array_fill(0, $attributesCount, 0);
+            $lastAttribute = $attributesCount - 1;
+            do {
+                for ($attributeIndex = 0; $attributeIndex < $attributesCount - 1; ++$attributeIndex) {
+                    if ($currentVariation[$attributeIndex] >= count($attributes[$attributeIndex]['options'])) {
+                        $currentVariation[$attributeIndex] = 0;
+                        ++$currentVariation[$attributeIndex + 1];
+                    }
+                }
+                if ($currentVariation[$lastAttribute] >= count($attributes[$lastAttribute]['options'])) {
+                    break;
+                }
+
+                $filledVariation = [];
+                for ($attributeIndex = $attributesCount; $attributeIndex--;) {
+                    $currentAttribute = $attributes[$attributeIndex];
+                    $currentVariationValue = $currentVariation[$attributeIndex];
+                    $filledVariation[$currentAttribute['key']] = $currentAttribute['options'][$currentVariationValue];
+                    $filledVariation[$currentAttribute['key']]['code'] = $currentAttribute['code'];
+                }
+
+                $variationsKeys = [];
+                $placeholder = [];
+                $optionsNames = [];
+                foreach ($filledVariation as $key => $option) {
+                    $variationKey = sprintf('%%attribute_%d-option_%d%%', $key, $option['key']);
+                    $variationsKeys[] = $variationKey;
+                    $keyName = sprintf('%%attribute_%d-option_%d_name%%', $key, $option['key']);
+                    $keyId = sprintf('%%attribute_%d-option_%d_id%%', $key, $option['key']);
+                    $attributeCode = sprintf('%%attribute_%d_code%%', $key);
+                    $optionsNames[] = $option['name'];
+                    $placeholder += [
+                        $keyName => $option['name'],
+                        $keyId => $option['id'],
+                        $variationKey => $option['id'],
+                        $attributeCode => $option['code']
+                    ];
+                }
+
+                $variationsKey = implode('-', $variationsKeys);
+                $variations[$variationsKey]['placeholder'] = $placeholder;
+                $variations[$variationsKey]['options_names'] = $optionsNames;
+                $currentVariation[0]++;
+            } while (true);
+
+            // Initialization data matrix
+            foreach ($this->data['matrix'] as $key => $data) {
+                if (isset($variations[$key])) {
+                    foreach ($this->data['matrix'][$key] as $innerKey => &$value) {
+                        if ($innerKey === 'configurable_attribute') {
+                            $value = strtr(json_encode($value), $variations[$key]['placeholder']);
+                        } elseif (is_string($value)) {
+                            $value = strtr($value, $variations[$key]['placeholder']);
+                        }
+                    }
+                    unset($value);
+                    $newKey = strtr($key, $variations[$key]['placeholder']);
+                    $this->data['matrix'][$newKey] = $this->data['matrix'][$key];
+                    $this->data['matrix'][$newKey]['options_names'] = $variations[$key]['options_names'];
+                    unset($this->data['matrix'][$key]);
+                }
+            }
+
+            // Assigning products
+            foreach ($this->data['products'] as $key => $product) {
+                foreach ($this->data['matrix'] as &$value) {
+                    if (isset($value['associated_product_ids'][$key])) {
+                        unset($value['associated_product_ids'][$key]);
+                        /** @var $attribute FixtureInterface */
+                        $value['associated_product_ids'][] = $product->getId();
+                        $value['name'] = $product->getName();
+                        $value['sku'] = $product->getSku();
+                    }
+                }
+                unset($value);
+            }
+        }
+        sleep(1);
     }
 
     /**
@@ -76,5 +215,191 @@ class ConfigurableAttributesData implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
+    }
+
+    /**
+     * Preset array
+     *
+     * @param string $name
+     * @return mixed|null
+     */
+    protected function getPreset($name)
+    {
+        $presets = [
+            'default' => [
+                'attributes_data' => [
+                    [
+                        'id' => '%id%',
+                        'title' => '%title%',
+                        'label' => 'Test variation1 label',
+                        'options' => [
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 12.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ],
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 20.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ],
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 18.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '%id%',
+                        'title' => '%title%',
+                        'label' => 'Test variation2 label',
+                        'options' => [
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 42.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ],
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 40.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ],
+                            [
+                                'id' => '%id%',
+                                'name' => '%name%',
+                                'pricing_value' => 48.00,
+                                'include' => 'Yes',
+                                'is_percent' => 'No'
+                            ],
+                        ]
+                    ]
+                ],
+                'products' => [
+
+                ],
+                'attributes' => [
+                    'catalogProductAttribute::attribute_type_dropdown',
+                    'catalogProductAttribute::attribute_type_dropdown'
+                ],
+                'matrix' => [
+                    '%attribute_0-option_0%-%attribute_1-option_0%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_0%',
+                            '%attribute_1_code%' => '%attribute_1-option_0%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_0_name% %attribute_1-option_0_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_0_id%_%attribute_1-option_0_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_0%-%attribute_1-option_1%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_0%',
+                            '%attribute_1_code%' => '%attribute_1-option_1%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_0_name% %attribute_1-option_1_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_0_id%_%attribute_1-option_1_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_0%-%attribute_1-option_2%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_0%',
+                            '%attribute_1_code%' => '%attribute_1-option_2%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_0_name% %attribute_1-option_2_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_0_id%_%attribute_1-option_2_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_1%-%attribute_1-option_0%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_1%',
+                            '%attribute_1_code%' => '%attribute_1-option_0%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_1_name% %attribute_1-option_0_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_1_id%_%attribute_1-option_0_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_1%-%attribute_1-option_1%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_1%',
+                            '%attribute_1_code%' => '%attribute_1-option_1%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_1_name% %attribute_1-option_1_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_1_id%_%attribute_1-option_1_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_1%-%attribute_1-option_2%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_1%',
+                            '%attribute_1_code%' => '%attribute_1-option_2%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_1_name% %attribute_1-option_2_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_1_id%_%attribute_1-option_2_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_2%-%attribute_1-option_0%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_2%',
+                            '%attribute_1_code%' => '%attribute_1-option_0%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_2_name% %attribute_1-option_0_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_2_id%_%attribute_1-option_0_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_2%-%attribute_1-option_1%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_2%',
+                            '%attribute_1_code%' => '%attribute_1-option_1%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_2_name% %attribute_1-option_1_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_2_id%_%attribute_1-option_1_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ],
+                    '%attribute_0-option_2%-%attribute_1-option_2%' => [
+                        'configurable_attribute' => [
+                            '%attribute_0_code%' => '%attribute_0-option_2%',
+                            '%attribute_1_code%' => '%attribute_1-option_2%'
+                        ],
+                        'associated_product_ids' => [],
+                        'name' => 'In configurable %isolation% %attribute_0-option_2_name% %attribute_1-option_2_name%',
+                        'sku' => 'sku_configurable_%isolation%_%attribute_0-option_2_id%_%attribute_1-option_2_id%',
+                        'qty' => 10,
+                        'weight' => 1
+                    ]
+                ]
+            ]
+        ];
+
+        if (!isset($presets[$name])) {
+            return null;
+        }
+
+        return $presets[$name];
     }
 }

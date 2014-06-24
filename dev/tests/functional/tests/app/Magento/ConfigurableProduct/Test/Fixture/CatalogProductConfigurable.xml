@@ -28,18 +28,8 @@
             <is_required>0</is_required>
             <input>variations</input>
             <group>variations</group>
-            <dependence>variations_matrix</dependence>
             <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData</source>
         </configurable_attributes_data>
-        <variations_matrix>
-            <attribute_code>variations_matrix</attribute_code>
-            <backend_type>virtual</backend_type>
-            <is_required>0</is_required>
-            <input>variations</input>
-            <group>variations</group>
-            <dependence>configurable_options</dependence>
-            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\VariationsMatrix</source>
-        </variations_matrix>
         <color>
             <attribute_code>color</attribute_code>
             <backend_type>int</backend_type>
@@ -444,21 +434,6 @@
             <is_required>0</is_required>
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
         </custom_options>
-        <configurable_options>
-            <attribute_code>configurable_options</attribute_code>
-            <backend_type>virtual</backend_type>
-            <group>product-details</group>
-            <is_required>0</is_required>
-            <dependence>attribute_options</dependence>
-            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableOptions</source>
-        </configurable_options>
-        <attribute_options>
-            <attribute_code>attribute_options</attribute_code>
-            <backend_type>virtual</backend_type>
-            <group>product-details</group>
-            <is_required>0</is_required>
-            <source>Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\AttributeOptions</source>
-        </attribute_options>
     </fields>
     <data_set>
         <sku></sku>

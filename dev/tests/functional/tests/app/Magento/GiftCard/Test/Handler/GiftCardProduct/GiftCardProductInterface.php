@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCard\Test\Handler;
+namespace Magento\GiftCard\Test\Handler\GiftCardProduct;
 
 use Mtf\Handler\HandlerInterface;
 

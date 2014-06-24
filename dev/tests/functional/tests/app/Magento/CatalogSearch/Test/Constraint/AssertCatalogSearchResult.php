@@ -29,21 +29,26 @@ class AssertCatalogSearchResult extends AbstractConstraint
      *
      * @param array $products
      * @param AdvancedResult $resultPage
-     * @param CatalogSearchQuery $catalogSearch
      * @return void
      */
-    public function processAssert(array $products, AdvancedResult $resultPage, CatalogSearchQuery $catalogSearch)
+    public function processAssert(array $products, AdvancedResult $resultPage)
     {
-
-        $name = $products[$catalogSearch->getQueryText()]->getName();
-        $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($name);
-        while (!$isProductVisible && $resultPage->getToolbar()->nextPage()) {
+        $errors = [];
+        foreach ($products as $product) {
+            $name = $product->getName();
             $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($name);
+            while (!$isProductVisible && $resultPage->getToolbar()->nextPage()) {
+                $isProductVisible = $resultPage->getListProductBlock()->isProductVisible($name);
+            }
+
+            if ($isProductVisible === false) {
+                $errors[] = '- ' . $name;
+            }
         }
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $isProductVisible,
-            "'{$name}' product was not found on the page."
+            empty($errors),
+            'Were not found the following products:' . implode("\n", $errors)
         );
     }
 
@@ -54,6 +59,6 @@ class AssertCatalogSearchResult extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product successfully found.';
+        return 'All products have been successfully found.';
     }
 }

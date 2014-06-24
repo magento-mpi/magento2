@@ -21,21 +21,16 @@ use Mtf\System\Event\EventManagerInterface;
 class CatalogProductConfigurable extends InjectableFixture
 {
     /**
-     * Isolation value
-     *
-     * @var int
-     */
-    protected $isolation;
-
-    /**
      * @var string
      */
     protected $repositoryClass = 'Magento\ConfigurableProduct\Test\Repository\CatalogProductConfigurable';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurableInterface';
+    protected $handlerInterface = 'Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable\CatalogProductConfigurableInterface';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Constructor
@@ -60,7 +55,7 @@ class CatalogProductConfigurable extends InjectableFixture
         $dataSet = '',
         $persist = false
     ) {
-        $this->init(
+        parent::__construct(
             $configuration,
             $repositoryFactory,
             $fixtureFactory,
@@ -70,103 +65,10 @@ class CatalogProductConfigurable extends InjectableFixture
             $dataSet,
             $persist
         );
+
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
         }
-    }
-
-    /**
-     * Object initialization
-     *
-     * @param Config $configuration
-     * @param RepositoryFactory $repositoryFactory
-     * @param FixtureFactory $fixtureFactory
-     * @param HandlerFactory $handlerFactory
-     * @param EventManagerInterface $eventManager
-     * @param array $data
-     * @param string $dataSet
-     * @param bool $persist
-     */
-    protected function init(
-        Config $configuration,
-        RepositoryFactory $repositoryFactory,
-        FixtureFactory $fixtureFactory,
-        HandlerFactory $handlerFactory,
-        EventManagerInterface $eventManager,
-        array $data = [],
-        $dataSet = '',
-        $persist = false
-    ) {
-        $this->configuration = $configuration;
-        $this->repositoryFactory = $repositoryFactory;
-        $this->fixtureFactory = $fixtureFactory;
-        $this->handlerFactory = $handlerFactory;
-        $this->eventManager = $eventManager;
-        $this->isolation = mt_rand();
-
-        if ($dataSet) {
-            $data = $this->getDataFromRepository($dataSet, $data);
-        }
-        if (!$data) {
-            $data = $this->defaultDataSet;
-        }
-
-        foreach ($data as $key => $value) {
-            $this->initPropertiesData($key, $data, $persist);
-        }
-
-        $this->_applyPlaceholders($this->data, ['isolation' => $this->isolation]);
-        if ($persist === true) {
-            $this->persist();
-        }
-    }
-
-    /**
-     * Property initialization data
-     *
-     * @param $key
-     * @param array $data
-     * @param bool $persist
-     * @return mixed
-     */
-    protected function initPropertiesData($key, array $data, $persist)
-    {
-        $dependenceData = [];
-        if (!isset($this->$key) || $data[$key] === '-' || $this->hasData($key)) {
-            return $dependenceData;
-        }
-        $params = & $this->$key;
-        if ($data[$key] === null) {
-            $data[$key] = isset($params['default_value']) ? $params['default_value'] : null;
-        }
-        $source = $this->getSourceParam($params);
-        if ($source) {
-            if (isset($params['dependence'])) {
-                $dependenceData = array_merge(
-                    $dependenceData,
-                    $this->initPropertiesData($params['dependence'], $data, $persist)
-                );
-                $dependenceData[$params['dependence']] = $this->getData($params['dependence']);
-            }
-            $fixture = $this->fixtureFactory->create(
-                $source['source'],
-                [
-                    'isolation' => $this->isolation,
-                    'data' => $data[$key],
-                    'params' => $params,
-                    'persist' => $persist,
-                    'dependenceData' => $dependenceData
-                ]
-            );
-            $params[$source['field']] = $fixture;
-            $data[$key] = $fixture->getData();
-            if ($data[$key] === null) {
-                return $dependenceData;
-            }
-        }
-        $this->data[$key] = $data[$key];
-
-        return $dependenceData;
     }
 
     protected $dataConfig = [
@@ -453,7 +355,7 @@ class CatalogProductConfigurable extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price'
+        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\Price'
     ];
 
     protected $quantity_and_stock_status = [
@@ -661,42 +563,12 @@ class CatalogProductConfigurable extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
-    protected $attribute_options = [
-        'attribute_code' => 'attribute_options',
-        'backend_type' => 'virtual',
-        'is_required' => '0',
-        'input' => 'variations',
-        'group' => 'product-details',
-        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\AttributeOptions',
-    ];
-
-    protected $configurable_options = [
-        'attribute_code' => 'configurable_options',
-        'backend_type' => 'virtual',
-        'is_required' => '0',
-        'input' => 'variations',
-        'group' => 'product-details',
-        'dependence' => 'attribute_options',
-        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableOptions',
-    ];
-
-    protected $variations_matrix = [
-        'attribute_code' => 'variations_matrix',
-        'backend_type' => 'virtual',
-        'is_required' => '0',
-        'input' => 'variations',
-        'group' => 'variations',
-        'dependence' => 'configurable_options',
-        'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\VariationsMatrix'
-    ];
-
     protected $configurable_attributes_data = [
         'attribute_code' => 'configurable_attributes_data',
         'backend_type' => 'virtual',
         'is_required' => '0',
         'input' => 'variations',
         'group' => 'variations',
-        'dependence' => 'variations_matrix',
         'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData'
     ];
 
@@ -990,23 +862,13 @@ class CatalogProductConfigurable extends InjectableFixture
         return $this->getData('custom_options');
     }
 
-    public function getConfigurableOptions()
-    {
-        return $this->getData('configurable_options');
-    }
-
-    public function getAttributeOptions()
-    {
-        return $this->getData('attribute_options');
-    }
-
     public function getAttributeSetName()
     {
         return $this->getData('attribute_set_name');
     }
 
-    public function getVariationsMatrix()
+    public function getConfigurableAttributesData()
     {
-        return $this->getData('variations_matrix');
+        return $this->getData('configurable_attributes_data');
     }
 }

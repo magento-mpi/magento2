@@ -6,39 +6,27 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftCard\Test\Handler;
+namespace Magento\GiftCard\Test\Handler\GiftCardProduct;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
-use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as AbstractCurl;
+use Mtf\System\Config;
+use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
 
 /**
  * Class Curl
  * Create new gift card product via curl
  */
-class Curl extends AbstractCurl implements GiftCardProductInterface
+class Curl extends ProductCurl implements GiftCardProductInterface
 {
     /**
-     * Persist fixture
+     * Constructor
      *
-     * @param FixtureInterface $fixture
-     * @return mixed
-     * @throws \Exception
+     * @param Config $configuration
      */
-    public function persist(FixtureInterface $fixture = null)
+    public function __construct(Config $configuration)
     {
-        $this->extendPlaceholder();
-        return parent::persist($fixture);
-    }
+        parent::__construct($configuration);
 
-    /**
-     * Expand basic placeholder
-     *
-     * @return void
-     */
-    protected function extendPlaceholder()
-    {
-        $this->placeholderData += [
+        $this->mappingData += [
             'giftcard_type' => [
                 'Virtual' => 0,
                 'Physical' => 1,

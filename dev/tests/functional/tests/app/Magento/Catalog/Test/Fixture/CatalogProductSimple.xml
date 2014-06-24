@@ -337,6 +337,7 @@
             <is_required>0</is_required>
             <default_value>Taxable Goods</default_value>
             <input>select</input>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass</source>
             <group>product-details</group>
         </tax_class_id>
         <thumbnail>

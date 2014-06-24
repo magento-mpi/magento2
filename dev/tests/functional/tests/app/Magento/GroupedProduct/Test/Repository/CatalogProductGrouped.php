@@ -19,8 +19,8 @@ class CatalogProductGrouped extends AbstractRepository
     /**
      * Constructor
      *
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -29,12 +29,15 @@ class CatalogProductGrouped extends AbstractRepository
             'sku' => 'sku_test_grouped_product_%isolation%',
             'price' => ['value' => 120.00],
             'weight' => 30.0000,
-            'grouped_products' => ['products' => 'catalogProductSimple::simple_for_composite_products'],
+            'associated' => ['preset' => 'defaultSimpleProduct'],
             'status' => 'Product online',
             'visibility' => 'Catalog, Search',
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'url_key' => 'test-grouped-product-%isolation%',
-            'quantity_and_stock_status' => 'In Stock',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => 'Default',
         ];

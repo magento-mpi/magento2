@@ -87,8 +87,10 @@ class CatalogProductDownloadable extends InjectableFixture
         'tax_class_id' => ['dataSet' => 'Taxable Goods'],
         'description' => 'This is description for downloadable product',
         'short_description' => 'This is short description for downloadable product',
-        'quantity_and_stock_status_qty' => '1',
-        'quantity_and_stock_status' => 'In Stock',
+        'quantity_and_stock_status' => [
+            'qty' => 1.0000,
+            'is_in_stock' => 'In Stock',
+        ],
         'is_virtual' => 'Yes',
         'downloadable_links' => ['preset' => 'default'],
     ];

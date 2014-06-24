@@ -99,7 +99,7 @@
             <default_value></default_value>
             <input>text</input>
             <group>advanced-pricing</group>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions</fixture>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions</source>
         </group_price>
         <has_options>
             <attribute_code>has_options</attribute_code>
@@ -226,7 +226,7 @@
             <is_required>1</is_required>
             <default_value></default_value>
             <input>price</input>
-            <fixture>Magento\Bundle\Test\Fixture\Bundle\Price</fixture>
+            <source>Magento\Bundle\Test\Fixture\CatalogProductBundle\Price</source>
         </price>
         <price_type>
             <attribute_code>price_type</attribute_code>
@@ -328,15 +328,18 @@
             <attribute_code>status</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value>1</default_value>
-            <input>select</input>
+            <default_value>Product online</default_value>
+            <input>checkbox</input>
+            <group>product-details</group>
         </status>
         <tax_class_id>
             <attribute_code>tax_class_id</attribute_code>
             <backend_type>int</backend_type>
             <is_required>0</is_required>
-            <default_value>2</default_value>
+            <default_value>Taxable Goods</default_value>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass</source>
             <input>select</input>
+            <group>product-details</group>
         </tax_class_id>
         <thumbnail>
             <attribute_code>thumbnail</attribute_code>
@@ -410,14 +413,14 @@
             <backend_type>virtual</backend_type>
             <is_required>1</is_required>
             <group>bundle</group>
-            <fixture>Magento\Bundle\Test\Fixture\Bundle\BundleSelections</fixture>
+            <source>Magento\Bundle\Test\Fixture\CatalogProductBundle\BundleSelections</source>
         </bundle_selections>
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>
             <group>product_info_tabs_customer_options</group>
             <is_required>0</is_required>
-            <fixture>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</fixture>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions</source>
         </custom_options>
     </fields>
     <data_set>

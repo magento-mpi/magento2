@@ -19,8 +19,8 @@ class CatalogProductBundle extends AbstractRepository
     /**
      * Constructor
      *
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -37,7 +37,7 @@ class CatalogProductBundle extends AbstractRepository
             'sku_type' => '0',
             'price_type' => '0',
             'weight_type' => '0',
-            'status' => '1',
+            'status' => 'Product online',
             'shipment_type' => '1',
             'mtf_dataset_name' => 'BundleDynamic_sku_1073507449'
         ];
@@ -60,17 +60,18 @@ class CatalogProductBundle extends AbstractRepository
         ];
 
         $this->_data['bundle_dynamic_product'] = [
-            'name' => 'bundle_dynamic_product%isolation%',
-            'sku' => 'bundle_dynamic_product%isolation%',
+            'name' => 'Bundle dynamic product %isolation%',
+            'sku' => 'sku_bundle_dynamic_product_%isolation%',
             'sku_type' => 'Dynamic',
             'price_type' => 'Dynamic',
-            'quantity_and_stock_status' => 'In Stock',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'weight_type' => 'Dynamic',
             'shipment_type' => 'Separately',
-            'tax_class_id' => 'None',
-            'website_ids' => [
-                'Main Website',
-            ],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
+            'website_ids' => ['Main Website'],
             'stock_data' => [
                 'manage_stock' => 'Yes',
                 'use_config_enable_qty_increments' => 'Yes',
@@ -79,72 +80,35 @@ class CatalogProductBundle extends AbstractRepository
             ],
             'url_key' => 'bundle-dynamic-product-%isolation%',
             'visibility' => 'Catalog, Search',
-            'bundle_option' => [
-                [
-                    'title' => 'Bundle Options title%isolation%',
-                    'type' => 'Drop-down',
-                    'required' => 'Yes',
-                    'position' => 0,
-                ],
-            ],
-            'bundle_selection' => [
-                [
-                    0 => [
-                        'product_id' => '%simple_for_composite_products%',
-                        'selection_qty' => 1,
-                        'selection_price_value' => '10.00',
-                        'selection_price_type' => 0,
-                        'selection_can_change_qty' => 1,
-                        'position' => 0,
-                    ],
-                ],
-            ],
+            'bundle_selections' => ['preset' => 'default_dynamic'],
             'attribute_set_id' => 'Default',
         ];
 
         $this->_data['bundle_fixed_product'] = [
-            'name' => 'bundle_fixed_product%isolation%',
-            'sku' => 'bundle_fixed_product%isolation%',
+            'name' => 'Bundle fixed product %isolation%',
+            'sku' => 'sku_bundle_fixed_product_%isolation%',
             'sku_type' => 'Fixed',
             'price_type' => 'Fixed',
-            'price' => '40.00',
-            'tax_class_id' => 'None',
-            'quantity_and_stock_status' => 'In Stock',
-            'weight' => '1.0000',
-            'weight_type' => 'Fixed',
-            'status' => '1',
-            'shipment_type' => 'Together',
-            'website_ids' => [
-                'Main Website',
+            'price' => ['value' => 750.00, 'preset' => '-'],
+            'tax_class_id' => ['dataSet' => 'Taxable Goods'],
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
             ],
+            'weight' => 1.0000,
+            'weight_type' => 'Fixed',
+            'status' => 'Product online',
+            'shipment_type' => 'Together',
+            'website_ids' => ['Main Website'],
             'stock_data' => [
                 'manage_stock' => 'Yes',
                 'use_config_enable_qty_increments' => 'Yes',
                 'use_config_qty_increments' => 'Yes',
                 'is_in_stock' => 'In Stock'
             ],
-            'url_key' => 'bundle-dynamic-product%isolation%',
+            'url_key' => 'bundle-fixed-product-%isolation%',
             'visibility' => 'Catalog, Search',
-            'bundle_option' => [
-                [
-                    'title' => 'Bundle Options title',
-                    'type' => 'Drop-down',
-                    'required' => 'Yes',
-                    'position' => '0'
-                ],
-            ],
-            'bundle_selection' => [
-                [
-                    0 => [
-                        'product_id' => '%simple_for_composite_products%',
-                        'selection_price_value' => '10.00',
-                        'selection_price_type' => 0,
-                        'selection_qty' => 1,
-                        'selection_can_change_qty' => 'Yes',
-                        'position' => 0
-                    ],
-                ],
-            ],
+            'bundle_selections' => ['preset' => 'default_fixed'],
             'attribute_set_id' => 'Default',
         ];
     }

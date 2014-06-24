@@ -11,14 +11,7 @@ namespace Magento\CatalogSearch\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Fixture\CatalogProductVirtual;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
-use Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped;
-use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Test Creation for SearchEntity results
@@ -39,78 +32,46 @@ use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 class SearchEntityResultsTest extends Injectable
 {
     /**
-     * Config to create products
+     * CMS index page
      *
-     * @var array
+     * @var CmsIndex
      */
-    protected $products = [
-        'giftCardProduct' => [
-            'giftcard' => ['dataSet' => 'customDefault']
-        ],
-        'catalogProductSimple' => [
-            'simple' => ['dataSet' => 'default']
-        ],
-        'catalogProductVirtual' => [
-            'virtual' => ['dataSet' => 'default']
-        ],
-        'catalogProductConfigurable' => [
-            'configurable' => ['dataSet' => 'customDefault', 'persist' => true]
-        ],
-        'catalogProductGrouped' => [
-            'grouped' => ['dataSet' => 'default']
-        ],
-        'catalogProductBundle' => [
-            'bundle_dynamic' => [
-                'dataSet' => 'bundle_dynamic_product',
-                'data' => [
-                    'bundle_selections' => [
-                        'products' => 'catalogProductSimple::default'
-                    ]
-                ]
-            ],
-            'bundle_fixed' => [
-                'dataSet' => 'bundle_fixed_product',
-                'data' => [
-                    'bundle_selections' => [
-                        'products' => 'catalogProductSimple::default'
-                    ]
-                ]
-            ]
-        ],
-        'catalogProductDownloadable' => [
-            'downloadable' => ['dataSet' => 'default']
-        ]
-    ];
+    protected $cmsIndex;
 
     /**
-     * Prepare test data
+     * Inject data
      *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @param CmsIndex $cmsIndex
+     * @return void
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __inject(CmsIndex $cmsIndex)
     {
-        $products = [];
-        foreach($this->products as $fixtureName => $productConfig) {
-            foreach ($productConfig as $varName => $arguments) {
-                $products[$varName] = $fixtureFactory->createByCode($fixtureName, $arguments);
-                $products[$varName]->persist();
-            }
-        }
-
-        return ['products' => $products];
+        $this->cmsIndex = $cmsIndex;
     }
 
     /**
      * Run suggest searching result test
      *
+     * @param string $products
      * @param CatalogSearchQuery $catalogSearch
-     * @param CmsIndex $cmsIndex
-     * @return void
+     * @param FixtureFactory $fixtureFactory
+     * @return array
      */
-    public function testSearch(CatalogSearchQuery $catalogSearch, CmsIndex $cmsIndex)
+    public function testSearch($products, CatalogSearchQuery $catalogSearch, FixtureFactory $fixtureFactory)
     {
-        $cmsIndex->open();
-        $cmsIndex->getSearchBlock()->search($catalogSearch->getQueryText());
+        $result = [];
+        $products = explode(',', $products);
+
+        foreach ($products as $product) {
+            list($fixture, $dataSet) = explode('::', $product);
+            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
+            $product->persist();
+            $result['products'][] = $product;
+        }
+
+        $this->cmsIndex->open();
+        $this->cmsIndex->getSearchBlock()->search($catalogSearch->getQueryText());
+
+        return $result;
     }
 }

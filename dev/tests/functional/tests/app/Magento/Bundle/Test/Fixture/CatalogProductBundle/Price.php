@@ -6,9 +6,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Test\Fixture\Bundle;
+namespace Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**

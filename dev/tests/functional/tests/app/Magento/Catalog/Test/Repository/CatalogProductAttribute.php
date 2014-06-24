@@ -19,8 +19,8 @@ class CatalogProductAttribute extends AbstractRepository
     /**
      * Construct
      *
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * @param array $defaultConfig [optional]
+     * @param array $defaultData [optional]
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -40,17 +40,17 @@ class CatalogProductAttribute extends AbstractRepository
                 1 => [
                     'is_default' => 'Yes',
                     'admin' => 'black',
-                    'view' => 'option_0',
+                    'view' => 'option_0_%isolation%',
                 ],
                 2 => [
                     'is_default' => 'No',
                     'admin' => 'white',
-                    'view' => 'option_1',
+                    'view' => 'option_1_%isolation%',
                 ],
                 3 => [
                     'is_default' => 'No',
                     'admin' => 'green',
-                    'view' => 'option_2',
+                    'view' => 'option_2_%isolation%',
                 ]
             ]
         ];

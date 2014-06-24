@@ -14,7 +14,6 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -49,7 +48,7 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
     /**
      * Post request for creating Product Attribute
      *
-     * @param FixtureInterface $fixture
+     * @param FixtureInterface|null $fixture [optional]
      * @return array
      * @throws \Exception
      */
@@ -71,9 +70,9 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
             unset($data['options']);
         }
 
-        $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/';
+        $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/back/edit';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -81,11 +80,20 @@ class Curl extends AbstractCurl implements CatalogProductAttributeInterface
             throw new \Exception("Product Attribute creating by curl handler was not successful!");
         }
 
-        $url = 'catalog/product_attribute/index/filter/';
-        $url .= base64_encode('frontend_label=' . $data['frontend_label'][0]);
-        $regExpPattern = '`<tr.*?http.*?attribute_id\/(\d*?)\/`';
-        $extractor = new Extractor($url, $regExpPattern);
+        $resultData = [];
+        $matches = [];
+        preg_match('#attribute_id[^>]+value="(\d+)"#', $response, $matches);
+        $resultData['attribute_id'] = $matches[1];
 
-        return ['attribute_id' => $extractor->getData()[1]];
+        $matches = [];
+        preg_match_all('#"id":"(\d+)"#Umi', $response, $matches);
+
+        $optionsData = $fixture->getData()['options'];
+        foreach ($matches[1] as $key => $optionId) {
+            $optionsData[$key + 1]['id'] = $optionId;
+        }
+        $resultData['options'] = $optionsData;
+
+        return $resultData;
     }
 }

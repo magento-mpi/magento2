@@ -17,13 +17,14 @@ use Mtf\Repository\AbstractRepository;
 class GiftCardProduct extends AbstractRepository
 {
     /**
-     * @constructor
+     * Constructor
+     *
      * @param array $defaultConfig
      * @param array $defaultData
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['customDefault'] = [
+        $this->_data['default'] = [
             'name' => 'Test product giftcard %isolation%',
             'sku' => 'sku_test_product_giftcard_%isolation%',
             'giftcard_type' => 'Virtual',
@@ -37,7 +38,10 @@ class GiftCardProduct extends AbstractRepository
                     'price' => 150,
                 ]
             ],
-            'quantity_and_stock_status' => 'In Stock',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'status' => 'Product online',
             'use_config_is_redeemable' => 'Yes',
             'lifetime' => 5,

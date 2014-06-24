@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Bundle\Test\Handler;
+namespace Magento\Bundle\Test\Handler\CatalogProductBundle;
 
 use Mtf\Handler\HandlerInterface;
 

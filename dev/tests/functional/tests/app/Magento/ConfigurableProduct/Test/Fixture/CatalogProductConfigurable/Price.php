@@ -32,6 +32,8 @@ class Price implements FixtureInterface
     protected $currentPreset;
 
     /**
+     * Constructor
+     *
      * @param array $params
      * @param array $data
      */
@@ -84,19 +86,21 @@ class Price implements FixtureInterface
     {
         $presets = [
             'MAGETWO-23062' => [
-                'category_price' => '$100.00',
-                'product_price' => '$100.00',
-                'cart_price' => '$130.00'
+                'category_price' => '100.00',
+                'product_price' => '100.00',
+                'cart_price' => '154.00'
             ],
             'MAGETWO-23063' => [
-                'category_price' => '$100.00',
-                'product_price' => '$100.00',
-                'cart_price' => '$140.00'
+                'category_price' => '100.00',
+                'product_price' => '100.00',
+                'cart_price' => '140.00'
             ],
         ];
+
         if (!isset($presets[$this->currentPreset])) {
             return null;
         }
+
         return $presets[$this->currentPreset];
     }
 }

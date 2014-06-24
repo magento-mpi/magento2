@@ -23,7 +23,7 @@ class GiftCardProduct extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\GiftCard\Test\Handler\GiftCardProductInterface';
+    protected $handlerInterface = 'Magento\GiftCard\Test\Handler\GiftCardProduct\GiftCardProductInterface';
 
     protected $dataConfig = [
         'create_url_params' => [

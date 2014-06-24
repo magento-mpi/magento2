@@ -25,10 +25,12 @@ class CatalogProductGrouped extends InjectableFixture
      */
     protected $repositoryClass = 'Magento\GroupedProduct\Test\Repository\CatalogProductGrouped';
 
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
     protected $handlerInterface = 'Magento\GroupedProduct\Test\Handler\CatalogProductGrouped\CatalogProductGroupedInterface';
+    // @codingStandardsIgnoreEnd
 
     /**
      * Constructor
@@ -88,7 +90,7 @@ class CatalogProductGrouped extends InjectableFixture
         'quantity_and_stock_status' => [
             'qty' => '1',
             'is_in_stock' => 'In Stock'
-        ] ,
+        ],
     ];
 
     protected $category_ids = [
@@ -123,12 +125,12 @@ class CatalogProductGrouped extends InjectableFixture
         'input' => 'select',
     ];
 
-    protected $grouped_products = [
-        'attribute_code' => 'grouped_products',
+    protected $associated = [
+        'attribute_code' => 'associated',
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => 'grouped',
-        'source' => 'Magento\GroupedProduct\Test\Fixture\Grouped\ProductList',
+        'source' => 'Magento\GroupedProduct\Test\Fixture\CatalogProductGrouped\GroupedProducts',
     ];
 
     protected $custom_design_from = [
@@ -619,9 +621,9 @@ class CatalogProductGrouped extends InjectableFixture
         return $this->getData('sku');
     }
 
-    public function getGroupedData()
+    public function getAssociated()
     {
-        return $this->getData('grouped_products');
+        return $this->getData('associated');
     }
 
     public function getSmallImage()

@@ -29,9 +29,17 @@ class CatalogProductSimple extends AbstractRepository
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
             'weight' => 1,
-            'quantity_and_stock_status' => 'In Stock',
-            'qty' => 25,
-            'price' => ['value' => 560, 'preset' => '-'],
+            'quantity_and_stock_status' => [
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'stock_data' => [
+                'manage_stock' => 'Yes',
+                'original_inventory_qty' => 25.0000,
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'price' => ['value' => 560.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
             'website_ids' => ['Main Website'],
         ];
@@ -39,8 +47,12 @@ class CatalogProductSimple extends AbstractRepository
         $this->_data['100_dollar_product'] = [
             'sku' => '100_dollar_product%isolation%',
             'name' => '100_dollar_product%isolation%',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'quantity_and_stock_status' => 'In Stock',
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
         ];
@@ -48,10 +60,13 @@ class CatalogProductSimple extends AbstractRepository
         $this->_data['40_dollar_product'] = [
             'sku' => '40_dollar_product',
             'name' => '40_dollar_product',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'quantity_and_stock_status' => 'In Stock',
             'price' => ['value' => 40, 'preset' => '-'],
-            'id' => '2',
             'mtf_dataset_name' => '40_dollar_product',
             'website_ids' => ['Main Website'],
         ];
@@ -60,9 +75,12 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'MAGETWO-23036',
             'name' => 'simple_with_category',
             'attribute_set_id' => ['dataSet' => 'default'],
-            'quantity_and_stock_status' => 'In Stock',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
-            'id' => '3',
             'category_ids' => ['presets' => 'default'],
             'mtf_dataset_name' => 'simple_with_category',
             'website_ids' => ['Main Website'],
@@ -80,7 +98,11 @@ class CatalogProductSimple extends AbstractRepository
 
         $this->_data['simple_for_salesrule_1'] = [
             'attribute_set_id' => ['dataSet' => 'default'],
-            'quantity_and_stock_status' => 'In Stock',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
             'price' => ['value' => 100, 'preset' => ''],
@@ -115,7 +137,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 100.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'None'],
             'quantity_and_stock_status' => [
-                'qty' => 666,
+                'qty' => 666.0000,
                 'is_in_stock' => 'Yes',
             ],
             'weight' => 1.0000,
@@ -126,7 +148,7 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'stock_data' => [
                 'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666,
+                'original_inventory_qty' => 666.0000,
                 'qty' => 666.0000,
                 'is_in_stock' => 'In Stock',
             ],
@@ -151,7 +173,7 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'stock_data' => [
                 'manage_stock' => 'Yes',
-                'original_inventory_qty' => 666,
+                'original_inventory_qty' => 666.0000,
                 'qty' => 666.0000,
                 'is_in_stock' => 'Yes',
             ],
@@ -162,7 +184,11 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => '100_dollar_product%isolation%',
             'name' => '100_dollar_product%isolation%',
             'attribute_set_id' => ['dataSet' => 'default'],
-            'quantity_and_stock_status' => 'In Stock',
+            'type_id' => 'simple',
+            'quantity_and_stock_status' => [
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'qty' => 25,
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],

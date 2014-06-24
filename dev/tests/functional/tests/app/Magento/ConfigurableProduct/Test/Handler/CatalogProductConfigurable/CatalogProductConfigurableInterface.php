@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\ConfigurableProduct\Test\Handler;
+namespace Magento\ConfigurableProduct\Test\Handler\CatalogProductConfigurable;
 
 use Mtf\Handler\HandlerInterface;
 

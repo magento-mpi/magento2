@@ -29,7 +29,7 @@ class CatalogProductBundle extends InjectableFixture
     /**
      * @var string
      */
-    protected $handlerInterface = 'Magento\Bundle\Test\Handler\CatalogProductBundleInterface';
+    protected $handlerInterface = 'Magento\Bundle\Test\Handler\CatalogProductBundle\CatalogProductBundleInterface';
 
     /**
      * Constructor
@@ -184,6 +184,7 @@ class CatalogProductBundle extends InjectableFixture
         'input' => 'checkbox',
         'group' => 'autosettings'
     ];
+
     protected $group_price = [
         'attribute_code' => 'group_price',
         'backend_type' => 'decimal',
@@ -337,6 +338,7 @@ class CatalogProductBundle extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
+        'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\Price',
         'group' => 'product-details'
     ];
 
@@ -517,9 +519,10 @@ class CatalogProductBundle extends InjectableFixture
         'attribute_code' => 'tax_class_id',
         'backend_type' => 'int',
         'is_required' => '0',
-        'default_value' => '2',
+        'default_value' => 'Taxable Goods',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TaxClass',
     ];
 
     protected $thumbnail = [
@@ -592,15 +595,7 @@ class CatalogProductBundle extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => 'bundle',
-        'source' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
-    ];
-
-    protected $bundle_option = [
-        'attribute_code' => 'bundle_option',
-    ];
-
-    protected $bundle_selection = [
-        'attribute_code' => 'bundle_selection',
+        'source' => 'Magento\Bundle\Test\Fixture\CatalogProductBundle\BundleSelections',
     ];
 
     protected $custom_options = [
