@@ -14,6 +14,7 @@ use Magento\Framework\Model\Exception;
 
 /**
  * URL rewrite adminhtml controller
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Urlrewrite extends Action
 {
@@ -119,6 +120,7 @@ class Urlrewrite extends Action
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Catalog\Model\Url $catalogUrl
      * @param \Magento\Catalog\Model\Resource\UrlFactory $catalogUrlFactory
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -289,7 +291,8 @@ class Urlrewrite extends Action
      */
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             try {
                 // set basic urlrewrite data
                 /** @var $model \Magento\UrlRewrite\Model\UrlRewrite */
