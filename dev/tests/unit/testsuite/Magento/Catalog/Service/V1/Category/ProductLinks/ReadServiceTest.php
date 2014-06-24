@@ -8,10 +8,6 @@
 namespace Magento\Catalog\Service\V1\Category\ProductLinks;
 
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Service\V1\Data\Eav\Category\Info\Converter;
-use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
-use Magento\Catalog\Service\V1\Data\Eav\Category\Info\Metadata;
-use Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverter;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductConverterFactory;
 use Magento\TestFramework\Helper\ObjectManager;
@@ -27,11 +23,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
      * @var Category|\PHPUnit_Framework_MockObject_MockObject
      */
     private $category;
-
-    /**
-     * @var Converter|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $converter;
 
     /**
      * @var ProductConverterFactory|\PHPUnit_Framework_MockObject_MockObject
