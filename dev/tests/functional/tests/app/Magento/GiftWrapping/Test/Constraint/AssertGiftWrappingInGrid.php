@@ -27,21 +27,25 @@ class AssertGiftWrappingInGrid extends AbstractConstraint
     /**
      * Assert Gift Wrapping availability in Gift Wrapping grid
      *
-     * @param GiftWrapping $giftWrapping
      * @param GiftWrappingIndex $giftWrappingIndexPage
+     * @param GiftWrapping $giftWrapping
+     * @param GiftWrapping $initialGiftWrapping
      * @return void
      */
     public function processAssert(
+        GiftWrappingIndex $giftWrappingIndexPage,
         GiftWrapping $giftWrapping,
-        GiftWrappingIndex $giftWrappingIndexPage
+        GiftWrapping $initialGiftWrapping = null
     ) {
-        $websites = $giftWrapping->getWebsiteIds();
-        reset($websites);
+        $data = ($initialGiftWrapping !== null)
+            ? array_merge($initialGiftWrapping->getData(), $giftWrapping->getData())
+            : $giftWrapping->getData();
+        reset($data['website_ids']);
         $filter = [
-            'design' => $giftWrapping->getDesign(),
-            'status' => $giftWrapping->getStatus(),
-            'website_ids' => current($websites),
-            'base_price' => $giftWrapping->getBasePrice(),
+            'design' => $data['design'],
+            'status' => $data['status'],
+            'website_ids' => current($data['website_ids']),
+            'base_price' => $data['base_price'],
         ];
 
         $giftWrappingIndexPage->open();
