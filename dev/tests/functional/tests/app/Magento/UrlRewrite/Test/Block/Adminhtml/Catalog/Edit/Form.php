@@ -33,7 +33,7 @@ class Form extends FormWidget
             $entity = $fixture->getDataFieldConfig('id_path')['source']->getEntity();
             $data['target_path'] = $entity->hasData('identifier')
                 ? $entity->getIdentifier()
-                : strtolower($entity->getUrlKey()) . '.html';
+                : $entity->getUrlKey() . '.html';
         }
         $fields = isset($data['fields']) ? $data['fields'] : $data;
         $mapping = $this->dataMapping($fields);
