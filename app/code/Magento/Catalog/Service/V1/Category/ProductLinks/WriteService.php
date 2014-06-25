@@ -43,9 +43,8 @@ class WriteService implements WriteServiceInterface
     {
         $category = $this->getCategory($categoryId);
         $productId = $this->productFactory->create()->getIdBySku($productLink->getSku());
-        $position = $productLink->getPosition();
         $productPositions = $category->getProductsPosition();
-        $newProductPositions = [$productId => $position] + $productPositions;
+        $newProductPositions = [$productId => $productLink->getPosition()] + $productPositions;
         $category->setPostedProducts($newProductPositions);
         try {
             $category->save();
@@ -54,7 +53,7 @@ class WriteService implements WriteServiceInterface
                 'Could not save product "%1" with position %2 to category %3',
                 [
                     $productId,
-                    $position,
+                    $productLink->getPosition(),
                     $categoryId,
                 ],
                 $e
