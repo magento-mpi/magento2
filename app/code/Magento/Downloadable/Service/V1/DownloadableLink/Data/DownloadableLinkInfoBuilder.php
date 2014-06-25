@@ -44,9 +44,9 @@ class DownloadableLinkInfoBuilder extends AbstractObjectBuilder
      * @param int $value
      * @return $this
      */
-    public function setSharable($value)
+    public function setShareable($value)
     {
-        return $this->_set(DownloadableLinkInfo::SHARABLE, $value);
+        return $this->_set(DownloadableLinkInfo::SHAREABLE, $value);
     }
 
     /**

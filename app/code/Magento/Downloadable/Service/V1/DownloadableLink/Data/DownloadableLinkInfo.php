@@ -18,7 +18,7 @@ class DownloadableLinkInfo extends AbstractObject
 
     const SORT_ORDER = 'sort_order';
 
-    const SHARABLE = 'sharable';
+    const SHAREABLE = 'shareable';
 
     const PRICE = 'price';
 
@@ -59,16 +59,16 @@ class DownloadableLinkInfo extends AbstractObject
     }
 
     /**
-     * Link sharable status
+     * Link shareable status
      * 0 -- No
      * 1 -- Yes
      * 2 -- Use config default value
      *
      * @return int
      */
-    public function getSharable()
+    public function getShareable()
     {
-        return (int)$this->_get(self::SHARABLE);
+        return (int)$this->_get(self::SHAREABLE);
     }
 
     /**

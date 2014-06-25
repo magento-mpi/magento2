@@ -92,7 +92,7 @@ class ReadService implements ReadServiceInterface
         $this->linkBuilder->setPrice($resourceData->getPrice());
         $this->linkBuilder->setNumberOfDownloads($resourceData->getNumberOfDownloads());
         $this->linkBuilder->setSortOrder($resourceData->getSortOrder());
-        $this->linkBuilder->setSharable($resourceData->getIsShareable());
+        $this->linkBuilder->setShareable($resourceData->getIsShareable());
         $this->linkBuilder->setLinkResource($this->entityInfoGenerator('link', $resourceData));
         $this->linkBuilder->setSampleResource($this->entityInfoGenerator('sample', $resourceData));
         return $this->linkBuilder->create();
