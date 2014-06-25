@@ -9,9 +9,6 @@
 namespace Magento\CatalogRule\Test\TestCase;
 
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
-use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
-use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
-use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Create CatalogPriceRuleEntity 
@@ -27,34 +24,8 @@ use Mtf\TestCase\Injectable;
  * @group Catalog_Price_Rules_(MX)
  * @ZephyrId MAGETWO-24341
  */
-class CreateCatalogPriceRuleEntityTest extends Injectable
+class CreateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
 {
-    /**
-     * Page CatalogRuleIndex
-     *
-     * @var CatalogRuleIndex
-     */
-    protected $catalogRuleIndex;
-
-    /**
-     * Page CatalogRuleNew
-     *
-     * @var CatalogRuleNew
-     */
-    protected $catalogRuleNew;
-
-    /**
-     * @param CatalogRuleIndex $catalogRuleIndex
-     * @param CatalogRuleNew $catalogRuleNew
-     */
-    public function __inject(
-        CatalogRuleIndex $catalogRuleIndex,
-        CatalogRuleNew $catalogRuleNew
-    ) {
-        $this->catalogRuleIndex = $catalogRuleIndex;
-        $this->catalogRuleNew = $catalogRuleNew;
-    }
-
     /**
      * Create Catalog Price Rule
      *
@@ -67,5 +38,8 @@ class CreateCatalogPriceRuleEntityTest extends Injectable
         $this->catalogRuleIndex->getGridPageActions()->addNew();
         $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule);
         $this->catalogRuleNew->getFormPageActions()->save();
+
+        // Prepare data for tear down
+        $this->prepareTearDown($catalogPriceRule);
     }
 }

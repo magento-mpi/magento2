@@ -56,7 +56,7 @@ class PayflowProTest extends Functional
         $paypalPage->getReviewBlock()->continueCheckout();
 
         //Proceed Checkout on Magento side
-        $checkoutReviewPage = Factory::getPageFactory()->getPaypalPayflowexpressReview();
+        $checkoutReviewPage = Factory::getPageFactory()->getPaypalExpressReview();
         $checkoutReviewPage->getReviewBlock()->selectShippingMethod($fixture->getShippingMethods());
         $checkoutReviewPage->getReviewBlock()->placeOrder();
 
@@ -65,7 +65,8 @@ class PayflowProTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }

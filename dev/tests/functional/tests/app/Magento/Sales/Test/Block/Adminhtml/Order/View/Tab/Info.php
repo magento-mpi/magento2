@@ -23,21 +23,21 @@ class Info extends Block
      *
      * @var string
      */
-    protected  $_verificationResult = '//tr[normalize-space(th)="3D Secure Verification Result:"]/td';
+    protected $_verificationResult = '//tr[normalize-space(th)="3D Secure Verification Result:"]/td';
 
     /**
      * 3D Secure Cardholder Validation
      *
      * @var string
      */
-    protected  $_cardholderValidation = '//tr[normalize-space(th)="3D Secure Cardholder Validation:"]/td';
+    protected $_cardholderValidation = '//tr[normalize-space(th)="3D Secure Cardholder Validation:"]/td';
 
     /**
      * 3D Secure Electronic Commerce Indicator
      *
      * @var string
      */
-    protected  $_eCommerceIndicator = '//tr[normalize-space(th)="3D Secure Electronic Commerce Indicator:"]/td';
+    protected $_eCommerceIndicator = '//tr[normalize-space(th)="3D Secure Electronic Commerce Indicator:"]/td';
 
     /**
      * Get 3D Secure Verification Result
