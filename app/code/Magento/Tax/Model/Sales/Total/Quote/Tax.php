@@ -421,7 +421,9 @@ class Tax extends AbstractTotal
      */
     protected function updateItemTaxInfo($quoteItem, $itemTaxDetails, $baseItemTaxDetails)
     {
-        $quoteItem->setPrice($itemTaxDetails->getPrice());
+        //The price should be base price
+        $quoteItem->setPrice($baseItemTaxDetails->getPrice());
+        $quoteItem->setConvertedPrice($itemTaxDetails->getPrice());
         $quoteItem->setPriceInclTax($itemTaxDetails->getPriceInclTax());
         $quoteItem->setRowTotal($itemTaxDetails->getRowTotal());
         $quoteItem->setRowTotalInclTax($itemTaxDetails->getRowTotalInclTax());
