@@ -82,6 +82,39 @@ class BundleSelections implements FixtureInterface
     }
 
     /**
+     * Get selection for performing checkout
+     *
+     * @return array|null
+     */
+    public function getSelectionForCheckout()
+    {
+        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple $product */
+        $product = reset($this->data['products'])[0];
+        $selectionsForCheckout = [
+            'default' => [
+                0 => [
+                    'value' => $product->getName(),
+                    'type' => 'select',
+                    'qty' => 1
+                ]
+            ],
+            'second' => [
+                0 => [
+                    'value' => $product->getName(),
+                    'type' => 'select',
+                    'qty' => 1
+                ]
+            ],
+        ];
+
+        if (!isset($selectionsForCheckout[$this->currentPreset])) {
+            return null;
+        }
+
+        return $selectionsForCheckout[$this->currentPreset];
+    }
+
+    /**
      * Return prepared data set
      *
      * @param $key [optional]
@@ -112,6 +145,39 @@ class BundleSelections implements FixtureInterface
     protected function getPreset($name)
     {
         $presets = [
+            'default' => [
+                'bundle_options' => [
+                    [
+                        'title' => 'Drop-down Option',
+                        'type' => 'Drop-down',
+                        'required' => 'Yes',
+                        'assigned_products' => [
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%'
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ]
+                            ],
+                            [
+                                'search_data' => [
+                                    'name' => '%product_name%'
+                                ],
+                                'data' => [
+                                    'selection_qty' => 1,
+                                ]
+                            ]
+                        ]
+                    ],
+                ],
+                'products' => [
+                    [
+                        'catalogProductSimple::default',
+                        'catalogProductSimple::default'
+                    ]
+                ]
+            ],
             'default_dynamic' => [
                 'bundle_options' => [
                     [

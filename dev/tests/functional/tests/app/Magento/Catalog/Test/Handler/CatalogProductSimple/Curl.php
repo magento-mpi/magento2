@@ -155,7 +155,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             }
         }
 
-        
         // Getting Attribute Set id
         if ($fixture->hasData('attribute_set_id')) {
             $attributeSetId = $fixture
@@ -167,9 +166,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 
         $fields = $this->prepareStockData($fields);
 
-        $data = $prefix ? [$prefix => $fields] : $fields;
-
-        return $data;
+        return $prefix ? [$prefix => $fields] : $fields;
     }
 
     /**
@@ -180,7 +177,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
      */
     protected function prepareStockData(array $fields)
     {
-        if (!is_array($fields['quantity_and_stock_status'])) {
+        if (isset($fields['quantity_and_stock_status']) && !is_array($fields['quantity_and_stock_status'])) {
             $fields['quantity_and_stock_status'] = [
                 'qty' => $fields['qty'],
                 'is_in_stock' => $fields['quantity_and_stock_status']

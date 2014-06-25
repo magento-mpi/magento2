@@ -89,6 +89,10 @@ class CatalogProductSimple extends AbstractRepository
         $this->_data['product_with_category'] = [
             'sku' => 'simple_product_with_category_%isolation%',
             'name' => 'Simple product with category %isolation%',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 100, 'preset' => ''],
             'category_ids' => ['presets' => 'default_subcategory'],

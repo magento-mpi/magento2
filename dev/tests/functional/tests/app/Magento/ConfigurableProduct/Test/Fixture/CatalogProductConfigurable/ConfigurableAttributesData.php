@@ -36,7 +36,7 @@ class ConfigurableAttributesData implements FixtureInterface
     {
         $this->params = $params;
 
-        if ($data['preset']) {
+        if (isset($data['preset']) && $data['preset'] !== '-') {
             $this->currentPreset = $data['preset'];
             $this->data = $this->getPreset($this->currentPreset);
         }

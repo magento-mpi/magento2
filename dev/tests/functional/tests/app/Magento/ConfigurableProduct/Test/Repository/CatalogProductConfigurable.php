@@ -42,7 +42,7 @@ class CatalogProductConfigurable extends AbstractRepository
                 'is_in_stock' => 'In Stock',
             ],
             'website_ids' => ['Main Website'],
-            'attribute_set_id' => 'Default',
+            'attribute_set_id' => ['dataSet' => 'default'],
         ];
     }
 }

@@ -31,7 +31,7 @@ class CatalogProductVirtual extends AbstractRepository
             'is_virtual' => 'Yes',
             'url_key' => 'virtual-product%isolation%',
             'visibility' => 'Catalog, Search',
-            'attribute_set_id' => 'Default',
+            'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Virtual product %isolation%',
             'sku' => 'sku_virtual_product_%isolation%',
             'quantity_and_stock_status' => [

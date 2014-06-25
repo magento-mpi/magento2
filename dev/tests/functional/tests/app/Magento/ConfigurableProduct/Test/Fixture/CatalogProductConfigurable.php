@@ -541,6 +541,8 @@ class CatalogProductConfigurable extends InjectableFixture
     protected $attribute_set_id = [
         'attribute_code' => 'attribute_set_id',
         'backend_type' => 'virtual',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
     protected $attribute_set_name = [

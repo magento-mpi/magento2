@@ -415,7 +415,9 @@
         </type_id>
         <attribute_set_id>
             <attribute_code>attribute_set_id</attribute_code>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId</source>
             <backend_type>virtual</backend_type>
+            <group>product-details</group>
         </attribute_set_id>
         <attribute_set_name>
             <attribute_code>attribute_set_name</attribute_code>
