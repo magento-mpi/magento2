@@ -11,7 +11,6 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
-use \Magento\Catalog\Model\Product\Price\ScopeResolver as PriceScopeResolver;
 
 class WriteService implements WriteServiceInterface
 {
@@ -64,13 +63,36 @@ class WriteService implements WriteServiceInterface
         $product->setCanSaveCustomOptions(true);
         $product->setProductOptions([$optionData]);
 
+        $existingOptions = $product->getOptions();
+
         try {
             $product->save();
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not save product option');
         }
 
-        return true;
+        $productId = $product->getId();
+        $product->reset();
+        $product->load($productId);
+        $currentOptions = $product->getOptions();
+
+        $newID = array_diff(array_keys($currentOptions), array_keys($existingOptions));
+        if (empty($newID)) {
+            throw new CouldNotSaveException('Could not save product option');
+        }
+        $newID = current($newID);
+        /** @var \Magento\Catalog\Model\Product\Option $newOption */
+        $newOption = $currentOptions[$newID];
+        $data= array(
+            Data\Option::OPTION_ID => $newOption->getId(),
+            Data\Option::TITLE => $newOption->getTitle(),
+            Data\Option::TYPE => $newOption->getType(),
+            Data\Option::IS_REQUIRE => $newOption->getIsRequire(),
+            Data\Option::SORT_ORDER => $newOption->getSortOrder(),
+            Data\Option::VALUE => $this->optionValueReader->read($newOption)
+        );
+        $optionDataObject = $this->optionBuilder->populateWithArray($data)->create();
+        return $optionDataObject;
     }
 
     /**
