@@ -665,6 +665,37 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Magento/Catalog/_files/products_with_multiselect_attribute.php
+     */
+    public function testValidateInvalidMultiselectValues()
+    {
+        // import data from CSV file
+        $pathToFile = __DIR__ . '/_files/products_with_invalid_multiselect_values.csv';
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\App\Filesystem'
+        );
+        $directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
+        $validationResult = $this->_model->setSource(
+            $source
+        )->setParameters(
+            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND)
+        )->isDataValid();
+
+        $this->assertFalse($validationResult);
+
+        $errors = $this->_model->getErrorMessages();
+        $expectedErrors = array(
+            "Please correct the value for 'multiselect_attribute'." => [2],
+            "Orphan rows that will be skipped due default row errors" => [3,4]
+        );
+        foreach ($expectedErrors as $message => $invalidRows) {
+            $this->assertArrayHasKey($message, $errors);
+            $this->assertEquals($invalidRows, $errors[$message]);
+        }
+    }
+
+    /**
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Magento/Core/_files/store.php
      * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/_files/attribute_with_option.php
