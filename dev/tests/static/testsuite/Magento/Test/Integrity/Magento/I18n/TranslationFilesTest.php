@@ -53,7 +53,10 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty(
             $failures,
-            $this->printMessage($failures)
+            $this->printMessage(
+                $failures,
+                'Found discrepancy between default locale and other locale'
+            )
         );
     }
 
@@ -73,11 +76,12 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string[][][] $failures Array errors in format $failures[$locale][$errorType][$message]
+     * @param string $message
      * @return string
      */
-    protected function printMessage($failures)
+    protected function printMessage($failures, $message = '')
     {
-        $message = "\n";
+        $message .= "\n";
         foreach ($failures as $locale => $localeErrors) {
             $message .= $locale . "\n";
             foreach ($localeErrors as $typeError => $error) {
@@ -281,5 +285,36 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
     protected function eliminateSpecialChars($text)
     {
         return preg_replace(['/\\\\\'/', '/\\\\\\\\/'], ['\'', '\\'], $text);
+    }
+
+    /**
+     * Test placeholders in translations.
+     * Compares count numeric placeholders in keys and translates.
+     *
+     * @param string $modulePath
+     * @dataProvider getModulesPath
+     */
+    public function testPhrasePlaceHolders($modulePath)
+    {
+        $files = $this->getCsvFiles($modulePath);
+
+        $failures = array();
+        foreach ($files as $locale => $file) {
+            $fileData = $this->csvParser->getDataPairs($file);
+            foreach ($fileData as $key => $translate) {
+                preg_match_all('/%(\d+)/', $key, $keyMatches);
+                preg_match_all('/%(\d+)/', $translate, $translateMatches);
+                if (count(array_unique($keyMatches[1])) != count(array_unique($translateMatches[1]))) {
+                    $failures[$locale][$key][] = $translate;
+                }
+            }
+        }
+        $this->assertEmpty(
+            $failures,
+            $this->printMessage(
+                $failures,
+                'Found discrepancy between keys and translations in count of numeric placeholders'
+            )
+        );
     }
 }
