@@ -15,6 +15,7 @@ use Magento\Catalog\Service\V1\Category\CategoryLoaderFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -46,6 +47,11 @@ class WriteService implements WriteServiceInterface
 
         $productId = $this->productFactory->create()->getIdBySku($productLink->getSku());
         $productPositions = $category->getProductsPosition();
+
+        if (array_key_exists($productId, $productPositions)) {
+            throw new StateException('Product already exists in this category');
+        }
+
         $newProductPositions = [$productId => $productLink->getPosition()] + $productPositions;
 
         $category->setPostedProducts($newProductPositions);
