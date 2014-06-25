@@ -67,7 +67,8 @@ class ReadService implements ReadServiceInterface
         $links = $this->downloadableType->getLinks($product);
         /** @var \Magento\Downloadable\Model\Link $link */
         foreach ($links as $link) {
-            $linkList[] = $this->buildResource($link);
+            var_dump($link);
+//            $linkList[] = $this->buildResource($link);
         }
         return $linkList;
     }
@@ -82,7 +83,13 @@ class ReadService implements ReadServiceInterface
     {
         $this->linkBuilder->populateWithArray([]);
         $this->linkBuilder->setId($resourceData->getId());
-        $this->linkBuilder->setTitle($resourceData->getStoreTitle());
+        $storeTitle = $resourceData->getStoreTitle();
+        $title = $resourceData->getTitle();
+        if (!empty($storeTitle)) {
+            $this->linkBuilder->setTitle($storeTitle);
+        } else {
+            $this->linkBuilder->setTitle($title);
+        }
         $this->linkBuilder->setPrice($resourceData->getPrice());
         $this->linkBuilder->setNumberOfDownloads($resourceData->getNumberOfDownloads());
         $this->linkBuilder->setSortOrder($resourceData->getSortOrder());
