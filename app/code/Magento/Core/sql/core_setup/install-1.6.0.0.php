@@ -356,7 +356,11 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Variable Name'
 )->addIndex(
-    $installer->getIdxName('core_variable', array('code'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName(
+        'core_variable',
+        array('code'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
     array('code'),
     array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->setComment(
