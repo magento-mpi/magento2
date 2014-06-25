@@ -15,6 +15,7 @@ return [
             'title'       => 'Readiness Check',
             'controller'  => 'readinessCheck',
             'nav-bar'     => true,
+            'step'     => 1,
         ],
         [
             'id'          => 'add-database',
@@ -23,6 +24,7 @@ return [
             'title'       => 'Add Database',
             'controller'  => 'addDatabase',
             'nav-bar'     => true,
+            'step'     => 2,
         ],
         [
             'id'          => 'web-configuration',
@@ -31,6 +33,7 @@ return [
             'title'       => 'Web Configuration',
             'controller'  => 'webConfiguration',
             'nav-bar'     => true,
+            'step'     => 3,
         ],
         [
             'id'          => 'customize-your-store',
@@ -39,6 +42,7 @@ return [
             'title'       => 'Customize Your Store',
             'controller'  => 'customizeYourStore',
             'nav-bar'     => true,
+            'step'     => 4,
         ],
         [
             'id'          => 'create-admin-account',
@@ -47,6 +51,7 @@ return [
             'title'       => 'Create Admin Account',
             'controller'  => 'createAdminAccount',
             'nav-bar'     => true,
+            'step'     => 5,
         ],
         [
             'id'          => 'install',
@@ -55,6 +60,7 @@ return [
             'title'       => 'Install',
             'controller'  => 'install',
             'nav-bar'     => true,
+            'step'     => 6,
         ],
     ]
 ];

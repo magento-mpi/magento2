@@ -8,7 +8,9 @@ app.controller('navigationController',
                         app.stateProvider.state(item.id, {
                             url: item.url,
                             templateUrl: item.templateUrl,
-                            controller: item.controller + 'Controller'
+                            controller: item.controller + 'Controller',
+                            title: item.title,
+                            step: item.step
                         });
                     });
                     $state.go($location.path().replace('/', ''));

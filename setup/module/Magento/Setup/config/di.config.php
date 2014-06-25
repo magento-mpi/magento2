@@ -20,6 +20,7 @@ return [
             'Magento\Setup\Controller\LicenseController',
             'Magento\Setup\Controller\MenuController',
             'Magento\Setup\Controller\UserController',
+            'Magento\Setup\Controller\Controls\HeaderController',
         ],
         'instance' => [
             'preference' => [
