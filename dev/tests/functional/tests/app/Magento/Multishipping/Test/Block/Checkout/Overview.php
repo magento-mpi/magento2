@@ -30,6 +30,8 @@ class Overview extends Block
      * Place order
      *
      * @param GuestPaypalDirect $fixture
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function placeOrder(GuestPaypalDirect $fixture = null)
     {
