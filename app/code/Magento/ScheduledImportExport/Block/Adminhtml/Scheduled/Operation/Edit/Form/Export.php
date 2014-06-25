@@ -31,6 +31,11 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
     protected $_templateFactory;
 
     /**
+     * @var \Magento\ImportExport\Model\Export\ConfigInterface
+     */
+    protected $_exportConfig;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -42,6 +47,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
+     * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param array $data
      */
     public function __construct(
@@ -56,10 +62,12 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         \Magento\Framework\Stdlib\String $string,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
+        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         array $data = array()
     ) {
         $this->_sourceExportFormat = $sourceExportFormat;
         $this->_templateFactory = $templateFactory;
+        $this->_exportConfig = $exportConfig;
         parent::__construct(
             $context,
             $registry,
@@ -124,11 +132,13 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
             // that's why we will not change its data to ensure that existing logic will not be affected.
             // instead we will clone existing operation object.
             $filterOperation = clone $operation;
-            if ($filterOperation->getEntityType() == 'customer_address' ||
-                $filterOperation->getEntityType() == 'customer_finance'
-            ) {
-                $filterOperation->setEntityType('customer');
+
+            $entitiesConfig = $this->_exportConfig->getEntities();
+            if (isset($entitiesConfig[$filterOperation->getEntityType()])) {
+                $entityConfig = $entitiesConfig[$filterOperation->getEntityType()];
+                $filterOperation->setEntityType($entityConfig['entityAttributeFilterType']);
             }
+
             $fieldset->setData('html_content', $this->_getFilterBlock($filterOperation)->toHtml());
         }
 
