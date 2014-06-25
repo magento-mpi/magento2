@@ -1,7 +1,7 @@
 * Fixed bugs:
   * Fixed: Screen isn't moved automatically to invalidly filled field on "Create new Order" backend page (MAGETWO-19689)
   * Fixed: Several configuration fields possible to edit on website scope is checkboxes "Use Default" are checked (CAPTCHA section) (MAGETWO-15247)
-  * Fixed: Not required 'State/Province' fields on 'Create new Order' page are marked as required (MAGETWO-17829)
+  * Fixed: Not required "State/Province" fields on "Create new Order" page are marked as required (MAGETWO-17829)
   * Fixed: Incorrect Customer Model usage on session in CE modules (MAGETWO-23805)
   * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
   * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
