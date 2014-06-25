@@ -7,9 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
 use Magento\Webapi\Model\Config\Converter;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Webapi\Model\Rest\Config;
 
 class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
@@ -31,14 +34,25 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     /** @var string */
     protected static $_verifier;
 
+    /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient */
+    protected $curlClient;
+
+    /** @var string */
+    protected $defaultStoreCode;
+
     /**
      * Initialize dependencies.
      */
     public function __construct()
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $this->_config = $objectManager->get('Magento\Webapi\Model\Config');
+        $this->curlClient = $objectManager->get('Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient');
+        $this->defaultStoreCode = Bootstrap::getObjectManager()
+            ->get('Magento\Store\Model\StoreManagerInterface')
+            ->getStore()
+            ->getCode();
     }
 
     /**
@@ -47,38 +61,34 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      */
     public function call($serviceInfo, $arguments = array())
     {
-        $defaultStoreCode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManagerInterface'
-        )->getStore()->getCode();
-        $resourcePath = '/' . $defaultStoreCode . $this->_getRestResourcePath($serviceInfo);
+        $resourcePath = '/' . $this->defaultStoreCode . $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         //Get a valid token
         $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
         /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
         $oAuthClient = $accessCredentials['oauth_client'];
-        // delegate the request to vanilla cURL REST client
-        $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
         $urlFormEncoded = false;
         // we're always using JSON
         $oauthHeader = $oAuthClient->buildOauthHeaderForApiRequest(
-            $curlClient->constructResourceUrl($resourcePath),
+            $this->curlClient->constructResourceUrl($resourcePath),
             $accessCredentials['key'],
             $accessCredentials['secret'],
             ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : array(),
             $httpMethod
         );
+        $oauthHeader = array_merge($oauthHeader, ['Accept: application/json', 'Content-Type: application/json']);
         switch ($httpMethod) {
-            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
-                $response = $curlClient->get($resourcePath, array(), $oauthHeader);
+            case Config::HTTP_METHOD_GET:
+                $response = $this->curlClient->get($resourcePath, array(), $oauthHeader);
                 break;
-            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST:
-                $response = $curlClient->post($resourcePath, $arguments, $oauthHeader);
+            case Config::HTTP_METHOD_POST:
+                $response = $this->curlClient->post($resourcePath, $arguments, $oauthHeader);
                 break;
-            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT:
-                $response = $curlClient->put($resourcePath, $arguments, $oauthHeader);
+            case Config::HTTP_METHOD_PUT:
+                $response = $this->curlClient->put($resourcePath, $arguments, $oauthHeader);
                 break;
-            case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE:
-                $response = $curlClient->delete($resourcePath, $oauthHeader);
+            case Config::HTTP_METHOD_DELETE:
+                $response = $this->curlClient->delete($resourcePath, $oauthHeader);
                 break;
             default:
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
