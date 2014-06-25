@@ -87,17 +87,20 @@ class Setup extends ZendRegex
 
         $chunks = explode('/', ltrim($path, '/'));
         if ($pathOffset !== null) {
-            array_shift($chunks);
+            array_shift($chunks); // Extract 'module name' part
         }
-        array_pop($chunks);
+        array_pop($chunks); // Extract 'controller' part
 
-        $chunks[] = ucwords($matches['controller']);
-        $controller = str_replace(' ', '\\', ucwords(implode(' ', $chunks)));
+        array_unshift($chunks, $this->defaults['__NAMESPACE__']);
+        $namespace = str_replace(' ', '\\', ucwords(implode(' ', $chunks)));
 
+        $controller = ucwords($matches['controller']);
         if (false === strpos($controller, 'Controller')) {
             $controller .= 'Controller';
         }
+
         $matches['controller'] = $controller;
+        $matches['__NAMESPACE__'] = str_replace(' ', '', ucwords(str_replace('-', ' ', $namespace)));
 
         $matchedLength = strlen($uri->getPath()) - $pathOffset;
         return new RouteMatch(array_merge($this->defaults, $matches), $matchedLength);
