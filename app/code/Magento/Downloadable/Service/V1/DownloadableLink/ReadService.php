@@ -67,8 +67,7 @@ class ReadService implements ReadServiceInterface
         $links = $this->downloadableType->getLinks($product);
         /** @var \Magento\Downloadable\Model\Link $link */
         foreach ($links as $link) {
-            var_dump($link);
-//            $linkList[] = $this->buildResource($link);
+            $linkList[] = $this->buildResource($link);
         }
         return $linkList;
     }
