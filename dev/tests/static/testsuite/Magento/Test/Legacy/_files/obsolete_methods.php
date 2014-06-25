@@ -136,8 +136,8 @@ return array(
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_parseXmlTrackingResponse', 'Magento\Fedex\Model\Carrier'),
     array('_prepareCondition', 'Magento\CatalogSearch\Model\Advanced'),
-    array('_prepareConfigurableProductData', 'Magento\ImportExport\Model\Export\Entity\Product'),
-    array('_prepareConfigurableProductPrice', 'Magento\ImportExport\Model\Export\Entity\Product'),
+    array('_prepareConfigurableProductData', 'Magento\CatalogImportExport\Model\Export\Product'),
+    array('_prepareConfigurableProductPrice', 'Magento\CatalogImportExport\Model\Export\Product'),
     array(
         '_prepareLastRecurringProfiles()',
         'Magento\Checkout\Block\Onepage\Success',
@@ -334,6 +334,26 @@ return array(
     array('flush', 'Magento\Framework\App\Cache', 'Magento_Cache_FrontendInterface::clean()'),
     array('flush', 'Magento\Framework\App\Cache\Proxy', 'Magento_Cache_FrontendInterface::clean()'),
     array('flush', 'Magento\Framework\App\CacheInterface', 'Magento_Cache_FrontendInterface::clean()'),
+    array(
+        'getProductTypes',
+        'Magento\ImportExport\Model\Import\Config',
+        'Magento\ImportExport\Model\Import\Config::getEntityTypes()'
+    ),
+    array(
+        'getProductTypes',
+        '\Magento\ImportExport\Model\Import\ConfigInterface',
+        '\Magento\ImportExport\Model\Import\ConfigInterface::getEntityTypes()'
+    ),
+    array(
+        'getProductTypes',
+        'Magento\ImportExport\Model\Export\Config',
+        'Magento\ImportExport\Model\Export\Config::getEntityTypes()'
+    ),
+    array(
+        'getProductTypes',
+        '\Magento\ImportExport\Model\Export\ConfigInterface',
+        '\Magento\ImportExport\Model\Export\ConfigInterface::getEntityTypes()'
+    ),
     array('forsedSave'),
     array('generateBlocks', '', 'generateElements()'),
     array('getAbsolutePath', '', 'normalizePath'),
@@ -715,7 +735,7 @@ return array(
     array('postDispatchMyAccountSave'),
     array('postDispatchSystemImportExportRun'),
     array('prepareAddressInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
-    array('prepareAttributesForSave', 'Magento\ImportExport\Model\Import\Entity\Product'),
+    array('prepareAttributesForSave', 'Magento\CatalogImportExport\Model\Import\Product'),
     array('prepareFeesInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareGoogleOptimizerScripts'),
     array('prepareRedirect', 'Magento\Core\Controller\Varien\Exception'),
@@ -980,6 +1000,7 @@ return array(
     array('getProductStatusModel', 'Magento\CatalogInventory\Model\Stock\Status'),
     array('getStorage', 'Magento\Cms\Helper\Wysiwyg\Images'),
     array('_getSession', 'Magento\Review\Helper\Action\Pager'),
+    array('expandSource', 'Magento\ImportExport\Model\Import'),
     array('_getProductType', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix'),
     array('_getProductType', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config'),
     array('_getSession', 'Magento\Sales\Model\AdminOrder'),

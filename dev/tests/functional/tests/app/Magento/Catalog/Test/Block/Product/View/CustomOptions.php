@@ -15,6 +15,8 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Custom Options
  * Block of custom options product
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class CustomOptions extends Block
 {

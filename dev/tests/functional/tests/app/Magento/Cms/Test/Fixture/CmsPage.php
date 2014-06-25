@@ -13,6 +13,8 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CmsPage
  * CMS Page fixture
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CmsPage extends InjectableFixture
 {

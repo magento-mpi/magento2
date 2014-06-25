@@ -31,6 +31,14 @@
   * Fixed: Integration tests coverage whitelist is broken (CICD-1163)
   * Fixed: Backend UI issues: grids (MAGETWO-24705)
   * Fixed: Backend UI issues: header & footer (MAGETWO-24706)
+  * Fixed an issue where grouped price was not applied for grouped products
+  * Fixed an issue where a fatal error occurred when opening a grouped product page without assigned products on the frontend
+  * Fixed an issue where it was possible to apply an inactive discount coupon
+  * Fixed an issue where the linked products information was lost when exporting products
+  * Fixed non-informative error messages for "Attribute Group Service"
+  * Fixed the invalid default value of the "apply_after_discount" tax setting
+  * Fixed an issue where the integration tests coverage whitelist was broken
+  * Fixed Admin panel UI issues: grids, headers and footers
 * Added the following functional tests:
   * Create Product Url Rewrite (MTA-83)
   * Delete Catalog Price Rule (MTA-67)

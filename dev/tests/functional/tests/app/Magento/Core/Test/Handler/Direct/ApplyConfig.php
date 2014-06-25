@@ -41,8 +41,10 @@ class ApplyConfig extends Direct
             array(
                 'preferences' => array(
                     'Magento\Framework\Authorization\Policy' => 'Magento\Framework\Authorization\Policy\DefaultPolicy',
-                    'Magento\Framework\Authorization\RoleLocator' => 'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
-                )));
+                    'Magento\Framework\Authorization\RoleLocator' =>
+                        'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
+                ))
+        );
 
         $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');
 
