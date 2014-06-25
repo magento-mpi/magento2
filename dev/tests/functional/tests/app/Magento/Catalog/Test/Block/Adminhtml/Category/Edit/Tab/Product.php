@@ -26,6 +26,13 @@ class Product extends Tab
     protected $selectItem = 'tbody tr .col-in_category';
 
     /**
+     * Path to the product grid tab
+     *
+     * @var string
+     */
+    protected $productGrid = 'Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid';
+
+    /**
      * Fill category products
      *
      * @param array $fields
@@ -50,7 +57,7 @@ class Product extends Tab
     public function getProductGrid()
     {
         return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid',
+            $this->productGrid,
             ['element' => $this->_rootElement->find('#catalog_category_products')]
         );
     }

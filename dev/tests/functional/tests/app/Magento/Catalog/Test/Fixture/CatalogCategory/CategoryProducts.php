@@ -48,7 +48,9 @@ class CategoryProducts implements FixtureInterface
             foreach ($dataSet as $value) {
                 $explodeValue = explode('::', $value);
                 $product = $fixtureFactory->createByCode($explodeValue[0], ['dataSet' => $explodeValue[1]]);
-                $product->persist();
+                if (!$product->getId()) {
+                    $product->persist();
+                }
                 $this->data[] = $product->getName();
                 $this->products[] = $product;
             }
