@@ -13,6 +13,7 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class AdminUserInjectable
  *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class AdminUserInjectable extends InjectableFixture
 {

@@ -40,12 +40,14 @@ class Conditions implements FixtureInterface
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param string $data
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data)
     {
         preg_match('/\[(.*)\]/', $data, $matches);
-        $conditions_array = explode(",", $matches[1]);
-        $value = array_shift($conditions_array);
+        $conditionsArray = explode(",", $matches[1]);
+        $value = array_shift($conditionsArray);
         $parts = explode('|', $value);
 
         foreach ($parts as $key => $value) {
@@ -86,6 +88,8 @@ class Conditions implements FixtureInterface
      *
      * @param string|null $key
      * @return array|mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData($key = null)
     {
