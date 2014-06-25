@@ -51,7 +51,8 @@ class OnlineRefundTest extends RefundTest
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $tabsWidget = $orderPage->getFormTabsBlock();
 
-        $this->assertContains('You created the credit memo.',
+        $this->assertContains(
+            'You created the credit memo.',
             $orderPage->getMessagesBlock()->getSuccessMessages()
         );
 
