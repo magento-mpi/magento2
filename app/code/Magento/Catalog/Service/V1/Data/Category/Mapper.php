@@ -53,6 +53,11 @@ class Mapper
         }
         $categoryModel->addData($data);
 
+        // this fields should not be changed
+        $data[CategoryDataObject::ID]   = $categoryModel->getId();
+        $data[CategoryDataObject::PARENT_ID]   = $categoryModel->getParentId();
+        $data[CategoryDataObject::PATH]   = $categoryModel->getPath();
+        
         $parentId = $category->getParentId() ?: $this->storeManager->getStore()->getRootCategoryId();
         $parentCategory = $this->categoryFactory->create()->load($parentId);
         $categoryModel->setPath($parentCategory->getPath());

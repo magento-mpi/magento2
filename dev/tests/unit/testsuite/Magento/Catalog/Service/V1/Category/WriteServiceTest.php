@@ -111,18 +111,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function testUpdate()
     {
         $id = 3;
-        $this->category->expects($this->once())->method('load');
-        $this->category->expects($this->exactly(2))->method('getId')->will($this->returnValue($id));
-        $this->category->expects($this->once())->method('addData');
-        $this->category->expects($this->once())->method('validate');
-        $this->category->expects($this->once())->method('save');
-
-        $data = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata')
+        $categorySdo = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Category')
             ->disableOriginalConstructor()
             ->getMock();
-        $data->expects($this->once())->method('__toArray')->will($this->returnValue(array()));
 
-        $this->assertEquals($id, $this->model->update($id, $data));
+        $this->category->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $this->category->expects($this->once())->method('validate')->will($this->returnValue(true));
+        $this->category->expects($this->once())->method('save');
+
+        $this->assertTrue($this->model->update($id, $categorySdo));
     }
 
     /**
@@ -130,31 +127,143 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateNoSuchEntityException()
     {
-        $data = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata')
+        $categorySdo = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Category')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->model->update(3, $data);
+        $this->model->update(3, $categorySdo);
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function testUpdateInputException()
+    public function testUpdateValidateException()
     {
         $id = 3;
-        $this->category->expects($this->once())->method('load');
-        $this->category->expects($this->once())->method('getId')->will($this->returnValue($id));
-        $this->category->expects($this->once())->method('addData');
-        $this->category
-            ->expects($this->once())
-            ->method('validate')
-            ->will($this->throwException(new \Magento\Eav\Model\Entity\Attribute\Exception()));
-
-        $data = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata')
+        $categorySdo = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Category')
             ->disableOriginalConstructor()
             ->getMock();
-        $data->expects($this->once())->method('__toArray')->will($this->returnValue(array()));
 
-        $this->assertEquals($id, $this->model->update($id, $data));
+        $this->category->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $this->category->expects($this->once())->method('validate')->will($this->returnValue(['Validation error']));
+
+        $this->model->update($id, $categorySdo);
+    }
+
+    public function testMove()
+    {
+        $id = 5;
+        $parentId = 2;
+        $afterId = 3;
+
+        $categoryFactory = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->model = (new ObjectManager($this))->getObject(
+            'Magento\Catalog\Service\V1\Category\WriteService',
+            ['categoryFactory' => $categoryFactory]
+        );
+
+        $category = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $category->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $category->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2\3\4'));
+        $category->expects($this->once())->method('move')->with($parentId, $afterId);
+
+        $parentCategory = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $parentCategory->expects($this->once())->method('getId')->will($this->returnValue($parentId));
+        $parentCategory->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2'));
+
+        $categoryFactory->expects($this->at(0))->method('create')
+            ->will($this->returnValue($category));
+
+        $categoryFactory->expects($this->at(1))->method('create')
+            ->will($this->returnValue($parentCategory));
+
+        $this->assertTrue($this->model->move($id, $parentId, $afterId));
+    }
+
+    public function testMoveAfterId()
+    {
+        $id = 5;
+        $parentId = 2;
+        $afterId = 3;
+
+        $categoryFactory = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->model = (new ObjectManager($this))->getObject(
+            'Magento\Catalog\Service\V1\Category\WriteService',
+            ['categoryFactory' => $categoryFactory]
+        );
+
+        $category = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $category->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $category->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2\3\4'));
+        $category->expects($this->once())->method('move')->with($parentId, $afterId);
+
+        $parentCategory = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $parentCategory->expects($this->once())->method('getId')->will($this->returnValue($parentId));
+        $parentCategory->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2'));
+        $parentCategory->expects($this->once())->method('hasChildren')->will($this->returnValue(true));
+        $parentCategory->expects($this->once())->method('getChildren')->will($this->returnValue('6,7,' . $afterId));
+
+        $categoryFactory->expects($this->at(0))->method('create')
+            ->will($this->returnValue($category));
+
+        $categoryFactory->expects($this->at(1))->method('create')
+            ->will($this->returnValue($parentCategory));
+
+        $this->assertTrue($this->model->move($id, $parentId, null));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     */
+    public function testMoveParentToChild()
+    {
+        $id = 5;
+        $parentId = 2;
+        $afterId = 3;
+
+        $categoryFactory = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->model = (new ObjectManager($this))->getObject(
+            'Magento\Catalog\Service\V1\Category\WriteService',
+            ['categoryFactory' => $categoryFactory]
+        );
+
+        $category = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $category->expects($this->once())->method('getId')->will($this->returnValue($id));
+        $category->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2\3'));
+
+        $parentCategory = $this->getMockBuilder('Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $parentCategory->expects($this->once())->method('getId')->will($this->returnValue($parentId));
+        $parentCategory->expects($this->any())->method('__call')->with('getPath')->will($this->returnValue('1\2\3\4'));
+
+        $categoryFactory->expects($this->at(0))->method('create')
+            ->will($this->returnValue($category));
+
+        $categoryFactory->expects($this->at(1))->method('create')
+            ->will($this->returnValue($parentCategory));
+
+        $this->assertTrue($this->model->move($id, $parentId, $afterId));
     }
 }

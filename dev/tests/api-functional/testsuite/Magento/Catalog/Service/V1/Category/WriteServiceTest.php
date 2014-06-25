@@ -14,7 +14,7 @@ use Magento\Webapi\Model\Rest\Config;
 use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
-use\Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
+use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -138,66 +138,83 @@ class WriteServiceTest extends WebapiAbstract
     }
 
     /**
-     * @dataProvider updateDataProvider
      * @magentoApiDataFixture Magento/Catalog/_files/category.php
      */
-    public function testUpdate($categoryData)
+    public function testUpdate()
     {
-        $this->assertGreaterThan(0, $this->updateCategory(333, $categoryData));
-        //TODO Validate category data
-        /** @var \Magento\Catalog\Service\V1\Category\ReadServiceInterface $readService */
-        /*$readService = Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Service\V1\Category\ReadServiceInterface');
-        $actualData = $readService->info(self::$modelId);
-        $this->assertEmpty(array_diff($categoryData, $actualData))*/
-    }
-
-    public function updateDataProvider()
-    {
-        return array(
-            [[AttributeMetadata::NAME => 'Test Update Category']],
-            [[AttributeMetadata::ACTIVE => false]],
-            [[AttributeMetadata::AVAILABLE_SORT_BY => ['Position', 'Price', 'Name']]],
-            [[AttributeMetadata::CUSTOM_DESIGN => 'Test Update Category']],
-            [[AttributeMetadata::CUSTOM_APPLY_TO_PRODUCTS => 'Test Update Category']],
-            [[AttributeMetadata::CUSTOM_DESIGN_FROM => '']],
-            [[AttributeMetadata::CUSTOM_DESIGN_TO => '']],
-            [[AttributeMetadata::CUSTOM_LAYOUT_UPDATE => '']],
-            [[AttributeMetadata::DEFAULT_SORT_BY => []]],
-            [[AttributeMetadata::DESCRIPTION => '']],
-            [[AttributeMetadata::DISPLAY_MODE => '']],
-            [[AttributeMetadata::ANCHOR => '']],
-            [[AttributeMetadata::LANDING_PAGE => '']],
-            [[AttributeMetadata::META_DESCRIPTION => '']],
-            [[AttributeMetadata::META_KEYWORDS => '']],
-            [[AttributeMetadata::META_TITLE => '']],
-            [[AttributeMetadata::PAGE_LAYOUT => '']],
-            [[AttributeMetadata::URL_KEY => '']],
-            [[AttributeMetadata::INCLUDE_IN_MENU => '']],
-            [[AttributeMetadata::FILTER_PRICE_RANGE => '']],
-            [[AttributeMetadata::CUSTOM_USE_PARENT_SETTINGS => '']],
-        );
+        $categoryId = 333;
+        $categoryData = [
+            'custom_attributes' => [
+                [
+                    'attribute_code' => AttributeMetadata::NAME,
+                    'value' => "Update Category Test"
+                ], [
+                    'attribute_code' => AttributeMetadata::DESCRIPTION,
+                    'value' => "Update Category Description Test"
+                ]
+            ]
+        ];
+        $this->assertTrue($this->updateCategory($categoryId, $categoryData));
+        /** @var \Magento\Catalog\Model\Category $model */
+        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
+        $model->load($categoryId);
+        foreach($categoryData['custom_attributes'] as $attribute) {
+            $this->assertEquals($attribute['value'], $model->getData($attribute['attribute_code']));
+        }
     }
 
     /**
      * @param $categoryData
      * @dataProvider updateValidateInputDataProvider
+     * @magentoApiDataFixture Magento/Catalog/_files/category.php
      * @expectedException \Exception
      */
     public function testUpdateValidateInput($categoryData)
     {
-        $this->updateCategory(333, $categoryData);
+        $categoryId = 333;
+        $this->updateCategory($categoryId, $categoryData);
     }
 
     public function updateValidateInputDataProvider()
     {
         return array(
-            [[AttributeMetadata::NAME => '']],
-            [[AttributeMetadata::NAME => NULL]],
-            [[AttributeMetadata::ACTIVE => NULL]],
-            [[AttributeMetadata::INCLUDE_IN_MENU => NULL]],
-            [[AttributeMetadata::AVAILABLE_SORT_BY => NULL]],
-            [[AttributeMetadata::DEFAULT_SORT_BY => 'key1']],
+            [['custom_attributes' => [['attribute_code' => AttributeMetadata::INCLUDE_IN_MENU,'value' => null]]]],
+        );
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
+     * @dataProvider updateMoveDataProvider
+     */
+    public function testUpdateMove($categoryId, $parentId, $afterId, $expectedPosition)
+    {
+        $expectedPath = '1/2/3/' . $categoryId;
+        $categoryData = ['categoryId' => $categoryId, 'parentId' => $parentId, 'afterId' => $afterId];
+        $serviceInfo = array_merge_recursive($this->serviceInfo,
+            [
+                'rest' => [
+                    'resourcePath' => self::RESOURCE_PATH . '/' . $categoryId . '/move',
+                    'httpMethod' => Config::HTTP_METHOD_PUT
+                ],
+                'soap' => ['operation' => self::SERVICE_NAME . 'move']
+            ]
+        );
+        $this->assertTrue($this->_webApiCall($serviceInfo, $categoryData));
+        /** @var \Magento\Catalog\Model\Category $model */
+        $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
+        $model->load($categoryId);
+        $this->assertEquals($expectedPath, $model->getPath());
+        $this->assertEquals($expectedPosition, $model->getPosition());
+        $this->assertEquals($parentId, $model->getParentId());
+    }
+
+    public function updateMoveDataProvider()
+    {
+        return array(
+            [5, 3, null, 2],
+            [5, 3, 4, 2],
+            [5, 3, 100, 2],
+            [5, 3, 0, 1]
         );
     }
 
