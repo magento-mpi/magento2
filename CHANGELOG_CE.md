@@ -8,6 +8,7 @@
   * Fixed: No Layered Navigation on Advanced Search results page (MAGETWO-24864)
   * Fixed: CLONE - Export through Excel XML truncates leading zeros (MAGETWO-22699)
   * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
+  * Fixed: Fatal Error in \Magento\Framework\ArchiveTest when bz2 extension is not installed (MAGETWO-25149)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
@@ -48,6 +49,7 @@
   * Move authorization services using new directory format (MAGETWO-23856)
   * Move integration services using new directory format (MAGETWO-24555)
   * Update integration registration based on security consultant feedback (MAGETWO-18253)
+  * Introduced language packages with ability to inherit dictionaries (MAGETWO-24610)
 * Improve ImportExport modularity (MAGETWO-23723)
 * Created Service API for Magento_Catalog Module:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    * Created Service API for Magento_Catalog Module:
    * Implemented Product Attribute Media API(MAGETWO-23308)
@@ -286,7 +288,7 @@
   * Fixed price inconsistencies between catalog and shopping cart
   * Added support for maintaining consistent price including tax for customers with different tax rates
   * Added support for applying tax rules with different priorities to subtotal only
-  
+
 * Fixed bugs:
   * Removed the extra '%' sign in the error\notice message on Gift Card Accounts page on the backend
   * Fixed an issue with image uploading functionality in the Catalog configuration
