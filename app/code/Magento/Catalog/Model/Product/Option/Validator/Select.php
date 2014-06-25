@@ -15,7 +15,7 @@ class Select extends DefaultValidator
     /**
      * Check if all values are marked for removal
      *
-     * @param $values
+     * @param array $values
      * @return bool
      */
     protected function checkAllValuesRemoved($values)
