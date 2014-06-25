@@ -13,6 +13,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 use Magento\Catalog\Service\V1\Data\Eav\Category\AttributeMetadata;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -70,8 +71,13 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreate($category)
     {
-        $response = $this->createCategory($category);
-        $this->assertTrue($response > 0);
+        $categoryId = $this->createCategory($category);
+        $this->assertGreaterThan(0, $categoryId);
+
+        $category = Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Category');
+        $category->setId($categoryId);
+
+        self::setFixture('testCreate.remove.category', $category);
     }
 
     /**
