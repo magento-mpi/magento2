@@ -45,7 +45,7 @@ app.controller('navigationController',
     .service('navigationService', ['$http', function ($http) {
         return {
             load: function (callback) {
-                $http.get('menu').success(callback);
+                $http.get('data/states').success(callback);
             }
         }
     }])

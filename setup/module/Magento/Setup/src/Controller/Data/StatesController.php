@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Setup\Controller;
+namespace Magento\Setup\Controller\Data;
 
 use Magento\Setup\Model\Navigation;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
-class MenuController extends AbstractActionController
+class StatesController extends AbstractActionController
 {
     /**
      * @var Navigation

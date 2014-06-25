@@ -8,7 +8,6 @@
 
 namespace Magento\Setup\Controller;
 
-use Magento\Setup\Model\Navigation;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -20,17 +19,10 @@ class IndexController extends AbstractActionController
     protected $view;
 
     /**
-     * @var Navigation
-     */
-    protected $nav;
-
-    /**
      * @param ViewModel $view
-     * @param Navigation $navigation
      */
-    public function __construct(ViewModel $view, Navigation $navigation)
+    public function __construct(ViewModel $view)
     {
-        $this->nav = $navigation;
         $this->view = $view;
     }
 
@@ -39,7 +31,6 @@ class IndexController extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->view->setVariable('nav', $this->nav->getData());
         return $this->view;
     }
 }

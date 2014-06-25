@@ -12,15 +12,41 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Navigation
 {
+    /**
+     * @var \Zend\ServiceManager\ServiceLocatorInterface
+     */
     protected $serviceLocator;
 
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     */
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         return $this->serviceLocator->get('config')['nav'];
+    }
+
+    /**
+     * Retrieve array of menu items
+     *
+     * Returns only items with 'nav-bar' equal to TRUE
+     *
+     * @return array
+     */
+    public function getMenuItems()
+    {
+        return array_filter(
+            $this->serviceLocator->get('config')['nav'],
+            function ($value) {
+                return (bool)$value['nav-bar'];
+            }
+        );
     }
 }

@@ -18,9 +18,10 @@ return [
             'Magento\Setup\Controller\IndexController',
             'Magento\Setup\Controller\EnvironmentController',
             'Magento\Setup\Controller\LicenseController',
-            'Magento\Setup\Controller\MenuController',
             'Magento\Setup\Controller\UserController',
             'Magento\Setup\Controller\Controls\HeaderController',
+            'Magento\Setup\Controller\Controls\MenuController',
+            'Magento\Setup\Controller\Data\StatesController',
         ],
         'instance' => [
             'preference' => [
