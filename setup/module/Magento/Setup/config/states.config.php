@@ -18,6 +18,15 @@ return [
             'step'     => 1,
         ],
         [
+            'id'          => 'landing',
+            'url'         => '/',
+            'templateUrl' => 'landing',
+            'title'       => 'Landing',
+            'controller'  => 'landing',
+            'main'        => true,
+            'nav-bar'     => false,
+        ],
+        [
             'id'          => 'add-database',
             'url'         => 'add-database',
             'templateUrl' => 'add-database',
