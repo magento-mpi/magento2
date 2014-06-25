@@ -27,7 +27,7 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function categoryCreationProvider()
     {
-        return [[$this->getSimpleCategoryData()]];
+        return [[$this->getSimpleCategoryData(['name' => 'Test Category Name'])]];
     }
 
     protected function getSimpleCategoryData($categoryData = array())
@@ -66,6 +66,7 @@ class WriteServiceTest extends WebapiAbstract
      * Test for create category process
      *
      * @dataProvider categoryCreationProvider
+     * @magentoApiDataFixture Magento/Catalog/_files/category_create.php
      */
     public function testCreate($category)
     {
