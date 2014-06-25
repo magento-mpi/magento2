@@ -56,10 +56,6 @@ class ReadService implements ReadServiceInterface
             if (!$category->getId()) {
                 throw new \Magento\Framework\Exception\NoSuchEntityException('Root Category does not exist');
             }
-            $storeRootId = $this->storeManager->getStore()->getRootCategoryId();
-            if (!in_array($storeRootId, $category->getPathIds())) {
-                throw new \Magento\Framework\Exception\InputException('Category does not belong to current store');
-            }
         }
         $result = $this->categoryTree->getTree($this->categoryTree->getRootNode($category), $depth);
         return $result;

@@ -12,7 +12,7 @@ use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink;
 interface WriteServiceInterface
 {
     /**
-     * Delete category
+     * Assign a product to the required category
      *
      * @param int $categoryId
      * @param \Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink $productLink
@@ -21,4 +21,15 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function assignProduct($categoryId, ProductLink $productLink);
+
+    /**
+     * Remove the product assignment from the category.
+     *
+     * @param int $categoryId
+     * @param string $productSku Product SKU
+     * @return bool Will returned True if products sucessfully deleted
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function removeProduct($categoryId, $productSku);
 }

@@ -15,6 +15,7 @@ use Magento\Catalog\Service\V1\Category\CategoryLoaderFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -57,6 +58,40 @@ class WriteService implements WriteServiceInterface
                 [
                     $productId,
                     $productLink->getPosition(),
+                    $categoryId,
+                ],
+                $e
+            );
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeProduct($categoryId, $productSku)
+    {
+        /** @var CategoryModel $category */
+        $category = $this->categoryLoaderFactory->create()->load($categoryId);
+        $productId = $this->productFactory->create()->getIdBySku($productSku);
+
+        /**
+         * old category-product relationships
+         */
+        $oldProducts = $category->getProductsPosition();
+        if (!in_array($productId, array_keys($oldProducts))) {
+            throw new StateException('Category does not contain specified product');
+        }
+        $newProducts = array_diff_key($oldProducts, [$productId => '1']);
+        $category->setPostedProducts($newProducts);
+
+        try {
+            $category->save();
+        } catch (\Exception $e) {
+            throw new CouldNotSaveException(
+                'Could not remove product "%1" from category with ID "%2"',
+                [
+                    $productSku,
                     $categoryId,
                 ],
                 $e
