@@ -326,4 +326,15 @@ class Item extends \Magento\Framework\Model\AbstractModel
         }
         return false;
     }
+
+    /**
+     * Returns remaining qty of shipped items
+     *
+     * @return float
+     */
+    public function getReturnableQty()
+    {
+        $returnableItems = $this->getResource()->getReturnableItems($this->getRma()->getOrderId());
+        return $returnableItems[$this->getRma()->getOrderId()];
+    }
 }
