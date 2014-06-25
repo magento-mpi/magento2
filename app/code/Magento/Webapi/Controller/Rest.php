@@ -146,7 +146,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             if (!$this->_authorizationService->isAllowed($route->getAclResources())) {
                 throw new AuthorizationException(
                     AuthorizationException::NOT_AUTHORIZED,
-                    ['consumer_id' => $consumerId, 'resources' => implode(', ', $route->getAclResources())]
+                    ['resources' => implode(', ', $route->getAclResources())]
                 );
             }
 

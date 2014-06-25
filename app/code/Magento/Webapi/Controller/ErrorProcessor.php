@@ -28,7 +28,7 @@ class ErrorProcessor
 
     const DEFAULT_RESPONSE_CHARSET = 'UTF-8';
 
-    const INTERNAL_SERVER_ERROR_MSG = 'Internal Error. Details are available in Magento log file. Report ID: %1';
+    const INTERNAL_SERVER_ERROR_MSG = 'Internal Error. Details are available in Magento log file. Report ID: %s';
 
     /**#@+
      * Error data representation formats.

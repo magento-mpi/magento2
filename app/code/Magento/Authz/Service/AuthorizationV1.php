@@ -7,18 +7,19 @@
  */
 namespace Magento\Authz\Service;
 
-use Magento\Framework\Acl\Builder as AclBuilder;
-use Magento\Framework\Acl;
 use Magento\Authz\Model\UserIdentifier;
+use Magento\Framework\Acl;
+use Magento\Framework\Acl\Builder as AclBuilder;
+use Magento\Framework\Acl\RootResource as RootAclResource;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
-use Magento\Webapi\ServiceException as ServiceException;
-use Magento\Webapi\ServiceResourceNotFoundException;
 use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
-use Magento\Framework\Acl\RootResource as RootAclResource;
 
 /**
  * Authorization service.
@@ -110,12 +111,11 @@ class AuthorizationV1 implements AuthorizationV1Interface
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
-                throw new ServiceResourceNotFoundException(
-                    __(
-                        'Role for user with ID "%1" and user type "%2" cannot be found.',
-                        $userIdentifier->getUserId(),
-                        $userIdentifier->getUserType()
-                    )
+                throw NoSuchEntityException::doubleField(
+                    'userId',
+                    $userIdentifier->getUserId(),
+                    'userType',
+                    $userIdentifier->getUserType()
                 );
             }
             foreach ($resources as $resource) {
@@ -141,13 +141,9 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 $role = $this->_createRole($userIdentifier);
             }
             $this->_associateResourcesWithRole($role, $resources);
-        } catch (ServiceException $e) {
-            throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new ServiceException(
-                __('Error happened while granting permissions. Check exception log for details.')
-            );
+            throw new LocalizedException('Error happened while granting permissions. Check exception log for details.');
         }
     }
 
@@ -168,7 +164,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
-                throw new ServiceException(__('The role associated with the specified user cannot be found.'));
+                throw new AuthorizationException('The role associated with the specified user cannot be found.');
             }
             $rulesCollection = $this->_rulesCollectionFactory->create();
             $rulesCollection->getByRoles($role->getId())->load();
@@ -180,12 +176,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
                     $allowedResources[] = $resourceId;
                 }
             }
-        } catch (ServiceException $e) {
+        } catch (AuthorizationException $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new ServiceException(
-                __('Error happened while getting a list of allowed resources. Check exception log for details.')
+            throw new LocalizedException (
+                'Error happened while getting a list of allowed resources. Check exception log for details.'
             );
         }
         return $allowedResources;
@@ -198,12 +194,12 @@ class AuthorizationV1 implements AuthorizationV1Interface
     {
         try {
             $this->_deleteRole($userIdentifier);
-        } catch (ServiceException $e) {
+        } catch (NoSuchEntityException $e) {
             throw $e;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new ServiceException(
-                __('Error happened while deleting role and permissions. Check exception log for details.')
+            throw new LocalizedException (
+                'Error happened while deleting role and permissions. Check exception log for details.'
             );
         }
     }
@@ -213,7 +209,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return Role
-     * @throws \LogicException
+     * @throws NoSuchEntityException
      */
     protected function _createRole($userIdentifier)
     {
@@ -227,20 +223,20 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 $userId = $userIdentifier->getUserId();
                 break;
             default:
-                throw new \LogicException("Unknown user type: '{$userType}'.");
+                throw NoSuchEntityException::singleField('userType', $userType);
         }
         $role = $this->_roleFactory->create();
         $role->setRoleName(
             $roleName
         )->setUserType(
-            $userType
-        )->setUserId(
-            $userId
-        )->setRoleType(
-            $roleType
-        )->setParentId(
-            $parentId
-        )->save();
+                $userType
+            )->setUserId(
+                $userId
+            )->setRoleType(
+                $roleType
+            )->setParentId(
+                $parentId
+            )->save();
         return $role;
     }
 
@@ -249,7 +245,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      *
      * @param UserIdentifier $userIdentifier
      * @return Role
-     * @throws \LogicException
+     * @throws NoSuchEntityException
      */
     protected function _deleteRole($userIdentifier)
     {
@@ -260,7 +256,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 $roleName = $userType . $userId;
                 break;
             default:
-                throw new \LogicException("Unknown user type: '{$userType}'.");
+                throw NoSuchEntityException::singleField('userType', $userType);
         }
         $role = $this->_roleFactory->create()->load($roleName, 'role_name');
         return $role->delete();
