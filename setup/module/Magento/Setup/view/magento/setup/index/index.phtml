@@ -13,7 +13,7 @@
                 <ul class="nav nav-pills nav-stacked">
                     <?php foreach ($this->nav as $item): ?>
                         <?php if (!$item['nav-bar']): continue; endif; ?>
-                    <li id="<?php echo $item['id']; ?>">
+                    <li id="<?php echo $item['id']; ?>" ng-class="{ active: $state.includes('<?php echo $item['id'] ?>') }">
                         <a ui-sref="<?php echo $item['id']; ?>" href="#/<?php echo $item['url']; ?>"><?php echo $item['title']; ?></a>
                     </li>
                     <?php endforeach; ?>

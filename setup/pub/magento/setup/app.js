@@ -7,7 +7,7 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
                     url: item.url,
                     templateUrl: item.templateUrl,
                     controller: item.controller + 'Controller'
-                })
+                });
             });
         });
     }])
@@ -29,6 +29,9 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
     .controller('installController', ['$scope', function ($scope) {
         console.log('installController');
     }])
+    .controller('landingController', ['$scope', function ($scope) {
+        console.log('landingController');
+    }])
     .controller('mainController', ['$scope', function ($scope) {
         console.log('mainController');
     }])
@@ -41,4 +44,6 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
     }])
     .config(function ($stateProvider) {
         app.stateProvider = $stateProvider;
+    }).run(function ($rootScope, $state) {
+        $rootScope.$state = $state;
     });
