@@ -63,7 +63,7 @@ class CreateAdminUserRoleEntityTest extends Injectable
         //Steps
         $this->userRoleIndex->open();
         $this->userRoleIndex->getRoleActions()->addNew();
-        $this->userRoleEditRole->getRoleFormTabs()->fillRole($role);
+        $this->userRoleEditRole->getRoleFormTabs()->fill($role);
         $this->userRoleEditRole->getPageActions()->save();
     }
 }

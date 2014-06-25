@@ -171,6 +171,7 @@ class AdminUserInjectable extends InjectableFixture
     protected $role_id = [
         'attribute_code' => 'role_id',
         'backend_type' => 'virtual',
+        'group' => 'user-role',
         'source' => 'Magento\User\Test\Fixture\AdminUserInjectable\RoleId'
     ];
 

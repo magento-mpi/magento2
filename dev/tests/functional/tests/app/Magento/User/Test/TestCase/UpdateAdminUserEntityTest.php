@@ -59,17 +59,9 @@ class UpdateAdminUserEntityTest extends Injectable
     protected $adminAuth;
 
     /**
-     * Run preconditions for test.
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
+     * @var FixtureFactory
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $roleSales = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => 'role_sales']);
-        $roleSales->persist();
-        return ['roleSales' => $roleSales];
-    }
+    protected $fixtureFactory;
 
     /**
      * Setup necessary data for test
@@ -92,49 +84,70 @@ class UpdateAdminUserEntityTest extends Injectable
         $this->userEdit = $userEdit;
         $this->dashboard = $dashboard;
         $this->adminAuth = $adminAuth;
+        $this->fixtureFactory = $fixtureFactory;
 
-        $customAdmin = $fixtureFactory->createByCode(
+        $initialUser = $this->fixtureFactory->createByCode(
             'adminUserInjectable',
             ['dataSet' => 'custom_admin_with_default_role']
         );
-        $customAdmin->persist();
+        $initialUser->persist();
 
-        return [
-            'customAdmin' => $customAdmin
-        ];
+        return ['initialUser' => $initialUser];
     }
 
     /**
      * Runs Update Admin User test
      *
      * @param AdminUserInjectable $user
-     * @param AdminUserInjectable $customAdmin
-     * @param AdminUserRole $roleSales
-     * @param string $useSalesRoleFromDataSet
+     * @param AdminUserInjectable $initialUser
      * @param string $loginAsDefaultAdmin
-     * @return void
+     * @return array
      */
     public function testUpdateAdminUser(
         AdminUserInjectable $user,
-        AdminUserInjectable $customAdmin,
-        AdminUserRole $roleSales,
-        $useSalesRoleFromDataSet,
-        $loginAsDefaultAdmin,
-        $userToLoginInAssert
+        AdminUserInjectable $initialUser,
+        $loginAsDefaultAdmin
     ) {
         // Prepare data
-        $filter = ['username' => $customAdmin->getUsername()];
-        $userRole = $useSalesRoleFromDataSet != '-' ? $roleSales : null;
+        $filter = ['username' => $initialUser->getUsername()];
+
         // Steps
         if ($loginAsDefaultAdmin == '0') {
             $this->adminAuth->open();
-            $this->adminAuth->getLoginBlock()->fill($customAdmin);
+            $this->adminAuth->getLoginBlock()->fill($initialUser);
             $this->adminAuth->getLoginBlock()->submit();
         }
         $this->userIndex->open();
         $this->userIndex->getUserGrid()->searchAndOpen($filter);
-        $this->userEdit->getUserForm()->fillUser($user, $userRole);
+        $this->userEdit->getUserForm()->fill($user);
         $this->userEdit->getPageActions()->save();
+        $customAdmin = $this->mergeUsers($user, $initialUser);
+
+        return ['customAdmin' => $customAdmin];
+    }
+
+    /**
+     * Merging user data and returns custom user
+     *
+     * @param AdminUserInjectable $user
+     * @param AdminUserInjectable $initialUser
+     * @return AdminUserInjectable
+     */
+    protected function mergeUsers(
+        AdminUserInjectable $user,
+        AdminUserInjectable $initialUser
+    ) {
+        $data = array_merge($initialUser->getData(), $user->getData());
+        if (isset($data['role_id'])) {
+            $data['role_id'] = [
+                'role' => ($user->hasData('role_id'))
+                        ? $user->getDataFieldConfig('role_id')['source']->getRole()
+                        : $initialUser->getDataFieldConfig('role_id')['source']->getRole()
+            ];
+        }
+        $customAdmin = $this->fixtureFactory->createByCode('adminUserInjectable', ['data' => $data]);
+
+        return $customAdmin;
     }
 
     /**

@@ -26,7 +26,12 @@ class Role extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        $this->getUserGrid()->searchAndOpen(['username' => $fields['username']]);
+        $users = (is_array($fields['in_role_users']['value']))
+            ? $fields['in_role_users']['value']
+            : [$fields['in_role_users']['value']];
+        foreach ($users as $user) {
+            $this->getUserGrid()->searchAndSelect(['username' => $user]);
+        }
     }
 
     /**

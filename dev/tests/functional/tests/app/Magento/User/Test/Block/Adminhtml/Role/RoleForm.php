@@ -19,34 +19,5 @@ use Mtf\Fixture\FixtureInterface;
  */
 class RoleForm extends FormTabs
 {
-    /**
-     * Method for filling role info on role edit page
-     *
-     * @param AdminUserRole $role
-     * @param string|null $username
-     * @return void
-     */
-    public function fillRole(AdminUserRole $role, $username = null)
-    {
-        if ($username == null) {
-            parent::fill($role);
-        } else {
-            $tabs = $this->getFieldsByTabs($role);
-            foreach ($tabs as $tabName => $tabFields) {
-                if ($tabName == 'roles_users') {
-                    break;
-                }
-                $tabElement = $this->getTabElement($tabName);
-                $this->openTab($tabName);
-                $tabElement->fillFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
-                $this->updateUnassignedFields($tabElement);
-            }
-            if (!empty($this->unassignedFields)) {
-                $this->fillMissedFields($tabs);
-            }
-            $this->openTab('roles_users');
-            $tabElement = $this->getTabElement('roles_users');
-            $tabElement->fillFormTab(['username' => $username]);
-        }
-    }
+    //
 }
