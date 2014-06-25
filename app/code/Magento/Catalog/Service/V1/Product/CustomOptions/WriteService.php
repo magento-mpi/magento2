@@ -35,21 +35,29 @@ class WriteService implements WriteServiceInterface
     protected $optionBuilder;
 
     /**
+     * @var \Magento\Catalog\Model\Product\OptionFactory
+     */
+    protected $optionFactory;
+
+    /**
      * @param OptionBuilder $optionBuilder
      * @param Data\Option\Converter $optionConverter
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param Data\OptionValue\ReaderInterface $optionValueReader
+     * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      */
     public function __construct(
         OptionBuilder $optionBuilder,
         Data\Option\Converter $optionConverter,
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        Data\OptionValue\ReaderInterface $optionValueReader
+        Data\OptionValue\ReaderInterface $optionValueReader,
+        \Magento\Catalog\Model\Product\OptionFactory $optionFactory
     ) {
         $this->optionBuilder = $optionBuilder;
         $this->optionConverter = $optionConverter;
         $this->productRepository = $productRepository;
         $this->optionValueReader = $optionValueReader;
+        $this->optionFactory = $optionFactory;
     }
 
     /**
@@ -102,39 +110,23 @@ class WriteService implements WriteServiceInterface
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
-
         $options = $product->getOptions();
-
-        if (empty($options) || is_null($product->getOptionById($optionId))) {
-            throw NoSuchEntityException::singleField('optionId', $optionId);
+        $option = $this->optionFactory->create();
+        $option->load($optionId);
+        if (!$option->getId() || !isset($options[$option->getId()])) {
+            NoSuchEntityException::singleField('option_id', $option->getOptions());
         }
 
-        $customOptions = array();
-        foreach ($options as $option) {
-            $data= array(
-                Data\Option::OPTION_ID => $option->getId(),
-                Data\Option::TITLE => $option->getTitle(),
-                Data\Option::TYPE => $option->getType(),
-                Data\Option::IS_REQUIRE => $option->getIsRequire(),
-                Data\Option::SORT_ORDER => $option->getSortOrder(),
-                Data\Option::VALUE => $this->optionValueReader->read($option)
-            );
-            $optionDataObject = $this->optionBuilder->populateWithArray($data)->create();
-            $customOptions[$option->getId()] = $this->optionConverter->convert($optionDataObject);
-
-        }
-
-        $product->setCanSaveCustomOptions(true);
-
-        $customOptions[$optionId]['is_delete'] = '1';
-        $product->setProductOptions($customOptions);
-        $product->setHasOptions(true);
+        unset($options[$optionId]);
         try {
-            $product->save();
+            $option->delete();
+            if (empty($options)) {
+                $product->setHasOptions(false);
+                $product->save();
+            }
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not remove custom option');
         }
-
         return true;
     }
 
