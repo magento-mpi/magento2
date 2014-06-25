@@ -219,6 +219,12 @@
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
+    <route url="/V1/categories/:categoryId/products" method="POST">
+        <service class="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" method="assignProduct" />
+        <resources>
+            <resource ref="Magento_Catalog::categories" />
+        </resources>
+    </route>
     <route url="/V1/categories" method="POST">
         <service class="Magento\Catalog\Service\V1\Category\WriteServiceInterface" method="create" />
         <resources>
