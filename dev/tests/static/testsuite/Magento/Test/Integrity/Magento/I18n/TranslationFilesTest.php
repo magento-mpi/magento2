@@ -176,7 +176,14 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
     public function defaultLocaleDataProvider()
     {
         $parser = $this->prepareParser();
-        $parser->parse($this->getI18nPattern());
+
+        $optionResolverFactory = new \Magento\Tools\I18n\Code\Dictionary\Options\ResolverFactory();
+        $optionResolver = $optionResolverFactory->create(
+            \Magento\TestFramework\Utility\Files::init()->getPathToSource(),
+            true
+        );
+
+        $parser->parse($optionResolver->getOptions());
 
         $defaultLocale = array();
         foreach ($parser->getPhrases() as $key => $phrase) {
@@ -216,38 +223,6 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
             $this->context = new \Magento\Tools\I18n\Code\Context();
         }
         return $this->context;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getI18nPattern()
-    {
-        $magentoPath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
-        $filesPattern = [
-            [
-                'type' => 'php',
-                'paths' => array($magentoPath . '/app/code/', $magentoPath . '/app/design/'),
-                'fileMask' => '/\.(php|phtml)$/'
-            ],
-            [
-                'type' => 'js',
-                'paths' => [
-                    $magentoPath . '/app/code/',
-                    $magentoPath . '/app/design/',
-                    $magentoPath . '/lib/web/mage/',
-                    $magentoPath . '/lib/web/varien/'
-                ],
-                'fileMask' => '/\.(js|phtml)$/'
-            ],
-            [
-                'type' => 'xml',
-                'paths' => array($magentoPath . '/app/code/', $magentoPath . '/app/design/'),
-                'fileMask' => '/\.xml$/'
-            ]
-        ];
-
-        return $filesPattern;
     }
 
     /**
