@@ -10,6 +10,7 @@ return [
     'di' => [
         'allowed_controllers' => [
             'Magento\Setup\Controller\ReadinessCheckController',
+            'Magento\Setup\Controller\ReadinessCheck\ProgressController',
             'Magento\Setup\Controller\AddDatabaseController',
             'Magento\Setup\Controller\WebConfigurationController',
             'Magento\Setup\Controller\CustomizeYourStoreController',

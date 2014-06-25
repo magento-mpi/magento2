@@ -18,6 +18,15 @@ return [
             'step'     => 1,
         ],
         [
+            'id'          => 'readiness-check.progress',
+            'url'         => 'readiness-check/progress',
+            'templateUrl' => 'readiness-check/progress',
+            'title'       => 'Readiness Check',
+            'controller'  => 'readinessCheck',
+            'nav-bar'     => false,
+            'step'     => 1,
+        ],
+        [
             'id'          => 'landing',
             'url'         => '/',
             'templateUrl' => 'landing',
