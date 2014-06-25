@@ -114,7 +114,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
         $linkExpectation = [
             'fields' => [
-                'sharable' => 2,
+                'shareable' => 2,
                 'price' => 15,
                 'number_of_downloads' => 15,
             ],
