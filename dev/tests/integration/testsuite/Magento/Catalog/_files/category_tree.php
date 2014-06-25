@@ -21,7 +21,8 @@ $categories = array(
         'default_sort_by' => 'name',
         'is_active' => true,
         'position' => 1
-    ], [
+    ],
+    [
         'id' => 4,
         'name' => 'Category 1.1',
         'parent_id' => 3,
@@ -31,7 +32,8 @@ $categories = array(
         'default_sort_by' => 'name',
         'is_active' => true,
         'position' => 1
-    ], [
+    ],
+    [
         'id' => 5,
         'name' => 'Category 1.1.1',
         'parent_id' => 4,
@@ -43,7 +45,7 @@ $categories = array(
         'position' => 1
     ]
 );
-foreach($categories as $data) {
+foreach ($categories as $data) {
     $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category');
     $model->setId($data['id'])
         ->setName($data['name'])

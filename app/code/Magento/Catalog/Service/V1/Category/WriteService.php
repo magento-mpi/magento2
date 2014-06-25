@@ -86,6 +86,7 @@ class WriteService implements WriteServiceInterface
      * Validate category process
      *
      * @param  Category $category
+     * @return void
      * @throws \Magento\Framework\Model\Exception
      */
     protected function validateCategory(Category $category)

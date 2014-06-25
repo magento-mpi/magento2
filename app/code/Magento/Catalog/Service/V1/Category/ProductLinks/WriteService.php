@@ -29,6 +29,10 @@ class WriteService implements WriteServiceInterface
      */
     private $productFactory;
 
+    /**
+     * @param CategoryLoaderFactory $categoryLoaderFactory
+     * @param ProductFactory $productFactory
+     */
     public function __construct(
         CategoryLoaderFactory $categoryLoaderFactory,
         ProductFactory $productFactory
