@@ -38,8 +38,6 @@
   * Delete Tax Rate (MTA-122)
   * Update Catalog Price Rule (MTA-72)
   * Update Shopping Cart (MTA-60)
-* Ported payment related stories from M1.x (MAGETWO-20848)
-* Added the following functional tests:
   * Applying Several Catalog Price Rules (MTA-68)
   * Attribute Set Creation(MTA-44)
   * Category Deletion (MTA-109)
@@ -53,6 +51,7 @@
   * Update Product Attribute (MTA-29)
   * Update Sales Rule (MTA-74)
   * Update Sitemap (MTA-149)
+* Ported payment related stories from M1.x (MAGETWO-20848)
 
 2.0.0.0-dev82
 =============
