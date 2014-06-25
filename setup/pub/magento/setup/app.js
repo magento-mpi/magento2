@@ -1,16 +1,21 @@
 'use strict';
 var app = angular.module('magentoSetup', ['ui.router']);
-app.controller('navigationController', ['$scope', 'navigationService', function ($scope, navigationService) {
-        navigationService.load(function (data) {
-            data.nav.forEach(function (item) {
-                app.stateProvider.state(item.id, {
-                    url: item.url,
-                    templateUrl: item.templateUrl,
-                    controller: item.controller + 'Controller'
+app.controller('navigationController',
+        ['$scope', '$location', '$state', 'navigationService',
+            function ($scope, $location, $state, navigationService) {
+                navigationService.load(function (data) {
+                    data.nav.forEach(function (item) {
+                        app.stateProvider.state(item.id, {
+                            url: item.url,
+                            templateUrl: item.templateUrl,
+                            controller: item.controller + 'Controller'
+                        });
+                    });
+                    $state.go($location.path().replace('/', ''));
                 });
-            });
-        });
-    }])
+            }
+        ]
+    )
     .controller('readinessCheckController', ['$scope', function ($scope) {
         console.log('readinessCheckController');
     }])
@@ -42,8 +47,9 @@ app.controller('navigationController', ['$scope', 'navigationService', function 
             }
         }
     }])
-    .config(function ($stateProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
         app.stateProvider = $stateProvider;
+        app.urlRouterProvider = $urlRouterProvider;
     }).run(function ($rootScope, $state) {
         $rootScope.$state = $state;
     });
