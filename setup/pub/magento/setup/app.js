@@ -4,6 +4,8 @@ app.controller('navigationController',
         ['$scope', '$location', '$state', 'navigationService',
             function ($scope, $location, $state, navigationService) {
                 navigationService.load(function (data) {
+                    var currentState = $location.path().replace('/', '');
+                    var mainState = {};
                     data.nav.forEach(function (item) {
                         app.stateProvider.state(item.id, {
                             url: item.url,
@@ -12,8 +14,16 @@ app.controller('navigationController',
                             title: item.title,
                             step: item.step
                         });
+                        if (item.main) {
+                            mainState = item;
+                        }
+                        if (currentState == item.id) {
+                            $state.go(currentState);
+                        }
                     });
-                    $state.go($location.path().replace('/', ''));
+                    if ($state.$current.abstract) {
+                        $state.go(mainState.id);
+                    }
                 });
             }
         ]
@@ -51,7 +61,6 @@ app.controller('navigationController',
     }])
     .config(function ($stateProvider, $urlRouterProvider) {
         app.stateProvider = $stateProvider;
-        app.urlRouterProvider = $urlRouterProvider;
     }).run(function ($rootScope, $state) {
         $rootScope.$state = $state;
     });
