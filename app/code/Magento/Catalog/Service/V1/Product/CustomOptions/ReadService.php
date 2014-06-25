@@ -90,7 +90,7 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
         $product = $this->productRepository->get($productSku);
         $output = [];
         /** @var $option \Magento\Catalog\Model\Product\Option */
-        foreach ($product->getProductOptionsCollection() as $option) {
+        foreach ($product->getOptions() as $option) {
             $output[] = $this->_createOptionDataObject($option);
         }
         return $output;
