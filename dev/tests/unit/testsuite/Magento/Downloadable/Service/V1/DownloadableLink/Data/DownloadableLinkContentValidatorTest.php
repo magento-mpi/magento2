@@ -210,7 +210,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
         $contentMock->expects($this->any())->method('getSortOrder')->will($this->returnValue(
             $linkContentData['sort_order']
         ));
-        $contentMock->expects($this->any())->method('isSharable')->will($this->returnValue(
+        $contentMock->expects($this->any())->method('isShareable')->will($this->returnValue(
             $linkContentData['shareable']
         ));
         $contentMock->expects($this->any())->method('getNumberOfDownloads')->will($this->returnValue(
