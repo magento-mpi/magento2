@@ -65,12 +65,14 @@ class CloseOrderTest extends Functional
             );
 
             $this->assertContains(
-                $grandTotal, $orderHistoryBlock->getCommentsHistory(),
+                $grandTotal,
+                $orderHistoryBlock->getCommentsHistory(),
                 'Incorrect captured amount value for the order #' . $orderId
             );
         } else {
             $this->assertContains(
-                $grandTotal, $orderHistoryBlock->getCapturedAmount(),
+                $grandTotal,
+                $orderHistoryBlock->getCapturedAmount(),
                 'Incorrect captured amount value for the order #' . $orderId
             );
         }

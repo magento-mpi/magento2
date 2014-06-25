@@ -109,6 +109,8 @@ class AssertProductForm extends AbstractConstraint
      * @param array $fixtureData
      * @param array $formData
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function compareArray(array $fixtureData, array $formData)
     {

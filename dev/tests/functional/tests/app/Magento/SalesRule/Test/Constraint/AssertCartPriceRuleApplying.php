@@ -132,6 +132,8 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
      * @param FixtureInterface $productForSalesRule1
      * @param FixtureInterface $productForSalesRule2
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function processAssert(
         CheckoutCart $checkoutCart,
