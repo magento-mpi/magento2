@@ -181,7 +181,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessage No phrases found by given path.
+     * @expectedExceptionMessage No phrases found in the specified dictionary file.
      */
     public function testGenerateWithNoPhrases()
     {

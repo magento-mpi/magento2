@@ -13,12 +13,23 @@ namespace Magento\Cms\Model\Wysiwyg;
 class Config extends \Magento\Framework\Object
 {
     /**
-     * Wysiwyg behaviour
+     * Wysiwyg status enabled
      */
     const WYSIWYG_ENABLED = 'enabled';
 
+    /**
+     * Wysiwyg status configuration path
+     */
+    const WYSIWYG_STATUS_CONFIG_PATH = 'cms/wysiwyg/enabled';
+
+    /**
+     * Wysiwyg status hidden
+     */
     const WYSIWYG_HIDDEN = 'hidden';
 
+    /**
+     * Wysiwyg status disabled
+     */
     const WYSIWYG_DISABLED = 'disabled';
 
     /**
@@ -116,7 +127,7 @@ class Config extends \Magento\Framework\Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param array|\Magento\Framework\Object $data \Magento\Framework\Object constructor params to override default config values
+     * @param array|\Magento\Framework\Object $data Object constructor params to override default config values
      * @return \Magento\Framework\Object
      */
     public function getConfig($data = array())
@@ -191,7 +202,11 @@ class Config extends \Magento\Framework\Object
      */
     public function isEnabled()
     {
-        $wysiwygState = $this->_scopeConfig->getValue('cms/wysiwyg/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStoreId());
+        $wysiwygState = $this->_scopeConfig->getValue(
+            self::WYSIWYG_STATUS_CONFIG_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStoreId()
+        );
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -202,6 +217,10 @@ class Config extends \Magento\Framework\Object
      */
     public function isHidden()
     {
-        return $this->_scopeConfig->getValue('cms/wysiwyg/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == self::WYSIWYG_HIDDEN;
+        $status = $this->_scopeConfig->getValue(
+            self::WYSIWYG_STATUS_CONFIG_PATH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        return $status == self::WYSIWYG_HIDDEN;
     }
 }

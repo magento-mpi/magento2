@@ -85,7 +85,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedExceptionMessage No phrases found by given path.
+     * @expectedExceptionMessage No phrases have been found by the specified path.
      * @expectedException \UnexpectedValueException
      */
     public function testGenerateEmptyFile()
@@ -111,8 +111,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerateWithNotAllowedDuplicatesAndDuplicatesExist()
     {
-        $error = "Error. The phrase \"phrase1\" is translated differently in 1 places.\n" .
-            "Error. The phrase \"phrase2\" is translated differently in 1 places.\n";
+        $error = "Duplicated translation is found, but it is not allowed.\n"
+            . "The phrase \"phrase1\" is translated differently in 1 places.\n"
+            . "The phrase \"phrase2\" is translated differently in 1 places.\n";
         $this->setExpectedException('\RuntimeException', $error);
 
         $allowDuplicates = false;
