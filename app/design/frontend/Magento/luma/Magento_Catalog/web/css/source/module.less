@@ -220,10 +220,7 @@
         .field.qty {
         }
         .input-text.qty {
-            .form-element-size(
-                @_width: 54px
-            );
-            text-align: center;
+            &:extend(.input-qty all);
             font-weight: @font-weight-bold;
         }
         .actions {

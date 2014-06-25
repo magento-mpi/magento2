@@ -29,6 +29,7 @@
 
     .input-text.qty {
         &:extend(.input-qty all);
+        font-weight: @font-weight-bold;
     }
 
     .product-options-wrapper {
@@ -66,10 +67,8 @@
 
     .block-bundle-summary {
         > .title {
-            border-bottom: 1px #e4e4e4 solid;
-            padding-bottom: 25px;
-            margin-bottom: 25px;
-             > strong {
+            margin-bottom: 15px;
+            > strong {
                 .heading(h2);
             }
         }
@@ -169,11 +168,17 @@
             width: 57%;
         }
         .block-bundle-summary {
+            margin-top: 66px;
             padding: @indent-s-base @indent-base;
             &:extend(.add-box-sizing-desktop all);
             float: right;
             width: 40%;
             position: relative;
+            > .title {
+                border-bottom: 1px #e4e4e4 solid;
+                padding-bottom: 25px;
+                margin-bottom: 25px;
+            }
         }
         .product-options-wrapper,
         .product.options.bottom,
