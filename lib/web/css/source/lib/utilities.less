@@ -399,3 +399,35 @@
     }
 }
 
+//
+//    Flex layout
+//--------------------------------------
+
+.mix-flex(
+        @_display: flex,
+        @_flow: row wrap
+) {
+    display: ~"-webkit-@{_display}";
+    display: ~"-ms-@{_display}";
+    display: @_display;
+
+    -webkit-flex-flow: @_flow;
+    -ms-flex-flow: @_flow;
+    flex-flow: @_flow;
+}
+.mix-flex-flex(
+    @_flex: 1,
+    @_basis: 100%
+) {
+    -webkit-flex: @_flex @_basis;
+    -ms-flex: @_flex @_basis;
+    flex: @_flex @_basis;
+}
+.mix-flex-order(
+    @_order: 1
+) {
+    -webkit-order: @_order;
+    -ms-order: @_order;
+    order: @_order;
+}
+

@@ -105,9 +105,6 @@
             .price {
                 font-weight: bold;
             }
-            > *:first-child {
-                margin-right: 5px;
-            }
             .price-label {
                 font-size: @font-size-s;
                 color: @text-color-muted;
@@ -131,7 +128,8 @@
             .icon-font(
                 @icon-wishlist-full,
                 @_icon-font-size: 18px,
-                @_icon-font-color: @text-color-muted,
+                @_icon-font-color: @addto-color,
+                @_icon-font-color-hover: @addto-hover-color,
                 @_icon-font-text-hide: true,
                 @_icon-font-vertical-align: middle,
                 @_icon-font-line-height: normal
@@ -147,7 +145,8 @@
             .icon-font(
                 @icon-compare-full,
                 @_icon-font-size: 18px,
-                @_icon-font-color: @text-color-muted,
+                @_icon-font-color: @addto-color,
+                @_icon-font-color-hover: @addto-hover-color,
                 @_icon-font-text-hide: true,
                 @_icon-font-vertical-align: middle,
                 @_icon-font-line-height: normal

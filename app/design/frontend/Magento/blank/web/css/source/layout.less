@@ -41,20 +41,20 @@
     #layout-columns();
     .column.main {
         &:extend(.add-box-sizing all);
-        flex-basis: 100%;
+        .mix-flex-flex(@_basis: 100%);
         .css(padding-bottom, @indent-xl-base);
         min-height: 300px;
-        order: 1;
+        .mix-flex-order(1);
     }
     .sidebar-main {
         &:extend(.add-box-sizing all);
-        flex-basis: 100%;
-        order: 0;
+        .mix-flex-flex(@_basis: 100%);
+        .mix-flex-order(0);
     }
     .sidebar-additional {
         &:extend(.add-box-sizing all);
-        flex-basis: 100%;
-        order: 2;
+        .mix-flex-flex(@_basis: 100%);
+        .mix-flex-order(2);
     }
 }
 

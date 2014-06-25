@@ -38,9 +38,7 @@
 #layout-columns() {
     & when (@use-flex = true) {
         .box-sizing();
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        .mix-flex(flex, row wrap);
     };
     &:after {
         content: " ";

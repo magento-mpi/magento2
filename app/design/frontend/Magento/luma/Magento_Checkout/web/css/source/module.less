@@ -106,9 +106,7 @@
 
         //  Customer login
         .login-wrapper {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
+            .mix-flex();
             .block {
                 > .title {
                     strong {
@@ -131,12 +129,12 @@
                 }
                 &.guest {
                     flex-basis: 100%;
-                    order: 0;
+                    .mix-flex-order(0);
                     margin-bottom: 50px;
                 }
                 &.customer.login {
                     flex-basis: 100%;
-                    order: 1;
+                    .mix-flex-order(1);
                 }
             }
         }
