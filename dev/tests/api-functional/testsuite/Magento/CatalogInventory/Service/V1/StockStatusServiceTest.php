@@ -85,17 +85,13 @@ class StockStatusServiceTest extends WebapiAbstract
      */
     public function getLowStockItemsDataProvider()
     {
-        $searchCriteriaKey = 'search_criteria';
-        if (TESTS_WEB_API_ADAPTER === 'soap') {
-            $searchCriteriaKey = 'searchCriteria';
-        }
         return [
             [
                 100,
                 1,
                 10,
                 [
-                    $searchCriteriaKey => ['current_page' => 1, 'page_size' => 10, 'qty' => 100],
+                    'search_criteria' => ['current_page' => 1, 'page_size' => 10, 'qty' => 100],
                     'total_count' => 2,
                     'items' => ['simple1', 'simple2']
                 ]
@@ -105,7 +101,7 @@ class StockStatusServiceTest extends WebapiAbstract
                 1,
                 10,
                 [
-                    $searchCriteriaKey => ['current_page' => 1, 'page_size' => 10, 'qty' => 50],
+                    'search_criteria' => ['current_page' => 1, 'page_size' => 10, 'qty' => 50],
                     'total_count' => 1,
                     'items' => ['simple2']
                 ]
@@ -115,7 +111,7 @@ class StockStatusServiceTest extends WebapiAbstract
                 1,
                 10,
                 [
-                    $searchCriteriaKey => ['current_page' => 1, 'page_size' => 10, 'qty' => 49],
+                    'search_criteria' => ['current_page' => 1, 'page_size' => 10, 'qty' => 49],
                     'total_count' => 0,
                     'items' => []
                 ]

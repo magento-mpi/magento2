@@ -148,7 +148,7 @@ class CurlClient
     /**
      * Get current response array
      *
-     * @return void
+     * @return array
      */
     public function getCurrentResponseArray()
     {
