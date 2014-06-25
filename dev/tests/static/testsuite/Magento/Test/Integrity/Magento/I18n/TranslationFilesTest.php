@@ -7,6 +7,9 @@
  */
 namespace Magento\Test\Integrity\Magento\I18n;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class TranslationFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
