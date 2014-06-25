@@ -196,11 +196,11 @@ class CatalogCategory extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $products_name = [
-        'attribute_code' => 'products_name',
+    protected $category_products = [
+        'attribute_code' => 'category_products',
         'backend_type' => 'virtual',
         'group' => 'category_products',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\ProductsName',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogCategory\CategoryProducts',
     ];
 
     public function getEntityId()
@@ -308,8 +308,8 @@ class CatalogCategory extends InjectableFixture
         return $this->getData('include_in_menu');
     }
 
-    public function getProductsName()
+    public function getCategoryProducts()
     {
-        return $this->getData('products_name');
+        return $this->getData('category_products');
     }
 }

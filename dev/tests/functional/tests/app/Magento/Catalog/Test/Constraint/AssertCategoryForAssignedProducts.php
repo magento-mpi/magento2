@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
@@ -30,11 +31,13 @@ class AssertCategoryForAssignedProducts extends AbstractConstraint
      *
      * @param CatalogCategory $category
      * @param CatalogCategoryView $categoryView
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogCategory $category, CatalogCategoryView $categoryView)
+    public function processAssert(CatalogCategory $category, CatalogCategoryView $categoryView, Browser $browser)
     {
-        $products = $category->getDataFieldConfig('products_name')['source']->getProducts();
+        $browser->open($_ENV['app_frontend_url'] . strtolower($category->getUrlKey()) . '.html');
+        $products = $category->getDataFieldConfig('category_products')['source']->getProducts();
         foreach ($products as $productFixture) {
             \PHPUnit_Framework_Assert::assertTrue(
                 $categoryView->getListProductBlock()->isProductVisible($productFixture->getName()),
@@ -50,6 +53,6 @@ class AssertCategoryForAssignedProducts extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Displayed assigned products on category page equals passed from fixture.';
+        return 'Displayed assigned products on category page equal to passed from fixture.';
     }
 }

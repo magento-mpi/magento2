@@ -10,12 +10,13 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid;
 
 /**
- * Class CategoryProducts
+ * Class Product
  * Products grid of Category Products tab
  */
-class CategoryProducts extends Tab
+class Product extends Tab
 {
     /**
      * An element locator which allows to select entities in grid
@@ -33,17 +34,18 @@ class CategoryProducts extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        foreach ($fields['products_name']['source']->getData() as $productName) {
-            if ($productName != '-') {
-                $this->getProductGrid()->searchAndSelect(['name' => $productName]);
-            }
+        if (!isset($fields['category_products'])) {
+            return;
+        }
+        foreach ($fields['category_products']['source']->getData() as $productName) {
+            $this->getProductGrid()->searchAndSelect(['name' => $productName]);
         }
     }
 
     /**
      * Returns role grid
      *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid
+     * @return ProductGrid
      */
     public function getProductGrid()
     {

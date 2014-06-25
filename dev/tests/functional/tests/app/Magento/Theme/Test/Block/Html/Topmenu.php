@@ -73,7 +73,7 @@ class Topmenu extends Block
      * @param string $categoryName
      * @return bool
      */
-    public function isVisibleCategory($categoryName)
+    public function isCategoryVisible($categoryName)
     {
         return $this->waitLoadTopMenu($categoryName)[0]->isVisible();
     }

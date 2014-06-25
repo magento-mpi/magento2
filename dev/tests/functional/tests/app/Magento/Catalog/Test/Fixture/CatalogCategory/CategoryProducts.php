@@ -13,10 +13,10 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
- * Class ProductsName
+ * Class CategoryProducts
  * Prepare products
  */
-class ProductsName implements FixtureInterface
+class CategoryProducts implements FixtureInterface
 {
     /**
      * Return products
@@ -41,7 +41,9 @@ class ProductsName implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
         $this->params = $params;
-        if ($data['dataSet'] && $data['dataSet'] != '-') {
+        if ($data['dataSet'] == '-') {
+            return;
+        } else if ($data['dataSet']) {
             $dataSet = explode(',', $data['dataSet']);
             foreach ($dataSet as $value) {
                 $explodeValue = explode('::', $value);

@@ -27,14 +27,14 @@ class Tree extends Block
      *
      * @var string
      */
-    protected $addSubcategory = 'add_subcategory_button';
+    protected $addSubcategory = '#add_subcategory_button';
 
     /**
      * 'Add Root Category' button
      *
      * @var string
      */
-    protected $addRootCategory = 'add_root_category_button';
+    protected $addRootCategory = '#add_root_category_button';
 
     /**
      * 'Expand All' link
@@ -77,7 +77,7 @@ class Tree extends Block
      */
     public function addSubcategory()
     {
-        $this->_rootElement->find($this->addSubcategory, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->addSubcategory, Locator::SELECTOR_CSS)->click();
         $this->getTemplateBlock()->waitLoader();
     }
 
@@ -88,7 +88,7 @@ class Tree extends Block
      */
     public function addRootCategory()
     {
-        $this->_rootElement->find($this->addRootCategory, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->addRootCategory, Locator::SELECTOR_CSS)->click();
         $this->getTemplateBlock()->waitLoader();
     }
 

@@ -44,7 +44,7 @@ class CreateCategoryEntityTest extends Injectable
     protected $catalogCategoryEdit;
 
     /**
-     * Inject page
+     * Inject pages
      *
      * @param CatalogCategoryIndex $catalogCategoryIndex
      * @param CatalogCategoryEdit $catalogCategoryEdit

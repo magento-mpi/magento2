@@ -44,7 +44,7 @@ class AssertCategoryIsNotIncludeInMenu extends AbstractConstraint
     ) {
         $cmsIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsIndex->getTopmenu()->isVisibleCategory($category->getName()),
+            $cmsIndex->getTopmenu()->isCategoryVisible($category->getName()),
             'Category can be accessed from the navigation bar in the frontend.'
         );
 
@@ -54,12 +54,14 @@ class AssertCategoryIsNotIncludeInMenu extends AbstractConstraint
             $categoryView->getTitleBlock()->getTitle(),
             'Wrong page is displayed.'
         );
-        $products = $category->getDataFieldConfig('products_name')['source']->getProducts();
-        foreach ($products as $productFixture) {
-            \PHPUnit_Framework_Assert::assertTrue(
-                $categoryView->getListProductBlock()->isProductVisible($productFixture->getName()),
-                "Products '{$productFixture->getName()}' not find."
-            );
+        if (isset($category->getDataFieldConfig('category_products')['source'])) {
+            $products = $category->getDataFieldConfig('category_products')['source']->getProducts();
+            foreach ($products as $productFixture) {
+                \PHPUnit_Framework_Assert::assertTrue(
+                    $categoryView->getListProductBlock()->isProductVisible($productFixture->getName()),
+                    "Products '{$productFixture->getName()}' not find."
+                );
+            }
         }
     }
 

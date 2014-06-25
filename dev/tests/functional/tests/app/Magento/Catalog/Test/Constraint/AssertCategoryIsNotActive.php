@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
@@ -18,6 +19,8 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
  */
 class AssertCategoryIsNotActive extends AbstractConstraint
 {
+    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
+
     /**
      * Constraint severeness
      *
@@ -30,14 +33,21 @@ class AssertCategoryIsNotActive extends AbstractConstraint
      *
      * @param CmsIndex $cmsIndex
      * @param CatalogCategory $category
+     * @param Browser $browser
      * @return void
      */
-    public function processAssert(CmsIndex $cmsIndex, CatalogCategory $category)
+    public function processAssert(CmsIndex $cmsIndex, CatalogCategory $category, Browser $browser)
     {
         $cmsIndex->open();
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsIndex->getTopmenu()->isVisibleCategory($category->getName()),
+            $cmsIndex->getTopmenu()->isCategoryVisible($category->getName()),
             'Category can be accessed from the navigation bar in the frontend.'
+        );
+        $browser->open($_ENV['app_frontend_url'] . $category->getUrlKey() . '.html');
+        \PHPUnit_Framework_Assert::assertEquals(
+            self::NOT_FOUND_MESSAGE,
+            $cmsIndex->getTitleBlock()->getTitle(),
+            'Wrong page is displayed.'
         );
     }
 
