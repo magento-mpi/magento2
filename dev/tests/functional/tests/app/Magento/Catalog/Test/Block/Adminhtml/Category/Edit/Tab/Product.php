@@ -26,11 +26,11 @@ class Product extends Tab
     protected $selectItem = 'tbody tr .col-in_category';
 
     /**
-     * Path to the product grid tab
+     * Product grid locator
      *
      * @var string
      */
-    protected $productGrid = 'Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid';
+    protected $productGrid = '#catalog_category_products';
 
     /**
      * Fill category products
@@ -57,8 +57,8 @@ class Product extends Tab
     public function getProductGrid()
     {
         return $this->blockFactory->create(
-            $this->productGrid,
-            ['element' => $this->_rootElement->find('#catalog_category_products')]
+            'Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid',
+            ['element' => $this->_rootElement->find($this->productGrid)]
         );
     }
 }
