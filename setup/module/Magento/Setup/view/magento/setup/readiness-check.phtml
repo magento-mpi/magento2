@@ -1,3 +1,5 @@
+<div ng-include="'controls/navbar'" ng-hide="$state.is('readiness-check')"></div>
+
 <div ng-include="'controls/header'"></div>
 
 <div ng-show="$state.is('readiness-check')" >
@@ -8,3 +10,5 @@
 </div>
 
 <div ui-view></div>
+
+<div ng-include="'controls/navbar'" ng-hide="$state.is('readiness-check')"></div>
