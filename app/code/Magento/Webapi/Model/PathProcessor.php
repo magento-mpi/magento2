@@ -47,16 +47,16 @@ class PathProcessor
      */
     public function process($pathInfo)
     {
+        $path = '';
         $pathParts = $this->stripPathBeforeStorecode($pathInfo);
         $storeCode = $pathParts[0];
         $stores = $this->storeManager->getStores(false, true);
         if (isset($stores[$storeCode])) {
             $this->storeManager->setCurrentStore($storeCode);
             $path = '/' . (isset($pathParts[1]) ? $pathParts[1] : '');
-            return $path;
         } else {
-            // store does not exist
-            throw NoSuchEntityException::singleField('storeCode', $storeCode);
+            $this->storeManager->setCurrentStore(\Magento\Store\Model\Store::DEFAULT_CODE);
         }
+        return $path;
     }
 }
