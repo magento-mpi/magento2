@@ -126,17 +126,46 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductResults = [
             'subtotal' => 20,
             'tax_amount' => 1.5,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 1.5,
+                    'percent' => 7.5,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                            'percent' => 7.5
+                        ]
+                    ],
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
                     'row_tax' => 1.5,
                     'price' => 10,
                     'price_incl_tax' => 10.75,
                     'row_total' => 20,
-                    'taxable_amount' => 10,
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 21.5,
                     'type' => 'product',
                     'tax_percent' => 7.5,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 1.5,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -147,13 +176,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 2,
             'unit_price' => 10.75,
-            'row_total' => 21.5,
             'tax_class_id' => 'DefaultProductClass',
             'tax_included' => true,
         ];
         $oneProductInclTaxResults = $oneProductResults;
-        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
-        $oneProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
 
         $oneProductInclTaxDiffRate = $baseQuote;
         $oneProductInclTaxDiffRate['items'][] = [
@@ -161,24 +187,52 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 2,
             'unit_price' => 11,
-            'row_total' => 22,
             'tax_class_id' => 'HigherProductClass',
             'tax_included' => true,
         ];
         $oneProductInclTaxDiffRateResults = [
             'subtotal' => 20,
             'tax_amount' => 4.4,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 4.4,
+                    'percent' => 22,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 22',
+                            'title' => 'US - 42 - 22',
+                            'percent' => 22,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 22',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => 4.4,
                     'price' => 10,
                     'price_incl_tax' => 12.2,
                     'row_total' => 20,
-                    'taxable_amount' => 12.2, // TODO: Possible bug, shouldn't this be 10?
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 24.4,
                     'type' => 'product',
                     'tax_percent' => 22.0,
-                    'row_tax' => 4.4,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 22' => [
+                            'amount' => 4.4,
+                            'percent' => 22,
+                            'tax_rate_key' => 'US - 42 - 22',
+                            'rates' => [
+                                'US - 42 - 22' => [
+                                    'percent' => 22,
+                                    'code' => 'US - 42 - 22',
+                                    'title' => 'US - 42 - 22',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -190,7 +244,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'product',
                 'quantity' => 2,
                 'unit_price' => 10,
-                'row_total' => 20,
                 'tax_class_id' => 'DefaultProductClass',
             ],
             [
@@ -198,34 +251,77 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                 'type' => 'product',
                 'quantity' => 20,
                 'unit_price' => 11,
-                'row_total' => 220,
                 'tax_class_id' => 'DefaultProductClass',
             ]
         ];
         $twoProductsResults = [
             'subtotal' => 240,
             'tax_amount' => 18.1,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 18.1,
+                    'percent' => 7.5,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                            'percent' => 7.5,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => 1.5,
                     'price' => 10,
                     'price_incl_tax' => 10.75,
                     'row_total' => 20,
-                    'taxable_amount' => 10,
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 21.5,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => 1.5,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 1.5,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-                [
+                'sku_2' =>                 [
+                    'code' => 'sku_2',
+                    'row_tax' => 16.6,
                     'price' => 11,
                     'price_incl_tax' => 11.83,
                     'row_total' => 220,
-                    'taxable_amount' => 11,
-                    'code' => 'sku_2',
+                    'row_total_incl_tax' => 236.6,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => 16.6,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 16.6,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -252,9 +348,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $twoProductInclTaxResults = $twoProductsResults;
-        // TODO: I think this is a bug, but the old code behaved this way so keeping it for now.
-        $twoProductInclTaxResults['items'][0]['taxable_amount'] = 10.75;
-        $twoProductInclTaxResults['items'][1]['taxable_amount'] = 11.83;
 
         $bundleProduct = $baseQuote;
         $bundleProduct['items'][] = [
@@ -262,7 +355,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 1,
             'unit_price' => 10,
-            'row_total' => 10,
             'tax_class_id' => 'DefaultProductClass',
             'parent_code' => 'bundle',
         ];
@@ -271,23 +363,61 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'product',
             'quantity' => 2,
             'unit_price' => 0,
-            'row_total' => 0,
             'tax_class_id' => 'DefaultProductClass',
         ];
         $bundleProductResults = [
             'subtotal' => 20,
             'tax_amount' => 1.5,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 1.5,
+                    'percent' => 7.5,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                            'percent' => 7.5,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
                     'row_tax' => 1.5,
                     'price' => 10,
                     'price_incl_tax' => 10.75,
                     'row_total' => 20,
-                    'taxable_amount' => 10,
+                    'row_total_incl_tax' => 21.5,
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 1.5,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ]
+                            ],
+                        ],
+                    ],
+                ],
+                'bundle' => [
+                    'price' => 10,
+                    'price_incl_tax' => 10.75,
+                    'row_total' => 20,
+                    'row_total_incl_tax' => 21.5,
+                    'row_tax' => 1.5,
                     'code' => 'bundle',
                     'type' => 'product',
-                ],
+                ]
             ],
         ];
 
@@ -361,7 +491,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                         'type' => 'type',
                         'quantity' => 1,
                         'unit_price' => 10.0,
-                        'row_total' => 10.0,
                         'tax_included' => false,
                     ],
                 ],
@@ -370,7 +499,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'expected_tax_details' => [
                 'subtotal' => 10.0,
                 'tax_amount' => 0.0,
-                'discount_amount' => 0.0,
+                'discount_tax_compensation_amount' => 0.0,
+                'applied_taxes' => [],
                 'items' => [],
             ],
             'store_id' => null,
@@ -381,33 +511,71 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'type',
             'quantity' => 1,
             'unit_price' => 10.0,
-            'row_total' => 10.0,
             'tax_included' => false,
+        ];
+
+        $quoteDetailAppliedTaxesBase = [
+            [
+                'amount' => 0.75,
+                'percent' => 7.5,
+                'rates' => [
+                    [
+                        'code' => 'US - 42 - 7.5',
+                        'title' => 'US - 42 - 7.5',
+                        'percent' => 7.5,
+                    ],
+                ],
+                'tax_rate_key' => 'US - 42 - 7.5',
+            ],
+        ];
+
+        $itemDetailAppliedTaxesBase = [
+            'US - 42 - 7.5' => [
+                'amount' => 0.75,
+                'percent' => 7.5,
+                'tax_rate_key' => 'US - 42 - 7.5',
+                'rates' => [
+                    'US - 42 - 7.5' => [
+                        'percent' => 7.5,
+                        'code' => 'US - 42 - 7.5',
+                        'title' => 'US - 42 - 7.5',
+                    ],
+                ],
+            ],
         ];
 
         $quoteDetailItemWithDefaultProductTaxClass = $prodQuoteDetailItemBase;
         $quoteDetailItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
         $prodExpectedItemWithNoProductTaxClass = [
-            'row_tax' => 0,
-            'price' => 10.0,
-            'price_incl_tax' => 10.0,
-            'row_total' => 10.0,
-            'taxable_amount' => 10.0,
-            'code' => 'code',
-            'type' => 'type',
-            'tax_percent' => 0,
+            'code' => [
+                'code' => 'code',
+                'row_tax' => 0,
+                'price' => 10.0,
+                'price_incl_tax' => 10.0,
+                'row_total' => 10.0,
+                'row_total_incl_tax' => 10.0,
+                'type' => 'type',
+                'tax_percent' => 0,
+                'discount_tax_compensation_amount' => 0,
+                'applied_taxes' => [],
+            ],
         ];
 
+        $itemAppliedTaxes = $itemDetailAppliedTaxesBase;
         $prodExpectedItemWithDefaultProductTaxClass = [
-            'row_tax' => 0.75,
-            'price' => 10.0,
-            'price_incl_tax' => 10.75,
-            'row_total' => 10.0,
-            'taxable_amount' => 10.0,
-            'code' => 'code',
-            'type' => 'type',
-            'tax_percent' => 7.5,
+            'code' => [
+                'code' => 'code',
+                'row_tax' => 0.75,
+                'price' => 10.0,
+                'price_incl_tax' => 10.75,
+                'row_total' => 10.0,
+                'row_total_incl_tax' => 10.75,
+                'type' => 'type',
+                'tax_percent' => 7.5,
+                'discount_tax_compensation_amount' => 0,
+                'applied_taxes' => $itemAppliedTaxes,
+            ],
         ];
 
         $prodWithStoreIdWithTaxClassId = $prodNoTaxInclBase;
@@ -418,22 +586,24 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $prodWithStoreIdWithTaxClassId['store_id'] = 1;
         $prodWithStoreIdWithTaxClassId['quote_details']['items'][] = $quoteDetailItemWithDefaultProductTaxClass;
         $prodWithStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.75;
-        $prodWithStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['applied_taxes'] = $quoteDetailAppliedTaxesBase;
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithDefaultProductTaxClass;
 
         $prodWithStoreIdWithoutTaxClassId['store_id'] = 1;
         $prodWithStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
-        $prodWithStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+        $prodWithStoreIdWithoutTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithNoProductTaxClass;
 
         $prodWithoutStoreIdWithTaxClassId['quote_details']['items'][] =
             $quoteDetailItemWithDefaultProductTaxClass;
         $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.75;
-        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['applied_taxes'] = $quoteDetailAppliedTaxesBase;
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithDefaultProductTaxClass;
 
         $prodWithoutStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
-        $prodWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+        $prodWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithNoProductTaxClass;
 
         return [
@@ -462,7 +632,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                         'type' => 'type',
                         'quantity' => 1,
                         'unit_price' => 10.0,
-                        'row_total' => 10.0,
                         'tax_included' => true,
                     ],
                 ],
@@ -471,7 +640,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'expected_tax_details' => [
                 'subtotal' => 10.0,
                 'tax_amount' => 0.0,
-                'discount_amount' => 0.0,
+                'discount_tax_compensation_amount' => 0.0,
+                'applied_taxes' => [],
                 'items' => [],
             ],
             'store_id' => null,
@@ -482,7 +652,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'type',
             'quantity' => 1,
             'unit_price' => 10.0,
-            'row_total' => 10.0,
             'tax_included' => true,
         ];
 
@@ -490,25 +659,61 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $quoteDetailTaxInclItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
         $productTaxInclExpectedItemWithNoProductTaxClass = [
-            'row_tax' => 0,
-            'price' => 10.0,
-            'price_incl_tax' => 10.0,
-            'row_total' => 10.0,
-            'taxable_amount' => 10.0,
-            'code' => 'code',
-            'type' => 'type',
-            'tax_percent' => 0,
+            'code' => [
+                'code' => 'code',
+                'row_tax' => 0,
+                'price' => 10.0,
+                'price_incl_tax' => 10.0,
+                'row_total' => 10.0,
+                'row_total_incl_tax' => 10.0,
+                'type' => 'type',
+                'tax_percent' => 0,
+                'discount_tax_compensation_amount' => 0,
+                'applied_taxes' => [],
+            ],
+        ];
+
+        $quoteDetailAppliedTaxesBase = [
+            [
+                'amount' => 0.70,
+                'percent' => 7.5,
+                'rates' => [
+                    [
+                        'code' => 'US - 42 - 7.5',
+                        'title' => 'US - 42 - 7.5',
+                        'percent' => 7.5,
+                    ],
+                ],
+                'tax_rate_key' => 'US - 42 - 7.5',
+            ],
         ];
 
         $productTaxInclExpectedItemWithDefaultProductTaxClass = [
-            'row_tax' => 0.70,
-            'price' => 9.30,
-            'price_incl_tax' => 10.00,
-            'row_total' => 9.30,
-            'taxable_amount' => 9.30,
-            'code' => 'code',
-            'type' => 'type',
-            'tax_percent' => 7.5,
+            'code' => [
+                'code' => 'code',
+                'row_tax' => 0.70,
+                'price' => 9.30,
+                'price_incl_tax' => 10.00,
+                'row_total' => 9.30,
+                'row_total_incl_tax' => 10.00,
+                'type' => 'type',
+                'tax_percent' => 7.5,
+                'discount_tax_compensation_amount' => 0,
+                'applied_taxes' => [
+                    'US - 42 - 7.5' => [
+                        'amount' => 0.7,
+                        'percent' => 7.5,
+                        'tax_rate_key' => 'US - 42 - 7.5',
+                        'rates' => [
+                            'US - 42 - 7.5' => [
+                                'percent' => 7.5,
+                                'code' => 'US - 42 - 7.5',
+                                'title' => 'US - 42 - 7.5',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $productInclTaxWithStoreIdWithTaxClassId = $productTaxInclBase;
@@ -521,27 +726,28 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             $quoteDetailTaxInclItemWithDefaultProductTaxClass;
         $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.70;
         $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['subtotal'] = 9.30;
-        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['applied_taxes'] =
+            $quoteDetailAppliedTaxesBase;
+        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['items'] =
             $productTaxInclExpectedItemWithDefaultProductTaxClass;
-        $productInclTaxWithStoreIdWithTaxClassId['expected_tax_details']['items'][0]['taxable_amount'] = 10.00;
 
         $productInclTaxWithStoreIdWithoutTaxClassId['store_id'] = 1;
         $productInclTaxWithStoreIdWithoutTaxClassId['quote_details']['items'][] =
             $productTaxInclQuoteDetailItemBase;
-        $productInclTaxWithStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+        $productInclTaxWithStoreIdWithoutTaxClassId['expected_tax_details']['items'] =
             $productTaxInclExpectedItemWithNoProductTaxClass;
 
         $productInclTaxWithoutStoreIdWithTaxClassId['quote_details']['items'][] =
             $quoteDetailTaxInclItemWithDefaultProductTaxClass;
         $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 0.70;
         $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['subtotal'] = 9.30;
-        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['applied_taxes'] =
+            $quoteDetailAppliedTaxesBase;
+        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['items'] =
             $productTaxInclExpectedItemWithDefaultProductTaxClass;
-        /* TODO: BUG? */
-        $productInclTaxWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][0]['taxable_amount'] = 10.00;
 
         $productInclTaxWithoutStoreIdWithoutTaxClassId['quote_details']['items'][] = $productTaxInclQuoteDetailItemBase;
-        $productInclTaxWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+        $productInclTaxWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'] =
             $productTaxInclExpectedItemWithNoProductTaxClass;
 
         return [
@@ -567,7 +773,6 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
                         'type' => 'type',
                         'quantity' => 2,
                         'unit_price' => 7.97,
-                        'row_total' => 15.94,
                         'tax_included' => false,
                     ],
                 ],
@@ -576,7 +781,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'expected_tax_details' => [
                 'subtotal' => 15.94,
                 'tax_amount' => 0.0,
-                'discount_amount' => 0.0,
+                'discount_tax_compensation_amount' => 0.0,
+                'applied_taxes' => [],
                 'items' => [],
             ],
             'store_id' => null,
@@ -587,33 +793,69 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'type' => 'type',
             'quantity' => 2,
             'unit_price' => 7.97,
-            'row_total' => 15.94,
             'tax_included' => false,
         ];
 
         $quoteDetailItemWithDefaultProductTaxClass = $prodQuoteDetailItemBase;
         $quoteDetailItemWithDefaultProductTaxClass['tax_class_id'] = 'DefaultProductClass';
 
+
+        $quoteDetailAppliedTaxesBase = [
+            [
+                'amount' => 1.20,
+                'percent' => 7.5,
+                'rates' => [
+                    [
+                        'code' => 'US - 42 - 7.5',
+                        'title' => 'US - 42 - 7.5',
+                        'percent' => 7.5,
+                    ],
+                ],
+                'tax_rate_key' => 'US - 42 - 7.5',
+            ],
+        ];
+
         $prodExpectedItemWithNoProductTaxClass = [
-            'row_tax' => 0,
-            'price' => 7.97,
-            'price_incl_tax' => 7.97,
-            'row_total' => 15.94,
-            'taxable_amount' => 15.94,
-            'code' => 'code',
-            'type' => 'type',
-            'tax_percent' => 0,
+            'code' => [
+                'code' => 'code',
+                'row_tax' => 0,
+                'price' => 7.97,
+                'price_incl_tax' => 7.97,
+                'row_total' => 15.94,
+                'row_total_incl_tax' => 15.94,
+                'type' => 'type',
+                'tax_percent' => 0,
+                'discount_tax_compensation_amount' => 0,
+                'applied_taxes' => [],
+            ],
         ];
 
         $prodExpectedItemWithDefaultProductTaxClass = [
-            'row_tax' => 1.20,
-            'price' => 7.97,
-            'price_incl_tax' => 8.57,
-            'row_total' => 15.94,
-            'taxable_amount' => 15.94,
-            'code' => 'code',
-            'type' => 'type',
-            'tax_percent' => 7.5,
+            'code' => [
+                'code' => 'code',
+                'row_tax' => 1.20,
+                'price' => 7.97,
+                'price_incl_tax' => 8.57,
+                'row_total' => 15.94,
+                'row_total_incl_tax' => 17.14,
+                'type' => 'type',
+                'tax_percent' => 7.5,
+                'discount_tax_compensation_amount' => 0,
+                'applied_taxes' => [
+                    'US - 42 - 7.5' => [
+                        'amount' => 1.2,
+                        'percent' => 7.5,
+                        'tax_rate_key' => 'US - 42 - 7.5',
+                        'rates' => [
+                            'US - 42 - 7.5' => [
+                                'percent' => 7.5,
+                                'code' => 'US - 42 - 7.5',
+                                'title' => 'US - 42 - 7.5',
+                            ],
+                        ],
+                    ],
+                ]
+            ],
         ];
 
         $prodWithStoreIdWithTaxClassId = $prodRoundingNoTaxInclBase;
@@ -624,22 +866,25 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $prodWithStoreIdWithTaxClassId['store_id'] = 1;
         $prodWithStoreIdWithTaxClassId['quote_details']['items'][] = $quoteDetailItemWithDefaultProductTaxClass;
         $prodWithStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 1.20;
-        $prodWithStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['applied_taxes'] = $quoteDetailAppliedTaxesBase;
+        $prodWithStoreIdWithTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithDefaultProductTaxClass;
 
         $prodWithStoreIdWithoutTaxClassId['store_id'] = 1;
         $prodWithStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
-        $prodWithStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+        $prodWithStoreIdWithoutTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithNoProductTaxClass;
 
         $prodWithoutStoreIdWithTaxClassId['quote_details']['items'][] =
             $quoteDetailItemWithDefaultProductTaxClass;
         $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['tax_amount'] = 1.20;
-        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['items'][] =
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['applied_taxes'] =
+            $quoteDetailAppliedTaxesBase;
+        $prodWithoutStoreIdWithTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithDefaultProductTaxClass;
 
         $prodWithoutStoreIdWithoutTaxClassId['quote_details']['items'][] = $prodQuoteDetailItemBase;
-        $prodWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'][] =
+        $prodWithoutStoreIdWithoutTaxClassId['expected_tax_details']['items'] =
             $prodExpectedItemWithNoProductTaxClass;
 
         return [
@@ -684,17 +929,46 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductResults = [
             'subtotal' => 10,
             'tax_amount' => 0.75,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 0.75,
+                    'percent' => 7.5,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                            'percent' => 7.5,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => 0.75,
                     'price' => 1,
                     'price_incl_tax' => 1.08,
                     'row_total' => 10,
-                    'taxable_amount' => 10,
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 10.75,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => 0.75,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 0.75,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -711,17 +985,46 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductInclTaxResults = [
             'subtotal' => 9.3,
             'tax_amount' => 0.7,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 0.7,
+                    'percent' => 7.5,
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                    'rates' => [
+                        [
+                            'percent' => 7.5,
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                        ],
+                    ],
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => .7,
                     'price' => 0.93,
                     'price_incl_tax' => 1.0,
                     'row_total' => 9.3,
-                    'taxable_amount' => 10,  // Shouldn't this be 9.3?
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 10,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => .7,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 0.7,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -738,17 +1041,46 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductInclTaxDiffRateResults = [
             'subtotal' => 2.73,
             'tax_amount' => 0.6,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 0.6,
+                    'percent' => 22,
+                    'rates' => [
+                        [
+                            'percent' => 22,
+                            'code' => 'US - 42 - 22',
+                            'title' => 'US - 42 - 22',
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 22',
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => 0.6,
                     'price' => 0.3,
                     'price_incl_tax' => 0.37,
                     'row_total' => 2.73,
-                    'taxable_amount' => 3.33, // Shouldn't this match row_total?
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 3.33,
                     'type' => 'product',
                     'tax_percent' => 22.0,
-                    'row_tax' => 0.6,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 22' => [
+                            'amount' => 0.6,
+                            'percent' => 22,
+                            'tax_rate_key' => 'US - 42 - 22',
+                            'rates' => [
+                                'US - 42 - 22' => [
+                                    'percent' => 22,
+                                    'code' => 'US - 42 - 22',
+                                    'title' => 'US - 42 - 22',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -773,27 +1105,71 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $twoProductsResults = [
             'subtotal' => 230,
             'tax_amount' => 17.25,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 17.25,
+                    'percent' => 7.5,
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                    'rates' => [
+                        [
+                            'percent' => 7.5,
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                        ],
+                    ],
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => .75,
                     'price' => 1,
                     'price_incl_tax' => 1.08,
                     'row_total' => 10,
-                    'taxable_amount' => 10,
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 10.75,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => .75,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 0.75,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-                [
+                'sku_2' => [
+                    'code' => 'sku_2',
+                    'row_tax' => 16.5,
                     'price' => 11,
                     'price_incl_tax' => 11.83,
                     'row_total' => 220,
-                    'taxable_amount' => 220,
-                    'code' => 'sku_2',
+                    'row_total_incl_tax' => 236.5,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => 16.5,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 16.5,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -820,27 +1196,71 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $twoProductInclTaxResults = [
             'subtotal' => 232.19,
             'tax_amount' => 17.41,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
+                    'amount' => 17.41,
+                    'percent' => 7.5,
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                    'rates' => [
+                        [
+                            'percent' => 7.5,
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                        ],
+                    ],
+                ],
+            ],
+            'items' => [
+                'sku_1' => [
+                    'code' => 'sku_1',
+                    'row_tax' => .68,
                     'price' => 0.91,
                     'price_incl_tax' => 0.98,
                     'row_total' => 9.12,
-                    'taxable_amount' => 9.8,  // Shouldn't this match row_total?
-                    'code' => 'sku_1',
+                    'row_total_incl_tax' => 9.8,
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => .68,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 0.68,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-                [
+                'sku_2' => [
+                    'code' => 'sku_2',
+                    'row_tax' => 16.73,
                     'price' => 11.15,
                     'price_incl_tax' => 11.99,
                     'row_total' => 223.07,
-                    'taxable_amount' => 239.8, // Shouldn't this be 223.07?
-                    'code' => 'sku_2',
+                    'row_total_incl_tax' => 239.8, // Shouldn't this be 223.07?
                     'type' => 'product',
                     'tax_percent' => 7.5,
-                    'row_tax' => 16.73,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 16.73,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -874,16 +1294,92 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $oneProductWithChildrenResults = [
             'subtotal' => 286.6,
             'tax_amount' => 27.27,
-            'discount_amount' => 0,
-            'items' => [
+            'discount_tax_compensation_amount' => 0,
+            'applied_taxes' => [
                 [
-                    'code' => 'parent_sku',
+                    'amount' => 18.51,
+                    'percent' => 7.5,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 7.5',
+                            'title' => 'US - 42 - 7.5',
+                            'percent' => 7.5,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 7.5',
+                ],
+                [
+                    'amount' => 8.76,
+                    'percent' => 22,
+                    'rates' => [
+                        [
+                            'code' => 'US - 42 - 22',
+                            'title' => 'US - 42 - 22',
+                            'percent' => 22,
+                        ],
+                    ],
+                    'tax_rate_key' => 'US - 42 - 22',
+                ],
+            ],
+            'items' => [
+                'child_1_sku' => [
+                    'code' => 'child_1_sku',
+                    'row_tax' => 18.51,
+                    'price' => 12.34,
+                    'price_incl_tax' => 13.27,
+                    'row_total' => 246.8,
+                    'row_total_incl_tax' => 265.31,
+                    'type' => 'product',
+                    'tax_percent' => 7.5,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 7.5' => [
+                            'amount' => 18.51,
+                            'percent' => 7.5,
+                            'tax_rate_key' => 'US - 42 - 7.5',
+                            'rates' => [
+                                'US - 42 - 7.5' => [
+                                    'percent' => 7.5,
+                                    'code' => 'US - 42 - 7.5',
+                                    'title' => 'US - 42 - 7.5',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'child_2_sku' => [
+                    'code' => 'child_2_sku',
+                    'row_tax' => 8.76,
+                    'price' => 1.99,
+                    'price_incl_tax' => 2.43,
+                    'row_total' => 39.8,
+                    'row_total_incl_tax' => 48.56,
+                    'type' => 'product',
+                    'tax_percent' => 22,
+                    'discount_tax_compensation_amount' => 0,
+                    'applied_taxes' => [
+                        'US - 42 - 22' => [
+                            'amount' => 8.76,
+                            'percent' => 22,
+                            'tax_rate_key' => 'US - 42 - 22',
+                            'rates' => [
+                                'US - 42 - 22' => [
+                                    'percent' => 22,
+                                    'code' => 'US - 42 - 22',
+                                    'title' => 'US - 42 - 22',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'parent_sku' => [
                     'price' => 28.66,
                     'price_incl_tax' => 31.39,
                     'row_total' => 286.6,
-                    'taxable_amount' => 286.6,
-                    'type' => 'product',
+                    'row_total_incl_tax' => 313.87,
                     'row_tax' => 27.27,
+                    'code' => 'parent_sku',
+                    'type' => 'product',
                 ],
             ],
         ];
