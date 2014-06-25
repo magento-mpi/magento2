@@ -165,7 +165,7 @@ class TranslationFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider defaultLocaleDataProvider
      */
-    public function wtestDefaultLocale($file, $phrases)
+    public function testDefaultLocale($file, $phrases)
     {
         $failures = $this->comparePhrase($phrases, $this->csvParser->getDataPairs($file));
         $this->assertEmpty(
