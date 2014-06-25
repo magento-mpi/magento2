@@ -11,6 +11,7 @@ use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Product as ProductModel;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\Catalog\Service\V1\Category\CategoryLoaderFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\Eav\Category\ProductLink;
 use Magento\Framework\Exception\CouldNotSaveException;
@@ -19,20 +20,20 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryFactory
+     * @var CategoryLoaderFactory
      */
-    private $categoryFactory;
+    private $categoryLoaderFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var ProductFactory
      */
     private $productFactory;
 
     public function __construct(
-        CategoryFactory $categoryFactory,
+        CategoryLoaderFactory $categoryLoaderFactory,
         ProductFactory $productFactory
     ) {
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryLoaderFactory = $categoryLoaderFactory;
         $this->productFactory = $productFactory;
     }
 
@@ -41,10 +42,13 @@ class WriteService implements WriteServiceInterface
      */
     public function assignProduct($categoryId, ProductLink $productLink)
     {
-        $category = $this->getCategory($categoryId);
+        /** @var CategoryModel $category */
+        $category = $this->categoryLoaderFactory->create()->load($categoryId);
+
         $productId = $this->productFactory->create()->getIdBySku($productLink->getSku());
         $productPositions = $category->getProductsPosition();
         $newProductPositions = [$productId => $productLink->getPosition()] + $productPositions;
+
         $category->setPostedProducts($newProductPositions);
         try {
             $category->save();
@@ -60,22 +64,5 @@ class WriteService implements WriteServiceInterface
             );
         }
         return true;
-    }
-
-    /**
-     * @param int $id
-     * @return CategoryModel
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function getCategory($id)
-    {
-        /** @var CategoryModel $category */
-        $category = $this->categoryFactory->create();
-        $category->load($id);
-
-        if (!$category->getId()) {
-            throw NoSuchEntityException::singleField(Category::ID, $id);
-        }
-        return $category;
     }
 }
