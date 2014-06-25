@@ -98,8 +98,19 @@ class Weee extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
             $invoice->setBaseSubtotal($invoice->getBaseSubtotal() + $baseTotalTax);
         }
 
-        $invoice->setSubtotalInclTax($invoice->getSubtotalInclTax() + $weeeInclTax);
-        $invoice->setBaseSubtotalInclTax($invoice->getBaseSubtotalInclTax() + $baseWeeeInclTax);
+        $useWeeeInclTax = true;
+        if ($this->_weeeData->isTaxIncluded($store) && $invoice->isLast()) {
+            $useWeeeInclTax = false;
+        }
+        if ($useWeeeInclTax) {
+            // need to add the Weee amounts including all their taxes
+            $invoice->setSubtotalInclTax($invoice->getSubtotalInclTax() + $weeeInclTax);
+            $invoice->setBaseSubtotalInclTax($invoice->getBaseSubtotalInclTax() + $baseWeeeInclTax);
+        } else {
+            // since the Subtotal Incl Tax line will already have the taxes on Weee, just add the non-taxable amounts
+            $invoice->setSubtotalInclTax($invoice->getSubtotalInclTax() + $totalTax);
+            $invoice->setBaseSubtotalInclTax($invoice->getBaseSubtotalInclTax() + $baseTotalTax);
+        }
 
         $invoice->setGrandTotal($invoice->getGrandTotal() + $totalTax);
         $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() + $baseTotalTax);
