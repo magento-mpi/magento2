@@ -81,6 +81,7 @@
   * Fixed: No Layered Navigation on Advanced Search results page (MAGETWO-24864)
   * Fixed: CLONE - Export through Excel XML truncates leading zeros (MAGETWO-22699)
   * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
+  * Fixed: Store Admin cannot search product by attributes filled on [STORE VIEW] level (except default store view) (MAGETWO-3385)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
