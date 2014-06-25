@@ -1,5 +1,6 @@
 * i18n Improvements:
   * Improved verbosity of i18n CLI Tools
+  * Updated/generated all csv translate files
 * Framework improvements:
   * Covered the following Magento application components with unit tests:
       * `Customer/Model/Address.php`
