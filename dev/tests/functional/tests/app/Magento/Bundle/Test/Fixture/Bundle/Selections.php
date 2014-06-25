@@ -267,106 +267,38 @@ class Selections implements FixtureInterface
                                 'selection_price_type' => 'Fixed',
                             ]
                         ],
-                        [
-                            'search_data' => [
-                                'name' => '%item1_virtual2::getProductName%',
+                        'assigned_products' => [
+                            0 => [
+                                'search_data' => [
+                                    'name' => '%item1::getProductName%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => [
+                                        'value' => 1
+                                    ],
+                                    'product_id' => [
+                                        'value' => '%item1::getProductId%'
+                                    ],
+                                    'selection_price_value' => [
+                                        'value' => '5'
+                                    ]
+                                ]
                             ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 35,
-                                'selection_price_type' => 'Fixed',
-                            ]
-                        ]
-                    ]
-                ],
-                'bundle_option_3' => [
-                    'title' => 'Multiple Select Option',
-                    'type' => 'Multiple Select',
-                    'required' => 'Yes',
-                    'assigned_products' => [
-                        [
-                            'search_data' => [
-                                'name' => '%item1_simple1::getProductName%',
-                            ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 40,
-                                'selection_price_type' => 'Fixed',
-                            ]
-                        ],
-                        [
-                            'search_data' => [
-                                'name' => '%item1_virtual2::getProductName%',
-                            ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 45,
-                                'selection_price_type' => 'Fixed',
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'with_not_required_options' => [
-                'bundle_option_0' => [
-                    'title' => 'Drop-down Option',
-                    'type' => 'Drop-down',
-                    'required' => 'No',
-                    'assigned_products' => [
-                        [
-                            'search_data' => [
-                                'name' => '%item1_simple1::getProductName%',
-                            ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 45,
-                                'selection_price_type' => 'Fixed',
-                            ]
-                        ]
-                    ]
-                ],
-                'bundle_option_1' => [
-                    'title' => 'Radio Button Option',
-                    'type' => 'Radio Buttons',
-                    'required' => 'No',
-                    'assigned_products' => [
-                        [
-                            'search_data' => [
-                                'name' => '%item1_simple1::getProductName%',
-                            ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 45,
-                                'selection_price_type' => 'Fixed',
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'second' => [
-                'bundle_option_0' => [
-                    'title' => 'Drop-down Option',
-                    'type' => 'Drop-down',
-                    'required' => 'Yes',
-                    'assigned_products' => [
-                        [
-                            'search_data' => [
-                                'name' => '%item1_simple1::getProductName%',
-                            ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 10,
-                                'selection_price_type' => 'Fixed',
-                            ]
-                        ],
-                        [
-                            'search_data' => [
-                                'name' => '%item1_virtual2::getProductName%',
-                            ],
-                            'data' => [
-                                'selection_qty' => 1,
-                                'selection_price_value' => 5,
-                                'selection_price_type' => 'Fixed',
+                            1 => [
+                                'search_data' => [
+                                    'name' => '%item2::getProductName%',
+                                ],
+                                'data' => [
+                                    'selection_qty' => [
+                                        'value' => 1
+                                    ],
+                                    'product_id' => [
+                                        'value' => '%item2::getProductId%'
+                                    ],
+                                    'selection_price_value' => [
+                                        'value' => '10'
+                                    ]
+                                ]
                             ]
                         ]
                     ]

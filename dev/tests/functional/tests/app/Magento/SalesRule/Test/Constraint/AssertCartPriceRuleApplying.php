@@ -19,7 +19,6 @@ use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertCartPriceRuleApplying
@@ -116,21 +115,21 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
      *    - click 'Update Total' button
      * 8. Implementation assert
      *
-     *
      * @param CheckoutCart $checkoutCart
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountLogout $customerAccountLogout
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
+     * @param CustomerInjectable $customer
      * @param SalesRuleInjectable $salesRule
+     * @param SalesRuleInjectable $salesRuleOrigin
      * @param AddressInjectable $address
      * @param array $productQuantity
      * @param array $shipping
-     * @param int $isLoggedIn
-     * @param FixtureInterface $customer
-     * @param FixtureInterface $productForSalesRule1
-     * @param FixtureInterface $productForSalesRule2
+     * @param CatalogProductSimple $productForSalesRule1
+     * @param CatalogProductSimple $productForSalesRule2
+     * @param int|null $isLoggedIn
      * @return void
      */
     public function processAssert(
@@ -140,14 +139,15 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
         CustomerAccountLogout $customerAccountLogout,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductView $catalogProductView,
-        FixtureInterface $customer,
-        FixtureInterface $productForSalesRule1,
-        FixtureInterface $productForSalesRule2,
+        CustomerInjectable $customer,
         SalesRuleInjectable $salesRule,
+        SalesRuleInjectable $salesRuleOrigin,
         AddressInjectable $address,
-        $productQuantity,
-        $shipping,
-        $isLoggedIn
+        array $productQuantity,
+        array $shipping,
+        CatalogProductSimple $productForSalesRule1,
+        CatalogProductSimple $productForSalesRule2 = null,
+        $isLoggedIn = null
     ) {
         $this->checkoutCart = $checkoutCart;
         $this->cmsIndex = $cmsIndex;
@@ -167,12 +167,14 @@ abstract class AssertCartPriceRuleApplying extends AbstractConstraint
         }
         $this->checkoutCart->open()->getCartBlock()->clearShoppingCart();
         $this->addProductsToCart($productQuantity);
-        if ($salesRule->getCouponCode()) {
-            $this->checkoutCart->getDiscountCodesBlock()->applyCouponCode($salesRule->getCouponCode());
-        }
         if ($address->hasData('country_id')) {
             $this->checkoutCart->getShippingBlock()->fillEstimateShippingAndTax($address);
             $this->checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
+        }
+        if ($salesRule->getCouponCode() || $salesRuleOrigin->getCouponCode()) {
+            $this->checkoutCart->getDiscountCodesBlock()->applyCouponCode(
+                $salesRule->getCouponCode() ? $salesRule->getCouponCode() : $salesRuleOrigin->getCouponCode()
+            );
         }
         $this->assert();
     }

@@ -9,7 +9,6 @@
 namespace Magento\CatalogRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Cms\Test\Page\CmsIndex;
@@ -30,36 +29,54 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     /**
      * Assert that Catalog Price Rule is applied & it impacts on product's discount price on Product page
      *
-     * @param CatalogRule $catalogPriceRule
      * @param CatalogProductSimple $product
      * @param CatalogProductView $pageCatalogProductView
      * @param CmsIndex $cmsIndex
      * @param CatalogCategoryView $catalogCategoryView
+     * @param array $price
      * @return void
      */
     public function processAssert(
-        CatalogRule $catalogPriceRule,
         CatalogProductSimple $product,
         CatalogProductView $pageCatalogProductView,
         CmsIndex $cmsIndex,
-        CatalogCategoryView $catalogCategoryView
+        CatalogCategoryView $catalogCategoryView,
+        array $price
     ) {
         $cmsIndex->open();
         $categoryName = $product->getCategoryIds()[0]['name'];
         $productName = $product->getName();
         $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $productPrice = $product->getPrice();
-        $discountAmount = $catalogPriceRule->getDiscountAmount();
-        $expectedSpecialPrice = $productPrice - $discountAmount;
-        $actualSpecialPrice = $pageCatalogProductView->getViewBlock()->getProductPrice()['price_special_price'];
-        \PHPUnit_Framework_Assert::assertEquals(
-            $expectedSpecialPrice,
-            $actualSpecialPrice,
-            'Wrong special price is displayed.'
-            . "\nExpected: " . $expectedSpecialPrice
-            . "\nActual: " . $actualSpecialPrice
+        $productPriceBlock = $pageCatalogProductView->getViewBlock()->getProductPriceBlock();
+        $actualPrice['regular'] = $productPriceBlock->getRegularPrice();
+        $actualPrice['special'] = $productPriceBlock->getSpecialPrice();
+        $actualPrice['discount_amount'] = $actualPrice['regular'] - $actualPrice['special'];
+        $diff = $this->verifyData($actualPrice, $price);
+        \PHPUnit_Framework_Assert::assertTrue(
+            empty($diff),
+            implode(' ', $diff)
         );
+    }
+
+    /**
+     * Check if arrays have equal values
+     *
+     * @param array $formData
+     * @param array $fixtureData
+     * @return array
+     */
+    protected function verifyData(array $formData, array $fixtureData)
+    {
+        $errorMessage = [];
+        foreach ($formData as $key => $value) {
+            if ($value != $fixtureData[$key]) {
+                $errorMessage[] = "Data not equal."
+                    . "\nExpected: " . $fixtureData[$key]
+                    . "\nActual: " . $value;
+            }
+        }
+        return $errorMessage;
     }
 
     /**
