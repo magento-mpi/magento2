@@ -13,7 +13,7 @@ use Magento\Integration\Model\Integration as IntegrationModel;
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
 
 /**
- * Plugin for \Magento\Integration\Service\IntegrationV1.
+ * Plugin for \Magento\Integration\Service\V1\Integration.
  */
 class IntegrationServiceV1
 {
@@ -38,13 +38,13 @@ class IntegrationServiceV1
     /**
      * Persist API permissions.
      *
-     * @param \Magento\Integration\Service\IntegrationV1 $subject
+     * @param \Magento\Integration\Service\V1\Integration $subject
      * @param IntegrationModel $integration
      *
      * @return IntegrationModel
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterCreate(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
+    public function afterCreate(\Magento\Integration\Service\V1\Integration $subject, $integration)
     {
         $this->_saveApiPermissions($integration);
         return $integration;
@@ -53,13 +53,13 @@ class IntegrationServiceV1
     /**
      * Persist API permissions.
      *
-     * @param \Magento\Integration\Service\IntegrationV1 $subject
+     * @param \Magento\Integration\Service\V1\Integration $subject
      * @param IntegrationModel $integration
      *
      * @return IntegrationModel
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterUpdate(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
+    public function afterUpdate(\Magento\Integration\Service\V1\Integration $subject, $integration)
     {
         $this->_saveApiPermissions($integration);
         return $integration;
@@ -68,13 +68,13 @@ class IntegrationServiceV1
     /**
      * Add API permissions to integration data.
      *
-     * @param \Magento\Integration\Service\IntegrationV1 $subject
+     * @param \Magento\Integration\Service\V1\Integration $subject
      * @param IntegrationModel $integration
      *
      * @return IntegrationModel
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterGet(\Magento\Integration\Service\IntegrationV1 $subject, $integration)
+    public function afterGet(\Magento\Integration\Service\V1\Integration $subject, $integration)
     {
         $this->_addAllowedResources($integration);
         return $integration;
@@ -135,13 +135,13 @@ class IntegrationServiceV1
     /**
      * Process integration resource permissions after the integration is created
      *
-     * @param \Magento\Integration\Service\IntegrationV1 $subject
+     * @param \Magento\Integration\Service\V1\Integration $subject
      * @param array $integrationData Data of integration deleted
      *
      * @return array $integrationData
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDelete(\Magento\Integration\Service\IntegrationV1 $subject, array $integrationData)
+    public function afterDelete(\Magento\Integration\Service\V1\Integration $subject, array $integrationData)
     {
         //No check needed for integration data since it cannot be empty in the parent invocation - delete
         $userIdentifier = $this->_userIdentifierFactory->create(

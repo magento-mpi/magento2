@@ -89,6 +89,7 @@ class ReadServiceTest extends WebapiAbstract
                 'default_value' => null,
                 'is_required' => true,
                 'is_user_defined' => false,
+                'frontend_input' => 'text'
             ),
             array(
                 'code' => 'sku',
@@ -96,6 +97,7 @@ class ReadServiceTest extends WebapiAbstract
                 'default_value' => null,
                 'is_required' => true,
                 'is_user_defined' => false,
+                'frontend_input' => 'text'
             ),
             array(
                 'code' => 'status',
@@ -103,6 +105,7 @@ class ReadServiceTest extends WebapiAbstract
                 'default_value' => '1',
                 'is_required' => false,
                 'is_user_defined' => false,
+                'frontend_input' => 'select'
             ),
             array(
                 'code' => 'description',
@@ -110,6 +113,7 @@ class ReadServiceTest extends WebapiAbstract
                 'default_value' => null,
                 'is_required' => false,
                 'is_user_defined' => false,
+                'frontend_input' => 'textarea'
             ),
         );
 

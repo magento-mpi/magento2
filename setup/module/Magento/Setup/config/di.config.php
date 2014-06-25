@@ -23,6 +23,7 @@ return [
             'Magento\Setup\Controller\UserController',
             'Magento\Setup\Controller\Controls\HeaderController',
             'Magento\Setup\Controller\Controls\MenuController',
+            'Magento\Setup\Controller\Controls\NavbarController',
             'Magento\Setup\Controller\Data\StatesController',
         ],
         'instance' => [
