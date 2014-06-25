@@ -33,7 +33,6 @@
   * Fixed: Custom Attribute not listed on layered navigation after import (MAGETWO-18333)
   * Fixed: Category URL keys do not work correctly after saving (MAGETWO-19490)
   * Fixed: User has no possibility to create Target rule with special Products to Display condition (MAGETWO-23654)
-  * Fixed: Gift Card purchase not being displayed under payment details on guest customer's order screen (MAGETWO-24757)
   * Fixed: jQuery error on product page in admin when switching between product tabs (MAGETWO-24846)
 * Added the following functional tests:
   * Create Product Url Rewrite (MTA-83)
