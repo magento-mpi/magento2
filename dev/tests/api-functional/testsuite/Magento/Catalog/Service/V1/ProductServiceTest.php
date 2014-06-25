@@ -30,6 +30,19 @@ class ProductServiceTest extends WebapiAbstract
     ];
 
     /**
+     * @var array
+     */
+    private $tearDownList = [];
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+        foreach ($this->tearDownList as $sku) {
+            $this->_deleteProduct($sku);
+        }
+    }
+
+    /**
      * @return array
      */
     public function productCreationProvider()
@@ -286,7 +299,9 @@ class ProductServiceTest extends WebapiAbstract
             ],
         ];
         $requestData = ['product' => $product];
-        $product[Product::SKU] = $this->_webApiCall($serviceInfo, $requestData);
+        $sku = $this->_webApiCall($serviceInfo, $requestData);
+        $product[Product::SKU] = $sku;
+        $this->tearDownList[] = $sku;
         return $product;
     }
 
@@ -298,6 +313,8 @@ class ProductServiceTest extends WebapiAbstract
      */
     protected function _deleteProduct($sku)
     {
+        unset($this->tearDownList[array_search($sku, $this->tearDownList)]);
+
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
