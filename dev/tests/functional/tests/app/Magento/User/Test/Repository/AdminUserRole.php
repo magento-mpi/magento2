@@ -37,7 +37,6 @@ class AdminUserRole extends AbstractRepository
                 'Actions' => 'Magento_Sales::actions',
                 'Orders' => 'Magento_Sales::sales_order',
                 'Create' => 'Magento_Sales::create',
-                'Can Spend Reward Points' => 'Magento_Reward::reward_spend',
                 'View' => 'Magento_Sales::actions_view',
                 'Send Order Email' => 'Magento_Sales::email',
                 'Reorder' => 'Magento_Sales::reorder',
