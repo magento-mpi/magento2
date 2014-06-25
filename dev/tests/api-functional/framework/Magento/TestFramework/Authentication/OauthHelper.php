@@ -37,8 +37,8 @@ class OauthHelper
     {
         $integration = self::_createIntegration('all');
         $objectManager = Bootstrap::getObjectManager();
-        /** @var $oauthService \Magento\Integration\Service\OauthV1 */
-        $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
+        /** @var $oauthService \Magento\Integration\Service\V1\Oauth */
+        $oauthService = $objectManager->get('Magento\Integration\Service\V1\Oauth');
         $consumer = $oauthService->loadConsumer($integration->getConsumerId());
         $url = TESTS_BASE_URL;
         $consumer->setCallbackUrl($url);
@@ -111,8 +111,8 @@ class OauthHelper
         if (!self::$_apiCredentials) {
             $integration = self::_createIntegration($resources);
             $objectManager = Bootstrap::getObjectManager();
-            /** @var \Magento\Integration\Service\OauthV1 $oauthService */
-            $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
+            /** @var \Magento\Integration\Service\V1\Oauth $oauthService */
+            $oauthService = $objectManager->get('Magento\Integration\Service\V1\Oauth');
             $oauthService->createAccessToken($integration->getConsumerId());
             $accessToken = $oauthService->getAccessToken($integration->getConsumerId());
             if (!$accessToken) {
@@ -175,8 +175,8 @@ class OauthHelper
     protected static function _createIntegration($resources)
     {
         $objectManager = Bootstrap::getObjectManager();
-        /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
-        $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
+        /** @var $integrationService \Magento\Integration\Service\V1\IntegrationInterface */
+        $integrationService = $objectManager->get('Magento\Integration\Service\V1\IntegrationInterface');
 
         $params = array('name' => 'Integration' . microtime());
 

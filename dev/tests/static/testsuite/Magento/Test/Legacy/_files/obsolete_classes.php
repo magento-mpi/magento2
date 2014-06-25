@@ -1948,11 +1948,19 @@ return array(
     ),
     array(
         'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
-        'Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped'
+        'Magento\CatalogImportExport\Model\Export\Entity\Product\Type\Grouped'
     ),
     array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped',
-        'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped'
+        'Magento\CatalogImportExport\Model\Import\Entity\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped',
+        'Magento\CatalogImportExport\Model\Export\Entity\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped',
+        'Magento\CatalogImportExport\Model\Import\Entity\Product\Type\Grouped'
     ),
     array('CollFactory', 'CollectionFactory'), // no need to shorten anymore
     array(
@@ -2047,11 +2055,19 @@ return array(
     ),
     array(
         'Magento\ImportExport\Model\Export\Entity\Product\Type\Configurable',
-        'Magento\ConfigurableProduct\Model\Export\Entity\Product\Type\Configurable'
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\ConfigurableProduct\Model\Export\Entity\Product\Type\Configurable',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Configurable'
     ),
     array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable',
-        'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable'
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Configurable'
     ),
     array('Magento\Sales\Block\Adminhtml\Items\Renderer\Configurable'),
     array(
@@ -2433,6 +2449,72 @@ return array(
     ['Magento\Phrase', 'Magento\Framework\Phrase'],
     ['Magento\Pear', 'Magento\Framework\Pear'],
     ['Magento\Connect\Channel\Generator', 'Magento\Framework\Connect\Channel\Generator'],
+    [
+        'Magento\ImportExport\Model\Export\Product\Type\AbstractType',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\AbstractType'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Product\Type\Factory',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Factory'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Product\Type\Simple',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Simple'
+    ],
+    ['Magento\ImportExport\Model\Export\Product', 'Magento\CatalogImportExport\Model\Export\Product'],
+    [
+        'Magento\ImportExport\Model\Export\RowCustomizer\Composite',
+        'Magento\CatalogImportExport\Model\Export\RowCustomizer\Composite'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\RowCustomizerInterface',
+        'Magento\CatalogImportExport\Model\Export\RowCustomizerInterface'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Product\Type\AbstractType',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Product\Type\Factory',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Factory'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Product\Type\Simple',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Simple'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Product\Option',
+        'Magento\CatalogImportExport\Model\Import\Product\Option'
+    ],
+    ['Magento\ImportExport\Model\Import\Product', 'Magento\CatalogImportExport\Model\Import\Product'],
+    [
+        'Magento\ImportExport\Model\Import\Proxy\Product',
+        'Magento\CatalogImportExport\Model\Import\Proxy\Product'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Proxy\Product\Resource',
+        'Magento\CatalogImportExport\Model\Import\Proxy\Product\Resource'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Uploader',
+        'Magento\CatalogImportExport\Model\Import\Uploader'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Customer\Finance',
+        'Magento\CustomerFinance\Model\Export\Customer\Finance'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Finance',
+        'Magento\CustomerFinance\Model\Import\Entity\Eav\Customer\Finance'
+    ],
+    [
+        'Magento\ImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
+        'Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection'
+    ],
+    [
+        'Magento\ImportExport\Model\Resource\Customer\Collection',
+        'Magento\CustomerFinance\Model\Resource\Customer\Collection'
+    ],
     ['Magento\Connect\Channel\VO', 'Magento\Framework\Connect\Channel\VO'],
     ['Magento\Connect\Command\Channels', 'Magento\Framework\Connect\Command\Channels'],
     ['Magento\Connect\Command\Config', 'Magento\Framework\Connect\Command\Config'],
@@ -2538,6 +2620,7 @@ return array(
         'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css\Group',
         'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'
     ],
+    ['Magento\Framework\Filter\GridArray\Grid'],
     ['Magento\Css\PreProcessor\Composite'],
     ['Magento\Css\PreProcessor\UrlResolver', 'Magento\Framework\View\Asset\PreProcessor\ModuleNotation'],
     ['Magento\Less\PreProcessor\File\FileList'],
@@ -2571,8 +2654,45 @@ return array(
     ['Magento\Css\PreProcessor\Cache\CacheManager'],
     ['Magento\Framework\View\Design\FileResolution\Strategy\ViewInterface'],
     [
+        'Magento\ImportExport\Model\Import\Entity\Product',
+        'Magento\CatalogImportExport\Model\Import\Product'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Option',
+        'Magento\CatalogImportExport\Model\Import\Product\Option'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Factory',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Factory'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Simple',
+        'Magento\CatalogImportExport\Model\Import\Product\Type\Simple'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product',
+        'Magento\CatalogImportExport\Model\Export\Product'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\AbstractType'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Factory',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Factory'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Simple',
+        'Magento\CatalogImportExport\Model\Export\Product\Type\Simple'
+    ],
+    [
         'Magento\Bundle\Pricing\Price\BasePrice',
         'Magento\Catalog\Pricing\Price\BasePrice'
     ],
     ['\Magento\Bundle\Pricing\Price\BasePriceInterface'],
+    ['\Magento\Paypal\Block\PayflowExpress\Shortcut']
 );
