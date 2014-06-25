@@ -102,7 +102,7 @@ class FileContentUploader extends Uploader implements FileContentUploaderInterfa
      */
     protected function getTmpFileName()
     {
-        return tempnam(sys_get_temp_dir(), $this->filePrefix);
+        return uniqid($this->filePrefix, true);
     }
 
     /**
