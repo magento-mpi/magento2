@@ -63,6 +63,78 @@ abstract class AssertForm extends AbstractConstraint
     }
 
     /**
+     * Sort multidimensional array by paths
+     *
+     * @param array $data
+     * @param array|string $paths
+     * @return void
+     */
+    protected function sortData(array &$data, $paths)
+    {
+        $paths = is_array($paths) ? $paths : [$paths];
+        foreach ($paths as $path) {
+            $values = & $data;
+            $keys = explode('/', $path);
+
+            $key = array_shift($keys);
+            $order = null;
+            while (null !== $key) {
+                if (false !== strpos($key, '::')) {
+                    list($key, $order) = explode('::', $key);
+                }
+                if ($key && !isset($values[$key])) {
+                    $key = null;
+                    continue;
+                }
+
+                if ($key) {
+                    $values = & $values[$key];
+                }
+                if ($order) {
+                    $values = $this->sortMultidimensionalArray($values, $order);
+                    $order = null;
+                }
+                $key = array_shift($keys);
+            }
+        }
+    }
+
+    /**
+     * Sort multidimensional array by key
+     *
+     * @param array $data
+     * @param string $pk
+     * @return array
+     */
+    private function sortMultidimensionalArray(array &$data, $pk)
+    {
+        $result = [];
+        foreach ($data as $value) {
+            $result[$value[$pk]] = $value;
+        }
+
+        ksort($result);
+        return $result;
+    }
+
+    /**
+     * Convert array to string
+     *
+     * @param array $array
+     * @return string
+     */
+    private function arrayToString(array $array)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $value = is_array($value) ? $this->arrayToString($value) : $value;
+            $result[] = "{$key} => {$value}";
+        }
+
+        return '[' . implode(', ', $result) . ']';
+    }
+
+    /**
      * Prepare errors to string
      *
      * @param array $errors
@@ -84,76 +156,5 @@ abstract class AssertForm extends AbstractConstraint
             $notice = "\nForm data not equals to passed from fixture:\n";
         }
         return $notice . implode("\n", $result);
-    }
-
-    /**
-     * Convert array to string
-     *
-     * @param array $array
-     * @return string
-     */
-    private function arrayToString(array $array)
-    {
-        $result = [];
-        foreach ($array as $key => $value) {
-            $value = is_array($value) ? $this->arrayToString($value) : $value;
-            $result[] = "{$key} => {$value}";
-        }
-
-        return '[' . implode(', ', $result) . ']';
-    }
-
-    /**
-     * Sort multidimensional array by paths
-     *
-     * @param array $data
-     * @param array|string $paths
-     * @return void
-     */
-    protected function sortData(array &$data, $paths)
-    {
-        $paths = is_array($paths) ? $paths : [$paths];
-        foreach($paths as $path) {
-            $values = &$data;
-            $keys = explode('/', $path);
-
-            $key = array_shift($keys);
-            $order = null;
-            while (null !== $key) {
-                if (false !== strpos($key, '::')) {
-                    list($key, $order) = explode('::', $key);
-                }
-                if (!isset($values[$key])) {
-                    $key = null;
-                    continue;
-                }
-
-                $values = &$values[$key];
-                if ($order) {
-                    $this->sortMultidimensionalArray($values, $order);
-                    $order = null;
-                }
-                $key = array_shift($keys);
-            }
-        }
-    }
-
-    /**
-     * Sort multidimensional array by key
-     *
-     * @param array $data
-     * @param $key
-     * @return void
-     */
-    private function sortMultidimensionalArray(array &$data, $key)
-    {
-        $functionCode = "
-            if (\$first['{$key}'] == \$second['{$key}']) {
-                return 0;
-            }
-            return (\$first['{$key}'] < \$second['{$key}']) ? -1 : 1;
-        ";
-        $functionCompare = create_function('$first, $second' , $functionCode);
-        usort($data, $functionCompare);
     }
 }

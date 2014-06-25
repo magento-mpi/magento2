@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\SimpleProduct;
 use Magento\Customer\Test\Fixture\Customer;
+use Magento\CatalogRule\Test\Fixture\CatalogPriceRule;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 
@@ -22,6 +24,13 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      *  Variable for discount amount converted to decimal form
      */
     private $_discountDecimal;
+
+    /**
+     * Fixture of catalog price rule
+     *
+     * @var CatalogPriceRule
+     */
+    protected $catalogRule;
 
     /**
      * Applying Catalog Price Rules to specific customer group
@@ -74,10 +83,11 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getEditForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
-            array('category_id' => $categoryIds[0],
+            [
+                'category_id' => $categoryIds[0],
                 'group_value' => $groupName,
                 'group_id' => $groupId
-            )
+            ]
         );
         // convert the discount amount to a decimal form
         $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
@@ -101,11 +111,16 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
 
         $this->verifyGuestPrice($simpleProductFixture);
         $this->verifyCustomerPrice($simpleProductFixture, $customerFixture);
+
+        // Prepare data for tear down
+        $this->catalogRule = $catalogRuleFixture;
     }
 
     /**
      * This method verifies guest price information on the storefront.
+     *
      * @param Product $product
+     * @return void
      */
     protected function verifyGuestPrice($product)
     {
@@ -152,6 +167,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      *
      * @param Product $product
      * @param Customer $customer
+     * @return void
      */
     protected function verifyCustomerPrice($product, $customer)
     {
@@ -202,5 +218,29 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
             (string)$checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
             "Discount was not correctly applied"
         );
+    }
+
+    /**
+     * Clear data after test
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        if (!$this->catalogRule) {
+            return;
+        }
+
+        // Admin login
+        Factory::getApp()->magentoBackendLoginUser();
+
+        // Open Catalog Price Rule page
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalogIndex();
+        $catalogRulePage->open();
+        $catalogRulePage->getCatalogRuleGrid()->searchAndOpen(['name' => $this->catalogRule->getRuleName()]);
+
+        // Delete Catalog Price Rule
+        $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
+        $catalogRuleCreatePage->getFormPageActions()->delete();
     }
 }

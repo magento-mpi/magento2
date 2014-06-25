@@ -43,7 +43,7 @@ class AssertCatalogRuleProductView extends AbstractConstraint
         /** @var CatalogProductSimple $product */
         $product = $catalogPriceRule->getDataFieldConfig('condition_value')['source']->getProduct();
         /** @var Category $category */
-        $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
+        $category = $product->getDataFieldConfig('category_ids')['source']->getCategories()[0];
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getData('name'));
         //Open product view page
