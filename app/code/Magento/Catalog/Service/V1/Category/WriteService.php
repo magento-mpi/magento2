@@ -40,8 +40,7 @@ class WriteService implements WriteServiceInterface
     public function __construct(
         CategoryFactory $categoryFactory,
         CategoryMapper $categoryMapper
-    )
-    {
+    ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryMapper = $categoryMapper;
     }
@@ -87,6 +86,7 @@ class WriteService implements WriteServiceInterface
      * Validate category process
      *
      * @param  Category $category
+     * @return array|bool
      * @throws \Magento\Framework\Model\Exception
      */
     protected function validateCategory(Category $category)
@@ -110,5 +110,6 @@ class WriteService implements WriteServiceInterface
             }
         }
         $category->unsetData('use_post_data_config');
+        return $validate;
     }
 }
