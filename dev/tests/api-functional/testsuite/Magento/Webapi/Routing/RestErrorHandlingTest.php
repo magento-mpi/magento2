@@ -81,12 +81,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
 
-        $expectedMessages = 'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX';
+        $expectedMessage = 'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX';
         $this->_errorTest(
             $serviceInfo,
             [],
             WebapiException::HTTP_INTERNAL_ERROR,
-            $expectedMessages
+            $expectedMessage
         );
     }
 
