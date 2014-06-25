@@ -21,7 +21,6 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
     {
         $reflectionClass = new \ReflectionClass('Magento\Tools\I18n\Code\Dictionary\Phrase');
         $phrase = $reflectionClass->newInstanceArgs($constructArguments);
-
         $this->assertEquals($result, $phrase->{$getter}());
     }
 
@@ -71,9 +70,9 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
     public function dataProviderWrongParametersWhilePhraseCreation()
     {
         return array(
-            array(array(null, 'translation'), 'Missed phrase.'),
-            array(array('phrase', null), 'Missed translation.'),
-            array(array('phrase', 'translation', null, new \stdClass()), 'Wrong context type.')
+            array(array(null, 'translation'), 'Missed phrase'),
+            array(array('phrase', null), 'Missed translation'),
+            array(array('phrase', 'translation', null, new \stdClass()), 'Wrong context type')
         );
     }
 
@@ -124,7 +123,7 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \DomainException
-     * @expectedExceptionMessage Context value is empty.
+     * @expectedExceptionMessage Context value is empty
      */
     public function testAddEmptyContextValue()
     {
@@ -162,7 +161,6 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
     public function testGetKey()
     {
         $phrase = new Phrase('phrase', 'translation', 'context_type', 'context_value1');
-
         $this->assertEquals('phrase::context_type', $phrase->getKey());
     }
 }

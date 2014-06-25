@@ -105,8 +105,8 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     public function getOptionsWrongDirDataProvider()
     {
         return [
-            ['not_exist', true, 'Base directory is not Magento root'],
-            ['not_exist', false, 'Base directory doesn\'t exist'],
+            ['not_exist', true, 'Specified path is not a Magento root directory'],
+            ['not_exist', false, 'Specified path doesn\'t exist'],
         ];
     }
 }

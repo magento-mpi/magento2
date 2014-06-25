@@ -85,7 +85,7 @@ class Generator
 
         $phraseList = $parser->getPhrases();
         if (!count($phraseList)) {
-            throw new \UnexpectedValueException('No phrases found by given path.');
+            throw new \UnexpectedValueException('No phrases found in the specified dictionary file.');
         }
         foreach ($phraseList as $phrase) {
             $this->getDictionaryWriter($outputFilename)->write($phrase);

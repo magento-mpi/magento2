@@ -76,11 +76,14 @@ class Generator
         $dictionary = $this->dictionaryLoader->load($dictionaryPath);
 
         if (!count($dictionary->getPhrases())) {
-            throw new \UnexpectedValueException('No phrases found by given path.');
+            throw new \UnexpectedValueException('No phrases have been found by the specified path.');
         }
 
         if (!$allowDuplicates && ($duplicates = $dictionary->getDuplicates())) {
-            throw new \RuntimeException($this->createDuplicatesPhrasesError($duplicates));
+            throw new \RuntimeException(
+                "Duplicated translation is found, but it is not allowed.\n"
+                . $this->createDuplicatesPhrasesError($duplicates)
+            );
         }
 
         $this->packWriter->write($dictionary, $packPath, $locale, $mode);
@@ -99,7 +102,7 @@ class Generator
             /** @var \Magento\Tools\I18n\Code\Dictionary\Phrase $phrase */
             $phrase = $phrases[0];
             $error .= sprintf(
-                "Error. The phrase \"%s\" is translated differently in %d places.\n",
+                "The phrase \"%s\" is translated differently in %d places.\n",
                 $phrase->getPhrase(),
                 count($phrases)
             );
