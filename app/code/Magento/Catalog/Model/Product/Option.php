@@ -332,6 +332,8 @@ class Option extends AbstractModel
                 'store_id',
                 $this->getProduct()->getStoreId()
             );
+            /** Reset is delete flag from the previous iteration */
+            $this->isDeleted(false);
 
             if ($this->getData('option_id') == '0') {
                 $this->unsetData('option_id');
