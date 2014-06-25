@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\ProductMetadataService;
 use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
@@ -63,7 +63,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $metadataServiceMock->expects($this->once())
             ->method('getAttributeMetadata')
             ->with(
-                ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+                ProductMetadataServiceInterface::ENTITY_TYPE,
                 $attributeCode
             );
 

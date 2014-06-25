@@ -9,7 +9,7 @@ namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\ProductMetadataService;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
@@ -250,7 +250,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->eavConfig
             ->expects($this->once())
             ->method('getAttribute')
-            ->with(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id)
+            ->with(ProductMetadataServiceInterface::ENTITY_TYPE, $id)
             ->will($this->returnValue($this->attributeMock));
         $this->attributeMock->expects($this->at(0))->method('getId')->will($this->returnValue(1));
         $this->attributeMock->expects($this->at(1))->method('delete');
@@ -266,7 +266,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->eavConfig
             ->expects($this->once())
             ->method('getAttribute')
-            ->with(ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT, $id)
+            ->with(ProductMetadataServiceInterface::ENTITY_TYPE, $id)
             ->will($this->returnValue(false));
         $this->setExpectedException(
             'Magento\Framework\Exception\NoSuchEntityException',

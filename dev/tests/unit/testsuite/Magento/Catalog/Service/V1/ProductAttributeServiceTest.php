@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\ProductMetadataService;
 
 class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,14 +43,14 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
         $metadataServiceMock->expects($this->once())
             ->method('getAttributeMetadata')
             ->with(
-                ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+                ProductMetadataServiceInterface::ENTITY_TYPE,
                 $attributeCode
             )
             ->will($this->returnValue($mock));
 
-        /** @var \Magento\Catalog\Service\V1\ProductAttributeServiceInterface $service */
+        /** @var \Magento\Catalog\Service\V1\Product\Attribute\OptionServiceInterface $service */
         $service = $objectManager->getObject(
-            'Magento\Catalog\Service\V1\ProductAttributeService',
+            'Magento\Catalog\Service\V1\Product\Attribute\OptionService',
             array(
                 'metadataService' => $metadataServiceMock
             )
@@ -143,7 +143,7 @@ class ProductAttributeServiceTest extends \PHPUnit_Framework_TestCase
         $eavConfig->expects($this->any())
             ->method('getAttribute')
             ->with(
-                \Magento\Catalog\Service\V1\ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+                \Magento\Catalog\Service\V1\ProductMetadataService::ENTITY_TYPE_PRODUCT,
                 $attributeCode
             )->will($this->returnValue($attribute));
 

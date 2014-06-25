@@ -8,14 +8,15 @@
 namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
-
+use Magento\Catalog\Service\V1\MetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 /**
  * Class ProductAttributeService
  */
 class OptionService implements OptionServiceInterface
 {
     /**
-     * @var ProductMetadataServiceInterface
+     * @var MetadataServiceInterface
      */
     private $metadataService;
 
@@ -28,7 +29,7 @@ class OptionService implements OptionServiceInterface
     private $optionCollectionFactory;
 
     /**
-     * @param ProductMetadataServiceInterface $metadataService
+     * @param MetadataServiceInterface $metadataService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $optionCollectionFactory
      */
@@ -48,7 +49,7 @@ class OptionService implements OptionServiceInterface
     public function options($id)
     {
         return $this->metadataService->getAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            ProductMetadataServiceInterface::ENTITY_TYPE,
             $id
         )->getOptions();
     }
@@ -59,7 +60,7 @@ class OptionService implements OptionServiceInterface
     public function addOption($id, \Magento\Catalog\Service\V1\Data\Eav\Option $option)
     {
         $model = $this->eavConfig->getAttribute(
-            \Magento\Catalog\Service\V1\ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            ProductMetadataServiceInterface::ENTITY_TYPE,
             $id
         );
         if (!$model) {

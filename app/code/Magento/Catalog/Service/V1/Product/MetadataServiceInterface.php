@@ -25,14 +25,14 @@ interface MetadataServiceInterface
     /**
      * Retrieve custom EAV attribute metadata of product
      *
-     * @return AttributeMetadata[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getCustomAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
 
     /**
      * Retrieve EAV attribute metadata of product
      *
-     * @return AttributeMetadata[]
+     * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata[]
      */
     public function getProductAttributesMetadata($attributeSetId = self::DEFAULT_ATTRIBUTE_SET_ID);
 }

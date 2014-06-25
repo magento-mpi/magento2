@@ -66,14 +66,14 @@ class MetadataService implements MetadataServiceInterface
         /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteria */
         $this->searchCriteriaBuilder->addFilter([
             $this->filterBuilder
-                ->setField('attributeSetId')
+                ->setField('attribute_set_id')
                 ->setValue($attributeSetId)
                 ->create()
         ]);
 
         return $this->metadataService->getAllAttributeMetadata(
             MetadataServiceInterface::ENTITY_TYPE,
-            $searchCriteria->create()
+            $this->searchCriteriaBuilder->create()
         )->getItems();
     }
 }

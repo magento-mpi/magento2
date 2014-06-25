@@ -8,12 +8,12 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Converter;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Catalog\Service\V1\Data\Product as ProductData;
 use Magento\Framework\Service\V1\Data\Search\FilterGroup;
 use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 
 /**
  * Class ProductService

@@ -8,9 +8,12 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Eav\Model\Resource\Entity\Attribute\Collection;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
  * Class MetadataService
@@ -35,22 +38,37 @@ class MetadataService implements MetadataServiceInterface
 
     /** @var  \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory */
     private $attributeCollectionFactory;
+    /**
+     * @var Data\Product\SearchResultsBuilder
+     */
+    private $searchResultsBuilder;
+    /**
+     * @var Data\Eav\AttributeMetadataBuilder
+     */
+    private $attributeBuilder;
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param Data\Product\SearchResultsBuilder $searchResultsBuilder
+     * @param Data\Eav\AttributeMetadataBuilder $attributeBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder,
-        \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory
+        \Magento\Eav\Model\Resource\Entity\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadataBuilder $attributeBuilder
     ) {
         $this->eavConfig = $eavConfig;
         $this->scopeResolver = $scopeResolver;
         $this->attributeMetadataBuilder = $attributeMetadataBuilder;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
+        $this->searchResultsBuilder = $searchResultsBuilder;
+        $this->attributeBuilder = $attributeBuilder;
     }
 
     /**
@@ -74,10 +92,23 @@ class MetadataService implements MetadataServiceInterface
      */
     public function getAllAttributeMetadata(
         $entityType,
-        \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+        SearchCriteria $searchCriteria
     ) {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
+        /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
+
+        $attributeCollection->join(
+            array('entity_type' => $attributeCollection->getTable('eav_entity_type')),
+            'main_table.entity_type_id = entity_type.entity_type_id',
+            []
+        );
+        $attributeCollection->addFieldToFilter('entity_type_code', ['eq' => $entityType]);
+        $attributeCollection->join(
+            ['eav_entity_attribute' => $attributeCollection->getTable('eav_entity_attribute')],
+            'main_table.attribute_id = eav_entity_attribute.attribute_id',
+            ['attribute_set_id']
+        );
 
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
@@ -86,10 +117,10 @@ class MetadataService implements MetadataServiceInterface
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
             foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $field = $this->translateField($field);
                 $attributeCollection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
         }
+
         $attributeCollection->join(
             array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
             'main_table.attribute_id = additional_table.attribute_id',
@@ -115,12 +146,6 @@ class MetadataService implements MetadataServiceInterface
                 'search_weight',
             ]
         );
-        $attributeCollection->join(
-            array('entity_type' => $attributeCollection->getTable('eav_entity_type')),
-            'main_table.entity_type_id = entity_type.entity_type_id',
-            []
-        );
-        $attributeCollection->addFieldToFilter(['entity_type_code'], ['eq' => $entityType]);
 
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
         $attributeCollection->setPageSize($searchCriteria->getPageSize());
@@ -130,12 +155,12 @@ class MetadataService implements MetadataServiceInterface
         /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         foreach ($attributeCollection as $attribute) {
             $attributes[] = $this->attributeBuilder
-                ->setId($attribute->getAttributeId())
-               ->setCode($attribute->getAttributeCode())
+               ->setAttributeId($attribute->getAttributeId())
+               ->setAttributeCode($attribute->getAttributeCode())
                ->setFrontendLabel($attribute->getData('frontend_label'))
                ->setDefaultValue($attribute->getDefaultValue())
-               ->setIsRequired((boolean)$attribute->getData('is_required'))
-               ->setIsUserDefined((boolean)$attribute->getData('is_user_defined'))
+               ->setRequired((boolean)$attribute->getData('is_required'))
+               ->setUserDefined((boolean)$attribute->getData('is_user_defined'))
                ->setFrontendInput($attribute->getData('frontend_input'))
                ->create();
         }
@@ -202,7 +227,7 @@ class MetadataService implements MetadataServiceInterface
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param FilterGroup $filterGroup
+     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup  $filterGroup
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
      * @return void
      * @throws \Magento\Framework\Exception\InputException
@@ -213,29 +238,11 @@ class MetadataService implements MetadataServiceInterface
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $this->translateField($filter->getField());
+            $fields[] = $filter->getField();
             $conditions[] = [$condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
-        }
-    }
-
-    /**
-     * Translates a field name to a DB column name for use in collection queries.
-     *
-     * @param string $field a field name that should be translated to a DB column name.
-     * @return string
-     */
-    private function translateField($field)
-    {
-        switch ($field) {
-            case Attribute::ID:
-                return 'attribute_id';
-            case Attribute::CODE:
-                return 'attribute_code';
-            default:
-                return $field;
         }
     }
 }

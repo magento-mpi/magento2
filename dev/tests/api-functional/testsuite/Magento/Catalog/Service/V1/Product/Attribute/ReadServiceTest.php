@@ -11,7 +11,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Catalog\Service\V1\Data\Eav\Attribute;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 
 /**
@@ -154,7 +154,7 @@ class ReadServiceTest extends WebapiAbstract
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Attribute::FRONTEND_INPUT, 'textarea']
+                        [AttributeMetadata::FRONTEND_INPUT, 'textarea']
                     ],
                 ],
                 [
@@ -231,12 +231,12 @@ class ReadServiceTest extends WebapiAbstract
                         'frontend_input' => 'textarea'
                     ],
                 ],
-                [Attribute::ID, SearchCriteria::SORT_ASC]
+                [AttributeMetadata::ATTRIBUTE_ID, SearchCriteria::SORT_ASC]
             ),
             array(
                 [ //Groups
                     [ //Group(AND)
-                        [Attribute::FRONTEND_INPUT, 'text']
+                        [AttributeMetadata::FRONTEND_INPUT, 'text']
                     ],
                     [ //Group(AND)
                         ['is_configurable', 1]
@@ -276,7 +276,7 @@ class ReadServiceTest extends WebapiAbstract
                         'frontend_input' => 'text'
                     ],
                 ],
-                [Attribute::IS_REQUIRED, SearchCriteria::SORT_ASC]
+                [AttributeMetadata::REQUIRED, SearchCriteria::SORT_ASC]
             )
         );
     }

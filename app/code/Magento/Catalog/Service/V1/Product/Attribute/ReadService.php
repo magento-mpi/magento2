@@ -9,7 +9,8 @@ namespace Magento\Catalog\Service\V1\Product\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\TypeBuilder;
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\MetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 
 /**
  * Class ReadService
@@ -20,7 +21,7 @@ use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Service\V1\MetadataServiceInterface
+     * @var MetadataServiceInterface
      */
     private $metadataService;
 
@@ -35,12 +36,12 @@ class ReadService implements ReadServiceInterface
     private $attributeTypeBuilder;
 
     /**
-     * @param \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService
+     * @param MetadataServiceInterface $metadataService
      * @param InputtypeFactory $inputTypeFactory
      * @param TypeBuilder $attributeTypeBuilder
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\MetadataServiceInterface $metadataService,
+        MetadataServiceInterface $metadataService,
         InputtypeFactory $inputTypeFactory,
         TypeBuilder $attributeTypeBuilder
     ) {
@@ -69,7 +70,7 @@ class ReadService implements ReadServiceInterface
     public function info($id)
     {
         return $this->metadataService->getAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            ProductMetadataServiceInterface::ENTITY_TYPE,
             $id
         );
     }
@@ -80,7 +81,7 @@ class ReadService implements ReadServiceInterface
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         return $this->metadataService->getAllAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            ProductMetadataServiceInterface::ENTITY_TYPE,
             $searchCriteria
         );
     }

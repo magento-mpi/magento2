@@ -18,6 +18,7 @@
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Category\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\WriteService" />
+    <preference for="Magento\Catalog\Service\V1\Product\Attribute\OptionServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\OptionService" />
     <preference for="Magento\Catalog\Service\V1\ProductAttributeServiceInterface" type="Magento\Catalog\Service\V1\ProductAttributeService" />
     <preference for="Magento\Catalog\Service\V1\Category\MetadataServiceInterface" type="Magento\Catalog\Service\V1\Category\MetadataService" />
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />

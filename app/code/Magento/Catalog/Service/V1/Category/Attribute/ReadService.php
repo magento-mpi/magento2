@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Service\V1\Category\Attribute;
 
 use Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory;
-use Magento\Catalog\Service\V1\ProductMetadataServiceInterface;
+use Magento\Catalog\Service\V1\Product\MetadataServiceInterface;
 
 /**
  * Class ReadService
@@ -38,7 +38,7 @@ class ReadService implements ReadServiceInterface
     public function options($id)
     {
         return $this->metadataService->getAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            MetadataServiceInterface::ENTITY_TYPE,
             $id
         )->getOptions();
     }
@@ -49,7 +49,7 @@ class ReadService implements ReadServiceInterface
     public function info($id)
     {
         return $this->metadataService->getAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            MetadataServiceInterface::ENTITY_TYPE,
             $id
         );
     }
@@ -60,7 +60,7 @@ class ReadService implements ReadServiceInterface
     public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
     {
         return $this->metadataService->getAllAttributeMetadata(
-            ProductMetadataServiceInterface::ENTITY_TYPE_PRODUCT,
+            MetadataServiceInterface::ENTITY_TYPE,
             $searchCriteria
         );
     }
