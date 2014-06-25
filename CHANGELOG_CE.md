@@ -79,6 +79,11 @@
   * Fixed: FPC is not invalidated after applying catalog price rule  (MAGETWO-24311)
   * Fixed: Admin with custom restrictions cannot create Cart/Catalog Price Rule  (MAGETWO-24420)
   * Fixed: REST request and response format is inconsistent (MAGETWO-23837)
+  * Fixed: Warning in Bundle Product page if bundle items contain out of stock product (MAGETWO-24276)
+  * Fixed: Js error if add associated(grouped) products for grouped (MAGETWO-23955)
+  * Fixed: No Layered Navigation on Advanced Search results page (MAGETWO-24864)
+  * Fixed: CLONE - Export through Excel XML truncates leading zeros (MAGETWO-22699)
+  * Fixed: Filter works incorrect in Layered Navigation with price type attribute (MAGETWO-24282)
 * GitHub requests:
   * [#542]  Fix ImportExport bug which occurs while importing multiple rows per entity (MAGETWO-23389)
   * [#544]  Performance tests not working (MAGETWO-23467)
