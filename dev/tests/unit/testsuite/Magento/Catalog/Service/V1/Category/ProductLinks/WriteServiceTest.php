@@ -123,6 +123,48 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->model->assignProduct($categoryId, $this->productLink));
     }
 
+    public function testUpdateProduct()
+    {
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId, 334);
+        $this->category->expects($this->once())->method('save');
+
+        $this->assertTrue($this->model->updateProduct($categoryId, $this->productLink));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
+     */
+    public function testUpdateProductCouldNotSaveException()
+    {
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId, 334);
+        $this->category->expects($this->once())->method('save')
+            ->will(
+                $this->returnCallback(
+                    function () {
+                        throw new \Exception();
+                    }
+                )
+            );
+
+        $this->assertTrue($this->model->updateProduct($categoryId, $this->productLink));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\StateException
+     */
+    public function testUpdateStateException()
+    {
+        $categoryId = 33;
+
+        $this->prepareMocksForAssign($categoryId);
+
+        $this->assertTrue($this->model->updateProduct($categoryId, $this->productLink));
+    }
+
     private function prepareMocksForAssign($categoryId, $productId = 333)
     {
         $productSku = 'sku333';
