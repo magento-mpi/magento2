@@ -1,0 +1,1 @@
+The Sitemap module allows managing the Magento application sitemap and sitemap.xml for searching engines.
