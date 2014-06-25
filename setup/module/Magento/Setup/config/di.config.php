@@ -16,6 +16,7 @@ return [
             'Magento\Setup\Controller\CreateAdminAccountController',
             'Magento\Setup\Controller\InstallController',
             'Magento\Setup\Controller\IndexController',
+            'Magento\Setup\Controller\LandingController',
             'Magento\Setup\Controller\EnvironmentController',
             'Magento\Setup\Controller\LicenseController',
             'Magento\Setup\Controller\UserController',

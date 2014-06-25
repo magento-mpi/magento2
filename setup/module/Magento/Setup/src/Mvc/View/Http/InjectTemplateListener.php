@@ -10,6 +10,7 @@ namespace Magento\Setup\Mvc\View\Http;
 
 use Zend\EventManager\EventManagerInterface as Events;
 use Zend\Mvc\View\Http\InjectTemplateListener as ZendInjectTemplateListener;
+use Zend\Mvc\MvcEvent;
 
 class InjectTemplateListener extends ZendInjectTemplateListener
 {
@@ -48,5 +49,20 @@ class InjectTemplateListener extends ZendInjectTemplateListener
             return '';
         }
         return implode('/', $subNsArray);
+    }
+
+    /**
+     * Inject a template into the view model, if none present
+     *
+     * Template is derived from the controller found in the route match, and,
+     * optionally, the action, if present.
+     *
+     * @param  MvcEvent $e
+     * @return void
+     */
+    public function injectTemplate(MvcEvent $e)
+    {
+        $e->getRouteMatch()->setParam('action', null);
+        parent::injectTemplate($e);
     }
 }
