@@ -26,7 +26,6 @@ try {
             $console->getUsageMessage()
         );
     }
-    $test = $console->getRemainingArgs();
     $directory = $console->getOption('directory');
     if (empty($directory)) {
         throw new \Zend_Console_Getopt_Exception('Directory is a required parameter.', $console->getUsageMessage());
