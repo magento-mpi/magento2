@@ -440,7 +440,7 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
         $blockMock = $this->getMock(
             'Magento\Framework\View\Element\Template',
-            ['setProductId'],
+            ['setProductId', 'initForm'],
             [],
             '',
             false
