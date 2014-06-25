@@ -10,9 +10,9 @@ namespace Magento\Catalog\Service\V1\Category;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Catalog\Service\V1\Data\CategoryMapper;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Catalog\Service\V1\Data\CategoryMapper;
 
 class WriteService implements WriteServiceInterface
 {
@@ -40,8 +40,7 @@ class WriteService implements WriteServiceInterface
     public function __construct(
         CategoryFactory $categoryFactory,
         CategoryMapper $categoryMapper
-    )
-    {
+    ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryMapper = $categoryMapper;
     }
