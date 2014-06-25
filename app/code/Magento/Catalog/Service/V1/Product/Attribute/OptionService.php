@@ -34,7 +34,7 @@ class OptionService implements OptionServiceInterface
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $optionCollectionFactory
      */
     public function __construct(
-        ProductMetadataServiceInterface $metadataService,
+        MetadataServiceInterface $metadataService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $optionCollectionFactory
     ) {

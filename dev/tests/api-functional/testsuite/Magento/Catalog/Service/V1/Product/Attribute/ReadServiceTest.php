@@ -73,6 +73,9 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertArrayHasKey('attribute_code', $response);
     }
 
+    /**
+     * @return array
+     */
     public function infoDataProvider()
     {
         return array(
@@ -138,9 +141,10 @@ class ReadServiceTest extends WebapiAbstract
             // Remove attribute IDs (in order to make test more clear i.e. without hardcoded IDs)
             unset($attribute['id']);
         }
-        foreach ($expectedAttributes as $expectedAttribute) {
-            $this->assertContains($expectedAttribute, $searchResults['items']);
-        }
+        $this->assertEquals(
+            array_map(function($i) { return $i['code'];}, $expectedAttributes),
+            array_map(function($i) { return $i['attribute_code'];}, $searchResults['items'])
+        );
     }
 
     /**
@@ -160,75 +164,18 @@ class ReadServiceTest extends WebapiAbstract
                 [
                     [
                         'code' => 'description',
-                        'frontend_label' => 'Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'meta_keywords',
-                        'frontend_label' => 'Meta Keywords',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'meta_description',
-                        'frontend_label' => 'Meta Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'custom_layout_update',
-                        'frontend_label' => 'Custom Layout Update',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
-                    ],
-                    [
-                        'code' => 'description',
-                        'frontend_label' => 'Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'short_description',
-                        'frontend_label' => 'Short Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'meta_keyword',
-                        'frontend_label' => 'Meta Keywords',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'meta_description',
-                        'frontend_label' => 'Meta Description',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                     [
                         'code' => 'custom_layout_update',
-                        'frontend_label' => 'Custom Layout Update',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'textarea'
                     ],
                 ],
                 [AttributeMetadata::ATTRIBUTE_ID, SearchCriteria::SORT_ASC]
@@ -244,36 +191,16 @@ class ReadServiceTest extends WebapiAbstract
                 ],
                 [
                     [
-                        'code' => 'related_tgtr_position_limit',
-                        'frontend_label' => 'Related Target Rule Rule Based Positions',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
-                    ],
-                    [
                         'code' => 'related_tgtr_position_behavior',
-                        'frontend_label' => 'Related Target Rule Position Behavior',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
                     ],
                     [
-                        'code' => 'upsell_tgtr_position_limit',
-                        'frontend_label' => 'Upsell Target Rule Rule Based Positions',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
+                        'code' => 'related_tgtr_position_limit',
                     ],
                     [
                         'code' => 'upsell_tgtr_position_behavior',
-                        'frontend_label' => 'Upsell Target Rule Position Behavior',
-                        'default_value' => null,
-                        'is_required' => false,
-                        'is_user_defined' => false,
-                        'frontend_input' => 'text'
+                    ],
+                    [
+                        'code' => 'upsell_tgtr_position_limit',
                     ],
                 ],
                 [AttributeMetadata::REQUIRED, SearchCriteria::SORT_ASC]

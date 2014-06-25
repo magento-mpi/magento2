@@ -193,16 +193,12 @@ class ProductService implements ProductServiceInterface
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
         }
-        $sortOrders = $searchCriteria->getSortOrders();
-        if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $field = $this->translateField($field);
-                $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
-            }
+        foreach ((array)$searchCriteria->getSortOrders() as $field => $direction) {
+            $field = $this->translateField($field);
+            $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
-        $this->searchResultsBuilder->setTotalCount($collection->getSize());
 
         $products = array();
         /** @var \Magento\Catalog\Model\Product $productModel */
@@ -211,6 +207,7 @@ class ProductService implements ProductServiceInterface
         }
 
         $this->searchResultsBuilder->setItems($products);
+        $this->searchResultsBuilder->setTotalCount($collection->getSize());
         return $this->searchResultsBuilder->create();
     }
 

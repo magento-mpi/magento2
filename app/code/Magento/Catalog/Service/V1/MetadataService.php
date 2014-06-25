@@ -48,6 +48,31 @@ class MetadataService implements MetadataServiceInterface
     private $attributeBuilder;
 
     /**
+     * Attribute DTO Field Mapping
+     * @var array
+     */
+    private static $mapping = [
+        'id' => 'attribute_id',
+        'code' => 'attribute_code',
+        'required' => 'is_required',
+        'user_defined' => 'is_user_defined',
+        'unique' => 'is_unique',
+        'global' => 'is_global',
+        'visible' => 'is_visible',
+        'searchable' => 'is_searchable',
+        'filterable' => 'is_filterable',
+        'comparable' => 'is_comparable',
+        'visible_on_front' => 'is_visible_on_front',
+        'html_allowed_on_front' => 'is_html_allowed_on_front',
+        'used_for_price_rules' => 'is_used_for_price_rules',
+        'filterable_in_search' => 'is_filterable_in_search',
+        'visible_in_advanced_search' => 'is_visible_in_advanced_search',
+        'wysiwyg_enabled' => 'is_wysiwyg_enabled',
+        'used_for_promo_rules' => 'is_used_for_promo_rules',
+        'configurable' => 'is_configurable',
+    ];
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
@@ -97,7 +122,6 @@ class MetadataService implements MetadataServiceInterface
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
-
         $attributeCollection->join(
             array('entity_type' => $attributeCollection->getTable('eav_entity_type')),
             'main_table.entity_type_id = entity_type.entity_type_id',
@@ -109,63 +133,33 @@ class MetadataService implements MetadataServiceInterface
             'main_table.attribute_id = eav_entity_attribute.attribute_id',
             ['attribute_set_id']
         );
-
+        $attributeCollection->join(
+            array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
+            'main_table.attribute_id = additional_table.attribute_id',
+            []
+        );
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $attributeCollection);
         }
-        $sortOrders = $searchCriteria->getSortOrders();
-        if ($sortOrders) {
-            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-                $attributeCollection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
-            }
+        foreach ((array)$searchCriteria->getSortOrders() as $field => $direction) {
+            $attributeCollection->addOrder(
+                $this->translateField($field),
+                $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC'
+            );
         }
-
-        $attributeCollection->join(
-            array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
-            'main_table.attribute_id = additional_table.attribute_id',
-            [
-                'frontend_input_renderer',
-                'is_global',
-                'is_visible',
-                'is_searchable',
-                'is_filterable',
-                'is_comparable',
-                'is_visible_on_front',
-                'is_html_allowed_on_front',
-                'is_used_for_price_rules',
-                'is_filterable_in_search',
-                'used_in_product_listing',
-                'used_for_sort_by',
-                'apply_to',
-                'is_visible_in_advanced_search',
-                'position',
-                'is_wysiwyg_enabled',
-                'is_used_for_promo_rules',
-                'is_configurable',
-                'search_weight',
-            ]
-        );
+        $totalCount = $attributeCollection->getSize();
 
         $attributeCollection->setCurPage($searchCriteria->getCurrentPage());
         $attributeCollection->setPageSize($searchCriteria->getPageSize());
-        $this->searchResultsBuilder->setTotalCount($attributeCollection->getSize());
 
         $attributes = [];
         /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         foreach ($attributeCollection as $attribute) {
-            $attributes[] = $this->attributeBuilder
-               ->setAttributeId($attribute->getAttributeId())
-               ->setAttributeCode($attribute->getAttributeCode())
-               ->setFrontendLabel($attribute->getData('frontend_label'))
-               ->setDefaultValue($attribute->getDefaultValue())
-               ->setRequired((boolean)$attribute->getData('is_required'))
-               ->setUserDefined((boolean)$attribute->getData('is_user_defined'))
-               ->setFrontendInput($attribute->getData('frontend_input'))
-               ->create();
+            $attributes[] = $this->getAttributeMetadata($entityType, $attribute->getAttributeCode());
         }
-
         $this->searchResultsBuilder->setItems($attributes);
+        $this->searchResultsBuilder->setTotalCount($totalCount);
         return $this->searchResultsBuilder->create();
     }
 
@@ -234,15 +228,28 @@ class MetadataService implements MetadataServiceInterface
      */
     private function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
-        $fields = [];
-        $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = $filter->getField();
-            $conditions[] = [$condition => $filter->getValue()];
+            $collection->addFieldToFilter(
+                $this->translateField($filter->getField()),
+                [$condition => $filter->getValue()]
+            );
         }
-        if ($fields) {
-            $collection->addFieldToFilter($fields, $conditions);
+    }
+
+    /**
+     * Translates a field name to a DB column name for use in collection queries.
+     *
+     * @param string $field a field name that should be translated to a DB column name.
+     * @return string
+     */
+    private function translateField($field)
+    {
+        if (isset(self::$mapping[$field])) {
+            return self::$mapping[$field];
+        } else {
+            return $field;
         }
+
     }
 }
