@@ -82,6 +82,11 @@ class WriteService implements WriteServiceInterface
             throw new InputException('Invalid sample type.');
         }
 
+        $title = $sampleContent->getTitle();
+        if (empty($title)) {
+            throw new InputException('Sample title cannot be empty.');
+        }
+
         $sampleData = array(
             'sample_id' => 0,
             'is_delete' => 0,
@@ -132,9 +137,19 @@ class WriteService implements WriteServiceInterface
             $product->setStoreId(0);
         }
 
+        $title = $sampleContent->getTitle();
+        if (empty($title)) {
+            if ($isGlobalScopeContent) {
+                throw new InputException('Sample title cannot be empty.');
+            }
+            // use title from GLOBAL scope
+            $sample->setTitle(null);
+        } else {
+            $sample->setTitle($sampleContent->getTitle());
+        }
+
         $sample->setProductId($product->getId())
             ->setStoreId($product->getStoreId())
-            ->setTitle($sampleContent->getTitle())
             ->setSortOrder($sampleContent->getSortOrder())
             ->save();
 

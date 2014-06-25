@@ -82,6 +82,10 @@ class WriteService implements WriteServiceInterface
         if (!in_array($linkContent->getLinkType(), array('url', 'file'))) {
             throw new InputException('Invalid link type.');
         }
+        $title = $linkContent->getTitle();
+        if (empty($title)) {
+            throw new InputException('Link title cannot be empty.');
+        }
 
         $linkData = array(
             'link_id' => 0,
@@ -141,12 +145,21 @@ class WriteService implements WriteServiceInterface
         if ($isGlobalScopeContent) {
             $product->setStoreId(0);
         }
+        $title = $linkContent->getTitle();
+        if (empty($title)) {
+            if ($isGlobalScopeContent) {
+                throw new InputException('Link title cannot be empty.');
+            }
+            // use title from GLOBAL scope
+            $link->setTitle(null);
+        } else {
+            $link->setTitle($linkContent->getTitle());
+        }
 
         $link->setProductId($product->getId())
             ->setStoreId($product->getStoreId())
             ->setWebsiteId($product->getStore()->getWebsiteId())
             ->setProductWebsiteIds($product->getWebsiteIds())
-            ->setTitle($linkContent->getTitle())
             ->setSortOrder($linkContent->getSortOrder())
             ->setPrice($linkContent->getPrice())
             ->setIsShareable($linkContent->isShareable())
