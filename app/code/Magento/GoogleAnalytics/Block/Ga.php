@@ -87,8 +87,10 @@ class Ga extends \Magento\Framework\View\Element\Template
     /**
      * Render information about specified orders and their items
      *
-     * @Link https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiEcommerce?csw=1#_gat.GA_Tracker_._addItem
-     * @link https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApiEcommerce?csw=1#_gat.GA_Tracker_._addTrans
+     * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#checkout-options
+     * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#measuring-transactions
+     * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/enhanced-ecommerce#transaction
+     *
      * @return string|void
      */
     public function getOrdersTrackingCode()
@@ -102,7 +104,7 @@ class Ga extends \Magento\Framework\View\Element\Template
         $collection->addFieldToFilter('entity_id', array('in' => $orderIds));
         $result = [];
 
-        $result[] = "ga('require', 'ecommerce', 'ecommerce.js');";
+        $result[] = "ga('require', 'ec', 'ec.js');";
         foreach ($collection as $order) {
             if ($order->getIsVirtual()) {
                 $address = $order->getBillingAddress();
@@ -110,7 +112,7 @@ class Ga extends \Magento\Framework\View\Element\Template
                 $address = $order->getShippingAddress();
             }
             $result[] = sprintf(
-                "ga('ecommerce:addTransaction', {
+                "ga('ec:setAction', 'purchase', {
                     'id': '%s',
                     'affiliation': '%s',
                     'revenue': '%s',
@@ -123,25 +125,22 @@ class Ga extends \Magento\Framework\View\Element\Template
                 $order->getBaseShippingAmount(),
                 $order->getBaseTaxAmount()
             );
+
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf(
-                    "ga('ecommerce:addItem', {
+                    "ga('ec:addProduct', {
                         'id': '%s',
                         'name': '%s',
-                        'sku': '%s',
-                        'category': '%s',
                         'price': '%s',
                         'quantity': '%s'
                     });",
-                    $order->getIncrementId(),
-                    $this->escapeJsQuote($item->getName()),
                     $this->escapeJsQuote($item->getSku()),
-                    null, // there is no "category" defined for the order item
+                    $this->escapeJsQuote($item->getName()),
                     $item->getBasePrice(),
                     $item->getQtyOrdered()
                 );
             }
-            $result[] = "ga('ecommerce:send')";
+            $result[] = "ga('send', 'pageview');";
         }
         return implode("\n", $result);
     }
