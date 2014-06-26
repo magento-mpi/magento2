@@ -67,7 +67,6 @@ class WriteServiceTest extends WebapiAbstract
      * Test for create category process
      *
      * @dataProvider categoryCreationProvider
-     * @magentoApiDataFixture Magento/Catalog/_files/category_create.php
      */
     public function testCreate($category)
     {
