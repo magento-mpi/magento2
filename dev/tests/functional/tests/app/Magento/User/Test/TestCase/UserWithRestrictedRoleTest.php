@@ -71,7 +71,7 @@ class UserWithRestrictedRoleTest extends Functional
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
         $editForm->openTab('user-role');
         $rolesGrid = $editUser->getRolesGrid();
-        $rolesGrid->searchAndOpen(['rolename' => $data['rolename']]);
+        $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
@@ -148,7 +148,7 @@ class UserWithRestrictedRoleTest extends Functional
         $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
         $editForm->openTab('user-role');
         $rolesGrid = $editUser->getRolesGrid();
-        $rolesGrid->searchAndOpen(['rolename' => $data['rolename']]);
+        $rolesGrid->searchAndSelect(['rolename' => $data['rolename']]);
         $editUser->getPageActions()->save();
 
         //Verification
