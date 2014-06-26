@@ -86,7 +86,7 @@ class TaxRateServiceTest extends WebapiAbstract
         ];
         $this->setExpectedException(
             '\Exception',
-            '{"message":"Code already exists."}'
+            'Code already exists.'
         );
         $this->_webApiCall($serviceInfo, $data);
     }
@@ -192,13 +192,18 @@ class TaxRateServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'UpdateTaxRate'
             ]
         ];
-        $this->setExpectedException(
-            '\Exception',
-            '{"message":"No such entity with %fieldName = %fieldValue",'
-            . '"parameters":{"fieldName":"taxRateId","fieldValue":555}}'
-        );
+        try {
+            $this->_webApiCall($serviceInfo, $data);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
-        $this->_webApiCall($serviceInfo, $data);
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
     }
 
     public function testGetTaxRate()
@@ -216,7 +221,7 @@ class TaxRateServiceTest extends WebapiAbstract
             ]
         ];
 
-        $result = $this->_webApiCall($serviceInfo);
+        $result = $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
         $expectedRateData = [
             'id' => 2,
             'country_id' => 'US',
@@ -242,13 +247,19 @@ class TaxRateServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetTaxRate'
             ]
         ];
+        try {
+            $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
-        $this->setExpectedException(
-            '\Exception',
-            '{"message":"No such entity with %fieldName = %fieldValue",'
-                . '"parameters":{"fieldName":"taxRateId","fieldValue":37865}}'
-        );
-         $this->_webApiCall($serviceInfo);
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
+
     }
 
     /**
@@ -276,7 +287,7 @@ class TaxRateServiceTest extends WebapiAbstract
             ]
         ];
 
-        $result = $this->_webApiCall($serviceInfo);
+        $result = $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
         $this->assertTrue($result);
         /** Ensure that tax rate was actually removed from DB */
         /** @var \Magento\Tax\Model\Calculation\Rate $taxRate */
@@ -304,11 +315,18 @@ class TaxRateServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'DeleteTaxRate'
             ]
         ];
-        $this->setExpectedException(
-            '\Exception',
-            '{"message":"The tax rate cannot be removed. It exists in a tax rule."}'
-        );
-        $this->_webApiCall($serviceInfo);
+        try {
+            $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'The tax rate cannot be removed. It exists in a tax rule.';
+
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
     }
 
     /**
