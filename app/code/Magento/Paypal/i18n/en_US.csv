@@ -9,6 +9,7 @@ No,No
 Qty,Qty
 Subtotal,Subtotal
 "Incl. Tax","Incl. Tax"
+Edit,Edit
 "--Please Select--","--Please Select--"
 Customer,Customer
 "First Name","First Name"
@@ -30,27 +31,13 @@ Static,Static
 "Start Date","Start Date"
 "Product Name","Product Name"
 "Merchant Liability","Merchant Liability"
-Country,Country
-State/Province,State/Province
 "Billing Information","Billing Information"
 "Shipping Information","Shipping Information"
 "Shipping Method","Shipping Method"
 "Please agree to all the terms and conditions before placing the order.","Please agree to all the terms and conditions before placing the order."
 "Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href=""%1"">click here</a>.","Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href=""%1"">click here</a>."
-"Please select region, state or province","Please select region, state or province"
-City,City
-"Zip/Postal Code","Zip/Postal Code"
-"Email Address","Email Address"
-Company,Company
-"VAT Number","VAT Number"
-Address,Address
-"Street Address","Street Address"
-"Street Address %1","Street Address %1"
-Telephone,Telephone
-Fax,Fax
 Continue,Continue
 "Order #","Order #"
-"Billing Address","Billing Address"
 "Shipping Address","Shipping Address"
 "Payment Method","Payment Method"
 "Place Order","Place Order"
@@ -61,8 +48,6 @@ Daily,Daily
 Date,Date
 "Order Total","Order Total"
 Never,Never
-"Customer Information","Customer Information"
-"Change Shipping Address","Change Shipping Address"
 Updated,Updated
 Reports,Reports
 "Order Status","Order Status"
@@ -95,6 +80,7 @@ Help,Help
 "PayPal Express Checkout is not enabled.","PayPal Express Checkout is not enabled."
 "Please re-enable the previously enabled payment solutions.","Please re-enable the previously enabled payment solutions."
 "View Demo","View Demo"
+"See terms","See terms"
 "You will be redirected to the PayPal website.","You will be redirected to the PayPal website."
 "Would you like to sign a billing agreement ' 'to streamline further purchases with PayPal?","Would you like to sign a billing agreement ' 'to streamline further purchases with PayPal?"
 "You will be redirected to the PayPal website when you place an order.","You will be redirected to the PayPal website when you place an order."
@@ -123,7 +109,6 @@ Help,Help
 "We can't process Express Checkout approval.","We can't process Express Checkout approval."
 "We can't initialize Express Checkout review.","We can't initialize Express Checkout review."
 "We can't update shipping method.","We can't update shipping method."
-"We can't update Order data.","We can't update Order data."
 "We can't place the order.","We can't place the order."
 "We can't initialize Express Checkout.","We can't initialize Express Checkout."
 "PayPal Express Checkout Token does not exist.","PayPal Express Checkout Token does not exist."
@@ -132,8 +117,10 @@ Help,Help
 "We can't contact the PayPal gateway.","We can't contact the PayPal gateway."
 "PayPal response hasn't required fields.","PayPal response hasn't required fields."
 "Something went wrong while processing your order.","Something went wrong while processing your order."
-"The PayPal gateway has rejected this request. %1","The PayPal gateway has rejected this request. %1"
+"PayPal gateway has rejected request. %1","PayPal gateway has rejected request. %1"
 "PayPal gateway rejected the request. %1","PayPal gateway rejected the request. %1"
+"I'm sorry - but we were not able to process your payment. Please try another payment method or contact us so we can assist you.","I'm sorry - but we were not able to process your payment. Please try another payment method or contact us so we can assist you."
+"I'm sorry - but we are not able to complete your transaction. Please contact us so we can assist you.","I'm sorry - but we are not able to complete your transaction. Please contact us so we can assist you."
 "The payment method code is not set.","The payment method code is not set."
 "The reference ID is not set.","The reference ID is not set."
 "Unable to save Billing Agreement:","Unable to save Billing Agreement:"
@@ -162,7 +149,7 @@ Auto,Auto
 "We'll authorize the amount of %1 as soon as the payment gateway approves it.","We'll authorize the amount of %1 as soon as the payment gateway approves it."
 "The authorized amount is %1.","The authorized amount is %1."
 "The maximum number of child authorizations is reached.","The maximum number of child authorizations is reached."
-"PayPal can't process orders with a zero balance due. ' 'To finish your purchase, please go through the standard checkout process.","PayPal can't process orders with a zero balance due. ' 'To finish your purchase, please go through the standard checkout process."
+"PayPal can\'t process orders with a zero balance due. ' 'To finish your purchase, please go through the standard checkout process.","PayPal can\'t process orders with a zero balance due. ' 'To finish your purchase, please go through the standard checkout process."
 "Payer is not identified.","Payer is not identified."
 "Last Transaction ID","Last Transaction ID"
 "This customer did not include a confirmed address.","This customer did not include a confirmed address."
@@ -362,6 +349,9 @@ Funding,Funding
 "Settlement Consolidation","Settlement Consolidation"
 "General: event not yet categorized","General: event not yet categorized"
 "The PayPal certificate file is empty.","The PayPal certificate file is empty."
+"Header (center)","Header (center)"
+"Sidebar (right)","Sidebar (right)"
+"Near Bill Me Later checkout button","Near Bill Me Later checkout button"
 "Every 3 days","Every 3 days"
 "Every 7 days","Every 7 days"
 "Every 10 days","Every 10 days"
@@ -394,19 +384,16 @@ Updated:,Updated:
 Create...,Create...
 "Your billing agreement # is: %1.","Your billing agreement # is: %1."
 "Review Order","Review Order"
+"Please select a shipping method...","Please select a shipping method..."
+"Update Shipping Method","Update Shipping Method"
+"Edit Payment Information","Edit Payment Information"
 "Items in Your Shopping Cart","Items in Your Shopping Cart"
 "Edit Shopping Cart","Edit Shopping Cart"
-"Update Order Data","Update Order Data"
-"Same as shipping","Same as shipping"
-"Please select a shipping method...","Please select a shipping method..."
 "Please update order data to get shipping methods and rates","Please update order data to get shipping methods and rates"
 "Checkout with PayPal","Checkout with PayPal"
 "Please do not refresh the page until you complete payment.","Please do not refresh the page until you complete payment."
 "You will be required to enter your payment details after you place an order.","You will be required to enter your payment details after you place an order."
 "Additional Options","Additional Options"
-"Update Shipping Method","Update Shipping Method"
-"Change Payment Method","Change Payment Method"
-"Payer Email: %1","Payer Email: %1"
 "Acceptance Mark","Acceptance Mark"
 "What is PayPal?","What is PayPal?"
 "Sign a billing agreement to streamline further purchases with PayPal.","Sign a billing agreement to streamline further purchases with PayPal."
