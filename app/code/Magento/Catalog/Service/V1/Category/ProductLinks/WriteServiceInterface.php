@@ -29,7 +29,7 @@ interface WriteServiceInterface
      * @param string $productSku Product SKU
      * @return bool Will returned True if products sucessfully deleted
      * @throws \Magento\Framework\Exception\CouldNotSaveException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\StateException
      */
     public function removeProduct($categoryId, $productSku);
 }
