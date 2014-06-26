@@ -78,12 +78,12 @@ class WriteService implements WriteServiceInterface
         /**
          * old category-product relationships
          */
-        $oldProducts = $category->getProductsPosition();
-        if (!in_array($productId, array_keys($oldProducts))) {
+        $productPositions = $category->getProductsPosition();
+        if (!array_key_exists($productId, $productPositions)) {
             throw new StateException('Category does not contain specified product');
         }
-        $newProducts = array_diff_key($oldProducts, [$productId => '1']);
-        $category->setPostedProducts($newProducts);
+        unset($productPositions[$productId]);
+        $category->setPostedProducts($productPositions);
 
         try {
             $category->save();
