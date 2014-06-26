@@ -149,7 +149,7 @@ class Action extends \Magento\Framework\Model\AbstractModel
      * @param array $attributesData
      * @return bool
      */
-    protected function _hasIndexableAttributes(&$attributesData)
+    protected function _hasIndexableAttributes($attributesData)
     {
         foreach ($attributesData as $code => $value) {
             if ($this->_attributeIsIndexable($code)) {
