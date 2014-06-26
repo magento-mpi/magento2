@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <status_id>
+            <input>select</input>
+        </status_id>
+        <select_stores>
+            <selector>[name="select_stores[]"]</selector>
+            <input>multiselectgrouplist</input>
+        </select_stores>
+        <detail>
+            <input>textarea</input>
+        </detail>
+    </fields>
+</mapping>

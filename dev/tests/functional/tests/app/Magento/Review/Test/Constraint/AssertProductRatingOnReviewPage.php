@@ -36,23 +36,28 @@ class AssertProductRatingOnReviewPage extends AssertForm
      * @param ReviewIndex $reviewIndex
      * @param ReviewEdit $reviewEdit
      * @param ReviewInjectable $review
+     * @param ReviewInjectable|null $reviewInitial [optional]
      * @return void
      */
     public function processAssert(
         ReviewIndex $reviewIndex,
         ReviewEdit $reviewEdit,
-        ReviewInjectable $review
+        ReviewInjectable $review,
+        ReviewInjectable $reviewInitial = null
     ) {
         $filter = ['title' => $review->getTitle()];
 
         $reviewIndex->open();
         $reviewIndex->getReviewGrid()->searchAndOpen($filter);
 
-        $reviewRatings = $review->getRatings();
-        $formRatings = $reviewEdit->getReviewForm()->getRatings();
-        $this->sortData($reviewRatings, ['::title']);
-        $this->sortData($formRatings, ['::title']);
-        $error = $this->verifyData($reviewRatings, $formRatings);
+        $ratingReview = array_replace(
+            ($reviewInitial && $reviewInitial->hasData('ratings')) ? $reviewInitial->getRatings() : [],
+            $review->hasData('ratings') ? $review->getRatings() : []
+        );
+        $ratingForm = $reviewEdit->getReviewForm()->getRatings();
+        $this->sortData($ratingReview, ['::title']);
+        $this->sortData($ratingForm, ['::title']);
+        $error = $this->verifyData($ratingReview, $ratingForm);
         \PHPUnit_Framework_Assert::assertTrue(empty($error), $error);
     }
 

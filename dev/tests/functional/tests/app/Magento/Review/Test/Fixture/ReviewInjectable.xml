@@ -36,6 +36,7 @@
             <is_required></is_required>
             <default_value>0</default_value>
             <input></input>
+            <source>Magento\Review\Test\Fixture\ReviewInjectable\EntityId</source>
         </entity_id>
         <entity_pk_value>
             <attribute_code>entity_pk_value</attribute_code>

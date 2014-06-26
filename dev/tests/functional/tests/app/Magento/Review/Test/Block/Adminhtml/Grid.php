@@ -21,7 +21,7 @@ class Grid extends GridAbstract
      * {@inheritdoc}
      */
     protected $filters = array(
-        'id' => array(
+        'review_id' => array(
             'selector' => '#reviwGrid_filter_review_id',
         ),
         'title' => array(

@@ -46,7 +46,7 @@ class Curl extends AbstractCurl implements RatingInterface
     /**
      * Post request for creating product Rating in backend
      *
-     * @param FixtureInterface|null $rating
+     * @param FixtureInterface|null $rating [optional]
      * @return array
      * @throws \Exception
      */
@@ -67,7 +67,11 @@ class Curl extends AbstractCurl implements RatingInterface
             );
         }
 
-        return ['id' => $this->getProductRatingId()];
+        $ratingId = $this->getProductRatingId();
+        return [
+            'rating_id' => $ratingId,
+            'options' => $this->getRatingOptions($ratingId)
+        ];
     }
 
     /**
@@ -92,7 +96,7 @@ class Curl extends AbstractCurl implements RatingInterface
     /**
      * Get product Rating id
      *
-     * @return int|null
+     * @return mixed
      */
     protected function getProductRatingId()
     {
@@ -102,6 +106,26 @@ class Curl extends AbstractCurl implements RatingInterface
         $match = $extractor->getData();
 
         return empty($match[1]) ? null : $match[1];
+    }
+
+    /**
+     * Get rating options
+     *
+     * @param int $ratingId
+     * @return array
+     */
+    protected function getRatingOptions($ratingId)
+    {
+        $url = 'review/rating/edit/id/' . $ratingId;
+        $regex = '/<input[^>]+name="option_title\[(\d+)\]"[^>]+>/';
+        $extractor = new Extractor($url, $regex, true);
+        $matches = $extractor->getData();
+
+        if (empty($matches[1])) {
+            return [];
+        }
+        array_unshift($matches[1], null);
+        return array_filter($matches[1]);
     }
 
     /**

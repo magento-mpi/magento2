@@ -8,15 +8,15 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Magento\Review\Test\Page\Adminhtml\RatingIndex;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertProductRatingSuccessSaveMessage
+ * Class AssertReviewSuccessSaveMessage
  */
-class AssertProductRatingSuccessSaveMessage extends AbstractConstraint
+class AssertReviewSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the rating.';
+    const SUCCESS_MESSAGE = 'You saved the review.';
 
     /**
      * Constraint severeness
@@ -26,14 +26,14 @@ class AssertProductRatingSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert that success message is displayed after rating save
+     * Assert that success message is displayed after review save
      *
-     * @param RatingIndex $ratingIndex
+     * @param ReviewIndex $reviewIndex
      * @return void
      */
-    public function processAssert(RatingIndex $ratingIndex)
+    public function processAssert(ReviewIndex $reviewIndex)
     {
-        $actualMessage = $ratingIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $reviewIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
@@ -50,6 +50,6 @@ class AssertProductRatingSuccessSaveMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Rating success save message is present.';
+        return 'Review success save message is present.';
     }
 }

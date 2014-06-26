@@ -36,24 +36,27 @@ abstract class AssertForm extends AbstractConstraint
 
             if (null === $formValue) {
                 $errors[] = '- field "' . $key . '" is absent in form';
-            } elseif (is_array($value)) {
+            } elseif (is_array($value) && is_array($formValue)) {
                 $valueErrors = $this->verifyData($value, $formValue, true, false);
                 if ($valueErrors) {
                     $errors[$key] = $valueErrors;
                 }
             } elseif ($value != $formValue) {
+                if (is_array($value)) {
+                    $value = $this->arrayToString($value);
+                }
                 if (is_array($formValue)) {
                     $formValue = $this->arrayToString($formValue);
                 }
                 $errors[] = sprintf('- %s: "%s" instead of "%s"', $key, $formValue, $value);
             }
-
-            $readyValues[] = $key;
         }
 
-        $diffData = $isStrict ? array_diff(array_keys($formData), $readyValues) : null;
-        if ($diffData) {
-            $errors[] = '- fields ' . implode(', ', $diffData) . ' is absent in fixture';
+        if ($isStrict) {
+            $diffData = array_diff(array_keys($formData), array_keys($fixtureData));
+            if ($diffData) {
+                $errors[] = '- fields ' . implode(', ', $diffData) . ' is absent in fixture';
+            }
         }
 
         if ($isPrepareError) {
