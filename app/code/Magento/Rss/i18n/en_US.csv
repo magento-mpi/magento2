@@ -2,12 +2,14 @@ Subtotal,Subtotal
 Discount,Discount
 "Grand Total","Grand Total"
 Tax,Tax
+Catalog,Catalog
 From:,From:
 To:,To:
 "Gift Message","Gift Message"
 Message:,Message:
 "Click for price","Click for price"
 "New Products","New Products"
+Wishlist,Wishlist
 "New Products from %1","New Products from %1"
 "Low Stock Products","Low Stock Products"
 "%1 has reached a quantity of %2.","%1 has reached a quantity of %2."
@@ -48,3 +50,7 @@ Comment:,Comment:
 "Discount (%1)","Discount (%1)"
 "Shipping &amp; Handling","Shipping &amp; Handling"
 "RSS Feeds","RSS Feeds"
+"Rss Config","Rss Config"
+"Enable RSS","Enable RSS"
+"Top Level Category","Top Level Category"
+"Customer Order Status Notification","Customer Order Status Notification"

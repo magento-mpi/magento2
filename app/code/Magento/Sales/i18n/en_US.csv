@@ -48,15 +48,19 @@ Shipping,Shipping
 "Last Name","Last Name"
 Email,Email
 Refresh,Refresh
+Enable,Enable
+General,General
 Yes,Yes
 Name,Name
 Status,Status
+Enabled,Enabled
 Title,Title
 Home,Home
 Any,Any
 From,From
 To,To
 " [deleted]"," [deleted]"
+Dashboard,Dashboard
 title,title
 Specified,Specified
 Order,Order
@@ -91,6 +95,7 @@ City,City
 "Zip/Postal Code","Zip/Postal Code"
 "Email Address","Email Address"
 Company,Company
+Address,Address
 "Street Address","Street Address"
 Telephone,Telephone
 "Save in address book","Save in address book"
@@ -484,7 +489,7 @@ Mixed,Mixed
 "This is the wrong quote item id to update configuration.","This is the wrong quote item id to update configuration."
 "This shipping method is not available. To use this shipping method, please contact us.","This shipping method is not available. To use this shipping method, please contact us."
 "The address model is not defined.","The address model is not defined."
-"The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.","The address total kmodel should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal."
+"The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.","The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal."
 "Subscription Items","Subscription Items"
 "Regular Payment","Regular Payment"
 "Shipping & Handling (%1)","Shipping & Handling (%1)"
@@ -606,11 +611,86 @@ Complete,Complete
 "View All","View All"
 "Gift Message for This Order","Gift Message for This Order"
 "About Your Order","About Your Order"
+"Shipment Comments","Shipment Comments"
 "Gift Options for ","Gift Options for "
 Ok,Ok
 "Anchor Custom Title","Anchor Custom Title"
 Phone,Phone
 "Default Template","Default Template"
+"Minimum Order Amount","Minimum Order Amount"
+Comma-separated,Comma-separated
+"Hide Customer IP","Hide Customer IP"
+"Choose whether a customer IP is shown in orders, invoices, shipments, and credit memos.","Choose whether a customer IP is shown in orders, invoices, shipments, and credit memos."
+"Checkout Totals Sort Order","Checkout Totals Sort Order"
+"Allow Reorder","Allow Reorder"
+"Invoice and Packing Slip Design","Invoice and Packing Slip Design"
+"Logo for PDF Print-outs (200x50)","Logo for PDF Print-outs (200x50)"
+"
+                        Your default logo will be used in PDF and HTML documents.<br />(jpeg, tiff, png) If your pdf image is distorted, try to use larger file-size image.
+                    ","
+                        Your default logo will be used in PDF and HTML documents.<br />(jpeg, tiff, png) If your pdf image is distorted, try to use larger file-size image.
+                    "
+"Logo for HTML Print View","Logo for HTML Print View"
+"
+                        Logo for HTML documents only. If empty, default will be used.<br />(jpeg, gif, png)
+                    ","
+                        Logo for HTML documents only. If empty, default will be used.<br />(jpeg, gif, png)
+                    "
+"Minimum Amount","Minimum Amount"
+"Subtotal after discount","Subtotal after discount"
+"Description Message","Description Message"
+"This message will be shown in the shopping cart when the subtotal (after discount) is lower than the minimum allowed amount.","This message will be shown in the shopping cart when the subtotal (after discount) is lower than the minimum allowed amount."
+"Error to Show in Shopping Cart","Error to Show in Shopping Cart"
+"Validate Each Address Separately in Multi-address Checkout","Validate Each Address Separately in Multi-address Checkout"
+"Multi-address Description Message","Multi-address Description Message"
+"We'll use the default description above if you leave this empty.","We'll use the default description above if you leave this empty."
+"Multi-address Error to Show in Shopping Cart","Multi-address Error to Show in Shopping Cart"
+"We'll use the default error above if you leave this empty.","We'll use the default error above if you leave this empty."
+"Use Aggregated Data (beta)","Use Aggregated Data (beta)"
+"Sales Emails","Sales Emails"
+"New Order Confirmation Email Sender","New Order Confirmation Email Sender"
+"New Order Confirmation Template","New Order Confirmation Template"
+"New Order Confirmation Template for Guest","New Order Confirmation Template for Guest"
+"Send Order Email Copy To","Send Order Email Copy To"
+"Send Order Email Copy Method","Send Order Email Copy Method"
+"Order Comment Email Sender","Order Comment Email Sender"
+"Order Comment Email Template","Order Comment Email Template"
+"Order Comment Email Template for Guest","Order Comment Email Template for Guest"
+"Send Order Comment Email Copy To","Send Order Comment Email Copy To"
+"Send Order Comments Email Copy Method","Send Order Comments Email Copy Method"
+"Invoice Email Sender","Invoice Email Sender"
+"Invoice Email Template","Invoice Email Template"
+"Invoice Email Template for Guest","Invoice Email Template for Guest"
+"Send Invoice Email Copy To","Send Invoice Email Copy To"
+"Send Invoice Email Copy Method","Send Invoice Email Copy Method"
+"Invoice Comment Email Sender","Invoice Comment Email Sender"
+"Invoice Comment Email Template","Invoice Comment Email Template"
+"Invoice Comment Email Template for Guest","Invoice Comment Email Template for Guest"
+"Send Invoice Comment Email Copy To","Send Invoice Comment Email Copy To"
+"Send Invoice Comments Email Copy Method","Send Invoice Comments Email Copy Method"
+Shipment,Shipment
+"Shipment Email Sender","Shipment Email Sender"
+"Shipment Email Template","Shipment Email Template"
+"Shipment Email Template for Guest","Shipment Email Template for Guest"
+"Send Shipment Email Copy To","Send Shipment Email Copy To"
+"Send Shipment Email Copy Method","Send Shipment Email Copy Method"
+"Shipment Comment Email Sender","Shipment Comment Email Sender"
+"Shipment Comment Email Template","Shipment Comment Email Template"
+"Shipment Comment Email Template for Guest","Shipment Comment Email Template for Guest"
+"Send Shipment Comment Email Copy To","Send Shipment Comment Email Copy To"
+"Send Shipment Comments Email Copy Method","Send Shipment Comments Email Copy Method"
+"Credit Memo Email Sender","Credit Memo Email Sender"
+"Credit Memo Email Template","Credit Memo Email Template"
+"Credit Memo Email Template for Guest","Credit Memo Email Template for Guest"
+"Send Credit Memo Email Copy To","Send Credit Memo Email Copy To"
+"Send Credit Memo Email Copy Method","Send Credit Memo Email Copy Method"
+"Credit Memo Comment Email Sender","Credit Memo Comment Email Sender"
+"Credit Memo Comment Email Template","Credit Memo Comment Email Template"
+"Credit Memo Comment Email Template for Guest","Credit Memo Comment Email Template for Guest"
+"Send Credit Memo Comment Email Copy To","Send Credit Memo Comment Email Copy To"
+"Send Credit Memo Comments Email Copy Method","Send Credit Memo Comments Email Copy Method"
+"PDF Print-outs","PDF Print-outs"
+"Display Order ID in Header","Display Order ID in Header"
 "Orders and Returns Search Form","Orders and Returns Search Form"
 "PDF Credit Memos","PDF Credit Memos"
 "PDF Invoices","PDF Invoices"
@@ -624,7 +704,6 @@ order-header,order-header
 "Print Credit Memos","Print Credit Memos"
 "Print All","Print All"
 "Print Shipping Labels","Print Shipping Labels"
-Shipment,Shipment
 "Ship Date","Ship Date"
 "Total Quantity","Total Quantity"
 "Default Status","Default Status"

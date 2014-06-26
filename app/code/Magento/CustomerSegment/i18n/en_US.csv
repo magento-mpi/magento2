@@ -147,6 +147,7 @@ Group,Group
 Phone,Phone
 ZIP,ZIP
 "Customer Since","Customer Since"
+"Enable Customer Segment Functionality","Enable Customer Segment Functionality"
 "Refresh Data","Refresh Data"
 "Manage Segments","Manage Segments"
 "View Combined Report","View Combined Report"

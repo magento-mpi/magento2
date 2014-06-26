@@ -39,8 +39,15 @@ name,name
 "Advanced Search","Advanced Search"
 "Your search returns no results.","Your search returns no results."
 "There are no search terms available.","There are no search terms available."
+"Popular Search Terms","Popular Search Terms"
+"Minimal Query Length","Minimal Query Length"
+"Maximum Query Length","Maximum Query Length"
+"Maximum Query Words Count","Maximum Query Words Count"
+"Applies for ""Like"" search type only","Applies for ""Like"" search type only"
+"Search Type","Search Type"
+"Apply Layered Navigation if Search Results are Less Than","Apply Layered Navigation if Search Results are Less Than"
+"Enter ""0"" to enable layered navigation for any number of results.","Enter ""0"" to enable layered navigation for any number of results."
 Synonym,Synonym
 "Suggested Terms","Suggested Terms"
 yes,yes
 no,no
-"Popular Search Terms","Popular Search Terms"

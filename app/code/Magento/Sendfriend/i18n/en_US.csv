@@ -1,9 +1,11 @@
 Back,Back
 Name,Name
+Enabled,Enabled
 "* Required Fields","* Required Fields"
 Message:,Message:
 "Email to a Friend","Email to a Friend"
 "Email Address","Email Address"
+"Email Templates","Email Templates"
 Name:,Name:
 "Email Address:","Email Address:"
 Sender:,Sender:
@@ -28,3 +30,8 @@ Recipient:,Recipient:
 "Please define the correct Sender information.","Please define the correct Sender information."
 "Remove Email","Remove Email"
 "Maximum %1 email addresses allowed.","Maximum %1 email addresses allowed."
+"Select Email Template","Select Email Template"
+"Allow for Guests","Allow for Guests"
+"Max Recipients","Max Recipients"
+"Max Products Sent in 1 Hour","Max Products Sent in 1 Hour"
+"Limit Sending By","Limit Sending By"

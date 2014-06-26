@@ -60,4 +60,13 @@ Reauthorize,Reauthorize
 "Please setup or sign in into your 3rd party account to complete setup of this integration.","Please setup or sign in into your 3rd party account to complete setup of this integration."
 Done,Done
 "Sorry, something went wrong. Please try again later.","Sorry, something went wrong. Please try again later."
+OAuth,OAuth
+"Cleanup Settings","Cleanup Settings"
+"Cleanup Probability","Cleanup Probability"
+"Expiration Period","Expiration Period"
+"Consumer Settings","Consumer Settings"
+"OAuth consumer credentials HTTP Post maxredirects","OAuth consumer credentials HTTP Post maxredirects"
+"OAuth consumer credentials HTTP Post timeout","OAuth consumer credentials HTTP Post timeout"
+"Integrations Configuration","Integrations Configuration"
+"Integration configuration file.","Integration configuration file."
 "No Integrations Found","No Integrations Found"

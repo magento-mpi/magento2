@@ -96,7 +96,13 @@ Binary,Binary
 ASCII,ASCII
 "Stop Import","Stop Import"
 "Continue Processing","Continue Processing"
+"Error Email Recipient","Error Email Recipient"
+"Error Email Sender","Error Email Sender"
+"Error Email Template","Error Email Template"
 Run,Run
+"Scheduled Import/Export File History Cleaning","Scheduled Import/Export File History Cleaning"
+"Save Files, Days","Save Files, Days"
+"Enable Scheduled File History Cleaning","Enable Scheduled File History Cleaning"
 "Are you sure you want to delete the selected scheduled imports/exports?","Are you sure you want to delete the selected scheduled imports/exports?"
 Operation,Operation
 "Last Run","Last Run"

@@ -36,6 +36,7 @@ Title,Title
 Description,Description
 From,From
 To,To
+Dashboard,Dashboard
 "IP Address","IP Address"
 "All Websites","All Websites"
 "Tax Amount","Tax Amount"
@@ -180,6 +181,13 @@ Statistics,Statistics
 "Recently Compared Products","Recently Compared Products"
 "Recently Viewed Products","Recently Viewed Products"
 "Recently Compared","Recently Compared"
+"Recently Viewed/Compared Products","Recently Viewed/Compared Products"
+"Show for Current","Show for Current"
+"Default Recently Viewed Products Count","Default Recently Viewed Products Count"
+"Default Recently Compared Products Count","Default Recently Compared Products Count"
+"Year-To-Date Starts","Year-To-Date Starts"
+"Current Month Starts","Current Month Starts"
+"Select day of the month.","Select day of the month."
 "List of Products Recently Viewed by Visitor","List of Products Recently Viewed by Visitor"
 "Number of Products to display","Number of Products to display"
 "Viewed Products Grid Template","Viewed Products Grid Template"
