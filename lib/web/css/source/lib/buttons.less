@@ -65,7 +65,7 @@
     .css(cursor, @_button-cursor);
     .css(display, @_button-display);
     .css(font-family, @_button-font-family);
-    .css(font-size, @_button-font-size);
+    .font-size(@_button-font-size);
     .css(font-weight, @_button-font-weight);
     .css(line-height, @_button-height);
     //-moz-box-sizing: content-box; // fix Firefox button line-height problem
@@ -332,6 +332,21 @@
         .css(color, @_button-color-hover);
         .css(border, @_button-border-hover);
     }
+}
+
+//
+//    Button revert secondary size
+//-------------------------------------- */
+.button-revert-secondary-size(
+    @_button-font-size: @button-font-size,
+    @_button-height: @button-height,
+    @_button-padding: @button-padding
+) {
+    .font-size(@_button-font-size);
+    .button-size(
+        @_button-height: @_button-height,
+        @_button-padding: @_button-padding
+    )
 }
 
 //

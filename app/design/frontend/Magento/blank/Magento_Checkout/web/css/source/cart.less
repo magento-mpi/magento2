@@ -11,7 +11,7 @@
 //--------------------------------------
 .cart {
     //  Summary block
-    &.summary {
+    &-summary {
         &:extend(.add-box-sizing all);
         background: @sidebar-background;
         margin-bottom: 25px;
@@ -82,7 +82,7 @@
     }
 
     //  Totals block
-    &.totals {
+    &-totals {
         border-top: 1px solid @border-color-base;
         padding-top: 10px;
         .mark {
@@ -211,7 +211,7 @@
             &:extend(.add-clearfix all);
         }
     }
-    &.container {
+    &-container {
         .form.cart {
             .actions.main {
                 text-align: center;
@@ -266,7 +266,7 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .cart {
-        &.container {
+        &-container {
             &:extend(.add-clearfix-desktop all);
             .form.cart {
                 float: left;
@@ -293,7 +293,7 @@
                 float: left;
             }
         }
-        &.summary {
+        &-summary {
             position: relative;
             float: right;
             width: 23%;

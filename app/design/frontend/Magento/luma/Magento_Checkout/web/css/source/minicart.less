@@ -46,7 +46,7 @@
         > .primary {
             margin: 0 10px;
             .action.primary {
-                .button-l();
+                &:extend(.abstract-button-l all);
                 display: block;
                 width: 100%;
             }
@@ -211,14 +211,16 @@
         }
         &.pricing {
             margin-top: 3px;
-            .tooltip {
+        }
+        &.options {
+            .tooltip.toggle {
                 .icon-font(
                     @icon-down,
-                    @_icon-font-size: 18px,
-                    @_icon-font-line-height: 18px,
+                    @_icon-font-size: 12px,
+                    @_icon-font-line-height: 12px,
                     @_icon-font-text-hide: true,
-                    @_icon-font-color: #303030,
-                    @_icon-font-margin: 0 0 0 10px
+                    @_icon-font-margin: -3px 0 0 7px,
+                    @_icon-font-position: after
                 );
             }
         }
