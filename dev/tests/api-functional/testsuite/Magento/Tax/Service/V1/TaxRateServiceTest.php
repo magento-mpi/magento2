@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tax\Service\V1;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -168,11 +169,27 @@ class TaxRateServiceTest extends WebapiAbstract
         $taxRate = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rate');
         $taxRateModel = $taxRate->load($fixtureRate->getId());
         $this->assertEquals($expectedRateData['id'], $taxRateModel->getId(), 'Tax rate was not updated in  DB.');
-        $this->assertEquals($expectedRateData['region_id'], $taxRateModel->getTaxRegionId(), 'Tax rate was not updated in  DB.');
-        $this->assertEquals($expectedRateData['country_id'], $taxRateModel->getTaxCountryId(), 'Tax rate was not updated in  DB.');
-        $this->assertEquals($expectedRateData['postcode'], $taxRateModel->getTaxPostcode(), 'Tax rate was not updated in  DB.');
+        $this->assertEquals(
+            $expectedRateData['region_id'],
+            $taxRateModel->getTaxRegionId(),
+            'Tax rate was not updated in  DB.'
+        );
+        $this->assertEquals(
+            $expectedRateData['country_id'],
+            $taxRateModel->getTaxCountryId(),
+            'Tax rate was not updated in  DB.'
+        );
+        $this->assertEquals(
+            $expectedRateData['postcode'],
+            $taxRateModel->getTaxPostcode(),
+            'Tax rate was not updated in  DB.'
+        );
         $this->assertEquals($expectedRateData['code'], $taxRateModel->getCode(), 'Tax rate was not updated in  DB.');
-        $this->assertEquals($expectedRateData['percentage_rate'], $taxRateModel->getRate(), 'Tax rate was not updated in  DB.');
+        $this->assertEquals(
+            $expectedRateData['percentage_rate'],
+            $taxRateModel->getRate(),
+            'Tax rate was not updated in  DB.'
+        );
     }
 
     public function testUpdateTaxRateNotExisting()
