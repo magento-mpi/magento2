@@ -62,8 +62,9 @@ class DownloadableSampleContentValidator
      */
     protected function validateSampleResource(DownloadableSampleContent $sampleContent)
     {
+        $sampleFile = $sampleContent->getSampleFile();
         if ($sampleContent->getSampleType() == 'file'
-            && !$this->fileContentValidator->isValid($sampleContent->getSampleFile())
+            && (!$sampleFile || !$this->fileContentValidator->isValid($sampleFile))
         ) {
             throw new InputException('Provided file content must be valid base64 encoded data.');
         }

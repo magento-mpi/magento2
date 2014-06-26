@@ -75,7 +75,7 @@ class DownloadableLinkContentValidator
             throw new InputException('Link URL must have valid format.');
         }
         if ($linkContent->getLinkType() == 'file'
-            && !$this->fileContentValidator->isValid($linkContent->getLinkFile())
+            && (!$linkContent->getLinkFile() || !$this->fileContentValidator->isValid($linkContent->getLinkFile()))
         ) {
             throw new InputException('Provided file content must be valid base64 encoded data.');
         }
@@ -96,7 +96,7 @@ class DownloadableLinkContentValidator
             throw new InputException('Sample URL must have valid format.');
         }
         if ($linkContent->getSampleType() == 'file'
-            && !$this->fileContentValidator->isValid($linkContent->getSampleFile())
+            && (!$linkContent->getSampleFile() || !$this->fileContentValidator->isValid($linkContent->getSampleFile()))
         ) {
             throw new InputException('Provided file content must be valid base64 encoded data.');
         }
