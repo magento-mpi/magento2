@@ -554,12 +554,6 @@ class CatalogProductConfigurable extends InjectableFixture
         'group' => 'variations'
     ];
 
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'input' => 'input',
-        'group' => 'product-details',
-    ];
-
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',
@@ -575,6 +569,12 @@ class CatalogProductConfigurable extends InjectableFixture
         'input' => 'variations',
         'group' => 'variations',
         'source' => 'Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\ConfigurableAttributesData'
+    ];
+
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
     ];
 
     public function getCategoryIds()
@@ -857,11 +857,6 @@ class CatalogProductConfigurable extends InjectableFixture
         return $this->getData('attribute_set_id');
     }
 
-    public function getQty()
-    {
-        return $this->getData('qty');
-    }
-
     public function getCustomOptions()
     {
         return $this->getData('custom_options');
@@ -875,5 +870,10 @@ class CatalogProductConfigurable extends InjectableFixture
     public function getConfigurableAttributesData()
     {
         return $this->getData('configurable_attributes_data');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }

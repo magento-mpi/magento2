@@ -17,6 +17,20 @@ use Mtf\Fixture\FixtureInterface;
 class Options implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * Constructor
      *
      * @param array $params [optional]

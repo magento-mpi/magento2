@@ -323,6 +323,11 @@
             <backend_type>virtual</backend_type>
             <group>product-details</group>
         </attribute_set_id>
+        <website_ids>
+            <attribute_code>website_ids</attribute_code>
+            <backend_type>virtual</backend_type>
+            <default_value>Main Website</default_value>
+        </website_ids>
     </fields>
     <data_set>
         <sku></sku>

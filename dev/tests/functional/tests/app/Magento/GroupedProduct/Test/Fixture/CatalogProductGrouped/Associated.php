@@ -19,6 +19,20 @@ use Mtf\Fixture\InjectableFixture;
 class Associated implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * Current preset
      *
      * @var string
@@ -31,9 +45,8 @@ class Associated implements FixtureInterface
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
-     * @param bool $persist [optional]
      */
-    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [], $persist = false)
+    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
         $this->params = $params;
 
@@ -59,11 +72,6 @@ class Associated implements FixtureInterface
                 $assignedProducts[$key]['id'] = $this->data['products'][$key]->getId();
                 $assignedProducts[$key]['position'] = $key + 1;
             }
-        }
-
-        $this->params = $params;
-        if ($persist) {
-            $this->persist();
         }
     }
 

@@ -196,7 +196,6 @@ class CatalogProductSimple extends AbstractRepository
                 'qty' => 25.0000,
                 'is_in_stock' => 'In Stock',
             ],
-            'qty' => 25,
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
         ];

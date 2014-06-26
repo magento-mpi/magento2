@@ -19,11 +19,25 @@ use Mtf\Fixture\InjectableFixture;
 class ConfigurableAttributesData implements FixtureInterface
 {
     /**
-     * Data set resource
+     * Prepared dataSet data
      *
      * @var array
      */
     protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
+     * Current preset
+     *
+     * @var string
+     */
+    protected $currentPreset;
 
     /**
      * Source constructor
@@ -31,9 +45,8 @@ class ConfigurableAttributesData implements FixtureInterface
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
-     * @param bool $persist [optional]
      */
-    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [], $persist = false)
+    public function __construct(FixtureFactory $fixtureFactory, $data, array $params = [])
     {
         $this->params = $params;
 
@@ -70,10 +83,6 @@ class ConfigurableAttributesData implements FixtureInterface
             $this->matrixInit();
             // Assigning products
             $this->assigningProducts();
-        }
-
-        if ($persist) {
-            $this->persist();
         }
     }
 

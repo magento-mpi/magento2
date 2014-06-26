@@ -407,15 +407,6 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'product-details',
     ];
 
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '1',
-        'input' => 'text',
-        'group' => 'product-details',
-    ];
-
     protected $related_tgtr_position_behavior = [
         'attribute_code' => 'related_tgtr_position_behavior',
         'backend_type' => 'int',

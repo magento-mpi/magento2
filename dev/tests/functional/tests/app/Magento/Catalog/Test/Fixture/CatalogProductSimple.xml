@@ -415,11 +415,6 @@
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId</source>
             <group>product-details</group>
         </attribute_set_id>
-        <qty>
-            <attribute_code>qty</attribute_code>
-            <input>input</input>
-            <group>product-details</group>
-        </qty>
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>

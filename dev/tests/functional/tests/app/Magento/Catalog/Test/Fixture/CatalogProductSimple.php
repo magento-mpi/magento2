@@ -547,12 +547,6 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
-    protected $qty = [
-        'attribute_code' => 'qty',
-        'input' => 'input',
-        'group' => 'product-details',
-    ];
-
     protected $custom_options = [
         'attribute_code' => 'custom_options',
         'backend_type' => 'virtual',
@@ -840,11 +834,6 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
-    }
-
-    public function getQty()
-    {
-        return $this->getData('qty');
     }
 
     public function getCustomOptions()

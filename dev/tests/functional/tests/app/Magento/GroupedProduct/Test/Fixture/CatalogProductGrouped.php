@@ -453,6 +453,12 @@ class CatalogProductGrouped extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
+    protected $website_ids = [
+        'attribute_code' => 'website_ids',
+        'backend_type' => 'virtual',
+        'default_value' => 'Main Website',
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -696,5 +702,10 @@ class CatalogProductGrouped extends InjectableFixture
     public function getAttributeSetId()
     {
         return $this->getData('attribute_set_id');
+    }
+
+    public function getWebsiteIds()
+    {
+        return $this->getData('website_ids');
     }
 }

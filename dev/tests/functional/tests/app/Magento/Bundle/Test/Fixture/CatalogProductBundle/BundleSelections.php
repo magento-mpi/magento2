@@ -19,15 +19,35 @@ use Mtf\Fixture\InjectableFixture;
 class BundleSelections implements FixtureInterface
 {
     /**
+     * Prepared dataSet data
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Data set configuration settings
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
+     * Current preset
+     *
+     * @var string
+     */
+    protected $currentPreset;
+
+    /**
      * "Selections" source constructor
      *
      * @param FixtureFactory $fixtureFactory
      * @param array $data
      * @param array $params [optional]
-     * @param bool $persist [optional]
      * @throws \Exception
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [], $persist = false)
+    public function __construct(FixtureFactory $fixtureFactory, array $data, array $params = [])
     {
         $this->params = $params;
 
@@ -64,10 +84,6 @@ class BundleSelections implements FixtureInterface
                 }
                 unset($bundleOption, $assignedProducts);
             }
-        }
-
-        if ($persist) {
-            $this->persist();
         }
     }
 
